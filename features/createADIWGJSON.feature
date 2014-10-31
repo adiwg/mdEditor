@@ -8,6 +8,30 @@ Feature: Gather content for a data metadata record.
 	ISO 'code lists' should be used as controlled vocabularies where appropriate.
 	Global Change Master Directory Keywords should be available for selection where appropriate.
 	
+	Scenario: Help text
+		Given I don't know what kind of content should go into a form field
+		When I click on a help text icon by the field
+		Then I should be presented with a logical description and example content for the field
+		
+	Scenario: Show overwhelmable user less stuff
+		Given I am easily overwhelmed by a big set of metadata forms
+		When I look at a given page
+		Then I should be presented with input forms that won't take long to fill out.
+	
+	Scenario: Determine User Needs
+		Given I am easily overwhelmed by a big set of metadata forms
+		And I really only want to see the set of fields I need to fill out
+		When I first load the application
+		Then I should have some way of specifying what type of user I am
+		And my answer to a question or questions should limit the fields that I see
+		
+	Scenario: Form ordering
+		Given I am easily overwhelmed by a big set of metadata forms
+		And I want the documentation process to flow smoothly
+		When I have the forms I need to fill out loaded
+		Then I should be presented the forms and pages in an order that is logical
+		And I should (maybe) have the option to sort by different ordering logic
+	
 	Scenario: Keyword exploration
 		Given I don't have any keywords
 		When I need to find keywords for my dataset from the GCMD hierarchy
