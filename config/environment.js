@@ -3,6 +3,7 @@
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'mdeditor',
+    podModulePrefix: 'mdeditor/pods',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
