@@ -1,9 +1,22 @@
 ---
 language: node_js
 node_js:
-  - "0.12"
+  - "4.1"
 
 sudo: false
+
+env:
+  global:
+    - EMBER_VERSION='default'
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: EMBER_VERSION='ember-beta'
+    - env: EMBER_VERSION='ember-canary'
+  include:
+    - env: "EMBER_VERSION='ember-beta'"
+    - env: "EMBER_VERSION='ember-canary'"
 
 cache:
   directories:
@@ -20,4 +33,4 @@ install:
   - bower install
 
 script:
-  - npm test
+  - ember try ${EMBER_VERSION} test --skip-cleanup
