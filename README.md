@@ -1,6 +1,8 @@
 mdEditor
 ========
 
+[![Build Status](https://travis-ci.org/adiwg/mdEditor.svg?branch=develop)](https://travis-ci.org/adiwg/mdEditor)
+
 Web application for writing metadata. Built using [ember.js](http://emberjs.com/).
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for info on making contributions.
