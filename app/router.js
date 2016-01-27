@@ -5,7 +5,7 @@ var Router = Ember.Router.extend({
   location: config.locationType
 });
 
-Router.map(function () {
+Router.map(function() {
   this.route('dashboard');
   this.route('save');
   this.route('import');
@@ -13,16 +13,17 @@ Router.map(function () {
   this.route('publish');
   this.route('help');
   //records
-  this.route('records', function () {
-    this.route('new');
-    this.route('show', {
-      path: 'records/:record_id/show'
-    });
+  this.route('records');
+  this.route('records.new', {
+    path: 'records/new'
+  });
+  this.route('show', {
+    path: 'records/:record_id'
+  });
 
-    this.route('edit', {
-      path: 'records/:record_id/edit'
-    });
-
+  this.route('edit', {
+    path: 'records/:record_id/edit'
+  }, function() {
     this.route('keywords', {
       path: 'records/:record_id/keywords'
     });
@@ -60,7 +61,7 @@ Router.map(function () {
     });
   });
   //contacts
-  this.route('contacts', function () {
+  this.route('contacts', function() {
     this.route('new');
 
     this.route('show', {
@@ -72,7 +73,7 @@ Router.map(function () {
     });
   });
   //dictionaries
-  this.route('dictionaries', function () {
+  this.route('dictionaries', function() {
     this.route('new');
 
     this.route('show', {

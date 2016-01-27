@@ -1,0 +1,67 @@
+<div class="navbar navbar-inverse navbar-top" id="md-navbar-main">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#md-navbar-main-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" {{ action "toggleSidebar" }}>
+        <span class="icon-mdeditor"></span>
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="md-navbar-main-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          {{#link-to "dashboard" data-toggle="tooltip" data-placement="bottom" title="Dashboard" }}
+            <span class="fa fa-dashboard"></span>
+            <span class="md-nav-text">Dashboard</span>
+          {{/link-to}}
+        </li>
+        <li>
+          {{#link-to "save" data-toggle="tooltip" data-placement="bottom" title="Save" }}
+            <span class="fa fa-floppy-o"></span>
+            <span class="md-nav-text">Save</span>
+          {{/link-to}}
+        </li>
+        <li>
+          {{#link-to "import" data-toggle="tooltip" data-placement="bottom" title="Import" }}
+            <span class="fa fa-sign-in"></span>
+            <span class="md-nav-text">Import</span>
+          {{/link-to}}
+        </li>
+        <li>
+          {{#link-to "translate" data-toggle="tooltip" data-placement="bottom" title="Translate" }}
+            <span class="fa fa-retweet"></span>
+            <span class="md-nav-text">Translate</span>
+          {{/link-to}}
+        </li>
+        <li>
+          {{#link-to "publish" data-toggle="tooltip" data-placement="bottom" title="Publish" }}
+            <span class="fa fa-share-square-o"></span>
+            <span class="md-nav-text">Publish</span>
+          {{/link-to}}
+        </li>
+        <li class="divider-vertical">
+        </li>
+      </ul>
+
+      <form class="navbar-form form-inline">
+        <div class="form-group">
+          <label class="navbar-text control-label">Profile</label>
+
+          <select class="selectpicker" data-style="btn-sm" data-width="125px">
+            <option data-icon="fa fa-wrench">Project</option>
+            <option data-icon="fa fa-table">Dataset</option>
+            <option data-icon="fa fa-map-marker">Sample Site</option>
+            <option data-icon="fa fa-globe">Spatial</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{{yield}}

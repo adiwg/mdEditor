@@ -1,3 +1,20 @@
-<h2 id="title">Welcome to Ember</h2>
+<div id="md-wrapper" class="">
 
-{{outlet}}
+  <!-- Sidebar -->
+  <div id="md-sidebar-wrapper">
+    {{md-nav-sidebar}} {{md-help}}
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="md-page-content-wrapper">
+    <div id="md-navbars">
+      {{md-nav-main}} {{md-breadcrumb}} {{md-nav-secondary}}
+    </div>
+    <div id="md-page-content" class="container-fluid">
+      {{outlet}}
+    </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+
+</div>

@@ -15,4 +15,13 @@ App = Ember.Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+//for bootstrap
+Ember.LinkComponent.reopen({
+  attributeBindings: ['data-toggle', 'data-placement']
+});
+//for crumbly
+Ember.Route.reopen({
+  breadCrumb: null
+});
+
 export default App;
