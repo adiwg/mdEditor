@@ -14,16 +14,6 @@
   }
 }
 
-#md-wrapper {
-  .hint--info::after {
-    background-color: $brand-primary;
-  }
-
-  .hint--info.hint--bottom::before {
-    border-bottom-color: $brand-primary;
-  }
-}
-
 #md-nav-stacked {
   position: fixed;
 
@@ -80,6 +70,20 @@
     .bootstrap-select button {
       @extend %extend_1;
     }
+  }
+
+  .navbar {
+    margin-bottom: 0;
+  }
+
+  .navbar-nav.navbar-right {
+    margin-right: 260px;
+  }
+}
+
+#md-wrapper.toggled {
+  #md-navbar-main .navbar-nav.navbar-right {
+    margin-right: -15px;
   }
 }
 

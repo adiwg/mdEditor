@@ -2,6 +2,14 @@
   @include transition(all .5s ease);
   padding-left: 0;
 
+  .hint--info::after {
+    background-color: $brand-primary;
+  }
+
+  .hint--info.hint--bottom::before {
+    border-bottom-color: $brand-primary;
+  }
+
   &.toggled {
     padding-left: 275px;
 
@@ -44,4 +52,13 @@
   padding: 0 1px 1px;
   position: absolute;
   width: 100%;
+}
+
+#md-page-content {
+  //display: none;
+  padding-top: 90px;
+
+  .md-section-secondary {
+    padding-top: 45px;
+  }
 }

@@ -1,5 +1,5 @@
 //** Point at which the navbar becomes uncollapsed.
-$grid-float-breakpoint: 480px !default;
+$grid-float-breakpoint: 532px !default;
 
 @import 'bootstrap_custom';
 @import 'bootstrap-select';
@@ -13,15 +13,9 @@ $grid-float-breakpoint: 480px !default;
 @import 'help';
 @import 'form_elements';
 
-#md-page-content {
-  //display: none;
-  padding-top: 150px;
-}
-
 /*body.relative {
   position: relative;
 }
-
 
 #md-scrollspy ul {
   position: fixed;

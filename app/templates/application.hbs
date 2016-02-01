@@ -2,14 +2,17 @@
 
   <!-- Sidebar -->
   <div id="md-sidebar-wrapper">
-    {{md-nav-sidebar}} {{md-help}}
+    {{layout/md-nav-sidebar}} {{md-help}}
   </div>
   <!-- /#sidebar-wrapper -->
 
   <!-- Page Content -->
   <div id="md-page-content-wrapper">
     <div id="md-navbars">
-      {{md-nav-main}} {{md-breadcrumb}} {{md-nav-secondary}}
+      {{#layout/md-nav-main id="md-navbar-main" }}
+        {{outlet "nav"}}
+      {{/layout/md-nav-main}}
+      {{outlet "nav-secondary"}}
     </div>
     <div id="md-page-content" class="container-fluid">
       {{outlet}}

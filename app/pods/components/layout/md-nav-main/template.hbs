@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-top" id="md-navbar-main">
+<nav class="navbar navbar-inverse navbar-top">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -22,9 +22,9 @@
           {{/link-to}}
         </li>
         <li>
-          {{#link-to "save" data-toggle="tooltip" data-placement="bottom" title="Save" }}
-            <span class="fa fa-floppy-o"></span>
-            <span class="md-nav-text">Save</span>
+          {{#link-to "export" data-toggle="tooltip" data-placement="bottom" title="Export" }}
+            <span class="fa fa-sign-out"></span>
+            <span class="md-nav-text">Export</span>
           {{/link-to}}
         </li>
         <li>
@@ -33,35 +33,17 @@
             <span class="md-nav-text">Import</span>
           {{/link-to}}
         </li>
+        {{yield}}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
         <li>
-          {{#link-to "translate" data-toggle="tooltip" data-placement="bottom" title="Translate" }}
-            <span class="fa fa-retweet"></span>
-            <span class="md-nav-text">Translate</span>
+          {{#link-to "settings" data-toggle="tooltip" data-placement="bottom" title="Settings" }}
+            <span class="fa fa-gear"></span>
+            <span class="md-nav-text nav-settings">Settings</span>
           {{/link-to}}
-        </li>
-        <li>
-          {{#link-to "publish" data-toggle="tooltip" data-placement="bottom" title="Publish" }}
-            <span class="fa fa-share-square-o"></span>
-            <span class="md-nav-text">Publish</span>
-          {{/link-to}}
-        </li>
-        <li class="divider-vertical">
         </li>
       </ul>
-
-      <form class="navbar-form form-inline">
-        <div class="form-group">
-          <label class="navbar-text control-label">Profile</label>
-
-          <select class="selectpicker" data-style="btn-sm" data-width="125px">
-            <option data-icon="fa fa-wrench">Project</option>
-            <option data-icon="fa fa-table">Dataset</option>
-            <option data-icon="fa fa-map-marker">Sample Site</option>
-            <option data-icon="fa fa-globe">Spatial</option>
-          </select>
-        </div>
-      </form>
     </div>
   </div>
-</div>
-{{yield}}
+</nav>
+{{layout/md-breadcrumb}}

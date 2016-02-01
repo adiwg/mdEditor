@@ -1,10 +1,8 @@
-@media (min-width: 768px) {
+@media (min-width: 810px) {
   #md-wrapper.toggled .navbar-header {
     float: left;
   }
-}
 
-@media (min-width: 768px) {
   #md-wrapper #md-navbar-main .navbar-brand {
     margin-left: 0;
   }
@@ -14,12 +12,18 @@
     padding-left: 0;
   }
 
-  #md-navbar-main-collapse span.md-nav-text {
-    display: inline;
+  #md-navbar-main-collapse {
+    span.md-nav-text {
+      display: inline;
+    }
+
+    span.md-nav-text.nav-settings {
+      display: none;
+    }
   }
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1040px) {
   #md-wrapper {
     padding-left: 275px;
 
@@ -64,19 +68,23 @@
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1039px) {
   #md-page-content fieldset .collapse {
     padding: 15px 15px 10px;
   }
+
+  #md-wrapper #md-navbar-main .nav.navbar-nav.navbar-right {
+    margin-right: -15px;
+  }
 }
 
-@media(max-width: 480px) {
+@media(max-width: 532px) {
   .navbar-collapse .nav > .divider-vertical {
     display: none;
   }
 }
 
-@media(min-width: 480px) {
+@media(min-width: 532px) {
   .navbar-form {
     .form-group {
       display: inline-block;
@@ -162,7 +170,7 @@
   }
 }
 
-@media (min-width: 481px) and (max-width: 767px) {
+@media (min-width: 533px) and (max-width: 809px) {
   div#md-navbar-main-collapse li .tooltip {
     display: block !important;
   }

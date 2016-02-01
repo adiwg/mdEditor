@@ -69,6 +69,8 @@
 }
 
 #md-sidebar-lists {
+  height: 100%;
+
   .panel-group {
     overflow-x: hidden;
     overflow-y: auto;
@@ -160,9 +162,6 @@
   a.sidebar-row {
     max-width: 220px;
     padding-left: 10px;
+    display: block;
   }
-}
-
-li#md-sidebar-lists {
-  height: 100%;
 }
