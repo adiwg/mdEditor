@@ -1,29 +1,27 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  navLinks:[{
-      name: 'Keywords',
-      target: 'record.show.edit.keywords'
+  /**
+   * The profile service
+   *
+   * @return {Ember.Service} profile
+   */
+  profile: Ember.inject.service(),
 
-  },{
-      name: 'Quality',
-      target: 'record.show.edit.quality'
-
-  }],
-  beforeModel (transition) {
-    if (transition.targetName === 'record.show.edit.index') {
-      this.transitionTo('record.show.edit.main');
-    }
+  /**
+   * The route activate hook, sets the profile.
+   */
+  afterModel(model) {
+    this.get('profile').set('active', model.get('profile'));
   },
+
   renderTemplate (controller, model) {
     this.render('record.show.edit.nav', {
-      into: 'record.show.nav'
+      into: 'records.nav'
     });
-    this.render('record.show.edit.nav-secondary', {
+    this.render('nav-secondary', {
       into: 'application',
-      controller: 'application',
-      outlet: 'nav-secondary',
-      model: this.get('navLinks')
+      outlet: 'nav-secondary'
     });
     this.render('record.show.edit', {
       into: 'record',

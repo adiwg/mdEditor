@@ -1,6 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  profile: Ember.inject.service('profile'),
+  links: Ember.computed('profile.active', function() {
+    const profile = this.get('profile').getActiveProfile();
+
+    return profile.secondaryNav;
+  }),
+
   //TODO: Fix this !!!!!!!!!!!HACKKKKKKKKKKKKKKKKKKK!!!!!
   didInsertElement: function () {
     //https://github.com/tomiford/bootstrap-overflow-navs

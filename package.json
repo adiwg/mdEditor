@@ -41,6 +41,7 @@
     "ember-export-application-global": "^1.0.3",
     "ember-local-storage": "1.0.1",
     "ember-try": "0.0.8",
-    "mdcodes": "^1.2.3"
+    "mdcodes": "^1.2.3",
+    "node-uuid": "^1.4.7"
   }
 }
