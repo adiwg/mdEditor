@@ -1,0 +1,17 @@
+<form class="navbar-form form-inline">
+  <div class="form-group-sm">
+    <label class="navbar-text control-label">Profile</label>
+    {{input/md-input-codelist-single
+      change=(action "update" value)
+      class="select-profile"
+      width=125
+      create=false
+      tooltip=true
+      icon=true
+      allowClear=false
+      mdCodeName="profile"
+      value=value
+      placeholder="Choose profile"
+      label=false}}
+  </div>
+</form>

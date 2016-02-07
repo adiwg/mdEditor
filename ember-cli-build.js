@@ -7,7 +7,8 @@ module.exports = function (defaults) {
     sassOptions: {
       includePaths: [
         'bower_components/bootstrap-sass/assets/stylesheets',
-        'bower_components/bootstrap-select/sass'
+        'bower_components/select2/src/scss',
+        'bower_components/select2-bootstrap-theme/src',
       ]
     }
   });
@@ -35,9 +36,9 @@ module.exports = function (defaults) {
   app.import(app.bowerDirectory +
     '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
 
-  //bootstrap-select
+  //select2
   app.import(app.bowerDirectory +
-    '/bootstrap-select/js/bootstrap-select.js');
+    '/select2/dist/js/select2.js');
 
   return app.toTree();
 };
