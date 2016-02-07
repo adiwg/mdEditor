@@ -1,1 +1,4 @@
-<section class="md-section-secondary">Editing: {{model.id}} {{outlet}}</section>
+<section class="md-section-secondary">
+  Editing: {{model.id}} {{outlet}}
+  <p><button class="btn btn-danger btn-lg" type="button" {{action "delete" model}}>Delete</button></p>
+</section>

@@ -79,6 +79,10 @@
   .navbar-nav.navbar-right {
     margin-right: 260px;
   }
+
+  .select-profile {
+    display: inline-block;
+  }
 }
 
 #md-wrapper.toggled {
@@ -90,6 +94,10 @@
 #md-navbar-secondary {
   background-color: lighten($gray-base, 96);
   max-height: 40px;
+
+  a.active {
+    color: $brand-warning;
+  }
 }
 
 .navbar {

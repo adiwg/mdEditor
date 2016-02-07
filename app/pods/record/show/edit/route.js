@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  breadCrumb: {
+    title: 'Edit',
+    linkable: false
+  },
+
   /**
    * The profile service
    *
@@ -12,10 +17,17 @@ export default Ember.Route.extend({
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
-    this.get('profile').set('active', model.get('profile'));
+    this.get('profile')
+      .set('active', model.get('profile'));
   },
 
-  renderTemplate (controller, model) {
+  /**
+   * [renderTemplate description]
+   * @param  {[type]} controller [description]
+   * @param  {[type]} model      [description]
+   * @return {[type]}            [description]
+   */
+  renderTemplate(controller, model) {
     this.render('record.show.edit.nav', {
       into: 'records.nav'
     });
@@ -27,5 +39,27 @@ export default Ember.Route.extend({
       into: 'record',
       model: model
     });
+  },
+
+  actions: {
+    /**
+     * [delete description]
+     * @param  {[type]} model [description]
+     * @return {[type]}       [description]
+     */
+    delete(model) {
+        model.destroyRecord();
+        this.transitionTo('records');
+      },
+    /**
+     * [updateProfile description]
+     * @param  {[type]} profile [description]
+     * @return {[type]}         [description]
+     */
+    updateProfile(profile) {
+      this.get('profile')
+        .set('active', profile);
+      this.modelFor('record.show.edit').save();
+    }
   }
 });

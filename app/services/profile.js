@@ -40,7 +40,7 @@ export default Ember.Service.extend({
       profile: null,
       secondaryNav: [{
         title: 'Main',
-        target: 'record.show.edit'
+        target: 'record.show.edit.index'
 
       }, {
         title: 'Keywords',
@@ -84,7 +84,7 @@ export default Ember.Service.extend({
       profile: null,
       secondaryNav: [{
         title: 'Main',
-        target: 'record.show.edit'
+        target: 'record.show.edit.index'
 
       }, {
         title: 'Keywords',
@@ -103,7 +103,7 @@ export default Ember.Service.extend({
     dictionary: {
       secondaryNav: [{
         title: 'Main',
-        target: 'dictionary.show.edit'
+        target: 'dictionary.show.edit.index'
 
       }, {
         title: 'Domains',

@@ -1,15 +1,5 @@
 <li class="divider-vertical">
 </li>
 <li>
-  <form class="navbar-form form-inline">
-    <div class="form-group">
-      <label class="navbar-text control-label">Profile</label>
-      <select class="selectpicker select-profile" data-style="btn-sm" data-width="125px">
-        <option data-icon="fa fa-wrench">Project</option>
-        <option data-icon="fa fa-table">Dataset</option>
-        <option data-icon="fa fa-map-marker">Sample Site</option>
-        <option data-icon="fa fa-globe">Spatial</option>
-      </select>
-    </div>
-  </form>
+  {{input/md-select-profile value=model.profile updateProfile="updateProfile" }}
 </li>

@@ -1,14 +1,2 @@
-<ol class="breadcrumb">
-    <li>
-      {{#link-to "index" }}
-        Home
-      {{/link-to}}
-    </li>
-    <li>
-        <a href="#">Projects</a>
-    </li>
-    <li class="active">
-        My Project
-    </li>
-</ol>
+{{bread-crumbs tagName="ol" outputStyle="bootstrap" linkable=true}}
 {{yield}}

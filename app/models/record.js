@@ -43,7 +43,7 @@ export default DS.Model.extend({
     }
   }),
 
-  title: Ember.computed('json', function () {
+  title: Ember.computed('json.metadata.resourceInfo.citation.title', function () {
     return this.get('json.metadata.resourceInfo.citation.title');
   }),
   icon: Ember.computed('json.metadata.resourceInfo.resourceType', function () {
@@ -51,6 +51,6 @@ export default DS.Model.extend({
     const list = Ember.getOwner(this)
       .lookup('service:icon');
 
-    return list.get(type || 'default');
+    return type ? list.get(type) || list.get('default') : list.get('defaultFile');
   })
 });
