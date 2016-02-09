@@ -51,6 +51,7 @@ export default Ember.Route.extend({
         model.destroyRecord();
         this.transitionTo('records');
       },
+
     /**
      * [updateProfile description]
      * @param  {[type]} profile [description]
@@ -59,7 +60,8 @@ export default Ember.Route.extend({
     updateProfile(profile) {
       this.get('profile')
         .set('active', profile);
-      this.modelFor('record.show.edit').save();
+      this.modelFor('record.show.edit')
+        .save();
     }
   }
 });

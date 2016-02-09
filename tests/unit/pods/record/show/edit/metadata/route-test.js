@@ -1,11 +1,11 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:record/show/edit/dictionaries', 'Unit | Route | record/edit/dictionaries', {
+moduleFor('route:record/show/edit/metadata', 'Unit | Route | record/show/edit/metadata', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });
 
 test('it exists', function(assert) {
-  var route = this.subject();
+  let route = this.subject();
   assert.ok(route);
 });

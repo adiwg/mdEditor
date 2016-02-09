@@ -24,13 +24,13 @@ Router.map(function () {
       },
       function () {
         this.route('edit', function () {
+          this.route('metadata');
           this.route('keywords');
           this.route('spatial');
           this.route('quality');
           this.route('distribution');
           this.route('associated');
           this.route('documents');
-          this.route('dictionaries');
           this.route('coverages');
           this.route('grid');
         });

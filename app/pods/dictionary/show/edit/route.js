@@ -7,9 +7,7 @@ export default Ember.Route.extend({
    * @return {Ember.Service} profile
    */
   profile: Ember.inject.service(),
-  breadCrumb:{
-    title: 'test'
-  },
+
   /**
    * The route activate hook, sets the profile to 'dictionary'.
    */

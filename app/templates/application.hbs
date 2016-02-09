@@ -8,9 +8,10 @@
   <!-- Page Content -->
   <div id="md-page-content-wrapper">
     <div id="md-navbars">
-      {{#layout/md-nav-main id="md-navbar-main" }}
+      {{#layout/md-nav-main}}
         {{outlet "nav"}}
       {{/layout/md-nav-main}}
+      {{layout/md-breadcrumb}}
       {{outlet "nav-secondary"}}
     </div>
     <div id="md-page-content" class="container-fluid">
