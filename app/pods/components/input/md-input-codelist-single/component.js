@@ -24,7 +24,7 @@ export default Ember.Component.extend({
    * [tooltip description]
    * @type {Boolean}
    */
-  tooltip: true,
+  tooltip: false,
 
   /**
    * [icon description]
@@ -36,7 +36,7 @@ export default Ember.Component.extend({
    * [allowClear description]
    * @type {Boolean}
    */
-  allowClear: true,
+  allowClear: false,
 
   /**
    * [mdCodeName description]
@@ -56,8 +56,15 @@ export default Ember.Component.extend({
 
   /**
    * [width description]
-   * @type {Integer} width
+   * @type {String} width
    */
+  width: "100%",
+
+  /**
+   * [disabled description]
+   * @type {Boolean} width
+   */
+  disabled: false,
 
   /**
    * codelist is an array of code objects in mdCodelist format
@@ -68,40 +75,51 @@ export default Ember.Component.extend({
    *
    * @return {Array}
    */
-  codelist: Ember.computed(function () {
+  codelist: Ember.computed('value', function() {
+    let codelist = [];
     let codelistName = this.get('mdCodeName');
     let mdCodelist = this.get('mdCodes')
       .get(codelistName)
-      .codelist;
+      .codelist
+      .sortBy('codeName');
+    mdCodelist.forEach(function(item) {
+      let newObject = {
+        code: item['code'],
+        codeName: item['codeName'],
+        description: item['description'],
+        selected: false
+      };
+      codelist.pushObject(newObject);
+    });
+
     let selectedItem = this.get('value');
     let create = this.get('create');
-
-    if (selectedItem) {
-      if (create) {
+    if(selectedItem) {
+      if(create) {
         let index = mdCodelist.indexOf(selectedItem);
-        if (index === -1) {
+        if(index === -1) {
           let newObject = {
             code: Math.floor(Math.random() * 100000) + 1,
             codeName: selectedItem,
-            description: 'Undefined'
+            description: 'Undefined',
+            selected: false
           };
-          mdCodelist.pushObject(newObject);
+          codelist.pushObject(newObject);
         }
       }
-      mdCodelist.forEach(function (item) {
+
+      codelist.forEach(function(item) {
         item['selected'] = (item['codeName'] === selectedItem);
       });
     }
-    return mdCodelist;
+
+    return codelist;
   }),
 
-  /**
-   * Format options for the select tag
-   * Add tooltips,icons if requested
-   */
-  didInsertElement: function () {
+  // Format options for the select tag
+  // Add tooltips,icons if requested
+  didInsertElement: function() {
     let tooltip = this.get('tooltip');
-    let codelist = this.get('codelist');
     let icon = this.get('icon');
     let icons = this.get('icons');
 
@@ -109,24 +127,25 @@ export default Ember.Component.extend({
       let text = option['text'];
       let $option = $(`<div> ${text}</div>`);
 
-      if (icon) {
+      if(icon) {
         $option.prepend(
           `<span class="fa fa-${icons.get(text) || icons.get('defaultList')}"> </span>`
         );
       }
 
-      if (tooltip) {
-        let found = codelist.findBy('codeName', option['id']);
-        let tip = found ? found.description : 'Undefined';
+      if(tooltip) {
+        let tip = $(option.element)
+          .data('tooltip');
 
         $option = $option.append(
           $(
             `<span class="badge pull-right" data-toggle="tooltip"
-            data-placement="right" data-container="body"
+            data-placement="left" data-container="body"
             title="${tip}">?</span>`
           )
-          .on('mousedown', function (e) {
-            $(e.target).tooltip('destroy');
+          .on('mousedown', function(e) {
+            $(e.target)
+              .tooltip('destroy');
             return true;
           })
           .tooltip());
@@ -134,7 +153,7 @@ export default Ember.Component.extend({
       return $option;
     }
 
-    this.$(".md-input-codelist-single")
+    this.$('.md-input-codelist-single')
       .select2({
         placeholder: this.get('placeholder'),
         allowClear: this.get('allowClear'),
@@ -144,12 +163,16 @@ export default Ember.Component.extend({
         minimumResultsForSearch: 10,
         theme: 'bootstrap'
       });
+  },
 
+  didRender() {
+    this.$('.md-input-codelist-single')
+      .trigger('change.select2');
   },
 
   actions: {
     // do the binding to value
-    setValue: function () {
+    setValue: function() {
       let selectedEl = this.$('select');
       let selectedValue = selectedEl.val();
       this.set('value', selectedValue);

@@ -1,9 +1,13 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import {
+  moduleForComponent, test
+}
+from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('layout/md-nav-main', 'Integration | Component | md nav main', {
-  integration: true
-});
+moduleForComponent('layout/md-nav-main',
+  'Integration | Component | md nav main', {
+    integration: true
+  });
 
 test('it renders', function(assert) {
   assert.expect(2);
@@ -11,16 +15,23 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{layout/md-nav-main}}`);
+  this.render(hbs `{{layout/md-nav-main}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$()
+    .text()
+    .replace(/[ \n]+/g, '|'),
+    '|Toggle|navigation|Dashboard|Export|Import|Settings|');
 
   // Template block usage:
-  this.render(hbs`
+  this.render(hbs `
     {{#layout/md-nav-main}}
-      template block text
+      template block text {{record/show/edit/nav}}
     {{/layout/md-nav-main}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$()
+    .text()
+    .replace(/[ \n]+/g, '|'),
+    '|Toggle|navigation|Dashboard|Export|Import|template|block|text|Settings|'
+  );
 });

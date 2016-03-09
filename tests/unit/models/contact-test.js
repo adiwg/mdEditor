@@ -6,7 +6,29 @@ moduleForModel('contact', 'Unit | Model | contact', {
 });
 
 test('it exists', function(assert) {
-  var model = this.subject();
+  let model = this.subject();
   // var store = this.store();
   assert.ok(!!model);
+});
+
+test('should correctly compute title', function(assert) {
+  const me = this.subject();
+
+  assert.expect(2);
+  me.set('json.individualName', undefined);
+  me.set('json.organizationName', 'bar');
+  assert.equal(me.get('title'), 'bar');
+  me.set('json.individualName', 'foo');
+  assert.equal(me.get('title'), 'foo');
+});
+
+test('should correctly compute icon', function(assert) {
+  const me = this.subject();
+
+  assert.expect(2);
+  me.set('json.individualName', undefined);
+  me.set('json.organizationName', 'bar');
+  assert.equal(me.get('icon'), 'users');
+  me.set('json.individualName', 'foo');
+  assert.equal(me.get('icon'), 'user');
 });

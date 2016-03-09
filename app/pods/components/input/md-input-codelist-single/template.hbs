@@ -1,20 +1,22 @@
 {{#if label}}
-  <div class="form-group">
-    <label>{{label}}</label>
-    <select class="form-control md-input-codelist-single" {{action 'setValue' on='change'}} disabled={{disabled}}>
-      <option></option>
-      {{#each codelist as |code index|}}
-        <option value= {{code.codeName}} selected= {{code.selected}}>{{code.codeName}}</option>
-      {{/each}}
-      {{yield}}
-    </select>
-  </div>
+    <div class="form-group">
+        <label>{{label}}</label>
+        <select class="form-control md-input-codelist-single" {{action 'setValue' on='change'}}>
+            <option></option>
+            {{#each codelist as |code index|}}
+                <option value={{code.codeName}} selected={{code.selected}}
+                        data-tooltip={{code.description}}>{{code.codeName}}</option>
+            {{/each}}
+            {{yield}}
+        </select>
+    </div>
 {{else}}
-  <select class="form-control md-input-codelist-single" {{action 'setValue' on='change'}} disabled={{disabled}}>
-    <option></option>
-    {{#each codelist as |code index|}}
-      <option value= {{code.codeName}} selected= {{code.selected}}>{{code.codeName}}</option>
-    {{/each}}
-    {{yield}}
-  </select>
+    <select class="form-control md-input-codelist-single" {{action 'setValue' on='change'}}>
+        <option></option>
+        {{#each codelist as |code index|}}
+            <option value={{code.codeName}} selected={{code.selected}}
+                    data-tooltip={{code.description}}>{{code.codeName}}</option>
+        {{/each}}
+        {{yield}}
+    </select>
 {{/if}}
