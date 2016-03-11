@@ -153,7 +153,7 @@ export default Ember.Component.extend({
       return $option;
     }
 
-    this.$('.md-input-codelist-single')
+    this.$('.md-codelist')
       .select2({
         placeholder: this.get('placeholder'),
         allowClear: this.get('allowClear'),
@@ -166,7 +166,7 @@ export default Ember.Component.extend({
   },
 
   didRender() {
-    this.$('.md-input-codelist-single')
+    this.$('.md-codelist')
       .trigger('change.select2');
   },
 
