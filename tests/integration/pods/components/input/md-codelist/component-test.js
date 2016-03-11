@@ -19,8 +19,8 @@ const codelist = Ember.Service.extend({
   }
 });
 
-moduleForComponent('input/md-input-codelist-single',
-  'Integration | Component | input/md input codelist single', {
+moduleForComponent('input/md-codelist',
+  'Integration | Component | input/md-codelist', {
     integration: true,
     beforeEach: function() {
       this.register('service:codelist', codelist);
@@ -35,7 +35,7 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-  this.render(hbs `{{input/md-input-codelist-single
+  this.render(hbs `{{input/md-codelist
     value='foo' mdCodeName="foobar"}}`);
 
   assert.equal(this.$()
@@ -44,9 +44,9 @@ test('it renders', function(assert) {
 
   // Template block usage:" + EOL +
   this.render(hbs `
-    {{#input/md-input-codelist-single value='foo' mdCodeName="foobar"}}
+    {{#input/md-codelist value='foo' mdCodeName="foobar"}}
       <option value="baz">baz</option>
-    {{/input/md-input-codelist-single}}
+    {{/input/md-codelist}}
   `);
 
   assert.equal(this.$()
@@ -61,7 +61,7 @@ test('set value action', function(assert) {
       'submitted value is passed to external action');
   });
 
-  this.render(hbs `{{input/md-input-codelist-single
+  this.render(hbs `{{input/md-codelist
     value='foo' mdCodeName="foobar"
     change=(action "update" "bar")}}`);
 
