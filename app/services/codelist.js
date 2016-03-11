@@ -22,4 +22,16 @@ Object.keys(codes)
     codelist[name] = list;
   });
 
+codelist.profile = {
+  codelist: [{
+    code: '001',
+    codeName: 'full',
+    description: 'This profile includes all metadata properties.'
+  }, {
+    code: '002',
+    codeName: 'basic',
+    description: 'This profile includes metadata properties required for a minimal metadata record.'
+  }]
+};
+
 export default Ember.Service.extend(codelist);

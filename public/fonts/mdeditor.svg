@@ -1,0 +1,12 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2015 by original authors @ fontello.com</metadata>
+<defs>
+<font id="mdeditor" horiz-adv-x="1000" >
+<font-face font-family="mdeditor" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="icon-mdeditor" unicode="&#xe804;" d="m418 101l501 0c47 0 84-38 84-85l0-28c0-47-37-85-84-85l-501 0c-47 0-84 38-84 85l0 28c0 47 37 85 84 85z m0 347l500 0c47 0 84-37 84-84l0-28c0-47-37-84-84-84l-500 0c-47 0-84 37-84 84l0 28c0 47 37 84 84 84z m0 349l500 0c47 0 84-38 84-85l0-28c0-47-37-84-84-84l-500 0c-47 0-84 37-84 84l0 28c0 47 37 85 84 85z m-205-736l1 60-156 2-1-60 35-36 43 42 42-43 36 35z m-127 482q-7 7-15 0-3-3-3-8l-5-358q-1-5 3-8 7-8 14-1 4 4 4 8l5 359q0 4-3 8z m-81 47l275-5-8-550-140-135-135 139z m261 190q17-18 17-42l-2-110-275 4 2 109q0 25 18 43 18 17 43 16l155-2q25-1 42-18z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>

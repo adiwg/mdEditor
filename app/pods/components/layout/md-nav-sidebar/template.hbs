@@ -1,0 +1,50 @@
+<ul class="sidebar-nav">
+  <li class="sidebar-brand">
+    <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>md<span class="icon-mdeditor"></span>ditor</a>
+    <a id="md-btn-help" class="pull-right" href="#" {{action "toggleHelp"}}><span class="fa fa-question-circle"></span></a>
+  </li>
+  <li id="md-sidebar-lists">
+    <div class="panel-group">
+      {{#each items as |class|}}
+        {{#with class.meta as |meta|}}
+          <div class="panel">
+            <div class="panel-heading clearfix" id="{{meta.listId}}-heading">
+              <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
+                {{#link-to (concat meta.type ".new") class="btn btn-primary btn-xs" }}
+                  <span class="fa fa-plus"></span> {{/link-to}}
+                {{#link-to meta.list class="btn btn-primary btn-xs" }}
+                  <span class="fa fa-list"></span> {{/link-to}}
+              </div>
+              <h4 class="panel-title bg-primary">
+            <a class="" data-toggle="collapse" aria-expanded="true"
+              href="#{{meta.listId}}" aria-controls="{{meta.listId}}">
+              <span class="fa"></span> {{meta.title}} ({{class.length}})
+            </a>
+          </h4>
+            </div>
+            <div class="panel-collapse collapse in" role="tabpanel" aria-expanded="true" id="{{meta.listId}}" aria-labelledby="{{meta.listId}}-heading">
+              {{#each class as |record|}}
+                <div class="list-group">
+                  <div class="list-group-item" draggable="true">
+                    <div class="btn-group btn-group-xs pull-right" role="group" aria-label="Navigation Buttons">
+                      {{#link-to (concat meta.type ".show.edit") record class="btn btn-warning" }}
+                        <span class="fa fa-pencil"></span>
+                      {{/link-to}}
+                    </div>
+                    <!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> -->
+                    {{#link-to (concat meta.type ".show") record class="sidebar-row" }}
+                      <span class="fa fa-{{record.icon}}"></span> {{record.title}}
+                    {{/link-to}}
+                  </div>
+                </div>
+              {{/each}}
+              <!-- <div class="panel-footer">
+                    <button>More</button>
+                    </div> -->
+            </div>
+          </div>
+        {{/with}}
+      {{/each}}
+    </div>
+  </li>
+</ul>

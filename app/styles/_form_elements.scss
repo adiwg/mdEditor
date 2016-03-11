@@ -1,0 +1,20 @@
+#md-page-content fieldset {
+  margin-bottom: 30px;
+
+  &.collapse {
+    padding: 15px 0 10px;
+    background-color: lighten($brand-primary, 47);
+  }
+}
+
+#md-page-content legend {
+  margin-bottom: 0;
+
+  a {
+    text-decoration: none;
+  }
+
+  a.collapsed span:before {
+    content: '\f107';
+  }
+}
