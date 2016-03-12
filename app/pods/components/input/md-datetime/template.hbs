@@ -1,0 +1,13 @@
+<div class="form-group">
+    {{#if label}}
+        <label>{{label}}</label>
+    {{/if}}
+    <div class="form-group">
+        {{bs-datetimepicker
+        date=date
+        format=format
+        dateIcon="fa fa-calendar"
+        icons=calendarIcons
+        updateDate=(action (mut date))}}
+    </div>
+</div>
