@@ -1,0 +1,12 @@
+<div class="form-group">
+  {{#if label}}
+    <label>{{label}}</label>
+  {{/if}}
+  <div class="checkbox md-boolean">
+    <label>
+      {{input type="checkbox" checked=value}}
+      <span class="md-boolean-text">{{ text }}</span>
+    </label>
+  </div>
+  {{yield}}
+</div>
