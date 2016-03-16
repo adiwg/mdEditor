@@ -1,0 +1,13 @@
+<div class="form-group">
+    {{#if label}}
+        <label>{{label}}</label>
+    {{/if}}
+    {{input
+    value=value
+    placeholder=placeholder
+    required=required
+    type=type
+    maxlength=maxlength
+    class=class}}
+    {{yield}}
+</div>
