@@ -39,7 +39,7 @@ export default Ember.Component.extend({
 
   /**
    * Array of item objects
-   * 
+   *
    * @return {Array}
    */
   items: Ember.computed('model.[]', {
@@ -73,9 +73,9 @@ export default Ember.Component.extend({
     addItem() {
         this.addItem();
       },
-      deleteItem(idx) {
-        this.deleteItem(idx);
-      }
+    deleteItem(idx) {
+      this.deleteItem(idx);
+    }
   },
 
   /**
