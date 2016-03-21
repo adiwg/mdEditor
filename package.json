@@ -20,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "broccoli-asset-rev": "^2.2.0",
+    "ember-autoresize": "0.5.14",
     "ember-bootstrap-datetimepicker": "1.0.2",
     "ember-browserify": "^1.1.4",
     "ember-cli": "1.13.15",
