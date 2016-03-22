@@ -1,2 +1,33 @@
-List Dictionaries
+<h3>Dictionary Dashboard</h3>
+<div class="container-fluid">
+    <br>
+    <table class="table table-striped table-hover">
+        <thead>
+        <th></th>
+        <th>#</th>
+        <th>Dictionary Name</th>
+        <th>Data Resource Type</th>
+        <th></th>
+        </thead>
+        <tbody>
+        {{#each model key="@index" as |item index|}}
+            <tr>
+                <td>{{input type="checkbox" name="isChecked"}}</td>
+                <td>{{index}}</td>
+                <td>{{item.json.dictionaryInfo.citation.title}}</td>
+                <td>{{item.json.dictionaryInfo.resourceType}}</td>
+                <td>
+                    <button class="btn btn-xs btn-danger pull-right" {{action "deleteItem" item}}>
+                        <span class="fa fa-times"></span> Delete
+                    </button>
+                    <span class="pull-right">&nbsp;</span>
+                    <button class="btn btn-xs btn-warning pull-right" {{action "editItem" item}}>
+                        <span class="fa fa-pencil"></span> Edit
+                    </button>
+                </td>
+            </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
 {{outlet}}
