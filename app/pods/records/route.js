@@ -17,18 +17,24 @@ export default Ember.Route.extend({
 
   actions: {
     deleteItem: function(item) {
-      if (window.confirm(
-              "Do you really want to delete this record?")) {
-        item.destroyRecord().then(function() {
-          console.log('+-- deleted record ID:', item.id);
-        }, function() {
-          console.log('+--- delete record failed');
-        });
-      }
+      let message =
+        "Do you really want to delete this record?";
+      this._deleteItem(item, message);
     },
 
     editItem: function(item) {
       this.transitionTo('record.show.edit', item);
+    }
+  },
+
+  // action methods
+  _deleteItem(item, message) {
+    if (window.confirm(message)) {
+      item.destroyRecord().then(function() {
+        console.log('+-- deleted record ID:', item.id);
+      }, function() {
+        console.log('+-- delete record failed');
+      });
     }
   }
 
