@@ -1,0 +1,17 @@
+<div class="form-group">
+    {{#if label}}
+        <label>{{label}}</label>
+    {{/if}}
+    {{textarea
+    value=value
+    placeholder=placeholder
+    required=required
+    maxlength=maxlength
+    autoresize=autoresize
+    rows=rows
+    max-rows=maxrows
+    max-width=maxwidth
+    max-height=maxheight
+    class=class}}
+    {{yield}}
+</div>

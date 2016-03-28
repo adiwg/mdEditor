@@ -2,66 +2,72 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   /**
-   * [service description]
-   * @param  {[type]} 'codelist' [description]
-   * @return {[type]}            [description]
+   * Injected codelist service
+   *
+   * @type  {Array}
    */
   mdCodes: Ember.inject.service('codelist'),
 
   /**
-   * [service description]
-   * @return {Object} [description]
+   * Injected icon service
+   *
+   * @type  {Array}
    */
   icons: Ember.inject.service('icon'),
 
   /**
-   * [create description]
+   * Whether to allow creation of options.
    * @type {Boolean}
    */
   create: false,
 
   /**
-   * [tooltip description]
+   * Indicates if tooltips should be rendered.
    * @type {Boolean}
    */
   tooltip: false,
 
   /**
-   * [icon description]
+   * Indicates if icons should be rendered.
    * @type {Boolean}
    */
   icon: false,
 
   /**
-   * [allowClear description]
+   * Whether to render clear button
    * @type {Boolean}
    */
   allowClear: false,
 
   /**
-   * [mdCodeName description]
+   * The codelist name
+   *
    * @type {String} mdCodeName
    */
 
   /**
-   * [placeholder description]
+   * The string to display when empty.
+   *
    * @type {String}
    */
   placeholder: "Select one option",
 
   /**
-   * [label description]
+   * Form label
+   *
    * @type {String} label
    */
 
   /**
-   * [width description]
+   * Select2 width
+   *
    * @type {String} width
    */
   width: "100%",
 
   /**
-   * [disabled description]
+   * Indicates if input is disabled
+   *
    * @type {Boolean} width
    */
   disabled: false,
@@ -116,8 +122,12 @@ export default Ember.Component.extend({
     return codelist;
   }),
 
-  // Format options for the select tag
-  // Add tooltips,icons if requested
+  /**
+   * Format options for the select tag
+   * Add tooltips,icons if requested
+   *
+   * @return {undefined}
+   */
   didInsertElement: function() {
     let tooltip = this.get('tooltip');
     let icon = this.get('icon');
@@ -153,7 +163,7 @@ export default Ember.Component.extend({
       return $option;
     }
 
-    this.$('.md-input-codelist-single')
+    this.$('.md-codelist')
       .select2({
         placeholder: this.get('placeholder'),
         allowClear: this.get('allowClear'),
@@ -161,12 +171,13 @@ export default Ember.Component.extend({
         templateResult: formatOption,
         width: this.get('width'),
         minimumResultsForSearch: 10,
+        closeOnSelect: !!this.$('.md-codelist select').prop('multiple'),
         theme: 'bootstrap'
       });
   },
 
   didRender() {
-    this.$('.md-input-codelist-single')
+    this.$('.md-codelist')
       .trigger('change.select2');
   },
 

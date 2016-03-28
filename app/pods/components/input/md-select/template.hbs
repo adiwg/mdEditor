@@ -1,0 +1,24 @@
+{{#if label}}
+    <div class="form-group">
+        <label>{{label}}</label>
+        <select class="form-control md-select" {{action 'setValue' on='change'}}>
+            <option></option>
+            {{#each codelist as |code index|}}
+                <option value={{code.codeId}} selected={{code.selected}}
+                        data-tooltip={{code.tooltip}}>{{code.codeName}}</option>
+            {{/each}}
+            {{yield}}
+        </select>
+    </div>
+{{else}}
+    <div class="form-group">
+        <select class="form-control md-select" {{action 'setValue' on='change'}}>
+            <option></option>
+            {{#each codelist as |code index|}}
+                <option value={{code.codeId}} selected={{code.selected}}
+                        data-tooltip={{code.tooltip}}>{{code.codeName}}</option>
+            {{/each}}
+            {{yield}}
+        </select>
+    </div>
+{{/if}}
