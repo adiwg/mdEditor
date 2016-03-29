@@ -11,32 +11,29 @@ export default DS.Model.extend({
       const obj = Ember.Object.create({
         "version": {
           "name": "mdJson",
-          "version": "1.0.0"
+          "version": "1.1.0"
         },
         "contact": [],
         "metadata": {
           "metadataInfo": {
             "metadataIdentifier": {
               "identifier": UUID.v4(),
-              "type": "uuid"
+              "type": ""
             }
           },
           "resourceInfo": {
             "resourceType": null,
             "citation": {
-              "title": "My Record",
-              "date": [{
-                "date": new Date()
-                  .toISOString(),
-                "dateType": "creation"
-              }]
+              "title": "New Record",
+              "date": []
             },
             "pointOfContact": [],
             "abstract": null,
             "status": null,
             "language": ["eng; USA"]
           }
-        }
+        },
+        "dataDictionary": []
       });
 
       return obj;
@@ -46,6 +43,7 @@ export default DS.Model.extend({
   title: Ember.computed('json.metadata.resourceInfo.citation.title', function () {
     return this.get('json.metadata.resourceInfo.citation.title');
   }),
+
   icon: Ember.computed('json.metadata.resourceInfo.resourceType', function () {
     const type = this.get('json.metadata.resourceInfo.resourceType');
     const list = Ember.getOwner(this)

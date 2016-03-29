@@ -4,7 +4,8 @@ export default Ember.Route.extend({
   model: function () {
     return this.store.createRecord('contact');
   },
-  deactivate: function () {
+
+  deactivate: function() {
     // We grab the model loaded in this route
     var model = this.modelFor('contact/new');
 
@@ -13,6 +14,45 @@ export default Ember.Route.extend({
     if (model.get('isNew')) {
       // We call DS#destroyRecord() which removes it from the store
       model.destroyRecord();
+    }
+  },
+
+  //some test actions
+  setupController: function(controller, model) {
+    // Call _super for default behavior
+    this._super(controller, model);
+
+    // setup tests for required attributes
+    controller.noId = Ember.computed('model.json.contactId', function() {
+      return model.get('json.contactId') ? false : true;
+    });
+    controller.noName = Ember.computed('model.json.individualName',
+      'model.json.organizationName', function() {
+        let haveIndividual = model.get('json.individualName') ? true : false;
+        let haveOrganization = model.get('json.organizationName') ? true : false;
+      return !(haveIndividual || haveOrganization);
+    });
+  },
+
+  actions: {
+    saveContact() {
+      let haveId = !this.controller.get('noId');
+      let haveName = !this.controller.get('noName');
+      if (haveId && haveName) {
+        this.modelFor('contact.new')
+          .save()
+          .then((model) => {
+            this.transitionTo('contact.show.edit', model);
+          });
+      }
+
+      return false;
+    },
+
+    cancelContact() {
+      this.transitionTo('contacts');
+
+      return false;
     }
   }
 });

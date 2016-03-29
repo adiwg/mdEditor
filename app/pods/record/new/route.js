@@ -1,10 +1,11 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function () {
+  model: function() {
     return this.store.createRecord('record');
   },
-  deactivate: function () {
+
+  deactivate: function() {
     // We grab the model loaded in this route
     let model = this.modelFor('record/new');
 
@@ -15,35 +16,43 @@ export default Ember.Route.extend({
       model.destroyRecord();
     }
   },
+
   //some test actions
-  setupController: function (controller, model) {
-    controller.actions = {
-      save() {
-        this.send('saveMe');
-      }
-    };
+  setupController: function(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
-    controller.notValid = Ember.computed(
-      'model.json.metadata.resourceInfo.citation.title',
-      function () {
+
+    // setup tests for required attributes
+    controller.noTitle = Ember.computed(
+      'model.json.metadata.resourceInfo.citation.title', function() {
         return model.get('title') ? false : true;
       });
+    controller.noType = Ember.computed(
+      'model.json.metadata.resourceInfo.resourceType', function() {
+        return model.get('json.metadata.resourceInfo.resourceType') ? false : true;
+      });
   },
+
   actions: {
-    saveMe() {
+    saveRecord() {
+      let haveTitle = !this.controller.get('noTitle');
+      let haveType = !this.controller.get('noType');
+      if (haveTitle && haveType) {
         this.modelFor('record.new')
           .save()
           .then((model) => {
             this.transitionTo('record.show.edit', model);
           });
-
-        return false;
-      },
-      cancel() {
-        this.transitionTo('records');
-
-        return false;
       }
+
+      return false;
+    },
+
+    cancelRecord() {
+      this.transitionTo('records');
+
+      return false;
+    }
   }
+
 });
