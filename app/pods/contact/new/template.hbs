@@ -50,7 +50,8 @@
                 <div class="col-sm-offset-4 col-sm-8">
                     <button {{action "cancelContact"}} class="btn btn-warning pull-right">Cancel</button>
                     <span class="pull-right">&nbsp;</span>
-                    <button {{action "saveContact"}} class="btn btn-success pull-right">Save</button>
+                    <button {{action "saveContact"}} class="btn btn-success pull-right"
+                                                     disabled={{allowSave}}>Save</button>
                 </div>
             </div>
         </form>

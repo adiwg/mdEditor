@@ -32,8 +32,11 @@ export default Ember.Route.extend({
         let haveOrganization = model.get('json.organizationName') ? true : false;
       return !(haveIndividual || haveOrganization);
     });
+    controller.allowSave = Ember.computed('noId', 'noName', function () {
+      return (this.get('noName') || this.get('noId'));
+    });
   },
-
+  
   actions: {
     saveContact() {
       let haveId = !this.controller.get('noId');
