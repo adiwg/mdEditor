@@ -24,7 +24,7 @@ export default DS.Model.extend({
           "resourceInfo": {
             "resourceType": null,
             "citation": {
-              "title": "New Record",
+              "title": null,
               "date": []
             },
             "pointOfContact": [],

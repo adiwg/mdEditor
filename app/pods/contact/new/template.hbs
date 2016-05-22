@@ -11,12 +11,12 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     {{#if noId}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger md-form-alert" role="alert">
                             You must provide a Contact ID for this contact.
                         </div>
                     {{/if}}
                     {{#if noName}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger md-form-alert" role="alert">
                             You must either an individual or organization name.
                         </div>
                     {{/if}}
@@ -50,7 +50,7 @@
                 <div class="col-sm-offset-4 col-sm-8">
                     <button {{action "cancelContact"}} class="btn btn-warning pull-right">Cancel</button>
                     <span class="pull-right">&nbsp;</span>
-                    <button {{action "saveContact"}} class="btn btn-success pull-right"
+                    <button {{action "saveContact"}} class="btn btn-success pull-right md-form-save"
                                                      disabled={{allowSave}}>Save</button>
                 </div>
             </div>

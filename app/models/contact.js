@@ -8,7 +8,7 @@ export default DS.Model.extend({
       var obj = {
         "contactId": UUID.v4().substr(0,6),
         "organizationName": null,
-        "individualName": "New Contact",
+        "individualName": null,
         "positionName": null,
         "phoneBook": [],
         "address": {},

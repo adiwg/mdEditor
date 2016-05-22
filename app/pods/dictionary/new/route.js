@@ -25,27 +25,25 @@ export default Ember.Route.extend({
     // setup tests for required attributes
     controller.noName = Ember.computed(
       'model.json.dictionaryInfo.citation.title', function() {
-        return model.get('title') ? false : true;
+        return model.get('json.dictionaryInfo.citation.title') ? false : true;
       });
     controller.noType = Ember.computed(
       'model.json.dictionaryInfo.resourceType', function() {
         return model.get('json.dictionaryInfo.resourceType') ? false : true;
       });
+    controller.allowSave = Ember.computed('noType', 'noName', function () {
+      return (this.get('noName') || this.get('noType'));
+    });
+  
   },
 
   actions: {
     saveDictionary() {
-      let haveName = !this.controller.get('noName');
-      let haveType = !this.controller.get('noType');
-      if (haveName && haveType) {
-        this.modelFor('dictionary.new')
-          .save()
-          .then((model) => {
-            this.transitionTo('dictionary.show.edit', model);
-          });
-      }
-
-      return false;
+      this.modelFor('dictionary.new')
+        .save()
+        .then((model) => {
+          this.transitionTo('dictionary.show.edit', model);
+        });
     },
 
     cancelDictionary() {

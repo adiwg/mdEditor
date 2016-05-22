@@ -10,12 +10,12 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     {{#if noTitle}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger md-form-alert" role="alert">
                             You must provide a Record Title.
                         </div>
                     {{/if}}
                     {{#if noType}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger md-form-alert" role="alert">
                             You must provide a Record Type.
                         </div>
                     {{/if}}
@@ -31,7 +31,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-4 control-label">Choose Type</label>
-                <div class="col-sm-8">
+                <div class="col-sm-8 md-form-select">
                     {{input/md-codelist
                     value=model.json.metadata.resourceInfo.resourceType
                     create=true tooltip=true icon=true mdCodeName="scope"
@@ -42,7 +42,8 @@
                 <div class="col-sm-offset-4 col-sm-8">
                     <button {{action "cancelRecord"}} class="btn btn-warning pull-right">Cancel</button>
                     <span class="pull-right">&nbsp;</span>
-                    <button {{action "saveRecord"}} class="btn btn-success pull-right">Save</button>
+                    <button {{action "saveRecord"}} class="btn btn-success pull-right md-form-save"
+                                                    disabled={{allowSave}}>Save</button>
                 </div>
             </div>
         </form>

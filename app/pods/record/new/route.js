@@ -31,21 +31,18 @@ export default Ember.Route.extend({
       'model.json.metadata.resourceInfo.resourceType', function() {
         return model.get('json.metadata.resourceInfo.resourceType') ? false : true;
       });
+    controller.allowSave = Ember.computed('noType', 'noTitle', function () {
+      return (this.get('noTitle') || this.get('noType'));
+    });
   },
 
   actions: {
     saveRecord() {
-      let haveTitle = !this.controller.get('noTitle');
-      let haveType = !this.controller.get('noType');
-      if (haveTitle && haveType) {
-        this.modelFor('record.new')
-          .save()
-          .then((model) => {
-            this.transitionTo('record.show.edit', model);
-          });
-      }
-
-      return false;
+      this.modelFor('record.new')
+        .save()
+        .then((model) => {
+          this.transitionTo('record.show.edit', model);
+        });
     },
 
     cancelRecord() {

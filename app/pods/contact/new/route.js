@@ -39,19 +39,13 @@ export default Ember.Route.extend({
   
   actions: {
     saveContact() {
-      let haveId = !this.controller.get('noId');
-      let haveName = !this.controller.get('noName');
-      if (haveId && haveName) {
-        this.modelFor('contact.new')
-          .save()
-          .then((model) => {
-            this.transitionTo('contact.show.edit', model);
-          });
-      }
-
-      return false;
+      this.modelFor('contact.new')
+        .save()
+        .then((model) => {
+          this.transitionTo('contact.show.edit', model);
+        });
     },
-
+    
     cancelContact() {
       this.transitionTo('contacts');
 

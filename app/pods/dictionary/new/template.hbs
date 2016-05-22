@@ -11,12 +11,12 @@
             <div class="form-group">
                 <div class="col-sm-12">
                     {{#if noName}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger md-form-alert" role="alert">
                             You must provide a name for this dictionary.
                         </div>
                     {{/if}}
                     {{#if noType}}
-                        <div class="alert alert-danger" role="alert">
+                        <div class="alert alert-danger md-form-alert" role="alert">
                             You must choose a type for this data resource.
                         </div>
                     {{/if}}
@@ -32,7 +32,7 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-3 control-label">Data Resource Type</label>
-                <div class="col-sm-9">
+                <div class="col-sm-9 md-form-select">
                     {{input/md-codelist
                     value=model.json.dictionaryInfo.resourceType
                     create=true
@@ -46,7 +46,8 @@
                 <div class="col-sm-offset-4 col-sm-8">
                     <button {{action "cancelDictionary"}} class="btn btn-warning pull-right">Cancel</button>
                     <span class="pull-right">&nbsp;</span>
-                    <button {{action "saveDictionary"}} class="btn btn-success pull-right">Save</button>
+                    <button {{action "saveDictionary"}} class="btn btn-success pull-right md-form-save"
+                                                        disabled={{allowSave}}>Save</button>
                 </div>
             </div>
         </form>
