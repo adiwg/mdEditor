@@ -1,7 +1,6 @@
 {
   "name": "mdeditor",
   "dependencies": {
-    "dom-ruler": "^0.1.13",
     "ember": "~2.3.0",
     "ember-cli-shims": "0.0.6",
     "ember-cli-test-loader": "0.2.1",
@@ -10,14 +9,15 @@
     "ember-qunit": "0.4.16",
     "ember-qunit-notifications": "0.1.0",
     "ember-resolver": "~0.1.20",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
     "jquery": "^2.1.0",
     "loader.js": "ember-cli/loader.js#3.4.0",
     "qunit": "~1.20.0",
     "font-awesome": "~4.5.0",
     "bootstrap-sass": "~3.3.6",
     "select2": "^4.0.1",
-    "select2-bootstrap-theme": "^0.1.0-beta.4"
+    "select2-bootstrap-theme": "^0.1.0-beta.4",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "dom-ruler": "0.1.13"
   },
   "resolutions": {
     "ember": "~2.3.0"
