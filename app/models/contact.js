@@ -6,7 +6,7 @@ export default DS.Model.extend({
   json: DS.attr('json', {
     defaultValue: function() {
       var obj = {
-        "contactId": UUID.v4().substr(0,6),
+        "contactId": UUID.v4(),
         "organizationName": null,
         "individualName": null,
         "positionName": null,
