@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import UUID from "npm:node-uuid";
+import UUID from 'npm:node-uuid';
+import Validator from 'npm:validator';
 
 export default DS.Model.extend({
   json: DS.attr('json', {
@@ -49,6 +50,15 @@ export default DS.Model.extend({
     }
 
     return combinedName;
+  }),
+
+  shortId: Ember.computed('json.contactId', function() {
+    const contactId = this.get('json.contactId');
+    if (Validator.isUUID(contactId)) {
+      return contactId.substring(0,7);
+    }
+    
+    return contactId;
   })
 
 });

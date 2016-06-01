@@ -47,5 +47,8 @@
     "ember-try": "0.0.8",
     "mdcodes": "^1.2.3",
     "node-uuid": "^1.4.7"
+  },
+  "dependencies": {
+    "validator": "^5.3.0"
   }
 }
