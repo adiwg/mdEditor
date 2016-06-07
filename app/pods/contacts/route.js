@@ -22,11 +22,7 @@ export default Ember.Route.extend({
   // action methods 
   _deleteItem(item, message) {
     if (window.confirm(message)) {
-      item.destroyRecord().then(function() {
-        console.log('+-- deleted contact ID:', item.id);
-      }, function() {
-        console.log('+-- delete contact failed');
-      });
+      item.destroyRecord();
     }
   }
   

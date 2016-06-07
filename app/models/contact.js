@@ -55,7 +55,7 @@ export default DS.Model.extend({
   shortId: Ember.computed('json.contactId', function() {
     const contactId = this.get('json.contactId');
     if (Validator.isUUID(contactId)) {
-      return contactId.substring(0,7);
+      return contactId.substring(0,7) + '...';
     }
     
     return contactId;
