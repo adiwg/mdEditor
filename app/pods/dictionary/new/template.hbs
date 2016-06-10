@@ -5,51 +5,54 @@
             choose a data resource type.</p>
     </div>
 </div>
-<div class="row">
+
+<div class="container">
     <div class="col-md-6 col-md-offset-3">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    {{#if noName}}
-                        <div class="alert alert-danger md-form-alert" role="alert">
-                            You must provide a name for this dictionary.
-                        </div>
-                    {{/if}}
-                    {{#if noType}}
-                        <div class="alert alert-danger md-form-alert" role="alert">
-                            You must choose a type for this data resource.
-                        </div>
-                    {{/if}}
+        <div class="col-sm-12">
+            {{#if noName}}
+                <div class="alert alert-danger md-form-alert" role="alert">
+                    You must provide a name for this dictionary.
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Dictionary Name</label>
-                <div class="col-sm-9">
-                    {{input/md-input
-                    value=model.json.dictionaryInfo.citation.title
-                    placeholder="Enter an name for this dictionary"}}
+            {{/if}}
+            {{#if noType}}
+                <div class="alert alert-danger md-form-alert" role="alert">
+                    You must choose a type for this data resource.
                 </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Dictionary Name</label>
+            <div class="col-sm-9">
+                {{input/md-input
+                value=model.json.dictionaryInfo.citation.title
+                placeholder="Enter an name for this dictionary"}}
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Data Resource Type</label>
-                <div class="col-sm-9 md-form-select">
-                    {{input/md-codelist
-                    value=model.json.dictionaryInfo.resourceType
-                    create=true
-                    tooltip=true
-                    icon=true
-                    mdCodeName="scope"
-                    placeholder="Choose a type for this data resource"}}
-                </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Data Resource Type</label>
+            <div class="col-sm-9 md-form-select">
+                {{input/md-codelist
+                value=model.json.dictionaryInfo.resourceType
+                create=true
+                tooltip=true
+                icon=true
+                mdCodeName="scope"
+                placeholder="Choose a type for this data resource"}}
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-8">
-                    <button {{action "cancelDictionary"}} class="btn btn-warning pull-right">Cancel</button>
-                    <span class="pull-right">&nbsp;</span>
-                    <button {{action "saveDictionary"}} class="btn btn-success pull-right md-form-save"
-                                                        disabled={{allowSave}}>Save</button>
-                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                 <span class="pull-right">
+                      <button {{action "saveDictionary"}} class="btn btn-success md-form-save"
+                                                          disabled={{allowSave}}>Save</button>
+                      <button {{action "cancelDictionary"}} class="btn btn-warning ">Cancel</button>
+                 </span>
             </div>
-        </form>
+        </div>
     </div>
 </div>

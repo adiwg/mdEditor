@@ -5,55 +5,58 @@
             individual name, organization name, or both.</p>
     </div>
 </div>
-<div class="row">
+
+<div class="container">
     <div class="col-md-6 col-md-offset-3">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-12">
-                    {{#if noId}}
-                        <div class="alert alert-danger md-form-alert" role="alert">
-                            You must provide a Contact ID for this contact.
-                        </div>
-                    {{/if}}
-                    {{#if noName}}
-                        <div class="alert alert-danger md-form-alert" role="alert">
-                            You must either an individual or organization name.
-                        </div>
-                    {{/if}}
+        <div class="col-sm-12">
+            {{#if noId}}
+                <div class="alert alert-danger md-form-alert" role="alert">
+                    You must provide a Contact ID for this contact.
                 </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Contact ID</label>
-                <div class="col-sm-9">
-                    {{input/md-input
-                    value=model.json.contactId
-                    placeholder="Enter an ID for this contact"}}
+            {{/if}}
+            {{#if noName}}
+                <div class="alert alert-danger md-form-alert" role="alert">
+                    You must either an individual or organization name.
                 </div>
+            {{/if}}
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="form-horizontal col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Contact ID</label>
+            <div class="col-sm-9">
+                {{input/md-input
+                value=model.json.contactId
+                placeholder="Enter an ID for this contact"}}
             </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Individual Name</label>
+            <div class="col-sm-9">
+                {{input/md-input
+                value=model.json.individualName
+                placeholder="Enter a name for this person"}}
+            </div>
+        </div>
             <div class="form-group">
-                <label class="col-sm-3 control-label">Individual Name</label>
-                <div class="col-sm-9">
-                    {{input/md-input
-                    value=model.json.individualName
-                    placeholder="Enter a name for this person"}}
-                </div>
+            <label class="col-sm-3 control-label">Organization Name</label>
+            <div class="col-sm-9">
+                {{input/md-input
+                value=model.json.organizationName
+                placeholder="Enter a name for this organization"}}
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label">Organization Name</label>
-                <div class="col-sm-9">
-                    {{input/md-input
-                    value=model.json.organizationName
-                    placeholder="Enter a name for this organization"}}
-                </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                 <span class="pull-right">
+                      <button {{action "saveContact"}} class="btn btn-success md-form-save"
+                                                       disabled={{allowSave}}>Save</button>
+                      <button {{action "cancelContact"}} class="btn btn-warning ">Cancel</button>
+                 </span>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-4 col-sm-8">
-                    <button {{action "cancelContact"}} class="btn btn-warning pull-right">Cancel</button>
-                    <span class="pull-right">&nbsp;</span>
-                    <button {{action "saveContact"}} class="btn btn-success pull-right md-form-save"
-                                                     disabled={{allowSave}}>Save</button>
-                </div>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
