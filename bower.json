@@ -16,10 +16,7 @@
     "bootstrap-sass": "~3.3.6",
     "select2": "^4.0.1",
     "select2-bootstrap-theme": "^0.1.0-beta.4",
-    "eonasdan-bootstrap-datetimepicker": "~4.14.30",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
     "dom-ruler": "0.1.13"
-  },
-  "resolutions": {
-    "ember": "~2.3.0"
   }
 }

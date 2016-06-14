@@ -7,14 +7,14 @@ export default DS.Model.extend({
       const obj = {
         "dictionaryInfo": {
           "citation": {
-            "title": "My Dictionary",
+            "title": null,
             "date": [{
               "date": new Date()
                 .toISOString(),
               "dateType": "creation"
             }]
           },
-          "description": "Data dictionary.",
+          "description": null,
           "resourceType": null
         },
         "domain": [],
@@ -24,8 +24,10 @@ export default DS.Model.extend({
       return obj;
     }
   }),
+
   title: Ember.computed('json.dictionaryInfo.citation.title', function () {
     return this.get('json.dictionaryInfo.citation.title');
   }),
+
   icon: 'book'
 });

@@ -38,6 +38,12 @@ export default Ember.Component.extend({
    * @type {Boolean}
    */
   allowClear: false,
+  
+  /**
+   * Whether to close select list after selection has been made
+   * @type {Boolean}
+   */
+  closeOnSelect: true,
 
   /**
    * The codelist name
@@ -122,12 +128,8 @@ export default Ember.Component.extend({
     return codelist;
   }),
 
-  /**
-   * Format options for the select tag
-   * Add tooltips,icons if requested
-   *
-   * @return {undefined}
-   */
+  // Format options for the select tag
+  // Add tooltips,icons if requested
   didInsertElement: function() {
     let tooltip = this.get('tooltip');
     let icon = this.get('icon');
@@ -171,7 +173,8 @@ export default Ember.Component.extend({
         templateResult: formatOption,
         width: this.get('width'),
         minimumResultsForSearch: 10,
-        closeOnSelect: !!this.$('.md-codelist select').prop('multiple'),
+        closeOnSelect: (this.$('.md-codelist select').prop('multiple') === 'multiple') ? 
+            false : this.get('closeOnSelect'),
         theme: 'bootstrap'
       });
   },

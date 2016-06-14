@@ -1,7 +1,16 @@
-<div class="form-group">
-    {{#if label}}
-        <label>{{label}}</label>
-    {{/if}}
+{{#if label}}
+    <div class="form-group">
+            <label>{{label}}</label>
+        {{input
+        value=value
+        placeholder=placeholder
+        required=required
+        type=type
+        maxlength=maxlength
+        class=class}}
+        {{yield}}
+    </div>
+{{else}}
     {{input
     value=value
     placeholder=placeholder
@@ -10,4 +19,4 @@
     maxlength=maxlength
     class=class}}
     {{yield}}
-</div>
+{{/if}}
