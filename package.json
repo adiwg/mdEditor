@@ -52,6 +52,7 @@
     "node-uuid": "^1.4.7"
   },
   "dependencies": {
+    "ember-multiselect-checkboxes": "^0.9.1",
     "validator": "^5.3.0"
   }
 }

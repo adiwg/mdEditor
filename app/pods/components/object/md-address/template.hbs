@@ -1,0 +1,28 @@
+<div class="panel panel-default box-shadow--8dp">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" href="#{{panelId}}">Address</a>
+        </h3>
+    </div>
+
+    <div id="{{panelId}}" class="panel-collapse collapse">
+        <div class="panel-body">
+            {{input/md-inputs model=address.deliveryPoint
+            placeholder="Address line" label="Address Lines"}}
+
+            {{input/md-input value=address.city
+            placeholder="City Name" label="City"}}
+
+            {{input/md-input value=address.adminsitrativeArea
+            placeholder="State or Province" label="State/Province"}}
+
+            {{input/md-input value=address.postalCode
+            placeholder="Zip or Postal Code" label="Postal Code"}}
+
+            {{input/md-input value=address.country
+            placeholder="Country Name" label="Country"}}
+        </div>
+    </div>
+
+</div>

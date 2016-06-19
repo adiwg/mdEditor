@@ -1,0 +1,52 @@
+<div class="panel panel-default box-shadow--8dp">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a data-toggle="collapse" href="#{{panelId}}">Phones</a>
+            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right md-button-hide"
+                {{action "addPhone" phoneBook}}>
+                <span class="fa fa-plus"></span> Add
+            </button>
+        </h3>
+    </div>
+
+    <div id="{{panelId}}" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table table-striped table-hover fadeIn">
+                <thead>
+                <th>#</th>
+                <th>Name</th>
+                <th>Number</th>
+                <th>Services</th>
+                <th></th>
+                </thead>
+                <tbody>
+                {{#each phoneBook index="@index" as |phone index|}}
+                    <tr>
+                        <td>{{index}}</td>
+                        <td>
+                            {{input/md-input value=phone.phoneName
+                            placeholder="Name or location or phone"}}
+                        </td>
+                        <td>
+                            {{input/md-input value=phone.phoneNumber
+                            placeholder="Phone number"}}
+                        </td>
+                        <td>
+                            <div class="form-group">
+                                {{multiselect-checkboxes options=phoneServices selection=phone.service}}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="btn btn-xs btn-danger pull-right" {{action "deletePhone" phoneBook index}}>
+                                <span class="fa fa-times"></span> Delete
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

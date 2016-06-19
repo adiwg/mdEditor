@@ -1,0 +1,51 @@
+<div class="panel panel-default box-shadow--8dp">
+
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <a role="button" data-toggle="collapse" href="#{{panelId}}" aria-expanded="true" aria-controls="{{panelId}}">
+                {{header}}
+            </a>
+            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right md-button-hide"
+                {{action "addItem" items}}>
+                <span class="fa fa-plus"></span> Add
+            </button>
+        </h3>
+    </div>
+
+    <div id="{{panelId}}" class="panel-collapse collapse">
+        <div class="panel-body">
+            <table class="table table-striped table-hover fadeIn">
+                <thead>
+                <th>#</th>
+                {{#each attrArray as |prop|}}
+                    <th>{{ucWords prop}}</th>
+                {{/each}}
+                <th></th>
+                </thead>
+                <tbody>
+                {{#each citems key="@index" as |item index|}}
+                    <tr>
+                        <td>{{index}}</td>
+                        {{#each attrArray as |prop|}}
+                            <td>{{getProperty item prop}}</td>
+                        {{/each}}
+                        <td>
+                            <button class="btn btn-xs btn-danger pull-right" {{action "deleteItem" items index}}>
+                                <span class="fa fa-times"></span> Delete
+                            </button>
+                            <span class="pull-right">&nbsp;</span>
+                            <button class="btn btn-xs btn-warning pull-right" {{action "editItem" items index}}>
+                                <span class="fa fa-pencil"></span> Edit
+                            </button>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+            <div class="object-editor fadeOut">
+                {{yield editing (action "cancelEdit")}}
+            </div>
+        </div>
+    </div>
+
+</div>
