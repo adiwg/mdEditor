@@ -5,27 +5,29 @@
         {{/if}}
         <button {{action "addItem"}} class="btn btn-success btn-xs pull-right"><span class="fa fa-plus"></span> Add Line</button>
         <table class="table table-striped table-hover">
-            <thead>
-            <th>#</th>
-            <th class="col-sm-9">{{header}}</th>
-            <th></th>
-            </thead>
+            {{#if header}}
+                <thead>
+                <th>#</th>
+                <th class="col-sm-9">{{header}}</th>
+                <th></th>
+                </thead>
+            {{/if}}
             <tbody>
-            {{#each items as |inputItem index|}}
-            <tr>
-                <td>{{index}}</td>
-                <td>
-                    {{input/md-input
-                    type=type
-                    value=inputItem.val
-                    maxlength=maxlength
-                    placeholder=placeholder}}
-                </td>
-                <td>
-                    <button {{action "deleteItem" index}} class="btn btn-warning btn-xs pull-right">Delete!</button>
-                </td>
-            </tr>
-            {{/each}}
+                {{#each items as |inputItem index|}}
+                <tr>
+                    <td>{{index}}</td>
+                    <td>
+                        {{input/md-input
+                        type=type
+                        value=inputItem.val
+                        maxlength=maxlength
+                        placeholder=placeholder}}
+                    </td>
+                    <td>
+                        <button {{action "deleteItem" index}} class="btn btn-warning btn-xs pull-right">Delete!</button>
+                    </td>
+                </tr>
+                {{/each}}
             </tbody>
         </table>
     </div>

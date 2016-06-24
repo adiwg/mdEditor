@@ -22,6 +22,16 @@
 
             {{input/md-input value=address.country
             placeholder="Country Name" label="Country"}}
+
+            {{input/md-inputs model=address.electronicMailAddress
+            placeholder="Email Address" label="Email Addresses"}}
+
+            <hr>
+            <button type="button" class="btn btn-xs btn-info pull-right"
+                    data-toggle="collapse" href="#{{panelId}}">
+                <span class="fa fa-check"></span> OK
+            </button>
+
         </div>
     </div>
 
