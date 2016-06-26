@@ -1,91 +1,126 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  /**
-   * Injected codelist service
-   *
-   * @type  {Array}
-   */
-  mdCodes: Ember.inject.service('codelist'),
 
   /**
-   * Injected icon service
+   * Specialized select list control for displaying and selecting
+   * options in mdCodes codelists.
+   * Access to codelists is provided by the 'codelist' service. 
+   * Descriptions of all codes (tooltips) are embedded within the codelists.
    *
-   * @type  {Array}
+   * @class md-codelist
+   * @constructor
    */
-  icons: Ember.inject.service('icon'),
+  
+  /**
+   * The name of the mdCodes's codelist to use
+   *
+   * @property mdCodeName
+   * @type String 
+   * @required
+   */
 
   /**
-   * Whether to allow creation of options.
-   * @type {Boolean}
+   * Initial value, returned value.
+   *
+   * @property value
+   * @type String
+   * @return String
+   * @required
+   */
+  
+  /**
+   * Indicates whether to allow the user to enter a new option
+   * not contained in the select list.
+   *
+   * @property create
+   * @type Boolean
+   * @default false
    */
   create: false,
 
   /**
-   * Indicates if tooltips should be rendered.
-   * @type {Boolean}
+   * Indicates if tooltips should be rendered for the options.
+   *
+   * @property tooltip
+   * @type Boolean
+   * @default false
    */
   tooltip: false,
 
   /**
    * Indicates if icons should be rendered.
-   * @type {Boolean}
+   * 
+   * @property icon
+   * @type Boolean
+   * @default false
    */
   icon: false,
 
   /**
-   * Whether to render clear button
-   * @type {Boolean}
+   * Whether to render a button to clear the selection.
+   * 
+   * @property allowClear
+   * @type Boolean
+   * @default false
    */
   allowClear: false,
   
   /**
-   * Whether to close select list after selection has been made
-   * @type {Boolean}
+   * Whether to close the selection list after a selection has been made.
+   * 
+   * @property closeOnSelect
+   * @type Boolean
+   * @default true
    */
   closeOnSelect: true,
 
   /**
-   * The codelist name
+   * The string to display when no option is selected.
    *
-   * @type {String} mdCodeName
-   */
-
-  /**
-   * The string to display when empty.
-   *
-   * @type {String}
+   * @property placeholder
+   * @type String
+   * @default 'Select one option'
    */
   placeholder: "Select one option",
 
   /**
-   * Form label
+   * Form label for select list
    *
-   * @type {String} label
+   * @property label
+   * @type String
+   * @default null
    */
+  label: null,
 
   /**
-   * Select2 width
+   * Form field width
    *
-   * @type {String} width
+   * @property width
+   * @type String
+   * @default 100%
    */
   width: "100%",
 
   /**
    * Indicates if input is disabled
    *
-   * @type {Boolean} width
+   * @property disabled
+   * @type Boolean
+   * @default false
    */
   disabled: false,
 
-  /**
+  mdCodes: Ember.inject.service('codelist'),
+  icons: Ember.inject.service('icon'),
+
+  /*
    * codelist is an array of code objects in mdCodelist format
-   * the initial codelist for 'mdCodeName' is pulled from the 'codelist' service;
-   * then if a new value was created by the user a new object will be added into the codelist;
-   * then a new 'selected' element will be added to each codelist object to let select2
-   * know if this item should be selected.
-   *
-   * @return {Array}
+   * the initial codelist for 'mdCodeName' is provided by the 'codelist' service;
+   * if a value is provided by the user which is not in the codelist and 'create=true'
+   * the new value will be added into the codelist array;
+   * then a Boolean 'selected' element will be added to each codelist object where the
+   * selected option will be set to true and all others false.
    */
   codelist: Ember.computed('value', function() {
     let codelist = [];
@@ -128,8 +163,8 @@ export default Ember.Component.extend({
     return codelist;
   }),
 
-  // Format options for the select tag
-  // Add tooltips,icons if requested
+  // Format options in the select tag
+  // Add tooltips and/or icons as requested
   didInsertElement: function() {
     let tooltip = this.get('tooltip');
     let icon = this.get('icon');

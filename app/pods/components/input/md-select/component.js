@@ -2,61 +2,106 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default Ember.Component.extend({
+
   /**
-   * [objectArray description]
-   * @type {Array} mdCodeName
+   * A select list control for displaying and selecting options
+   * provided in an array or promise array.
+   *
+   * @class md-select
+   * @constructor
    */
 
   /**
-   * [valuePath description]
-   * @type {String}
+   * An array or promise array containing the options for the
+   * select list.
+   * At a minimum the array elements should provide attributes for the
+   * name value pairs displayed as select list options.
+   * Tooltips may also be included.
+   * Other attributes in the array elements will be ignored.
+   *
+   * @property objectArray
+   * @type Array
+   * @required
    */
 
   /**
-   * [namePath description]
-   * @type {String}
+   * Name of the attribute in the objectArray to be used for the
+   * select list's option value.
+   *
+   * @property valuePath
+   * @type String
+   * @required
    */
 
   /**
-   * [tooltipPath description]
-   * @type {String}
+   * Name of the attribute in the objectArray to be used for the
+   * select list's option name or display text.
+   *
+   * @property namePath
+   * @type String
+   * @required
+   */
+
+  /**
+   * Name of the attribute in the objectArray to be used for the
+   * select list's tooltip.  If null, not tooltip will be
+   * generated.
+   *
+   * @property tooltipPath
+   * @type String
+   * @default null
    */
   tooltipPath: null,
 
   /**
-   * [value description]
-   * @type {Object}
-   */
-
-  /**
-   * [allowClear description]
-   * @type {Boolean}
+   * Whether to render a button to clear the selection.
+   *
+   * @property allowClear
+   * @type Boolean
+   * @default false
    */
   allowClear: false,
 
   /**
-   * [placeholder description]
-   * @type {String}
+   * Whether to close the selection list after a selection has been made.
+   *
+   * @property closeOnSelect
+   * @type Boolean
+   * @default true
+   */
+  closeOnSelect: true,
+
+  /**
+   * The string to display when no option is selected.
+   *
+   * @property placeholder
+   * @type String
+   * @default 'Select one option'
    */
   placeholder: "Select one option",
 
   /**
-   * [label description]
-   * @type {String} label
+   * Form label for select list
+   *
+   * @property label
+   * @type String
+   * @default null
    */
+  label: null,
 
   /**
-   * [width description]
-   * @type {String} width
+   * Form field width
+   *
+   * @property width
+   * @type String
+   * @default 100%
    */
   width: "100%",
 
-  /**
+  /*
    * codelist is an array of code objects re-mapped from the input 'objectArray'.
    * values from the input object array are mapped according the path parameters
    * provided. md-select does not allow creation of new objects.
-   *
-   * @return {Array}
    */
   codelist: Ember.computed(function() {
     const objArray = this.get('objectArray');
@@ -98,12 +143,8 @@ export default Ember.Component.extend({
     });
   }),
 
-  /**
-   * Format options for the select tag
-   * Add tooltips if requested
-   *
-   * @return {undefined}
-   */
+  // Format options in the select tag
+  // Add tooltips and/or icons as requested
   didInsertElement: function() {
     this.get('codelist')
       .then(() => {
@@ -149,9 +190,7 @@ export default Ember.Component.extend({
   },
 
   actions: {
-    /**
-     * do the binding to value
-     */
+    // do the binding to value
     setValue: function() {
       let selectedEl = this.$('select');
       let selectedValue = selectedEl.val();

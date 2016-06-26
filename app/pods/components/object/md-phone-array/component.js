@@ -1,6 +1,23 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+
+  /**
+   * mdEditor class for input and edit of mdJSON 'phone' object.
+   * The class manages the maintenance of an array of phone objects.
+   *
+   * @class md-phone-array
+   * @constructor
+   */
+
+  /**
+   * An array of mdJSON phone objects.  
+   *
+   * @property phoneBook
+   * @type Array
+   * @required
+   */
+
   mdCodes: Ember.inject.service('codelist'),
   phoneServices: Ember.computed(function() {
     let mdCodelist = this.get('mdCodes')

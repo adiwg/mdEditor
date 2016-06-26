@@ -3,77 +3,105 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   /**
-   * Value of the input
+   * Input, edit, display a multi-line, expandable, text area. 
+   * 
+   * @class md-textarea
+   * @constructor
+   */
+  
+  /**
+   * Initial value, returned value.
    *
    * @property value
-   * @type {String}
+   * @type String
+   * @return String
+   * @required
    */
-
+  
   /**
-   * The form label to display
+   * Form label for textarea 
    *
    * @property label
-   * @type {String}
+   * @type String
+   * @default null
    */
-
+  label: null,
+  
   /**
-   * The text to display when empty
+   * The string to display when no option is selected.
    *
    * @property placeholder
-   * @type {String}
+   * @type String
+   * @default 'Select one option'
    */
+  placeholder: "Select one option",
 
   /**
-   * Whether the value is required
+   * Indicates whether the value is required
    *
    * @property required
-   * @type {Boolean}
+   * @type Boolean
    * @default false
    */
   required: false,
 
   /**
-   * Maximum number of characters allowed
+   * Maximum number of characters allowed. 
+   * If maxlength is not provided the number of characters will
+   * not be restricted. 
    *
    * @property maxlength
-   * @type {Number}
+   * @type Number
+   * @default null
    */
+  maxlength: null,
 
   /**
-   * Enable autoresizing on an input
+   * Enable auto-resizing of the textarea
    *
    * @property autoresize
-   * @type {Boolean}
+   * @type Boolean
+   * @default true
    */
   autoresize: true,
 
   /**
-   * Set the maximum width of the resizeable element in pixels.
+   * Set the maximum width of the resizeable element in pixels. 
+   * If maxwidth is not provided width will not be restricted. 
    *
    * @property maxwidth
-   * @type {Number}
+   * @type Number
+   * @default null
    */
+  maxwidth: null,
 
   /**
-   * Set the maximum height of the element in pixels.
+   * Set the maximum height of the resizable element in pixels. 
+   * If maxheight is not provided height will not be restricted. 
    *
    * @property maxheight
    * @type {Number}
+   * @default null
    */
+  maxheight: null,
 
   /**
-   * Set the minimum number of rows for the element. Recommended for textareas.
+   * Set the minimum number of rows for the element. 
+   * Recommended for textareas.
    *
    * @property rows
-   * @type {Number}
+   * @type Number
+   * @default 2
    */
   rows: 2,
 
   /**
-   * Set the maximum number of rows for the element. Recommended for textareas.
+   * Set the maximum number of rows for the element. 
+   * Recommended for textareas.
    *
    * @property maxrows
-   * @type {Number}
+   * @type Number
+   * @default 10
    */
   maxrows: 10,
   
@@ -82,6 +110,8 @@ export default Ember.Component.extend({
    *
    * @property class
    * @type {string}
+   * @default 'form-control'
    */
   class: 'form-control'
+  
 });

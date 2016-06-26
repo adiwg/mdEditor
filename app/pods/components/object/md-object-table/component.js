@@ -1,6 +1,45 @@
 import Ember from 'ember';
 
 const ObjectTable = Ember.Component.extend({
+
+  /**
+   * mdEditor class for managing a table of similar mdJSON objects
+   * for selection for edit or deletion.  
+   * The class is configurable for reuse with mdJSON object arrays. 
+   *
+   * @class md-object-table
+   * @constructor
+   */
+  
+  
+  /**
+   * Array of the mdJSON object to display in the object table for
+   * selection to edit or delete.
+   *
+   * @property items
+   * @type Array
+   * @required 
+   */
+  
+  /**
+   * List of items object attributes to display in
+   * md-object-table to aid in choosing the item to edit or
+   * delete.
+   *
+   * @property attributes
+   * @type String
+   * @required 
+   */
+  
+  /**
+   * Name to place on the mdEditor panel header for entry and edit of
+   * items objects.
+   *
+   * @property header
+   * @type String
+   * @required 
+   */
+
   init: function() {
     this._super.apply(this, arguments);
   },

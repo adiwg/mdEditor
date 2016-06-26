@@ -1,42 +1,72 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+
   /**
-   * Field label
-   * @type {String} label
-   */
-  
-  /**
-   * Table header for the input column
-   * @type {String}
-   */
-  header: null,
-  
-  /**
-   * Maximum number of characters for inputs
+   * Input, edit, display an array of strings
    *
-   * @type {Number} maxlength
+   * @class md-inputs
+   * @constructor
    */
-  
+
   /**
-   * Type of input
-   * @type {String}
+   * An array of strings to be edited.  
+   * The edited array is returned
+   * 
+   * @property model
+   * @type Array
+   * @default []
+   */
+  model: [],
+
+  /**
+   * Type of data represented by string in the array.
+   * HTML5 types may be specified ('text', 'number', etc.)
+   *
+   * @property type
+   * @type String
+   * @default 'text'
    */
   type: 'text',
   
   /**
-   * Text shown in empty inputs
+   * Maximum number of characters for each input string.
+   * If no maxlength is specified the length will not be restricted
    *
-   * @type {String} placeholder
+   * @property maxlength
+   * @type Number
+   * @default null
    */
+  maxlength: null,
   
   /**
-   * Array of strings
+   * Label for the table of input rows
    *
-   * @type {Array}
+   * @property label
+   * @type String
+   * @default null
    */
-  model: [],
+  label: null,
   
+  /**
+   * Column header for the input column
+   *
+   * @property header
+   * @type String
+   * @default null
+   */
+  header: null,
+  
+  /**
+   * Text displayed in empty inputs
+   *
+   * @property placeholder
+   * @type String
+   * @default null
+   */
+  placeholder: null,
+  
+  // convert the input 'primitive' array to an 'ember' array
   items: Ember.computed('model.[]', {
     get() {
       let items = this.get('model');

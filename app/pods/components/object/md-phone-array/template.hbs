@@ -21,29 +21,34 @@
                 <th></th>
                 </thead>
                 <tbody>
-                {{#each phoneBook index="@index" as |phone index|}}
-                    <tr>
-                        <td>{{index}}</td>
-                        <td>
-                            {{input/md-input value=phone.phoneName
-                            placeholder="Name or location or phone"}}
-                        </td>
-                        <td>
-                            {{input/md-input value=phone.phoneNumber
-                            placeholder="Phone number"}}
-                        </td>
-                        <td>
-                            <div class="form-group">
-                                {{multiselect-checkboxes options=phoneServices selection=phone.service}}
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-xs btn-danger pull-right" {{action "deletePhone" phoneBook index}}>
-                                <span class="fa fa-times"></span> Delete
-                            </button>
-                        </td>
-                    </tr>
-                {{/each}}
+                    {{#each phoneBook index="@index" as |phone index|}}
+                        <tr>
+                            <td>{{index}}</td>
+                            <td>
+                                {{input/md-input value=phone.phoneName
+                                placeholder="Name or location or phone"}}
+                            </td>
+                            <td>
+                                {{input/md-input value=phone.phoneNumber
+                                placeholder="Phone number"}}
+                            </td>
+                            <td>
+                                <div class="form-group">
+                                    {{multiselect-checkboxes options=phoneServices selection=phone.service}}
+                                </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-xs btn-danger pull-right" {{action "deletePhone" phoneBook index}}>
+                                    <span class="fa fa-times"></span> Delete
+                                </button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                    <hr>
+                    <button type="button" class="btn btn-xs btn-info"
+                            data-toggle="collapse" href="#{{panelId}}">
+                        <span class="fa fa-check"></span> OK
+                    </button>
                 </tbody>
             </table>
         </div>
