@@ -22,3 +22,15 @@
 .md-button-hide {
   visibility: hidden;
 }
+
+.md-panel-chevron a {
+  text-decoration: none;
+
+  span::before {
+    content: '\f106';
+  }
+
+  &.collapsed span::before {
+    content: '\f107';
+  }
+}

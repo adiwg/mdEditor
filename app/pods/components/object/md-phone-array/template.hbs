@@ -1,8 +1,11 @@
 <div class="panel panel-default box-shadow--8dp">
 
     <div class="panel-heading">
-        <h3 class="panel-title">
-            <a data-toggle="collapse" href="#{{panelId}}">Phones</a>
+        <h3 class="panel-title md-panel-chevron">
+            <a data-toggle="collapse" aria-expanded="false"
+               href="#{{panelId}}" aria-controls="#{{panelId}}">
+                <span class="fa"></span> Phones
+            </a>
             <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right md-button-hide"
                 {{action "addPhone" phoneBook}}>
                 <span class="fa fa-plus"></span> Add
@@ -44,11 +47,6 @@
                             </td>
                         </tr>
                     {{/each}}
-                    <hr>
-                    <button type="button" class="btn btn-xs btn-info"
-                            data-toggle="collapse" href="#{{panelId}}">
-                        <span class="fa fa-check"></span> OK
-                    </button>
                 </tbody>
             </table>
         </div>
