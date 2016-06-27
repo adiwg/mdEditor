@@ -2,10 +2,10 @@
 
     <div class="panel-heading">
         <h3 class="panel-title md-panel-chevron">
-            <a role="button" data-toggle="collapse" href="#{{panelId}}" aria-expanded="true" aria-controls="{{panelId}}">
-                <span class="fa"></span> {{header}}
+            <a role="button" data-toggle="collapse" href="#{{panelId}}" aria-expanded="false" class="collapsed" aria-controls="{{panelId}}">
+                <span class="fa"></span> {{header}} ({{citems.length}})
             </a>
-            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right md-button-hide"
+            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right invisible"
                 {{action "addItem" items}}>
                 <span class="fa fa-plus"></span> Add
             </button>

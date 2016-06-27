@@ -19,9 +19,10 @@
   }
 }
 
-.md-button-hide {
+/* use .invisible
+.invisible {
   visibility: hidden;
-}
+}*/
 
 .md-panel-chevron a {
   text-decoration: none;
@@ -33,4 +34,16 @@
   &.collapsed span::before {
     content: '\f107';
   }
+}
+
+.md-multiselect.form-control {
+  height: auto;
+
+  .checkbox-inline {
+    margin-left: 10px;
+  }
+}
+
+.md-button-column {
+  line-height: $input-height-base;
 }

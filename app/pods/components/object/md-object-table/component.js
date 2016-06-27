@@ -69,10 +69,10 @@ const ObjectTable = Ember.Component.extend({
     let panel = this.get('panelId');
     let panelBtn = panel + '-btn';
     $('#' + panel).on('show.bs.collapse', function() {
-      $('#' + panelBtn).removeClass('md-button-hide');
+      $('#' + panelBtn).removeClass('invisible');
     });
     $('#' + panel).on('hidden.bs.collapse', function() {
-      $('#' + panelBtn).addClass('md-button-hide');
+      $('#' + panelBtn).addClass('invisible');
     });
   },
   
