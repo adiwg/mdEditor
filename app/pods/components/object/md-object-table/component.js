@@ -70,12 +70,13 @@ const ObjectTable = Ember.Component.extend({
     let panel = this.$('.panel-collapse');
     let table = this.$('table, .object-editor');
     let items = this.get('items');
+    let editing =  this.get('editing');
 
-    if(this.get('editing') === 'adding') {
+    if(editing === 'adding') {
       items.pushObject(this.get('saveItem'));
     }
 
-    if(items.length) {
+    if(editing === false && items.length) {
       let last = Object.keys(items.get('lastObject'));
       //TODO: this is fixed in 2.5.1
       //https://github.com/emberjs/ember.js/issues/13050
