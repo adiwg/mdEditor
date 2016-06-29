@@ -6,6 +6,7 @@
     "paths": [
       "app"
     ],
+    "enabledEnvironments": ["development"],
     "exclude": "vendor",
     "outdir": "docs",
     "linkNatives": true,
