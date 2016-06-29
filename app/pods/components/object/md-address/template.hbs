@@ -27,6 +27,14 @@
             {{input/md-input value=address.country
             placeholder="Country Name" label="Country"}}
 
+            <div class="form-group">
+            {{input/md-codelist
+            value=address.country
+            width="175px"
+            create=true tooltip=true icon=false mdCodeName="country"
+            placeholder="Enter a country code"}}
+            </div>
+
             {{input/md-inputs model=address.electronicMailAddress
             placeholder="Email Address" label="Email Addresses"
             buttonText="Add Email"}}
