@@ -10,9 +10,9 @@ export default Ember.Component.extend({
    */
 
   /**
-   * An array of strings to be edited.  
+   * An array of strings to be edited.
    * The edited array is returned
-   * 
+   *
    * @property model
    * @type Array
    * @default []
@@ -28,7 +28,7 @@ export default Ember.Component.extend({
    * @default 'text'
    */
   type: 'text',
-  
+
   /**
    * Maximum number of characters for each input string.
    * If no maxlength is specified the length will not be restricted
@@ -38,7 +38,7 @@ export default Ember.Component.extend({
    * @default null
    */
   maxlength: null,
-  
+
   /**
    * Label for the table of input rows
    *
@@ -47,7 +47,16 @@ export default Ember.Component.extend({
    * @default null
    */
   label: null,
-  
+
+  /**
+   * Determines add button placement
+   *
+   * @property buttonTop
+   * @type Boolean
+   * @default false
+   */
+   buttonTop: false,
+
   /**
    * Column header for the input column
    *
@@ -56,7 +65,7 @@ export default Ember.Component.extend({
    * @default null
    */
   header: null,
-  
+
   /**
    * Text displayed in empty inputs
    *
@@ -65,17 +74,17 @@ export default Ember.Component.extend({
    * @default null
    */
   placeholder: null,
-  
+
   // convert the input 'primitive' array to an 'ember' array
   items: Ember.computed('model.[]', {
     get() {
       let items = this.get('model');
-  
+
       if (items === undefined) {
         items = [];
         items[0] = '';
       }
-      
+
       return items.reduce(function(acc, val) {
         acc.pushObject({
           val: val
@@ -83,7 +92,7 @@ export default Ember.Component.extend({
         return acc;
       }, []);
     },
-    
+
     set(key, value) {
       this.set('model', value
           .filterBy('val')
@@ -91,7 +100,7 @@ export default Ember.Component.extend({
       return value;
     }
   }),
-  
+
   itemsObserver: Ember.observer('items.@each.val', function() {
     this.set('items', this.get('items'));
   }),
@@ -104,7 +113,7 @@ export default Ember.Component.extend({
       this.deleteItem(idx);
     }
   },
-  
+
   // functions for actions are isolated from actions to facilitate testing
   addItem() {
     this.get('items')
@@ -112,10 +121,10 @@ export default Ember.Component.extend({
           val: ''
         });
   },
-  
+
   deleteItem(idx) {
     this.get('items')
         .removeAt(idx);
   }
-  
+
 });

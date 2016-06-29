@@ -3,6 +3,7 @@
     <div class="panel-heading">
         <h3 class="panel-title md-panel-chevron">
             <a data-toggle="collapse" aria-expanded="{{if collapsed "false" "true"}}"
+               class="{{if collapsed "collapsed"}}"
                href="#{{panelId}}" aria-controls="#{{panelId}}">
                 <span class="fa"></span> Phones ({{phoneBook.length}})
             </a>
@@ -55,6 +56,15 @@
                                 </div>
                             </td>
                         </tr>
+                    {{else}}
+                    <tr>
+                        <td colspan="{{add-em attrArray.length 2}}">
+                            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success"
+                                {{action "addPhone" phoneBook}}>
+                                <span class="fa fa-plus"></span> Add
+                            </button> phone.
+                        </td>
+                    </tr>
                     {{/each}}
                 </tbody>
             </table>

@@ -3,7 +3,11 @@
         {{#if label}}
             <label>{{label}}</label>
         {{/if}}
-        <button {{action "addItem"}} class="btn btn-success btn-xs pull-right"><span class="fa fa-plus"></span> Add Line</button>
+        {{#if buttonTop}}
+            <button {{action "addItem"}} class="btn btn-success btn-xs pull-right">
+                <span class="fa fa-plus"></span> {{buttonText}}
+            </button>
+        {{/if}}
         <table class="table table-striped table-hover">
             {{#if header}}
                 <thead>
@@ -29,6 +33,18 @@
                 </tr>
                 {{/each}}
             </tbody>
+            {{#unless buttonTop}}
+            <tfoot>
+                <tr>
+                    <td colspan=3>
+                        <button {{action "addItem"}} class="btn btn-success btn-xs">
+                            <span class="fa fa-plus"></span> {{buttonText}}
+                        </button>
+
+                    </td>
+                </tr>
+            </tfoot>
+            {{/unless}}
         </table>
     </div>
     {{yield}}

@@ -12,7 +12,8 @@
     <div id="{{panelId}}" class="panel-collapse collapse">
         <div class="panel-body">
             {{input/md-inputs model=address.deliveryPoint
-            placeholder="Address line" label="Address Lines"}}
+            placeholder="Address line" label="Address Lines"
+            buttonText="Add Line"}}
 
             {{input/md-input value=address.city
             placeholder="City Name" label="City"}}
@@ -27,7 +28,8 @@
             placeholder="Country Name" label="Country"}}
 
             {{input/md-inputs model=address.electronicMailAddress
-            placeholder="Email Address" label="Email Addresses"}}
+            placeholder="Email Address" label="Email Addresses"
+            buttonText="Add Email"}}
 
             <hr>
         </div>
