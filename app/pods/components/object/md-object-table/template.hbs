@@ -3,7 +3,8 @@
     <div class="panel-heading">
         <h3 class="panel-title md-panel-chevron">
             <a role="button" data-toggle="collapse" href="#{{unless editing panelId}}" aria-expanded="false" class="collapsed" aria-controls="{{panelId}}">
-                <span class="fa"></span> {{header}} ({{citems.length}})
+                <span class="fa"></span> {{header}}
+                <label class="label label-pill {{pillColor}}"> {{citems.length}} </label>
             </a>
             <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right {{if editing "hidden"}}"
                 {{action "addItem" items}}>

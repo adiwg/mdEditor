@@ -5,7 +5,8 @@
             <a data-toggle="collapse" aria-expanded="{{if collapsed "false" "true"}}"
                class="{{if collapsed "collapsed"}}"
                href="#{{panelId}}" aria-controls="#{{panelId}}">
-                <span class="fa"></span> Phones ({{phoneBook.length}})
+                <span class="fa"></span> Phones
+                <label class="label label-pill {{pillColor}}"> {{phoneBook.length}} </label>
             </a>
             <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right"
                 {{action "addPhone" phoneBook}}>
@@ -61,8 +62,8 @@
                         <td colspan="5">
                             <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success"
                                 {{action "addPhone" phoneBook}}>
-                                <span class="fa fa-plus"></span> Add
-                            </button> phone.
+                                <span class="fa fa-plus"></span> Add Phone
+                            </button>
                         </td>
                     </tr>
                     {{/each}}

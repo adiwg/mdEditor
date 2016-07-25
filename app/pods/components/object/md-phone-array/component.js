@@ -76,6 +76,11 @@ export default Ember.Component.extend({
     });
   }),
 
+  pillColor: Ember.computed('phoneBook.[]', function() {
+      let count = this.get('phoneBook').length;
+      return (count > 0) ? 'label-info' : 'label-warning';
+    }),
+
   didInsertElement: function () {
     console.info($(this)[0].get('elementId'));
     console.info(this.$('.panel-collapse'));

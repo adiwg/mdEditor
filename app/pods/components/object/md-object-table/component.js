@@ -70,7 +70,7 @@ const ObjectTable = Ember.Component.extend({
     let panel = this.$('.panel-collapse');
     let table = this.$('table, .object-editor');
     let items = this.get('items');
-    let editing =  this.get('editing');
+    let editing = this.get('editing');
 
     if(editing === 'adding') {
       items.pushObject(this.get('saveItem'));
@@ -97,6 +97,12 @@ const ObjectTable = Ember.Component.extend({
       panel.collapse('show');
     }
     //});
+  }),
+
+  pillColor: Ember.computed('citems.[]', function () {
+    let count = this.get('citems')
+      .length;
+    return(count > 0) ? 'label-info' : 'label-warning';
   }),
 
   didInsertElement: function () {
