@@ -8,15 +8,20 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    saveContact: function() {
-      let model = this.modelFor('contact.show.edit');
-      model.save().then(() => {
-        this.transitionTo('contacts');
-      });
+    saveContact: function () {
+      this.currentModel
+        .save()
+        .then(() => {
+          this.transitionTo('contacts');
+        });
     },
 
-    cancelContact: function() {
-      this.transitionTo('contacts');
+    cancelContact: function () {
+      this.currentModel
+        .reload()
+        .then(() => {
+          this.transitionTo('contacts');
+        });
     }
   }
 });

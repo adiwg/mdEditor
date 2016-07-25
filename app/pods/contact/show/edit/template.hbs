@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-9 col-lg-offset-1">
+    <div class="col-sm-9 col-md-offset-1">
 
         <h2>Editing Contact: {{model.json.contactId}}</h2>
 
@@ -24,10 +24,10 @@
 
             {{input/md-textarea value=model.json.contactInstructions
             placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
-
-            <button type="submit" {{action "saveContact"}} class="btn btn-success">Save</button>
-            <button {{action "cancelContact"}} class="btn btn-warning">Cancel</button>
         </form>
+    </div>
+    <div class="col-sm-2">
+        {{control/md-crud-buttons model=model doSave="saveContact" doCancel="cancelContact"}}
     </div>
 
 </div>
