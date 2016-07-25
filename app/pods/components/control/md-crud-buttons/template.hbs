@@ -1,0 +1,15 @@
+<div class="md-btn-crud btn-group-vertical center-block" role="group" aria-label="CRUD Button Controls">
+  <button type="submit" {{action "save"}} class="btn btn-lg btn-success">
+    <i class="fa fa-floppy-o"></i> Save
+  </button>
+  <button {{action "cancel"}} class="btn btn-lg btn-warning">
+    <i class="fa fa-ban"></i> Cancel
+  </button>
+  <button {{action "copy"}} class="btn btn-lg btn-info">
+    <i class="fa fa-clone"></i> Copy
+  </button>
+  <button {{action "delete"}} class="btn btn-lg btn-danger">
+    <i class="fa fa-times"></i> Delete
+  </button>
+  {{yield}}
+</div>

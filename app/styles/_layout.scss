@@ -62,3 +62,14 @@
     padding-top: 45px;
   }
 }
+
+.md-btn-crud {
+  @media(min-width: $screen-sm-min) {
+    padding: 10px;
+    position: fixed;
+
+    .btn {
+      display: inline-block;
+    }
+  }
+}
