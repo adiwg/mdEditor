@@ -1,6 +1,6 @@
 <div class="form-group">
 
-    {{#object/md-object-table items=items2 header=label attributes=attributes as |editing cancelEdit|}}
+    {{#object/md-object-table items=model.onlineResource header=label attributes=attributes as |editing cancelEdit|}}
         Editing: {{editing.name}}
 
         {{input/md-input value=editing.name label="Name" placeholder="Online Resource Name"}}

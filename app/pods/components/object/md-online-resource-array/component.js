@@ -13,7 +13,7 @@ export default Ember.Component.extend({
    */
 
   /**
-   * mdJSON 'contact' object containing the 'onlineResource' array.
+   * mdJSON object containing the 'onlineResource' array.
    *
    * @property model
    * @type Object
@@ -29,7 +29,7 @@ export default Ember.Component.extend({
    * @type String
    * @default 'onlineResource'
    */
-  propertyArrayName: 'onlineResource',
+  //propertyArrayName: 'onlineResource',
 
   /**
    * List of mdJSON 'onlineResource' object attributes to display in
@@ -54,10 +54,10 @@ export default Ember.Component.extend({
    */
   label: 'Online Resource',
 
-  items2: Ember.computed('model', function() {
+  /*items2: Ember.computed('model', function() {
     if (this.get('model.' + this.get('propertyArrayName')) === undefined) {
       this.set('model.' + this.get('propertyArrayName'), []);
     }
     return this.get('model.' + this.get('propertyArrayName'));
-  })
+  })*/
 });
