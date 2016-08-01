@@ -5,6 +5,9 @@
             <a data-toggle="collapse" aria-expanded="false" class="collapsed"
                href="#{{panelId}}" aria-controls="#{{panelId}}">
                 <span class="fa"></span> Address
+                {{#unless notEmpty}}
+                    <label class="label label-pill label-warning"> empty </label>
+                {{/unless}}
             </a>
         </h3>
     </div>
