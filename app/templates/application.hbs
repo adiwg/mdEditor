@@ -11,13 +11,16 @@
       {{#layout/md-nav-main}}
         {{outlet "nav"}}
       {{/layout/md-nav-main}}
-      {{layout/md-breadcrumb}}
-      {{outlet "nav-secondary"}}
+      {{layout/md-breadcrumb}} {{outlet "nav-secondary"}}
     </div>
     <div id="md-page-content" class="container-fluid">
       {{outlet}}
     </div>
   </div>
   <!-- /#page-content-wrapper -->
-
+  <div class=md-message-wrapper>
+    {{#each flashMessages.queue as |flash|}}
+      {{flash-message flash=flash}}
+    {{/each}}
+  </div>
 </div>
