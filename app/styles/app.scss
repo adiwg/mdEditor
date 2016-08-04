@@ -16,7 +16,12 @@ $grid-float-breakpoint: 532px !default;
 @import 'fade';
 @import 'drop_shadow';
 @import 'messages';
+@import 'modal';
 @import 'loader';
+
+//modals
+@import "ember-modal-dialog/ember-modal-structure";
+@import "ember-modal-dialog/ember-modal-appearance";
 
 /*body.relative {
   position: relative;

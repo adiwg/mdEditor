@@ -50,6 +50,8 @@
     "ember-export-application-global": "^1.0.4",
     "ember-load": "0.0.9",
     "ember-local-storage": "1.0.1",
+    "ember-modal-dialog": "0.8.8",
+    "ember-route-action-helper": "0.3.3",
     "ember-try": "0.0.8",
     "mdcodes": "^1.2.3",
     "node-uuid": "^1.4.7"
