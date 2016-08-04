@@ -8,8 +8,8 @@
   <button {{action "copy"}} class="btn btn-lg btn-info">
     <i class="fa fa-clone"></i> Copy
   </button>
-  <button {{action "delete"}} class="btn btn-lg btn-danger">
-    <i class="fa fa-times"></i> Delete
-  </button>
+  {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete")}}
+    <span class="fa fa-times"></span> Delete
+  {{/control/md-button-confirm}}
   {{yield}}
 </div>

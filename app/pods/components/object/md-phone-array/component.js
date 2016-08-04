@@ -59,13 +59,14 @@ export default Ember.Component.extend({
   }),
 
   //focus the added row, or the last row on deletion
-  phoneBookChanged: Ember.observer('phoneBook.[]', function () {
+  phoneBookChanged() {
     //https://guides.emberjs.com/v2.6.0/applications/run-loop/
     Ember.run.schedule('afterRender', this, function () {
       let panel = this.$('.panel-collapse');
-      let input = this.$('.panel-collapse tbody tr:last-of-type input').first();
+      let input = this.$('.panel-collapse tbody tr:last-of-type input')
+        .first();
 
-      if(panel.hasClass('in')){
+      if(panel.hasClass('in')) {
         input.focus();
       } else { //add a one-time listener to wait until panel is open
         panel.one('shown.bs.collapse', function () {
@@ -74,17 +75,16 @@ export default Ember.Component.extend({
         panel.collapse('show');
       }
     });
+  },
+
+  pillColor: Ember.computed('phoneBook.[]', function () {
+    let count = this.get('phoneBook')
+      .length;
+    return(count > 0) ? 'label-info' : 'label-warning';
   }),
 
-  pillColor: Ember.computed('phoneBook.[]', function() {
-      let count = this.get('phoneBook').length;
-      return (count > 0) ? 'label-info' : 'label-warning';
-    }),
-
-  didInsertElement: function () {
-    console.info($(this)[0].get('elementId'));
-    console.info(this.$('.panel-collapse'));
-    /*let panel = this.get('panelId');
+  /*didInsertElement: function () {
+    let panel = this.get('panelId');
     let panelBtn = panel + '-btn';
 
     $('#' + panel)
@@ -96,8 +96,8 @@ export default Ember.Component.extend({
       .on('hidden.bs.collapse', function () {
         $('#' + panelBtn)
           .addClass('invisible');
-      });*/
-  },
+      });
+  },*/
 
   actions: {
     addPhone: function (phoneBook) {
@@ -106,10 +106,12 @@ export default Ember.Component.extend({
         phoneNumber: "",
         service: []
       }));
+      this.phoneBookChanged();
     },
 
     deletePhone: function (phoneBook, idx) {
       phoneBook.removeAt(idx);
+      this.phoneBookChanged();
     }
   }
 
