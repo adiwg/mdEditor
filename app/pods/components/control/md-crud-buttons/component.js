@@ -1,26 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-
-  /**
-   * @property model
-   * @type DS.model
-   * @required
-   */
-
-  /**
-   * Callback passed to save action.
-   *
-   * @property didSave
-   * @type action
-   */
-
-  /**
-   * Callback passed to cancel action.
-   *
-   * @property didCancel
-   * @type action
-   */
+  classNames: 'md-crud-buttons',
 
   actions: {
     save: function () {

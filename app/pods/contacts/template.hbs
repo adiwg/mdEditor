@@ -23,9 +23,9 @@
               <button class="btn btn-xs btn-warning" {{action "editItem" item}}>
                 <span class="fa fa-pencil"></span> Edit
               </button>
-              {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(route-action "deleteItem" item)}}
+              {{!-- {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(route-action "deleteItem" item)}}
                 <span class="fa fa-times"></span> Delete
-              {{/control/md-button-confirm}}
+              {{/control/md-button-confirm}} --}}
               {{#control/md-button-modal class="btn btn-xs btn-danger" message="<h1>Do
             you really want to delete this contact?</h1>Be sure this contact is
             not referenced by a metadata record or dictionary or it's deletion

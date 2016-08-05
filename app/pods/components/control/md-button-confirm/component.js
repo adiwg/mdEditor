@@ -2,10 +2,18 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: 'button',
+  classNames: 'md-button-modal',
   isShowingConfirm: false,
 
+  /**
+   * The function to call when action is confirmed.
+   *
+   * @method onConfirm
+   * @return {[type]} [description]
+   */
   onConfirm(){},
 
+  //click handler, sets button state
   click() {
     if(this.get('isShowingConfirm')) {
       this.get('onConfirm')();
@@ -14,6 +22,7 @@ export default Ember.Component.extend({
     }
   },
 
+  //cancel confirm state on button blur
   didInsertElement() {
     this._super(...arguments);
     this.$()

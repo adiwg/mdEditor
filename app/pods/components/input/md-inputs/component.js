@@ -49,6 +49,15 @@ export default Ember.Component.extend({
   label: null,
 
   /**
+   * Determines add button text
+   *
+   * @property buttonTop
+   * @type String
+   * @default Add
+   */
+   buttonText: "Add",
+
+  /**
    * Determines add button placement
    *
    * @property buttonTop
