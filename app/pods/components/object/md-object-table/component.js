@@ -39,6 +39,15 @@ const ObjectTable = Ember.Component.extend({
    * @required
    */
 
+   /**
+    * Determines add button text
+    *
+    * @property buttonText
+    * @type String
+    * @default Add
+    */
+    buttonText: "Add",
+
   init: function () {
     this._super.apply(this, arguments);
   },

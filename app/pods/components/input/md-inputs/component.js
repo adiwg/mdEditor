@@ -51,7 +51,7 @@ export default Ember.Component.extend({
   /**
    * Determines add button text
    *
-   * @property buttonTop
+   * @property buttonText
    * @type String
    * @default Add
    */
