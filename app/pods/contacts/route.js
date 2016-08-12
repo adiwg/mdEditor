@@ -6,24 +6,23 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    deleteItem: function(item) {
-      let message =
-          "Do you really want to delete this contact?\n\n" +
-          "Be sure this contact is not referenced by a metadata record or dictionary " +
-          "or it's deletion may cause those records to not validate.";
-      this._deleteItem(item, message);
+    deleteItem(item) {
+
+      this._deleteItem(item);
     },
 
-    editItem: function(item) {
+    editItem(item) {
       this.transitionTo('contact.show.edit', item);
     }
   },
-  
-  // action methods 
-  _deleteItem(item, message) {
-    if (window.confirm(message)) {
+
+  // action methods
+  _deleteItem(item) {
+    /*let message =
+        `Do you really want to delete this contact?\n\n
+        Be sure this contact is not referenced by a metadata record or dictionary
+        or it's deletion may cause those records to not validate.`;*/
       item.destroyRecord();
-    }
   }
-  
+
 });

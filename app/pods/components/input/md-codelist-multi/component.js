@@ -2,22 +2,108 @@ import Ember from 'ember';
 import MdCodelist from '../md-codelist/component';
 
 export default MdCodelist.extend({
-/**
- * Initial value. Accepts either an Array or JSON formatted array of strings.
- * Example: '["foo","bar"]'
- *
- * @property value
- * @type {Array|String}
- */
-
+  
   /**
-   * codelist is an array of code objects in mdCodelist format
-   * the initial codelist for 'mdCodeName' is pulled from the 'codelist' service;
-   * then if a new value was created by the user a new object will be added into the codelist;
-   * then a new 'selected' element will be added to each codelist object to let select2
-   * and the template <option> tag know this item should be selected.
+   * Specialized select list control for displaying and selecting
+   * options in mdCodes codelists.
+   * Extends md-codelist.
+   * Allows selection of multiple options. 
    *
-   * @return {Array}
+   * @class md-codelist-multi
+   * @constructor
+   */
+  
+  /**
+   * Initial value, returned value. 
+   * Accepts either an Array of strings or JSON formatted array
+   * of strings.  Example: '["foo","bar"]'
+   *
+   * @property value
+   * @type Array
+   * @return Array
+   * @required
+   */
+  
+  /**
+   * Indicates whether to allow the user to enter a new option
+   * not contained in the select list.
+   *
+   * @property create
+   * @type Boolean
+   * @default false
+   */
+  
+  /**
+   * Indicates if tooltips should be rendered for the options.
+   *
+   * @property tooltip
+   * @type Boolean
+   * @default false
+   */
+  
+  /**
+   * Indicates if icons should be rendered.
+   *
+   * @property icon
+   * @type Boolean
+   * @default false
+   */
+  
+  /**
+   * Whether to render a button to clear the selection.
+   *
+   * @property allowClear
+   * @type Boolean
+   * @default false
+   */
+  
+  /**
+   * Whether to close the selection list after a selection has been made.
+   *
+   * @property closeOnSelect
+   * @type Boolean
+   * @default true
+   */
+  
+  /**
+   * The string to display when no option is selected.
+   *
+   * @property placeholder
+   * @type String
+   * @default 'Select one option'
+   */
+  
+  /**
+   * Form label for select list
+   *
+   * @property label
+   * @type String
+   * @default null
+   */
+  
+  /**
+   * Form field width
+   *
+   * @property width
+   * @type String
+   * @default 100%
+   */
+  
+  /**
+   * Indicates if input is disabled
+   *
+   * @property disabled
+   * @type Boolean
+   * @default false
+   */
+  
+  /*
+   * codelist is an array of code objects in mdCodelist format
+   * the initial codelist for 'mdCodeName' is provided by the 'codelist' service;
+   * if a value is provided by the user which is not in the codelist and 'create=true'
+   * the new value will be added into the codelist array;
+   * then a Boolean 'selected' element will be added to each codelist object where the
+   * selected option will be set to true and all others false.
    */
   codelist: Ember.computed(function() {
     let codelist = [];

@@ -2,63 +2,75 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   /**
-   * Type of input
+   * Input, edit, display a single item
+   *
+   * @class md-input
+   * @constructor
+   */
+  
+  /**
+   * Value of the input.
+   * Value sets the initial value and returns the edited result
+   *
+   * @property value
+   * @type String
+   * @required
+   */
+  
+  /**
+   * Type of data represented by the value string.
+   * HTML5 types may be specified ('text', 'number', etc.)
    *
    * @property type
-   * @type {String}
+   * @type String
    * @default text
    */
   type: 'text',
 
   /**
-   * Value of the input
-   *
-   * @property value
-   * @type {String}
-   */
-
-  /**
    * The form label to display
    *
    * @property label
-   * @type {String}
+   * @type String
+   * @default null
    */
+  label: null,
 
   /**
-   * The text to display when empty
-   *
-   * @property placeholder
-   * @type {String}
-   */
-
-  /**
-   * Whether the value is required
+   * Whether a value is required
    *
    * @property required
-   * @type {Boolean}
+   * @type Boolean
    * @default false
    */
   required: false,
 
   /**
-   * Text to display next to the checkbox
-   *
-   * @property text
-   * @type {String}
-   */
-
-  /**
-   * Maximum number of characters allowed
+   * Maximum number of characters for each input string.
+   * If no maxlength is specified the length will not be restricted
    *
    * @property maxlength
-   * @type {Number}
+   * @type Number
+   * @default null
    */
+  maxlength: null,
+  
+  /**
+   * Text displayed in empty inputs
+   *
+   * @property placeholder
+   * @type String
+   * @default null
+   */
+  placeholder: null,
 
   /**
-   * Class to set on the input
+   * CSS class to set on the input control
    *
    * @property class
-   * @type {string}
+   * @type String
+   * @default 'form-control'
    */
   class: 'form-control'
+  
 });

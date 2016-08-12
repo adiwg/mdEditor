@@ -1,0 +1,10 @@
+{{yield}}
+{{#if isShowingModal}}
+  {{#modal-dialog close="toggleModal" target=target targetAttachment="middle center" attachment="middle center" translucentOverlay=true container-class="md-modal-container" overlay-class="md-modal-overlay" renderInPlace=renderInPlace}}
+    {{{message}}}
+    <div class="md-modal-buttons pull-right">
+      <button type="button" class="btn btn-danger" {{action 'confirm'}}>Confirm</button>
+      <button type="button" class="btn btn-primary" {{action 'cancel'}}>Cancel</button>
+    </div>
+  {{/modal-dialog}}
+{{/if}}

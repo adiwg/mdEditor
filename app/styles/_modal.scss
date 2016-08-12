@@ -1,0 +1,20 @@
+#modal-overlays {
+  .md-modal-container {
+    margin-left: 0 !important;
+    width: 300px;
+
+    h1 {
+      color: $brand-info;
+      font-size: 1.2em;
+      margin-bottom: 1em;
+    }
+
+    .md-modal-buttons {
+      margin-top: 10px;
+    }
+  }
+
+  .md-modal-overlay.translucent {
+    background-color: rgba($gray-lighter, .85);
+  }
+}
