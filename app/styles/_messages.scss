@@ -1,0 +1,33 @@
+.md-message-wrapper {
+  bottom: 10px;
+  overflow: hidden;
+  position: absolute;
+  right: 10px;
+
+  .alert {
+    position: relative;
+    transform: translateX(100%);
+    animation: slide-in .5s forwards;
+    width: 300px;
+
+    &.exiting {
+      animation: slide-out .5s forwards;
+
+    }
+  }
+}
+
+@keyframes slide-in {
+  100% {
+    transform: translateX(0%);
+  }
+}
+@keyframes slide-out {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(200%);
+  }
+}

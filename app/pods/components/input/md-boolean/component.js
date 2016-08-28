@@ -1,26 +1,38 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  
   /**
-   * Value of the input
+   * Input, edit, display a boolean value
+   *
+   * @class md-boolean
+   * @constructor
+   */
+  
+  /**
+   * Value of the input.
+   * The edited value is returned
    *
    * @property value
-   * @type {Boolean}
+   * @type Boolean
    * @default false
    */
-   value: false
+   value: false,
 
   /**
    * Text to display next to the checkbox
    *
    * @property text
-   * @type {String}
+   * @type String
    */
 
   /**
    * The form label to display
    *
    * @property label
-   * @type {String}
+   * @type String
+   * @default null
    */
+  label: null
+  
 });

@@ -22,13 +22,14 @@ test('it renders', function(assert) {
       header="Header"
       placeholder="Enter Line"
       label="Lines"
+      buttonText="Add One"
       maxlength=100}}
     `);
 
   assert.equal(this.$()
     .text()
     .replace(/[ \n]+/g, '|'),
-    '|Lines|Add|Line|#|Header|0|Delete!|1|Delete!|2|Delete!|',
+    '|Lines|#|Header|0|Delete!|1|Delete!|2|Delete!|Add|One|',
     'it renders ok');
 
   const input = this.$('input')
@@ -43,7 +44,9 @@ test('it renders', function(assert) {
 
   // Template block usage:" + EOL +
   this.render(hbs `
-    {{#input/md-inputs}}
+    {{#input/md-inputs
+      buttonTop=true
+    }}
       template block text
     {{/input/md-inputs}}
   `);
@@ -51,7 +54,7 @@ test('it renders', function(assert) {
   assert.equal(this.$()
     .text()
     .replace(/[ \n]+/g, '|'),
-    '|Add|Line|#|Column1|template|block|text|', 'block renders ok');
+    '|Add|template|block|text|', 'block renders ok');
 });
 
 test('should update items', function(assert) {

@@ -38,5 +38,14 @@ export default Ember.Route.extend({
     };
 
     return Ember.RSVP.map(promises, mapFn);
+  },
+
+  /**
+   * The current model for the route
+   *
+   * @return {DS.Model}
+   */
+  currentModel: function () {
+    return this.modelFor(this.routeName);
   }
 });

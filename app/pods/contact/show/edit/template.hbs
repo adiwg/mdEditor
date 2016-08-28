@@ -1,1 +1,33 @@
-Editing contact {{model.id}}
+<div class="row">
+    <div class="col-sm-9 col-md-offset-1">
+
+        <h2>Editing Contact: {{model.json.contactId}}</h2>
+
+        <form>
+            {{input/md-input value=model.json.contactId
+            placeholder="User assigned Contact ID" label="Contact ID"}}
+
+            {{input/md-input value=model.json.organizationName
+            placeholder="Organization Name" label="Organization Name"}}
+
+            {{input/md-input value=model.json.individualName
+            placeholder="Individual Name" label="Individual Name"}}
+
+            {{input/md-input value=model.json.positionName
+            placeholder="If Individual Name, provide Position" label="Position Name"}}
+
+            {{object/md-phone-array phoneBook=model.json.phoneBook isCollapsed=false}}
+
+            {{object/md-address address=model.json.address}}
+
+            {{object/md-online-resource-array model=model.json}}
+
+            {{input/md-textarea value=model.json.contactInstructions
+            placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
+        </form>
+    </div>
+    <div class="col-sm-2">
+        {{control/md-crud-buttons model=model doSave="saveContact" doCancel="cancelContact"}}
+    </div>
+
+</div>

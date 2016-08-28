@@ -18,3 +18,69 @@
     content: '\f107';
   }
 }
+/* use .invisible
+.invisible {
+  visibility: hidden;
+}*/
+.md-panel-chevron a {
+  text-decoration: none;
+
+  span::before {
+    content: '\f106';
+  }
+
+  &.collapsed span::before {
+    content: '\f107';
+  }
+}
+
+.md-multiselect.form-control {
+  height: auto;
+
+  .checkbox-inline {
+    margin-left: 10px;
+  }
+}
+
+.md-button-column {
+  line-height: $input-height-base;
+}
+
+.md-object-table.editing {
+  .panel-title a {
+    color: $text-muted;
+    cursor: default;
+  }
+}
+// Zebra-striping
+form {
+  .table-striped {
+    > tbody > tr:nth-of-type(odd) {
+      background-color: lighten($brand-primary, 52);
+    }
+  }
+
+  .table-hover {
+    > tbody > tr:hover {
+      background-color: lighten($brand-primary, 50);
+    }
+  }
+
+  tfoot {
+    background-color: lighten($gray-lighter,5);
+  }
+}
+
+//borrowed from Bootstrap v4
+.label-pill {
+  padding-right: .6em;
+  padding-left: .6em;
+  border-radius: 10rem;
+}
+
+.panel-title {
+  .label-pill {
+    font-size: .7em;
+    vertical-align: middle;
+  }
+}
