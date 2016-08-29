@@ -5,7 +5,6 @@
     "-Promise"
   ],
   "browser": true,
-  "jquery": true,
   "boss": true,
   "curly": true,
   "debug": false,
@@ -28,6 +27,6 @@
   "strict": false,
   "white": false,
   "eqnull": true,
-  "esnext": true,
+  "esversion": 6,
   "unused": true
 }
