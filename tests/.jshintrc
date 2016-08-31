@@ -17,7 +17,6 @@
     "find",
     "findWithAssert",
     "wait",
-    "DS",
     "andThen",
     "currentURL",
     "currentPath",
