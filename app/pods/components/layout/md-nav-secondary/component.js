@@ -16,11 +16,11 @@ export default Ember.Component.extend({
      *    more - translated "more" text
      *    offset - width that needs to be subtracted from the parent div width
      */
-    $.fn.overflowNavs = function (options) {
+    Ember.$.fn.overflowNavs = function (options) {
       // Create a handle to our ul menu
       // @todo Implement some kind of check to make sure there is only one?  If we accidentally get more than one
       // then strange things happen
-      var ul = $(this);
+      var ul = Ember.$(this);
 
       // This should work with all navs, not just the navbar, so you should be able to pass a parent in
       var parent = options.parent ? options.parent : ul.parents(
@@ -50,20 +50,20 @@ export default Ember.Component.extend({
       //if (collapsed === false) {
 
       // Get width of the navbar parent so we know how much room we have to work with
-      var parent_width = $(parent)
-        .width() - (options.offset ? parseInt($(options.offset)
+      var parent_width = Ember.$(parent)
+        .width() - (options.offset ? parseInt(Ember.$(options.offset)
           .width()) : 0);
 
       // Find an already existing .overflow-nav dropdown
-      var dropdown = $('li.overflow-nav', ul);
+      var dropdown = Ember.$('li.overflow-nav', ul);
 
       // Create one if none exists
       if (!dropdown.length) {
-        dropdown = $('<li class="overflow-nav dropdown"></li>');
-        dropdown.append($(
+        dropdown = Ember.$('<li class="overflow-nav dropdown"></li>');
+        dropdown.append(Ember.$(
           '<a class="dropdown-toggle" data-toggle="dropdown" href="#">' +
           options.more + '<b class="caret"></b></a>'));
-        dropdown.append($('<ul class="dropdown-menu"></ul>'));
+        dropdown.append(Ember.$('<ul class="dropdown-menu"></ul>'));
       }
 
       // Get the width of the navbar, need to add together <li>s as the ul wraps in bootstrap
@@ -71,31 +71,32 @@ export default Ember.Component.extend({
       // Allow for padding
       ul.children('li')
         .each(function () {
-          var $this = $(this);
+          var $this = Ember.$(this);
           width += $this.outerWidth();
         });
 
       // Window is shrinking
       if (width >= parent_width) {
         // Loop through each non-dropdown li in the ul menu from right to left (using .get().reverse())
-        $($('li', ul)
+        Ember.$(Ember.$('li', ul)
             .not('.dropdown')
             .not('.dropdown li')
             .get()
             .reverse())
           .each(function () {
+            var $this = Ember.$(this);
             // Get the width of the navbar
             var width = 100;
             // Allow for padding
             ul.children('li')
               .each(function () {
-                var $this = $(this);
+                var $this = Ember.$(this);
                 width += $this.outerWidth();
               });
             if (width >= parent_width) {
               // Remember the original width so that we can restore as the window grows
-              $(this)
-                .attr('data-original-width', $(this)
+              $this
+                .attr('data-original-width', $this
                   .outerWidth());
               // Move the rightmost item to top of dropdown menu if we are running out of space
               dropdown.children('ul.dropdown-menu')
@@ -111,7 +112,7 @@ export default Ember.Component.extend({
         dropdown.children('ul.dropdown-menu')
           .children()
           .each(function () {
-            if (width + parseInt($(this)
+            if (width + parseInt(Ember.$(this)
                 .attr('data-original-width')) < parent_width) {
               // Restore the topmost dropdown item to the main menu
               dropdown.before(this);
@@ -146,10 +147,10 @@ export default Ember.Component.extend({
     this.$()
       .overflowNavs(options);
 
-    $(window)
+    Ember.$(window)
       .resize(
         function () {
-          $('#md-navbar-secondary')
+          Ember.$('#md-navbar-secondary')
             .overflowNavs(options);
         });
   }

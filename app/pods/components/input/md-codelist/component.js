@@ -5,18 +5,18 @@ export default Ember.Component.extend({
   /**
    * Specialized select list control for displaying and selecting
    * options in mdCodes codelists.
-   * Access to codelists is provided by the 'codelist' service. 
+   * Access to codelists is provided by the 'codelist' service.
    * Descriptions of all codes (tooltips) are embedded within the codelists.
    *
    * @class md-codelist
    * @constructor
    */
-  
+
   /**
    * The name of the mdCodes's codelist to use
    *
    * @property mdCodeName
-   * @type String 
+   * @type String
    * @required
    */
 
@@ -28,7 +28,7 @@ export default Ember.Component.extend({
    * @return String
    * @required
    */
-  
+
   /**
    * Indicates whether to allow the user to enter a new option
    * not contained in the select list.
@@ -50,7 +50,7 @@ export default Ember.Component.extend({
 
   /**
    * Indicates if icons should be rendered.
-   * 
+   *
    * @property icon
    * @type Boolean
    * @default false
@@ -59,16 +59,16 @@ export default Ember.Component.extend({
 
   /**
    * Whether to render a button to clear the selection.
-   * 
+   *
    * @property allowClear
    * @type Boolean
    * @default false
    */
   allowClear: false,
-  
+
   /**
    * Whether to close the selection list after a selection has been made.
-   * 
+   *
    * @property closeOnSelect
    * @type Boolean
    * @default true
@@ -172,7 +172,7 @@ export default Ember.Component.extend({
 
     function formatOption(option) {
       let text = option['text'];
-      let $option = $(`<div> ${text}</div>`);
+      let $option = Ember.$(`<div> ${text}</div>`);
 
       if(icon) {
         $option.prepend(
@@ -181,17 +181,17 @@ export default Ember.Component.extend({
       }
 
       if(tooltip) {
-        let tip = $(option.element)
+        let tip = Ember.$(option.element)
           .data('tooltip');
 
         $option = $option.append(
-          $(
+          Ember.$(
             `<span class="badge pull-right" data-toggle="tooltip"
             data-placement="left" data-container="body"
             title="${tip}">?</span>`
           )
           .on('mousedown', function(e) {
-            $(e.target)
+            Ember.$(e.target)
               .tooltip('destroy');
             return true;
           })
@@ -208,7 +208,7 @@ export default Ember.Component.extend({
         templateResult: formatOption,
         width: this.get('width'),
         minimumResultsForSearch: 10,
-        closeOnSelect: (this.$('.md-codelist select').prop('multiple') === 'multiple') ? 
+        closeOnSelect: (this.$('.md-codelist select').prop('multiple') === 'multiple') ?
             false : this.get('closeOnSelect'),
         theme: 'bootstrap'
       });

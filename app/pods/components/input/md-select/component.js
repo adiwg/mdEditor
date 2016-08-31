@@ -150,18 +150,18 @@ export default Ember.Component.extend({
       .then(() => {
         function formatOption(option) {
           let text = option['text'];
-          let tip = $(option.element)
+          let tip = Ember.$(option.element)
             .data('tooltip');
-          let $option = $(`<div> ${text}</div>`);
+          let $option = Ember.$(`<div> ${text}</div>`);
           if(tip) {
             $option = $option.append(
-              $(
+              Ember.$(
                 `<span class="badge pull-right" data-toggle="tooltip"
                       data-placement="right" data-container="body"
                       title="${tip}">?</span>`
               )
               .on('mousedown', function(e) {
-                $(e.target)
+                Ember.$(e.target)
                   .tooltip('destroy');
                 return true;
               })
