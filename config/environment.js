@@ -8,7 +8,7 @@ module.exports = function(environment) {
     modulePrefix: 'mdeditor',
     podModulePrefix: 'mdeditor/pods',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -36,7 +36,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.baseURL = '/';
+    ENV.rootURL = '/';
     ENV.locationType = 'none';
 
     // keep test console output quieter
@@ -47,7 +47,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    ENV.baseURL = '/mdEditor';
+    ENV.rootURL = '/mdEditor';
     ENV.locationType = 'hash';
   }
 

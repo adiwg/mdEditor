@@ -7,10 +7,10 @@ export default Ember.Component.extend({
   },
   actions: {
     toggleSidebar() {
-      $('#md-wrapper')
+      Ember.$('#md-wrapper')
         .toggleClass('toggled');
       //hack to force reflow
-      $('#md-navbar-main-collapse ul')
+      Ember.$('#md-navbar-main-collapse ul')
         .hide()
         .show(0);
     }
