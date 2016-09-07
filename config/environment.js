@@ -23,6 +23,9 @@ module.exports = function(environment) {
     },
     'ember-load': {
       loadingIndicatorClass: 'md-load-indicator'
+    },
+    'ember-local-storage': {
+      fileExport: true
     }
   };
 
