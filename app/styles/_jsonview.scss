@@ -1,0 +1,14 @@
+.md-json-viewer {
+  .well {
+    min-height: 200px;
+  }
+
+  .md-viewer-controls .btn-group-vertical {
+    display: block;
+    margin-bottom: 15px;
+
+    button {
+      z-index: 1000;
+    }
+  }
+}
