@@ -1,20 +1,23 @@
 @keyframes fp-pulse {
   0% {
-    box-shadow: 0 0 0 0 rgba($btn-info-border, .7);
+    box-shadow: 0 0 0 0 rgba($btn-success-border, .7);
   }
 
   100% {
-    box-shadow: 0 0 0 15px rgba($btn-info-border, 0);
+    box-shadow: 0 0 0 15px rgba($btn-success-border, 0);
   }
 }
 
 .file-picker {
   button {
-    height: 10rem;
+    min-height: 20rem;
+    font-size: 4rem;
+    transition-duration: 1s;
+    transition-property: background-color, color;
   }
 
   &.over button {
-    @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+    @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
 
     animation: fp-pulse 1.5s infinite;
   }

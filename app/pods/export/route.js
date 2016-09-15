@@ -15,7 +15,7 @@ export default Ember.Route.extend({
       this.get('store').exportData(
         ['records', 'contacts', 'dictionaries', 'settings'], {
           download: true,
-          filename: 'test.json'//`my-data-${moment().format('YYYYMMDD-HHMMSS')}.json`
+          filename: `mdeditor-${moment().format('YYYYMMDD-HHMMSS')}.json`
         }
       );
     }
