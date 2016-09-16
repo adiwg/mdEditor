@@ -10,10 +10,15 @@
 
 .file-picker {
   button {
+    font-size: 4vw;
     min-height: 20rem;
-    font-size: 4rem;
     transition-duration: 1s;
     transition-property: background-color, color;
+    white-space: normal;
+
+    @media (min-width: $grid-float-breakpoint) {
+      font-size: 3vw;
+    }
   }
 
   &.over button {

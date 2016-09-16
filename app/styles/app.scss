@@ -24,6 +24,7 @@ $grid-float-breakpoint: 532px !default;
 @import 'import_export';
 @import 'jsonview';
 @import 'toggle';
+@import 'button';
 
 //modals
 @import 'ember-modal-dialog/ember-modal-structure';
