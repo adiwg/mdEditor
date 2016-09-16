@@ -22,6 +22,7 @@
                   <th></th>
                   <th>Id</th>
                   <th>Title</th>
+                  <th>Last Updated</th>
                   <th></th>
                 </tr>
               </thead>
@@ -31,6 +32,7 @@
                     <td>{{input type="checkbox" name="isChecked" checked=row.checked}}</td>
                     <td>{{row.id}}</td>
                     <td>{{row.title}}</td>
+                    <td>{{if row.attributes.date-updated row.attributes.date-updated "unknown"}}</td>
                     <td>
                       <div class="pull-right">
                         <button type="button" class="btn btn-xs btn-primary" {{action "showPreview" row}}>

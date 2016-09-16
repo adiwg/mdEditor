@@ -24,7 +24,12 @@ export default DS.Model.extend({
       return obj;
     }
   }),
-
+  dateUpdated: DS.attr('date', {
+    defaultValue() {
+      return new Date();
+    }
+  }),
+  
   title: Ember.computed('json.dictionaryInfo.citation.title', function () {
     return this.get('json.dictionaryInfo.citation.title');
   }),
