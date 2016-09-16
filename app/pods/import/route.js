@@ -4,7 +4,7 @@ export default Ember.Route.extend({
   model() {
     return Ember.Object.create({
       files: false,
-      merge: false
+      merge: true
     });
   },
 

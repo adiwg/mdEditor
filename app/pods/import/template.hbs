@@ -58,8 +58,17 @@
           {{else if model.files}}
           <button type="button" class="btn btn-lg btn-success btn-block" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
           <button type="button" class="btn btn-lg btn-danger btn-block" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
-          <label for="">Merge?</label>
-          {{input type="checkbox" name="merge" checked=model.merge}}
+          <div class="btn-lg btn-block">
+            {{x-toggle
+              value=model.merge
+              onToggle=(mut model.merge)
+              showLabels=true
+              onLabel="Merge::true"
+              offLabel="Replace::false"
+              size="large"
+              theme="default"
+            }}
+          </div>
         {{/if}}
       </div>
     </div>
