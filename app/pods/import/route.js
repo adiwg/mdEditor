@@ -1,6 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  flashMessages: Ember.inject.service(),
+  jsonvalidator: Ember.inject.service(),
+
   model() {
     return Ember.Object.create({
       files: false,
@@ -8,25 +11,8 @@ export default Ember.Route.extend({
     });
   },
 
-  readFile(file) {
-    const reader = new FileReader();
-
-    return new Ember.RSVP.Promise((resolve) => {
-      reader.onload = function (event) {
-        resolve({
-          file: file.name,
-          type: file.type,
-          data: event.target.result,
-          size: file.size
-        });
-      };
-
-      reader.readAsText(file);
-    });
-  },
-
   getTitle(record) {
-    let json = record.json;
+    let json = JSON.parse(record.attributes.json);
 
     switch(record.type) {
     case 'records':
@@ -42,38 +28,54 @@ export default Ember.Route.extend({
 
   actions: {
     readData(file) {
-      this.readFile(file)
-        .then((file) => {
-          let data = JSON.parse(file.data)
-            .data;
-          let fileMap;
+      let json;
+      let fileMap;
+      let error = false;
 
-          fileMap = data.reduce((map, item) => {
-            let json = item.attributes.json;
+      try {
+        json = JSON.parse(file.data);
 
-            if(!map[item.type]) {
-              map[item.type] = [];
-            }
+        let jv = Ember.get(this, 'jsonvalidator');
+        let valid = jv.validate('jsonapi', json);
 
-            if(typeof json === 'string') {
-              item.json = JSON.parse(json);
-            }
+        if(!valid) {
+          console.log(jv.errorsText());
+          error = `${file.name} is not a valid mdEditor file.`;
+        }
+      } catch(e) {
+        error = `Failed to parse file: ${file.name}. Is it valid JSON?`;
+      } finally {
+        //reset the input field
+        Ember.$('.import-file-picker input:file').val('');
+      }
 
-            item.title = this.getTitle(item);
-            item.checked = true;
+      if(error) {
+        Ember.get(this, 'flashMessages')
+          .danger(error);
+        return false;
+      }
 
-            map[item.type].push(item);
-            return map;
-          }, {});
-          this.currentModel.set('files', fileMap);
-          this.currentModel.set('data', data);
-        });
+      fileMap = json.data.reduce((map, item) => {
+
+        if(!map[item.type]) {
+          map[item.type] = [];
+        }
+
+        item.meta = {};
+        item.meta.title = this.getTitle(item);
+        item.meta.export = true;
+
+        map[item.type].push(item);
+        return map;
+      }, {});
+      this.currentModel.set('files', fileMap);
+      this.currentModel.set('data', json.data);
     },
     importData() {
       let data = {
         data: this.currentModel.get('data')
           .filter((record) => {
-            return record.checked;
+            return record.meta.export;
           })
       };
 
@@ -92,7 +94,7 @@ export default Ember.Route.extend({
         });
     },
     showPreview(model) {
-      let json = model.json || JSON.stringify(model.attributes);
+      let json = model.attributes.json || JSON.stringify(model.attributes);
 
       this.currentModel.set('preview', {
         model: model,
