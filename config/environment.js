@@ -35,6 +35,12 @@ module.exports = function(environment) {
       //defaultSize: 'small', // defaults to 'medium'
       defaultOffLabel: 'False', // defaults to 'Off'
       defaultOnLabel: 'True' // defaults to 'On'
+    },
+    flashMessageDefaults: {
+      // flash message defaults
+      timeout: 5000,
+      extendedTimeout: 1500,
+      //sticky: true
     }
 
   };
