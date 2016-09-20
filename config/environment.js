@@ -26,7 +26,17 @@ module.exports = function(environment) {
     },
     'ember-local-storage': {
       fileExport: true
+    },
+    'ember-cli-toggle': {
+      includedThemes: [],
+      //excludedThemes: ['flip'],
+      defaultShowLabels: true, // defaults to false
+      defaultTheme: 'light', // defaults to 'default'
+      //defaultSize: 'small', // defaults to 'medium'
+      defaultOffLabel: 'False', // defaults to 'Off'
+      defaultOnLabel: 'True' // defaults to 'On'
     }
+
   };
 
   if (environment === 'development') {
