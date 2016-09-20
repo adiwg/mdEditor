@@ -1,6 +1,6 @@
 <div class="row">
 
-  <div class="col-sm-{{if model.files "10" "12"}}">
+  <div class="col-sm-{{if model.files "9" "12"}} col-xxl-{{if model.files "10" "12"}}">
 
     <h2>Import Data</h2>
     {{#if model.preview}}
@@ -51,21 +51,21 @@
   </div>
 
   {{#if model.files}}
-    <div class="col-sm-2">
+    <div class="col-sm-3 col-xxl-2">
       <div class="md-control-sidebar">
         {{#if model.preview}}
-          <button type="button" class="btn btn-lg btn-primary btn-block" {{action "closePreview"}}>{{fa-icon "arrow-left"}} Close Preview</button>
+          <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "closePreview"}}>{{fa-icon "arrow-left"}} Close Preview</button>
           {{else if model.files}}
-          <button type="button" class="btn btn-lg btn-success btn-block" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
-          <button type="button" class="btn btn-lg btn-danger btn-block" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
-          <div class="btn-lg btn-block">
+          <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
+          <button type="button" class="btn btn-lg btn-danger btn-block md-btn-responsive" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
+          <div class="btn btn-block">
             {{x-toggle
               value=model.merge
               onToggle=(mut model.merge)
               showLabels=true
               onLabel="Merge::true"
               offLabel="Replace::false"
-              size="large"
+              size="medium"
               theme="default"
             }}
           </div>
