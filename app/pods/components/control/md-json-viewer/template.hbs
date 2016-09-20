@@ -1,5 +1,11 @@
 {{#if modal}}
-  {{#modal-dialog translucentOverlay=true container-class="md-modal-container" overlay-class="md-modal-overlay" }}
+  {{#modal-dialog close="closeModal" translucentOverlay=true container-class="md-jsmodal-container" overlay-class="md-modal-overlay" attachment="top center" targtAttachment="none" }}
+    <button type="button" {{action "closeModal"}} class="close" aria-label="Close">
+      <span class="fa-stack">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+      </span>
+    </button>
     <div class="md-viewer-body"></div>
   {{/modal-dialog}}
 {{else}}

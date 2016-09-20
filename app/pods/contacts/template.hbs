@@ -3,12 +3,14 @@
 <div class="container-fluid">
   <table class="table table-striped table-hover">
     <thead>
-      <th></th>
-      <th>#</th>
-      <th>Contact ID</th>
-      <th>Individual Name</th>
-      <th>Organization Name</th>
-      <th></th>
+      <tr>
+        <th></th>
+        <th>#</th>
+        <th>Contact ID</th>
+        <th>Individual Name</th>
+        <th>Organization Name</th>
+        <th></th>
+      </tr>
     </thead>
     <tbody>
       {{#each model as |item index|}}
@@ -20,6 +22,7 @@
           <td>{{item.json.organizationName}}</td>
           <td>
             <div class="pull-right">
+              {{control/md-json-button json=item.json}}
               <button class="btn btn-xs btn-warning" {{action "editItem" item}}>
                 <span class="fa fa-pencil"></span> Edit
               </button>
@@ -39,5 +42,4 @@
     </tbody>
   </table>
 </div>
-
 {{outlet}}

@@ -16,6 +16,10 @@ export default Ember.Component.extend({
    */
   json: {},
 
+  close() {
+    this.set('modal', false);
+  },
+
   setFontSize(el, factor) {
     let currentFontSize = el.css('font-size');
     let currentFontSizeNum = parseFloat(currentFontSize, 10);
@@ -47,6 +51,9 @@ export default Ember.Component.extend({
     zoomout() {
       let body = this.$('.md-viewer-body');
       this.setFontSize(body, 0.9);
+    },
+    closeModal() {
+      this.close();
     }
   }
 });

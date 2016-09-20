@@ -1,0 +1,9 @@
+{{#if hasBlock}}
+  {{yield}}
+{{else}}
+  <span class="fa fa-{{icon}}"></span> {{text}}
+{{/if}}
+
+{{#if preview}}
+  {{control/md-json-viewer json=json modal=true close=(action "close")}}
+{{/if}}
