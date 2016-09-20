@@ -1,5 +1,5 @@
 <h2>Export the Record(s)</h2>
 <button class="btn btn-primary" {{action "exportData"}}>Export All Data</button>
 <label for="">Compress?</label>
-<input type="checkbox" checked={{compress}} {{action "toggleCompress" on="change"}} />
+{{input type="checkbox" name="compressOnSave" checked=model.compressOnSave}}
 {{outlet}}

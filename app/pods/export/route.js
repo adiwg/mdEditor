@@ -2,24 +2,22 @@ import Ember from 'ember';
 import moment from 'moment';
 
 export default Ember.Route.extend({
-  /*model() {
-    return Ember.Object.create({
-      compress: true
+  model() {
+    const store =  this.get('store');
+
+    return store.queryRecord('setting',{}).then(function(settings){
+      return !!settings ? settings : store.createRecord('setting');
     });
-  },*/
-compress: true,
+  },
 
   actions: {
     exportData() {
       this.get('store').exportData(
-        ['records', 'contacts', 'dictionaries'], {
+        ['records', 'contacts', 'dictionaries', 'settings'], {
           download: true,
-          filename: `my-data-${moment(Date()).format('YYYYMMDD-HHMMSS')}.json`
+          filename: 'test.json'//`my-data-${moment().format('YYYYMMDD-HHMMSS')}.json`
         }
       );
-    },
-    toggleCompress() {
-      this.toggleProperty('compress');
     }
   }
 });

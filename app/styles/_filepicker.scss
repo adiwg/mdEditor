@@ -1,0 +1,21 @@
+@keyframes fp-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba($btn-info-border, .7);
+  }
+
+  100% {
+    box-shadow: 0 0 0 15px rgba($btn-info-border, 0);
+  }
+}
+
+.file-picker {
+  button {
+    height: 10rem;
+  }
+
+  &.over button {
+    @include button-variant($btn-info-color, $btn-info-bg, $btn-info-border);
+
+    animation: fp-pulse 1.5s infinite;
+  }
+}
