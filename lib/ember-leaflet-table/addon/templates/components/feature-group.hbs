@@ -1,0 +1,3 @@
+{{#if blockLayer}}
+  {{yield (hash geojson-layer=(component 'geojson-layer' clickFeature=(action 'clickFeature')) )}}
+{{/if}}

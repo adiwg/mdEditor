@@ -1,1 +1,12 @@
+<div class="row">
+  <div class="col-sm-9 col-xxl-10">
+    {{leaflet-table layers=model.layers}}
+  </div>
+  <div class="col-sm-3 col-xxl-2">
+    <div class="md-control-sidebar">
+      <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "uploadData"}}>{{fa-icon "upload"}} Upload Data</button>
+      {{#control/md-button-confirm class="btn btn-lg btn-danger btn-block md-btn-responsive" onConfirm=(route-action "deleteAllFeatures")}} {{fa-icon "times"}} Delete All{{/control/md-button-confirm}}
+    </div>
+  </div>
+</div>
 {{outlet}}
