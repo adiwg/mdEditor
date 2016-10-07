@@ -28,6 +28,14 @@ export default Ember.Route.extend({
     setFeatureGroup(obj) {
       this.currentModel.set('featureGroup', obj);
     },
+    zoomAll() {
+      let layer = this.currentModel.get('featureGroup');
+      let bnds = layer.getBounds();
+
+      layer._map.fitBounds(bnds, {
+        maxZoom: 14
+      });
+    },
     exportGeoJSON() {
       let fg = this.currentModel.get('featureGroup');
 
@@ -52,7 +60,7 @@ export default Ember.Route.extend({
             });
           });
         });
-        
+
         window.saveAs(
           new Blob([JSON.stringify(json)], {
             type: 'application/json;charset=utf-8'

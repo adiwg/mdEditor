@@ -1,7 +1,7 @@
 <tr class={{record.state}}
     {{action "mouseEnter" record on="mouseEnter"}}
     {{action "mouseLeave" record on="mouseLeave"}}
-    {{action (action dblClickRow record) on="doubleClick"}}
+    {{action (action showForm record) on="doubleClick"}}
 >
   {{#each processedColumns as |column|}}
     {{#if column.isVisible}}
