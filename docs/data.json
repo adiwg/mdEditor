@@ -1,0 +1,1464 @@
+{
+    "project": {
+        "name": "mdeditor",
+        "description": "Small description for mdeditor goes here",
+        "version": "0.0.0.73273259"
+    },
+    "files": {
+        "app/pods/components/control/md-button-confirm/component.js": {
+            "name": "app/pods/components/control/md-button-confirm/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/control/md-button-modal/component.js": {
+            "name": "app/pods/components/control/md-button-modal/component.js",
+            "modules": {},
+            "classes": {
+                "md-button-modal": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/control/md-json-viewer/component.js": {
+            "name": "app/pods/components/control/md-json-viewer/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-boolean/component.js": {
+            "name": "app/pods/components/input/md-boolean/component.js",
+            "modules": {},
+            "classes": {
+                "md-boolean": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-codelist/component.js": {
+            "name": "app/pods/components/input/md-codelist/component.js",
+            "modules": {},
+            "classes": {
+                "md-codelist": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-codelist-multi/component.js": {
+            "name": "app/pods/components/input/md-codelist-multi/component.js",
+            "modules": {},
+            "classes": {
+                "md-codelist-multi": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-datetime/component.js": {
+            "name": "app/pods/components/input/md-datetime/component.js",
+            "modules": {},
+            "classes": {
+                "md-datetime": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-input/component.js": {
+            "name": "app/pods/components/input/md-input/component.js",
+            "modules": {},
+            "classes": {
+                "md-input": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-inputs/component.js": {
+            "name": "app/pods/components/input/md-inputs/component.js",
+            "modules": {},
+            "classes": {
+                "md-inputs": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-select/component.js": {
+            "name": "app/pods/components/input/md-select/component.js",
+            "modules": {},
+            "classes": {
+                "md-select": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-textarea/component.js": {
+            "name": "app/pods/components/input/md-textarea/component.js",
+            "modules": {},
+            "classes": {
+                "md-textarea": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/layout/md-nav-secondary/component.js": {
+            "name": "app/pods/components/layout/md-nav-secondary/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-address/component.js": {
+            "name": "app/pods/components/object/md-address/component.js",
+            "modules": {},
+            "classes": {
+                "md-address": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-object-table/component.js": {
+            "name": "app/pods/components/object/md-object-table/component.js",
+            "modules": {},
+            "classes": {
+                "md-object-table": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-online-resource-array/component.js": {
+            "name": "app/pods/components/object/md-online-resource-array/component.js",
+            "modules": {},
+            "classes": {
+                "md-online-resource-array": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-phone-array/component.js": {
+            "name": "app/pods/components/object/md-phone-array/component.js",
+            "modules": {},
+            "classes": {
+                "md-phone-array": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/dictionary/show/edit/route.js": {
+            "name": "app/pods/dictionary/show/edit/route.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/record/show/edit/route.js": {
+            "name": "app/pods/record/show/edit/route.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/routes/application.js": {
+            "name": "app/routes/application.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/routes/index.js": {
+            "name": "app/routes/index.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/services/codelist.js": {
+            "name": "app/services/codelist.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/services/profile.js": {
+            "name": "app/services/profile.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "md-button-modal": {
+            "name": "md-button-modal",
+            "shortname": "md-button-modal",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/control/md-button-modal/component.js",
+            "line": 4,
+            "description": "mdEditor Component that renders a button which displays a modal\ndialog when clicked.",
+            "is_constructor": 1
+        },
+        "md-boolean": {
+            "name": "md-boolean",
+            "shortname": "md-boolean",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-boolean/component.js",
+            "line": 5,
+            "description": "Input, edit, display a boolean value",
+            "is_constructor": 1
+        },
+        "md-codelist": {
+            "name": "md-codelist",
+            "shortname": "md-codelist",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 5,
+            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nAccess to codelists is provided by the 'codelist' service.\nDescriptions of all codes (tooltips) are embedded within the codelists.",
+            "is_constructor": 1
+        },
+        "md-codelist-multi": {
+            "name": "md-codelist-multi",
+            "shortname": "md-codelist-multi",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 6,
+            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nExtends md-codelist.\nAllows selection of multiple options.",
+            "is_constructor": 1
+        },
+        "md-datetime": {
+            "name": "md-datetime",
+            "shortname": "md-datetime",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-datetime/component.js",
+            "line": 5,
+            "description": "Datetime control with dropdown calendar.\nBased on Bootstrap datetime picker.",
+            "is_constructor": 1
+        },
+        "md-input": {
+            "name": "md-input",
+            "shortname": "md-input",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 4,
+            "description": "Input, edit, display a single item",
+            "is_constructor": 1
+        },
+        "md-inputs": {
+            "name": "md-inputs",
+            "shortname": "md-inputs",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 5,
+            "description": "Input, edit, display an array of strings",
+            "is_constructor": 1
+        },
+        "md-select": {
+            "name": "md-select",
+            "shortname": "md-select",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 6,
+            "description": "A select list control for displaying and selecting options\nprovided in an array or promise array.",
+            "is_constructor": 1
+        },
+        "md-textarea": {
+            "name": "md-textarea",
+            "shortname": "md-textarea",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 5,
+            "description": "Input, edit, display a multi-line, expandable, text area.",
+            "is_constructor": 1
+        },
+        "md-address": {
+            "name": "md-address",
+            "shortname": "md-address",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/object/md-address/component.js",
+            "line": 5,
+            "description": "mdEditor class for input and edit of mdJSON address objects.",
+            "is_constructor": 1
+        },
+        "md-object-table": {
+            "name": "md-object-table",
+            "shortname": "md-object-table",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 5,
+            "description": "mdEditor class for managing a table of similar mdJSON objects\nfor selection for edit or deletion.\nThe class is configurable for reuse with mdJSON object arrays.",
+            "is_constructor": 1
+        },
+        "md-online-resource-array": {
+            "name": "md-online-resource-array",
+            "shortname": "md-online-resource-array",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 5,
+            "description": "mdEditor class for input and edit of mdJSON 'onlineResource' object\narrays.\nThe class manages the maintenance of an array of online resource\nobjects using the md-object-table class.",
+            "is_constructor": 1
+        },
+        "md-phone-array": {
+            "name": "md-phone-array",
+            "shortname": "md-phone-array",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "",
+            "file": "app/pods/components/object/md-phone-array/component.js",
+            "line": 5,
+            "description": "mdEditor class for input and edit of mdJSON 'phone' object.\nThe class manages the maintenance of an array of phone objects.",
+            "is_constructor": 1
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "app/pods/components/control/md-button-confirm/component.js",
+            "line": 8,
+            "description": "The function to call when action is confirmed.",
+            "itemtype": "method",
+            "name": "onConfirm",
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
+            "class": "md-button-modal"
+        },
+        {
+            "file": "app/pods/components/control/md-button-modal/component.js",
+            "line": 15,
+            "description": "Element selector or element that serves as the reference for modal position",
+            "itemtype": "property",
+            "name": "target",
+            "type": "{String}",
+            "class": "md-button-modal"
+        },
+        {
+            "file": "app/pods/components/control/md-button-modal/component.js",
+            "line": 23,
+            "description": "A boolean, when true renders the modal without wormholing or tethering",
+            "itemtype": "property",
+            "name": "renderInPlace",
+            "type": "{Boolean}",
+            "class": "md-button-modal"
+        },
+        {
+            "file": "app/pods/components/control/md-button-modal/component.js",
+            "line": 31,
+            "description": "Indicates whether the modal dialog is being displayed.",
+            "type": "{Boolean}",
+            "class": "md-button-modal"
+        },
+        {
+            "file": "app/pods/components/control/md-button-modal/component.js",
+            "line": 37,
+            "description": "The function to call when action is cancelled.",
+            "itemtype": "method",
+            "name": "onCancel",
+            "class": "md-button-modal"
+        },
+        {
+            "file": "app/pods/components/control/md-button-modal/component.js",
+            "line": 44,
+            "description": "The function to call when action is confirmed.",
+            "itemtype": "method",
+            "name": "onConfirm",
+            "class": "md-button-modal"
+        },
+        {
+            "file": "app/pods/components/control/md-json-viewer/component.js",
+            "line": 5,
+            "description": "True to render in modal dialog",
+            "type": "{Boolean}",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-json-viewer/component.js",
+            "line": 12,
+            "description": "Object to render as JSON in viewer",
+            "type": "{Object}",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/input/md-boolean/component.js",
+            "line": 12,
+            "description": "Value of the input.\nThe edited value is returned",
+            "itemtype": "property",
+            "name": "value",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/input/md-boolean/component.js",
+            "line": 22,
+            "description": "Text to display next to the checkbox",
+            "itemtype": "property",
+            "name": "text",
+            "type": "String",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/input/md-boolean/component.js",
+            "line": 29,
+            "description": "The form label to display",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 15,
+            "description": "The name of the mdCodes's codelist to use",
+            "itemtype": "property",
+            "name": "mdCodeName",
+            "type": "String",
+            "required": 1,
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 23,
+            "description": "Initial value, returned value.",
+            "itemtype": "property",
+            "name": "value",
+            "type": "String",
+            "return": {
+                "description": "String"
+            },
+            "required": 1,
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 32,
+            "description": "Indicates whether to allow the user to enter a new option\nnot contained in the select list.",
+            "itemtype": "property",
+            "name": "create",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 42,
+            "description": "Indicates if tooltips should be rendered for the options.",
+            "itemtype": "property",
+            "name": "tooltip",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 51,
+            "description": "Indicates if icons should be rendered.",
+            "itemtype": "property",
+            "name": "icon",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 60,
+            "description": "Whether to render a button to clear the selection.",
+            "itemtype": "property",
+            "name": "allowClear",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 69,
+            "description": "Whether to close the selection list after a selection has been made.",
+            "itemtype": "property",
+            "name": "closeOnSelect",
+            "type": "Boolean",
+            "default": "true",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 78,
+            "description": "The string to display when no option is selected.",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "'Select one option'",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 87,
+            "description": "Form label for select list",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 96,
+            "description": "Form field width",
+            "itemtype": "property",
+            "name": "width",
+            "type": "String",
+            "default": "100%",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 105,
+            "description": "Indicates if input is disabled",
+            "itemtype": "property",
+            "name": "disabled",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 16,
+            "description": "Initial value, returned value. \nAccepts either an Array of strings or JSON formatted array\nof strings.  Example: '[\"foo\",\"bar\"]'",
+            "itemtype": "property",
+            "name": "value",
+            "type": "Array",
+            "return": {
+                "description": "Array"
+            },
+            "required": 1,
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 27,
+            "description": "Indicates whether to allow the user to enter a new option\nnot contained in the select list.",
+            "itemtype": "property",
+            "name": "create",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 36,
+            "description": "Indicates if tooltips should be rendered for the options.",
+            "itemtype": "property",
+            "name": "tooltip",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 44,
+            "description": "Indicates if icons should be rendered.",
+            "itemtype": "property",
+            "name": "icon",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 52,
+            "description": "Whether to render a button to clear the selection.",
+            "itemtype": "property",
+            "name": "allowClear",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 60,
+            "description": "Whether to close the selection list after a selection has been made.",
+            "itemtype": "property",
+            "name": "closeOnSelect",
+            "type": "Boolean",
+            "default": "true",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 68,
+            "description": "The string to display when no option is selected.",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "'Select one option'",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 76,
+            "description": "Form label for select list",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 84,
+            "description": "Form field width",
+            "itemtype": "property",
+            "name": "width",
+            "type": "String",
+            "default": "100%",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist-multi/component.js",
+            "line": 92,
+            "description": "Indicates if input is disabled",
+            "itemtype": "property",
+            "name": "disabled",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-codelist-multi"
+        },
+        {
+            "file": "app/pods/components/input/md-datetime/component.js",
+            "line": 13,
+            "description": "Datetime string passed in, edited, and returned.",
+            "itemtype": "property",
+            "name": "date",
+            "type": "String",
+            "default": "null",
+            "return": {
+                "description": "String"
+            },
+            "class": "md-datetime"
+        },
+        {
+            "file": "app/pods/components/input/md-datetime/component.js",
+            "line": 23,
+            "description": "Format of date string for property 'date'.",
+            "itemtype": "property",
+            "name": "format",
+            "type": "String",
+            "default": "'YYYY-MM-DD'",
+            "class": "md-datetime"
+        },
+        {
+            "file": "app/pods/components/input/md-datetime/component.js",
+            "line": 32,
+            "description": "The string to display when no datetime is selected.",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "'Enter date or datetime'",
+            "class": "md-datetime"
+        },
+        {
+            "file": "app/pods/components/input/md-datetime/component.js",
+            "line": 41,
+            "description": "Form label for datetime input.",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-datetime"
+        },
+        {
+            "file": "app/pods/components/input/md-datetime/component.js",
+            "line": 50,
+            "description": "Icons to be used by the datetime picker and calendar.\nIcons can be set for time, date, up, down, previous, next,\nand close.\nThe default icons are chosen from Font Awesome icons",
+            "itemtype": "property",
+            "name": "calendarIcons",
+            "type": "Object",
+            "default": "'calendarIcons'",
+            "class": "md-datetime"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 11,
+            "description": "Value of the input.\nValue sets the initial value and returns the edited result",
+            "itemtype": "property",
+            "name": "value",
+            "type": "String",
+            "required": 1,
+            "class": "md-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 20,
+            "description": "Type of data represented by the value string.\nHTML5 types may be specified ('text', 'number', etc.)",
+            "itemtype": "property",
+            "name": "type",
+            "type": "String",
+            "default": "text",
+            "class": "md-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 30,
+            "description": "The form label to display",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 39,
+            "description": "Whether a value is required",
+            "itemtype": "property",
+            "name": "required",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 48,
+            "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
+            "itemtype": "property",
+            "name": "maxlength",
+            "type": "Number",
+            "default": "null",
+            "class": "md-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 58,
+            "description": "Text displayed in empty inputs",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "null",
+            "class": "md-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 67,
+            "description": "CSS class to set on the input control",
+            "itemtype": "property",
+            "name": "class",
+            "type": "String",
+            "default": "'form-control'",
+            "class": "md-input"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 12,
+            "description": "An array of strings to be edited.\nThe edited array is returned",
+            "itemtype": "property",
+            "name": "model",
+            "type": "Array",
+            "default": "[]",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 22,
+            "description": "Type of data represented by string in the array.\nHTML5 types may be specified ('text', 'number', etc.)",
+            "itemtype": "property",
+            "name": "type",
+            "type": "String",
+            "default": "'text'",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 32,
+            "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
+            "itemtype": "property",
+            "name": "maxlength",
+            "type": "Number",
+            "default": "null",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 42,
+            "description": "Label for the table of input rows",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 51,
+            "description": "Determines add button text",
+            "itemtype": "property",
+            "name": "buttonText",
+            "type": "String",
+            "default": "Add",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 60,
+            "description": "Determines add button placement",
+            "itemtype": "property",
+            "name": "buttonTop",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 69,
+            "description": "Column header for the input column",
+            "itemtype": "property",
+            "name": "header",
+            "type": "String",
+            "default": "null",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-inputs/component.js",
+            "line": 78,
+            "description": "Text displayed in empty inputs",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "null",
+            "class": "md-inputs"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 14,
+            "description": "An array or promise array containing the options for the\nselect list.\nAt a minimum the array elements should provide attributes for the\nname value pairs displayed as select list options.\nTooltips may also be included.\nOther attributes in the array elements will be ignored.",
+            "itemtype": "property",
+            "name": "objectArray",
+            "type": "Array",
+            "required": 1,
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 27,
+            "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
+            "itemtype": "property",
+            "name": "valuePath",
+            "type": "String",
+            "required": 1,
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 36,
+            "description": "Name of the attribute in the objectArray to be used for the\nselect list's option name or display text.",
+            "itemtype": "property",
+            "name": "namePath",
+            "type": "String",
+            "required": 1,
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 45,
+            "description": "Name of the attribute in the objectArray to be used for the\nselect list's tooltip.  If null, not tooltip will be\ngenerated.",
+            "itemtype": "property",
+            "name": "tooltipPath",
+            "type": "String",
+            "default": "null",
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 56,
+            "description": "Whether to render a button to clear the selection.",
+            "itemtype": "property",
+            "name": "allowClear",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 65,
+            "description": "Whether to close the selection list after a selection has been made.",
+            "itemtype": "property",
+            "name": "closeOnSelect",
+            "type": "Boolean",
+            "default": "true",
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 74,
+            "description": "The string to display when no option is selected.",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "'Select one option'",
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 83,
+            "description": "Form label for select list",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 92,
+            "description": "Form field width",
+            "itemtype": "property",
+            "name": "width",
+            "type": "String",
+            "default": "100%",
+            "class": "md-select"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 12,
+            "description": "Initial value, returned value.",
+            "itemtype": "property",
+            "name": "value",
+            "type": "String",
+            "return": {
+                "description": "String"
+            },
+            "required": 1,
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 21,
+            "description": "Form label for textarea",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "null",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 30,
+            "description": "The string to display when no option is selected.",
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "default": "'Select one option'",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 39,
+            "description": "Indicates whether the value is required",
+            "itemtype": "property",
+            "name": "required",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 48,
+            "description": "Maximum number of characters allowed. \nIf maxlength is not provided the number of characters will\nnot be restricted.",
+            "itemtype": "property",
+            "name": "maxlength",
+            "type": "Number",
+            "default": "null",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 59,
+            "description": "Enable auto-resizing of the textarea",
+            "itemtype": "property",
+            "name": "autoresize",
+            "type": "Boolean",
+            "default": "true",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 68,
+            "description": "Set the maximum width of the resizeable element in pixels. \nIf maxwidth is not provided width will not be restricted.",
+            "itemtype": "property",
+            "name": "maxwidth",
+            "type": "Number",
+            "default": "null",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 78,
+            "description": "Set the maximum height of the resizable element in pixels. \nIf maxheight is not provided height will not be restricted.",
+            "itemtype": "property",
+            "name": "maxheight",
+            "type": "{Number}",
+            "default": "null",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 88,
+            "description": "Set the minimum number of rows for the element. \nRecommended for textareas.",
+            "itemtype": "property",
+            "name": "rows",
+            "type": "Number",
+            "default": "2",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 98,
+            "description": "Set the maximum number of rows for the element. \nRecommended for textareas.",
+            "itemtype": "property",
+            "name": "maxrows",
+            "type": "Number",
+            "default": "10",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/input/md-textarea/component.js",
+            "line": 108,
+            "description": "Class to set on the textarea",
+            "itemtype": "property",
+            "name": "class",
+            "type": "{string}",
+            "default": "'form-control'",
+            "class": "md-textarea"
+        },
+        {
+            "file": "app/pods/components/layout/md-nav-secondary/component.js",
+            "line": 14,
+            "description": "options:\n   more - translated \"more\" text\n   offset - width that needs to be subtracted from the parent div width",
+            "class": "md-address"
+        },
+        {
+            "file": "app/pods/components/object/md-address/component.js",
+            "line": 12,
+            "description": "mdJSON 'address' object to be edited.",
+            "itemtype": "property",
+            "name": "address",
+            "type": "Object",
+            "required": 1,
+            "class": "md-address"
+        },
+        {
+            "file": "app/pods/components/object/md-address/component.js",
+            "line": 24,
+            "description": "Indicate whether the address object is not empty.",
+            "itemtype": "property",
+            "name": "isEmpty",
+            "type": "Boolean",
+            "class": "md-address"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 14,
+            "description": "Array of the mdJSON object to display in the object table for\nselection to edit or delete.",
+            "itemtype": "property",
+            "name": "items",
+            "type": "Array",
+            "required": 1,
+            "class": "md-object-table"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 23,
+            "description": "List of items object attributes to display in\nmd-object-table to aid in choosing the item to edit or\ndelete.",
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "String",
+            "required": 1,
+            "class": "md-object-table"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 33,
+            "description": "Name to place on the mdEditor panel header for entry and edit of\nitems objects.",
+            "itemtype": "property",
+            "name": "header",
+            "type": "String",
+            "required": 1,
+            "class": "md-object-table"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 42,
+            "description": "Determines add button text",
+            "itemtype": "property",
+            "name": "buttonText",
+            "type": "String",
+            "default": "Add",
+            "class": "md-object-table"
+        },
+        {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 15,
+            "description": "mdJSON object containing the 'onlineResource' array.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "Object",
+            "required": 1,
+            "class": "md-online-resource-array"
+        },
+        {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 23,
+            "description": "Name of the mdJSON 'onlineResource' array in the 'contact' object.\nThe property is used to compute items2 which is passed to\nmd-object-table for configuration.",
+            "itemtype": "property",
+            "name": "propertyArrayName",
+            "type": "String",
+            "default": "'onlineResource'",
+            "class": "md-online-resource-array"
+        },
+        {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 34,
+            "description": "List of mdJSON 'onlineResource' object attributes to display in\nmd-object-table to aid in choosing the onlineResource to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "String",
+            "default": "'name, uri'",
+            "class": "md-online-resource-array"
+        },
+        {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 46,
+            "description": "Name to place on the mdEditor panel header for entry and edit of\n'onlineResource' objects.\nThe property is passed to md-object-table for configuration.",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "'Online Resource'",
+            "class": "md-online-resource-array"
+        },
+        {
+            "file": "app/pods/components/object/md-phone-array/component.js",
+            "line": 13,
+            "description": "An array of mdJSON phone objects.",
+            "itemtype": "property",
+            "name": "phoneBook",
+            "type": "Array",
+            "required": 1,
+            "class": "md-phone-array"
+        },
+        {
+            "file": "app/pods/components/object/md-phone-array/component.js",
+            "line": 21,
+            "description": "Indicates the initial panel collapsed state.",
+            "itemtype": "property",
+            "name": "isCollapsed",
+            "type": "Boolean",
+            "class": "md-phone-array"
+        },
+        {
+            "file": "app/pods/dictionary/show/edit/route.js",
+            "line": 4,
+            "description": "The profile service",
+            "return": {
+                "description": "profile",
+                "type": "Ember.Service"
+            },
+            "class": ""
+        },
+        {
+            "file": "app/pods/dictionary/show/edit/route.js",
+            "line": 11,
+            "description": "The route activate hook, sets the profile to 'dictionary'.",
+            "class": ""
+        },
+        {
+            "file": "app/pods/record/show/edit/route.js",
+            "line": 9,
+            "description": "The profile service",
+            "return": {
+                "description": "profile",
+                "type": "Ember.Service"
+            },
+            "class": ""
+        },
+        {
+            "file": "app/pods/record/show/edit/route.js",
+            "line": 16,
+            "description": "The route activate hook, sets the profile.",
+            "class": ""
+        },
+        {
+            "file": "app/pods/record/show/edit/route.js",
+            "line": 24,
+            "description": "[renderTemplate description]",
+            "params": [
+                {
+                    "name": "controller",
+                    "description": "[description]",
+                    "type": "[type]"
+                },
+                {
+                    "name": "model",
+                    "description": "[description]",
+                    "type": "[type]"
+                }
+            ],
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
+            "class": ""
+        },
+        {
+            "file": "app/pods/record/show/edit/route.js",
+            "line": 45,
+            "description": "[delete description]",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "[description]",
+                    "type": "[type]"
+                }
+            ],
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
+            "class": ""
+        },
+        {
+            "file": "app/pods/record/show/edit/route.js",
+            "line": 55,
+            "description": "[updateProfile description]",
+            "params": [
+                {
+                    "name": "profile",
+                    "description": "[description]",
+                    "type": "[type]"
+                }
+            ],
+            "return": {
+                "description": "[description]",
+                "type": "[type]"
+            },
+            "class": ""
+        },
+        {
+            "file": "app/routes/application.js",
+            "line": 4,
+            "description": "Models for sidebar navigation",
+            "return": {
+                "description": "",
+                "type": "Ember.RSVP.hash"
+            },
+            "class": ""
+        },
+        {
+            "file": "app/routes/application.js",
+            "line": 43,
+            "description": "The current model for the route",
+            "return": {
+                "description": "",
+                "type": "DS.Model"
+            },
+            "class": ""
+        },
+        {
+            "file": "app/routes/index.js",
+            "line": 4,
+            "class": ""
+        },
+        {
+            "file": "app/services/codelist.js",
+            "line": 3,
+            "description": "Codelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object passed to\nEmber.Service.extend. The existing property names should be maintained.",
+            "class": "",
+            "module": ""
+        },
+        {
+            "file": "app/services/profile.js",
+            "line": 3,
+            "description": "Profile service\n\nService that provides profile configurations for metadata records.",
+            "uses": [
+                "ember/Service"
+            ],
+            "class": "",
+            "module": ""
+        },
+        {
+            "file": "app/services/profile.js",
+            "line": 12,
+            "description": "String identifying the active profile",
+            "type": "{?String}",
+            "class": "",
+            "module": ""
+        },
+        {
+            "file": "app/services/profile.js",
+            "line": 19,
+            "description": "Get the active profile.",
+            "itemtype": "method",
+            "name": "",
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "",
+            "module": ""
+        },
+        {
+            "file": "app/services/profile.js",
+            "line": 33,
+            "description": "An object defining the available profiles",
+            "type": "{Object} profiles",
+            "class": "",
+            "module": ""
+        }
+    ],
+    "warnings": [
+        {
+            "message": "replacing incorrect tag: augments with uses",
+            "line": " app/services/profile.js:3"
+        },
+        {
+            "message": "replacing incorrect tag: function with method",
+            "line": " app/services/profile.js:19"
+        },
+        {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " app/services/profile.js:19"
+        },
+        {
+            "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",
+            "line": " app/pods/components/control/md-button-modal/component.js:31"
+        },
+        {
+            "message": "Missing item type\nTrue to render in modal dialog",
+            "line": " app/pods/components/control/md-json-viewer/component.js:5"
+        },
+        {
+            "message": "Missing item type\nObject to render as JSON in viewer",
+            "line": " app/pods/components/control/md-json-viewer/component.js:12"
+        },
+        {
+            "message": "Missing item type\noptions:\n   more - translated \"more\" text\n   offset - width that needs to be subtracted from the parent div width",
+            "line": " app/pods/components/layout/md-nav-secondary/component.js:14"
+        },
+        {
+            "message": "Missing item type\nThe profile service",
+            "line": " app/pods/dictionary/show/edit/route.js:4"
+        },
+        {
+            "message": "Missing item type\nThe route activate hook, sets the profile to 'dictionary'.",
+            "line": " app/pods/dictionary/show/edit/route.js:11"
+        },
+        {
+            "message": "Missing item type\nThe profile service",
+            "line": " app/pods/record/show/edit/route.js:9"
+        },
+        {
+            "message": "Missing item type\nThe route activate hook, sets the profile.",
+            "line": " app/pods/record/show/edit/route.js:16"
+        },
+        {
+            "message": "Missing item type\n[renderTemplate description]",
+            "line": " app/pods/record/show/edit/route.js:24"
+        },
+        {
+            "message": "Missing item type\n[delete description]",
+            "line": " app/pods/record/show/edit/route.js:45"
+        },
+        {
+            "message": "Missing item type\n[updateProfile description]",
+            "line": " app/pods/record/show/edit/route.js:55"
+        },
+        {
+            "message": "Missing item type\nModels for sidebar navigation",
+            "line": " app/routes/application.js:4"
+        },
+        {
+            "message": "Missing item type\nThe current model for the route",
+            "line": " app/routes/application.js:43"
+        },
+        {
+            "message": "Missing item type",
+            "line": " app/routes/index.js:4"
+        },
+        {
+            "message": "Missing item type\nCodelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object passed to\nEmber.Service.extend. The existing property names should be maintained.",
+            "line": " app/services/codelist.js:3"
+        },
+        {
+            "message": "Missing item type\nProfile service\n\nService that provides profile configurations for metadata records.",
+            "line": " app/services/profile.js:3"
+        },
+        {
+            "message": "Missing item type\nString identifying the active profile",
+            "line": " app/services/profile.js:12"
+        },
+        {
+            "message": "Missing item type\nAn object defining the available profiles",
+            "line": " app/services/profile.js:33"
+        }
+    ]
+}
