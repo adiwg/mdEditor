@@ -11,7 +11,7 @@
 .leaflet-container {
   border: 2px solid $gray-light;
   height: 50%;
-  min-height: 500px;
+  //min-height: 500px;
 }
 
 .map-file-picker {
@@ -35,6 +35,7 @@
   }
 
   .file-picker__dropzone {
+    height: 100%;
     position: relative;
   }
 
@@ -43,6 +44,7 @@
   }
 
   .table-title {
+    color: $blue;
     margin-top: 20px;
   }
 

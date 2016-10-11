@@ -1,0 +1,8 @@
+{{#unless formData}}
+{{models-table data=data columns=columns}}
+{{else}}
+<button class="btn btn-xs btn-warning" {{action (action "closeForm" formData)}}>
+  <span class="fa fa-arrow-left"></span> OK
+</button>
+{{/unless}}
+{{yield}}

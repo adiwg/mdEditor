@@ -15,7 +15,8 @@
     "blob": "*",
     "leaflet": "~1.0.0-rc.3",
     "leaflet-draw": "chugcup/Leaflet.draw#master",
-    "Leaflet.vector-markers": "^0.0.6"
+    "Leaflet.vector-markers": "^0.0.6",
+    "text-encoding": "^0.6.1"
   },
   "resolutions": {
     "leaflet": "~1.0.0-rc.3"

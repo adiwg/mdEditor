@@ -13,8 +13,11 @@
     "ember-models-table": "^1.8",
     "ember-cli-sass": "~5.5.1",
     "ember-cli-file-picker": "funkensturm/ember-cli-file-picker#17826d3",
-    "leaflet-omnivore": "^0.3.2",
     "ember-browserify": "^1.1.12",
-    "node-uuid": "^1.4.7"    
+    "node-uuid": "^1.4.7",
+    "ember-resize": "0.0.17",
+    "csv2geojson": "^5.0.2",
+    "shapefile": "^0.5.7",
+    "togeojson": "^0.14.2"
   }
 }

@@ -17,13 +17,31 @@ export default Ember.Route.extend({
     });
   },
   actions: {
+    handleResize() {
+      Ember.$('.map-file-picker')
+        .height(Ember.$(window)
+          .height() - Ember.$('#md-navbars')
+          .outerHeight() - 15);
+    },
     uploadData() {
       Ember.$('.map-file-picker .file-picker__input')
         .click();
     },
     deleteAllFeatures() {
+      let features = this.currentModel.get('layers');
+      let group = this.currentModel.get('featureGroup');
 
-      this.currentModel.set('layers', Ember.A());
+      if(features.length) {
+        features.forEach((item) => {
+          features.popObject(item);
+          group.removeLayer(item._layer);
+        });
+
+        if(group._map.drawControl) {
+          group._map.drawControl.remove();
+        }
+        features.clear();
+      }
     },
     setFeatureGroup(obj) {
       this.currentModel.set('featureGroup', obj);
@@ -31,10 +49,16 @@ export default Ember.Route.extend({
     zoomAll() {
       let layer = this.currentModel.get('featureGroup');
       let bnds = layer.getBounds();
+      let map = layer._map;
 
-      layer._map.fitBounds(bnds, {
-        maxZoom: 14
-      });
+      if(bnds.isValid()) {
+        map.fitBounds(bnds, {
+          maxZoom: 14
+        });
+        return;
+      }
+
+      map.fitWorld();
     },
     exportGeoJSON() {
       let fg = this.currentModel.get('featureGroup');

@@ -21,6 +21,7 @@
   "devDependencies": {
     "ajv": "^4.7.0",
     "broccoli-asset-rev": "^2.4.2",
+    "csv2geojson": "^5.0.2",
     "ember-ajax": "^2.0.1",
     "ember-autoresize": "~0.5.16",
     "ember-bootstrap-datetimepicker": "1.0.4",
@@ -60,14 +61,17 @@
     "ember-modal-dialog": "^0.9.0",
     "ember-models-table": "1.8.1-beta.3",
     "ember-multiselect-checkboxes": "^0.9.1",
+    "ember-resize": "^0.0.17",
     "ember-resolver": "^2.0.3",
     "ember-route-action-helper": "^1.0.0",
     "ember-welcome-page": "^1.0.1",
     "eonasdan-bootstrap-datetimepicker": "4.15.35",
-    "leaflet-omnivore": "^0.3.2",
+    "geojson-coords": "0.0.0",
     "loader.js": "^4.0.1",
     "mdcodes": "^1.2.3",
     "node-uuid": "^1.4.7",
+    "shapefile": "^0.5.7",
+    "togeojson": "^0.14.2",
     "validator": "^5.3.0"
   },
   "ember-addon": {
