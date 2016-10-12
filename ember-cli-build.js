@@ -10,6 +10,7 @@ module.exports = function(defaults) {
         'bower_components/bootstrap-sass/assets/stylesheets',
         'bower_components/select2/src/scss',
         'bower_components/select2-bootstrap-theme/src',
+        'bower_components/jquery-jsonview/src'
       ]
     }
   });
@@ -40,6 +41,10 @@ module.exports = function(defaults) {
   //select2
   app.import(app.bowerDirectory +
     '/select2/dist/js/select2.js');
+
+  //jquery-jsonview
+  app.import(app.bowerDirectory +
+    '/jquery-jsonview/dist/jquery.jsonview.js');
 
   return app.toTree();
 };

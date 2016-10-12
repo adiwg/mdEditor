@@ -1,0 +1,40 @@
+.md-json-viewer {
+  .well {
+    min-height: 200px;
+  }
+
+  .md-viewer-controls .btn-group-vertical {
+    display: block;
+    margin-bottom: 15px;
+
+    button {
+      z-index: 1000;
+    }
+  }
+}
+
+.md-jsmodal-container {
+  width: 40%;
+
+  .md-viewer-body {
+    height: 75vh;
+  }
+
+  .close {
+    background-color: $body-bg;
+    border-radius: 14px;
+    box-shadow: 0 0 10px;
+    color: $gray-dark;
+    font-size: 14px;
+    opacity: .8;
+    position: absolute;
+    right: -1em;
+    top: -1em;
+    transition: color 250ms;
+
+    &:hover {
+      color: $brand-danger;
+      opacity: 1;
+    }
+  }
+}

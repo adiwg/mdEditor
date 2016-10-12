@@ -39,7 +39,12 @@ export default DS.Model.extend({
       return obj;
     }
   }),
-
+  dateUpdated: DS.attr('date', {
+    defaultValue() {
+      return new Date();
+    }
+  }),
+  
   title: Ember.computed('json.metadata.resourceInfo.citation.title', function () {
     return this.get('json.metadata.resourceInfo.citation.title');
   }),

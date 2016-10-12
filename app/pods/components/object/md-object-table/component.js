@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const ObjectTable = Ember.Component.extend({
+export default Ember.Component.extend({
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -39,18 +39,14 @@ const ObjectTable = Ember.Component.extend({
    * @required
    */
 
-   /**
-    * Determines add button text
-    *
-    * @property buttonText
-    * @type String
-    * @default Add
-    */
-    buttonText: "Add",
-
-  init: function () {
-    this._super.apply(this, arguments);
-  },
+  /**
+   * Determines add button text
+   *
+   * @property buttonText
+   * @type String
+   * @default Add
+   */
+  buttonText: "Add",
 
   panelId: Ember.computed(function () {
     return Ember.generateGuid(null, 'panel');
@@ -150,5 +146,3 @@ const ObjectTable = Ember.Component.extend({
   }
 
 });
-
-export default ObjectTable;

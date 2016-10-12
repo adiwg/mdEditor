@@ -27,7 +27,9 @@
         </form>
     </div>
     <div class="col-sm-2">
-        {{control/md-crud-buttons model=model doSave="saveContact" doCancel="cancelContact"}}
+        <div class="md-control-sidebar">            
+            {{control/md-crud-buttons model=model doSave="saveContact" doCancel="cancelContact"}}
+        </div>
     </div>
 
 </div>

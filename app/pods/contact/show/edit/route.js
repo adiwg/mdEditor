@@ -16,9 +16,7 @@ export default Ember.Route.extend({
         .save()
         .then(() => {
           Ember.get(this, 'flashMessages')
-            .success(`Saved Contact: ${model.get('title')}`, {
-              extendedTimeout: 1500
-            });
+            .success(`Saved Contact: ${model.get('title')}`);
           //this.transitionTo('contacts');
         });
     },
@@ -29,9 +27,7 @@ export default Ember.Route.extend({
         .reload()
         .then(() => {
           Ember.get(this, 'flashMessages')
-            .warning(`Cancelled changes to Contact: ${model.get('title')}`, {
-              extendedTimeout: 1500
-            });
+            .warning(`Cancelled changes to Contact: ${model.get('title')}`);
           //this.transitionTo('contacts');
         });
     }

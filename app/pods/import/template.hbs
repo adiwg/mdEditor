@@ -1,1 +1,78 @@
+<div class="row">
+
+  <div class="col-sm-{{if model.files "9" "12"}} col-xxl-{{if model.files "10" "12"}}">
+
+    <h2>Import Data</h2>
+    {{#if model.preview}}
+      <h3>{{capitalize (singularize model.preview.model.type)}}: {{model.preview.model.id}}</h3>
+      {{control/md-json-viewer class="md-import-preview" json=model.preview.json modal=false}}
+    {{else}}
+      {{#unless model.files}}
+        {{#file-picker class="import-file-picker" fileLoaded="readData" preview=false accept=".json" readAs="readAsText"}}
+          <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}} Click or Drop a File Here to Import Data</button>
+        {{/file-picker}}
+      {{/unless}}
+      {{#each-in model.files as |key item|}}
+        <div class="md-table-block md-table-checkbox box-shadow--2dp">
+          <div class="md-table-title">{{capitalize key}}</div>
+          <div class="table-responsive">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Id</th>
+                  <th>Title</th>
+                  <th>Last Updated</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {{#each item as |row rowindex|}}
+                  <tr>
+                    <td>{{input type="checkbox" name="isChecked" checked=row.meta.export}}</td>
+                    <td>{{row.id}}</td>
+                    <td>{{row.meta.title}}</td>
+                    <td>{{if row.attributes.date-updated row.attributes.date-updated "unknown"}}</td>
+                    <td>
+                      <div class="pull-right">
+                        <button type="button" class="btn btn-xs btn-primary" {{action "showPreview" row}}>
+                          <span class="fa fa-binoculars"></span> Preview JSON
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      {{/each-in}}
+    {{/if}}
+  </div>
+
+  {{#if model.files}}
+    <div class="col-sm-3 col-xxl-2">
+      <div class="md-control-sidebar">
+        {{#if model.preview}}
+          <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "closePreview"}}>{{fa-icon "arrow-left"}} Close Preview</button>
+          {{else if model.files}}
+          <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
+          <button type="button" class="btn btn-lg btn-danger btn-block md-btn-responsive" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
+          <div class="btn btn-block">
+            {{x-toggle
+              value=model.merge
+              onToggle=(mut model.merge)
+              showLabels=true
+              onLabel="Merge::true"
+              offLabel="Replace::false"
+              size="medium"
+              theme="default"
+            }}
+          </div>
+        {{/if}}
+      </div>
+    </div>
+  {{/if}}
+
+</div>
 {{outlet}}

@@ -23,7 +23,26 @@ module.exports = function(environment) {
     },
     'ember-load': {
       loadingIndicatorClass: 'md-load-indicator'
+    },
+    'ember-local-storage': {
+      fileExport: true
+    },
+    'ember-cli-toggle': {
+      includedThemes: [],
+      //excludedThemes: ['flip'],
+      defaultShowLabels: true, // defaults to false
+      defaultTheme: 'light', // defaults to 'default'
+      //defaultSize: 'small', // defaults to 'medium'
+      defaultOffLabel: 'False', // defaults to 'Off'
+      defaultOnLabel: 'True' // defaults to 'On'
+    },
+    flashMessageDefaults: {
+      // flash message defaults
+      timeout: 5000,
+      extendedTimeout: 1500,
+      //sticky: true
     }
+
   };
 
   if (environment === 'development') {
