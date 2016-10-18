@@ -20,6 +20,7 @@
   "license": "MIT",
   "devDependencies": {
     "ajv": "^4.7.0",
+    "brfs": "^1.4.3",
     "broccoli-asset-rev": "^2.4.2",
     "csv2geojson": "^5.0.2",
     "ember-ajax": "^2.0.1",
