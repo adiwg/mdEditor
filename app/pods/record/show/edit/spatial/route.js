@@ -3,16 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   model() {
     return Ember.Object.create({
-      layers: [Ember.Object.create({
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [125.6, 10.1]
-        },
-        "properties": {
-          "name": "Dinagat Islands"
-        }
-      })],
+      layers: Ember.A(),
       featureGroup: null
     });
   },

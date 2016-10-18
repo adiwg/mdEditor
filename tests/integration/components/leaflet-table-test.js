@@ -1,24 +1,28 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import {
+  moduleForComponent,
+  test
+} from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createMapLayer from 'mdeditor/tests/helpers/create-map-layer';
 
 moduleForComponent('leaflet-table', 'Integration | Component | leaflet table', {
   integration: true
 });
 
-test('it renders', function(assert) {
+test('it renders', function (assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
+  this.set('layers', createMapLayer(2));
 
-  this.render(hbs`{{leaflet-table}}`);
+  this.render(hbs `{{leaflet-table layers=layers.features
+    resizeEventsEnabled=false resizeDebouncedEventsEnabled=false}}`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#leaflet-table}}
-      template block text
-    {{/leaflet-table}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal($(this.$()
+    .html()
+    .replace('&nbsp;', '|'))
+    .text()
+    .trim()
+    .replace(/[ \n]+/g, '|'),
+    'Drop|Here!|+-|Terrain|Extents3000|km2000|miLeaflet|||Map|tiles|by|Stamen|Design,|under|CC|BY|3.0.|Data|by|OpenStreetMap,|under|CC|BY|SA.|Feature|Properties|ID|Name|Description|||1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50'
+  );
 });

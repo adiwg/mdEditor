@@ -30,12 +30,12 @@ test('visiting /record/new', function(assert) {
     const hasRecordInallList = listItems.indexOf('Record') >= 0;
     const hasNewTextInallList = listItems.indexOf('New') >= 0;
 
-    const hasRecordInLinkList = linkItems.indexOf('Record') >= 0;
+    const doesNotHaveRecordInLinkList = linkItems.indexOf('Record') === -1;
     const doesNotHaveNewInLinkList = linkItems.indexOf('New') === -1;
 
     assert.ok(hasRecordInallList, 'renders the right inferred name');
     assert.ok(hasNewTextInallList, 'renders the right inferred name');
-    assert.ok(hasRecordInLinkList, 'renders the right inferred name');
+    assert.ok(doesNotHaveRecordInLinkList, 'renders the right inferred name');
     assert.ok(doesNotHaveNewInLinkList, 'renders the right inferred name');
 
   });
