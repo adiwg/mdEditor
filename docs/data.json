@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.18f412cb"
+        "version": "0.0.0.83bda9c9"
     },
     "files": {
         "app/pods/components/control/md-button-confirm/component.js": {
