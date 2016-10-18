@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app/pods/components/input/md-select/component.js - mdeditor</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="mdeditor" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.0.18f412cb</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/md-address.html">md-address</a></li>
+                                <li><a href="../classes/md-boolean.html">md-boolean</a></li>
+                                <li><a href="../classes/md-button-modal.html">md-button-modal</a></li>
+                                <li><a href="../classes/md-codelist.html">md-codelist</a></li>
+                                <li><a href="../classes/md-codelist-multi.html">md-codelist-multi</a></li>
+                                <li><a href="../classes/md-datetime.html">md-datetime</a></li>
+                                <li><a href="../classes/md-input.html">md-input</a></li>
+                                <li><a href="../classes/md-inputs.html">md-inputs</a></li>
+                                <li><a href="../classes/md-object-table.html">md-object-table</a></li>
+                                <li><a href="../classes/md-online-resource-array.html">md-online-resource-array</a></li>
+                                <li><a href="../classes/md-phone-array.html">md-phone-array</a></li>
+                                <li><a href="../classes/md-select.html">md-select</a></li>
+                                <li><a href="../classes/md-textarea.html">md-textarea</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app/pods/components/input/md-select/component.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import DS from &#x27;ember-data&#x27;;
+
+export default Ember.Component.extend({
+
+  /**
+   * A select list control for displaying and selecting options
+   * provided in an array or promise array.
+   *
+   * @class md-select
+   * @constructor
+   */
+
+  /**
+   * An array or promise array containing the options for the
+   * select list.
+   * At a minimum the array elements should provide attributes for the
+   * name value pairs displayed as select list options.
+   * Tooltips may also be included.
+   * Other attributes in the array elements will be ignored.
+   *
+   * @property objectArray
+   * @type Array
+   * @required
+   */
+
+  /**
+   * Name of the attribute in the objectArray to be used for the
+   * select list&#x27;s option value.
+   *
+   * @property valuePath
+   * @type String
+   * @required
+   */
+
+  /**
+   * Name of the attribute in the objectArray to be used for the
+   * select list&#x27;s option name or display text.
+   *
+   * @property namePath
+   * @type String
+   * @required
+   */
+
+  /**
+   * Name of the attribute in the objectArray to be used for the
+   * select list&#x27;s tooltip.  If null, not tooltip will be
+   * generated.
+   *
+   * @property tooltipPath
+   * @type String
+   * @default null
+   */
+  tooltipPath: null,
+
+  /**
+   * Whether to render a button to clear the selection.
+   *
+   * @property allowClear
+   * @type Boolean
+   * @default false
+   */
+  allowClear: false,
+
+  /**
+   * Whether to close the selection list after a selection has been made.
+   *
+   * @property closeOnSelect
+   * @type Boolean
+   * @default true
+   */
+  closeOnSelect: true,
+
+  /**
+   * The string to display when no option is selected.
+   *
+   * @property placeholder
+   * @type String
+   * @default &#x27;Select one option&#x27;
+   */
+  placeholder: &quot;Select one option&quot;,
+
+  /**
+   * Form label for select list
+   *
+   * @property label
+   * @type String
+   * @default null
+   */
+  label: null,
+
+  /**
+   * Form field width
+   *
+   * @property width
+   * @type String
+   * @default 100%
+   */
+  width: &quot;100%&quot;,
+
+  /*
+   * codelist is an array of code objects re-mapped from the input &#x27;objectArray&#x27;.
+   * values from the input object array are mapped according the path parameters
+   * provided. md-select does not allow creation of new objects.
+   */
+  codelist: Ember.computed(function() {
+    const objArray = this.get(&#x27;objectArray&#x27;);
+    let inList = new Ember.RSVP.Promise(function(resolve, reject) {
+      // succeed
+      resolve(objArray);
+      // or reject
+      reject(new Error(&#x27;Couldn\&#x27;t create a promise.&#x27;));
+    });
+    let codeId = this.get(&#x27;valuePath&#x27;);
+    let codeName = this.get(&#x27;namePath&#x27;);
+    let tooltip = this.get(&#x27;tooltipPath&#x27;);
+    let selectedItem = this.get(&#x27;value&#x27;);
+    let outList = [];
+
+    return DS.PromiseArray.create({
+      promise: inList.then(function(arr) {
+        arr.forEach(function(item) {
+          let newObject = {
+            codeId: item.get(codeId),
+            codeName: item.get(codeName),
+            tooltip: null,
+            selected: false
+          };
+          if(tooltip) {
+            newObject.tooltip = item.get(tooltip);
+          }
+          outList.pushObject(newObject);
+        });
+
+        if(selectedItem) {
+          outList.forEach(function(item) {
+            item[&#x27;selected&#x27;] = (item[&#x27;codeId&#x27;] ===
+              selectedItem);
+          });
+        }
+        return outList;
+      })
+    });
+  }),
+
+  // Format options in the select tag
+  // Add tooltips and/or icons as requested
+  didInsertElement: function() {
+    this.get(&#x27;codelist&#x27;)
+      .then(() =&gt; {
+        function formatOption(option) {
+          let text = option[&#x27;text&#x27;];
+          let tip = Ember.$(option.element)
+            .data(&#x27;tooltip&#x27;);
+          let $option = Ember.$(&#x60;&lt;div&gt; ${text}&lt;/div&gt;&#x60;);
+          if(tip) {
+            $option = $option.append(
+              Ember.$(
+                &#x60;&lt;span class=&quot;badge pull-right&quot; data-toggle=&quot;tooltip&quot;
+                      data-placement=&quot;right&quot; data-container=&quot;body&quot;
+                      title=&quot;${tip}&quot;&gt;?&lt;/span&gt;&#x60;
+              )
+              .on(&#x27;mousedown&#x27;, function(e) {
+                Ember.$(e.target)
+                  .tooltip(&#x27;destroy&#x27;);
+                return true;
+              })
+              .tooltip());
+          }
+
+          return $option;
+        }
+
+        this.$(&quot;.md-select&quot;)
+          .select2({
+            placeholder: this.get(&#x27;placeholder&#x27;),
+            allowClear: this.get(&#x27;allowClear&#x27;),
+            templateResult: formatOption,
+            width: this.get(&#x27;width&#x27;),
+            minimumResultsForSearch: 10,
+            theme: &#x27;bootstrap&#x27;
+          });
+      });
+
+  },
+
+  didRender() {
+    this.$(&#x27;.md-select&#x27;)
+      .trigger(&#x27;change.select2&#x27;);
+  },
+
+  actions: {
+    // do the binding to value
+    setValue: function() {
+      let selectedEl = this.$(&#x27;select&#x27;);
+      let selectedValue = selectedEl.val();
+      this.set(&#x27;value&#x27;, selectedValue);
+    }
+  }
+
+});
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
