@@ -1,0 +1,21 @@
+{{#if isShowing}}
+  {{#tether-dialog close="closeModal" targetAttachment="middle center" attachment="middle center" translucentOverlay=true container-class="md-modal-container" overlay-class="md-modal-overlay" }}
+    <button type="button" {{action "closeModal"}} class="md-modal-close" aria-label="Close">
+      <span class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x"></i>
+            <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+        </span>
+    </button>
+    <div class="md-modal-body">
+      {{yield}} {{{message}}}
+    </div>
+    <div class="md-modal-buttons pull-right">
+      {{#if showConfirm}}
+        <button type="button" class="btn btn-success" {{action 'confirm'}}>{{confirmLabel}}</button>
+      {{/if}}
+      {{#if showCancel}}
+        <button type="button" class="btn btn-warning" {{action 'cancel'}}>Cancel</button>
+      {{/if}}
+    </div>
+  {{/tether-dialog}}
+{{/if}}

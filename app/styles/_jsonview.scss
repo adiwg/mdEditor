@@ -13,28 +13,12 @@
   }
 }
 
-.md-jsmodal-container {
+.md-jsmodal-container.ember-modal-dialog {
   width: 40%;
+  z-index: 2100;
 
   .md-viewer-body {
     height: 75vh;
-  }
-
-  .close {
-    background-color: $body-bg;
-    border-radius: 14px;
-    box-shadow: 0 0 10px;
-    color: $gray-dark;
-    font-size: 14px;
-    opacity: .8;
-    position: absolute;
-    right: -1em;
-    top: -1em;
-    transition: color 250ms;
-
-    &:hover {
-      color: $brand-danger;
-      opacity: 1;
-    }
+    overflow-y: auto;
   }
 }

@@ -1,13 +1,13 @@
 {{#if modal}}
-  {{#modal-dialog close="closeModal" translucentOverlay=true container-class="md-jsmodal-container" overlay-class="md-modal-overlay" attachment="top center" targtAttachment="none" }}
-    <button type="button" {{action "closeModal"}} class="close" aria-label="Close">
+  {{#tether-dialog close="closeModal" translucentOverlay=true container-class="md-jsmodal-container" overlay-class="md-modal-overlay" attachment="top center" targtAttachment="top center" target='body'}}
+    <button type="button" {{action "closeModal"}} class="md-modal-close" aria-label="Close">
       <span class="fa-stack">
           <i class="fa fa-circle fa-stack-2x"></i>
           <i class="fa fa-times fa-stack-1x fa-inverse"></i>
       </span>
     </button>
     <div class="md-viewer-body"></div>
-  {{/modal-dialog}}
+  {{/tether-dialog}}
 {{else}}
   <div class="well">
     <div class="btn-toolbar md-viewer-controls pull-right">
