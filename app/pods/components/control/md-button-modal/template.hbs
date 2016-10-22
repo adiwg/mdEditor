@@ -1,6 +1,16 @@
 {{yield}}
 {{#if isShowingModal}}
-  {{#tether-dialog close="toggleModal" target=target renderInPlace=renderInPlace constraints=constraints targetAttachment="middle center" attachment="middle center" translucentOverlay=true container-class="md-modal-container" overlay-class="md-modal-overlay"}}
+  {{#tether-dialog
+    close="toggleModal"
+    target=target
+    renderInPlace=renderInPlace
+    constraints=constraints
+    targetAttachment="middle center"
+    attachment="middle center"
+    translucentOverlay=true
+    container-class="md-modal-container"
+    overlay-class="md-modal-overlay"
+  }}
     {{{message}}}
     <div class="md-modal-buttons pull-right">
       <button type="button" class="btn btn-danger" {{action 'confirm'}}>Confirm</button>
