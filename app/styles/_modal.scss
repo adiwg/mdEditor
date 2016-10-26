@@ -1,5 +1,5 @@
 .md-modal-container.ember-modal-dialog {
-  width: 350px;
+  width: 300px;
   z-index: 2100;
 
   h1 {
@@ -34,6 +34,7 @@
   border-style: none;
   box-shadow: 0 0 10px;
   color: $gray-dark;
+  display: none;
   font-size: 14px;
   opacity: .8;
   padding: 1px;
@@ -45,5 +46,15 @@
   &:hover {
     color: $brand-danger;
     opacity: 1;
+  }
+}
+
+@media (min-width: 420px) {
+  .md-modal-container.ember-modal-dialog {
+    width: 375px;
+  }
+
+  .md-modal-close {
+    display: block;
   }
 }

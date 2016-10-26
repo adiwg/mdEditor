@@ -17,6 +17,14 @@ export default Ember.Component.extend({
    * @type {String}
    */
 
+   /**
+    * Element selector or element that serves as the reference for modal position
+    *
+    * @property target
+    * @type {String}
+    */
+   target: 'html',
+
   /**
    * Whether to display the confirm button
    *

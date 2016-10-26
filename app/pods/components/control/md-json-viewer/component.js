@@ -10,6 +10,14 @@ export default Ember.Component.extend({
   modal: true,
 
   /**
+   * Element selector or element that serves as the reference for modal position
+   *
+   * @property target
+   * @type {String}
+   */
+  target: 'html',
+
+  /**
    * Object to render as JSON in viewer
    *
    * @type {Object}

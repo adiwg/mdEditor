@@ -14,11 +14,16 @@
 }
 
 .md-jsmodal-container.ember-modal-dialog {
-  width: 40%;
   z-index: 2100;
+  margin-top: 5vh;
+  width: 90vw;
 
   .md-viewer-body {
     height: 75vh;
     overflow-y: auto;
+  }
+
+  @media (min-width: 420px) {
+    width: 40vw;
   }
 }

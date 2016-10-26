@@ -1,5 +1,13 @@
 {{#if isShowing}}
-  {{#tether-dialog close="closeModal" targetAttachment="middle center" attachment="middle center" translucentOverlay=true container-class="md-modal-container" overlay-class="md-modal-overlay" }}
+  {{#tether-dialog
+      close="closeModal"
+      targetAttachment="middle center"
+      attachment="middle center"
+      translucentOverlay=true
+      container-class="md-modal-container"
+      overlay-class="md-modal-overlay"
+      target=target
+  }}
     <button type="button" {{action "closeModal"}} class="md-modal-close" aria-label="Close">
       <span class="fa-stack">
             <i class="fa fa-circle fa-stack-2x"></i>
