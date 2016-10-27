@@ -1,6 +1,13 @@
 import Ember from 'ember';
 import config from 'mdeditor/config/environment';
 
+const {
+  APP: {
+    version
+  },
+  environment
+} = config;
+
 export default Ember.Service.extend({
   store: Ember.inject.service(),
   data: 'null',
@@ -19,11 +26,14 @@ export default Ember.Service.extend({
 
         settings = rec ? rec : store.createRecord('setting');
 
-        if(settings.get('lastVersion') !== config.APP.version) {
-          settings.set('showSplash', true);
-          settings.set('lastVersion', config.APP.version);
+        if(settings.get('lastVersion') !== version) {
+          settings.set('showSplash', environment !== 'test');
+          settings.set('lastVersion', version);
         }
-        me.set('data', settings);
+
+        if ( !(me.get('isDestroyed') || me.get('isDestroying')) ) {
+          me.set('data', settings);
+        }
       });
 
   }

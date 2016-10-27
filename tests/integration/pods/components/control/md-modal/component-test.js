@@ -9,16 +9,16 @@ test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{control/md-modal}}`);
+  this.render(hbs`{{control/md-modal isShowing=true}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal($('.md-modalcontainer').length, 0);
 
   // Template block usage:
   this.render(hbs`
-    {{#control/md-modal}}
+    {{#control/md-modal isShowing=true}}
       template block text
     {{/control/md-modal}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal($('.md-modal-container').text().trim(), 'template block text');
 });

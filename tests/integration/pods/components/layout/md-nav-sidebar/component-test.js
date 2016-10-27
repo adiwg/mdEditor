@@ -41,12 +41,12 @@ test('it renders', function(assert) {
 
   this.set('model', [records, contacts, dicts]);
 
-  this.render(hbs `{{layout/md-nav-sidebar items=model}}`);
+  this.render(hbs `{{layout/md-nav-sidebar items=model version="test"}}`);
 
   assert.equal(this.$()
     .text()
     .replace(/[ \n]+/g, '|'),
-    '|mdditor|Records|(2)|My|Record0|My|Record1|Contacts|(2)|Contact0|Contact1|Dictionaries|(2)|My|Dictionary0|My|Dictionary1|'
+    '|mdditorvtest|Records|(2)|My|Record0|My|Record1|Contacts|(2)|Contact0|Contact1|Dictionaries|(2)|My|Dictionary0|My|Dictionary1|'
   );
 });
 

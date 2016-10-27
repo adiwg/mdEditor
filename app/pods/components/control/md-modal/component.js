@@ -34,6 +34,14 @@ export default Ember.Component.extend({
   showConfirm: false,
 
   /**
+   * Whether to render in place
+   *
+   * @property renderInPlace
+   * @type {Boolean}
+   */
+  renderInPlace: false,
+
+  /**
    * Whether to display the cancel button
    *
    * @property showCancel
