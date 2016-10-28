@@ -3,19 +3,20 @@ import DS from 'ember-data';
 import UUID from 'npm:node-uuid';
 import Validator from 'npm:validator';
 
-export default DS.Model.extend({
+export default DS.Model.extend(Ember.Copyable, {
   json: DS.attr('json', {
     defaultValue: function () {
-      var obj = {
-        "contactId": UUID.v4(),
-        "organizationName": null,
-        "individualName": null,
-        "positionName": null,
-        "phoneBook": [],
-        "address": {},
-        "onlineResource": [],
-        "contactInstructions": null
-      };
+      let obj = Ember.Object.create({
+        'contactId': UUID.v4(),
+        'organizationName': null,
+        'individualName': null,
+        'positionName': null,
+        'phoneBook': [],
+        'address': {},
+        'onlineResource': [],
+        'contactInstructions': null
+      });
+
       return obj;
     }
   }),
@@ -61,10 +62,27 @@ export default DS.Model.extend({
 
   shortId: Ember.computed('json.contactId', function () {
     const contactId = this.get('json.contactId');
-    if(Validator.isUUID(contactId)) {
+    if(contactId && Validator.isUUID(contactId)) {
       return contactId.substring(0, 7) + '...';
     }
 
     return contactId;
-  })
+  }),
+
+  copy() {
+    let current = this.get('json');
+    let json = Ember.Object.create(JSON.parse(JSON.stringify(current)));
+    let indName = current.individualName;
+    let orgName = current.organizationName;
+
+    json.setProperties({
+      organizationName: indName ? orgName : `Copy of ${orgName}`,
+      individualName: indName ? `Copy of ${indName}` : null,
+      contactId: UUID.v4()
+    });
+
+    return this.store.createRecord('contact', {
+      json: json
+    });
+  }
 });

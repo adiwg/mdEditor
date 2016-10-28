@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
 
-        <h2>Editing Contact: {{model.json.contactId}}</h2>
+        <h2>Editing Contact: {{model.json.contactId}} {{outlet}}</h2>
 
         <form>
             {{input/md-input value=model.json.contactId
@@ -27,8 +27,14 @@
         </form>
     </div>
     <div class="col-sm-2">
-        <div class="md-control-sidebar">            
-            {{control/md-crud-buttons model=model doSave="saveContact" doCancel="cancelContact"}}
+        <div class="md-control-sidebar">
+            {{control/md-crud-buttons
+                model=model
+                doSave="saveContact"
+                doCancel="cancelContact"
+                doDelete="destroyContact"
+                doCopy="copyContact"
+            }}
         </div>
     </div>
 

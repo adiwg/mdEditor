@@ -42,7 +42,11 @@ Router.map(function () {
   this.route('contacts');
   //contact
   this.route('contact', function () {
-    this.route('new');
+    this.route('new', function() {
+      this.route('id', {
+        path: '/:contact_id'
+      });
+    });
 
     this.route('show', {
       path: ':contact_id'
