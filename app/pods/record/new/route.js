@@ -7,11 +7,11 @@ export default Ember.Route.extend({
 
   deactivate: function() {
     // We grab the model loaded in this route
-    let model = this.modelFor('record/new');
+    let model = this.currentModel;
 
     // If we are leaving the Route we verify if the model is in
     // 'isNew' state, which means it wasn't saved to the backend.
-    if (model.get('isNew')) {
+    if (model && model.get('isNew')) {
       // We call DS#destroyRecord() which removes it from the store
       model.destroyRecord();
     }
@@ -38,15 +38,15 @@ export default Ember.Route.extend({
 
   actions: {
     saveRecord() {
-      this.modelFor('record.new')
+      this.currentModel
         .save()
         .then((model) => {
-          this.transitionTo('record.show.edit', model);
+          this.replaceWith('record.show.edit', model);
         });
     },
 
     cancelRecord() {
-      this.transitionTo('records');
+      this.replaceWith('records');
 
       return false;
     }
