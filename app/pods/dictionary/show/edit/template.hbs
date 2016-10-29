@@ -1,2 +1,18 @@
-<section class="md-section-secondary">Editing Dictionary {{model.id}}</section>
-{{outlet}}
+<div class="row md-section-secondary">
+  <div class="col-sm-9 col-md-offset-1">
+    <section class="">Editing Dictionary {{model.id}}</section>
+    {{outlet}}
+  </div>
+  <div class="col-sm-2">
+    <div class="md-control-sidebar">
+      {{control/md-crud-buttons
+          model=model
+          doSave="saveDictionary"
+          doCancel="cancelDictionary"
+          doDelete="destroyDictionary"
+          doCopy="copyDictionary"
+      }}
+    </div>
+  </div>
+
+</div>

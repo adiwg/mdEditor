@@ -59,7 +59,11 @@ Router.map(function () {
   this.route('dictionaries');
   //dictionary
   this.route('dictionary', function () {
-    this.route('new');
+    this.route('new', function() {
+      this.route('id', {
+        path: '/:dictionary_id'
+      });
+    });
     this.route('show', {
       path: ':dictionary_id'
     }, function () {

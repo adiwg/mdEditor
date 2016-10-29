@@ -28,7 +28,7 @@ export default Ember.Route.extend({
         .then(() => {
           Ember.get(this, 'flashMessages')
             .success(`Deleted Contact: ${model.get('title')}`);
-          this.transitionTo('contacts');
+          this.replaceWith('contacts');
         });
     },
 

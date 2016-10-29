@@ -1,8 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function() {
-    return this.store.createRecord('dictionary');
+  model: function (params) {
+    if(!params.dictionary_id) {
+      return this.store.createRecord('dictionary');
+    }
+
+    return this.store.findRecord('dictionary', params.dictionary_id);
   },
 
   deactivate: function() {
@@ -34,12 +38,25 @@ export default Ember.Route.extend({
     controller.allowSave = Ember.computed('noType', 'noName', function () {
       return (this.get('noName') || this.get('noType'));
     });
-  
+
+  },
+
+  serialize: function (model) {
+    // If we got here without an ID (and therefore without a model)
+    // Ensure that we leave the route param in the URL blank (not 'undefined')
+    if(!model) {
+      return {
+        dictionary_id: ''
+      };
+    }
+
+    // Otherwise, let Ember handle it as usual
+    return this._super.apply(this, arguments);
   },
 
   actions: {
     saveDictionary() {
-      this.modelFor('dictionary.new')
+      this.currentModel
         .save()
         .then((model) => {
           this.transitionTo('dictionary.show.edit', model);
