@@ -43,25 +43,55 @@ export default Ember.Route.extend({
 
   actions: {
     /**
-     * [delete description]
-     * @param  {[type]} model [description]
-     * @return {[type]}       [description]
-     */
-    delete(model) {
-        model.destroyRecord();
-        this.transitionTo('records');
-      },
-
-    /**
-     * [updateProfile description]
-     * @param  {[type]} profile [description]
-     * @return {[type]}         [description]
+     * Update the record profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
      */
     updateProfile(profile) {
       this.get('profile')
         .set('active', profile);
       this.modelFor('record.show.edit')
         .save();
+    },
+
+    saveRecord: function () {
+      let model = this.currentModel;
+      model
+        .save()
+        .then(() => {
+          Ember.get(this, 'flashMessages')
+            .success(`Saved Record: ${model.get('title')}`);
+        });
+    },
+
+    destroyRecord: function () {
+      let model = this.currentModel;
+      model
+        .destroyRecord()
+        .then(() => {
+          Ember.get(this, 'flashMessages')
+            .success(`Deleted Record: ${model.get('title')}`);
+          this.replaceWith('records');
+        });
+    },
+
+    cancelRecord: function () {
+      let model = this.currentModel;
+      model
+        .reload()
+        .then(() => {
+          Ember.get(this, 'flashMessages')
+            .warning(
+              `Cancelled changes to Record: ${model.get('title')}`);
+        });
+    },
+
+    copyRecord: function () {
+
+      Ember.get(this, 'flashMessages')
+        .success(`Copied Record: ${this.currentModel.get('title')}`);
+      this.transitionTo('record.new.id', Ember.copy(this.currentModel));
     }
   }
 });

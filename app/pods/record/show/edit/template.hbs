@@ -1,3 +1,16 @@
-<section class="md-section-secondary">
-  {{outlet}}
-</section>
+<div class="row md-section-secondary">
+  <div class="col-sm-9 col-md-offset-1">
+    {{outlet}}
+  </div>
+  <div class="col-sm-2">
+    <div class="md-control-sidebar">
+      {{control/md-crud-buttons
+          model=model
+          doSave="saveRecord"
+          doCancel="cancelRecord"
+          doDelete="destroyRecord"
+          doCopy="copyRecord" }}
+      {{component subbar}}
+    </div>
+  </div>
+</div>

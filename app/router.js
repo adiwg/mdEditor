@@ -19,7 +19,11 @@ Router.map(function () {
   this.route('records');
   //record
   this.route('record', function () {
-    this.route('new');
+    this.route('new', function() {
+      this.route('id', {
+        path: '/:record_id'
+      });
+    });
     this.route('show', {
         path: ':record_id'
       },

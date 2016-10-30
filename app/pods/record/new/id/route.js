@@ -1,12 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function (params) {
-    if(!params.dictionary_id) {
-      return this.store.createRecord('dictionary');
+  model: function(params) {
+    if(!params.record_id) {
+      return this.store.createRecord('record');
     }
 
-    return this.store.findRecord('dictionary', params.dictionary_id);
+    return this.store.findRecord('record', params.record_id);
   },
 
   breadCrumb: null,
@@ -29,18 +29,17 @@ export default Ember.Route.extend({
     this._super(controller, model);
 
     // setup tests for required attributes
-    controller.noName = Ember.computed(
-      'model.json.dictionaryInfo.citation.title', function() {
-        return model.get('json.dictionaryInfo.citation.title') ? false : true;
+    controller.noTitle = Ember.computed(
+      'model.json.metadata.resourceInfo.citation.title', function() {
+        return model.get('title') ? false : true;
       });
     controller.noType = Ember.computed(
-      'model.json.dictionaryInfo.resourceType', function() {
-        return model.get('json.dictionaryInfo.resourceType') ? false : true;
+      'model.json.metadata.resourceInfo.resourceType', function() {
+        return model.get('json.metadata.resourceInfo.resourceType') ? false : true;
       });
-    controller.allowSave = Ember.computed('noType', 'noName', function () {
-      return (this.get('noName') || this.get('noType'));
+    controller.allowSave = Ember.computed('noType', 'noTitle', function () {
+      return (this.get('noTitle') || this.get('noType'));
     });
-
   },
 
   serialize: function (model) {
@@ -48,7 +47,7 @@ export default Ember.Route.extend({
     // Ensure that we leave the route param in the URL blank (not 'undefined')
     if(!model) {
       return {
-        dictionary_id: ''
+        record_id: ''
       };
     }
 
@@ -57,16 +56,16 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    saveDictionary() {
+    saveRecord() {
       this.currentModel
         .save()
         .then((model) => {
-          this.replaceWith('dictionary.show.edit', model);
+          this.replaceWith('record.show.edit', model);
         });
     },
 
-    cancelDictionary() {
-      this.replaceWith('dictionaries');
+    cancelRecord() {
+      this.replaceWith('records');
 
       return false;
     }

@@ -7,6 +7,23 @@ export default Ember.Route.extend({
       featureGroup: null
     });
   },
+
+  subbar: 'control/subbar-spatial',
+
+  deactivate: function() {
+    // Call _super for default behavior
+    this._super(...arguments);
+
+    this.controllerFor('record.show.edit').set('subbar', null);
+  },
+
+  setupController: function() {
+    // Call _super for default behavior
+    this._super(...arguments);
+
+    this.controllerFor('record.show.edit').set('subbar', this.get('subbar'));
+  },
+
   actions: {
     handleResize() {
       Ember.$('.map-file-picker')

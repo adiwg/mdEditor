@@ -9,6 +9,8 @@ export default Ember.Route.extend({
     return this.store.findRecord('contact', params.contact_id);
   },
 
+  breadCrumb: null,
+
   deactivate: function () {
     // We grab the model loaded in this route
     var model = this.currentModel;
