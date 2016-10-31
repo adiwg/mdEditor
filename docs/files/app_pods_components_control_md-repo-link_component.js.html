@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>md-address - mdeditor</title>
+    <title>app/pods/components/control/md-repo-link/component.js - mdeditor</title>
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
     <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
@@ -88,145 +88,79 @@
             <div class="apidocs">
                 <div id="docs-main">
                     <div class="content">
-<h1>md-address Class</h1>
-<div class="box meta">
-
-
-        <div class="foundat">
-            Defined in: <a href="../files/app_pods_components_object_md-address_component.js.html#l5"><code>app&#x2F;pods&#x2F;components&#x2F;object&#x2F;md-address&#x2F;component.js:5</code></a>
-        </div>
-
-
-</div>
-
-
-<div class="box intro">
-    <p>mdEditor class for input and edit of mdJSON address objects.</p>
-
-</div>
-
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_md-address" class="method item">
-    <h3 class="name"><code>md-address</code></h3>
-
-        <span class="paren">()</span>
-
-
-
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/app_pods_components_object_md-address_component.js.html#l5"><code>app&#x2F;pods&#x2F;components&#x2F;object&#x2F;md-address&#x2F;component.js:5</code></a>
-        </p>
-
-
-
-    </div>
-
-    <div class="description">
-        
-    </div>
-
-
-
-
-</div>
-    </div>
-
-<div id="classdocs" class="tabview">
-    <ul class="api-class-tabs">
-        <li class="api-class-tab index"><a href="#index">Index</a></li>
-
-            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
-    </ul>
-
-    <div>
-        <div id="index" class="api-class-tabpanel index">
-            <h2 class="off-left">Item Index</h2>
-
-
-                <div class="index-section properties">
-                    <h3>Properties</h3>
-
-                    <ul class="index-list properties">
-                            <li class="index-item property">
-                                <a href="#property_address">address</a>
-
-                            </li>
-                            <li class="index-item property">
-                                <a href="#property_isEmpty">isEmpty</a>
-
-                            </li>
-                    </ul>
-                </div>
-
-
-        </div>
-
-
-            <div id="properties" class="api-class-tabpanel">
-                <h2 class="off-left">Properties</h2>
-
-<div id="property_address" class="property item">
-    <h3 class="name"><code>address</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/app_pods_components_object_md-address_component.js.html#l12"><code>app&#x2F;pods&#x2F;components&#x2F;object&#x2F;md-address&#x2F;component.js:12</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>mdJSON 'address' object to be edited.</p>
-
-    </div>
-
-
-
-</div>
-<div id="property_isEmpty" class="property item">
-    <h3 class="name"><code>isEmpty</code></h3>
-    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-
-
-
-
-
-    <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/app_pods_components_object_md-address_component.js.html#l24"><code>app&#x2F;pods&#x2F;components&#x2F;object&#x2F;md-address&#x2F;component.js:24</code></a>
-        </p>
-
-
-    </div>
-
-    <div class="description">
-        <p>Indicate whether the address object is not empty.</p>
-
-    </div>
-
-
-
-</div>
-            </div>
-
-
-    </div>
+<h1 class="file-heading">File: app/pods/components/control/md-repo-link/component.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import config from &#x27;mdeditor/config/environment&#x27;;
+
+const {
+  APP: {
+    repository,
+    version
+  }
+} = config;
+
+export default Ember.Component.extend({
+  tagName: &#x27;a&#x27;,
+  attributeBindings: [&#x27;href&#x27;, &#x27;target&#x27;],
+  classNames: [&#x27;md-fa-link&#x27;],
+
+  /**
+   * Application repository URL.
+   *
+   * @property repository
+   * @type string
+   */
+  repository,
+
+  /**
+   * Link target, open in new window by default.
+   *
+   * @property target
+   * @type string
+   */
+  target: &#x27;_blank&#x27;,
+
+  /**
+   * Application version.
+   *
+   * @property version
+   * @type string
+   */
+  version,
+
+  /**
+   * The commit hash reference.
+   *
+   * @property hash
+   * @type {Ember.computed}
+   * @return string
+   */
+  hash: Ember.computed(&#x27;version&#x27;, function () {
+    let idx = this.get(&#x27;version&#x27;)
+      .indexOf(&#x27;+&#x27;) + 1;
+
+    return version.substring(idx);
+  }),
+
+  /**
+   * The url link
+   *
+   * @property href
+   * @type {Ember.computed}
+   * @return string
+   */
+  href: Ember.computed(&#x27;repository&#x27;, &#x27;hash&#x27;, function () {
+    let repo = this.get(&#x27;repository&#x27;);
+    let hash = this.get(&#x27;hash&#x27;);
+
+    return &#x60;${repo}/${hash}&#x60;;
+  }),
+});
+
+    </pre>
 </div>
                     </div>
                 </div>

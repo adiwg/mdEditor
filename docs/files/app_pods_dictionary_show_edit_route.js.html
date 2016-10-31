@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="mdeditor" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.0.a383ed81</em>
+            <em>API Docs for: 0.0.0.a0fe340b</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -117,6 +117,47 @@ export default Ember.Route.extend({
     this.render(&#x27;dictionary.show.edit&#x27;, {
       into: &#x27;dictionary&#x27;
     });
+  },
+
+  actions: {
+    saveDictionary: function () {
+      let model = this.currentModel;
+      model
+        .save()
+        .then(() =&gt; {
+          Ember.get(this, &#x27;flashMessages&#x27;)
+            .success(&#x60;Saved Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;);
+        });
+    },
+
+    destroyDictionary: function () {
+      let model = this.currentModel;
+      model
+        .destroyRecord()
+        .then(() =&gt; {
+          Ember.get(this, &#x27;flashMessages&#x27;)
+            .success(&#x60;Deleted Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;);
+          this.replaceWith(&#x27;dictionaries&#x27;);
+        });
+    },
+
+    cancelDictionary: function () {
+      let model = this.currentModel;
+      model
+        .reload()
+        .then(() =&gt; {
+          Ember.get(this, &#x27;flashMessages&#x27;)
+            .warning(
+              &#x60;Cancelled changes to Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;);
+        });
+    },
+
+    copyDictionary: function () {
+
+      Ember.get(this, &#x27;flashMessages&#x27;)
+        .success(&#x60;Copied Dictionary: ${this.currentModel.get(&#x27;title&#x27;)}&#x60;);
+      this.transitionTo(&#x27;dictionary.new.id&#x27;, Ember.copy(this.currentModel));
+    }
   }
 });
 

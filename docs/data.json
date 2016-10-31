@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.a383ed81"
+        "version": "0.0.0.a0fe340b"
     },
     "files": {
         "app/pods/components/control/md-button-confirm/component.js": {
@@ -30,6 +30,13 @@
         },
         "app/pods/components/control/md-modal/component.js": {
             "name": "app/pods/components/control/md-modal/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/control/md-repo-link/component.js": {
+            "name": "app/pods/components/control/md-repo-link/component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -443,6 +450,15 @@
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
             "line": 12,
+            "description": "Element selector or element that serves as the reference for modal position",
+            "itemtype": "property",
+            "name": "target",
+            "type": "{String}",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-json-viewer/component.js",
+            "line": 20,
             "description": "Object to render as JSON in viewer",
             "type": "{Object}",
             "class": "md-boolean"
@@ -468,6 +484,15 @@
         {
             "file": "app/pods/components/control/md-modal/component.js",
             "line": 20,
+            "description": "Element selector or element that serves as the reference for modal position",
+            "itemtype": "property",
+            "name": "target",
+            "type": "{String}",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-modal/component.js",
+            "line": 28,
             "description": "Whether to display the confirm button",
             "itemtype": "property",
             "name": "showConfirm",
@@ -476,7 +501,16 @@
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 28,
+            "line": 36,
+            "description": "Whether to render in place",
+            "itemtype": "property",
+            "name": "renderInPlace",
+            "type": "{Boolean}",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-modal/component.js",
+            "line": 44,
             "description": "Whether to display the cancel button",
             "itemtype": "property",
             "name": "showCancel",
@@ -485,7 +519,7 @@
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 36,
+            "line": 52,
             "description": "Label for the confirm button",
             "itemtype": "property",
             "name": "confirmLabel",
@@ -494,20 +528,71 @@
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 44,
+            "line": 60,
             "description": "Close action callback",
             "class": "md-boolean"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 51,
+            "line": 67,
             "description": "Confirm action callback",
             "class": "md-boolean"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 58,
+            "line": 74,
             "description": "Cancel action callback",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-repo-link/component.js",
+            "line": 16,
+            "description": "Application repository URL.",
+            "itemtype": "property",
+            "name": "repository",
+            "type": "string",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-repo-link/component.js",
+            "line": 24,
+            "description": "Link target, open in new window by default.",
+            "itemtype": "property",
+            "name": "target",
+            "type": "string",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-repo-link/component.js",
+            "line": 32,
+            "description": "Application version.",
+            "itemtype": "property",
+            "name": "version",
+            "type": "string",
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-repo-link/component.js",
+            "line": 40,
+            "description": "The commit hash reference.",
+            "itemtype": "property",
+            "name": "hash",
+            "type": "{Ember.computed}",
+            "return": {
+                "description": "string"
+            },
+            "class": "md-boolean"
+        },
+        {
+            "file": "app/pods/components/control/md-repo-link/component.js",
+            "line": 54,
+            "description": "The url link",
+            "itemtype": "property",
+            "name": "href",
+            "type": "{Ember.computed}",
+            "return": {
+                "description": "string"
+            },
             "class": "md-boolean"
         },
         {
@@ -1342,35 +1427,15 @@
         {
             "file": "app/pods/record/show/edit/route.js",
             "line": 45,
-            "description": "[delete description]",
-            "params": [
-                {
-                    "name": "model",
-                    "description": "[description]",
-                    "type": "[type]"
-                }
-            ],
-            "return": {
-                "description": "[description]",
-                "type": "[type]"
-            },
-            "class": ""
-        },
-        {
-            "file": "app/pods/record/show/edit/route.js",
-            "line": 55,
-            "description": "[updateProfile description]",
+            "description": "Update the record profile",
+            "name": "updateProfile",
             "params": [
                 {
                     "name": "profile",
-                    "description": "[description]",
-                    "type": "[type]"
+                    "description": "The new profile.",
+                    "type": "String"
                 }
             ],
-            "return": {
-                "description": "[description]",
-                "type": "[type]"
-            },
             "class": ""
         },
         {
@@ -1451,6 +1516,10 @@
             "line": " app/pods/components/control/md-modal/component.js:4"
         },
         {
+            "message": "unknown tag: name",
+            "line": " app/pods/record/show/edit/route.js:45"
+        },
+        {
             "message": "replacing incorrect tag: augments with uses",
             "line": " app/services/profile.js:3"
         },
@@ -1472,19 +1541,19 @@
         },
         {
             "message": "Missing item type\nObject to render as JSON in viewer",
-            "line": " app/pods/components/control/md-json-viewer/component.js:12"
+            "line": " app/pods/components/control/md-json-viewer/component.js:20"
         },
         {
             "message": "Missing item type\nClose action callback",
-            "line": " app/pods/components/control/md-modal/component.js:44"
+            "line": " app/pods/components/control/md-modal/component.js:60"
         },
         {
             "message": "Missing item type\nConfirm action callback",
-            "line": " app/pods/components/control/md-modal/component.js:51"
+            "line": " app/pods/components/control/md-modal/component.js:67"
         },
         {
             "message": "Missing item type\nCancel action callback",
-            "line": " app/pods/components/control/md-modal/component.js:58"
+            "line": " app/pods/components/control/md-modal/component.js:74"
         },
         {
             "message": "Missing item type\noptions:\n   more - translated \"more\" text\n   offset - width that needs to be subtracted from the parent div width",
@@ -1511,12 +1580,8 @@
             "line": " app/pods/record/show/edit/route.js:24"
         },
         {
-            "message": "Missing item type\n[delete description]",
+            "message": "Missing item type\nUpdate the record profile",
             "line": " app/pods/record/show/edit/route.js:45"
-        },
-        {
-            "message": "Missing item type\n[updateProfile description]",
-            "line": " app/pods/record/show/edit/route.js:55"
         },
         {
             "message": "Missing item type\nModels for sidebar navigation",

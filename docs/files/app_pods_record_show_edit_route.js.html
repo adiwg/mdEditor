@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="mdeditor" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.0.a383ed81</em>
+            <em>API Docs for: 0.0.0.a0fe340b</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -137,25 +137,55 @@ export default Ember.Route.extend({
 
   actions: {
     /**
-     * [delete description]
-     * @param  {[type]} model [description]
-     * @return {[type]}       [description]
-     */
-    delete(model) {
-        model.destroyRecord();
-        this.transitionTo(&#x27;records&#x27;);
-      },
-
-    /**
-     * [updateProfile description]
-     * @param  {[type]} profile [description]
-     * @return {[type]}         [description]
+     * Update the record profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
      */
     updateProfile(profile) {
       this.get(&#x27;profile&#x27;)
         .set(&#x27;active&#x27;, profile);
       this.modelFor(&#x27;record.show.edit&#x27;)
         .save();
+    },
+
+    saveRecord: function () {
+      let model = this.currentModel;
+      model
+        .save()
+        .then(() =&gt; {
+          Ember.get(this, &#x27;flashMessages&#x27;)
+            .success(&#x60;Saved Record: ${model.get(&#x27;title&#x27;)}&#x60;);
+        });
+    },
+
+    destroyRecord: function () {
+      let model = this.currentModel;
+      model
+        .destroyRecord()
+        .then(() =&gt; {
+          Ember.get(this, &#x27;flashMessages&#x27;)
+            .success(&#x60;Deleted Record: ${model.get(&#x27;title&#x27;)}&#x60;);
+          this.replaceWith(&#x27;records&#x27;);
+        });
+    },
+
+    cancelRecord: function () {
+      let model = this.currentModel;
+      model
+        .reload()
+        .then(() =&gt; {
+          Ember.get(this, &#x27;flashMessages&#x27;)
+            .warning(
+              &#x60;Cancelled changes to Record: ${model.get(&#x27;title&#x27;)}&#x60;);
+        });
+    },
+
+    copyRecord: function () {
+
+      Ember.get(this, &#x27;flashMessages&#x27;)
+        .success(&#x60;Copied Record: ${this.currentModel.get(&#x27;title&#x27;)}&#x60;);
+      this.transitionTo(&#x27;record.new.id&#x27;, Ember.copy(this.currentModel));
     }
   }
 });
