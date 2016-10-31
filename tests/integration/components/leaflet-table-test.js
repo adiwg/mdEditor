@@ -18,11 +18,12 @@ test('it renders', function (assert) {
     resizeEventsEnabled=false resizeDebouncedEventsEnabled=false}}`);
 
   assert.equal($(this.$()
-    .html()
-    .replace('&nbsp;', '|'))
+      .html()
+      .replace('&nbsp;', '|'))
     .text()
     .trim()
-    .replace(/[ \n]+/g, '|'),
-    'Drop|Here!|+-|Terrain|Extents3000|km2000|miLeaflet|||Map|tiles|by|Stamen|Design,|under|CC|BY|3.0.|Data|by|OpenStreetMap,|under|CC|BY|SA.|Feature|Properties|ID|Name|Description|||1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50'
+    .replace(/[ \n]+/g, '|')
+    .replace(/Extents.+Leaflet/g, 'Extents|Leaflet'),
+    'Drop|Here!|+-|Terrain|Extents|Leaflet|||Map|tiles|by|Stamen|Design,|under|CC|BY|3.0.|Data|by|OpenStreetMap,|under|CC|BY|SA.|Feature|Properties|ID|Name|Description|||1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50'
   );
 });

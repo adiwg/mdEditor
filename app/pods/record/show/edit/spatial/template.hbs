@@ -1,8 +1,43 @@
 <section>
-    {{leaflet-table
-        layers=model.json.metadata.resourceInfo.extent.geographicElement
-        setFeatureGroup=(route-action "setFeatureGroup")
-        handleResize=(route-action "handleResize")}}
+  {{#each model.extents as |extent index|}}
+    <div class="row md-extent-container">
+      <div class="col-sm-2 md-extent-buttons">
+          <button type="button" class="btn btn-md btn-warning btn-block md-btn-responsive" {{action (route-action "editExtent" index)}}>
+            {{fa-icon "pencil"}} Edit Extent</button>
+            <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteExtent" index)}}>
+              {{fa-icon "times"}} Delete Extent</button>
+      </div>
+      <div class="col-sm-4 md-extent-description">
+        <div class="text-primary"><strong>Extent #{{index}}</strong></div>
+        {{input/md-textarea value=extent.description rows=5
+            maxHeight=300 placeholder="Description of extent" label="Description"}}
+      </div>
+      <div class="col-sm-6 md-extent-map">
+        {{#if extent.geographicElement.length}}
+          {{#leaflet-map lat=0 lng=0 zoom=2 onLoad=(route-action "setupMap" extent.geographicElement)}}
+            {{!-- Specify child layer components here --}}
+            {{#layer-group name="Terrain" baselayer=true default=true}}
+              {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+            {{/layer-group}}
+
+            {{#feature-group name="Features" default=true}}
+              {{#each extent.geographicElement as |l|}}
+                {{geojson-layer geoJSON=l draw=true}}
+              {{/each}}
+            {{/feature-group}}
+
+            {{layer-control}}
+          {{/leaflet-map}}
+        {{else}}
+        <div class="alert alert-info">
+          No Features to display.
+        </div>
+        {{/if}}
+      </div>
+    </div>
+    {{else}}
+      No extents found.
+  {{/each}}
 </section>
 
 {{outlet}}

@@ -1,0 +1,11 @@
+.md-extent-container {
+  border: 1px solid $gray-lighter;
+  min-height: 250px;
+  padding: 15px 0;
+
+  .md-extent-description,
+  .leaflet-container,
+  .alert {
+    height: 250px;
+  }
+}

@@ -18,7 +18,7 @@ test('it renders', function (assert) {
   assert.equal(this.$()
     .text()
     .replace(/[ \n]+/g, '|')
-    .trim(), '|Zoom|All|Import|Features|Export|Features|Delete|All|');
+    .trim(), '|Add|Spatial|Extent|');
 
   // Template block usage:
   this.render(hbs `
@@ -31,6 +31,6 @@ test('it renders', function (assert) {
     .text()
     .replace(/[ \n]+/g, '|')
     .trim(),
-    '|Zoom|All|Import|Features|Export|Features|Delete|All|template|block|text|'
+    '|Add|Spatial|Extent|template|block|text|'
   );
 });
