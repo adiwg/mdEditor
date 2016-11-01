@@ -28,7 +28,7 @@ test('it renders', function (assert) {
     .trim(), version);
   assert.equal(this.$('a')
     .attr('href'),
-    `${repository}/${version.substring(version.indexOf('+') + 1)}`);
+    `${repository}/tree/${version.substring(version.indexOf('+') + 1)}`);
 
   // Template block usage:
   this.render(hbs `
