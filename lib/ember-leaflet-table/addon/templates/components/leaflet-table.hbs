@@ -2,7 +2,7 @@
   <div class="map-dropzone-target">
     <span><i class="fa fa-bullseye"></i> Drop Here!</span>
   </div>
-  {{#leaflet-draw lat=lat lng=lng zoom=zoom onLoad=(action "setup" layers) editLayers=layers closeForm=(action "closeForm") showForm=(action "showForm")}}
+  {{#leaflet-draw lat=lat lng=lng zoom=zoom onLoad="setup" editLayers=layers closeForm=(action "closeForm") showForm=(action "showForm")}}
     {{!-- Specify child layer components here --}}
     {{#layer-group name="Terrain" baselayer=true default=true}}
       {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}

@@ -6,7 +6,7 @@ export default Ember.Route.extend({
     let json = this.modelFor('record.show.edit').get('json');
     let info = json.metadata.resourceInfo;
 
-    if(!info.hasOwnProperty('extent')) {
+    if (!info.hasOwnProperty('extent')) {
       info.extent = Ember.A();
     }
 
@@ -18,24 +18,22 @@ export default Ember.Route.extend({
 
   subbar: 'control/subbar-spatial',
 
-  deactivate: function () {
-    // Call _super for default behavior
-    this._super(...arguments);
-
+  clearSubbar: function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
-  },
+  }.on('deactivate'),
 
-  setupController: function () {
+  setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
       .set('subbar', this.get('subbar'));
+    this.controller.set('subbar', this.get('subbar'));
   },
 
   actions: {
-    addExtent(){
+    addExtent() {
       let extents = this.currentModel.get('extents');
 
       extents.pushObject({
@@ -43,12 +41,12 @@ export default Ember.Route.extend({
         geographicElement: Ember.A()
       });
     },
-    deleteExtent(id){
+    deleteExtent(id) {
       let extents = this.currentModel.get('extents');
 
       extents.removeAt(id);
     },
-    editExtent(id){
+    editExtent(id) {
       this.transitionTo('record.show.edit.spatial.extent', id);
     },
     setupMap(features, m) {

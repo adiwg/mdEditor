@@ -7,7 +7,7 @@ export default Ember.Route.extend({
     let extent = extents[params.extent_id];
     let layers = Ember.NativeArray.apply(extent.geographicElement);
 
-    layers.forEach(function(l, idx, arr){
+    layers.forEach(function(l, idx, arr) {
       arr[idx] = Ember.Object.create(l);
     });
 
@@ -25,15 +25,12 @@ export default Ember.Route.extend({
 
   subbar: 'control/subbar-extent',
 
-  deactivate: function () {
-    // Call _super for default behavior
-    this._super(...arguments);
+  // clearSubbar: function() {
+  //   this.controllerFor('record.show.edit')
+  //     .set('subbar', null);
+  // }.on('deactivate'),
 
-    this.controllerFor('record.show.edit')
-      .set('subbar', null);
-  },
-
-  setupController: function () {
+  setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -42,6 +39,14 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    willTransition: function(transition) {
+      let parent = this.routeName.substring(0, this.routeName.lastIndexOf('.'));
+
+      let subbar = transition.targetName === parent + '.index' ? this.controllerFor(parent).get('subbar') : null;
+
+      this.controllerFor('record.show.edit')
+        .set('subbar', subbar);
+    },
     handleResize() {
       Ember.$('.map-file-picker')
         .height(Ember.$(window)
@@ -56,13 +61,13 @@ export default Ember.Route.extend({
       let features = this.currentModel.get('layers');
       let group = this.currentModel.get('featureGroup');
 
-      if(features.length) {
+      if (features.length) {
         features.forEach((item) => {
           features.popObject(item);
           group.removeLayer(item._layer);
         });
 
-        if(group._map.drawControl) {
+        if (group._map.drawControl) {
           group._map.drawControl.remove();
         }
         features.clear();
@@ -76,7 +81,7 @@ export default Ember.Route.extend({
       let bnds = layer.getBounds();
       let map = layer._map;
 
-      if(bnds.isValid()) {
+      if (bnds.isValid()) {
         map.fitBounds(bnds, {
           maxZoom: 14
         });
@@ -93,7 +98,7 @@ export default Ember.Route.extend({
         'features': []
       };
 
-      if(fg) {
+      if (fg) {
         let geoGroup = fg.getLayers();
         geoGroup.forEach((l) => {
           let layers = l.getLayers();
