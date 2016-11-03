@@ -115,8 +115,8 @@ export default Ember.Component.extend(ResizeAware, {
         dropdown.children('ul.dropdown-menu')
           .children()
           .each(function () {
-            if (width += parseInt(Ember.$(this)
-                .attr('data-original-width')) < parent_width) {
+            if ((width += parseInt(Ember.$(this)
+                .attr('data-original-width'))) < parent_width) {
               // Restore the topmost dropdown item to the main menu
               dropdown.before(this);
             } else {
