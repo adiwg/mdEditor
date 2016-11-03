@@ -48,10 +48,10 @@ export default Ember.Route.extend({
         .set('subbar', subbar);
     },
     handleResize() {
-      Ember.$('.map-file-picker')
-        .height(Ember.$(window)
+      Ember.$('.map-file-picker .leaflet-container')
+        .height((Ember.$(window)
           .height() - Ember.$('#md-navbars')
-          .outerHeight() - 15);
+          .outerHeight() - 15)/2);
     },
     uploadData() {
       Ember.$('.map-file-picker .file-picker__input')
