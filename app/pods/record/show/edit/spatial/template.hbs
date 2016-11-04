@@ -1,16 +1,21 @@
 <section>
   {{#each model.extents as |extent index|}}
     <div class="row md-extent-container">
-      <div class="col-sm-2 md-extent-buttons">
-          <button type="button" class="btn btn-md btn-warning btn-block md-btn-responsive" {{action (route-action "editExtent" index)}}>
-            {{fa-icon "pencil"}} Edit Extent</button>
+      <div class="col-sm-6">
+        <div class="row">
+          <h4 class="col-sm-12 text-primary"><strong>Extent #{{index}}</strong></h4>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 md-extent-buttons">
+            <button type="button" class="btn btn-md btn-warning btn-block md-btn-responsive" {{action (route-action "editExtent" index)}}>
+              {{fa-icon "pencil"}} Edit Extent</button>
             <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteExtent" index)}}>
-              {{fa-icon "times"}} Delete Extent</button>
-      </div>
-      <div class="col-sm-4 md-extent-description">
-        <div class="text-primary"><strong>Extent #{{index}}</strong></div>
-        {{input/md-textarea value=extent.description rows=5
-            maxHeight=300 placeholder="Description of extent" label="Description"}}
+                {{fa-icon "times"}} Delete Extent</button>
+          </div>
+          <div class="col-sm-8 md-extent-description">
+            {{input/md-textarea value=extent.description rows=5 maxHeight=300 placeholder="Description of extent" label="Description"}}
+          </div>
+        </div>
       </div>
       <div class="col-sm-6 md-extent-map">
         {{#if extent.geographicElement.length}}
@@ -22,16 +27,16 @@
 
             {{#feature-group name="Features" default=true}}
               {{#each extent.geographicElement as |l|}}
-                {{geojson-layer geoJSON=l draw=true}}
+                {{geojson-layer geoJSON=l}}
               {{/each}}
             {{/feature-group}}
 
             {{layer-control}}
           {{/leaflet-map}}
         {{else}}
-        <div class="alert alert-info">
-          No Features to display.
-        </div>
+          <div class="alert alert-info">
+            No Features to display.
+          </div>
         {{/if}}
       </div>
     </div>
