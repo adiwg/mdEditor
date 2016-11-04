@@ -60,6 +60,13 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    willTransition: function (transition) {
+      if (transition.targetName === 'contact.new.index') {
+          this.currentModel.destroyRecord();
+          return true;
+      }
+    },
+
     saveContact() {
       this.currentModel
         .save()
