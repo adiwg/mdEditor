@@ -50,7 +50,7 @@ moduleForComponent('layout/md-nav-secondary',
     beforeEach: function() {
       this.register('service:profile', profileStub);
       // Calling inject puts the service instance in the test's context,
-      // making it accessible as "locationService" within each test
+      // making it accessible as "profileService" within each test
       this.inject.service('profile', {
         as: 'profileService'
       });

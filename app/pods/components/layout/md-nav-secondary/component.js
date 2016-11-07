@@ -3,6 +3,7 @@ import ResizeAware from 'ember-resize/mixins/resize-aware';
 
 export default Ember.Component.extend(ResizeAware, {
   profile: Ember.inject.service('profile'),
+  resizeService: Ember.inject.service('resize'),
   links: Ember.computed('profile.active', function () {
     const profile = this.get('profile')
       .getActiveProfile();

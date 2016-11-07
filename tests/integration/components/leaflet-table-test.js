@@ -15,7 +15,7 @@ test('it renders', function (assert) {
   this.set('layers', createMapLayer(2));
 
   this.render(hbs `{{leaflet-table layers=layers.features
-    resizeEventsEnabled=false resizeDebouncedEventsEnabled=false}}`);
+    resizeDebouncedEventsEnabled=true}}`);
 
   assert.equal($(this.$()
       .html()
