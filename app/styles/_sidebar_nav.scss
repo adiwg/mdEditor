@@ -180,5 +180,9 @@
     max-width: 220px;
     padding-left: 10px;
     display: block;
+
+    &.active {
+      color: darken($brand-warning, 15);
+    }
   }
 }

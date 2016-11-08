@@ -47,5 +47,20 @@ export default Ember.Route.extend({
    */
   currentModel: function () {
     return this.modelFor(this.routeName);
+  },
+
+  actions: {
+    error(error) {
+      Ember.Logger.error(error);
+
+      if(error.status === 404) {
+        return this.transitionTo('not-found');
+      }
+
+      return this.replaceWith('error')
+        .then(function (route) {
+          route.controller.set('lastError', error);
+        });
+    },
   }
 });
