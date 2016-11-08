@@ -12,7 +12,8 @@ export default Ember.Route.extend({
   },
 
   getTitle(record) {
-    let json = JSON.parse(record.attributes.json);
+    let raw = record.attributes.json;
+    let json = raw ? JSON.parse(raw) : null;
 
     switch(record.type) {
     case 'records':
