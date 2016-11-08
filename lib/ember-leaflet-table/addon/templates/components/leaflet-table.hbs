@@ -1,0 +1,35 @@
+{{#file-picker class="map-file-picker" fileLoaded="readData" progressValue=progress selectOnClick=false preview=false accept=fileTypes readAs="readAsArrayBuffer" }}
+  <div class="map-dropzone-target">
+    <span><i class="fa fa-bullseye"></i> Drop Here!</span>
+  </div>
+  {{#leaflet-draw lat=lat lng=lng zoom=zoom onLoad="setup" editLayers=layers closeForm=(action "closeForm") showForm=(action "showForm")}}
+    {{!-- Specify child layer components here --}}
+    {{#layer-group name="Terrain" baselayer=true default=true}}
+      {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+    {{/layer-group}}
+
+    {{#feature-group name="Extents" default=true setFeatureGroup=setFeatureGroup}}
+      {{#each layers as |l|}}
+        {{geojson-layer geoJSON=l draw=true editLayers=layers}}
+      {{/each}}
+    {{/feature-group}}
+
+    {{layer-control}}
+  {{/leaflet-draw}}
+  {{#unless formData}}
+  <h4 class="table-title">Feature Properties</h4>
+  {{feature-table data=layers showForm=(action "showForm")
+    showGlobalFilter=false
+    showColumnsDropdown=false
+    pageSize=10
+  }}
+  {{else}}
+  <h4 class="table-title">Edit Feature Properties
+      <button class="btn btn-xs btn-info pull-right" {{action "closeForm"}} title="Close Form">
+        <span class="fa fa-check"></span> OK
+      </button>
+  </h4>
+  {{feature-form model=formData}}
+  {{/unless}}
+  {{yield}}
+{{/file-picker}}

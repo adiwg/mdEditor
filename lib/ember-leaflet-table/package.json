@@ -1,0 +1,23 @@
+{
+  "name": "ember-leaflet-table",
+  "keywords": [
+    "ember-addon"
+  ],
+  "dependencies": {
+    "babel-plugin-htmlbars-inline-precompile": "^0.1.0",
+    "ember-cli-babel": "^5.1.6",
+    "ember-cli-htmlbars": "^1.0.3",
+    "ember-cli-htmlbars-inline-precompile": "^0.3.1",
+    "ember-leaflet": "2.2.7",
+    "ember-leaflet-layer-control": "^0",
+    "ember-models-table": "^1.8",
+    "ember-cli-sass": "~5.5.1",
+    "ember-cli-file-picker": "funkensturm/ember-cli-file-picker#17826d3",
+    "ember-browserify": "^1.1.12",
+    "node-uuid": "^1.4.7",
+    "ember-resize": "0.0.17",
+    "csv2geojson": "^5.0.2",
+    "shapefile": "^0.5.7",
+    "togeojson": "^0.14.2"
+  }
+}

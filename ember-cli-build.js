@@ -12,6 +12,17 @@ module.exports = function(defaults) {
         'bower_components/select2-bootstrap-theme/src',
         'bower_components/jquery-jsonview/src'
       ]
+    },
+    fingerprint: {
+      exclude: [
+        'images/layers-2x.png',
+        'images/layers.png',
+        'images/marker-icon-2x.png',
+        'images/marker-icon.png',
+        'images/marker-shadow.png',
+        'images/spritesheet-2x.png',
+        'images/spritesheet.png'
+      ]
     }
   });
 

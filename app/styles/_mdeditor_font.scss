@@ -5,8 +5,8 @@
   src: url(../fonts/mdeditor.eot?#iefix) format('embedded-opentype'), url(../fonts/mdeditor.woff?70673711) format('woff'), url(../fonts/mdeditor.ttf?70673711) format('truetype'), url(../fonts/mdeditor.svg?70673711#mdeditor) format('svg');
 }
 
-[class*=' icon-']::before,
-[class^='icon-']::before {
+[class*=' md-icon-']::before,
+[class^='md-icon-']::before {
   display: inline-block;
   font-family: mdeditor;
   font-style: normal;
@@ -21,14 +21,14 @@
   width: 1em;
 }
 
-.icon-mdeditor::before {
+.md-icon-mdeditor::before {
   content: '\e804';
 }
 
-.icon-mdeditor {
+.md-icon-mdeditor {
   color: $brand-primary;
 }
 
-.navbar-inverse .icon-mdeditor:hover {
+.navbar-inverse .md-icon-mdeditor:hover {
   color: $body-bg;
 }

@@ -1,7 +1,16 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  //breadCrumb: null,
+  breadCrumb: {},
+  afterModel(model) {
+    const name = model.get('title');
+
+    const crumb = {
+      title: name
+    };
+
+    this.set('breadCrumb', crumb);
+  },
   model(params) {
     return this.store.findRecord('record', params.record_id);
   },

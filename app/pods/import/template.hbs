@@ -8,7 +8,7 @@
       {{control/md-json-viewer class="md-import-preview" json=model.preview.json modal=false}}
     {{else}}
       {{#unless model.files}}
-        {{#file-picker class="import-file-picker" fileLoaded="readData" preview=false accept=".json" readAs="readAsText"}}
+        {{#file-picker class="md-file-picker md-import-picker" fileLoaded="readData" preview=false accept=".json" readAs="readAsText"}}
           <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}} Click or Drop a File Here to Import Data</button>
         {{/file-picker}}
       {{/unless}}

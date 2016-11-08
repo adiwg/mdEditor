@@ -12,6 +12,13 @@
     "eonasdan-bootstrap-datetimepicker": "^4.17.37",
     "blob-polyfill": "^1.0.20150320",
     "jquery-jsonview": "^1.2.3",
-    "blob": "*"
+    "blob": "*",
+    "leaflet": "~1.0.0-rc.3",
+    "leaflet-draw": "chugcup/Leaflet.draw#master",
+    "Leaflet.vector-markers": "^0.0.6",
+    "text-encoding": "^0.6.1"
+  },
+  "resolutions": {
+    "leaflet": "~1.0.0-rc.3"
   }
 }
