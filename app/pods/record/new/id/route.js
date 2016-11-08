@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  model: function(params) {
-    if(!params.record_id) {
+  model: function (params) {
+    if (!params.record_id) {
       return this.store.createRecord('record');
     }
 
@@ -11,7 +11,7 @@ export default Ember.Route.extend({
 
   breadCrumb: null,
 
-  deactivate: function() {
+  deactivate: function () {
     // We grab the model loaded in this route
     let model = this.currentModel;
 
@@ -24,17 +24,19 @@ export default Ember.Route.extend({
   },
 
   //some test actions
-  setupController: function(controller, model) {
+  setupController: function (controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
 
     // setup tests for required attributes
     controller.noTitle = Ember.computed(
-      'model.json.metadata.resourceInfo.citation.title', function() {
+      'model.json.metadata.resourceInfo.citation.title',
+      function () {
         return model.get('title') ? false : true;
       });
     controller.noType = Ember.computed(
-      'model.json.metadata.resourceInfo.resourceType', function() {
+      'model.json.metadata.resourceInfo.resourceType',
+      function () {
         return model.get('json.metadata.resourceInfo.resourceType') ? false : true;
       });
     controller.allowSave = Ember.computed('noType', 'noTitle', function () {
@@ -45,7 +47,7 @@ export default Ember.Route.extend({
   serialize: function (model) {
     // If we got here without an ID (and therefore without a model)
     // Ensure that we leave the route param in the URL blank (not 'undefined')
-    if(!model) {
+    if (!model) {
       return {
         record_id: ''
       };
@@ -56,6 +58,12 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    willTransition: function (transition) {
+      if (transition.targetName === 'record.new.index') {
+          this.currentModel.destroyRecord();
+          return true;
+      }
+    },
     saveRecord() {
       this.currentModel
         .save()

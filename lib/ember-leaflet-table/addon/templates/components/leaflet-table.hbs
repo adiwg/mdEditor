@@ -10,7 +10,7 @@
 
     {{#feature-group name="Extents" default=true setFeatureGroup=setFeatureGroup}}
       {{#each layers as |l|}}
-        {{geojson-layer geoJSON=l draw=true editLayers=layers}}
+        {{lgeojson-layer geoJSON=l draw=true editLayers=layers}}
       {{/each}}
     {{/feature-group}}
 

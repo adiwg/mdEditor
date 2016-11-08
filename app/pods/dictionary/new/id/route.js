@@ -57,6 +57,13 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    willTransition: function (transition) {
+      if (transition.targetName === 'dictionary.new.index') {
+          this.currentModel.destroyRecord();
+          return true;
+      }
+    },
+
     saveDictionary() {
       this.currentModel
         .save()

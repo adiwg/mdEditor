@@ -62,6 +62,6 @@ export default Ember.Component.extend({
     let repo = this.get('repository');
     let hash = this.get('hash');
 
-    return `${repo}/${hash}`;
+    return `${repo}/tree/${hash}`;
   }),
 });

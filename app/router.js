@@ -31,7 +31,11 @@ Router.map(function () {
         this.route('edit', function () {
           this.route('metadata');
           this.route('keywords');
-          this.route('spatial');
+          this.route('spatial', function() {
+            this.route('extent', {
+              path: 'extent/:extent_id'
+            });
+          });
           this.route('quality');
           this.route('distribution');
           this.route('associated');
