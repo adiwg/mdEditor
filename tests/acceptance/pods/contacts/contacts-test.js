@@ -26,10 +26,14 @@ test('delete should display a confirm', function (assert) {
 
   visit('/contacts');
 
-  assert.dialogOpensAndCloses({
-    openSelector: 'button.md-button-modal.btn-danger:first',
-    closeSelector: '.md-modal-overlay button.btn-primary',
-    hasOverlay: true
+  andThen(function () {
+    assert.dialogOpensAndCloses({
+      openSelector: 'button.md-button-modal.btn-danger:first',
+      closeSelector: '.ember-modal-overlay',
+      //closeSelector: '.md-modal-container button.btn-primary',
+      hasOverlay: true,
+      context: 'html'
+    });
   });
 
 });

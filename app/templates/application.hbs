@@ -34,3 +34,18 @@
   </div>
 </div>
 {{ember-load-remover}}
+
+{{#control/md-modal isShowing=settings.data.showSplash showConfirm=true confirmLabel="OK"}}
+    <div class="alert alert-warning" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
+    <div class="alert alert-danger" role="alert">{{fa-icon "wrench"}} Warning:
+        This application is under development!
+    </div>
+    <p>
+        The application has been updated since your last session. Some features
+        may have been added or changed. Please note the version below (also shown
+        in the {{#link-to "settings"}}Settings{{/link-to}}) when reporting bugs or issues.
+    </p>
+    <p>
+        Current Version: <span class="text-info">{{control/md-repo-link}}</span>
+    </p>
+{{/control/md-modal}}

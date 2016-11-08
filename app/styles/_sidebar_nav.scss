@@ -45,17 +45,17 @@
   }
 
   > .sidebar-brand {
-    font-size: 18px;
-    line-height: 52.5px;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    display: none;
-    width: 275px;
-    height: 52.5px;
-    padding: 0 10px;
-    border-top: 1px solid $body-bg;
     background-color: $gray-darker;
+    border-top: 1px solid $body-bg;
+    display: none;
+    font-size: 18px;
+    height: 52.5px;
+    line-height: 52.5px;
+    padding: 0 10px;
+    position: fixed;
+    top: 0;
+    width: 275px;
+    z-index: 1000;
 
     a {
       color: lighten($gray-dark, 40);
@@ -63,6 +63,23 @@
       &:hover {
         background: none repeat scroll 0 0;
         color: $body-bg;
+      }
+    }
+
+    .md-app-version {
+      color: $brand-primary;
+      font-size: 11px;
+      font-variant: small-caps;
+      padding-left: 3px;
+      position: relative;
+      top: -7px;
+
+      &.alpha {
+        color: $brand-danger;
+      }
+
+      &.beta {
+        color: $brand-warning;
       }
     }
   }

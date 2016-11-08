@@ -3,7 +3,7 @@ import ENV from 'mdeditor/config/environment';
 
 export function initialize() {
   if(ENV.environment === 'production') {
-    L.Icon.Default.imagePath = ENV.rootURL + '/assets/images';
+    L.Icon.Default.imagePath = ENV.rootURL + '/assets/images/';
   }
 }
 

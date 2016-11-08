@@ -18,7 +18,7 @@ export default Ember.Component.extend({
    * @property target
    * @type {String}
    */
-  target: 'body',
+  target: 'html',
 
   /**
    * A boolean, when true renders the modal without wormholing or tethering
