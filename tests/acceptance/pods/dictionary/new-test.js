@@ -6,7 +6,7 @@ moduleForAcceptance('Acceptance | pods/dictionary/new');
 test('visiting /pods/dictionary/new', function(assert) {
   visit('/dictionary/new');
   andThen(function() {
-    assert.equal(currentURL(), '/dictionary/new');
+    assert.equal(currentURL(), '/dictionary/new/');
   });
 });
 
@@ -53,4 +53,3 @@ test('test new dictionary missing data resource type', function (assert) {
     assert.equal(find('div.md-form-alert').length, 1);
   });
 });
-

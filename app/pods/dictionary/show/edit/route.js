@@ -23,5 +23,46 @@ export default Ember.Route.extend({
     this.render('dictionary.show.edit', {
       into: 'dictionary'
     });
+  },
+
+  actions: {
+    saveDictionary: function () {
+      let model = this.currentModel;
+      model
+        .save()
+        .then(() => {
+          Ember.get(this, 'flashMessages')
+            .success(`Saved Dictionary: ${model.get('title')}`);
+        });
+    },
+
+    destroyDictionary: function () {
+      let model = this.currentModel;
+      model
+        .destroyRecord()
+        .then(() => {
+          Ember.get(this, 'flashMessages')
+            .success(`Deleted Dictionary: ${model.get('title')}`);
+          this.replaceWith('dictionaries');
+        });
+    },
+
+    cancelDictionary: function () {
+      let model = this.currentModel;
+      model
+        .reload()
+        .then(() => {
+          Ember.get(this, 'flashMessages')
+            .warning(
+              `Cancelled changes to Dictionary: ${model.get('title')}`);
+        });
+    },
+
+    copyDictionary: function () {
+
+      Ember.get(this, 'flashMessages')
+        .success(`Copied Dictionary: ${this.currentModel.get('title')}`);
+      this.transitionTo('dictionary.new.id', Ember.copy(this.currentModel));
+    }
   }
 });

@@ -2,7 +2,7 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import UUID from "npm:node-uuid";
 
-export default DS.Model.extend({
+export default DS.Model.extend(Ember.Copyable, {
   profile: DS.attr('string', {
     defaultValue: 'full'
   }),
@@ -44,7 +44,7 @@ export default DS.Model.extend({
       return new Date();
     }
   }),
-  
+
   title: Ember.computed('json.metadata.resourceInfo.citation.title', function () {
     return this.get('json.metadata.resourceInfo.citation.title');
   }),
@@ -55,5 +55,17 @@ export default DS.Model.extend({
       .lookup('service:icon');
 
     return type ? list.get(type) || list.get('default') : list.get('defaultFile');
-  })
+  }),
+
+  copy() {
+    let current = this.get('json');
+    let json = Ember.Object.create(JSON.parse(JSON.stringify(current)));
+    let name = current.metadata.resourceInfo.citation.title;
+
+    json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
+
+    return this.store.createRecord('record', {
+      json: json
+    });
+  }
 });

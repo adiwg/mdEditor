@@ -21,15 +21,34 @@ export default Ember.Route.extend({
         });
     },
 
+    destroyContact: function () {
+      let model = this.currentModel;
+      model
+        .destroyRecord()
+        .then(() => {
+          Ember.get(this, 'flashMessages')
+            .success(`Deleted Contact: ${model.get('title')}`);
+          this.replaceWith('contacts');
+        });
+    },
+
     cancelContact: function () {
       let model = this.currentModel;
       model
         .reload()
         .then(() => {
           Ember.get(this, 'flashMessages')
-            .warning(`Cancelled changes to Contact: ${model.get('title')}`);
+            .warning(
+              `Cancelled changes to Contact: ${model.get('title')}`);
           //this.transitionTo('contacts');
         });
+    },
+
+    copyContact: function () {
+
+      Ember.get(this, 'flashMessages')
+        .success(`Copied Contact: ${this.currentModel.get('title')}`);
+      this.transitionTo('contact.new.id', Ember.copy(this.currentModel));
     }
   }
 });

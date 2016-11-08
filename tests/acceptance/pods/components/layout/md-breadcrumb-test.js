@@ -22,7 +22,7 @@ test('visiting /record/new', function(assert) {
   visit('/record/new');
 
   andThen(function() {
-    assert.equal(currentURL(), '/record/new');
+    assert.equal(currentURL(), '/record/new/');
 
     const listItems = find('ol.breadcrumb li').text();
     const linkItems = find('ol.breadcrumb li a').text();

@@ -19,7 +19,11 @@ Router.map(function () {
   this.route('records');
   //record
   this.route('record', function () {
-    this.route('new');
+    this.route('new', function() {
+      this.route('id', {
+        path: '/:record_id'
+      });
+    });
     this.route('show', {
         path: ':record_id'
       },
@@ -42,7 +46,11 @@ Router.map(function () {
   this.route('contacts');
   //contact
   this.route('contact', function () {
-    this.route('new');
+    this.route('new', function() {
+      this.route('id', {
+        path: '/:contact_id'
+      });
+    });
 
     this.route('show', {
       path: ':contact_id'
@@ -55,7 +63,11 @@ Router.map(function () {
   this.route('dictionaries');
   //dictionary
   this.route('dictionary', function () {
-    this.route('new');
+    this.route('new', function() {
+      this.route('id', {
+        path: '/:dictionary_id'
+      });
+    });
     this.route('show', {
       path: ':dictionary_id'
     }, function () {

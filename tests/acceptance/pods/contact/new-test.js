@@ -6,7 +6,7 @@ moduleForAcceptance('Acceptance | pods/contact/new');
 test('visiting /pods/contact/new', function(assert) {
   visit('/contact/new');
   andThen(function() {
-    assert.equal(currentURL(), '/contact/new');
+    assert.equal(currentURL(), '/contact/new/');
   });
 });
 
