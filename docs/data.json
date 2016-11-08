@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.08d5c8ec"
+        "version": "0.0.0.416a9f88"
     },
     "files": {
         "app/pods/components/control/md-button-confirm/component.js": {
@@ -1248,8 +1248,26 @@
         },
         {
             "file": "app/pods/components/layout/md-nav-secondary/component.js",
-            "line": 14,
-            "description": "options:\n   more - translated \"more\" text\n   offset - width that needs to be subtracted from the parent div width",
+            "line": 18,
+            "description": "translated \"more\" text",
+            "name": "more",
+            "type": "{String}",
+            "class": "md-address"
+        },
+        {
+            "file": "app/pods/components/layout/md-nav-secondary/component.js",
+            "line": 26,
+            "description": "selector for the navbar container",
+            "name": "parent",
+            "type": "{String}",
+            "class": "md-address"
+        },
+        {
+            "file": "app/pods/components/layout/md-nav-secondary/component.js",
+            "line": 34,
+            "description": "width that needs to be subtracted from the parent div width",
+            "name": "offset",
+            "type": "{Number}",
             "class": "md-address"
         },
         {
@@ -1517,6 +1535,18 @@
         },
         {
             "message": "unknown tag: name",
+            "line": " app/pods/components/layout/md-nav-secondary/component.js:18"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " app/pods/components/layout/md-nav-secondary/component.js:26"
+        },
+        {
+            "message": "unknown tag: name",
+            "line": " app/pods/components/layout/md-nav-secondary/component.js:34"
+        },
+        {
+            "message": "unknown tag: name",
             "line": " app/pods/record/show/edit/route.js:45"
         },
         {
@@ -1556,8 +1586,16 @@
             "line": " app/pods/components/control/md-modal/component.js:74"
         },
         {
-            "message": "Missing item type\noptions:\n   more - translated \"more\" text\n   offset - width that needs to be subtracted from the parent div width",
-            "line": " app/pods/components/layout/md-nav-secondary/component.js:14"
+            "message": "Missing item type\ntranslated \"more\" text",
+            "line": " app/pods/components/layout/md-nav-secondary/component.js:18"
+        },
+        {
+            "message": "Missing item type\nselector for the navbar container",
+            "line": " app/pods/components/layout/md-nav-secondary/component.js:26"
+        },
+        {
+            "message": "Missing item type\nwidth that needs to be subtracted from the parent div width",
+            "line": " app/pods/components/layout/md-nav-secondary/component.js:34"
         },
         {
             "message": "Missing item type\nThe profile service",

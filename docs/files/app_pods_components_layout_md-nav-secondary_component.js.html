@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="mdeditor" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.0.08d5c8ec</em>
+            <em>API Docs for: 0.0.0.416a9f88</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -93,63 +93,67 @@
 <div class="file">
     <pre class="code prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+import ResizeAware from &#x27;ember-resize/mixins/resize-aware&#x27;;
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(ResizeAware, {
   profile: Ember.inject.service(&#x27;profile&#x27;),
-  links: Ember.computed(&#x27;profile.active&#x27;, function() {
-    const profile = this.get(&#x27;profile&#x27;).getActiveProfile();
+  resizeService: Ember.inject.service(&#x27;resize&#x27;),
+  links: Ember.computed(&#x27;profile.active&#x27;, function () {
+    const profile = this.get(&#x27;profile&#x27;)
+      .getActiveProfile();
+    this.debouncedDidResize();
 
     return profile.secondaryNav;
   }),
 
-  //TODO: Fix this !!!!!!!!!!!HACKKKKKKKKKKKKKKKKKKK!!!!!
-  didInsertElement: function () {
-    //https://github.com/tomiford/bootstrap-overflow-navs
-    /**
-     * options:
-     *    more - translated &quot;more&quot; text
-     *    offset - width that needs to be subtracted from the parent div width
-     */
+  resizeWidthSensitive: true,
+  resizeHeightSensitive: true,
+
+  /**
+   * translated &quot;more&quot; text
+   *
+   * @name more
+   * @type {String}
+   */
+  more: &#x27;More&#x27;,
+
+  /**
+   * selector for the navbar container
+   *
+   * @name parent
+   * @type {String}
+   */
+  parent: &#x27;#md-navbars&#x27;,
+
+  /**
+   * width that needs to be subtracted from the parent div width
+   *
+   * @name offset
+   * @type {Number}
+   */
+  offset: 0,
+
+  init() {
+    this._super(...arguments);
+
+    // jQuery plugin adapted from https://github.com/tomiford/bootstrap-overflow-navs
     Ember.$.fn.overflowNavs = function (options) {
       // Create a handle to our ul menu
-      // @todo Implement some kind of check to make sure there is only one?  If we accidentally get more than one
+      // @TODO Implement some kind of check to make sure there is only one?  If we accidentally get more than one
       // then strange things happen
-      var ul = Ember.$(this);
+      let ul = Ember.$(this);
 
       // This should work with all navs, not just the navbar, so you should be able to pass a parent in
-      var parent = options.parent ? options.parent : ul.parents(
+      let parent = options.parent ? options.parent : ul.parents(
         &#x27;.navbar&#x27;);
 
-      // Check if it is a navbar and twitter bootstrap collapse is in use
-      /*var collapse = $(&#x27;div.nav-collapse&#x27;).length;
-      // Boostrap &lt; 2
-      if (!collapse) {
-        var collapse = $(&#x27;div.navbar-collapse&#x27;).length;
-        // Boostrap &gt; 2
-      }
-
-      // Check if bootstrap navbar is collapsed (mobile)
-      if (collapse) {
-        var collapsed = $(&#x27;.btn-navbar&#x27;).is(&quot;:visible&quot;);
-        // Boostrap &lt; 2
-        if (!collapsed) {
-          var collapsed = $(&#x27;.navbar-toggle&#x27;).is(&quot;:visible&quot;);
-          // Boostrap &gt; 2
-        }
-      } else {
-        var collapsed = false;
-      }*/
-
-      // Only process dropdowns if not collapsed
-      //if (collapsed === false) {
-
       // Get width of the navbar parent so we know how much room we have to work with
-      var parent_width = Ember.$(parent)
+      let parent_width = Ember.$(parent)
         .width() - (options.offset ? parseInt(Ember.$(options.offset)
           .width()) : 0);
 
       // Find an already existing .overflow-nav dropdown
-      var dropdown = Ember.$(&#x27;li.overflow-nav&#x27;, ul);
+      let dropdown = Ember.$(&#x27;li.overflow-nav&#x27;, ul);
 
       // Create one if none exists
       if (!dropdown.length) {
@@ -161,11 +165,11 @@ export default Ember.Component.extend({
       }
 
       // Get the width of the navbar, need to add together &lt;li&gt;s as the ul wraps in bootstrap
-      var width = 100;
+      let width = 100;
       // Allow for padding
       ul.children(&#x27;li&#x27;)
         .each(function () {
-          var $this = Ember.$(this);
+          let $this = Ember.$(this);
           width += $this.outerWidth();
         });
 
@@ -178,13 +182,13 @@ export default Ember.Component.extend({
             .get()
             .reverse())
           .each(function () {
-            var $this = Ember.$(this);
+            let $this = Ember.$(this);
             // Get the width of the navbar
-            var width = 100;
+            let width = 100;
             // Allow for padding
             ul.children(&#x27;li&#x27;)
               .each(function () {
-                var $this = Ember.$(this);
+                let $this = Ember.$(this);
                 width += $this.outerWidth();
               });
             if (width &gt;= parent_width) {
@@ -202,12 +206,12 @@ export default Ember.Component.extend({
       // Window is growing
       else {
         // We used to just look at the first one, but this doesn&#x27;t work when the window is maximized
-        //var dropdownFirstItem = dropdown.children(&#x27;ul.dropdown-menu&#x27;).children().first();
+        //let dropdownFirstItem = dropdown.children(&#x27;ul.dropdown-menu&#x27;).children().first();
         dropdown.children(&#x27;ul.dropdown-menu&#x27;)
           .children()
           .each(function () {
-            if (width + parseInt(Ember.$(this)
-                .attr(&#x27;data-original-width&#x27;)) &lt; parent_width) {
+            if ((width += parseInt(Ember.$(this)
+                .attr(&#x27;data-original-width&#x27;))) &lt; parent_width) {
               // Restore the topmost dropdown item to the main menu
               dropdown.before(this);
             } else {
@@ -229,24 +233,23 @@ export default Ember.Component.extend({
           ul.append(dropdown);
         }
       }
-      //}
+    };
+  },
+
+  didInsertElement: function () {
+    this._super.apply(this, arguments);
+    this.debouncedDidResize();
+  },
+
+  debouncedDidResize() {
+    let options = {
+      more: this.get(&#x27;more&#x27;),
+      parent: this.get(&#x27;parent&#x27;),
+      offset: this.get(&#x27;offset&#x27;)
     };
 
-    var options = {
-      &#x27;more&#x27;: &#x27;More&#x27;,
-      &#x27;parent&#x27;: &#x27;#md-navbars&#x27;,
-      &#x27;override_width&#x27;: true
-    };
-
-    this.$()
+    Ember.$(&#x27;#md-navbar-secondary&#x27;)
       .overflowNavs(options);
-
-    Ember.$(window)
-      .resize(
-        function () {
-          Ember.$(&#x27;#md-navbar-secondary&#x27;)
-            .overflowNavs(options);
-        });
   }
 });
 
