@@ -78,7 +78,8 @@
   },
   "ember-addon": {
     "paths": [
-      "lib/ember-leaflet-table"
+      "lib/ember-leaflet-table",
+      "lib/tree-view"
     ]
   }
 }
