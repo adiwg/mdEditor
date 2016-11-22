@@ -1,7 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  keyword: Ember.inject.service(),
   model() {
+    let kw = this.get('keyword').scienceKeywords;
+    //kw[0].isVisible = true;
+    return kw;
+
     return Ember.A([Ember.Object.create({
       id: 0,
       name: 'Root',

@@ -68,6 +68,7 @@
     "ember-tether": "0.3.1",
     "ember-welcome-page": "^1.0.1",
     "eonasdan-bootstrap-datetimepicker": "4.15.35",
+    "gcmd-keywords": "^8.4.0",
     "geojson-coords": "0.0.0",
     "loader.js": "^4.0.1",
     "mdcodes": "^1.2.3",
