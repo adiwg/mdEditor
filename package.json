@@ -74,7 +74,7 @@
     "mdcodes": "^1.2.3",
     "node-uuid": "^1.4.7",
     "shapefile": "^0.5.7",
-    "togeojson": "^0.14.2",
+    "@mapbox/togeojson": "^0.16.0",
     "validator": "^5.3.0"
   },
   "ember-addon": {
