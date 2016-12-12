@@ -1,5 +1,5 @@
-{{tree-leaf model=model select=select hover=hover}}
+{{tree-leaf model=model select=select hover=hover nodeDepth=nodeDepth nodePath=nodePath}}
 
 {{#if model.isExpanded}}
-  {{tree-view model=model.children select=select hover=hover}}
+  {{tree-view model=model.children select=select hover=hover parentDepth=nodeDepth parentPath=nodePath}}
 {{/if}}

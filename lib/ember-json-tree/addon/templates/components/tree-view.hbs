@@ -1,5 +1,5 @@
-{{#each model as |child|}}
+{{#each (sort-by "label" model) as |child|}}
   {{#unless child.invisible}}
-    {{tree-branch model=child select=select hover=hover}}
+    {{tree-branch model=child select=select nodeDepth=nodeDepth path=parentPath}}
   {{/unless}}
 {{/each}}

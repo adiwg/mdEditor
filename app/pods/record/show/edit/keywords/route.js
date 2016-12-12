@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Route.extend({
   keyword: Ember.inject.service(),
   model() {
-    let kw = this.get('keyword').scienceKeywords;
+    let kw = this.get('keyword').scienceKeywords[0].children;
     //kw[0].isVisible = true;
     return kw;
 

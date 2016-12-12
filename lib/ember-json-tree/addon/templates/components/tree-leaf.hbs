@@ -1,17 +1,21 @@
+{{#each (range 1 nodeDepth)}}
+  <span class="tree-indent"></span>
+{{/each}}
+
 {{#if model.checkable}}
-  <input type="checkbox" checked={{model.isChecked}}
-    onclick={{action 'toggleCheck' bubbles=false}}>
+  <input type="checkbox" checked={{model.isChecked}} onclick= {{action 'toggleCheck' bubbles=false}}>
 {{/if}}
+
 <span class="toggle-icon" {{action 'toggleExpand' bubbles=false}}>
-  {{#if model.children.length}}
-    {{#if model.isExpanded}}
-      &#x25BC;
-    {{else}}
-      &#x25B6;
-    {{/if}}
+{{#if model.children.length}}
+  {{#if model.isExpanded}}
+    <span class="icon expand-icon fa fa-minus"></span>
   {{else}}
-    &nbsp;&nbsp;
+    <span class="icon expand-icon fa fa-plus"></span>
   {{/if}}
+{{else}}
+  <span class="icon fa"></span>
+{{/if}}
 </span>
 
-{{model.label}}
+{{tree-label model=model}}
