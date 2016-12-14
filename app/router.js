@@ -30,7 +30,11 @@ Router.map(function () {
       function () {
         this.route('edit', function () {
           this.route('metadata');
-          this.route('keywords');
+          this.route('keywords', function() {
+            this.route('thesaurus', {
+              path: 'thesaurus/:thesaurus_id'
+            });
+          });
           this.route('spatial', function() {
             this.route('extent', {
               path: 'extent/:extent_id'
