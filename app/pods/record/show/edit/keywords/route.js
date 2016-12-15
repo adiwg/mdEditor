@@ -47,7 +47,7 @@ export default Ember.Route.extend({
       the.removeAt(id);
     },
     editThesaurus(id) {
-      this.transitionTo('record.show.edit.keywords.thesuarus', id);
+      this.transitionTo('record.show.edit.keywords.thesaurus', id);
     }
   }
 });

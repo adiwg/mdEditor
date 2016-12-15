@@ -6,6 +6,10 @@ html {
   display: inline-block;
 }
 
+.v-align-middle {
+  vertical-align: middle;
+},
+
 #md-wrapper {
   @include transition(all .5s ease);
   padding-left: 0;
