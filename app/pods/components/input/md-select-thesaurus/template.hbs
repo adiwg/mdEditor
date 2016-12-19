@@ -1,4 +1,9 @@
  {{input/md-select
-     class="md-keywords-select"
      placeholder="Pick a thesaurus"
-     objectArray=thesaurusList valuePath="id" namePath="label"}}
+     disabled=disabled
+     objectArray=thesaurusList
+     valuePath="id"
+     namePath="label"
+     value=value
+     change=(action "update" value thesaurus)
+   }}

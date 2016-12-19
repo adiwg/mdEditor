@@ -1,34 +1,42 @@
 import Ember from 'ember';
 import GCMD from 'npm:gcmd-keywords';
-import UUID from 'npm:node-uuid';
 
 let service = Ember.Object.create({
-  thesaurus: Ember.A()
+  thesaurus: Ember.A(),
+  findById(id) {
+    return this.get('thesaurus')
+      .find(function (t) {
+        return t.citation.identifier[0].identifier === id;
+      });
+  }
 });
 
-const GcmdCitation = Ember.Object.extend({
-  "date": [{
-    "date": GCMD.version.date,
-    "dateType": "revision"
-  }],
-  "title": "Global Change Master Directory (GCMD) Keywords",
-  "edition": "Version " + GCMD.version.edition,
-  "onlineResource": [{
-    "uri": "https://earthdata.nasa.gov/gcmd-forum"
-  }]
-});
+let type = {
+    'Platforms': 'platform',
+    'Instruments': 'instrument'
+  };
 
-Object.keys(GCMD)
+  Object.keys(GCMD)
   .forEach(function (key) {
     if(Array.isArray(GCMD[key])) {
       service.get('thesaurus')
         .pushObject({
-          citation: GcmdCitation.create({
+          citation: {
+            date: [{
+              date: GCMD.version.date,
+              dateType: 'revision'
+            }],
+            title: 'Global Change Master Directory (GCMD) ' + GCMD[key][0].label,
+            edition: 'Version ' + GCMD.version.edition,
+            onlineResource: [{
+              uri: 'https://earthdata.nasa.gov/gcmd-forum'
+            }],
             identifier: [{
               identifier: GCMD[key][0].uuid
             }]
-          }),
+          },
           keywords: GCMD[key][0].children,
+          keywordType: type[GCMD[key][0].label] || 'theme',
           label: 'GCMD ' + GCMD[key][0].label
         });
     }

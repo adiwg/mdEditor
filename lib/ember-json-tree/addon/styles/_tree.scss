@@ -35,6 +35,10 @@
     background-color: $gray-lighter;
   }
 
+  .tree-cell {
+    display: table-cell;
+  }
+
   .tree-indent {
     margin-left: 10px;
     margin-right: 10px;

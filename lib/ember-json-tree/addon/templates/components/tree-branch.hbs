@@ -1,5 +1,18 @@
-{{tree-leaf model=model select=select hover=hover nodeDepth=nodeDepth nodePath=nodePath}}
+{{tree-leaf model=model
+  inTree=true
+  select=select
+  selected=selected
+  hover=hover
+  nodeDepth=nodeDepth
+  nodePath=nodePath
+}}
 
 {{#if model.isExpanded}}
-  {{tree-view model=model.children select=select hover=hover parentDepth=nodeDepth parentPath=nodePath}}
+  {{tree-view model=model.children
+    select=select
+    selected=selected
+    hover=hover
+    parentDepth=nodeDepth
+    parentPath=nodePath
+  }}
 {{/if}}

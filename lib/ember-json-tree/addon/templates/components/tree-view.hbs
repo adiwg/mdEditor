@@ -1,5 +1,10 @@
 {{#each (sort-by "label" model) as |child|}}
   {{#unless child.invisible}}
-    {{tree-branch model=child select=select nodeDepth=nodeDepth path=parentPath}}
+    {{tree-branch model=child
+      select=select
+      selected=selected
+      nodeDepth=nodeDepth
+      path=parentPath
+    }}
   {{/unless}}
 {{/each}}

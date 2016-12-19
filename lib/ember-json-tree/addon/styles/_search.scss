@@ -1,9 +1,9 @@
 .tree-search {
   .search-form {
-    margin-bottom: 2em;
+    margin: 1em .5em;
   }
 
-  .form-group {
+  div.form-group {
     margin-bottom: 15px;
     padding-right: 1em;
   }
@@ -17,7 +17,7 @@
   }
 
   .search-grp {
-    min-width: 20em;
+    min-width: 15em;
 
     .input-search {
       width: 100%;
@@ -25,7 +25,14 @@
   }
 
   .tree-label {
-    display: inline-block;
+    display: table-cell;
+    padding-right: 5px;
     width: 100%;
+  }
+
+  .tree-highlight {
+    .text-info {
+      color: $gray-dark;
+    }
   }
 }

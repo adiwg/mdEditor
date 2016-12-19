@@ -1,21 +1,36 @@
-{{#each (range 1 nodeDepth)}}
-  <span class="tree-indent"></span>
-{{/each}}
-
-{{#if model.checkable}}
-  <input type="checkbox" checked={{model.isChecked}} onclick= {{action 'toggleCheck' bubbles=false}}>
+{{#if model.definition}}
+  <span class="badge node-tip" data-toggle="tooltip" data-placement="auto
+    right" data-container="body" title="" data-original-title="{{model.definition}}">?</span>
 {{/if}}
 
-<span class="toggle-icon" {{action 'toggleExpand' bubbles=false}}>
-{{#if model.children.length}}
-  {{#if model.isExpanded}}
-    <span class="icon expand-icon fa fa-minus"></span>
-  {{else}}
-    <span class="icon expand-icon fa fa-plus"></span>
-  {{/if}}
-{{else}}
-  <span class="icon fa"></span>
-{{/if}}
+{{#if inTree}}
+<span class="tree-cell">
+  {{#each (range 1 nodeDepth)}}
+    <span class="tree-indent"></span>
+  {{/each}}
 </span>
 
-{{tree-label model=model}}
+<span class="tree-cell">
+  <span class="tree-cell">
+    {{#if model.checkable}}
+      <input type="checkbox" checked={{model.isChecked}} onclick= {{action 'toggleCheck' bubbles=false}}>
+    {{/if}}
+    <span class="toggle-icon" {{action 'toggleExpand' bubbles=false}}>
+    {{#if model.children.length}}
+      {{#if model.isExpanded}}
+        <span class="icon expand-icon fa fa-minus"></span>
+      {{else}}
+        <span class="icon expand-icon fa fa-plus"></span>
+      {{/if}}
+    {{else}}
+      <span class="icon fa"></span>
+    {{/if}}
+    </span>
+  </span>
+  <span class="tree-cell">
+    {{tree-label model=model}}
+  </span>
+</span>
+{{else}}
+  {{tree-label model=model path=model.path highlight=highlight}}
+{{/if}}

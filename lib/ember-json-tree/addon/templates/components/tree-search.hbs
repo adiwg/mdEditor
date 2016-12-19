@@ -15,29 +15,27 @@
       </div>
     </div>
 
-    {{!-- <div class="form-group">
-      <button type="button" class="btn btn-success btn-md btn-search">
-        Search
-      </button>
-      <button type="button" class="btn btn-warning btn-md btn-clear-search">
-        Clear
-      </button>
-  </div> --}}
+      {{!-- <div class="form-group">
+        <button type="button" class="btn btn-success btn-md btn-search">
+          Search
+        </button>
+        <button type="button" class="btn btn-warning btn-md btn-clear-search">
+          Clear
+        </button>
+    </div> --}}
+    <div class="form-group text-info inline-block">
+      {{#if searchString.length}}
+        {{actualTotal}} matches found.
+        {{#if overLimit}} Displaying first {{limit}} results...
+        {{/if}}
+      {{/if}}
+    </div>
   </div>
   <!-- </form> -->
   <div class="search-output" style="opacity: 1;">
-    {{#if searchString.length}}
-    <p class="text-right">
-      {{actualTotal}} matches found.
-      {{#if overLimit}} Displaying first {{limit}} results...
-      {{/if}}
-    </p>
-    {{/if}}
     <ul class="list-group">
       {{#each (sort-by "label" searchResult) as |child|}}
-          <li class="list-group-item tree-leaf">
-            {{tree-label model=child select=select path=child.path highlight=searchString}}
-          </li>
+          {{tree-leaf model=child highlight=searchString select=select selected=selected}}
       {{/each}}
     </ul>
   </div>
