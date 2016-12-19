@@ -7,7 +7,7 @@ export default Ember.Component.extend({
    * @class md-input
    * @constructor
    */
-  
+
   /**
    * Value of the input.
    * Value sets the initial value and returns the edited result
@@ -16,7 +16,7 @@ export default Ember.Component.extend({
    * @type String
    * @required
    */
-  
+
   /**
    * Type of data represented by the value string.
    * HTML5 types may be specified ('text', 'number', etc.)
@@ -54,7 +54,7 @@ export default Ember.Component.extend({
    * @default null
    */
   maxlength: null,
-  
+
   /**
    * Text displayed in empty inputs
    *
@@ -71,6 +71,6 @@ export default Ember.Component.extend({
    * @type String
    * @default 'form-control'
    */
-  class: 'form-control'
-  
+  inputClass: 'form-control'
+
 });
