@@ -1,2 +1,47 @@
-Add some keywords.
-{{outlet}}
+  <section>
+    {{#each model.keywords as |thesaurus index|}}
+      <div class="md-keywords-container">
+        <div class="md-keywords-header">
+          <h4 class="inline-block text-primary" code="">
+            <strong>Thesaurus #{{index}}</strong>
+          </h4>
+          {{input/md-select-thesaurus class="md-keywords-select"
+          thesaurus=thesaurus
+          selectThesaurus=(route-action "selectThesaurus")
+          value=thesaurus.thesaurus.identifier.0.identifier
+          disabled=thesaurus.keyword.length }}
+          {{#control/md-button-confirm class="btn btn-sm btn-danger"
+            onConfirm=(route-action "deleteThesaurus" index)}}
+            {{fa-icon "times"}} Delete
+          {{/control/md-button-confirm}}
+          {{#if thesaurus.thesaurus.identifier.0.identifier}}
+          <a class="md-keywords-collapse pull-right" data-toggle="collapse" aria-expanded="true"
+            href="#thesaurus-{{index}}" aria-controls="thesaurus-{{index}}">
+            <span class="fa"></span>
+          </a>
+          {{/if}}
+        </div>
+        <div id="thesaurus-{{index}}" class="md-keywords-body collapse in">
+
+        {{#with thesaurus.thesaurus.identifier.0.identifier as |identifier|}}
+          <hr>
+          <div class="row">
+            <div class="md-keywords-thesaurus col-md-6 col-lg-7">
+              {{object/md-keyword-citation model=thesaurus }}
+            </div>
+            <div class="md-keywords-list col-md-6 col-lg-5">
+              {{object/md-keyword-list model=thesaurus id=index addKeyword=(route-action "addKeyword") deleteKeyword=(route-action "deleteKeyword") editThesaurus=(route-action "editThesaurus") }}
+            </div>
+          </div>
+        {{/with}}
+        </div>
+      </div>
+        {{else}}
+          <h3 class="alert alert-info">No keywords found.
+            <button type="button" class="btn btn-success" {{action (route-action "addThesaurus")}}>
+              {{fa-icon "plus"}} Add Keywords</button>
+          </h3>
+    {{/each}}
+  </section>
+
+  {{outlet}}

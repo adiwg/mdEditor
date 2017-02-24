@@ -1,0 +1,67 @@
+.tree-trunk.list-group {
+  border-bottom: 1px;
+  margin: 0;
+  padding: 0;
+
+  .tree-branch {
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+  }
+}
+
+.tree-leaf {
+  border: {
+    color: $gray-lightly;
+    style: solid;
+    width: 1px;
+  }
+  cursor: pointer;
+  margin-bottom: -1px;
+  padding: 10px;
+
+  &.tree-highlight {
+    background-color: $green;
+    color: $white;
+  }
+
+  &.node-disabled {
+    color: $gray-light;
+    cursor: not-allowed;
+  }
+
+  &:not(.node-disabled):not(.tree-highlight):hover {
+    background-color: $gray-lighter;
+  }
+
+  .tree-cell {
+    display: table-cell;
+  }
+
+  .tree-indent {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  span.icon {
+    margin-right: 5px;
+    width: 12px;
+  }
+
+  .node-tip {
+    background-color: $gray-base;
+    float: right;
+  }
+
+  .toggle-icon {
+    &:hover {
+      color: $orange;
+      cursor: default;
+    }
+  }
+
+  .tree-label-text {
+    margin-right: 25px;
+  }
+}

@@ -48,6 +48,8 @@ module.exports = function(defaults) {
     '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
   app.import(app.bowerDirectory +
     '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
+  app.import(app.bowerDirectory +
+    '/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
 
   //select2
   app.import(app.bowerDirectory +
