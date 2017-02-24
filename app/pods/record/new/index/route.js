@@ -6,6 +6,7 @@ export default Ember.Route.extend({
     linkable: false
   },
   redirect: function() {
-		this.replaceWith('record.new.id', '');
+    let rec = this.store.createRecord('record');
+		this.transitionTo('record.new.id', rec);
 	}
 });

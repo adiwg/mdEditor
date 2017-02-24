@@ -6,7 +6,7 @@ moduleForAcceptance('Acceptance | pods/dictionary/new');
 test('visiting /pods/dictionary/new', function(assert) {
   visit('/dictionary/new');
   andThen(function() {
-    assert.equal(currentURL(), '/dictionary/new/');
+    assert.ok(currentURL().match(/dictionary\/new\/[a-z0-9]+/));
   });
 });
 

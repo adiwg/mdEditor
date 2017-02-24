@@ -2,6 +2,8 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   redirect: function() {
-		this.replaceWith('contact.new.id', '');
+    let rec = this.store.createRecord('contact');
+
+		this.replaceWith('contact.new.id', rec);
 	}
 });

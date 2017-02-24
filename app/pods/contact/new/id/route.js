@@ -2,9 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function (params) {
-    if(!params.contact_id) {
-      return this.store.createRecord('contact');
-    }
+    // if(!params.contact_id) {
+    //   return this.store.createRecord('contact');
+    // }
 
     return this.store.findRecord('contact', params.contact_id);
   },
@@ -46,18 +46,18 @@ export default Ember.Route.extend({
     });
   },
 
-  serialize: function (model) {
-    // If we got here without an ID (and therefore without a model)
-    // Ensure that we leave the route param in the URL blank (not 'undefined')
-    if(!model) {
-      return {
-        contact_id: ''
-      };
-    }
-
-    // Otherwise, let Ember handle it as usual
-    return this._super.apply(this, arguments);
-  },
+  // serialize: function (model) {
+  //   // If we got here without an ID (and therefore without a model)
+  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
+  //   if(!model) {
+  //     return {
+  //       contact_id: ''
+  //     };
+  //   }
+  //
+  //   // Otherwise, let Ember handle it as usual
+  //   return this._super.apply(this, arguments);
+  // },
 
   actions: {
     willTransition: function (transition) {

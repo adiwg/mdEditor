@@ -2,9 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function (params) {
-    if (!params.record_id) {
-      return this.store.createRecord('record');
-    }
+    // if (!params.record_id) {
+    //   return this.store.createRecord('record');
+    // }
 
     return this.store.findRecord('record', params.record_id);
   },
@@ -44,18 +44,19 @@ export default Ember.Route.extend({
     });
   },
 
-  serialize: function (model) {
-    // If we got here without an ID (and therefore without a model)
-    // Ensure that we leave the route param in the URL blank (not 'undefined')
-    if (!model) {
-      return {
-        record_id: ''
-      };
-    }
-
-    // Otherwise, let Ember handle it as usual
-    return this._super.apply(this, arguments);
-  },
+  // serialize: function (model) {
+  //   // If we got here without an ID (and therefore without a model)
+  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
+  //   if (!model) {
+  //     let rec=this.store.createRecord('record');
+  //     return {
+  //       record_id: rec.id
+  //     };
+  //   }
+  //
+  //   // Otherwise, let Ember handle it as usual
+  //   return this._super.apply(this, arguments);
+  // },
 
   actions: {
     willTransition: function (transition) {

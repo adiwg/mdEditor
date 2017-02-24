@@ -56,8 +56,9 @@ test('shows and cancels confirm', function (assert) {
     .text()
     .trim(), 'Confirm', 'renders confirm');
 
+  var $btn = this.$('button');
   Ember.run(function () {
-    this.$('button')
+    $btn
       .blur();
   });
 
