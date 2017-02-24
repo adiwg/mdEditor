@@ -6,7 +6,7 @@
         <h4 class="inline-block text-primary" code="">
             <strong>Thesaurus #{{index}}</strong>
         </h4>
-        {{input/md-codelist class="md-keywords-select" mdCodeName="scope" placeholder="Pick a thesaurus"}}
+        {{input/md-select-thesaurus class="md-keywords-select"}}
         <button type="button" class="btn btn-sm btn-warning" {{action (route-action "editThesaurus" index)}}>
           {{fa-icon "pencil"}} Edit </button>
         <button type="button" class="btn btn-sm btn-danger" {{action (route-action "deleteThesaurus" index)}}>

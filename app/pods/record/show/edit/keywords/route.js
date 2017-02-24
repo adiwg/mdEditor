@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  keyword: Ember.inject.service(),
   model() {
     let json = this.modelFor('record.show.edit')
       .get('json');

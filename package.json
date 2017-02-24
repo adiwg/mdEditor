@@ -19,6 +19,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@mapbox/togeojson": "^0.16.0",
     "ajv": "^4.7.0",
     "brfs": "^1.4.3",
     "broccoli-asset-rev": "^2.4.2",
@@ -68,14 +69,13 @@
     "ember-tether": "0.3.1",
     "ember-welcome-page": "^1.0.1",
     "eonasdan-bootstrap-datetimepicker": "4.15.35",
-    "gcmd-keywords": "^8.4.0",
+    "gcmd-keywords": "^8.4.4",
     "geojson-coords": "0.0.0",
     "loader.js": "^4.0.1",
     "lodash": "^4.17.2",
     "mdcodes": "^1.2.3",
     "node-uuid": "^1.4.7",
     "shapefile": "^0.5.7",
-    "@mapbox/togeojson": "^0.16.0",
     "validator": "^5.3.0"
   },
   "ember-addon": {
