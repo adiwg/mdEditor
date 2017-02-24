@@ -71,6 +71,7 @@
     "gcmd-keywords": "^8.4.0",
     "geojson-coords": "0.0.0",
     "loader.js": "^4.0.1",
+    "lodash": "^4.17.2",
     "mdcodes": "^1.2.3",
     "node-uuid": "^1.4.7",
     "shapefile": "^0.5.7",
