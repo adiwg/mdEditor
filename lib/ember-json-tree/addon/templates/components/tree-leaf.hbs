@@ -1,0 +1,17 @@
+{{#if model.checkable}}
+  <input type="checkbox" checked={{model.isChecked}}
+    onclick={{action 'toggleCheck' bubbles=false}}>
+{{/if}}
+<span class="toggle-icon" {{action 'toggleExpand' bubbles=false}}>
+  {{#if model.children.length}}
+    {{#if model.isExpanded}}
+      &#x25BC;
+    {{else}}
+      &#x25B6;
+    {{/if}}
+  {{else}}
+    &nbsp;&nbsp;
+  {{/if}}
+</span>
+
+{{model.name}}

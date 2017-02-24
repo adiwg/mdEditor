@@ -1,0 +1,5 @@
+{{tree-leaf model=model select=select hover=hover}}
+
+{{#if model.isExpanded}}
+  {{tree-view model=model.children select=select hover=hover}}
+{{/if}}

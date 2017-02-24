@@ -1,0 +1,5 @@
+{{#each model as |child|}}
+  {{#if child.isVisible}}
+    {{tree-branch model=child select=select hover=hover}}
+  {{/if}}
+{{/each}}
