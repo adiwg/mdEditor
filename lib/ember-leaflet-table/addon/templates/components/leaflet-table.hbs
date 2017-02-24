@@ -8,6 +8,8 @@
       {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
     {{/layer-group}}
 
+    {{geojson-layer geoJSON=worldOverlay stroke=false color="#555555" fillOpacity=0.1}}
+
     {{#feature-group name="Extents" default=true setFeatureGroup=setFeatureGroup}}
       {{#each layers as |l|}}
         {{lgeojson-layer geoJSON=l draw=true editLayers=layers}}

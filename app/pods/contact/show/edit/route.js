@@ -37,6 +37,7 @@ export default Ember.Route.extend({
       model
         .reload()
         .then(() => {
+          this.refresh();
           Ember.get(this, 'flashMessages')
             .warning(
               `Cancelled changes to Contact: ${model.get('title')}`);

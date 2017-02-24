@@ -1,7 +1,7 @@
 {{#if label}}
     <div class="form-group">
         <label>{{label}}</label>
-        <select class="form-control md-select" {{action 'setValue' on='change'}}>
+        <select class="form-control md-select" {{action 'setValue' on='change'}} disabled={{disabled}}>
             <option></option>
             {{#each codelist as |code index|}}
                 <option value={{code.codeId}} selected={{code.selected}}
@@ -12,7 +12,7 @@
     </div>
 {{else}}
     <div class="form-group">
-        <select class="form-control md-select" {{action 'setValue' on='change'}}>
+        <select class="form-control md-select" {{action 'setValue' on='change'}} disabled={{disabled}}>
             <option></option>
             {{#each codelist as |code index|}}
                 <option value={{code.codeId}} selected={{code.selected}}

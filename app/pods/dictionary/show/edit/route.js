@@ -52,6 +52,7 @@ export default Ember.Route.extend({
       model
         .reload()
         .then(() => {
+          this.refresh();
           Ember.get(this, 'flashMessages')
             .warning(
               `Cancelled changes to Dictionary: ${model.get('title')}`);
