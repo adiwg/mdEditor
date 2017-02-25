@@ -71,16 +71,20 @@
     "ember-source": "~2.11.0",
     "ember-tether": "0.4.1",
     "ember-welcome-page": "^2.0.3",
+    "eonasdan-bootstrap-datetimepicker": "~4.17.45",
+    "gcmd-keywords": "^8.4.4",
     "geojson-coords": "0.0.0",
     "loader.js": "^4.0.10",
+    "lodash": "^4.17.4",
     "mdcodes": "^2.0.0",
-    "node-uuid": "^1.4.7",
     "shapefile": "^0.6.2",
+    "uuid": "^3.0.1",
     "validator": "^6.2.0"
   },
   "ember-addon": {
     "paths": [
-      "lib/ember-leaflet-table"
+      "lib/ember-leaflet-table",
+      "lib/ember-json-tree"
     ]
   }
 }
