@@ -49,6 +49,9 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    getContext() {
+      return this;
+    },
     addThesaurus() {
       let the = this.currentModel.get('keywords');
 
@@ -95,7 +98,7 @@ export default Ember.Route.extend({
     },
     toList() {
       let me = this;
-      
+
       me.transitionTo(me.get('routeName'))
         .then(function () {
           me.setupController();

@@ -10,7 +10,7 @@
           doCancel="cancelRecord"
           doDelete="destroyRecord"
           doCopy="copyRecord" }}
-      {{component subbar}}
+      {{component subbar context=(route-action "getContext")}}
     </div>
   </div>
 </div>
