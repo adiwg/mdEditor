@@ -7,15 +7,11 @@ moduleForComponent('control/subbar-extent', 'Integration | Component | control/s
 
 test('it renders', function(assert) {
   // Set any properties with this.set('myProperty', 'value');
-  // this.set('deleteAllFeatures', '');
-  // this.set('zoomAll', '');
-  // this.set('uploadData', '');
-  // this.set('exportGeoJSON', '');
   // Handle any actions with this.on('myAction', function(val) { ... });
-  this.on('zoomAll', function(val) { });
-  this.on('uploadData', function(val) { });
-  this.on('exportGeoJSON', function(val) { });
-  this.on('deleteAllFeatures', function(val) { });
+  this.on('zoomAll', function() { });
+  this.on('uploadData', function() { });
+  this.on('exportGeoJSON', function() { });
+  this.on('deleteAllFeatures', function() { });
 
   this.render(hbs`{{control/subbar-extent}}`);
 
