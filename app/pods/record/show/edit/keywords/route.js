@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import has from 'npm:lodash/fp';
+import has from 'npm:lodash';
 
 export default Ember.Route.extend({
   keyword: Ember.inject.service(),
