@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.87a375a3"
+        "version": "0.0.0.706e1f6f"
     },
     "files": {
         "app/pods/components/control/md-button-confirm/component.js": {
@@ -1468,7 +1468,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 43,
+            "line": 49,
             "description": "The current model for the route",
             "return": {
                 "description": "",
@@ -1627,7 +1627,7 @@
         },
         {
             "message": "Missing item type\nThe current model for the route",
-            "line": " app/routes/application.js:43"
+            "line": " app/routes/application.js:49"
         },
         {
             "message": "Missing item type",

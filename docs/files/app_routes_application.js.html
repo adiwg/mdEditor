@@ -17,7 +17,7 @@
                 <h1><img src="../assets/css/logo.png" title="mdeditor" width="117" height="52"></h1>
         </div>
         <div class="yui3-u-1-4 version">
-            <em>API Docs for: 0.0.0.87a375a3</em>
+            <em>API Docs for: 0.0.0.706e1f6f</em>
         </div>
     </div>
     <div id="bd" class="yui3-g">
@@ -101,31 +101,37 @@ export default Ember.Route.extend({
    * @return {Ember.RSVP.hash}
    */
   model() {
-    let promises = [this.store.findAll(&#x27;record&#x27;),
-      this.store.findAll(&#x27;contact&#x27;),
-      this.store.findAll(&#x27;dictionary&#x27;)
+    let promises = [this.store.findAll(&#x27;record&#x27;, {
+        reload: true
+      }),
+      this.store.findAll(&#x27;contact&#x27;, {
+        reload: true
+      }),
+      this.store.findAll(&#x27;dictionary&#x27;, {
+        reload: true
+      })
     ];
 
-    let meta = [{
+    let meta = Ember.A([Ember.Object.create({
       type: &#x27;record&#x27;,
       list: &#x27;records&#x27;,
       title: &#x27;Metadata Records&#x27;
-    }, {
+    }), Ember.Object.create({
       type: &#x27;contact&#x27;,
       list: &#x27;contacts&#x27;,
       title: &#x27;Contacts&#x27;
-    }, {
+    }), Ember.Object.create({
       type: &#x27;dictionary&#x27;,
       list: &#x27;dictionaries&#x27;,
       title: &#x27;Dictionaries&#x27;
-    }];
+    })]);
 
     let idx = 0;
 
     let mapFn = function (item) {
 
-      meta[idx].listId = Ember.guidFor(item);
-      item.meta = meta[idx];
+      meta[idx].set(&#x27;listId&#x27;, Ember.guidFor(item));
+      item.set(&#x27;meta&#x27;, meta[idx]);
       idx = ++idx;
 
       return item;
