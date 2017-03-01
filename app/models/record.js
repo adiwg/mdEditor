@@ -1,6 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import UUID from "npm:node-uuid";
+import uuidV4 from "npm:uuid/v4";
 
 export default DS.Model.extend(Ember.Copyable, {
   profile: DS.attr('string', {
@@ -17,7 +17,7 @@ export default DS.Model.extend(Ember.Copyable, {
         "metadata": {
           "metadataInfo": {
             "metadataIdentifier": {
-              "identifier": UUID.v4(),
+              "identifier": uuidV4(),
               "type": ""
             }
           },
