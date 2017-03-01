@@ -6,7 +6,7 @@ moduleForAcceptance('Acceptance | pods/record/new');
 test('visiting /pods/record/new', function(assert) {
   visit('/record/new');
   andThen(function() {
-    assert.equal(currentURL(), '/record/new/');
+    assert.ok(currentURL().match(/record\/new\/[a-z0-9]+/));
   });
 });
 

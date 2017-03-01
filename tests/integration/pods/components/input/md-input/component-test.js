@@ -19,7 +19,7 @@ test('it renders', function(assert) {
       value="Bar"
       maxlength=100
       required="true"
-      class="test"
+      inputClass="test"
       placeholder="Enter FooBar"}}
   `);
 

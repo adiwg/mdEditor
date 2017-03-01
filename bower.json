@@ -1,15 +1,10 @@
 {
   "name": "mdeditor",
   "dependencies": {
-    "ember": "~2.7.1",
-    "ember-cli-shims": "~0.1.0",
-    "ember-qunit-notifications": "0.1.0",
-    "dom-ruler": "^0.2.4",
     "font-awesome": "~4.6.0",
     "bootstrap-sass": "~3.3.6",
-    "select2": "^4.0.3",
-    "select2-bootstrap-theme": "^0.1.0-beta.8",
-    "eonasdan-bootstrap-datetimepicker": "^4.17.37",
+    "select2": "jlblcc/select2#master",
+    "select2-bootstrap-theme": "^0.1.0-beta.9",
     "blob-polyfill": "^1.0.20150320",
     "jquery-jsonview": "^1.2.3",
     "blob": "*",
@@ -19,6 +14,7 @@
     "text-encoding": "^0.6.1"
   },
   "resolutions": {
-    "leaflet": "~1.0.0"
+    "leaflet": "~1.0.0",
+    "select2": "master"
   }
 }

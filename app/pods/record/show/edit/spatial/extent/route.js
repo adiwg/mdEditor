@@ -39,7 +39,10 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    willTransition: function(transition) {
+    getContext() {
+      return this;
+    },
+    willTransition(transition) {
       let parent = this.routeName.substring(0, this.routeName.lastIndexOf('.'));
 
       let subbar = transition.targetName === parent + '.index' ? this.controllerFor(parent).get('subbar') : null;

@@ -93,6 +93,9 @@ export default Ember.Route.extend({
       Ember.get(this, 'flashMessages')
         .success(`Copied Record: ${this.currentModel.get('title')}`);
       this.transitionTo('record.new.id', Ember.copy(this.currentModel));
+    },
+    getContext() {
+      return this;
     }
   }
 });

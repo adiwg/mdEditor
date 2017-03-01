@@ -7,31 +7,37 @@ export default Ember.Route.extend({
    * @return {Ember.RSVP.hash}
    */
   model() {
-    let promises = [this.store.findAll('record'),
-      this.store.findAll('contact'),
-      this.store.findAll('dictionary')
+    let promises = [this.store.findAll('record', {
+        reload: true
+      }),
+      this.store.findAll('contact', {
+        reload: true
+      }),
+      this.store.findAll('dictionary', {
+        reload: true
+      })
     ];
 
-    let meta = [{
+    let meta = Ember.A([Ember.Object.create({
       type: 'record',
       list: 'records',
       title: 'Metadata Records'
-    }, {
+    }), Ember.Object.create({
       type: 'contact',
       list: 'contacts',
       title: 'Contacts'
-    }, {
+    }), Ember.Object.create({
       type: 'dictionary',
       list: 'dictionaries',
       title: 'Dictionaries'
-    }];
+    })]);
 
     let idx = 0;
 
     let mapFn = function (item) {
 
-      meta[idx].listId = Ember.guidFor(item);
-      item.meta = meta[idx];
+      meta[idx].set('listId', Ember.guidFor(item));
+      item.set('meta', meta[idx]);
       idx = ++idx;
 
       return item;

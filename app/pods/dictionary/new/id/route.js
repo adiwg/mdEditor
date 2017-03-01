@@ -2,9 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model: function (params) {
-    if(!params.dictionary_id) {
-      return this.store.createRecord('dictionary');
-    }
+    // if(!params.dictionary_id) {
+    //   return this.store.createRecord('dictionary');
+    // }
 
     return this.store.findRecord('dictionary', params.dictionary_id);
   },
@@ -43,18 +43,18 @@ export default Ember.Route.extend({
 
   },
 
-  serialize: function (model) {
-    // If we got here without an ID (and therefore without a model)
-    // Ensure that we leave the route param in the URL blank (not 'undefined')
-    if(!model) {
-      return {
-        dictionary_id: ''
-      };
-    }
-
-    // Otherwise, let Ember handle it as usual
-    return this._super.apply(this, arguments);
-  },
+  // serialize: function (model) {
+  //   // If we got here without an ID (and therefore without a model)
+  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
+  //   if(!model) {
+  //     return {
+  //       dictionary_id: ''
+  //     };
+  //   }
+  //
+  //   // Otherwise, let Ember handle it as usual
+  //   return this._super.apply(this, arguments);
+  // },
 
   actions: {
     willTransition: function (transition) {

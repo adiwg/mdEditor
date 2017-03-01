@@ -4,16 +4,16 @@ import {
 from 'qunit';
 import moduleForAcceptance from 'mdeditor/tests/helpers/module-for-acceptance';
 
-let componentInstance;
+//let componentInstance;
 
 moduleForAcceptance('Acceptance | pods/components/md breadcrumb', {
-  beforeEach() {
-      componentInstance = this.application.__container__.lookup(
-        'component:layout/md-breadcrumb');
-    },
-    afterEach() {
-      componentInstance = null;
-    }
+  // beforeEach() {
+  //     componentInstance = this.application.__container__.lookup(
+  //       'component:layout/md-breadcrumb');
+  //   },
+  //   afterEach() {
+  //     componentInstance = null;
+  //   }
 });
 
 test('visiting /record/new', function(assert) {
@@ -22,7 +22,7 @@ test('visiting /record/new', function(assert) {
   visit('/record/new');
 
   andThen(function() {
-    assert.equal(currentURL(), '/record/new/');
+    assert.ok(currentURL().match(/record\/new\/[a-z0-9]+/));
 
     const listItems = find('ol.breadcrumb li').text();
     const linkItems = find('ol.breadcrumb li a').text();

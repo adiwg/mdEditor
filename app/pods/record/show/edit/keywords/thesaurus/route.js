@@ -4,7 +4,7 @@ export default Ember.Route.extend({
   keyword: Ember.inject.service(),
   model(params) {
     let model = this.modelFor('record.show.edit.keywords');
-    let kw = model.get('keywords')[params.thesaurus_id];
+    let kw = model.get('keywords').get(params.thesaurus_id);
     //let keywords = kw.keyword;
 
     return Ember.Object.create({
@@ -51,8 +51,9 @@ export default Ember.Route.extend({
     selectKeyword(model, path) {
       let keywords = this.currentModel.get('keywords');
       let kw = keywords.keyword;
+      let target = kw.findBy('identifier', model.uuid);
 
-      if(model.isSelected) {
+      if(model.isSelected && target === undefined) {
         let pathStr = '';
 
         if(Ember.isArray(path)) {
@@ -71,8 +72,6 @@ export default Ember.Route.extend({
             .slice(0, pathStr.length - 1)
         });
       } else {
-        let target = kw.findBy('identifier', model.uuid);
-
         kw.removeObject(target);
       }
     },

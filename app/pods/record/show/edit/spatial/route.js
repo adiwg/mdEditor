@@ -29,7 +29,6 @@ export default Ember.Route.extend({
 
     this.controllerFor('record.show.edit')
       .set('subbar', this.get('subbar'));
-    this.controller.set('subbar', this.get('subbar'));
   },
 
   actions: {

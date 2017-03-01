@@ -1,5 +1,6 @@
 import {
-  moduleForComponent, test
+  moduleForComponent,
+  test
 }
 from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -8,46 +9,46 @@ import Ember from 'ember';
 //Stub profile service
 const profileStub = Ember.Service.extend({
   getActiveProfile() {
-      const active = this.get('active');
-      const profile = active && typeof active === 'string' ? active :
-        'full';
-      const profiles = this.get('profiles');
+    const active = this.get('active');
+    const profile = active && typeof active === 'string' ? active :
+      'full';
+    const profiles = this.get('profiles');
 
-      return profiles[profile];
+    return profiles[profile];
+  },
+  profiles: {
+    full: {
+      profile: null,
+      secondaryNav: [{
+        title: 'Foo',
+        target: 'record.show.edit.index'
+
+      }, {
+        title: 'Bar',
+        target: 'record.show.edit.metadata'
+
+      }]
     },
-    profiles: {
-      full: {
-        profile: null,
-        secondaryNav: [{
-          title: 'Foo',
-          target: 'record.show.edit.index'
+    basic: {
+      profile: null,
+      secondaryNav: [{
+        title: 'FooBar',
+        target: 'record.show.edit.index'
 
-        }, {
-          title: 'Bar',
-          target: 'record.show.edit.metadata'
+      }, {
+        title: 'BarFoo',
+        target: 'record.show.edit.metadata'
 
-        }]
-      },
-      basic: {
-        profile: null,
-        secondaryNav: [{
-          title: 'FooBar',
-          target: 'record.show.edit.index'
-
-        }, {
-          title: 'BarFoo',
-          target: 'record.show.edit.metadata'
-
-        }]
-      }
+      }]
     }
+  }
 });
 
 moduleForComponent('layout/md-nav-secondary',
   'Integration | Component | md nav secondary', {
     integration: true,
 
-    beforeEach: function() {
+    beforeEach: function () {
       this.register('service:profile', profileStub);
       // Calling inject puts the service instance in the test's context,
       // making it accessible as "profileService" within each test
@@ -57,7 +58,7 @@ moduleForComponent('layout/md-nav-secondary',
     }
   });
 
-test('it renders', function(assert) {
+test('it renders', function (assert) {
   assert.expect(2);
 
   // Set any properties with this.set('myProperty', 'value');
@@ -65,9 +66,11 @@ test('it renders', function(assert) {
 
   this.render(hbs `{{layout/md-nav-secondary}}`);
 
+  var more = this.$('.overflow-nav').length ? '|More' : '';
+
   assert.equal(this.$()
     .text()
-    .replace(/[ \n]+/g, '|'), '|More|Foo|Bar|');
+    .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|');
 
   // Template block usage:
   this.render(hbs `
@@ -76,12 +79,14 @@ test('it renders', function(assert) {
     {{/layout/md-nav-secondary}}
   `);
 
+  more = this.$('.overflow-nav').length ? '|More' : '';
+
   assert.equal(this.$()
     .text()
-    .replace(/[ \n]+/g, '|'), '|More|Foo|Bar|template|block|text|');
+    .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|template|block|text|');
 });
 
-test('render after setting profile', function(assert) {
+test('render after setting profile', function (assert) {
   assert.expect(1);
 
   // Set any properties with this.set('myProperty', 'value');
@@ -91,7 +96,9 @@ test('render after setting profile', function(assert) {
 
   this.render(hbs `{{layout/md-nav-secondary}}`);
 
+  var more = this.$('.overflow-nav').length ? '|More' : '';
+
   assert.equal(this.$()
     .text()
-    .replace(/[ \n]+/g, '|'), '|More|FooBar|BarFoo|');
+    .replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|');
 });

@@ -1,13 +1,13 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import UUID from 'npm:node-uuid';
+import uuidV4 from 'npm:uuid/v4';
 import Validator from 'npm:validator';
 
 export default DS.Model.extend(Ember.Copyable, {
   json: DS.attr('json', {
     defaultValue: function () {
       let obj = Ember.Object.create({
-        'contactId': UUID.v4(),
+        'contactId': uuidV4(),
         'organizationName': null,
         'individualName': null,
         'positionName': null,
@@ -78,7 +78,7 @@ export default DS.Model.extend(Ember.Copyable, {
     json.setProperties({
       organizationName: indName ? orgName : `Copy of ${orgName}`,
       individualName: indName ? `Copy of ${indName}` : null,
-      contactId: UUID.v4()
+      contactId: uuidV4()
     });
 
     return this.store.createRecord('contact', {
