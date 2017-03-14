@@ -4,6 +4,9 @@ import {
 from 'ember-qunit';
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
+import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
+import { triggerEvent } from 'ember-native-dom-helpers/test-support/helpers';
+import wait from 'ember-test-helpers/wait';
 
 moduleForComponent('input/md-select',
   'Integration | Component | input/md select', {
@@ -32,26 +35,11 @@ test('it renders', function(assert) {
 
   assert.equal(this.$()
     .text()
-    .replace(/[ \n]+/g, '|'), '|foo|foo|', 'renders ok');
-
-  // Template block usage:" + EOL +
-  this.render(hbs `
-    {{#input/md-select
-      value=1
-      objectArray=objArray
-      valuePath="id"
-      namePath="name"
-      }}
-      <option value="2" >bar</option>
-    {{/input/md-select}}
-  `);
-
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|'), '|foo|bar|foo|', 'renders block ok');
+    .replace(/[ \n]+/g, '|'), '|foo|', 'renders ok');
 });
 
 test('set value', function(assert) {
+  assert.expect(3);
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
@@ -65,23 +53,69 @@ test('set value', function(assert) {
     tip: 'biz'
   })]);
 
-  this.set('val', '1');
+  this.set('value', 1);
 
   this.render(hbs `
     {{input/md-select
-      value=val
+      value=value
       objectArray=objArray
       valuePath="id"
       namePath="name"}}
   `);
 
-  this.$('select')
-    .val(2)
-    .trigger('change');
+  assert.equal(this.$()
+    .text()
+    .replace(/[ \n]+/g, '|'), '|foo|', 'value set');
+
+    clickTrigger();
+    triggerEvent($('.ember-power-select-option:contains("baz")').get(0),'mouseup');
+    return wait().then(() => {
+      assert.equal(this.$()
+        .text()
+        .replace(/[ \n]+/g, '|'), '|baz|', 'display value updates');
+
+      assert.equal(this.get('value'), 2, 'value is updated');
+    });
+});
+
+test('create option', function(assert) {
+  assert.expect(3);
+
+  // Set any properties with this.set('myProperty', 'value');
+  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+  this.set('objArray', [Ember.Object.create({
+    id: 1,
+    name: 'foo',
+    tip: 'bar'
+  }), Ember.Object.create({
+    id: 2,
+    name: 'baz',
+    tip: 'biz'
+  })]);
+
+  this.set('value', 1);
+
+  this.render(hbs `
+    {{input/md-select
+      value=value
+      create=true
+      objectArray=objArray
+      valuePath="id"
+      namePath="name"}}
+  `);
 
   assert.equal(this.$()
     .text()
-    .replace(/[ \n]+/g, '|'), '|foo|baz|baz|', 'display value updates');
+    .replace(/[ \n]+/g, '|'), '|foo|', 'value set');
 
-  assert.equal(this.get('val'), 2, 'value is set');
+    clickTrigger();
+    typeInSearch('biz');
+    triggerEvent($('.ember-power-select-option:contains("biz")').get(0),'mouseup');
+    return wait().then(() => {
+      assert.equal(this.$()
+        .text()
+        .replace(/[ \n]+/g, '|'), '|biz|', 'display value updates');
+
+      assert.equal(this.get('value'), 'biz', 'value is updated');
+    });
 });

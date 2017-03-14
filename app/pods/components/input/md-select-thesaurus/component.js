@@ -1,7 +1,31 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+
+  /**
+   * A select list control for displaying and selecting thesaurus entries from
+   * the keyword service.
+   *
+   * @class md-select-thesaurus
+   * @constructor
+   */
+
   keyword: Ember.inject.service(),
+
+  /**
+   * This method is called after the thesaurus selection is updated. It should be
+   * overridden.
+   *
+   * @method selectThesaurus
+   * @param  {Object} selected  The selected thesaurus from the keyword service
+   * @param  {Object} thesaurus The thesaurus for the keyword record
+   */
+  selectThesaurus() {},
 
   thesaurusList: Ember.computed('keyword.thesaurus.[]', function () {
     let list = this.get('keyword')
@@ -21,7 +45,8 @@ export default Ember.Component.extend({
   }),
   actions: {
     update(id, thesaurus) {
-      let selected = this.get('keyword').findById(id);
+      let selected = this.get('keyword')
+        .findById(id);
 
       this.get('selectThesaurus')(selected, thesaurus);
     }

@@ -1,10 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  didInsertElement: function () {
+  /*didInsertElement: function () {
     this.$('[data-toggle="tooltip"]')
       .tooltip();
-  },
+  },*/
   actions: {
     toggleSidebar() {
       Ember.$('#md-wrapper')

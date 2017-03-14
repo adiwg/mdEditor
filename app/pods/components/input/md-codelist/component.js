@@ -1,7 +1,14 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
+import Select from '../md-select/component';
 
-export default Ember.Component.extend({
-
+export default Select.extend({
+  classNames: ['md-codelist'],
+  layoutName: 'components/input/md-select',
   /**
    * Specialized select list control for displaying and selecting
    * options in mdCodes codelists.
@@ -10,6 +17,7 @@ export default Ember.Component.extend({
    *
    * @class md-codelist
    * @constructor
+   * @extends md-select
    */
 
   /**
@@ -30,50 +38,13 @@ export default Ember.Component.extend({
    */
 
   /**
-   * Indicates whether to allow the user to enter a new option
-   * not contained in the select list.
-   *
-   * @property create
-   * @type Boolean
-   * @default false
-   */
-  create: false,
-
-  /**
-   * Indicates if tooltips should be rendered for the options.
-   *
-   * @property tooltip
-   * @type Boolean
-   * @default false
-   */
-  tooltip: false,
-
-  /**
-   * Indicates if icons should be rendered.
-   *
-   * @property icon
-   * @type Boolean
-   * @default false
-   */
-  icon: false,
-
-  /**
    * Whether to render a button to clear the selection.
    *
    * @property allowClear
    * @type Boolean
-   * @default false
-   */
-  allowClear: false,
-
-  /**
-   * Whether to close the selection list after a selection has been made.
-   *
-   * @property closeOnSelect
-   * @type Boolean
    * @default true
    */
-  closeOnSelect: true,
+  allowClear: true,
 
   /**
    * The string to display when no option is selected.
@@ -93,138 +64,119 @@ export default Ember.Component.extend({
    */
   label: null,
 
-  /**
-   * Form field width
-   *
-   * @property width
-   * @type String
-   * @default 100%
-   */
-  width: "100%",
-
-  /**
-   * Indicates if input is disabled
-   *
-   * @property disabled
-   * @type Boolean
-   * @default false
-   */
-  disabled: false,
-
   mdCodes: Ember.inject.service('codelist'),
   icons: Ember.inject.service('icon'),
 
   /*
-   * codelist is an array of code objects in mdCodelist format
-   * the initial codelist for 'mdCodeName' is provided by the 'codelist' service;
-   * if a value is provided by the user which is not in the codelist and 'create=true'
-   * the new value will be added into the codelist array;
-   * then a Boolean 'selected' element will be added to each codelist object where the
-   * selected option will be set to true and all others false.
+   * The currently selected item in the codelist
+   *
+   * @property selectedItem
+   * @type Ember.computed
+   * @return PromiseObject
    */
-  codelist: Ember.computed('value', function() {
+  selectedItem: Ember.computed('value', function () {
+    let value = this.get('value');
+
+    return this.get('codelist')
+      .find((item) => {
+        return item['codeName'] === value;
+      });
+  }),
+
+  /**
+   * mapped is a re-mapped array of code objects.
+   * The initial codelist for 'mdCodeName' is provided by the 'codelist' service.
+   *
+   * @property mapped
+   * @type Ember.computed
+   * @return Array
+   */
+  mapped: Ember.computed('mdCodeName', function () {
     let codelist = [];
+    let icons = this.get('icons');
     let codelistName = this.get('mdCodeName');
     let mdCodelist = this.get('mdCodes')
       .get(codelistName)
       .codelist
       .sortBy('codeName');
-    mdCodelist.forEach(function(item) {
+
+    mdCodelist.forEach(function (item) {
       let newObject = {
         code: item['code'],
         codeName: item['codeName'],
-        description: item['description'],
-        selected: false
+        tooltip: item['description'],
+        icon: icons.get(item['codeName']) || icons.get(
+          'defaultList')
       };
       codelist.pushObject(newObject);
     });
 
-    let selectedItem = this.get('value');
+    return codelist;
+  }),
+
+  /*
+   * If a value is provided by the user which is not in the codelist and 'create=true'
+   * the new value will be added into the codelist array
+   *
+   * @property codelist
+   * @type Ember.computed
+   * @return Array
+   */
+  codelist: Ember.computed('value', function () {
+    let codelist = this.get('mapped');
+    let value = this.get('value');
     let create = this.get('create');
-    if(selectedItem) {
+
+    if(value) {
       if(create) {
-        let index = mdCodelist.indexOf(selectedItem);
-        if(index === -1) {
-          let newObject = {
-            code: Math.floor(Math.random() * 100000) + 1,
-            codeName: selectedItem,
-            description: 'Undefined',
-            selected: false
-          };
+        let found = codelist.findBy('codeName', value);
+        if(found === undefined) {
+          let newObject = this.createCode(value);
           codelist.pushObject(newObject);
         }
       }
-
-      codelist.forEach(function(item) {
-        item['selected'] = (item['codeName'] === selectedItem);
-      });
     }
 
     return codelist;
   }),
 
-  // Format options in the select tag
-  // Add tooltips and/or icons as requested
-  didInsertElement: function() {
-    let tooltip = this.get('tooltip');
-    let icon = this.get('icon');
-    let icons = this.get('icons');
-
-    function formatOption(option) {
-      let text = option['text'];
-      let $option = Ember.$(`<div> ${text}</div>`);
-
-      if(icon) {
-        $option.prepend(
-          `<span class="fa fa-${icons.get(text) || icons.get('defaultList')}"> </span>`
-        );
-      }
-
-      if(tooltip) {
-        let tip = Ember.$(option.element)
-          .data('tooltip');
-
-        $option = $option.append(
-          Ember.$(
-            `<span class="badge pull-right" data-toggle="tooltip"
-            data-placement="left" data-container="body"
-            title="${tip}">?</span>`
-          )
-          .on('mousedown', function(e) {
-            Ember.$(e.target)
-              .tooltip('destroy');
-            return true;
-          })
-          .tooltip());
-      }
-      return $option;
-    }
-
-    this.$('.md-codelist')
-      .select2({
-        placeholder: this.get('placeholder'),
-        allowClear: this.get('allowClear'),
-        tags: this.get('create'),
-        templateResult: formatOption,
-        width: this.get('width'),
-        minimumResultsForSearch: 10,
-        closeOnSelect: (this.$('.md-codelist select').prop('multiple') === 'multiple') ?
-            false : this.get('closeOnSelect'),
-        theme: 'bootstrap'
-      });
+  /**
+   * Creates a new codelist entry with a randomly generated code identifier.
+   *
+   * @method createCode
+   * @param  {String} code The codeName
+   * @return {Object}      Returns a new codelist object
+   */
+  createCode(code) {
+    return {
+      code: Math.floor(Math.random() * 100000) + 1,
+      codeName: code,
+      description: 'Undefined'
+    };
   },
 
-  didRender() {
-    this.$('.md-codelist')
-      .trigger('change.select2');
+  /**
+   * Set the value on the select.
+   *
+   * @method setValue
+   * @param {Object} selected The object with the value(codeName) to set.
+   */
+  setValue(selected) {
+    let val = selected ? selected.codeName : null;
+    this.set('value', val);
+    this.change();
   },
 
   actions: {
     // do the binding to value
-    setValue: function() {
-      let selectedEl = this.$('select');
-      let selectedValue = selectedEl.val();
-      this.set('value', selectedValue);
+    setValue: function (selected) {
+      this.setValue(selected);
+    },
+    //handle the create
+    create(selected) {
+      let code = this.createCode(selected);
+
+      this.setValue(code);
     }
   }
 

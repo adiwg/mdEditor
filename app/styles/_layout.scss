@@ -88,4 +88,8 @@ html {
       display: inline-block;
     }
   }
+
+  @media(max-width: $screen-lg-min) {
+    margin-left: -10px;
+  }
 }

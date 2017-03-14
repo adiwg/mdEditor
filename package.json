@@ -14,7 +14,14 @@
     "start": "ember server",
     "test": "ember test"
   },
-  "repository": "",
+  "homepage": "https://github.com/adiwg/mdEditor",
+  "bugs": {
+    "url": "https://github.com/adiwg/mdEditor/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adiwg/mdEditor.git"
+  },
   "engines": {
     "node": ">= 0.12.0"
   },
@@ -49,9 +56,9 @@
     "ember-cli-sri": "^2.1.0",
     "ember-cli-string-helpers": "1.0.0",
     "ember-cli-test-loader": "^1.1.0",
-    "ember-cli-toggle": "^3.0.0",
+    "ember-toggle": "^4.0.0",
     "ember-cli-uglify": "^1.2.0",
-    "ember-cli-yuidoc": "^0.8.7",
+    "ember-cli-yuidoc": "^0.8.8",
     "ember-composable-helpers": "^2.0.0",
     "ember-crumbly": "^1.0.2",
     "ember-data": "^2.11.0",
@@ -65,11 +72,13 @@
     "ember-modal-dialog": "^0.9.0",
     "ember-models-table": "1.11.0",
     "ember-multiselect-checkboxes": "^0.10.2",
+    "ember-power-select-with-create": "0.2.6",
     "ember-resize": "^0.0.17",
     "ember-resolver": "^2.0.3",
     "ember-route-action-helper": "^2.0.0",
     "ember-source": "~2.11.0",
     "ember-tether": "0.4.1",
+    "ember-tooltips": "2.9.0-beta.0",
     "ember-welcome-page": "^2.0.3",
     "eonasdan-bootstrap-datetimepicker": "~4.17.45",
     "gcmd-keywords": "^8.4.4",
@@ -79,7 +88,8 @@
     "mdcodes": "^2.0.0",
     "shapefile": "^0.6.2",
     "uuid": "^3.0.1",
-    "validator": "^6.2.0"
+    "validator": "^6.2.0",
+    "yuidoc-mdeditor-theme": "^1.4.0"
   },
   "ember-addon": {
     "paths": [

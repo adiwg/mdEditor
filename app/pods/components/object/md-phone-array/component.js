@@ -1,3 +1,7 @@
+/**
+ * @module mdeditor
+ */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -7,6 +11,7 @@ export default Ember.Component.extend({
    * The class manages the maintenance of an array of phone objects.
    *
    * @class md-phone-array
+   * @submodule components-object
    * @constructor
    */
 

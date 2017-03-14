@@ -82,6 +82,7 @@
 
   .select-profile {
     display: inline-block;
+    min-width: 125px;
   }
 }
 
@@ -135,6 +136,6 @@
   color: $brand-primary;
 }
 
-div#md-navbar-main-collapse .tooltip {
+.md-nav-tip.ember-tooltip {
   display: none !important;
 }
