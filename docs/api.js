@@ -1,6 +1,7 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
+        "make-range",
         "md-address",
         "md-boolean",
         "md-button-modal",
@@ -13,10 +14,60 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-online-resource-array",
         "md-phone-array",
         "md-select",
-        "md-textarea"
+        "md-select-thesaurus",
+        "md-textarea",
+        "tree-branch",
+        "tree-label",
+        "tree-leaf",
+        "tree-search",
+        "tree-view"
     ],
-    "modules": [],
-    "allModules": [],
+    "modules": [
+        "components-input",
+        "components-object",
+        "ember-json-tree",
+        "helpers",
+        "mdeditor",
+        "tree-search",
+        "tree-view"
+    ],
+    "allModules": [
+        {
+            "displayName": "components-input",
+            "name": "components-input",
+            "description": "Components used to input scalar or arrays of scalar values."
+        },
+        {
+            "displayName": "components-object",
+            "name": "components-object",
+            "description": "Components used to create objects or arrays of objects."
+        },
+        {
+            "displayName": "ember-json-tree",
+            "name": "ember-json-tree",
+            "description": "Renders JSON tree structures. Also provides a seach component."
+        },
+        {
+            "displayName": "helpers",
+            "name": "helpers",
+            "description": "Ember HTMLBars helpers."
+        },
+        {
+            "displayName": "mdeditor",
+            "name": "mdeditor",
+            "description": "The mdEditor application instance."
+        },
+        {
+            "displayName": "tree-search",
+            "name": "tree-search",
+            "description": "Renders a search form and results for JSON trees."
+        },
+        {
+            "displayName": "tree-view",
+            "name": "tree-view",
+            "description": "Renders JSON tree structures."
+        }
+    ],
     "elements": []
 } };
 });
