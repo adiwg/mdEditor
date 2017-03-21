@@ -2,7 +2,6 @@
  * The mdEditor application instance.
  *
  * @module mdeditor
- * @main mdeditor
  * @category docs
  */
 
@@ -40,6 +39,7 @@ export default App;
  * @module mdeditor
  * @submodule components-object
  * @main components-object
+ * @category docs
  */
 
  /**
