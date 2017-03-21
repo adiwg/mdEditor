@@ -1,24 +1,38 @@
-{{#if label}}
-    <div class="form-group">
-        <label>{{label}}</label>
-        <select class="form-control md-select" {{action 'setValue' on='change'}} disabled={{disabled}}>
-            <option></option>
-            {{#each codelist as |code index|}}
-                <option value={{code.codeId}} selected={{code.selected}}
-                        data-tooltip={{code.tooltip}}>{{code.codeName}}</option>
-            {{/each}}
-            {{yield}}
-        </select>
-    </div>
-{{else}}
-    <div class="form-group">
-        <select class="form-control md-select" {{action 'setValue' on='change'}} disabled={{disabled}}>
-            <option></option>
-            {{#each codelist as |code index|}}
-                <option value={{code.codeId}} selected={{code.selected}}
-                        data-tooltip={{code.tooltip}}>{{code.codeName}}</option>
-            {{/each}}
-            {{yield}}
-        </select>
-    </div>
-{{/if}}
+    {{#if label}}
+      <label>{{label}}</label>
+    {{/if}}
+      {{#component theComponent
+        selected=selectedItem
+        multiple=multiple
+        options=codelist
+        disabled=disabled
+        placeholder=placeholder
+        searchField="codeName"
+        searchEnabled=searchEnabled
+        allowClear=allowClear
+        closeOnSelect=closeOnSelect
+        onchange=(action "setValue")
+        oncreate=(action "create")
+        ariaLabel=ariaLabel
+        as |code|
+      }}
+        {{#if icon}}
+          {{#if code.icon}}
+            <span class="fa fa-{{code.icon}}"> </span>
+          {{/if}}
+        {{/if}}
+        <span class="select-value">{{code.codeName}}</span>
+        {{#if tooltip}}
+          {{#if code.tooltip}}
+          <div class="pull-right">
+            <span class="badge tooltip">?
+              {{tooltip-on-element
+                text=code.tooltip
+                side="right"
+                enableLazyRendering=true
+              }}
+            </span>
+          </div>
+          {{/if}}
+        {{/if}}
+      {{/component}}

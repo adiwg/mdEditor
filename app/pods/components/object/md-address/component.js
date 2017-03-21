@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-object
+ */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({

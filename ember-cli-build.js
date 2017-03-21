@@ -8,8 +8,8 @@ module.exports = function(defaults) {
     sassOptions: {
       includePaths: [
         'bower_components/bootstrap-sass/assets/stylesheets',
-        'bower_components/select2/src/scss',
-        'bower_components/select2-bootstrap-theme/src',
+        // 'bower_components/select2/src/scss',
+        // 'bower_components/select2-bootstrap-theme/src',
         'bower_components/jquery-jsonview/src'
       ]
     },
@@ -44,16 +44,16 @@ module.exports = function(defaults) {
     '/bootstrap-sass/assets/javascripts/bootstrap/transition.js');
   app.import(app.bowerDirectory +
     '/bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
-  app.import(app.bowerDirectory +
-    '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
+  // app.import(app.bowerDirectory +
+  //   '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
   app.import(app.bowerDirectory +
     '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
   app.import(app.bowerDirectory +
     '/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
 
   //select2
-  app.import(app.bowerDirectory +
-    '/select2/dist/js/select2.js');
+  // app.import(app.bowerDirectory +
+  //   '/select2/dist/js/select2.js');
 
   //jquery-jsonview
   app.import(app.bowerDirectory +

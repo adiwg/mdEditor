@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -11,7 +16,7 @@ export default Ember.Component.extend({
    */
 
   /**
-   * Datetime string passed in, edited, and returned. 
+   * Datetime string passed in, edited, and returned.
    *
    * @property date
    * @type String
@@ -21,14 +26,14 @@ export default Ember.Component.extend({
   date: null,
 
   /**
-   * Format of date string for property 'date'. 
+   * Format of date string for property 'date'.
    *
    * @property format
    * @type String
    * @default 'YYYY-MM-DD'
    */
   format: 'YYYY-MM-DD',
-  
+
   /**
    * The string to display when no datetime is selected.
    *
@@ -37,16 +42,16 @@ export default Ember.Component.extend({
    * @default 'Enter date or datetime'
    */
   placeholder: "Enter date or datetime",
-  
+
   /**
-   * Form label for datetime input. 
+   * Form label for datetime input.
    *
    * @property label
    * @type String
    * @default null
    */
   label: null,
-  
+
   /**
    * Icons to be used by the datetime picker and calendar.
    * Icons can be set for time, date, up, down, previous, next,

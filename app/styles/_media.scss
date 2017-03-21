@@ -171,7 +171,7 @@
 }
 
 @media (min-width: 533px) and (max-width: 809px) {
-  div#md-navbar-main-collapse li .tooltip {
+  div.md-nav-tip.ember-tooltip {
     display: block !important;
   }
 }

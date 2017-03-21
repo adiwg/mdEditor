@@ -4,6 +4,9 @@ import {
 from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
+import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
+import { triggerEvent } from 'ember-native-dom-helpers/test-support/helpers';
+import wait from 'ember-test-helpers/wait';
 
 const codelist = Ember.Service.extend({
   foobar: {
@@ -36,18 +39,6 @@ test('it renders', function(assert) {
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
   this.set('fooVal', ['foo', 'bar']);
 
-  this.render(hbs `
-    {{input/md-codelist-multi
-    value='["foo","bar"]'
-    create = true
-    mdCodeName="foobar"}}
-    `);
-
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|'), '|bar|foo|×bar×foo|',
-    'renders with JSON string');
-
   // Template block usage:" + EOL +
   this.render(hbs `
     {{#input/md-codelist-multi
@@ -60,23 +51,64 @@ test('it renders', function(assert) {
 
   assert.equal(this.$()
     .text()
-    .replace(/[ \n]+/g, '|'), '|bar|foo|template|block|text|×bar×foo|',
+    .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|',
     'renders block with array value');
 });
 
 test('set value action', function(assert) {
-  // test dummy for the external profile action
+  var $this = this.$();
+
+  assert.expect(2);
+
+  //this.set('fooVal', ['foo']);
+  this.set('value', ['foo']);
   this.on('update', (actual) => {
-    assert.equal(actual, "['bar']",
+    assert.equal(actual, this.get('value'),
       'submitted value is passed to external action');
   });
 
   this.render(hbs `{{input/md-codelist-multi
-    create = true
-    value='["foo"]'
+    create=false
+    value=value
     mdCodeName="foobar"
-    change=(action "update" "['bar']")}}`);
+    change=(action "update" value)}}`);
 
-  this.$('select')
-    .trigger('change');
+    clickTrigger();
+    triggerEvent($('.ember-power-select-option:contains("bar")').get(0),'mouseup');
+
+    return wait().then(() => {
+        assert.equal($this
+        .text()
+        .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|bar|foo|',
+        'value updated');
+    });
+});
+
+test('create option', function(assert) {
+  var $this = this.$();
+
+  assert.expect(3);
+
+  this.set('value', ['foo']);
+  this.on('update', (actual) => {
+    assert.equal(actual, this.get('value'),
+      'submitted value is passed to external action');
+  });
+
+  this.render(hbs `{{input/md-codelist-multi
+    create=true
+    value=value
+    mdCodeName="foobar"
+    change=(action "update" value)}}`);
+
+    clickTrigger();
+    typeInSearch('biz');
+    triggerEvent($('.ember-power-select-option:contains("biz")').get(0),'mouseup');
+
+    return wait().then(() => {
+        assert.equal($this
+        .text()
+        .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|bar|foo|biz|',
+        'value updated');
+    });
 });

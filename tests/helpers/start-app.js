@@ -2,6 +2,9 @@ import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
 import registerModalAssertHelpers from './modal-asserts';
+import registerPowerSelectHelpers from '../../tests/helpers/ember-power-select';
+
+registerPowerSelectHelpers();
 
 export default function startApp(attrs) {
   let attributes = Ember.merge({}, config.APP);

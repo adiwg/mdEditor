@@ -3,12 +3,13 @@ import Ember from 'ember';
 export default Ember.Component.extend({
 
   /**
-   * Input, edit, display a multi-line, expandable, text area. 
-   * 
+   * Input, edit, display a multi-line, expandable, text area.
+   *
    * @class md-textarea
+   * @submodule components-input
    * @constructor
    */
-  
+
   /**
    * Initial value, returned value.
    *
@@ -17,16 +18,16 @@ export default Ember.Component.extend({
    * @return String
    * @required
    */
-  
+
   /**
-   * Form label for textarea 
+   * Form label for textarea
    *
    * @property label
    * @type String
    * @default null
    */
   label: null,
-  
+
   /**
    * The string to display when no option is selected.
    *
@@ -46,9 +47,9 @@ export default Ember.Component.extend({
   required: false,
 
   /**
-   * Maximum number of characters allowed. 
+   * Maximum number of characters allowed.
    * If maxlength is not provided the number of characters will
-   * not be restricted. 
+   * not be restricted.
    *
    * @property maxlength
    * @type Number
@@ -66,8 +67,8 @@ export default Ember.Component.extend({
   autoresize: true,
 
   /**
-   * Set the maximum width of the resizeable element in pixels. 
-   * If maxwidth is not provided width will not be restricted. 
+   * Set the maximum width of the resizeable element in pixels.
+   * If maxwidth is not provided width will not be restricted.
    *
    * @property maxwidth
    * @type Number
@@ -76,8 +77,8 @@ export default Ember.Component.extend({
   maxwidth: null,
 
   /**
-   * Set the maximum height of the resizable element in pixels. 
-   * If maxheight is not provided height will not be restricted. 
+   * Set the maximum height of the resizable element in pixels.
+   * If maxheight is not provided height will not be restricted.
    *
    * @property maxheight
    * @type {Number}
@@ -86,7 +87,7 @@ export default Ember.Component.extend({
   maxheight: null,
 
   /**
-   * Set the minimum number of rows for the element. 
+   * Set the minimum number of rows for the element.
    * Recommended for textareas.
    *
    * @property rows
@@ -96,7 +97,7 @@ export default Ember.Component.extend({
   rows: 2,
 
   /**
-   * Set the maximum number of rows for the element. 
+   * Set the maximum number of rows for the element.
    * Recommended for textareas.
    *
    * @property maxrows
@@ -104,7 +105,7 @@ export default Ember.Component.extend({
    * @default 10
    */
   maxrows: 10,
-  
+
   /**
    * Class to set on the textarea
    *
@@ -113,5 +114,5 @@ export default Ember.Component.extend({
    * @default 'form-control'
    */
   class: 'form-control'
-  
+
 });

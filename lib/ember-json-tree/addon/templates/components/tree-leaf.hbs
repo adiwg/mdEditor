@@ -1,6 +1,7 @@
 {{#if model.definition}}
-  <span class="badge node-tip" data-toggle="tooltip" data-placement="auto
-    right" data-container="body" title="" data-original-title="{{model.definition}}">?</span>
+  <span class="badge node-tip">?
+  {{tooltip-on-element text=model.definition side="right"}}
+  </span>
 {{/if}}
 
 {{#if inTree}}

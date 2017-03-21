@@ -1,0 +1,19 @@
+$ember-power-select-highlighted-background: $gray-lighter;
+$ember-power-select-selected-background: lighten($brand-primary, 45) !default;
+
+.ember-power-select-multiple-option,
+.ember-power-select-selected-item {
+  .badge,
+  .fa {
+    display: none;
+  }
+}
+// Disabled styles
+
+.ember-power-select-trigger[aria-disabled=true] {
+  cursor: not-allowed;
+}
+
+div.ember-basic-dropdown-content {
+  z-index: 1002;
+}

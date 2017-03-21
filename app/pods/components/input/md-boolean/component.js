@@ -1,14 +1,19 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  
+
   /**
    * Input, edit, display a boolean value
    *
    * @class md-boolean
    * @constructor
    */
-  
+
   /**
    * Value of the input.
    * The edited value is returned
@@ -34,5 +39,5 @@ export default Ember.Component.extend({
    * @default null
    */
   label: null
-  
+
 });

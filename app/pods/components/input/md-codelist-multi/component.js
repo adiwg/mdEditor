@@ -1,158 +1,144 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 import MdCodelist from '../md-codelist/component';
 
 export default MdCodelist.extend({
-  
+  classNames: ['md-codelist-multi'],
   /**
    * Specialized select list control for displaying and selecting
    * options in mdCodes codelists.
    * Extends md-codelist.
-   * Allows selection of multiple options. 
+   * Allows selection of multiple options.
    *
    * @class md-codelist-multi
    * @constructor
+   * @extends md-codelist
    */
-  
+
   /**
-   * Initial value, returned value. 
-   * Accepts either an Array of strings or JSON formatted array
-   * of strings.  Example: '["foo","bar"]'
+   * Initial value, returned value.
+   * Accepts an Array of strings.
+   *
+   * Example: `["foo","bar"]`
    *
    * @property value
    * @type Array
    * @return Array
    * @required
    */
-  
+
   /**
-   * Indicates whether to allow the user to enter a new option
-   * not contained in the select list.
+   * The multiple property for power-select-with-create
    *
-   * @property create
+   * @property multiple
+   * @private
    * @type Boolean
-   * @default false
+   * @default true
    */
-  
+  multiple: true,
+
   /**
-   * Indicates if tooltips should be rendered for the options.
+   * The component to render
    *
-   * @property tooltip
-   * @type Boolean
-   * @default false
+   * @property theComponent
+   * @type Ember.computed
+   * @return String
    */
-  
-  /**
-   * Indicates if icons should be rendered.
-   *
-   * @property icon
-   * @type Boolean
-   * @default false
-   */
-  
-  /**
-   * Whether to render a button to clear the selection.
-   *
-   * @property allowClear
-   * @type Boolean
-   * @default false
-   */
-  
+  theComponent: Ember.computed('create', function () {
+    return this.get('create') ? 'power-select-with-create' :
+      'power-select-multiple';
+  }),
+
   /**
    * Whether to close the selection list after a selection has been made.
    *
    * @property closeOnSelect
    * @type Boolean
-   * @default true
+   * @default false
    */
-  
+  closeOnSelect: false,
+
   /**
    * The string to display when no option is selected.
    *
    * @property placeholder
    * @type String
-   * @default 'Select one option'
+   * @default 'Select one or more options'
    */
-  
-  /**
-   * Form label for select list
-   *
-   * @property label
-   * @type String
-   * @default null
-   */
-  
-  /**
-   * Form field width
-   *
-   * @property width
-   * @type String
-   * @default 100%
-   */
-  
-  /**
-   * Indicates if input is disabled
-   *
-   * @property disabled
-   * @type Boolean
-   * @default false
-   */
-  
-  /*
-   * codelist is an array of code objects in mdCodelist format
-   * the initial codelist for 'mdCodeName' is provided by the 'codelist' service;
-   * if a value is provided by the user which is not in the codelist and 'create=true'
-   * the new value will be added into the codelist array;
-   * then a Boolean 'selected' element will be added to each codelist object where the
-   * selected option will be set to true and all others false.
-   */
-  codelist: Ember.computed(function() {
-    let codelist = [];
-    let codelistName = this.get('mdCodeName');
-    let mdCodelist = this.get('mdCodes')
-      .get(codelistName)
-      .codelist
-      .sortBy('codeName');
-    mdCodelist.forEach(function(item) {
-      let newObject = {
-        code: item['code'],
-        codeName: item['codeName'],
-        description: item['description'],
-        selected: false
-      };
-      codelist.pushObject(newObject);
-    });
+  placeholder: 'Select one or more options',
 
-    let val = this.get('value');
-    let selectedItems = typeof val === 'string' ? JSON.parse(val) : val;
+  /**
+   * The currently selected item in the codelist
+   *
+   * @property selectedItem
+   * @type Ember.computed
+   * @return PromiseObject
+   */
+  selectedItem: Ember.computed('value', function () {
+    let value = this.get('value');
+    let codelist = this.get('codelist');
+
+    if(value) {
+      return codelist.filter((item) => {
+        return value.includes(item['codeName']);
+      });
+    }
+    return null;
+  }),
+
+  /**
+   * If a value is provided by the user which is not in the codelist and 'create=true'
+   * the new value will be added into the codelist array
+   *
+   * @property codelist
+   * @type Ember.computed
+   * @return Array
+   */
+  codelist: Ember.computed('value', function () {
+    let codelist = this.get('mapped');
+    let value = this.get('value');
     let create = this.get('create');
-    if(selectedItems) {
+
+    if(value) {
       if(create) {
-        selectedItems.forEach(function(selectedItem) {
-          let mdIndex = -1;
-          codelist.forEach(function(codeObject, cIndex) {
-            if(selectedItem === codeObject['codeName']) {
-              mdIndex = cIndex;
-            }
-          });
-          if(mdIndex === -1) {
-            let newObject = {
-              code: Math.floor(Math.random() * 100000) + 1,
-              codeName: selectedItem,
-              description: 'Undefined',
-              selected: false
-            };
+        value.forEach((val) => {
+          let found = codelist.findBy('codeName', val);
+          if(found === undefined) {
+            let newObject = this.createCode(val);
             codelist.pushObject(newObject);
           }
         });
       }
-      codelist.forEach(function(item) {
-        let mdIndex = selectedItems.indexOf(item['codeName']);
-        if(mdIndex > -1) {
-          item['selected'] = true;
-        }
-      });
     }
 
     return codelist;
-  })
+  }),
+
+  /**
+   * Set the value on the select.
+   *
+   * @method setValue
+   * @param {Array|Object} selected The value to set. Generally, an array of
+   * selected objects, unless using the create option.
+   */
+  setValue(selected) {
+    let sel;
+
+    //power-select-with-create always sends a single object oncreate
+    //we need to add that object to the selectedItem array
+    if(this.get('create') && !Ember.isArray(selected)) {
+      sel = this.get('selectedItem')
+        .compact();
+      sel.pushObject(selected);
+    } else {
+      sel = selected;
+    }
+
+    this.set('value', sel.mapBy('codeName'));
+    this.change();
+  }
 });
