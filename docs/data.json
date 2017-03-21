@@ -186,7 +186,9 @@
         },
         "app/pods/components/object/md-phone-array/component.js": {
             "name": "app/pods/components/object/md-phone-array/component.js",
-            "modules": {},
+            "modules": {
+                "mdeditor": 1
+            },
             "classes": {
                 "md-phone-array": 1
             },
@@ -237,9 +239,7 @@
         },
         "app/app.js": {
             "name": "app/app.js",
-            "modules": {
-                "mdeditor": 1
-            },
+            "modules": {},
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -291,7 +291,9 @@
         },
         "lib/ember-json-tree/addon/helpers/make-range.js": {
             "name": "lib/ember-json-tree/addon/helpers/make-range.js",
-            "modules": {},
+            "modules": {
+                "helpers": 1
+            },
             "classes": {
                 "make-range": 1
             },
@@ -303,7 +305,6 @@
             "modules": {
                 "tree-view": 1,
                 "tree-search": 1,
-                "helpers": 1,
                 "ember-json-tree": 1
             },
             "classes": {},
@@ -338,16 +339,16 @@
                 "tree-label": 1,
                 "tree-leaf": 1,
                 "tree-search": 1,
-                "tree-view": 1,
-                "make-range": 1
+                "tree-view": 1
             },
             "fors": {},
             "namespaces": {},
-            "tag": "main",
-            "file": "lib/ember-json-tree/addon/helpers/make-range.js",
-            "line": 3,
-            "description": "The mdEditor application instance.",
-            "itemtype": "main"
+            "tag": "module",
+            "file": "lib/ember-json-tree/addon/components/tree-view.js",
+            "line": 9,
+            "category": [
+                "docs"
+            ]
         },
         "components-input": {
             "name": "components-input",
@@ -397,7 +398,10 @@
             "line": 9,
             "description": "Components used to create objects or arrays of objects.",
             "tag": "main",
-            "itemtype": "main"
+            "itemtype": "main",
+            "category": [
+                "docs"
+            ]
         },
         "tree-view": {
             "name": "tree-view",
@@ -444,6 +448,27 @@
                 "docs"
             ]
         },
+        "ember-json-tree": {
+            "name": "ember-json-tree",
+            "submodules": {
+                "tree-view": 1,
+                "tree-search": 1,
+                "helpers": 1
+            },
+            "elements": {},
+            "classes": {
+                "make-range": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "lib/ember-json-tree/addon/helpers/make-range.js",
+            "line": 3,
+            "description": "Renders JSON tree structures. Also provides a seach component.",
+            "category": [
+                "docs"
+            ]
+        },
         "helpers": {
             "name": "helpers",
             "submodules": {},
@@ -458,28 +483,9 @@
             "namespace": "",
             "file": "lib/ember-json-tree/addon/helpers/make-range.js",
             "line": 3,
-            "description": "Ember HTMLBars helpers.",
+            "description": "Create an array with the index defined by the start and end params",
             "tag": "main",
             "itemtype": "main",
-            "category": [
-                "docs"
-            ]
-        },
-        "ember-json-tree": {
-            "name": "ember-json-tree",
-            "submodules": {
-                "tree-view": 1,
-                "tree-search": 1,
-                "helpers": 1
-            },
-            "elements": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {},
-            "tag": "module",
-            "file": "lib/ember-json-tree/index.js",
-            "line": 1,
-            "description": "Renders JSON tree structures. Also provides a seach component.",
             "category": [
                 "docs"
             ]
@@ -788,12 +794,12 @@
             "extensions": [],
             "plugin_for": [],
             "extension_for": [],
-            "module": "mdeditor",
+            "module": "ember-json-tree",
+            "submodule": "helpers",
             "namespace": "",
             "file": "lib/ember-json-tree/addon/helpers/make-range.js",
             "line": 3,
-            "description": "Create an array with the index defined by the start and end params",
-            "submodule": "helpers"
+            "description": "Create an array with the index defined by the start and end params"
         }
     },
     "elements": {},
@@ -2275,7 +2281,7 @@
         },
         {
             "file": "lib/ember-json-tree/addon/helpers/make-range.js",
-            "line": 12,
+            "line": 13,
             "itemtype": "method",
             "name": "makeRange",
             "params": [
@@ -2295,7 +2301,7 @@
                 "type": "Array"
             },
             "class": "make-range",
-            "module": "mdeditor",
+            "module": "ember-json-tree",
             "submodule": "helpers"
         }
     ],
@@ -2334,7 +2340,7 @@
         },
         {
             "message": "replacing incorrect tag: function with method",
-            "line": " lib/ember-json-tree/addon/helpers/make-range.js:12"
+            "line": " lib/ember-json-tree/addon/helpers/make-range.js:13"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

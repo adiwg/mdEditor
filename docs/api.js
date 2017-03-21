@@ -50,12 +50,11 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "helpers",
             "name": "helpers",
-            "description": "Ember HTMLBars helpers."
+            "description": "Create an array with the index defined by the start and end params"
         },
         {
             "displayName": "mdeditor",
-            "name": "mdeditor",
-            "description": "The mdEditor application instance."
+            "name": "mdeditor"
         },
         {
             "displayName": "tree-search",
