@@ -34,6 +34,15 @@ Ember.Route.reopen({
 export default App;
 
 /**
+* Models for the mdEditor data store
+
+* @main data-models
+* @module mdeditor
+* @submodule data-models
+* @category docs
+*/
+
+/**
  * Components used to create objects or arrays of objects.
  *
  * @module mdeditor
@@ -48,5 +57,14 @@ export default App;
   * @module mdeditor
   * @submodule components-input
   * @main components-input
+  * @category docs
+  */
+
+ /**
+  * Components used as UI controls.
+  *
+  * @module mdeditor
+  * @submodule components-control
+  * @main components-control
   * @category docs
   */

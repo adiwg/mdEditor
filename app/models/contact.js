@@ -4,62 +4,143 @@ import uuidV4 from 'npm:uuid/v4';
 import Validator from 'npm:validator';
 
 export default DS.Model.extend(Ember.Copyable, {
+  /**
+   * Contact model
+   *
+   * @class contact
+   * @constructor
+   * @extends DS.Model
+   * @mixin Ember.Copyable
+   * @module mdeditor
+   * @submodule data-models
+   */
+
+  /**
+   * The json object for the contact. The data for the contact is stored in this
+   * object.
+   *
+   * @attribute json
+   * @type {json}
+   * @required
+   */
   json: DS.attr('json', {
     defaultValue: function () {
       let obj = Ember.Object.create({
         'contactId': uuidV4(),
-        'organizationName': null,
-        'individualName': null,
+        'isOrganization': false,
+        'name': null,
         'positionName': null,
-        'phoneBook': [],
-        'address': {},
+        'memberOfOrganization': [],
+        'logoGraphic': [],
+        'phone': [],
+        'address': [],
+        'electronicMailAddress': [],
         'onlineResource': [],
-        'contactInstructions': null
+        'hoursOfService': [],
+        'contactInstructions': null,
+        'contactType': null
       });
 
       return obj;
     }
   }),
+
+  /**
+   * The timestamp for the record
+   *
+   * @attribute dateUpdated
+   * @type {date}
+   * @default new Date()
+   * @required
+   */
   dateUpdated: DS.attr('date', {
     defaultValue() {
       return new Date();
     }
   }),
 
-  title: Ember.computed('json.individualName', 'json.organizationName',
+  /**
+   * The formatted display string for the contact
+   *
+   * @property title
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires json.name, json.positionName
+   */
+  title: Ember.computed('json.name', 'json.positionName',
     function () {
       const json = this.get('json');
 
-      return json.individualName || json.organizationName;
+      return json.individualName || json.positionName;
     }),
 
-  icon: Ember.computed('json.individualName', 'json.organizationName',
+  /**
+   * The display icon for the contact
+   *
+   * @property icon
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires json.isOrganization
+   */
+  icon: Ember.computed('json.isOrganization',
     function () {
-      const name = this.get('json.individualName');
+      const name = this.get('json.isOrganization');
 
-      return name ? 'user' : 'users';
+      return name ? 'users' : 'user';
     }),
 
-  combinedName: Ember.computed('json.individualName',
-    'json.organizationName',
+  /**
+   * The formatted (name or position) and organization(if any) of the contact.
+   *
+   * @property combinedName
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires json.name, json.isOrganization
+   */
+  combinedName: Ember.computed('json.name', 'json.isOrganization',
+    'json.positionName',
     function () {
       const json = this.get('json');
 
-      let indName = json.individualName;
-      let orgName = json.organizationName;
-      let combinedName = orgName;
+      let {
+        name,
+        positionName,
+        isOrganization,
+        memberOfOrganization
+      } = json;
 
-      if(indName && orgName) {
-        return combinedName += ": " + indName;
+      let orgId = memberOfOrganization.length ? memberOfOrganization[0] :
+        null;
+      let combinedName = name || positionName;
+      let orgName;
+
+      if(orgId) {
+        this.get('store')
+          .findRecord('contact', orgId)
+          .then(function (org) {
+            orgName = org.name;
+          });
       }
 
-      if(indName) {
-        return combinedName = indName;
+      if(orgName && !isOrganization) {
+        return combinedName += ": " + combinedName;
       }
 
       return combinedName;
     }),
 
+  /**
+   * The trimmed varsion of the contactId.
+   *
+   * @property shortId
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires json.contactId
+   */
   shortId: Ember.computed('json.contactId', function () {
     const contactId = this.get('json.contactId');
     if(contactId && Validator.isUUID(contactId)) {
@@ -69,15 +150,26 @@ export default DS.Model.extend(Ember.Copyable, {
     return contactId;
   }),
 
+  /**
+   * Create a copy of the record in the store.
+   *
+   * @method copy
+   * @chainable
+   * @return {DS.Model}
+   */
   copy() {
     let current = this.get('json');
     let json = Ember.Object.create(JSON.parse(JSON.stringify(current)));
-    let indName = current.individualName;
-    let orgName = current.organizationName;
+    let {
+      name,
+      positionName,
+      isOrganization
+    } = current;
 
     json.setProperties({
-      organizationName: indName ? orgName : `Copy of ${orgName}`,
-      individualName: indName ? `Copy of ${indName}` : null,
+      isOrganization: isOrganization,
+      name: name ? `Copy of ${name}` : null,
+      positionName: name ? positionName : `Copy of ${positionName}`,
       contactId: uuidV4()
     });
 

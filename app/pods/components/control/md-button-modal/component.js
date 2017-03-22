@@ -6,6 +6,8 @@ export default Ember.Component.extend({
    * dialog when clicked.
    *
    * @class md-button-modal
+   * @module mdeditor
+   * @submodule components-control
    * @constructor
    */
 
