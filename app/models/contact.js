@@ -72,7 +72,22 @@ export default DS.Model.extend(Ember.Copyable, {
     function () {
       const json = this.get('json');
 
-      return json.individualName || json.positionName;
+      return json.name || (json.isOrganization ? null : json.positionName);
+    }),
+
+  /**
+   * The type of contact
+   *
+   * @property type
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires json.isOrganization
+   */
+  type: Ember.computed('json.isOrganization',
+    function () {
+      return this.get('json.isOrganization') ? 'Organization' :
+        'Individual';
     }),
 
   /**

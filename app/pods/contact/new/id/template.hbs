@@ -1,12 +1,10 @@
-<div class="row text-center">
-    <div class="col-md-8 col-md-offset-2">
+<div class="row page-header">
+    <div class="col-md-6 col-md-offset-3">
         <h3>Create New Contact</h3>
-        <p class="text-center">To create a <em> new</em> contact, enter a contact ID and an
-            individual name, organization name, or both.</p>
     </div>
 </div>
 
-<div class="row">
+{{!-- <div class="row">
     <div class="col-md-6 col-md-offset-3">
             {{#if noId}}
                 <div class="alert alert-danger md-form-alert" role="alert">
@@ -19,10 +17,24 @@
                 </div>
             {{/if}}
     </div>
-</div>
+</div> --}}
 
 <div class="row">
     <div class="form-horizontal col-md-6 col-md-offset-3">
+      <div class="form-group">
+            <label class="col-sm-3 control-label">Contact Type</label>
+            <div class="col-sm-9 col-sm-offset-">
+              {{input/md-toggle
+                value=model.json.isOrganization
+                onToggle=(mut model.json.isOrganization)
+                showLabels=true
+                onLabel="Organization::true"
+                offLabel="Individual::false"
+                size="large"
+                theme="form"
+              }}
+            </div>
+        </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">Contact ID</label>
             <div class="col-sm-9">
@@ -32,21 +44,23 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">Individual Name</label>
+            <label class="col-sm-3 control-label">Name</label>
             <div class="col-sm-9">
                 {{input/md-input
-                value=model.json.individualName
-                placeholder="Enter a name for this person"}}
+                value=model.json.name
+                placeholder="Enter a name for this contact"}}
             </div>
         </div>
-            <div class="form-group">
-            <label class="col-sm-3 control-label">Organization Name</label>
+        {{#unless model.json.isOrganization}}
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Position Name</label>
             <div class="col-sm-9">
                 {{input/md-input
-                value=model.json.organizationName
-                placeholder="Enter a name for this organization"}}
+                value=model.json.positionName
+                placeholder="Enter a name for this position"}}
             </div>
         </div>
+        {{/unless}}
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">

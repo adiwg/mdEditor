@@ -1,24 +1,35 @@
+<div class="row page-header">
+    <div class="col-sm-9 col-md-offset-1">
+      <h2>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small></h2>
+    </div>
+</div>
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
-
-        <h2>Editing Contact: {{model.json.contactId}}</h2>
-
         <form>
             {{input/md-input value=model.json.contactId
             placeholder="User assigned Contact ID" label="Contact ID"}}
 
-            {{input/md-input value=model.json.organizationName
-            placeholder="Organization Name" label="Organization Name"}}
-
-            {{input/md-input value=model.json.individualName
-            placeholder="Individual Name" label="Individual Name"}}
+            {{input/md-input value=model.json.name
+            placeholder=(concat model.type " Name") label=(concat model.type " Name")}}
 
             {{input/md-input value=model.json.positionName
-            placeholder="If Individual Name, provide Position" label="Position Name"}}
+            placeholder="Position Name" label="Position Name"}}
 
-            {{object/md-phone-array phoneBook=model.json.phoneBook isCollapsed=false}}
+            {{object/md-phone-array value=model.json.phone isCollapsed=false}}
 
-            {{object/md-address address=model.json.address}}
+            {{#object/md-array-table
+              columns="E-mail"
+              title="E-mail Address"
+              required=true
+              value=model.json.electronicMailAddress as |email|
+            }}
+              <td>
+                  {{input/md-input value=email.item
+                  placeholder="Enter valid e-mail address"}}
+              </td>
+            {{/object/md-array-table}}
+
+            {{!-- {{object/md-address address=model.json.address}} --}}
 
             {{object/md-online-resource-array model=model.json}}
 

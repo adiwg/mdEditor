@@ -1,75 +1,25 @@
-<div class="panel panel-default box-shadow--8dp">
-
-    <div class="panel-heading">
-        <h3 class="panel-title md-panel-chevron">
-            <a data-toggle="collapse" aria-expanded="{{if collapsed "false" "true"}}"
-               class="{{if collapsed "collapsed"}}"
-               href="#{{panelId}}" aria-controls="#{{panelId}}">
-                <span class="fa"></span> Phones
-                <label class="label label-pill {{pillColor}}"> {{phoneBook.length}} </label>
-            </a>
-            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right"
-                {{action "addPhone" phoneBook}}>
-                <span class="fa fa-plus"></span> Add
-            </button>
-        </h3>
-    </div>
-
-    <div id="{{panelId}}" class="panel-collapse {{if collapsed "collapse" "in"}}">
-        <div class="panel-body">
-            <table class="table table-striped table-hover fadeIn">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Number</th>
-                        <th>Services</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#each phoneBook index="@index" as |phone index|}}
-                        <tr>
-                            <td>{{index}}</td>
-                            <td>
-                                {{input/md-input value=phone.phoneName
-                                placeholder="Name or location or phone"}}
-                            </td>
-                            <td>
-                                {{input/md-input value=phone.phoneNumber
-                                placeholder="Phone number"}}
-                            </td>
-                            <td>
-                                <div class="md-multiselect form-control">
-                                    {{#multiselect-checkboxes tagName='div' options=phoneServices selection=phone.service as |service isSelected|}}
-                                    <label class="checkbox-inline">
-                                        {{input type="checkbox" checked=isSelected}}
-                                        {{service}}
-                                    </label>
-                                    {{/multiselect-checkboxes}}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="md-button-column">
-                                    <button class="btn btn-xs btn-danger" {{action "deletePhone" phoneBook index}}>
-                                        <span class="fa fa-times"></span> Delete
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                    {{else}}
-                    <tr>
-                        <td colspan="5">
-                            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success"
-                                {{action "addPhone" phoneBook}}>
-                                <span class="fa fa-plus"></span> Add Phone
-                            </button>
-                        </td>
-                    </tr>
-                    {{/each}}
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-</div>
+{{#object/md-array-table
+  columns="Name,Number,Services"
+  title="Phone"
+  value=value
+  templateClass=templateClass as |phone|
+}}
+  <td>
+      {{input/md-input value=phone.item.phoneName
+      placeholder="Name or location or phone"}}
+  </td>
+  <td>
+      {{input/md-input value=phone.item.phoneNumber
+      placeholder="Phone number"}}
+  </td>
+  <td>
+    {{input/md-codelist-multi
+      create=true
+      tooltip=true
+      icon=false
+      disabled=disabled
+      allowClear=true
+      mdCodeName="telephone"
+      value=phone.item.service placeholder="Choose phone type" }}
+  </td>
+{{/object/md-array-table}}
