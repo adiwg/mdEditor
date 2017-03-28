@@ -1,49 +1,47 @@
-/**
- * @module mdeditor
- * @submodule components-object
- */
-
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+   /**
+    * mdEditor class for input and edit of mdJSON 'address' object
+    * arrays. The class manages the maintenance of an array of address
+    * objects using the md-object-table class.
+    *
+    * @module mdeditor
+    * @submodule components-object
+    * @class md-address
+    * @constructor
+    * @requires md-object-table
+    */
 
-  /**
-   * mdEditor class for input and edit of mdJSON address objects.
-   *
-   * @class md-address
-   * @constructor
-   */
+   /**
+    * mdJSON object containing the 'address' array.
+    *
+    * @property model
+    * @type Object
+    * @required
+    */
 
-  /**
-   * mdJSON 'address' object to be edited.
-   *
-   * @property address
-   * @type Object
-   * @required
-   */
+   /**
+    * List of mdJSON 'address' object attributes to display in
+    * md-object-table to aid in choosing the address to edit or
+    * delete.
+    * The property is passed to md-object-table for configuration.
+    *
+    * @property attributes
+    * @type String
+    * @default 'name, uri'
+    */
+   attributes: 'deliveryPoint.0,city',
 
-  panelId: Ember.computed(function () {
-    return Ember.generateGuid(null, 'panel');
-  }),
-
-  /**
-   * Indicate whether the address object is not empty.
-   *
-   * @property isEmpty
-   * @type Boolean
-   */
-
-  notEmpty: Ember.computed('address', 'address.city',
-    'address.deliveryPoint', 'address.adminsitrativeArea',
-    'address.postalCode', 'address.country',
-    'address.electronicMailAddress.[]',
-    function () {
-      let address = this.get('address');
-      let keys = Object.keys(address);
-
-      return keys.some(function (key) {
-        return !Ember.isEmpty(address[key]);
-      });
-    })
+   /**
+    * Name to place on the mdEditor panel header for entry and edit of
+    * 'address' objects.
+    * The property is passed to md-object-table for configuration.
+    *
+    * @property label
+    * @type String
+    * @default 'Address'
+    */
+   label: 'Address'
 
 });

@@ -27,7 +27,7 @@
                 <th></th>
                 </thead>
                 <tbody>
-                {{#each citems key="@index" as |item index|}}
+                {{#each citems as |item index|}}
                     <tr>
                         <td>{{index}}</td>
                         {{#each attrArray as |prop|}}
@@ -56,7 +56,11 @@
                 </tbody>
             </table>
             <div class="object-editor fadeOut">
-                {{yield saveItem (action "cancelEdit")}}
+                {{yield saveItem}}
+                <hr>
+                <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
+                    <span class="fa fa-check"></span> OK
+                </button>
             </div>
         </div>
     </div>

@@ -8,18 +8,22 @@ const {
 } = Ember;
 
 export default Component.extend({
-  init(){
-    this._super(...arguments);
-    this.set('value', A(this.get('value')))
-  },
   /**
-   * mdEditor class for input and edit of arrays of objects or scalars. The
+   * mdEditor class for input and edit of arrays of objects. The
    * component is rendered as an editable table.
    *
    * @class md-array-table
    * @submodule components-object
    * @constructor
    */
+
+  init() {
+    this._super(...arguments);
+
+    if (!this.get('value')) {
+      this.set('value', A());
+    }
+  },
 
   /**
    * The array to render in the template
@@ -29,7 +33,7 @@ export default Component.extend({
    * @default Ember.A()
    * @required
    */
-  value: A(),
+  value: [],
 
   /**
    * The template class to use for new items. This should be a constructor.
@@ -93,10 +97,10 @@ export default Component.extend({
    * @category computed
    * @requires columns
    */
-  columnArray: Ember.computed('columns', function () {
+  columnArray: computed('columns', function() {
     let columns = this.get('columns');
 
-    return(typeof columns === 'string') ? columns.split(',') : null;
+    return (typeof columns === 'string') ? columns.split(',') : null;
   }),
 
   /**
@@ -108,18 +112,29 @@ export default Component.extend({
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: Ember.computed('isCollapsed', function () {
+  collapsed: computed('isCollapsed', function() {
     let isCollapsed = this.get('isCollapsed');
 
-    if(isCollapsed !== undefined) {
+    if (isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(this.get('value')
+    } else if (this.get('value')
       .length > 0) {
       return false;
     } else {
       return true;
     }
   }),
+
+  /**
+   * Alias for values
+   *
+   * @property arrayValues
+   * @type {Array}
+   * @readOnly
+   * @category computed
+   * @requires value
+   */
+  arrayValues: computed.alias('value'),
 
   /**
    * The panel id selector
@@ -131,7 +146,7 @@ export default Component.extend({
    * @category computed
    * @requires elementId
    */
-  panelId: computed('elementId', function () {
+  panelId: computed('elementId', function() {
     return 'panel-' + this.get('elementId');
   }),
 
@@ -144,11 +159,11 @@ export default Component.extend({
    * @category computed
    * @requires value.[]
    */
-  pillColor: Ember.computed('value.[]', function () {
+  pillColor: computed('value.[]', function() {
     let count = this.get('value')
       .length;
     let required = this.get('required');
-    return(count === 0) ? required ? 'label-danger' : 'label-warning' :
+    return (count === 0) ? required ? 'label-danger' : 'label-warning' :
       'label-info';
   }),
 
@@ -159,15 +174,15 @@ export default Component.extend({
    * @return none
    */
   valueChanged() {
-    Ember.run.schedule('afterRender', this, function () {
+    Ember.run.schedule('afterRender', this, function() {
       let panel = this.$('.panel-collapse');
       let input = this.$('.panel-collapse tbody tr:last-of-type input')
         .first();
 
-      if(panel.hasClass('in')) {
+      if (panel.hasClass('in')) {
         input.focus();
       } else { //add a one-time listener to wait until panel is open
-        panel.one('shown.bs.collapse', function () {
+        panel.one('shown.bs.collapse', function() {
           input.focus();
         });
         panel.collapse('show');
@@ -176,7 +191,7 @@ export default Component.extend({
   },
 
   actions: {
-    addItem: function (value) {
+    addItem: function(value) {
       const Template = this.get('templateClass');
 
       value.pushObject(typeOf(Template) === 'class' ? Template.create() :
@@ -184,7 +199,7 @@ export default Component.extend({
       this.valueChanged();
     },
 
-    deleteItem: function (value, idx) {
+    deleteItem: function(value, idx) {
       value.removeAt(idx);
       this.valueChanged();
     }

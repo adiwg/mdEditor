@@ -26,17 +26,6 @@ export default Ember.Component.extend({
    */
 
   /**
-   * Name of the mdJSON 'onlineResource' array in the 'contact' object.
-   * The property is used to compute items2 which is passed to
-   * md-object-table for configuration.
-   *
-   * @property propertyArrayName
-   * @type String
-   * @default 'onlineResource'
-   */
-  //propertyArrayName: 'onlineResource',
-
-  /**
    * List of mdJSON 'onlineResource' object attributes to display in
    * md-object-table to aid in choosing the onlineResource to edit or
    * delete.
@@ -57,12 +46,5 @@ export default Ember.Component.extend({
    * @type String
    * @default 'Online Resource'
    */
-  label: 'Online Resource',
-
-  /*items2: Ember.computed('model', function() {
-    if (this.get('model.' + this.get('propertyArrayName')) === undefined) {
-      this.set('model.' + this.get('propertyArrayName'), []);
-    }
-    return this.get('model.' + this.get('propertyArrayName'));
-  })*/
+  label: 'Online Resource'
 });

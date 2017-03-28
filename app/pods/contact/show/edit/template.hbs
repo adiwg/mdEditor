@@ -12,24 +12,28 @@
             {{input/md-input value=model.json.name
             placeholder=(concat model.type " Name") label=(concat model.type " Name")}}
 
-            {{input/md-input value=model.json.positionName
-            placeholder="Position Name" label="Position Name"}}
+            {{#unless model.json.isOrganization}}
+                {{input/md-input value=model.json.positionName
+                  placeholder="Position Name" label="Position Name"}}
+            {{/unless}}
 
             {{object/md-phone-array value=model.json.phone isCollapsed=false}}
 
-            {{#object/md-array-table
+            {{#object/md-simple-array-table
               columns="E-mail"
               title="E-mail Address"
               required=true
               value=model.json.electronicMailAddress as |email|
             }}
               <td>
-                  {{input/md-input value=email.item
+                  {{input/md-input value=email.item.value
                   placeholder="Enter valid e-mail address"}}
               </td>
-            {{/object/md-array-table}}
+            {{/object/md-simple-array-table}}
 
-            {{!-- {{object/md-address address=model.json.address}} --}}
+
+
+            {{object/md-address model=model.json}}
 
             {{object/md-online-resource-array model=model.json}}
 
