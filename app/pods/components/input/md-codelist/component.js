@@ -29,6 +29,38 @@ export default Select.extend({
    */
 
   /**
+   * Name of the attribute in the objectArray to be used for the
+   * select list's option value.
+   *
+   * @property valuePath
+   * @type String
+   * @default codeName
+   * @required
+   */
+  valuePath: 'codeName',
+  /**
+   * Name of the attribute in the objectArray to be used for the
+   * select list's option name or display text.
+   *
+   * @property namePath
+   * @type String
+   * @default codename
+   * @required
+   */
+  namePath: 'codeName',
+
+  /**
+   * Name of the attribute in the objectArray to be used for the
+   * select list's tooltip.  If null, no tooltip will be
+   * generated.
+   *
+   * @property tooltipPath
+   * @type String
+   * @default null
+   */
+  tooltipPath: 'description',
+
+  /**
    * Initial value, returned value.
    *
    * @property value
@@ -74,12 +106,12 @@ export default Select.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function () {
+  selectedItem: Ember.computed('value', function() {
     let value = this.get('value');
 
     return this.get('codelist')
       .find((item) => {
-        return item['codeName'] === value;
+        return item['codeId'] === value;
       });
   }),
 
@@ -91,7 +123,10 @@ export default Select.extend({
    * @type Ember.computed
    * @return Array
    */
-  mapped: Ember.computed('mdCodeName', function () {
+  mapped: Ember.computed('mdCodeName', function() {
+    let codeId = this.get('valuePath');
+    let codeName = this.get('namePath');
+    let tooltip = this.get('tooltipPath');
     let codelist = [];
     let icons = this.get('icons');
     let codelistName = this.get('mdCodeName');
@@ -100,11 +135,11 @@ export default Select.extend({
       .codelist
       .sortBy('codeName');
 
-    mdCodelist.forEach(function (item) {
+    mdCodelist.forEach(function(item) {
       let newObject = {
-        code: item['code'],
-        codeName: item['codeName'],
-        tooltip: item['description'],
+        codeId: item[codeId],
+        codeName: item[codeName],
+        tooltip: item[tooltip],
         icon: icons.get(item['codeName']) || icons.get(
           'defaultList')
       };
@@ -122,15 +157,15 @@ export default Select.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: Ember.computed('value', function () {
+  codelist: Ember.computed('value', function() {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');
 
-    if(value) {
-      if(create) {
-        let found = codelist.findBy('codeName', value);
-        if(found === undefined) {
+    if (value) {
+      if (create) {
+        let found = codelist.findBy('codeId', value);
+        if (found === undefined) {
           let newObject = this.createCode(value);
           codelist.pushObject(newObject);
         }
@@ -149,7 +184,7 @@ export default Select.extend({
    */
   createCode(code) {
     return {
-      code: Math.floor(Math.random() * 100000) + 1,
+      codeId: code,
       codeName: code,
       description: 'Undefined'
     };
@@ -161,15 +196,21 @@ export default Select.extend({
    * @method setValue
    * @param {Object} selected The object with the value(codeName) to set.
    */
-  setValue(selected) {
+  /*setValue(selected) {
+    let valuePath = this.get('valuePath');
+    let namePath = this.get('namePath');
+
+    if(selected) {
+      this.get('codelist')
+    }
     let val = selected ? selected.codeName : null;
     this.set('value', val);
     this.change();
-  },
+  },*/
 
   actions: {
     // do the binding to value
-    setValue: function (selected) {
+    setValue: function(selected) {
       this.setValue(selected);
     },
     //handle the create

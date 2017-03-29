@@ -84,7 +84,7 @@ export default MdCodelist.extend({
 
     if(value) {
       return codelist.filter((item) => {
-        return value.includes(item['codeName']);
+        return value.includes(item['codeId']);
       });
     }
     return null;
@@ -106,7 +106,7 @@ export default MdCodelist.extend({
     if(value) {
       if(create) {
         value.forEach((val) => {
-          let found = codelist.findBy('codeName', val);
+          let found = codelist.findBy('codeId', val);
           if(found === undefined) {
             let newObject = this.createCode(val);
             codelist.pushObject(newObject);
@@ -138,7 +138,7 @@ export default MdCodelist.extend({
       sel = selected;
     }
 
-    this.set('value', sel.mapBy('codeName'));
+    this.set('value', sel.mapBy('codeId'));
     this.change();
   }
 });
