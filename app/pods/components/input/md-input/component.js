@@ -13,6 +13,8 @@ export default Ember.Component.extend({
    * @constructor
    */
 
+   classNameBindings: ['label:form-group'],
+
   /**
    * Value of the input.
    * Value sets the initial value and returns the edited result
