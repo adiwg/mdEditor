@@ -6,11 +6,12 @@
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
         <form>
-            {{input/md-input value=model.json.contactId
-            placeholder="User assigned Contact ID" label="Contact ID"}}
+            {{input/md-input value=model.json.contactId confirmEdit=true
+              confirmTip="Note! Editing the Contact ID may break links. Be aware."
+              placeholder="User assigned Contact ID" label="Contact ID"}}
 
             {{input/md-input value=model.json.name
-            placeholder=(concat model.type " Name") label=(concat model.type " Name")}}
+              placeholder=(concat model.type " Name") label=(concat model.type " Name")}}
 
             {{#unless model.json.isOrganization}}
                 {{input/md-input value=model.json.positionName

@@ -3,6 +3,8 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   tagName: 'button',
   classNames: 'md-button-modal',
+  attributeBindings: ['type'],
+  type: 'button',
   isShowingConfirm: false,
 
   /**

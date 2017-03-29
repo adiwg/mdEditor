@@ -5,7 +5,12 @@
 
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const {
+  Component,
+  computed
+} = Ember;
+
+export default Component.extend({
   /**
    * Input, edit, display a single item
    *
@@ -13,7 +18,7 @@ export default Ember.Component.extend({
    * @constructor
    */
 
-   classNameBindings: ['label:form-group'],
+  classNameBindings: ['label:form-group'],
 
   /**
    * Value of the input.
@@ -53,6 +58,32 @@ export default Ember.Component.extend({
   required: false,
 
   /**
+   * Whether a input is disabled
+   *
+   * @property disabled
+   * @type Boolean
+   * @default false
+   */
+  disabled: false,
+
+  /**
+   * Whether the input disabled state is controlled by 'edit' button.
+   *
+   * @property confirmEdit
+   * @type Boolean
+   * @default false
+   */
+  confirmEdit: false,
+
+  /**
+   * Tootip for the confirm button.
+   *
+   * @property confirmTip
+   * @type String
+   * @default undefined
+   */
+
+  /**
    * Maximum number of characters for each input string.
    * If no maxlength is specified the length will not be restricted
    *
@@ -78,6 +109,24 @@ export default Ember.Component.extend({
    * @type String
    * @default 'form-control'
    */
-  inputClass: 'form-control'
+  inputClass: 'form-control',
 
+  /**
+   * Whether the input is enabled based on disabled and confirmEdit state.
+   *
+   * @property notEnabled
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires disabled, confirmEdit
+   */
+  notEnabled: computed('confirmEdit', 'disabled', function () {
+    return this.get('confirmEdit') || this.get('disabled');
+  }),
+
+  actions: {
+    allowEdit() {
+      this.set('confirmEdit', false);
+    }
+  }
 });
