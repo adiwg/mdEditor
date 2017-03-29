@@ -33,7 +33,7 @@ export default Component.extend({
    * @default Ember.A()
    * @required
    */
-  value: [],
+  value: A(),
 
   /**
    * The template class to use for new items. This should be a constructor.
@@ -48,10 +48,10 @@ export default Component.extend({
    * @property templateClass
    * @type {Any}
    * @constructor
-   * @default String
+   * @default null
    * @required
    */
-  templateClass: String,
+  templateClass: null,
 
   /**
    * Comma-separated list of column headers to display in the table. If not
@@ -62,12 +62,21 @@ export default Component.extend({
    */
 
   /**
-   * Inital collapse staet fo the panel.
+   * Inital collapse state fo the panel.
    *
    * @property isCollapsed
    * @type {Boolean}
    * @default undefined
    */
+
+  /**
+   * Whether to render in a panel.
+   *
+   * @property plain
+   * @type {Boolean}
+   * @default false
+   */
+  plain: false,
 
   /**
    * Indicates whether at least one item is required is required in the value
@@ -194,8 +203,7 @@ export default Component.extend({
     addItem: function(value) {
       const Template = this.get('templateClass');
 
-      value.pushObject(typeOf(Template) === 'class' ? Template.create() :
-        new Template());
+      value.pushObject(typeOf(Template) === 'class' ? Template.create() : null);
       this.valueChanged();
     },
 

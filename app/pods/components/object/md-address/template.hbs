@@ -7,43 +7,52 @@
       attributes=attributes as |address|
     }}
 
-    Editing: {{address.name}}
+    {{!-- Editing: {{address.name}} --}}
 
     {{!-- {{input/md-inputs model=address.deliveryPoint
     placeholder="Address line" label="Address Lines"
     buttonText="Add Line"}} --}}
-{{!--
+
     {{#object/md-simple-array-table
       columns="Street"
-      title="Street"
+      title="Street Line"
       required=true
+      plain=true
       value=address.deliveryPoint as |line|
     }}
       <td>
           {{input/md-input value=line.item.value
           placeholder="Enter street address"}}
       </td>
-    {{/object/md-simple-array-table}} --}}
+    {{/object/md-simple-array-table}}
 
-    {{input/md-input value=address.city
-    placeholder="City Name" label="City"}}
+    <div class="row">
+        {{input/md-input value=address.city class="col-md-6"
+        placeholder="City Name" label="City"}}
 
-    {{input/md-input value=address.adminsitrativeArea
-    placeholder="State or Province" label="State/Province"}}
+        {{input/md-input value=address.adminstrativeArea class="col-md-6"
+        placeholder="State or Province" label="State/Province"}}
 
-    {{input/md-input value=address.postalCode
-    placeholder="Zip or Postal Code" label="Postal Code"}}
+        {{input/md-input value=address.postalCode class="col-md-6"
+        placeholder="Zip or Postal Code" label="Postal Code"}}
 
-    {{input/md-input value=address.country
-    placeholder="Country Name" label="Country"}}
+        {{!-- {{input/md-input value=address.country
+        placeholder="Country Name" label="Country"}} --}}
 
-    <div class="form-group">
-    {{input/md-codelist
-    value=address.country
-    width="175px"
-    create=true tooltip=true icon=false mdCodeName="countries"
-    placeholder="Enter a country code"}}
+        <div class="form-group" class="col-md-6">
+            <label>Country</label>
+            {{input/md-codelist
+            value=address.country
+            namePath='description'
+            tooltipPath='codeName'
+            width="175px"
+            create=true tooltip=true icon=false mdCodeName="countries"
+            placeholder="Enter a country code"}}
+        </div>
     </div>
+
+    {{input/md-textarea value=address.description
+    placeholder="Address description" label="Description"}}
 
     {{/object/md-object-table}}
     {{yield}}

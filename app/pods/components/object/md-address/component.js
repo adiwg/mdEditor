@@ -29,9 +29,9 @@ export default Ember.Component.extend({
     *
     * @property attributes
     * @type String
-    * @default 'name, uri'
+    * @default ''
     */
-   attributes: 'deliveryPoint.0,city',
+   attributes: 'city, adminstrativeArea, postalCode',
 
    /**
     * Name to place on the mdEditor panel header for entry and edit of
