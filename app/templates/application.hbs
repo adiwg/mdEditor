@@ -1,3 +1,20 @@
+<div class=md-message-container>
+  <div class=md-message-wrapper>
+    {{#each flashMessages.queue as |flash|}}
+    {{#flash-message flash=flash as |component flash|}}
+    {{flash.message}}
+    {{#if flash.showProgress}}
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{flash.progressValue}}" aria-valuemin="0" aria-valuemax="100" style="width: {{html-safe flash.progressValue}}%;">
+        {{flash.progressValue}}%
+      </div>
+    </div>
+    {{/if}}
+    {{/flash-message}}
+    {{/each}}
+  </div>
+</div>
+
 <div id="md-wrapper" class="">
   <!-- Sidebar -->
   <div id="md-sidebar-wrapper">
@@ -18,20 +35,6 @@
     </div>
   </div>
   <!-- /#page-content-wrapper -->
-  <div class=md-message-wrapper>
-      {{#each flashMessages.queue as |flash|}}
-        {{#flash-message flash=flash as |component flash|}}
-          {{flash.message}}
-          {{#if flash.showProgress}}
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="{{flash.progressValue}}" aria-valuemin="0" aria-valuemax="100" style="width: {{html-safe flash.progressValue}}%;">
-                {{flash.progressValue}}%
-              </div>
-            </div>
-          {{/if}}
-        {{/flash-message}}
-      {{/each}}
-  </div>
 </div>
 {{ember-load-remover}}
 
