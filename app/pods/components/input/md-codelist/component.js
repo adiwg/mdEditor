@@ -133,7 +133,7 @@ export default Select.extend({
     let mdCodelist = this.get('mdCodes')
       .get(codelistName)
       .codelist
-      .sortBy('codeName');
+      .sortBy(codeName);
 
     mdCodelist.forEach(function(item) {
       let newObject = {

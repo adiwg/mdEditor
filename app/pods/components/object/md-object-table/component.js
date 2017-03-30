@@ -50,6 +50,15 @@ export default Component.extend({
    */
 
   /**
+   * The path of template to render in the table preview for each row.
+   *
+   * @property previewTemplate
+   * @type {String}
+   * @optional
+   * @default undefined
+   */
+
+  /**
    * Determines add button text
    *
    * @property buttonText

@@ -18,10 +18,23 @@
                   placeholder="Position Name" label="Position Name"}}
             {{/unless}}
 
+            {{input/md-codelist
+              value=model.json.contactType label="Contact Type"
+              create=false tooltip=true icon=false mdCodeName="entityType"
+              placeholder="Select a contact type"
+            }}
+
+            {{input/md-select-organization
+                label="Member Of Organization"
+                placeholder="Pick organization(s) this contact belongs to"
+                mdCodeName="organizations"
+                value=model.json.memberOfOrganization
+              }}
+
+
             {{object/md-phone-array value=model.json.phone isCollapsed=false}}
 
             {{#object/md-simple-array-table
-              columns="E-mail"
               title="E-mail Address"
               required=true
               value=model.json.electronicMailAddress as |email|
@@ -32,11 +45,19 @@
               </td>
             {{/object/md-simple-array-table}}
 
-
-
             {{object/md-address model=model.json}}
 
             {{object/md-online-resource-array model=model.json}}
+
+            {{#object/md-simple-array-table
+              title="Available Time"
+              value=model.json.hoursOfService as |hour|
+            }}
+              <td>
+                  {{input/md-input value=hour.item.value
+                  placeholder="Describe time when contact is avaiable"}}
+              </td>
+            {{/object/md-simple-array-table}}
 
             {{input/md-textarea value=model.json.contactInstructions
             placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}

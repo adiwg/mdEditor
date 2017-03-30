@@ -17,7 +17,7 @@ const codelist = {};
 Object.keys(codes)
   .forEach(function (key) {
     const list = codes[key];
-    const name = key.replace(/^iso_/, '');
+    const name = key.replace(/^iso_|adiwg_/, '');
 
     codelist[name] = list;
   });

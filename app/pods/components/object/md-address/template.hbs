@@ -4,17 +4,21 @@
       items=model.address
       header=label
       buttonText="Add Address"
+      previewTemplate="object/md-address/md-address-block"
       attributes=attributes as |address|
     }}
 
     {{!-- Editing: {{address.name}} --}}
 
-    {{!-- {{input/md-inputs model=address.deliveryPoint
-    placeholder="Address line" label="Address Lines"
-    buttonText="Add Line"}} --}}
+    <div class="form-group">
+        <label>Address Type</label>
+        {{input/md-codelist-multi
+        value=address.addressType
+        create=true tooltip=true icon=false mdCodeName="addressType"
+        placeholder="Select or enter one or more types"}}
+    </div>
 
     {{#object/md-simple-array-table
-      columns="Street"
       title="Street Line"
       required=true
       plain=true
@@ -46,7 +50,7 @@
             namePath='description'
             tooltipPath='codeName'
             width="175px"
-            create=true tooltip=true icon=false mdCodeName="countries"
+            create=false tooltip=true icon=false mdCodeName="countries"
             placeholder="Enter a country code"}}
         </div>
     </div>
