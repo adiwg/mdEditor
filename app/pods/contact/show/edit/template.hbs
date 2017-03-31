@@ -24,11 +24,13 @@
               placeholder="Select a contact type"
             }}
 
-            {{input/md-select-organization
+            {{input/md-select-contact
                 label="Member Of Organization"
                 placeholder="Pick organization(s) this contact belongs to"
-                mdCodeName="organizations"
                 value=model.json.memberOfOrganization
+                icon=true
+                defaultIcon="organizations"
+                filterId=model.json.contactId
               }}
 
 

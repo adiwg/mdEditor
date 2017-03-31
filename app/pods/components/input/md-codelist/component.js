@@ -97,7 +97,6 @@ export default Select.extend({
   label: null,
 
   mdCodes: Ember.inject.service('codelist'),
-  icons: Ember.inject.service('icon'),
 
   /*
    * The currently selected item in the codelist
@@ -120,8 +119,9 @@ export default Select.extend({
    * The initial codelist for 'mdCodeName' is provided by the 'codelist' service.
    *
    * @property mapped
-   * @type Ember.computed
-   * @return Array
+   * @type {Array}
+   * @category computed
+   * @requires mdCodeName
    */
   mapped: Ember.computed('mdCodeName', function() {
     let codeId = this.get('valuePath');
@@ -129,6 +129,7 @@ export default Select.extend({
     let tooltip = this.get('tooltipPath');
     let codelist = [];
     let icons = this.get('icons');
+    let defaultIcon = this.get('defaultIcon');
     let codelistName = this.get('mdCodeName');
     let mdCodelist = this.get('mdCodes')
       .get(codelistName)
@@ -140,8 +141,7 @@ export default Select.extend({
         codeId: item[codeId],
         codeName: item[codeName],
         tooltip: item[tooltip],
-        icon: icons.get(item['codeName']) || icons.get(
-          'defaultList')
+        icon: icons.get(item[codeName]) || icons.get(defaultIcon)
       };
       codelist.pushObject(newObject);
     });
@@ -149,13 +149,14 @@ export default Select.extend({
     return codelist;
   }),
 
-  /*
+  /**
    * If a value is provided by the user which is not in the codelist and 'create=true'
    * the new value will be added into the codelist array
    *
    * @property codelist
-   * @type Ember.computed
-   * @return Array
+   * @type {Array}
+   * @category computed
+   * @requires value
    */
   codelist: Ember.computed('value', function() {
     let codelist = this.get('mapped');

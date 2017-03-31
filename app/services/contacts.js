@@ -1,16 +1,30 @@
 import Ember from 'ember';
 
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
-  organizations: [],
+const {
+  Service,
+  inject,
+  A,
+  computed
+} = Ember;
+
+export default Service.extend({
   init() {
     this._super(...arguments);
 
     let me = this;
     let store = this.get('store');
 
-    store.findAll('contact').then(function(results) {
-      me.set('organizations', results.filterBy('json.isOrganization'));
-    });
-  }
+    let results = store.peekAll('contact');
+    me.set('contacts', results);
+  },
+
+  store: inject.service(),
+
+  contacts: A(),
+
+  organizations: computed('contacts.[]', function() {
+    let orgs = this.get('contacts').filterBy('json.isOrganization');
+
+    return orgs;
+  })
 });

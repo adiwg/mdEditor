@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   classNames: ['md-select'],
   classNameBindings: ['formGroup'],
   formGroup: Ember.computed.notEmpty('label'),
+  icons: Ember.inject.service('icon'),
   /**
    * A select list control for displaying and selecting options
    * provided in an array or promise array.
@@ -67,6 +68,16 @@ export default Ember.Component.extend({
    * @default false
    */
   icon: false,
+
+  /**
+   * The default icon.
+   *
+   * @property defaultIcon
+   * @type {String}
+   * @default defaultList
+   * @required
+   */
+  defaultIcon: 'defaultList',
 
   /**
    * Indicates if tooltips should be rendered for the options.
@@ -215,6 +226,8 @@ export default Ember.Component.extend({
     let codeId = this.get('valuePath');
     let codeName = this.get('namePath');
     let tooltip = this.get('tooltipPath');
+    let icons = this.get('icons');
+    let defaultIcon = this.get('defaultIcon');
     let outList = Ember.A();
 
     return DS.PromiseArray.create({
@@ -223,7 +236,8 @@ export default Ember.Component.extend({
           let newObject = {
             codeId: item.get(codeId),
             codeName: item.get(codeName),
-            tooltip: false
+            tooltip: false,
+            icon: icons.get(item[codeName]) || icons.get(defaultIcon)
           };
           if(tooltip) {
             newObject.tooltip = item.get(tooltip);
