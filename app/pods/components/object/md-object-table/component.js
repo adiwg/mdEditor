@@ -84,7 +84,7 @@ export default Component.extend({
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', function() {
+  collapsed: computed('isCollapsed','items.[]', function() {
     let isCollapsed = this.get('isCollapsed');
     let value = this.get('items');
 
