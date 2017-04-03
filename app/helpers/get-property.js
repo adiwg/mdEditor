@@ -1,9 +1,20 @@
 import Ember from 'ember';
 
-export default Ember.Helper.extend({
-  compute(params) {
-    let obj = params[0],
-        prop = params[1].trim();
-    return obj[prop] || Ember.String.htmlSafe("<em>Not Defined</em>");
+const {
+  Helper,
+  get,
+  String: EmberString
+} = Ember;
+
+export default Helper.helper(
+  function (params) {
+    let obj = params[0];
+    let prop = params[1].trim();
+    let val = null;
+
+    if(obj) {
+      val = get(obj, prop) || obj[prop];
+    }
+    return val || EmberString.htmlSafe("<em>Not Defined</em>");
   }
-});
+);
