@@ -1,0 +1,22 @@
+{{#object/md-object-table
+  items=model
+  header=label
+  buttonText=buttonText
+  templateClass=templateClass
+  attributes=attributes as |editing|
+}}
+    Editing: {{editing.fileName}}
+
+    {{input/md-input value=editing.fileName label="Name" placeholder="File Name"
+      required=true}}
+
+    {{input/md-input value=editing.fileType
+    label="File Type" placeholder="Enter the file format(s) of the logo."}}
+
+    {{input/md-textarea maxlength=500 value=editing.fileDescription label="Description"
+    placeholder="Description of the file: Less than 500 characters"}}
+
+    {{object/md-online-resource-array model=editing.fileUri}}
+
+{{/object/md-object-table}}
+{{yield}}
