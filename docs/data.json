@@ -2,11 +2,36 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.df792234",
+        "version": "0.0.0.977c4382",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
     "files": {
+        "app/mixins/model-hash.js": {
+            "name": "app/mixins/model-hash.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/mixins/object-template.js": {
+            "name": "app/mixins/object-template.js",
+            "modules": {},
+            "classes": {
+                "object-template": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/models/contact.js": {
+            "name": "app/models/contact.js",
+            "modules": {},
+            "classes": {
+                "contact": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/control/md-button-confirm/component.js": {
             "name": "app/pods/components/control/md-button-confirm/component.js",
             "modules": {},
@@ -109,6 +134,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/input/md-select-contact/component.js": {
+            "name": "app/pods/components/input/md-select-contact/component.js",
+            "modules": {},
+            "classes": {
+                "md-select-contact": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/input/md-select-profile/component.js": {
             "name": "app/pods/components/input/md-select-profile/component.js",
             "modules": {},
@@ -134,6 +168,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/input/md-toggle/component.js": {
+            "name": "app/pods/components/input/md-toggle/component.js",
+            "modules": {},
+            "classes": {
+                "md-toggle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/layout/md-nav-secondary/component.js": {
             "name": "app/pods/components/layout/md-nav-secondary/component.js",
             "modules": {},
@@ -148,6 +191,24 @@
             },
             "classes": {
                 "md-address": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-array-table/component.js": {
+            "name": "app/pods/components/object/md-array-table/component.js",
+            "modules": {},
+            "classes": {
+                "md-array-table": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-graphic-array/component.js": {
+            "name": "app/pods/components/object/md-graphic-array/component.js",
+            "modules": {},
+            "classes": {
+                "md-graphic-array": 1
             },
             "fors": {},
             "namespaces": {}
@@ -186,12 +247,26 @@
         },
         "app/pods/components/object/md-phone-array/component.js": {
             "name": "app/pods/components/object/md-phone-array/component.js",
-            "modules": {
-                "mdeditor": 1
-            },
+            "modules": {},
             "classes": {
                 "md-phone-array": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-simple-array-table/component.js": {
+            "name": "app/pods/components/object/md-simple-array-table/component.js",
+            "modules": {},
+            "classes": {
+                "md-simple-array-table": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/contact/new/id/route.js": {
+            "name": "app/pods/contact/new/id/route.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -239,7 +314,12 @@
         },
         "app/app.js": {
             "name": "app/app.js",
-            "modules": {},
+            "modules": {
+                "mdeditor": 1,
+                "mixins": 1,
+                "data-models": 1,
+                "components-control": 1
+            },
             "classes": {},
             "fors": {},
             "namespaces": {}
@@ -316,11 +396,16 @@
         "mdeditor": {
             "name": "mdeditor",
             "submodules": {
+                "mixins": 1,
+                "data-models": 1,
+                "components-control": 1,
                 "components-input": 1,
                 "components-object": 1
             },
             "elements": {},
             "classes": {
+                "object-template": 1,
+                "contact": 1,
                 "md-button-modal": 1,
                 "md-boolean": 1,
                 "md-codelist": 1,
@@ -329,12 +414,17 @@
                 "md-input": 1,
                 "md-inputs": 1,
                 "md-select": 1,
+                "md-select-contact": 1,
                 "md-select-thesaurus": 1,
                 "md-textarea": 1,
+                "md-toggle": 1,
                 "md-address": 1,
+                "md-array-table": 1,
+                "md-graphic-array": 1,
                 "md-object-table": 1,
                 "md-online-resource-array": 1,
                 "md-phone-array": 1,
+                "md-simple-array-table": 1,
                 "tree-branch": 1,
                 "tree-label": 1,
                 "tree-leaf": 1,
@@ -346,6 +436,70 @@
             "tag": "module",
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
             "line": 9,
+            "description": "The mdEditor application instance.",
+            "category": [
+                "docs"
+            ]
+        },
+        "mixins": {
+            "name": "mixins",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "object-template": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/mixins/object-template.js",
+            "line": 11,
+            "description": "Mixins.",
+            "tag": "main",
+            "itemtype": "main",
+            "category": [
+                "docs"
+            ]
+        },
+        "data-models": {
+            "name": "data-models",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "contact": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/models/contact.js",
+            "line": 7,
+            "description": "Models for the mdEditor data store",
+            "tag": "main",
+            "itemtype": "main",
+            "category": [
+                "docs"
+            ]
+        },
+        "components-control": {
+            "name": "components-control",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "md-button-modal": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/control/md-button-modal/component.js",
+            "line": 4,
+            "description": "Components used as UI controls.",
+            "tag": "main",
+            "itemtype": "main",
             "category": [
                 "docs"
             ]
@@ -362,16 +516,18 @@
                 "md-input": 1,
                 "md-inputs": 1,
                 "md-select": 1,
+                "md-select-contact": 1,
                 "md-select-thesaurus": 1,
-                "md-textarea": 1
+                "md-textarea": 1,
+                "md-toggle": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 5,
+            "file": "app/pods/components/input/md-toggle/component.js",
+            "line": 4,
             "description": "Components used to input scalar or arrays of scalar values.",
             "tag": "main",
             "itemtype": "main",
@@ -385,18 +541,25 @@
             "elements": {},
             "classes": {
                 "md-address": 1,
+                "md-array-table": 1,
                 "md-object-table": 1,
                 "md-online-resource-array": 1,
-                "md-phone-array": 1
+                "md-phone-array": 1,
+                "md-simple-array-table": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 9,
-            "description": "Components used to create objects or arrays of objects.",
+            "file": "app/pods/components/object/md-simple-array-table/component.js",
+            "line": 10,
+            "description": "mdEditor class for input and edit of mdJSON 'address' object\narrays. The class manages the maintenance of an array of address\nobjects using the md-object-table class.",
+            "is_constructor": 1,
+            "requires": [
+                "md-object-table"
+            ],
+            "mixin": "object-template",
             "tag": "main",
             "itemtype": "main",
             "category": [
@@ -492,6 +655,40 @@
         }
     },
     "classes": {
+        "object-template": {
+            "name": "object-template",
+            "shortname": "object-template",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "file": "app/mixins/object-template.js",
+            "line": 11,
+            "description": "Use this mixin to apply 'templates' to an array of objects. Especially useful\nwhen the object must support setting arrays that are not passed during\ninitialization.",
+            "submodule": "mixins",
+            "is_constructor": 1,
+            "static": 1
+        },
+        "contact": {
+            "name": "contact",
+            "shortname": "contact",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/models/contact.js",
+            "line": 7,
+            "description": "Contact model",
+            "submodule": "data-models",
+            "is_constructor": 1,
+            "extends": "DS.Model",
+            "mixin": "Ember.Copyable"
+        },
         "md-button-modal": {
             "name": "md-button-modal",
             "shortname": "md-button-modal",
@@ -501,9 +698,11 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "mdeditor",
+            "namespace": "",
             "file": "app/pods/components/control/md-button-modal/component.js",
             "line": 4,
             "description": "mdEditor Component that renders a button which displays a modal\ndialog when clicked.",
+            "submodule": "components-control",
             "is_constructor": 1
         },
         "md-boolean": {
@@ -584,7 +783,7 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 9,
+            "line": 14,
             "description": "Input, edit, display a single item",
             "is_constructor": 1
         },
@@ -616,9 +815,26 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 13,
+            "line": 14,
             "description": "A select list control for displaying and selecting options\nprovided in an array or promise array.",
             "is_constructor": 1
+        },
+        "md-select-contact": {
+            "name": "md-select-contact",
+            "shortname": "md-select-contact",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 11,
+            "description": "Specialized select list control for displaying and selecting\ncontacts.",
+            "submodule": "components-input",
+            "is_constructor": 1,
+            "extends": "md-select"
         },
         "md-select-thesaurus": {
             "name": "md-select-thesaurus",
@@ -652,6 +868,23 @@
             "submodule": "components-input",
             "is_constructor": 1
         },
+        "md-toggle": {
+            "name": "md-toggle",
+            "shortname": "md-toggle",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/input/md-toggle/component.js",
+            "line": 4,
+            "description": "Custom toggle switch for boolean input",
+            "submodule": "components-input",
+            "is_constructor": 1,
+            "extends": "ember-toggle/components/x-toggle"
+        },
         "md-address": {
             "name": "md-address",
             "shortname": "md-address",
@@ -664,8 +897,38 @@
             "submodule": "components-object",
             "namespace": "",
             "file": "app/pods/components/object/md-address/component.js",
-            "line": 10,
-            "description": "mdEditor class for input and edit of mdJSON address objects.",
+            "line": 9,
+            "description": "mdEditor class for input and edit of mdJSON 'address' object\narrays. The class manages the maintenance of an array of address\nobjects using the md-object-table class."
+        },
+        "md-array-table": {
+            "name": "md-array-table",
+            "shortname": "md-array-table",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 12,
+            "description": "mdEditor class for input and edit of arrays of objects. The\ncomponent is rendered as an editable table.",
+            "submodule": "components-object",
+            "is_constructor": 1
+        },
+        "md-graphic-array": {
+            "name": "md-graphic-array",
+            "shortname": "md-graphic-array",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/object/md-graphic-array/component.js",
+            "line": 9,
+            "description": "mdEditor class for input and edit of mdJSON 'graphic' object\narrays.\nThe class manages the maintenance of an array of graphic\nobjects using the md-object-table class.",
             "is_constructor": 1
         },
         "md-object-table": {
@@ -680,9 +943,8 @@
             "submodule": "components-object",
             "namespace": "",
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 10,
-            "description": "mdEditor class for managing a table of similar mdJSON objects\nfor selection for edit or deletion.\nThe class is configurable for reuse with mdJSON object arrays.",
-            "is_constructor": 1
+            "line": 15,
+            "description": "mdEditor class for managing a table of similar mdJSON objects\nfor selection for edit or deletion.\nThe class is configurable for reuse with mdJSON object arrays."
         },
         "md-online-resource-array": {
             "name": "md-online-resource-array",
@@ -696,9 +958,8 @@
             "submodule": "components-object",
             "namespace": "",
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 10,
-            "description": "mdEditor class for input and edit of mdJSON 'onlineResource' object\narrays.\nThe class manages the maintenance of an array of online resource\nobjects using the md-object-table class.",
-            "is_constructor": 1
+            "line": 17,
+            "description": "mdEditor class for input and edit of mdJSON 'onlineResource' object\narrays.\nThe class manages the maintenance of an array of online resource\nobjects using the md-object-table class."
         },
         "md-phone-array": {
             "name": "md-phone-array",
@@ -711,9 +972,26 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 9,
+            "line": 10,
             "description": "mdEditor class for input and edit of mdJSON 'phone' object.\nThe class manages the maintenance of an array of phone objects.",
             "submodule": "components-object",
+            "is_constructor": 1
+        },
+        "md-simple-array-table": {
+            "name": "md-simple-array-table",
+            "shortname": "md-simple-array-table",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/object/md-simple-array-table/component.js",
+            "line": 10,
+            "description": "mdEditor component for input and edit of arrays of scalars. The\ncomponent is rendered as an editable table.",
+            "submodule": "components-object",
+            "extends": "md-array-table",
             "is_constructor": 1
         },
         "tree-branch": {
@@ -805,8 +1083,192 @@
     "elements": {},
     "classitems": [
         {
+            "file": "app/mixins/model-hash.js",
+            "line": 9,
+            "description": "The hash for the clean model.",
+            "itemtype": "property",
+            "name": "modelHash",
+            "type": "{String}",
+            "class": "object-template"
+        },
+        {
+            "file": "app/mixins/model-hash.js",
+            "line": 24,
+            "description": "Computed a hash for the target object.",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "The object to hash",
+                    "type": "Object"
+                },
+                {
+                    "name": "parse",
+                    "description": "If true, the object will be passed through\n                             JSON.parse before being hashed",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "The hash",
+                "type": "String"
+            },
+            "class": "object-template"
+        },
+        {
+            "file": "app/mixins/object-template.js",
+            "line": 23,
+            "description": "Apply the object 'template' to each object in the array.",
+            "itemtype": "method",
+            "name": "applyTemplate",
+            "params": [
+                {
+                    "name": "propertyName",
+                    "description": "The array of objects to apply the template to.",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "object-template",
+            "module": "mdeditor",
+            "submodule": "mixins"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 25,
+            "description": "The json object for the contact. The data for the contact is stored in this\nobject.",
+            "itemtype": "attribute",
+            "name": "json",
+            "type": "{json}",
+            "required": 1,
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 55,
+            "description": "The timestamp for the record",
+            "itemtype": "attribute",
+            "name": "dateUpdated",
+            "type": "{date}",
+            "default": "new Date()",
+            "required": 1,
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 69,
+            "description": "The formatted display string for the contact",
+            "itemtype": "property",
+            "name": "title",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "json.name",
+                "json.positionName"
+            ],
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 116,
+            "description": "The type of contact",
+            "itemtype": "property",
+            "name": "type",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "json.isOrganization"
+            ],
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 131,
+            "description": "The display icon for the contact",
+            "itemtype": "property",
+            "name": "icon",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "json.isOrganization"
+            ],
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 147,
+            "description": "The formatted (name or position) and organization(if any) of the contact.",
+            "itemtype": "property",
+            "name": "combinedName",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "json.name",
+                "json.isOrganization"
+            ],
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 188,
+            "description": "The trimmed varsion of the contactId.",
+            "itemtype": "property",
+            "name": "shortId",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "json.contactId"
+            ],
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 206,
+            "description": "Create a copy of the record in the store.",
+            "itemtype": "method",
+            "name": "copy",
+            "chainable": 1,
+            "return": {
+                "description": "",
+                "type": "DS.Model"
+            },
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
             "file": "app/pods/components/control/md-button-confirm/component.js",
-            "line": 8,
+            "line": 10,
             "description": "The function to call when action is confirmed.",
             "itemtype": "method",
             "name": "onConfirm",
@@ -814,55 +1276,67 @@
                 "description": "[description]",
                 "type": "[type]"
             },
-            "class": "md-button-modal"
+            "class": "md-button-modal",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 15,
+            "line": 17,
             "description": "Element selector or element that serves as the reference for modal position",
             "itemtype": "property",
             "name": "target",
             "type": "{String}",
-            "class": "md-button-modal"
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 23,
+            "line": 25,
             "description": "A boolean, when true renders the modal without wormholing or tethering",
             "itemtype": "property",
             "name": "renderInPlace",
             "type": "{Boolean}",
-            "class": "md-button-modal"
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 31,
+            "line": 33,
             "description": "Indicates whether the modal dialog is being displayed.",
             "type": "{Boolean}",
-            "class": "md-button-modal"
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 37,
+            "line": 39,
             "description": "The function to call when action is cancelled.",
             "itemtype": "method",
             "name": "onCancel",
-            "class": "md-button-modal"
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 44,
+            "line": 46,
             "description": "The function to call when action is confirmed.",
             "itemtype": "method",
             "name": "onConfirm",
-            "class": "md-button-modal"
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
             "line": 5,
             "description": "True to render in modal dialog",
             "type": "{Boolean}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
@@ -871,14 +1345,16 @@
             "itemtype": "property",
             "name": "target",
             "type": "{String}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
             "line": 20,
             "description": "Object to render as JSON in viewer",
             "type": "{Object}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
@@ -887,7 +1363,8 @@
             "itemtype": "property",
             "name": "isShowing",
             "type": "{Boolean}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
@@ -896,7 +1373,8 @@
             "itemtype": "property",
             "name": "message",
             "type": "{String}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
@@ -905,7 +1383,8 @@
             "itemtype": "property",
             "name": "target",
             "type": "{String}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
@@ -914,7 +1393,8 @@
             "itemtype": "property",
             "name": "showConfirm",
             "type": "{Boolean}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
@@ -923,7 +1403,8 @@
             "itemtype": "property",
             "name": "renderInPlace",
             "type": "{Boolean}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
@@ -932,7 +1413,8 @@
             "itemtype": "property",
             "name": "showCancel",
             "type": "{Boolean}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
@@ -941,25 +1423,29 @@
             "itemtype": "property",
             "name": "confirmLabel",
             "type": "{String}",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
             "line": 60,
             "description": "Close action callback",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
             "line": 67,
             "description": "Confirm action callback",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
             "line": 74,
             "description": "Cancel action callback",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-repo-link/component.js",
@@ -968,7 +1454,8 @@
             "itemtype": "property",
             "name": "repository",
             "type": "string",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-repo-link/component.js",
@@ -977,7 +1464,8 @@
             "itemtype": "property",
             "name": "target",
             "type": "string",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-repo-link/component.js",
@@ -986,7 +1474,8 @@
             "itemtype": "property",
             "name": "version",
             "type": "string",
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-repo-link/component.js",
@@ -998,7 +1487,8 @@
             "return": {
                 "description": "string"
             },
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-repo-link/component.js",
@@ -1010,7 +1500,8 @@
             "return": {
                 "description": "string"
             },
-            "class": "md-boolean"
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/input/md-boolean/component.js",
@@ -1062,6 +1553,44 @@
         {
             "file": "app/pods/components/input/md-codelist/component.js",
             "line": 31,
+            "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
+            "itemtype": "property",
+            "name": "valuePath",
+            "type": "String",
+            "default": "codeName",
+            "required": 1,
+            "class": "md-codelist",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 41,
+            "description": "Name of the attribute in the objectArray to be used for the\nselect list's option name or display text.",
+            "itemtype": "property",
+            "name": "namePath",
+            "type": "String",
+            "default": "codename",
+            "required": 1,
+            "class": "md-codelist",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 52,
+            "description": "Name of the attribute in the objectArray to be used for the\nselect list's tooltip.  If null, no tooltip will be\ngenerated.",
+            "itemtype": "property",
+            "name": "tooltipPath",
+            "type": "String",
+            "default": "null",
+            "class": "md-codelist",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 63,
             "description": "Initial value, returned value.",
             "itemtype": "property",
             "name": "value",
@@ -1076,7 +1605,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 40,
+            "line": 72,
             "description": "Whether to render a button to clear the selection.",
             "itemtype": "property",
             "name": "allowClear",
@@ -1088,7 +1617,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 49,
+            "line": 81,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -1100,7 +1629,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 58,
+            "line": 90,
             "description": "Form label for select list",
             "itemtype": "property",
             "name": "label",
@@ -1112,21 +1641,41 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 86,
+            "line": 117,
             "description": "mapped is a re-mapped array of code objects.\nThe initial codelist for 'mdCodeName' is provided by the 'codelist' service.",
             "itemtype": "property",
             "name": "mapped",
-            "type": "Ember.computed",
-            "return": {
-                "description": "Array"
-            },
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "mdCodeName"
+            ],
             "class": "md-codelist",
             "module": "mdeditor",
             "submodule": "components-input"
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 143,
+            "line": 152,
+            "description": "If a value is provided by the user which is not in the codelist and 'create=true'\nthe new value will be added into the codelist array",
+            "itemtype": "property",
+            "name": "codelist",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "value"
+            ],
+            "class": "md-codelist",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-codelist/component.js",
+            "line": 180,
             "description": "Creates a new codelist entry with a randomly generated code identifier.",
             "itemtype": "method",
             "name": "createCode",
@@ -1147,7 +1696,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 158,
+            "line": 195,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -1259,7 +1808,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 121,
+            "line": 122,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -1339,7 +1888,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 16,
+            "line": 23,
             "description": "Value of the input.\nValue sets the initial value and returns the edited result",
             "itemtype": "property",
             "name": "value",
@@ -1351,7 +1900,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 25,
+            "line": 32,
             "description": "Type of data represented by the value string.\nHTML5 types may be specified ('text', 'number', etc.)",
             "itemtype": "property",
             "name": "type",
@@ -1363,7 +1912,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 35,
+            "line": 42,
             "description": "The form label to display",
             "itemtype": "property",
             "name": "label",
@@ -1375,7 +1924,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 44,
+            "line": 51,
             "description": "Whether a value is required",
             "itemtype": "property",
             "name": "required",
@@ -1387,7 +1936,43 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 53,
+            "line": 60,
+            "description": "Whether a input is disabled",
+            "itemtype": "property",
+            "name": "disabled",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-input",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 69,
+            "description": "Whether the input disabled state is controlled by 'edit' button.",
+            "itemtype": "property",
+            "name": "confirmEdit",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-input",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 78,
+            "description": "Tootip for the confirm button.",
+            "itemtype": "property",
+            "name": "confirmTip",
+            "type": "String",
+            "default": "undefined",
+            "class": "md-input",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 86,
             "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
             "itemtype": "property",
             "name": "maxlength",
@@ -1399,7 +1984,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 63,
+            "line": 96,
             "description": "Text displayed in empty inputs",
             "itemtype": "property",
             "name": "placeholder",
@@ -1411,12 +1996,31 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 72,
+            "line": 105,
             "description": "CSS class to set on the input control",
             "itemtype": "property",
             "name": "class",
             "type": "String",
             "default": "'form-control'",
+            "class": "md-input",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 114,
+            "description": "Whether the input is enabled based on disabled and confirmEdit state.",
+            "itemtype": "property",
+            "name": "notEnabled",
+            "type": "{Boolean}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "disabled",
+                "confirmEdit"
+            ],
             "class": "md-input",
             "module": "mdeditor",
             "submodule": "components-input"
@@ -1519,7 +2123,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 21,
+            "line": 22,
             "description": "An array or promise array containing the options for the\nselect list.\nAt a minimum the array elements should provide attributes for the\nname value pairs displayed as select list options.\nTooltips may also be included.\nOther attributes in the array elements will be ignored.",
             "itemtype": "property",
             "name": "objectArray",
@@ -1531,7 +2135,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 34,
+            "line": 35,
             "description": "The initial value of the select. Type must match the type of the attribute\nidentified by the valuePath option.",
             "itemtype": "property",
             "name": "value",
@@ -1543,7 +2147,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 44,
+            "line": 45,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
             "itemtype": "property",
             "name": "valuePath",
@@ -1555,7 +2159,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 53,
+            "line": 54,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option name or display text.",
             "itemtype": "property",
             "name": "namePath",
@@ -1567,7 +2171,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 62,
+            "line": 63,
             "description": "Indicates if icons should be rendered.",
             "itemtype": "property",
             "name": "icon",
@@ -1579,7 +2183,20 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 71,
+            "line": 72,
+            "description": "The default icon.",
+            "itemtype": "property",
+            "name": "defaultIcon",
+            "type": "{String}",
+            "default": "defaultList",
+            "required": 1,
+            "class": "md-select",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 82,
             "description": "Indicates if tooltips should be rendered for the options.",
             "itemtype": "property",
             "name": "tooltip",
@@ -1591,7 +2208,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 80,
+            "line": 91,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's tooltip.  If null, no tooltip will be\ngenerated.",
             "itemtype": "property",
             "name": "tooltipPath",
@@ -1603,7 +2220,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 91,
+            "line": 102,
             "description": "Whether to render a button to clear the selection.",
             "itemtype": "property",
             "name": "allowClear",
@@ -1615,7 +2232,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 100,
+            "line": 111,
             "description": "Whether to render the search input.",
             "itemtype": "property",
             "name": "searchEnabled",
@@ -1627,7 +2244,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 109,
+            "line": 120,
             "description": "Whether to disable the select.",
             "itemtype": "property",
             "name": "disabled",
@@ -1639,7 +2256,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 118,
+            "line": 129,
             "description": "Whether to close the selection list after a selection has been made.",
             "itemtype": "property",
             "name": "closeOnSelect",
@@ -1651,7 +2268,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 127,
+            "line": 138,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -1663,7 +2280,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 136,
+            "line": 147,
             "description": "Form label for select list",
             "itemtype": "property",
             "name": "label",
@@ -1675,7 +2292,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 149,
+            "line": 160,
             "description": "Indicates whether to allow the user to enter a new option\nnot contained in the select list.",
             "itemtype": "property",
             "name": "create",
@@ -1687,7 +2304,20 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 159,
+            "line": 170,
+            "description": "If set, removes the option with the specified id from the list. By default,\nit will hide options with a null id.",
+            "itemtype": "property",
+            "name": "filterId",
+            "type": "{String|Number|null}",
+            "default": "null",
+            "optional": 1,
+            "class": "md-select",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 181,
             "description": "The component to render",
             "itemtype": "property",
             "name": "theComponent",
@@ -1701,7 +2331,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 171,
+            "line": 193,
             "description": "Callback after value is updated, usually an action is passed.",
             "itemtype": "method",
             "name": "change",
@@ -1711,7 +2341,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 178,
+            "line": 200,
             "description": "The currently selected item in the codelist",
             "itemtype": "property",
             "name": "selectedItem",
@@ -1725,7 +2355,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 198,
+            "line": 220,
             "description": "codelist is an array of code objects re-mapped from the input 'objectArray'.\nValues from the input object array are mapped according the path parameters\nprovided.",
             "itemtype": "property",
             "name": "codelist",
@@ -1739,7 +2369,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 239,
+            "line": 264,
             "description": "Creates a new codelist entry. The codeId and codeName are both set to the\npassed value.",
             "itemtype": "method",
             "name": "createCode",
@@ -1760,7 +2390,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 255,
+            "line": 280,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -1772,6 +2402,107 @@
                 }
             ],
             "class": "md-select",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 22,
+            "description": "The contacts service",
+            "itemtype": "property",
+            "name": "contacts",
+            "type": "{Ember.Service}",
+            "readonly": "",
+            "class": "md-select-contact",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 31,
+            "description": "The default CSS classnames",
+            "itemtype": "property",
+            "name": "classNames",
+            "type": "{Array}",
+            "default": "['md-select-organization']",
+            "readonly": "",
+            "class": "md-select-contact",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 41,
+            "description": "The default codelist name. Should not be overridden.",
+            "itemtype": "property",
+            "name": "classNames",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'contacts'",
+            "readonly": "",
+            "class": "md-select-contact",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 52,
+            "description": "The property that holds the select item value. Should not be overridden.",
+            "itemtype": "property",
+            "name": "valuePath",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'valuePath'",
+            "readonly": "",
+            "class": "md-select-contact",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 63,
+            "description": "The property that holds the select item text. Should not be overridden.",
+            "itemtype": "property",
+            "name": "namePath",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'namePath'",
+            "readonly": "",
+            "class": "md-select-contact",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 74,
+            "description": "The contact type to display in the list. Choices are `organizations` or\n`individuals`.",
+            "itemtype": "property",
+            "name": "contactType",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'organizations'",
+            "class": "md-select-contact",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 85,
+            "description": "The contact list mapped from the store to a codelist.",
+            "itemtype": "property",
+            "name": "mdCodes",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "contacts.[]"
+            ],
+            "class": "md-select-contact",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -1933,6 +2664,17 @@
             "submodule": "components-input"
         },
         {
+            "file": "app/pods/components/input/md-toggle/component.js",
+            "line": 14,
+            "description": "Bound classes:\n - value\n   - __true__: toggle-on\n   - __false__: toggle-off",
+            "itemtype": "property",
+            "name": "classNameBindings",
+            "type": "{Array}",
+            "class": "md-toggle",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
             "file": "app/pods/components/layout/md-nav-secondary/component.js",
             "line": 18,
             "description": "translated \"more\" text",
@@ -1961,10 +2703,10 @@
         },
         {
             "file": "app/pods/components/object/md-address/component.js",
-            "line": 17,
-            "description": "mdJSON 'address' object to be edited.",
+            "line": 21,
+            "description": "mdJSON object containing the 'address' array.",
             "itemtype": "property",
-            "name": "address",
+            "name": "model",
             "type": "Object",
             "required": 1,
             "class": "md-address",
@@ -1974,21 +2716,269 @@
         {
             "file": "app/pods/components/object/md-address/component.js",
             "line": 29,
-            "description": "Indicate whether the address object is not empty.",
+            "description": "List of mdJSON 'address' object attributes to display in\nmd-object-table to aid in choosing the address to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
-            "name": "isEmpty",
-            "type": "Boolean",
+            "name": "attributes",
+            "type": "String",
+            "default": "''",
             "class": "md-address",
             "module": "mdeditor",
             "submodule": "components-object"
         },
         {
-            "file": "app/pods/components/object/md-object-table/component.js",
+            "file": "app/pods/components/object/md-address/component.js",
+            "line": 41,
+            "description": "Name to place on the mdEditor panel header for entry and edit of\n'address' objects.\nThe property is passed to md-object-table for configuration.",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "'Address'",
+            "class": "md-address",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 27,
+            "description": "The array to render in the template",
+            "itemtype": "property",
+            "name": "value",
+            "type": "{Array}",
+            "default": "Ember.A()",
+            "required": 1,
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 37,
+            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n  foo: null,\n  bar: Ember.A()\n }\n ```",
+            "itemtype": "property",
+            "name": "templateClass",
+            "type": "{Any}",
+            "is_constructor": 1,
+            "default": "null",
+            "required": 1,
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 55,
+            "description": "Comma-separated list of column headers to display in the table. If not\nprovided, the table header will not be created.",
+            "itemtype": "property",
+            "name": "columns",
+            "type": "String",
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 63,
+            "description": "Inital collapse state fo the panel.",
+            "itemtype": "property",
+            "name": "isCollapsed",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 71,
+            "description": "Whether to render in a panel.",
+            "itemtype": "property",
+            "name": "plain",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 80,
+            "description": "Indicates whether at least one item is required is required in the value\narray.",
+            "itemtype": "property",
+            "name": "required",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 90,
+            "description": "The title for the panel. Should be in singular form.",
+            "itemtype": "property",
+            "name": "title",
+            "type": "{String}",
+            "default": "Item",
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 99,
+            "description": "Array of column headers",
+            "itemtype": "property",
+            "name": "columnArray",
+            "type": "{Array}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "columns"
+            ],
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 114,
+            "description": "Uses isCollapsed if defined, otherwise inspects array length.",
+            "itemtype": "property",
+            "name": "collapsed",
+            "type": "{Boolean}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "isCollapsed"
+            ],
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 136,
+            "description": "Alias for values",
+            "itemtype": "property",
+            "name": "arrayValues",
+            "type": "{Array}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "value"
+            ],
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 147,
+            "description": "The panel id selector",
+            "itemtype": "property",
+            "name": "panelId",
+            "type": "{String}",
+            "default": "\"panel-{this.elementId}\"",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "elementId"
+            ],
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 161,
+            "description": "The color of the counter displayed in the panel header",
+            "itemtype": "property",
+            "name": "pillColor",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "value.[]"
+            ],
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 178,
+            "description": "Focus the added row, or the last row on deletion.",
+            "itemtype": "method",
+            "name": "valueChanged",
+            "return": {
+                "description": "none"
+            },
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-graphic-array/component.js",
             "line": 19,
+            "description": "mdJSON object containing the 'graphic' array.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "Object",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-graphic-array/component.js",
+            "line": 27,
+            "description": "List of mdJSON 'graphic' object attributes to display in\nmd-object-table to aid in choosing the onlineResource to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
+            "itemtype": "property",
+            "name": "attributes",
+            "type": "String",
+            "default": "'name, uri'",
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-graphic-array/component.js",
+            "line": 39,
+            "description": "Name to place on the mdEditor panel header for entry and edit of\n'onlineResource' objects.\nThe property is passed to md-object-table for configuration.",
+            "itemtype": "property",
+            "name": "label",
+            "type": "String",
+            "default": "'Graphic'",
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-graphic-array/component.js",
+            "line": 50,
+            "description": "Label for the 'add item' button.\nThe property is passed to md-object-table for configuration.",
+            "itemtype": "property",
+            "name": "buttonText",
+            "type": "String",
+            "default": "'Graphic'",
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 39,
             "description": "Array of the mdJSON object to display in the object table for\nselection to edit or delete.",
             "itemtype": "property",
             "name": "items",
             "type": "Array",
+            "default": "Ember.A()",
             "required": 1,
             "class": "md-object-table",
             "module": "mdeditor",
@@ -1996,7 +2986,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 28,
+            "line": 50,
             "description": "List of items object attributes to display in\nmd-object-table to aid in choosing the item to edit or\ndelete.",
             "itemtype": "property",
             "name": "attributes",
@@ -2008,7 +2998,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 38,
+            "line": 60,
             "description": "Name to place on the mdEditor panel header for entry and edit of\nitems objects.",
             "itemtype": "property",
             "name": "header",
@@ -2020,7 +3010,34 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 47,
+            "line": 69,
+            "description": "The path of template to render in the table preview for each row.",
+            "itemtype": "property",
+            "name": "previewTemplate",
+            "type": "{String}",
+            "optional": 1,
+            "default": "undefined",
+            "class": "md-object-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 78,
+            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n  foo: null,\n  bar: Ember.A()\n }\n ```",
+            "itemtype": "property",
+            "name": "templateClass",
+            "type": "{Any}",
+            "is_constructor": 1,
+            "default": "null",
+            "required": 1,
+            "class": "md-object-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 96,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -2031,8 +3048,38 @@
             "submodule": "components-object"
         },
         {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 105,
+            "description": "Inital collapse state fo the panel.",
+            "itemtype": "property",
+            "name": "isCollapsed",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-object-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 113,
+            "description": "Uses isCollapsed if defined, otherwise inspects array length.",
+            "itemtype": "property",
+            "name": "collapsed",
+            "type": "{Boolean}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "isCollapsed"
+            ],
+            "class": "md-object-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 20,
+            "line": 29,
             "description": "mdJSON object containing the 'onlineResource' array.",
             "itemtype": "property",
             "name": "model",
@@ -2044,19 +3091,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 28,
-            "description": "Name of the mdJSON 'onlineResource' array in the 'contact' object.\nThe property is used to compute items2 which is passed to\nmd-object-table for configuration.",
-            "itemtype": "property",
-            "name": "propertyArrayName",
-            "type": "String",
-            "default": "'onlineResource'",
-            "class": "md-online-resource-array",
-            "module": "mdeditor",
-            "submodule": "components-object"
-        },
-        {
-            "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 39,
+            "line": 37,
             "description": "List of mdJSON 'onlineResource' object attributes to display in\nmd-object-table to aid in choosing the onlineResource to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "attributes",
@@ -2068,7 +3103,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 51,
+            "line": 49,
             "description": "Name to place on the mdEditor panel header for entry and edit of\n'onlineResource' objects.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "label",
@@ -2080,26 +3115,89 @@
         },
         {
             "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 18,
-            "description": "An array of mdJSON phone objects.",
+            "line": 20,
+            "description": "See [md-array-table](md-array-table.html#property_templateClass).",
             "itemtype": "property",
-            "name": "phoneBook",
-            "type": "Array",
-            "required": 1,
+            "name": "templateClass",
+            "type": "Ember.Object",
             "class": "md-phone-array",
             "module": "mdeditor",
             "submodule": "components-object"
         },
         {
-            "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 26,
-            "description": "Indicates the initial panel collapsed state.",
+            "file": "app/pods/components/object/md-simple-array-table/component.js",
+            "line": 23,
+            "description": "Convert the input 'primitive' array to an 'ember' array of objects",
             "itemtype": "property",
-            "name": "isCollapsed",
-            "type": "Boolean",
-            "class": "md-phone-array",
+            "name": "arrayValues",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "value.[]"
+            ],
+            "class": "md-simple-array-table",
             "module": "mdeditor",
             "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-simple-array-table/component.js",
+            "line": 56,
+            "description": "Set the value when arrayValues is updated",
+            "itemtype": "property",
+            "name": "valuesObserver",
+            "type": "{Observer}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "arrayValues.@each.value"
+            ],
+            "class": "md-simple-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/contact/new/id/route.js",
+            "line": 9,
+            "description": "The route model",
+            "itemtype": "method",
+            "name": "model",
+            "params": [
+                {
+                    "name": "params",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "chainable": 1,
+            "return": {
+                "description": "",
+                "type": "Object"
+            },
+            "class": "tree-branch",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/contact/new/id/route.js",
+            "line": 27,
+            "description": "The breadcrumb title string.",
+            "itemtype": "property",
+            "name": "breadCrumb",
+            "type": "{String}",
+            "default": "null",
+            "class": "tree-branch",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/contact/new/id/route.js",
+            "line": 36,
+            "description": "Called when route is deactivated.\nThe model is destroyed if still \"new\".",
+            "itemtype": "method",
+            "name": "deactivate",
+            "class": "tree-branch",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/dictionary/show/edit/route.js",
@@ -2307,6 +3405,10 @@
     ],
     "warnings": [
         {
+            "message": "unknown tag: mixin",
+            "line": " app/models/contact.js:7"
+        },
+        {
             "message": "replacing incorrect tag: prop with property",
             "line": " app/pods/components/control/md-modal/component.js:4"
         },
@@ -2321,6 +3423,10 @@
         {
             "message": "unknown tag: name",
             "line": " app/pods/components/layout/md-nav-secondary/component.js:34"
+        },
+        {
+            "message": "unknown tag: mixin",
+            "line": " app/pods/components/object/md-object-table/component.js:15"
         },
         {
             "message": "unknown tag: name",
@@ -2343,8 +3449,12 @@
             "line": " lib/ember-json-tree/addon/helpers/make-range.js:13"
         },
         {
+            "message": "Missing item type\nComputed a hash for the target object.",
+            "line": " app/mixins/model-hash.js:24"
+        },
+        {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",
-            "line": " app/pods/components/control/md-button-modal/component.js:31"
+            "line": " app/pods/components/control/md-button-modal/component.js:33"
         },
         {
             "message": "Missing item type\nTrue to render in modal dialog",

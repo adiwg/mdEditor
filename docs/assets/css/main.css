@@ -476,6 +476,8 @@ h2, h3, h4, h5, h6 {
 /* Comma-separated list. */
 .apidocs ul.commas li:after { content: ','; }
 .apidocs ul.commas li:last-child:after { content: ''; }
+.apidocs span.required .computed:after { content: ','; }
+.apidocs span.required .computed:last-child:after { content: ''; }
 
 /* Keyboard shortcuts. */
 kbd .cmd { font-family: Monaco, Helvetica; }

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/df792234" target="_blank">
-                                  Tag: 0.0.0.df792234
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/977c4382" target="_blank">
+                                  Tag: 0.0.0.977c4382
                                 </a>
                             </h4>
                         </div>
@@ -79,6 +79,9 @@
                                         </li>
                                         <li>
                                             <a href="../modules/mdeditor.html">mdeditor</a>
+                                                    <li class="sub"><a href="../modules/mixins.html">mixins</a></li>
+                                                    <li class="sub"><a href="../modules/data-models.html">data-models</a></li>
+                                                    <li class="sub"><a href="../modules/components-control.html">components-control</a></li>
                                                     <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
                                                     <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
                                         </li>
@@ -99,10 +102,16 @@
                         <div class="panel-body">
                             <ol>
                                     <li>
+                                        <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/make-range.html">make-range</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-address.html">md-address</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-array-table.html">md-array-table</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-boolean.html">md-boolean</a>
@@ -118,6 +127,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-datetime.html">md-datetime</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-graphic-array.html">md-graphic-array</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-input.html">md-input</a>
@@ -138,10 +150,22 @@
                                         <a href="../classes/md-select.html">md-select</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-select-contact.html">md-select-contact</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-select-thesaurus.html">md-select-thesaurus</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-textarea.html">md-textarea</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-toggle.html">md-toggle</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/object-template.html">object-template</a>
                                     </li>
                                     <li>
                                         <a href="../classes/tree-branch.html">tree-branch</a>
@@ -171,7 +195,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-object-table Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/df792234/app/pods/components/object/md-object-table/component.js#L10" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L15" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -186,44 +210,11 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/df792234/app/pods/components/object/md-object-table/component.js#L10">app/pods/components/object/md-object-table/component.js:10</a>
+            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L15">app/pods/components/object/md-object-table/component.js:15</a>
         </div>
 </div>
 
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_md-object-table" class="method item">
-	<span class="method-signature">
-	<span class="name anchorable-toc">
-		<a class="fa fa-link toc-anchor" href="#method_md-object-table"></a>
-		md-object-table
-	</span>
-
-		<span class="paren">()</span>
-	</span>
-
-
-
-
-
-
-
-	<div class="meta">
-				<p>
-				Defined in
-		<a href="https://github.com/adiwg/mdEditor/blob/df792234/app/pods/components/object/md-object-table/component.js#L10">app/pods/components/object/md-object-table/component.js:10</a>
-		</p>
-
-
-
-	</div>
-
-
-
-
-</div>
-    </div>
 
   <div class="class-description">
   <p>mdEditor class for managing a table of similar mdJSON objects
@@ -284,11 +275,27 @@ The class is configurable for reuse with mdJSON object arrays.</p>
 
                               </li>
                               <li class="index-item property">
+                                  <a href="#property_collapsed">collapsed</a>
+
+                              </li>
+                              <li class="index-item property">
                                   <a href="#property_header">header</a>
 
                               </li>
                               <li class="index-item property">
+                                  <a href="#property_isCollapsed">isCollapsed</a>
+
+                              </li>
+                              <li class="index-item property">
                                   <a href="#property_items">items</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_previewTemplate">previewTemplate</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_templateClass">templateClass</a>
 
                               </li>
                       </ul>
@@ -300,6 +307,8 @@ The class is configurable for reuse with mdJSON object arrays.</p>
 
               <div id="tab_properties" role="tabpanel" class="tab-pane">
                   <div class="item-list">
+  
+  
   <div id="property_attributes" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_attributes"></a>
@@ -311,10 +320,11 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
   
+  
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/df792234/app/pods/components/object/md-object-table/component.js#L28">app/pods/components/object/md-object-table/component.js:28</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L50">app/pods/components/object/md-object-table/component.js:50</a>
           </p>
   
   
@@ -330,6 +340,8 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
   </div>
+  
+  
   <div id="property_buttonText" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_buttonText"></a>
@@ -341,10 +353,11 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
   
+  
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/df792234/app/pods/components/object/md-object-table/component.js#L47">app/pods/components/object/md-object-table/component.js:47</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L96">app/pods/components/object/md-object-table/component.js:96</a>
           </p>
   
   
@@ -359,6 +372,44 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
   </div>
+  
+  
+  <div id="property_collapsed" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_collapsed"></a>
+          collapsed
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+          <span class="flag required">computed
+            (
+              <span class="computed">isCollapsed</span>
+            )
+          </span>
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L113">app/pods/components/object/md-object-table/component.js:113</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Uses isCollapsed if defined, otherwise inspects array length.</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  
+  
   <div id="property_header" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_header"></a>
@@ -370,10 +421,11 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
   
+  
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/df792234/app/pods/components/object/md-object-table/component.js#L38">app/pods/components/object/md-object-table/component.js:38</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L60">app/pods/components/object/md-object-table/component.js:60</a>
           </p>
   
   
@@ -388,6 +440,40 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
   </div>
+  
+  
+  <div id="property_isCollapsed" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_isCollapsed"></a>
+          isCollapsed
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L105">app/pods/components/object/md-object-table/component.js:105</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Inital collapse state fo the panel.</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> undefined</p>
+  
+  
+  </div>
+  
+  
   <div id="property_items" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_items"></a>
@@ -399,10 +485,11 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
   
+  
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/df792234/app/pods/components/object/md-object-table/component.js#L19">app/pods/components/object/md-object-table/component.js:19</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L39">app/pods/components/object/md-object-table/component.js:39</a>
           </p>
   
   
@@ -414,6 +501,77 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
       </div>
   
+          <p><br><strong>Default:</strong> Ember.A()</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_previewTemplate" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_previewTemplate"></a>
+          previewTemplate
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L69">app/pods/components/object/md-object-table/component.js:69</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>The path of template to render in the table preview for each row.</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> undefined</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_templateClass" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_templateClass"></a>
+          templateClass
+      </h3>
+      <span class="type">Any</span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/977c4382/app/pods/components/object/md-object-table/component.js#L78">app/pods/components/object/md-object-table/component.js:78</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>The template class to use for new items. This should be a constructor.
+  Objects should be created by extending Ember.Object.</p>
+  <pre class="code prettyprint"><code class="language-javascript">Ember.Object.extend({
+   foo: null,
+   bar: Ember.A()
+  }
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> null</p>
   
   
   </div>

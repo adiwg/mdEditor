@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/df792234" target="_blank">
-                                  Tag: 0.0.0.df792234
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/977c4382" target="_blank">
+                                  Tag: 0.0.0.977c4382
                                 </a>
                             </h4>
                         </div>
@@ -79,6 +79,9 @@
                                         </li>
                                         <li>
                                             <a href="../modules/mdeditor.html">mdeditor</a>
+                                                    <li class="sub"><a href="../modules/mixins.html">mixins</a></li>
+                                                    <li class="sub"><a href="../modules/data-models.html">data-models</a></li>
+                                                    <li class="sub"><a href="../modules/components-control.html">components-control</a></li>
                                                     <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
                                                     <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
                                         </li>
@@ -99,10 +102,16 @@
                         <div class="panel-body">
                             <ol>
                                     <li>
+                                        <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/make-range.html">make-range</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-address.html">md-address</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-array-table.html">md-array-table</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-boolean.html">md-boolean</a>
@@ -118,6 +127,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-datetime.html">md-datetime</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-graphic-array.html">md-graphic-array</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-input.html">md-input</a>
@@ -138,10 +150,22 @@
                                         <a href="../classes/md-select.html">md-select</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-select-contact.html">md-select-contact</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-select-thesaurus.html">md-select-thesaurus</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-textarea.html">md-textarea</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-toggle.html">md-toggle</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/object-template.html">object-template</a>
                                     </li>
                                     <li>
                                         <a href="../classes/tree-branch.html">tree-branch</a>
@@ -173,11 +197,12 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * @module mdeditor
- */
-
 import Ember from &#x27;ember&#x27;;
+
+const {
+  Object: EmObject,
+  A
+} = Ember;
 
 export default Ember.Component.extend({
 
@@ -186,114 +211,22 @@ export default Ember.Component.extend({
    * The class manages the maintenance of an array of phone objects.
    *
    * @class md-phone-array
+   * @module mdeditor
    * @submodule components-object
    * @constructor
    */
 
   /**
-   * An array of mdJSON phone objects.
+   * See [md-array-table](md-array-table.html#property_templateClass).
    *
-   * @property phoneBook
-   * @type Array
-   * @required
+   * @property templateClass
+   * @type Ember.Object
    */
-
-  /**
-   * Indicates the initial panel collapsed state.
-   *
-   * @property isCollapsed
-   * @type Boolean
-   */
-
-  mdCodes: Ember.inject.service(&#x27;codelist&#x27;),
-  phoneServices: Ember.computed(function () {
-    let mdCodelist = this.get(&#x27;mdCodes&#x27;)
-      .get(&#x27;telephone&#x27;)
-      .codelist;
-    let serviceType = [];
-    mdCodelist.forEach(function (telephone) {
-      serviceType.push(telephone[&#x27;codeName&#x27;]);
-    });
-    return serviceType;
-  }),
-
-  //is this neccessary? Can this be used instead: $(this)[0].get(&#x27;elementId&#x27;)
-  //or just this.$(&#x27;.panel-collapse&#x27;) if you just need to add a listener to
-  //the show.bs.* events
-  panelId: Ember.computed(function () {
-    return Ember.generateGuid(null, &#x27;panel&#x27;);
-  }),
-
-  //uses isCollapsed if defined, otherwise inspects array length
-  collapsed: Ember.computed(&#x27;isCollapsed&#x27;, function () {
-    let isCollapsed = this.get(&#x27;isCollapsed&#x27;);
-
-    if(isCollapsed !== undefined) {
-      return isCollapsed;
-    } else if(this.get(&#x27;phoneBook&#x27;)
-      .length &gt; 0) {
-      return false;
-    } else {
-      return true;
+  templateClass: EmObject.extend({
+    init() {
+      this.set(&#x27;service&#x27;, A());
     }
-  }),
-
-  //focus the added row, or the last row on deletion
-  phoneBookChanged() {
-    //https://guides.emberjs.com/v2.6.0/applications/run-loop/
-    Ember.run.schedule(&#x27;afterRender&#x27;, this, function () {
-      let panel = this.$(&#x27;.panel-collapse&#x27;);
-      let input = this.$(&#x27;.panel-collapse tbody tr:last-of-type input&#x27;)
-        .first();
-
-      if(panel.hasClass(&#x27;in&#x27;)) {
-        input.focus();
-      } else { //add a one-time listener to wait until panel is open
-        panel.one(&#x27;shown.bs.collapse&#x27;, function () {
-          input.focus();
-        });
-        panel.collapse(&#x27;show&#x27;);
-      }
-    });
-  },
-
-  pillColor: Ember.computed(&#x27;phoneBook.[]&#x27;, function () {
-    let count = this.get(&#x27;phoneBook&#x27;)
-      .length;
-    return(count &gt; 0) ? &#x27;label-info&#x27; : &#x27;label-warning&#x27;;
-  }),
-
-  /*didInsertElement: function () {
-    let panel = this.get(&#x27;panelId&#x27;);
-    let panelBtn = panel + &#x27;-btn&#x27;;
-
-    $(&#x27;#&#x27; + panel)
-      .on(&#x27;show.bs.collapse&#x27;, function () {
-        $(&#x27;#&#x27; + panelBtn)
-          .removeClass(&#x27;invisible&#x27;);
-      });
-    $(&#x27;#&#x27; + panel)
-      .on(&#x27;hidden.bs.collapse&#x27;, function () {
-        $(&#x27;#&#x27; + panelBtn)
-          .addClass(&#x27;invisible&#x27;);
-      });
-  },*/
-
-  actions: {
-    addPhone: function (phoneBook) {
-      phoneBook.pushObject(Ember.Object.create({
-        phoneName: &quot;&quot;,
-        phoneNumber: &quot;&quot;,
-        service: []
-      }));
-      this.phoneBookChanged();
-    },
-
-    deletePhone: function (phoneBook, idx) {
-      phoneBook.removeAt(idx);
-      this.phoneBookChanged();
-    }
-  }
+  })
 
 });
 
