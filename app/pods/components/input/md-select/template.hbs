@@ -16,23 +16,25 @@
         ariaLabel=ariaLabel
         as |code|
       }}
-        {{#if icon}}
-          {{#if code.icon}}
-            <span class="fa fa-{{code.icon}}"> </span>
+        {{#unless filter}}
+          {{#if icon}}
+            {{#if code.icon}}
+              <span class="fa fa-{{code.icon}}"> </span>
+            {{/if}}
           {{/if}}
-        {{/if}}
-        <span class="select-value">{{code.codeName}}</span>
-        {{#if tooltip}}
-          {{#if code.tooltip}}
-          <div class="pull-right">
-            <span class="badge tooltip">?
-              {{tooltip-on-element
-                text=code.tooltip
-                side="right"
-                enableLazyRendering=true
-              }}
-            </span>
-          </div>
+          <span class="select-value">{{code.codeName}}</span>
+          {{#if tooltip}}
+            {{#if code.tooltip}}
+            <div class="pull-right">
+              <span class="badge tooltip">?
+                {{tooltip-on-element
+                  text=code.tooltip
+                  side="right"
+                  enableLazyRendering=true
+                }}
+              </span>
+            </div>
+            {{/if}}
           {{/if}}
-        {{/if}}
+        {{/unless}}
       {{/component}}

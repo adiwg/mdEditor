@@ -15,6 +15,13 @@ export default DS.Model.extend(Ember.Copyable, {
    * @submodule data-models
    */
 
+  contacts: DS.hasMany('contact', {
+    inverse: 'organizations'
+  }),
+  organizations: DS.hasMany('contact', {
+    inverse: 'contacts'
+  }),
+
   /**
    * The json object for the contact. The data for the contact is stored in this
    * object.
@@ -74,6 +81,37 @@ export default DS.Model.extend(Ember.Copyable, {
 
       return json.name || (json.isOrganization ? null : json.positionName);
     }),
+
+  // /**
+  //  * The formatted display string for the contact
+  //  *
+  //  * @property title
+  //  * @type {String}
+  //  * @readOnly
+  //  * @category computed
+  //  * @requires json.name, json.positionName
+  //  */
+  // updateMembers: Ember.observer('json.memberOfOrganization.[]',
+  //   function () {
+  //     //const me = this;
+  //     const json = this.get('json');
+  //     const value = json.memberOfOrganization;
+  //
+  //     let store = this.get('store');
+  //     let contacts = store.peekAll('contact');
+  //     let organizations = this.get('organizations')
+  //       .clear();
+  //
+  //     value.forEach(function (id) {
+  //       let rec = contacts.findBy('json.contactId', id);
+  //
+  //       if(rec) {
+  //         organizations.pushObject(rec);
+  //       }
+  //       //rec.get('contacts').pushObject(me);
+  //     });
+  //
+  //   }),
 
   /**
    * The type of contact

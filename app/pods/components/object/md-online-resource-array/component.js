@@ -1,11 +1,18 @@
-/**
- * @module mdeditor
- * @submodule components-object
- */
-
 import Ember from 'ember';
 
+const {
+  A
+} = Ember;
+
 export default Ember.Component.extend({
+
+  init() {
+    this._super(...arguments);
+
+    if(!this.get('model')) {
+      this.set('model', A());
+    }
+  },
 
   /**
    * mdEditor class for input and edit of mdJSON 'onlineResource' object
@@ -13,6 +20,8 @@ export default Ember.Component.extend({
    * The class manages the maintenance of an array of online resource
    * objects using the md-object-table class.
    *
+   * @module mdeditor
+   * @submodule components-object
    * @class md-online-resource-array
    * @constructor
    */

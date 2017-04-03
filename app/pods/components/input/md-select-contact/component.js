@@ -3,7 +3,8 @@ import Select from '../md-codelist-multi/component';
 
 const {
   inject,
-  computed
+  computed,
+  isArray
 } = Ember;
 
 export default Select.extend({
@@ -81,8 +82,6 @@ export default Select.extend({
    */
   contactType: 'organizations',
 
-  //filterId:null,
-
   /**
    * The contact list mapped from the store to a codelist.
    *
@@ -91,14 +90,14 @@ export default Select.extend({
    * @category computed
    * @requires contacts.[]
    */
-  mdCodes: computed('contacts.[]','filterId', function() {
+  mdCodes: computed('contacts.organizations.[]', 'filterId.[]', function () {
     let type = this.get('contactType');
-    let filter = this.get('filterId');
 
     return Ember.Object.create({
       contacts: Ember.Object.create({
-        codelist: this.get('contacts').get(type).mapBy('json')
-          //.rejectBy('contactId', filter)
+        codelist: this.get('contacts')
+          .get(type)
+          .mapBy('json')
       })
     });
   })

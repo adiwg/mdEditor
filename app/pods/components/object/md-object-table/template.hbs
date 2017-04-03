@@ -5,7 +5,7 @@
             <a role="button" data-toggle="collapse" href="#{{unless editing panelId}}" aria-expanded="{{if collapsed "false" "true"}}"
                class="{{if collapsed "collapsed"}}" aria-controls="{{panelId}}">
                 <span class="fa"></span> {{header}}
-                <label class="label label-pill {{pillColor}}"> {{citems.length}} </label>
+                <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
             </a>
             <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right {{if editing "hidden"}}"
                 {{action "addItem" items}}>
@@ -31,14 +31,18 @@
                 </thead>
                 {{/unless}}
                 <tbody>
-                {{#each citems as |item index|}}
+                {{#each items as |item index|}}
                     <tr>
                         <td class="md-table-index">{{index}}</td>
                         {{#if previewTemplate}}
                             <td>{{component previewTemplate item=item}}</td>
                         {{else}}
                             {{#each attrArray as |prop|}}
-                                <td>{{get-property item prop}}</td>
+                                {{#if (get item prop)}}
+                                <td>{{get item prop}}</td>
+                                {{else}}
+                                <td><em>Not Defined</em></td>
+                                {{/if}}
                             {{/each}}
                         {{/if}}
                         <td>

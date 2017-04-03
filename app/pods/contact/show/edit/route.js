@@ -1,7 +1,16 @@
 import Ember from 'ember';
+import ModelHash from 'mdeditor/mixins/model-hash';
 
-export default Ember.Route.extend({
-  flashMessages: Ember.inject.service(),
+const {
+  inject,
+  Route,
+  get,
+  set,
+  copy
+} = Ember;
+
+export default Route.extend( {
+  flashMessages: inject.service(),
 
   renderTemplate() {
     this.render('contact.show.edit', {
@@ -15,8 +24,12 @@ export default Ember.Route.extend({
       model
         .save()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          let target = model.get('json');
+
+          set(this, 'modelHash', this.hashObject(target));
+          get(this, 'flashMessages')
             .success(`Saved Contact: ${model.get('title')}`);
+
           //this.transitionTo('contacts');
         });
     },
@@ -26,7 +39,7 @@ export default Ember.Route.extend({
       model
         .destroyRecord()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .success(`Deleted Contact: ${model.get('title')}`);
           this.replaceWith('contacts');
         });
@@ -38,7 +51,7 @@ export default Ember.Route.extend({
         .reload()
         .then(() => {
           this.refresh();
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .warning(
               `Cancelled changes to Contact: ${model.get('title')}`);
           //this.transitionTo('contacts');
@@ -47,9 +60,26 @@ export default Ember.Route.extend({
 
     copyContact: function () {
 
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .success(`Copied Contact: ${this.currentModel.get('title')}`);
-      this.transitionTo('contact.new.id', Ember.copy(this.currentModel));
+      this.transitionTo('contact.new.id', copy(this.currentModel));
     }
+
+    // updateRelations(contact, value) {
+    //   console.info(arguments);
+    //   let organizations = contact.get('organizations')
+    //     .clear();
+    //   let store = this.get('store');
+    //
+    //   if(isArray(value)) {
+    //     value.forEach(function (id) {
+    //       store.queryRecord('contact', {
+    //         contactId: id
+    //       }).then(function(rec){
+    //         organizations.pushObject(rec);
+    //       });
+    //     });
+    //   }
+    // }
   }
 });

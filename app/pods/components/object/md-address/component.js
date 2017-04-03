@@ -1,10 +1,11 @@
 import Ember from 'ember';
 
 const {
-  computed
+  Component,
+  A
 } = Ember;
 
-export default Ember.Component.extend({
+export default Component.extend({
   /**
    * mdEditor class for input and edit of mdJSON 'address' object
    * arrays. The class manages the maintenance of an array of address
@@ -46,5 +47,12 @@ export default Ember.Component.extend({
    * @type String
    * @default 'Address'
    */
-  label: 'Address'
+  label: 'Address',
+
+  templateClass: Ember.Object.extend({
+    init() {
+      this.set('addressType', A());
+      this.set('deliveryPoint', A());
+    }
+  })
 });

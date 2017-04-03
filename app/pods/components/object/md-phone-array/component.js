@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 const {
-  Object: EmObject
+  Object: EmObject,
+  A
 } = Ember;
 
 export default Ember.Component.extend({
@@ -23,9 +24,9 @@ export default Ember.Component.extend({
    * @type Ember.Object
    */
   templateClass: EmObject.extend({
-    phoneName: null,
-    phoneNumber: null,
-    service: []
+    init() {
+      this.set('service', A());
+    }
   })
 
 });

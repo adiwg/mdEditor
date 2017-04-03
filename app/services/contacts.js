@@ -11,11 +11,9 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    let me = this;
     let store = this.get('store');
 
-    let results = store.peekAll('contact');
-    me.set('contacts', results);
+    this.set('contacts', store.peekAll('contact'));
   },
 
   store: inject.service(),

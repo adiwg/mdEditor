@@ -34,9 +34,9 @@
               }}
 
 
-            {{object/md-phone-array value=model.json.phone isCollapsed=false}}
+            {{object/md-phone-array value=model.json.phone}}
 
-            {{#object/md-simple-array-table
+           {{#object/md-simple-array-table
               title="E-mail Address"
               required=true
               value=model.json.electronicMailAddress as |email|
@@ -47,9 +47,15 @@
               </td>
             {{/object/md-simple-array-table}}
 
-            {{object/md-address model=model.json}}
+            {{object/md-address model=model.json.address}}
 
-            {{object/md-online-resource-array model=model.json}}
+            {{object/md-online-resource-array model=model.json.onlineResource}}
+
+            {{object/md-graphic-array
+              model=model.json.logoGraphic
+              button-text="Add Logo"
+              label="Logo"
+            }}
 
             {{#object/md-simple-array-table
               title="Available Time"
@@ -78,3 +84,15 @@
     </div>
 
 </div>
+
+{{!-- {{#control/md-modal
+  isShowing = pausedTransition
+  closeModal=(route-action "cancelTransition")
+  target="body"
+}}
+  {{{routeWarning}}}
+  <div class="md-modal-buttons pull-right">
+    <button type="button" class="btn btn-danger" {{action (route-action "confirmTransition")}}>Continue</button>
+    <button type="button" class="btn btn-primary" {{action (route-action "cancelTransition")}}>Stay Here</button>
+  </div>
+{{/control/md-modal}} --}}

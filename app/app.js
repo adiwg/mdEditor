@@ -68,3 +68,12 @@ export default App;
   * @main components-control
   * @category docs
   */
+
+ /**
+  * Mixins.
+  *
+  * @module mdeditor
+  * @submodule mixins
+  * @main mixins
+  * @category docs
+  */

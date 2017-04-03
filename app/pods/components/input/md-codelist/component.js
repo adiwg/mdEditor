@@ -158,10 +158,11 @@ export default Select.extend({
    * @category computed
    * @requires value
    */
-  codelist: Ember.computed('value', function() {
+  codelist: Ember.computed('value','filterId', function() {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');
+    let filter = this.get('filterId');
 
     if (value) {
       if (create) {
@@ -173,7 +174,7 @@ export default Select.extend({
       }
     }
 
-    return codelist;
+    return codelist.rejectBy('codeId', filter);
   }),
 
   /**

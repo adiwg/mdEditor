@@ -168,6 +168,17 @@ export default Ember.Component.extend({
   create: false,
 
   /**
+   * If set, removes the option with the specified id from the list. By default,
+   * it will hide options with a null id.
+   *
+   * @property filterId
+   * @type {String|Number|null}
+   * @default null
+   * @optional
+   */
+  filterId: null,
+
+  /**
    * The component to render
    *
    * @property theComponent

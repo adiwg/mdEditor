@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Template from 'mdeditor/mixins/object-template';
 
 const {
   computed,
@@ -7,7 +8,7 @@ const {
   typeOf
 } = Ember;
 
-export default Component.extend({
+export default Component.extend(Template, {
   /**
    * mdEditor class for input and edit of arrays of objects. The
    * component is rendered as an editable table.
@@ -20,9 +21,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if (!this.get('value')) {
-      this.set('value', A());
-    }
+    this.applyTemplate('value');
   },
 
   /**
@@ -106,10 +105,10 @@ export default Component.extend({
    * @category computed
    * @requires columns
    */
-  columnArray: computed('columns', function() {
+  columnArray: computed('columns', function () {
     let columns = this.get('columns');
 
-    return (typeof columns === 'string') ? columns.split(',') : null;
+    return(typeof columns === 'string') ? columns.split(',') : null;
   }),
 
   /**
@@ -121,12 +120,12 @@ export default Component.extend({
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', function() {
+  collapsed: computed('isCollapsed', 'value.[]', function () {
     let isCollapsed = this.get('isCollapsed');
 
-    if (isCollapsed !== undefined) {
+    if(isCollapsed !== undefined) {
       return isCollapsed;
-    } else if (this.get('value')
+    } else if(this.get('value')
       .length > 0) {
       return false;
     } else {
@@ -155,7 +154,7 @@ export default Component.extend({
    * @category computed
    * @requires elementId
    */
-  panelId: computed('elementId', function() {
+  panelId: computed('elementId', function () {
     return 'panel-' + this.get('elementId');
   }),
 
@@ -168,11 +167,11 @@ export default Component.extend({
    * @category computed
    * @requires value.[]
    */
-  pillColor: computed('value.[]', function() {
+  pillColor: computed('value.[]', function () {
     let count = this.get('value')
       .length;
     let required = this.get('required');
-    return (count === 0) ? required ? 'label-danger' : 'label-warning' :
+    return(count === 0) ? required ? 'label-danger' : 'label-warning' :
       'label-info';
   }),
 
@@ -183,15 +182,15 @@ export default Component.extend({
    * @return none
    */
   valueChanged() {
-    Ember.run.schedule('afterRender', this, function() {
+    Ember.run.schedule('afterRender', this, function () {
       let panel = this.$('.panel-collapse');
       let input = this.$('.panel-collapse tbody tr:last-of-type input')
         .first();
 
-      if (panel.hasClass('in')) {
+      if(panel.hasClass('in')) {
         input.focus();
       } else { //add a one-time listener to wait until panel is open
-        panel.one('shown.bs.collapse', function() {
+        panel.one('shown.bs.collapse', function () {
           input.focus();
         });
         panel.collapse('show');
@@ -200,15 +199,18 @@ export default Component.extend({
   },
 
   actions: {
-    addItem: function(value) {
+    addItem: function (value) {
       const Template = this.get('templateClass');
 
-      value.pushObject(typeOf(Template) === 'class' ? Template.create() : null);
+      value.pushObject(typeOf(Template) === 'class' ? Template.create() :
+        null);
       this.valueChanged();
     },
 
-    deleteItem: function(value, idx) {
-      value.removeAt(idx);
+    deleteItem: function (value, idx) {
+      if(value.length > idx) {
+        value.removeAt(idx);
+      }
       this.valueChanged();
     }
   }

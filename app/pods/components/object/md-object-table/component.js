@@ -1,14 +1,16 @@
 import Ember from 'ember';
+import Template from 'mdeditor/mixins/object-template';
 
 const {
   computed,
   Component,
   observer,
-  generateGuid,
-  isEmpty
+  isEmpty,
+  typeOf,
+  A
 } = Ember;
 
-export default Component.extend({
+export default Component.extend(Template,{
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -19,7 +21,20 @@ export default Component.extend({
    * @submodule components-object
    * @class md-object-table
    * @constructor
+   * @mixin object-template
    */
+
+   init() {
+     this._super(...arguments);
+
+     this.applyTemplate('items');
+   },
+
+   //reset the 'editing' flag
+   didUpdateAttrs() {
+     this._super(...arguments);
+     this.set('editing', false);
+   },
 
   /**
    * Array of the mdJSON object to display in the object table for
@@ -27,8 +42,10 @@ export default Component.extend({
    *
    * @property items
    * @type Array
+   * @default Ember.A()
    * @required
    */
+  items: A(),
 
   /**
    * List of items object attributes to display in
@@ -58,6 +75,24 @@ export default Component.extend({
    * @default undefined
    */
 
+   /**
+    * The template class to use for new items. This should be a constructor.
+    * Objects should be created by extending Ember.Object.
+    *  ```javascript
+    *  Ember.Object.extend({
+    *   foo: null,
+    *   bar: Ember.A()
+    *  }
+    *  ```
+    *
+    * @property templateClass
+    * @type {Any}
+    * @constructor
+    * @default null
+    * @required
+    */
+   templateClass: null,
+
   /**
    * Determines add button text
    *
@@ -84,73 +119,72 @@ export default Component.extend({
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed','items.[]', function() {
+  collapsed: computed('isCollapsed', 'items.[]', function () {
     let isCollapsed = this.get('isCollapsed');
     let value = this.get('items');
 
-    if (isCollapsed !== undefined) {
+    if(isCollapsed !== undefined) {
       return isCollapsed;
-    } else if (value && value.length > 0) {
+    } else if(value && value.length > 0) {
       return false;
     } else {
       return true;
     }
   }),
 
-  panelId: computed(function() {
-    return generateGuid(null, 'panel');
+  panelId: computed('items.@each.val', 'editing', function () {
+    return 'panel-' + this.get('elementId');
   }),
 
-  citems: computed(function() {
-      let i = this.get('items')
-        .map(function(itm) {
-          return Ember.Object.create(itm);
-        });
-      return i;
-    })
-    .property('items.@each.val', 'editing'),
+  citems: computed('items.@each.val', function () {
+    let i = this.get('items')
+      .map(function (itm) {
+        return Ember.Object.create(itm);
+      });
+    return i;
+  }),
 
-  attrArray: computed('attributes', function() {
+  attrArray: computed('attributes', function () {
     return this.get('attributes')
       .split(',');
   }),
 
-  attrTitleArray: computed('attrArray', function() {
-    return this.get('attrArray').map(function(item) {
-      return item.trim().dasherize().replace(/-/g, ' ');
-    });
+  attrTitleArray: computed('attrArray', function () {
+    return this.get('attrArray')
+      .map(function (item) {
+        return item.trim()
+          .dasherize()
+          .replace(/-/g, ' ');
+      });
   }),
 
   editing: false,
 
-  editingChanged: observer('editing', function() {
+  editingChanged: observer('editing', function () {
     // deal with the change
     //Ember.run.schedule('afterRender', this, function () {
-    let panel = this.$('.md-object-table > .panel-collapse');
-    let table = panel.find('> .panel-body > table, > .panel-body > .object-editor');
+    let panel = this.$('> .md-object-table > .panel-collapse');
+    let table = panel.find(
+      '> .panel-body > table, > .panel-body > .object-editor');
     let items = this.get('items');
     let editing = this.get('editing');
 
-    if (editing === 'adding') {
+    if(editing === 'adding') {
       items.pushObject(this.get('saveItem'));
     }
 
-    if (editing === false && items.length) {
+    if(editing === false && items.length) {
       let last = Object.keys(items.get('lastObject'));
-      //TODO: this is fixed in 2.5.1
-      //https://github.com/emberjs/js/issues/13050
-      last = last.filter(function(itm) {
-        return itm !== 'toString';
-      });
-      if (isEmpty(last)) {
+
+      if(isEmpty(last)) {
         items.popObject();
       }
     }
 
-    if (panel.hasClass('in')) {
+    if(panel.hasClass('in')) {
       table.toggleClass('fadeOut fadeIn');
     } else { //add a one-time listener to wait until panel is open
-      panel.one('shown.bs.collapse', function() {
+      panel.one('shown.bs.collapse', function () {
         table.toggleClass('fadeOut fadeIn');
       });
       panel.collapse('show');
@@ -158,43 +192,33 @@ export default Component.extend({
     //});
   }),
 
-  pillColor: computed('citems.[]', function() {
-    let count = this.get('citems')
+  pillColor: computed('items.[]', function () {
+    let count = this.get('items')
       .length;
-    return (count > 0) ? 'label-info' : 'label-warning';
+    return(count > 0) ? 'label-info' : 'label-warning';
   }),
 
-  didInsertElement: function() {
-    /*let panel = this.get('panelId');
-    let panelBtn = panel + '-btn';
-    $('#' + panel).on('show.bs.collapse', function() {
-      $('#' + panelBtn).removeClass('invisible');
-    });
-    $('#' + panel).on('hidden.bs.collapse', function() {
-      $('#' + panelBtn).addClass('invisible');
-    });*/
-  },
-
   actions: {
-    deleteItem: function(items, index) {
-      //if (window.confirm("Do you really want to delete this " + this.get('header') + "?")) {
+    deleteItem: function (items, index) {
       items.removeAt(index);
-      //}
     },
 
-    addItem: function() {
-      //let itm = items.pushObject(Object.create({}));
-      let itm = Ember.Object.create({});
+    addItem: function () {
+      const Template = this.get('templateClass');
+
+      let itm = typeOf(Template) === 'class' ? Template.create() :
+      Ember.Object.create({});
+
       this.set('saveItem', itm);
       this.set('editing', 'adding');
     },
 
-    editItem: function(items, index) {
+    editItem: function (items, index) {
       this.set('saveItem', items.objectAt(index));
       this.set('editing', 'editing');
     },
 
-    cancelEdit: function() {
+    cancelEdit: function () {
       this.set('editing', false);
     }
   }

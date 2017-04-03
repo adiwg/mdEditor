@@ -98,10 +98,11 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: Ember.computed('value', function () {
+  codelist: Ember.computed('value', 'filterId', function () {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');
+    let filter = this.get('filterId');
 
     if(value) {
       if(create) {
@@ -115,7 +116,7 @@ export default MdCodelist.extend({
       }
     }
 
-    return codelist;
+    return codelist.rejectBy('codeId', filter);
   }),
 
   /**
