@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/977c4382" target="_blank">
-                                  Tag: 0.0.0.977c4382
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/9226bdd6" target="_blank">
+                                  Tag: 0.0.0.9226bdd6
                                 </a>
                             </h4>
                         </div>
@@ -200,7 +200,8 @@
 import Ember from &#x27;ember&#x27;;
 
 const {
-  A
+  A,
+  computed
 } = Ember;
 
 export default Ember.Component.extend({
@@ -234,6 +235,14 @@ export default Ember.Component.extend({
    */
 
   /**
+   * Display the image picker and preview
+   *
+   * @property imagePicker
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
    * List of mdJSON &#x27;onlineResource&#x27; object attributes to display in
    * md-object-table to aid in choosing the onlineResource to edit or
    * delete.
@@ -254,7 +263,22 @@ export default Ember.Component.extend({
    * @type String
    * @default &#x27;Online Resource&#x27;
    */
-  label: &#x27;Online Resource&#x27;
+  label: &#x27;Online Resource&#x27;,
+
+  /**
+   * The template to use for the preview table rows. If not overridden, will use
+   * the &#x60;md-image-preview&#x60; template if &#x60;imagePicker = true&#x60;.
+   *
+   * @property previewTemplate
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires imagePicker
+   */
+  previewTemplate: computed(&#x27;imagePicker&#x27;, function () {
+    return this.get(&#x27;imagePicker&#x27;) ?
+      &quot;object/md-online-resource-array/md-image-preview&quot; : null;
+  })
 });
 
     </pre>

@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.977c4382",
+        "version": "0.0.0.9226bdd6",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -233,6 +233,13 @@
             "classes": {
                 "md-object-table": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-online-resource/component.js": {
+            "name": "app/pods/components/object/md-online-resource/component.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -528,7 +535,9 @@
             "namespace": "",
             "file": "app/pods/components/input/md-toggle/component.js",
             "line": 4,
-            "description": "Components used to input scalar or arrays of scalar values.",
+            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nAccess to codelists is provided by the 'codelist' service.\nDescriptions of all codes (tooltips) are embedded within the codelists.",
+            "is_constructor": 1,
+            "extends": "md-select",
             "tag": "main",
             "itemtype": "main",
             "category": [
@@ -733,10 +742,8 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 12,
-            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nAccess to codelists is provided by the 'codelist' service.\nDescriptions of all codes (tooltips) are embedded within the codelists.",
-            "is_constructor": 1,
-            "extends": "md-select"
+            "line": 7,
+            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nAccess to codelists is provided by the 'codelist' service.\nDescriptions of all codes (tooltips) are embedded within the codelists."
         },
         "md-codelist-multi": {
             "name": "md-codelist-multi",
@@ -750,10 +757,8 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 11,
-            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nExtends md-codelist.\nAllows selection of multiple options.",
-            "is_constructor": 1,
-            "extends": "md-codelist"
+            "line": 6,
+            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nExtends md-codelist.\nAllows selection of multiple options."
         },
         "md-datetime": {
             "name": "md-datetime",
@@ -958,7 +963,7 @@
             "submodule": "components-object",
             "namespace": "",
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 17,
+            "line": 18,
             "description": "mdEditor class for input and edit of mdJSON 'onlineResource' object\narrays.\nThe class manages the maintenance of an array of online resource\nobjects using the md-object-table class."
         },
         "md-phone-array": {
@@ -1540,7 +1545,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 23,
+            "line": 20,
             "description": "The name of the mdCodes's codelist to use",
             "itemtype": "property",
             "name": "mdCodeName",
@@ -1552,7 +1557,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 31,
+            "line": 28,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
             "itemtype": "property",
             "name": "valuePath",
@@ -1565,7 +1570,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 41,
+            "line": 38,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option name or display text.",
             "itemtype": "property",
             "name": "namePath",
@@ -1578,7 +1583,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 52,
+            "line": 49,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's tooltip.  If null, no tooltip will be\ngenerated.",
             "itemtype": "property",
             "name": "tooltipPath",
@@ -1590,7 +1595,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 63,
+            "line": 60,
             "description": "Initial value, returned value.",
             "itemtype": "property",
             "name": "value",
@@ -1605,7 +1610,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 72,
+            "line": 69,
             "description": "Whether to render a button to clear the selection.",
             "itemtype": "property",
             "name": "allowClear",
@@ -1617,7 +1622,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 81,
+            "line": 78,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -1629,7 +1634,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 90,
+            "line": 87,
             "description": "Form label for select list",
             "itemtype": "property",
             "name": "label",
@@ -1641,7 +1646,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 117,
+            "line": 114,
             "description": "mapped is a re-mapped array of code objects.\nThe initial codelist for 'mdCodeName' is provided by the 'codelist' service.",
             "itemtype": "property",
             "name": "mapped",
@@ -1658,7 +1663,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 152,
+            "line": 149,
             "description": "If a value is provided by the user which is not in the codelist and 'create=true'\nthe new value will be added into the codelist array",
             "itemtype": "property",
             "name": "codelist",
@@ -1675,7 +1680,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 180,
+            "line": 177,
             "description": "Creates a new codelist entry with a randomly generated code identifier.",
             "itemtype": "method",
             "name": "createCode",
@@ -1696,7 +1701,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 195,
+            "line": 192,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -1713,7 +1718,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 22,
+            "line": 19,
             "description": "Initial value, returned value.\nAccepts an Array of strings.\n\nExample: `[\"foo\",\"bar\"]`",
             "itemtype": "property",
             "name": "value",
@@ -1728,7 +1733,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 34,
+            "line": 31,
             "description": "The multiple property for power-select-with-create",
             "itemtype": "property",
             "name": "multiple",
@@ -1742,7 +1747,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 44,
+            "line": 41,
             "description": "The component to render",
             "itemtype": "property",
             "name": "theComponent",
@@ -1756,7 +1761,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 56,
+            "line": 53,
             "description": "Whether to close the selection list after a selection has been made.",
             "itemtype": "property",
             "name": "closeOnSelect",
@@ -1768,7 +1773,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 65,
+            "line": 62,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -1780,7 +1785,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 74,
+            "line": 71,
             "description": "The currently selected item in the codelist",
             "itemtype": "property",
             "name": "selectedItem",
@@ -1794,7 +1799,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 93,
+            "line": 90,
             "description": "If a value is provided by the user which is not in the codelist and 'create=true'\nthe new value will be added into the codelist array",
             "itemtype": "property",
             "name": "codelist",
@@ -1808,7 +1813,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist-multi/component.js",
-            "line": 122,
+            "line": 119,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -3011,7 +3016,7 @@
         {
             "file": "app/pods/components/object/md-object-table/component.js",
             "line": 69,
-            "description": "The path of template to render in the table preview for each row.",
+            "description": "The path of template to render in the table preview for each row.\nTemplate content will be wrapped in a `<td>` element.",
             "itemtype": "property",
             "name": "previewTemplate",
             "type": "{String}",
@@ -3023,7 +3028,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 78,
+            "line": 79,
             "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n  foo: null,\n  bar: Ember.A()\n }\n ```",
             "itemtype": "property",
             "name": "templateClass",
@@ -3037,7 +3042,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 96,
+            "line": 97,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -3049,8 +3054,8 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 105,
-            "description": "Inital collapse state fo the panel.",
+            "line": 106,
+            "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
             "type": "{Boolean}",
@@ -3061,7 +3066,19 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 113,
+            "line": 114,
+            "description": "True to truncate the preview table cell text.",
+            "itemtype": "property",
+            "name": "ellipsis",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-object-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 122,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -3078,8 +3095,19 @@
             "submodule": "components-object"
         },
         {
+            "file": "app/pods/components/object/md-online-resource/component.js",
+            "line": 14,
+            "description": "Display the image picker and preview",
+            "itemtype": "property",
+            "name": "imagePicker",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-online-resource-array",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 29,
+            "line": 30,
             "description": "mdJSON object containing the 'onlineResource' array.",
             "itemtype": "property",
             "name": "model",
@@ -3091,7 +3119,19 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 37,
+            "line": 38,
+            "description": "Display the image picker and preview",
+            "itemtype": "property",
+            "name": "imagePicker",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-online-resource-array",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 46,
             "description": "List of mdJSON 'onlineResource' object attributes to display in\nmd-object-table to aid in choosing the onlineResource to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "attributes",
@@ -3103,12 +3143,30 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 49,
+            "line": 58,
             "description": "Name to place on the mdEditor panel header for entry and edit of\n'onlineResource' objects.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "label",
             "type": "String",
             "default": "'Online Resource'",
+            "class": "md-online-resource-array",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 69,
+            "description": "The template to use for the preview table rows. If not overridden, will use\nthe `md-image-preview` template if `imagePicker = true`.",
+            "itemtype": "property",
+            "name": "previewTemplate",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "imagePicker"
+            ],
             "class": "md-online-resource-array",
             "module": "mdeditor",
             "submodule": "components-object"

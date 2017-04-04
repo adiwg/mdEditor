@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/977c4382" target="_blank">
-                                  Tag: 0.0.0.977c4382
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/9226bdd6" target="_blank">
+                                  Tag: 0.0.0.9226bdd6
                                 </a>
                             </h4>
                         </div>
@@ -267,6 +267,7 @@ export default Component.extend(Template,{
 
   /**
    * The path of template to render in the table preview for each row.
+   * Template content will be wrapped in a &#x60;&lt;td&gt;&#x60; element.
    *
    * @property previewTemplate
    * @type {String}
@@ -302,9 +303,17 @@ export default Component.extend(Template,{
   buttonText: &quot;Add&quot;,
 
   /**
-   * Inital collapse state fo the panel.
+   * Inital collapse state for the panel.
    *
    * @property isCollapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * True to truncate the preview table cell text.
+   *
+   * @property ellipsis
    * @type {Boolean}
    * @default undefined
    */

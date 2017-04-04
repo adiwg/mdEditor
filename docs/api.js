@@ -50,7 +50,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components-input",
             "name": "components-input",
-            "description": "Components used to input scalar or arrays of scalar values."
+            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nAccess to codelists is provided by the 'codelist' service.\nDescriptions of all codes (tooltips) are embedded within the codelists."
         },
         {
             "displayName": "components-object",
