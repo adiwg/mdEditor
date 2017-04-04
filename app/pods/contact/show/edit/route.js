@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import ModelHash from 'mdeditor/mixins/model-hash';
+//import ModelHash from 'mdeditor/mixins/model-hash';
 
 const {
   inject,
   Route,
   get,
-  set,
+  //set,
   copy
 } = Ember;
 
@@ -24,9 +24,9 @@ export default Route.extend( {
       model
         .save()
         .then(() => {
-          let target = model.get('json');
+          //let target = model.get('json');
 
-          set(this, 'modelHash', this.hashObject(target));
+          //set(this, 'modelHash', this.hashObject(target));
           get(this, 'flashMessages')
             .success(`Saved Contact: ${model.get('title')}`);
 

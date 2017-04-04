@@ -1,7 +1,8 @@
 import Ember from 'ember';
 
 const {
-  A
+  A,
+  computed
 } = Ember;
 
 export default Ember.Component.extend({
@@ -35,6 +36,14 @@ export default Ember.Component.extend({
    */
 
   /**
+   * Display the image picker and preview
+   *
+   * @property imagePicker
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
    * List of mdJSON 'onlineResource' object attributes to display in
    * md-object-table to aid in choosing the onlineResource to edit or
    * delete.
@@ -55,5 +64,20 @@ export default Ember.Component.extend({
    * @type String
    * @default 'Online Resource'
    */
-  label: 'Online Resource'
+  label: 'Online Resource',
+
+  /**
+   * The template to use for the preview table rows. If not overridden, will use
+   * the `md-image-preview` template if `imagePicker = true`.
+   *
+   * @property previewTemplate
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires imagePicker
+   */
+  previewTemplate: computed('imagePicker', function () {
+    return this.get('imagePicker') ?
+      "object/md-online-resource-array/md-image-preview" : null;
+  })
 });

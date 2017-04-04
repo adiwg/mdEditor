@@ -27,3 +27,28 @@
     animation: fp-pulse 1.5s infinite;
   }
 }
+
+.md-online-resource {
+  .md-file-picker {
+    margin: 1em;
+
+    button {
+      font-size: 1.1em;
+      min-height: 100px;
+
+      @media (min-width: $grid-float-breakpoint) {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .md-preview-image {
+    line-height: 100px;
+    margin: 1em;
+
+    img {
+      margin: auto;
+      max-height: 100px;
+    }
+  }
+}

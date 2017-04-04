@@ -2,11 +2,13 @@
   items=model
   header=label
   buttonText="Add Resource"
+  ellipsis=ellipsis
+  previewTemplate=previewTemplate
   attributes=attributes as |editing|
 }}
     Editing: {{editing.name}}
 
-    {{object/md-online-resource model=editing}}
+    {{object/md-online-resource imagePicker=imagePicker model=editing}}
 
 {{/object/md-object-table}}
 {{yield}}

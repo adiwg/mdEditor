@@ -68,6 +68,7 @@ export default Component.extend(Template,{
 
   /**
    * The path of template to render in the table preview for each row.
+   * Template content will be wrapped in a `<td>` element.
    *
    * @property previewTemplate
    * @type {String}
@@ -103,9 +104,17 @@ export default Component.extend(Template,{
   buttonText: "Add",
 
   /**
-   * Inital collapse state fo the panel.
+   * Inital collapse state for the panel.
    *
    * @property isCollapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * True to truncate the preview table cell text.
+   *
+   * @property ellipsis
    * @type {Boolean}
    * @default undefined
    */

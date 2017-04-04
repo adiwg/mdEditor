@@ -57,6 +57,8 @@ export default Component.extend({
    */
   buttonText: 'Add Graphic',
 
+  previewTemplate: 'object/md-graphic-array/md-graphic-preview',
+
   templateClass: Ember.Object.extend({
     init() {
       this.set('fileConstraint', A());

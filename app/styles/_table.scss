@@ -31,4 +31,26 @@
   td {
     vertical-align: middle;
   }
+
+  &.ellipsis {
+    td.property {
+      max-width: 15vw;
+
+      div.wrap {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.md-object-table {
+  .md-preview-image img {
+    max-height: 100px;
+  }
+
+  .md-logo-preview {
+    max-height: 50px;
+  }
 }
