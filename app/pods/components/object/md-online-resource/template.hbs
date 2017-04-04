@@ -1,0 +1,33 @@
+{{input/md-input value=model.name label="Name" placeholder="Online Resource Name"}}
+
+{{input/md-input type="url" required=true value=model.uri label="URI" placeholder="Online Resource URI"}}
+
+<div class="row">
+  <div class="col-sm-6">
+    {{#file-picker class="md-file-picker"
+      fileLoaded="handleFile"
+      preview=false
+      accept=".jpeg,.jpg,.png,.gif,.svg"
+      readAs="readAsDataURL"
+    }}
+      <button type="button" class="btn btn-lg btn-info btn-block">
+        {{fa-icon "bullseye"}} Click or Drop a File Here to Import Data
+      </button>
+    {{/file-picker}}
+  </div>
+  <div class="col-md-6 text-center">
+    <img src="{{model.uri}}" class="img-responsive" alt="Image Preview">
+  </div>
+</div>
+
+{{input/md-input value=model.protocol
+label="Protocol" placeholder="Protocol for accessing the Online Resource"}}
+
+{{input/md-textarea maxlength=500 value=model.description label="Description"
+placeholder="Description of the Online Resource: Less than 500 characters"}}
+
+{{input/md-codelist value=model.function mdCodeName="onlineFunction"
+label="Function" placeholder="Select function of the Online Resource"
+tooltip=true allowClear=true width="70%"}}
+
+{{yield}}

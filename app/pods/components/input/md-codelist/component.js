@@ -1,8 +1,3 @@
-/**
- * @module mdeditor
- * @submodule components-input
- */
-
 import Ember from 'ember';
 import Select from '../md-select/component';
 
@@ -15,6 +10,8 @@ export default Select.extend({
    * Access to codelists is provided by the 'codelist' service.
    * Descriptions of all codes (tooltips) are embedded within the codelists.
    *
+   * @module mdeditor
+   * @submodule components-input
    * @class md-codelist
    * @constructor
    * @extends md-select
