@@ -69,7 +69,7 @@ export default Select.extend({
    * @default 'namePath'
    * @readOnly
    */
-  namePath: 'name',
+  namePath: 'title',
 
   /**
    * The contact type to display in the list. Choices are `organizations` or
@@ -90,15 +90,41 @@ export default Select.extend({
    * @category computed
    * @requires contacts.[]
    */
-  mdCodes: computed('contacts.organizations.[]', 'filterId.[]', function () {
+  mdCodes: computed('contacts.organizations.[]', function () {
     let type = this.get('contactType');
 
-    return Ember.Object.create({
-      contacts: Ember.Object.create({
-        codelist: this.get('contacts')
-          .get(type)
-          .mapBy('json')
-      })
+    return this.get('contacts')
+      .get(type);
+  }),
+
+  /**
+   * mapped is a re-mapped array of code objects.
+   * The initial codelist for 'mdCodeName' is provided by the 'codelist' service.
+   *
+   * @property mapped
+   * @type {Array}
+   * @category computed
+   * @requires mdCodeName
+   */
+  mapped: Ember.computed('mdCodes.[]', 'filterId', function() {
+    //let codeId = this.get('valuePath');
+    let codeName = this.get('namePath');
+    //let tooltip = this.get('tooltipPath');
+    let codelist = [];
+    let icons = this.get('icons');
+    let defaultIcon = this.get('defaultIcon');
+    let mdCodelist = this.get('mdCodes').sortBy('title');
+
+    mdCodelist.forEach(function(item) {
+      let newObject = Ember.Object.create({
+        codeId: item.get('contactId'),
+        codeName: item.get('title'),
+        tooltip: item.get('combinedName'),
+        icon: icons.get(codeName) || icons.get(defaultIcon)
+      });
+      codelist.pushObject(newObject);
     });
+
+    return codelist;
   })
 });

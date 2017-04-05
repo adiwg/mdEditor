@@ -31,7 +31,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @required
    */
   json: DS.attr('json', {
-    defaultValue: function () {
+    defaultValue: function() {
       let obj = Ember.Object.create({
         'contactId': uuidV4(),
         'isOrganization': false,
@@ -66,6 +66,9 @@ export default DS.Model.extend(Ember.Copyable, {
     }
   }),
 
+  name: Ember.computed.alias('json.name'),
+  contactId: Ember.computed.alias('json.contactId'),
+
   /**
    * The formatted display string for the contact
    *
@@ -76,7 +79,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @requires json.name, json.positionName
    */
   title: Ember.computed('json.name', 'json.positionName',
-    function () {
+    function() {
       const json = this.get('json');
 
       return json.name || (json.isOrganization ? null : json.positionName);
@@ -123,7 +126,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @requires json.isOrganization
    */
   type: Ember.computed('json.isOrganization',
-    function () {
+    function() {
       return this.get('json.isOrganization') ? 'Organization' :
         'Individual';
     }),
@@ -138,7 +141,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @requires json.isOrganization
    */
   icon: Ember.computed('json.isOrganization',
-    function () {
+    function() {
       const name = this.get('json.isOrganization');
 
       return name ? 'users' : 'user';
@@ -155,7 +158,7 @@ export default DS.Model.extend(Ember.Copyable, {
    */
   combinedName: Ember.computed('json.name', 'json.isOrganization',
     'json.positionName',
-    function () {
+    function() {
       const json = this.get('json');
 
       let {
@@ -170,16 +173,14 @@ export default DS.Model.extend(Ember.Copyable, {
       let combinedName = name || positionName;
       let orgName;
 
-      if(orgId) {
-        this.get('store')
-          .findRecord('contact', orgId)
-          .then(function (org) {
-            orgName = org.name;
-          });
+      if (orgId) {
+        let contacts = this.get('store').peekAll('contact');
+        let org = contacts.findBy('json.contactId', orgId);
+        orgName = org.name;
       }
 
-      if(orgName && !isOrganization) {
-        return combinedName += ": " + combinedName;
+      if (orgName && !isOrganization) {
+        return orgName += ": " + combinedName;
       }
 
       return combinedName;
@@ -194,9 +195,9 @@ export default DS.Model.extend(Ember.Copyable, {
    * @category computed
    * @requires json.contactId
    */
-  shortId: Ember.computed('json.contactId', function () {
+  shortId: Ember.computed('json.contactId', function() {
     const contactId = this.get('json.contactId');
-    if(contactId && Validator.isUUID(contactId)) {
+    if (contactId && Validator.isUUID(contactId)) {
       return contactId.substring(0, 7) + '...';
     }
 
