@@ -21,20 +21,27 @@ export default Component.extend({
 
   actions: {
     handleFile(file) {
-      //console.info(file);
-      let model = this.get('model');
-
-      set(model, 'name', file.name);
-      set(model, 'uri', file.data);
-
-      if(file.size > 25000) {
+      if (file.size > 50000) {
         get(this, 'flashMessages')
-          .warning(
-            `The image exceeded the recommended size of 25KB: ${file.size} bytes`
+          .danger(
+            `The image exceeded the maximum size of 50KB: ${file.size} bytes.
+            Please use an online URL to load the image.`
           );
+      }else{
+        let model = this.get('model');
+
+        set(model, 'name', file.name);
+        set(model, 'uri', file.data);
+
+        if (file.size > 25000) {
+          get(this, 'flashMessages')
+            .warning(
+              `The image exceeded the recommended size of 25KB: ${file.size} bytes`
+            );
+        }
+        //reset the input field
+        //this.$('.import-file-picker input:file').val('');
       }
-      //reset the input field
-      //this.$('.import-file-picker input:file').val('');
     }
   }
 });
