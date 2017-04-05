@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/9226bdd6" target="_blank">
-                                  Tag: 0.0.0.9226bdd6
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/46c8d33b" target="_blank">
+                                  Tag: 0.0.0.46c8d33b
                                 </a>
                             </h4>
                         </div>
@@ -230,7 +230,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @required
    */
   json: DS.attr(&#x27;json&#x27;, {
-    defaultValue: function () {
+    defaultValue: function() {
       let obj = Ember.Object.create({
         &#x27;contactId&#x27;: uuidV4(),
         &#x27;isOrganization&#x27;: false,
@@ -265,6 +265,9 @@ export default DS.Model.extend(Ember.Copyable, {
     }
   }),
 
+  name: Ember.computed.alias(&#x27;json.name&#x27;),
+  contactId: Ember.computed.alias(&#x27;json.contactId&#x27;),
+
   /**
    * The formatted display string for the contact
    *
@@ -275,7 +278,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @requires json.name, json.positionName
    */
   title: Ember.computed(&#x27;json.name&#x27;, &#x27;json.positionName&#x27;,
-    function () {
+    function() {
       const json = this.get(&#x27;json&#x27;);
 
       return json.name || (json.isOrganization ? null : json.positionName);
@@ -322,7 +325,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @requires json.isOrganization
    */
   type: Ember.computed(&#x27;json.isOrganization&#x27;,
-    function () {
+    function() {
       return this.get(&#x27;json.isOrganization&#x27;) ? &#x27;Organization&#x27; :
         &#x27;Individual&#x27;;
     }),
@@ -337,7 +340,7 @@ export default DS.Model.extend(Ember.Copyable, {
    * @requires json.isOrganization
    */
   icon: Ember.computed(&#x27;json.isOrganization&#x27;,
-    function () {
+    function() {
       const name = this.get(&#x27;json.isOrganization&#x27;);
 
       return name ? &#x27;users&#x27; : &#x27;user&#x27;;
@@ -354,7 +357,7 @@ export default DS.Model.extend(Ember.Copyable, {
    */
   combinedName: Ember.computed(&#x27;json.name&#x27;, &#x27;json.isOrganization&#x27;,
     &#x27;json.positionName&#x27;,
-    function () {
+    function() {
       const json = this.get(&#x27;json&#x27;);
 
       let {
@@ -369,16 +372,14 @@ export default DS.Model.extend(Ember.Copyable, {
       let combinedName = name || positionName;
       let orgName;
 
-      if(orgId) {
-        this.get(&#x27;store&#x27;)
-          .findRecord(&#x27;contact&#x27;, orgId)
-          .then(function (org) {
-            orgName = org.name;
-          });
+      if (orgId) {
+        let contacts = this.get(&#x27;store&#x27;).peekAll(&#x27;contact&#x27;);
+        let org = contacts.findBy(&#x27;json.contactId&#x27;, orgId);
+        orgName = org.name;
       }
 
-      if(orgName &amp;&amp; !isOrganization) {
-        return combinedName += &quot;: &quot; + combinedName;
+      if (orgName &amp;&amp; !isOrganization) {
+        return orgName += &quot;: &quot; + combinedName;
       }
 
       return combinedName;
@@ -393,9 +394,9 @@ export default DS.Model.extend(Ember.Copyable, {
    * @category computed
    * @requires json.contactId
    */
-  shortId: Ember.computed(&#x27;json.contactId&#x27;, function () {
+  shortId: Ember.computed(&#x27;json.contactId&#x27;, function() {
     const contactId = this.get(&#x27;json.contactId&#x27;);
-    if(contactId &amp;&amp; Validator.isUUID(contactId)) {
+    if (contactId &amp;&amp; Validator.isUUID(contactId)) {
       return contactId.substring(0, 7) + &#x27;...&#x27;;
     }
 

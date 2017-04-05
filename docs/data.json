@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.9226bdd6",
+        "version": "0.0.0.46c8d33b",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1166,7 +1166,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 69,
+            "line": 72,
             "description": "The formatted display string for the contact",
             "itemtype": "property",
             "name": "title",
@@ -1185,7 +1185,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 116,
+            "line": 119,
             "description": "The type of contact",
             "itemtype": "property",
             "name": "type",
@@ -1203,7 +1203,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 131,
+            "line": 134,
             "description": "The display icon for the contact",
             "itemtype": "property",
             "name": "icon",
@@ -1221,7 +1221,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 147,
+            "line": 150,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -1240,7 +1240,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 188,
+            "line": 189,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1258,7 +1258,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 206,
+            "line": 207,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -2506,6 +2506,23 @@
             ],
             "requires": [
                 "contacts.[]"
+            ],
+            "class": "md-select-contact",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contact/component.js",
+            "line": 100,
+            "description": "mapped is a re-mapped array of code objects.\nThe initial codelist for 'mdCodeName' is provided by the 'codelist' service.",
+            "itemtype": "property",
+            "name": "mapped",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "mdCodeName"
             ],
             "class": "md-select-contact",
             "module": "mdeditor",
