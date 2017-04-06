@@ -1,7 +1,9 @@
 <div class="row page-header">
     <div class="col-sm-9 col-md-offset-1">
-      <h2>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small></h2>
-      {{if model.hasDirtyAttributes "dirty"}} {{model.dateUpdated}}
+      <h2>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
+        <span class="text-danger">{{if model.hasDirtyAttributes "*"}}</span>
+      </h2>
+
     </div>
 </div>
 <div class="row">
@@ -91,7 +93,8 @@
   isShowing = pausedTransition
   closeModal=(route-action "cancelTransition")
 }}
-  {{{routeWarning}}}
+  <strong>Warning</strong>: Changes have been made to this record! Clicking continue may
+  result in changes being lost.
   <div class="md-modal-buttons pull-right">
     <button type="button" class="btn btn-danger" {{action (route-action "confirmTransition")}}>Continue</button>
     <button type="button" class="btn btn-primary" {{action (route-action "cancelTransition")}}>Stay Here</button>
