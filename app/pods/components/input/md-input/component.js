@@ -6,8 +6,7 @@
 import Ember from 'ember';
 
 const {
-  Component,
-  computed
+  Component
 } = Ember;
 
 export default Component.extend({
@@ -17,6 +16,14 @@ export default Component.extend({
    * @class md-input
    * @constructor
    */
+
+  init() {
+    this._super(...arguments);
+
+    if (this.get('confirmEdit')) {
+      this.set('disabled', true);
+    }
+  },
 
   classNameBindings: ['label:form-group'],
 
@@ -111,21 +118,9 @@ export default Component.extend({
    */
   inputClass: 'form-control',
 
-  /**
-   * Whether the input is enabled based on disabled and confirmEdit state.
-   *
-   * @property notEnabled
-   * @type {Boolean}
-   * @readOnly
-   * @category computed
-   * @requires disabled, confirmEdit
-   */
-  notEnabled: computed('confirmEdit', 'disabled', function () {
-    return this.get('confirmEdit') || this.get('disabled');
-  }),
-
   actions: {
     allowEdit() {
+      this.set('disabled', false);
       this.set('confirmEdit', false);
     }
   }
