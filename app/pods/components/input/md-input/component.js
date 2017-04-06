@@ -1,8 +1,3 @@
-/**
- * @module mdeditor
- * @submodule components-input
- */
-
 import Ember from 'ember';
 
 const {
@@ -13,17 +8,11 @@ export default Component.extend({
   /**
    * Input, edit, display a single item
    *
+   * @module mdeditor
+   * @submodule components-input
    * @class md-input
    * @constructor
    */
-
-  init() {
-    this._super(...arguments);
-
-    if (this.get('confirmEdit')) {
-      this.set('disabled', true);
-    }
-  },
 
   classNameBindings: ['label:form-group'],
 
@@ -74,23 +63,6 @@ export default Component.extend({
   disabled: false,
 
   /**
-   * Whether the input disabled state is controlled by 'edit' button.
-   *
-   * @property confirmEdit
-   * @type Boolean
-   * @default false
-   */
-  confirmEdit: false,
-
-  /**
-   * Tootip for the confirm button.
-   *
-   * @property confirmTip
-   * @type String
-   * @default undefined
-   */
-
-  /**
    * Maximum number of characters for each input string.
    * If no maxlength is specified the length will not be restricted
    *
@@ -116,12 +88,5 @@ export default Component.extend({
    * @type String
    * @default 'form-control'
    */
-  inputClass: 'form-control',
-
-  actions: {
-    allowEdit() {
-      this.set('disabled', false);
-      this.set('confirmEdit', false);
-    }
-  }
+  inputClass: 'form-control'
 });

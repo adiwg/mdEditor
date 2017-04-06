@@ -1,0 +1,29 @@
+{{#if label}}<label>{{label}}</label>{{/if}}
+<div class="{{if disabled "input-group"}}">
+
+{{input
+  value=value
+  placeholder=placeholder
+  required=required
+  type=type
+  maxlength=maxlength
+  class=inputClass
+  disabled=isDisabled
+}}
+  {{#if disabled}}
+    <span class="input-group-btn">
+        {{#control/md-button-confirm
+          class="btn btn-warning"
+          onConfirm=(action "allowEdit")
+        }}
+            <span class="fa fa-pencil"></span> Edit
+            {{#if confirmTip}}
+              {{#tooltip-on-component enableLazyRendering=true}}
+                {{confirmTip}}
+              {{/tooltip-on-component}}
+            {{/if}}
+        {{/control/md-button-confirm}}
+    </span>
+  {{/if}}
+</div>
+{{yield}}
