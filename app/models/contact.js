@@ -66,6 +66,12 @@ export default DS.Model.extend(Ember.Copyable, {
     }
   }),
 
+  save() {
+    this.set('dateUpdated', new Date());
+
+    return this._super(...arguments);
+  },
+
   name: Ember.computed.alias('json.name'),
   contactId: Ember.computed.alias('json.contactId'),
 

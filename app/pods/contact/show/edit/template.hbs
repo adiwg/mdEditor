@@ -1,12 +1,13 @@
 <div class="row page-header">
     <div class="col-sm-9 col-md-offset-1">
       <h2>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small></h2>
+      {{if model.hasDirtyAttributes "dirty"}} {{model.dateUpdated}}
     </div>
 </div>
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
         <form>
-            {{input/md-input value=model.json.contactId confirmEdit=true
+            {{input/md-input-confirm value=model.json.contactId
               confirmTip="Note! Editing the Contact ID may break links. Be aware."
               placeholder="User assigned Contact ID" label="Contact ID"}}
 
@@ -86,14 +87,13 @@
 
 </div>
 
-{{!-- {{#control/md-modal
+{{#control/md-modal
   isShowing = pausedTransition
   closeModal=(route-action "cancelTransition")
-  target="body"
 }}
   {{{routeWarning}}}
   <div class="md-modal-buttons pull-right">
     <button type="button" class="btn btn-danger" {{action (route-action "confirmTransition")}}>Continue</button>
     <button type="button" class="btn btn-primary" {{action (route-action "cancelTransition")}}>Stay Here</button>
   </div>
-{{/control/md-modal}} --}}
+{{/control/md-modal}}

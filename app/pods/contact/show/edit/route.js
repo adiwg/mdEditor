@@ -1,15 +1,14 @@
 import Ember from 'ember';
-//import ModelHash from 'mdeditor/mixins/model-hash';
+import ModelHash from 'mdeditor/mixins/model-hash';
 
 const {
   inject,
   Route,
   get,
-  //set,
   copy
 } = Ember;
 
-export default Route.extend( {
+export default Route.extend(ModelHash, {
   flashMessages: inject.service(),
 
   renderTemplate() {
@@ -21,12 +20,12 @@ export default Route.extend( {
   actions: {
     saveContact: function () {
       let model = this.currentModel;
+
+      //model.set('dateUpdated', new Date());
       model
         .save()
         .then(() => {
-          //let target = model.get('json');
-
-          //set(this, 'modelHash', this.hashObject(target));
+          //this.refresh();
           get(this, 'flashMessages')
             .success(`Saved Contact: ${model.get('title')}`);
 
@@ -47,10 +46,14 @@ export default Route.extend( {
 
     cancelContact: function () {
       let model = this.currentModel;
+
+      this.set('checkHash', false);
       model
         .reload()
         .then(() => {
-          this.refresh();
+          this.set('checkHash', true);
+          this.setModelHash();
+          //this.refresh();
           get(this, 'flashMessages')
             .warning(
               `Cancelled changes to Contact: ${model.get('title')}`);
@@ -64,22 +67,5 @@ export default Route.extend( {
         .success(`Copied Contact: ${this.currentModel.get('title')}`);
       this.transitionTo('contact.new.id', copy(this.currentModel));
     }
-
-    // updateRelations(contact, value) {
-    //   console.info(arguments);
-    //   let organizations = contact.get('organizations')
-    //     .clear();
-    //   let store = this.get('store');
-    //
-    //   if(isArray(value)) {
-    //     value.forEach(function (id) {
-    //       store.queryRecord('contact', {
-    //         contactId: id
-    //       }).then(function(rec){
-    //         organizations.pushObject(rec);
-    //       });
-    //     });
-    //   }
-    // }
   }
 });

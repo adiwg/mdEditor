@@ -2,17 +2,10 @@ import Ember from 'ember';
 import hash from 'npm:object-hash';
 
 const {
-  Mixin
+  Mixin, set
 } = Ember;
 
 export default Mixin.create({
-  /**
-   * The hash for the clean model.
-   *
-   * @property modelHash
-   * @type {String}
-   */
-
   afterModel(model) {
     this._super(...arguments);
 
@@ -22,12 +15,34 @@ export default Mixin.create({
   },
 
   /**
+   * The hash for the clean model.
+   *
+   * @property modelHash
+   * @type {String}
+   */
+
+  /**
+   * Whether to compare the model hash on transition.
+   *
+   * @property checkHash
+   * @type {Boolean}
+   * @default true
+   */
+  checkHash: true,
+
+  setModelHash(model) {
+    let target = model || this.currentModel.get('json');
+
+    set(this, 'modelHash', this.hashObject(target));
+  },
+
+  /**
    * Computed a hash for the target object.
    *
    * @param  {Object} target    The object to hash
-   * @param  {Boolean} parse If true, the object will be passed through
-   *                              JSON.parse before being hashed
-   * @return {String}            The hash
+   * @param  {Boolean} parse    If true, the object will be passed through
+   *                            JSON.parse before being hashed
+   * @return {String}           The hash
    */
   hashObject(target, parse) {
     let toHash = parse ? JSON.parse(target) : target;
@@ -35,26 +50,41 @@ export default Mixin.create({
     return hash(toHash);
   },
 
-  compareHash: function () {
+  compareHash: function() {
+    if (this.currentModel.get('hasDirtyAttributes')) {
+      return false;
+    }
+
     let oldHash = this.get('modelHash');
     let newHash = this.hashObject(JSON.stringify(this.currentModel.get(
       'json')), true);
 
-    return oldHash === newHash;
+    if (oldHash === newHash && !this.currentModel.get('hasDirtyAttributes')) {
+      return true;
+    }
 
+    this.currentModel.send('becomeDirty');
+    return false;
   },
 
   actions: {
     confirmTransition() {
+      let me = this;
+
+      this.toggleProperty('checkHash');
       this.controller.get('pausedTransition')
-        .retry();
+        .retry().then(() => {
+          me.toggleProperty('checkHash');
+        });
     },
     cancelTransition() {
       this.controller
-        .set('pausedTransition', false);
+        .set('pausedTransition', null);
     },
     willTransition(transition) {
-      if(this.routeName === transition.targetName || this.compareHash()) {
+      if (!this.get('checkHash') || this.compareHash()) {
+        this.controller
+          .set('pausedTransition', null);
         return true;
       } else {
         transition.abort();
