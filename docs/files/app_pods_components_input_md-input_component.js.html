@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/46c8d33b" target="_blank">
-                                  Tag: 0.0.0.46c8d33b
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1b592ca7" target="_blank">
+                                  Tag: 0.0.0.1b592ca7
                                 </a>
                             </h4>
                         </div>
@@ -135,6 +135,9 @@
                                         <a href="../classes/md-input.html">md-input</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-input-confirm.html">md-input-confirm</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
@@ -197,22 +200,18 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * @module mdeditor
- * @submodule components-input
- */
-
 import Ember from &#x27;ember&#x27;;
 
 const {
-  Component,
-  computed
+  Component
 } = Ember;
 
 export default Component.extend({
   /**
    * Input, edit, display a single item
    *
+   * @module mdeditor
+   * @submodule components-input
    * @class md-input
    * @constructor
    */
@@ -266,23 +265,6 @@ export default Component.extend({
   disabled: false,
 
   /**
-   * Whether the input disabled state is controlled by &#x27;edit&#x27; button.
-   *
-   * @property confirmEdit
-   * @type Boolean
-   * @default false
-   */
-  confirmEdit: false,
-
-  /**
-   * Tootip for the confirm button.
-   *
-   * @property confirmTip
-   * @type String
-   * @default undefined
-   */
-
-  /**
    * Maximum number of characters for each input string.
    * If no maxlength is specified the length will not be restricted
    *
@@ -308,26 +290,7 @@ export default Component.extend({
    * @type String
    * @default &#x27;form-control&#x27;
    */
-  inputClass: &#x27;form-control&#x27;,
-
-  /**
-   * Whether the input is enabled based on disabled and confirmEdit state.
-   *
-   * @property notEnabled
-   * @type {Boolean}
-   * @readOnly
-   * @category computed
-   * @requires disabled, confirmEdit
-   */
-  notEnabled: computed(&#x27;confirmEdit&#x27;, &#x27;disabled&#x27;, function () {
-    return this.get(&#x27;confirmEdit&#x27;) || this.get(&#x27;disabled&#x27;);
-  }),
-
-  actions: {
-    allowEdit() {
-      this.set(&#x27;confirmEdit&#x27;, false);
-    }
-  }
+  inputClass: &#x27;form-control&#x27;
 });
 
     </pre>

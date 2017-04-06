@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.46c8d33b",
+        "version": "0.0.0.1b592ca7",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -112,6 +112,15 @@
             "modules": {},
             "classes": {
                 "md-input": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-input-confirm/component.js": {
+            "name": "app/pods/components/input/md-input-confirm/component.js",
+            "modules": {},
+            "classes": {
+                "md-input-confirm": 1
             },
             "fors": {},
             "namespaces": {}
@@ -419,6 +428,7 @@
                 "md-codelist-multi": 1,
                 "md-datetime": 1,
                 "md-input": 1,
+                "md-input-confirm": 1,
                 "md-inputs": 1,
                 "md-select": 1,
                 "md-select-contact": 1,
@@ -521,6 +531,7 @@
                 "md-codelist-multi": 1,
                 "md-datetime": 1,
                 "md-input": 1,
+                "md-input-confirm": 1,
                 "md-inputs": 1,
                 "md-select": 1,
                 "md-select-contact": 1,
@@ -788,8 +799,23 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 14,
+            "line": 8,
+            "description": "Input, edit, display a single item"
+        },
+        "md-input-confirm": {
+            "name": "md-input-confirm",
+            "shortname": "md-input-confirm",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/input/md-input-confirm/component.js",
+            "line": 5,
             "description": "Input, edit, display a single item",
+            "submodule": "components-input",
             "is_constructor": 1
         },
         "md-inputs": {
@@ -1089,7 +1115,7 @@
     "classitems": [
         {
             "file": "app/mixins/model-hash.js",
-            "line": 9,
+            "line": 17,
             "description": "The hash for the clean model.",
             "itemtype": "property",
             "name": "modelHash",
@@ -1099,6 +1125,16 @@
         {
             "file": "app/mixins/model-hash.js",
             "line": 24,
+            "description": "Whether to compare the model hash on transition.",
+            "itemtype": "property",
+            "name": "checkHash",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "object-template"
+        },
+        {
+            "file": "app/mixins/model-hash.js",
+            "line": 39,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1108,7 +1144,7 @@
                 },
                 {
                     "name": "parse",
-                    "description": "If true, the object will be passed through\n                             JSON.parse before being hashed",
+                    "description": "If true, the object will be passed through\n                           JSON.parse before being hashed",
                     "type": "Boolean"
                 }
             ],
@@ -1166,7 +1202,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 72,
+            "line": 78,
             "description": "The formatted display string for the contact",
             "itemtype": "property",
             "name": "title",
@@ -1185,7 +1221,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 119,
+            "line": 125,
             "description": "The type of contact",
             "itemtype": "property",
             "name": "type",
@@ -1203,7 +1239,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 134,
+            "line": 140,
             "description": "The display icon for the contact",
             "itemtype": "property",
             "name": "icon",
@@ -1221,7 +1257,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 150,
+            "line": 156,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -1240,7 +1276,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 189,
+            "line": 195,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1258,7 +1294,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 207,
+            "line": 213,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -1893,7 +1929,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 23,
+            "line": 19,
             "description": "Value of the input.\nValue sets the initial value and returns the edited result",
             "itemtype": "property",
             "name": "value",
@@ -1905,7 +1941,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 32,
+            "line": 28,
             "description": "Type of data represented by the value string.\nHTML5 types may be specified ('text', 'number', etc.)",
             "itemtype": "property",
             "name": "type",
@@ -1917,7 +1953,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 42,
+            "line": 38,
             "description": "The form label to display",
             "itemtype": "property",
             "name": "label",
@@ -1929,7 +1965,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 51,
+            "line": 47,
             "description": "Whether a value is required",
             "itemtype": "property",
             "name": "required",
@@ -1941,7 +1977,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 60,
+            "line": 56,
             "description": "Whether a input is disabled",
             "itemtype": "property",
             "name": "disabled",
@@ -1953,31 +1989,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 69,
-            "description": "Whether the input disabled state is controlled by 'edit' button.",
-            "itemtype": "property",
-            "name": "confirmEdit",
-            "type": "Boolean",
-            "default": "false",
-            "class": "md-input",
-            "module": "mdeditor",
-            "submodule": "components-input"
-        },
-        {
-            "file": "app/pods/components/input/md-input/component.js",
-            "line": 78,
-            "description": "Tootip for the confirm button.",
-            "itemtype": "property",
-            "name": "confirmTip",
-            "type": "String",
-            "default": "undefined",
-            "class": "md-input",
-            "module": "mdeditor",
-            "submodule": "components-input"
-        },
-        {
-            "file": "app/pods/components/input/md-input/component.js",
-            "line": 86,
+            "line": 65,
             "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
             "itemtype": "property",
             "name": "maxlength",
@@ -1989,7 +2001,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 96,
+            "line": 75,
             "description": "Text displayed in empty inputs",
             "itemtype": "property",
             "name": "placeholder",
@@ -2001,31 +2013,12 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 105,
+            "line": 84,
             "description": "CSS class to set on the input control",
             "itemtype": "property",
             "name": "class",
             "type": "String",
             "default": "'form-control'",
-            "class": "md-input",
-            "module": "mdeditor",
-            "submodule": "components-input"
-        },
-        {
-            "file": "app/pods/components/input/md-input/component.js",
-            "line": 114,
-            "description": "Whether the input is enabled based on disabled and confirmEdit state.",
-            "itemtype": "property",
-            "name": "notEnabled",
-            "type": "{Boolean}",
-            "readonly": "",
-            "category": [
-                "computed"
-            ],
-            "requires": [
-                "disabled",
-                "confirmEdit"
-            ],
             "class": "md-input",
             "module": "mdeditor",
             "submodule": "components-input"
@@ -3525,7 +3518,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/mixins/model-hash.js:24"
+            "line": " app/mixins/model-hash.js:39"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

@@ -12,6 +12,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-datetime",
         "md-graphic-array",
         "md-input",
+        "md-input-confirm",
         "md-inputs",
         "md-object-table",
         "md-online-resource-array",
