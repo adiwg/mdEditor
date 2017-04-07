@@ -2,11 +2,17 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 export default DS.Model.extend({
+  init(){
+    this.get('hasDirtyAttributes');
+  },
   compressOnSave: DS.attr('boolean', {
     defaultValue: true
   }),
   showSplash: DS.attr('boolean', {
     defaultValue: true
+  }),
+  autoSave: DS.attr('boolean', {
+    defaultValue: false
   }),
   lastVersion: DS.attr('string', {
     defaultValue: ''
@@ -16,9 +22,11 @@ export default DS.Model.extend({
       return new Date();
     }
   }),
-  updateSettings: Ember.observer('compressOnSave','showSplash', function(){
-    Ember.run.once(this, function(){
-      this.save();
-    });
-  }),
+  updateSettings: Ember.observer('hasDirtyAttributes', function() {
+    if (this.get('hasDirtyAttributes')) {
+      Ember.run.once(this, function() {
+        this.save();
+      });
+    }
+  })
 });

@@ -71,6 +71,7 @@
     "ember-modal-dialog": "^0.9.0",
     "ember-models-table": "1.11.0",
     "ember-multiselect-checkboxes": "^0.10.2",
+    "ember-pollboy": "0.6.1",
     "ember-power-select-with-create": "0.2.6",
     "ember-resize": "^0.0.17",
     "ember-resolver": "^2.0.3",

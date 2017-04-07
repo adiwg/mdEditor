@@ -3,10 +3,13 @@ import hash from 'npm:object-hash';
 
 const {
   Mixin,
-  set
+  set,
+  inject
 } = Ember;
 
 export default Mixin.create({
+  settings: inject.service(),
+
   afterModel(model) {
     this._super(...arguments);
 
@@ -94,6 +97,10 @@ export default Mixin.create({
         .set('pausedTransition', null);
     },
     willTransition(transition) {
+      if(this.get('settings').get('data.autoSave')){
+        this.currentModel.save();
+        return true;
+      }
       if (!this.get('checkHash') || this.compareHash()) {
         this.controller
           .set('pausedTransition', null);

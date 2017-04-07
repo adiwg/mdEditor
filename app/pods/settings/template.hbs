@@ -1,2 +1,19 @@
 <h4>App Version: {{control/md-repo-link}}</h4>
+<h3>Settings</h3>
+<form class="horizontal-form">
+  <div class="form-group">
+      <label class="col-sm-3 control-label">Auto Save</label>
+      <div class="col-sm-1 col-sm-offset-">
+        {{x-toggle
+          value=model.autoSave
+          onToggle=(mut model.autoSave)
+          showLabels=true
+          onLabel="On::true"
+          offLabel="Off::false"
+          size="medium"
+          theme="default"
+        }}
+      </div>
+  </div>
+</form>
  {{outlet}}
