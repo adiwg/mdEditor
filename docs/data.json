@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.1b592ca7",
+        "version": "0.0.0.3c7724f6",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1115,7 +1115,7 @@
     "classitems": [
         {
             "file": "app/mixins/model-hash.js",
-            "line": 17,
+            "line": 21,
             "description": "The hash for the clean model.",
             "itemtype": "property",
             "name": "modelHash",
@@ -1124,7 +1124,7 @@
         },
         {
             "file": "app/mixins/model-hash.js",
-            "line": 24,
+            "line": 28,
             "description": "Whether to compare the model hash on transition.",
             "itemtype": "property",
             "name": "checkHash",
@@ -1134,7 +1134,22 @@
         },
         {
             "file": "app/mixins/model-hash.js",
-            "line": 39,
+            "line": 37,
+            "description": "Compute and set the model hash.",
+            "itemtype": "method",
+            "name": "setModelHash",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "Optional model with json property to target",
+                    "type": "Object"
+                }
+            ],
+            "class": "object-template"
+        },
+        {
+            "file": "app/mixins/model-hash.js",
+            "line": 49,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1143,14 +1158,26 @@
                     "type": "Object"
                 },
                 {
-                    "name": "parse",
-                    "description": "If true, the object will be passed through\n                           JSON.parse before being hashed",
+                    "name": "parsed",
+                    "description": "If true, the object will not be passed through\n                           JSON.parse before being hashed",
                     "type": "Boolean"
                 }
             ],
             "return": {
                 "description": "The hash",
                 "type": "String"
+            },
+            "class": "object-template"
+        },
+        {
+            "file": "app/mixins/model-hash.js",
+            "line": 63,
+            "description": "Compare thw current hash with the cached one.",
+            "itemtype": "method",
+            "name": "compareHash",
+            "return": {
+                "description": "Boolean value indicating if hashes are equivalent",
+                "type": "Boolean"
             },
             "class": "object-template"
         },
@@ -3473,6 +3500,10 @@
     ],
     "warnings": [
         {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " app/mixins/model-hash.js:63"
+        },
+        {
             "message": "unknown tag: mixin",
             "line": " app/models/contact.js:7"
         },
@@ -3518,7 +3549,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/mixins/model-hash.js:39"
+            "line": " app/mixins/model-hash.js:49"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

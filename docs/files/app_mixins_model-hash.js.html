@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1b592ca7" target="_blank">
-                                  Tag: 0.0.0.1b592ca7
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3c7724f6" target="_blank">
+                                  Tag: 0.0.0.3c7724f6
                                 </a>
                             </h4>
                         </div>
@@ -204,10 +204,14 @@ import Ember from &#x27;ember&#x27;;
 import hash from &#x27;npm:object-hash&#x27;;
 
 const {
-  Mixin, set
+  Mixin,
+  set,
+  inject
 } = Ember;
 
 export default Mixin.create({
+  settings: inject.service(),
+
   afterModel(model) {
     this._super(...arguments);
 
@@ -232,6 +236,12 @@ export default Mixin.create({
    */
   checkHash: true,
 
+  /**
+   * Compute and set the model hash.
+   *
+   * @method setModelHash
+   * @param {Object} model Optional model with json property to target
+   */
   setModelHash(model) {
     let target = model || this.currentModel.get(&#x27;json&#x27;);
 
@@ -242,30 +252,33 @@ export default Mixin.create({
    * Computed a hash for the target object.
    *
    * @param  {Object} target    The object to hash
-   * @param  {Boolean} parse    If true, the object will be passed through
+   * @param  {Boolean} parsed    If true, the object will not be passed through
    *                            JSON.parse before being hashed
    * @return {String}           The hash
    */
-  hashObject(target, parse) {
-    let toHash = parse ? JSON.parse(target) : target;
+  hashObject(target, parsed) {
+    let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
 
     return hash(toHash);
   },
 
+  /**
+   * Compare thw current hash with the cached one.
+   *
+   * @method compareHash
+   * @returns {Boolean} Boolean value indicating if hashes are equivalent
+   */
   compareHash: function() {
-    if (this.currentModel.get(&#x27;hasDirtyAttributes&#x27;)) {
-      return false;
-    }
+    let model = this.currentModel;
 
     let oldHash = this.get(&#x27;modelHash&#x27;);
-    let newHash = this.hashObject(JSON.stringify(this.currentModel.get(
-      &#x27;json&#x27;)), true);
+    let newHash = this.hashObject(model.get(
+      &#x27;json&#x27;));
 
-    if (oldHash === newHash &amp;&amp; !this.currentModel.get(&#x27;hasDirtyAttributes&#x27;)) {
+    if (oldHash === newHash &amp;&amp; !model.get(&#x27;hasDirtyAttributes&#x27;)) {
       return true;
     }
 
-    this.currentModel.send(&#x27;becomeDirty&#x27;);
     return false;
   },
 
@@ -273,10 +286,12 @@ export default Mixin.create({
     confirmTransition() {
       let me = this;
 
-      this.toggleProperty(&#x27;checkHash&#x27;);
+      me.currentModel.reload();
+
+      this.set(&#x27;checkHash&#x27;, false);
       this.controller.get(&#x27;pausedTransition&#x27;)
         .retry().then(() =&gt; {
-          me.toggleProperty(&#x27;checkHash&#x27;);
+          me.set(&#x27;checkHash&#x27;, true);
         });
     },
     cancelTransition() {
@@ -284,6 +299,10 @@ export default Mixin.create({
         .set(&#x27;pausedTransition&#x27;, null);
     },
     willTransition(transition) {
+      if(this.get(&#x27;settings&#x27;).get(&#x27;data.autoSave&#x27;)){
+        this.currentModel.save();
+        return true;
+      }
       if (!this.get(&#x27;checkHash&#x27;) || this.compareHash()) {
         this.controller
           .set(&#x27;pausedTransition&#x27;, null);
