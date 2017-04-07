@@ -21,11 +21,11 @@ export default Route.extend(ModelHash, {
     saveContact: function () {
       let model = this.currentModel;
 
-      //model.set('dateUpdated', new Date());
       model
         .save()
         .then(() => {
           //this.refresh();
+          this.setModelHash();
           get(this, 'flashMessages')
             .success(`Saved Contact: ${model.get('title')}`);
 
@@ -52,12 +52,10 @@ export default Route.extend(ModelHash, {
         .reload()
         .then(() => {
           this.set('checkHash', true);
-          this.setModelHash();
-          //this.refresh();
+          //this.setModelHash();
           get(this, 'flashMessages')
             .warning(
               `Cancelled changes to Contact: ${model.get('title')}`);
-          //this.transitionTo('contacts');
         });
     },
 

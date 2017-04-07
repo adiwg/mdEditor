@@ -66,7 +66,7 @@ export default DS.Model.extend(Ember.Copyable, {
     }
   }),
 
-  save() {
+  saved() {
     this.set('dateUpdated', new Date());
 
     return this._super(...arguments);
