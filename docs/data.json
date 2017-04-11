@@ -2,13 +2,13 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.3c7724f6",
+        "version": "0.0.0.3a367392",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
     "files": {
-        "app/mixins/model-hash.js": {
-            "name": "app/mixins/model-hash.js",
+        "app/mixins/model-state.js": {
+            "name": "app/mixins/model-state.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -492,7 +492,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/models/contact.js",
-            "line": 7,
+            "line": 8,
             "description": "Models for the mdEditor data store",
             "tag": "main",
             "itemtype": "main",
@@ -702,7 +702,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/models/contact.js",
-            "line": 7,
+            "line": 8,
             "description": "Contact model",
             "submodule": "data-models",
             "is_constructor": 1,
@@ -1114,30 +1114,29 @@
     "elements": {},
     "classitems": [
         {
-            "file": "app/mixins/model-hash.js",
-            "line": 21,
-            "description": "The hash for the clean model.",
+            "file": "app/mixins/model-state.js",
+            "line": 18,
+            "description": "The hash for the clean record.",
             "itemtype": "property",
-            "name": "modelHash",
+            "name": "currentHash",
             "type": "{String}",
             "class": "object-template"
         },
         {
-            "file": "app/mixins/model-hash.js",
-            "line": 28,
-            "description": "Whether to compare the model hash on transition.",
+            "file": "app/mixins/model-state.js",
+            "line": 25,
+            "description": "The clean json object.",
             "itemtype": "property",
-            "name": "checkHash",
-            "type": "{Boolean}",
-            "default": "true",
+            "name": "jsonSnapshot",
+            "type": "{String}",
             "class": "object-template"
         },
         {
-            "file": "app/mixins/model-hash.js",
-            "line": 37,
+            "file": "app/mixins/model-state.js",
+            "line": 52,
             "description": "Compute and set the model hash.",
             "itemtype": "method",
-            "name": "setModelHash",
+            "name": "setCurrentHash",
             "params": [
                 {
                     "name": "model",
@@ -1148,8 +1147,8 @@
             "class": "object-template"
         },
         {
-            "file": "app/mixins/model-hash.js",
-            "line": 49,
+            "file": "app/mixins/model-state.js",
+            "line": 64,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1170,11 +1169,11 @@
             "class": "object-template"
         },
         {
-            "file": "app/mixins/model-hash.js",
-            "line": 63,
-            "description": "Compare thw current hash with the cached one.",
-            "itemtype": "method",
-            "name": "compareHash",
+            "file": "app/mixins/model-state.js",
+            "line": 78,
+            "description": "Compare the current hash with the cached one.",
+            "itemtype": "property",
+            "name": "hasDirtyHash",
             "return": {
                 "description": "Boolean value indicating if hashes are equivalent",
                 "type": "Boolean"
@@ -1204,7 +1203,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 25,
+            "line": 26,
             "description": "The json object for the contact. The data for the contact is stored in this\nobject.",
             "itemtype": "attribute",
             "name": "json",
@@ -1216,7 +1215,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 55,
+            "line": 56,
             "description": "The timestamp for the record",
             "itemtype": "attribute",
             "name": "dateUpdated",
@@ -1229,7 +1228,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 78,
+            "line": 79,
             "description": "The formatted display string for the contact",
             "itemtype": "property",
             "name": "title",
@@ -1248,7 +1247,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 125,
+            "line": 126,
             "description": "The type of contact",
             "itemtype": "property",
             "name": "type",
@@ -1266,7 +1265,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 140,
+            "line": 141,
             "description": "The display icon for the contact",
             "itemtype": "property",
             "name": "icon",
@@ -1284,7 +1283,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 156,
+            "line": 157,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -1303,7 +1302,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 195,
+            "line": 196,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1321,7 +1320,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 213,
+            "line": 214,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -3501,11 +3500,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " app/mixins/model-hash.js:63"
+            "line": " app/mixins/model-state.js:78"
         },
         {
             "message": "unknown tag: mixin",
-            "line": " app/models/contact.js:7"
+            "line": " app/models/contact.js:8"
         },
         {
             "message": "replacing incorrect tag: prop with property",
@@ -3549,7 +3548,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/mixins/model-hash.js:49"
+            "line": " app/mixins/model-state.js:64"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

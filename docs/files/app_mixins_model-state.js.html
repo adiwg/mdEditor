@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/mixins/model-hash.js - mdeditor</title>
+    <title>app/mixins/model-state.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3c7724f6" target="_blank">
-                                  Tag: 0.0.0.3c7724f6
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3a367392" target="_blank">
+                                  Tag: 0.0.0.3a367392
                                 </a>
                             </h4>
                         </div>
@@ -206,46 +206,61 @@ import hash from &#x27;npm:object-hash&#x27;;
 const {
   Mixin,
   set,
-  inject
+  computed
 } = Ember;
 
 export default Mixin.create({
-  settings: inject.service(),
-
-  afterModel(model) {
+  init() {
     this._super(...arguments);
 
-    let target = model.get(&#x27;json&#x27;);
-
-    this.set(&#x27;modelHash&#x27;, this.hashObject(target));
+    this.on(&#x27;didUpdate&#x27;, this, this.wasUpdated);
+    //this.on(&#x27;didLoad&#x27;, this, this.wasLoaded);
   },
 
   /**
-   * The hash for the clean model.
+   * The hash for the clean record.
    *
-   * @property modelHash
+   * @property currentHash
    * @type {String}
    */
 
   /**
-   * Whether to compare the model hash on transition.
+   * The clean json object.
    *
-   * @property checkHash
-   * @type {Boolean}
-   * @default true
+   * @property jsonSnapshot
+   * @type {String}
    */
-  checkHash: true,
+
+  observeReload: Ember.observer(&#x27;isReloading&#x27;, function() {
+    let reloading = this.get(&#x27;isReloading&#x27;);
+
+    if (!reloading) {
+      console.info(this.get(&#x27;isReloading&#x27;));
+      this.wasUpdated(this);
+    }
+  }),
+
+  wasUpdated(model) {
+    console.info(arguments);
+    let record = model.record || model;
+    let json = record.get(&#x27;json&#x27;);
+    this.set(&#x27;currentHash&#x27;, this.hashObject(json));
+    record.set(&#x27;jsonSnapshot&#x27;, json);
+  },
+
+  wasLoaded() {
+  },
 
   /**
    * Compute and set the model hash.
    *
-   * @method setModelHash
+   * @method setCurrentHash
    * @param {Object} model Optional model with json property to target
    */
-  setModelHash(model) {
-    let target = model || this.currentModel.get(&#x27;json&#x27;);
+  setCurrentHash(json) {
+    let target = json || this.get(&#x27;json&#x27;);
 
-    set(this, &#x27;modelHash&#x27;, this.hashObject(target));
+    set(this, &#x27;currentHash&#x27;, this.hashObject(target));
   },
 
   /**
@@ -263,56 +278,22 @@ export default Mixin.create({
   },
 
   /**
-   * Compare thw current hash with the cached one.
+   * Compare the current hash with the cached one.
    *
-   * @method compareHash
+   * @property hasDirtyHash
    * @returns {Boolean} Boolean value indicating if hashes are equivalent
    */
-  compareHash: function() {
-    let model = this.currentModel;
-
-    let oldHash = this.get(&#x27;modelHash&#x27;);
-    let newHash = this.hashObject(model.get(
+  hasDirtyHash: computed(&#x27;currentHash&#x27;,function() {
+    let oldHash = this.get(&#x27;currentHash&#x27;);
+    let newHash = this.hashObject(this.get(
       &#x27;json&#x27;));
 
-    if (oldHash === newHash &amp;&amp; !model.get(&#x27;hasDirtyAttributes&#x27;)) {
+    if (oldHash !== newHash &amp;&amp; !this.get(&#x27;hasDirtyAttributes&#x27;)) {
       return true;
     }
 
     return false;
-  },
-
-  actions: {
-    confirmTransition() {
-      let me = this;
-
-      me.currentModel.reload();
-
-      this.set(&#x27;checkHash&#x27;, false);
-      this.controller.get(&#x27;pausedTransition&#x27;)
-        .retry().then(() =&gt; {
-          me.set(&#x27;checkHash&#x27;, true);
-        });
-    },
-    cancelTransition() {
-      this.controller
-        .set(&#x27;pausedTransition&#x27;, null);
-    },
-    willTransition(transition) {
-      if(this.get(&#x27;settings&#x27;).get(&#x27;data.autoSave&#x27;)){
-        this.currentModel.save();
-        return true;
-      }
-      if (!this.get(&#x27;checkHash&#x27;) || this.compareHash()) {
-        this.controller
-          .set(&#x27;pausedTransition&#x27;, null);
-        return true;
-      } else {
-        transition.abort();
-        this.controller.set(&#x27;pausedTransition&#x27;, transition);
-      }
-    }
-  }
+  })
 });
 
     </pre>
