@@ -1,8 +1,10 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="CRUD Button Controls">
-  <button type="submit" {{action "save"}} class="btn btn-lg btn-success">
+  <button type="submit" {{action "save"}} class="btn btn-lg btn-success"
+  disabled={{if model.hasDirtyHash false true}}>
     <i class="fa fa-floppy-o"></i> Save
   </button>
-  <button {{action "cancel"}} class="btn btn-lg btn-warning">
+  <button {{action "cancel"}} class="btn btn-lg btn-warning"
+  disabled={{if model.hasDirtyHash false true}}>
     <i class="fa fa-undo"></i> Cancel
   </button>
   <button {{action "copy"}} class="btn btn-lg btn-info">

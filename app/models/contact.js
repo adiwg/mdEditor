@@ -2,8 +2,9 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import uuidV4 from 'npm:uuid/v4';
 import Validator from 'npm:validator';
+import ModelState from 'mdeditor/mixins/model-state';
 
-export default DS.Model.extend(Ember.Copyable, {
+export default DS.Model.extend(Ember.Copyable, ModelState, {
   /**
    * Contact model
    *

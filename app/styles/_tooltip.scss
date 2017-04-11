@@ -7,3 +7,9 @@
     opacity: .9;
   }
 }
+
+.md-tooltip {
+  &.danger {
+    background-color: darken($brand-danger, 15);
+  }
+}

@@ -1,7 +1,14 @@
 <div class="row page-header">
     <div class="col-sm-9 col-md-offset-1">
       <h2>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
-        <span class="text-danger">{{if model.hasDirtyAttributes "*"}}</span>
+        <span class="text-danger">
+          {{#if model.hasDirtyHash}}
+            {{fa-icon "exclamation-circle"}}
+            {{tooltip-on-element text='This record has been modified!' side="right"
+              class="md-tooltip danger"
+            }}
+          {{/if}}
+        </span>
       </h2>
 
     </div>
@@ -88,7 +95,7 @@
     </div>
 </div>
 
-{{#control/md-modal
+{{!-- {{#control/md-modal
   isShowing = pausedTransition
   closeModal=(route-action "cancelTransition")
 }}
@@ -99,4 +106,4 @@
     <button type="button" class="btn btn-danger" {{action (route-action "confirmTransition")}}>Continue</button>
     <button type="button" class="btn btn-primary" {{action (route-action "cancelTransition")}}>Stay Here</button>
   </div>
-{{/control/md-modal}}
+{{/control/md-modal}} --}}

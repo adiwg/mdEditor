@@ -40,7 +40,7 @@ export default Ember.Component.extend({
 
   didInsertElement() {
     Ember.$('.md-viewer-body')
-      .JSONView(this.json);
+      .JSONView(JSON.stringify(this.json));
   },
 
   actions: {
