@@ -10,7 +10,7 @@ const {
   A
 } = Ember;
 
-export default Component.extend(Template,{
+export default Component.extend(Template, {
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -24,17 +24,17 @@ export default Component.extend(Template,{
    * @mixin object-template
    */
 
-   init() {
-     this._super(...arguments);
+  init() {
+    this._super(...arguments);
 
-     this.applyTemplate('items');
-   },
+    this.applyTemplate('items');
+  },
 
-   //reset the 'editing' flag
-   didUpdateAttrs() {
-     this._super(...arguments);
-     this.set('editing', false);
-   },
+  //reset the 'editing' flag
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.set('editing', false);
+  },
 
   /**
    * Array of the mdJSON object to display in the object table for
@@ -76,23 +76,25 @@ export default Component.extend(Template,{
    * @default undefined
    */
 
-   /**
-    * The template class to use for new items. This should be a constructor.
-    * Objects should be created by extending Ember.Object.
-    *  ```javascript
-    *  Ember.Object.extend({
-    *   foo: null,
-    *   bar: Ember.A()
-    *  }
-    *  ```
-    *
-    * @property templateClass
-    * @type {Any}
-    * @constructor
-    * @default null
-    * @required
-    */
-   templateClass: null,
+  /**
+   * The template class to use for new items. This should be a constructor.
+   * Objects should be created by extending Ember.Object.
+   *  ```javascript
+   *  Ember.Object.extend({
+   *    init() {
+   *      this.set('foo', A());
+   *      this.set('bar', A());
+   *    }
+   *  })
+   *  ```
+   *
+   * @property templateClass
+   * @type {Any}
+   * @constructor
+   * @default null
+   * @required
+   */
+  templateClass: null,
 
   /**
    * Determines add button text
@@ -216,7 +218,7 @@ export default Component.extend(Template,{
       const Template = this.get('templateClass');
 
       let itm = typeOf(Template) === 'class' ? Template.create() :
-      Ember.Object.create({});
+        Ember.Object.create({});
 
       this.set('saveItem', itm);
       this.set('editing', 'adding');

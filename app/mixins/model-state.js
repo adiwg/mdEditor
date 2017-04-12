@@ -3,6 +3,7 @@ import hash from 'npm:object-hash';
 
 const {
   Mixin,
+  inject,
   set,
   computed
 } = Ember;
@@ -12,8 +13,11 @@ export default Mixin.create({
     this._super(...arguments);
 
     this.on('didUpdate', this, this.wasUpdated);
+    this.get('hasDirtyAttributes');
     //this.on('didLoad', this, this.wasLoaded);
   },
+
+  settings: inject.service(),
 
   /**
    * The hash for the clean record.
@@ -29,14 +33,24 @@ export default Mixin.create({
    * @type {String}
    */
 
-  observeReload: Ember.observer('isReloading', function() {
+  observeReload: Ember.observer('isReloading', function () {
     let reloading = this.get('isReloading');
 
-    if (!reloading) {
+    if(!reloading) {
       console.info(this.get('isReloading'));
       this.wasUpdated(this);
     }
   }),
+
+  observeAutoSave: Ember.observer('hasDirtyAttributes', 'hasDirtyHash',
+    function () {
+      if(this.get('settings.data.autoSave') && (this.get('hasDirtyHash') ||
+          this.get('hasDirtyAttributes'))) {
+        Ember.run.once(this, function () {
+          this.save();
+        });
+      }
+    }),
 
   wasUpdated(model) {
     console.info(arguments);
@@ -46,8 +60,7 @@ export default Mixin.create({
     record.set('jsonSnapshot', json);
   },
 
-  wasLoaded() {
-  },
+  wasLoaded() {},
 
   /**
    * Compute and set the model hash.
@@ -81,12 +94,12 @@ export default Mixin.create({
    * @property hasDirtyHash
    * @returns {Boolean} Boolean value indicating if hashes are equivalent
    */
-  hasDirtyHash: computed('currentHash',function() {
+  hasDirtyHash: computed('currentHash', function () {
     let oldHash = this.get('currentHash');
     let newHash = this.hashObject(this.get(
       'json'));
 
-    if (oldHash !== newHash && !this.get('hasDirtyAttributes')) {
+    if(oldHash !== newHash && !this.get('hasDirtyAttributes')) {
       return true;
     }
 

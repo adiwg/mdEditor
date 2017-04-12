@@ -4,46 +4,59 @@ export const pollInterval = 750; // time in milliseconds
 
 const {
   Mixin,
-  set,
-  get,
-  inject
+  //computed,
+  inject,
+  on
 } = Ember;
 
 export default Mixin.create({
-  //pollboy: inject.service(),
+  settings: inject.service(),
+
+  // autoSave: computed('settings.data.autoSave', function () {
+  //   return this.get('settings')
+  //     .get('data.autoSave');
+  // }),
 
   afterModel(model) {
     this._super(...arguments);
 
-    if (!model.get('currentHash')) {
+    // if(this.get('autoSave')) {
+    //   return;
+    // }
+    if(!model.get('currentHash')) {
       model.wasUpdated(model);
     }
 
     let hashPoller = this.get('hashPoller');
 
-    // Make sure we only create one poller instance. Without this every time onPoll
-    // is called afterModel would create a new poller causing us to have a growing list
-    // of pollers all polling the same thing (which would result in more frequent polling).
-    if (!hashPoller) {
-      hashPoller = this.get('pollboy').add(this, this.onPoll, pollInterval);
+    // Make sure we only create one poller instance.
+    if(!hashPoller) {
+      hashPoller = this.get('pollboy')
+        .add(this, this.onPoll, pollInterval);
       this.set('hashPoller', hashPoller);
     }
   },
+
+  deactivatePoll: on('deactivate', function () {
+    // if(this.get('autoSave')) {
+    //   return;
+    // }
+
+    const hashPoller = this.get('hashPoller');
+
+    this.get('pollboy')
+      .remove(hashPoller);
+    this.set('hashPoller', null);
+  }),
+
   onPoll() {
     const model = this.currentModel;
-    return new Ember.RSVP.Promise(function(resolve) {
+
+    return new Ember.RSVP.Promise(function (resolve) {
       model.notifyPropertyChange('currentHash');
       resolve(true);
     });
-  },
-  deactivate() {
-    const hashPoller = this.get('hashPoller');
-
-    this.get('pollboy').remove(hashPoller);
-    this.set('hashPoller', null);
   }
-
-
 
   // /**
   //  * Whether to compare the model hash on transition.

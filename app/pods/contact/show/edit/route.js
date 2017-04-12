@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ModelHash from 'mdeditor/mixins/model-hash';
+import HashPoll from 'mdeditor/mixins/hash-poll';
 
 const {
   inject,
@@ -8,7 +8,7 @@ const {
   copy
 } = Ember;
 
-export default Route.extend(ModelHash, {
+export default Route.extend(HashPoll, {
   flashMessages: inject.service(),
 
   renderTemplate() {
