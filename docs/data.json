@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.3a367392",
+        "version": "0.0.0.2d69e847",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1115,7 +1115,7 @@
     "classitems": [
         {
             "file": "app/mixins/model-state.js",
-            "line": 18,
+            "line": 22,
             "description": "The hash for the clean record.",
             "itemtype": "property",
             "name": "currentHash",
@@ -1124,7 +1124,7 @@
         },
         {
             "file": "app/mixins/model-state.js",
-            "line": 25,
+            "line": 29,
             "description": "The clean json object.",
             "itemtype": "property",
             "name": "jsonSnapshot",
@@ -1133,7 +1133,7 @@
         },
         {
             "file": "app/mixins/model-state.js",
-            "line": 52,
+            "line": 65,
             "description": "Compute and set the model hash.",
             "itemtype": "method",
             "name": "setCurrentHash",
@@ -1148,7 +1148,7 @@
         },
         {
             "file": "app/mixins/model-state.js",
-            "line": 64,
+            "line": 77,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1170,7 +1170,7 @@
         },
         {
             "file": "app/mixins/model-state.js",
-            "line": 78,
+            "line": 91,
             "description": "Compare the current hash with the cached one.",
             "itemtype": "property",
             "name": "hasDirtyHash",
@@ -3065,7 +3065,7 @@
         {
             "file": "app/pods/components/object/md-object-table/component.js",
             "line": 79,
-            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n  foo: null,\n  bar: Ember.A()\n }\n ```",
+            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
             "itemtype": "property",
             "name": "templateClass",
             "type": "{Any}",
@@ -3078,7 +3078,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 97,
+            "line": 99,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -3090,7 +3090,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 106,
+            "line": 108,
             "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -3102,7 +3102,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 114,
+            "line": 116,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -3114,7 +3114,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 122,
+            "line": 124,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -3500,7 +3500,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " app/mixins/model-state.js:78"
+            "line": " app/mixins/model-state.js:91"
         },
         {
             "message": "unknown tag: mixin",
@@ -3548,7 +3548,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/mixins/model-state.js:64"
+            "line": " app/mixins/model-state.js:77"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3a367392" target="_blank">
-                                  Tag: 0.0.0.3a367392
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d69e847" target="_blank">
+                                  Tag: 0.0.0.2d69e847
                                 </a>
                             </h4>
                         </div>
@@ -212,7 +212,7 @@ const {
   A
 } = Ember;
 
-export default Component.extend(Template,{
+export default Component.extend(Template, {
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -226,17 +226,17 @@ export default Component.extend(Template,{
    * @mixin object-template
    */
 
-   init() {
-     this._super(...arguments);
+  init() {
+    this._super(...arguments);
 
-     this.applyTemplate(&#x27;items&#x27;);
-   },
+    this.applyTemplate(&#x27;items&#x27;);
+  },
 
-   //reset the &#x27;editing&#x27; flag
-   didUpdateAttrs() {
-     this._super(...arguments);
-     this.set(&#x27;editing&#x27;, false);
-   },
+  //reset the &#x27;editing&#x27; flag
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.set(&#x27;editing&#x27;, false);
+  },
 
   /**
    * Array of the mdJSON object to display in the object table for
@@ -278,23 +278,25 @@ export default Component.extend(Template,{
    * @default undefined
    */
 
-   /**
-    * The template class to use for new items. This should be a constructor.
-    * Objects should be created by extending Ember.Object.
-    *  &#x60;&#x60;&#x60;javascript
-    *  Ember.Object.extend({
-    *   foo: null,
-    *   bar: Ember.A()
-    *  }
-    *  &#x60;&#x60;&#x60;
-    *
-    * @property templateClass
-    * @type {Any}
-    * @constructor
-    * @default null
-    * @required
-    */
-   templateClass: null,
+  /**
+   * The template class to use for new items. This should be a constructor.
+   * Objects should be created by extending Ember.Object.
+   *  &#x60;&#x60;&#x60;javascript
+   *  Ember.Object.extend({
+   *    init() {
+   *      this.set(&#x27;foo&#x27;, A());
+   *      this.set(&#x27;bar&#x27;, A());
+   *    }
+   *  })
+   *  &#x60;&#x60;&#x60;
+   *
+   * @property templateClass
+   * @type {Any}
+   * @constructor
+   * @default null
+   * @required
+   */
+  templateClass: null,
 
   /**
    * Determines add button text
@@ -418,7 +420,7 @@ export default Component.extend(Template,{
       const Template = this.get(&#x27;templateClass&#x27;);
 
       let itm = typeOf(Template) === &#x27;class&#x27; ? Template.create() :
-      Ember.Object.create({});
+        Ember.Object.create({});
 
       this.set(&#x27;saveItem&#x27;, itm);
       this.set(&#x27;editing&#x27;, &#x27;adding&#x27;);
