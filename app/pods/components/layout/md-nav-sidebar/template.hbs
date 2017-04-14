@@ -27,13 +27,16 @@
                 <div class="list-group">
                   <div class="list-group-item" draggable="true">
                     <div class="btn-group btn-group-xs pull-right" role="group" aria-label="Navigation Buttons">
-                      {{#link-to (concat meta.type ".show.edit") record class="btn btn-warning" }}
+                      {{#link-to (concat meta.type ".show.edit") record class=(concat "btn btn-" record.status) }}
                         <span class="fa fa-pencil"></span>
                       {{/link-to}}
                     </div>
                     <!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> -->
-                    {{#link-to (concat meta.type ".show") record class="sidebar-row" }}
-                      <span class="fa fa-{{record.icon}}"></span> {{record.title}}
+                    {{#link-to (concat meta.type ".show")
+                      record class="sidebar-row"
+                      activeClass=(concat "active text-" record.status)
+                    }}
+                        <span class="fa fa-{{record.icon}}"></span> {{record.title}}
                     {{/link-to}}
                   </div>
                 </div>

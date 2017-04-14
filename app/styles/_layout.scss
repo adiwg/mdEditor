@@ -1,3 +1,5 @@
+$sidebar-width: 275;
+
 html {
   height: 100%;
 }
@@ -8,8 +10,9 @@ html {
 
 .v-align-middle {
   vertical-align: middle;
-},
+}
 
+,
 #md-wrapper {
   @include transition(all .5s ease);
   padding-left: 0;
@@ -23,10 +26,10 @@ html {
   }
 
   &.toggled {
-    padding-left: 275px;
+    padding-left: #{$sidebar-width}px;
 
     #md-sidebar-wrapper {
-      width: 275px;
+      width: #{$sidebar-width}px;
 
       .sidebar-brand {
         display: list-item;
@@ -34,8 +37,12 @@ html {
     }
 
     #md-page-content-wrapper {
-      margin-right: -275px;
+      margin-right: -#{$sidebar-width}px;
       position: absolute;
+    }
+
+    .footer-container {
+      left: 0;
     }
 
     #md-navbar-main .navbar-brand {
@@ -48,18 +55,20 @@ html {
   @include transition(all .5s ease);
   background: $body-bg none repeat scroll 0 0;
   height: 100vh;
-  left: 275px;
-  margin-left: -275px;
+  left: #{$sidebar-width}px;
+  margin-left: -#{$sidebar-width}px;
   overflow-x: hidden;
   position: fixed;
   width: 0;
   z-index: 1000;
 }
+
 /*@media(min-width: 768px) {
   #md-wrapper.toggled .navbar-header {
     float: left;
   }
 }*/
+
 #md-page-content-wrapper {
   padding: 0 1px 1px;
   position: absolute;
@@ -92,4 +101,28 @@ html {
   @media(max-width: $screen-lg-min) {
     margin-left: -10px;
   }
+}
+
+footer {
+  background-color: $gray-darker;
+  //background-color: lighten($brand-primary, 50);
+  border-left: 1px solid;
+  bottom: 0;
+  color: $gray-lighter;
+  //color: $gray-darker;
+  line-height: 26px;
+  padding-right: 25px;
+  position: fixed;
+  text-align: right;
+  width: 100%;
+
+  .footer-container {
+    left: -#{$sidebar-width}px;
+    position: relative;
+
+    @media(max-width: $screen-sm-min) {
+      left: 0;
+    }
+  }
+
 }
