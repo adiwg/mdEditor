@@ -182,7 +182,17 @@
     display: block;
 
     &.active {
-      color: darken($brand-warning, 15);
+      &.text-warning {
+        color: darken($brand-warning, 15);
+      }
+
+      &.text-danger {
+        color: darken($brand-danger, 15);
+      }
+
+      &.text-success {
+        color: darken($brand-success, 15);
+      }
     }
   }
 }

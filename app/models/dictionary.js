@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import Model from 'mdeditor/models/base';
 
-export default DS.Model.extend(Ember.Copyable, {
+
+export default Model.extend(Ember.Copyable, {
   json: DS.attr('json', {
     defaultValue() {
       const obj = {

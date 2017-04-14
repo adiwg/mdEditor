@@ -2,9 +2,9 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import uuidV4 from 'npm:uuid/v4';
 import Validator from 'npm:validator';
-import ModelState from 'mdeditor/mixins/model-state';
+import Model from 'mdeditor/models/base';
 
-export default DS.Model.extend(Ember.Copyable, ModelState, {
+export default Model.extend(Ember.Copyable, {
   /**
    * Contact model
    *
@@ -66,12 +66,6 @@ export default DS.Model.extend(Ember.Copyable, ModelState, {
       return new Date();
     }
   }),
-
-  saved() {
-    this.set('dateUpdated', new Date());
-
-    return this._super(...arguments);
-  },
 
   name: Ember.computed.alias('json.name'),
   contactId: Ember.computed.alias('json.contactId'),

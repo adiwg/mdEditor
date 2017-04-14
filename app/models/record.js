@@ -1,8 +1,10 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 import uuidV4 from "npm:uuid/v4";
+import Model from 'mdeditor/models/base';
 
-export default DS.Model.extend(Ember.Copyable, {
+
+export default Model.extend(Ember.Copyable, {
   profile: DS.attr('string', {
     defaultValue: 'full'
   }),
