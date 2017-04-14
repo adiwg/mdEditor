@@ -23,6 +23,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/models/base.js": {
+            "name": "app/models/base.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/models/contact.js": {
             "name": "app/models/contact.js",
             "modules": {},
@@ -1202,6 +1209,78 @@
             "submodule": "mixins"
         },
         {
+            "file": "app/models/base.js",
+            "line": 22,
+            "description": "The hash for the clean record.",
+            "itemtype": "property",
+            "name": "currentHash",
+            "type": "{String}",
+            "class": "contact",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/models/base.js",
+            "line": 29,
+            "description": "The clean json object.",
+            "itemtype": "property",
+            "name": "jsonSnapshot",
+            "type": "{String}",
+            "class": "contact",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/models/base.js",
+            "line": 78,
+            "description": "Compute and set the model hash.",
+            "itemtype": "method",
+            "name": "setCurrentHash",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "Optional model with json property to target",
+                    "type": "Object"
+                }
+            ],
+            "class": "contact",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/models/base.js",
+            "line": 90,
+            "description": "Computed a hash for the target object.",
+            "params": [
+                {
+                    "name": "target",
+                    "description": "The object to hash",
+                    "type": "Object"
+                },
+                {
+                    "name": "parsed",
+                    "description": "If true, the object will not be passed through\n                           JSON.parse before being hashed",
+                    "type": "Boolean"
+                }
+            ],
+            "return": {
+                "description": "The hash",
+                "type": "String"
+            },
+            "class": "contact",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/models/base.js",
+            "line": 104,
+            "description": "Compare the current hash with the cached one.",
+            "itemtype": "property",
+            "name": "hasDirtyHash",
+            "return": {
+                "description": "Boolean value indicating if hashes are equivalent",
+                "type": "Boolean"
+            },
+            "class": "contact",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/models/contact.js",
             "line": 26,
             "description": "The json object for the contact. The data for the contact is stored in this\nobject.",
@@ -1228,7 +1307,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 79,
+            "line": 73,
             "description": "The formatted display string for the contact",
             "itemtype": "property",
             "name": "title",
@@ -1247,7 +1326,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 126,
+            "line": 120,
             "description": "The type of contact",
             "itemtype": "property",
             "name": "type",
@@ -1265,7 +1344,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 141,
+            "line": 135,
             "description": "The display icon for the contact",
             "itemtype": "property",
             "name": "icon",
@@ -1283,7 +1362,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 157,
+            "line": 151,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -1302,7 +1381,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 196,
+            "line": 190,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1320,7 +1399,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 214,
+            "line": 208,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -3503,6 +3582,10 @@
             "line": " app/mixins/model-state.js:91"
         },
         {
+            "message": "replacing incorrect tag: returns with return",
+            "line": " app/models/base.js:104"
+        },
+        {
             "message": "unknown tag: mixin",
             "line": " app/models/contact.js:8"
         },
@@ -3549,6 +3632,10 @@
         {
             "message": "Missing item type\nComputed a hash for the target object.",
             "line": " app/mixins/model-state.js:77"
+        },
+        {
+            "message": "Missing item type\nComputed a hash for the target object.",
+            "line": " app/models/base.js:90"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",
