@@ -2,18 +2,11 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.2d69e847",
+        "version": "0.0.0.d427afb5",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
     "files": {
-        "app/mixins/model-state.js": {
-            "name": "app/mixins/model-state.js",
-            "modules": {},
-            "classes": {},
-            "fors": {},
-            "namespaces": {}
-        },
         "app/mixins/object-template.js": {
             "name": "app/mixins/object-template.js",
             "modules": {},
@@ -1121,73 +1114,6 @@
     "elements": {},
     "classitems": [
         {
-            "file": "app/mixins/model-state.js",
-            "line": 22,
-            "description": "The hash for the clean record.",
-            "itemtype": "property",
-            "name": "currentHash",
-            "type": "{String}",
-            "class": "object-template"
-        },
-        {
-            "file": "app/mixins/model-state.js",
-            "line": 29,
-            "description": "The clean json object.",
-            "itemtype": "property",
-            "name": "jsonSnapshot",
-            "type": "{String}",
-            "class": "object-template"
-        },
-        {
-            "file": "app/mixins/model-state.js",
-            "line": 65,
-            "description": "Compute and set the model hash.",
-            "itemtype": "method",
-            "name": "setCurrentHash",
-            "params": [
-                {
-                    "name": "model",
-                    "description": "Optional model with json property to target",
-                    "type": "Object"
-                }
-            ],
-            "class": "object-template"
-        },
-        {
-            "file": "app/mixins/model-state.js",
-            "line": 77,
-            "description": "Computed a hash for the target object.",
-            "params": [
-                {
-                    "name": "target",
-                    "description": "The object to hash",
-                    "type": "Object"
-                },
-                {
-                    "name": "parsed",
-                    "description": "If true, the object will not be passed through\n                           JSON.parse before being hashed",
-                    "type": "Boolean"
-                }
-            ],
-            "return": {
-                "description": "The hash",
-                "type": "String"
-            },
-            "class": "object-template"
-        },
-        {
-            "file": "app/mixins/model-state.js",
-            "line": 91,
-            "description": "Compare the current hash with the cached one.",
-            "itemtype": "property",
-            "name": "hasDirtyHash",
-            "return": {
-                "description": "Boolean value indicating if hashes are equivalent",
-                "type": "Boolean"
-            },
-            "class": "object-template"
-        },
-        {
             "file": "app/mixins/object-template.js",
             "line": 23,
             "description": "Apply the object 'template' to each object in the array.",
@@ -1230,7 +1156,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 78,
+            "line": 82,
             "description": "Compute and set the model hash.",
             "itemtype": "method",
             "name": "setCurrentHash",
@@ -1246,7 +1172,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 90,
+            "line": 94,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1261,15 +1187,15 @@
                 }
             ],
             "return": {
-                "description": "The hash",
-                "type": "String"
+                "description": "The hash or undefined if an object wasn't provided.",
+                "type": "String|undefined"
             },
             "class": "contact",
             "module": "mdeditor"
         },
         {
             "file": "app/models/base.js",
-            "line": 104,
+            "line": 108,
             "description": "Compare the current hash with the cached one.",
             "itemtype": "property",
             "name": "hasDirtyHash",
@@ -3579,11 +3505,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " app/mixins/model-state.js:91"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " app/models/base.js:104"
+            "line": " app/models/base.js:108"
         },
         {
             "message": "unknown tag: mixin",
@@ -3631,11 +3553,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/mixins/model-state.js:77"
-        },
-        {
-            "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/models/base.js:90"
+            "line": " app/models/base.js:94"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

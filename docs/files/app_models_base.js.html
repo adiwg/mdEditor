@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d69e847" target="_blank">
-                                  Tag: 0.0.0.2d69e847
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d427afb5" target="_blank">
+                                  Tag: 0.0.0.d427afb5
                                 </a>
                             </h4>
                         </div>
@@ -246,6 +246,10 @@ export default DS.Model.extend({
 
   observeAutoSave: Ember.observer(&#x27;hasDirtyAttributes&#x27;, &#x27;hasDirtyHash&#x27;,
     function() {
+      if (this.get(&#x27;isNew&#x27;)) {
+        return;
+      }
+
       if (this.get(&#x27;settings.data.autoSave&#x27;) &amp;&amp; (this.get(&#x27;hasDirtyHash&#x27;) ||
           this.get(&#x27;hasDirtyAttributes&#x27;))) {
         Ember.run.once(this, function() {
@@ -257,14 +261,14 @@ export default DS.Model.extend({
   wasUpdated(model) {
     console.info(arguments);
     let record = model.record || model;
-    let json = record.serialize().data.attributes.json;
-    
+    let json = JSON.parse(record.serialize().data.attributes.json);
+
     this.setCurrentHash(json);
     record.set(&#x27;jsonSnapshot&#x27;, json);
   },
 
   wasLoaded(model) {
-    let json = model.serialize().data.attributes.json;
+    let json = JSON.parse(model.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     model.set(&#x27;jsonSnapshot&#x27;, json);
@@ -295,12 +299,12 @@ export default DS.Model.extend({
    * @param  {Object} target    The object to hash
    * @param  {Boolean} parsed    If true, the object will not be passed through
    *                            JSON.parse before being hashed
-   * @return {String}           The hash
+   * @return {String|undefined} The hash or undefined if an object wasn&#x27;t provided.
    */
   hashObject(target, parsed) {
     let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
 
-    return hash(toHash);
+    return typeof toHash === &quot;object&quot; ? hash(toHash) : undefined;
   },
 
   /**
@@ -310,13 +314,34 @@ export default DS.Model.extend({
    * @returns {Boolean} Boolean value indicating if hashes are equivalent
    */
   hasDirtyHash: computed(&#x27;currentHash&#x27;, function() {
-    let oldHash = this.get(&#x27;currentHash&#x27;);
-    let newHash = this.hashObject(this.serialize().data.attributes.json, true);
+    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes.json), true);
 
-    if (oldHash !== newHash &amp;&amp; !this.get(&#x27;hasDirtyAttributes&#x27;)) {
+    //if the currentHash is undefined, the record is either new or hasn&#x27;t had the
+    //hash calculated yet
+    if (this.get(&#x27;currentHash&#x27;) === undefined) {
+      this.set(&#x27;currentHash&#x27;, newHash);
+    }
+
+    if (this.get(&#x27;currentHash&#x27;) !== newHash || this.get(&#x27;hasDirtyAttributes&#x27;)) {
       return true;
     }
 
+    return false;
+  }),
+
+  canRevert: computed(&#x27;hasDirtyHash&#x27;, &#x27;settings.data.autoSave&#x27;, function() {
+    let revert = this.get(&#x27;jsonRevert&#x27;);
+
+    if (revert) {
+      let autoSave = this.get(&#x27;settings.data.autoSave&#x27;);
+      let dirty = this.get(&#x27;hasDirtyHash&#x27;);
+      let hash = this.hashObject(JSON.parse(revert), true) !== this.get(&#x27;currentHash&#x27;);
+
+      if ((autoSave &amp;&amp; hash) || (!autoSave &amp;&amp; dirty)) {
+        return true;
+      }
+    }
+    
     return false;
   }),
 

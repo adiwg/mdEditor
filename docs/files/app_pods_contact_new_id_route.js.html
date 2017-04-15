@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d69e847" target="_blank">
-                                  Tag: 0.0.0.2d69e847
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d427afb5" target="_blank">
+                                  Tag: 0.0.0.d427afb5
                                 </a>
                             </h4>
                         </div>
@@ -216,10 +216,10 @@ export default Ember.Route.extend({
    * @chainable
    * @return {Object}
    */
-  model: function (params) {
+  model: function(params) {
     let record = this.store.peekRecord(&#x27;contact&#x27;, params.contact_id);
 
-    if(record) {
+    if (record) {
       return record;
     }
 
@@ -241,19 +241,19 @@ export default Ember.Route.extend({
    *
    * @method deactivate
    */
-  deactivate: function () {
+  deactivate: function() {
     // We grab the model loaded in this route
     var model = this.currentModel;
 
     // If we are leaving the Route we verify if the model is in
     // &#x27;isNew&#x27; state, which means it wasn&#x27;t saved to the backend.
-    if(model &amp;&amp; model.get(&#x27;isNew&#x27;)) {
+    if (model &amp;&amp; model.get(&#x27;isNew&#x27;)) {
       // We call DS#destroyRecord() which removes it from the store
       model.destroyRecord();
     }
   },
 
-  setupController: function (controller, model) {
+  setupController: function(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
 
@@ -289,8 +289,8 @@ export default Ember.Route.extend({
   // },
 
   actions: {
-    willTransition: function (transition) {
-      if(transition.targetName === &#x27;contact.new.index&#x27;) {
+    willTransition: function(transition) {
+      if (transition.targetName === &#x27;contact.new.index&#x27;) {
         transition.abort();
         return true;
       }
@@ -299,10 +299,19 @@ export default Ember.Route.extend({
       var model = this.currentModel;
       // If we are leaving the Route we verify if the model is in
       // &#x27;isNew&#x27; state, which means it wasn&#x27;t saved to the backend.
-      if(model &amp;&amp; model.get(&#x27;isNew&#x27;)) {
+      if (model &amp;&amp; model.get(&#x27;isNew&#x27;)) {
+        let contexts = transition.intent.contexts;
         // We call DS#destroyRecord() which removes it from the store
         model.destroyRecord();
         transition.abort();
+
+        if (contexts.length &gt; 0) {
+          //grab any models ids and apply them to transition
+          let ids = contexts.mapBy(&#x27;id&#x27;);
+          this.replaceWith(transition.targetName, ...ids);
+          return true;
+        }
+
         this.replaceWith(transition.targetName);
         return true;
       }
@@ -323,7 +332,7 @@ export default Ember.Route.extend({
     },
 
     error(error) {
-      if(error instanceof AdapterError) {
+      if (error instanceof AdapterError) {
         Ember.get(this, &#x27;flashMessages&#x27;)
           .warning(&#x27;No contact found! Re-directing to new contact...&#x27;);
         // redirect to new
