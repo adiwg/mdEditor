@@ -63,11 +63,6 @@ html {
   z-index: 1000;
 }
 
-/*@media(min-width: 768px) {
-  #md-wrapper.toggled .navbar-header {
-    float: left;
-  }
-}*/
 
 #md-page-content-wrapper {
   padding: 0 1px 1px;
@@ -108,7 +103,7 @@ footer {
   //background-color: lighten($brand-primary, 50);
   border-left: 1px solid;
   bottom: 0;
-  color: $gray-lighter;
+  color: $body-bg;
   //color: $gray-darker;
   line-height: 26px;
   padding-right: 25px;
@@ -123,6 +118,17 @@ footer {
     @media(max-width: $screen-sm-min) {
       left: 0;
     }
-  }
 
+    .text-success {
+      color: lighten($brand-success, 10);
+    }
+
+    .text-info {
+      color: lighten($brand-info, 10);
+    }
+
+    .text-warning {
+      color: lighten($brand-warning, 10);
+    }
+  }
 }

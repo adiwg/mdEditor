@@ -1,0 +1,7 @@
+  <div class="footer-container">
+    <span>AutoSave:
+      <span class="{{if settings.data.autoSave "text-success" "text-warning"}}">
+        {{if settings.data.autoSave "On" "Off"}}</span>
+    </span>
+    {{yield}}
+  </div>
