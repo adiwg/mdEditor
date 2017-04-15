@@ -20,11 +20,8 @@ export default Mixin.create({
   afterModel(model) {
     this._super(...arguments);
 
-    // if(this.get('autoSave')) {
-    //   return;
-    // }
-    if(!model.get('currentHash')) {
-      model.wasUpdated(model);
+    if(this.get('settings.data.autoSave')) {
+      model.set('jsonRevert', model.serialize().data.attributes.json);
     }
 
     let hashPoller = this.get('hashPoller');

@@ -14,10 +14,10 @@ export default Ember.Route.extend({
    * @chainable
    * @return {Object}
    */
-  model: function (params) {
+  model: function(params) {
     let record = this.store.peekRecord('contact', params.contact_id);
 
-    if(record) {
+    if (record) {
       return record;
     }
 
@@ -39,19 +39,19 @@ export default Ember.Route.extend({
    *
    * @method deactivate
    */
-  deactivate: function () {
+  deactivate: function() {
     // We grab the model loaded in this route
     var model = this.currentModel;
 
     // If we are leaving the Route we verify if the model is in
     // 'isNew' state, which means it wasn't saved to the backend.
-    if(model && model.get('isNew')) {
+    if (model && model.get('isNew')) {
       // We call DS#destroyRecord() which removes it from the store
       model.destroyRecord();
     }
   },
 
-  setupController: function (controller, model) {
+  setupController: function(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
 
@@ -87,8 +87,8 @@ export default Ember.Route.extend({
   // },
 
   actions: {
-    willTransition: function (transition) {
-      if(transition.targetName === 'contact.new.index') {
+    willTransition: function(transition) {
+      if (transition.targetName === 'contact.new.index') {
         transition.abort();
         return true;
       }
@@ -97,10 +97,19 @@ export default Ember.Route.extend({
       var model = this.currentModel;
       // If we are leaving the Route we verify if the model is in
       // 'isNew' state, which means it wasn't saved to the backend.
-      if(model && model.get('isNew')) {
+      if (model && model.get('isNew')) {
+        let contexts = transition.intent.contexts;
         // We call DS#destroyRecord() which removes it from the store
         model.destroyRecord();
         transition.abort();
+
+        if (contexts.length > 0) {
+          //grab any models ids and apply them to transition
+          let ids = contexts.mapBy('id');
+          this.replaceWith(transition.targetName, ...ids);
+          return true;
+        }
+
         this.replaceWith(transition.targetName);
         return true;
       }
@@ -121,7 +130,7 @@ export default Ember.Route.extend({
     },
 
     error(error) {
-      if(error instanceof AdapterError) {
+      if (error instanceof AdapterError) {
         Ember.get(this, 'flashMessages')
           .warning('No contact found! Re-directing to new contact...');
         // redirect to new

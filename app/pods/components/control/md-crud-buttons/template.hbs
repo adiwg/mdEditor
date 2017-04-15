@@ -4,7 +4,7 @@
     <i class="fa fa-floppy-o"></i> Save
   </button>
   <button {{action "cancel"}} class="btn btn-lg btn-warning"
-  disabled={{if model.hasDirtyHash false true}}>
+  disabled={{if model.canRevert false true}}>
     <i class="fa fa-undo"></i> Cancel
   </button>
   <button {{action "copy"}} class="btn btn-lg btn-info">

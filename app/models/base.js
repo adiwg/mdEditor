@@ -44,6 +44,10 @@ export default DS.Model.extend({
 
   observeAutoSave: Ember.observer('hasDirtyAttributes', 'hasDirtyHash',
     function() {
+      if (this.get('isNew')) {
+        return;
+      }
+
       if (this.get('settings.data.autoSave') && (this.get('hasDirtyHash') ||
           this.get('hasDirtyAttributes'))) {
         Ember.run.once(this, function() {
@@ -55,14 +59,14 @@ export default DS.Model.extend({
   wasUpdated(model) {
     console.info(arguments);
     let record = model.record || model;
-    let json = record.serialize().data.attributes.json;
-    
+    let json = JSON.parse(record.serialize().data.attributes.json);
+
     this.setCurrentHash(json);
     record.set('jsonSnapshot', json);
   },
 
   wasLoaded(model) {
-    let json = model.serialize().data.attributes.json;
+    let json = JSON.parse(model.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     model.set('jsonSnapshot', json);
@@ -93,12 +97,12 @@ export default DS.Model.extend({
    * @param  {Object} target    The object to hash
    * @param  {Boolean} parsed    If true, the object will not be passed through
    *                            JSON.parse before being hashed
-   * @return {String}           The hash
+   * @return {String|undefined} The hash or undefined if an object wasn't provided.
    */
   hashObject(target, parsed) {
     let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
 
-    return hash(toHash);
+    return typeof toHash === "object" ? hash(toHash) : undefined;
   },
 
   /**
@@ -108,13 +112,34 @@ export default DS.Model.extend({
    * @returns {Boolean} Boolean value indicating if hashes are equivalent
    */
   hasDirtyHash: computed('currentHash', function() {
-    let oldHash = this.get('currentHash');
-    let newHash = this.hashObject(this.serialize().data.attributes.json, true);
+    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes.json), true);
 
-    if (oldHash !== newHash && !this.get('hasDirtyAttributes')) {
+    //if the currentHash is undefined, the record is either new or hasn't had the
+    //hash calculated yet
+    if (this.get('currentHash') === undefined) {
+      this.set('currentHash', newHash);
+    }
+
+    if (this.get('currentHash') !== newHash || this.get('hasDirtyAttributes')) {
       return true;
     }
 
+    return false;
+  }),
+
+  canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function() {
+    let revert = this.get('jsonRevert');
+
+    if (revert) {
+      let autoSave = this.get('settings.data.autoSave');
+      let dirty = this.get('hasDirtyHash');
+      let hash = this.hashObject(JSON.parse(revert), true) !== this.get('currentHash');
+
+      if ((autoSave && hash) || (!autoSave && dirty)) {
+        return true;
+      }
+    }
+    
     return false;
   }),
 
