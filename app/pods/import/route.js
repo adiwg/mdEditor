@@ -40,7 +40,6 @@ export default Ember.Route.extend({
         let valid = jv.validate('jsonapi', json);
 
         if(!valid) {
-          console.log(jv.errorsText());
           error = `${file.name} is not a valid mdEditor file.`;
         }
       } catch(e) {

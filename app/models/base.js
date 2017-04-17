@@ -37,7 +37,6 @@ export default DS.Model.extend({
     let reloading = this.get('isReloading');
 
     if (!reloading) {
-      console.info(this.get('isReloading'));
       this.wasUpdated(this);
     }
   }),
@@ -57,7 +56,6 @@ export default DS.Model.extend({
     }),
 
   wasUpdated(model) {
-    console.info(arguments);
     let record = model.record || model;
     let json = JSON.parse(record.serialize().data.attributes.json);
 
@@ -128,18 +126,26 @@ export default DS.Model.extend({
   }),
 
   canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function() {
+    let dirty = this.get('hasDirtyHash');
+    let autoSave = this.get('settings.data.autoSave');
+
+    //no autoSave so just check if dirty
+    if (!autoSave && dirty) {
+      return true;
+    }
+
     let revert = this.get('jsonRevert');
 
-    if (revert) {
-      let autoSave = this.get('settings.data.autoSave');
-      let dirty = this.get('hasDirtyHash');
+    //if we have set revert object with autoSave on
+    if (revert && autoSave) {
       let hash = this.hashObject(JSON.parse(revert), true) !== this.get('currentHash');
 
-      if ((autoSave && hash) || (!autoSave && dirty)) {
+      //check if changes have been made
+      if (hash) {
         return true;
       }
     }
-    
+
     return false;
   }),
 
