@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d427afb5" target="_blank">
-                                  Tag: 0.0.0.d427afb5
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/602fe29d" target="_blank">
+                                  Tag: 0.0.0.602fe29d
                                 </a>
                             </h4>
                         </div>
@@ -239,7 +239,6 @@ export default DS.Model.extend({
     let reloading = this.get(&#x27;isReloading&#x27;);
 
     if (!reloading) {
-      console.info(this.get(&#x27;isReloading&#x27;));
       this.wasUpdated(this);
     }
   }),
@@ -259,7 +258,6 @@ export default DS.Model.extend({
     }),
 
   wasUpdated(model) {
-    console.info(arguments);
     let record = model.record || model;
     let json = JSON.parse(record.serialize().data.attributes.json);
 
@@ -330,18 +328,26 @@ export default DS.Model.extend({
   }),
 
   canRevert: computed(&#x27;hasDirtyHash&#x27;, &#x27;settings.data.autoSave&#x27;, function() {
+    let dirty = this.get(&#x27;hasDirtyHash&#x27;);
+    let autoSave = this.get(&#x27;settings.data.autoSave&#x27;);
+
+    //no autoSave so just check if dirty
+    if (!autoSave &amp;&amp; dirty) {
+      return true;
+    }
+
     let revert = this.get(&#x27;jsonRevert&#x27;);
 
-    if (revert) {
-      let autoSave = this.get(&#x27;settings.data.autoSave&#x27;);
-      let dirty = this.get(&#x27;hasDirtyHash&#x27;);
+    //if we have set revert object with autoSave on
+    if (revert &amp;&amp; autoSave) {
       let hash = this.hashObject(JSON.parse(revert), true) !== this.get(&#x27;currentHash&#x27;);
 
-      if ((autoSave &amp;&amp; hash) || (!autoSave &amp;&amp; dirty)) {
+      //check if changes have been made
+      if (hash) {
         return true;
       }
     }
-    
+
     return false;
   }),
 

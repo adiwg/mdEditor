@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.d427afb5",
+        "version": "0.0.0.602fe29d",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1156,7 +1156,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 82,
+            "line": 80,
             "description": "Compute and set the model hash.",
             "itemtype": "method",
             "name": "setCurrentHash",
@@ -1172,7 +1172,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 94,
+            "line": 92,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1195,7 +1195,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 108,
+            "line": 106,
             "description": "Compare the current hash with the cached one.",
             "itemtype": "property",
             "name": "hasDirtyHash",
@@ -3374,7 +3374,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 4,
+            "line": 30,
             "description": "Models for sidebar navigation",
             "return": {
                 "description": "",
@@ -3385,7 +3385,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 49,
+            "line": 75,
             "description": "The current model for the route",
             "return": {
                 "description": "",
@@ -3505,7 +3505,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " app/models/base.js:108"
+            "line": " app/models/base.js:106"
         },
         {
             "message": "unknown tag: mixin",
@@ -3553,7 +3553,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/models/base.js:94"
+            "line": " app/models/base.js:92"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",
@@ -3617,11 +3617,11 @@
         },
         {
             "message": "Missing item type\nModels for sidebar navigation",
-            "line": " app/routes/application.js:4"
+            "line": " app/routes/application.js:30"
         },
         {
             "message": "Missing item type\nThe current model for the route",
-            "line": " app/routes/application.js:49"
+            "line": " app/routes/application.js:75"
         },
         {
             "message": "Missing item type",

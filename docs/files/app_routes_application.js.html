@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d427afb5" target="_blank">
-                                  Tag: 0.0.0.d427afb5
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/602fe29d" target="_blank">
+                                  Tag: 0.0.0.602fe29d
                                 </a>
                             </h4>
                         </div>
@@ -202,7 +202,33 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 
-export default Ember.Route.extend({
+const {
+  $,
+  A,
+  Route,
+  Object: EmberObject,
+  guidFor,
+  RSVP,
+  Logger
+} = Ember;
+
+export default Route.extend({
+  init() {
+    this._super(...arguments);
+
+    $(window).bind(&#x27;beforeunload&#x27;, (evt) =&gt; {
+      let dirty = this.currentModel.filter(function(itm) {
+        return itm.filterBy(&#x27;hasDirtyHash&#x27;).length;
+      }).length;
+
+      let message = &#x27;Are you sure you want to leave unsaved work?&#x27;;
+
+      evt.returnValue = dirty ? message : undefined;
+
+      return evt.returnValue;
+    });
+  },
+
   /**
    * Models for sidebar navigation
    *
@@ -220,15 +246,15 @@ export default Ember.Route.extend({
       })
     ];
 
-    let meta = Ember.A([Ember.Object.create({
+    let meta = A([EmberObject.create({
       type: &#x27;record&#x27;,
       list: &#x27;records&#x27;,
       title: &#x27;Metadata Records&#x27;
-    }), Ember.Object.create({
+    }), EmberObject.create({
       type: &#x27;contact&#x27;,
       list: &#x27;contacts&#x27;,
       title: &#x27;Contacts&#x27;
-    }), Ember.Object.create({
+    }), EmberObject.create({
       type: &#x27;dictionary&#x27;,
       list: &#x27;dictionaries&#x27;,
       title: &#x27;Dictionaries&#x27;
@@ -236,16 +262,16 @@ export default Ember.Route.extend({
 
     let idx = 0;
 
-    let mapFn = function (item) {
+    let mapFn = function(item) {
 
-      meta[idx].set(&#x27;listId&#x27;, Ember.guidFor(item));
+      meta[idx].set(&#x27;listId&#x27;, guidFor(item));
       item.set(&#x27;meta&#x27;, meta[idx]);
       idx = ++idx;
 
       return item;
     };
 
-    return Ember.RSVP.map(promises, mapFn);
+    return RSVP.map(promises, mapFn);
   },
 
   /**
@@ -253,20 +279,20 @@ export default Ember.Route.extend({
    *
    * @return {DS.Model}
    */
-  currentModel: function () {
+  currentModel: function() {
     return this.modelFor(this.routeName);
   },
 
   actions: {
     error(error) {
-      Ember.Logger.error(error);
+      Logger.error(error);
 
-      if(error.status === 404) {
+      if (error.status === 404) {
         return this.transitionTo(&#x27;not-found&#x27;);
       }
 
       return this.replaceWith(&#x27;error&#x27;)
-        .then(function (route) {
+        .then(function(route) {
           route.controller.set(&#x27;lastError&#x27;, error);
         });
     },
