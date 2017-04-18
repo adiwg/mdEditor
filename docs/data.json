@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.602fe29d",
+        "version": "0.0.0.d8ac43e9",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2749,7 +2749,7 @@
         },
         {
             "file": "app/pods/components/object/md-address/component.js",
-            "line": 21,
+            "line": 23,
             "description": "mdJSON object containing the 'address' array.",
             "itemtype": "property",
             "name": "model",
@@ -2761,7 +2761,7 @@
         },
         {
             "file": "app/pods/components/object/md-address/component.js",
-            "line": 29,
+            "line": 31,
             "description": "List of mdJSON 'address' object attributes to display in\nmd-object-table to aid in choosing the address to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "attributes",
@@ -2773,7 +2773,7 @@
         },
         {
             "file": "app/pods/components/object/md-address/component.js",
-            "line": 41,
+            "line": 43,
             "description": "Name to place on the mdEditor panel header for entry and edit of\n'address' objects.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "label",
@@ -2785,7 +2785,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 27,
+            "line": 29,
             "description": "The array to render in the template",
             "itemtype": "property",
             "name": "value",
@@ -2798,7 +2798,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 37,
+            "line": 39,
             "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n  foo: null,\n  bar: Ember.A()\n }\n ```",
             "itemtype": "property",
             "name": "templateClass",
@@ -2812,7 +2812,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 55,
+            "line": 57,
             "description": "Comma-separated list of column headers to display in the table. If not\nprovided, the table header will not be created.",
             "itemtype": "property",
             "name": "columns",
@@ -2823,7 +2823,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 63,
+            "line": 65,
             "description": "Inital collapse state fo the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -2835,7 +2835,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 71,
+            "line": 73,
             "description": "Whether to render in a panel.",
             "itemtype": "property",
             "name": "plain",
@@ -2847,7 +2847,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 80,
+            "line": 82,
             "description": "Indicates whether at least one item is required is required in the value\narray.",
             "itemtype": "property",
             "name": "required",
@@ -2859,7 +2859,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 90,
+            "line": 92,
             "description": "The title for the panel. Should be in singular form.",
             "itemtype": "property",
             "name": "title",
@@ -2871,7 +2871,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 99,
+            "line": 101,
             "description": "Array of column headers",
             "itemtype": "property",
             "name": "columnArray",
@@ -2889,7 +2889,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 114,
+            "line": 116,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -2907,7 +2907,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 136,
+            "line": 138,
             "description": "Alias for values",
             "itemtype": "property",
             "name": "arrayValues",
@@ -2925,7 +2925,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 147,
+            "line": 149,
             "description": "The panel id selector",
             "itemtype": "property",
             "name": "panelId",
@@ -2944,7 +2944,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 161,
+            "line": 163,
             "description": "The color of the counter displayed in the panel header",
             "itemtype": "property",
             "name": "pillColor",
@@ -2962,7 +2962,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 178,
+            "line": 180,
             "description": "Focus the added row, or the last row on deletion.",
             "itemtype": "method",
             "name": "valueChanged",
@@ -2975,7 +2975,7 @@
         },
         {
             "file": "app/pods/components/object/md-graphic-array/component.js",
-            "line": 19,
+            "line": 21,
             "description": "mdJSON object containing the 'graphic' array.",
             "itemtype": "property",
             "name": "model",
@@ -2986,7 +2986,7 @@
         },
         {
             "file": "app/pods/components/object/md-graphic-array/component.js",
-            "line": 27,
+            "line": 29,
             "description": "List of mdJSON 'graphic' object attributes to display in\nmd-object-table to aid in choosing the onlineResource to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "attributes",
@@ -2997,7 +2997,7 @@
         },
         {
             "file": "app/pods/components/object/md-graphic-array/component.js",
-            "line": 39,
+            "line": 41,
             "description": "Name to place on the mdEditor panel header for entry and edit of\n'onlineResource' objects.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "label",
@@ -3008,7 +3008,7 @@
         },
         {
             "file": "app/pods/components/object/md-graphic-array/component.js",
-            "line": 50,
+            "line": 52,
             "description": "Label for the 'add item' button.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "buttonText",
@@ -3019,7 +3019,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 39,
+            "line": 41,
             "description": "Array of the mdJSON object to display in the object table for\nselection to edit or delete.",
             "itemtype": "property",
             "name": "items",
@@ -3032,7 +3032,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 50,
+            "line": 52,
             "description": "List of items object attributes to display in\nmd-object-table to aid in choosing the item to edit or\ndelete.",
             "itemtype": "property",
             "name": "attributes",
@@ -3044,7 +3044,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 60,
+            "line": 62,
             "description": "Name to place on the mdEditor panel header for entry and edit of\nitems objects.",
             "itemtype": "property",
             "name": "header",
@@ -3056,7 +3056,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 69,
+            "line": 71,
             "description": "The path of template to render in the table preview for each row.\nTemplate content will be wrapped in a `<td>` element.",
             "itemtype": "property",
             "name": "previewTemplate",
@@ -3069,7 +3069,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 79,
+            "line": 81,
             "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
             "itemtype": "property",
             "name": "templateClass",
@@ -3083,7 +3083,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 99,
+            "line": 101,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -3095,7 +3095,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 108,
+            "line": 110,
             "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -3107,7 +3107,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 116,
+            "line": 118,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -3119,7 +3119,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 124,
+            "line": 126,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -3137,7 +3137,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource/component.js",
-            "line": 14,
+            "line": 15,
             "description": "Display the image picker and preview",
             "itemtype": "property",
             "name": "imagePicker",
@@ -3148,7 +3148,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 30,
+            "line": 32,
             "description": "mdJSON object containing the 'onlineResource' array.",
             "itemtype": "property",
             "name": "model",
@@ -3160,7 +3160,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 38,
+            "line": 40,
             "description": "Display the image picker and preview",
             "itemtype": "property",
             "name": "imagePicker",
@@ -3172,7 +3172,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 46,
+            "line": 48,
             "description": "List of mdJSON 'onlineResource' object attributes to display in\nmd-object-table to aid in choosing the onlineResource to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "attributes",
@@ -3184,7 +3184,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 58,
+            "line": 60,
             "description": "Name to place on the mdEditor panel header for entry and edit of\n'onlineResource' objects.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "label",
@@ -3196,7 +3196,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 69,
+            "line": 71,
             "description": "The template to use for the preview table rows. If not overridden, will use\nthe `md-image-preview` template if `imagePicker = true`.",
             "itemtype": "property",
             "name": "previewTemplate",
@@ -3214,7 +3214,7 @@
         },
         {
             "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 20,
+            "line": 22,
             "description": "See [md-array-table](md-array-table.html#property_templateClass).",
             "itemtype": "property",
             "name": "templateClass",
