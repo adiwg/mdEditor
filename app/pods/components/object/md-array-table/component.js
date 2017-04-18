@@ -24,6 +24,8 @@ export default Component.extend(Template, {
     this.applyTemplate('value');
   },
 
+  attributeBindings: ['data-spy'],
+
   /**
    * The array to render in the template
    *

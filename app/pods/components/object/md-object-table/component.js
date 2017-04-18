@@ -30,6 +30,8 @@ export default Component.extend(Template, {
     this.applyTemplate('items');
   },
 
+  attributeBindings: ['data-spy'],
+
   //reset the 'editing' flag
   didUpdateAttrs() {
     this._super(...arguments);

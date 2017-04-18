@@ -27,6 +27,8 @@ export default Ember.Component.extend({
    * @constructor
    */
 
+   attributeBindings: ['data-spy'],
+
   /**
    * mdJSON object containing the 'onlineResource' array.
    *

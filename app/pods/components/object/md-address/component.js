@@ -18,6 +18,8 @@ export default Component.extend({
    * @requires md-object-table
    */
 
+   attributeBindings: ['data-spy'],
+
   /**
    * mdJSON object containing the 'address' array.
    *

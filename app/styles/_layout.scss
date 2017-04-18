@@ -73,6 +73,7 @@ html {
 #md-page-content {
   //display: none;
   padding-top: 90px;
+  padding-bottom: 40px;
 
   .md-section-secondary {
     padding-top: 45px;
@@ -84,6 +85,10 @@ html {
 }
 
 .md-control-sidebar {
+  .md-scroll-spy {
+    margin-top: 1em;
+  }
+
   @media(min-width: $screen-sm-min) {
     padding: 10px;
     position: fixed;

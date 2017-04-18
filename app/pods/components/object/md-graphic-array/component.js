@@ -16,6 +16,8 @@ export default Component.extend({
    * @constructor
    */
 
+   attributeBindings: ['data-spy'],
+
   /**
    * mdJSON object containing the 'graphic' array.
    *

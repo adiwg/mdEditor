@@ -10,6 +10,7 @@ const {
 export default Component.extend({
   flashMessages: inject.service(),
   classNames: ['md-online-resource'],
+  attributeBindings: ['data-spy'],
 
   /**
    * Display the image picker and preview

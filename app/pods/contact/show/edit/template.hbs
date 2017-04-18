@@ -20,7 +20,7 @@
               confirmTip="Note! Editing the Contact ID may break links. Be aware."
               placeholder="User assigned Contact ID" label="Contact ID"}}
 
-            {{input/md-input value=model.json.name
+            {{input/md-input value=model.json.name data-spy="Time"
               placeholder=(concat model.type " Name") label=(concat model.type " Name")}}
 
             {{#unless model.json.isOrganization}}
@@ -45,9 +45,9 @@
               }}
 
 
-            {{object/md-phone-array value=model.json.phone}}
+            {{object/md-phone-array value=model.json.phone data-spy="Phone"}}
 
-           {{#object/md-simple-array-table
+           {{#object/md-simple-array-table data-spy="E-mail"
               title="E-mail Address"
               required=true
               value=model.json.electronicMailAddress as |email|
@@ -58,17 +58,18 @@
               </td>
             {{/object/md-simple-array-table}}
 
-            {{object/md-address model=model.json.address}}
+            {{object/md-address model=model.json.address  data-spy="Address"}}
 
-            {{object/md-online-resource-array model=model.json.onlineResource}}
+            {{object/md-online-resource-array model=model.json.onlineResource
+              data-spy="Online Resource"}}
 
             {{object/md-graphic-array
-              model=model.json.logoGraphic
+              model=model.json.logoGraphic data-spy="Logo"
               button-text="Add Logo"
               label="Logo"
             }}
 
-            {{#object/md-simple-array-table
+            {{#object/md-simple-array-table data-spy="Availability"
               title="Available Time"
               value=model.json.hoursOfService as |hour|
             }}
@@ -78,7 +79,7 @@
               </td>
             {{/object/md-simple-array-table}}
 
-            {{input/md-textarea value=model.json.contactInstructions
+            {{input/md-textarea value=model.json.contactInstruction data-spy="Instructions"
             placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
         </form>
     </div>
@@ -91,6 +92,8 @@
                 doDelete="destroyContact"
                 doCopy="copyContact"
             }}
+            {{control/md-scroll-spy}}
+
         </div>
     </div>
 </div>

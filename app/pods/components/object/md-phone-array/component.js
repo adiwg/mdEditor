@@ -17,6 +17,8 @@ export default Ember.Component.extend({
    * @constructor
    */
 
+   attributeBindings: ['data-spy'],
+
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
    *

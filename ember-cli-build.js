@@ -50,6 +50,8 @@ module.exports = function(defaults) {
     '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
   app.import(app.bowerDirectory +
     '/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
+  app.import(app.bowerDirectory +
+    '/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js');
 
   //select2
   // app.import(app.bowerDirectory +
