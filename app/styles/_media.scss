@@ -76,6 +76,17 @@
   #md-wrapper #md-navbar-main .nav.navbar-nav.navbar-right {
     margin-right: -15px;
   }
+
+  .footer .footer-container {
+    left: 0;
+  }
+
+  #md-wrapper.toggled {
+    .footer .footer-container {
+      left: -275px;
+    }
+
+  }
 }
 
 @media(max-width: 532px) {

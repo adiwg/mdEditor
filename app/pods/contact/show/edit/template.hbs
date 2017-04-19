@@ -1,20 +1,15 @@
-<div class="row page-header">
-    <div class="col-sm-9 col-md-offset-1">
-      <h2>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
-        <span class="text-danger">
-          {{#if model.hasDirtyHash}}
-            {{fa-icon "exclamation-circle"}}
-            {{tooltip-on-element text='This record has been modified!' side="right"
-              class="md-tooltip danger"
-            }}
-          {{/if}}
-        </span>
-      </h2>
-
-    </div>
-</div>
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
+        <h3>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
+          <span class="text-danger">
+            {{#if model.hasDirtyHash}}
+              {{fa-icon "exclamation-circle"}}
+              {{tooltip-on-element text='This record has been modified!' side="right"
+                class="md-tooltip danger"
+              }}
+            {{/if}}
+          </span>
+        </h3>
         <form>
             {{input/md-input-confirm value=model.json.contactId
               confirmTip="Note! Editing the Contact ID may break links. Be aware."
