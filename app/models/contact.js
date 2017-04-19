@@ -3,8 +3,14 @@ import DS from 'ember-data';
 import uuidV4 from 'npm:uuid/v4';
 import Validator from 'npm:validator';
 import Model from 'mdeditor/models/base';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-export default Model.extend(Ember.Copyable, {
+const Validations = buildValidations({
+  'json.name': validator('presence', true),
+  'json.isOrganization': validator('presence', true)
+});
+
+export default Model.extend(Validations, Ember.Copyable, {
   /**
    * Contact model
    *
@@ -37,7 +43,7 @@ export default Model.extend(Ember.Copyable, {
         'contactId': uuidV4(),
         'isOrganization': false,
         'name': null,
-        'positionName': null,
+        //'positionName': null,
         'memberOfOrganization': [],
         'logoGraphic': [],
         'phone': [],
@@ -45,8 +51,8 @@ export default Model.extend(Ember.Copyable, {
         'electronicMailAddress': [],
         'onlineResource': [],
         'hoursOfService': [],
-        'contactInstructions': null,
-        'contactType': null
+        //'contactInstructions': null,
+        //'contactType': null
       });
 
       return obj;
