@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.d8ac43e9",
+        "version": "0.0.0.1c50ba0e",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1136,7 +1136,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 22,
+            "line": 23,
             "description": "The hash for the clean record.",
             "itemtype": "property",
             "name": "currentHash",
@@ -1146,7 +1146,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 29,
+            "line": 30,
             "description": "The clean json object.",
             "itemtype": "property",
             "name": "jsonSnapshot",
@@ -1156,7 +1156,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 80,
+            "line": 81,
             "description": "Compute and set the model hash.",
             "itemtype": "method",
             "name": "setCurrentHash",
@@ -1172,7 +1172,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 92,
+            "line": 93,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1195,7 +1195,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 106,
+            "line": 107,
             "description": "Compare the current hash with the cached one.",
             "itemtype": "property",
             "name": "hasDirtyHash",
@@ -3505,7 +3505,7 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " app/models/base.js:106"
+            "line": " app/models/base.js:107"
         },
         {
             "message": "unknown tag: mixin",
@@ -3553,7 +3553,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/models/base.js:92"
+            "line": " app/models/base.js:93"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

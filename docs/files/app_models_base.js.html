@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d8ac43e9" target="_blank">
-                                  Tag: 0.0.0.d8ac43e9
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1c50ba0e" target="_blank">
+                                  Tag: 0.0.0.1c50ba0e
                                 </a>
                             </h4>
                         </div>
@@ -215,6 +215,7 @@ export default DS.Model.extend({
     this._super(...arguments);
 
     this.on(&#x27;didUpdate&#x27;, this, this.wasUpdated);
+    this.on(&#x27;didCreate&#x27;, this, this.wasUpdated);
     this.get(&#x27;hasDirtyAttributes&#x27;);
     //this.on(&#x27;didLoad&#x27;, this, this.wasLoaded);
   },
