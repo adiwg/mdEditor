@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1c50ba0e" target="_blank">
-                                  Tag: 0.0.0.1c50ba0e
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/18b8ec8a" target="_blank">
+                                  Tag: 0.0.0.18b8ec8a
                                 </a>
                             </h4>
                         </div>
@@ -205,8 +205,14 @@ import DS from &#x27;ember-data&#x27;;
 import uuidV4 from &#x27;npm:uuid/v4&#x27;;
 import Validator from &#x27;npm:validator&#x27;;
 import Model from &#x27;mdeditor/models/base&#x27;;
+import { validator, buildValidations } from &#x27;ember-cp-validations&#x27;;
 
-export default Model.extend(Ember.Copyable, {
+const Validations = buildValidations({
+  &#x27;json.name&#x27;: validator(&#x27;presence&#x27;, true),
+  &#x27;json.isOrganization&#x27;: validator(&#x27;presence&#x27;, true)
+});
+
+export default Model.extend(Validations, Ember.Copyable, {
   /**
    * Contact model
    *

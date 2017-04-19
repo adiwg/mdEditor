@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.1c50ba0e",
+        "version": "0.0.0.18b8ec8a",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -492,7 +492,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/models/contact.js",
-            "line": 8,
+            "line": 14,
             "description": "Models for the mdEditor data store",
             "tag": "main",
             "itemtype": "main",
@@ -702,7 +702,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/models/contact.js",
-            "line": 8,
+            "line": 14,
             "description": "Contact model",
             "submodule": "data-models",
             "is_constructor": 1,
@@ -1208,7 +1208,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 26,
+            "line": 32,
             "description": "The json object for the contact. The data for the contact is stored in this\nobject.",
             "itemtype": "attribute",
             "name": "json",
@@ -1220,7 +1220,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 56,
+            "line": 62,
             "description": "The timestamp for the record",
             "itemtype": "attribute",
             "name": "dateUpdated",
@@ -1233,7 +1233,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 73,
+            "line": 79,
             "description": "The formatted display string for the contact",
             "itemtype": "property",
             "name": "title",
@@ -1252,7 +1252,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 120,
+            "line": 126,
             "description": "The type of contact",
             "itemtype": "property",
             "name": "type",
@@ -1270,7 +1270,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 135,
+            "line": 141,
             "description": "The display icon for the contact",
             "itemtype": "property",
             "name": "icon",
@@ -1288,7 +1288,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 151,
+            "line": 157,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -1307,7 +1307,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 190,
+            "line": 196,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1325,7 +1325,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 208,
+            "line": 214,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -3509,7 +3509,7 @@
         },
         {
             "message": "unknown tag: mixin",
-            "line": " app/models/contact.js:8"
+            "line": " app/models/contact.js:14"
         },
         {
             "message": "replacing incorrect tag: prop with property",
