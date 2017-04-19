@@ -13,6 +13,7 @@ export default DS.Model.extend({
     this._super(...arguments);
 
     this.on('didUpdate', this, this.wasUpdated);
+    this.on('didCreate', this, this.wasUpdated);
     this.get('hasDirtyAttributes');
     //this.on('didLoad', this, this.wasLoaded);
   },
