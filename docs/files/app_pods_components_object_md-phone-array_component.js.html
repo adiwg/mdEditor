@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/18b8ec8a" target="_blank">
-                                  Tag: 0.0.0.18b8ec8a
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/10d20827" target="_blank">
+                                  Tag: 0.0.0.10d20827
                                 </a>
                             </h4>
                         </div>
@@ -201,11 +201,27 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
 const {
   Object: EmObject,
   A
 } = Ember;
+
+const Validations = buildValidations({
+  &#x27;phoneNumber&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      ignoreBlank: true,
+    }),
+    validator(&#x27;format&#x27;, {
+      type: &#x27;phone&#x27;
+    })
+  ]
+});
 
 export default Ember.Component.extend({
 
@@ -219,7 +235,7 @@ export default Ember.Component.extend({
    * @constructor
    */
 
-   attributeBindings: [&#x27;data-spy&#x27;],
+  attributeBindings: [&#x27;data-spy&#x27;],
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -227,8 +243,9 @@ export default Ember.Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmObject.extend({
+  templateClass: EmObject.extend(Validations, {
     init() {
+      this._super(...arguments);
       this.set(&#x27;service&#x27;, A());
     }
   })

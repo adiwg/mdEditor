@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.18b8ec8a",
+        "version": "0.0.0.10d20827",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -471,7 +471,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/mixins/object-template.js",
-            "line": 11,
+            "line": 12,
             "description": "Mixins.",
             "tag": "main",
             "itemtype": "main",
@@ -492,7 +492,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/models/contact.js",
-            "line": 14,
+            "line": 54,
             "description": "Models for the mdEditor data store",
             "tag": "main",
             "itemtype": "main",
@@ -685,7 +685,7 @@
             "extension_for": [],
             "module": "mdeditor",
             "file": "app/mixins/object-template.js",
-            "line": 11,
+            "line": 12,
             "description": "Use this mixin to apply 'templates' to an array of objects. Especially useful\nwhen the object must support setting arrays that are not passed during\ninitialization.",
             "submodule": "mixins",
             "is_constructor": 1,
@@ -702,7 +702,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/models/contact.js",
-            "line": 14,
+            "line": 54,
             "description": "Contact model",
             "submodule": "data-models",
             "is_constructor": 1,
@@ -799,7 +799,7 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 8,
+            "line": 12,
             "description": "Input, edit, display a single item"
         },
         "md-input-confirm": {
@@ -942,10 +942,11 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 12,
+            "line": 15,
             "description": "mdEditor class for input and edit of arrays of objects. The\ncomponent is rendered as an editable table.",
             "submodule": "components-object",
-            "is_constructor": 1
+            "is_constructor": 1,
+            "mixins": "object-template"
         },
         "md-graphic-array": {
             "name": "md-graphic-array",
@@ -1003,7 +1004,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 10,
+            "line": 26,
             "description": "mdEditor class for input and edit of mdJSON 'phone' object.\nThe class manages the maintenance of an array of phone objects.",
             "submodule": "components-object",
             "is_constructor": 1
@@ -1115,7 +1116,7 @@
     "classitems": [
         {
             "file": "app/mixins/object-template.js",
-            "line": 23,
+            "line": 24,
             "description": "Apply the object 'template' to each object in the array.",
             "itemtype": "method",
             "name": "applyTemplate",
@@ -1136,7 +1137,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 23,
+            "line": 24,
             "description": "The hash for the clean record.",
             "itemtype": "property",
             "name": "currentHash",
@@ -1146,7 +1147,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 30,
+            "line": 31,
             "description": "The clean json object.",
             "itemtype": "property",
             "name": "jsonSnapshot",
@@ -1156,7 +1157,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 81,
+            "line": 82,
             "description": "Compute and set the model hash.",
             "itemtype": "method",
             "name": "setCurrentHash",
@@ -1172,7 +1173,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 93,
+            "line": 94,
             "description": "Computed a hash for the target object.",
             "params": [
                 {
@@ -1195,7 +1196,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 107,
+            "line": 108,
             "description": "Compare the current hash with the cached one.",
             "itemtype": "property",
             "name": "hasDirtyHash",
@@ -1208,7 +1209,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 32,
+            "line": 72,
             "description": "The json object for the contact. The data for the contact is stored in this\nobject.",
             "itemtype": "attribute",
             "name": "json",
@@ -1220,7 +1221,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 62,
+            "line": 102,
             "description": "The timestamp for the record",
             "itemtype": "attribute",
             "name": "dateUpdated",
@@ -1233,7 +1234,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 79,
+            "line": 119,
             "description": "The formatted display string for the contact",
             "itemtype": "property",
             "name": "title",
@@ -1252,7 +1253,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 126,
+            "line": 166,
             "description": "The type of contact",
             "itemtype": "property",
             "name": "type",
@@ -1270,7 +1271,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 141,
+            "line": 181,
             "description": "The display icon for the contact",
             "itemtype": "property",
             "name": "icon",
@@ -1288,7 +1289,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 157,
+            "line": 197,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -1307,7 +1308,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 196,
+            "line": 236,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1325,7 +1326,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 214,
+            "line": 254,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -1960,8 +1961,8 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 19,
-            "description": "Value of the input.\nValue sets the initial value and returns the edited result",
+            "line": 79,
+            "description": "Value of the input.\nValue sets the initial value and returns the edited result.\nThis property is overridden if valuePath and model are supplied.",
             "itemtype": "property",
             "name": "value",
             "type": "String",
@@ -1972,7 +1973,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 28,
+            "line": 89,
             "description": "Type of data represented by the value string.\nHTML5 types may be specified ('text', 'number', etc.)",
             "itemtype": "property",
             "name": "type",
@@ -1984,7 +1985,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 38,
+            "line": 99,
             "description": "The form label to display",
             "itemtype": "property",
             "name": "label",
@@ -1996,7 +1997,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 47,
+            "line": 108,
             "description": "Whether a value is required",
             "itemtype": "property",
             "name": "required",
@@ -2008,7 +2009,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 56,
+            "line": 117,
             "description": "Whether a input is disabled",
             "itemtype": "property",
             "name": "disabled",
@@ -2020,7 +2021,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 65,
+            "line": 126,
             "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
             "itemtype": "property",
             "name": "maxlength",
@@ -2032,7 +2033,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 75,
+            "line": 136,
             "description": "Text displayed in empty inputs",
             "itemtype": "property",
             "name": "placeholder",
@@ -2044,12 +2045,38 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 84,
+            "line": 145,
             "description": "CSS class to set on the input control",
             "itemtype": "property",
             "name": "class",
             "type": "String",
             "default": "'form-control'",
+            "class": "md-input",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 154,
+            "description": "The model or object containing the input value. Only needed for validation.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "default": "undefined",
+            "readonly": "",
+            "class": "md-input",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-input/component.js",
+            "line": 163,
+            "description": "The path of the input value. Only needed for validation.",
+            "itemtype": "property",
+            "name": "valuePath",
+            "type": "{String}",
+            "default": "''",
+            "readonly": "",
             "class": "md-input",
             "module": "mdeditor",
             "submodule": "components-input"
@@ -2785,7 +2812,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 29,
+            "line": 46,
             "description": "The array to render in the template",
             "itemtype": "property",
             "name": "value",
@@ -2798,7 +2825,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 39,
+            "line": 56,
             "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n  foo: null,\n  bar: Ember.A()\n }\n ```",
             "itemtype": "property",
             "name": "templateClass",
@@ -2812,7 +2839,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 57,
+            "line": 74,
             "description": "Comma-separated list of column headers to display in the table. If not\nprovided, the table header will not be created.",
             "itemtype": "property",
             "name": "columns",
@@ -2823,7 +2850,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 65,
+            "line": 82,
             "description": "Inital collapse state fo the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -2835,7 +2862,19 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 73,
+            "line": 90,
+            "description": "The validation to apply to the array items.",
+            "itemtype": "property",
+            "name": "validation",
+            "type": "{Ember.Mixin}",
+            "default": "undefined",
+            "class": "md-array-table",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-array-table/component.js",
+            "line": 98,
             "description": "Whether to render in a panel.",
             "itemtype": "property",
             "name": "plain",
@@ -2847,7 +2886,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 82,
+            "line": 107,
             "description": "Indicates whether at least one item is required is required in the value\narray.",
             "itemtype": "property",
             "name": "required",
@@ -2859,7 +2898,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 92,
+            "line": 117,
             "description": "The title for the panel. Should be in singular form.",
             "itemtype": "property",
             "name": "title",
@@ -2871,7 +2910,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 101,
+            "line": 126,
             "description": "Array of column headers",
             "itemtype": "property",
             "name": "columnArray",
@@ -2889,7 +2928,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 116,
+            "line": 141,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -2907,7 +2946,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 138,
+            "line": 163,
             "description": "Alias for values",
             "itemtype": "property",
             "name": "arrayValues",
@@ -2925,7 +2964,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 149,
+            "line": 174,
             "description": "The panel id selector",
             "itemtype": "property",
             "name": "panelId",
@@ -2944,7 +2983,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 163,
+            "line": 188,
             "description": "The color of the counter displayed in the panel header",
             "itemtype": "property",
             "name": "pillColor",
@@ -2962,7 +3001,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 180,
+            "line": 205,
             "description": "Focus the added row, or the last row on deletion.",
             "itemtype": "method",
             "name": "valueChanged",
@@ -3214,7 +3253,7 @@
         },
         {
             "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 22,
+            "line": 38,
             "description": "See [md-array-table](md-array-table.html#property_templateClass).",
             "itemtype": "property",
             "name": "templateClass",
@@ -3505,11 +3544,11 @@
     "warnings": [
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " app/models/base.js:107"
+            "line": " app/models/base.js:108"
         },
         {
             "message": "unknown tag: mixin",
-            "line": " app/models/contact.js:14"
+            "line": " app/models/contact.js:54"
         },
         {
             "message": "replacing incorrect tag: prop with property",
@@ -3526,6 +3565,10 @@
         {
             "message": "unknown tag: name",
             "line": " app/pods/components/layout/md-nav-secondary/component.js:34"
+        },
+        {
+            "message": "unknown tag: mixins",
+            "line": " app/pods/components/object/md-array-table/component.js:15"
         },
         {
             "message": "unknown tag: mixin",
@@ -3553,7 +3596,7 @@
         },
         {
             "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/models/base.js:93"
+            "line": " app/models/base.js:94"
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",

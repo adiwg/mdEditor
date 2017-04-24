@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/18b8ec8a" target="_blank">
-                                  Tag: 0.0.0.18b8ec8a
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/10d20827" target="_blank">
+                                  Tag: 0.0.0.10d20827
                                 </a>
                             </h4>
                         </div>
@@ -207,6 +207,9 @@ const {
   computed,
   Component,
   A,
+  getOwner,
+  //Object: EmObject,
+  run,
   typeOf
 } = Ember;
 
@@ -218,12 +221,26 @@ export default Component.extend(Template, {
    * @class md-array-table
    * @submodule components-object
    * @constructor
+   * @mixins object-template
    */
 
   init() {
     this._super(...arguments);
 
     this.applyTemplate(&#x27;value&#x27;);
+
+    /*const Validation = this.get(&#x27;validation&#x27;);
+
+    if(Validation) {
+      const owner = getOwner(this);
+      let Item = EmObject.extend(Validation);
+
+      this.set(&#x27;value&#x27;, this.get(&#x27;value&#x27;)
+        .map(i =&gt; Item.create(
+          owner.ownerInjection(),
+          i))
+      );
+    }*/
   },
 
   attributeBindings: [&#x27;data-spy&#x27;],
@@ -269,6 +286,14 @@ export default Component.extend(Template, {
    *
    * @property isCollapsed
    * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * The validation to apply to the array items.
+   *
+   * @property validation
+   * @type {Ember.Mixin}
    * @default undefined
    */
 
@@ -386,7 +411,7 @@ export default Component.extend(Template, {
    * @return none
    */
   valueChanged() {
-    Ember.run.schedule(&#x27;afterRender&#x27;, this, function () {
+    run.schedule(&#x27;afterRender&#x27;, this, function () {
       let panel = this.$(&#x27;.panel-collapse&#x27;);
       let input = this.$(&#x27;.panel-collapse tbody tr:last-of-type input&#x27;)
         .first();
@@ -405,8 +430,11 @@ export default Component.extend(Template, {
   actions: {
     addItem: function (value) {
       const Template = this.get(&#x27;templateClass&#x27;);
+      const owner = getOwner(this);
 
-      value.pushObject(typeOf(Template) === &#x27;class&#x27; ? Template.create() :
+      value.pushObject(typeOf(Template) === &#x27;class&#x27; ? Template.create(
+          owner.ownerInjection()
+        ) :
         null);
       this.valueChanged();
     },
