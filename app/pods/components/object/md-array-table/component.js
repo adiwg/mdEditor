@@ -5,6 +5,9 @@ const {
   computed,
   Component,
   A,
+  getOwner,
+  //Object: EmObject,
+  run,
   typeOf
 } = Ember;
 
@@ -16,12 +19,26 @@ export default Component.extend(Template, {
    * @class md-array-table
    * @submodule components-object
    * @constructor
+   * @mixins object-template
    */
 
   init() {
     this._super(...arguments);
 
     this.applyTemplate('value');
+
+    /*const Validation = this.get('validation');
+
+    if(Validation) {
+      const owner = getOwner(this);
+      let Item = EmObject.extend(Validation);
+
+      this.set('value', this.get('value')
+        .map(i => Item.create(
+          owner.ownerInjection(),
+          i))
+      );
+    }*/
   },
 
   attributeBindings: ['data-spy'],
@@ -67,6 +84,14 @@ export default Component.extend(Template, {
    *
    * @property isCollapsed
    * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * The validation to apply to the array items.
+   *
+   * @property validation
+   * @type {Ember.Mixin}
    * @default undefined
    */
 
@@ -184,7 +209,7 @@ export default Component.extend(Template, {
    * @return none
    */
   valueChanged() {
-    Ember.run.schedule('afterRender', this, function () {
+    run.schedule('afterRender', this, function () {
       let panel = this.$('.panel-collapse');
       let input = this.$('.panel-collapse tbody tr:last-of-type input')
         .first();
@@ -203,8 +228,11 @@ export default Component.extend(Template, {
   actions: {
     addItem: function (value) {
       const Template = this.get('templateClass');
+      const owner = getOwner(this);
 
-      value.pushObject(typeOf(Template) === 'class' ? Template.create() :
+      value.pushObject(typeOf(Template) === 'class' ? Template.create(
+          owner.ownerInjection()
+        ) :
         null);
       this.valueChanged();
     },

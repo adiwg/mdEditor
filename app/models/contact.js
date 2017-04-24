@@ -3,14 +3,54 @@ import DS from 'ember-data';
 import uuidV4 from 'npm:uuid/v4';
 import Validator from 'npm:validator';
 import Model from 'mdeditor/models/base';
-import { validator, buildValidations } from 'ember-cp-validations';
+import {
+  validator,
+  buildValidations
+} from 'ember-cp-validations';
+
+const {
+  Copyable,
+  computed
+} = Ember;
 
 const Validations = buildValidations({
-  'json.name': validator('presence', true),
-  'json.isOrganization': validator('presence', true)
+  'json.contactId': validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  }),
+  'json.name': [
+    validator('format', {
+      regex: /^\s+$/,
+      inverse: true,
+      isWarning: true,
+      message: "Name should not be only white-space."
+    }),
+    validator('presence', {
+      disabled: computed.notEmpty('model.json.positionName'),
+      presence: true,
+      //ignoreBlank: true,
+    })
+  ],
+  'json.positionName': [
+    validator('format', {
+      regex: /^\s+$/,
+      inverse: true,
+      isWarning: true,
+      message: "Position Name should not be only white-space."
+    }),
+    validator('presence', {
+      disabled: computed.notEmpty('model.json.name'),
+      presence: true,
+      //ignoreBlank: true,
+    })
+  ],
+  'json.isOrganization': validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  })
 });
 
-export default Model.extend(Validations, Ember.Copyable, {
+export default Model.extend(Validations, Copyable, {
   /**
    * Contact model
    *
@@ -38,7 +78,7 @@ export default Model.extend(Validations, Ember.Copyable, {
    * @required
    */
   json: DS.attr('json', {
-    defaultValue: function() {
+    defaultValue: function () {
       let obj = Ember.Object.create({
         'contactId': uuidV4(),
         'isOrganization': false,
@@ -73,7 +113,7 @@ export default Model.extend(Validations, Ember.Copyable, {
     }
   }),
 
-  name: Ember.computed.alias('json.name'),
+  name: computed.alias('json.name'),
   contactId: Ember.computed.alias('json.contactId'),
 
   /**
@@ -85,8 +125,8 @@ export default Model.extend(Validations, Ember.Copyable, {
    * @category computed
    * @requires json.name, json.positionName
    */
-  title: Ember.computed('json.name', 'json.positionName',
-    function() {
+  title: computed('json.name', 'json.positionName',
+    function () {
       const json = this.get('json');
 
       return json.name || (json.isOrganization ? null : json.positionName);
@@ -132,8 +172,8 @@ export default Model.extend(Validations, Ember.Copyable, {
    * @category computed
    * @requires json.isOrganization
    */
-  type: Ember.computed('json.isOrganization',
-    function() {
+  type: computed('json.isOrganization',
+    function () {
       return this.get('json.isOrganization') ? 'Organization' :
         'Individual';
     }),
@@ -147,8 +187,8 @@ export default Model.extend(Validations, Ember.Copyable, {
    * @category computed
    * @requires json.isOrganization
    */
-  icon: Ember.computed('json.isOrganization',
-    function() {
+  icon: computed('json.isOrganization',
+    function () {
       const name = this.get('json.isOrganization');
 
       return name ? 'users' : 'user';
@@ -163,9 +203,9 @@ export default Model.extend(Validations, Ember.Copyable, {
    * @category computed
    * @requires json.name, json.isOrganization
    */
-  combinedName: Ember.computed('json.name', 'json.isOrganization',
+  combinedName: computed('json.name', 'json.isOrganization',
     'json.positionName',
-    function() {
+    function () {
       const json = this.get('json');
 
       let {
@@ -180,13 +220,13 @@ export default Model.extend(Validations, Ember.Copyable, {
       let combinedName = name || positionName;
       let orgName;
 
-      if (orgId) {
+      if(orgId) {
         let contacts = this.get('store').peekAll('contact');
         let org = contacts.findBy('json.contactId', orgId);
         orgName = org.name;
       }
 
-      if (orgName && !isOrganization) {
+      if(orgName && !isOrganization) {
         return orgName += ": " + combinedName;
       }
 
@@ -202,9 +242,9 @@ export default Model.extend(Validations, Ember.Copyable, {
    * @category computed
    * @requires json.contactId
    */
-  shortId: Ember.computed('json.contactId', function() {
+  shortId: Ember.computed('json.contactId', function () {
     const contactId = this.get('json.contactId');
-    if (contactId && Validator.isUUID(contactId)) {
+    if(contactId && Validator.isUUID(contactId)) {
       return contactId.substring(0, 7) + '...';
     }
 
@@ -219,8 +259,8 @@ export default Model.extend(Validations, Ember.Copyable, {
    * @return {DS.Model}
    */
   copy() {
-    let current = this.get('json');
-    let json = Ember.Object.create(JSON.parse(JSON.stringify(current)));
+    let current = this.get('cleanJson');
+    let json = Ember.Object.create(current);
     let {
       name,
       positionName,

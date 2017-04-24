@@ -1,9 +1,25 @@
 import Ember from 'ember';
+import {
+  validator,
+  buildValidations
+} from 'ember-cp-validations';
 
 const {
   Object: EmObject,
   A
 } = Ember;
+
+const Validations = buildValidations({
+  'phoneNumber': [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true,
+    }),
+    validator('format', {
+      type: 'phone'
+    })
+  ]
+});
 
 export default Ember.Component.extend({
 
@@ -17,7 +33,7 @@ export default Ember.Component.extend({
    * @constructor
    */
 
-   attributeBindings: ['data-spy'],
+  attributeBindings: ['data-spy'],
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -25,8 +41,9 @@ export default Ember.Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmObject.extend({
+  templateClass: EmObject.extend(Validations, {
     init() {
+      this._super(...arguments);
       this.set('service', A());
     }
   })

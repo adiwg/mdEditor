@@ -60,8 +60,8 @@ export default Model.extend(Ember.Copyable, {
   }),
 
   copy() {
-    let current = this.get('json');
-    let json = Ember.Object.create(JSON.parse(JSON.stringify(current)));
+    let current = this.get('cleanJson');
+    let json = Ember.Object.create(current);
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);

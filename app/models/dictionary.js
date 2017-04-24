@@ -39,8 +39,8 @@ export default Model.extend(Ember.Copyable, {
   icon: 'book',
 
   copy() {
-    let current = this.get('json');
-    let json = Ember.Object.create(JSON.parse(JSON.stringify(current)));
+    let current = this.get('cleanJson');
+    let json = Ember.Object.create(current);
     let name = current.dictionaryInfo.citation.title;
 
     json.set('dictionaryInfo.citation.title', `Copy of ${name}`);

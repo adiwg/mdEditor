@@ -22,7 +22,8 @@
           <td>{{item.json.organizationName}}</td>
           <td>
             <div class="pull-right">
-              {{control/md-json-button json=item.json}}
+              {{debugger}}
+              {{control/md-json-button json=item.cleanJson}}
               <button class="btn btn-xs btn-warning" {{action "editItem" item}}>
                 <span class="fa fa-pencil"></span> Edit
               </button>

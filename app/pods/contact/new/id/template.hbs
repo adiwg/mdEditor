@@ -36,27 +36,37 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">Contact ID</label>
+            <label class="col-sm-3 control-label
+              {{if (v-get model 'json.contactId' 'options.presence.presence')
+              "required"}}">Contact ID</label>
+
             <div class="col-sm-9">
                 {{input/md-input
-                value=model.json.contactId
+                valuePath='json.contactId'
+                model=model
                 placeholder="Enter an ID for this contact"}}
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">Name</label>
+            <label class="col-sm-3 control-label
+            {{unless (v-get model 'json.name' 'options.presence.disabled')
+            "required"}}">Name</label>
             <div class="col-sm-9">
                 {{input/md-input
-                value=model.json.name
+                valuePath='json.name'
+                model=model
                 placeholder="Enter a name for this contact"}}
             </div>
         </div>
         {{#unless model.json.isOrganization}}
         <div class="form-group">
-            <label class="col-sm-3 control-label">Position Name</label>
+            <label class="col-sm-3 control-label
+            {{unless (v-get model 'json.positionName' 'options.presence.disabled')
+            "required"}}">Position Name</label>
             <div class="col-sm-9">
                 {{input/md-input
-                value=model.json.positionName
+                valuePath="json.positionName"
+                model=model
                 placeholder="Enter a name for this position"}}
             </div>
         </div>

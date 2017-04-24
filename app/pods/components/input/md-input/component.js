@@ -1,7 +1,11 @@
 import Ember from 'ember';
 
 const {
-  Component
+  Component,
+  defineProperty,
+  computed,
+  isBlank,
+  assert
 } = Ember;
 
 export default Component.extend({
@@ -14,11 +18,68 @@ export default Component.extend({
    * @constructor
    */
 
-  classNameBindings: ['label:form-group'],
+  init() {
+    this._super(...arguments);
+    let model = this.get('model');
+    let valuePath = this.get('valuePath');
+
+    if(isBlank(model) !== isBlank(valuePath)) {
+      assert(
+        `You must supply both model and valuePath to ${this.toString()} or neither.`
+      );
+    }
+
+    if(!isBlank(model)) {
+      defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+
+      defineProperty(this, 'validation', computed.alias(
+        `model.validations.attrs.${valuePath}`).readOnly());
+
+      defineProperty(this, 'required', computed(
+        'validation.options.presence.presence',
+        'validation.options.presence.disabled',
+        function () {
+          return this.get('validation.options.presence.presence') &&
+            !this.get('validation.options.presence.disabled');
+        }).readOnly());
+
+      defineProperty(this, 'notValidating', computed.not(
+        'validation.isValidating').readOnly());
+
+      defineProperty(this, 'hasContent', computed.notEmpty('value').readOnly());
+
+      defineProperty(this, 'hasWarnings', computed.notEmpty(
+        'validation.warnings').readOnly());
+
+      defineProperty(this, 'isValid', computed.and('hasContent',
+        'validation.isTruelyValid').readOnly());
+
+      defineProperty(this, 'shouldDisplayValidations', computed.or(
+        'showValidations', 'didValidate',
+        'hasContent').readOnly());
+
+      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+        'showErrorMessage',
+        'hasContent', 'validation').readOnly());
+
+      defineProperty(this, 'showErrorMessage', computed.and(
+        'shouldDisplayValidations',
+        'validation.isInvalid').readOnly());
+
+      defineProperty(this, 'showWarningMessage', computed.and(
+        'shouldDisplayValidations',
+        'hasWarnings', 'isValid').readOnly());
+    }
+  },
+
+  classNames: ['md-input'],
+  classNameBindings: ['label:form-group', 'required'],
+  attributeBindings: ['data-spy'],
 
   /**
    * Value of the input.
-   * Value sets the initial value and returns the edited result
+   * Value sets the initial value and returns the edited result.
+   * This property is overridden if valuePath and model are supplied.
    *
    * @property value
    * @type String
@@ -88,5 +149,25 @@ export default Component.extend({
    * @type String
    * @default 'form-control'
    */
-  inputClass: 'form-control'
+  inputClass: 'form-control',
+
+  /**
+   * The model or object containing the input value. Only needed for validation.
+   *
+   * @property model
+   * @type {Object}
+   * @default undefined
+   * @readOnly
+   */
+
+  /**
+   * The path of the input value. Only needed for validation.
+   *
+   * @property valuePath
+   * @type {String}
+   * @default ''
+   * @readOnly
+   */
+  valuePath: ''
+
 });

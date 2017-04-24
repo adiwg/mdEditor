@@ -3,6 +3,7 @@ import Ember from 'ember';
 const {
   Mixin,
   isArray,
+  getOwner,
   A,
   merge
 } = Ember;
@@ -31,10 +32,13 @@ export default Mixin.create({
     let property = this.get(propertyName);
 
     if(isArray(property)) {
-      let template = this.get('templateClass');
-      if(template) {
+      let Template = this.get('templateClass');
+      if(Template) {
+        let owner = getOwner(this);
+
         property.forEach((item, idx, items) => {
-          items.replace(idx, 1, merge(template.create(), item));
+          items.replace(idx, 1, merge(Template.create(owner.ownerInjection()),
+            item));
         });
       }
     } else {

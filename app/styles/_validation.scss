@@ -1,0 +1,24 @@
+.md-input.required label::after,
+label.required::after {
+  @extend sup;
+  color: $brand-danger;
+  content: '\f069';
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.md-input-error {
+  position: absolute;
+  right: 20px;
+  top: 9px;
+  //font-size: 12px;
+
+  .error {
+    color: $brand-danger;
+  }
+
+  .warning {
+    color: $brand-warning;
+  }
+}

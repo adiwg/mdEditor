@@ -9,7 +9,13 @@
 }
 
 .md-tooltip {
+  text-shadow: 0 0 0;
+
   &.danger {
     background-color: darken($brand-danger, 15);
+  }
+
+  &.warning {
+    background-color: darken($brand-warning, 1);
   }
 }
