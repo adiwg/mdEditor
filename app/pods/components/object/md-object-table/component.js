@@ -7,6 +7,7 @@ const {
   observer,
   isEmpty,
   typeOf,
+  getOwner,
   A
 } = Ember;
 
@@ -149,13 +150,13 @@ export default Component.extend(Template, {
     return 'panel-' + this.get('elementId');
   }),
 
-  citems: computed('items.@each.val', function () {
+  /*citems: computed('items.@each.val', function () {
     let i = this.get('items')
       .map(function (itm) {
         return Ember.Object.create(itm);
       });
     return i;
-  }),
+  }),*/
 
   attrArray: computed('attributes', function () {
     return this.get('attributes')
@@ -218,8 +219,9 @@ export default Component.extend(Template, {
 
     addItem: function () {
       const Template = this.get('templateClass');
+      const owner = getOwner(this);
 
-      let itm = typeOf(Template) === 'class' ? Template.create() :
+      let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
         Ember.Object.create({});
 
       this.set('saveItem', itm);

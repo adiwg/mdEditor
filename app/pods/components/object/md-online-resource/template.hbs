@@ -1,6 +1,7 @@
 {{input/md-input value=model.name label="Name" placeholder="Online Resource Name"}}
 
-{{input/md-input type="url" required=true value=model.uri label="URI" placeholder="Online Resource URI"}}
+{{input/md-input type="url" valuePath="uri" model=model
+label="URI" placeholder="Online Resource URI"}}
 
 {{#if imagePicker}}
   <div class="row">

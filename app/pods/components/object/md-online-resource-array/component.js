@@ -1,4 +1,7 @@
 import Ember from 'ember';
+import {
+  Validations
+} from '../md-online-resource/component';
 
 const {
   A,
@@ -10,7 +13,7 @@ export default Ember.Component.extend({
   init() {
     this._super(...arguments);
 
-    if(!this.get('model')) {
+    if (!this.get('model')) {
       this.set('model', A());
     }
   },
@@ -27,7 +30,7 @@ export default Ember.Component.extend({
    * @constructor
    */
 
-   attributeBindings: ['data-spy'],
+  attributeBindings: ['data-spy'],
 
   /**
    * mdJSON object containing the 'onlineResource' array.
@@ -78,8 +81,21 @@ export default Ember.Component.extend({
    * @category computed
    * @requires imagePicker
    */
-  previewTemplate: computed('imagePicker', function () {
+  previewTemplate: computed('imagePicker', function() {
     return this.get('imagePicker') ?
       "object/md-online-resource-array/md-image-preview" : null;
+  }),
+
+  /**
+   * See [md-array-table](md-array-table.html#property_templateClass).
+   *
+   * @property templateClass
+   * @type Ember.Object
+   */
+  templateClass: Ember.Object.extend(Validations, {
+    init() {
+      this._super(...arguments);
+      //this.set('uri', null);
+    }
   })
 });

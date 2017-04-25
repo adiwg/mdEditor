@@ -68,7 +68,9 @@
                 </tbody>
             </table>
             <div class="object-editor fadeOut">
-                {{yield saveItem}}
+                {{#if editing}}
+                    {{yield saveItem}}
+                {{/if}}
                 <hr>
                 <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
                     <span class="fa fa-check"></span> OK

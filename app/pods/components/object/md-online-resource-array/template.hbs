@@ -4,11 +4,12 @@
   buttonText="Add Resource"
   ellipsis=ellipsis
   previewTemplate=previewTemplate
+  templateClass=templateClass
   attributes=attributes as |editing|
 }}
     Editing: {{editing.name}}
 
-    {{object/md-online-resource imagePicker=imagePicker model=editing}}
+    {{object/md-online-resource imagePicker=imagePicker model=editing context=model}}
 
 {{/object/md-object-table}}
 {{yield}}

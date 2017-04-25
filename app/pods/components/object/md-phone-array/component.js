@@ -18,7 +18,7 @@ const Validations = buildValidations({
     validator('format', {
       type: 'phone',
       isWarning: true,
-      description: 'This field should be a valid phone number.'
+      message: 'This field should be a valid phone number.'
     })
   ]
 });

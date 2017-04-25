@@ -20,16 +20,25 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
+
     let model = this.get('model');
     let valuePath = this.get('valuePath');
 
-    if(isBlank(model) !== isBlank(valuePath)) {
+    if (isBlank(model) !== isBlank(valuePath)) {
       assert(
         `You must supply both model and valuePath to ${this.toString()} or neither.`
       );
     }
 
-    if(!isBlank(model)) {
+    if (!isBlank(model)) {
+      if (this.get(`model.${valuePath}`) === undefined) {
+        Ember.debug(
+          `model.${valuePath} is undefined in ${this.toString()}.`
+        );
+
+        //Ember.run.once(()=>model.set(valuePath, ""));
+      }
+
       defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
 
       defineProperty(this, 'validation', computed.alias(
@@ -38,7 +47,7 @@ export default Component.extend({
       defineProperty(this, 'required', computed(
         'validation.options.presence.presence',
         'validation.options.presence.disabled',
-        function () {
+        function() {
           return this.get('validation.options.presence.presence') &&
             !this.get('validation.options.presence.disabled');
         }).readOnly());
