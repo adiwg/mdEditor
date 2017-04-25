@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.f6c1807b",
+        "version": "0.0.0.d6da2c98",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -3176,7 +3176,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource/component.js",
-            "line": 54,
+            "line": 53,
             "description": "Display the image picker and preview",
             "itemtype": "property",
             "name": "imagePicker",
