@@ -19,15 +19,14 @@ const regex = new RegExp("([A-Za-z][A-Za-z0-9+\\-.]*):(?:(//)(?:((?:[A-Za-z0-9\\
 
 const Validations = buildValidations({
   'uri': [
-    validator('presence', {
-      presence: true,
-      ignoreBlank: true,
-    }),
     validator('format', {
-      type: 'format',
       regex: regex,
       isWarning: true,
       message: 'This field should be a valid, resolvable uri.'
+    }),
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true,
     })
   ]
 });
