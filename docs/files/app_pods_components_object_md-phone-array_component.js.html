@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/10d20827" target="_blank">
-                                  Tag: 0.0.0.10d20827
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f6c1807b" target="_blank">
+                                  Tag: 0.0.0.f6c1807b
                                 </a>
                             </h4>
                         </div>
@@ -218,7 +218,9 @@ const Validations = buildValidations({
       ignoreBlank: true,
     }),
     validator(&#x27;format&#x27;, {
-      type: &#x27;phone&#x27;
+      type: &#x27;phone&#x27;,
+      isWarning: true,
+      message: &#x27;This field should be a valid phone number.&#x27;
     })
   ]
 });

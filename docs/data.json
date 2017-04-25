@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.10d20827",
+        "version": "0.0.0.f6c1807b",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -975,7 +975,7 @@
             "submodule": "components-object",
             "namespace": "",
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 15,
+            "line": 16,
             "description": "mdEditor class for managing a table of similar mdJSON objects\nfor selection for edit or deletion.\nThe class is configurable for reuse with mdJSON object arrays."
         },
         "md-online-resource-array": {
@@ -990,7 +990,7 @@
             "submodule": "components-object",
             "namespace": "",
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 18,
+            "line": 21,
             "description": "mdEditor class for input and edit of mdJSON 'onlineResource' object\narrays.\nThe class manages the maintenance of an array of online resource\nobjects using the md-object-table class."
         },
         "md-phone-array": {
@@ -1004,7 +1004,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 26,
+            "line": 28,
             "description": "mdEditor class for input and edit of mdJSON 'phone' object.\nThe class manages the maintenance of an array of phone objects.",
             "submodule": "components-object",
             "is_constructor": 1
@@ -1961,7 +1961,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 79,
+            "line": 88,
             "description": "Value of the input.\nValue sets the initial value and returns the edited result.\nThis property is overridden if valuePath and model are supplied.",
             "itemtype": "property",
             "name": "value",
@@ -1973,7 +1973,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 89,
+            "line": 98,
             "description": "Type of data represented by the value string.\nHTML5 types may be specified ('text', 'number', etc.)",
             "itemtype": "property",
             "name": "type",
@@ -1985,7 +1985,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 99,
+            "line": 108,
             "description": "The form label to display",
             "itemtype": "property",
             "name": "label",
@@ -1997,7 +1997,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 108,
+            "line": 117,
             "description": "Whether a value is required",
             "itemtype": "property",
             "name": "required",
@@ -2009,7 +2009,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 117,
+            "line": 126,
             "description": "Whether a input is disabled",
             "itemtype": "property",
             "name": "disabled",
@@ -2021,7 +2021,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 126,
+            "line": 135,
             "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
             "itemtype": "property",
             "name": "maxlength",
@@ -2033,7 +2033,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 136,
+            "line": 145,
             "description": "Text displayed in empty inputs",
             "itemtype": "property",
             "name": "placeholder",
@@ -2045,7 +2045,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 145,
+            "line": 154,
             "description": "CSS class to set on the input control",
             "itemtype": "property",
             "name": "class",
@@ -2057,7 +2057,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 154,
+            "line": 163,
             "description": "The model or object containing the input value. Only needed for validation.",
             "itemtype": "property",
             "name": "model",
@@ -2070,7 +2070,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 163,
+            "line": 172,
             "description": "The path of the input value. Only needed for validation.",
             "itemtype": "property",
             "name": "valuePath",
@@ -3058,7 +3058,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 41,
+            "line": 42,
             "description": "Array of the mdJSON object to display in the object table for\nselection to edit or delete.",
             "itemtype": "property",
             "name": "items",
@@ -3071,7 +3071,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 52,
+            "line": 53,
             "description": "List of items object attributes to display in\nmd-object-table to aid in choosing the item to edit or\ndelete.",
             "itemtype": "property",
             "name": "attributes",
@@ -3083,7 +3083,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 62,
+            "line": 63,
             "description": "Name to place on the mdEditor panel header for entry and edit of\nitems objects.",
             "itemtype": "property",
             "name": "header",
@@ -3095,7 +3095,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 71,
+            "line": 72,
             "description": "The path of template to render in the table preview for each row.\nTemplate content will be wrapped in a `<td>` element.",
             "itemtype": "property",
             "name": "previewTemplate",
@@ -3108,7 +3108,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 81,
+            "line": 82,
             "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
             "itemtype": "property",
             "name": "templateClass",
@@ -3122,7 +3122,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 101,
+            "line": 102,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -3134,7 +3134,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 110,
+            "line": 111,
             "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -3146,7 +3146,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 118,
+            "line": 119,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -3158,7 +3158,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 126,
+            "line": 127,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -3176,7 +3176,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource/component.js",
-            "line": 15,
+            "line": 54,
             "description": "Display the image picker and preview",
             "itemtype": "property",
             "name": "imagePicker",
@@ -3187,7 +3187,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 32,
+            "line": 35,
             "description": "mdJSON object containing the 'onlineResource' array.",
             "itemtype": "property",
             "name": "model",
@@ -3199,7 +3199,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 40,
+            "line": 43,
             "description": "Display the image picker and preview",
             "itemtype": "property",
             "name": "imagePicker",
@@ -3211,7 +3211,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 48,
+            "line": 51,
             "description": "List of mdJSON 'onlineResource' object attributes to display in\nmd-object-table to aid in choosing the onlineResource to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "attributes",
@@ -3223,7 +3223,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 60,
+            "line": 63,
             "description": "Name to place on the mdEditor panel header for entry and edit of\n'onlineResource' objects.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "label",
@@ -3235,7 +3235,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 71,
+            "line": 74,
             "description": "The template to use for the preview table rows. If not overridden, will use\nthe `md-image-preview` template if `imagePicker = true`.",
             "itemtype": "property",
             "name": "previewTemplate",
@@ -3252,8 +3252,19 @@
             "submodule": "components-object"
         },
         {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 89,
+            "description": "See [md-array-table](md-array-table.html#property_templateClass).",
+            "itemtype": "property",
+            "name": "templateClass",
+            "type": "Ember.Object",
+            "class": "md-online-resource-array",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
             "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 38,
+            "line": 40,
             "description": "See [md-array-table](md-array-table.html#property_templateClass).",
             "itemtype": "property",
             "name": "templateClass",
@@ -3572,7 +3583,7 @@
         },
         {
             "message": "unknown tag: mixin",
-            "line": " app/pods/components/object/md-object-table/component.js:15"
+            "line": " app/pods/components/object/md-object-table/component.js:16"
         },
         {
             "message": "unknown tag: name",

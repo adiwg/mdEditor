@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/10d20827" target="_blank">
-                                  Tag: 0.0.0.10d20827
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f6c1807b" target="_blank">
+                                  Tag: 0.0.0.f6c1807b
                                 </a>
                             </h4>
                         </div>
@@ -222,16 +222,25 @@ export default Component.extend({
 
   init() {
     this._super(...arguments);
+
     let model = this.get(&#x27;model&#x27;);
     let valuePath = this.get(&#x27;valuePath&#x27;);
 
-    if(isBlank(model) !== isBlank(valuePath)) {
+    if (isBlank(model) !== isBlank(valuePath)) {
       assert(
         &#x60;You must supply both model and valuePath to ${this.toString()} or neither.&#x60;
       );
     }
 
-    if(!isBlank(model)) {
+    if (!isBlank(model)) {
+      if (this.get(&#x60;model.${valuePath}&#x60;) === undefined) {
+        Ember.debug(
+          &#x60;model.${valuePath} is undefined in ${this.toString()}.&#x60;
+        );
+
+        //Ember.run.once(()=&gt;model.set(valuePath, &quot;&quot;));
+      }
+
       defineProperty(this, &#x27;value&#x27;, computed.alias(&#x60;model.${valuePath}&#x60;));
 
       defineProperty(this, &#x27;validation&#x27;, computed.alias(
@@ -240,7 +249,7 @@ export default Component.extend({
       defineProperty(this, &#x27;required&#x27;, computed(
         &#x27;validation.options.presence.presence&#x27;,
         &#x27;validation.options.presence.disabled&#x27;,
-        function () {
+        function() {
           return this.get(&#x27;validation.options.presence.presence&#x27;) &amp;&amp;
             !this.get(&#x27;validation.options.presence.disabled&#x27;);
         }).readOnly());
