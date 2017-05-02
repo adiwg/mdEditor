@@ -33,7 +33,9 @@
                 <tbody>
                 {{#each items as |item index|}}
                     <tr>
-                        <td class="md-table-index">{{index}}</td>
+                        <td class="md-table-index">
+                          {{index}}
+                        </td>
                         {{#if previewTemplate}}
                             <td class="property">{{component previewTemplate item=item}}</td>
                         {{else}}
@@ -46,6 +48,18 @@
                             {{/each}}
                         {{/if}}
                         <td>
+                            {{#if item.validations.isInvalid}}
+                            <span class="md-error pull-right">
+                              {{fa-icon "exclamation-circle" fixedWidth=true}}
+                              {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+                              This item has errors.
+                              {{/tooltip-on-element}}
+                            </span>
+                            {{else}}
+                            <span class="md-error pull-right">
+                                <span class="fa fa-fw"></span>
+                            </span>
+                            {{/if}}
                             <button class="btn btn-xs btn-danger pull-right" {{action "deleteItem" items index}}>
                                 <span class="fa fa-times"></span> Delete
                             </button>

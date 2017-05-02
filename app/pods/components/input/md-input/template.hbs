@@ -12,7 +12,7 @@
 
   <span class='md-input-error'>
     {{#if showErrorMessage}}
-      <span class='error'>
+      <span class='md-error'>
         {{fa-icon "exclamation-circle"}}
         {{#tooltip-on-element side="right" class="md-tooltip danger"}}
             {{v-get model valuePath 'message'}}
@@ -21,7 +21,7 @@
     {{/if}}
 
     {{#if showWarningMessage}}
-      <span class='warning'>
+      <span class='md-warning'>
         {{fa-icon "exclamation-triangle"}}
         {{#tooltip-on-element side="right" class="md-tooltip warning"}}
         {{v-get model valuePath 'warningMessage'}}

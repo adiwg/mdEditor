@@ -13,12 +13,12 @@ label.required::after {
   right: 20px;
   top: 9px;
   //font-size: 12px;
+}
 
-  .error {
-    color: $brand-danger;
-  }
+.md-error {
+  color: $brand-danger;
+}
 
-  .warning {
-    color: $brand-warning;
-  }
+.md-warning {
+  color: $brand-warning;
 }

@@ -9,7 +9,7 @@
 }
 
 .md-tooltip {
-  text-shadow: 0 0 0;
+  text-shadow: none;
 
   &.danger {
     background-color: darken($brand-danger, 15);
