@@ -47,7 +47,7 @@ export default Mixin.create({
   }),
 
   onPoll() {
-    const model = this.currentModel;
+    const model = this.currentRouteModel();
 
     return new Ember.RSVP.Promise(function (resolve) {
       model.notifyPropertyChange('currentHash');
@@ -75,7 +75,7 @@ export default Mixin.create({
   //  * @returns {Boolean} Boolean value indicating if hashes are equivalent
   //  */
   // compareHash: function() {
-  //   let model = this.currentModel;
+  //   let model = this.currentRouteModel();
   //
   //   let oldHash = this.get('modelHash');
   //   let newHash = this.hashObject(model.get(
@@ -92,7 +92,7 @@ export default Mixin.create({
   //   confirmTransition() {
   //     let me = this;
   //
-  //     me.currentModel.reload();
+  //     me.currentRouteModel().reload();
   //
   //     this.set('checkHash', false);
   //     this.controller.get('pausedTransition')
@@ -106,7 +106,7 @@ export default Mixin.create({
   //   },
   //   willTransition(transition) {
   //     if (this.get('settings').get('data.autoSave')) {
-  //       this.currentModel.save();
+  //       this.currentRouteModel().save();
   //       return true;
   //     }
   //     if (!this.get('checkHash') || this.compareHash()) {

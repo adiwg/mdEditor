@@ -27,7 +27,7 @@ export default Ember.Route.extend({
 
   actions: {
     saveDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .save()
         .then(() => {
@@ -37,7 +37,7 @@ export default Ember.Route.extend({
     },
 
     destroyDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .destroyRecord()
         .then(() => {
@@ -48,7 +48,7 @@ export default Ember.Route.extend({
     },
 
     cancelDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .reload()
         .then(() => {
@@ -62,8 +62,8 @@ export default Ember.Route.extend({
     copyDictionary: function () {
 
       Ember.get(this, 'flashMessages')
-        .success(`Copied Dictionary: ${this.currentModel.get('title')}`);
-      this.transitionTo('dictionary.new.id', Ember.copy(this.currentModel));
+        .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
+      this.transitionTo('dictionary.new.id', Ember.copy(this.currentRouteModel()));
     }
   }
 });

@@ -13,7 +13,7 @@ export default Ember.Route.extend({
 
   deactivate: function() {
     // We grab the model loaded in this route
-    let model = this.currentModel;
+    let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
     // 'isNew' state, which means it wasn't saved to the backend.
@@ -59,13 +59,13 @@ export default Ember.Route.extend({
   actions: {
     willTransition: function (transition) {
       if (transition.targetName === 'dictionary.new.index') {
-          this.currentModel.destroyRecord();
+          this.currentRouteModel().destroyRecord();
           return true;
       }
     },
 
     saveDictionary() {
-      this.currentModel
+      this.currentRouteModel()
         .save()
         .then((model) => {
           this.replaceWith('dictionary.show.edit', model);

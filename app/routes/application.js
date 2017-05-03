@@ -15,7 +15,7 @@ export default Route.extend({
     this._super(...arguments);
 
     $(window).bind('beforeunload', (evt) => {
-      let dirty = this.currentModel.filter(function(itm) {
+      let dirty = this.currentRouteModel().filter(function(itm) {
         return itm.filterBy('hasDirtyHash').length;
       }).length;
 
@@ -74,12 +74,9 @@ export default Route.extend({
 
   /**
    * The current model for the route
-   *
-   * @return {DS.Model}
+   * @method currentRouteModel
+   * @return {Object}
    */
-  currentModel: function() {
-    return this.modelFor(this.routeName);
-  },
 
   actions: {
     error(error) {

@@ -53,7 +53,7 @@ export default Ember.Route.extend({
       return this;
     },
     addThesaurus() {
-      let the = this.currentModel.get('keywords');
+      let the = this.currentRouteModel.get('keywords');
 
       the.pushObject({
         keyword: [],
@@ -67,7 +67,7 @@ export default Ember.Route.extend({
       });
     },
     deleteThesaurus(id) {
-      let the = this.currentModel.get('keywords');
+      let the = this.currentRouteModel.get('keywords');
       the.removeAt(id);
     },
     editThesaurus(id) {

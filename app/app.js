@@ -29,6 +29,9 @@ Ember.LinkComponent.reopen({
 //for crumbly
 Ember.Route.reopen({
   //breadCrumb: null
+  currentRouteModel: function() {
+    return this.modelFor(this.routeName);
+  }
 });
 
 export default App;

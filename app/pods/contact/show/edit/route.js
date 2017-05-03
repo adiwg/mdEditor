@@ -19,7 +19,7 @@ export default Route.extend(HashPoll, {
 
   actions: {
     saveContact: function() {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
 
       model
         .save()
@@ -34,7 +34,7 @@ export default Route.extend(HashPoll, {
     },
 
     destroyContact: function() {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .destroyRecord()
         .then(() => {
@@ -45,14 +45,14 @@ export default Route.extend(HashPoll, {
     },
 
     cancelContact: function() {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       let message = `Cancelled changes to Contact: ${model.get('title')}`;
 
       if (this.get('settings.data.autoSave')) {
         let json = model.get('jsonRevert');
 
         if (json) {
-          this.currentModel.set('json', JSON.parse(json));
+          model.set('json', JSON.parse(json));
           get(this, 'flashMessages').warning(message);
         }
 
@@ -69,8 +69,8 @@ export default Route.extend(HashPoll, {
     copyContact: function() {
 
       get(this, 'flashMessages')
-        .success(`Copied Contact: ${this.currentModel.get('title')}`);
-      this.transitionTo('contact.new.id', copy(this.currentModel));
+        .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);
+      this.transitionTo('contact.new.id', copy(this.currentRouteModel()));
     }
   }
 });

@@ -49,7 +49,7 @@ export default Ember.Route.extend({
         .set('subbar', subbar);
     },
     selectKeyword(model, path) {
-      let keywords = this.currentModel.get('keywords');
+      let keywords = this.currentRouteModel.get('keywords');
       let kw = keywords.keyword;
       let target = kw.findBy('identifier', model.uuid);
 
@@ -79,10 +79,10 @@ export default Ember.Route.extend({
       this.send('deleteKeyword', ...arguments);
     },
     changeFullPath(evt) {
-      let kw = this.currentModel.get('keywords.keyword');
+      let kw = this.currentRouteModel.get('keywords.keyword');
       let val = evt.target.checked;
 
-      this.currentModel.set('keywords.fullPath', val);
+      this.currentRouteModel.set('keywords.fullPath', val);
 
       kw.forEach(function (curr) {
         if(val) {

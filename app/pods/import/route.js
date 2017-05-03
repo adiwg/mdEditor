@@ -68,26 +68,26 @@ export default Ember.Route.extend({
         map[item.type].push(item);
         return map;
       }, {});
-      this.currentModel.set('files', fileMap);
-      this.currentModel.set('data', json.data);
+      this.currentRouteModel().set('files', fileMap);
+      this.currentRouteModel().set('data', json.data);
     },
     importData() {
       let data = {
-        data: this.currentModel.get('data')
+        data: this.currentRouteModel().get('data')
           .filter((record) => {
             return record.meta.export;
           })
       };
 
       this.store.importData(data, {
-          truncate: !this.currentModel.get('merge'),
+          truncate: !this.currentRouteModel().get('merge'),
           json: false
         })
         .then(() => {
           Ember.get(this, 'flashMessages')
             .success(
               `Imported data. Records were
-              ${this.currentModel.get('merge') ? 'merged' : 'replaced'}.`, {
+              ${this.currentRouteModel().get('merge') ? 'merged' : 'replaced'}.`, {
                 extendedTimeout: 1500
               });
           //this.transitionTo('dashboard');
@@ -96,16 +96,16 @@ export default Ember.Route.extend({
     showPreview(model) {
       let json = model.attributes.json || JSON.stringify(model.attributes);
 
-      this.currentModel.set('preview', {
+      this.currentRouteModel().set('preview', {
         model: model,
         json: json
       });
     },
     closePreview() {
-      this.currentModel.set('preview', false);
+      this.currentRouteModel().set('preview', false);
     },
     cancelImport() {
-      this.currentModel.set('files', false);
+      this.currentRouteModel().set('files', false);
     }
   }
 });
