@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.7bbcff19",
+        "version": "0.0.0.84887cef",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -3368,7 +3368,7 @@
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 9,
+            "line": 17,
             "description": "The profile service",
             "return": {
                 "description": "profile",
@@ -3379,14 +3379,14 @@
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 16,
+            "line": 24,
             "description": "The route activate hook, sets the profile.",
             "class": "tree-branch",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 24,
+            "line": 34,
             "description": "[renderTemplate description]",
             "params": [
                 {
@@ -3409,7 +3409,7 @@
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 45,
+            "line": 55,
             "description": "Update the record profile",
             "name": "updateProfile",
             "params": [
@@ -3437,9 +3437,11 @@
             "file": "app/routes/application.js",
             "line": 75,
             "description": "The current model for the route",
+            "itemtype": "method",
+            "name": "currentRouteModel",
             "return": {
                 "description": "",
-                "type": "DS.Model"
+                "type": "Object"
             },
             "class": "tree-branch",
             "module": "mdeditor"
@@ -3516,6 +3518,11 @@
                     "name": "model",
                     "description": "selected leaf node model",
                     "type": "Object"
+                },
+                {
+                    "name": "path",
+                    "description": "selected leaf path",
+                    "type": "Object"
                 }
             ],
             "return": {
@@ -3587,7 +3594,7 @@
         },
         {
             "message": "unknown tag: name",
-            "line": " app/pods/record/show/edit/route.js:45"
+            "line": " app/pods/record/show/edit/route.js:55"
         },
         {
             "message": "replacing incorrect tag: augments with uses",
@@ -3655,27 +3662,23 @@
         },
         {
             "message": "Missing item type\nThe profile service",
-            "line": " app/pods/record/show/edit/route.js:9"
+            "line": " app/pods/record/show/edit/route.js:17"
         },
         {
             "message": "Missing item type\nThe route activate hook, sets the profile.",
-            "line": " app/pods/record/show/edit/route.js:16"
-        },
-        {
-            "message": "Missing item type\n[renderTemplate description]",
             "line": " app/pods/record/show/edit/route.js:24"
         },
         {
+            "message": "Missing item type\n[renderTemplate description]",
+            "line": " app/pods/record/show/edit/route.js:34"
+        },
+        {
             "message": "Missing item type\nUpdate the record profile",
-            "line": " app/pods/record/show/edit/route.js:45"
+            "line": " app/pods/record/show/edit/route.js:55"
         },
         {
             "message": "Missing item type\nModels for sidebar navigation",
             "line": " app/routes/application.js:30"
-        },
-        {
-            "message": "Missing item type\nThe current model for the route",
-            "line": " app/routes/application.js:75"
         },
         {
             "message": "Missing item type",

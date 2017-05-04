@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/7bbcff19" target="_blank">
-                                  Tag: 0.0.0.7bbcff19
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/84887cef" target="_blank">
+                                  Tag: 0.0.0.84887cef
                                 </a>
                             </h4>
                         </div>
@@ -201,8 +201,16 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+import HashPoll from &#x27;mdeditor/mixins/hash-poll&#x27;;
 
-export default Ember.Route.extend({
+const {
+  inject,
+  Route,
+  get,
+  copy
+} = Ember;
+
+export default Route.extend(HashPoll, {
   breadCrumb: {
     title: &#x27;Edit&#x27;,
     linkable: false
@@ -213,12 +221,14 @@ export default Ember.Route.extend({
    *
    * @return {Ember.Service} profile
    */
-  profile: Ember.inject.service(),
+  profile: inject.service(),
 
   /**
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
+    this._super(...arguments);
+
     this.get(&#x27;profile&#x27;)
       .set(&#x27;active&#x27;, model.get(&#x27;profile&#x27;));
   },
@@ -258,43 +268,61 @@ export default Ember.Route.extend({
     },
 
     saveRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .save()
         .then(() =&gt; {
-          Ember.get(this, &#x27;flashMessages&#x27;)
+          get(this, &#x27;flashMessages&#x27;)
             .success(&#x60;Saved Record: ${model.get(&#x27;title&#x27;)}&#x60;);
         });
     },
 
     destroyRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .destroyRecord()
         .then(() =&gt; {
-          Ember.get(this, &#x27;flashMessages&#x27;)
+          get(this, &#x27;flashMessages&#x27;)
             .success(&#x60;Deleted Record: ${model.get(&#x27;title&#x27;)}&#x60;);
           this.replaceWith(&#x27;records&#x27;);
         });
     },
 
     cancelRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
+      let message = &#x60;Cancelled changes to Record: ${model.get(&#x27;title&#x27;)}&#x60;;
+
+      if (this.get(&#x27;settings.data.autoSave&#x27;)) {
+        let json = model.get(&#x27;jsonRevert&#x27;);
+
+        if (json) {
+          model.set(&#x27;json&#x27;, JSON.parse(json));
+
+          if(this.controller.onCancel){
+            this.controller.onCancel.call(this);
+          }
+
+          get(this, &#x27;flashMessages&#x27;).warning(message);
+        }
+
+        return;
+      }
+
       model
         .reload()
         .then(() =&gt; {
-          this.refresh();
-          Ember.get(this, &#x27;flashMessages&#x27;)
-            .warning(
-              &#x60;Cancelled changes to Record: ${model.get(&#x27;title&#x27;)}&#x60;);
+          if(this.controller.onCancel){
+            this.controller.onCancel.call(this);
+          }
+          get(this, &#x27;flashMessages&#x27;).warning(message);
         });
     },
 
     copyRecord: function () {
 
-      Ember.get(this, &#x27;flashMessages&#x27;)
-        .success(&#x60;Copied Record: ${this.currentModel.get(&#x27;title&#x27;)}&#x60;);
-      this.transitionTo(&#x27;record.new.id&#x27;, Ember.copy(this.currentModel));
+      get(this, &#x27;flashMessages&#x27;)
+        .success(&#x60;Copied Record: ${this.currentRouteModel().get(&#x27;title&#x27;)}&#x60;);
+      this.transitionTo(&#x27;record.new.id&#x27;, copy(this.currentRouteModel()));
     },
     getContext() {
       return this;

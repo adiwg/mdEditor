@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/7bbcff19" target="_blank">
-                                  Tag: 0.0.0.7bbcff19
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/84887cef" target="_blank">
+                                  Tag: 0.0.0.84887cef
                                 </a>
                             </h4>
                         </div>
@@ -229,7 +229,7 @@ export default Ember.Route.extend({
 
   actions: {
     saveDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .save()
         .then(() =&gt; {
@@ -239,7 +239,7 @@ export default Ember.Route.extend({
     },
 
     destroyDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .destroyRecord()
         .then(() =&gt; {
@@ -250,7 +250,7 @@ export default Ember.Route.extend({
     },
 
     cancelDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .reload()
         .then(() =&gt; {
@@ -264,8 +264,8 @@ export default Ember.Route.extend({
     copyDictionary: function () {
 
       Ember.get(this, &#x27;flashMessages&#x27;)
-        .success(&#x60;Copied Dictionary: ${this.currentModel.get(&#x27;title&#x27;)}&#x60;);
-      this.transitionTo(&#x27;dictionary.new.id&#x27;, Ember.copy(this.currentModel));
+        .success(&#x60;Copied Dictionary: ${this.currentRouteModel().get(&#x27;title&#x27;)}&#x60;);
+      this.transitionTo(&#x27;dictionary.new.id&#x27;, Ember.copy(this.currentRouteModel()));
     }
   }
 });

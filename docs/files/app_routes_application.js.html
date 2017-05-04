@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/7bbcff19" target="_blank">
-                                  Tag: 0.0.0.7bbcff19
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/84887cef" target="_blank">
+                                  Tag: 0.0.0.84887cef
                                 </a>
                             </h4>
                         </div>
@@ -217,7 +217,7 @@ export default Route.extend({
     this._super(...arguments);
 
     $(window).bind(&#x27;beforeunload&#x27;, (evt) =&gt; {
-      let dirty = this.currentModel.filter(function(itm) {
+      let dirty = this.currentRouteModel().filter(function(itm) {
         return itm.filterBy(&#x27;hasDirtyHash&#x27;).length;
       }).length;
 
@@ -276,12 +276,9 @@ export default Route.extend({
 
   /**
    * The current model for the route
-   *
-   * @return {DS.Model}
+   * @method currentRouteModel
+   * @return {Object}
    */
-  currentModel: function() {
-    return this.modelFor(this.routeName);
-  },
 
   actions: {
     error(error) {

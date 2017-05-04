@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/7bbcff19" target="_blank">
-                                  Tag: 0.0.0.7bbcff19
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/84887cef" target="_blank">
+                                  Tag: 0.0.0.84887cef
                                 </a>
                             </h4>
                         </div>
@@ -277,14 +277,20 @@ export default Component.extend({
       }
 
       children = cur.children || [];
+
       if(children.length) {
         for(i = 0, length = children.length; i &lt; length; i++) {
           let child = children[i];
-          set(child, &#x27;path&#x27;, cur.path ? cur.path.concat([cur]) : [cur]);
+          if(!child.path) {
+            set(child, &#x27;path&#x27;, cur.path ? cur.path.concat([cur]) : [cur]);
+          }
           queue.push(child);
         }
-      } else {
-          set(cur, &#x27;path&#x27;, Ember.isArray(cur.path) ? cur.path.concat([cur]) : [cur]);
+      }
+
+      if(!cur.path || cur.path.indexOf(cur) === -1) {
+        set(cur, &#x27;path&#x27;, Ember.isArray(cur.path) ? cur.path.concat([cur]) :
+          [cur]);
       }
     }
     return result;

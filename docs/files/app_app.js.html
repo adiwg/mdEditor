@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/7bbcff19" target="_blank">
-                                  Tag: 0.0.0.7bbcff19
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/84887cef" target="_blank">
+                                  Tag: 0.0.0.84887cef
                                 </a>
                             </h4>
                         </div>
@@ -231,6 +231,9 @@ Ember.LinkComponent.reopen({
 //for crumbly
 Ember.Route.reopen({
   //breadCrumb: null
+  currentRouteModel: function() {
+    return this.modelFor(this.routeName);
+  }
 });
 
 export default App;
