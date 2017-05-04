@@ -12,7 +12,7 @@ export default Ember.Route.extend({
     this.set('breadCrumb', crumb);
   },
   model(params) {
-    return this.store.findRecord('record', params.record_id);
+    return this.store.peekRecord('record', params.record_id);
   },
   renderTemplate() {
     this.render('records.nav', {

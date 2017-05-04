@@ -1,6 +1,14 @@
 import Ember from 'ember';
+import HashPoll from 'mdeditor/mixins/hash-poll';
 
-export default Ember.Route.extend({
+const {
+  inject,
+  Route,
+  get,
+  copy
+} = Ember;
+
+export default Route.extend(HashPoll, {
   breadCrumb: {
     title: 'Edit',
     linkable: false
@@ -11,12 +19,14 @@ export default Ember.Route.extend({
    *
    * @return {Ember.Service} profile
    */
-  profile: Ember.inject.service(),
+  profile: inject.service(),
 
   /**
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
+    this._super(...arguments);
+
     this.get('profile')
       .set('active', model.get('profile'));
   },
@@ -56,43 +66,61 @@ export default Ember.Route.extend({
     },
 
     saveRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .save()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .success(`Saved Record: ${model.get('title')}`);
         });
     },
 
     destroyRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .destroyRecord()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .success(`Deleted Record: ${model.get('title')}`);
           this.replaceWith('records');
         });
     },
 
     cancelRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
+      let message = `Cancelled changes to Record: ${model.get('title')}`;
+
+      if (this.get('settings.data.autoSave')) {
+        let json = model.get('jsonRevert');
+
+        if (json) {
+          model.set('json', JSON.parse(json));
+
+          if(this.controller.onCancel){
+            this.controller.onCancel.call(this);
+          }
+
+          get(this, 'flashMessages').warning(message);
+        }
+
+        return;
+      }
+
       model
         .reload()
         .then(() => {
-          this.refresh();
-          Ember.get(this, 'flashMessages')
-            .warning(
-              `Cancelled changes to Record: ${model.get('title')}`);
+          if(this.controller.onCancel){
+            this.controller.onCancel.call(this);
+          }
+          get(this, 'flashMessages').warning(message);
         });
     },
 
     copyRecord: function () {
 
-      Ember.get(this, 'flashMessages')
-        .success(`Copied Record: ${this.currentModel.get('title')}`);
-      this.transitionTo('record.new.id', Ember.copy(this.currentModel));
+      get(this, 'flashMessages')
+        .success(`Copied Record: ${this.currentRouteModel().get('title')}`);
+      this.transitionTo('record.new.id', copy(this.currentRouteModel()));
     },
     getContext() {
       return this;

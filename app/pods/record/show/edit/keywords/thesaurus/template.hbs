@@ -14,10 +14,18 @@
     </ul>
     <div class="tab-content">
       <div role="tabpanel" class="md-keyword-tree tab-pane fade in active" id="md-keyword-tree">
-        {{tree-view model=model.thesaurus.keywords selected=model.keywords.keyword select=(route-action "selectKeyword")}}
+        {{tree-view
+          model=model.thesaurus.keywords
+          selected=(get model.model (concat model.path ".keyword"))
+          select=(route-action "selectKeyword")
+        }}
       </div>
       <div role="tabpanel" class="tab-pane fade" id="md-keyword-search">
-        {{tree-search model=model.thesaurus.keywords selected=model.keywords.keyword select=(route-action "selectKeyword")}}
+        {{tree-search
+          model=model.thesaurus.keywords
+          selected=(get model.model (concat model.path ".keyword"))
+          select=(route-action "selectKeyword")
+        }}
       </div>
     </div>
   </div>
@@ -33,6 +41,7 @@
         </label>
       </div>
     </div>
-    {{object/md-keyword-list model=model.keywords deleteKeyword=(route-action "removeKeyword") editThesaurus=false}}
+    {{object/md-keyword-list model=(get model.model model.path)
+      deleteKeyword=(route-action "removeKeyword") editThesaurus=false}}
   </div>
 </div>

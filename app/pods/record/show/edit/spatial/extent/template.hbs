@@ -1,6 +1,6 @@
 <section>
     {{leaflet-table
-        layers=model.layers
+        layers=(get model (concat "json.metadata.resourceInfo.extent." extentId ".geographicElement"))
         setFeatureGroup=(route-action "setFeatureGroup")
         handleResize=(route-action "handleResize")}}
 </section>

@@ -4,8 +4,8 @@ import has from 'npm:lodash';
 export default Ember.Route.extend({
   keyword: Ember.inject.service(),
   model() {
-    let json = this.modelFor('record.show.edit')
-      .get('json');
+    let model = this.modelFor('record.show.edit');
+    let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
     if(!info.hasOwnProperty('keyword')) {
@@ -27,9 +27,10 @@ export default Ember.Route.extend({
       }
     });
 
-    return Ember.Object.create({
-      keywords: info.keyword
-    });
+    return model;
+    // return Ember.Object.create({
+    //   keywords: info.keyword
+    // });
   },
 
   subbar: 'control/subbar-keywords',
@@ -53,7 +54,7 @@ export default Ember.Route.extend({
       return this;
     },
     addThesaurus() {
-      let the = this.currentRouteModel.get('keywords');
+      let the = this.currentRouteModel().get('json.metadata.resourceInfo.keyword');
 
       the.pushObject({
         keyword: [],
@@ -67,7 +68,7 @@ export default Ember.Route.extend({
       });
     },
     deleteThesaurus(id) {
-      let the = this.currentRouteModel.get('keywords');
+      let the = this.currentRouteModel().get('json.metadata.resourceInfo.keyword');
       the.removeAt(id);
     },
     editThesaurus(id) {

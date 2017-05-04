@@ -1,29 +1,36 @@
 import Ember from 'ember';
 /* global L */
 
-export default Ember.Route.extend({
+const {
+  A,
+  Route
+} = Ember;
+
+export default Route.extend({
   model() {
-    let json = this.modelFor('record.show.edit').get('json');
+    let model = this.modelFor('record.show.edit');
+    let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    if (!info.hasOwnProperty('extent')) {
-      info.extent = Ember.A();
+    if(!info.hasOwnProperty('extent')) {
+      info.extent = A();
     }
 
-    return Ember.Object.create({
-      extents: info.extent,
-      featureGroup: null
-    });
+    // return Ember.Object.create({
+    //   extents: info.extent,
+    //   featureGroup: null
+    // });
+    return model;
   },
 
   subbar: 'control/subbar-spatial',
 
-  clearSubbar: function() {
+  clearSubbar: function () {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
   }.on('deactivate'),
 
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -32,16 +39,22 @@ export default Ember.Route.extend({
   },
 
   actions: {
+    didTransition() {
+      this.controllerFor('record.show.edit')
+        .set('subbar', this.get('subbar'));
+
+    },
     addExtent() {
-      let extents = this.currentModel.get('extents');
+      let extents = this.currentRouteModel()
+        .get('json.metadata.resourceInfo.extent');
 
       extents.pushObject({
         description: '',
-        geographicElement: Ember.A()
+        geographicElement: A()
       });
     },
     deleteExtent(id) {
-      let extents = this.currentModel.get('extents');
+      let extents = this.get('extents');
 
       extents.removeAt(id);
     },
@@ -50,7 +63,8 @@ export default Ember.Route.extend({
     },
     setupMap(features, m) {
       let map = m.target;
-      let bounds = L.geoJson(features).getBounds();
+      let bounds = L.geoJson(features)
+        .getBounds();
 
       map.fitBounds(bounds);
     }

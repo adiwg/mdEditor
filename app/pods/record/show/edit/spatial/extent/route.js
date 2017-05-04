@@ -1,20 +1,17 @@
 import Ember from 'ember';
 
+const {
+  set,
+  Object: EmberObject,
+  NativeArray
+} = Ember;
+
 export default Ember.Route.extend({
   model(params) {
-    let extents = this.modelFor('record.show.edit.spatial')
-      .get('extents');
-    let extent = extents[params.extent_id];
-    let layers = Ember.NativeArray.apply(extent.geographicElement);
+    this.set('extentId', params.extent_id);
 
-    layers.forEach(function(l, idx, arr) {
-      arr[idx] = Ember.Object.create(l);
-    });
+    return this.setupModel();
 
-    return Ember.Object.create({
-      layers: layers,
-      featureGroup: null
-    });
   },
 
   renderTemplate() {
@@ -30,61 +27,86 @@ export default Ember.Route.extend({
   //     .set('subbar', null);
   // }.on('deactivate'),
 
-  setupController: function() {
+  setupController: function (controller) {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
-      .set('subbar', this.get('subbar'));
+      .setProperties({
+        subbar: this.get('subbar'),
+        onCancel: this.setupModel,
+        extentId: this.get('extentId')
+      });
+
+    controller
+      .setProperties({
+        featureGroup: null,
+        extentId: this.get('extentId')
+      });
+  },
+
+  setupModel() {
+    let model = this.modelFor('record.show.edit.spatial');
+    let extents = model.get('json.metadata.resourceInfo.extent');
+    let extent = extents[this.get('extentId') || this.controller.get(
+      'extentId')];
+    let layers = NativeArray.apply(extent.geographicElement);
+
+    layers.forEach(function (l, idx, arr) {
+      arr.replace(idx, 1, EmberObject.create(l));
+    });
+
+    return model;
   },
 
   actions: {
     getContext() {
       return this;
     },
-    willTransition(transition) {
-      let parent = this.routeName.substring(0, this.routeName.lastIndexOf('.'));
-
-      let subbar = transition.targetName === parent + '.index' ? this.controllerFor(parent).get('subbar') : null;
-
+    didTransition() {
       this.controllerFor('record.show.edit')
-        .set('subbar', subbar);
+        .set('subbar', this.get('subbar'));
+
     },
     handleResize() {
       Ember.$('.map-file-picker .leaflet-container')
         .height((Ember.$(window)
           .height() - Ember.$('#md-navbars')
-          .outerHeight() - 15)/2);
+          .outerHeight() - 15) / 2);
     },
     uploadData() {
       Ember.$('.map-file-picker .file-picker__input')
         .click();
     },
     deleteAllFeatures() {
-      let features = this.currentModel.get('layers');
-      let group = this.currentModel.get('featureGroup');
+      let features = this.currentRouteModel()
+        .get('layers');
+      let group = this.controller
+        .get('featureGroup');
 
-      if (features.length) {
+      if(features.length) {
         features.forEach((item) => {
           features.popObject(item);
           group.removeLayer(item._layer);
         });
 
-        if (group._map.drawControl) {
+        if(group._map.drawControl) {
           group._map.drawControl.remove();
         }
         features.clear();
       }
     },
     setFeatureGroup(obj) {
-      this.currentModel.set('featureGroup', obj);
+      this.controller
+        .set('featureGroup', obj);
     },
     zoomAll() {
-      let layer = this.currentModel.get('featureGroup');
+      let layer = this.controller
+        .get('featureGroup');
       let bnds = layer.getBounds();
       let map = layer._map;
 
-      if (bnds.isValid()) {
+      if(bnds.isValid()) {
         map.fitBounds(bnds, {
           maxZoom: 14
         });
@@ -94,14 +116,15 @@ export default Ember.Route.extend({
       map.fitWorld();
     },
     exportGeoJSON() {
-      let fg = this.currentModel.get('featureGroup');
+      let fg = this.controller
+        .get('featureGroup');
 
       let json = {
         'type': 'FeatureCollection',
         'features': []
       };
 
-      if (fg) {
+      if(fg) {
         let geoGroup = fg.getLayers();
         geoGroup.forEach((l) => {
           let layers = l.getLayers();

@@ -1,15 +1,28 @@
 import Ember from 'ember';
 
+const {
+  isArray,
+  A,
+  set,
+  get
+} = Ember;
+
 export default Ember.Route.extend({
   keyword: Ember.inject.service(),
   model(params) {
     let model = this.modelFor('record.show.edit.keywords');
-    let kw = model.get('keywords').get(params.thesaurus_id);
+    let kw = model.get('json.metadata.resourceInfo.keyword')
+      .get(params.thesaurus_id);
     //let keywords = kw.keyword;
+    if(!isArray(kw.keyword)) {
+      set(kw, 'keyword', A());
+    }
 
     return Ember.Object.create({
       id: params.thesaurus_id,
       keywords: kw,
+      model: model,
+      path: `json.metadata.resourceInfo.keyword.${params.thesaurus_id}`,
       thesaurus: this.get('keyword')
         .findById(kw.thesaurus.identifier[0].identifier)
     });
@@ -48,12 +61,14 @@ export default Ember.Route.extend({
       this.controllerFor('record.show.edit')
         .set('subbar', subbar);
     },
-    selectKeyword(model, path) {
-      let keywords = this.currentRouteModel.get('keywords');
+    selectKeyword(node, path) {
+      let model = this.currentRouteModel();
+      let keywords = model.get('model')
+        .get(model.get('path'));
       let kw = keywords.keyword;
-      let target = kw.findBy('identifier', model.uuid);
+      let target = kw.findBy('identifier', node.uuid);
 
-      if(model.isSelected && target === undefined) {
+      if(node.isSelected && target === undefined) {
         let pathStr = '';
 
         if(Ember.isArray(path)) {
@@ -65,9 +80,9 @@ export default Ember.Route.extend({
         }
 
         kw.pushObject({
-          identifier: model.uuid,
+          identifier: node.uuid,
           keyword: keywords.fullPath && pathStr ?
-            pathStr : model.label,
+            pathStr : node.label,
           path: pathStr.split(' > ')
             .slice(0, pathStr.length - 1)
         });
@@ -79,10 +94,13 @@ export default Ember.Route.extend({
       this.send('deleteKeyword', ...arguments);
     },
     changeFullPath(evt) {
-      let kw = this.currentRouteModel.get('keywords.keyword');
+      let model = this.currentRouteModel();
+      let keywords = model.get('model')
+        .get(model.get('path'));
+      let kw = get(keywords,'keyword');
       let val = evt.target.checked;
 
-      this.currentRouteModel.set('keywords.fullPath', val);
+      set(keywords, 'fullPath', val);
 
       kw.forEach(function (curr) {
         if(val) {
