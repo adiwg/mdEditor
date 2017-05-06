@@ -126,7 +126,13 @@
                                         <a href="../classes/md-codelist-multi.html">md-codelist-multi</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-contact-link.html">md-contact-link</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-datetime.html">md-datetime</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-definition.html">md-definition</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-graphic-array.html">md-graphic-array</a>
@@ -201,14 +207,22 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+import HashPoll from &#x27;mdeditor/mixins/hash-poll&#x27;;
 
-export default Ember.Route.extend({
+const {
+  inject,
+  Route,
+  get,
+  copy
+} = Ember;
+
+export default Route.extend(HashPoll, {
   /**
    * The profile service
    *
    * @return {Ember.Service} profile
    */
-  profile: Ember.inject.service(),
+  profile: inject.service(),
 
   /**
    * The route activate hook, sets the profile to &#x27;dictionary&#x27;.
@@ -233,7 +247,7 @@ export default Ember.Route.extend({
       model
         .save()
         .then(() =&gt; {
-          Ember.get(this, &#x27;flashMessages&#x27;)
+          get(this, &#x27;flashMessages&#x27;)
             .success(&#x60;Saved Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;);
         });
     },
@@ -243,7 +257,7 @@ export default Ember.Route.extend({
       model
         .destroyRecord()
         .then(() =&gt; {
-          Ember.get(this, &#x27;flashMessages&#x27;)
+          get(this, &#x27;flashMessages&#x27;)
             .success(&#x60;Deleted Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;);
           this.replaceWith(&#x27;dictionaries&#x27;);
         });
@@ -251,21 +265,31 @@ export default Ember.Route.extend({
 
     cancelDictionary: function () {
       let model = this.currentRouteModel();
+      let message = &#x60;Cancelled changes to Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;;
+
+      if (this.get(&#x27;settings.data.autoSave&#x27;)) {
+        let json = model.get(&#x27;jsonRevert&#x27;);
+
+        if (json) {
+          model.set(&#x27;json&#x27;, JSON.parse(json));
+          get(this, &#x27;flashMessages&#x27;).warning(message);
+        }
+
+        return;
+      }
+
       model
         .reload()
         .then(() =&gt; {
-          this.refresh();
-          Ember.get(this, &#x27;flashMessages&#x27;)
-            .warning(
-              &#x60;Cancelled changes to Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;);
+          get(this, &#x27;flashMessages&#x27;).warning(message);
         });
     },
 
     copyDictionary: function () {
 
-      Ember.get(this, &#x27;flashMessages&#x27;)
+      get(this, &#x27;flashMessages&#x27;)
         .success(&#x60;Copied Dictionary: ${this.currentRouteModel().get(&#x27;title&#x27;)}&#x60;);
-      this.transitionTo(&#x27;dictionary.new.id&#x27;, Ember.copy(this.currentRouteModel()));
+      this.transitionTo(&#x27;dictionary.new.id&#x27;, copy(this.currentRouteModel()));
     }
   }
 });

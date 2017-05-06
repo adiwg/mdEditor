@@ -48,6 +48,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/control/md-contact-link/component.js": {
+            "name": "app/pods/components/control/md-contact-link/component.js",
+            "modules": {},
+            "classes": {
+                "md-contact-link": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/control/md-definition/component.js": {
+            "name": "app/pods/components/control/md-definition/component.js",
+            "modules": {},
+            "classes": {
+                "md-definition": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/control/md-json-viewer/component.js": {
             "name": "app/pods/components/control/md-json-viewer/component.js",
             "modules": {},
@@ -423,6 +441,8 @@
                 "object-template": 1,
                 "contact": 1,
                 "md-button-modal": 1,
+                "md-contact-link": 1,
+                "md-definition": 1,
                 "md-boolean": 1,
                 "md-codelist": 1,
                 "md-codelist-multi": 1,
@@ -505,14 +525,16 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "md-button-modal": 1
+                "md-button-modal": 1,
+                "md-contact-link": 1,
+                "md-definition": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/pods/components/control/md-button-modal/component.js",
+            "file": "app/pods/components/control/md-definition/component.js",
             "line": 4,
             "description": "Components used as UI controls.",
             "tag": "main",
@@ -725,6 +747,38 @@
             "submodule": "components-control",
             "is_constructor": 1
         },
+        "md-contact-link": {
+            "name": "md-contact-link",
+            "shortname": "md-contact-link",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/control/md-contact-link/component.js",
+            "line": 12,
+            "description": "mdEditor Component that accepts a contact identifier and returns the\nformatted link element.",
+            "submodule": "components-control",
+            "is_constructor": 1
+        },
+        "md-definition": {
+            "name": "md-definition",
+            "shortname": "md-definition",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/control/md-definition/component.js",
+            "line": 4,
+            "description": "mdEditor Component that renders a definition",
+            "submodule": "components-control",
+            "is_constructor": 1
+        },
         "md-boolean": {
             "name": "md-boolean",
             "shortname": "md-boolean",
@@ -861,7 +915,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 11,
+            "line": 10,
             "description": "Specialized select list control for displaying and selecting\ncontacts.",
             "submodule": "components-input",
             "is_constructor": 1,
@@ -1400,6 +1454,95 @@
             "itemtype": "method",
             "name": "onConfirm",
             "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-contact-link/component.js",
+            "line": 35,
+            "description": "The contacts service",
+            "itemtype": "property",
+            "name": "contacts",
+            "type": "{Ember.Service}",
+            "readonly": "",
+            "class": "md-contact-link",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-contact-link/component.js",
+            "line": 44,
+            "description": "The contact identifier",
+            "itemtype": "property",
+            "name": "contactId",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-contact-link",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-contact-link/component.js",
+            "line": 52,
+            "description": "Render as block",
+            "itemtype": "property",
+            "name": "block",
+            "type": "{Boolean}",
+            "required": 1,
+            "class": "md-contact-link",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-contact-link/component.js",
+            "line": 60,
+            "description": "The contact record",
+            "itemtype": "property",
+            "name": "contact",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "contactId"
+            ],
+            "class": "md-contact-link",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-definition/component.js",
+            "line": 15,
+            "description": "The definition title",
+            "itemtype": "property",
+            "name": "title",
+            "type": "{String}",
+            "class": "md-definition",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-definition/component.js",
+            "line": 22,
+            "description": "The definition text",
+            "itemtype": "property",
+            "name": "text",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-definition",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-definition/component.js",
+            "line": 30,
+            "description": "The text to display if the text is falsy.",
+            "itemtype": "property",
+            "name": "empty",
+            "type": "{String}",
+            "default": "'Not Defined'",
+            "class": "md-definition",
             "module": "mdeditor",
             "submodule": "components-control"
         },
@@ -2463,7 +2606,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 22,
+            "line": 21,
             "description": "The contacts service",
             "itemtype": "property",
             "name": "contacts",
@@ -2475,7 +2618,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 31,
+            "line": 30,
             "description": "The default CSS classnames",
             "itemtype": "property",
             "name": "classNames",
@@ -2488,7 +2631,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 41,
+            "line": 40,
             "description": "The default codelist name. Should not be overridden.",
             "itemtype": "property",
             "name": "classNames",
@@ -2503,7 +2646,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 52,
+            "line": 51,
             "description": "The property that holds the select item value. Should not be overridden.",
             "itemtype": "property",
             "name": "valuePath",
@@ -2518,7 +2661,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 63,
+            "line": 62,
             "description": "The property that holds the select item text. Should not be overridden.",
             "itemtype": "property",
             "name": "namePath",
@@ -2533,7 +2676,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 74,
+            "line": 73,
             "description": "The contact type to display in the list. Choices are `organizations` or\n`individuals`.",
             "itemtype": "property",
             "name": "contactType",
@@ -2547,7 +2690,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 85,
+            "line": 84,
             "description": "The contact list mapped from the store to a codelist.",
             "itemtype": "property",
             "name": "mdCodes",
@@ -2564,7 +2707,7 @@
         },
         {
             "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 100,
+            "line": 99,
             "description": "mapped is a re-mapped array of code objects.\nThe initial codelist for 'mdCodeName' is provided by the 'codelist' service.",
             "itemtype": "property",
             "name": "mapped",
@@ -3350,7 +3493,7 @@
         },
         {
             "file": "app/pods/dictionary/show/edit/route.js",
-            "line": 4,
+            "line": 12,
             "description": "The profile service",
             "return": {
                 "description": "profile",
@@ -3361,7 +3504,7 @@
         },
         {
             "file": "app/pods/dictionary/show/edit/route.js",
-            "line": 11,
+            "line": 19,
             "description": "The route activate hook, sets the profile to 'dictionary'.",
             "class": "tree-branch",
             "module": "mdeditor"
@@ -3654,11 +3797,11 @@
         },
         {
             "message": "Missing item type\nThe profile service",
-            "line": " app/pods/dictionary/show/edit/route.js:4"
+            "line": " app/pods/dictionary/show/edit/route.js:12"
         },
         {
             "message": "Missing item type\nThe route activate hook, sets the profile to 'dictionary'.",
-            "line": " app/pods/dictionary/show/edit/route.js:11"
+            "line": " app/pods/dictionary/show/edit/route.js:19"
         },
         {
             "message": "Missing item type\nThe profile service",
