@@ -1344,6 +1344,24 @@
         {
             "file": "app/models/contact.js",
             "line": 197,
+            "description": "The URI of the default logo for the contact.",
+            "itemtype": "property",
+            "name": "defaultLogo",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "json.logoGraphic.0.fileUri.0.uri"
+            ],
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 213,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -1362,7 +1380,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 236,
+            "line": 252,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1380,7 +1398,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 254,
+            "line": 270,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
