@@ -7,9 +7,11 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-array-table",
         "md-boolean",
         "md-button-modal",
+        "md-card",
         "md-codelist",
         "md-codelist-multi",
         "md-contact-link",
+        "md-contact-title",
         "md-datetime",
         "md-definition",
         "md-graphic-array",
@@ -35,6 +37,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "modules": [
         "components-control",
         "components-input",
+        "components-layout",
         "components-object",
         "data-models",
         "ember-json-tree",
@@ -54,6 +57,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "components-input",
             "name": "components-input",
             "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nAccess to codelists is provided by the 'codelist' service.\nDescriptions of all codes (tooltips) are embedded within the codelists."
+        },
+        {
+            "displayName": "components-layout",
+            "name": "components-layout",
+            "description": "Component that renders a Bootstrap card."
         },
         {
             "displayName": "components-object",

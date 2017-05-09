@@ -57,6 +57,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/control/md-contact-title/component.js": {
+            "name": "app/pods/components/control/md-contact-title/component.js",
+            "modules": {},
+            "classes": {
+                "md-contact-title": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/control/md-definition/component.js": {
             "name": "app/pods/components/control/md-definition/component.js",
             "modules": {},
@@ -200,6 +209,17 @@
             "modules": {},
             "classes": {
                 "md-toggle": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/layout/md-card/component.js": {
+            "name": "app/pods/components/layout/md-card/component.js",
+            "modules": {
+                "components-layout": 1
+            },
+            "classes": {
+                "md-card": 1
             },
             "fors": {},
             "namespaces": {}
@@ -434,6 +454,7 @@
                 "data-models": 1,
                 "components-control": 1,
                 "components-input": 1,
+                "components-layout": 1,
                 "components-object": 1
             },
             "elements": {},
@@ -442,6 +463,7 @@
                 "contact": 1,
                 "md-button-modal": 1,
                 "md-contact-link": 1,
+                "md-contact-title": 1,
                 "md-definition": 1,
                 "md-boolean": 1,
                 "md-codelist": 1,
@@ -455,6 +477,7 @@
                 "md-select-thesaurus": 1,
                 "md-textarea": 1,
                 "md-toggle": 1,
+                "md-card": 1,
                 "md-address": 1,
                 "md-array-table": 1,
                 "md-graphic-array": 1,
@@ -527,6 +550,7 @@
             "classes": {
                 "md-button-modal": 1,
                 "md-contact-link": 1,
+                "md-contact-title": 1,
                 "md-definition": 1
             },
             "fors": {},
@@ -576,6 +600,23 @@
             "category": [
                 "docs"
             ]
+        },
+        "components-layout": {
+            "name": "components-layout",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "md-card": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 9,
+            "description": "Component that renders a Bootstrap card.",
+            "is_constructor": 1
         },
         "components-object": {
             "name": "components-object",
@@ -760,6 +801,22 @@
             "file": "app/pods/components/control/md-contact-link/component.js",
             "line": 12,
             "description": "mdEditor Component that accepts a contact identifier and returns the\nformatted link element.",
+            "submodule": "components-control",
+            "is_constructor": 1
+        },
+        "md-contact-title": {
+            "name": "md-contact-title",
+            "shortname": "md-contact-title",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/control/md-contact-title/component.js",
+            "line": 24,
+            "description": "mdEditor Component that accepts a contact identifier and returns the\ncontact title.",
             "submodule": "components-control",
             "is_constructor": 1
         },
@@ -969,6 +1026,21 @@
             "submodule": "components-input",
             "is_constructor": 1,
             "extends": "ember-toggle/components/x-toggle"
+        },
+        "md-card": {
+            "name": "md-card",
+            "shortname": "md-card",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "components-layout",
+            "namespace": "",
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 9,
+            "description": "Component that renders a Bootstrap card."
         },
         "md-address": {
             "name": "md-address",
@@ -1526,6 +1598,47 @@
                 "contactId"
             ],
             "class": "md-contact-link",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-contact-title/component.js",
+            "line": 14,
+            "description": "The contacts service",
+            "itemtype": "property",
+            "name": "contacts",
+            "type": "{Ember.Service}",
+            "readonly": "",
+            "class": "md-contact-title",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/control/md-contact-title/component.js",
+            "line": 34,
+            "description": "The contact identifier",
+            "itemtype": "property",
+            "name": "contactId",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-contact-title",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-contact-title/component.js",
+            "line": 41,
+            "description": "description",
+            "itemtype": "property",
+            "name": "title",
+            "type": "{String}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "contactId"
+            ],
+            "class": "md-contact-title",
             "module": "mdeditor",
             "submodule": "components-control"
         },
@@ -2907,6 +3020,45 @@
             "class": "md-toggle",
             "module": "mdeditor",
             "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 20,
+            "description": "The card title.",
+            "itemtype": "property",
+            "name": "title",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 28,
+            "description": "If true, the \"row\" class will be added to the card body.",
+            "itemtype": "property",
+            "name": "bodyIsRow",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 36,
+            "description": "The data-spy text. Defaults to the title.",
+            "itemtype": "property",
+            "name": "data-spy",
+            "type": "{String}",
+            "default": "\"this.title\"",
+            "category": [
+                "computed"
+            ],
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
         },
         {
             "file": "app/pods/components/layout/md-nav-secondary/component.js",
