@@ -1,0 +1,16 @@
+.card-table {
+  .card-block {
+    padding: 0;
+
+    table {
+      margin-bottom: 0;
+
+      tr:first-child {
+        td,
+        tr {
+          border-top: 0;
+        }
+      }
+    }
+  }
+}

@@ -13,5 +13,8 @@
   },
   "resolutions": {
     "leaflet": "~1.0.0"
+  },
+  "devDependencies": {
+    "bootstrap-3-card": "^0.2.0"
   }
 }

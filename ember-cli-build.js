@@ -8,6 +8,7 @@ module.exports = function(defaults) {
     sassOptions: {
       includePaths: [
         'bower_components/bootstrap-sass/assets/stylesheets',
+        'bower_components/bootstrap-3-card/sass',
         // 'bower_components/select2/src/scss',
         // 'bower_components/select2-bootstrap-theme/src',
         'bower_components/jquery-jsonview/src'
