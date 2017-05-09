@@ -1,12 +1,20 @@
 import Ember from 'ember';
+import HashPoll from 'mdeditor/mixins/hash-poll';
 
-export default Ember.Route.extend({
+const {
+  inject,
+  Route,
+  get,
+  copy
+} = Ember;
+
+export default Route.extend(HashPoll, {
   /**
    * The profile service
    *
    * @return {Ember.Service} profile
    */
-  profile: Ember.inject.service(),
+  profile: inject.service(),
 
   /**
    * The route activate hook, sets the profile to 'dictionary'.
@@ -31,7 +39,7 @@ export default Ember.Route.extend({
       model
         .save()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .success(`Saved Dictionary: ${model.get('title')}`);
         });
     },
@@ -41,7 +49,7 @@ export default Ember.Route.extend({
       model
         .destroyRecord()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .success(`Deleted Dictionary: ${model.get('title')}`);
           this.replaceWith('dictionaries');
         });
@@ -49,21 +57,31 @@ export default Ember.Route.extend({
 
     cancelDictionary: function () {
       let model = this.currentRouteModel();
+      let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
+
+      if (this.get('settings.data.autoSave')) {
+        let json = model.get('jsonRevert');
+
+        if (json) {
+          model.set('json', JSON.parse(json));
+          get(this, 'flashMessages').warning(message);
+        }
+
+        return;
+      }
+
       model
         .reload()
         .then(() => {
-          this.refresh();
-          Ember.get(this, 'flashMessages')
-            .warning(
-              `Cancelled changes to Dictionary: ${model.get('title')}`);
+          get(this, 'flashMessages').warning(message);
         });
     },
 
     copyDictionary: function () {
 
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
-      this.transitionTo('dictionary.new.id', Ember.copy(this.currentRouteModel()));
+      this.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
     }
   }
 });
