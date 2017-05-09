@@ -3,8 +3,7 @@ import Select from '../md-codelist-multi/component';
 
 const {
   inject,
-  computed,
-  isArray
+  computed
 } = Ember;
 
 export default Select.extend({

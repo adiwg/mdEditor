@@ -1,13 +1,15 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="CRUD Button Controls">
-  <button type="submit" {{action "save"}} class="btn btn-lg btn-success"
-  disabled={{if model.hasDirtyHash false true}}>
-    <i class="fa fa-floppy-o"></i> Save
-  </button>
-  <button {{action "cancel"}} class="btn btn-lg btn-warning"
-  disabled={{if model.canRevert false true}}>
-    <i class="fa fa-undo"></i> Cancel
-  </button>
-  <button {{action "copy"}} class="btn btn-lg btn-info">
+  {{#if doSave}}
+      <button type="submit" {{action "save"}} class="btn btn-lg btn-success"
+      disabled={{if model.hasDirtyHash false true}}>
+        <i class="fa fa-floppy-o"></i> Save
+      </button>
+      <button type="button" {{action "cancel"}} class="btn btn-lg btn-warning"
+      disabled={{if model.canRevert false true}}>
+        <i class="fa fa-undo"></i> Cancel
+      </button>
+  {{/if}}
+  <button type="button" {{action "copy"}} class="btn btn-lg btn-info">
     <i class="fa fa-clone"></i> Copy
   </button>
   {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete")}}

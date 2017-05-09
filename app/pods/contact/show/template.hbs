@@ -1,2 +1,164 @@
-Showing contact {{model.id}}
-{{outlet}}
+<div class="row">
+  <div class="col-sm-9 col-md-offset-1">
+    <h3>
+      {{#if model.defaultLogo}}
+        <img src="{{model.defaultLogo}}" class="img-responsive inline-block md-logo-preview" alt="Responsive image">
+      {{else}}
+        {{fa-icon model.icon class="text-muted"}}
+      {{/if}}
+
+      Viewing {{model.type}} Contact: {{model.title}}
+          <span class="text-danger">
+            {{#if model.hasDirtyHash}}
+              {{fa-icon "exclamation-circle"}}
+              {{tooltip-on-element text='This record has been modified!' side="right"
+                class="md-tooltip danger"
+              }}
+            {{/if}}
+          </span>
+    </h3>
+    {{#layout/md-card title="Basic Information" bodyIsRow=true}}
+        <dl class="dl-horizontal col-lg-6">
+          {{control/md-definition title="Contact Id" text=model.contactId}}
+          {{control/md-definition title="Contact Name" text=model.name}}
+
+          {{#unless model.json.isOrganization}}
+            {{control/md-definition title="Postion" text=model.json.positionName}}
+          {{/unless}}
+
+          {{control/md-definition title="Contact Type" text=model.json.contactType}}
+          {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
+
+        </dl>
+        <dl class="dl-horizontal col-lg-6">
+          {{#control/md-definition title="Organizations"}}
+            {{#each model.json.memberOfOrganization as |orgId|}}
+              {{control/md-contact-link
+                contactId=orgId
+              }}<br>
+              {{else}}
+                <em class="text-muted">No organizations assigned.</em>
+            {{/each}}
+          {{/control/md-definition}}
+        </dl>
+    {{/layout/md-card}}
+
+    <div class="row">
+    {{#layout/md-card title="Phone" class="col-md-6 col-xxl-4 card-table"}}
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each model.json.phone as |ph|}}
+              <tr>
+                <td>{{get-dash ph "phoneName"}}</td>
+                <td>
+                  {{#if ph.phoneNumber}}
+                    <a href="tel:{{ph.phoneNumber}}">{{ph.phoneNumber}}
+                      {{tooltip-on-element text="Click to call."}}
+                    </a>
+                  {{else}}
+                    --
+                  {{/if}}
+                </td>
+                <td>
+                  {{if ph.service.length (join ", " ph.service) "--"}}
+                </td>
+              </tr>
+            {{else}}
+              <tr><td><em class="text-muted">No phones assigned.</em></td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{/layout/md-card}}
+
+      {{#layout/md-card title="E-mail" class="col-md-6 col-xxl-4"}}
+      <ul class="list-unstyled">
+        {{#each model.json.electronicMailAddress as |email|}}
+          <li><a href="mailto:{{email}}" target="_blank">{{email}}
+            {{tooltip-on-element text="Click to send e-mail."}}
+          </a></li>
+        {{else}}
+          <li><em class="text-muted">No e-mails assigned.</em></li>
+        {{/each}}
+      </ul>
+      {{/layout/md-card}}
+
+      {{#layout/md-card title="Availability" class="col-md-6 col-xxl-4"}}
+      <ul class="list-unstyled">
+        {{#each model.json.hoursOfService as |email|}}
+          <li>{{hoursOfService}}</li>
+        {{else}}
+          <li><em class="text-muted">No information provided.</em></li>
+        {{/each}}
+      </ul>
+      {{/layout/md-card}}
+    </div>
+
+    <div class="row">
+    {{#layout/md-card title="Address" class="col-md-6" bodyIsRow=model.json.address.length}}
+        {{#each model.json.address as |address|}}
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-block">
+                {{object/md-address/md-address-block item=address}}
+              </div>
+            </div>
+          </div>
+        {{else}}
+            <em>No addresses provided.</em>
+        {{/each}}
+      {{/layout/md-card}}
+
+      {{#layout/md-card title="Online Resource" class="col-md-6"}}
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>URI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each model.json.onlineResource as |ol|}}
+                <tr>
+                  <td>{{get-dash ol "name"}}</td>
+                  <td>
+                    {{#if ol.uri}}
+                      <a href="{{ol.uri}}" target="_blank">{{ol.uri}}
+                        {{!-- {{tooltip-on-element text="Click to visit."}} --}}
+                      </a>
+                    {{else}}
+                      --
+                    {{/if}}
+                  </td>
+                </tr>
+              {{else}}
+                <tr><td><em class="text-muted">No online resources assigned.</em></td></tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{/layout/md-card}}
+    </div>
+
+  </div>
+  <div class="col-sm-2">
+    <div class="md-control-sidebar">
+      {{#control/md-crud-buttons model=model doDelete="destroyContact" doCopy="copyContact" }}
+        {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
+          {{fa-icon "pencil"}} Edit{{/link-to}}
+        {{#link-to "contacts" class="btn btn-lg btn-primary" }}
+          {{fa-icon "list"}} List{{/link-to}}
+      {{/control/md-crud-buttons}}
+      {{control/md-scroll-spy}}
+    </div>
+  </div>
+</div>

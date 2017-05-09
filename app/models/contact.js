@@ -195,6 +195,22 @@ export default Model.extend(Validations, Copyable, {
     }),
 
   /**
+   * The URI of the default logo for the contact.
+   *
+   * @property defaultLogo
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires json.logoGraphic.0.fileUri.0.uri
+   */
+  defaultLogo: computed('json.logoGraphic.[]',
+    function () {
+      const uri = this.get('json.logoGraphic.0.fileUri.0.uri');
+
+      return uri;
+    }),
+
+  /**
    * The formatted (name or position) and organization(if any) of the contact.
    *
    * @property combinedName

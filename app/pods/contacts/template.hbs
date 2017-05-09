@@ -8,7 +8,7 @@
         <th>#</th>
         <th>Contact ID</th>
         <th>Name</th>
-        <th>Organization Name</th>
+        <th>E-mail</th>
         <th></th>
       </tr>
     </thead>
@@ -18,13 +18,15 @@
           <td>{{input type="checkbox" name="isChecked"}}</td>
           <td>{{index}}</td>
           <td>{{item.shortId}}</td>
-          <td>{{item.json.name}}</td>
-          <td>{{item.json.organizationName}}</td>
+          <td>{{item.title}}</td>
+          <td>{{item.json.electronicMailAddress.[0]}}</td>
           <td>
             <div class="pull-right">
               {{!-- {{debugger}} --}}
-              {{control/md-json-button json=item.cleanJson}}
-              <button class="btn btn-xs btn-warning" {{action "editItem" item}}>
+              {{#link-to "contact.show" item.id class="btn btn-xs btn-info"}}
+                {{fa-icon "eye"}} Show
+              {{/link-to}}
+              <button type="button" class="btn btn-xs btn-success" {{action "editItem" item}}>
                 <span class="fa fa-pencil"></span> Edit
               </button>
               {{!-- {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(route-action "deleteItem" item)}}
@@ -33,9 +35,10 @@
               {{#control/md-button-modal class="btn btn-xs btn-danger" message="<h1>Do
             you really want to delete this contact?</h1>Be sure this contact is
             not referenced by a metadata record or dictionary or it's deletion
-            may cause those records to not validate." onConfirm=(route-action "deleteItem" item)}}
+            may cause those records to fail validation." onConfirm=(route-action "deleteItem" item)}}
                 <span class="fa fa-times"></span> Delete
               {{/control/md-button-modal}}
+              {{control/md-json-button json=item.cleanJson}}
             </div>
           </td>
         </tr>
