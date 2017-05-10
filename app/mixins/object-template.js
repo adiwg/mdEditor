@@ -5,7 +5,8 @@ const {
   isArray,
   getOwner,
   A,
-  merge
+  merge,
+  run
 } = Ember;
 
 export default Mixin.create({
@@ -37,8 +38,10 @@ export default Mixin.create({
         let owner = getOwner(this);
 
         property.forEach((item, idx, items) => {
-          items.replace(idx, 1, merge(Template.create(owner.ownerInjection()),
-            item));
+          run.once(() => {
+            items.replace(idx, 1, merge(Template.create(owner.ownerInjection()),
+              item));
+          });
         });
       }
     } else {
