@@ -6,9 +6,80 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-export default Ember.Component.extend({
+const {
+  Component,
+  defineProperty,
+  computed,
+  isBlank,
+  assert
+} = Ember;
+
+export default Component.extend({
+  init() {
+    this._super(...arguments);
+
+    let model = this.get('model');
+    let path = this.get('path');
+
+    if (isBlank(model) !== isBlank(path)) {
+      assert(
+        `You must supply both model and path to ${this.toString()} or neither.`
+      );
+    }
+
+    if (!isBlank(model)) {
+      if (this.get(`model.${path}`) === undefined) {
+        Ember.debug(
+          `model.${path} is undefined in ${this.toString()}.`
+        );
+
+        //Ember.run.once(()=>model.set(path, ""));
+      }
+
+      defineProperty(this, 'value', computed.alias(`model.${path}`));
+
+      defineProperty(this, 'validation', computed.alias(
+        `model.validations.attrs.${path}`).readOnly());
+
+      defineProperty(this, 'required', computed(
+        'validation.options.presence.presence',
+        'validation.options.presence.disabled',
+        function() {
+          return this.get('validation.options.presence.presence') &&
+            !this.get('validation.options.presence.disabled');
+        }).readOnly());
+
+      defineProperty(this, 'notValidating', computed.not(
+        'validation.isValidating').readOnly());
+
+      defineProperty(this, 'hasContent', computed.notEmpty('value').readOnly());
+
+      defineProperty(this, 'hasWarnings', computed.notEmpty(
+        'validation.warnings').readOnly());
+
+      defineProperty(this, 'isValid', computed.and('hasContent',
+        'validation.isTruelyValid').readOnly());
+
+      defineProperty(this, 'shouldDisplayValidations', computed.or(
+        'showValidations', 'didValidate',
+        'hasContent').readOnly());
+
+      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+        'showErrorMessage',
+        'hasContent', 'validation').readOnly());
+
+      defineProperty(this, 'showErrorMessage', computed.and(
+        'shouldDisplayValidations',
+        'validation.isInvalid').readOnly());
+
+      defineProperty(this, 'showWarningMessage', computed.and(
+        'shouldDisplayValidations',
+        'hasWarnings', 'isValid').readOnly());
+    }
+  },
+
   classNames: ['md-select'],
-  classNameBindings: ['formGroup'],
+  classNameBindings: ['formGroup', 'required'],
   formGroup: Ember.computed.notEmpty('label'),
   icons: Ember.inject.service('icon'),
   /**
@@ -34,7 +105,7 @@ export default Ember.Component.extend({
 
   /**
    * The initial value of the select. Type must match the type of the attribute
-   * identified by the valuePath option.
+   * identified by the path option.
    *
    * @property value
    * @type Any
@@ -46,7 +117,7 @@ export default Ember.Component.extend({
    * Name of the attribute in the objectArray to be used for the
    * select list's option value.
    *
-   * @property valuePath
+   * @property path
    * @type String
    * @required
    */
@@ -234,7 +305,7 @@ export default Ember.Component.extend({
       // or reject
       reject(new Error('Couldn\'t create a promise.'));
     });
-    let codeId = this.get('valuePath');
+    let codeId = this.get('path');
     let codeName = this.get('namePath');
     let tooltip = this.get('tooltipPath');
     let icons = this.get('icons');

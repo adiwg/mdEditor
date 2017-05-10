@@ -1,6 +1,7 @@
     {{#if label}}
       <label>{{label}}</label>
     {{/if}}
+<div class="md-input-input">
       {{#component theComponent
         selected=selectedItem
         multiple=multiple
@@ -38,3 +39,23 @@
           {{/if}}
         {{/unless}}
       {{/component}}
+      <span class='md-input-error'>
+        {{#if showErrorMessage}}
+          <span class='md-error'>
+            {{fa-icon "exclamation-circle"}}
+            {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+                {{v-get model path 'message'}}
+            {{/tooltip-on-element}}
+          </span>
+        {{/if}}
+
+        {{#if showWarningMessage}}
+          <span class='md-warning'>
+            {{fa-icon "exclamation-triangle"}}
+            {{#tooltip-on-element side="right" class="md-tooltip warning"}}
+            {{v-get model path 'warningMessage'}}
+            {{/tooltip-on-element}}
+          </span>
+        {{/if}}
+      </span>
+    </div>
