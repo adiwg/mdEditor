@@ -155,9 +155,10 @@
       {{#control/md-crud-buttons model=model doDelete="destroyContact" doCopy="copyContact" }}
         {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
           {{fa-icon "pencil"}} Edit{{/link-to}}
-        {{#link-to "contacts" class="btn btn-lg btn-primary" }}
-          {{fa-icon "list"}} List{{/link-to}}
       {{/control/md-crud-buttons}}
+      <hr>
+      {{#link-to "contacts" class="btn btn-lg btn-primary btn-block" }}
+      {{fa-icon "list"}} Show List{{/link-to}}
       {{control/md-scroll-spy}}
     </div>
   </div>
