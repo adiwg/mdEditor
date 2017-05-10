@@ -93,8 +93,8 @@
 
       {{#layout/md-card title="Availability" class="col-md-6 col-xxl-4"}}
       <ul class="list-unstyled">
-        {{#each model.json.hoursOfService as |email|}}
-          <li>{{hoursOfService}}</li>
+        {{#each model.json.hoursOfService as |hours|}}
+          <li>{{hours}}</li>
         {{else}}
           <li><em class="text-muted">No information provided.</em></li>
         {{/each}}
