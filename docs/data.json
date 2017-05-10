@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.84887cef",
+        "version": "0.0.0.e9e1e5ff",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -302,6 +302,13 @@
         "app/pods/components/object/md-phone-array/component.js": {
             "name": "app/pods/components/object/md-phone-array/component.js",
             "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-resource-type-array/component.js": {
+            "name": "app/pods/components/object/md-resource-type-array/component.js",
+            "modules": {},
             "classes": {
                 "md-phone-array": 1
             },
@@ -361,6 +368,13 @@
         },
         "app/services/profile.js": {
             "name": "app/services/profile.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/validators/array-required.js": {
+            "name": "app/validators/array-required.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -514,7 +528,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/mixins/object-template.js",
-            "line": 12,
+            "line": 13,
             "description": "Mixins.",
             "tag": "main",
             "itemtype": "main",
@@ -748,7 +762,7 @@
             "extension_for": [],
             "module": "mdeditor",
             "file": "app/mixins/object-template.js",
-            "line": 12,
+            "line": 13,
             "description": "Use this mixin to apply 'templates' to an array of objects. Especially useful\nwhen the object must support setting arrays that are not passed during\ninitialization.",
             "submodule": "mixins",
             "is_constructor": 1,
@@ -815,8 +829,8 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/control/md-contact-title/component.js",
-            "line": 24,
-            "description": "mdEditor Component that accepts a contact identifier and returns the\ncontact title.",
+            "line": 14,
+            "description": "mdEditor Component that accepts a contact identifier and returns the\ncontact title or yields the contact in block form.",
             "submodule": "components-control",
             "is_constructor": 1
         },
@@ -957,7 +971,7 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 14,
+            "line": 85,
             "description": "A select list control for displaying and selecting options\nprovided in an array or promise array.",
             "is_constructor": 1
         },
@@ -1129,8 +1143,8 @@
             "extension_for": [],
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/pods/components/object/md-phone-array/component.js",
-            "line": 28,
+            "file": "app/pods/components/object/md-resource-type-array/component.js",
+            "line": 22,
             "description": "mdEditor class for input and edit of mdJSON 'phone' object.\nThe class manages the maintenance of an array of phone objects.",
             "submodule": "components-object",
             "is_constructor": 1
@@ -1242,7 +1256,7 @@
     "classitems": [
         {
             "file": "app/mixins/object-template.js",
-            "line": 24,
+            "line": 25,
             "description": "Apply the object 'template' to each object in the array.",
             "itemtype": "method",
             "name": "applyTemplate",
@@ -1603,18 +1617,7 @@
         },
         {
             "file": "app/pods/components/control/md-contact-title/component.js",
-            "line": 14,
-            "description": "The contacts service",
-            "itemtype": "property",
-            "name": "contacts",
-            "type": "{Ember.Service}",
-            "readonly": "",
-            "class": "md-contact-title",
-            "module": "mdeditor"
-        },
-        {
-            "file": "app/pods/components/control/md-contact-title/component.js",
-            "line": 34,
+            "line": 24,
             "description": "The contact identifier",
             "itemtype": "property",
             "name": "contactId",
@@ -1626,7 +1629,7 @@
         },
         {
             "file": "app/pods/components/control/md-contact-title/component.js",
-            "line": 41,
+            "line": 31,
             "description": "description",
             "itemtype": "property",
             "name": "title",
@@ -2453,7 +2456,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 22,
+            "line": 93,
             "description": "An array or promise array containing the options for the\nselect list.\nAt a minimum the array elements should provide attributes for the\nname value pairs displayed as select list options.\nTooltips may also be included.\nOther attributes in the array elements will be ignored.",
             "itemtype": "property",
             "name": "objectArray",
@@ -2465,8 +2468,8 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 35,
-            "description": "The initial value of the select. Type must match the type of the attribute\nidentified by the valuePath option.",
+            "line": 106,
+            "description": "The initial value of the select. Type must match the type of the attribute\nidentified by the path option.",
             "itemtype": "property",
             "name": "value",
             "type": "Any",
@@ -2477,10 +2480,10 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 45,
+            "line": 116,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
             "itemtype": "property",
-            "name": "valuePath",
+            "name": "path",
             "type": "String",
             "required": 1,
             "class": "md-select",
@@ -2489,7 +2492,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 54,
+            "line": 125,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option name or display text.",
             "itemtype": "property",
             "name": "namePath",
@@ -2501,7 +2504,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 63,
+            "line": 134,
             "description": "Indicates if icons should be rendered.",
             "itemtype": "property",
             "name": "icon",
@@ -2513,7 +2516,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 72,
+            "line": 143,
             "description": "The default icon.",
             "itemtype": "property",
             "name": "defaultIcon",
@@ -2526,7 +2529,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 82,
+            "line": 153,
             "description": "Indicates if tooltips should be rendered for the options.",
             "itemtype": "property",
             "name": "tooltip",
@@ -2538,7 +2541,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 91,
+            "line": 162,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's tooltip.  If null, no tooltip will be\ngenerated.",
             "itemtype": "property",
             "name": "tooltipPath",
@@ -2550,7 +2553,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 102,
+            "line": 173,
             "description": "Whether to render a button to clear the selection.",
             "itemtype": "property",
             "name": "allowClear",
@@ -2562,7 +2565,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 111,
+            "line": 182,
             "description": "Whether to render the search input.",
             "itemtype": "property",
             "name": "searchEnabled",
@@ -2574,7 +2577,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 120,
+            "line": 191,
             "description": "Whether to disable the select.",
             "itemtype": "property",
             "name": "disabled",
@@ -2586,7 +2589,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 129,
+            "line": 200,
             "description": "Whether to close the selection list after a selection has been made.",
             "itemtype": "property",
             "name": "closeOnSelect",
@@ -2598,7 +2601,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 138,
+            "line": 209,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -2610,7 +2613,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 147,
+            "line": 218,
             "description": "Form label for select list",
             "itemtype": "property",
             "name": "label",
@@ -2622,7 +2625,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 160,
+            "line": 231,
             "description": "Indicates whether to allow the user to enter a new option\nnot contained in the select list.",
             "itemtype": "property",
             "name": "create",
@@ -2634,7 +2637,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 170,
+            "line": 241,
             "description": "If set, removes the option with the specified id from the list. By default,\nit will hide options with a null id.",
             "itemtype": "property",
             "name": "filterId",
@@ -2647,7 +2650,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 181,
+            "line": 252,
             "description": "The component to render",
             "itemtype": "property",
             "name": "theComponent",
@@ -2661,7 +2664,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 193,
+            "line": 264,
             "description": "Callback after value is updated, usually an action is passed.",
             "itemtype": "method",
             "name": "change",
@@ -2671,7 +2674,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 200,
+            "line": 271,
             "description": "The currently selected item in the codelist",
             "itemtype": "property",
             "name": "selectedItem",
@@ -2685,7 +2688,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 220,
+            "line": 291,
             "description": "codelist is an array of code objects re-mapped from the input 'objectArray'.\nValues from the input object array are mapped according the path parameters\nprovided.",
             "itemtype": "property",
             "name": "codelist",
@@ -2699,7 +2702,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 264,
+            "line": 335,
             "description": "Creates a new codelist entry. The codeId and codeName are both set to the\npassed value.",
             "itemtype": "method",
             "name": "createCode",
@@ -2720,7 +2723,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 280,
+            "line": 351,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -3587,6 +3590,17 @@
             "submodule": "components-object"
         },
         {
+            "file": "app/pods/components/object/md-resource-type-array/component.js",
+            "line": 34,
+            "description": "See [md-array-table](md-array-table.html#property_templateClass).",
+            "itemtype": "property",
+            "name": "templateClass",
+            "type": "Ember.Object",
+            "class": "md-phone-array",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
             "file": "app/pods/components/object/md-simple-array-table/component.js",
             "line": 23,
             "description": "Convert the input 'primitive' array to an 'ember' array of objects",
@@ -3812,6 +3826,29 @@
             "module": ""
         },
         {
+            "file": "app/validators/array-required.js",
+            "line": 16,
+            "description": "Define attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
+            "params": [
+                {
+                    "name": "attribute",
+                    "description": "The attribute being evaluated",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options passed into your validator",
+                    "type": "Unknown"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "tree-branch",
+            "module": ""
+        },
+        {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
             "line": 24,
             "description": "Array containing initially selected node objects (models).\nObjects in the array must have an identifier property.",
@@ -4012,6 +4049,10 @@
         {
             "message": "Missing item type\nAn object defining the available profiles",
             "line": " app/services/profile.js:33"
+        },
+        {
+            "message": "Missing item type\nDefine attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
+            "line": " app/validators/array-required.js:16"
         },
         {
             "message": "Missing item type\nCalled when a tree node is selected. Override as needed.",

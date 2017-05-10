@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>md-inputs - mdeditor</title>
+    <title>app/pods/components/object/md-resource-type-array/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -207,418 +207,60 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-inputs Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L10" target="_blank">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
-<div class="content-meta">
+const {
+  Object: EmObject
+} = Ember;
 
+const Validations = buildValidations({
+  &#x27;type&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      ignoreBlank: true,
+    })
+  ]
+});
 
-            Module: <a href="../modules/components-input.html">components-input</a><br>
-            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
+export default Ember.Component.extend({
 
+  /**
+   * mdEditor class for input and edit of mdJSON &#x27;phone&#x27; object.
+   * The class manages the maintenance of an array of phone objects.
+   *
+   * @class md-phone-array
+   * @module mdeditor
+   * @submodule components-object
+   * @constructor
+   */
 
-        <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L10">app/pods/components/input/md-inputs/component.js:10</a>
-        </div>
-</div>
+  attributeBindings: [&#x27;data-spy&#x27;],
 
+  /**
+   * See [md-array-table](md-array-table.html#property_templateClass).
+   *
+   * @property templateClass
+   * @type Ember.Object
+   */
+  templateClass: EmObject.extend(Validations, {
+    init() {
+      this._super(...arguments);
+    }
+  })
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_md-inputs" class="method item">
-	<span class="method-signature">
-	<span class="name anchorable-toc">
-		<a class="fa fa-link toc-anchor" href="#method_md-inputs"></a>
-		md-inputs
-	</span>
+});
 
-		<span class="paren">()</span>
-	</span>
-
-
-
-
-
-
-
-	<div class="meta">
-				<p>
-				Defined in
-		<a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L10">app/pods/components/input/md-inputs/component.js:10</a>
-		</p>
-
-
-
-	</div>
-
-
-
-
-</div>
-    </div>
-
-  <div class="class-description">
-  <p>Input, edit, display an array of strings</p>
-
-  </div>
-
-<div>
-    <div class="page-section">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
-
-            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
-
-
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-
-              <form id="options-form" class="form-inline">
-                  Show:
-                  <label for="api-show-inherited" class="checkbox">
-                      <input type="checkbox" id="api-show-inherited" checked>
-                      Inherited
-                  </label>
-          
-                  <label for="api-show-protected" class="checkbox">
-                      <input type="checkbox" id="api-show-protected">
-                      Protected
-                  </label>
-          
-                  <label for="api-show-private" class="checkbox">
-                      <input type="checkbox" id="api-show-private">
-                      Private
-                  </label>
-                  <label for="api-show-deprecated" class="checkbox">
-                      <input type="checkbox" id="api-show-deprecated">
-                      Deprecated
-                  </label>
-          
-              </form>
-
-          <div id="tab_index" role="tabpanel" class="tab-pane active" >
-
-                  <div class="index-section properties">
-                      <h3>Properties</h3>
-
-                      <ul class="index-list properties">
-                              <li class="index-item property">
-                                  <a href="#property_buttonText">buttonText</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_buttonTop">buttonTop</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_header">header</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_label">label</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_maxlength">maxlength</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_model">model</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_placeholder">placeholder</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_type">type</a>
-
-                              </li>
-                      </ul>
-                  </div>
-
-
-          </div>
-
-
-              <div id="tab_properties" role="tabpanel" class="tab-pane">
-                  <div class="item-list">
-  
-  
-  <div id="property_buttonText" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_buttonText"></a>
-          buttonText
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L56">app/pods/components/input/md-inputs/component.js:56</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Determines add button text</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> Add</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_buttonTop" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_buttonTop"></a>
-          buttonTop
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L65">app/pods/components/input/md-inputs/component.js:65</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Determines add button placement</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> false</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_header" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_header"></a>
-          header
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L74">app/pods/components/input/md-inputs/component.js:74</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Column header for the input column</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> null</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_label" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_label"></a>
-          label
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L47">app/pods/components/input/md-inputs/component.js:47</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Label for the table of input rows</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> null</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_maxlength" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_maxlength"></a>
-          maxlength
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L37">app/pods/components/input/md-inputs/component.js:37</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Maximum number of characters for each input string.
-  If no maxlength is specified the length will not be restricted</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> null</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_model" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_model"></a>
-          model
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L17">app/pods/components/input/md-inputs/component.js:17</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>An array of strings to be edited.
-  The edited array is returned</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> []</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_placeholder" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_placeholder"></a>
-          placeholder
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L83">app/pods/components/input/md-inputs/component.js:83</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Text displayed in empty inputs</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> null</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_type" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_type"></a>
-          type
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/e9e1e5ff/app/pods/components/input/md-inputs/component.js#L27">app/pods/components/input/md-inputs/component.js:27</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Type of data represented by string in the array.
-  HTML5 types may be specified ('text', 'number', etc.)</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> &#x27;text&#x27;</p>
-  
-  
-  </div>
-                  </div>
-              </div>
-
-
-      </div>
-    </div>
+    </pre>
 </div>
                         </div>
                     </div>

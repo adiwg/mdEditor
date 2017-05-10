@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/84887cef" target="_blank">
-                                  Tag: 0.0.0.84887cef
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e9e1e5ff" target="_blank">
+                                  Tag: 0.0.0.e9e1e5ff
                                 </a>
                             </h4>
                         </div>
@@ -222,23 +222,13 @@ const {
 } = Ember;
 
 export default Component.extend({
-  tagName: &#x27;span&#x27;,
+  tagName: &#x27;&#x27;,
 
   store: inject.service(),
 
   /**
-   * The contacts service
-   *
-   * @property contacts
-   * @type {Ember.Service}
-   * @readOnly
-   */
-  contacts: inject.service(),
-
-
-  /**
    * mdEditor Component that accepts a contact identifier and returns the
-   * contact title.
+   * contact title or yields the contact in block form.
    *
    * @class md-contact-title
    * @module mdeditor
@@ -267,7 +257,7 @@ export default Component.extend({
         .peekAll(&#x27;contact&#x27;)
         .findBy(&#x27;json.contactId&#x27;, this.get(&#x27;contactId&#x27;));
 
-      return rec.get(&#x27;title&#x27;);
+      return rec;
     })
     .readOnly()
 });

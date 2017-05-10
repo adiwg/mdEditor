@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/84887cef" target="_blank">
-                                  Tag: 0.0.0.84887cef
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e9e1e5ff" target="_blank">
+                                  Tag: 0.0.0.e9e1e5ff
                                 </a>
                             </h4>
                         </div>
@@ -220,7 +220,8 @@ const {
   isArray,
   getOwner,
   A,
-  merge
+  merge,
+  run
 } = Ember;
 
 export default Mixin.create({
@@ -252,8 +253,10 @@ export default Mixin.create({
         let owner = getOwner(this);
 
         property.forEach((item, idx, items) =&gt; {
-          items.replace(idx, 1, merge(Template.create(owner.ownerInjection()),
-            item));
+          run.once(() =&gt; {
+            items.replace(idx, 1, merge(Template.create(owner.ownerInjection()),
+              item));
+          });
         });
       }
     } else {
