@@ -46,7 +46,7 @@ export default MdCodelist.extend({
    * @return String
    */
   theComponent: Ember.computed('create', function () {
-    return this.get('create') ? 'power-select-with-create' :
+    return this.get('create') ? 'power-select-multiple-with-create' :
       'power-select-multiple';
   }),
 
