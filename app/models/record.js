@@ -2,40 +2,76 @@ import Ember from 'ember';
 import DS from 'ember-data';
 import uuidV4 from "npm:uuid/v4";
 import Model from 'mdeditor/models/base';
+import {
+  validator,
+  buildValidations
+} from 'ember-cp-validations';
 
+const {
+  Copyable,
+  computed
+} = Ember;
 
-export default Model.extend(Ember.Copyable, {
+const Validations = buildValidations({
+  'json.metadata.metadataInfo.metadataIdentifier.identifier': validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  }),
+  'json.metadata.resourceInfo.resourceType': validator('array-required'),
+  // 'json.resourceInfo.abstract': validator('presence', {
+  //   presence: true,
+  //   ignoreBlank: true
+  // }),
+  'json.metadata.resourceInfo.citation.title': validator('presence', {
+    presence: true,
+    ignoreBlank: true
+  })
+  // 'json.metadata.resourceInfo.citation': validator('length', {
+  //   min: 1
+  // }),
+  // 'json.metadata.resourceInfo.status': validator('length', {
+  //   min: 1
+  // }),
+  // 'json.metadata.resourceInfo.pointOfContact': validator('length', {
+  //   min: 1
+  // }),
+  // 'json.metadata.resourceInfo.defaultResourceLocale': validator('length', {
+  //   min: 1
+  // })
+});
+export default Model.extend(Validations, Copyable, {
   profile: DS.attr('string', {
     defaultValue: 'full'
   }),
   json: DS.attr('json', {
     defaultValue() {
       const obj = Ember.Object.create({
-        "version": {
-          "name": "mdJson",
-          "version": "1.1.0"
+        'schema': {
+          'name': 'mdJson',
+          'version': '2.0.0'
         },
-        "contact": [],
-        "metadata": {
-          "metadataInfo": {
-            "metadataIdentifier": {
-              "identifier": uuidV4(),
-              "type": ""
+        'contact': [],
+        'metadata': {
+          'metadataInfo': {
+            'metadataIdentifier': {
+              'identifier': uuidV4(),
+              'namespace': 'urn:uuid'
             }
           },
-          "resourceInfo": {
-            "resourceType": null,
-            "citation": {
-              "title": null,
-              "date": []
+          'resourceInfo': {
+            'resourceType': [{}],
+            'citation': {
+              'title': null,
+              'date': []
             },
-            "pointOfContact": [],
-            "abstract": null,
-            "status": null,
-            "language": ["eng; USA"]
+            'pointOfContact': [],
+            'abstract': null,
+            'status': [],
+            'language': ['eng; USA']
           }
         },
-        "dataDictionary": []
+        'metadataRepository':[],
+        'dataDictionary': []
       });
 
       return obj;
@@ -47,17 +83,21 @@ export default Model.extend(Ember.Copyable, {
     }
   }),
 
-  title: Ember.computed('json.metadata.resourceInfo.citation.title', function () {
-    return this.get('json.metadata.resourceInfo.citation.title');
-  }),
+  title: computed('json.metadata.resourceInfo.citation.title',
+    function () {
+      return this.get('json.metadata.resourceInfo.citation.title');
+    }),
 
-  icon: Ember.computed('json.metadata.resourceInfo.resourceType', function () {
-    const type = this.get('json.metadata.resourceInfo.resourceType');
+  icon: computed('json.metadata.resourceInfo.resourceType.[]', function () {
+    const type = this.get('json.metadata.resourceInfo.resourceType.0.type')||'';
     const list = Ember.getOwner(this)
       .lookup('service:icon');
 
-    return type ? list.get(type) || list.get('default') : list.get('defaultFile');
+    return type ? list.get(type) || list.get('default') : list.get(
+      'defaultFile');
   }),
+
+  recordId: computed.alias('json.metadata.metadataInfo.metadataIdentifier.identifier'),
 
   copy() {
     let current = this.get('cleanJson');

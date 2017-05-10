@@ -1,54 +1,53 @@
-<div class="row text-center">
-    <div class="col-md-8 col-md-offset-2">
-        <h3>Create New Record</h3>
-        <p class="text-center">To create a <em> new</em> metadata record, enter a title and select a record type.</p>
-    </div>
-</div>
-
-<div class="row">
+<div class="row page-header">
     <div class="col-md-6 col-md-offset-3">
-        <div class="">
-            {{#if noTitle}}
-                <div class="alert alert-danger md-form-alert" role="alert">
-                    You must provide a Record Title.
-                </div>
-            {{/if}}
-            {{#if noType}}
-                <div class="alert alert-danger md-form-alert" role="alert">
-                    You must provide a Record Type.
-                </div>
-            {{/if}}
-        </div>
+        <h3>Create New Record</h3>
     </div>
 </div>
 
 <div class="row">
-    <div class="form-horizontal col-md-6 col-md-offset-3">
+    <form {{action 'saveRecord' on='submit'}} class="col-md-6 col-md-offset-3">
+      <div class="form-group">
+          <label class="control-label required">Record ID</label>
+          <div class="">
+              {{input/md-input
+              valuePath='recordId'
+              model=model
+              placeholder="Enter an ID for this record"}}
+          </div>
+      </div>
         <div class="form-group">
-            <label class="col-sm-4 control-label">Record Title</label>
-            <div class="col-sm-8">
+            <label class="control-label
+            {{if (v-get model 'json.metadata.resourceInfo.citation.title'
+             'options.presence.presence') "required"}}">Record Title</label>
+            <div class="">
                 {{input/md-input
-                value=model.json.metadata.resourceInfo.citation.title
+                valuePath="json.metadata.resourceInfo.citation.title"
+                model=model
+                required=true
                 placeholder='Enter a title for the record'}}
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-4 control-label">Choose Type</label>
-            <div class="col-sm-8 md-form-select">
-                {{input/md-codelist
-                value=model.json.metadata.resourceInfo.resourceType
-                create=true tooltip=true icon=true mdCodeName="scope"
-                placeholder="Pick a record type"}}
-            </div>
+        <div class="form-group clear">
+            {{!-- <label class="col-sm-3 control-label">Choose Type</label> --}}
+            <div class="card">
+            <div class="card-block">
+
+            {{object/md-resource-type-array
+              plain=true
+              value=model.json.metadata.resourceInfo.resourceType
+              required=true
+            }}
+          </div>
+          </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">
-                      <button {{action "saveRecord"}} class="btn btn-success md-form-save"
-                                                      disabled={{allowSave}}>Save</button>
-                      <button {{action "cancelRecord"}} class="btn btn-warning ">Cancel</button>
+                      <button type="submit" class="btn btn-success md-form-save"
+                                                      disabled={{v-get model 'isInvalid'}}>Save</button>
+                      <button type="button" {{action "cancelRecord"}} class="btn btn-warning ">Cancel</button>
                  </span>
             </div>
         </div>
-    </div>
+    </form>
 </div>
