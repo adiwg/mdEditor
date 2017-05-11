@@ -305,7 +305,7 @@ export default Component.extend({
       // or reject
       reject(new Error('Couldn\'t create a promise.'));
     });
-    let codeId = this.get('path');
+    let codeId = this.get('valuePath');
     let codeName = this.get('namePath');
     let tooltip = this.get('tooltipPath');
     let icons = this.get('icons');
