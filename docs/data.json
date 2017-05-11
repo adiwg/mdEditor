@@ -380,6 +380,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/validators/array-valid.js": {
+            "name": "app/validators/array-valid.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/app.js": {
             "name": "app/app.js",
             "modules": {
@@ -3827,7 +3834,30 @@
         },
         {
             "file": "app/validators/array-required.js",
-            "line": 16,
+            "line": 22,
+            "description": "Define attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
+            "params": [
+                {
+                    "name": "attribute",
+                    "description": "The attribute being evaluated",
+                    "type": "String"
+                },
+                {
+                    "name": "options",
+                    "description": "Options passed into your validator",
+                    "type": "Unknown"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "tree-branch",
+            "module": ""
+        },
+        {
+            "file": "app/validators/array-valid.js",
+            "line": 18,
             "description": "Define attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
             "params": [
                 {
@@ -4052,7 +4082,11 @@
         },
         {
             "message": "Missing item type\nDefine attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
-            "line": " app/validators/array-required.js:16"
+            "line": " app/validators/array-required.js:22"
+        },
+        {
+            "message": "Missing item type\nDefine attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
+            "line": " app/validators/array-valid.js:18"
         },
         {
             "message": "Missing item type\nCalled when a tree node is selected. Override as needed.",

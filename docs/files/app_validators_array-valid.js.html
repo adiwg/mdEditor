@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/validators/array-required.js - mdeditor</title>
+    <title>app/validators/array-valid.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -217,23 +217,19 @@ import Ember from &#x27;ember&#x27;;
 import BaseValidator from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const {
-  assert,
-  get,
-  isArray
+  get
 } = Ember;
 
-const ArrayRequired = BaseValidator.extend({
-  validate(value) {
-    if(Ember.isArray(value)) {
-      if(value.length) {
-        return true;
-      }
-    }
-    return &#x27;At least one item is required.&#x27;;
+const ArrayValid = BaseValidator.extend({
+  validate(value /*, options, model, attribute*/ ) {
+    let check = value.some((itm) =&gt; {
+      return get(itm, &#x27;validations.isInvalid&#x27;);
+    });
+    return check ? &#x27;At least one item is invalid.&#x27; : true;
   }
 });
 
-ArrayRequired.reopenClass({
+ArrayValid.reopenClass({
   /**
    * Define attribute specific dependent keys for your validator
    *
@@ -246,24 +242,12 @@ ArrayRequired.reopenClass({
    * @param {Unknown} options     Options passed into your validator
    * @return {Array}
    */
-  getDependentsFor(attribute, options) {
-    //return[];
-    let track = [];
-    let opts = get(options, &#x27;track&#x27;);
-
-    assert(
-      &#x60;[validator:array-valid] [${attribute}] option &#x27;track&#x27; must be an array&#x60;,
-      isArray(opts));
-
-    opts.forEach((itm) =&gt; {
-      track.push(&#x60;model.${attribute}.@each.${itm}&#x60;);
-    });
-
-    return track;
+  getDependentsFor(attribute /*, options */ ) {
+    return [&#x60;model.${attribute}.@each&#x60;];
   }
 });
 
-export default ArrayRequired;
+export default ArrayValid;
 
     </pre>
 </div>
