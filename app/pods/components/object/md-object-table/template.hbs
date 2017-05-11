@@ -7,9 +7,9 @@
                 <span class="fa"></span> {{header}}
                 <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
             </a>
-            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success pull-right {{if editing "hidden"}}"
+            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right {{if editing "hidden"}}"
                 {{action "addItem" items}}>
-                <span class="fa fa-plus"></span> Add
+                {{fa-icon "plus"}} Add
             </button>
             <button type="button" class="btn btn-xs btn-info pull-right {{unless editing "hidden"}}" {{action 'cancelEdit'}}>
                 <span class="fa fa-check"></span> OK
@@ -64,17 +64,17 @@
                                 <span class="fa fa-times"></span> Delete
                             </button>
                             <span class="pull-right">&nbsp;</span>
-                            <button class="btn btn-xs btn-warning pull-right" {{action "editItem" items index}}>
-                                <span class="fa fa-pencil"></span> Edit
+                            <button class="btn btn-xs btn-success pull-right" {{action "editItem" items index}}>
+                                {{fa-icon "pencil"}} Edit
                             </button>
                         </td>
                     </tr>
                 {{else}}
                 <tr>
                     <td colspan="{{add-em attrArray.length 2}}">
-                      <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-success"
+                      <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
                           {{action "addItem" items}}>
-                          <span class="fa fa-plus"></span> {{buttonText}}
+                          {{fa-icon "plus"}} {{buttonText}}
                       </button>
                     </td>
                 </tr>

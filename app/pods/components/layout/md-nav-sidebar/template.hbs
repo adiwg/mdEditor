@@ -11,7 +11,7 @@
             <div class="panel-heading clearfix" id="{{meta.listId}}-heading">
               <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
                 {{#link-to (concat meta.type ".new") class="btn btn-primary btn-xs" }}
-                  <span class="fa fa-plus"></span> {{/link-to}}
+                  {{fa-icon "plus"}} {{/link-to}}
                 {{#link-to meta.list class="btn btn-primary btn-xs" }}
                   <span class="fa fa-list"></span> {{/link-to}}
               </div>
@@ -31,7 +31,7 @@
                         class=(concat "btn btn-" record.status)
                         disabledWhen=record.isNew
                       }}
-                        <span class="fa fa-pencil"></span>
+                        {{fa-icon "pencil"}}
                       {{/link-to}}
                     </div>
                     <!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> -->
