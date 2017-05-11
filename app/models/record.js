@@ -13,11 +13,17 @@ const {
 } = Ember;
 
 const Validations = buildValidations({
-  'json.metadata.metadataInfo.metadataIdentifier.identifier': validator('presence', {
-    presence: true,
-    ignoreBlank: true,
-  }),
-  'json.metadata.resourceInfo.resourceType': validator('array-required'),
+  'json.metadata.metadataInfo.metadataIdentifier.identifier': validator(
+    'presence', {
+      presence: true,
+      ignoreBlank: true,
+    }),
+  'json.metadata.resourceInfo.resourceType': [
+    validator('array-valid'),
+    validator('array-required', {
+      track: ['type']
+    })
+  ],
   // 'json.resourceInfo.abstract': validator('presence', {
   //   presence: true,
   //   ignoreBlank: true
@@ -70,7 +76,7 @@ export default Model.extend(Validations, Copyable, {
             'language': ['eng; USA']
           }
         },
-        'metadataRepository':[],
+        'metadataRepository': [],
         'dataDictionary': []
       });
 
@@ -89,7 +95,8 @@ export default Model.extend(Validations, Copyable, {
     }),
 
   icon: computed('json.metadata.resourceInfo.resourceType.[]', function () {
-    const type = this.get('json.metadata.resourceInfo.resourceType.0.type')||'';
+    const type = this.get(
+      'json.metadata.resourceInfo.resourceType.0.type') || '';
     const list = Ember.getOwner(this)
       .lookup('service:icon');
 
@@ -97,7 +104,8 @@ export default Model.extend(Validations, Copyable, {
       'defaultFile');
   }),
 
-  recordId: computed.alias('json.metadata.metadataInfo.metadataIdentifier.identifier'),
+  recordId: computed.alias(
+    'json.metadata.metadataInfo.metadataIdentifier.identifier'),
 
   copy() {
     let current = this.get('cleanJson');

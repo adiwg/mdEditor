@@ -1,6 +1,12 @@
 import Ember from 'ember';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
+const {
+  assert,
+  get,
+  isArray
+} = Ember;
+
 const ArrayRequired = BaseValidator.extend({
   validate(value) {
     if(Ember.isArray(value)) {
@@ -25,9 +31,20 @@ ArrayRequired.reopenClass({
    * @param {Unknown} options     Options passed into your validator
    * @return {Array}
    */
-  getDependentsFor(attribute) {
+  getDependentsFor(attribute, options) {
     //return[];
-    return [`model.${attribute}.@each`];
+    let track = [];
+    let opts = get(options, 'track');
+
+    assert(
+      `[validator:array-valid] [${attribute}] option 'track' must be an array`,
+      isArray(opts));
+
+    opts.forEach((itm) => {
+      track.push(`model.${attribute}.@each.${itm}`);
+    });
+
+    return track;
   }
 });
 
