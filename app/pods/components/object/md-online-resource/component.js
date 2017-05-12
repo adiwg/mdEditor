@@ -87,6 +87,7 @@ const theComp = Component.extend({
 
 export {
   Validations,
+  regex,
   theComp as
   default
 };

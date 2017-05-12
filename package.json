@@ -86,7 +86,7 @@
     "gcmd-keywords": "^8.4.4",
     "geojson-coords": "0.0.0",
     "loader.js": "^4.0.10",
-    "lodash": "^4.17.4",
+    "lodash.has": "^4.5.2",
     "mdcodes": "^2.1.5",
     "moment-timezone": "^0.5.13",
     "object-hash": "^1.1.7",

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import has from 'npm:lodash';
+import has from 'npm:lodash.has';
 
 export default Ember.Route.extend({
   keyword: Ember.inject.service(),
@@ -8,39 +8,41 @@ export default Ember.Route.extend({
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    if(!info.hasOwnProperty('keyword')) {
+    if (!info.hasOwnProperty('keyword')) {
       info.keyword = Ember.A();
     }
 
     //check to see if custom list
-    info.keyword.forEach((k) => {
-      if(!has(k, 'thesaurus.identifier')) {
+    info.keyword.forEach((k, idx, arr) => {
+      if (!has(k, 'thesaurus')) {
+        k.thesaurus = {};
+      }
+      if (!has(k, 'thesaurus.identifier')) {
         k.thesaurus.identifier = [{
           identifier: 'custom'
         }];
       }
-      if(!has(k, 'thesaurus.date')) {
+      if (!has(k, 'thesaurus.date')) {
         k.thesaurus.date = [{}];
       }
-      if(!has(k, 'thesaurus.onlineResource')) {
+      if (!has(k, 'thesaurus.onlineResource')) {
         k.thesaurus.onlineResource = [{}];
       }
+
+      arr[idx] = Ember.Object.create(k);
     });
 
     return model;
-    // return Ember.Object.create({
-    //   keywords: info.keyword
-    // });
   },
 
   subbar: 'control/subbar-keywords',
 
-  clearSubbar: function () {
+  clearSubbar: function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
   }.on('deactivate'),
 
-  setupController: function () {
+  setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -75,10 +77,10 @@ export default Ember.Route.extend({
       this.transitionTo('record.show.edit.keywords.thesaurus', id);
     },
     selectThesaurus(selected, thesaurus) {
-      if(selected) {
+      if (selected) {
         Ember.set(thesaurus, 'thesaurus', Ember.copy(selected.citation,
           true));
-        if(selected.keywordType) {
+        if (selected.keywordType) {
           Ember.set(thesaurus, 'keywordType', selected.keywordType);
         }
       } else {
@@ -91,7 +93,7 @@ export default Ember.Route.extend({
       model.pushObject(k);
     },
     deleteKeyword(model, obj) {
-      if(typeof obj === 'number') {
+      if (typeof obj === 'number') {
         model.removeAt(obj);
       } else {
         model.removeObject(obj);
@@ -101,7 +103,7 @@ export default Ember.Route.extend({
       let me = this;
 
       me.transitionTo(me.get('routeName'))
-        .then(function () {
+        .then(function() {
           me.setupController();
         });
     }
