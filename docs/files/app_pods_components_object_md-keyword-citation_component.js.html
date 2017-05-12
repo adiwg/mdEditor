@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e58fd1f6" target="_blank">
-                                  Tag: 0.0.0.e58fd1f6
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/15055ab7" target="_blank">
+                                  Tag: 0.0.0.15055ab7
                                 </a>
                             </h4>
                         </div>
@@ -217,48 +217,76 @@
  * @module mdeditor
  * @submodule components-object
  */
-
 import Ember from &#x27;ember&#x27;;
+import {
+  regex
+} from &#x27;../md-online-resource/component&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
-export default Ember.Component.extend({
-  disabled: Ember.computed(&#x27;model.thesaurus.identifier.0.identifier&#x27;,
-    function () {
+const {
+  isArray,
+  computed,
+  Component
+} = Ember;
+
+const Validations = buildValidations({
+  &#x27;onlineResource&#x27;: [
+    validator(&#x27;format&#x27;, {
+      regex: regex,
+      isWarning: true,
+      message: &#x27;This field should be a valid, resolvable uri.&#x27;,
+      dependentKeys: [&#x27;onlineResource&#x27;, &#x27;model.thesaurus.onlineResource.0.uri&#x27;]
+    })
+  ],
+  title: validator(&#x27;presence&#x27;, {
+    presence: true,
+    ignoreBlank: true,
+  })
+});
+
+export default Component.extend(Validations, {
+  disabled: computed(&#x27;model.thesaurus.identifier.0.identifier&#x27;,
+    function() {
       return this.get(&#x27;model.thesaurus.identifier.0.identifier&#x27;) !==
         &#x27;custom&#x27;;
     }),
-  onlineResource: Ember.computed(&#x27;model.thesaurus.onlineResource.0.uri&#x27;, {
+  title: computed.alias(&#x27;model.thesaurus.title&#x27;),
+  onlineResource: computed(&#x27;model.thesaurus.onlineResource.0.uri&#x27;, {
     get() {
       return this.get(&#x27;model.thesaurus.onlineResource.0.uri&#x27;);
     },
     set(key, value) {
       let ol = this.get(&#x27;model.thesaurus.onlineResource&#x27;);
-      if(!Array.isArray(ol)) {
+      if (!isArray(ol)) {
         this.set(&#x27;model.thesaurus.onlineResource&#x27;, [{}]);
       }
       this.set(&#x27;model.thesaurus.onlineResource.0.uri&#x27;, value);
       return value;
     }
   }),
-  date: Ember.computed(&#x27;model.thesaurus.date.0.date&#x27;, {
+  date: computed(&#x27;model.thesaurus.date.0.date&#x27;, {
     get() {
       return this.get(&#x27;model.thesaurus.date.0.date&#x27;);
     },
     set(key, value) {
       let ol = this.get(&#x27;model.thesaurus.date&#x27;);
-      if(!Array.isArray(ol)) {
+      if (!isArray(ol)) {
         this.set(&#x27;model.thesaurus.date&#x27;, [{}]);
       }
-      this.set(&#x27;model.thesaurus.date.0.date&#x27;, value);
+      this.set(&#x27;model.thesaurus.date.0.date&#x27;, value.toISOString());
       return value;
     }
   }),
-  dateType: Ember.computed(&#x27;model.thesaurus.date.0.dateType&#x27;, {
+  dateType: computed(&#x27;model.thesaurus.date.0.dateType&#x27;, {
     get() {
       return this.get(&#x27;model.thesaurus.date.0.dateType&#x27;);
     },
     set(key, value) {
       let ol = this.get(&#x27;model.thesaurus.date&#x27;);
-      if(!Array.isArray(ol)) {
+      if (!isArray(ol)) {
         this.set(&#x27;model.thesaurus.date&#x27;, [{}]);
       }
       this.set(&#x27;model.thesaurus.date.0.dateType&#x27;, value);
