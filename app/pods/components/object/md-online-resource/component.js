@@ -26,7 +26,7 @@ const Validations = buildValidations({
     }),
     validator('presence', {
       presence: true,
-      ignoreBlank: true,
+      ignoreBlank: true
     })
   ]
 });

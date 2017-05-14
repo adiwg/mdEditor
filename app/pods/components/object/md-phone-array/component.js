@@ -13,7 +13,7 @@ const Validations = buildValidations({
   'phoneNumber': [
     validator('presence', {
       presence: true,
-      ignoreBlank: true,
+      ignoreBlank: true
     }),
     validator('format', {
       type: 'phone',

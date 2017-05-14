@@ -12,7 +12,7 @@ const Validations = buildValidations({
   'type': [
     validator('presence', {
       presence: true,
-      ignoreBlank: true,
+      ignoreBlank: true
     })
   ]
 });

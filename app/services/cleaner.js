@@ -78,7 +78,7 @@ export default Service.extend({
         if(typeOf(obj[key]) === 'object' || typeOf(obj[key]) ===
           'instance') {
           let objOpt = Object.assign(opt, {
-            target: {},
+            target: {}
           });
           const res = this.clean(obj[key], objOpt);
 

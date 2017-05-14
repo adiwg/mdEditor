@@ -16,7 +16,7 @@ const {
 const Validations = buildValidations({
   'json.contactId': validator('presence', {
     presence: true,
-    ignoreBlank: true,
+    ignoreBlank: true
   }),
   'json.name': [
     validator('format', {
@@ -27,8 +27,7 @@ const Validations = buildValidations({
     }),
     validator('presence', {
       disabled: computed.notEmpty('model.json.positionName'),
-      presence: true,
-      //ignoreBlank: true,
+      presence: true
     })
   ],
   'json.positionName': [
@@ -40,13 +39,12 @@ const Validations = buildValidations({
     }),
     validator('presence', {
       disabled: computed.notEmpty('model.json.name'),
-      presence: true,
-      //ignoreBlank: true,
+      presence: true
     })
   ],
   'json.isOrganization': validator('presence', {
     presence: true,
-    ignoreBlank: true,
+    ignoreBlank: true
   })
 });
 
@@ -90,7 +88,7 @@ export default Model.extend(Validations, Copyable, {
         'address': [],
         'electronicMailAddress': [],
         'onlineResource': [],
-        'hoursOfService': [],
+        'hoursOfService': []
         //'contactInstructions': null,
         //'contactType': null
       });
