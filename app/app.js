@@ -10,11 +10,22 @@ import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
+const {
+  LinkComponent,
+  Route,
+  Component,
+  Application,
+  get,
+  getWithDefault,
+  defineProperty,
+  computed
+} = Ember;
+
 let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
-App = Ember.Application.extend({
+App = Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver
@@ -23,17 +34,37 @@ App = Ember.Application.extend({
 loadInitializers(App, config.modulePrefix);
 
 //for bootstrap
-Ember.LinkComponent.reopen({
+LinkComponent.reopen({
   attributeBindings: ['data-toggle', 'data-placement']
 });
 //for crumbly
-Ember.Route.reopen({
+Route.reopen({
   //breadCrumb: null
-  currentRouteModel: function() {
+  currentRouteModel: function () {
     return this.modelFor(this.routeName);
   }
 });
+//for profiles
+Component.reopen({
+  init() {
+    this._super(...arguments);
 
+    let profile = get(this, 'profile');
+    let path = get(this, 'profilePath');
+
+    if(path !== undefined) {
+      defineProperty(this, 'isVisible', computed(
+        'profile.active',
+        function () {
+          let fullPath = 'profiles.' + get(profile, 'active') +
+            '.components.' +
+            path;
+
+          return getWithDefault(profile, fullPath, true);
+        }));
+    }
+  }
+});
 export default App;
 
 /**
@@ -54,29 +85,29 @@ export default App;
  * @category docs
  */
 
- /**
-  * Components used to input scalar or arrays of scalar values.
-  *
-  * @module mdeditor
-  * @submodule components-input
-  * @main components-input
-  * @category docs
-  */
+/**
+ * Components used to input scalar or arrays of scalar values.
+ *
+ * @module mdeditor
+ * @submodule components-input
+ * @main components-input
+ * @category docs
+ */
 
- /**
-  * Components used as UI controls.
-  *
-  * @module mdeditor
-  * @submodule components-control
-  * @main components-control
-  * @category docs
-  */
+/**
+ * Components used as UI controls.
+ *
+ * @module mdeditor
+ * @submodule components-control
+ * @main components-control
+ * @category docs
+ */
 
- /**
-  * Mixins.
-  *
-  * @module mdeditor
-  * @submodule mixins
-  * @main mixins
-  * @category docs
-  */
+/**
+ * Mixins.
+ *
+ * @module mdeditor
+ * @submodule mixins
+ * @main mixins
+ * @category docs
+ */

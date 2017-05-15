@@ -40,7 +40,7 @@ export default Ember.Service.extend({
       profile: null,
       secondaryNav: [{
         title: 'Main',
-        target: 'record.show.edit.index'
+        target: 'record.show.edit.main'
 
       }, {
         title: 'Metadata',
@@ -78,13 +78,29 @@ export default Ember.Service.extend({
         title: 'Grid',
         target: 'record.show.edit.grid'
 
-      }]
+      }],
+      components: {
+        record: {
+          main: {
+            recordId: true,
+            status: true,
+            topicCategory: true,
+            resourceType: true,
+            description: true,
+            abstract: true,
+            shortAbstract: true,
+            supplementalInfo: true,
+            purpose: true,
+            environmentDescription:true
+          }
+        }
+      }
     },
     basic: {
       profile: null,
       secondaryNav: [{
         title: 'Main',
-        target: 'record.show.edit.index'
+        target: 'record.show.edit.main'
 
       }, {
         title: 'Metadata',
@@ -102,7 +118,16 @@ export default Ember.Service.extend({
         title: 'Distribution',
         target: 'record.show.edit.distribution'
 
-      }]
+      }],
+      components: {
+        record: {
+          main: {
+            supplementalInfo: false,
+            purpose: false,
+            environmentDescription: false
+          }
+        }
+      }
     },
     dictionary: {
       secondaryNav: [{
