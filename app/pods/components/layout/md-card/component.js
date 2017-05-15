@@ -15,7 +15,23 @@ export default Component.extend({
    * @constructor
    */
 
+  classNames: ['md-card', 'card'],
+  classNameBindings: ['shadow:box-shadow--8dp'],
   attributeBindings: ['data-spy'],
+
+  /**
+   * The card element id.
+   *
+   * @property cardId
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires elementId
+   */
+  cardId: computed('elementId', function () {
+      return 'card-' + this.get('elementId');
+    })
+    .readOnly(),
 
   /**
    * The card title.
@@ -23,6 +39,31 @@ export default Component.extend({
    * @property title
    * @type {String}
    * @required
+   */
+
+  /**
+   * If true, the "row" the card body will be initally collapse.
+   *
+   * @property collapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, a box shadow will be rendered around the card.
+   *
+   * @property shadow
+   * @type {Boolean}
+   * @default true
+   */
+  shadow: true,
+
+  /**
+   * If true, the collapse control will be added to the card header.
+   *
+   * @property collapsible
+   * @type {Boolean}
+   * @default undefined
    */
 
   /**

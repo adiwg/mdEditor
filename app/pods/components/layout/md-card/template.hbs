@@ -1,8 +1,17 @@
-<div class="card box-shadow--8dp">
-  <div class="card-header text-info">
-    <h4>{{title}}</h4>
-  </div>
-  <div class="{{if bodyIsRow "row"}} card-block">
-    {{yield}}
-  </div>
-</div>
+  {{#if title}}
+      <div class="card-header text-info">
+          <h4 class="card-title md-card-chevron">
+        {{#if collapsible}}
+          <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded="{{if collapsed "false" "true"}}"
+          class="{{if collapsed "collapsed"}}" aria-controls="{{panelId}}">
+          <span class="fa"></span> {{title}}
+          </a>
+        {{else}}
+          {{title}}
+        {{/if}}
+      </h4>
+      </div>
+    {{/if}}
+    <div id="{{cardId}}" class="card-collapse {{if collapsed "collapse" "in"}} {{if bodyIsRow "row"}} card-block">
+        {{yield}}
+    </div>

@@ -1,0 +1,35 @@
+{{#object/md-array-table
+     columns="Role,Contacts"
+     title=title
+     required=true
+     plain=false
+     value=value
+     validation=validation
+     templateClass=templateClass as |party|
+   }}
+   {{#with party.item as |item|}}
+     <td>
+       {{input/md-codelist
+         path="role"
+         model=item
+         create=true
+         tooltip=true
+         icon=false
+         disabled=disabled
+         mdCodeName="role"
+         showValidations=true
+         placeholder="Select or enter a role"
+       }}
+     </td>
+     <td>
+       {{input/md-select-contact
+           placeholder="Select one or more contacts"
+           model=item
+           path="contacts"
+           icon=true
+           tooltip=true
+           showValidations=true
+         }}
+     </td>
+    {{/with}}
+{{/object/md-array-table}}

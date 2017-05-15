@@ -1,4 +1,4 @@
-.md-input.required label::after,
+form .required label::after,
 label.required::after {
   @extend sup;
   color: $brand-danger;
@@ -8,7 +8,7 @@ label.required::after {
   font-weight: normal;
 }
 
-.md-input-error {
+.md-input-error, .md-markdown-editor-error {
   position: absolute;
   right: 20px;
   top: 9px;
