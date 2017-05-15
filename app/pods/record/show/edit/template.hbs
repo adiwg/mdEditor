@@ -1,5 +1,21 @@
 <div class="row md-section-secondary">
   <div class="md-record-content col-sm-10">
+    {{!-- <div class="row">
+      <div class="col-sm-11 col-md-offset-1">
+        <h4 class="no-margin">
+          Editing Record: {{model.title}} <small class="text-nowrap">{{model.shortId}}</small>
+          <span class="text-danger">
+            {{#if model.hasDirtyHash}}
+              {{fa-icon "exclamation-circle"}}
+              {{tooltip-on-element text='This record has been modified!' side="right"
+                class="md-tooltip danger"
+              }}
+            {{/if}}
+          </span>
+        </h4>
+        <hr>
+      </div>
+    </div> --}}
     {{outlet}}
   </div>
   <div class="col-sm-2">
@@ -11,6 +27,7 @@
           doDelete="destroyRecord"
           doCopy="copyRecord" }}
       {{component subbar context=(route-action "getContext")}}
+      {{control/md-scroll-spy offset=134 target=target.currentPath}}
     </div>
   </div>
 </div>

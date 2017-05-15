@@ -90,17 +90,18 @@ export default Route.extend(HashPoll, {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
 
-      if (this.get('settings.data.autoSave')) {
+      if(this.get('settings.data.autoSave')) {
         let json = model.get('jsonRevert');
 
-        if (json) {
+        if(json) {
           model.set('json', JSON.parse(json));
 
-          if(this.controller.onCancel){
+          if(this.controller.onCancel) {
             this.controller.onCancel.call(this);
           }
 
-          get(this, 'flashMessages').warning(message);
+          get(this, 'flashMessages')
+            .warning(message);
         }
 
         return;
@@ -109,17 +110,19 @@ export default Route.extend(HashPoll, {
       model
         .reload()
         .then(() => {
-          if(this.controller.onCancel){
+          if(this.controller.onCancel) {
             this.controller.onCancel.call(this);
           }
-          get(this, 'flashMessages').warning(message);
+          get(this, 'flashMessages')
+            .warning(message);
         });
     },
 
     copyRecord: function () {
 
       get(this, 'flashMessages')
-        .success(`Copied Record: ${this.currentRouteModel().get('title')}`);
+        .success(
+          `Copied Record: ${this.currentRouteModel().get('title')}`);
       this.transitionTo('record.new.id', copy(this.currentRouteModel()));
     },
     getContext() {

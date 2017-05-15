@@ -98,19 +98,19 @@ export default Ember.Route.extend({
       // If we are leaving the Route we verify if the model is in
       // 'isNew' state, which means it wasn't saved to the backend.
       if (model && model.get('isNew')) {
-        let contexts = transition.intent.contexts;
+        //let contexts = transition.intent.contexts;
         // We call DS#destroyRecord() which removes it from the store
         model.destroyRecord();
-        transition.abort();
+        //transition.abort();
 
-        if (contexts.length > 0) {
-          //grab any models ids and apply them to transition
-          let ids = contexts.mapBy('id');
-          this.replaceWith(transition.targetName, ...ids);
-          return true;
-        }
-
-        this.replaceWith(transition.targetName);
+        // if (contexts && contexts.length > 0) {
+        //   //grab any models ids and apply them to transition
+        //   let ids = contexts.mapBy('id');
+        //   this.replaceWith(transition.targetName, ...ids);
+        //   return true;
+        // }
+        //
+        // this.replaceWith(transition.targetName);
         return true;
       }
     },
