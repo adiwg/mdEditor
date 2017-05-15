@@ -13,7 +13,7 @@ const {
 } = Ember;
 
 const Validations = buildValidations({
-  'json.metadata.metadataInfo.metadataIdentifier.identifier': validator(
+  'recordId': validator(
     'presence', {
       presence: true,
       ignoreBlank: true,
@@ -71,7 +71,8 @@ export default Model.extend(Validations, Copyable, {
               'date': []
             },
             'pointOfContact': [],
-            'abstract': null,
+            'abstract': '',
+            'shortAbstract':'',
             'status': [],
             'language': ['eng; USA']
           }
@@ -106,6 +107,26 @@ export default Model.extend(Validations, Copyable, {
 
   recordId: computed.alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
+
+  /**
+   * The trimmed varsion of the recordId.
+   *
+   * @property shortId
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires recordId
+   */
+  shortId: Ember.computed('recordId', function () {
+    const recordId = this.get('recordId');
+    if(recordId) {
+      let index = recordId.indexOf('-');
+
+      return recordId.substring(0, index > -1 ? index : 8);
+    }
+
+    return recordId;
+  }),
 
   copy() {
     let current = this.get('cleanJson');

@@ -259,7 +259,9 @@ export default Model.extend(Validations, Copyable, {
   shortId: Ember.computed('json.contactId', function () {
     const contactId = this.get('json.contactId');
     if(contactId && Validator.isUUID(contactId)) {
-      return contactId.substring(0, 7) + '...';
+      let index = contactId.indexOf('-');
+
+      return contactId.substring(0, index);
     }
 
     return contactId;
