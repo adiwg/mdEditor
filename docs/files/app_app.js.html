@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/15055ab7" target="_blank">
-                                  Tag: 0.0.0.15055ab7
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3d064de0" target="_blank">
+                                  Tag: 0.0.0.3d064de0
                                 </a>
                             </h4>
                         </div>
@@ -154,6 +154,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-object-table.html">md-object-table</a>
                                     </li>
                                     <li>
@@ -161,6 +164,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-select.html">md-select</a>
@@ -225,11 +231,22 @@ import Resolver from &#x27;./resolver&#x27;;
 import loadInitializers from &#x27;ember-load-initializers&#x27;;
 import config from &#x27;./config/environment&#x27;;
 
+const {
+  LinkComponent,
+  Route,
+  Component,
+  Application,
+  get,
+  getWithDefault,
+  defineProperty,
+  computed
+} = Ember;
+
 let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
 
-App = Ember.Application.extend({
+App = Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
   Resolver
@@ -238,17 +255,37 @@ App = Ember.Application.extend({
 loadInitializers(App, config.modulePrefix);
 
 //for bootstrap
-Ember.LinkComponent.reopen({
+LinkComponent.reopen({
   attributeBindings: [&#x27;data-toggle&#x27;, &#x27;data-placement&#x27;]
 });
 //for crumbly
-Ember.Route.reopen({
+Route.reopen({
   //breadCrumb: null
-  currentRouteModel: function() {
+  currentRouteModel: function () {
     return this.modelFor(this.routeName);
   }
 });
+//for profiles
+Component.reopen({
+  init() {
+    this._super(...arguments);
 
+    let profile = get(this, &#x27;profile&#x27;);
+    let path = get(this, &#x27;profilePath&#x27;);
+
+    if(path !== undefined) {
+      defineProperty(this, &#x27;isVisible&#x27;, computed(
+        &#x27;profile.active&#x27;,
+        function () {
+          let fullPath = &#x27;profiles.&#x27; + get(profile, &#x27;active&#x27;) +
+            &#x27;.components.&#x27; +
+            path;
+
+          return getWithDefault(profile, fullPath, true);
+        }));
+    }
+  }
+});
 export default App;
 
 /**
@@ -269,32 +306,32 @@ export default App;
  * @category docs
  */
 
- /**
-  * Components used to input scalar or arrays of scalar values.
-  *
-  * @module mdeditor
-  * @submodule components-input
-  * @main components-input
-  * @category docs
-  */
+/**
+ * Components used to input scalar or arrays of scalar values.
+ *
+ * @module mdeditor
+ * @submodule components-input
+ * @main components-input
+ * @category docs
+ */
 
- /**
-  * Components used as UI controls.
-  *
-  * @module mdeditor
-  * @submodule components-control
-  * @main components-control
-  * @category docs
-  */
+/**
+ * Components used as UI controls.
+ *
+ * @module mdeditor
+ * @submodule components-control
+ * @main components-control
+ * @category docs
+ */
 
- /**
-  * Mixins.
-  *
-  * @module mdeditor
-  * @submodule mixins
-  * @main mixins
-  * @category docs
-  */
+/**
+ * Mixins.
+ *
+ * @module mdeditor
+ * @submodule mixins
+ * @main mixins
+ * @category docs
+ */
 
     </pre>
 </div>

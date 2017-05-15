@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/15055ab7" target="_blank">
-                                  Tag: 0.0.0.15055ab7
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3d064de0" target="_blank">
+                                  Tag: 0.0.0.3d064de0
                                 </a>
                             </h4>
                         </div>
@@ -154,6 +154,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-object-table.html">md-object-table</a>
                                     </li>
                                     <li>
@@ -161,6 +164,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-select.html">md-select</a>
@@ -313,19 +319,19 @@ export default Ember.Route.extend({
       // If we are leaving the Route we verify if the model is in
       // &#x27;isNew&#x27; state, which means it wasn&#x27;t saved to the backend.
       if (model &amp;&amp; model.get(&#x27;isNew&#x27;)) {
-        let contexts = transition.intent.contexts;
+        //let contexts = transition.intent.contexts;
         // We call DS#destroyRecord() which removes it from the store
         model.destroyRecord();
-        transition.abort();
+        //transition.abort();
 
-        if (contexts.length &gt; 0) {
-          //grab any models ids and apply them to transition
-          let ids = contexts.mapBy(&#x27;id&#x27;);
-          this.replaceWith(transition.targetName, ...ids);
-          return true;
-        }
-
-        this.replaceWith(transition.targetName);
+        // if (contexts &amp;&amp; contexts.length &gt; 0) {
+        //   //grab any models ids and apply them to transition
+        //   let ids = contexts.mapBy(&#x27;id&#x27;);
+        //   this.replaceWith(transition.targetName, ...ids);
+        //   return true;
+        // }
+        //
+        // this.replaceWith(transition.targetName);
         return true;
       }
     },

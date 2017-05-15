@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/15055ab7" target="_blank">
-                                  Tag: 0.0.0.15055ab7
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3d064de0" target="_blank">
+                                  Tag: 0.0.0.3d064de0
                                 </a>
                             </h4>
                         </div>
@@ -154,6 +154,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-object-table.html">md-object-table</a>
                                     </li>
                                     <li>
@@ -161,6 +164,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-select.html">md-select</a>
@@ -230,7 +236,23 @@ export default Component.extend({
    * @constructor
    */
 
+  classNames: [&#x27;md-card&#x27;, &#x27;card&#x27;],
+  classNameBindings: [&#x27;shadow:box-shadow--8dp&#x27;],
   attributeBindings: [&#x27;data-spy&#x27;],
+
+  /**
+   * The card element id.
+   *
+   * @property cardId
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires elementId
+   */
+  cardId: computed(&#x27;elementId&#x27;, function () {
+      return &#x27;card-&#x27; + this.get(&#x27;elementId&#x27;);
+    })
+    .readOnly(),
 
   /**
    * The card title.
@@ -238,6 +260,31 @@ export default Component.extend({
    * @property title
    * @type {String}
    * @required
+   */
+
+  /**
+   * If true, the &quot;row&quot; the card body will be initally collapse.
+   *
+   * @property collapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, a box shadow will be rendered around the card.
+   *
+   * @property shadow
+   * @type {Boolean}
+   * @default true
+   */
+  shadow: true,
+
+  /**
+   * If true, the collapse control will be added to the card header.
+   *
+   * @property collapsible
+   * @type {Boolean}
+   * @default undefined
    */
 
   /**

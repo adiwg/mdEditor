@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/15055ab7" target="_blank">
-                                  Tag: 0.0.0.15055ab7
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3d064de0" target="_blank">
+                                  Tag: 0.0.0.3d064de0
                                 </a>
                             </h4>
                         </div>
@@ -154,6 +154,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-object-table.html">md-object-table</a>
                                     </li>
                                     <li>
@@ -161,6 +164,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-select.html">md-select</a>
@@ -231,7 +237,7 @@ const {
 const Validations = buildValidations({
   &#x27;json.contactId&#x27;: validator(&#x27;presence&#x27;, {
     presence: true,
-    ignoreBlank: true,
+    ignoreBlank: true
   }),
   &#x27;json.name&#x27;: [
     validator(&#x27;format&#x27;, {
@@ -242,8 +248,7 @@ const Validations = buildValidations({
     }),
     validator(&#x27;presence&#x27;, {
       disabled: computed.notEmpty(&#x27;model.json.positionName&#x27;),
-      presence: true,
-      //ignoreBlank: true,
+      presence: true
     })
   ],
   &#x27;json.positionName&#x27;: [
@@ -255,13 +260,12 @@ const Validations = buildValidations({
     }),
     validator(&#x27;presence&#x27;, {
       disabled: computed.notEmpty(&#x27;model.json.name&#x27;),
-      presence: true,
-      //ignoreBlank: true,
+      presence: true
     })
   ],
   &#x27;json.isOrganization&#x27;: validator(&#x27;presence&#x27;, {
     presence: true,
-    ignoreBlank: true,
+    ignoreBlank: true
   })
 });
 
@@ -305,7 +309,7 @@ export default Model.extend(Validations, Copyable, {
         &#x27;address&#x27;: [],
         &#x27;electronicMailAddress&#x27;: [],
         &#x27;onlineResource&#x27;: [],
-        &#x27;hoursOfService&#x27;: [],
+        &#x27;hoursOfService&#x27;: []
         //&#x27;contactInstructions&#x27;: null,
         //&#x27;contactType&#x27;: null
       });
@@ -476,7 +480,9 @@ export default Model.extend(Validations, Copyable, {
   shortId: Ember.computed(&#x27;json.contactId&#x27;, function () {
     const contactId = this.get(&#x27;json.contactId&#x27;);
     if(contactId &amp;&amp; Validator.isUUID(contactId)) {
-      return contactId.substring(0, 7) + &#x27;...&#x27;;
+      let index = contactId.indexOf(&#x27;-&#x27;);
+
+      return contactId.substring(0, index);
     }
 
     return contactId;
