@@ -46,6 +46,7 @@ Router.map(function () {
           this.route('documents');
           this.route('coverages');
           this.route('grid');
+          this.route('main');
         });
       }
     );
