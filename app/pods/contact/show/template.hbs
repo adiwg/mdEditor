@@ -44,7 +44,8 @@
     {{/layout/md-card}}
 
     <div class="row">
-    {{#layout/md-card title="Phone" class="col-md-6 col-xxl-4 card-table"}}
+    <div class="col-md-6 col-xxl-4">
+    {{#layout/md-card title="Phone" class="card-table"}}
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -78,8 +79,10 @@
         </table>
       </div>
       {{/layout/md-card}}
+    </div>
+    <div class="col-md-6 col-xxl-4">
 
-      {{#layout/md-card title="E-mail" class="col-md-6 col-xxl-4"}}
+      {{#layout/md-card title="E-mail" class=""}}
       <ul class="list-unstyled">
         {{#each model.json.electronicMailAddress as |email|}}
           <li><a href="mailto:{{email}}" target="_blank">{{email}}
@@ -90,8 +93,10 @@
         {{/each}}
       </ul>
       {{/layout/md-card}}
+    </div>
+    <div class="col-md-6 col-xxl-4">
 
-      {{#layout/md-card title="Availability" class="col-md-6 col-xxl-4"}}
+      {{#layout/md-card title="Availability" class=""}}
       <ul class="list-unstyled">
         {{#each model.json.hoursOfService as |hours|}}
           <li>{{hours}}</li>
@@ -101,9 +106,11 @@
       </ul>
       {{/layout/md-card}}
     </div>
+    </div>
 
     <div class="row">
-    {{#layout/md-card title="Address" class="col-md-6" bodyIsRow=model.json.address.length}}
+    <div class="col-md-6">
+    {{#layout/md-card title="Address" bodyIsRow=model.json.address.length}}
         {{#each model.json.address as |address|}}
           <div class="col-lg-6">
             <div class="card">
@@ -116,8 +123,9 @@
             <em>No addresses provided.</em>
         {{/each}}
       {{/layout/md-card}}
-
-      {{#layout/md-card title="Online Resource" class="col-md-6"}}
+    </div>
+    <div class="col-md-6">
+      {{#layout/md-card title="Online Resource"}}
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -147,6 +155,7 @@
           </table>
         </div>
       {{/layout/md-card}}
+    </div>
     </div>
 
   </div>
