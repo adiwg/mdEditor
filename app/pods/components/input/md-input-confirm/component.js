@@ -11,6 +11,8 @@ export default Input.extend({
    * @constructor
    */
 
+  classNameBindings: ['required'],
+
   disabled: true,
 
   isDisabled: Ember.computed('disabled', function(){

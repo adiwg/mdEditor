@@ -80,6 +80,7 @@ export default Component.extend({
 
   classNames: ['md-select'],
   classNameBindings: ['formGroup', 'required'],
+  attributeBindings: ['data-spy'],
   formGroup: Ember.computed.notEmpty('label'),
   icons: Ember.inject.service('icon'),
   /**

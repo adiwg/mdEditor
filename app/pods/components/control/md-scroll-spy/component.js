@@ -2,17 +2,36 @@ import Ember from 'ember';
 
 const {
   Component,
-  $
+  $,
+  get
 } = Ember;
 
 export default Component.extend({
+  /**
+   * mdEditor Component that enables scrollspy
+   *
+   * @class md-scroll-spy
+   * @module mdeditor
+   * @submodule components-control
+   * @constructor
+   */
+
   classNames: ['md-scroll-spy'],
 
-  didInsertElement() {
-    let $links = $('[data-spy]');
+  /**
+   * The height to offset from top of container.
+   *
+   * @property offset
+   * @type {Number}
+   * @default 110
+   */
+  offset: 110,
+
+  setupSpy() {
+    let $links = $('[data-spy]:visible');
     //let $this  = this.$();
     let $ul = $('<ul class="nav nav-pills nav-stacked"></ul>');
-    $links.each(function(idx, link) {
+    $links.each(function (idx, link) {
       let $link = $(link);
       let id = $link.attr('id');
       let text = $link.data('spy');
@@ -21,28 +40,46 @@ export default Component.extend({
 
     });
 
-    this.$().append($ul);
+    this.$()
+      .html($ul);
 
     //$('body').data('spy', 'scroll');
-    $('body').scrollspy({
-      target: '.md-scroll-spy',
-      offset: 110
-    });
+    $('body')
+      .scrollspy({
+        target: '.md-scroll-spy',
+        offset: get(this, 'offset')
+      });
 
-    this.$('a').on('click', (e) => {
-      e.preventDefault();
-      this.scroll(e.currentTarget);
-    });
+    this.$('a')
+      .on('click', (e) => {
+        e.preventDefault();
+        this.scroll(e.currentTarget);
+      });
   },
 
-  scroll: function(anchor, hilite) {
-    let $anchor = $($(anchor).attr('href'));
+  didInsertElement() {
+    this._super(...arguments);
+    this.setupSpy();
+  },
 
-    if ($anchor) {
-      $('body').scrollTop($anchor.offset().top - 100);
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.setupSpy();
+  },
 
-      if (hilite) {
-        $('[href=#' + anchor + ']').closest('li').addClass('active');
+  scroll: function (anchor, hilite) {
+    let $anchor = $($(anchor)
+      .attr('href'));
+
+    if($anchor) {
+      $('body')
+        .scrollTop($anchor.offset()
+          .top - get(this, 'offset'));
+
+      if(hilite) {
+        $('[href=#' + anchor + ']')
+          .closest('li')
+          .addClass('active');
       }
     }
   }
