@@ -77,14 +77,13 @@ export default Ember.Service.extend({
       }, {
         title: 'Grid',
         target: 'record.show.edit.grid'
-
       }],
       components: {
         record: {
           main: {
             recordId: true,
             status: true,
-            defaultResourceLocale: true,
+            defaultLocale: true,
             resourceType: true,
             pointOfContact: true,
             description: true,
@@ -92,7 +91,47 @@ export default Ember.Service.extend({
             shortAbstract: true,
             supplementalInfo: true,
             purpose: true,
-            environmentDescription:true
+            environmentDescription:true,
+            credit:true
+          }
+        }
+      }
+    },
+    publication: {
+      secondaryNav: [{
+        title: 'Main',
+        target: 'record.show.edit.main'
+
+      }, {
+        title: 'Metadata',
+        target: 'record.show.edit.metadata'
+
+      }, {
+        title: 'Keywords',
+        target: 'record.show.edit.keywords'
+
+      }, {
+        title: 'Spatial',
+        target: 'record.show.edit.spatial'
+
+      }, {
+        title: 'Distribution',
+        target: 'record.show.edit.distribution'
+
+      }, {
+        title: 'Associated',
+        target: 'record.show.edit.associated'
+
+      }, {
+        title: 'Documents',
+        target: 'record.show.edit.documents'
+
+      }],
+      components: {
+        record: {
+          main: {
+            supplementalInfo: false,
+            environmentDescription:false
           }
         }
       }
@@ -123,10 +162,14 @@ export default Ember.Service.extend({
       components: {
         record: {
           main: {
-            description: false,
+            recordId: false,
+            defaultLocale: false,
+            description: true,
+            shortAbstract: false,
             supplementalInfo: false,
             purpose: false,
-            environmentDescription: false
+            environmentDescription: false,
+            credit: false
           }
         }
       }

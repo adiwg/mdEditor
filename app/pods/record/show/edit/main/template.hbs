@@ -32,7 +32,7 @@
           shadow=false
           data-spy=false
           required=true
-          path="record.main.defaultResourceLocale"
+          profilePath="record.main.defaultLocale"
         }}
           {{object/md-locale model=resource modelPath="defaultResourceLocale"}}
         {{/layout/md-card}}
@@ -99,7 +99,11 @@
           }}
         {{/layout/md-card}}
 
-        {{#object/md-simple-array-table data-spy="Credit" title="Credit" value=resource.credit as |credit| }}
+        {{#object/md-simple-array-table
+          data-spy="Credit"
+          title="Credit"
+          profilePath="record.main.credit"
+          value=resource.credit as |credit| }}
             <td>
                 {{input/md-input value=credit.item.value placeholder="Additional credits for the resource."}}
             </td>

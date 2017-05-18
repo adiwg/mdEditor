@@ -31,6 +31,10 @@ codelist.profile = {
     code: '002',
     codeName: 'basic',
     description: 'This profile includes metadata properties required for a minimal metadata record.'
+  }, {
+    code: '003',
+    codeName: 'publication',
+    description: 'This profile is intended to be used for publications or journal articles.'
   }]
 };
 
