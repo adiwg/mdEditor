@@ -79,6 +79,8 @@ export default Model.extend(Validations, Copyable, {
               'country': 'USA',
               'language': 'eng'
             },
+            extent: [],
+            keyword: []
           }
         },
         'metadataRepository': [],
@@ -95,11 +97,11 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   title: computed('json.metadata.resourceInfo.citation.title',
-    function() {
+    function () {
       return this.get('json.metadata.resourceInfo.citation.title');
     }),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.[]', function() {
+  icon: computed('json.metadata.resourceInfo.resourceType.[]', function () {
     const type = this.get(
       'json.metadata.resourceInfo.resourceType.0.type') || '';
     const list = Ember.getOwner(this)
@@ -121,9 +123,9 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed('recordId', function() {
+  shortId: Ember.computed('recordId', function () {
     const recordId = this.get('recordId');
-    if (recordId) {
+    if(recordId) {
       let index = recordId.indexOf('-');
 
       return recordId.substring(0, index > -1 ? index : 8);

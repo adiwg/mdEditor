@@ -4,8 +4,7 @@ import HashPoll from 'mdeditor/mixins/hash-poll';
 const {
   inject,
   Route,
-  get,
-  copy
+  get
 } = Ember;
 
 export default Route.extend(HashPoll, {
