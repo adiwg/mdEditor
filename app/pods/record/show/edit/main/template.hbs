@@ -26,7 +26,17 @@
           placeholder="Select one or more topic categories"
           profilePath="record.main.topicCategory"
         }} --}}
+
+        {{#layout/md-card
+          title="Default Locale"
+          shadow=false
+          data-spy=false
+          required=true
+          path="record.main.defaultResourceLocale"
         }}
+          {{object/md-locale model=resource modelPath="defaultResourceLocale"}}
+        {{/layout/md-card}}
+
       {{/layout/md-card}}
 
         <div class="form-group">

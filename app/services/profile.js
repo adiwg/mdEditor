@@ -84,7 +84,9 @@ export default Ember.Service.extend({
           main: {
             recordId: true,
             status: true,
+            defaultResourceLocale: true,
             resourceType: true,
+            pointOfContact: true,
             description: true,
             abstract: true,
             shortAbstract: true,
@@ -121,6 +123,7 @@ export default Ember.Service.extend({
       components: {
         record: {
           main: {
+            description: false,
             supplementalInfo: false,
             purpose: false,
             environmentDescription: false

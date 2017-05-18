@@ -17,9 +17,7 @@ export default Ember.Route.extend({
 
   actions: {
     deleteItem: function(item) {
-      let message =
-        "Do you really want to delete this record?";
-      this._deleteItem(item, message);
+      this._deleteItem(item);
     },
 
     editItem: function(item) {
@@ -28,9 +26,7 @@ export default Ember.Route.extend({
   },
 
   // action methods
-  _deleteItem(item, message) {
-    if (window.confirm(message)) {
+  _deleteItem(item) {
       item.destroyRecord();
-    }
   }
 });
