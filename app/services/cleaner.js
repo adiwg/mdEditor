@@ -3,12 +3,13 @@ const {
   typeOf,
   isArray,
   isBlank,
-  Service
+  Service,
+  assign
 } = Ember;
 
 export default Service.extend({
   clean(obj, options) {
-    const opt = Object.assign({
+    const opt = assign({
       target: {},
       preserveArrays: true,
       //preserveObjects: true,
@@ -77,7 +78,7 @@ export default Service.extend({
 
         if(typeOf(obj[key]) === 'object' || typeOf(obj[key]) ===
           'instance') {
-          let objOpt = Object.assign(opt, {
+          let objOpt = assign(opt, {
             target: {}
           });
           const res = this.clean(obj[key], objOpt);
