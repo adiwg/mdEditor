@@ -55,6 +55,8 @@ export default Ember.Route.extend({
       arr.replace(idx, 1, EmberObject.create(l));
     });
 
+    this.set('layers', layers);
+
     return model;
   },
 
@@ -78,8 +80,7 @@ export default Ember.Route.extend({
         .click();
     },
     deleteAllFeatures() {
-      let features = this.currentRouteModel()
-        .get('layers');
+      let features = this.get('layers');
       let group = this.controller
         .get('featureGroup');
 
