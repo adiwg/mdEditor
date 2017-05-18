@@ -75,16 +75,16 @@ export default Route.extend(HashPoll, {
         });
     },
 
-    destroyRecord: function () {
-      let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          get(this, 'flashMessages')
-            .success(`Deleted Record: ${model.get('title')}`);
-          this.replaceWith('records');
-        });
-    },
+    // destroyRecord: function () {
+    //   let model = this.currentRouteModel();
+    //   model
+    //     .destroyRecord()
+    //     .then(() => {
+    //       get(this, 'flashMessages')
+    //         .success(`Deleted Record: ${model.get('title')}`);
+    //       this.replaceWith('records');
+    //     });
+    // },
 
     cancelRecord: function () {
       let model = this.currentRouteModel();
@@ -118,13 +118,13 @@ export default Route.extend(HashPoll, {
         });
     },
 
-    copyRecord: function () {
-
-      get(this, 'flashMessages')
-        .success(
-          `Copied Record: ${this.currentRouteModel().get('title')}`);
-      this.transitionTo('record.new.id', copy(this.currentRouteModel()));
-    },
+    // copyRecord: function () {
+    //
+    //   get(this, 'flashMessages')
+    //     .success(
+    //       `Copied Record: ${this.currentRouteModel().get('title')}`);
+    //   this.transitionTo('record.new.id', copy(this.currentRouteModel()));
+    // },
     getContext() {
       return this;
     }

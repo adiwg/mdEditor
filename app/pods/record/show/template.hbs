@@ -1,24 +1,99 @@
-Showing: {{model.id}}
-{{outlet}}
+{{#with model.json.metadata.resourceInfo as |resource|}}
+<div class="row">
+    <div class="col-sm-9 col-md-offset-1">
+        <h3>
+        {{fa-icon model.icon class="text-muted"}}
 
-<style media="screen">
-    .construction {
-        width: 50vh;
-        min-width:240px;
-        font-size:5vh;
-        border: 2vh solid #333333;
-        margin: 10vh auto;
-        padding: 3vh;
-        border-radius: 5vh;
-    }
-</style>
-{{#layout/md-card class="construction card-inverse card-warning" shadow=false}}
-    <div class="text-center">
-        <div>
-            {{fa-icon "exclamation-triangle" size=2}}
-        </div>
-        <div>
-            <b>Page Under <br>Construction</b>
-        </div>
+      Viewing Record: {{model.title}}
+          <span class="text-danger">
+            {{#if model.hasDirtyHash}}
+              {{fa-icon "exclamation-circle"}}
+              {{tooltip-on-element text='This record has been modified!' side="right"
+                class="md-tooltip danger"
+              }}
+            {{/if}}
+          </span>
+    </h3>
+        {{#layout/md-card title="Basic Information" bodyIsRow=true}}
+            <dl class="dl-horizontal col-lg-6">
+                {{control/md-definition title="Record Id" text=model.recordId}}
+                {{control/md-definition title="Record Title" text=model.title}}
+                {{control/md-definition title="Status" text=(join ", " resource.status)}}
+                {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
+
+            </dl>
+            <dl class="dl-horizontal col-lg-6">
+                {{#control/md-definition title="Resource Type(s)" }}
+                    {{#each resource.resourceType as |type|}}
+                        {{type.type}}:
+                        {{#if type.name}}
+                            {{type.name}}
+                        {{else}}
+                            <em>Not named</em>
+                        {{/if}}
+                        <br>
+                        {{else}}
+                            <em class="text-muted">No types assigned!</em>
+                    {{/each}}
+                {{/control/md-definition}}
+            </dl>
+            <div class="col-xs-12">
+              {{#layout/md-card plain=true shadow=false}}
+              <h5 class="text-info">Default Resource Locale</h5>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Character Set</label>
+                    <span>{{resource.defaultResourceLocale.characterSet}}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label>Country:</label>
+                    <span>{{resource.defaultResourceLocale.country}}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <label>Language:</label>
+                    <span>{{resource.defaultResourceLocale.language}}</span>
+                  </div>
+                </div>
+              {{/layout/md-card}}
+            </div>
+        {{/layout/md-card}}
+
+        {{outlet}}
+
+        <style media="screen">
+            .construction {
+                width: 50vh;
+                min-width: 240px;
+                font-size: 5vh;
+                border: 2vh solid #333333;
+                margin: 10vh auto;
+                padding: 3vh;
+                border-radius: 5vh;
+            }
+        </style>
+
+        {{#layout/md-card class="construction card-inverse card-warning" shadow=false}}
+            <div class="text-center">
+                <div>
+                    {{fa-icon "exclamation-triangle" size=2}}
+                </div>
+                <div>
+                    <b>Page Under <br>Construction</b>
+                </div>
+            </div>
+        {{/layout/md-card}}
     </div>
-{{/layout/md-card}}
+    <div class="col-sm-2">
+      <div class="md-control-sidebar">
+        {{#control/md-crud-buttons model=model doDelete="destroyRecord" doCopy="copyRecord" }}
+          {{#link-to "record.show.edit" model.id class="btn btn-lg btn-success" }}
+            {{fa-icon "pencil"}} Edit{{/link-to}}
+        {{/control/md-crud-buttons}}
+        <hr>
+        {{#link-to "records" class="btn btn-lg btn-primary btn-block" }}
+        {{fa-icon "list"}} Show List{{/link-to}}
+        {{control/md-scroll-spy}}
+      </div>
+    </div>
+</div>
+{{/with}}

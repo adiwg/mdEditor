@@ -47,6 +47,10 @@
   width: 100%;
   z-index: 1001;
 
+  a:focus {
+    outline: none;
+  }
+
   .navbar {
     border-radius: 0;
   }
