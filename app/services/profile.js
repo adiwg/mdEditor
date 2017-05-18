@@ -84,7 +84,6 @@ export default Ember.Service.extend({
           main: {
             recordId: true,
             status: true,
-            topicCategory: true,
             resourceType: true,
             description: true,
             abstract: true,
