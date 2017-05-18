@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/049cd29c" target="_blank">
-                                  Tag: 0.0.0.049cd29c
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/4d750fd0" target="_blank">
+                                  Tag: 0.0.0.4d750fd0
                                 </a>
                             </h4>
                         </div>
@@ -298,21 +298,61 @@ export default Ember.Service.extend({
       }, {
         title: &#x27;Grid&#x27;,
         target: &#x27;record.show.edit.grid&#x27;
-
       }],
       components: {
         record: {
           main: {
             recordId: true,
             status: true,
-            topicCategory: true,
+            defaultLocale: true,
             resourceType: true,
+            pointOfContact: true,
             description: true,
             abstract: true,
             shortAbstract: true,
             supplementalInfo: true,
             purpose: true,
-            environmentDescription:true
+            environmentDescription:true,
+            credit:true
+          }
+        }
+      }
+    },
+    publication: {
+      secondaryNav: [{
+        title: &#x27;Main&#x27;,
+        target: &#x27;record.show.edit.main&#x27;
+
+      }, {
+        title: &#x27;Metadata&#x27;,
+        target: &#x27;record.show.edit.metadata&#x27;
+
+      }, {
+        title: &#x27;Keywords&#x27;,
+        target: &#x27;record.show.edit.keywords&#x27;
+
+      }, {
+        title: &#x27;Spatial&#x27;,
+        target: &#x27;record.show.edit.spatial&#x27;
+
+      }, {
+        title: &#x27;Distribution&#x27;,
+        target: &#x27;record.show.edit.distribution&#x27;
+
+      }, {
+        title: &#x27;Associated&#x27;,
+        target: &#x27;record.show.edit.associated&#x27;
+
+      }, {
+        title: &#x27;Documents&#x27;,
+        target: &#x27;record.show.edit.documents&#x27;
+
+      }],
+      components: {
+        record: {
+          main: {
+            supplementalInfo: false,
+            environmentDescription:false
           }
         }
       }
@@ -343,10 +383,14 @@ export default Ember.Service.extend({
       components: {
         record: {
           main: {
-            description: false,
+            recordId: false,
+            defaultLocale: false,
+            description: true,
+            shortAbstract: false,
             supplementalInfo: false,
             purpose: false,
-            environmentDescription: false
+            environmentDescription: false,
+            credit: false
           }
         }
       }
