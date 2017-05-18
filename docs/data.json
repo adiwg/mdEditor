@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.6466456e",
+        "version": "0.0.0.049cd29c",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -294,6 +294,13 @@
         },
         "app/pods/components/object/md-keyword-list/component.js": {
             "name": "app/pods/components/object/md-keyword-list/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-locale/component.js": {
+            "name": "app/pods/components/object/md-locale/component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1056,7 +1063,7 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 86,
+            "line": 87,
             "description": "A select list control for displaying and selecting options\nprovided in an array or promise array.",
             "is_constructor": 1
         },
@@ -1342,6 +1349,27 @@
         {
             "file": "app/mixins/object-template.js",
             "line": 25,
+            "description": "Apply the 'template' to the object.",
+            "itemtype": "method",
+            "name": "applyTemplate",
+            "params": [
+                {
+                    "name": "object",
+                    "description": "The object to apply the template to.",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Ember.Object"
+            },
+            "class": "object-template",
+            "module": "mdeditor",
+            "submodule": "mixins"
+        },
+        {
+            "file": "app/mixins/object-template.js",
+            "line": 45,
             "description": "Apply the object 'template' to each object in the array.",
             "itemtype": "method",
             "name": "applyTemplate",
@@ -2680,7 +2708,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 94,
+            "line": 95,
             "description": "An array or promise array containing the options for the\nselect list.\nAt a minimum the array elements should provide attributes for the\nname value pairs displayed as select list options.\nTooltips may also be included.\nOther attributes in the array elements will be ignored.",
             "itemtype": "property",
             "name": "objectArray",
@@ -2692,7 +2720,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 107,
+            "line": 108,
             "description": "The initial value of the select. Type must match the type of the attribute\nidentified by the path option.",
             "itemtype": "property",
             "name": "value",
@@ -2704,7 +2732,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 117,
+            "line": 118,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
             "itemtype": "property",
             "name": "path",
@@ -2716,7 +2744,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 126,
+            "line": 127,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option name or display text.",
             "itemtype": "property",
             "name": "namePath",
@@ -2728,7 +2756,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 135,
+            "line": 136,
             "description": "Indicates if icons should be rendered.",
             "itemtype": "property",
             "name": "icon",
@@ -2740,7 +2768,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 144,
+            "line": 145,
             "description": "The default icon.",
             "itemtype": "property",
             "name": "defaultIcon",
@@ -2753,7 +2781,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 154,
+            "line": 155,
             "description": "Indicates if tooltips should be rendered for the options.",
             "itemtype": "property",
             "name": "tooltip",
@@ -2765,7 +2793,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 163,
+            "line": 164,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's tooltip.  If null, no tooltip will be\ngenerated.",
             "itemtype": "property",
             "name": "tooltipPath",
@@ -2777,7 +2805,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 174,
+            "line": 175,
             "description": "Whether to render a button to clear the selection.",
             "itemtype": "property",
             "name": "allowClear",
@@ -2789,7 +2817,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 183,
+            "line": 184,
             "description": "Whether to render the search input.",
             "itemtype": "property",
             "name": "searchEnabled",
@@ -2801,7 +2829,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 192,
+            "line": 193,
             "description": "Whether to disable the select.",
             "itemtype": "property",
             "name": "disabled",
@@ -2813,7 +2841,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 201,
+            "line": 202,
             "description": "Whether to close the selection list after a selection has been made.",
             "itemtype": "property",
             "name": "closeOnSelect",
@@ -2825,7 +2853,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 210,
+            "line": 211,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -2837,7 +2865,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 219,
+            "line": 220,
             "description": "Form label for select list",
             "itemtype": "property",
             "name": "label",
@@ -2849,7 +2877,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 232,
+            "line": 233,
             "description": "Indicates whether to allow the user to enter a new option\nnot contained in the select list.",
             "itemtype": "property",
             "name": "create",
@@ -2861,7 +2889,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 242,
+            "line": 243,
             "description": "If set, removes the option with the specified id from the list. By default,\nit will hide options with a null id.",
             "itemtype": "property",
             "name": "filterId",
@@ -2874,7 +2902,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 253,
+            "line": 254,
             "description": "The component to render",
             "itemtype": "property",
             "name": "theComponent",
@@ -2888,7 +2916,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 265,
+            "line": 266,
             "description": "Callback after value is updated, usually an action is passed.",
             "itemtype": "method",
             "name": "change",
@@ -2898,7 +2926,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 272,
+            "line": 273,
             "description": "The currently selected item in the codelist",
             "itemtype": "property",
             "name": "selectedItem",
@@ -2912,7 +2940,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 292,
+            "line": 293,
             "description": "codelist is an array of code objects re-mapped from the input 'objectArray'.\nValues from the input object array are mapped according the path parameters\nprovided.",
             "itemtype": "property",
             "name": "codelist",
@@ -2926,7 +2954,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 336,
+            "line": 337,
             "description": "Creates a new codelist entry. The codeId and codeName are both set to the\npassed value.",
             "itemtype": "method",
             "name": "createCode",
@@ -2947,7 +2975,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 352,
+            "line": 353,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -3648,6 +3676,16 @@
             "type": "String",
             "default": "'Graphic'",
             "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-locale/component.js",
+            "line": 44,
+            "description": "This templateClass to apply to the supplied model or model.modelPath.",
+            "itemtype": "property",
+            "name": "templateClass",
+            "type": "Ember.Object",
+            "class": "md-object-table",
             "module": "mdeditor"
         },
         {

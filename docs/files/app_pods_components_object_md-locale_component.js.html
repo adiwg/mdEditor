@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>md-boolean - mdeditor</title>
+    <title>app/pods/components/object/md-locale/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -213,235 +213,70 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-boolean Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/049cd29c/app/pods/components/input/md-boolean/component.js#L10" target="_blank">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import Template from &#x27;mdeditor/mixins/object-template&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
-<div class="content-meta">
+const {
+  Component,
+  get,
+  set,
+  Object: EmObject
+} = Ember;
 
+const Validations = buildValidations({
+  &#x27;language&#x27;: validator(&#x27;presence&#x27;, {
+    presence: true,
+    ignoreBlank: true
+  }),
+  &#x27;characterSet&#x27;: validator(&#x27;presence&#x27;, {
+    presence: true,
+    ignoreBlank: true
+  })
+});
 
-            Module: <a href="../modules/components-input.html">components-input</a><br>
-            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
+export default Component.extend(Template, {
+  init() {
+    this._super(...arguments);
 
+    let model = get(this, &#x27;model&#x27;);
+    let modelPath = get(this, &#x27;modelPath&#x27;);
+    let value = modelPath ? get(model, modelPath) : model;
 
-        <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/049cd29c/app/pods/components/input/md-boolean/component.js#L10">app/pods/components/input/md-boolean/component.js:10</a>
-        </div>
-</div>
+    value = this.applyTemplate(value);
 
+    if (modelPath) {
+      set(model, modelPath, value);
+    }
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_md-boolean" class="method item">
-	<span class="method-signature">
-	<span class="name anchorable-toc">
-		<a class="fa fa-link toc-anchor" href="#method_md-boolean"></a>
-		md-boolean
-	</span>
+    set(this, &#x27;value&#x27;, value);
+  },
 
-		<span class="paren">()</span>
-	</span>
+//value:{},
+  /**
+   * This templateClass to apply to the supplied model or model.modelPath.
+   *
+   * @property templateClass
+   * @type Ember.Object
+   */
+  templateClass: EmObject.extend(Validations, {
+    init() {
+      this._super(...arguments);
+      //this.set(&#x27;uri&#x27;, null);
+    }
+  })
+});
 
-
-
-
-
-
-
-	<div class="meta">
-				<p>
-				Defined in
-		<a href="https://github.com/adiwg/mdEditor/blob/049cd29c/app/pods/components/input/md-boolean/component.js#L10">app/pods/components/input/md-boolean/component.js:10</a>
-		</p>
-
-
-
-	</div>
-
-
-
-
-</div>
-    </div>
-
-  <div class="class-description">
-  <p>Input, edit, display a boolean value</p>
-
-  </div>
-
-<div>
-    <div class="page-section">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
-
-            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
-
-
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-
-              <form id="options-form" class="form-inline">
-                  Show:
-                  <label for="api-show-inherited" class="checkbox">
-                      <input type="checkbox" id="api-show-inherited" checked>
-                      Inherited
-                  </label>
-          
-                  <label for="api-show-protected" class="checkbox">
-                      <input type="checkbox" id="api-show-protected">
-                      Protected
-                  </label>
-          
-                  <label for="api-show-private" class="checkbox">
-                      <input type="checkbox" id="api-show-private">
-                      Private
-                  </label>
-                  <label for="api-show-deprecated" class="checkbox">
-                      <input type="checkbox" id="api-show-deprecated">
-                      Deprecated
-                  </label>
-          
-              </form>
-
-          <div id="tab_index" role="tabpanel" class="tab-pane active" >
-
-                  <div class="index-section properties">
-                      <h3>Properties</h3>
-
-                      <ul class="index-list properties">
-                              <li class="index-item property">
-                                  <a href="#property_label">label</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_text">text</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_value">value</a>
-
-                              </li>
-                      </ul>
-                  </div>
-
-
-          </div>
-
-
-              <div id="tab_properties" role="tabpanel" class="tab-pane">
-                  <div class="item-list">
-  
-  
-  <div id="property_label" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_label"></a>
-          label
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/049cd29c/app/pods/components/input/md-boolean/component.js#L34">app/pods/components/input/md-boolean/component.js:34</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The form label to display</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> null</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_text" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_text"></a>
-          text
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/049cd29c/app/pods/components/input/md-boolean/component.js#L27">app/pods/components/input/md-boolean/component.js:27</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Text to display next to the checkbox</p>
-  
-      </div>
-  
-  
-  
-  </div>
-  
-  
-  <div id="property_value" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_value"></a>
-          value
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/049cd29c/app/pods/components/input/md-boolean/component.js#L17">app/pods/components/input/md-boolean/component.js:17</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Value of the input.
-  The edited value is returned</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> false</p>
-  
-  
-  </div>
-                  </div>
-              </div>
-
-
-      </div>
-    </div>
+    </pre>
 </div>
                         </div>
                     </div>
