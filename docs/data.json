@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.4d750fd0",
+        "version": "0.0.0.2fa284aa",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -3333,6 +3333,18 @@
         {
             "file": "app/pods/components/layout/md-card/component.js",
             "line": 61,
+            "description": "If true, the card-block class will be added.",
+            "itemtype": "property",
+            "name": "block",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 70,
             "description": "If true, the collapse control will be added to the card header.",
             "itemtype": "property",
             "name": "collapsible",
@@ -3344,7 +3356,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 69,
+            "line": 78,
             "description": "If true, the \"row\" class will be added to the card body.",
             "itemtype": "property",
             "name": "bodyIsRow",
@@ -3356,7 +3368,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 77,
+            "line": 86,
             "description": "The data-spy text. Defaults to the title.",
             "itemtype": "property",
             "name": "data-spy",
