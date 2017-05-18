@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.2fa284aa",
+        "version": "0.0.0.4d0818b2",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1612,7 +1612,7 @@
         },
         {
             "file": "app/models/record.js",
-            "line": 115,
+            "line": 117,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -4033,7 +4033,7 @@
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 17,
+            "line": 16,
             "description": "The profile service",
             "return": {
                 "description": "profile",
@@ -4044,14 +4044,14 @@
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 24,
+            "line": 23,
             "description": "The route activate hook, sets the profile.",
             "class": "tree-branch",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 34,
+            "line": 33,
             "description": "[renderTemplate description]",
             "params": [
                 {
@@ -4074,7 +4074,7 @@
         },
         {
             "file": "app/pods/record/show/edit/route.js",
-            "line": 55,
+            "line": 54,
             "description": "Update the record profile",
             "name": "updateProfile",
             "params": [
@@ -4321,7 +4321,7 @@
         },
         {
             "message": "unknown tag: name",
-            "line": " app/pods/record/show/edit/route.js:55"
+            "line": " app/pods/record/show/edit/route.js:54"
         },
         {
             "message": "replacing incorrect tag: augments with uses",
@@ -4389,19 +4389,19 @@
         },
         {
             "message": "Missing item type\nThe profile service",
-            "line": " app/pods/record/show/edit/route.js:17"
+            "line": " app/pods/record/show/edit/route.js:16"
         },
         {
             "message": "Missing item type\nThe route activate hook, sets the profile.",
-            "line": " app/pods/record/show/edit/route.js:24"
+            "line": " app/pods/record/show/edit/route.js:23"
         },
         {
             "message": "Missing item type\n[renderTemplate description]",
-            "line": " app/pods/record/show/edit/route.js:34"
+            "line": " app/pods/record/show/edit/route.js:33"
         },
         {
             "message": "Missing item type\nUpdate the record profile",
-            "line": " app/pods/record/show/edit/route.js:55"
+            "line": " app/pods/record/show/edit/route.js:54"
         },
         {
             "message": "Missing item type\nModels for sidebar navigation",

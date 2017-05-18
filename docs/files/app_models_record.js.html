@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2fa284aa" target="_blank">
-                                  Tag: 0.0.0.2fa284aa
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/4d0818b2" target="_blank">
+                                  Tag: 0.0.0.4d0818b2
                                 </a>
                             </h4>
                         </div>
@@ -300,6 +300,8 @@ export default Model.extend(Validations, Copyable, {
               &#x27;country&#x27;: &#x27;USA&#x27;,
               &#x27;language&#x27;: &#x27;eng&#x27;
             },
+            extent: [],
+            keyword: []
           }
         },
         &#x27;metadataRepository&#x27;: [],
@@ -316,11 +318,11 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   title: computed(&#x27;json.metadata.resourceInfo.citation.title&#x27;,
-    function() {
+    function () {
       return this.get(&#x27;json.metadata.resourceInfo.citation.title&#x27;);
     }),
 
-  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.[]&#x27;, function() {
+  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.[]&#x27;, function () {
     const type = this.get(
       &#x27;json.metadata.resourceInfo.resourceType.0.type&#x27;) || &#x27;&#x27;;
     const list = Ember.getOwner(this)
@@ -342,9 +344,9 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed(&#x27;recordId&#x27;, function() {
+  shortId: Ember.computed(&#x27;recordId&#x27;, function () {
     const recordId = this.get(&#x27;recordId&#x27;);
-    if (recordId) {
+    if(recordId) {
       let index = recordId.indexOf(&#x27;-&#x27;);
 
       return recordId.substring(0, index &gt; -1 ? index : 8);
