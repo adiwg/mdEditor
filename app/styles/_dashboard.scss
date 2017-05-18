@@ -1,0 +1,20 @@
+.dashboard {
+padding: 20px;
+
+  .card {
+    border: 0;
+  }
+
+  .card-footer {
+    background-color: $gray-dark;
+    transition: all .5s ease-out;
+
+    &:hover {
+      background-color: $gray;
+    }
+  }
+
+  .logo{
+    color: $gray-dark;
+  }
+}

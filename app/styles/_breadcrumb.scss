@@ -1,5 +1,9 @@
 .breadcrumb {
-    font-size: 12px;
-    margin-bottom: 0;
-    background-color: lighten($brand-primary, 50);
+  background-color: lighten($brand-primary, 50);
+  font-size: 12px;
+  margin-bottom: 0;
+
+  a {
+    text-decoration: none;
+  }
 }

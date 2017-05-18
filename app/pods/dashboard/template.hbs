@@ -1,28 +1,133 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-4">
-    {{#layout/md-card class="card-inverse card-primary text-center"
-      }}
-      <span class="card-text">{{model.0.length}} Records</span>
-    {{/layout/md-card}}
-  </div>
-  <div class="col-xs-12 col-sm-4">
-    {{#layout/md-card class="card-inverse card-success text-center"
-      }}
-      <span class="card-text">{{model.1.length}} Contacts</span>
-    {{/layout/md-card}}
-  </div>
-  <div class="col-xs-12 col-sm-4">
-    {{#layout/md-card class="card-inverse card-info text-center"
-      }}
-      <span class="card-text">{{model.2.length}} Dictionaries</span>
-    {{/layout/md-card}}
-  </div>
-</div>
+<div class="dashboard">
+    <div class="row">
+        <div class="col-xs-12 col-sm-4">
+            {{#layout/md-card class="card-inverse card-primary text-center" block=false}}
+                <div class="card-block">
+                    <div class="card-title row">
+                        <div class="col-xs-3">
+                            {{fa-icon "file-text" size=5}}
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge-text">{{model.0.length}}</div>
+                            <div>Records</div>
+                        </div>
+                    </div>
+                </div>
+                {{#link-to 'records'}}
+                    <div class="card-footer">
+                        <div class="pull-left">
+                            View Records
+                        </div>
+                        <div class="pull-right">
+                            {{fa-icon "arrow-right" size=1}}
+                        </div>
 
-<div class="row">
-  <div class="col-xs-12">
-    <h2 class="text-center">
-          <span class="sidebar-brand-link">md<span class="md-icon-mdeditor"></span>ditor</span><span class="md-app-version alpha "></span>        
-    </h2>
-  </div>
+                    </div>
+                {{/link-to}}
+            {{/layout/md-card}}
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            {{#layout/md-card class="card-inverse card-success text-center" block=false}}
+                <div class="card-block">
+                    <div class="card-title row">
+                        <div class="col-xs-3">
+                            {{fa-icon "users" size=5}}
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge-text">{{model.1.length}}</div>
+                            <div>Contacts</div>
+                        </div>
+                    </div>
+                </div>
+                {{#link-to 'contacts'}}
+                    <div class="card-footer">
+                        <div class="pull-left">
+                            View Contacts
+                        </div>
+                        <div class="pull-right">
+                            {{fa-icon "arrow-right" size=1}}
+                        </div>
+
+                    </div>
+                {{/link-to}}
+            {{/layout/md-card}}
+        </div>
+        <div class="col-xs-12 col-sm-4">
+            {{#layout/md-card class="card-inverse card-info text-center" block=false}}
+                <div class="card-block">
+                    <div class="card-title row">
+                        <div class="col-xs-3">
+                            {{fa-icon "file-book" size=5}}
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge-text">{{model.2.length}}</div>
+                            <div>Dictionaries</div>
+                        </div>
+                    </div>
+                </div>
+                {{#link-to 'dictionaries'}}
+                    <div class="card-footer">
+                        <div class="pull-left">
+                            View Dictionaries
+                        </div>
+                        <div class="pull-right">
+                            {{fa-icon "arrow-right" size=1}}
+                        </div>
+
+                    </div>
+                {{/link-to}}
+            {{/layout/md-card}}
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3">
+            <h2 class="text-center">
+                <b><span class="logo huge-text">md<span class="md-icon-mdeditor"></span>ditor</span></b>
+            </h2>
+            <p class="lead">
+                The mdEditor is a web application that allows users to author
+                and edit metadata for projects and datasets. The mdEditor is
+                currently under active development. The primary goal is to
+                create an editor that will allow creation and management of
+                archival quality metadata without requiring extensive knowledge
+                of various metadata standards.
+            </p>
+            <p class="lead">
+              md<span class="md-icon-mdeditor"></span>ditor Version 1.0 will be
+              released <b class="text-success">June 2017</b>. <a
+              href="https://github.com/adiwg/mdEditor/projects"
+              target="_blank">Follow progress</a> or <a
+              href="https://github.com/adiwg/mdEditor/issues"
+              target="_blank">report issues</a> on  <a
+              href="https://github.com/adiwg/mdEditor" target="_blank"> the
+              Github website</a>. For more information, see <a
+              href="https://github.com/adiwg/mdEditor/wiki" target="_blank">the
+              Github wiki</a>.
+            </p>
+
+            <style media="screen">
+                .construction {
+                    width: 20vh;
+                    min-width:100px;
+                    font-size:2vh;
+                    border: 1vh solid #333333 !important;
+                    margin: 4vh auto;
+                    padding: 1.5vh;
+                    border-radius: 2vh;
+                }
+            </style>
+            {{#layout/md-card class="construction card-inverse card-warning" shadow=false}}
+                <div class="text-center">
+                    <div>
+                        {{fa-icon "exclamation-triangle" size=2}}
+                    </div>
+                    <div>
+                        <b>Under <br>Construction</b>
+                    </div>
+                </div>
+            {{/layout/md-card}}
+
+        </div>
+    </div>
 </div>

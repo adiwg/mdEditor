@@ -59,6 +59,15 @@ export default Component.extend({
   shadow: true,
 
   /**
+   * If true, the card-block class will be added.
+   *
+   * @property block
+   * @type {Boolean}
+   * @default true
+   */
+  block: true,
+
+  /**
    * If true, the collapse control will be added to the card header.
    *
    * @property collapsible
