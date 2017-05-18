@@ -25,7 +25,7 @@ export default Component.extend(Template, {
   init() {
     this._super(...arguments);
 
-    this.applyTemplate('value');
+    this.applyTemplateArray('value');
 
     /*const Validation = this.get('validation');
 

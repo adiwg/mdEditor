@@ -23,18 +23,38 @@ export default Mixin.create({
    */
 
   /**
+   * Apply the 'template' to the object.
+   *
+   * @method applyTemplate
+   * @param {Object} object The object to apply the template to.
+   * @return {Ember.Object}
+   */
+  applyTemplate(object) {
+    let value = object || {};
+    let Template = this.get('templateClass');
+
+    if (Template) {
+      let owner = getOwner(this);
+
+      return merge(Template.create(owner.ownerInjection()), value);
+    }
+
+    return object;
+  },
+
+  /**
    * Apply the object 'template' to each object in the array.
    *
    * @method applyTemplate
    * @param {Array} propertyName The array of objects to apply the template to.
    * @return {Array}
    */
-  applyTemplate(propertyName) {
+  applyTemplateArray(propertyName) {
     let property = this.get(propertyName);
 
-    if(isArray(property)) {
+    if (isArray(property)) {
       let Template = this.get('templateClass');
-      if(Template) {
+      if (Template) {
         let owner = getOwner(this);
 
         property.forEach((item, idx, items) => {

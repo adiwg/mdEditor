@@ -28,7 +28,7 @@ export default Component.extend(Template, {
   init() {
     this._super(...arguments);
 
-    this.applyTemplate('items');
+    this.applyTemplateArray('items');
   },
 
   attributeBindings: ['data-spy'],

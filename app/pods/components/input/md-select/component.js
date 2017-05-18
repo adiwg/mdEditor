@@ -10,6 +10,7 @@ const {
   Component,
   defineProperty,
   computed,
+  isNone,
   isBlank,
   assert
 } = Ember;
@@ -21,7 +22,7 @@ export default Component.extend({
     let model = this.get('model');
     let path = this.get('path');
 
-    if (isBlank(model) !== isBlank(path)) {
+    if (isNone(model) !== isNone(path)) {
       assert(
         `You must supply both model and path to ${this.toString()} or neither.`
       );
