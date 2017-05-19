@@ -18,4 +18,12 @@
   &.warning {
     background-color: darken($brand-warning, 1);
   }
+
+  &.info {
+    background-color: darken($brand-info, 10);
+  }
+
+  &.primary {
+    background-color: $brand-primary;
+  }
 }
