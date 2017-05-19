@@ -13,6 +13,7 @@ export default Ember.Component.extend({
 
   tagName: 'button',
   classNames: 'md-button-modal',
+  attributeBindings: ['type'],
 
   /**
    * Element selector or element that serves as the reference for modal position

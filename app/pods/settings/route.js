@@ -7,5 +7,12 @@ export default Ember.Route.extend({
     //   return settings.get("firstObject");
     // });
     return this.get('settings').get('data');
+  },
+  actions:{
+    clearLocalStorage(){
+      window.localStorage.clear();
+      this.transitionTo('application');
+      window.location.reload();
+    }
   }
 });
