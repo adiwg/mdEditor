@@ -46,7 +46,8 @@ export default Ember.Route.extend({
         error = `Failed to parse file: ${file.name}. Is it valid JSON?`;
       } finally {
         //reset the input field
-        Ember.$('.import-file-picker input:file').val('');
+        Ember.$('.import-file-picker input:file')
+          .val('');
       }
 
       if(error) {
@@ -68,19 +69,23 @@ export default Ember.Route.extend({
         map[item.type].push(item);
         return map;
       }, {});
-      this.currentRouteModel().set('files', fileMap);
-      this.currentRouteModel().set('data', json.data);
+      this.currentRouteModel()
+        .set('files', fileMap);
+      this.currentRouteModel()
+        .set('data', json.data);
     },
     importData() {
       let data = {
-        data: this.currentRouteModel().get('data')
+        data: this.currentRouteModel()
+          .get('data')
           .filter((record) => {
             return record.meta.export;
           })
       };
 
       this.store.importData(data, {
-          truncate: !this.currentRouteModel().get('merge'),
+          truncate: !this.currentRouteModel()
+            .get('merge'),
           json: false
         })
         .then(() => {
@@ -94,18 +99,26 @@ export default Ember.Route.extend({
         });
     },
     showPreview(model) {
-      let json = model.attributes.json || JSON.stringify(model.attributes);
+      let json = {};
+      Ember.assign(json, model.attributes);
 
-      this.currentRouteModel().set('preview', {
-        model: model,
-        json: json
-      });
+      if(model.attributes.json) {
+        json.json = JSON.parse(model.attributes.json);
+      }
+
+      this.currentRouteModel()
+        .set('preview', {
+          model: model,
+          json: json
+        });
     },
     closePreview() {
-      this.currentRouteModel().set('preview', false);
+      this.currentRouteModel()
+        .set('preview', false);
     },
     cancelImport() {
-      this.currentRouteModel().set('files', false);
+      this.currentRouteModel()
+        .set('files', false);
     }
   }
 });
