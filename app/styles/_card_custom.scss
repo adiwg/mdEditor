@@ -3,6 +3,25 @@
     font-size: 1.2em;
     margin-bottom: 0;
   }
+
+  &.scroll-card .card-collapse {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  &.full-screen {
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+
+    .card-block.card-collapse {
+      max-height: none;
+      overflow-y: auto;
+    }
+  }
 }
 
 .md-card-chevron a {

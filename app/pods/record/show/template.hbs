@@ -58,30 +58,15 @@
             </div>
         {{/layout/md-card}}
 
-        {{outlet}}
-
-        <style media="screen">
-            .construction {
-                width: 50vh;
-                min-width: 240px;
-                font-size: 5vh;
-                border: 2vh solid #333333;
-                margin: 10vh auto;
-                padding: 3vh;
-                border-radius: 5vh;
-            }
-        </style>
-
-        {{#layout/md-card class="construction card-inverse card-warning" shadow=false}}
-            <div class="text-center">
-                <div>
-                    {{fa-icon "exclamation-triangle" size=2}}
-                </div>
-                <div>
-                    <b>Page Under <br>Construction</b>
-                </div>
-            </div>
+        {{#layout/md-card title="Abstract" collapsible=true scroll=true maximizable=true}}
+            {{md-markdown resource.abstract "Abstract not provided!"}}
         {{/layout/md-card}}
+
+        {{#layout/md-card title="Short Abstract" collapsible=true scroll=false}}
+            {{md-markdown resource.shortAbstract "Short Abstract not provided!"}}
+        {{/layout/md-card}}
+
+        {{outlet}}
     </div>
     <div class="col-sm-2">
       <div class="md-control-sidebar">

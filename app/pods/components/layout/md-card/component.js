@@ -16,7 +16,9 @@ export default Component.extend({
    */
 
   classNames: ['md-card', 'card'],
-  classNameBindings: ['shadow:box-shadow--8dp'],
+  classNameBindings: ['shadow:box-shadow--8dp', 'scroll:scroll-card',
+    'maximizable', 'fullScreen'
+  ],
   attributeBindings: ['data-spy'],
 
   /**
@@ -45,6 +47,22 @@ export default Component.extend({
    * If true, the "row" the card body will be initally collapse.
    *
    * @property collapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, the scroll-card class will be applied to the card.
+   *
+   * @property scroll
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, the maximize control will be avialable on the card.
+   *
+   * @property maximizable
    * @type {Boolean}
    * @default undefined
    */
@@ -91,5 +109,19 @@ export default Component.extend({
    * @default "this.title"
    * @category computed
    */
-  'data-spy': computed.oneWay('title')
+  'data-spy': computed.oneWay('title'),
+
+  windowIcon: computed('fullScreen', function() {
+    return this.get('fullScreen') ? 'compress' : 'expand';
+  }),
+
+  isCollapsible: computed('fullScreen','collapsible', function() {
+    return !this.get('fullScreen') && this.get('collapsible');
+  }),
+
+  actions: {
+    toggleFullScreen() {
+      this.toggleProperty('fullScreen');
+    }
+  }
 });
