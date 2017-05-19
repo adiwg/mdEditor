@@ -97,6 +97,7 @@ export default Route.extend(HashPoll, {
 
           if(this.controller.onCancel) {
             this.controller.onCancel.call(this);
+            this.controller.set('onCancel', null);
           }
 
           get(this, 'flashMessages')
@@ -111,6 +112,7 @@ export default Route.extend(HashPoll, {
         .then(() => {
           if(this.controller.onCancel) {
             this.controller.onCancel.call(this);
+            this.controller.set('onCancel', null);
           }
           get(this, 'flashMessages')
             .warning(message);

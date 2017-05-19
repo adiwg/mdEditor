@@ -4,27 +4,44 @@ const {
   isArray,
   A,
   set,
-  get
+  get,
+  isEmpty
 } = Ember;
 
 export default Ember.Route.extend({
   keyword: Ember.inject.service(),
   model(params) {
+    this.set('thesaurusId', params.thesaurus_id);
+
+    return this.setupModel();
+  },
+
+  setupModel() {
+    let thesaurusId = get(this, 'thesaurusId') || this.controller.get('thesaurusId');
     let model = this.modelFor('record.show.edit.keywords');
-    let kw = model.get('json.metadata.resourceInfo.keyword')
-      .get(params.thesaurus_id);
-    //let keywords = kw.keyword;
-    if(!isArray(kw.keyword)) {
-      set(kw, 'keyword', A());
+    let thesaurus = model.get('json.metadata.resourceInfo.keyword')
+      .get(thesaurusId);
+
+    //make sure the thesaurus still exists
+    if(isEmpty(thesaurus)) {
+      Ember.get(this, 'flashMessages')
+        .warning('No thesaurus found! Re-directing to list...');
+      this.replaceWith('record.show.edit.keywords');
+
+      return;
+    }
+
+    if(!isArray(thesaurus.keyword)) {
+      set(thesaurus, 'keyword', A());
     }
 
     return Ember.Object.create({
-      id: params.thesaurus_id,
-      keywords: kw,
+      id: thesaurusId,
+      keywords: thesaurus,
       model: model,
-      path: `json.metadata.resourceInfo.keyword.${params.thesaurus_id}`,
+      path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
       thesaurus: this.get('keyword')
-        .findById(kw.thesaurus.identifier[0].identifier)
+        .findById(thesaurus.thesaurus.identifier[0].identifier)
     });
   },
 
@@ -46,7 +63,11 @@ export default Ember.Route.extend({
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
-      .set('subbar', this.get('subbar'));
+      .setProperties({
+        subbar: this.get('subbar'),
+        onCancel: this.setupModel,
+        thesaurusId: this.get('thesaurusId')
+      });
   },
 
   actions: {
@@ -97,7 +118,7 @@ export default Ember.Route.extend({
       let model = this.currentRouteModel();
       let keywords = model.get('model')
         .get(model.get('path'));
-      let kw = get(keywords,'keyword');
+      let kw = get(keywords, 'keyword');
       let val = evt.target.checked;
 
       set(keywords, 'fullPath', val);
