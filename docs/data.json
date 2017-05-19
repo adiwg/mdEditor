@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.52c07f31",
+        "version": "0.0.0.a926ab1e",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1642,7 +1642,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 17,
+            "line": 18,
             "description": "Element selector or element that serves as the reference for modal position",
             "itemtype": "property",
             "name": "target",
@@ -1653,7 +1653,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 25,
+            "line": 26,
             "description": "A boolean, when true renders the modal without wormholing or tethering",
             "itemtype": "property",
             "name": "renderInPlace",
@@ -1664,7 +1664,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 33,
+            "line": 34,
             "description": "Indicates whether the modal dialog is being displayed.",
             "type": "{Boolean}",
             "class": "md-button-modal",
@@ -1673,7 +1673,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 39,
+            "line": 40,
             "description": "The function to call when action is cancelled.",
             "itemtype": "method",
             "name": "onCancel",
@@ -1683,7 +1683,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 46,
+            "line": 47,
             "description": "The function to call when action is confirmed.",
             "itemtype": "method",
             "name": "onConfirm",
@@ -4345,7 +4345,7 @@
         },
         {
             "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",
-            "line": " app/pods/components/control/md-button-modal/component.js:33"
+            "line": " app/pods/components/control/md-button-modal/component.js:34"
         },
         {
             "message": "Missing item type\nTrue to render in modal dialog",
