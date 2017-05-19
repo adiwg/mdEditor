@@ -39,17 +39,17 @@
             </dl>
             <div class="col-xs-12">
               {{#layout/md-card plain=true shadow=false}}
-              <h5 class="text-info">Default Resource Locale</h5>
                 <div class="row">
-                  <div class="col-md-4">
-                    <label>Character Set:</label>
-                    <span>{{resource.defaultResourceLocale.characterSet}}</span>
+                  <div class="text-info col-xs-6 col-sm-3">Default Resource Locale</div>
+                  <div class="col-xs-6 col-sm-3">
+                    <label class="text-nowrap">Character Set:</label>
+                    <span class="text-nowrap">{{resource.defaultResourceLocale.characterSet}}</span>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-xs-6 col-sm-3">
                     <label>Country:</label>
-                    <span>{{resource.defaultResourceLocale.country}}</span>
+                    <span class="text-nowrap">{{resource.defaultResourceLocale.country}}</span>
                   </div>
-                  <div class="col-md-4">
+                  <div class="col-xs-6 col-sm-3">
                     <label>Language:</label>
                     <span>{{resource.defaultResourceLocale.language}}</span>
                   </div>
