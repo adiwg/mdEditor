@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.acaa47c6",
+        "version": "0.0.0.ba13c8e8",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -3278,7 +3278,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 22,
+            "line": 24,
             "description": "The card element id.",
             "itemtype": "property",
             "name": "cardId",
@@ -3296,7 +3296,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 36,
+            "line": 38,
             "description": "The card title.",
             "itemtype": "property",
             "name": "title",
@@ -3308,7 +3308,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 44,
+            "line": 46,
             "description": "If true, the \"row\" the card body will be initally collapse.",
             "itemtype": "property",
             "name": "collapsed",
@@ -3320,7 +3320,31 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 52,
+            "line": 54,
+            "description": "If true, the scroll-card class will be applied to the card.",
+            "itemtype": "property",
+            "name": "scroll",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 62,
+            "description": "If true, the maximize control will be avialable on the card.",
+            "itemtype": "property",
+            "name": "maximizable",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 70,
             "description": "If true, a box shadow will be rendered around the card.",
             "itemtype": "property",
             "name": "shadow",
@@ -3332,7 +3356,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 61,
+            "line": 79,
             "description": "If true, the card-block class will be added.",
             "itemtype": "property",
             "name": "block",
@@ -3344,7 +3368,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 70,
+            "line": 88,
             "description": "If true, the collapse control will be added to the card header.",
             "itemtype": "property",
             "name": "collapsible",
@@ -3356,7 +3380,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 78,
+            "line": 96,
             "description": "If true, the \"row\" class will be added to the card body.",
             "itemtype": "property",
             "name": "bodyIsRow",
@@ -3368,7 +3392,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 86,
+            "line": 104,
             "description": "The data-spy text. Defaults to the title.",
             "itemtype": "property",
             "name": "data-spy",

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/acaa47c6" target="_blank">
-                                  Tag: 0.0.0.acaa47c6
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ba13c8e8" target="_blank">
+                                  Tag: 0.0.0.ba13c8e8
                                 </a>
                             </h4>
                         </div>
@@ -237,7 +237,9 @@ export default Component.extend({
    */
 
   classNames: [&#x27;md-card&#x27;, &#x27;card&#x27;],
-  classNameBindings: [&#x27;shadow:box-shadow--8dp&#x27;],
+  classNameBindings: [&#x27;shadow:box-shadow--8dp&#x27;, &#x27;scroll:scroll-card&#x27;,
+    &#x27;maximizable&#x27;, &#x27;fullScreen&#x27;
+  ],
   attributeBindings: [&#x27;data-spy&#x27;],
 
   /**
@@ -266,6 +268,22 @@ export default Component.extend({
    * If true, the &quot;row&quot; the card body will be initally collapse.
    *
    * @property collapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, the scroll-card class will be applied to the card.
+   *
+   * @property scroll
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, the maximize control will be avialable on the card.
+   *
+   * @property maximizable
    * @type {Boolean}
    * @default undefined
    */
@@ -312,7 +330,21 @@ export default Component.extend({
    * @default &quot;this.title&quot;
    * @category computed
    */
-  &#x27;data-spy&#x27;: computed.oneWay(&#x27;title&#x27;)
+  &#x27;data-spy&#x27;: computed.oneWay(&#x27;title&#x27;),
+
+  windowIcon: computed(&#x27;fullScreen&#x27;, function() {
+    return this.get(&#x27;fullScreen&#x27;) ? &#x27;compress&#x27; : &#x27;expand&#x27;;
+  }),
+
+  isCollapsible: computed(&#x27;fullScreen&#x27;,&#x27;collapsible&#x27;, function() {
+    return !this.get(&#x27;fullScreen&#x27;) &amp;&amp; this.get(&#x27;collapsible&#x27;);
+  }),
+
+  actions: {
+    toggleFullScreen() {
+      this.toggleProperty(&#x27;fullScreen&#x27;);
+    }
+  }
 });
 
     </pre>
