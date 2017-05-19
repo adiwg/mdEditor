@@ -1,8 +1,4 @@
 <hr>
-<button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "zoomAll" target=actionContext}}>
-  {{fa-icon "search"}} Zoom All</button>
-<button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action "uploadData" target=actionContext}}>{{fa-icon "upload"}} Import Features</button>
-<button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action "exportGeoJSON" target=actionContext}}>{{fa-icon "download"}} Export Features</button>
-{{#control/md-button-confirm class="btn btn-lg btn-danger btn-block md-btn-responsive" onConfirm=(action "deleteAllFeatures" target=actionContext)}} {{fa-icon "times"}} Delete All{{/control/md-button-confirm}}
-
+<button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "addExtent" target=actionContext}}>
+  {{fa-icon "plus"}} Add Spatial Extent</button>
 {{yield}}

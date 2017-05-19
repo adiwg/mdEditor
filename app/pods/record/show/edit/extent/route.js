@@ -3,7 +3,8 @@ import Ember from 'ember';
 
 const {
   A,
-  Route
+  Route,
+  computed
 } = Ember;
 
 export default Route.extend({
@@ -23,7 +24,12 @@ export default Route.extend({
     return model;
   },
 
-  subbar: 'control/subbar-spatial',
+  subbar: 'control/subbar-extent',
+
+  extents: computed('model.json.metadata.resourceInfo.extent.[]', function () {
+    return this.currentRouteModel()
+      .get('json.metadata.resourceInfo.extent');
+  }),
 
   clearSubbar: function () {
     this.controllerFor('record.show.edit')
@@ -59,7 +65,7 @@ export default Route.extend({
       extents.removeAt(id);
     },
     editExtent(id) {
-      this.transitionTo('record.show.edit.spatial.extent', id);
+      this.transitionTo('record.show.edit.extent.spatial', id);
     },
     setupMap(features, m) {
       let map = m.target;
@@ -67,6 +73,14 @@ export default Route.extend({
         .getBounds();
 
       map.fitBounds(bounds);
+    },
+    toList() {
+      let me = this;
+
+      me.transitionTo(me.get('routeName'))
+        .then(function () {
+          me.setupController();
+        });
     }
   }
 });

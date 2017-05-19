@@ -3,14 +3,14 @@
     <div class="row md-extent-container">
       <div class="col-sm-6">
         <div class="row">
-          <h4 class="col-sm-12 text-primary"><strong>Extent #{{index}}</strong></h4>
+          <h4 class="col-sm-12 text-primary"><strong>Spatial Extent #{{index}}</strong></h4>
         </div>
         <div class="row">
           <div class="col-sm-4 md-extent-buttons">
             <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action (route-action "editExtent" index)}}>
-              {{fa-icon "pencil"}} Edit Extent</button>
+              {{fa-icon "pencil"}} Edit Spatial Extent</button>
             <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteExtent" index)}}>
-                {{fa-icon "times"}} Delete Extent</button>
+                {{fa-icon "times"}} Delete Spatial Extent</button>
           </div>
           <div class="col-sm-8 md-extent-description">
             {{input/md-textarea value=extent.description rows=5 maxHeight=300 placeholder="Description of extent" label="Description"}}
@@ -43,7 +43,7 @@
     {{else}}
     <h3 class="alert alert-info">No spatial extents found.
       <button type="button" class="btn btn-success" {{action (route-action "addExtent")}}>
-        {{fa-icon "plus"}} Add Extent</button>
+        {{fa-icon "plus"}} Add Spatial Extent</button>
     </h3>
     {{/each}}
 </section>

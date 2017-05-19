@@ -35,9 +35,9 @@ Router.map(function () {
               path: 'thesaurus/:thesaurus_id'
             });
           });
-          this.route('spatial', function() {
-            this.route('extent', {
-              path: 'extent/:extent_id'
+          this.route('extent', function() {
+            this.route('spatial', {
+              path: 'spatial/:extent_id'
             });
           });
           this.route('quality');

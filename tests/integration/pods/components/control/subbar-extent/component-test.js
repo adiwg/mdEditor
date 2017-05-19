@@ -5,47 +5,34 @@ import {
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/subbar-extent',
-  'Integration | Component | control/subbar extent', {
+moduleForComponent('control/subbar-spatial',
+  'Integration | Component | control/subbar spatial', {
     integration: true
   });
 
 test('it renders', function (assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
-  var FakeRoute = Ember.Route.extend({
-    actions: {
-      deleteAllFeatures: function () {
-        assert.ok(true, 'calls deleteAllFeatures action');
-      }
-    }
-  });
 
-  this.set('getContext', function () {
-    return new FakeRoute();
-  });
-
-  this.render(hbs `{{control/subbar-extent context=getContext}}`);
+  this.render(hbs `{{control/subbar-spatial}}`);
 
   assert.equal(this.$()
     .text()
     .replace(/[ \n]+/g, '|')
-    .trim(),
-    '|Zoom|All|Import|Features|Export|Features|Delete|All|'
-  );
+    .trim(), '|Add|Spatial|Extent|');
 
   // Template block usage:
   this.render(hbs `
-    {{#control/subbar-extent context=getContext}}
+    {{#control/subbar-spatial}}
       template block text
-    {{/control/subbar-extent}}
+    {{/control/subbar-spatial}}
   `);
 
   assert.equal(this.$()
     .text()
     .replace(/[ \n]+/g, '|')
     .trim(),
-    '|Zoom|All|Import|Features|Export|Features|Delete|All|template|block|text|'
+    '|Add|Spatial|Extent|template|block|text|'
   );
 });
 
@@ -53,21 +40,12 @@ test('fire actions', function (assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  assert.expect(4);
+  assert.expect(1);
 
   var FakeRoute = Ember.Route.extend({
     actions: {
-      zoomAll: function () {
-        assert.ok(true, 'calls zoomAll action');
-      },
-      uploadData: function () {
-        assert.ok(true, 'calls uploadData action');
-      },
-      exportGeoJSON: function () {
-        assert.ok(true, 'calls exportGeoJSON action');
-      },
-      deleteAllFeatures: function () {
-        assert.ok(true, 'calls deleteAllFeatures action');
+      addExtent: function () {
+        assert.ok(true, 'calls addExtent action');
       }
     }
   });
@@ -76,15 +54,8 @@ test('fire actions', function (assert) {
     return new FakeRoute();
   });
 
-  this.render(hbs `{{control/subbar-extent context=(action "getContext")}}`);
+  this.render(hbs `{{control/subbar-spatial context=(action "getContext")}}`);
 
   this.$('button')
-    .each(function (i, v) {
-      v.click();
-      if($(v)
-        .text()
-        .trim() === 'Confirm') {
-        v.click();
-      }
-    });
+    .click();
 });

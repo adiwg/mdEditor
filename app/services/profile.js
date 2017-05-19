@@ -51,8 +51,8 @@ export default Ember.Service.extend({
         target: 'record.show.edit.keywords'
 
       }, {
-        title: 'Spatial',
-        target: 'record.show.edit.spatial'
+        title: 'Extent',
+        target: 'record.show.edit.extent'
 
       }, {
         title: 'Quality',
@@ -111,8 +111,8 @@ export default Ember.Service.extend({
         target: 'record.show.edit.keywords'
 
       }, {
-        title: 'Spatial',
-        target: 'record.show.edit.spatial'
+        title: 'Extent',
+        target: 'record.show.edit.extent'
 
       }, {
         title: 'Distribution',
@@ -151,8 +151,8 @@ export default Ember.Service.extend({
         target: 'record.show.edit.keywords'
 
       }, {
-        title: 'Spatial',
-        target: 'record.show.edit.spatial'
+        title: 'Extent',
+        target: 'record.show.edit.extent'
 
       }, {
         title: 'Distribution',

@@ -2,7 +2,11 @@ import Ember from 'ember';
 
 const {
   Object: EmberObject,
-  NativeArray
+  NativeArray,
+  set,
+  get,
+  isArray,
+  isEmpty
 } = Ember;
 
 export default Ember.Route.extend({
@@ -14,12 +18,12 @@ export default Ember.Route.extend({
   },
 
   renderTemplate() {
-    this.render('record.show.edit.spatial.extent', {
+    this.render('record.show.edit.extent.spatial', {
       into: 'record.show.edit'
     });
   },
 
-  subbar: 'control/subbar-extent',
+  subbar: 'control/subbar-spatial',
 
   // clearSubbar: function() {
   //   this.controllerFor('record.show.edit')
@@ -45,10 +49,24 @@ export default Ember.Route.extend({
   },
 
   setupModel() {
-    let model = this.modelFor('record.show.edit.spatial');
+    let model = this.modelFor('record.show.edit.extent');
     let extents = model.get('json.metadata.resourceInfo.extent');
-    let extent = extents[this.get('extentId') || this.controller.get(
-      'extentId')];
+    let extent = get(extents, this.get('extentId') || this.controller.get(
+      'extentId'));
+
+    //make sure the extent still exists
+    if(isEmpty(extent)) {
+      Ember.get(this, 'flashMessages')
+        .warning('No extent found! Re-directing to list...');
+      this.replaceWith('record.show.edit.extent');
+
+      return;
+    }
+
+    if(!isArray(extent.geographicElement)) {
+      set(extent, 'geographicElement', []);
+    }
+
     let layers = NativeArray.apply(extent.geographicElement);
 
     layers.forEach(function (l, idx, arr) {
