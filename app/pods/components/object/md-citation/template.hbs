@@ -1,0 +1,71 @@
+{{#layout/md-card title="Basic Information" collapsible=true collapsed=false
+  profilePath="(concat profilePath 'basicInformation')" data-spy="Basic Information"
+}}
+  {{input/md-input
+    value=model.title
+    placeholder="Enter the title for the resource."
+    label="Title"
+    required=true
+    profilePath=(concat profilePath '.title')
+  }}
+
+{{#layout/md-card shadow=false profilePath=(concat profilePath '.alternateTitle')}}
+  {{#object/md-simple-array-table
+    data-spy=false
+    title="Alternate Title"
+    plain=true
+    value=model.alternateTitle as |alt| }}
+      <td>
+          {{input/md-input value=alt.item.value placeholder="Additional titles for the resource."}}
+      </td>
+  {{/object/md-simple-array-table}}
+{{/layout/md-card}}
+
+{{#layout/md-card shadow=false profilePath=(concat profilePath '.date') data-spy="Dates"}}
+  {{object/md-date-array value=model.date plain=true}}
+{{/layout/md-card}}
+
+{{input/md-input
+  value=model.edition
+  placeholder="Enter the edition."
+  label="Edition"
+  profilePath=(concat profilePath '.edition')
+}}
+  {{!-- {{input/md-codelist-multi
+    value=resource.status label="Status" required=true
+    create=true tooltip=true icon=false mdCodeName="progress"
+    placeholder="Select the current status"
+    profilePath="record.main.status"
+  }} --}}
+
+  {{!-- {{input/md-codelist-multi
+    value=resource.topicCategory label="ISO Topic Category"
+    create=false tooltip=true icon=false mdCodeName="topicCategory"
+    placeholder="Select one or more topic categories"
+    profilePath="record.main.topicCategory"
+  }} --}}
+
+  {{!-- {{#layout/md-card
+    title="Default Locale"
+    shadow=false
+    data-spy=false
+    required=true
+    profilePath="record.main.defaultLocale"
+  }}
+    {{object/md-locale model=resource modelPath="defaultResourceLocale"}}
+  {{/layout/md-card}} --}}
+
+{{/layout/md-card}}
+
+{{object/md-party
+  title="Responsible Party"
+  data-spy="Responsible Parties"
+  collapsible=true collapsed=false
+  required=false
+  value=model.responsibleParty
+  profilePath=(concat profilePath '.responsibleParty')
+}}
+
+{{object/md-online-resource-array model=model.onlineResource
+  data-spy="Online Resource"}}
+{{yield}}

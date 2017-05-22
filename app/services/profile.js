@@ -91,8 +91,15 @@ export default Ember.Service.extend({
             shortAbstract: true,
             supplementalInfo: true,
             purpose: true,
-            environmentDescription:true,
-            credit:true
+            environmentDescription: true,
+            credit: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              responsibleParty:true
+            }
           }
         }
       }
@@ -131,7 +138,7 @@ export default Ember.Service.extend({
         record: {
           main: {
             supplementalInfo: false,
-            environmentDescription:false
+            environmentDescription: false
           }
         }
       }

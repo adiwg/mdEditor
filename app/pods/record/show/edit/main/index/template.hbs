@@ -1,0 +1,119 @@
+{{#with model.json.metadata.resourceInfo as |resource|}}
+<div class="row">
+    <form class="col-sm-11 col-md-offset-1">
+      {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
+        profilePath="record.main.basicInformation" data-spy="Basic Information"
+      }}
+        {{input/md-input-confirm
+          valuePath='recordId'
+          model=model
+          confirmTip="Note! Editing the Record ID may break links. Be aware."
+          placeholder="Assigned Record ID"
+          label="Record ID"
+          profilePath="record.main.recordId"
+        }}
+
+        {{input/md-codelist-multi
+          value=resource.status label="Status" required=true
+          create=true tooltip=true icon=false mdCodeName="progress"
+          placeholder="Select the current status"
+          profilePath="record.main.status"
+        }}
+
+        {{!-- {{input/md-codelist-multi
+          value=resource.topicCategory label="ISO Topic Category"
+          create=false tooltip=true icon=false mdCodeName="topicCategory"
+          placeholder="Select one or more topic categories"
+          profilePath="record.main.topicCategory"
+        }} --}}
+
+        {{#layout/md-card
+          title="Default Locale"
+          shadow=false
+          data-spy=false
+          required=true
+          profilePath="record.main.defaultLocale"
+        }}
+          {{object/md-locale model=resource modelPath="defaultResourceLocale"}}
+        {{/layout/md-card}}
+
+      {{/layout/md-card}}
+
+        <div class="form-group">
+            {{object/md-resource-type-array
+              plain=false
+              value=resource.resourceType
+              required=true
+              data-spy="Resource Types"
+              profilePath="record.main.resourceType"
+            }}
+        </div>
+
+        {{object/md-party
+          title="Point Of Contact"
+          data-spy="Point Of Contact"
+          collapsible=true collapsed=false
+          required=true
+          value=resource.pointOfContact
+          profilePath="record.main.pointOfContact"
+        }}
+
+        {{#layout/md-card title="Citation" collapsible=true collapsed=false
+          profilePath="record.main.citation" required=true
+        }}
+          {{#link-to 'record.show.edit.main.citation' class="btn btn-block btn-success"}}Edit Citation{{/link-to}}
+        {{/layout/md-card}}
+
+        {{#layout/md-card title="Description" collapsible=true collapsed=false
+          profilePath="record.main.description"
+        }}
+          {{input/md-markdown-area
+            value=resource.abstract
+            profilePath="record.main.abstract"
+            label="Abstract"
+            placeholder="Enter an Abstract describing the resource."
+            required=true
+          }}
+
+          {{input/md-markdown-area
+            value=resource.shortAbstract
+            profilePath="record.main.shortAbstract"
+            label="Short Abstract"
+            placeholder="A short description of the resource. Max of 300 characters."
+            maxlength=300
+          }}
+
+          {{input/md-textarea
+            value=resource.purpose
+            profilePath="record.main.purpose"
+            label="Purpose"
+            placeholder="Enter text describing the reason for creating the resource."
+          }}
+
+          {{input/md-textarea
+            value=resource.supplementalInfo
+            profilePath="record.main.supplementalInfo"
+            label="Supplemental Information"
+            placeholder="Enter text describing other descriptive information about the resource."
+          }}
+
+          {{input/md-textarea
+            value=resource.environmentDescription
+            profilePath="record.main.environmentDescription"
+            label="Environment Description"
+            placeholder="Description of the processing environment, for example the software, hardware, or the computer operating system."
+          }}
+        {{/layout/md-card}}
+
+        {{#object/md-simple-array-table
+          data-spy="Credit"
+          title="Credit"
+          profilePath="record.main.credit"
+          value=resource.credit as |credit| }}
+            <td>
+                {{input/md-input value=credit.item.value placeholder="Additional credits for the resource."}}
+            </td>
+        {{/object/md-simple-array-table}}
+    </form>
+</div>
+{{/with}}
