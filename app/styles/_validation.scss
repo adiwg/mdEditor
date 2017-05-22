@@ -1,3 +1,4 @@
+.required .card-title::after,
 form .required label::after,
 label.required::after {
   @extend sup;
@@ -8,11 +9,18 @@ label.required::after {
   font-weight: normal;
 }
 
-.md-input-error, .md-markdown-editor-error {
+.md-input-error,
+.md-markdown-editor-error,
+.md-inputgroup-error {
   position: absolute;
   right: 20px;
   top: 9px;
   //font-size: 12px;
+}
+
+.md-inputgroup-error {
+  right: 45px;
+  z-index: 2;
 }
 
 .md-error {
