@@ -276,6 +276,20 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/object/md-citation/component.js": {
+            "name": "app/pods/components/object/md-citation/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-date-array/component.js": {
+            "name": "app/pods/components/object/md-date-array/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/object/md-graphic-array/component.js": {
             "name": "app/pods/components/object/md-graphic-array/component.js",
             "modules": {},
@@ -981,9 +995,8 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 10,
-            "description": "Datetime control with dropdown calendar.\nBased on Bootstrap datetime picker.",
-            "is_constructor": 1
+            "line": 13,
+            "description": "Datetime control with dropdown calendar.\nBased on Bootstrap datetime picker."
         },
         "md-input": {
             "name": "md-input",
@@ -2317,7 +2330,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 18,
+            "line": 96,
             "description": "Datetime string passed in, edited, and returned.",
             "itemtype": "property",
             "name": "date",
@@ -2332,7 +2345,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 28,
+            "line": 106,
             "description": "Format of date string for property 'date'.",
             "itemtype": "property",
             "name": "format",
@@ -2344,7 +2357,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 37,
+            "line": 115,
             "description": "The string to display when no datetime is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -2356,7 +2369,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 46,
+            "line": 124,
             "description": "Form label for datetime input.",
             "itemtype": "property",
             "name": "label",
@@ -2368,7 +2381,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 55,
+            "line": 133,
             "description": "Icons to be used by the datetime picker and calendar.\nIcons can be set for time, date, up, down, previous, next,\nand close.\nThe default icons are chosen from Font Awesome icons",
             "itemtype": "property",
             "name": "calendarIcons",
@@ -3669,6 +3682,48 @@
             "class": "md-array-table",
             "module": "mdeditor",
             "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-citation/component.js",
+            "line": 20,
+            "description": "profilePath",
+            "itemtype": "property",
+            "name": "myProperty",
+            "type": "{Boolean}",
+            "default": "\"false\"",
+            "static": 1,
+            "readonly": "",
+            "writeonce": "",
+            "optional": 1,
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-citation/component.js",
+            "line": 33,
+            "description": "model",
+            "itemtype": "property",
+            "name": "myProperty",
+            "type": "{Boolean}",
+            "default": "\"false\"",
+            "static": 1,
+            "readonly": "",
+            "writeonce": "",
+            "optional": 1,
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-date-array/component.js",
+            "line": 20,
+            "description": "See [md-array-table](md-array-table.html#property_templateClass).",
+            "itemtype": "property",
+            "name": "templateClass",
+            "type": "Ember.Object",
+            "class": "md-graphic-array",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/object/md-graphic-array/component.js",
