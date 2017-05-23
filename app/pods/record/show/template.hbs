@@ -18,7 +18,7 @@
             <dl class="dl-horizontal col-lg-6">
                 {{control/md-definition title="Record Id" text=model.recordId}}
                 {{control/md-definition title="Record Title" text=model.title}}
-                {{control/md-definition title="Status" text=(join ", " resource.status)}}
+                {{control/md-definition title="Status" text=(if resource.status (join ", " resource.status))}}
                 {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
 
             </dl>
