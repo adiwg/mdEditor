@@ -1,3 +1,13 @@
+{{#with model.json.metadata.metadataInfo as |metadata|}}
+{{object/md-party
+  title="Metadata Contact"
+  data-spy="Metadata Contact"
+  collapsible=true collapsed=false
+  required=true
+  value=metadata.metadataContact
+  profilePath="record.metadata.metadataContact"
+}}
+
 {{outlet}}
 
 <style media="screen">
@@ -21,3 +31,4 @@
         </div>
     </div>
 {{/layout/md-card}}
+{{/with}}

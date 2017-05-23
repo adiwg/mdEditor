@@ -62,7 +62,8 @@ export default Model.extend(Validations, Copyable, {
             'metadataIdentifier': {
               'identifier': uuidV4(),
               'namespace': 'urn:uuid'
-            }
+            },
+            'metadataContact':[]
           },
           'resourceInfo': {
             'resourceType': [{}],
