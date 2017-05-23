@@ -1,5 +1,9 @@
 import Ember from 'ember';
 
+const {
+  get,
+  inject
+} = Ember;
 /**
  * Profile service
  *
@@ -9,6 +13,7 @@ import Ember from 'ember';
  * @augments ember/Service
  */
 export default Ember.Service.extend({
+  flashMessages: inject.service(),
   /**
    * String identifying the active profile
    *
@@ -27,7 +32,11 @@ export default Ember.Service.extend({
     const profile = active && typeof active === 'string' ? active : 'full';
     const profiles = this.get('profiles');
 
-    return profiles[profile];
+    if (profiles[profile]) {
+      return profiles[profile];
+    } else {
+      get(this, 'flashMessages').warning(`Profile "${active}" not found. Using "full" profile.`);      return 'full';
+    }
   },
 
   /**
@@ -98,7 +107,7 @@ export default Ember.Service.extend({
               alternateTitle: true,
               date: true,
               edition: true,
-              responsibleParty:true
+              responsibleParty: true
             }
           }
         }
