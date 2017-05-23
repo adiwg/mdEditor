@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ca884ee3" target="_blank">
-                                  Tag: 0.0.0.ca884ee3
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/15a894bc" target="_blank">
+                                  Tag: 0.0.0.15a894bc
                                 </a>
                             </h4>
                         </div>
@@ -221,6 +221,10 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 
+const {
+  get,
+  inject
+} = Ember;
 /**
  * Profile service
  *
@@ -230,6 +234,7 @@ import Ember from &#x27;ember&#x27;;
  * @augments ember/Service
  */
 export default Ember.Service.extend({
+  flashMessages: inject.service(),
   /**
    * String identifying the active profile
    *
@@ -248,7 +253,11 @@ export default Ember.Service.extend({
     const profile = active &amp;&amp; typeof active === &#x27;string&#x27; ? active : &#x27;full&#x27;;
     const profiles = this.get(&#x27;profiles&#x27;);
 
-    return profiles[profile];
+    if (profiles[profile]) {
+      return profiles[profile];
+    } else {
+      get(this, &#x27;flashMessages&#x27;).warning(&#x60;Profile &quot;${active}&quot; not found. Using &quot;full&quot; profile.&#x60;);      return &#x27;full&#x27;;
+    }
   },
 
   /**
@@ -319,7 +328,7 @@ export default Ember.Service.extend({
               alternateTitle: true,
               date: true,
               edition: true,
-              responsibleParty:true
+              responsibleParty: true
             }
           }
         }

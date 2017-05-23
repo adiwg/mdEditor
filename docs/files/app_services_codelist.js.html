@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ca884ee3" target="_blank">
-                                  Tag: 0.0.0.ca884ee3
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/15a894bc" target="_blank">
+                                  Tag: 0.0.0.15a894bc
                                 </a>
                             </h4>
                         </div>
@@ -221,6 +221,12 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 import codes from &#x27;npm:mdcodes/resources/js/mdcodes.js&#x27;;
+import Profile from &#x27;./profile&#x27;;
+
+const {
+  get,
+  Service
+} = Ember;
 /**
  * Codelist Service
  *
@@ -231,35 +237,33 @@ import codes from &#x27;npm:mdcodes/resources/js/mdcodes.js&#x27;;
  * @module
  */
 
+const profile = Profile.create();
+
 //create a new object
 const codelist = {};
 
 //remap codelist names to be more generic
 Object.keys(codes)
-  .forEach(function (key) {
+  .forEach(function(key) {
     const list = codes[key];
     const name = key.replace(/^iso_|adiwg_/, &#x27;&#x27;);
 
     codelist[name] = list;
   });
 
+let recordProfiles = Object.keys(profile.profiles).without(&#x27;dictionary&#x27;);
+
 codelist.profile = {
-  codelist: [{
-    code: &#x27;001&#x27;,
-    codeName: &#x27;full&#x27;,
-    description: &#x27;This profile includes all metadata properties.&#x27;
-  }, {
-    code: &#x27;002&#x27;,
-    codeName: &#x27;basic&#x27;,
-    description: &#x27;This profile includes metadata properties required for a minimal metadata record.&#x27;
-  }, {
-    code: &#x27;003&#x27;,
-    codeName: &#x27;publication&#x27;,
-    description: &#x27;This profile is intended to be used for publications or journal articles.&#x27;
-  }]
+  codelist: recordProfiles.map((itm) =&gt; {    
+    return {
+      code: itm,
+      codeName: itm,
+      description: get(profile, &#x27;profiles.&#x27; + itm + &#x27;.description&#x27;)
+    };
+  })
 };
 
-export default Ember.Service.extend(codelist);
+export default Service.extend(codelist);
 
     </pre>
 </div>

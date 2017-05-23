@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.ca884ee3",
+        "version": "0.0.0.15a894bc",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1625,7 +1625,7 @@
         },
         {
             "file": "app/models/record.js",
-            "line": 117,
+            "line": 118,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -4198,7 +4198,7 @@
         },
         {
             "file": "app/services/codelist.js",
-            "line": 3,
+            "line": 9,
             "description": "Codelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object passed to\nEmber.Service.extend. The existing property names should be maintained.",
             "class": "tree-branch",
             "module": ""
@@ -4221,7 +4221,7 @@
         },
         {
             "file": "app/services/profile.js",
-            "line": 3,
+            "line": 7,
             "description": "Profile service\n\nService that provides profile configurations for metadata records.",
             "uses": [
                 "ember/Service"
@@ -4231,7 +4231,7 @@
         },
         {
             "file": "app/services/profile.js",
-            "line": 12,
+            "line": 17,
             "description": "String identifying the active profile",
             "type": "{?String}",
             "class": "tree-branch",
@@ -4239,7 +4239,7 @@
         },
         {
             "file": "app/services/profile.js",
-            "line": 19,
+            "line": 24,
             "description": "Get the active profile.",
             "itemtype": "method",
             "name": "",
@@ -4252,7 +4252,7 @@
         },
         {
             "file": "app/services/profile.js",
-            "line": 33,
+            "line": 42,
             "description": "An object defining the available profiles",
             "type": "{Object} profiles",
             "class": "tree-branch",
@@ -4404,15 +4404,15 @@
         },
         {
             "message": "replacing incorrect tag: augments with uses",
-            "line": " app/services/profile.js:3"
+            "line": " app/services/profile.js:7"
         },
         {
             "message": "replacing incorrect tag: function with method",
-            "line": " app/services/profile.js:19"
+            "line": " app/services/profile.js:24"
         },
         {
             "message": "replacing incorrect tag: returns with return",
-            "line": " app/services/profile.js:19"
+            "line": " app/services/profile.js:24"
         },
         {
             "message": "replacing incorrect tag: function with method",
@@ -4492,19 +4492,19 @@
         },
         {
             "message": "Missing item type\nCodelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object passed to\nEmber.Service.extend. The existing property names should be maintained.",
-            "line": " app/services/codelist.js:3"
+            "line": " app/services/codelist.js:9"
         },
         {
             "message": "Missing item type\nProfile service\n\nService that provides profile configurations for metadata records.",
-            "line": " app/services/profile.js:3"
+            "line": " app/services/profile.js:7"
         },
         {
             "message": "Missing item type\nString identifying the active profile",
-            "line": " app/services/profile.js:12"
+            "line": " app/services/profile.js:17"
         },
         {
             "message": "Missing item type\nAn object defining the available profiles",
-            "line": " app/services/profile.js:33"
+            "line": " app/services/profile.js:42"
         },
         {
             "message": "Missing item type\nDefine attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
