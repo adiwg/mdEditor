@@ -13,7 +13,7 @@ export default Route.extend({
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    if(!info.hasOwnProperty('extent')) {
+    if (!info.hasOwnProperty('extent')) {
       info.extent = A();
     }
 
@@ -26,17 +26,17 @@ export default Route.extend({
 
   subbar: 'control/subbar-extent',
 
-  extents: computed('model.json.metadata.resourceInfo.extent.[]', function () {
+  extents: computed('model.json.metadata.resourceInfo.extent.[]', function() {
     return this.currentRouteModel()
       .get('json.metadata.resourceInfo.extent');
   }),
 
-  clearSubbar: function () {
+  clearSubbar: function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
   }.on('deactivate'),
 
-  setupController: function () {
+  setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -56,7 +56,9 @@ export default Route.extend({
 
       extents.pushObject({
         description: '',
-        geographicElement: A()
+        geographicExtent: [{
+          geographicElement: A()
+        }]
       });
     },
     deleteExtent(id) {
@@ -78,7 +80,7 @@ export default Route.extend({
       let me = this;
 
       me.transitionTo(me.get('routeName'))
-        .then(function () {
+        .then(function() {
           me.setupController();
         });
     }

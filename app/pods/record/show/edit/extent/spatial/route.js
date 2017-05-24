@@ -63,11 +63,13 @@ export default Ember.Route.extend({
       return;
     }
 
-    if(!isArray(extent.geographicElement)) {
-      set(extent, 'geographicElement', []);
+    if(!isArray(extent.geographicExtent)) {
+      set(extent, 'geographicExtent', [{
+        geographicElement:NativeArray.apply([])
+      }]);
     }
 
-    let layers = NativeArray.apply(extent.geographicElement);
+    let layers = extent.geographicExtent[0].geographicElement;
 
     layers.forEach(function (l, idx, arr) {
       arr.replace(idx, 1, EmberObject.create(l));

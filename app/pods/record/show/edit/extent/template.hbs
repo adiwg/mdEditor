@@ -18,15 +18,15 @@
         </div>
       </div>
       <div class="col-sm-6 md-extent-map">
-        {{#if extent.geographicElement.length}}
-          {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(route-action "setupMap" extent.geographicElement)}}
+        {{#if extent.geographicExtent.0.geographicElement.length}}
+          {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(route-action "setupMap" extent.geographicExtent.0.geographicElement)}}
             {{!-- Specify child layer components here --}}
             {{#layer-group name="Terrain" baselayer=true default=true}}
               {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
             {{/layer-group}}
 
             {{#feature-group name="Features" default=true}}
-              {{#each extent.geographicElement as |l|}}
+              {{#each extent.geographicExtent.0.geographicElement as |l|}}
                 {{geojson-layer geoJSON=l}}
               {{/each}}
             {{/feature-group}}
