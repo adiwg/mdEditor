@@ -20,7 +20,7 @@ export default Ember.Route.extend({
     return this.store.peekRecord('record', params.record_id);
   },
   renderTemplate() {
-    this.render('records.nav', {
+    this.render('record.nav', {
       into: 'application',
       outlet: 'nav'
     });

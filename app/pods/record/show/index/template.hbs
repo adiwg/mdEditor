@@ -1,0 +1,84 @@
+{{#with model.json.metadata.resourceInfo as |resource|}}
+<div class="row">
+    <div class="col-sm-9 col-md-offset-1">
+        <h3>
+        {{fa-icon model.icon class="text-muted"}}
+
+      Viewing Record: {{model.title}}
+          <span class="text-danger">
+            {{#if model.hasDirtyHash}}
+              {{fa-icon "exclamation-circle"}}
+              {{tooltip-on-element text='This record has been modified!' side="right"
+                class="md-tooltip danger"
+              }}
+            {{/if}}
+          </span>
+    </h3>
+        {{#layout/md-card title="Basic Information" bodyIsRow=true}}
+            <dl class="dl-horizontal col-lg-6">
+                {{control/md-definition title="Record Id" text=model.recordId}}
+                {{control/md-definition title="Record Title" text=model.title}}
+                {{control/md-definition title="Status" text=(if resource.status (join ", " resource.status))}}
+                {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
+
+            </dl>
+            <dl class="dl-horizontal col-lg-6">
+                {{#control/md-definition title="Resource Type(s)" }}
+                    {{#each resource.resourceType as |type|}}
+                        {{type.type}}:
+                        {{#if type.name}}
+                            {{type.name}}
+                        {{else}}
+                            <em>Not named</em>
+                        {{/if}}
+                        <br>
+                        {{else}}
+                            <em class="text-muted">No types assigned!</em>
+                    {{/each}}
+                {{/control/md-definition}}
+            </dl>
+            <div class="col-xs-12">
+              {{#layout/md-card plain=true shadow=false}}
+                <div class="row">
+                  <div class="text-info col-xs-6 col-sm-3">Default Resource Locale</div>
+                  <div class="col-xs-6 col-sm-3">
+                    <label class="text-nowrap">Character Set:</label>
+                    <span class="text-nowrap">{{resource.defaultResourceLocale.characterSet}}</span>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
+                    <label>Country:</label>
+                    <span class="text-nowrap">{{resource.defaultResourceLocale.country}}</span>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
+                    <label>Language:</label>
+                    <span>{{resource.defaultResourceLocale.language}}</span>
+                  </div>
+                </div>
+              {{/layout/md-card}}
+            </div>
+        {{/layout/md-card}}
+
+        {{#layout/md-card title="Abstract" collapsible=true scroll=true maximizable=true}}
+            {{md-markdown resource.abstract "Abstract not provided!"}}
+        {{/layout/md-card}}
+
+        {{#layout/md-card title="Short Abstract" collapsible=true scroll=false}}
+            {{md-markdown resource.shortAbstract "Short Abstract not provided!"}}
+        {{/layout/md-card}}
+
+        {{outlet}}
+    </div>
+    <div class="col-sm-2">
+      <div class="md-control-sidebar">
+        {{#control/md-crud-buttons model=model doDelete="destroyRecord" doCopy="copyRecord" }}
+          {{#link-to "record.show.edit" model.id class="btn btn-lg btn-success" }}
+            {{fa-icon "pencil"}} Edit{{/link-to}}
+        {{/control/md-crud-buttons}}
+        <hr>
+        {{#link-to "records" class="btn btn-lg btn-primary btn-block" }}
+        {{fa-icon "list"}} Show List{{/link-to}}
+        {{control/md-scroll-spy}}
+      </div>
+    </div>
+</div>
+{{/with}}

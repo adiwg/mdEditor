@@ -38,7 +38,7 @@ export default Route.extend(HashPoll, {
    */
   renderTemplate(controller, model) {
     this.render('record.show.edit.nav', {
-      into: 'records.nav'
+      into: 'record.nav'
     });
     this.render('nav-secondary', {
       into: 'application',

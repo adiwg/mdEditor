@@ -50,6 +50,7 @@ Router.map(function () {
             this.route('citation');
           });
         });
+        this.route('translate');
       }
     );
   });

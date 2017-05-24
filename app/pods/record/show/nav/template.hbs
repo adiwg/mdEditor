@@ -1,15 +1,18 @@
 <li>
-  {{#link-to "translate"}}
+  {{#link-to "record.show.translate"}}
     <span class="fa fa-retweet"></span>
-    <span class="md-nav-text">Translate</span>
-    {{tooltip-on-element text="Translate" side="bottom" class="md-nav-tip"}}
+    <span class="md-nav-text">Translate</span> {{tooltip-on-element text="Translate" side="bottom" class="md-nav-tip"}}
   {{/link-to}}
 </li>
 <li>
-  {{#link-to "publish"}}
-    <span class="fa fa-share-square-o"></span>
-    <span class="md-nav-text">Publish</span>
-    {{tooltip-on-element text="Publish" side="bottom" class="md-nav-tip"}}
-  {{/link-to}}
+
+  <div class="row">
+    <form class="col-sm-11 col-md-offset-1">
+      {{#link-to "publish"}}
+        <span class="fa fa-share-square-o"></span>
+        <span class="md-nav-text">Publish</span> {{tooltip-on-element text="Publish" side="bottom" class="md-nav-tip"}}
+      {{/link-to}}
+    </form>
+  </div>
 </li>
 {{outlet}}
