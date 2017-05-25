@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.d27908f2",
+        "version": "0.0.0.b50f66c8",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -251,6 +251,13 @@
         },
         "app/pods/components/layout/md-nav-secondary/component.js": {
             "name": "app/pods/components/layout/md-nav-secondary/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/md-translate/component.js": {
+            "name": "app/pods/components/md-translate/component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1076,7 +1083,7 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 87,
+            "line": 88,
             "description": "A select list control for displaying and selecting options\nprovided in an array or promise array.",
             "is_constructor": 1
         },
@@ -2721,7 +2728,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 95,
+            "line": 96,
             "description": "An array or promise array containing the options for the\nselect list.\nAt a minimum the array elements should provide attributes for the\nname value pairs displayed as select list options.\nTooltips may also be included.\nOther attributes in the array elements will be ignored.",
             "itemtype": "property",
             "name": "objectArray",
@@ -2733,7 +2740,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 108,
+            "line": 109,
             "description": "The initial value of the select. Type must match the type of the attribute\nidentified by the path option.",
             "itemtype": "property",
             "name": "value",
@@ -2745,10 +2752,32 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 118,
-            "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
+            "line": 119,
+            "description": "Path in the model to be used for the select list's option value. Both\n`model` and `path` must be supplied together.",
             "itemtype": "property",
             "name": "path",
+            "type": "String",
+            "class": "md-select",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 127,
+            "description": "The model to be used to compute the value alias, generally used for\nvalidations. Both `model` and `path` must be supplied together.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "String",
+            "class": "md-select",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select/component.js",
+            "line": 135,
+            "description": "Name of the attribute in the objectArray to be used for the\nselect list's option value.",
+            "itemtype": "property",
+            "name": "valuePath",
             "type": "String",
             "required": 1,
             "class": "md-select",
@@ -2757,7 +2786,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 127,
+            "line": 144,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's option name or display text.",
             "itemtype": "property",
             "name": "namePath",
@@ -2769,7 +2798,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 136,
+            "line": 153,
             "description": "Indicates if icons should be rendered.",
             "itemtype": "property",
             "name": "icon",
@@ -2781,7 +2810,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 145,
+            "line": 162,
             "description": "The default icon.",
             "itemtype": "property",
             "name": "defaultIcon",
@@ -2794,7 +2823,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 155,
+            "line": 172,
             "description": "Indicates if tooltips should be rendered for the options.",
             "itemtype": "property",
             "name": "tooltip",
@@ -2806,7 +2835,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 164,
+            "line": 181,
             "description": "Name of the attribute in the objectArray to be used for the\nselect list's tooltip.  If null, no tooltip will be\ngenerated.",
             "itemtype": "property",
             "name": "tooltipPath",
@@ -2818,7 +2847,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 175,
+            "line": 192,
             "description": "Whether to render a button to clear the selection.",
             "itemtype": "property",
             "name": "allowClear",
@@ -2830,7 +2859,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 184,
+            "line": 201,
             "description": "Whether to render the search input.",
             "itemtype": "property",
             "name": "searchEnabled",
@@ -2842,7 +2871,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 193,
+            "line": 210,
             "description": "Whether to disable the select.",
             "itemtype": "property",
             "name": "disabled",
@@ -2854,7 +2883,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 202,
+            "line": 219,
             "description": "Whether to close the selection list after a selection has been made.",
             "itemtype": "property",
             "name": "closeOnSelect",
@@ -2866,7 +2895,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 211,
+            "line": 228,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -2878,7 +2907,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 220,
+            "line": 237,
             "description": "Form label for select list",
             "itemtype": "property",
             "name": "label",
@@ -2890,7 +2919,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 233,
+            "line": 250,
             "description": "Indicates whether to allow the user to enter a new option\nnot contained in the select list.",
             "itemtype": "property",
             "name": "create",
@@ -2902,7 +2931,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 243,
+            "line": 260,
             "description": "If set, removes the option with the specified id from the list. By default,\nit will hide options with a null id.",
             "itemtype": "property",
             "name": "filterId",
@@ -2915,7 +2944,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 254,
+            "line": 271,
             "description": "The component to render",
             "itemtype": "property",
             "name": "theComponent",
@@ -2929,7 +2958,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 266,
+            "line": 283,
             "description": "Callback after value is updated, usually an action is passed.",
             "itemtype": "method",
             "name": "change",
@@ -2939,7 +2968,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 273,
+            "line": 290,
             "description": "The currently selected item in the codelist",
             "itemtype": "property",
             "name": "selectedItem",
@@ -2953,7 +2982,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 293,
+            "line": 310,
             "description": "codelist is an array of code objects re-mapped from the input 'objectArray'.\nValues from the input object array are mapped according the path parameters\nprovided.",
             "itemtype": "property",
             "name": "codelist",
@@ -2967,7 +2996,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 337,
+            "line": 354,
             "description": "Creates a new codelist entry. The codeId and codeName are both set to the\npassed value.",
             "itemtype": "method",
             "name": "createCode",
@@ -2988,7 +3017,7 @@
         },
         {
             "file": "app/pods/components/input/md-select/component.js",
-            "line": 353,
+            "line": 370,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -3322,6 +3351,18 @@
         {
             "file": "app/pods/components/layout/md-card/component.js",
             "line": 46,
+            "description": "The card title icon.",
+            "itemtype": "property",
+            "name": "titleIcon",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 54,
             "description": "If true, the \"row\" the card body will be initally collapse.",
             "itemtype": "property",
             "name": "collapsed",
@@ -3333,7 +3374,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 54,
+            "line": 62,
             "description": "If true, the scroll-card class will be applied to the card.",
             "itemtype": "property",
             "name": "scroll",
@@ -3345,7 +3386,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 62,
+            "line": 70,
             "description": "If true, the maximize control will be avialable on the card.",
             "itemtype": "property",
             "name": "maximizable",
@@ -3357,7 +3398,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 70,
+            "line": 78,
             "description": "If true, a box shadow will be rendered around the card.",
             "itemtype": "property",
             "name": "shadow",
@@ -3369,7 +3410,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 79,
+            "line": 87,
             "description": "If true, the card-block class will be added.",
             "itemtype": "property",
             "name": "block",
@@ -3381,7 +3422,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 88,
+            "line": 96,
             "description": "If true, the collapse control will be added to the card header.",
             "itemtype": "property",
             "name": "collapsible",
@@ -3393,7 +3434,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 96,
+            "line": 104,
             "description": "If true, the \"row\" class will be added to the card body.",
             "itemtype": "property",
             "name": "bodyIsRow",
@@ -3405,7 +3446,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 104,
+            "line": 112,
             "description": "The data-spy text. Defaults to the title.",
             "itemtype": "property",
             "name": "data-spy",
@@ -3442,6 +3483,17 @@
             "description": "width that needs to be subtracted from the parent div width",
             "name": "offset",
             "type": "{Number}",
+            "class": "md-address",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/md-translate/component.js",
+            "line": 18,
+            "description": "Indicates whether empty tags should be written to the translated output",
+            "itemtype": "property",
+            "name": "showAllTags",
+            "type": "{Boolean}",
+            "default": "\"false\"",
             "class": "md-address",
             "module": "mdeditor"
         },

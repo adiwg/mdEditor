@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>tree-view - mdeditor</title>
+    <title>app/pods/components/md-translate/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -213,126 +213,183 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> tree-view Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/b50f66c8/lib/ember-json-tree/addon/components/tree-view.js#L9" target="_blank">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import moment from &#x27;moment&#x27;;
+const {
+  Component,
+  computed,
+  get,
+  inject,
+  set
+} = Ember;
 
-<div class="content-meta">
+export default Component.extend({
+  classNames: [&#x27;row&#x27;],
 
+  clean: inject.service(&#x27;cleaner&#x27;),
+  flashMessages:inject.service(),
+  //store: inject.service(),
 
-            Module: <a href="../modules/tree-view.html">tree-view</a><br>
-            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
+  /**
+   * Indicates whether empty tags should be written to the translated output
+   *
+   * @property showAllTags
+   * @type {Boolean}
+   * @default &quot;false&quot;
+   */
+  showAllTags: false,
 
+  writer: null,
 
-        <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/b50f66c8/lib/ember-json-tree/addon/components/tree-view.js#L9">lib/ember-json-tree/addon/components/tree-view.js:9</a>
-        </div>
-</div>
+  writerOptions: [{
+      name: &#x27;ISO 19115-2&#x27;,
+      value: &#x27;iso19115_2&#x27;,
+      type: &#x27;application/xml&#x27;,
+      tip: &#x27;International Standards Organization Geographic Information - Metadata 19115-2:2009&#x27;
+    }, {
+      name: &#x27;ISO 19110&#x27;,
+      value: &#x27;iso19110&#x27;,
+      type: &#x27;application/xml&#x27;,
+      tip: &#x27;International Standards Organization Geographic Information - Feature Catalogue 19110:2005&#x27;
+    }, {
+      name: &#x27;HTML&#x27;,
+      value: &#x27;html&#x27;,
+      type: &#x27;text/html&#x27;,
+      tip: &#x27;HTML &quot;human-readable&quot; and printable report of the metadata content&#x27;
+    },
+    {
+      name: &#x27;mdJSON&#x27;,
+      value: &#x27;mdJson&#x27;,
+      type: &#x27;application/json&#x27;,
+      tip: &#x27;Alaska Data Integration working group (ADIwg) metadata format&#x27;
+    }, {
+      name: &#x27;sbJSON(beta)&#x27;,
+      value: &#x27;sbJson&#x27;,
+      type: &#x27;application/json&#x27;,
+      tip: &#x27;USGS ScienceBase metadata format&#x27;
+    }
+  ],
 
+  result: null,
+  errors: null,
+  xhrError: null,
 
+  writeObj: computed(&#x27;writer&#x27;, function () {
+    return get(this, &#x27;writerOptions&#x27;).findBy(&#x27;value&#x27;, get(this,
+      &#x27;writer&#x27;));
+  }),
 
+  writerType: computed(&#x27;writeObj&#x27;, function () {
+    return get(this, &#x27;writeObj&#x27;).type.split(&#x27;/&#x27;)[1];
+  }),
 
-<div>
-    <div class="page-section">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
+  isJson: computed.equal(&#x27;writerType&#x27;, &#x27;json&#x27;),
 
-            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
+  messages: computed(&#x27;errors&#x27;, function () {
+    let err = get(this, &#x27;errors&#x27;);
 
+    if(err) {
+      return JSON.parse(err.readerValidationMessages[1]);
+    }
 
-        </ul>
+    return null;
+  }),
 
-        <!-- Tab panes -->
-        <div class="tab-content">
+  _clearResult() {
+    set(this, &#x27;result&#x27;, null);
+    set(this, &#x27;errors&#x27;, null);
+    set(this, &#x27;xhrError&#x27;, null);
+  },
 
-              <form id="options-form" class="form-inline">
-                  Show:
-                  <label for="api-show-inherited" class="checkbox">
-                      <input type="checkbox" id="api-show-inherited" checked>
-                      Inherited
-                  </label>
-          
-                  <label for="api-show-protected" class="checkbox">
-                      <input type="checkbox" id="api-show-protected">
-                      Protected
-                  </label>
-          
-                  <label for="api-show-private" class="checkbox">
-                      <input type="checkbox" id="api-show-private">
-                      Private
-                  </label>
-                  <label for="api-show-deprecated" class="checkbox">
-                      <input type="checkbox" id="api-show-deprecated">
-                      Deprecated
-                  </label>
-          
-              </form>
+  actions: {
+    translate() {
+      let model = get(this, &#x27;model&#x27;);
+      let json = JSON.parse(JSON.stringify(this.get(&#x27;clean&#x27;).clean(model.get(
+        &#x27;json&#x27;))));
+      let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
 
-          <div id="tab_index" role="tabpanel" class="tab-pane active" >
+      json.contact = contacts;
 
-                  <div class="index-section properties">
-                      <h3>Properties</h3>
+      console.info(JSON.stringify(json));
 
-                      <ul class="index-list properties">
-                              <li class="index-item property">
-                                  <a href="#property_selected">selected</a>
+      this._clearResult();
 
-                              </li>
-                      </ul>
-                  </div>
+      Ember.$.ajax(&quot;http://mdtranslator.adiwg.org/api/v2/translator&quot;, {
+        type: &#x27;POST&#x27;,
+        data: {
+          file: JSON.stringify(json),
+          reader: &#x27;mdJson&#x27;,
+          writer: get(this, &#x27;writer&#x27;),
+          showAllTags: get(this, &#x27;showAllTags&#x27;),
+          validate: &#x27;normal&#x27;,
+          format: &#x27;json&#x27;
+        },
+        context: this
+      }).then(function (response) {
+        //this.sendAction(&quot;select&quot;, response);
+        console.info(response);
 
+        if(response.success) {
+          set(this, &#x27;result&#x27;, response.data);
+          //Ember.$(&#x27;.md-translator-preview textarea&#x27;).val(response.data);
+        } else {
+          set(this, &#x27;errors&#x27;, response.messages);
+          get(this, &#x27;flashMessages&#x27;).danger(&#x27;Translation error!&#x27;);
+        }
+      }, (response) =&gt; {
+        let error =
+          &#x60;mdTranslator Server error:
+          ${response.status}: ${response.statusText}&#x60;;
 
-          </div>
+        set(this, &#x27;xhrError&#x27;, error);
+        get(this, &#x27;flashMessages&#x27;).danger(error);
+      });
 
+    },
+    saveResult() {
+      let title = get(this, &#x27;model.title&#x27;);
+      let result = get(this, &#x27;result&#x27;);
+      let writer = get(this, &#x27;writeObj&#x27;);
 
-              <div id="tab_properties" role="tabpanel" class="tab-pane">
-                  <div class="item-list">
-  
-  
-  <div id="property_selected" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_selected"></a>
-          selected
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/b50f66c8/lib/ember-json-tree/addon/components/tree-view.js#L24">lib/ember-json-tree/addon/components/tree-view.js:24</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Array containing initially selected node objects (models).
-  Objects in the array must have an identifier property.</p>
-  
-      </div>
-  
-  
-  
-  </div>
-                  </div>
-              </div>
+      window.saveAs(
+        new Blob([result], {
+          type: &#x60;${writer.type};charset=utf-8&#x60;
+        }),
+        &#x60;${title}_${moment().format(&#x27;YYYYMMDD&#x27;)}.${get(this, &#x27;writerType&#x27;)}&#x60;
+      );
+    },
+    clearResult() {
+      this._clearResult();
+    },
+    prettifyJson() {
+      let promise = new Ember.RSVP.Promise((resolve, reject) =&gt; {
+        let parsed = JSON.parse(get(this, &#x27;result&#x27;));
 
+        if(parsed) {
+          resolve(parsed);
+        } else {
+          reject(&#x27;JSON not valid&#x27;);
+        }
+      });
 
-      </div>
-    </div>
+      promise.then((obj) =&gt; {
+        set(this, &#x27;result&#x27;, JSON.stringify(obj, null, 2));
+      }).
+      catch((error) =&gt; {
+        console.log(error);
+        get(this, &#x27;flashMessages&#x27;).danger(error.message);
+      });
+    }
+  }
+});
+
+    </pre>
 </div>
                         </div>
                     </div>

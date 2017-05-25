@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d27908f2" target="_blank">
-                                  Tag: 0.0.0.d27908f2
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/b50f66c8" target="_blank">
+                                  Tag: 0.0.0.b50f66c8
                                 </a>
                             </h4>
                         </div>
@@ -230,6 +230,7 @@ import DS from &#x27;ember-data&#x27;;
 const {
   Component,
   defineProperty,
+  get,
   computed,
   isNone,
   isBlank,
@@ -337,10 +338,26 @@ export default Component.extend({
   value: null,
 
   /**
+   * Path in the model to be used for the select list&#x27;s option value. Both
+   * &#x60;model&#x60; and &#x60;path&#x60; must be supplied together.
+   *
+   * @property path
+   * @type String
+   */
+
+  /**
+   * The model to be used to compute the value alias, generally used for
+   * validations. Both &#x60;model&#x60; and &#x60;path&#x60; must be supplied together.
+   *
+   * @property model
+   * @type String
+   */
+
+  /**
    * Name of the attribute in the objectArray to be used for the
    * select list&#x27;s option value.
    *
-   * @property path
+   * @property valuePath
    * @type String
    * @required
    */
@@ -539,13 +556,13 @@ export default Component.extend({
       promise: inList.then(function (arr) {
         arr.forEach(function (item) {
           let newObject = {
-            codeId: item.get(codeId),
-            codeName: item.get(codeName),
+            codeId: get(item, codeId),
+            codeName: get(item, codeName),
             tooltip: false,
             icon: icons.get(item[codeName]) || icons.get(defaultIcon)
           };
           if(tooltip) {
-            newObject.tooltip = item.get(tooltip);
+            newObject.tooltip = get(item, tooltip);
           }
           outList.pushObject(newObject);
         });
