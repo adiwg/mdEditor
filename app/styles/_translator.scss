@@ -9,4 +9,20 @@
     height: 100% !important;
     width: 100% !important;
   }
+
+  .md-translator-area textarea {
+    height: 95% !important;
+  }
+
+  &.full-screen .card-footer {
+    display: none;
+  }
+}
+
+.md-translator-error {
+  background-color: $body-bg;
+
+  .card-header {
+    background-color: $brand-danger;
+  }
 }

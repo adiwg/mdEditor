@@ -22,6 +22,21 @@
       overflow-y: auto;
     }
   }
+
+  .card-footer {
+    .btn:focus {
+      outline: none;
+    }
+  }
+
+  &.card-inverse .md-card-maximize {
+    color: $body-bg;
+
+    &:hover {
+      color: darken($body-bg, 10);
+      font-weight: 900;
+    }
+  }
 }
 
 .md-card-chevron a {

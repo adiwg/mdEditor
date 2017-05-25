@@ -44,6 +44,14 @@ export default Component.extend({
    */
 
   /**
+   * The card title icon.
+   *
+   * @property titleIcon
+   * @type {String}
+   * @required
+   */
+
+  /**
    * If true, the "row" the card body will be initally collapse.
    *
    * @property collapsed

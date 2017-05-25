@@ -9,6 +9,7 @@ import DS from 'ember-data';
 const {
   Component,
   defineProperty,
+  get,
   computed,
   isNone,
   isBlank,
@@ -116,10 +117,26 @@ export default Component.extend({
   value: null,
 
   /**
+   * Path in the model to be used for the select list's option value. Both
+   * `model` and `path` must be supplied together.
+   *
+   * @property path
+   * @type String
+   */
+
+  /**
+   * The model to be used to compute the value alias, generally used for
+   * validations. Both `model` and `path` must be supplied together.
+   *
+   * @property model
+   * @type String
+   */
+
+  /**
    * Name of the attribute in the objectArray to be used for the
    * select list's option value.
    *
-   * @property path
+   * @property valuePath
    * @type String
    * @required
    */
@@ -318,13 +335,13 @@ export default Component.extend({
       promise: inList.then(function (arr) {
         arr.forEach(function (item) {
           let newObject = {
-            codeId: item.get(codeId),
-            codeName: item.get(codeName),
+            codeId: get(item, codeId),
+            codeName: get(item, codeName),
             tooltip: false,
             icon: icons.get(item[codeName]) || icons.get(defaultIcon)
           };
           if(tooltip) {
-            newObject.tooltip = item.get(tooltip);
+            newObject.tooltip = get(item, tooltip);
           }
           outList.pushObject(newObject);
         });

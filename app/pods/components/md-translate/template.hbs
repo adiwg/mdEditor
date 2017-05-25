@@ -1,0 +1,99 @@
+<div class="col-md-4">
+
+    {{#layout/md-card title="Options" class="md-translator-options" block=false}}
+        <form {{action "translate" on="submit"}}>
+            <div class="card-block">
+                {{input/md-select label="Choose Format"
+                  value=writer
+                  valuePath="value"
+                  namePath="name"
+                  objectArray=writerOptions
+                  tooltip=true
+                  tooltipPath="tip"
+                  searchEnabled=false
+                  change=(action "clearResult")
+                }}
+                <div class="form-group">
+                    <label>Show Empty Tags?</label>
+                    <div class="form-control">
+                        <div class="inline-block">
+                            {{input/md-toggle
+                              value=showAllTags
+                              onToggle=(mut showAllTags)
+                              showLabels=true
+                              onLabel="Yes::true"
+                              offLabel="No::false"
+                              size="medium"
+                              theme="form"
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-lg btn-primary pull-right"
+                disabled={{if writer false true}}>
+                    {{fa-icon "retweet"}} Translate </button>
+            </div>
+        </form>
+    {{/layout/md-card}}
+
+</div>
+<div class="col-md-7">
+    {{#if result}}
+      {{#layout/md-card
+        title="Result"
+        class="md-translator-preview"
+        scroll=false
+        maximizable=true
+        titleIcon="check"
+      }}
+          {{input/md-textarea rows=20 class="md-translator-area" placeholder="" value=result}}
+
+          <div class="card-footer text-right">
+            {{#if isJson}}
+              <button type="button" class="btn btn-lg btn-primary"
+              {{action "prettifyJson"}}
+              disabled={{if result false true}}>
+              {{fa-icon "align-left"}} Format </button>
+            {{/if}}
+
+              <button type="button" class="btn btn-lg btn-success"
+              {{action "saveResult"}}
+              disabled={{if result false true}}>
+              {{fa-icon "floppy-o"}} Save Result </button>
+          </div>
+      {{/layout/md-card}}
+    {{/if}}
+
+    {{#if messages}}
+      {{#layout/md-card
+        title="Translation Error"
+        class="card-inverse card-outline-danger md-translator-error"
+        scroll=false
+        maximizable=true
+        titleIcon="exclamation"
+      }}
+        <ul>
+          {{#each messages as |message|}}
+              <li>{{message}}</li>
+          {{/each}}
+        </ul>
+      {{/layout/md-card}}
+    {{/if}}
+
+    {{#if xhrError}}
+      {{#layout/md-card
+        title="mdTranslator Error"
+        class="card-inverse card-outline-danger md-translator-error"
+        scroll=false
+        maximizable=true
+        titleIcon="exclamation"
+      }}
+        <p>{{xhrError}}</p>
+        <p>An error occurred during the translation. The incident has been
+        logged. If the problem persists, please contact techincal support.</p>
+      {{/layout/md-card}}
+    {{/if}}
+</div>
+{{yield}}

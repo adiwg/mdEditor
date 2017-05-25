@@ -1,12 +1,6 @@
 <div class="row">
     <div class="col-sm-11 col-md-offset-1">
-<h3><button type="button"
-  class="btn btn-lg btn-success md-btn-responsive"
-  {{action (route-action "translate")}}>
-  {{fa-icon "retweet"}} Translate to ISO 19115-2</button> {{outlet}}
-</h3>
-  {{#layout/md-card title="Result" class="md-translator-preview" collapsible=false scroll=false maximizable=true}}
-  {{input/md-textarea rows=20 class="md-translator-area" placeholder=""}}
-  {{/layout/md-card}}
-</div>
+      <h3>Translate Record</h3>
+        {{md-translate model=model store=store}}
+    </div>
 </div>
