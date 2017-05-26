@@ -48,7 +48,13 @@
         maximizable=true
         titleIcon="check"
       }}
+          {{#if isHtml}}
+          <iframe srcdoc="{{result}}" sandbox="allow-scripts" width="100%" height="100%">
+
+          </iframe>
+          {{else}}
           {{input/md-textarea rows=20 class="md-translator-area" placeholder="" value=result}}
+          {{/if}}
 
           <div class="card-footer text-right">
             {{#if isJson}}

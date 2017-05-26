@@ -69,6 +69,7 @@ export default Component.extend({
   }),
 
   isJson: computed.equal('writerType', 'json'),
+  isHtml: computed.equal('writerType', 'html'),
 
   messages: computed('errors', function () {
     let err = get(this, 'errors');

@@ -14,8 +14,18 @@
     height: 95% !important;
   }
 
-  &.full-screen .card-footer {
-    display: none;
+  iframe {
+    min-height: 500px;
+  }
+
+  &.full-screen {
+    .card-footer {
+      display: none;
+    }
+
+    iframe {
+      height: 95%;
+    }
   }
 }
 
