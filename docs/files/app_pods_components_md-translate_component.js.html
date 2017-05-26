@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/b50f66c8" target="_blank">
-                                  Tag: 0.0.0.b50f66c8
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6ecefa3e" target="_blank">
+                                  Tag: 0.0.0.6ecefa3e
                                 </a>
                             </h4>
                         </div>
@@ -226,7 +226,7 @@ const {
   computed,
   get,
   inject,
-  set
+  set,$
 } = Ember;
 
 export default Component.extend({
@@ -290,6 +290,7 @@ export default Component.extend({
   }),
 
   isJson: computed.equal(&#x27;writerType&#x27;, &#x27;json&#x27;),
+  isHtml: computed.equal(&#x27;writerType&#x27;, &#x27;html&#x27;),
 
   messages: computed(&#x27;errors&#x27;, function () {
     let err = get(this, &#x27;errors&#x27;);
@@ -320,7 +321,8 @@ export default Component.extend({
 
       this._clearResult();
 
-      Ember.$.ajax(&quot;http://mdtranslator.adiwg.org/api/v2/translator&quot;, {
+      $.ajax(&quot;http://mdtranslator.adiwg.org/api/v2/translator&quot;, {
+      //$.ajax(&quot;http://localhost:8080/api/v2/translator&quot;, {
         type: &#x27;POST&#x27;,
         data: {
           file: JSON.stringify(json),
