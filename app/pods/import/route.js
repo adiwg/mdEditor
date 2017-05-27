@@ -21,7 +21,7 @@ export default Ember.Route.extend({
     case 'dictionaries':
       return json.dictionaryInfo.citation.title;
     case 'contacts':
-      return json.individualName || json.organizationName;
+      return json.name;
     default:
       return 'N/A';
     }
