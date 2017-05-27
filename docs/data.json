@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.6ecefa3e",
+        "version": "0.0.0.7594e8d9",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -109,6 +109,13 @@
             "classes": {
                 "md-scroll-spy": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/control/md-spinner/component.js": {
+            "name": "app/pods/components/control/md-spinner/component.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -1832,7 +1839,7 @@
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
-            "line": 5,
+            "line": 10,
             "description": "True to render in modal dialog",
             "type": "{Boolean}",
             "class": "md-scroll-spy",
@@ -1840,7 +1847,7 @@
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
-            "line": 12,
+            "line": 17,
             "description": "Element selector or element that serves as the reference for modal position",
             "itemtype": "property",
             "name": "target",
@@ -1850,9 +1857,9 @@
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
-            "line": 20,
-            "description": "Object to render as JSON in viewer",
-            "type": "{Object}",
+            "line": 25,
+            "description": "Object or string to render as JSON in viewer",
+            "type": "{ObjectString}",
             "class": "md-scroll-spy",
             "module": "mdeditor"
         },
@@ -2014,6 +2021,29 @@
             "class": "md-scroll-spy",
             "module": "mdeditor",
             "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-spinner/component.js",
+            "line": 6,
+            "description": "The size of the FontAwesome icon.",
+            "itemtype": "property",
+            "name": "size",
+            "type": "{String}",
+            "default": "\"false\"",
+            "optional": 1,
+            "class": "md-boolean",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/control/md-spinner/component.js",
+            "line": 15,
+            "description": "The the text to show below the spinner.",
+            "itemtype": "property",
+            "name": "text",
+            "type": "{String}",
+            "optional": 1,
+            "class": "md-boolean",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/input/md-boolean/component.js",
@@ -3488,7 +3518,7 @@
         },
         {
             "file": "app/pods/components/md-translate/component.js",
-            "line": 18,
+            "line": 19,
             "description": "Indicates whether empty tags should be written to the translated output",
             "itemtype": "property",
             "name": "showAllTags",
@@ -4480,11 +4510,11 @@
         },
         {
             "message": "Missing item type\nTrue to render in modal dialog",
-            "line": " app/pods/components/control/md-json-viewer/component.js:5"
+            "line": " app/pods/components/control/md-json-viewer/component.js:10"
         },
         {
-            "message": "Missing item type\nObject to render as JSON in viewer",
-            "line": " app/pods/components/control/md-json-viewer/component.js:20"
+            "message": "Missing item type\nObject or string to render as JSON in viewer",
+            "line": " app/pods/components/control/md-json-viewer/component.js:25"
         },
         {
             "message": "Missing item type\nClose action callback",

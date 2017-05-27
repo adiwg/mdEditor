@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6ecefa3e" target="_blank">
-                                  Tag: 0.0.0.6ecefa3e
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/7594e8d9" target="_blank">
+                                  Tag: 0.0.0.7594e8d9
                                 </a>
                             </h4>
                         </div>
@@ -226,14 +226,15 @@ const {
   computed,
   get,
   inject,
-  set,$
+  set,
+  $
 } = Ember;
 
 export default Component.extend({
   classNames: [&#x27;row&#x27;],
 
   clean: inject.service(&#x27;cleaner&#x27;),
-  flashMessages:inject.service(),
+  flashMessages: inject.service(),
   //store: inject.service(),
 
   /**
@@ -279,6 +280,8 @@ export default Component.extend({
   result: null,
   errors: null,
   xhrError: null,
+  isLoading: false,
+  subTitle:null,
 
   writeObj: computed(&#x27;writer&#x27;, function () {
     return get(this, &#x27;writerOptions&#x27;).findBy(&#x27;value&#x27;, get(this,
@@ -290,20 +293,41 @@ export default Component.extend({
   }),
 
   isJson: computed.equal(&#x27;writerType&#x27;, &#x27;json&#x27;),
-  isHtml: computed.equal(&#x27;writerType&#x27;, &#x27;html&#x27;),
+  isHtml: computed(&#x27;writerType&#x27;, function () {
+    //IE does not supoprt srcdoc, so default to non-html display
+    return get(this, &#x27;writerType&#x27;) === &#x27;html&#x27; &amp;&amp; &#x27;srcdoc&#x27; in document.createElement(
+      &#x27;iframe&#x27;);
+  }),
 
   messages: computed(&#x27;errors&#x27;, function () {
     let err = get(this, &#x27;errors&#x27;);
 
-    if(err) {
+    if(!err) {
+      return null;
+    }
+
+    if(!err.readerStructurePass) {
+      set(this,&#x27;subtitle&#x27;, &#x27;Errors ocurred when reading the mdJSON&#x27;);
+      return err.readerStructureMessages;
+    }
+
+    if(!err.readerValidationPass) {
+      set(this,&#x27;subtitle&#x27;, &#x27;mdJSON Schema validation failed&#x27;);
       return JSON.parse(err.readerValidationMessages[1]);
     }
 
-    return null;
+    if(!err.readerExecutionPass) {
+      return err.readerExecutionMessages;
+    }
+
+    if(!err.writerPass) {
+      return err.writerMessages;
+    }
   }),
 
   _clearResult() {
     set(this, &#x27;result&#x27;, null);
+    set(this, &#x27;subtitle&#x27;, null);
     set(this, &#x27;errors&#x27;, null);
     set(this, &#x27;xhrError&#x27;, null);
   },
@@ -320,9 +344,9 @@ export default Component.extend({
       console.info(JSON.stringify(json));
 
       this._clearResult();
+      set(this, &#x27;isLoading&#x27;, true);
 
       $.ajax(&quot;http://mdtranslator.adiwg.org/api/v2/translator&quot;, {
-      //$.ajax(&quot;http://localhost:8080/api/v2/translator&quot;, {
         type: &#x27;POST&#x27;,
         data: {
           file: JSON.stringify(json),
@@ -336,6 +360,8 @@ export default Component.extend({
       }).then(function (response) {
         //this.sendAction(&quot;select&quot;, response);
         console.info(response);
+
+        set(this, &#x27;isLoading&#x27;, false);
 
         if(response.success) {
           set(this, &#x27;result&#x27;, response.data);
