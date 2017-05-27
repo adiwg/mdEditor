@@ -6,10 +6,7 @@ import {
 
 const {
   computed,
-  Component,
-  set,
-  isNone,
-  get
+  Component
 } = Ember;
 
 const Validations = buildValidations({

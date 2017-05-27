@@ -20,7 +20,7 @@
           <td>{{item.json.dictionaryInfo.resourceType}}</td>
           <td>
             <div class="pull-right">
-              {{control/md-json-button json=item.json}}
+              {{control/md-json-button class="btn-xs btn-primary" json=item.cleanJson}}
               <button class="btn btn-xs btn-success" {{action "editItem" item}}>
                 {{fa-icon "pencil"}} Edit
               </button>

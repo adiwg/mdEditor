@@ -1,6 +1,11 @@
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const {
+  Component,
+  typeOf
+} = Ember;
+
+export default Component.extend({
   classNames: 'md-json-viewer',
   /**
    * True to render in modal dialog
@@ -18,9 +23,9 @@ export default Ember.Component.extend({
   target: 'html',
 
   /**
-   * Object to render as JSON in viewer
+   * Object or string to render as JSON in viewer
    *
-   * @type {Object}
+   * @type {ObjectString}
    */
   json: {},
 
@@ -39,8 +44,11 @@ export default Ember.Component.extend({
   },
 
   didInsertElement() {
+    let json = this.get('json');
+    let out = typeOf(json) === 'string' ? json : JSON.stringify(out);
+
     Ember.$('.md-viewer-body')
-      .JSONView(JSON.stringify(this.json));
+      .JSONView(out);
   },
 
   actions: {
