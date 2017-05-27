@@ -5,14 +5,15 @@ const {
   computed,
   get,
   inject,
-  set
+  set,
+  $
 } = Ember;
 
 export default Component.extend({
   classNames: ['row'],
 
   clean: inject.service('cleaner'),
-  flashMessages:inject.service(),
+  flashMessages: inject.service(),
   //store: inject.service(),
 
   /**
@@ -58,6 +59,8 @@ export default Component.extend({
   result: null,
   errors: null,
   xhrError: null,
+  isLoading: false,
+  subTitle:null,
 
   writeObj: computed('writer', function () {
     return get(this, 'writerOptions').findBy('value', get(this,
@@ -69,20 +72,41 @@ export default Component.extend({
   }),
 
   isJson: computed.equal('writerType', 'json'),
-  isHtml: computed.equal('writerType', 'html'),
+  isHtml: computed('writerType', function () {
+    //IE does not supoprt srcdoc, so default to non-html display
+    return get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement(
+      'iframe');
+  }),
 
   messages: computed('errors', function () {
     let err = get(this, 'errors');
 
-    if(err) {
+    if(!err) {
+      return null;
+    }
+
+    if(!err.readerStructurePass) {
+      set(this,'subtitle', 'Errors ocurred when reading the mdJSON');
+      return err.readerStructureMessages;
+    }
+
+    if(!err.readerValidationPass) {
+      set(this,'subtitle', 'mdJSON Schema validation failed');
       return JSON.parse(err.readerValidationMessages[1]);
     }
 
-    return null;
+    if(!err.readerExecutionPass) {
+      return err.readerExecutionMessages;
+    }
+
+    if(!err.writerPass) {
+      return err.writerMessages;
+    }
   }),
 
   _clearResult() {
     set(this, 'result', null);
+    set(this, 'subtitle', null);
     set(this, 'errors', null);
     set(this, 'xhrError', null);
   },
@@ -99,8 +123,9 @@ export default Component.extend({
       console.info(JSON.stringify(json));
 
       this._clearResult();
+      set(this, 'isLoading', true);
 
-      Ember.$.ajax("http://mdtranslator.adiwg.org/api/v2/translator", {
+      $.ajax("http://mdtranslator.adiwg.org/api/v2/translator", {
         type: 'POST',
         data: {
           file: JSON.stringify(json),
@@ -114,6 +139,8 @@ export default Component.extend({
       }).then(function (response) {
         //this.sendAction("select", response);
         console.info(response);
+
+        set(this, 'isLoading', false);
 
         if(response.success) {
           set(this, 'result', response.data);
