@@ -45,7 +45,7 @@ export default Component.extend({
 
   didInsertElement() {
     let json = this.get('json');
-    let out = typeOf(json) === 'string' ? json : JSON.stringify(out);
+    let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 
     Ember.$('.md-viewer-body')
       .JSONView(out);
