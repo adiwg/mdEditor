@@ -27,6 +27,8 @@
           doDelete="destroyRecord"
           doCopy="copyRecord" }}
       {{component subbar context=(route-action "getContext")}}
+      <hr>
+      {{from-elsewhere name="md-subbar-extra"}}
       {{control/md-scroll-spy offset=134 target=target.currentPath}}
     </div>
   </div>
