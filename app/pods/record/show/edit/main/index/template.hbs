@@ -58,11 +58,33 @@
           profilePath="record.main.pointOfContact"
         }}
 
+        {{#with resource.citation as |citation|}}
         {{#layout/md-card title="Citation" collapsible=true collapsed=false
           profilePath="record.main.citation" required=true
+          btnText="Edit" btnClass="success" btnAction=(route-action "editCitation") btnIcon="pencil"
         }}
-          {{#link-to 'record.show.edit.main.citation' class="btn btn-block btn-success"}}Edit Citation{{/link-to}}
+        <div class="row">
+
+          <dl class="dl-horizontal col-lg-6">
+              {{control/md-definition title="Title" text=citation.title}}
+          </dl>
+          <dl class="dl-horizontal col-lg-6">
+              {{#control/md-definition title="Alternate Titles" }}
+                  {{#each citation.alternateTitle as |title|}}
+                      {{title}}
+                      <br>
+                      {{else}}
+                      <em class="text-muted">No alternate titles assigned.</em>
+                  {{/each}}
+              {{/control/md-definition}}
+          </dl>
+        </div>
+          <div class="card-footer">
+            {{#link-to 'record.show.edit.main.citation' class="btn btn-success pull-right"}}Edit Citation{{/link-to}}
+          </div>
+
         {{/layout/md-card}}
+        {{/with}}
 
         {{#layout/md-card title="Description" collapsible=true collapsed=false
           profilePath="record.main.description"

@@ -17,6 +17,12 @@
             {{fa-icon windowIcon size=1 click=(action "toggleFullScreen")}}
           </a>
         {{/if}}
+        {{#if btnText}}
+          <button type="button" name="button" class="btn btn-{{if btnClass btnClass "primary"}} btn-xs pull-right" {{action btnAction}}>
+            {{fa-icon btnIcon}}
+            {{btnText}}
+          </button>
+        {{/if}}
       </h4>
   </div>
 {{/if}}

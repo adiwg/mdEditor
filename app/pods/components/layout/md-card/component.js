@@ -107,6 +107,36 @@ export default Component.extend({
    * @property bodyIsRow
    * @type {Boolean}
    * @default undefined
+
+  /**
+   * Bootstrap button class to apply to header buttton
+   *
+   * @property btnClass
+   * @type {String}
+   * @default 'primary'
+   */
+  default: 'primary',
+
+  /**
+   * Icon to display in heder button
+   *
+   * @property btnIcon
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * The text to display in the header button.
+   * @property btnText
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * The action to perform whrn the header button is clicked.
+   * @property btnAction
+   * @type {Function}
+   * @default undefined
    */
 
   /**
@@ -119,11 +149,11 @@ export default Component.extend({
    */
   'data-spy': computed.oneWay('title'),
 
-  windowIcon: computed('fullScreen', function() {
+  windowIcon: computed('fullScreen', function () {
     return this.get('fullScreen') ? 'compress' : 'expand';
   }),
 
-  isCollapsible: computed('fullScreen','collapsible', function() {
+  isCollapsible: computed('fullScreen', 'collapsible', function () {
     return !this.get('fullScreen') && this.get('collapsible');
   }),
 
