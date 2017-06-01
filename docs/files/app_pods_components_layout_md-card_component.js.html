@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/82b39784" target="_blank">
-                                  Tag: 0.0.0.82b39784
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bf89e16c" target="_blank">
+                                  Tag: 0.0.0.bf89e16c
                                 </a>
                             </h4>
                         </div>
@@ -328,6 +328,36 @@ export default Component.extend({
    * @property bodyIsRow
    * @type {Boolean}
    * @default undefined
+
+  /**
+   * Bootstrap button class to apply to header buttton
+   *
+   * @property btnClass
+   * @type {String}
+   * @default &#x27;primary&#x27;
+   */
+  default: &#x27;primary&#x27;,
+
+  /**
+   * Icon to display in heder button
+   *
+   * @property btnIcon
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * The text to display in the header button.
+   * @property btnText
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * The action to perform whrn the header button is clicked.
+   * @property btnAction
+   * @type {Function}
+   * @default undefined
    */
 
   /**
@@ -340,11 +370,11 @@ export default Component.extend({
    */
   &#x27;data-spy&#x27;: computed.oneWay(&#x27;title&#x27;),
 
-  windowIcon: computed(&#x27;fullScreen&#x27;, function() {
+  windowIcon: computed(&#x27;fullScreen&#x27;, function () {
     return this.get(&#x27;fullScreen&#x27;) ? &#x27;compress&#x27; : &#x27;expand&#x27;;
   }),
 
-  isCollapsible: computed(&#x27;fullScreen&#x27;,&#x27;collapsible&#x27;, function() {
+  isCollapsible: computed(&#x27;fullScreen&#x27;, &#x27;collapsible&#x27;, function () {
     return !this.get(&#x27;fullScreen&#x27;) &amp;&amp; this.get(&#x27;collapsible&#x27;);
   }),
 

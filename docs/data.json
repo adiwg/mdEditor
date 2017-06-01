@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.82b39784",
+        "version": "0.0.0.bf89e16c",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -49,9 +49,7 @@
         "app/pods/components/control/md-button-modal/component.js": {
             "name": "app/pods/components/control/md-button-modal/component.js",
             "modules": {},
-            "classes": {
-                "md-button-modal": 1
-            },
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -116,6 +114,15 @@
             "name": "app/pods/components/control/md-spinner/component.js",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/control/subbar-link/component.js": {
+            "name": "app/pods/components/control/subbar-link/component.js",
+            "modules": {},
+            "classes": {
+                "md-button-modal": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -881,9 +888,9 @@
             "extension_for": [],
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/pods/components/control/md-button-modal/component.js",
+            "file": "app/pods/components/control/subbar-link/component.js",
             "line": 4,
-            "description": "mdEditor Component that renders a button which displays a modal\ndialog when clicked.",
+            "description": "mdEditor Component that renders a button used to navigate to a parent route.",
             "submodule": "components-control",
             "is_constructor": 1
         },
@@ -2031,7 +2038,7 @@
             "type": "{String}",
             "default": "\"false\"",
             "optional": 1,
-            "class": "md-boolean",
+            "class": "md-button-modal",
             "module": "mdeditor"
         },
         {
@@ -2042,8 +2049,32 @@
             "name": "text",
             "type": "{String}",
             "optional": 1,
-            "class": "md-boolean",
+            "class": "md-button-modal",
             "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/control/subbar-link/component.js",
+            "line": 13,
+            "description": "The text to display",
+            "itemtype": "property",
+            "name": "text",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/subbar-link/component.js",
+            "line": 21,
+            "description": "The route to link to.",
+            "itemtype": "property",
+            "name": "route",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/input/md-boolean/component.js",
@@ -3467,8 +3498,20 @@
             "line": 104,
             "description": "If true, the \"row\" class will be added to the card body.",
             "itemtype": "property",
-            "name": "bodyIsRow",
-            "type": "{Boolean}",
+            "name": "btnClass",
+            "type": "{String}",
+            "default": "'primary'",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 120,
+            "description": "Icon to display in heder button",
+            "itemtype": "property",
+            "name": "btnIcon",
+            "type": "{String}",
             "default": "undefined",
             "class": "md-card",
             "module": "mdeditor",
@@ -3476,7 +3519,31 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 112,
+            "line": 128,
+            "description": "The text to display in the header button.",
+            "itemtype": "property",
+            "name": "btnText",
+            "type": "{String}",
+            "default": "undefined",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 135,
+            "description": "The action to perform whrn the header button is clicked.",
+            "itemtype": "property",
+            "name": "btnAction",
+            "type": "{Function}",
+            "default": "undefined",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 142,
             "description": "The data-spy text. Defaults to the title.",
             "itemtype": "property",
             "name": "data-spy",
