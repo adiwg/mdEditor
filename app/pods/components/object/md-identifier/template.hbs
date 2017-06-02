@@ -1,0 +1,22 @@
+{{input/md-input
+  valuePath="identifier"
+  model=this
+  placeholder="Enter the identifier for the resource."
+  label="Identifier"
+  required=true
+  showValidations=true
+  profilePath=(concat profilePath '.identifier')
+}}
+{{input/md-input
+  value=model.namespace
+  placeholder="Enter the namespace for the identifier."
+  label="Namespace"
+  profilePath=(concat profilePath '.namespace')
+}}
+{{input/md-input
+  value=model.version
+  placeholder="Enter the version for the identifier."
+  label="Version"
+  profilePath=(concat profilePath '.version')
+}}
+{{yield}}
