@@ -14,6 +14,7 @@ export default Component.extend({
     let model = get(this, 'model');
     set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
     set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
+    set(model, 'identifier', getWithDefault(model, 'identifier', []));
   },
   tagName: 'form',
 

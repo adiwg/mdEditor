@@ -1,15 +1,15 @@
 {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
-  profilePath="(concat profilePath 'basicInformation')" data-spy="Basic Information"
+  profilePath=(concat profilePath ".basicInformation") data-spy="Basic Information"
 }}
   {{input/md-input
     value=model.title
     placeholder="Enter the title for the resource."
     label="Title"
     required=true
-    profilePath=(concat profilePath '.title')
+    profilePath=(concat profilePath ".title")
   }}
 
-{{#layout/md-card shadow=false profilePath=(concat profilePath '.alternateTitle')}}
+{{#layout/md-card shadow=false profilePath=(concat profilePath ".alternateTitle")}}
   {{#object/md-simple-array-table
     data-spy=false
     title="Alternate Title"
@@ -21,7 +21,7 @@
   {{/object/md-simple-array-table}}
 {{/layout/md-card}}
 
-{{#layout/md-card shadow=false profilePath=(concat profilePath '.date') data-spy="Dates"}}
+{{#layout/md-card shadow=false profilePath=(concat profilePath ".date") data-spy="Dates"}}
   {{object/md-date-array value=model.date plain=true}}
 {{/layout/md-card}}
 
@@ -29,7 +29,7 @@
   value=model.edition
   placeholder="Enter the edition."
   label="Edition"
-  profilePath=(concat profilePath '.edition')
+  profilePath=(concat profilePath ".edition")
 }}
   {{!-- {{input/md-codelist-multi
     value=resource.status label="Status" required=true
@@ -63,9 +63,12 @@
   collapsible=true collapsed=false
   required=false
   value=model.responsibleParty
-  profilePath=(concat profilePath '.responsibleParty')
+  profilePath=(concat profilePath ".responsibleParty")
 }}
 
 {{object/md-online-resource-array model=model.onlineResource
   data-spy="Online Resource"}}
+
+{{object/md-identifier-array model=model.identifier
+  profilePath=(concat profilePath ".identifier") data-spy="Identifier"}}
 {{yield}}
