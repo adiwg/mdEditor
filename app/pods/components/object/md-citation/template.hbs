@@ -71,4 +71,28 @@
 
 {{object/md-identifier-array model=model.identifier
   profilePath=(concat profilePath ".identifier") data-spy="Identifier"}}
+
+{{#layout/md-card collapsible=true title="Series" profilePath=(concat profilePath ".series") data-spy="Series"}}
+  {{input/md-input
+    value=model.series.seriesName
+    placeholder="Enter the name for the series."
+    label="Name"
+    profilePath=(concat profilePath '.series.name')
+  }}
+
+  {{input/md-input
+    value=model.series.seriesIssue
+    placeholder="Enter the issue for the series."
+    label="Issue"
+    profilePath=(concat profilePath '.series.issue')
+  }}
+
+  {{input/md-input
+    value=model.series.issuePage
+    placeholder="Enter the page(s) for the issue."
+    label="Page"
+    profilePath=(concat profilePath '.series.page')
+  }}
+{{/layout/md-card}}
+
 {{yield}}

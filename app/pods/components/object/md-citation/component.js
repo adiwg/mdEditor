@@ -15,6 +15,7 @@ export default Component.extend({
     set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
     set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
     set(model, 'identifier', getWithDefault(model, 'identifier', []));
+    set(model, 'series', getWithDefault(model, 'series', {}));
   },
   tagName: 'form',
 
