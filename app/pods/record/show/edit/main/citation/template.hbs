@@ -18,4 +18,7 @@
       {{outlet}}
     </div>
 {{/with}}
-{{to-elsewhere named="md-subbar-extra" send=(component "control/subbar-link" text="Back to Record" route="record.show.edit.main")}}
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Main" icon="arrow-left" route="record.show.edit.main")
+}}
