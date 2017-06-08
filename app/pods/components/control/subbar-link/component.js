@@ -19,6 +19,14 @@ export default Ember.Component.extend({
    */
 
   /**
+   * The button icon
+   *
+   * @property icon
+   * @type {String}
+   * @required
+   */
+
+  /**
    * The route to link to.
    *
    * @property route
