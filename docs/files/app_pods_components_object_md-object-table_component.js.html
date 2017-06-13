@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bf89e16c" target="_blank">
-                                  Tag: 0.0.0.bf89e16c
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e4f0c7a9" target="_blank">
+                                  Tag: 0.0.0.e4f0c7a9
                                 </a>
                             </h4>
                         </div>
@@ -143,6 +143,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-graphic-array.html">md-graphic-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-input.html">md-input</a>
@@ -253,6 +256,8 @@ export default Component.extend(Template, {
   },
 
   attributeBindings: [&#x27;data-spy&#x27;],
+  classNameBindings: [&#x27;shadow:box-shadow--8dp&#x27;],
+  //classNames: [&#x27;md-object-table&#x27;, &#x27;panel&#x27;, &#x27;panel-default&#x27;],
 
   //reset the &#x27;editing&#x27; flag
   didUpdateAttrs() {
@@ -346,6 +351,15 @@ export default Component.extend(Template, {
    */
 
   /**
+   * If true, a box shadow will be rendered around the panel.
+   *
+   * @property shadow
+   * @type {Boolean}
+   * @default true
+   */
+  shadow: true,
+
+  /**
    * Uses isCollapsed if defined, otherwise inspects array length.
    *
    * @property collapsed
@@ -354,20 +368,20 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;items.[]&#x27;, function () {
+  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;items.[]&#x27;, function() {
     let isCollapsed = this.get(&#x27;isCollapsed&#x27;);
     let value = this.get(&#x27;items&#x27;);
 
-    if(isCollapsed !== undefined) {
+    if (isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(value &amp;&amp; value.length &gt; 0) {
+    } else if (value &amp;&amp; value.length &gt; 0) {
       return false;
     } else {
       return true;
     }
   }),
 
-  panelId: computed(&#x27;items.@each.val&#x27;, &#x27;editing&#x27;, function () {
+  panelId: computed(&#x27;items.@each.val&#x27;, &#x27;editing&#x27;, function() {
     return &#x27;panel-&#x27; + this.get(&#x27;elementId&#x27;);
   }),
 
@@ -379,14 +393,14 @@ export default Component.extend(Template, {
     return i;
   }),*/
 
-  attrArray: computed(&#x27;attributes&#x27;, function () {
+  attrArray: computed(&#x27;attributes&#x27;, function() {
     return this.get(&#x27;attributes&#x27;)
       .split(&#x27;,&#x27;);
   }),
 
-  attrTitleArray: computed(&#x27;attrArray&#x27;, function () {
+  attrTitleArray: computed(&#x27;attrArray&#x27;, function() {
     return this.get(&#x27;attrArray&#x27;)
-      .map(function (item) {
+      .map(function(item) {
         return item.trim()
           .dasherize()
           .replace(/-/g, &#x27; &#x27;);
@@ -395,7 +409,7 @@ export default Component.extend(Template, {
 
   editing: false,
 
-  editingChanged: observer(&#x27;editing&#x27;, function () {
+  editingChanged: observer(&#x27;editing&#x27;, function() {
     // deal with the change
     //Ember.run.schedule(&#x27;afterRender&#x27;, this, function () {
     let panel = this.$(&#x27;&gt; .md-object-table &gt; .panel-collapse&#x27;);
@@ -404,22 +418,22 @@ export default Component.extend(Template, {
     let items = this.get(&#x27;items&#x27;);
     let editing = this.get(&#x27;editing&#x27;);
 
-    if(editing === &#x27;adding&#x27;) {
+    if (editing === &#x27;adding&#x27;) {
       items.pushObject(this.get(&#x27;saveItem&#x27;));
     }
 
-    if(editing === false &amp;&amp; items.length) {
+    if (editing === false &amp;&amp; items.length) {
       let last = Object.keys(items.get(&#x27;lastObject&#x27;));
 
-      if(isEmpty(last)) {
+      if (isEmpty(last)) {
         items.popObject();
       }
     }
 
-    if(panel.hasClass(&#x27;in&#x27;)) {
+    if (panel.hasClass(&#x27;in&#x27;)) {
       table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
     } else { //add a one-time listener to wait until panel is open
-      panel.one(&#x27;shown.bs.collapse&#x27;, function () {
+      panel.one(&#x27;shown.bs.collapse&#x27;, function() {
         table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
       });
       panel.collapse(&#x27;show&#x27;);
@@ -427,18 +441,18 @@ export default Component.extend(Template, {
     //});
   }),
 
-  pillColor: computed(&#x27;items.[]&#x27;, function () {
+  pillColor: computed(&#x27;items.[]&#x27;, function() {
     let count = this.get(&#x27;items&#x27;)
       .length;
-    return(count &gt; 0) ? &#x27;label-info&#x27; : &#x27;label-warning&#x27;;
+    return (count &gt; 0) ? &#x27;label-info&#x27; : &#x27;label-warning&#x27;;
   }),
 
   actions: {
-    deleteItem: function (items, index) {
+    deleteItem: function(items, index) {
       items.removeAt(index);
     },
 
-    addItem: function () {
+    addItem: function() {
       const Template = this.get(&#x27;templateClass&#x27;);
       const owner = getOwner(this);
 
@@ -449,12 +463,12 @@ export default Component.extend(Template, {
       this.set(&#x27;editing&#x27;, &#x27;adding&#x27;);
     },
 
-    editItem: function (items, index) {
+    editItem: function(items, index) {
       this.set(&#x27;saveItem&#x27;, items.objectAt(index));
       this.set(&#x27;editing&#x27;, &#x27;editing&#x27;);
     },
 
-    cancelEdit: function () {
+    cancelEdit: function() {
       this.set(&#x27;editing&#x27;, false);
     }
   }

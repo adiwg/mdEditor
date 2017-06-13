@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bf89e16c" target="_blank">
-                                  Tag: 0.0.0.bf89e16c
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e4f0c7a9" target="_blank">
+                                  Tag: 0.0.0.e4f0c7a9
                                 </a>
                             </h4>
                         </div>
@@ -143,6 +143,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-graphic-array.html">md-graphic-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-input.html">md-input</a>
@@ -234,35 +237,39 @@ export default Component.extend({
 
     let model = get(this, &#x27;model&#x27;);
     set(model, &#x27;responsibleParty&#x27;, getWithDefault(model, &#x27;responsibleParty&#x27;, []));
+    set(model, &#x27;presentationForm&#x27;, getWithDefault(model, &#x27;presentationForm&#x27;, []));
     set(model, &#x27;onlineResource&#x27;, getWithDefault(model, &#x27;onlineResource&#x27;, []));
+    set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, []));
+    set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
+    set(model, &#x27;series&#x27;, getWithDefault(model, &#x27;series&#x27;, {}));
   },
   tagName: &#x27;form&#x27;,
 
   /**
-   * profilePath
+   * The string representing the path in the profile object for the citation.
    *
-   * @property myProperty
-   * @type {Boolean}
+   * @property profilePath
+   * @type {String}
    * @default &quot;false&quot;
-   * @static
-   * @readOnly
-   * @writeOnce
-   * @optional
    * @required
    */
 
   /**
-   * model
+   * The object to use as the data model for the citation.
    *
-   * @property myProperty
-   * @type {Boolean}
-   * @default &quot;false&quot;
-   * @static
-   * @readOnly
-   * @writeOnce
-   * @optional
+   * @property model
+   * @type {Object}
    * @required
    */
+
+  /**
+   * Indicates whether the citation is embedded and should prevent recursion.
+   *
+   * @property embedded
+   * @type {Boolean}
+   * @default &quot;false&quot;
+   */
+  embedded: false
 });
 
     </pre>

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bf89e16c" target="_blank">
-                                  Tag: 0.0.0.bf89e16c
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e4f0c7a9" target="_blank">
+                                  Tag: 0.0.0.e4f0c7a9
                                 </a>
                             </h4>
                         </div>
@@ -145,6 +145,9 @@
                                         <a href="../classes/md-graphic-array.html">md-graphic-array</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-input.html">md-input</a>
                                     </li>
                                     <li>
@@ -228,10 +231,18 @@ const {
 
 export default Component.extend({
   /**
-   * mdEditor class for input and edit of mdJSON &#x27;graphic&#x27; object
-   * arrays.
-   * The class manages the maintenance of an array of graphic
-   * objects using the md-object-table class.
+   * mdEditor class for input and edit of mdJSON &#x27;graphic&#x27; object arrays. The
+   * class manages the maintenance of an array of graphic objects using the
+   * md-object-table class.
+   *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{object/md-graphic-array
+   *   model=model
+   *   data-spy=&quot;Graphic&quot;
+   *   button-text=&quot;Add Graphic&quot;
+   *   label=&quot;Graphic&quot;
+   * }}
+   * &#x60;&#x60;&#x60;
    *
    * @class md-graphic-array
    * @constructor

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bf89e16c" target="_blank">
-                                  Tag: 0.0.0.bf89e16c
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e4f0c7a9" target="_blank">
+                                  Tag: 0.0.0.e4f0c7a9
                                 </a>
                             </h4>
                         </div>
@@ -145,6 +145,9 @@
                                         <a href="../classes/md-graphic-array.html">md-graphic-array</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-input.html">md-input</a>
                                     </li>
                                     <li>
@@ -225,10 +228,21 @@ import MdCodelist from &#x27;../md-codelist/component&#x27;;
 export default MdCodelist.extend({
   classNames: [&#x27;md-codelist-multi&#x27;],
   /**
-   * Specialized select list control for displaying and selecting
-   * options in mdCodes codelists.
-   * Extends md-codelist.
-   * Allows selection of multiple options.
+   * Specialized select list control for displaying and selecting options in
+   * mdCodes codelists. Extends md-codelist. Allows selection of multiple
+   * options.
+   *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{input/md-codelist-multi
+   *   value=array
+   *   create=true
+   *   tooltip=true
+   *   icon=false
+   *   mdCodeName=&quot;codeName&quot;
+   *   closeOnSelect=false
+   *   placeholder=&quot;Select or enter one or more&quot;
+   * }}
+   * &#x60;&#x60;&#x60;
    *
    * @module mdeditor
    * @submodule components-input
@@ -266,7 +280,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed(&#x27;create&#x27;, function () {
+  theComponent: Ember.computed(&#x27;create&#x27;, function() {
     return this.get(&#x27;create&#x27;) ? &#x27;power-select-multiple-with-create&#x27; :
       &#x27;power-select-multiple&#x27;;
   }),
@@ -296,11 +310,11 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed(&#x27;value&#x27;, function () {
+  selectedItem: Ember.computed(&#x27;value&#x27;, function() {
     let value = this.get(&#x27;value&#x27;);
     let codelist = this.get(&#x27;codelist&#x27;);
 
-    if(value) {
+    if (value) {
       return codelist.filter((item) =&gt; {
         return value.includes(item[&#x27;codeId&#x27;]);
       });
@@ -316,17 +330,17 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: Ember.computed(&#x27;value&#x27;, &#x27;filterId&#x27;, function () {
+  codelist: Ember.computed(&#x27;value&#x27;, &#x27;filterId&#x27;, function() {
     let codelist = this.get(&#x27;mapped&#x27;);
     let value = this.get(&#x27;value&#x27;);
     let create = this.get(&#x27;create&#x27;);
     let filter = this.get(&#x27;filterId&#x27;);
 
-    if(value) {
-      if(create) {
+    if (value) {
+      if (create) {
         value.forEach((val) =&gt; {
           let found = codelist.findBy(&#x27;codeId&#x27;, val);
-          if(found === undefined) {
+          if (found === undefined) {
             let newObject = this.createCode(val);
             codelist.pushObject(newObject);
           }
@@ -349,7 +363,7 @@ export default MdCodelist.extend({
 
     //power-select-with-create always sends a single object oncreate
     //we need to add that object to the selectedItem array
-    if(this.get(&#x27;create&#x27;) &amp;&amp; !Ember.isArray(selected)) {
+    if (this.get(&#x27;create&#x27;) &amp;&amp; !Ember.isArray(selected)) {
       sel = this.get(&#x27;selectedItem&#x27;)
         .compact();
       sel.pushObject(selected);
