@@ -7,10 +7,18 @@ const {
 
 export default Component.extend({
   /**
-   * mdEditor class for input and edit of mdJSON 'graphic' object
-   * arrays.
-   * The class manages the maintenance of an array of graphic
-   * objects using the md-object-table class.
+   * mdEditor class for input and edit of mdJSON 'graphic' object arrays. The
+   * class manages the maintenance of an array of graphic objects using the
+   * md-object-table class.
+   *
+   * ```handlebars
+   * \{{object/md-graphic-array
+   *   model=model
+   *   data-spy="Graphic"
+   *   button-text="Add Graphic"
+   *   label="Graphic"
+   * }}
+   * ```
    *
    * @class md-graphic-array
    * @constructor

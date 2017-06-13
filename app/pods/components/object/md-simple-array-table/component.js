@@ -11,6 +11,19 @@ export default ArrayTable.extend({
    * mdEditor component for input and edit of arrays of scalars. The
    * component is rendered as an editable table.
    *
+   * ```handlebars
+   * {{#object/md-simple-array-table
+   *   title="Simple"
+   *   required=false
+   *   plain=true
+   *   value=model as |val|
+   * }}
+   *   <td>
+   *       {{input/md-input value=val.item.value
+   *       placeholder="Enter value"}}
+   *   </td>
+   * {{/object/md-simple-array-table}}
+   * ```
    * @class md-simple-array-table
    * @module mdeditor
    * @submodule components-object

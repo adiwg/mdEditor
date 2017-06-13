@@ -124,6 +124,16 @@ export default Component.extend(Template, {
   title: 'Item',
 
   /**
+   * The data-spy text. Defaults to the title.
+   *
+   * @property data-spy
+   * @type {String}
+   * @default "this.title"
+   * @category computed
+   */
+  'data-spy': computed.oneWay('title'),
+
+  /**
    * Array of column headers
    *
    * @property columnArray
