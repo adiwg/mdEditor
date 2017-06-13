@@ -28,7 +28,7 @@ export default Component.extend({
   offset: 110,
 
   setupSpy() {
-    let liquid = $('.liquid-spy').length ? '.liquid-spy .liquid-child:first-child ' : '';
+    let liquid = $('.liquid-spy').length ? '.liquid-spy .liquid-child:first ' : '';
     let $links =  $(`${liquid}[data-spy]:visible`);
     //let $this  = this.$();
     let $ul = $('<ul class="nav nav-pills nav-stacked"></ul>');
