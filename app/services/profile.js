@@ -110,11 +110,20 @@ export default Ember.Service.extend({
               date: true,
               edition: true,
               responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails:true,
+              graphic: true,
               identifier: {
                 identifier: true,
                 namespace: true,
                 version: true,
-                description: true
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
               }
             }
           }

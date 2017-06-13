@@ -32,11 +32,13 @@
 {{#layout/md-card
   title="Authority"
   profilePath=(concat profilePath '.authority')
-  shadow=false
+  shadow=true
+  collapsible=true
 }}
-{{object/md-citation
-  model=model.authority
-  profilePath=(concat profilePath '.authority')
-}}
+  {{object/md-citation
+    model=model.authority
+    profilePath=(concat profilePath '.authority')
+    embedded=true
+  }}
 {{/layout/md-card}}
 {{yield}}

@@ -2,8 +2,8 @@
   margin-bottom: 30px;
 
   &.collapse {
-    padding: 15px 0 10px;
     background-color: lighten($brand-primary, 47);
+    padding: 15px 0 10px;
   }
 }
 
@@ -12,17 +12,15 @@
 
   a {
     text-decoration: none;
-  }
 
-  a.collapsed span:before {
-    content: '\f107';
+    &.collapsed span::before {
+      content: '\f107';
+    }
   }
 }
-/* use .invisible
-.invisible {
-  visibility: hidden;
-}*/
+
 .md-panel-chevron a {
+  color: $link-color;
   text-decoration: none;
 
   span::before {
@@ -31,6 +29,10 @@
 
   &.collapsed span::before {
     content: '\f107';
+  }
+
+  &:hover {
+    color: $link-hover-color;
   }
 }
 
@@ -67,15 +69,15 @@ form {
   }
 
   tfoot {
-    background-color: lighten($gray-lighter,5);
+    background-color: lighten($gray-lighter, 5);
   }
 }
 
 //borrowed from Bootstrap v4
 .label-pill {
-  padding-right: .6em;
-  padding-left: .6em;
   border-radius: 10rem;
+  padding-left: .6em;
+  padding-right: .6em;
 }
 
 .panel-title {

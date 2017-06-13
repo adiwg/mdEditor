@@ -8,17 +8,26 @@ const {
 
 export default Table.extend({
   /**
-  * The route used to edit items
-  *
-  * @property itemRoute
-  * @type {String}
-  * @required
-  */
+   * The route used to edit items
+   *
+   * @property itemRoute
+   * @type {String}
+   * @required
+   */
+
+  /**
+   * Method used to load form for editing item. Should be overidden.
+   *
+   * @method editItem
+   */
+  editItem() {
+    return this;
+  },
 
   layoutName: 'components/object/md-object-table',
 
   actions: {
-    addItem: function () {
+    addItem: function() {
       const Template = this.get('templateClass');
       const owner = getOwner(this);
 
@@ -27,12 +36,11 @@ export default Table.extend({
         Ember.Object.create({});
 
       items.pushObject(itm);
-      
+      this.get('editItem')(items.indexOf(itm));
     },
 
-    editItem: function (items, index) {
-      this.set('saveItem', items.objectAt(index));
-      this.set('editing', 'editing');
+    editItem: function(items, index) {
+      this.get('editItem')(index);
     }
   }
 });

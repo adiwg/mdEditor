@@ -47,7 +47,11 @@ Router.map(function () {
           this.route('coverages');
           this.route('grid');
           this.route('main', function() {
-            this.route('citation');
+            this.route('citation', function() {
+              this.route('identifier', {
+                path: 'identifier/:identifier_id'
+              });
+            });
           });
         });
         this.route('translate');

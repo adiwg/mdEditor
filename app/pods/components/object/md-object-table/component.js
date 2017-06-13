@@ -32,6 +32,8 @@ export default Component.extend(Template, {
   },
 
   attributeBindings: ['data-spy'],
+  classNameBindings: ['shadow:box-shadow--8dp'],
+  //classNames: ['md-object-table', 'panel', 'panel-default'],
 
   //reset the 'editing' flag
   didUpdateAttrs() {
@@ -125,6 +127,15 @@ export default Component.extend(Template, {
    */
 
   /**
+   * If true, a box shadow will be rendered around the panel.
+   *
+   * @property shadow
+   * @type {Boolean}
+   * @default true
+   */
+  shadow: true,
+
+  /**
    * Uses isCollapsed if defined, otherwise inspects array length.
    *
    * @property collapsed
@@ -133,20 +144,20 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', 'items.[]', function () {
+  collapsed: computed('isCollapsed', 'items.[]', function() {
     let isCollapsed = this.get('isCollapsed');
     let value = this.get('items');
 
-    if(isCollapsed !== undefined) {
+    if (isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(value && value.length > 0) {
+    } else if (value && value.length > 0) {
       return false;
     } else {
       return true;
     }
   }),
 
-  panelId: computed('items.@each.val', 'editing', function () {
+  panelId: computed('items.@each.val', 'editing', function() {
     return 'panel-' + this.get('elementId');
   }),
 
@@ -158,14 +169,14 @@ export default Component.extend(Template, {
     return i;
   }),*/
 
-  attrArray: computed('attributes', function () {
+  attrArray: computed('attributes', function() {
     return this.get('attributes')
       .split(',');
   }),
 
-  attrTitleArray: computed('attrArray', function () {
+  attrTitleArray: computed('attrArray', function() {
     return this.get('attrArray')
-      .map(function (item) {
+      .map(function(item) {
         return item.trim()
           .dasherize()
           .replace(/-/g, ' ');
@@ -174,7 +185,7 @@ export default Component.extend(Template, {
 
   editing: false,
 
-  editingChanged: observer('editing', function () {
+  editingChanged: observer('editing', function() {
     // deal with the change
     //Ember.run.schedule('afterRender', this, function () {
     let panel = this.$('> .md-object-table > .panel-collapse');
@@ -183,22 +194,22 @@ export default Component.extend(Template, {
     let items = this.get('items');
     let editing = this.get('editing');
 
-    if(editing === 'adding') {
+    if (editing === 'adding') {
       items.pushObject(this.get('saveItem'));
     }
 
-    if(editing === false && items.length) {
+    if (editing === false && items.length) {
       let last = Object.keys(items.get('lastObject'));
 
-      if(isEmpty(last)) {
+      if (isEmpty(last)) {
         items.popObject();
       }
     }
 
-    if(panel.hasClass('in')) {
+    if (panel.hasClass('in')) {
       table.toggleClass('fadeOut fadeIn');
     } else { //add a one-time listener to wait until panel is open
-      panel.one('shown.bs.collapse', function () {
+      panel.one('shown.bs.collapse', function() {
         table.toggleClass('fadeOut fadeIn');
       });
       panel.collapse('show');
@@ -206,18 +217,18 @@ export default Component.extend(Template, {
     //});
   }),
 
-  pillColor: computed('items.[]', function () {
+  pillColor: computed('items.[]', function() {
     let count = this.get('items')
       .length;
-    return(count > 0) ? 'label-info' : 'label-warning';
+    return (count > 0) ? 'label-info' : 'label-warning';
   }),
 
   actions: {
-    deleteItem: function (items, index) {
+    deleteItem: function(items, index) {
       items.removeAt(index);
     },
 
-    addItem: function () {
+    addItem: function() {
       const Template = this.get('templateClass');
       const owner = getOwner(this);
 
@@ -228,12 +239,12 @@ export default Component.extend(Template, {
       this.set('editing', 'adding');
     },
 
-    editItem: function (items, index) {
+    editItem: function(items, index) {
       this.set('saveItem', items.objectAt(index));
       this.set('editing', 'editing');
     },
 
-    cancelEdit: function () {
+    cancelEdit: function() {
       this.set('editing', false);
     }
   }

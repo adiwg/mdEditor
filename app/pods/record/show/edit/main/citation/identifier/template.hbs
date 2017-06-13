@@ -1,0 +1,18 @@
+<h4 class="col-sm-11 col-md-offset-1 section-header">
+  Editing Identifier: {{model.identifier}}
+  {{control/md-status model=model}}
+</h4>
+
+<div class="row">
+  {{object/md-identifier
+    class="col-sm-11 col-md-offset-1"
+    model=model
+    profilePath="record.main.citation.identifier"
+  }}
+  {{outlet}}
+</div>
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Citation" icon="arrow-left" route="record.show.edit.main.citation")
+}}

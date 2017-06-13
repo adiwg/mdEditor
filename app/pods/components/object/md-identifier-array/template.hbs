@@ -1,14 +1,10 @@
-{{#object/md-objectroute-table
+{{object/md-objectroute-table
   items=model
   header=label
   buttonText="Add Identifier"
   ellipsis=ellipsis
   templateClass=templateClass
-  attributes=attributes as |editing|
+  editItem=editItem
+  attributes=attributes
 }}
-    Editing: {{editing.identifier}}
-
-    {{object/md-identifier model=editing profilePath=profilePath}}
-
-{{/object/md-objectroute-table}}
 {{yield}}

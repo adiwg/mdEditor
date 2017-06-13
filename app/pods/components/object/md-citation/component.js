@@ -13,35 +13,37 @@ export default Component.extend({
 
     let model = get(this, 'model');
     set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
+    set(model, 'presentationForm', getWithDefault(model, 'presentationForm', []));
     set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
     set(model, 'identifier', getWithDefault(model, 'identifier', []));
+    set(model, 'graphic', getWithDefault(model, 'graphic', []));
     set(model, 'series', getWithDefault(model, 'series', {}));
   },
   tagName: 'form',
 
   /**
-   * profilePath
+   * The string representing the path in the profile object for the citation.
    *
-   * @property myProperty
-   * @type {Boolean}
+   * @property profilePath
+   * @type {String}
    * @default "false"
-   * @static
-   * @readOnly
-   * @writeOnce
-   * @optional
    * @required
    */
 
   /**
-   * model
+   * The object to use as the data model for the citation.
    *
-   * @property myProperty
-   * @type {Boolean}
-   * @default "false"
-   * @static
-   * @readOnly
-   * @writeOnce
-   * @optional
+   * @property model
+   * @type {Object}
    * @required
    */
+
+  /**
+   * Indicates whether the citation is embedded and should prevent recursion.
+   *
+   * @property embedded
+   * @type {Boolean}
+   * @default "false"
+   */
+  embedded: false
 });

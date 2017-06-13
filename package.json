@@ -87,6 +87,7 @@
     "eonasdan-bootstrap-datetimepicker": "~4.17.45",
     "gcmd-keywords": "^8.4.4",
     "geojson-coords": "0.0.0",
+    "liquid-fire": "0.27.3",
     "loader.js": "^4.0.10",
     "lodash.has": "^4.5.2",
     "mdcodes": "^2.1.6",
