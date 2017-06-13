@@ -1,0 +1,6 @@
+{{#if model.hasDirtyHash}}
+  {{fa-icon "exclamation-circle"}}
+  {{tooltip-on-element text='This record has been modified!' side="right"
+    class="md-tooltip danger"
+  }}
+{{/if}}
