@@ -126,6 +126,10 @@ export default Ember.Service.extend({
                 }
               }
             }
+          },
+          metadata: {
+            metadataContact: true,
+            defaultLocale: true
           }
         }
       }

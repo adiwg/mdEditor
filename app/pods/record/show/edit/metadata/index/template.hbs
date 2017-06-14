@@ -1,0 +1,20 @@
+{{#with model.json.metadata.metadataInfo as |metadata|}}
+  {{object/md-party
+    title="Metadata Contact"
+    data-spy="Metadata Contact"
+    collapsible=true collapsed=false
+    required=true
+    value=metadata.metadataContact
+    profilePath="record.metadata.metadataContact"
+  }}
+
+  {{#layout/md-card
+    title="Default Metadata Locale"
+    shadow=true
+    data-spy="Default Locale"
+    profilePath="record.metadata.defaultLocale"
+  }}
+    {{object/md-locale model=metadata modelPath="defaultMetadataLocale"}}
+  {{/layout/md-card}}
+  {{outlet}}
+{{/with}}
