@@ -1,35 +1,44 @@
 import Ember from 'ember';
 import has from 'npm:lodash.has';
 
-export default Ember.Route.extend({
-  keyword: Ember.inject.service(),
+const {
+  Route,
+  A,
+  set,
+  Object: EmObject,
+  NativeArray,
+  copy,
+  inject
+} = Ember;
+
+export default Route.extend({
+  keyword: inject.service(),
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    if (!info.hasOwnProperty('keyword')) {
-      info.keyword = Ember.A();
-    }
+    info.keyword = !info.hasOwnProperty('keyword') ? A() : NativeArray.apply(
+      info.keyword);
 
     //check to see if custom list
     info.keyword.forEach((k, idx, arr) => {
-      if (!has(k, 'thesaurus')) {
+      if(!has(k, 'thesaurus')) {
         k.thesaurus = {};
       }
-      if (!has(k, 'thesaurus.identifier')) {
+      if(!has(k, 'thesaurus.identifier')) {
         k.thesaurus.identifier = [{
           identifier: 'custom'
         }];
       }
-      if (!has(k, 'thesaurus.date')) {
+      if(!has(k, 'thesaurus.date')) {
         k.thesaurus.date = [{}];
       }
-      if (!has(k, 'thesaurus.onlineResource')) {
+      if(!has(k, 'thesaurus.onlineResource')) {
         k.thesaurus.onlineResource = [{}];
       }
 
-      arr[idx] = Ember.Object.create(k);
+      arr.replace(idx, 0, EmObject.create(k));
     });
 
     return model;
@@ -37,12 +46,12 @@ export default Ember.Route.extend({
 
   subbar: 'control/subbar-keywords',
 
-  clearSubbar: function() {
+  clearSubbar: function () {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
   }.on('deactivate'),
 
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -56,7 +65,8 @@ export default Ember.Route.extend({
       return this;
     },
     addThesaurus() {
-      let the = this.currentRouteModel().get('json.metadata.resourceInfo.keyword');
+      let the = this.currentRouteModel().get(
+        'json.metadata.resourceInfo.keyword');
 
       the.pushObject({
         keyword: [],
@@ -70,21 +80,22 @@ export default Ember.Route.extend({
       });
     },
     deleteThesaurus(id) {
-      let the = this.currentRouteModel().get('json.metadata.resourceInfo.keyword');
+      let the = this.currentRouteModel().get(
+        'json.metadata.resourceInfo.keyword');
       the.removeAt(id);
     },
     editThesaurus(id) {
       this.transitionTo('record.show.edit.keywords.thesaurus', id);
     },
     selectThesaurus(selected, thesaurus) {
-      if (selected) {
-        Ember.set(thesaurus, 'thesaurus', Ember.copy(selected.citation,
+      if(selected) {
+        set(thesaurus, 'thesaurus', copy(selected.citation,
           true));
-        if (selected.keywordType) {
-          Ember.set(thesaurus, 'keywordType', selected.keywordType);
+        if(selected.keywordType) {
+          set(thesaurus, 'keywordType', selected.keywordType);
         }
       } else {
-        Ember.set(thesaurus, 'thesaurus.identifier.0.identifier', 'custom');
+        set(thesaurus, 'thesaurus.identifier.0.identifier', 'custom');
       }
     },
     addKeyword(model, obj) {
@@ -93,7 +104,7 @@ export default Ember.Route.extend({
       model.pushObject(k);
     },
     deleteKeyword(model, obj) {
-      if (typeof obj === 'number') {
+      if(typeof obj === 'number') {
         model.removeAt(obj);
       } else {
         model.removeObject(obj);
@@ -103,7 +114,7 @@ export default Ember.Route.extend({
       let me = this;
 
       me.transitionTo(me.get('routeName'))
-        .then(function() {
+        .then(function () {
           me.setupController();
         });
     }
