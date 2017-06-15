@@ -28,8 +28,15 @@ export default Component.extend({
   offset: 110,
 
   setupSpy() {
-    let liquid = $('.liquid-spy').length ? '.liquid-spy .liquid-child:first ' : '';
-    let $links =  $(`${liquid}[data-spy]:visible`);
+    let liquid = '';
+
+    if($('.liquid-spy').length) {
+      liquid = $('.liquid-spy .liquid-container').length ?
+        '.liquid-spy .liquid-container:last ' : '.liquid-spy ';
+      liquid += '.liquid-child:first ';
+    }
+
+    let $links = $(`${liquid}[data-spy]:visible`);
     //let $this  = this.$();
     let $ul = $('<ul class="nav nav-pills nav-stacked"></ul>');
     $links.each(function (idx, link) {
