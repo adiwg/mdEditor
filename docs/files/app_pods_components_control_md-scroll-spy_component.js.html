@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/c1a4b370" target="_blank">
-                                  Tag: 0.0.0.c1a4b370
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/602b48f4" target="_blank">
+                                  Tag: 0.0.0.602b48f4
                                 </a>
                             </h4>
                         </div>
@@ -252,8 +252,15 @@ export default Component.extend({
   offset: 110,
 
   setupSpy() {
-    let liquid = $(&#x27;.liquid-spy&#x27;).length ? &#x27;.liquid-spy .liquid-child:first &#x27; : &#x27;&#x27;;
-    let $links =  $(&#x60;${liquid}[data-spy]:visible&#x60;);
+    let liquid = &#x27;&#x27;;
+
+    if($(&#x27;.liquid-spy&#x27;).length) {
+      liquid = $(&#x27;.liquid-spy .liquid-container&#x27;).length ?
+        &#x27;.liquid-spy .liquid-container:last &#x27; : &#x27;.liquid-spy &#x27;;
+      liquid += &#x27;.liquid-child:first &#x27;;
+    }
+
+    let $links = $(&#x60;${liquid}[data-spy]:visible&#x60;);
     //let $this  = this.$();
     let $ul = $(&#x27;&lt;ul class=&quot;nav nav-pills nav-stacked&quot;&gt;&lt;/ul&gt;&#x27;);
     $links.each(function (idx, link) {
