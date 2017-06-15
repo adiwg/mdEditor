@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.602b48f4",
+        "version": "0.0.0.b53cd477",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -649,7 +649,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/mixins/object-template.js",
-            "line": 13,
+            "line": 16,
             "description": "Mixins.",
             "tag": "main",
             "itemtype": "main",
@@ -886,7 +886,7 @@
             "extension_for": [],
             "module": "mdeditor",
             "file": "app/mixins/object-template.js",
-            "line": 13,
+            "line": 16,
             "description": "Use this mixin to apply 'templates' to an array of objects. Especially useful\nwhen the object must support setting arrays that are not passed during\ninitialization.",
             "submodule": "mixins",
             "is_constructor": 1,
@@ -1429,7 +1429,7 @@
     "classitems": [
         {
             "file": "app/mixins/object-template.js",
-            "line": 25,
+            "line": 28,
             "description": "Apply the 'template' to the object.",
             "itemtype": "method",
             "name": "applyTemplate",
@@ -1450,7 +1450,7 @@
         },
         {
             "file": "app/mixins/object-template.js",
-            "line": 45,
+            "line": 50,
             "description": "Apply the object 'template' to each object in the array.",
             "itemtype": "method",
             "name": "applyTemplate",
@@ -1693,7 +1693,7 @@
         },
         {
             "file": "app/models/record.js",
-            "line": 118,
+            "line": 119,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -4065,7 +4065,7 @@
         },
         {
             "file": "app/pods/components/object/md-locale/component.js",
-            "line": 44,
+            "line": 63,
             "description": "This templateClass to apply to the supplied model or model.modelPath.",
             "itemtype": "property",
             "name": "templateClass",

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/602b48f4" target="_blank">
-                                  Tag: 0.0.0.602b48f4
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/b53cd477" target="_blank">
+                                  Tag: 0.0.0.b53cd477
                                 </a>
                             </h4>
                         </div>
@@ -233,7 +233,13 @@ const {
   Component,
   get,
   set,
-  Object: EmObject
+  Object: EmObject,
+  computed,
+  copy,
+  isNone,
+  inject: {
+    service
+  }
 } = Ember;
 
 const Validations = buildValidations({
@@ -248,23 +254,36 @@ const Validations = buildValidations({
 });
 
 export default Component.extend(Template, {
+  settings: service(),
+
   init() {
     this._super(...arguments);
 
-    let model = get(this, &#x27;model&#x27;);
+    let main = this.get(&#x27;model&#x27;);
     let modelPath = get(this, &#x27;modelPath&#x27;);
-    let value = modelPath ? get(model, modelPath) : model;
+    let model = modelPath ? get(main, modelPath) : main;
+    let settings = get(this, &#x27;settings.data&#x27;);
 
-    value = this.applyTemplate(value);
+    //let model = get(model, modelPath);
 
-    if (modelPath) {
-      set(model, modelPath, value);
+    if(isNone(model) || Object.keys(model) === 0) {
+      model = EmObject.create(this.applyTemplate(model, {
+        language: copy(settings.get(&#x27;language&#x27;)),
+        characterSet: copy(settings.get(&#x27;characterSet&#x27;)),
+        country: copy(settings.get(&#x27;country&#x27;))
+      }));
     }
 
-    set(this, &#x27;value&#x27;, value);
+    if(modelPath) {
+      set(main, modelPath, model);
+    }
+
   },
 
-//value:{},
+  propPath: computed(&#x27;modelPath&#x27;, function () {
+    return get(this, &#x27;modelPath&#x27;) ? get(this, &#x27;modelPath&#x27;) + &#x27;.&#x27; : &#x27;&#x27;;
+  }),
+  //value:{},
   /**
    * This templateClass to apply to the supplied model or model.modelPath.
    *
@@ -274,7 +293,6 @@ export default Component.extend(Template, {
   templateClass: EmObject.extend(Validations, {
     init() {
       this._super(...arguments);
-      //this.set(&#x27;uri&#x27;, null);
     }
   })
 });
