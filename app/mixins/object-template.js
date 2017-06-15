@@ -6,6 +6,9 @@ const {
   getOwner,
   A,
   merge,
+  inject: {
+    service
+  },
   run
 } = Ember;
 
@@ -29,14 +32,16 @@ export default Mixin.create({
    * @param {Object} object The object to apply the template to.
    * @return {Ember.Object}
    */
-  applyTemplate(object) {
+  applyTemplate(object, defaults) {
     let value = object || {};
     let Template = this.get('templateClass');
 
-    if (Template) {
+    if(Template) {
       let owner = getOwner(this);
 
-      return merge(Template.create(owner.ownerInjection()), value);
+      return merge(Template.create(owner.ownerInjection(), defaults || {}),
+        value);
+
     }
 
     return object;
@@ -49,17 +54,18 @@ export default Mixin.create({
    * @param {Array} propertyName The array of objects to apply the template to.
    * @return {Array}
    */
-  applyTemplateArray(propertyName) {
+  applyTemplateArray(propertyName, defaults) {
     let property = this.get(propertyName);
 
-    if (isArray(property)) {
+    if(isArray(property)) {
       let Template = this.get('templateClass');
-      if (Template) {
+      if(Template) {
         let owner = getOwner(this);
 
         property.forEach((item, idx, items) => {
           run.once(() => {
-            items.replace(idx, 1, merge(Template.create(owner.ownerInjection()),
+            items.replace(idx, 1, merge(Template.create(owner.ownerInjection(),
+                defaults || {}),
               item));
           });
         });

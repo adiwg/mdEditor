@@ -52,40 +52,41 @@ export default Model.extend(Validations, Copyable, {
   json: DS.attr('json', {
     defaultValue() {
       const obj = Ember.Object.create({
-        'schema': {
-          'name': 'mdJson',
-          'version': '2.0.0'
+        schema: {
+          name: 'mdJson',
+          version: '2.0.0'
         },
-        'contact': [],
-        'metadata': {
-          'metadataInfo': {
-            'metadataIdentifier': {
-              'identifier': uuidV4(),
-              'namespace': 'urn:uuid'
+        contact: [],
+        metadata: {
+          metadataInfo: {
+            metadataIdentifier: {
+              identifier: uuidV4(),
+              namespace: 'urn:uuid'
             },
-            'metadataContact':[]
+            metadataContact: [],
+            defaultMetadataLocale: {}
           },
-          'resourceInfo': {
-            'resourceType': [{}],
-            'citation': {
-              'title': null,
-              'date': []
+          resourceInfo: {
+            resourceType: [{}],
+            citation: {
+              title: null,
+              date: []
             },
-            'pointOfContact': [],
-            'abstract': '',
-            'shortAbstract': '',
-            'status': [],
-            'defaultResourceLocale': {
-              'characterSet': 'UTF-8',
-              'country': 'USA',
-              'language': 'eng'
+            pointOfContact: [],
+            abstract: '',
+            shortAbstract: '',
+            status: [],
+            defaultResourceLocale: {
+              // characterSet: UTF-8,
+              // country: USA,
+              // language: eng
             },
             extent: [],
             keyword: []
           }
         },
-        'metadataRepository': [],
-        'dataDictionary': []
+        metadataRepository: [],
+        dataDictionary: []
       });
 
       return obj;

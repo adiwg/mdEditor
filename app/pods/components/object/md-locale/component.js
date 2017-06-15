@@ -9,7 +9,13 @@ const {
   Component,
   get,
   set,
-  Object: EmObject
+  Object: EmObject,
+  computed,
+  copy,
+  isNone,
+  inject: {
+    service
+  }
 } = Ember;
 
 const Validations = buildValidations({
@@ -24,23 +30,36 @@ const Validations = buildValidations({
 });
 
 export default Component.extend(Template, {
+  settings: service(),
+
   init() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let main = this.get('model');
     let modelPath = get(this, 'modelPath');
-    let value = modelPath ? get(model, modelPath) : model;
+    let model = modelPath ? get(main, modelPath) : main;
+    let settings = get(this, 'settings.data');
 
-    value = this.applyTemplate(value);
+    //let model = get(model, modelPath);
 
-    if (modelPath) {
-      set(model, modelPath, value);
+    if(isNone(model) || Object.keys(model) === 0) {
+      model = EmObject.create(this.applyTemplate(model, {
+        language: copy(settings.get('language')),
+        characterSet: copy(settings.get('characterSet')),
+        country: copy(settings.get('country'))
+      }));
     }
 
-    set(this, 'value', value);
+    if(modelPath) {
+      set(main, modelPath, model);
+    }
+
   },
 
-//value:{},
+  propPath: computed('modelPath', function () {
+    return get(this, 'modelPath') ? get(this, 'modelPath') + '.' : '';
+  }),
+  //value:{},
   /**
    * This templateClass to apply to the supplied model or model.modelPath.
    *
@@ -50,7 +69,6 @@ export default Component.extend(Template, {
   templateClass: EmObject.extend(Validations, {
     init() {
       this._super(...arguments);
-      //this.set('uri', null);
     }
   })
 });

@@ -1,8 +1,8 @@
 <div class="row">
   <div class="col-md-4">
     {{input/md-codelist
-      path="language"
-      model=value
+      path=(concat propPath "language")
+      model=model
       create=true
       tooltip=true
       icon=false
@@ -15,8 +15,8 @@
   </div>
   <div class="col-md-4">
     {{input/md-codelist
-      path="characterSet"
-      model=value
+      path=(concat propPath "characterSet")
+      model=model
       create=false
       tooltip=true
       icon=false
@@ -29,7 +29,7 @@
   </div>
   <div class="col-md-4">
     {{input/md-codelist
-      value=value.country
+      value=(get model (concat propPath "country"))
       create=false
       tooltip=true
       icon=false
