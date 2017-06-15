@@ -13,11 +13,23 @@ export default Route.extend({
     return this.setupModel();
   },
 
+
+  setupController: function () {
+    // Call _super for default behavior
+    this._super(...arguments);
+
+    this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
+    this.controllerFor('record.show.edit')
+      .setProperties({
+        onCancel: this.setupModel
+      });
+  },
+
   setupModel() {
     let identifierId = get(this, 'identifierId');
     let model = this.modelFor('record.show.edit.main');
     let identifiers = model.get('json.metadata.resourceInfo.citation.identifier');
-    let identifier = isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+    let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
     //make sure the identifier exists
     if (isEmpty(identifier)) {
