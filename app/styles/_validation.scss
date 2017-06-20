@@ -1,4 +1,4 @@
-.required .card-title::after,
+.required > .card-header .card-title::after,
 form .required label::after,
 label.required::after {
   @extend sup;
