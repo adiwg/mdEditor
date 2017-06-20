@@ -31,8 +31,8 @@ export default Component.extend({
     let liquid = '';
 
     if($('.liquid-spy').length) {
-      liquid = $('.liquid-spy .liquid-container').length ?
-        '.liquid-spy .liquid-container:last ' : '.liquid-spy ';
+      liquid = $('.liquid-spy .liquid-child:first .liquid-container').length ?
+        '.liquid-spy .liquid-child:first .liquid-container:last ' : '.liquid-spy ';
       liquid += '.liquid-child:first ';
     }
 
