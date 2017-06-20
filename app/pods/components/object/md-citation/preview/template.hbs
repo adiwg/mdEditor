@@ -1,0 +1,79 @@
+{{#layout/md-card title="Citation" collapsible=true collapsed=false
+  profilePath=profilePath required=true
+  btnText="Edit" btnClass="success" btnAction=(route-action "editCitation") btnIcon="pencil"
+}}
+<div class="row">
+
+  <dl class="dl-horizontal col-lg-6">
+      {{control/md-definition title="Title" text=citation.title}}
+  </dl>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Alternate Titles" }}
+          {{#each citation.alternateTitle as |title|}}
+              {{title}}
+              <br>
+              {{else}}
+              <em class="text-muted">No alternate titles assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Dates" }}
+          {{#each citation.date as |date|}}
+              {{format-date date.date format="MMMM Do YYYY"}}
+              ({{date.dateType}})
+              <br>
+              {{else}}
+              <em class="text-muted">No dates assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Identifier" }}
+          {{#each citation.identifier as |id|}}
+              {{id.identifier}}
+              <br>
+              {{else}}
+              <em class="text-muted">No identifiers assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
+</div>
+<div class="">
+  {{#layout/md-card title="Responsible Party" class="card-table"
+    data-spy=false shadow=false
+  }}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Role</th>
+            <th>Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each citation.responsibleParty as |party|}}
+            <tr>
+              <td>{{get-dash party "role"}}</td>
+              <td>
+                {{#each party.party as |contact|}}
+                    {{control/md-contact-link contactId=contact.contactId}}
+                    <br>
+                    {{else}}
+                    <em class="text-muted">No Contacts assigned.</em>
+                {{/each}}
+              </td>
+            </tr>
+          {{else}}
+            <tr><td><em class="text-muted">No Responsibility assigned.</em></td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  {{/layout/md-card}}
+  {{yield}}
+</div>
+<div class="card-footer">
+  {{#link-to 'record.show.edit.main.citation' class="btn btn-success pull-right"}}Edit Citation{{/link-to}}
+</div>
+{{/layout/md-card}}
