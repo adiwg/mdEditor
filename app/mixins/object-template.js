@@ -6,9 +6,6 @@ const {
   getOwner,
   A,
   merge,
-  inject: {
-    service
-  },
   run
 } = Ember;
 

@@ -29,7 +29,9 @@ Router.map(function () {
       },
       function () {
         this.route('edit', function () {
-          this.route('metadata', function() {});
+          this.route('metadata', function() {
+            this.route('identifier');
+          });
           this.route('keywords', function() {
             this.route('thesaurus', {
               path: 'thesaurus/:thesaurus_id'
