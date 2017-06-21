@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.6f40d6cb",
+        "version": "0.0.0.b397dd11",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -649,7 +649,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/mixins/object-template.js",
-            "line": 16,
+            "line": 13,
             "description": "Mixins.",
             "tag": "main",
             "itemtype": "main",
@@ -886,7 +886,7 @@
             "extension_for": [],
             "module": "mdeditor",
             "file": "app/mixins/object-template.js",
-            "line": 16,
+            "line": 13,
             "description": "Use this mixin to apply 'templates' to an array of objects. Especially useful\nwhen the object must support setting arrays that are not passed during\ninitialization.",
             "submodule": "mixins",
             "is_constructor": 1,
@@ -1429,7 +1429,7 @@
     "classitems": [
         {
             "file": "app/mixins/object-template.js",
-            "line": 28,
+            "line": 25,
             "description": "Apply the 'template' to the object.",
             "itemtype": "method",
             "name": "applyTemplate",
@@ -1450,7 +1450,7 @@
         },
         {
             "file": "app/mixins/object-template.js",
-            "line": 50,
+            "line": 47,
             "description": "Apply the object 'template' to each object in the array.",
             "itemtype": "method",
             "name": "applyTemplate",
@@ -3554,6 +3554,18 @@
         {
             "file": "app/pods/components/layout/md-card/component.js",
             "line": 96,
+            "description": "If true, the card-block text color will be muted.",
+            "itemtype": "property",
+            "name": "muted",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 105,
             "description": "If true, the collapse control will be added to the card header.",
             "itemtype": "property",
             "name": "collapsible",
@@ -3565,7 +3577,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 104,
+            "line": 113,
             "description": "If true, the \"row\" class will be added to the card body.",
             "itemtype": "property",
             "name": "btnClass",
@@ -3577,7 +3589,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 120,
+            "line": 129,
             "description": "Icon to display in heder button",
             "itemtype": "property",
             "name": "btnIcon",
@@ -3589,7 +3601,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 128,
+            "line": 137,
             "description": "The text to display in the header button.",
             "itemtype": "property",
             "name": "btnText",
@@ -3601,7 +3613,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 135,
+            "line": 144,
             "description": "The action to perform whrn the header button is clicked.",
             "itemtype": "property",
             "name": "btnAction",
@@ -3613,7 +3625,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 142,
+            "line": 151,
             "description": "The data-spy text. Defaults to the title.",
             "itemtype": "property",
             "name": "data-spy",
@@ -4284,7 +4296,19 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 74,
+            "line": 75,
+            "description": "If true, a box shadow will be rendered around the card.",
+            "itemtype": "property",
+            "name": "shadow",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "md-online-resource-array",
+            "module": "mdeditor",
+            "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-online-resource-array/component.js",
+            "line": 84,
             "description": "The template to use for the preview table rows. If not overridden, will use\nthe `md-image-preview` template if `imagePicker = true`.",
             "itemtype": "property",
             "name": "previewTemplate",
@@ -4302,7 +4326,7 @@
         },
         {
             "file": "app/pods/components/object/md-online-resource-array/component.js",
-            "line": 89,
+            "line": 99,
             "description": "See [md-array-table](md-array-table.html#property_templateClass).",
             "itemtype": "property",
             "name": "templateClass",

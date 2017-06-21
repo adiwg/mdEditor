@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6f40d6cb" target="_blank">
-                                  Tag: 0.0.0.6f40d6cb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/b397dd11" target="_blank">
+                                  Tag: 0.0.0.b397dd11
                                 </a>
                             </h4>
                         </div>
@@ -255,8 +255,9 @@ export default Component.extend({
     let liquid = &#x27;&#x27;;
 
     if($(&#x27;.liquid-spy&#x27;).length) {
-      liquid = $(&#x27;.liquid-spy .liquid-container&#x27;).length ?
-        &#x27;.liquid-spy .liquid-container:last &#x27; : &#x27;.liquid-spy &#x27;;
+      liquid = $(&#x27;.liquid-spy .liquid-child:first .liquid-container&#x27;).length ?
+        &#x27;.liquid-spy .liquid-child:first .liquid-container:last &#x27; :
+        &#x27;.liquid-spy &#x27;;
       liquid += &#x27;.liquid-child:first &#x27;;
     }
 
@@ -284,8 +285,9 @@ export default Component.extend({
 
     this.$(&#x27;a&#x27;)
       .on(&#x27;click&#x27;, (e) =&gt; {
+        let target = e.currentTarget;
         e.preventDefault();
-        this.scroll(e.currentTarget);
+        this.scroll(target);
       });
   },
 
@@ -313,6 +315,10 @@ export default Component.extend({
           .closest(&#x27;li&#x27;)
           .addClass(&#x27;active&#x27;);
       }
+
+      $anchor.removeClass(&#x27;md-flash&#x27;);
+      void anchor.offsetWidth;
+      $anchor.addClass(&#x27;md-flash&#x27;);
     }
   }
 });
