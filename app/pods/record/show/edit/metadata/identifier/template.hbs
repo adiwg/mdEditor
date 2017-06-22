@@ -1,1 +1,18 @@
-{{outlet}}
+<h4 class="col-sm-11 col-md-offset-1 section-header">
+  Editing Metadata Identifier: {{model.identifier}}
+  {{control/md-status model=parentModel}}
+</h4>
+
+<div class="row">
+  {{object/md-identifier
+    class="col-sm-11 col-md-offset-1"
+    model=model
+    profilePath="record.metadata.identifier"
+  }}
+  {{outlet}}
+</div>
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Metadata" icon="arrow-left" route="record.show.edit.metadata")
+}}

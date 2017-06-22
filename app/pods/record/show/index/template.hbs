@@ -14,7 +14,7 @@
             {{/if}}
           </span>
     </h3>
-        {{#layout/md-card title="Basic Information" bodyIsRow=true}}
+        {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
             <dl class="dl-horizontal col-lg-6">
                 {{control/md-definition title="Record Id" text=model.recordId}}
                 {{control/md-definition title="Record Title" text=model.title}}
@@ -38,7 +38,7 @@
                 {{/control/md-definition}}
             </dl>
             <div class="col-xs-12">
-              {{#layout/md-card plain=true shadow=false}}
+              {{#layout/md-card shadow=false muted=true plain=true shadow=false}}
                 <div class="row">
                   <div class="text-info col-xs-6 col-sm-3">Default Resource Locale</div>
                   <div class="col-xs-6 col-sm-3">
@@ -58,11 +58,11 @@
             </div>
         {{/layout/md-card}}
 
-        {{#layout/md-card title="Abstract" collapsible=true scroll=true maximizable=true}}
+        {{#layout/md-card shadow=false muted=true title="Abstract" collapsible=true scroll=true maximizable=true}}
             {{md-markdown resource.abstract "Abstract not provided!"}}
         {{/layout/md-card}}
 
-        {{#layout/md-card title="Short Abstract" collapsible=true scroll=false}}
+        {{#layout/md-card shadow=false muted=true title="Short Abstract" collapsible=true scroll=false}}
             {{md-markdown resource.shortAbstract "Short Abstract not provided!"}}
         {{/layout/md-card}}
 

@@ -16,5 +16,22 @@
   }}
     {{object/md-locale model=model modelPath="json.metadata.metadataInfo.defaultMetadataLocale"}}
   {{/layout/md-card}}
+
+{{#with model.json.metadata.metadataInfo.metadataIdentifier as |identifier|}}
+  {{#layout/md-card title="Metadata Identifier" collapsible=true collapsed=false
+    profilePath="record.metadata.metadataIdentifier" required=false
+    btnText="Edit" btnClass="success" btnAction=(route-action "editIdentifier") btnIcon="pencil"
+  }}
+  <div class="row">
+    <dl class="dl-horizontal">
+      {{control/md-definition title="Identifier" text=identifier.identifier}}
+      {{!-- {{#control/md-definition title="Identifier"}}
+      {{input/md-input value=identifier.identifier}}
+      {{/control/md-definition}} --}}
+      {{control/md-definition title="Namespace" text=identifier.namespace}}
+    </dl>
+  </div>
+  {{/layout/md-card}}
+{{/with}}
   {{outlet}}
 {{/with}}

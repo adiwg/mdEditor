@@ -13,5 +13,12 @@ export default Route.extend({
 
     let model = get(m,'json.metadata.metadataInfo');
     set(model, 'metadataContact', getWithDefault(model, 'metadataContact', []));
+    set(model, 'metadataIdentifier', getWithDefault(model, 'metadataIdentifier', {}));
   },
+
+  actions: {
+    editIdentifier() {
+      this.transitionTo('record.show.edit.metadata.identifier');
+    }
+  }
 });
