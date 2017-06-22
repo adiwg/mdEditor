@@ -71,6 +71,16 @@ export default Ember.Component.extend({
    */
   label: 'Online Resource',
 
+
+  /**
+   * If true, a box shadow will be rendered around the card.
+   *
+   * @property shadow
+   * @type {Boolean}
+   * @default true
+   */
+  shadow: true,
+
   /**
    * The template to use for the preview table rows. If not overridden, will use
    * the `md-image-preview` template if `imagePicker = true`.
