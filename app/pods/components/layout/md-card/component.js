@@ -17,7 +17,7 @@ export default Component.extend({
 
   classNames: ['md-card', 'card'],
   classNameBindings: ['shadow:box-shadow--8dp', 'scroll:scroll-card',
-    'maximizable', 'fullScreen', 'required'
+    'maximizable', 'fullScreen', 'required', 'muted'
   ],
   attributeBindings: ['data-spy'],
 
@@ -92,6 +92,15 @@ export default Component.extend({
    * @default true
    */
   block: true,
+
+  /**
+   * If true, the card-block text color will be muted.
+   *
+   * @property muted
+   * @type {Boolean}
+   * @default false
+   */
+  muted: false,
 
   /**
    * If true, the collapse control will be added to the card header.

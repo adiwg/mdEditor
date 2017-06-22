@@ -37,6 +37,10 @@
       font-weight: 900;
     }
   }
+
+  &.muted .card-block {
+    color: $text-muted;
+  }
 }
 
 .md-card-chevron a {
