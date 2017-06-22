@@ -17,7 +17,7 @@
             {{/if}}
           </span>
     </h3>
-    {{#layout/md-card title="Basic Information" bodyIsRow=true}}
+    {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
         <dl class="dl-horizontal col-lg-6">
           {{control/md-definition title="Contact Id" text=model.contactId}}
           {{control/md-definition title="Contact Name" text=model.name}}
@@ -45,7 +45,7 @@
 
     <div class="row">
     <div class="col-md-6 col-xxl-4">
-    {{#layout/md-card title="Phone" class="card-table"}}
+    {{#layout/md-card shadow=false muted=true title="Phone" class="card-table"}}
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -82,7 +82,7 @@
     </div>
     <div class="col-md-6 col-xxl-4">
 
-      {{#layout/md-card title="E-mail" class=""}}
+      {{#layout/md-card shadow=false muted=true title="E-mail" class=""}}
       <ul class="list-unstyled">
         {{#each model.json.electronicMailAddress as |email|}}
           <li><a href="mailto:{{email}}" target="_blank">{{email}}
@@ -97,7 +97,7 @@
     <div class="clearfix hidden-xxl"></div>
     <div class="col-md-6 col-xxl-4">
 
-      {{#layout/md-card title="Availability" class=""}}
+      {{#layout/md-card shadow=false muted=true title="Availability" class=""}}
       <ul class="list-unstyled">
         {{#each model.json.hoursOfService as |hours|}}
           <li>{{hours}}</li>
@@ -111,7 +111,7 @@
 
     <div class="row">
     <div class="col-md-6">
-    {{#layout/md-card title="Address" bodyIsRow=model.json.address.length}}
+    {{#layout/md-card shadow=false muted=true title="Address" bodyIsRow=model.json.address.length}}
         {{#each model.json.address as |address|}}
           <div class="col-lg-6">
             <div class="card">
@@ -126,7 +126,7 @@
       {{/layout/md-card}}
     </div>
     <div class="col-md-6">
-      {{#layout/md-card title="Online Resource"}}
+      {{#layout/md-card shadow=false muted=true title="Online Resource"}}
         <div class="table-responsive">
           <table class="table">
             <thead>
