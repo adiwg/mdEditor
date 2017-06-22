@@ -1,6 +1,25 @@
+@keyframes flash {
+  0%,
+  100%,
+  50% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: 0.5;
+  }
+}
+
 .md-scroll-spy {
   .nav > li > a {
     padding: 5px 10px;
     transition: none;
   }
+}
+
+.md-flash {
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+  animation-name: flash;
 }

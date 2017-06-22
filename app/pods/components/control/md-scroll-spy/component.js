@@ -32,7 +32,8 @@ export default Component.extend({
 
     if($('.liquid-spy').length) {
       liquid = $('.liquid-spy .liquid-child:first .liquid-container').length ?
-        '.liquid-spy .liquid-child:first .liquid-container:last ' : '.liquid-spy ';
+        '.liquid-spy .liquid-child:first .liquid-container:last ' :
+        '.liquid-spy ';
       liquid += '.liquid-child:first ';
     }
 
@@ -60,8 +61,9 @@ export default Component.extend({
 
     this.$('a')
       .on('click', (e) => {
+        let target = e.currentTarget;
         e.preventDefault();
-        this.scroll(e.currentTarget);
+        this.scroll(target);
       });
   },
 
@@ -89,6 +91,10 @@ export default Component.extend({
           .closest('li')
           .addClass('active');
       }
+
+      $anchor.removeClass('md-flash');
+      void anchor.offsetWidth;
+      $anchor.addClass('md-flash');
     }
   }
 });
