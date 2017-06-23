@@ -1,6 +1,6 @@
 {{#layout/md-card title="Citation" collapsible=true collapsed=false
   profilePath=profilePath required=true
-  btnText="Edit" btnClass="success" btnAction=(route-action "editCitation") btnIcon="pencil"
+  btnText="Edit" btnClass="success" btnAction=(route-action "editCitation" elementId) btnIcon="pencil"
 }}
 <div class="row">
 
@@ -74,6 +74,9 @@
   {{yield}}
 </div>
 <div class="card-footer">
-  {{#link-to 'record.show.edit.main.citation' class="btn btn-success pull-right"}}Edit Citation{{/link-to}}
+  <button type="button" name="button" class="btn btn-success pull-right"
+    {{action (route-action "editCitation" elementId)}}>
+    {{fa-icon "pencil"}} Edit Citation
+  </button>
 </div>
 {{/layout/md-card}}
