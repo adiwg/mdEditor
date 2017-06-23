@@ -1,4 +1,6 @@
 {{#with model.json.metadata.metadataInfo as |metadata|}}
+<div class="row">
+    <form class="col-sm-11 col-md-offset-1">
   {{object/md-party
     title="Metadata Contact"
     data-spy="Metadata Contact"
@@ -34,4 +36,6 @@
   {{/layout/md-card}}
 {{/with}}
   {{outlet}}
+</form>
+</div>
 {{/with}}
