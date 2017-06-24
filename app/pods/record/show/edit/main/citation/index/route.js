@@ -38,8 +38,12 @@ export default Route.extend({
   },
 
   actions: {
-    editIdentifier(index) {
+    editIdentifier(index, scrollId) {
       this.transitionTo('record.show.edit.main.citation.identifier', index);
+
+      if(scrollId) {
+        this.controller.set('scrollToId', scrollId);
+      }
 
     }
   }

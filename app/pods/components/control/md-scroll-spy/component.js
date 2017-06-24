@@ -30,7 +30,7 @@ export default Component.extend({
   setupSpy() {
     let liquid = '';
 
-    if($('.liquid-spy').length) {
+    if ($('.liquid-spy').length) {
       liquid = $('.liquid-spy .liquid-child:first .liquid-container').length ?
         '.liquid-spy .liquid-child:first .liquid-container:last ' :
         '.liquid-spy ';
@@ -40,7 +40,7 @@ export default Component.extend({
     let $links = $(`${liquid}[data-spy]:visible`);
     //let $this  = this.$();
     let $ul = $('<ul class="nav nav-pills nav-stacked"></ul>');
-    $links.each(function (idx, link) {
+    $links.each(function(idx, link) {
       let $link = $(link);
       let id = $link.attr('id');
       let text = $link.data('spy');
@@ -61,10 +61,16 @@ export default Component.extend({
 
     this.$('a')
       .on('click', (e) => {
-        let target = e.currentTarget;
+        let targetId = $(e.currentTarget).attr('href');
         e.preventDefault();
-        this.scroll(target);
+        this.scroll(targetId);
       });
+
+    let init = this.get('scrollInit');
+
+    if (init) {
+      this.scroll('#' + init);
+    }
   },
 
   didInsertElement() {
@@ -77,23 +83,22 @@ export default Component.extend({
     this.setupSpy();
   },
 
-  scroll: function (anchor, hilite) {
-    let $anchor = $($(anchor)
-      .attr('href'));
+  scroll(id, hilite) {
+    let $anchor = $(id);
 
-    if($anchor) {
+    if ($anchor) {
       $('body')
         .scrollTop($anchor.offset()
           .top - get(this, 'offset'));
 
-      if(hilite) {
-        $('[href=#' + anchor + ']')
+      if (hilite) {
+        $('[href=#' + id + ']')
           .closest('li')
           .addClass('active');
       }
 
       $anchor.removeClass('md-flash');
-      void anchor.offsetWidth;
+      void $anchor[0].offsetWidth;
       $anchor.addClass('md-flash');
     }
   }

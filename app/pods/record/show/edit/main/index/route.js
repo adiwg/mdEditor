@@ -5,7 +5,6 @@ const {
 
 export default Route.extend({
   queryParams: {
-    foo: true,
     scrollToId:true
   },
 
