@@ -1,5 +1,6 @@
 {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
   profilePath=(concat profilePath ".basicInformation") data-spy="Basic Information"
+  class=(if embedded "md-embedded")
   shadow=(if embedded false true)
 }}
   {{input/md-input
@@ -22,7 +23,10 @@
     {{/object/md-simple-array-table}}
   {{/layout/md-card}}
 
-  {{#layout/md-card shadow=false profilePath=(concat profilePath ".date") data-spy="Dates"}}
+  {{#layout/md-card shadow=false profilePath=(concat profilePath ".date")
+    data-spy="Dates"
+    class=(if embedded "md-embedded")
+  }}
     {{object/md-date-array value=model.date plain=true data-spy=false}}
   {{/layout/md-card}}
 
@@ -53,6 +57,7 @@
 {{object/md-party
   title="Responsible Party"
   data-spy="Responsible Parties"
+  class=(if embedded "md-embedded")
   collapsible=true collapsed=false
   required=false
   value=model.responsibleParty
@@ -60,6 +65,7 @@
 }}
 
 {{object/md-online-resource-array model=model.onlineResource
+  class=(if embedded "md-embedded")
   data-spy="Online Resource"}}
 
 {{#unless embedded}}

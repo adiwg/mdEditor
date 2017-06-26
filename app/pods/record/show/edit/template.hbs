@@ -31,12 +31,9 @@
       {{from-elsewhere name="md-subbar-extra"}}
 
       {{#from-elsewhere name="md-scroll-spy-record-edit" as |spy|}}
-        {{#if spy}}
-          {{component spy}}
-        {{else}}
-          {{control/md-scroll-spy offset=134 scrollInit=scrollToId}}
-        {{/if}}
+          {{component spy offset=134}}
       {{/from-elsewhere}}
+      {{!-- {{control/md-scroll-spy offset=134 scrollInit=scrollTo}} --}}
     </div>
   </div>
 </div>

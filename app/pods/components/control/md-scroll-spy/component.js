@@ -2,7 +2,9 @@ import Ember from 'ember';
 
 const {
   Component,
+  computed,
   $,
+  A,
   get
 } = Ember;
 
@@ -27,71 +29,127 @@ export default Component.extend({
    */
   offset: 110,
 
-  setupSpy() {
+  /**
+   * The initial scroll target wgen the comopnent is inserted.
+   *
+   * @property scrollInit
+   * @type {String}
+   */
+
+  /**
+   * The method(action) used to set the scroll target. Should accept a string with
+   * the target.
+   *
+   * @method setScrollTo
+   * @param {String} scrollTo The scroll target
+   */
+
+  /**
+   * Array of data objects for the navigatoin links.
+   *
+   * @property links
+   * @type {Array}
+   * @category computed
+   * @requires
+   */
+  links: computed(function () {
+    //console.info('computed links');
+
     let liquid = '';
 
-    if ($('.liquid-spy').length) {
+    if($('.liquid-spy').length) {
       liquid = $('.liquid-spy .liquid-child:first .liquid-container').length ?
         '.liquid-spy .liquid-child:first .liquid-container:last ' :
         '.liquid-spy ';
       liquid += '.liquid-child:first ';
     }
 
-    let $links = $(`${liquid}[data-spy]:visible`);
-    //let $this  = this.$();
-    let $ul = $('<ul class="nav nav-pills nav-stacked"></ul>');
-    $links.each(function(idx, link) {
+    let $targets = $(`${liquid}[data-spy]:visible`);
+    let links = A();
+
+    $targets.each(function (idx, link) {
       let $link = $(link);
-      let id = $link.attr('id');
-      let text = $link.data('spy');
 
-      $ul.append($(`<li><a href="#${id}">${text}</a></li>`));
-
+      links.pushObject({
+        id: $link.attr('id'),
+        text: $link.data('spy'),
+        embedded: $link.hasClass('md-embedded')
+      });
     });
 
-    this.$()
-      .html($ul);
+    return links;
+  }),
 
-    //$('body').data('spy', 'scroll');
+  /**
+   * Click handler for nav links.
+   *
+   * @method clickLink
+   * @param {Event} e The click event.
+   */
+  clickLink(e) {
+    let setScrollTo = this.get('setScrollTo');
+    let $target = $(e.currentTarget);
+    let targetId = $target.attr('href');
+
+    e.preventDefault();
+    this.scroll(targetId);
+
+    if((typeof setScrollTo === 'function')) {
+      setScrollTo($target.text().dasherize());
+    }
+  },
+
+  /**
+   * Setup the scrollspy on  the body element
+   *
+   * @method setupSpy
+   */
+  setupSpy() {
     $('body')
       .scrollspy({
         target: '.md-scroll-spy',
         offset: get(this, 'offset')
       });
-
-    this.$('a')
-      .on('click', (e) => {
-        let targetId = $(e.currentTarget).attr('href');
-        e.preventDefault();
-        this.scroll(targetId);
-      });
-
-    let init = this.get('scrollInit');
-
-    if (init) {
-      this.scroll('#' + init);
-    }
   },
 
+  /**
+   * Call setupSpy and perform initial scroll.
+   *
+   * @method didInsertElement
+   */
   didInsertElement() {
     this._super(...arguments);
     this.setupSpy();
+
+    let init = this.get('scrollInit');
+
+    if(init) {
+      let link = this.get('links').find((link) => {
+        return init === link.text.dasherize();
+      });
+
+      if(link) {
+        this.scroll('#' + link.id);
+      }
+    }
   },
 
-  didUpdateAttrs() {
-    this._super(...arguments);
-    this.setupSpy();
-  },
-
+  /**
+   * Scrolls to the target.
+   *
+   * @method MyMethod
+   * @param {String} id elemnet id of target
+   * @param {Boolean} hilite If true, set the spy nav link to active
+   */
   scroll(id, hilite) {
     let $anchor = $(id);
 
-    if ($anchor) {
+    if($anchor) {
       $('body')
         .scrollTop($anchor.offset()
           .top - get(this, 'offset'));
 
-      if (hilite) {
+      if(hilite) {
         $('[href=#' + id + ']')
           .closest('li')
           .addClass('active');
@@ -100,6 +158,12 @@ export default Component.extend({
       $anchor.removeClass('md-flash');
       void $anchor[0].offsetWidth;
       $anchor.addClass('md-flash');
+    }
+  },
+
+  actions: {
+    clickLink(e) {
+      this.clickLink(e);
     }
   }
 });

@@ -39,3 +39,5 @@
 </form>
 </div>
 {{/with}}
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

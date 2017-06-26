@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
+
 const {
   Route,
   get,
@@ -6,7 +8,7 @@ const {
   isArray
 } = Ember;
 
-export default Route.extend({
+export default Route.extend(ScrollTo, {
   model(params) {
     this.set('identifierId', params.identifier_id);
 

@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 const {
   Route,
@@ -7,7 +8,7 @@ const {
   set
 } = Ember;
 
-export default Route.extend({
+export default Route.extend(ScrollTo, {
   afterModel() {
     this.setupModel();
   },
@@ -38,13 +39,11 @@ export default Route.extend({
   },
 
   actions: {
-    editIdentifier(index, scrollId) {
-      this.transitionTo('record.show.edit.main.citation.identifier', index);
-
-      if(scrollId) {
-        this.controller.set('scrollToId', scrollId);
-      }
-
+    editIdentifier(index) {
+      this.transitionTo('record.show.edit.main.citation.identifier', index)
+        .then(function () {
+          this.setScrollTo('identifier');
+        }.bind(this));
     }
   }
 });

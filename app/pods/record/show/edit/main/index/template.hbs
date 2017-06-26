@@ -61,7 +61,7 @@
         {{object/md-citation/preview
           profilePath="record.main.citation"
           citation=resource.citation
-          elementId=(concat "record-main-citation-preview-" model.id)
+          muted=true
         }}
 
         {{#layout/md-card title="Description" collapsible=true collapsed=false
@@ -119,5 +119,4 @@
 {{/with}}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy" offset=134 scrollInit=scrollToId)
-}}
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

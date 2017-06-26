@@ -7,7 +7,7 @@
 
   25%,
   75% {
-    opacity: 0.5;
+    opacity: .5;
   }
 }
 
@@ -15,6 +15,11 @@
   .nav > li > a {
     padding: 5px 10px;
     transition: none;
+  }
+
+  .md-embedded {
+    font-size: .95em;
+    padding-left: 10px;
   }
 }
 

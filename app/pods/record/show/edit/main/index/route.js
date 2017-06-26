@@ -1,20 +1,19 @@
 import Ember from 'ember';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 const {
   Route
 } = Ember;
 
-export default Route.extend({
+export default Route.extend(ScrollTo, {
   queryParams: {
-    scrollToId:true
+    scrollTo: true
   },
 
   actions: {
-    editCitation(scrollId) {
-      this.transitionTo('record.show.edit.main.citation');
-
-      if(scrollId) {
-        this.controller.set('scrollToId', scrollId);
-      }
+    editCitation(scrollTo) {
+      this.transitionTo('record.show.edit.main.citation').then(function () {
+        this.setScrollTo(scrollTo);
+      }.bind(this));
     }
   }
 });
