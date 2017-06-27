@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.b397dd11",
+        "version": "0.0.0.3db20188",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -301,6 +301,13 @@
             "classes": {
                 "md-array-table": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-citation/preview/component.js": {
+            "name": "app/pods/components/object/md-citation/preview/component.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -695,7 +702,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/control/md-scroll-spy/component.js",
-            "line": 10,
+            "line": 12,
             "description": "Components used as UI controls.",
             "tag": "main",
             "itemtype": "main",
@@ -985,7 +992,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/control/md-scroll-spy/component.js",
-            "line": 10,
+            "line": 12,
             "description": "mdEditor Component that enables scrollspy",
             "submodule": "components-control",
             "is_constructor": 1
@@ -2066,12 +2073,116 @@
         },
         {
             "file": "app/pods/components/control/md-scroll-spy/component.js",
-            "line": 21,
+            "line": 23,
             "description": "The height to offset from top of container.",
             "itemtype": "property",
             "name": "offset",
             "type": "{Number}",
             "default": "110",
+            "class": "md-scroll-spy",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 32,
+            "description": "The initial scroll target wgen the comopnent is inserted.",
+            "itemtype": "property",
+            "name": "scrollInit",
+            "type": "{String}",
+            "class": "md-scroll-spy",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 39,
+            "description": "The method(action) used to set the scroll target. Should accept a string with\nthe target.",
+            "itemtype": "method",
+            "name": "setScrollTo",
+            "params": [
+                {
+                    "name": "scrollTo",
+                    "description": "The scroll target",
+                    "type": "String"
+                }
+            ],
+            "class": "md-scroll-spy",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 47,
+            "description": "Array of data objects for the navigatoin links.",
+            "itemtype": "property",
+            "name": "links",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                ""
+            ],
+            "class": "md-scroll-spy",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 83,
+            "description": "Click handler for nav links.",
+            "itemtype": "method",
+            "name": "clickLink",
+            "params": [
+                {
+                    "name": "e",
+                    "description": "The click event.",
+                    "type": "Event"
+                }
+            ],
+            "class": "md-scroll-spy",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 102,
+            "description": "Setup the scrollspy on  the body element",
+            "itemtype": "method",
+            "name": "setupSpy",
+            "class": "md-scroll-spy",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 115,
+            "description": "Call setupSpy and perform initial scroll.",
+            "itemtype": "method",
+            "name": "didInsertElement",
+            "class": "md-scroll-spy",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 137,
+            "description": "Scrolls to the target.",
+            "itemtype": "method",
+            "name": "MyMethod",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "elemnet id of target",
+                    "type": "String"
+                },
+                {
+                    "name": "hilite",
+                    "description": "If true, set the spy nav link to active",
+                    "type": "Boolean"
+                }
+            ],
             "class": "md-scroll-spy",
             "module": "mdeditor",
             "submodule": "components-control"
@@ -2750,6 +2861,18 @@
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
             "line": 24,
+            "description": "Fix fullscreen render inside of liquid-outlet..",
+            "itemtype": "event",
+            "name": "didInsertElement",
+            "access": "public",
+            "tagname": "",
+            "class": "md-markdown-editor",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-markdown-area/component.js",
+            "line": 48,
             "description": "Make sure the value is not null or undefined, for Simple MDE.",
             "itemtype": "event",
             "name": "didReceiveAttrs",
@@ -2761,7 +2884,20 @@
         },
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
-            "line": 44,
+            "line": 68,
+            "description": "The current simplemde editor instance.",
+            "itemtype": "property",
+            "name": "editor",
+            "type": "{Object}",
+            "access": "private",
+            "tagname": "",
+            "class": "md-markdown-editor",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-markdown-area/component.js",
+            "line": 76,
             "description": "Bound textarea value.",
             "itemtype": "property",
             "name": "value",
@@ -2772,7 +2908,7 @@
         },
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
-            "line": 51,
+            "line": 83,
             "description": "If true, the \"row\" the editor will be initally collapse.",
             "itemtype": "property",
             "name": "collapsed",
@@ -2784,7 +2920,7 @@
         },
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
-            "line": 59,
+            "line": 91,
             "description": "If true, the collapse control will be added to the label header.",
             "itemtype": "property",
             "name": "collapsible",
@@ -2796,7 +2932,7 @@
         },
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
-            "line": 68,
+            "line": 100,
             "description": "Placeholder string.",
             "itemtype": "property",
             "name": "placeholder",
@@ -2808,7 +2944,7 @@
         },
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
-            "line": 77,
+            "line": 109,
             "description": "Options for markdown editor",
             "itemtype": "property",
             "name": "options",
@@ -2825,7 +2961,7 @@
         },
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
-            "line": 102,
+            "line": 138,
             "description": "Returns the length of hte value string, 0 if falsy.",
             "itemtype": "property",
             "name": "length",
@@ -2842,7 +2978,7 @@
         },
         {
             "file": "app/pods/components/input/md-markdown-area/component.js",
-            "line": 116,
+            "line": 152,
             "description": "Returns string indicating error or warning based on maxlength.",
             "itemtype": "property",
             "name": "errorClass",
@@ -3930,8 +4066,42 @@
             "submodule": "components-object"
         },
         {
+            "file": "app/pods/components/object/md-citation/preview/component.js",
+            "line": 4,
+            "description": "Title for the card",
+            "itemtype": "property",
+            "name": "title",
+            "type": "{String}",
+            "default": "\"Citation\"",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-citation/preview/component.js",
+            "line": 14,
+            "description": "Indicates if object is required.",
+            "itemtype": "property",
+            "name": "required",
+            "type": "{Boolean}",
+            "default": "\"false\"",
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-citation/preview/component.js",
+            "line": 23,
+            "description": "Indicates if object text is muted.",
+            "itemtype": "property",
+            "name": "muted",
+            "type": "{Boolean}",
+            "default": "\"true\"",
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 24,
+            "line": 29,
             "description": "The string representing the path in the profile object for the citation.",
             "itemtype": "property",
             "name": "profilePath",
@@ -3943,7 +4113,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 33,
+            "line": 38,
             "description": "The object to use as the data model for the citation.",
             "itemtype": "property",
             "name": "model",
@@ -3954,7 +4124,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 41,
+            "line": 46,
             "description": "Indicates whether the citation is embedded and should prevent recursion.",
             "itemtype": "property",
             "name": "embedded",

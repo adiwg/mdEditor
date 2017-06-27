@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/control/md-scroll-spy/component.js - mdeditor</title>
+    <title>app/pods/components/object/md-citation/preview/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -224,172 +224,34 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 
-const {
-  Component,
-  computed,
-  $,
-  A,
-  get
-} = Ember;
-
-export default Component.extend({
+export default Ember.Component.extend({
   /**
-   * mdEditor Component that enables scrollspy
+   * Title for the card
    *
-   * @class md-scroll-spy
-   * @module mdeditor
-   * @submodule components-control
-   * @constructor
-   */
-
-  classNames: [&#x27;md-scroll-spy&#x27;],
-
-  /**
-   * The height to offset from top of container.
-   *
-   * @property offset
-   * @type {Number}
-   * @default 110
-   */
-  offset: 110,
-
-  /**
-   * The initial scroll target wgen the comopnent is inserted.
-   *
-   * @property scrollInit
+   * @property title
    * @type {String}
+   * @default &quot;Citation&quot;
+   * @required
    */
+  title: &quot;Citation&quot;,
 
   /**
-   * The method(action) used to set the scroll target. Should accept a string with
-   * the target.
+   * Indicates if object is required.
    *
-   * @method setScrollTo
-   * @param {String} scrollTo The scroll target
+   * @property required
+   * @type {Boolean}
+   * @default &quot;false&quot;
    */
+  required: false,
 
   /**
-   * Array of data objects for the navigatoin links.
+   * Indicates if object text is muted.
    *
-   * @property links
-   * @type {Array}
-   * @category computed
-   * @requires
+   * @property muted
+   * @type {Boolean}
+   * @default &quot;true&quot;
    */
-  links: computed(function () {
-    //console.info(&#x27;computed links&#x27;);
-
-    let liquid = &#x27;&#x27;;
-
-    if($(&#x27;.liquid-spy&#x27;).length) {
-      liquid = $(&#x27;.liquid-spy .liquid-child:first .liquid-container&#x27;).length ?
-        &#x27;.liquid-spy .liquid-child:first .liquid-container:last &#x27; :
-        &#x27;.liquid-spy &#x27;;
-      liquid += &#x27;.liquid-child:first &#x27;;
-    }
-
-    let $targets = $(&#x60;${liquid}[data-spy]:visible&#x60;);
-    let links = A();
-
-    $targets.each(function (idx, link) {
-      let $link = $(link);
-
-      links.pushObject({
-        id: $link.attr(&#x27;id&#x27;),
-        text: $link.data(&#x27;spy&#x27;),
-        embedded: $link.hasClass(&#x27;md-embedded&#x27;)
-      });
-    });
-
-    return links;
-  }),
-
-  /**
-   * Click handler for nav links.
-   *
-   * @method clickLink
-   * @param {Event} e The click event.
-   */
-  clickLink(e) {
-    let setScrollTo = this.get(&#x27;setScrollTo&#x27;);
-    let $target = $(e.currentTarget);
-    let targetId = $target.attr(&#x27;href&#x27;);
-
-    e.preventDefault();
-    this.scroll(targetId);
-
-    if((typeof setScrollTo === &#x27;function&#x27;)) {
-      setScrollTo($target.text().dasherize());
-    }
-  },
-
-  /**
-   * Setup the scrollspy on  the body element
-   *
-   * @method setupSpy
-   */
-  setupSpy() {
-    $(&#x27;body&#x27;)
-      .scrollspy({
-        target: &#x27;.md-scroll-spy&#x27;,
-        offset: get(this, &#x27;offset&#x27;)
-      });
-  },
-
-  /**
-   * Call setupSpy and perform initial scroll.
-   *
-   * @method didInsertElement
-   */
-  didInsertElement() {
-    this._super(...arguments);
-    this.setupSpy();
-
-    let init = this.get(&#x27;scrollInit&#x27;);
-
-    if(init) {
-      let link = this.get(&#x27;links&#x27;).find((link) =&gt; {
-        return init === link.text.dasherize();
-      });
-
-      if(link) {
-        this.scroll(&#x27;#&#x27; + link.id);
-      }
-    }
-  },
-
-  /**
-   * Scrolls to the target.
-   *
-   * @method MyMethod
-   * @param {String} id elemnet id of target
-   * @param {Boolean} hilite If true, set the spy nav link to active
-   */
-  scroll(id, hilite) {
-    let $anchor = $(id);
-
-    if($anchor) {
-      $(&#x27;body&#x27;)
-        .scrollTop($anchor.offset()
-          .top - get(this, &#x27;offset&#x27;));
-
-      if(hilite) {
-        $(&#x27;[href=#&#x27; + id + &#x27;]&#x27;)
-          .closest(&#x27;li&#x27;)
-          .addClass(&#x27;active&#x27;);
-      }
-
-      $anchor.removeClass(&#x27;md-flash&#x27;);
-      void $anchor[0].offsetWidth;
-      $anchor.addClass(&#x27;md-flash&#x27;);
-    }
-  },
-
-  actions: {
-    clickLink(e) {
-      this.clickLink(e);
-    }
-  }
+  muted: true
 });
 
     </pre>
