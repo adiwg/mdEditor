@@ -22,6 +22,30 @@ export default Component.extend({
    */
 
   /**
+   * Fix fullscreen render inside of liquid-outlet..
+   *
+   * @event didInsertElement
+   * @public
+   */
+  didInsertElement() {
+    this._super(...arguments);
+
+    let editor = this.get('editor');
+    let $el = this.$();
+
+    const oldEditorSetOption = editor.codemirror.setOption;
+
+    editor.codemirror.setOption = function (option, value) {
+      oldEditorSetOption.apply(this, arguments);
+
+      if(option === 'fullScreen') {
+        $el.parents('.liquid-child,.liquid-container, .md-card').toggleClass(
+          'full-screen', value);
+      }
+    };
+  },
+
+  /**
    * Make sure the value is not null or undefined, for Simple MDE.
    *
    * @event didReceiveAttrs
@@ -40,6 +64,14 @@ export default Component.extend({
   classNames: ['md-markdown-editor'],
   classNameBindings: ['label:form-group', 'required', 'errorClass'],
   attributeBindings: ['data-spy'],
+
+  /**
+   * The current simplemde editor instance.
+   *
+   * @property editor
+   * @type {Object}
+   * @private
+   */
 
   /**
    * Bound textarea value.
@@ -98,6 +130,10 @@ export default Component.extend({
       }, 'lines', 'words', 'cursor']
     };
   }),
+
+  // fullscreen: Ember.observer('editor.codemirror.options.fullScreen', function(){
+  //   console.info(this.get('editor.codemirror.options.fullScreen'));
+  // }),
 
   /**
    * Returns the length of hte value string, 0 if falsy.
