@@ -1,6 +1,6 @@
 {{#layout/md-card title="Citation" collapsible=true collapsed=false
-  profilePath=profilePath required=true
-  btnText="Edit" btnClass="success" btnAction=(route-action "editCitation" elementId) btnIcon="pencil"
+  profilePath=profilePath required=true muted=muted
+  btnText="Edit" btnClass="success" btnAction=(route-action "editCitation" "citation") btnIcon="pencil"
 }}
 <div class="row">
 
@@ -17,6 +17,7 @@
           {{/each}}
       {{/control/md-definition}}
   </dl>
+  <div class="clearfix"></div>
   <dl class="dl-horizontal col-lg-6">
       {{#control/md-definition title="Dates" }}
           {{#each citation.date as |date|}}
@@ -31,15 +32,33 @@
   <dl class="dl-horizontal col-lg-6">
       {{#control/md-definition title="Identifier" }}
           {{#each citation.identifier as |id|}}
-              {{id.identifier}}
+              {{id.identifier}} {{if id.namespace (concat "(" id.namespace ")")}}
               <br>
               {{else}}
               <em class="text-muted">No identifiers assigned.</em>
           {{/each}}
       {{/control/md-definition}}
   </dl>
+  <div class="clearfix"></div>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Responsible Party" }}
+          {{#each citation.responsibleParty as |party|}}
+              {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+              (
+              {{#each party.party as |contact index|}}
+                  {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
+              {{else}}
+                  <em class="text-muted">No Contacts assigned.</em>
+              {{/each}}
+              )
+              <br>
+              {{else}}
+              <em class="text-muted">No responsibility assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
 </div>
-<div class="">
+{{!-- <div class="">
   {{#layout/md-card title="Responsible Party" class="card-table"
     data-spy=false shadow=false
   }}
@@ -71,8 +90,9 @@
       </table>
     </div>
   {{/layout/md-card}}
-  {{yield}}
-</div>
+</div> --}}
+
+{{yield}}
 <div class="card-footer">
   <button type="button" name="button" class="btn btn-success pull-right"
     {{action (route-action "editCitation" "citation")}}>
