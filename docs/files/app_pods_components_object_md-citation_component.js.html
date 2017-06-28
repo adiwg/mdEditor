@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3db20188" target="_blank">
-                                  Tag: 0.0.0.3db20188
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/93bdd55e" target="_blank">
+                                  Tag: 0.0.0.93bdd55e
                                 </a>
                             </h4>
                         </div>
@@ -228,25 +228,29 @@ const {
   Component,
   set,
   get,
-  getWithDefault
+  getWithDefault,
+  run: {
+    once
+  }
 } = Ember;
 
 export default Component.extend({
-didReceiveAttrs(){
-  this._super(...arguments);
-  console.info(&#x27;received&#x27;);
-},
-
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
     let model = get(this, &#x27;model&#x27;);
-    set(model, &#x27;responsibleParty&#x27;, getWithDefault(model, &#x27;responsibleParty&#x27;, []));
-    set(model, &#x27;presentationForm&#x27;, getWithDefault(model, &#x27;presentationForm&#x27;, []));
-    set(model, &#x27;onlineResource&#x27;, getWithDefault(model, &#x27;onlineResource&#x27;, []));
-    set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, []));
-    set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
-    set(model, &#x27;series&#x27;, getWithDefault(model, &#x27;series&#x27;, {}));
+
+    once(function () {
+      set(model, &#x27;responsibleParty&#x27;, getWithDefault(model,
+        &#x27;responsibleParty&#x27;, []));
+      set(model, &#x27;presentationForm&#x27;, getWithDefault(model,
+        &#x27;presentationForm&#x27;, []));
+      set(model, &#x27;onlineResource&#x27;, getWithDefault(model,
+        &#x27;onlineResource&#x27;, []));
+      set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, []));
+      set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
+      set(model, &#x27;series&#x27;, getWithDefault(model, &#x27;series&#x27;, {}));
+    });
   },
   tagName: &#x27;form&#x27;,
 

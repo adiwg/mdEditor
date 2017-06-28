@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3db20188" target="_blank">
-                                  Tag: 0.0.0.3db20188
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/93bdd55e" target="_blank">
+                                  Tag: 0.0.0.93bdd55e
                                 </a>
                             </h4>
                         </div>
@@ -335,7 +335,7 @@ export default Ember.Service.extend({
               edition: true,
               responsibleParty: true,
               presentationForm: true,
-              otherCitationDetails:true,
+              otherCitationDetails: true,
               graphic: true,
               identifier: {
                 identifier: true,
@@ -354,7 +354,7 @@ export default Ember.Service.extend({
           metadata: {
             basicInformation: true,
             metadataStatus: true,
-            metadataDate:true,
+            metadataDate: true,
             metadataContact: true,
             defaultLocale: true,
             metadataIdentifier: {
@@ -369,7 +369,28 @@ export default Ember.Service.extend({
                 responsibleParty: true
               }
             },
-            parentMetadata: true
+            parentMetadata: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
+              }
+            }
           }
         }
       }

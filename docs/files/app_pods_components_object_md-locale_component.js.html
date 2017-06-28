@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3db20188" target="_blank">
-                                  Tag: 0.0.0.3db20188
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/93bdd55e" target="_blank">
+                                  Tag: 0.0.0.93bdd55e
                                 </a>
                             </h4>
                         </div>
@@ -266,7 +266,7 @@ export default Component.extend(Template, {
 
     //let model = get(model, modelPath);
 
-    if(isNone(model) || Object.keys(model) === 0) {
+    if(isNone(model) || Object.keys(model).length === 0) {
       model = EmObject.create(this.applyTemplate(model, {
         language: copy(settings.get(&#x27;language&#x27;)),
         characterSet: copy(settings.get(&#x27;characterSet&#x27;)),

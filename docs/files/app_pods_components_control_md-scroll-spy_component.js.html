@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3db20188" target="_blank">
-                                  Tag: 0.0.0.3db20188
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/93bdd55e" target="_blank">
+                                  Tag: 0.0.0.93bdd55e
                                 </a>
                             </h4>
                         </div>
@@ -347,7 +347,9 @@ export default Component.extend({
 
     let init = this.get(&#x27;scrollInit&#x27;);
 
-    if(init) {
+    if(!init || init === &#x27;top&#x27;) {
+      this.scroll();
+    } else {
       let link = this.get(&#x27;links&#x27;).find((link) =&gt; {
         return init === link.text.dasherize();
       });
@@ -368,21 +370,22 @@ export default Component.extend({
   scroll(id, hilite) {
     let $anchor = $(id);
 
-    if($anchor) {
-      $(&#x27;body&#x27;)
-        .scrollTop($anchor.offset()
-          .top - get(this, &#x27;offset&#x27;));
-
-      if(hilite) {
-        $(&#x27;[href=#&#x27; + id + &#x27;]&#x27;)
-          .closest(&#x27;li&#x27;)
-          .addClass(&#x27;active&#x27;);
-      }
-
-      $anchor.removeClass(&#x27;md-flash&#x27;);
-      void $anchor[0].offsetWidth;
-      $anchor.addClass(&#x27;md-flash&#x27;);
+    if($anchor.length === 0) {
+      $(&#x27;body&#x27;).scrollTop(0 - get(this, &#x27;offset&#x27;));
+      return;
     }
+    $(&#x27;body&#x27;).scrollTop($anchor.offset().top - get(this, &#x27;offset&#x27;));
+
+    if(hilite) {
+      $(&#x27;[href=#&#x27; + id + &#x27;]&#x27;)
+        .closest(&#x27;li&#x27;)
+        .addClass(&#x27;active&#x27;);
+    }
+
+    $anchor.removeClass(&#x27;md-flash&#x27;);
+    void $anchor[0].offsetWidth;
+    $anchor.addClass(&#x27;md-flash&#x27;);
+
   },
 
   actions: {
