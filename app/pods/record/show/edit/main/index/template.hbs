@@ -11,6 +11,8 @@
           placeholder="Assigned Record ID"
           label="Record ID"
           profilePath="record.main.recordId"
+          data-spy="Record ID"
+          class="md-embedded"
         }}
 
         {{input/md-codelist-multi
@@ -18,6 +20,8 @@
           create=true tooltip=true icon=false mdCodeName="progress"
           placeholder="Select the current status"
           profilePath="record.main.status"
+          data-spy="Status"
+          class="md-embedded"
         }}
 
         {{!-- {{input/md-codelist-multi
@@ -62,6 +66,8 @@
           profilePath="record.main.citation"
           citation=resource.citation
           muted=true
+          required=true
+          editCitation="editCitation"
         }}
 
         {{#layout/md-card title="Description" collapsible=true collapsed=false

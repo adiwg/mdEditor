@@ -20,4 +20,16 @@ export default function() {
     this.reverse('toRight')
     //,this.debug()
   );
+  this.transition(
+    this.toRoute('record.show.edit.metadata.parent'),
+    this.fromRoute('record.show.edit.metadata.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.metadata.parent.identifier'),
+    this.fromRoute('record.show.edit.metadata.parent'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
 }

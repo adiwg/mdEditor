@@ -98,6 +98,7 @@
 
 #md-navbar-secondary {
   background-color: lighten($gray-base, 96);
+  border-bottom: 1px solid lighten($gray-base, 90);
   max-height: 40px;
 
   a.active {

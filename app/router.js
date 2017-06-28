@@ -31,6 +31,11 @@ Router.map(function () {
         this.route('edit', function () {
           this.route('metadata', function() {
             this.route('identifier');
+            this.route('parent', function() {
+              this.route('identifier', {
+                path: 'identifier/:identifier_id'
+              });
+            });
           });
           this.route('keywords', function() {
             this.route('thesaurus', {

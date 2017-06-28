@@ -9,6 +9,8 @@
     label="Title"
     required=true
     profilePath=(concat profilePath ".title")
+    data-spy="Title"
+    class="md-embedded"
   }}
 
   {{#layout/md-card shadow=false profilePath=(concat profilePath ".alternateTitle")}}
@@ -25,7 +27,7 @@
 
   {{#layout/md-card shadow=false profilePath=(concat profilePath ".date")
     data-spy="Dates"
-    class=(if embedded "md-embedded")
+    class="md-embedded"
   }}
     {{object/md-date-array value=model.date plain=true data-spy=false}}
   {{/layout/md-card}}

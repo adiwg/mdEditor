@@ -5,10 +5,6 @@ const {
 } = Ember;
 
 export default Route.extend(ScrollTo, {
-  queryParams: {
-    scrollTo: true
-  },
-
   actions: {
     editCitation(scrollTo) {
       this.transitionTo('record.show.edit.main.citation').then(function () {

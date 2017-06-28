@@ -4,20 +4,29 @@ const {
   Component,
   set,
   get,
-  getWithDefault
+  getWithDefault,
+  run: {
+    once
+  }
 } = Ember;
 
 export default Component.extend({
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
     let model = get(this, 'model');
-    set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
-    set(model, 'presentationForm', getWithDefault(model, 'presentationForm', []));
-    set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
-    set(model, 'identifier', getWithDefault(model, 'identifier', []));
-    set(model, 'graphic', getWithDefault(model, 'graphic', []));
-    set(model, 'series', getWithDefault(model, 'series', {}));
+
+    once(function () {
+      set(model, 'responsibleParty', getWithDefault(model,
+        'responsibleParty', []));
+      set(model, 'presentationForm', getWithDefault(model,
+        'presentationForm', []));
+      set(model, 'onlineResource', getWithDefault(model,
+        'onlineResource', []));
+      set(model, 'identifier', getWithDefault(model, 'identifier', []));
+      set(model, 'graphic', getWithDefault(model, 'graphic', []));
+      set(model, 'series', getWithDefault(model, 'series', {}));
+    });
   },
   tagName: 'form',
 

@@ -1,6 +1,6 @@
-{{#layout/md-card title="Citation" collapsible=true collapsed=false
-  profilePath=profilePath required=true muted=muted
-  btnText="Edit" btnClass="success" btnAction=(route-action "editCitation" "citation") btnIcon="pencil"
+{{#layout/md-card title=title collapsible=true collapsed=false
+  profilePath=profilePath required=required muted=muted
+  btnText="Edit" btnClass="success" btnAction=(route-action editCitation (dasherize title)) btnIcon="pencil"
 }}
 <div class="row">
 
@@ -95,7 +95,7 @@
 {{yield}}
 <div class="card-footer">
   <button type="button" name="button" class="btn btn-success pull-right"
-    {{action (route-action "editCitation" "citation")}}>
+    {{action (route-action editCitation (dasherize title))}}>
     {{fa-icon "pencil"}} Edit Citation
   </button>
 </div>

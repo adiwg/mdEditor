@@ -14,8 +14,11 @@ export default Route.extend(ScrollTo, {
 
     let model = get(m, 'json.metadata.metadataInfo');
     set(model, 'metadataContact', getWithDefault(model, 'metadataContact', []));
-    set(model, 'metadataIdentifier', getWithDefault(model,
-      'metadataIdentifier', {}));
+    set(model, 'metadataDate', getWithDefault(model, 'metadataDate', []));
+    set(model, 'metadataOnlineResource', getWithDefault(model, 'metadataOnlineResource', []));
+    set(model, 'defaultMetadataLocale', getWithDefault(model, 'defaultMetadataLocale', {}));
+    set(model, 'metadataIdentifier', getWithDefault(model,'metadataIdentifier', {}));
+    set(model, 'parentMetadata', getWithDefault(model,'parentMetadata', {}));
   },
 
   actions: {
@@ -24,6 +27,11 @@ export default Route.extend(ScrollTo, {
         function () {
           this.setScrollTo('metadata-identifier');
         }.bind(this));
+    },
+    editParent() {
+      this.transitionTo('record.show.edit.metadata.parent').then(function () {
+        this.setScrollTo('parent-metadata');
+      }.bind(this));
     }
   }
 });

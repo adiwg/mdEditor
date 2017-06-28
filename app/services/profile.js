@@ -111,7 +111,7 @@ export default Ember.Service.extend({
               edition: true,
               responsibleParty: true,
               presentationForm: true,
-              otherCitationDetails:true,
+              otherCitationDetails: true,
               graphic: true,
               identifier: {
                 identifier: true,
@@ -128,8 +128,45 @@ export default Ember.Service.extend({
             }
           },
           metadata: {
+            basicInformation: true,
+            metadataStatus: true,
+            metadataDate: true,
             metadataContact: true,
-            defaultLocale: true
+            defaultLocale: true,
+            metadataIdentifier: {
+              identifier: true,
+              namespace: true,
+              version: true,
+              description: true,
+              authority: {
+                title: true,
+                alternateTitle: true,
+                date: true,
+                responsibleParty: true
+              }
+            },
+            parentMetadata: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
+              }
+            }
           }
         }
       }
