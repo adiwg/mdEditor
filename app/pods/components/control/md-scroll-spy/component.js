@@ -123,7 +123,9 @@ export default Component.extend({
 
     let init = this.get('scrollInit');
 
-    if(init) {
+    if(!init || init === 'top') {
+      this.scroll();
+    } else {
       let link = this.get('links').find((link) => {
         return init === link.text.dasherize();
       });
@@ -144,21 +146,22 @@ export default Component.extend({
   scroll(id, hilite) {
     let $anchor = $(id);
 
-    if($anchor) {
-      $('body')
-        .scrollTop($anchor.offset()
-          .top - get(this, 'offset'));
-
-      if(hilite) {
-        $('[href=#' + id + ']')
-          .closest('li')
-          .addClass('active');
-      }
-
-      $anchor.removeClass('md-flash');
-      void $anchor[0].offsetWidth;
-      $anchor.addClass('md-flash');
+    if($anchor.length === 0) {
+      $('body').scrollTop(0 - get(this, 'offset'));
+      return;
     }
+    $('body').scrollTop($anchor.offset().top - get(this, 'offset'));
+
+    if(hilite) {
+      $('[href=#' + id + ']')
+        .closest('li')
+        .addClass('active');
+    }
+
+    $anchor.removeClass('md-flash');
+    void $anchor[0].offsetWidth;
+    $anchor.addClass('md-flash');
+
   },
 
   actions: {

@@ -17,9 +17,14 @@
     transition: none;
   }
 
-  .md-embedded {
+  .nav .md-embedded {
     font-size: .95em;
     padding-left: 10px;
+
+    > a {
+      padding-bottom: 2.5px;
+      padding-top: 2.5px;
+    }
   }
 }
 
