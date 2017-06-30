@@ -21,6 +21,13 @@ export default function() {
     //,this.debug()
   );
   this.transition(
+    this.toRoute('record.show.edit.metadata.alternate'),
+    this.fromRoute('record.show.edit.metadata.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+    //,this.debug()
+  );
+  this.transition(
     this.toRoute('record.show.edit.metadata.parent'),
     this.fromRoute('record.show.edit.metadata.index'),
     this.use('toLeft'),
@@ -28,7 +35,7 @@ export default function() {
   );
   this.transition(
     this.toRoute('record.show.edit.metadata.parent.identifier'),
-    this.fromRoute('record.show.edit.metadata.parent'),
+    this.fromRoute('record.show.edit.metadata.parent.index'),
     this.use('toLeft'),
     this.reverse('toRight')
   );

@@ -160,6 +160,15 @@ export default Component.extend({
   icon: false,
 
   /**
+   * Indicates if value is required.
+   *
+   * @property required
+   * @type Boolean
+   * @default false
+   */
+  required: false,
+
+  /**
    * The default icon.
    *
    * @property defaultIcon

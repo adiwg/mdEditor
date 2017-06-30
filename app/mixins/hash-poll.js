@@ -20,21 +20,23 @@ export default Mixin.create({
   afterModel(model) {
     this._super(...arguments);
 
-    if(this.get('settings.data.autoSave')) {
+    if (this.get('settings.data.autoSave')) {
       model.set('jsonRevert', model.serialize().data.attributes.json);
     }
 
     let hashPoller = this.get('hashPoller');
 
     // Make sure we only create one poller instance.
-    if(!hashPoller) {
+    if (!hashPoller) {
       hashPoller = this.get('pollboy')
         .add(this, this.onPoll, pollInterval);
       this.set('hashPoller', hashPoller);
     }
+
+    return model;
   },
 
-  deactivatePoll: on('deactivate', function () {
+  deactivatePoll: on('deactivate', function() {
     // if(this.get('autoSave')) {
     //   return;
     // }
@@ -49,8 +51,10 @@ export default Mixin.create({
   onPoll() {
     const model = this.currentRouteModel();
 
-    return new Ember.RSVP.Promise(function (resolve) {
-      model.notifyPropertyChange('currentHash');
+    return new Ember.RSVP.Promise(function(resolve) {
+      if (model) {
+        model.notifyPropertyChange('currentHash');
+      }
       resolve(true);
     });
   }

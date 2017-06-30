@@ -70,6 +70,11 @@
       {{object/md-locale model=model modelPath="json.metadata.metadataInfo.defaultMetadataLocale"}}
     {{/layout/md-card}}
 
+    {{object/md-citation-array model=metadata.alternateMetadataReference
+      profilePath="record.metadata.alternateMetadataReference" data-spy="Alternate Metadata"
+      editItem=(route-action "editAlternate") label="Alternate Metadata Reference"
+    }}
+
     {{outlet}}
   </form>
 </div>

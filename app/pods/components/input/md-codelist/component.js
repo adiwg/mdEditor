@@ -10,6 +10,23 @@ export default Select.extend({
    * Access to codelists is provided by the 'codelist' service.
    * Descriptions of all codes (tooltips) are embedded within the codelists.
    *
+   * ```handlebars
+   * \{{input/md-codelist
+   *   create=true
+   *   required=false
+   *   tooltip=fasle
+   *   icon=false
+   *   disabled=false
+   *   allowClear=true
+   *   showValidations=true
+   *   mdCodeName="codeName"
+   *   value=value
+   *   path="path"
+   *   model=model
+   *   placeholder="Choose"
+   * }}
+   * ```
+   *
    * @module mdeditor
    * @submodule components-input
    * @class md-codelist

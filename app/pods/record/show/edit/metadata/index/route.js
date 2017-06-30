@@ -19,6 +19,7 @@ export default Route.extend(ScrollTo, {
     set(model, 'defaultMetadataLocale', getWithDefault(model, 'defaultMetadataLocale', {}));
     set(model, 'metadataIdentifier', getWithDefault(model,'metadataIdentifier', {}));
     set(model, 'parentMetadata', getWithDefault(model,'parentMetadata', {}));
+    set(model, 'alternateMetadataReference', getWithDefault(model, 'alternateMetadataReference', []));
   },
 
   actions: {
@@ -26,6 +27,12 @@ export default Route.extend(ScrollTo, {
       this.transitionTo('record.show.edit.metadata.identifier').then(
         function () {
           this.setScrollTo('metadata-identifier');
+        }.bind(this));
+    },
+    editAlternate(index) {
+      this.transitionTo('record.show.edit.metadata.alternate.index', index).then(
+        function () {
+          this.setScrollTo('alternate-metadata');
         }.bind(this));
     },
     editParent() {

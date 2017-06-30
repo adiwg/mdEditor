@@ -8,9 +8,10 @@ const {
 } = Ember;
 
 export default Route.extend(ScrollTo, {
-  afterModel(model, transition) {
+  afterModel(model) {
+    this._super(...arguments);
+
     if(isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
-      transition.abort();
       this.transitionTo('record.show.edit.metadata', {
         queryParams: {
           scrollTo: 'parent-metadata'

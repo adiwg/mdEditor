@@ -8,10 +8,18 @@
   profilePath=(concat profilePath '.identifier')
 }}
 
-{{input/md-input
-  value=model.namespace
-  placeholder="Enter the namespace for the identifier."
+{{input/md-codelist
   label="Namespace"
+  placeholder="Select or type a namespace for the identifier."
+  create=true
+  required=false
+  tooltip=true
+  icon=false
+  disabled=disabled
+  allowClear=true
+  mdCodeName="namespace"
+  valuePath="code"
+  value=model.namespace
   profilePath=(concat profilePath '.namespace')
 }}
 

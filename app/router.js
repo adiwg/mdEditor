@@ -36,6 +36,17 @@ Router.map(function () {
                 path: 'identifier/:identifier_id'
               });
             });
+
+            this.route('alternate', {
+              //path: 'alternate/:citationid'
+            }, function() {
+              this.route('index', {
+                path: 'alternate/:citation_id'
+              });
+              this.route('identifier', {
+                path: 'identifier/:identifier_id'
+              });
+            });
           });
           this.route('keywords', function() {
             this.route('thesaurus', {

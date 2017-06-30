@@ -91,7 +91,7 @@
     "liquid-fire": "0.27.3",
     "loader.js": "^4.0.10",
     "lodash.has": "^4.5.2",
-    "mdcodes": "^2.1.6",
+    "mdcodes": "^2.2.0",
     "moment-timezone": "^0.5.13",
     "object-hash": "^1.1.7",
     "shapefile": "^0.6.2",
