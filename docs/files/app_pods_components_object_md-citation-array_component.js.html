@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/control/md-modal/component.js - mdeditor</title>
+    <title>app/pods/components/object/md-citation-array/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -227,97 +227,78 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 
-export default Ember.Component.extend({
-  /**
-   * Whether to display the modal
-   *
-   * @prop isShowing
-   * @type {Boolean}
-   */
-  isShowing: false,
+const {
+  A,
+  Component
+} = Ember;
 
-  /**
-   * Text to display in the modal.
-   * Note: This string is NOT escaped in the template.
-   *
-   * @property message
-   * @type {String}
-   */
+export default Component.extend({
 
-   /**
-    * Element selector or element that serves as the reference for modal position
-    *
-    * @property target
-    * @type {String}
-    */
-   target: &#x27;viewport&#x27;,
+  init() {
+    this._super(...arguments);
 
-  /**
-   * Whether to display the confirm button
-   *
-   * @property showConfirm
-   * @type {Boolean}
-   */
-  showConfirm: false,
-
-  /**
-   * Whether to render in place
-   *
-   * @property renderInPlace
-   * @type {Boolean}
-   */
-  renderInPlace: false,
-
-  /**
-   * Whether to display the cancel button
-   *
-   * @property showCancel
-   * @type {Boolean}
-   */
-  showCancel: false,
-
-  /**
-   * Label for the confirm button
-   *
-   * @property confirmLabel
-   * @type {String}
-   */
-  confirmLabel: &#x27;OK&#x27;,
-
-  /**
-   * Close action callback
-   */
-  closeModal() {
-    this.set(&#x27;isShowing&#x27;, false);
-  },
-
-  /**
-   * Confirm action callback
-   */
-  confirm() {
-    this.closeModal();
-  },
-
-  /**
-   * Cancel action callback
-   */
-  cancel() {
-    this.closeModal();
-  },
-
-  actions: {
-    closeModal() {
-      this.closeModal();
-    },
-
-    confirm() {
-      this.confirm();
-    },
-
-    cancel() {
-      this.cancel();
+    if(!this.get(&#x27;model&#x27;)) {
+      this.set(&#x27;model&#x27;, A());
     }
-  }
+  },
+
+  /**
+   * mdEditor class for input and edit of mdJSON &#x27;citation&#x27; object
+   * arrays.
+   * The class manages the maintenance of an array of citation
+   * objects using the md-object-table class.
+   *
+   * @module mdeditor
+   * @submodule components-object
+   * @class md-citation-array
+   * @constructor
+   */
+
+  attributeBindings: [&#x27;data-spy&#x27;],
+
+  /**
+   * mdJSON object containing the &#x27;citation&#x27; array.
+   *
+   * @property model
+   * @type Object
+   * @required
+   */
+
+  /**
+   * List of mdJSON &#x27;citation&#x27; object attributes to display in
+   * md-object-table to aid in choosing the citation to edit or
+   * delete.
+   * The property is passed to md-object-table for configuration.
+   *
+   * @property attributes
+   * @type String
+   * @default &#x27;title&#x27;
+   */
+  attributes: &#x27;title&#x27;,
+
+  /**
+   * Name to place on the mdEditor panel header for entry and edit of
+   * &#x27;citation&#x27; objects.
+   * The property is passed to md-object-table for configuration.
+   *
+   * @property label
+   * @type String
+   * @default &#x27;Citation&#x27;
+   */
+  label: &#x27;Citation&#x27;,
+
+  /**
+   * See [md-array-table](md-array-table.html#property_templateClass).
+   *
+   * @property templateClass
+   * @type Ember.Object
+   */
+  templateClass: Ember.Object.extend({
+    init() {
+      this._super(...arguments);
+      //this.set(&#x27;authority&#x27;, {});
+    }
+  })
 });
 
     </pre>

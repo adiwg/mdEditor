@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>md-simple-array-table - mdeditor</title>
+    <title>md-citation-array - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -222,8 +222,8 @@
 
 
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-simple-array-table Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-simple-array-table/component.js#L10" target="_blank">
+    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-citation-array Class
+            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation-array/component.js#L18" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -232,69 +232,23 @@
 
 <div class="content-meta">
 
-        <div class="extends">
-            Extends: Md-array-table
-        </div>
 
             Module: <a href="../modules/components-object.html">components-object</a><br>
             Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-simple-array-table/component.js#L10">app/pods/components/object/md-simple-array-table/component.js:10</a>
+            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation-array/component.js#L18">app/pods/components/object/md-citation-array/component.js:18</a>
         </div>
 </div>
 
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_md-simple-array-table" class="method item">
-	<span class="method-signature">
-	<span class="name anchorable-toc">
-		<a class="fa fa-link toc-anchor" href="#method_md-simple-array-table"></a>
-		md-simple-array-table
-	</span>
-
-		<span class="paren">()</span>
-	</span>
-
-
-
-
-
-
-
-	<div class="meta">
-				<p>
-				Defined in
-		<a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-simple-array-table/component.js#L10">app/pods/components/object/md-simple-array-table/component.js:10</a>
-		</p>
-
-
-
-	</div>
-
-
-
-
-</div>
-    </div>
 
   <div class="class-description">
-  <p>mdEditor component for input and edit of arrays of scalars. The
-component is rendered as an editable table.</p>
-<pre class="code prettyprint"><code class="language-handlebars">{{#object/md-simple-array-table
-  title="Simple"
-  required=false
-  plain=true
-  value=model as |val|
-}}
-  &lt;td&gt;
-      {{input/md-input value=val.item.value
-      placeholder="Enter value"}}
-  &lt;/td&gt;
-{{/object/md-simple-array-table}}
-</code></pre>
+  <p>mdEditor class for input and edit of mdJSON 'citation' object
+arrays.
+The class manages the maintenance of an array of citation
+objects using the md-object-table class.</p>
 
   </div>
 
@@ -303,7 +257,6 @@ component is rendered as an editable table.</p>
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
-            <li role="presentation"><a href="#tab_methods" aria-controls="tab_methods" role="tab" data-toggle="tab">Methods</a></li>
 
             <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
 
@@ -337,79 +290,49 @@ component is rendered as an editable table.</p>
               </form>
 
           <div id="tab_index" role="tabpanel" class="tab-pane active" >
-                  <div class="index-section methods">
-                      <h3>Methods</h3>
-
-                      <ul class="index-list methods extends">
-                              <li class="index-item method inherited">
-                                  <a href="#method_valueChanged">valueChanged</a>
-
-                              </li>
-                      </ul>
-                  </div>
 
                   <div class="index-section properties">
                       <h3>Properties</h3>
 
-                      <ul class="index-list properties extends">
-                              <li class="index-item property inherited">
-                                  <a href="#property_arrayValues">arrayValues</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_collapsed">collapsed</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_columnArray">columnArray</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_columns">columns</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_data-spy">data-spy</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_isCollapsed">isCollapsed</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_panelId">panelId</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_pillColor">pillColor</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_plain">plain</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_required">required</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_templateClass">templateClass</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_title">title</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_validation">validation</a>
-
-                              </li>
-                              <li class="index-item property inherited">
-                                  <a href="#property_value">value</a>
+                      <ul class="index-list properties">
+                              <li class="index-item property">
+                                  <a href="#property_attributes">attributes</a>
 
                               </li>
                               <li class="index-item property">
-                                  <a href="#property_valuesObserver">valuesObserver</a>
+                                  <a href="#property_embedded">embedded</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_label">label</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_model">model</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_model">model</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_muted">muted</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_profilePath">profilePath</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_required">required</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_templateClass">templateClass</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_title">title</a>
 
                               </li>
                       </ul>
@@ -418,173 +341,15 @@ component is rendered as an editable table.</p>
 
           </div>
 
-              <div id="tab_methods" role="tabpanel" class="tab-pane">
-                  <div class="item-list">
-  <div id="method_valueChanged" class="method item inherited">
-  	<span class="method-signature">
-  	<span class="name anchorable-toc">
-  		<a class="fa fa-link toc-anchor" href="#method_valueChanged"></a>
-  		valueChanged
-  	</span>
-  
-  		<span class="paren">()</span>
-  		<span class="returns-inline">
-  			<span class="type"></span>
-  		</span>
-  	</span>
-  
-  
-  
-  
-  
-  
-  
-  	<div class="meta">
-  				<p>Inherited from
-  				<a href="#method_valueChanged">md-array-table</a>:
-  		<a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L215">app/pods/components/object/md-array-table/component.js:215</a>
-  		</p>
-  
-  
-  
-  	</div>
-  
-  	<div class="description"><p>Focus the added row, or the last row on deletion.</p>
-  </div>
-  
-  
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  					<p>none</p>
-  
-  			</div>
-  		</div>
-  
-  </div>
-                  </div>
-              </div>
 
               <div id="tab_properties" role="tabpanel" class="tab-pane">
                   <div class="item-list">
   
   
-  <div id="property_arrayValues" class="property item">
+  <div id="property_attributes" class="property item">
       <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_arrayValues"></a>
-          arrayValues
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-  
-          <span class="flag required">computed
-            (
-              <span class="computed">value.[]</span>
-            )
-          </span>
-  
-  
-  
-  
-  
-      <div class="meta">
-              <p>Inherited from
-              <a href="#property_arrayValues">
-                  md-array-table
-              </a>
-              but overwritten in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-simple-array-table/component.js#L36">app/pods/components/object/md-simple-array-table/component.js:36</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Convert the input 'primitive' array to an 'ember' array of objects</p>
-  
-      </div>
-  
-  
-  
-  </div>
-  
-  
-  <div id="property_collapsed" class="property item inherited">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_collapsed"></a>
-          collapsed
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
-  
-          <span class="flag required">computed
-            (
-              <span class="computed">isCollapsed</span>
-            )
-          </span>
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_collapsed">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L151">app/pods/components/object/md-array-table/component.js:151</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Uses isCollapsed if defined, otherwise inspects array length.</p>
-  
-      </div>
-  
-  
-  
-  </div>
-  
-  
-  <div id="property_columnArray" class="property item inherited">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_columnArray"></a>
-          columnArray
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-  
-          <span class="flag required">computed
-            (
-              <span class="computed">columns</span>
-            )
-          </span>
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_columnArray">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L136">app/pods/components/object/md-array-table/component.js:136</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>Array of column headers</p>
-  
-      </div>
-  
-  
-  
-  </div>
-  
-  
-  <div id="property_columns" class="property item inherited">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_columns"></a>
-          columns
+          <a class="fa fa-link toc-anchor" href="#property_attributes"></a>
+          attributes
       </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
   
@@ -594,64 +359,32 @@ component is rendered as an editable table.</p>
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_columns">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L74">app/pods/components/object/md-array-table/component.js:74</a>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation-array/component.js#L40">app/pods/components/object/md-citation-array/component.js:40</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>Comma-separated list of column headers to display in the table. If not
-  provided, the table header will not be created.</p>
+          <p>List of mdJSON 'citation' object attributes to display in
+  md-object-table to aid in choosing the citation to edit or
+  delete.
+  The property is passed to md-object-table for configuration.</p>
   
       </div>
   
+          <p><br><strong>Default:</strong> &#x27;title&#x27;</p>
   
   
   </div>
   
   
-  <div id="property_data-spy" class="property item inherited">
+  <div id="property_embedded" class="property item">
       <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_data-spy"></a>
-          data-spy
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-          <span class="flag required">computed
-            )
-          </span>
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_data-spy">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L126">app/pods/components/object/md-array-table/component.js:126</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The data-spy text. Defaults to the title.</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> &quot;this.title&quot;</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_isCollapsed" class="property item inherited">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_isCollapsed"></a>
-          isCollapsed
+          <a class="fa fa-link toc-anchor" href="#property_embedded"></a>
+          embedded
       </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
   
@@ -661,90 +394,84 @@ component is rendered as an editable table.</p>
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_isCollapsed">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L82">app/pods/components/object/md-array-table/component.js:82</a>
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation/component.js#L50">app/pods/components/object/md-citation/component.js:50</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>Inital collapse state fo the panel.</p>
+          <p>Indicates whether the citation is embedded and should prevent recursion.</p>
   
       </div>
   
-          <p><br><strong>Default:</strong> undefined</p>
+          <p><br><strong>Default:</strong> &quot;false&quot;</p>
   
   
   </div>
   
   
-  <div id="property_panelId" class="property item inherited">
+  <div id="property_label" class="property item">
       <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_panelId"></a>
-          panelId
+          <a class="fa fa-link toc-anchor" href="#property_label"></a>
+          label
       </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
   
-          <span class="flag required">computed
-            (
-              <span class="computed">elementId</span>
-            )
-          </span>
   
   
   
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_panelId">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L184">app/pods/components/object/md-array-table/component.js:184</a>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation-array/component.js#L52">app/pods/components/object/md-citation-array/component.js:52</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>The panel id selector</p>
+          <p>Name to place on the mdEditor panel header for entry and edit of
+  'citation' objects.
+  The property is passed to md-object-table for configuration.</p>
   
       </div>
   
-          <p><br><strong>Default:</strong> &quot;panel-{this.elementId}&quot;</p>
+          <p><br><strong>Default:</strong> &#x27;Citation&#x27;</p>
   
   
   </div>
   
   
-  <div id="property_pillColor" class="property item inherited">
+  <div id="property_model" class="property item">
       <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_pillColor"></a>
-          pillColor
+          <a class="fa fa-link toc-anchor" href="#property_model"></a>
+          model
       </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
   
-          <span class="flag required">computed
-            (
-              <span class="computed">value.[]</span>
-            )
-          </span>
   
   
   
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_pillColor">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L198">app/pods/components/object/md-array-table/component.js:198</a>
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation/component.js#L42">app/pods/components/object/md-citation/component.js:42</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>The color of the counter displayed in the panel header</p>
+          <p>The object to use as the data model for the citation.</p>
   
       </div>
   
@@ -753,10 +480,41 @@ component is rendered as an editable table.</p>
   </div>
   
   
-  <div id="property_plain" class="property item inherited">
+  <div id="property_model" class="property item">
       <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_plain"></a>
-          plain
+          <a class="fa fa-link toc-anchor" href="#property_model"></a>
+          model
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation-array/component.js#L32">app/pods/components/object/md-citation-array/component.js:32</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>mdJSON object containing the 'citation' array.</p>
+  
+      </div>
+  
+  
+  
+  </div>
+  
+  
+  <div id="property_muted" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_muted"></a>
+          muted
       </h3>
       <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
   
@@ -766,26 +524,60 @@ component is rendered as an editable table.</p>
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_plain">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L98">app/pods/components/object/md-array-table/component.js:98</a>
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation/preview/component.js#L23">app/pods/components/object/md-citation/preview/component.js:23</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>Whether to render in a panel.</p>
+          <p>Indicates if object text is muted.</p>
   
       </div>
   
-          <p><br><strong>Default:</strong> false</p>
+          <p><br><strong>Default:</strong> &quot;true&quot;</p>
   
   
   </div>
   
   
-  <div id="property_required" class="property item inherited">
+  <div id="property_profilePath" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_profilePath"></a>
+          profilePath
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation/component.js#L33">app/pods/components/object/md-citation/component.js:33</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>The string representing the path in the profile object for the citation.</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> &quot;false&quot;</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_required" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_required"></a>
           required
@@ -798,32 +590,32 @@ component is rendered as an editable table.</p>
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_required">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L107">app/pods/components/object/md-array-table/component.js:107</a>
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation/preview/component.js#L14">app/pods/components/object/md-citation/preview/component.js:14</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>Indicates whether at least one item is required is required in the value
-  array.</p>
+          <p>Indicates if object is required.</p>
   
       </div>
   
-          <p><br><strong>Default:</strong> false</p>
+          <p><br><strong>Default:</strong> &quot;false&quot;</p>
   
   
   </div>
   
   
-  <div id="property_templateClass" class="property item inherited">
+  <div id="property_templateClass" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_templateClass"></a>
           templateClass
       </h3>
-      <span class="type">Any</span>
+      <span class="type">Ember.Object</span>
   
   
   
@@ -831,32 +623,25 @@ component is rendered as an editable table.</p>
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_templateClass">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L56">app/pods/components/object/md-array-table/component.js:56</a>
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation-array/component.js#L63">app/pods/components/object/md-citation-array/component.js:63</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>The template class to use for new items. This should be a constructor.
-  Objects should be created by extending Ember.Object.</p>
-  <pre class="code prettyprint"><code class="language-javascript">Ember.Object.extend({
-   foo: null,
-   bar: Ember.A()
-  }
-  </code></pre>
+          <p>See <a href="md-array-table.html#property_templateClass">md-array-table</a>.</p>
   
       </div>
   
-          <p><br><strong>Default:</strong> null</p>
   
   
   </div>
   
   
-  <div id="property_title" class="property item inherited">
+  <div id="property_title" class="property item">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_title"></a>
           title
@@ -869,120 +654,21 @@ component is rendered as an editable table.</p>
   
   
       <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_title">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L117">app/pods/components/object/md-array-table/component.js:117</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The title for the panel. Should be in singular form.</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> Item</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_validation" class="property item inherited">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_validation"></a>
-          validation
-      </h3>
-      <span class="type">Ember.Mixin</span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_validation">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L90">app/pods/components/object/md-array-table/component.js:90</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The validation to apply to the array items.</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> undefined</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_value" class="property item inherited">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_value"></a>
-          value
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>Inherited from
-                  <a href="#property_value">md-array-table</a>:
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-array-table/component.js#L46">app/pods/components/object/md-array-table/component.js:46</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The array to render in the template</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> Ember.A()</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_valuesObserver" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_valuesObserver"></a>
-          valuesObserver
-      </h3>
-      <span class="type">Observer</span>
-  
-          <span class="flag required">computed
-            (
-              <span class="computed">arrayValues.@each.value</span>
-            )
-          </span>
-  
-  
-  
-  
-  
-      <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-simple-array-table/component.js#L69">app/pods/components/object/md-simple-array-table/component.js:69</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/object/md-citation/preview/component.js#L4">app/pods/components/object/md-citation/preview/component.js:4</a>
           </p>
   
   
       </div>
   
       <div class="description">
-          <p>Set the value when arrayValues is updated</p>
+          <p>Title for the card</p>
   
       </div>
   
+          <p><br><strong>Default:</strong> &quot;Citation&quot;</p>
   
   
   </div>

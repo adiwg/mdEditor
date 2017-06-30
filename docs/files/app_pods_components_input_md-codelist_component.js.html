@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/93bdd55e" target="_blank">
-                                  Tag: 0.0.0.93bdd55e
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/06de9b4d" target="_blank">
+                                  Tag: 0.0.0.06de9b4d
                                 </a>
                             </h4>
                         </div>
@@ -122,6 +122,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-card.html">md-card</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-citation-array.html">md-citation-array</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-codelist.html">md-codelist</a>
@@ -233,6 +236,23 @@ export default Select.extend({
    * options in mdCodes codelists.
    * Access to codelists is provided by the &#x27;codelist&#x27; service.
    * Descriptions of all codes (tooltips) are embedded within the codelists.
+   *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{input/md-codelist
+   *   create=true
+   *   required=false
+   *   tooltip=fasle
+   *   icon=false
+   *   disabled=false
+   *   allowClear=true
+   *   showValidations=true
+   *   mdCodeName=&quot;codeName&quot;
+   *   value=value
+   *   path=&quot;path&quot;
+   *   model=model
+   *   placeholder=&quot;Choose&quot;
+   * }}
+   * &#x60;&#x60;&#x60;
    *
    * @module mdeditor
    * @submodule components-input
