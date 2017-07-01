@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule mixins
+ */
+
 import Ember from 'ember';
 
 const {
@@ -18,8 +23,6 @@ export default Mixin.create({
    * @class object-template
    * @constructor
    * @static
-   * @module mdeditor
-   * @submodule mixins
    */
 
   /**
@@ -47,7 +50,7 @@ export default Mixin.create({
   /**
    * Apply the object 'template' to each object in the array.
    *
-   * @method applyTemplate
+   * @method applyTemplateArray
    * @param {Array} propertyName The array of objects to apply the template to.
    * @return {Array}
    */

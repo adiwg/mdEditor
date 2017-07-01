@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -6,7 +11,6 @@ export default Ember.Component.extend({
    * Input, edit, display a multi-line, expandable, text area.
    *
    * @class md-textarea
-   * @submodule components-input
    * @constructor
    */
 

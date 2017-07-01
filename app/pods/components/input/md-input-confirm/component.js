@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 import Input from '../md-input/component';
 
@@ -6,8 +11,7 @@ export default Input.extend({
    * Input, edit, display a single item
    *
    * @class md-input-confirm
-   * @module mdeditor
-   * @submodule components-input
+   * @extends md-input
    * @constructor
    */
 

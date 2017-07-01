@@ -17,6 +17,14 @@ const {
 } = Ember;
 
 export default Component.extend({
+  /**
+   * A select list control for displaying and selecting options
+   * provided in an array or promise array.
+   *
+   * @class md-select
+   * @constructor
+   */
+
   init() {
     this._super(...arguments);
 
@@ -85,13 +93,6 @@ export default Component.extend({
   attributeBindings: ['data-spy'],
   formGroup: Ember.computed.notEmpty('label'),
   icons: Ember.inject.service('icon'),
-  /**
-   * A select list control for displaying and selecting options
-   * provided in an array or promise array.
-   *
-   * @class md-select
-   * @constructor
-   */
 
   /**
    * An array or promise array containing the options for the

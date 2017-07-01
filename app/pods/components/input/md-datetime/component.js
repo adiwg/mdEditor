@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 
 const {
@@ -14,8 +19,6 @@ export default Component.extend({
    * Datetime control with dropdown calendar.
    * Based on Bootstrap datetime picker.
    *
-   *  @module mdeditor
-   * @submodule components-input
    * @class md-datetime
    * @constructor
    */

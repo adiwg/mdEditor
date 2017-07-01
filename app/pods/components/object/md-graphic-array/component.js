@@ -1,3 +1,8 @@
+/**
+ *  @module mdeditor
+ * @submodule components-object
+ */
+
 import Ember from 'ember';
 
 const {
@@ -24,7 +29,7 @@ export default Component.extend({
    * @constructor
    */
 
-   attributeBindings: ['data-spy'],
+  attributeBindings: ['data-spy'],
 
   /**
    * mdJSON object containing the 'graphic' array.

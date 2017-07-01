@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule mixins
+ */
+
 import Ember from 'ember';
 
 export const pollInterval = 750; // time in milliseconds

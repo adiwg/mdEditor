@@ -1,3 +1,8 @@
+/**
+ * @submodule components-object
+ * @module mdeditor
+ */
+
 import Ember from 'ember';
 import Template from 'mdeditor/mixins/object-template';
 
@@ -17,9 +22,8 @@ export default Component.extend(Template, {
    * component is rendered as an editable table.
    *
    * @class md-array-table
-   * @submodule components-object
    * @constructor
-   * @mixins object-template
+   * @uses object-template
    */
 
   init() {

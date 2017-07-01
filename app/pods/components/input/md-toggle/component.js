@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Toggle from 'ember-toggle/components/x-toggle/component';
 
 export default Toggle.extend({
@@ -7,8 +12,6 @@ export default Toggle.extend({
   * @class md-toggle
   * @constructor
   * @extends ember-toggle/components/x-toggle
-  * @module mdeditor
-  * @submodule components-input
   */
 
  /**

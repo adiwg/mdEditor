@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 import MdCodelist from '../md-codelist/component';
 
@@ -20,8 +25,6 @@ export default MdCodelist.extend({
    * }}
    * ```
    *
-   * @module mdeditor
-   * @submodule components-input
    * @class md-codelist-multi
    * @constructor
    * @extends md-codelist

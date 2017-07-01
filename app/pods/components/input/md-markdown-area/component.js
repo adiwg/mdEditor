@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 
 const {
@@ -15,8 +20,6 @@ export default Component.extend({
    *
    * @class md-markdown-editor
    * @constructor
-   * @module mdeditor
-   * @submodule components-input
    * @example
    *   {{md-markdown-editor value=value options=options}}
    */

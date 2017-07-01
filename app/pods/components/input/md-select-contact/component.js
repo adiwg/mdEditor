@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 import Select from '../md-codelist-multi/component';
 
@@ -12,8 +17,6 @@ export default Select.extend({
    * contacts.
    *
    * @class md-select-contact
-   * @module mdeditor
-   * @submodule components-input
    * @constructor
    * @extends md-select
    */

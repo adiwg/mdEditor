@@ -1,9 +1,12 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 import Select from '../md-select/component';
 
 export default Select.extend({
-  classNames: ['md-codelist'],
-  layoutName: 'components/input/md-select',
   /**
    * Specialized select list control for displaying and selecting
    * options in mdCodes codelists.
@@ -27,12 +30,13 @@ export default Select.extend({
    * }}
    * ```
    *
-   * @module mdeditor
-   * @submodule components-input
    * @class md-codelist
-   * @constructor
    * @extends md-select
+   * @constructor
    */
+
+  classNames: ['md-codelist'],
+  layoutName: 'components/input/md-select',
 
   /**
    * The name of the mdCodes's codelist to use
@@ -119,7 +123,7 @@ export default Select.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function() {
+  selectedItem: Ember.computed('value', function () {
     let value = this.get('value');
 
     return this.get('codelist')
@@ -137,7 +141,7 @@ export default Select.extend({
    * @category computed
    * @requires mdCodeName
    */
-  mapped: Ember.computed('mdCodeName', function() {
+  mapped: Ember.computed('mdCodeName', function () {
     let codeId = this.get('valuePath');
     let codeName = this.get('namePath');
     let tooltip = this.get('tooltipPath');
@@ -150,7 +154,7 @@ export default Select.extend({
       .codelist
       .sortBy(codeName);
 
-    mdCodelist.forEach(function(item) {
+    mdCodelist.forEach(function (item) {
       let newObject = {
         codeId: item[codeId],
         codeName: item[codeName],
@@ -172,16 +176,16 @@ export default Select.extend({
    * @category computed
    * @requires value
    */
-  codelist: Ember.computed('value','filterId', function() {
+  codelist: Ember.computed('value', 'filterId', function () {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');
     let filter = this.get('filterId');
 
-    if (value) {
-      if (create) {
+    if(value) {
+      if(create) {
         let found = codelist.findBy('codeId', value);
-        if (found === undefined) {
+        if(found === undefined) {
           let newObject = this.createCode(value);
           codelist.pushObject(newObject);
         }
@@ -226,7 +230,7 @@ export default Select.extend({
 
   actions: {
     // do the binding to value
-    setValue: function(selected) {
+    setValue: function (selected) {
       this.setValue(selected);
     },
     //handle the create

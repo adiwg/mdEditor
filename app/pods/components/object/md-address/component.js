@@ -1,3 +1,8 @@
+/**
+ * @submodule components-object
+ * @module mdeditor
+ */
+
 import Ember from 'ember';
 
 const {
@@ -11,14 +16,12 @@ export default Component.extend({
    * arrays. The class manages the maintenance of an array of address
    * objects using the md-object-table class.
    *
-   * @module mdeditor
-   * @submodule components-object
    * @class md-address
    * @constructor
    * @requires md-object-table
    */
 
-   attributeBindings: ['data-spy'],
+  attributeBindings: ['data-spy'],
 
   /**
    * mdJSON object containing the 'address' array.
