@@ -28,6 +28,13 @@ export default function() {
     //,this.debug()
   );
   this.transition(
+    this.toRoute('record.show.edit.metadata.alternate.identifier'),
+    this.fromRoute('record.show.edit.metadata.alternate.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+    //,this.debug()
+  );
+  this.transition(
     this.toRoute('record.show.edit.metadata.parent'),
     this.fromRoute('record.show.edit.metadata.index'),
     this.use('toLeft'),

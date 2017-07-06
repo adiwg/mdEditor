@@ -7,7 +7,7 @@ export default Model.extend(Ember.Copyable, {
   json: DS.attr('json', {
     defaultValue() {
       const obj = {
-        "dictionaryInfo": {
+        "dataDictionary": {
           "citation": {
             "title": null,
             "date": [{
@@ -32,8 +32,8 @@ export default Model.extend(Ember.Copyable, {
     }
   }),
 
-  title: Ember.computed('json.dictionaryInfo.citation.title', function () {
-    return this.get('json.dictionaryInfo.citation.title');
+  title: Ember.computed('json.dataDictionary.citation.title', function () {
+    return this.get('json.dataDictionary.citation.title');
   }),
 
   icon: 'book',
@@ -41,9 +41,9 @@ export default Model.extend(Ember.Copyable, {
   copy() {
     let current = this.get('cleanJson');
     let json = Ember.Object.create(current);
-    let name = current.dictionaryInfo.citation.title;
+    let name = current.dataDictionary.citation.title;
 
-    json.set('dictionaryInfo.citation.title', `Copy of ${name}`);
+    json.set('dataDictionary.citation.title', `Copy of ${name}`);
 
     return this.store.createRecord('dictionary', {
       json: json

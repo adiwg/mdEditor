@@ -40,6 +40,13 @@
             </div>
           </td>
         </tr>
+      {{else}}
+        <tr>
+          <td colspan=5>
+            {{#link-to "record.new" class="btn btn-primary btn-lg" }}
+              {{fa-icon "plus"}} Create a Record{{/link-to}}
+          </td>
+        </tr>
       {{/each}}
     </tbody>
   </table>

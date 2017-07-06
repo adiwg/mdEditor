@@ -38,11 +38,11 @@ Router.map(function () {
             });
 
             this.route('alternate', {
-              //path: 'alternate/:citationid'
+              path: 'alternate/:citation_id'
             }, function() {
-              this.route('index', {
-                path: 'alternate/:citation_id'
-              });
+              // this.route('index', {
+              //   path: 'alternate/:citation_id'
+              // });
               this.route('identifier', {
                 path: 'identifier/:identifier_id'
               });

@@ -14,15 +14,20 @@
             {{/if}}
           </span>
     </h3>
-        {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
-            <dl class="dl-horizontal col-lg-6">
+        {{#layout/md-card shadow=false muted=true title="Main" bodyIsRow=false
+          collapsible=true
+          btnText="Edit" btnClass="success"
+          btnAction=(route-action "linkTo" "record.show.edit.main") btnIcon="pencil"
+        }}
+          <div class="row">
+            <dl class="dl-horizontal col-xxl-8">
                 {{control/md-definition title="Record Id" text=model.recordId}}
                 {{control/md-definition title="Record Title" text=model.title}}
                 {{control/md-definition title="Status" text=(if resource.status (join ", " resource.status))}}
                 {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
 
             </dl>
-            <dl class="dl-horizontal col-lg-6">
+            <dl class="dl-horizontal col-xxl-4">
                 {{#control/md-definition title="Resource Type(s)" }}
                     {{#each resource.resourceType as |type|}}
                         {{type.type}}:
@@ -56,16 +61,23 @@
                 </div>
               {{/layout/md-card}}
             </div>
-        {{/layout/md-card}}
+          </div>
 
-        {{#layout/md-card shadow=false muted=true title="Abstract" collapsible=true scroll=true maximizable=true}}
-            {{md-markdown resource.abstract "Abstract not provided!"}}
-        {{/layout/md-card}}
+          {{#layout/md-card shadow=false muted=true title="Abstract"
+            collapsible=true scroll=true maximizable=true
+            class="md-embedded"
+          }}
+              {{md-markdown resource.abstract "Abstract not provided!"}}
+          {{/layout/md-card}}
 
-        {{#layout/md-card shadow=false muted=true title="Short Abstract" collapsible=true scroll=false}}
-            {{md-markdown resource.shortAbstract "Short Abstract not provided!"}}
-        {{/layout/md-card}}
+          {{#layout/md-card shadow=false muted=true title="Short Abstract"
+            collapsible=true scroll=false
+            class="md-embedded"
+          }}
+              {{md-markdown resource.shortAbstract "Short Abstract not provided!"}}
+          {{/layout/md-card}}
 
+        {{/layout/md-card}}
         {{outlet}}
     </div>
     <div class="col-sm-2">

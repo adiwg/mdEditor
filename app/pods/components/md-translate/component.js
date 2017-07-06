@@ -120,7 +120,7 @@ export default Component.extend({
 
       json.contact = contacts;
 
-      console.info(JSON.stringify(json));
+      //console.info(JSON.stringify(json));
 
       this._clearResult();
       set(this, 'isLoading', true);
@@ -138,7 +138,7 @@ export default Component.extend({
         context: this
       }).then(function (response) {
         //this.sendAction("select", response);
-        console.info(response);
+        //console.info(response);
 
         set(this, 'isLoading', false);
 
@@ -189,7 +189,7 @@ export default Component.extend({
         set(this, 'result', JSON.stringify(obj, null, 2));
       }).
       catch((error) => {
-        console.log(error);
+        //console.log(error);
         get(this, 'flashMessages').danger(error.message);
       });
     }

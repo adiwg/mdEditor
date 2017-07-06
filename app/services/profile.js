@@ -66,7 +66,7 @@ export default Ember.Service.extend({
         target: 'record.show.edit.extent'
 
       }, {
-        title: 'Quality',
+        title: 'Lineage',
         target: 'record.show.edit.quality'
 
       }, {
@@ -81,14 +81,14 @@ export default Ember.Service.extend({
         title: 'Documents',
         target: 'record.show.edit.documents'
 
-      }, {
+      }, /*{
         title: 'Coverage',
         target: 'record.show.edit.coverages'
 
       }, {
         title: 'Grid',
         target: 'record.show.edit.grid'
-      }],
+      }*/],
       components: {
         record: {
           main: {
@@ -109,10 +109,16 @@ export default Ember.Service.extend({
               alternateTitle: true,
               date: true,
               edition: true,
+              onlineResource: true,
               responsibleParty: true,
               presentationForm: true,
               otherCitationDetails: true,
               graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
               identifier: {
                 identifier: true,
                 namespace: true,
@@ -150,10 +156,16 @@ export default Ember.Service.extend({
               alternateTitle: true,
               date: true,
               edition: true,
+              onlineResource: true,
               responsibleParty: true,
               presentationForm: true,
               otherCitationDetails: true,
               graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
               identifier: {
                 identifier: true,
                 namespace: true,
@@ -166,6 +178,41 @@ export default Ember.Service.extend({
                   responsibleParty: true
                 }
               }
+            },
+            alternateMetadata: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: false,
+              responsibleParty: true,
+              onlineResource: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
+              }
+            },
+            maintenance: {
+              frequency: true,
+              date: true,
+              contact: true,
+              note: true,
+              scope: true,
             }
           }
         }

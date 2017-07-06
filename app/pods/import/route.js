@@ -1,11 +1,33 @@
 import Ember from 'ember';
+import Base from 'ember-local-storage/adapters/base';
+import {
+  JsonDefault as Contact
+} from 'mdeditor/models/contact';
 
-export default Ember.Route.extend({
-  flashMessages: Ember.inject.service(),
-  jsonvalidator: Ember.inject.service(),
+const generateIdForRecord = Base.create().generateIdForRecord;
+
+const {
+  Route,
+  get,
+  set,
+  RSVP: {
+    Promise
+  },
+  inject,
+  Object: EmObject,
+  assign,
+  isArray,
+  $,
+  A,
+  merge
+} = Ember;
+
+export default Route.extend({
+  flashMessages: inject.service(),
+  jsonvalidator: inject.service(),
 
   model() {
-    return Ember.Object.create({
+    return EmObject.create({
       files: false,
       merge: true
     });
@@ -19,7 +41,7 @@ export default Ember.Route.extend({
     case 'records':
       return json.metadata.resourceInfo.citation.title;
     case 'dictionaries':
-      return json.dictionaryInfo.citation.title;
+      return json.dataDictionary.citation.title;
     case 'contacts':
       return json.name;
     default:
@@ -27,53 +49,157 @@ export default Ember.Route.extend({
     }
   },
 
+  formatMdJSON(json) {
+    let {
+      contact,
+      dataDictionary
+    } = json;
+    let data = A();
+    let template = EmObject.extend({
+      init() {
+        this._super(...arguments);
+
+        set(this, 'id', generateIdForRecord());
+      },
+      attributes: {
+        json: null,
+        //date-updated: '2017-05-18T21:21:34.446Z'
+      },
+      type: null
+    });
+
+    contact.forEach((item) => {
+      data.pushObject(template.create({
+        attributes: {
+          json: JSON.stringify(merge(Contact.create(), item))
+        },
+        type: 'contacts'
+      }));
+    });
+
+    data.pushObject(template.create({
+      attributes: {
+        json: JSON.stringify(json),
+        profile: 'full'
+      },
+      type: 'records'
+    }));
+
+    dataDictionary.forEach((item) => {
+      data.pushObject(template.create({
+        attributes: {
+          json: JSON.stringify({
+            dataDictionary: item
+          })
+        },
+        type: 'dictionaries'
+      }));
+    });
+
+    return data;
+  },
+
+  mapJSON(data) {
+    let {
+      json,
+      route
+    } = data;
+    let files;
+
+    if(isArray(data.json.data)) {
+      files = this.mapEditorJSON(data);
+    } else {
+      //assume it's raw mdJSON for now
+      files = this.mapMdJSON(data);
+    }
+
+    route.currentRouteModel()
+      .set('files', files);
+
+    route.currentRouteModel()
+      .set('data', json.data);
+  },
+
+  mapMdJSON(data) {
+    let map = A();
+
+    if(isArray(data.json)) {
+      data.json.forEach((item) => {
+        map = map.concat(this.formatMdJSON(item));
+      });
+    } else {
+      map = map.concat(this.formatMdJSON(data.json));
+    }
+
+    set(data, 'json.data', map);
+
+    return this.mapRecords(map);
+  },
+
+  mapRecords(records) {
+    return records.reduce((map, item) => {
+
+      if(!map[item.type]) {
+        map[item.type] = [];
+      }
+
+      item.meta = {};
+      item.meta.title = this.getTitle(item);
+      item.meta.export = true;
+
+      map[item.type].push(item);
+      return map;
+    }, {});
+  },
+
+  mapEditorJSON(data) {
+    let {
+      file,
+      json
+    } = data;
+    let jv = get(this, 'jsonvalidator');
+    let valid = jv.validate('jsonapi', json);
+
+    if(!valid) {
+      throw new Error(`${file.name} is not a valid mdEditor file.`);
+    }
+
+    return this.mapRecords(json.data);
+  },
+
   actions: {
     readData(file) {
       let json;
-      let fileMap;
-      let error = false;
 
-      try {
-        json = JSON.parse(file.data);
-
-        let jv = Ember.get(this, 'jsonvalidator');
-        let valid = jv.validate('jsonapi', json);
-
-        if(!valid) {
-          error = `${file.name} is not a valid mdEditor file.`;
+      new Promise((resolve, reject) => {
+        try {
+          json = JSON.parse(file.data);
+        } catch(e) {
+          reject(
+            `Failed to parse file: ${file.name}. Is it valid JSON?`);
         }
-      } catch(e) {
-        error = `Failed to parse file: ${file.name}. Is it valid JSON?`;
-      } finally {
-        //reset the input field
-        Ember.$('.import-file-picker input:file')
-          .val('');
-      }
 
-      if(error) {
-        Ember.get(this, 'flashMessages')
-          .danger(error);
+        resolve({
+          json: json,
+          file: file,
+          route: this
+        });
+      }).then((data) => {
+        //determine file type and map
+        this.mapJSON(data);
+
+      }).catch((reason) => {
+        //catch any errors
+        get(this, 'flashMessages')
+          .danger(reason);
         return false;
-      }
+      }).finally(() => {
+        $('.import-file-picker input:file')
+          .val('');
+      });
 
-      fileMap = json.data.reduce((map, item) => {
-
-        if(!map[item.type]) {
-          map[item.type] = [];
-        }
-
-        item.meta = {};
-        item.meta.title = this.getTitle(item);
-        item.meta.export = true;
-
-        map[item.type].push(item);
-        return map;
-      }, {});
-      this.currentRouteModel()
-        .set('files', fileMap);
-      this.currentRouteModel()
-        .set('data', json.data);
     },
+
     importData() {
       let data = {
         data: this.currentRouteModel()
@@ -89,7 +215,7 @@ export default Ember.Route.extend({
           json: false
         })
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .success(
               `Imported data. Records were
               ${this.currentRouteModel().get('merge') ? 'merged' : 'replaced'}.`, {
@@ -100,7 +226,7 @@ export default Ember.Route.extend({
     },
     showPreview(model) {
       let json = {};
-      Ember.assign(json, model.attributes);
+      assign(json, model.attributes);
 
       if(model.attributes.json) {
         json.json = JSON.parse(model.attributes.json);

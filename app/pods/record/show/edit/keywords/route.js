@@ -18,27 +18,27 @@ export default Route.extend({
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    info.keyword = !info.hasOwnProperty('keyword') ? A() : NativeArray.apply(
-      info.keyword);
+    set(info,'keyword', !info.hasOwnProperty('keyword') ? A() : NativeArray.apply(
+      info.keyword));
 
     //check to see if custom list
     info.keyword.forEach((k, idx, arr) => {
       if(!has(k, 'thesaurus')) {
-        k.thesaurus = {};
+        set(k, 'thesaurus', {});
       }
       if(!has(k, 'thesaurus.identifier')) {
-        k.thesaurus.identifier = [{
+        set(k, 'thesaurus.identifier', [{
           identifier: 'custom'
-        }];
+        }]);
       }
       if(!has(k, 'thesaurus.date')) {
-        k.thesaurus.date = [{}];
+        set(k, 'thesaurus.date', [{}]);
       }
       if(!has(k, 'thesaurus.onlineResource')) {
-        k.thesaurus.onlineResource = [{}];
+        set(k, 'thesaurus.onlineResource', [{}]);
       }
 
-      arr.replace(idx, 0, EmObject.create(k));
+      arr.replace(idx, 1, EmObject.create(k));
     });
 
     return model;

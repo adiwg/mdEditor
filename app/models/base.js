@@ -58,6 +58,8 @@ export default DS.Model.extend({
     }),
 
   wasUpdated(model) {
+    this._super(...arguments);
+
     let record = model.record || model;
     let json = JSON.parse(record.serialize().data.attributes.json);
 
@@ -66,6 +68,8 @@ export default DS.Model.extend({
   },
 
   wasLoaded(model) {
+    this._super(...arguments);
+
     let json = JSON.parse(model.serialize().data.attributes.json);
 
     this.setCurrentHash(json);

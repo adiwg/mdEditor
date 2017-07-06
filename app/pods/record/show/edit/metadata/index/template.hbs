@@ -60,6 +60,15 @@
     {{object/md-online-resource-array model=metadata.metadataOnlineResource
       data-spy="Online Resources"}}
 
+    {{#layout/md-card profilePath="record.metadata.maintenance"
+      title="Metadata Maintenance"
+      collapsible=true collapsed=true
+    }}
+      {{object/md-maintenance model=metadata.metadataMaintenance
+        profilePath="record.metadata.maintenance"
+      }}
+    {{/layout/md-card}}
+
     {{#layout/md-card
       title="Default Metadata Locale"
       shadow=true

@@ -29,7 +29,7 @@
             <label class="col-sm-3 control-label">Dictionary Name</label>
             <div class="col-sm-9">
                 {{input/md-input
-                value=model.json.dictionaryInfo.citation.title
+                value=model.json.dataDictionary.citation.title
                 placeholder="Enter an name for this dictionary"}}
             </div>
         </div>
@@ -37,7 +37,7 @@
             <label class="col-sm-3 control-label">Data Resource Type</label>
             <div class="col-sm-9 md-form-select">
                 {{input/md-codelist
-                value=model.json.dictionaryInfo.resourceType
+                value=model.json.dataDictionary.resourceType
                 create=true
                 tooltip=true
                 icon=true

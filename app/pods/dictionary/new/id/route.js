@@ -30,12 +30,12 @@ export default Ember.Route.extend({
 
     // setup tests for required attributes
     controller.noName = Ember.computed(
-      'model.json.dictionaryInfo.citation.title', function() {
-        return model.get('json.dictionaryInfo.citation.title') ? false : true;
+      'model.json.dataDictionary.citation.title', function() {
+        return model.get('json.dataDictionary.citation.title') ? false : true;
       });
     controller.noType = Ember.computed(
-      'model.json.dictionaryInfo.resourceType', function() {
-        return model.get('json.dictionaryInfo.resourceType') ? false : true;
+      'model.json.dataDictionary.resourceType', function() {
+        return model.get('json.dataDictionary.resourceType') ? false : true;
       });
     controller.allowSave = Ember.computed('noType', 'noName', function () {
       return (this.get('noName') || this.get('noType'));

@@ -16,8 +16,8 @@
         <tr>
           <td>{{input type="checkbox" name="isChecked"}}</td>
           <td>{{index}}</td>
-          <td>{{item.json.dictionaryInfo.citation.title}}</td>
-          <td>{{item.json.dictionaryInfo.resourceType}}</td>
+          <td>{{item.json.dataDictionary.citation.title}}</td>
+          <td>{{item.json.dataDictionary.resourceType}}</td>
           <td>
             <div class="pull-right">
               {{control/md-json-button class="btn-xs btn-primary" json=item.cleanJson}}
@@ -28,6 +28,13 @@
                 <span class="fa fa-times"></span> Delete
               </button>
             </div>
+          </td>
+        </tr>
+      {{else}}
+        <tr>
+          <td colspan=5>
+            {{#link-to "dictionary.new" class="btn btn-primary btn-lg" }}
+              {{fa-icon "plus"}} Create a Dictionary{{/link-to}}
           </td>
         </tr>
       {{/each}}

@@ -10,7 +10,8 @@ import {
 
 const {
   Copyable,
-  computed
+  computed,
+  isEmpty
 } = Ember;
 
 const Validations = buildValidations({
@@ -48,7 +49,28 @@ const Validations = buildValidations({
   })
 });
 
-export default Model.extend(Validations, Copyable, {
+const JsonDefault = Ember.Object.extend({
+  init() {
+    this._super(...arguments);
+    this.setProperties({
+      'contactId': uuidV4(),
+      'isOrganization': false,
+      'name': null,
+      //'positionName': null,
+      'memberOfOrganization': [],
+      'logoGraphic': [],
+      'phone': [],
+      'address': [],
+      'electronicMailAddress': [],
+      'onlineResource': [],
+      'hoursOfService': []
+      //'contactInstructions': null,
+      //'contactType': null;
+    });
+  }
+});
+
+const Contact = Model.extend(Validations, Copyable, {
   /**
    * Contact model
    *
@@ -77,23 +99,7 @@ export default Model.extend(Validations, Copyable, {
    */
   json: DS.attr('json', {
     defaultValue: function () {
-      let obj = Ember.Object.create({
-        'contactId': uuidV4(),
-        'isOrganization': false,
-        'name': null,
-        //'positionName': null,
-        'memberOfOrganization': [],
-        'logoGraphic': [],
-        'phone': [],
-        'address': [],
-        'electronicMailAddress': [],
-        'onlineResource': [],
-        'hoursOfService': []
-        //'contactInstructions': null,
-        //'contactType': null
-      });
-
-      return obj;
+      return JsonDefault.create();
     }
   }),
 
@@ -229,7 +235,8 @@ export default Model.extend(Validations, Copyable, {
         memberOfOrganization
       } = json;
 
-      let orgId = memberOfOrganization.length ? memberOfOrganization[0] :
+      let orgId = !isEmpty(memberOfOrganization) ?
+        memberOfOrganization[0] :
         null;
       let combinedName = name || positionName;
       let orgName;
@@ -295,3 +302,9 @@ export default Model.extend(Validations, Copyable, {
     });
   }
 });
+
+export {
+  Contact as
+  default,
+  JsonDefault
+};

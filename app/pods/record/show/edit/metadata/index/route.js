@@ -15,6 +15,7 @@ export default Route.extend(ScrollTo, {
     let model = get(m, 'json.metadata.metadataInfo');
     set(model, 'metadataContact', getWithDefault(model, 'metadataContact', []));
     set(model, 'metadataDate', getWithDefault(model, 'metadataDate', []));
+    set(model, 'metadataMaintenance', getWithDefault(model, 'metadataMaintenance', {}));
     set(model, 'metadataOnlineResource', getWithDefault(model, 'metadataOnlineResource', []));
     set(model, 'defaultMetadataLocale', getWithDefault(model, 'defaultMetadataLocale', {}));
     set(model, 'metadataIdentifier', getWithDefault(model,'metadataIdentifier', {}));
