@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/06de9b4d" target="_blank">
-                                  Tag: 0.0.0.06de9b4d
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26c8b6f4" target="_blank">
+                                  Tag: 0.0.0.26c8b6f4
                                 </a>
                             </h4>
                         </div>
@@ -160,6 +160,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
                                     </li>
                                     <li>
@@ -244,6 +247,14 @@ const {
 } = Ember;
 
 export default Component.extend({
+  /**
+   * A select list control for displaying and selecting options
+   * provided in an array or promise array.
+   *
+   * @class md-select
+   * @constructor
+   */
+
   init() {
     this._super(...arguments);
 
@@ -312,13 +323,6 @@ export default Component.extend({
   attributeBindings: [&#x27;data-spy&#x27;],
   formGroup: Ember.computed.notEmpty(&#x27;label&#x27;),
   icons: Ember.inject.service(&#x27;icon&#x27;),
-  /**
-   * A select list control for displaying and selecting options
-   * provided in an array or promise array.
-   *
-   * @class md-select
-   * @constructor
-   */
 
   /**
    * An array or promise array containing the options for the

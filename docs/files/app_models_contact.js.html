@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/06de9b4d" target="_blank">
-                                  Tag: 0.0.0.06de9b4d
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26c8b6f4" target="_blank">
+                                  Tag: 0.0.0.26c8b6f4
                                 </a>
                             </h4>
                         </div>
@@ -160,6 +160,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
                                     </li>
                                     <li>
@@ -237,7 +240,8 @@ import {
 
 const {
   Copyable,
-  computed
+  computed,
+  isEmpty
 } = Ember;
 
 const Validations = buildValidations({
@@ -275,7 +279,28 @@ const Validations = buildValidations({
   })
 });
 
-export default Model.extend(Validations, Copyable, {
+const JsonDefault = Ember.Object.extend({
+  init() {
+    this._super(...arguments);
+    this.setProperties({
+      &#x27;contactId&#x27;: uuidV4(),
+      &#x27;isOrganization&#x27;: false,
+      &#x27;name&#x27;: null,
+      //&#x27;positionName&#x27;: null,
+      &#x27;memberOfOrganization&#x27;: [],
+      &#x27;logoGraphic&#x27;: [],
+      &#x27;phone&#x27;: [],
+      &#x27;address&#x27;: [],
+      &#x27;electronicMailAddress&#x27;: [],
+      &#x27;onlineResource&#x27;: [],
+      &#x27;hoursOfService&#x27;: []
+      //&#x27;contactInstructions&#x27;: null,
+      //&#x27;contactType&#x27;: null;
+    });
+  }
+});
+
+const Contact = Model.extend(Validations, Copyable, {
   /**
    * Contact model
    *
@@ -304,23 +329,7 @@ export default Model.extend(Validations, Copyable, {
    */
   json: DS.attr(&#x27;json&#x27;, {
     defaultValue: function () {
-      let obj = Ember.Object.create({
-        &#x27;contactId&#x27;: uuidV4(),
-        &#x27;isOrganization&#x27;: false,
-        &#x27;name&#x27;: null,
-        //&#x27;positionName&#x27;: null,
-        &#x27;memberOfOrganization&#x27;: [],
-        &#x27;logoGraphic&#x27;: [],
-        &#x27;phone&#x27;: [],
-        &#x27;address&#x27;: [],
-        &#x27;electronicMailAddress&#x27;: [],
-        &#x27;onlineResource&#x27;: [],
-        &#x27;hoursOfService&#x27;: []
-        //&#x27;contactInstructions&#x27;: null,
-        //&#x27;contactType&#x27;: null
-      });
-
-      return obj;
+      return JsonDefault.create();
     }
   }),
 
@@ -456,7 +465,8 @@ export default Model.extend(Validations, Copyable, {
         memberOfOrganization
       } = json;
 
-      let orgId = memberOfOrganization.length ? memberOfOrganization[0] :
+      let orgId = !isEmpty(memberOfOrganization) ?
+        memberOfOrganization[0] :
         null;
       let combinedName = name || positionName;
       let orgName;
@@ -522,6 +532,12 @@ export default Model.extend(Validations, Copyable, {
     });
   }
 });
+
+export {
+  Contact as
+  default,
+  JsonDefault
+};
 
     </pre>
 </div>

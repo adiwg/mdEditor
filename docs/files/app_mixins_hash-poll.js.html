@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/app.js - mdeditor</title>
+    <title>app/mixins/hash-poll.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -229,118 +229,136 @@
 <div class="file">
     <pre class="prettyprint linenums">
 /**
- * The mdEditor application instance.
- *
  * @module mdeditor
- * @category docs
+ * @submodule mixins
  */
 
 import Ember from &#x27;ember&#x27;;
-import Resolver from &#x27;./resolver&#x27;;
-import loadInitializers from &#x27;ember-load-initializers&#x27;;
-import config from &#x27;./config/environment&#x27;;
+
+export const pollInterval = 750; // time in milliseconds
 
 const {
-  LinkComponent,
-  Route,
-  Component,
-  Application,
-  get,
-  getWithDefault,
-  defineProperty,
-  computed
+  Mixin,
+  //computed,
+  inject,
+  on
 } = Ember;
 
-let App;
+export default Mixin.create({
+  settings: inject.service(),
 
-Ember.MODEL_FACTORY_INJECTIONS = true;
+  // autoSave: computed(&#x27;settings.data.autoSave&#x27;, function () {
+  //   return this.get(&#x27;settings&#x27;)
+  //     .get(&#x27;data.autoSave&#x27;);
+  // }),
 
-App = Application.extend({
-  modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
-  Resolver
-});
-
-loadInitializers(App, config.modulePrefix);
-
-//for bootstrap
-LinkComponent.reopen({
-  attributeBindings: [&#x27;data-toggle&#x27;, &#x27;data-placement&#x27;]
-});
-//for crumbly
-Route.reopen({
-  //breadCrumb: null
-  currentRouteModel: function () {
-    return this.modelFor(this.routeName);
-  }
-});
-//for profiles
-Component.reopen({
-  init() {
+  afterModel(model) {
     this._super(...arguments);
 
-    let profile = get(this, &#x27;profile&#x27;);
-    let path = get(this, &#x27;profilePath&#x27;);
-
-    if(path !== undefined) {
-      defineProperty(this, &#x27;isVisible&#x27;, computed(
-        &#x27;profile.active&#x27;,
-        function () {
-          let fullPath = &#x27;profiles.&#x27; + get(profile, &#x27;active&#x27;) +
-            &#x27;.components.&#x27; +
-            path;
-
-          return getWithDefault(profile, fullPath, true);
-        }));
+    if (this.get(&#x27;settings.data.autoSave&#x27;)) {
+      model.set(&#x27;jsonRevert&#x27;, model.serialize().data.attributes.json);
     }
+
+    let hashPoller = this.get(&#x27;hashPoller&#x27;);
+
+    // Make sure we only create one poller instance.
+    if (!hashPoller) {
+      hashPoller = this.get(&#x27;pollboy&#x27;)
+        .add(this, this.onPoll, pollInterval);
+      this.set(&#x27;hashPoller&#x27;, hashPoller);
+    }
+
+    return model;
+  },
+
+  deactivatePoll: on(&#x27;deactivate&#x27;, function() {
+    // if(this.get(&#x27;autoSave&#x27;)) {
+    //   return;
+    // }
+
+    const hashPoller = this.get(&#x27;hashPoller&#x27;);
+
+    this.get(&#x27;pollboy&#x27;)
+      .remove(hashPoller);
+    this.set(&#x27;hashPoller&#x27;, null);
+  }),
+
+  onPoll() {
+    const model = this.currentRouteModel();
+
+    return new Ember.RSVP.Promise(function(resolve) {
+      if (model) {
+        model.notifyPropertyChange(&#x27;currentHash&#x27;);
+      }
+      resolve(true);
+    });
   }
+
+  // /**
+  //  * Whether to compare the model hash on transition.
+  //  *
+  //  * @property checkHash
+  //  * @type {Boolean}
+  //  * @default true
+  //  */
+  // checkHash: true,
+  //
+  //
+  //
+  //
+  //
+  // /**
+  //  * Compare thw current hash with the cached one.
+  //  *
+  //  * @method compareHash
+  //  * @returns {Boolean} Boolean value indicating if hashes are equivalent
+  //  */
+  // compareHash: function() {
+  //   let model = this.currentRouteModel();
+  //
+  //   let oldHash = this.get(&#x27;modelHash&#x27;);
+  //   let newHash = this.hashObject(model.get(
+  //     &#x27;json&#x27;));
+  //
+  //   if (oldHash === newHash &amp;&amp; !model.get(&#x27;hasDirtyAttributes&#x27;)) {
+  //     return true;
+  //   }
+  //
+  //   return false;
+  // },
+  //
+  // actions: {
+  //   confirmTransition() {
+  //     let me = this;
+  //
+  //     me.currentRouteModel().reload();
+  //
+  //     this.set(&#x27;checkHash&#x27;, false);
+  //     this.controller.get(&#x27;pausedTransition&#x27;)
+  //       .retry().then(() =&gt; {
+  //         me.set(&#x27;checkHash&#x27;, true);
+  //       });
+  //   },
+  //   cancelTransition() {
+  //     this.controller
+  //       .set(&#x27;pausedTransition&#x27;, null);
+  //   },
+  //   willTransition(transition) {
+  //     if (this.get(&#x27;settings&#x27;).get(&#x27;data.autoSave&#x27;)) {
+  //       this.currentRouteModel().save();
+  //       return true;
+  //     }
+  //     if (!this.get(&#x27;checkHash&#x27;) || this.compareHash()) {
+  //       this.controller
+  //         .set(&#x27;pausedTransition&#x27;, null);
+  //       return true;
+  //     } else {
+  //       transition.abort();
+  //       this.controller.set(&#x27;pausedTransition&#x27;, transition);
+  //     }
+  //   }
+  // }
 });
-export default App;
-
-/**
-* Models for the mdEditor data store
-
-* @main data-models
-* @module mdeditor
-* @submodule data-models
-* @category docs
-*/
-
-/**
- * Components used to create objects or arrays of objects.
- *
- * @module mdeditor
- * @submodule components-object
- * @main components-object
- * @category docs
- */
-
-/**
- * Components used to input scalar or arrays of scalar values.
- *
- * @module mdeditor
- * @submodule components-input
- * @main components-input
- * @category docs
- */
-
-/**
- * Components used as UI controls.
- *
- * @module mdeditor
- * @submodule components-control
- * @main components-control
- * @category docs
- */
-
-/**
- * Mixins.
- *
- * @module mdeditor
- * @submodule mixins
- * @main mixins
- * @category docs
- */
 
     </pre>
 </div>

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/06de9b4d" target="_blank">
-                                  Tag: 0.0.0.06de9b4d
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26c8b6f4" target="_blank">
+                                  Tag: 0.0.0.26c8b6f4
                                 </a>
                             </h4>
                         </div>
@@ -160,6 +160,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
                                     </li>
                                     <li>
@@ -225,6 +228,11 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
+/**
+ * @module mdeditor
+ * @submodule mixins
+ */
+
 import Ember from &#x27;ember&#x27;;
 
 const {
@@ -245,8 +253,6 @@ export default Mixin.create({
    * @class object-template
    * @constructor
    * @static
-   * @module mdeditor
-   * @submodule mixins
    */
 
   /**
@@ -274,7 +280,7 @@ export default Mixin.create({
   /**
    * Apply the object &#x27;template&#x27; to each object in the array.
    *
-   * @method applyTemplate
+   * @method applyTemplateArray
    * @param {Array} propertyName The array of objects to apply the template to.
    * @return {Array}
    */

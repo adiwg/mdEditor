@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/06de9b4d" target="_blank">
-                                  Tag: 0.0.0.06de9b4d
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26c8b6f4" target="_blank">
+                                  Tag: 0.0.0.26c8b6f4
                                 </a>
                             </h4>
                         </div>
@@ -160,6 +160,9 @@
                                         <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
                                     </li>
                                     <li>
@@ -223,7 +226,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-codelist Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L7" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L10" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -232,17 +235,53 @@
 
 <div class="content-meta">
 
+        <div class="extends">
+            Extends: Md-select
+        </div>
 
             Module: <a href="../modules/components-input.html">components-input</a><br>
             Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L7">app/pods/components/input/md-codelist/component.js:7</a>
+            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L10">app/pods/components/input/md-codelist/component.js:10</a>
         </div>
 </div>
 
 
+    <div class="constructor">
+        <h2>Constructor</h2>
+<div id="method_md-codelist" class="method item">
+	<span class="method-signature">
+	<span class="name anchorable-toc">
+		<a class="fa fa-link toc-anchor" href="#method_md-codelist"></a>
+		md-codelist
+	</span>
+
+		<span class="paren">()</span>
+	</span>
+
+
+
+
+
+
+
+	<div class="meta">
+				<p>
+				Defined in
+		<a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L10">app/pods/components/input/md-codelist/component.js:10</a>
+		</p>
+
+
+
+	</div>
+
+
+
+
+</div>
+    </div>
 
   <div class="class-description">
   <p>Specialized select list control for displaying and selecting
@@ -309,12 +348,16 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
                   <div class="index-section methods">
                       <h3>Methods</h3>
 
-                      <ul class="index-list methods">
-                              <li class="index-item method">
+                      <ul class="index-list methods extends">
+                              <li class="index-item method inherited">
+                                  <a href="#method_change">change</a>
+
+                              </li>
+                              <li class="index-item method inherited">
                                   <a href="#method_createCode">createCode</a>
 
                               </li>
-                              <li class="index-item method">
+                              <li class="index-item method inherited">
                                   <a href="#method_setValue">setValue</a>
 
                               </li>
@@ -324,16 +367,40 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
                   <div class="index-section properties">
                       <h3>Properties</h3>
 
-                      <ul class="index-list properties">
-                              <li class="index-item property">
+                      <ul class="index-list properties extends">
+                              <li class="index-item property inherited">
                                   <a href="#property_allowClear">allowClear</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
+                                  <a href="#property_closeOnSelect">closeOnSelect</a>
+
+                              </li>
+                              <li class="index-item property inherited">
                                   <a href="#property_codelist">codelist</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
+                                  <a href="#property_create">create</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_defaultIcon">defaultIcon</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_disabled">disabled</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_filterId">filterId</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_icon">icon</a>
+
+                              </li>
+                              <li class="index-item property inherited">
                                   <a href="#property_label">label</a>
 
                               </li>
@@ -345,23 +412,55 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
                                   <a href="#property_mdCodeName">mdCodeName</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
+                                  <a href="#property_model">model</a>
+
+                              </li>
+                              <li class="index-item property inherited">
                                   <a href="#property_namePath">namePath</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
+                                  <a href="#property_objectArray">objectArray</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_path">path</a>
+
+                              </li>
+                              <li class="index-item property inherited">
                                   <a href="#property_placeholder">placeholder</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
+                                  <a href="#property_required">required</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_searchEnabled">searchEnabled</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_selectedItem">selectedItem</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_theComponent">theComponent</a>
+
+                              </li>
+                              <li class="index-item property inherited">
+                                  <a href="#property_tooltip">tooltip</a>
+
+                              </li>
+                              <li class="index-item property inherited">
                                   <a href="#property_tooltipPath">tooltipPath</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
                                   <a href="#property_value">value</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
                                   <a href="#property_valuePath">valuePath</a>
 
                               </li>
@@ -373,6 +472,37 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
 
               <div id="tab_methods" role="tabpanel" class="tab-pane">
                   <div class="item-list">
+  <div id="method_change" class="method item inherited">
+  	<span class="method-signature">
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_change"></a>
+  		change
+  	</span>
+  
+  		<span class="paren">()</span>
+  	</span>
+  
+  
+  
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>Inherited from
+  				<a href="#method_change">md-select</a>:
+  		<a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L293">app/pods/components/input/md-select/component.js:293</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description">Callback after value is updated, usually an action is passed.</div>
+  
+  
+  
+  </div>
   <div id="method_createCode" class="method item">
   	<span class="method-signature">
   	<span class="name anchorable-toc">
@@ -399,9 +529,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
   	<div class="meta">
-  				<p>
-  				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L194">app/pods/components/input/md-codelist/component.js:194</a>
+  			<p>Inherited from
+  			<a href="#method_createCode">
+  				md-select
+  			</a>
+  			but overwritten in
+  		<a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L198">app/pods/components/input/md-codelist/component.js:198</a>
   		</p>
   
   
@@ -461,9 +594,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
   	<div class="meta">
-  				<p>
-  				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L209">app/pods/components/input/md-codelist/component.js:209</a>
+  			<p>Inherited from
+  			<a href="#method_setValue">
+  				md-select
+  			</a>
+  			but overwritten in
+  		<a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L213">app/pods/components/input/md-codelist/component.js:213</a>
   		</p>
   
   
@@ -511,9 +647,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L86">app/pods/components/input/md-codelist/component.js:86</a>
+              <p>Inherited from
+              <a href="#property_allowClear">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L90">app/pods/components/input/md-codelist/component.js:90</a>
           </p>
   
   
@@ -522,6 +661,37 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
       <div class="description">
           <p>Whether to render a button to clear the selection.</p>
   
+      </div>
+  
+          <p><br><strong>Default:</strong> true</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_closeOnSelect" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_closeOnSelect"></a>
+          closeOnSelect
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_closeOnSelect">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L229">app/pods/components/input/md-select/component.js:229</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Whether to close the selection list after a selection has been made.
       </div>
   
           <p><br><strong>Default:</strong> true</p>
@@ -548,9 +718,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L166">app/pods/components/input/md-codelist/component.js:166</a>
+              <p>Inherited from
+              <a href="#property_codelist">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L170">app/pods/components/input/md-codelist/component.js:170</a>
           </p>
   
   
@@ -562,6 +735,163 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
       </div>
   
+  
+  
+  </div>
+  
+  
+  <div id="property_create" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_create"></a>
+          create
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_create">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L260">app/pods/components/input/md-select/component.js:260</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Indicates whether to allow the user to enter a new option
+  not contained in the select list.
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_defaultIcon" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_defaultIcon"></a>
+          defaultIcon
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_defaultIcon">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L172">app/pods/components/input/md-select/component.js:172</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          The default icon.
+      </div>
+  
+          <p><br><strong>Default:</strong> defaultList</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_disabled" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_disabled"></a>
+          disabled
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_disabled">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L220">app/pods/components/input/md-select/component.js:220</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Whether to disable the select.
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_filterId" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_filterId"></a>
+          filterId
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number" class="crosslink external" target="_blank">Number</a> | Null</span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_filterId">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L270">app/pods/components/input/md-select/component.js:270</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          If set, removes the option with the specified id from the list. By default,
+  it will hide options with a null id.
+      </div>
+  
+          <p><br><strong>Default:</strong> null</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_icon" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_icon"></a>
+          icon
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_icon">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L154">app/pods/components/input/md-select/component.js:154</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Indicates if icons should be rendered.
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
   
   
   </div>
@@ -580,9 +910,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L104">app/pods/components/input/md-codelist/component.js:104</a>
+              <p>Inherited from
+              <a href="#property_label">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L108">app/pods/components/input/md-codelist/component.js:108</a>
           </p>
   
   
@@ -619,7 +952,7 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L131">app/pods/components/input/md-codelist/component.js:131</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L135">app/pods/components/input/md-codelist/component.js:135</a>
           </p>
   
   
@@ -651,7 +984,7 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L37">app/pods/components/input/md-codelist/component.js:37</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L41">app/pods/components/input/md-codelist/component.js:41</a>
           </p>
   
   
@@ -660,6 +993,37 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
       <div class="description">
           <p>The name of the mdCodes's codelist to use</p>
   
+      </div>
+  
+  
+  
+  </div>
+  
+  
+  <div id="property_model" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_model"></a>
+          model
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_model">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L128">app/pods/components/input/md-select/component.js:128</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          The model to be used to compute the value alias, generally used for
+  validations. Both <code>model</code> and <code>path</code> must be supplied together.
       </div>
   
   
@@ -680,9 +1044,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L55">app/pods/components/input/md-codelist/component.js:55</a>
+              <p>Inherited from
+              <a href="#property_namePath">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L59">app/pods/components/input/md-codelist/component.js:59</a>
           </p>
   
   
@@ -695,6 +1062,72 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
       </div>
   
           <p><br><strong>Default:</strong> codename</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_objectArray" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_objectArray"></a>
+          objectArray
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_objectArray">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L97">app/pods/components/input/md-select/component.js:97</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          An array or promise array containing the options for the
+  select list.
+  At a minimum the array elements should provide attributes for the
+  name value pairs displayed as select list options.
+  Tooltips may also be included.
+  Other attributes in the array elements will be ignored.
+      </div>
+  
+  
+  
+  </div>
+  
+  
+  <div id="property_path" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_path"></a>
+          path
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_path">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L120">app/pods/components/input/md-select/component.js:120</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Path in the model to be used for the select list's option value. Both
+  <code>model</code> and <code>path</code> must be supplied together.
+      </div>
+  
   
   
   </div>
@@ -713,9 +1146,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L95">app/pods/components/input/md-codelist/component.js:95</a>
+              <p>Inherited from
+              <a href="#property_placeholder">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L99">app/pods/components/input/md-codelist/component.js:99</a>
           </p>
   
   
@@ -727,6 +1163,159 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
       </div>
   
           <p><br><strong>Default:</strong> &#x27;Select one option&#x27;</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_required" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_required"></a>
+          required
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_required">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L163">app/pods/components/input/md-select/component.js:163</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Indicates if value is required.
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_searchEnabled" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_searchEnabled"></a>
+          searchEnabled
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_searchEnabled">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L211">app/pods/components/input/md-select/component.js:211</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Whether to render the search input.
+      </div>
+  
+          <p><br><strong>Default:</strong> true</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_selectedItem" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_selectedItem"></a>
+          selectedItem
+      </h3>
+      <span class="type">Ember.computed</span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_selectedItem">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L300">app/pods/components/input/md-select/component.js:300</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          The currently selected item in the codelist
+      </div>
+  
+  
+  
+  </div>
+  
+  
+  <div id="property_theComponent" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_theComponent"></a>
+          theComponent
+      </h3>
+      <span class="type">Ember.computed</span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_theComponent">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L281">app/pods/components/input/md-select/component.js:281</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          The component to render
+      </div>
+  
+  
+  
+  </div>
+  
+  
+  <div id="property_tooltip" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_tooltip"></a>
+          tooltip
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_tooltip">md-select</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-select/component.js#L182">app/pods/components/input/md-select/component.js:182</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          Indicates if tooltips should be rendered for the options.
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
   
   
   </div>
@@ -745,9 +1334,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L66">app/pods/components/input/md-codelist/component.js:66</a>
+              <p>Inherited from
+              <a href="#property_tooltipPath">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L70">app/pods/components/input/md-codelist/component.js:70</a>
           </p>
   
   
@@ -779,9 +1371,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L77">app/pods/components/input/md-codelist/component.js:77</a>
+              <p>Inherited from
+              <a href="#property_value">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L81">app/pods/components/input/md-codelist/component.js:81</a>
           </p>
   
   
@@ -810,9 +1405,12 @@ Descriptions of all codes (tooltips) are embedded within the codelists.</p>
   
   
       <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/06de9b4d/app/pods/components/input/md-codelist/component.js#L45">app/pods/components/input/md-codelist/component.js:45</a>
+              <p>Inherited from
+              <a href="#property_valuePath">
+                  md-select
+              </a>
+              but overwritten in
+          <a href="https://github.com/adiwg/mdEditor/blob/26c8b6f4/app/pods/components/input/md-codelist/component.js#L49">app/pods/components/input/md-codelist/component.js:49</a>
           </p>
   
   

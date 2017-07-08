@@ -20,6 +20,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-input",
         "md-input-confirm",
         "md-inputs",
+        "md-maintenance",
         "md-markdown-editor",
         "md-object-table",
         "md-online-resource-array",
@@ -60,7 +61,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components-input",
             "name": "components-input",
-            "description": "Specialized select list control for displaying and selecting\noptions in mdCodes codelists.\nAccess to codelists is provided by the 'codelist' service.\nDescriptions of all codes (tooltips) are embedded within the codelists.\n\n```handlebars\n\\{{input/md-codelist\n  create=true\n  required=false\n  tooltip=fasle\n  icon=false\n  disabled=false\n  allowClear=true\n  showValidations=true\n  mdCodeName=\"codeName\"\n  value=value\n  path=\"path\"\n  model=model\n  placeholder=\"Choose\"\n}}\n```"
+            "description": "Components used to input scalar or arrays of scalar values."
         },
         {
             "displayName": "components-layout",
@@ -70,7 +71,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components-object",
             "name": "components-object",
-            "description": "mdEditor class for input and edit of mdJSON 'address' object\narrays. The class manages the maintenance of an array of address\nobjects using the md-object-table class."
+            "description": "mdEditor class for input and edit of mdJSON 'citation' object\narrays.\nThe class manages the maintenance of an array of citation\nobjects using the md-object-table class."
         },
         {
             "displayName": "data-models",
