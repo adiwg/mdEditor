@@ -403,8 +403,9 @@ export default Component.extend(Template, {
   }),*/
 
   attrArray: computed(&#x27;attributes&#x27;, function () {
-    return this.get(&#x27;attributes&#x27;)
-      .split(&#x27;,&#x27;);
+    let attr = this.get(&#x27;attributes&#x27;);
+
+    return attr ? attr.split(&#x27;,&#x27;) : null;
   }),
 
   attrTitleArray: computed(&#x27;attrArray&#x27;, function () {

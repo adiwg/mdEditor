@@ -389,6 +389,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/object/md-lineage/component.js": {
+            "name": "app/pods/components/object/md-lineage/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/object/md-locale/component.js": {
             "name": "app/pods/components/object/md-locale/component.js",
             "modules": {},
@@ -3532,7 +3539,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 17,
+            "line": 19,
             "description": "Initial value, returned value.",
             "itemtype": "property",
             "name": "value",
@@ -3547,7 +3554,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 26,
+            "line": 28,
             "description": "Form label for textarea",
             "itemtype": "property",
             "name": "label",
@@ -3559,7 +3566,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 35,
+            "line": 37,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -3571,7 +3578,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 44,
+            "line": 46,
             "description": "Indicates whether the value is required",
             "itemtype": "property",
             "name": "required",
@@ -3583,7 +3590,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 53,
+            "line": 55,
             "description": "Maximum number of characters allowed.\nIf maxlength is not provided the number of characters will\nnot be restricted.",
             "itemtype": "property",
             "name": "maxlength",
@@ -3595,7 +3602,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 64,
+            "line": 66,
             "description": "Enable auto-resizing of the textarea",
             "itemtype": "property",
             "name": "autoresize",
@@ -3607,7 +3614,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 73,
+            "line": 75,
             "description": "Set the maximum width of the resizeable element in pixels.\nIf maxwidth is not provided width will not be restricted.",
             "itemtype": "property",
             "name": "maxwidth",
@@ -3619,7 +3626,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 83,
+            "line": 85,
             "description": "Set the maximum height of the resizable element in pixels.\nIf maxheight is not provided height will not be restricted.",
             "itemtype": "property",
             "name": "maxheight",
@@ -3631,7 +3638,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 93,
+            "line": 95,
             "description": "Set the minimum number of rows for the element.\nRecommended for textareas.",
             "itemtype": "property",
             "name": "rows",
@@ -3643,7 +3650,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 103,
+            "line": 105,
             "description": "Set the maximum number of rows for the element.\nRecommended for textareas.",
             "itemtype": "property",
             "name": "maxrows",
@@ -3655,7 +3662,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 113,
+            "line": 115,
             "description": "Class to set on the textarea",
             "itemtype": "property",
             "name": "class",
@@ -4368,6 +4375,29 @@
             "class": "md-identifier-array",
             "module": "mdeditor",
             "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-lineage/component.js",
+            "line": 27,
+            "description": "The string representing the path in the profile object for the citation.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "\"false\"",
+            "required": 1,
+            "class": "md-maintenance",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-lineage/component.js",
+            "line": 36,
+            "description": "The object to use as the data model for the citation.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-maintenance",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/object/md-locale/component.js",
