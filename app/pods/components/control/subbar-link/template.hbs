@@ -1,2 +1,6 @@
-{{#link-to route class="btn btn-lg btn-primary btn-block md-btn-responsive" }} {{fa-icon icon}} {{text}}{{/link-to}}
+{{#if route}}
+  {{#link-to route class="btn btn-lg btn-primary btn-block md-btn-responsive" }} {{fa-icon icon}} {{text}}{{/link-to}}
+{{else}}
+  <button type="button" name="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" click=click>{{fa-icon icon}} {{text}}</button>
+{{/if}}
 {{yield}}
