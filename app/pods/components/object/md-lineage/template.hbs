@@ -1,0 +1,37 @@
+{{input/md-textarea
+  value=model.statement
+  profilePath=(concat profilePath ".statement")
+  label="Statement"
+  placeholder="A general statement of the actions taken to verify, transform, repair, and integrate the resource."
+  data-spy="Statement"
+}}
+
+{{object/md-objectroute-table
+  items=model.processStep
+  header="Process Step"
+  buttonText="Add Step"
+  ellipsis=ellipsis
+  templateClass=templateClass
+  editItem=editProcessStep
+  attributes="stepId,description"
+  profilePath=(concat profilePath ".processStep") data-spy="Process Step"
+}}
+
+{{object/md-citation-array model=model.citation
+  profilePath=(concat profilePath ".citation") data-spy="Lineage Citation"
+  editItem=editCitation label="Citation"
+}}
+
+{{input/md-codelist
+  value=model.scope.scopeCode
+  label="Scope"
+  create=true
+  tooltip=true
+  icon=true
+  mdCodeName="scope"
+  closeOnSelect=false
+  placeholder="Select type of resource."
+  profilePath=(concat profilePath ".scope")
+  data-spy="Scope"
+}}
+{{yield}}

@@ -1,0 +1,59 @@
+{{input/md-input
+   value=model.stepId
+   model=null
+   valuePath=null
+   label="Step ID"
+   data-spy="Step ID"
+   placeholder="Enter an identifer for the step."
+   required=false
+   profilePath=(concat profilePath ".stepId")
+ }}
+
+{{input/md-textarea
+  value=model.description
+  required=true
+  profilePath=(concat profilePath ".description")
+  label="Description"
+  placeholder="Description of the process or methodology step."
+  data-spy="Step Description"
+  showValidations=true
+}}
+{{!--
+{{object/md-objectroute-table
+  items=model.processStep
+  header="Process Step"
+  buttonText="Add Step"
+  ellipsis=ellipsis
+  templateClass=templateClass
+  editItem=editProcessStep
+  attributes="stepId, description"
+}} --}}
+
+{{object/md-party
+  title="Processors"
+  data-spy="Processors"
+  class=(if embedded "md-embedded")
+  collapsible=true collapsed=false
+  required=false
+  value=model.processor
+  profilePath=(concat profilePath ".processor")
+}}
+
+{{object/md-citation-array model=model.reference
+  profilePath=(concat profilePath ".reference") data-spy="Step Reference"
+  editItem=editCitation label="Step Reference"
+}}
+
+{{input/md-codelist
+  value=model.scope.scopeCode
+  label="Scope"
+  create=true
+  tooltip=true
+  icon=true
+  mdCodeName="scope"
+  closeOnSelect=false
+  placeholder="Select type of resource."
+  profilePath=(concat profilePath ".scope")
+  data-spy="Scope"
+}}
+{{yield}}
