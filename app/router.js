@@ -6,7 +6,7 @@ const Router = Ember.Router.extend({
   rootURL: config.rootURL
 });
 
-Router.map(function () {
+Router.map(function() {
   this.route('dashboard');
   this.route('export');
   this.route('import');
@@ -18,7 +18,7 @@ Router.map(function () {
   //records
   this.route('records');
   //record
-  this.route('record', function () {
+  this.route('record', function() {
     this.route('new', function() {
       this.route('id', {
         path: '/:record_id'
@@ -27,8 +27,8 @@ Router.map(function () {
     this.route('show', {
         path: ':record_id'
       },
-      function () {
-        this.route('edit', function () {
+      function() {
+        this.route('edit', function() {
           this.route('metadata', function() {
             this.route('identifier');
             this.route('parent', function() {
@@ -58,7 +58,26 @@ Router.map(function () {
               path: 'spatial/:extent_id'
             });
           });
-          this.route('quality');
+          this.route('lineage', function() {
+            this.route('lineageobject', {
+              path: ':lineage_id'
+            }, function() {
+              this.route('citation', {
+                path: 'citation/:citation_id'
+              }, function() {
+                this.route('identifier', {
+                  path: 'identifier/:identifier_id'
+                });
+              });
+              this.route('step', {
+                path: 'step/:step_id'
+              }, function() {
+                this.route('citation', {
+                  path: 'citation/:citation_id'
+                });
+              });
+            });
+          });
           this.route('distribution');
           this.route('associated');
           this.route('documents');
@@ -71,6 +90,7 @@ Router.map(function () {
               });
             });
           });
+          this.route('funding');
         });
         this.route('translate');
       }
@@ -79,7 +99,7 @@ Router.map(function () {
   //contacts
   this.route('contacts');
   //contact
-  this.route('contact', function () {
+  this.route('contact', function() {
     this.route('new', function() {
       this.route('id', {
         path: '/:contact_id'
@@ -88,7 +108,7 @@ Router.map(function () {
 
     this.route('show', {
       path: ':contact_id'
-    }, function () {
+    }, function() {
       this.route('edit');
     });
 
@@ -96,7 +116,7 @@ Router.map(function () {
   //dictionary
   this.route('dictionaries');
   //dictionary
-  this.route('dictionary', function () {
+  this.route('dictionary', function() {
     this.route('new', function() {
       this.route('id', {
         path: '/:dictionary_id'
@@ -104,8 +124,8 @@ Router.map(function () {
     });
     this.route('show', {
       path: ':dictionary_id'
-    }, function () {
-      this.route('edit', function () {
+    }, function() {
+      this.route('edit', function() {
         this.route('domains');
         this.route('entities');
       });

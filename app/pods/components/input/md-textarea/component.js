@@ -14,6 +14,10 @@ export default Ember.Component.extend({
    * @constructor
    */
 
+  attributeBindings: ['data-spy'],
+  classNames: ['md-textarea'],
+  classNameBindings: ['label:form-group', 'required'],
+
   /**
    * Initial value, returned value.
    *

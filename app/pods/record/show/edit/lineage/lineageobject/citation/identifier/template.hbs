@@ -1,13 +1,12 @@
-<h4 class="col-sm-11 col-md-offset-1 section-header">
+<h4 class="section-header">
   Editing Alternate Identifier: {{model.identifier}}
   {{control/md-status model=(compute (route-action "parentModel"))}}
 </h4>
 
-<div class="row">
+<div class="">
   {{object/md-identifier
-    class="col-sm-11 col-md-offset-1"
     model=model
-    profilePath="record.metadata.alternateMetadata.identifier"
+    profilePath="record.metadata.lineage.lineageobject.citation.identifier"
     data-spy="Identifier"
   }}
   {{outlet}}

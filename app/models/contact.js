@@ -244,7 +244,10 @@ const Contact = Model.extend(Validations, Copyable, {
       if(orgId) {
         let contacts = this.get('store').peekAll('contact');
         let org = contacts.findBy('json.contactId', orgId);
-        orgName = org.name;
+
+        if(org) {
+          orgName = org.name;
+        }
       }
 
       if(orgName && !isOrganization) {

@@ -1,4 +1,4 @@
-export default function() {
+export default function () {
   this.transition(
     this.toRoute('record.show.edit.main.citation'),
     this.fromRoute('record.show.edit.main.index'),
@@ -43,6 +43,36 @@ export default function() {
   this.transition(
     this.toRoute('record.show.edit.metadata.parent.identifier'),
     this.fromRoute('record.show.edit.metadata.parent.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.lineage.lineageobject'),
+    this.fromRoute('record.show.edit.lineage.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.lineage.lineageobject.citation'),
+    this.fromRoute('record.show.edit.lineage.lineageobject.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.lineage.lineageobject.citation.identifier'),
+    this.fromRoute('record.show.edit.lineage.lineageobject.citation.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.lineage.lineageobject.step'),
+    this.fromRoute('record.show.edit.lineage.lineageobject.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.lineage.lineageobject.step.citation'),
+    this.fromRoute('record.show.edit.lineage.lineageobject.step.index'),
     this.use('toLeft'),
     this.reverse('toRight')
   );

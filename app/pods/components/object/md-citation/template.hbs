@@ -72,10 +72,13 @@
   data-spy="Online Resource"}}
 
 {{#unless embedded}}
+
+  {{#unless noIdentifier}}
   {{object/md-identifier-array model=model.identifier
     profilePath=(concat profilePath ".identifier") data-spy="Identifier"
     editItem=editIdentifier
   }}
+  {{/unless}}
 
   {{#layout/md-card collapsible=true title="Series" profilePath=(concat profilePath ".series") data-spy="Series"}}
     {{input/md-input

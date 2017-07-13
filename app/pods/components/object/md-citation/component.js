@@ -54,5 +54,14 @@ export default Component.extend({
    * @type {Boolean}
    * @default "false"
    */
-  embedded: false
+  embedded: false,
+
+  /**
+   * Indicates whether the citation identifier Component should be rendered.
+   *
+   * @property noIdentifier
+   * @type {Boolean}
+   * @default "false"
+   */
+  noIdentifier: false
 });

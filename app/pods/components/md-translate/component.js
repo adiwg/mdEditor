@@ -49,7 +49,7 @@ export default Component.extend({
       type: 'application/json',
       tip: 'Alaska Data Integration working group (ADIwg) metadata format'
     }, {
-      name: 'sbJSON(beta)',
+      name: 'sbJSON',
       value: 'sbJson',
       type: 'application/json',
       tip: 'USGS ScienceBase metadata format'

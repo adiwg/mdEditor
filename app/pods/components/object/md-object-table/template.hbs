@@ -47,7 +47,7 @@
                                 {{/if}}
                             {{/each}}
                         {{/if}}
-                        <td>
+                        <td class="md-row-actions">
                             {{#if item.validations.isInvalid}}
                             <span class="md-error pull-right">
                               {{fa-icon "exclamation-circle" fixedWidth=true}}
@@ -60,11 +60,11 @@
                                 <span class="fa fa-fw"></span>
                             </span>
                             {{/if}}
-                            <button class="btn btn-xs btn-danger pull-right" {{action "deleteItem" items index}}>
+                            <button type="button" class="btn btn-xs btn-danger pull-right" {{action "deleteItem" items index}}>
                                 <span class="fa fa-times"></span> Delete
                             </button>
                             <span class="pull-right">&nbsp;</span>
-                            <button class="btn btn-xs btn-success pull-right" {{action "editItem" items index}}>
+                            <button type="button" class="btn btn-xs btn-success pull-right" {{action "editItem" items index}}>
                                 {{fa-icon "pencil"}} Edit
                             </button>
                         </td>

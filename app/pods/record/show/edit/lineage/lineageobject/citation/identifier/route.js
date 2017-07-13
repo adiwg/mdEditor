@@ -29,15 +29,15 @@ export default Route.extend(ScrollTo, {
 
   setupModel() {
     let identifierId = get(this, 'identifierId');
-    let model = this.modelFor('record.show.edit.metadata.alternate');
+    let model = this.modelFor('record.show.edit.lineage.lineageobject.citation');
     let identifiers = get(model, 'identifier');
     let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
     //make sure the identifier exists
     if (isEmpty(identifier)) {
       Ember.get(this, 'flashMessages')
-        .warning('No identifier found! Re-directing to Alternate Metadata...');
-      this.replaceWith('record.show.edit.metadata.alternate');
+        .warning('No identifier found! Re-directing to Citation...');
+      this.replaceWith('record.show.edit.lineage.lineageobject.citation');
 
       return;
     }
@@ -46,7 +46,7 @@ export default Route.extend(ScrollTo, {
   },
   actions: {
     goBack(){
-      this.transitionTo('record.show.edit.metadata.alternate');
+      this.transitionTo('record.show.edit.lineage.lineageobject.citation');
     }
   }
 });

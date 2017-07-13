@@ -17,6 +17,17 @@ export default Component.extend({
   /**
    * Input, edit, display a single item
    *
+   * ```handlebars
+   * \{{input/md-input
+   *    value=val
+   *    model=null
+   *    valuePath=null
+   *    label="Name"
+   *    placeholder="Enter name."
+   *    required=false
+   *  }}
+   * ```
+   *
    * @class md-input
    * @constructor
    */
@@ -27,14 +38,14 @@ export default Component.extend({
     let model = this.get('model');
     let valuePath = this.get('valuePath');
 
-    if (isBlank(model) !== isBlank(valuePath)) {
+    if(isBlank(model) !== isBlank(valuePath)) {
       assert(
         `You must supply both model and valuePath to ${this.toString()} or neither.`
       );
     }
 
-    if (!isBlank(model)) {
-      if (this.get(`model.${valuePath}`) === undefined) {
+    if(!isBlank(model)) {
+      if(this.get(`model.${valuePath}`) === undefined) {
         Ember.debug(
           `model.${valuePath} is undefined in ${this.toString()}.`
         );
@@ -45,42 +56,52 @@ export default Component.extend({
       defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
 
       defineProperty(this, 'validation', computed.alias(
-        `model.validations.attrs.${valuePath}`).readOnly());
+          `model.validations.attrs.${valuePath}`)
+        .readOnly());
 
       defineProperty(this, 'required', computed(
-        'validation.options.presence.presence',
-        'validation.options.presence.disabled',
-        function() {
-          return this.get('validation.options.presence.presence') &&
-            !this.get('validation.options.presence.disabled');
-        }).readOnly());
+          'validation.options.presence.presence',
+          'validation.options.presence.disabled',
+          function () {
+            return this.get('validation.options.presence.presence') &&
+              !this.get('validation.options.presence.disabled');
+          })
+        .readOnly());
 
       defineProperty(this, 'notValidating', computed.not(
-        'validation.isValidating').readOnly());
+          'validation.isValidating')
+        .readOnly());
 
-      defineProperty(this, 'hasContent', computed.notEmpty('value').readOnly());
+      defineProperty(this, 'hasContent', computed.notEmpty('value')
+        .readOnly());
 
       defineProperty(this, 'hasWarnings', computed.notEmpty(
-        'validation.warnings').readOnly());
+          'validation.warnings')
+        .readOnly());
 
       defineProperty(this, 'isValid', computed.and('hasContent',
-        'validation.isTruelyValid').readOnly());
+          'validation.isTruelyValid')
+        .readOnly());
 
       defineProperty(this, 'shouldDisplayValidations', computed.or(
-        'showValidations', 'didValidate',
-        'hasContent').readOnly());
+          'showValidations', 'didValidate',
+          'hasContent')
+        .readOnly());
 
       defineProperty(this, 'showErrorClass', computed.and('notValidating',
-        'showErrorMessage',
-        'hasContent', 'validation').readOnly());
+          'showErrorMessage',
+          'hasContent', 'validation')
+        .readOnly());
 
       defineProperty(this, 'showErrorMessage', computed.and(
-        'shouldDisplayValidations',
-        'validation.isInvalid').readOnly());
+          'shouldDisplayValidations',
+          'validation.isInvalid')
+        .readOnly());
 
       defineProperty(this, 'showWarningMessage', computed.and(
-        'shouldDisplayValidations',
-        'hasWarnings', 'isValid').readOnly());
+          'shouldDisplayValidations',
+          'hasWarnings', 'isValid')
+        .readOnly());
     }
   },
 

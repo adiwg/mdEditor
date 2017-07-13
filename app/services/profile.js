@@ -67,7 +67,7 @@ export default Ember.Service.extend({
 
       }, {
         title: 'Lineage',
-        target: 'record.show.edit.quality'
+        target: 'record.show.edit.lineage'
 
       }, {
         title: 'Distribution',
@@ -81,7 +81,11 @@ export default Ember.Service.extend({
         title: 'Documents',
         target: 'record.show.edit.documents'
 
-      }, /*{
+      }, {
+        title: 'Funding',
+        target: 'record.show.edit.funding'
+
+      }/*, {
         title: 'Coverage',
         target: 'record.show.edit.coverages'
 

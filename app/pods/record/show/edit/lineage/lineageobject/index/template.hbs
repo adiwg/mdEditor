@@ -1,0 +1,16 @@
+<h4 class="section-header">
+  Editing Lineage #{{lineageId}}
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-lineage model=model profilePath="record.lineage"
+  editCitation=(route-action "editCitation")
+  editProcessStep=(route-action "editProcessStep")
+}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Lineage List" icon="arrow-left" route="record.show.edit.lineage")
+}}
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

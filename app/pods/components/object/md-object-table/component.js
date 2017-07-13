@@ -173,8 +173,9 @@ export default Component.extend(Template, {
   }),*/
 
   attrArray: computed('attributes', function () {
-    return this.get('attributes')
-      .split(',');
+    let attr = this.get('attributes');
+
+    return attr ? attr.split(',') : null;
   }),
 
   attrTitleArray: computed('attrArray', function () {
