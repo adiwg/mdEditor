@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.26c8b6f4",
+        "version": "0.0.0.a20587a3",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -453,6 +453,13 @@
         },
         "app/pods/components/object/md-phone-array/component.js": {
             "name": "app/pods/components/object/md-phone-array/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-process-step/component.js": {
+            "name": "app/pods/components/object/md-process-step/component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1116,7 +1123,7 @@
             "namespace": "",
             "file": "app/pods/components/input/md-input/component.js",
             "line": 17,
-            "description": "Input, edit, display a single item",
+            "description": "Input, edit, display a single item\n\n```handlebars\n\\{{input/md-input\n   value=val\n   model=null\n   valuePath=null\n   label=\"Name\"\n   placeholder=\"Enter name.\"\n   required=false\n }}\n```",
             "is_constructor": 1
         },
         "md-input-confirm": {
@@ -1753,7 +1760,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 257,
+            "line": 260,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -1771,7 +1778,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 277,
+            "line": 280,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -2728,7 +2735,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 91,
+            "line": 112,
             "description": "Value of the input.\nValue sets the initial value and returns the edited result.\nThis property is overridden if valuePath and model are supplied.",
             "itemtype": "property",
             "name": "value",
@@ -2740,7 +2747,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 101,
+            "line": 122,
             "description": "Type of data represented by the value string.\nHTML5 types may be specified ('text', 'number', etc.)",
             "itemtype": "property",
             "name": "type",
@@ -2752,7 +2759,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 111,
+            "line": 132,
             "description": "The form label to display",
             "itemtype": "property",
             "name": "label",
@@ -2764,7 +2771,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 120,
+            "line": 141,
             "description": "Whether a value is required",
             "itemtype": "property",
             "name": "required",
@@ -2776,7 +2783,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 129,
+            "line": 150,
             "description": "Whether a input is disabled",
             "itemtype": "property",
             "name": "disabled",
@@ -2788,7 +2795,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 138,
+            "line": 159,
             "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
             "itemtype": "property",
             "name": "maxlength",
@@ -2800,7 +2807,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 148,
+            "line": 169,
             "description": "Text displayed in empty inputs",
             "itemtype": "property",
             "name": "placeholder",
@@ -2812,7 +2819,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 157,
+            "line": 178,
             "description": "CSS class to set on the input control",
             "itemtype": "property",
             "name": "class",
@@ -2824,7 +2831,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 166,
+            "line": 187,
             "description": "The model or object containing the input value. Only needed for validation.",
             "itemtype": "property",
             "name": "model",
@@ -2837,7 +2844,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 175,
+            "line": 196,
             "description": "The path of the input value. Only needed for validation.",
             "itemtype": "property",
             "name": "valuePath",
@@ -3539,7 +3546,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 19,
+            "line": 21,
             "description": "Initial value, returned value.",
             "itemtype": "property",
             "name": "value",
@@ -3554,7 +3561,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 28,
+            "line": 30,
             "description": "Form label for textarea",
             "itemtype": "property",
             "name": "label",
@@ -3566,7 +3573,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 37,
+            "line": 39,
             "description": "The string to display when no option is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -3578,7 +3585,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 46,
+            "line": 48,
             "description": "Indicates whether the value is required",
             "itemtype": "property",
             "name": "required",
@@ -3590,7 +3597,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 55,
+            "line": 57,
             "description": "Maximum number of characters allowed.\nIf maxlength is not provided the number of characters will\nnot be restricted.",
             "itemtype": "property",
             "name": "maxlength",
@@ -3602,7 +3609,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 66,
+            "line": 68,
             "description": "Enable auto-resizing of the textarea",
             "itemtype": "property",
             "name": "autoresize",
@@ -3614,7 +3621,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 75,
+            "line": 77,
             "description": "Set the maximum width of the resizeable element in pixels.\nIf maxwidth is not provided width will not be restricted.",
             "itemtype": "property",
             "name": "maxwidth",
@@ -3626,7 +3633,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 85,
+            "line": 87,
             "description": "Set the maximum height of the resizable element in pixels.\nIf maxheight is not provided height will not be restricted.",
             "itemtype": "property",
             "name": "maxheight",
@@ -3638,7 +3645,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 95,
+            "line": 97,
             "description": "Set the minimum number of rows for the element.\nRecommended for textareas.",
             "itemtype": "property",
             "name": "rows",
@@ -3650,7 +3657,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 105,
+            "line": 107,
             "description": "Set the maximum number of rows for the element.\nRecommended for textareas.",
             "itemtype": "property",
             "name": "maxrows",
@@ -3662,7 +3669,7 @@
         },
         {
             "file": "app/pods/components/input/md-textarea/component.js",
-            "line": 115,
+            "line": 117,
             "description": "Class to set on the textarea",
             "itemtype": "property",
             "name": "class",
@@ -4214,6 +4221,17 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/components/object/md-citation/component.js",
+            "line": 59,
+            "description": "Indicates whether the citation identifier Component should be rendered.",
+            "itemtype": "property",
+            "name": "noIdentifier",
+            "type": "{Boolean}",
+            "default": "\"false\"",
+            "class": "md-citation-array",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-citation-array/component.js",
             "line": 32,
             "description": "mdJSON object containing the 'citation' array.",
@@ -4378,7 +4396,7 @@
         },
         {
             "file": "app/pods/components/object/md-lineage/component.js",
-            "line": 27,
+            "line": 28,
             "description": "The string representing the path in the profile object for the citation.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4390,7 +4408,7 @@
         },
         {
             "file": "app/pods/components/object/md-lineage/component.js",
-            "line": 36,
+            "line": 37,
             "description": "The object to use as the data model for the citation.",
             "itemtype": "property",
             "name": "model",
@@ -4704,6 +4722,29 @@
             "class": "md-phone-array",
             "module": "mdeditor",
             "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-process-step/component.js",
+            "line": 30,
+            "description": "The string representing the path in the profile object for the processStep.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "\"false\"",
+            "required": 1,
+            "class": "md-phone-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-process-step/component.js",
+            "line": 39,
+            "description": "The object to use as the data model for the processStep.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-phone-array",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/object/md-resource-type-array/component.js",

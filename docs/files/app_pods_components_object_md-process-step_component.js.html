@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/control/md-modal/component.js - mdeditor</title>
+    <title>app/pods/components/object/md-process-step/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -230,97 +230,49 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 
-export default Ember.Component.extend({
-  /**
-   * Whether to display the modal
-   *
-   * @prop isShowing
-   * @type {Boolean}
-   */
-  isShowing: false,
-
-  /**
-   * Text to display in the modal.
-   * Note: This string is NOT escaped in the template.
-   *
-   * @property message
-   * @type {String}
-   */
-
-   /**
-    * Element selector or element that serves as the reference for modal position
-    *
-    * @property target
-    * @type {String}
-    */
-   target: &#x27;viewport&#x27;,
-
-  /**
-   * Whether to display the confirm button
-   *
-   * @property showConfirm
-   * @type {Boolean}
-   */
-  showConfirm: false,
-
-  /**
-   * Whether to render in place
-   *
-   * @property renderInPlace
-   * @type {Boolean}
-   */
-  renderInPlace: false,
-
-  /**
-   * Whether to display the cancel button
-   *
-   * @property showCancel
-   * @type {Boolean}
-   */
-  showCancel: false,
-
-  /**
-   * Label for the confirm button
-   *
-   * @property confirmLabel
-   * @type {String}
-   */
-  confirmLabel: &#x27;OK&#x27;,
-
-  /**
-   * Close action callback
-   */
-  closeModal() {
-    this.set(&#x27;isShowing&#x27;, false);
-  },
-
-  /**
-   * Confirm action callback
-   */
-  confirm() {
-    this.closeModal();
-  },
-
-  /**
-   * Cancel action callback
-   */
-  cancel() {
-    this.closeModal();
-  },
-
-  actions: {
-    closeModal() {
-      this.closeModal();
-    },
-
-    confirm() {
-      this.confirm();
-    },
-
-    cancel() {
-      this.cancel();
-    }
+const {
+  Component,
+  set,
+  get,
+  getWithDefault,
+  run: {
+    once
   }
+} = Ember;
+
+export default Component.extend({
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    let model = get(this, &#x27;model&#x27;);
+
+    once(this, function () {
+      set(model, &#x27;stepId&#x27;, getWithDefault(model, &#x27;stepId&#x27;, get(this, &#x27;itemId&#x27;)));
+      set(model, &#x27;timePeriod&#x27;, getWithDefault(model, &#x27;timePeriod&#x27;, {}));
+      set(model, &#x27;scope&#x27;, getWithDefault(model, &#x27;scope&#x27;, {}));
+      set(model, &#x27;reference&#x27;, getWithDefault(model, &#x27;reference&#x27;, []));
+      set(model, &#x27;processor&#x27;, getWithDefault(model, &#x27;processor&#x27;, []));
+    });
+  },
+
+  tagName: &#x27;form&#x27;,
+
+  /**
+   * The string representing the path in the profile object for the processStep.
+   *
+   * @property profilePath
+   * @type {String}
+   * @default &quot;false&quot;
+   * @required
+   */
+
+  /**
+   * The object to use as the data model for the processStep.
+   *
+   * @property model
+   * @type {Object}
+   * @required
+   */
 });
 
     </pre>

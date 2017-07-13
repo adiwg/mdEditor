@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26c8b6f4" target="_blank">
-                                  Tag: 0.0.0.26c8b6f4
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/a20587a3" target="_blank">
+                                  Tag: 0.0.0.a20587a3
                                 </a>
                             </h4>
                         </div>
@@ -247,6 +247,17 @@ export default Component.extend({
   /**
    * Input, edit, display a single item
    *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{input/md-input
+   *    value=val
+   *    model=null
+   *    valuePath=null
+   *    label=&quot;Name&quot;
+   *    placeholder=&quot;Enter name.&quot;
+   *    required=false
+   *  }}
+   * &#x60;&#x60;&#x60;
+   *
    * @class md-input
    * @constructor
    */
@@ -257,14 +268,14 @@ export default Component.extend({
     let model = this.get(&#x27;model&#x27;);
     let valuePath = this.get(&#x27;valuePath&#x27;);
 
-    if (isBlank(model) !== isBlank(valuePath)) {
+    if(isBlank(model) !== isBlank(valuePath)) {
       assert(
         &#x60;You must supply both model and valuePath to ${this.toString()} or neither.&#x60;
       );
     }
 
-    if (!isBlank(model)) {
-      if (this.get(&#x60;model.${valuePath}&#x60;) === undefined) {
+    if(!isBlank(model)) {
+      if(this.get(&#x60;model.${valuePath}&#x60;) === undefined) {
         Ember.debug(
           &#x60;model.${valuePath} is undefined in ${this.toString()}.&#x60;
         );
@@ -275,42 +286,52 @@ export default Component.extend({
       defineProperty(this, &#x27;value&#x27;, computed.alias(&#x60;model.${valuePath}&#x60;));
 
       defineProperty(this, &#x27;validation&#x27;, computed.alias(
-        &#x60;model.validations.attrs.${valuePath}&#x60;).readOnly());
+          &#x60;model.validations.attrs.${valuePath}&#x60;)
+        .readOnly());
 
       defineProperty(this, &#x27;required&#x27;, computed(
-        &#x27;validation.options.presence.presence&#x27;,
-        &#x27;validation.options.presence.disabled&#x27;,
-        function() {
-          return this.get(&#x27;validation.options.presence.presence&#x27;) &amp;&amp;
-            !this.get(&#x27;validation.options.presence.disabled&#x27;);
-        }).readOnly());
+          &#x27;validation.options.presence.presence&#x27;,
+          &#x27;validation.options.presence.disabled&#x27;,
+          function () {
+            return this.get(&#x27;validation.options.presence.presence&#x27;) &amp;&amp;
+              !this.get(&#x27;validation.options.presence.disabled&#x27;);
+          })
+        .readOnly());
 
       defineProperty(this, &#x27;notValidating&#x27;, computed.not(
-        &#x27;validation.isValidating&#x27;).readOnly());
+          &#x27;validation.isValidating&#x27;)
+        .readOnly());
 
-      defineProperty(this, &#x27;hasContent&#x27;, computed.notEmpty(&#x27;value&#x27;).readOnly());
+      defineProperty(this, &#x27;hasContent&#x27;, computed.notEmpty(&#x27;value&#x27;)
+        .readOnly());
 
       defineProperty(this, &#x27;hasWarnings&#x27;, computed.notEmpty(
-        &#x27;validation.warnings&#x27;).readOnly());
+          &#x27;validation.warnings&#x27;)
+        .readOnly());
 
       defineProperty(this, &#x27;isValid&#x27;, computed.and(&#x27;hasContent&#x27;,
-        &#x27;validation.isTruelyValid&#x27;).readOnly());
+          &#x27;validation.isTruelyValid&#x27;)
+        .readOnly());
 
       defineProperty(this, &#x27;shouldDisplayValidations&#x27;, computed.or(
-        &#x27;showValidations&#x27;, &#x27;didValidate&#x27;,
-        &#x27;hasContent&#x27;).readOnly());
+          &#x27;showValidations&#x27;, &#x27;didValidate&#x27;,
+          &#x27;hasContent&#x27;)
+        .readOnly());
 
       defineProperty(this, &#x27;showErrorClass&#x27;, computed.and(&#x27;notValidating&#x27;,
-        &#x27;showErrorMessage&#x27;,
-        &#x27;hasContent&#x27;, &#x27;validation&#x27;).readOnly());
+          &#x27;showErrorMessage&#x27;,
+          &#x27;hasContent&#x27;, &#x27;validation&#x27;)
+        .readOnly());
 
       defineProperty(this, &#x27;showErrorMessage&#x27;, computed.and(
-        &#x27;shouldDisplayValidations&#x27;,
-        &#x27;validation.isInvalid&#x27;).readOnly());
+          &#x27;shouldDisplayValidations&#x27;,
+          &#x27;validation.isInvalid&#x27;)
+        .readOnly());
 
       defineProperty(this, &#x27;showWarningMessage&#x27;, computed.and(
-        &#x27;shouldDisplayValidations&#x27;,
-        &#x27;hasWarnings&#x27;, &#x27;isValid&#x27;).readOnly());
+          &#x27;shouldDisplayValidations&#x27;,
+          &#x27;hasWarnings&#x27;, &#x27;isValid&#x27;)
+        .readOnly());
     }
   },
 
