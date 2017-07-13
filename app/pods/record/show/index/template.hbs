@@ -13,7 +13,8 @@
               }}
             {{/if}}
           </span>
-    </h3>
+        </h3>
+
         {{#layout/md-card shadow=false muted=true title="Main" bodyIsRow=false
           collapsible=true
           btnText="Edit" btnClass="success"
@@ -78,6 +79,60 @@
           {{/layout/md-card}}
 
         {{/layout/md-card}}
+
+        {{#layout/md-card shadow=false muted=true title="Spatial Extent" bodyIsRow=false
+          collapsible=true
+          btnText="Edit" btnClass="success"
+          btnAction=(route-action "linkTo" "record.show.edit.extent") btnIcon="pencil"
+        }}
+
+        <section>
+          {{#each resource.extent as |extent index|}}
+            <div class="row md-extent-container">
+              <div class="col-sm-12">
+                <h4 class="text-info">
+                  Spatial Extent #{{index}}
+                </h4>
+              </div>
+              <div class="col-sm-6">
+                <label class="">
+                  Description
+                </label>
+                <p>
+                  {{get-property extent "description"}}
+                </p>
+              </div>
+              <div class="col-sm-6 md-extent-map">
+                {{#if extent.geographicExtent.0.geographicElement.length}}
+                  {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(route-action "setupMap" extent.geographicExtent.0.geographicElement)}}
+                    {{!-- Specify child layer components here --}}
+                    {{#layer-group name="Terrain" baselayer=true default=true}}
+                      {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+                    {{/layer-group}}
+
+                    {{#feature-group name="Features" default=true}}
+                      {{#each extent.geographicExtent.0.geographicElement as |l|}}
+                        {{geojson-layer geoJSON=l}}
+                      {{/each}}
+                    {{/feature-group}}
+
+                    {{layer-control}}
+                  {{/leaflet-map}}
+                {{else}}
+                  <div class="alert alert-info">
+                    No Features to display.
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            {{else}}
+            <h3 class="alert alert-info">No spatial extents found.
+            </h3>
+            {{/each}}
+        </section>
+
+        {{/layout/md-card}}
+
         {{outlet}}
     </div>
     <div class="col-sm-2">
