@@ -50,49 +50,51 @@ export default Ember.Service.extend({
     full: {
       profile: null,
       secondaryNav: [{
-        title: 'Main',
-        target: 'record.show.edit.main'
+          title: 'Main',
+          target: 'record.show.edit.main'
 
-      }, {
-        title: 'Metadata',
-        target: 'record.show.edit.metadata'
+        }, {
+          title: 'Metadata',
+          target: 'record.show.edit.metadata'
 
-      }, {
-        title: 'Keywords',
-        target: 'record.show.edit.keywords'
+        }, {
+          title: 'Keywords',
+          target: 'record.show.edit.keywords'
 
-      }, {
-        title: 'Extent',
-        target: 'record.show.edit.extent'
+        }, {
+          title: 'Extent',
+          target: 'record.show.edit.extent'
 
-      }, {
-        title: 'Lineage',
-        target: 'record.show.edit.lineage'
+        }, {
+          title: 'Lineage',
+          target: 'record.show.edit.lineage'
 
-      }, {
-        title: 'Distribution',
-        target: 'record.show.edit.distribution'
+        }, {
+          title: 'Distribution',
+          target: 'record.show.edit.distribution'
 
-      }, {
-        title: 'Associated',
-        target: 'record.show.edit.associated'
+        }, {
+          title: 'Associated',
+          target: 'record.show.edit.associated'
 
-      }, {
-        title: 'Documents',
-        target: 'record.show.edit.documents'
+        }, {
+          title: 'Documents',
+          target: 'record.show.edit.documents'
 
-      }, {
-        title: 'Funding',
-        target: 'record.show.edit.funding'
+        }, {
+          title: 'Funding',
+          target: 'record.show.edit.funding'
 
-      }/*, {
-        title: 'Coverage',
-        target: 'record.show.edit.coverages'
+        }
+        /*, {
+                title: 'Coverage',
+                target: 'record.show.edit.coverages'
 
-      }, {
-        title: 'Grid',
-        target: 'record.show.edit.grid'
-      }*/],
+              }, {
+                title: 'Grid',
+                target: 'record.show.edit.grid'
+              }*/
+      ],
       components: {
         record: {
           main: {
@@ -217,6 +219,45 @@ export default Ember.Service.extend({
               contact: true,
               note: true,
               scope: true,
+            }
+          },
+          lineage: {
+            statement: true,
+            processStep: {
+              stepId: true,
+              description: true,
+              processor: true,
+              reference: true,
+              scope: true
+            },
+            scope: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
+              }
             }
           }
         }
