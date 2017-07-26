@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>components-layout - mdeditor</title>
+    <title>app/pods/record/new/id/route.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -222,47 +222,146 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> components-layout Module
-              <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/3e17243b/app/pods/components/layout/md-card/component.js#L9" target="_blank">
-                <i class="fa fa-pencil" aria-hidden="true"></i>
-              </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
-<div class="content-meta">
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import DS from &#x27;ember-data&#x27;;
 
+const {
+  inject,
+  get,
+  Route
+} = Ember;
 
-            <div class="foundat">
-                Defined in: <a href="https://github.com/adiwg/mdEditor/blob/3e17243b/app/pods/components/layout/md-card/component.js#L9">app/pods/components/layout/md-card/component.js:9</a>
-            </div>
+const {
+  AdapterError
+} = DS;
 
+export default Route.extend({
+  model(params) {
+    let record = this.store.peekRecord(&#x27;record&#x27;, params.record_id);
+
+    if(record) {
+      return record;
+    }
+
+    return this.store.findRecord(&#x27;record&#x27;, params.record_id);
+  },
+
+  breadCrumb: null,
+
+  /**
+   * The profile service
+   *
+   * @return {Ember.Service} profile
+   */
+  profile: inject.service(),
+
+  deactivate() {
+    // We grab the model loaded in this route
+    let model = this.currentRouteModel();
+
+    // If we are leaving the Route we verify if the model is in
+    // &#x27;isNew&#x27; state, which means it wasn&#x27;t saved to the metadata.
+    if(model &amp;&amp; model.get(&#x27;isNew&#x27;)) {
+      // We call DS#destroyRecord() which removes it from the store
+      model.destroyRecord();
+    }
+  },
+
+  //some test actions
+  setupController(controller, model) {
+    // Call _super for default behavior
+    this._super(controller, model);
+  },
+
+  // serialize: function (model) {
+  //   // If we got here without an ID (and therefore without a model)
+  //   // Ensure that we leave the route param in the URL blank (not &#x27;undefined&#x27;)
+  //   if (!model) {
+  //     let rec=this.store.createRecord(&#x27;record&#x27;);
+  //     return {
+  //       record_id: rec.id
+  //     };
+  //   }
+  //
+  //   // Otherwise, let Ember handle it as usual
+  //   return this._super.apply(this, arguments);
+  // },
+
+  actions: {
+    willTransition: function(transition) {
+      if(transition.targetName === &#x27;record.new.index&#x27;) {
+        transition.abort();
+        return true;
+      }
+
+      // We grab the model loaded in this route
+      var model = this.currentRouteModel();
+      // If we are leaving the Route we verify if the model is in
+      // &#x27;isNew&#x27; state, which means it wasn&#x27;t saved to the backend.
+      if(model &amp;&amp; model.get(&#x27;isNew&#x27;)) {
+        //let contexts = transition.intent.contexts;
+        // We call DS#destroyRecord() which removes it from the store
+        model.destroyRecord();
+        //transition.abort();
+
+        // if(contexts &amp;&amp; contexts.length &gt; 0) {
+        //   //grab any models ids and apply them to transition
+        //   let ids = contexts.mapBy(&#x27;id&#x27;);
+        //   this.replaceWith(transition.targetName, ...ids);
+        //   return true;
+        // }
+
+        //this.replaceWith(transition.targetName);
+        return true;
+      }
+    },
+    saveRecord() {
+      this.currentRouteModel()
+        .save()
+        .then((model) =&gt; {
+          this.replaceWith(&#x27;record.show.edit&#x27;, model);
+        });
+    },
+
+    cancelRecord() {
+      this.replaceWith(&#x27;records&#x27;);
+
+      return false;
+    },
+
+    error(error) {
+      if(error instanceof AdapterError) {
+        get(this, &#x27;flashMessages&#x27;)
+          .warning(&#x27;No record found! Re-directing to new record...&#x27;);
+        // redirect to new
+        this.replaceWith(&#x27;record.new&#x27;);
+      } else {
+        // otherwise let the error bubble
+        return true;
+      }
+    },
+    /**
+     * Update the record profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
+     */
+    updateProfile(profile) {
+      this.get(&#x27;profile&#x27;)
+        .set(&#x27;active&#x27;, profile);
+    }
+  }
+
+});
+
+    </pre>
 </div>
-
-
-<div class="module-description page-section">
-    <p>Component that renders a Bootstrap card.</p>
-
-</div>
-
-
-    <div class="yui3-g footer">
-            <div class="yui3-u-1-2">
-                    <h3>Classes</h3>
-
-                    <ul class="module-classes">
-                        <li class="module-class">
-                            <a href="../classes/md-card.html">
-                                md-card
-                            </a>
-                        </li>
-                    </ul>
-            </div>
-
-
-    </div>
                         </div>
                     </div>
                 </div>

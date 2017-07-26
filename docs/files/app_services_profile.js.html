@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/17219ba0" target="_blank">
-                                  Tag: 0.0.0.17219ba0
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3e17243b" target="_blank">
+                                  Tag: 0.0.0.3e17243b
                                 </a>
                             </h4>
                         </div>
@@ -280,49 +280,51 @@ export default Ember.Service.extend({
     full: {
       profile: null,
       secondaryNav: [{
-        title: &#x27;Main&#x27;,
-        target: &#x27;record.show.edit.main&#x27;
+          title: &#x27;Main&#x27;,
+          target: &#x27;record.show.edit.main&#x27;
 
-      }, {
-        title: &#x27;Metadata&#x27;,
-        target: &#x27;record.show.edit.metadata&#x27;
+        }, {
+          title: &#x27;Metadata&#x27;,
+          target: &#x27;record.show.edit.metadata&#x27;
 
-      }, {
-        title: &#x27;Keywords&#x27;,
-        target: &#x27;record.show.edit.keywords&#x27;
+        }, {
+          title: &#x27;Keywords&#x27;,
+          target: &#x27;record.show.edit.keywords&#x27;
 
-      }, {
-        title: &#x27;Extent&#x27;,
-        target: &#x27;record.show.edit.extent&#x27;
+        }, {
+          title: &#x27;Extent&#x27;,
+          target: &#x27;record.show.edit.extent&#x27;
 
-      }, {
-        title: &#x27;Lineage&#x27;,
-        target: &#x27;record.show.edit.lineage&#x27;
+        }, {
+          title: &#x27;Lineage&#x27;,
+          target: &#x27;record.show.edit.lineage&#x27;
 
-      }, {
-        title: &#x27;Distribution&#x27;,
-        target: &#x27;record.show.edit.distribution&#x27;
+        }, {
+          title: &#x27;Distribution&#x27;,
+          target: &#x27;record.show.edit.distribution&#x27;
 
-      }, {
-        title: &#x27;Associated&#x27;,
-        target: &#x27;record.show.edit.associated&#x27;
+        }, {
+          title: &#x27;Associated&#x27;,
+          target: &#x27;record.show.edit.associated&#x27;
 
-      }, {
-        title: &#x27;Documents&#x27;,
-        target: &#x27;record.show.edit.documents&#x27;
+        }, {
+          title: &#x27;Documents&#x27;,
+          target: &#x27;record.show.edit.documents&#x27;
 
-      }, {
-        title: &#x27;Funding&#x27;,
-        target: &#x27;record.show.edit.funding&#x27;
+        }, {
+          title: &#x27;Funding&#x27;,
+          target: &#x27;record.show.edit.funding&#x27;
 
-      }/*, {
-        title: &#x27;Coverage&#x27;,
-        target: &#x27;record.show.edit.coverages&#x27;
+        }
+        /*, {
+                title: &#x27;Coverage&#x27;,
+                target: &#x27;record.show.edit.coverages&#x27;
 
-      }, {
-        title: &#x27;Grid&#x27;,
-        target: &#x27;record.show.edit.grid&#x27;
-      }*/],
+              }, {
+                title: &#x27;Grid&#x27;,
+                target: &#x27;record.show.edit.grid&#x27;
+              }*/
+      ],
       components: {
         record: {
           main: {
@@ -447,6 +449,45 @@ export default Ember.Service.extend({
               contact: true,
               note: true,
               scope: true,
+            }
+          },
+          lineage: {
+            statement: true,
+            processStep: {
+              stepId: true,
+              description: true,
+              processor: true,
+              reference: true,
+              scope: true
+            },
+            scope: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
+              }
             }
           }
         }

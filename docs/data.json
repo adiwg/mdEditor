@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.17219ba0",
+        "version": "0.0.0.3e17243b",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -492,6 +492,13 @@
         },
         "app/pods/dictionary/show/edit/route.js": {
             "name": "app/pods/dictionary/show/edit/route.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/record/new/id/route.js": {
+            "name": "app/pods/record/new/id/route.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -4851,6 +4858,32 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/record/new/id/route.js",
+            "line": 27,
+            "description": "The profile service",
+            "return": {
+                "description": "profile",
+                "type": "Ember.Service"
+            },
+            "class": "tree-branch",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/record/new/id/route.js",
+            "line": 119,
+            "description": "Update the record profile",
+            "name": "updateProfile",
+            "params": [
+                {
+                    "name": "profile",
+                    "description": "The new profile.",
+                    "type": "String"
+                }
+            ],
+            "class": "tree-branch",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/record/show/edit/route.js",
             "line": 16,
             "description": "The profile service",
@@ -5132,6 +5165,10 @@
         },
         {
             "message": "unknown tag: name",
+            "line": " app/pods/record/new/id/route.js:119"
+        },
+        {
+            "message": "unknown tag: name",
             "line": " app/pods/record/show/edit/route.js:54"
         },
         {
@@ -5197,6 +5234,14 @@
         {
             "message": "Missing item type\nThe route activate hook, sets the profile to 'dictionary'.",
             "line": " app/pods/dictionary/show/edit/route.js:19"
+        },
+        {
+            "message": "Missing item type\nThe profile service",
+            "line": " app/pods/record/new/id/route.js:27"
+        },
+        {
+            "message": "Missing item type\nUpdate the record profile",
+            "line": " app/pods/record/new/id/route.js:119"
         },
         {
             "message": "Missing item type\nThe profile service",
