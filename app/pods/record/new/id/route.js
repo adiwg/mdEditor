@@ -2,10 +2,16 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 const {
+  inject,
+  get,
+  Route
+} = Ember;
+
+const {
   AdapterError
 } = DS;
 
-export default Ember.Route.extend({
+export default Route.extend({
   model(params) {
     let record = this.store.peekRecord('record', params.record_id);
 
@@ -17,6 +23,13 @@ export default Ember.Route.extend({
   },
 
   breadCrumb: null,
+
+  /**
+   * The profile service
+   *
+   * @return {Ember.Service} profile
+   */
+  profile: inject.service(),
 
   deactivate() {
     // We grab the model loaded in this route
@@ -51,7 +64,7 @@ export default Ember.Route.extend({
   // },
 
   actions: {
-    willTransition: function (transition) {
+    willTransition: function(transition) {
       if(transition.targetName === 'record.new.index') {
         transition.abort();
         return true;
@@ -94,7 +107,7 @@ export default Ember.Route.extend({
 
     error(error) {
       if(error instanceof AdapterError) {
-        Ember.get(this, 'flashMessages')
+        get(this, 'flashMessages')
           .warning('No record found! Re-directing to new record...');
         // redirect to new
         this.replaceWith('record.new');
@@ -102,6 +115,16 @@ export default Ember.Route.extend({
         // otherwise let the error bubble
         return true;
       }
+    },
+    /**
+     * Update the record profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
+     */
+    updateProfile(profile) {
+      this.get('profile')
+        .set('active', profile);
     }
   }
 
