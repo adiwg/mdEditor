@@ -85,16 +85,18 @@ export default Route.extend({
       type: 'records'
     }));
 
-    dataDictionary.forEach((item) => {
-      data.pushObject(template.create({
-        attributes: {
-          json: JSON.stringify({
-            dataDictionary: item
-          })
-        },
-        type: 'dictionaries'
-      }));
-    });
+    if(dataDictionary) {
+      dataDictionary.forEach((item) => {
+        data.pushObject(template.create({
+          attributes: {
+            json: JSON.stringify({
+              dataDictionary: item
+            })
+          },
+          type: 'dictionaries'
+        }));
+      });
+    }
 
     return data;
   },
@@ -172,31 +174,34 @@ export default Route.extend({
       let json;
 
       new Promise((resolve, reject) => {
-        try {
-          json = JSON.parse(file.data);
-        } catch(e) {
-          reject(
-            `Failed to parse file: ${file.name}. Is it valid JSON?`);
-        }
+          try {
+            json = JSON.parse(file.data);
+          } catch(e) {
+            reject(
+              `Failed to parse file: ${file.name}. Is it valid JSON?`);
+          }
 
-        resolve({
-          json: json,
-          file: file,
-          route: this
+          resolve({
+            json: json,
+            file: file,
+            route: this
+          });
+        })
+        .then((data) => {
+          //determine file type and map
+          this.mapJSON(data);
+
+        })
+        .catch((reason) => {
+          //catch any errors
+          get(this, 'flashMessages')
+            .danger(reason);
+          return false;
+        })
+        .finally(() => {
+          $('.import-file-picker input:file')
+            .val('');
         });
-      }).then((data) => {
-        //determine file type and map
-        this.mapJSON(data);
-
-      }).catch((reason) => {
-        //catch any errors
-        get(this, 'flashMessages')
-          .danger(reason);
-        return false;
-      }).finally(() => {
-        $('.import-file-picker input:file')
-          .val('');
-      });
 
     },
 
