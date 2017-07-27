@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3e17243b" target="_blank">
-                                  Tag: 0.0.0.3e17243b
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ff455369" target="_blank">
+                                  Tag: 0.0.0.ff455369
                                 </a>
                             </h4>
                         </div>
@@ -241,6 +241,16 @@ const {
 } = Ember;
 
 export default Component.extend({
+  init(){
+    this._super(...arguments);
+
+    let model = get(this, &#x27;model&#x27;);
+
+    once(this, function () {
+      set(model, &#x27;timePeriod&#x27;, getWithDefault(model, &#x27;timePeriod&#x27;, {}));
+    });
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
 

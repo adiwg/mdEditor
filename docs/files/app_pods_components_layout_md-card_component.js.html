@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3e17243b" target="_blank">
-                                  Tag: 0.0.0.3e17243b
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ff455369" target="_blank">
+                                  Tag: 0.0.0.ff455369
                                 </a>
                             </h4>
                         </div>
@@ -239,6 +239,18 @@ export default Component.extend({
   /**
    * Component that renders a Bootstrap card.
    *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{#layout/md-card
+   *   title=&quot;title&quot;
+   *   collapsible=true
+   *   collapsed=false
+   *   profilePath=&quot;card&quot;
+   *   data-spy=&quot;Card&quot;
+   *   shadow=true
+   * }}
+   *   Content
+   * {{/layout/md-card}}
+   * &#x60;&#x60;&#x60;
    * @module mdeditor
    * @submodule components-layout
    * @class md-card
@@ -346,6 +358,7 @@ export default Component.extend({
    * @property bodyIsRow
    * @type {Boolean}
    * @default undefined
+   */
 
   /**
    * Bootstrap button class to apply to header buttton
@@ -354,7 +367,7 @@ export default Component.extend({
    * @type {String}
    * @default &#x27;primary&#x27;
    */
-  default: &#x27;primary&#x27;,
+  btnClass: &#x27;primary&#x27;,
 
   /**
    * Icon to display in heder button

@@ -66,7 +66,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components-layout",
             "name": "components-layout",
-            "description": "Component that renders a Bootstrap card."
+            "description": "Component that renders a Bootstrap card.\n\n```handlebars\n\\{{#layout/md-card\n  title=\"title\"\n  collapsible=true\n  collapsed=false\n  profilePath=\"card\"\n  data-spy=\"Card\"\n  shadow=true\n}}\n  Content\n{{/layout/md-card}}\n```"
         },
         {
             "displayName": "components-object",

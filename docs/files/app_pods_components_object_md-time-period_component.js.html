@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/models/base.js - mdeditor</title>
+    <title>app/pods/components/object/md-time-period/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -229,178 +229,100 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-import DS from &#x27;ember-data&#x27;;
-import hash from &#x27;npm:object-hash&#x27;;
+
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
 const {
-  inject,
+  Component,
+  computed,
   set,
-  computed
+  get,
+  getWithDefault,
+  run: {
+    once
+  }
 } = Ember;
 
-export default DS.Model.extend({
-  init() {
-    this._super(...arguments);
-
-    this.on(&#x27;didUpdate&#x27;, this, this.wasUpdated);
-    this.on(&#x27;didCreate&#x27;, this, this.wasUpdated);
-    this.get(&#x27;hasDirtyAttributes&#x27;);
-    //this.on(&#x27;didLoad&#x27;, this, this.wasLoaded);
-  },
-
-  settings: inject.service(),
-  clean: inject.service(&#x27;cleaner&#x27;),
-
-  /**
-   * The hash for the clean record.
-   *
-   * @property currentHash
-   * @type {String}
-   */
-
-  /**
-   * The clean json object.
-   *
-   * @property jsonSnapshot
-   * @type {String}
-   */
-
-  observeReload: Ember.observer(&#x27;isReloading&#x27;, function () {
-    let reloading = this.get(&#x27;isReloading&#x27;);
-
-    if(!reloading) {
-      this.wasUpdated(this);
-    }
-  }),
-
-  observeAutoSave: Ember.observer(&#x27;hasDirtyAttributes&#x27;, &#x27;hasDirtyHash&#x27;,
-    function () {
-      if(this.get(&#x27;isNew&#x27;)) {
-        return;
-      }
-
-      if(this.get(&#x27;settings.data.autoSave&#x27;) &amp;&amp; (this.get(&#x27;hasDirtyHash&#x27;) ||
-          this.get(&#x27;hasDirtyAttributes&#x27;))) {
-        Ember.run.once(this, function () {
-          this.save();
-        });
-      }
+const Validations = buildValidations({
+  &#x27;startDateTime&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      disabled: computed.notEmpty(&#x27;model.endDateTime&#x27;),
+      ignoreBlank: true
+    })
+  ],
+  &#x27;endDateTime&#x27;: [
+    validator(&#x27;date&#x27;, {
+      onOrAfter: computed.alias(&#x27;model.startDateTime&#x27;),
+      isWarning: true
     }),
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      disabled: computed.notEmpty(&#x27;model.startDateTime&#x27;),
+      ignoreBlank: true
+    })
+  ]
+});
 
-  wasUpdated(model) {
+export default Component.extend(Validations, {
+  didReceiveAttrs() {
     this._super(...arguments);
 
-    let record = model.record || model;
-    let json = JSON.parse(record.serialize().data.attributes.json);
+    let model = get(this, &#x27;model&#x27;);
 
-    this.setCurrentHash(json);
-    record.set(&#x27;jsonSnapshot&#x27;, json);
+    once(function () {
+      set(model, &#x27;periodName&#x27;, getWithDefault(model,
+        &#x27;periodName&#x27;, []));
+      set(model, &#x27;timeInterval&#x27;, getWithDefault(model, &#x27;timeInterval&#x27;, {}));
+      set(model, &#x27;duration&#x27;, getWithDefault(model, &#x27;duration&#x27;, {}));
+      // set(model, &#x27;presentationForm&#x27;, getWithDefault(model,
+      //   &#x27;presentationForm&#x27;, []));
+      // set(model, &#x27;onlineResource&#x27;, getWithDefault(model,
+      //   &#x27;onlineResource&#x27;, []));
+      // set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, []));
+      // set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
+    });
   },
-
-  wasLoaded(model) {
-    this._super(...arguments);
-
-    let json = JSON.parse(model.serialize().data.attributes.json);
-
-    this.setCurrentHash(json);
-    model.set(&#x27;jsonSnapshot&#x27;, json);
-  },
-
-  saved() {
-    this.set(&#x27;dateUpdated&#x27;, new Date());
-
-    return this._super(...arguments);
-  },
-
+  tagName: &#x27;form&#x27;,
 
   /**
-   * Compute and set the model hash.
+   * The profile path for the component
    *
-   * @method setCurrentHash
-   * @param {Object} model Optional model with json property to target
+   * @property profilePath
+   * @type {String}
    */
-  setCurrentHash(json) {
-    let target = json || this.get(&#x27;json&#x27;);
 
-    set(this, &#x27;currentHash&#x27;, this.hashObject(target), true);
-  },
-
-  /**
-   * Computed a hash for the target object.
-   *
-   * @param  {Object} target    The object to hash
-   * @param  {Boolean} parsed    If true, the object will not be passed through
-   *                            JSON.parse before being hashed
-   * @return {String|undefined} The hash or undefined if an object wasn&#x27;t provided.
-   */
-  hashObject(target, parsed) {
-    let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
-
-    return typeof toHash === &quot;object&quot; ? hash(toHash) : undefined;
-  },
-
-  /**
-   * Compare the current hash with the cached one.
-   *
-   * @property hasDirtyHash
-   * @returns {Boolean} Boolean value indicating if hashes are equivalent
-   */
-  hasDirtyHash: computed(&#x27;currentHash&#x27;, function () {
-    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes
-      .json), true);
-
-    //if the currentHash is undefined, the record is either new or hasn&#x27;t had the
-    //hash calculated yet
-    if(this.get(&#x27;currentHash&#x27;) === undefined) {
-      this.set(&#x27;currentHash&#x27;, newHash);
+  startDateTime: computed.alias(&#x27;model.startDateTime&#x27;),
+  endDateTime: computed.alias(&#x27;model.endDateTime&#x27;),
+  timeUnit: [{
+      name: &#x27;year&#x27;,
+      value: &#x27;year&#x27;
+    },
+    {
+      name: &#x27;month&#x27;,
+      value: &#x27;month&#x27;
+    },
+    {
+      name: &#x27;day&#x27;,
+      value: &#x27;day&#x27;
+    },
+    {
+      name: &#x27;hour&#x27;,
+      value: &#x27;hour&#x27;
+    },
+    {
+      name: &#x27;minute&#x27;,
+      value: &#x27;minute&#x27;
+    },
+    {
+      name: &#x27;second&#x27;,
+      value: &#x27;second&#x27;
     }
+  ]
 
-    if(this.get(&#x27;currentHash&#x27;) !== newHash || this.get(
-        &#x27;hasDirtyAttributes&#x27;)) {
-      return true;
-    }
-
-    return false;
-  }),
-
-  canRevert: computed(&#x27;hasDirtyHash&#x27;, &#x27;settings.data.autoSave&#x27;, function () {
-    let dirty = this.get(&#x27;hasDirtyHash&#x27;);
-    let autoSave = this.get(&#x27;settings.data.autoSave&#x27;);
-
-    //no autoSave so just check if dirty
-    if(!autoSave &amp;&amp; dirty) {
-      return true;
-    }
-
-    let revert = this.get(&#x27;jsonRevert&#x27;);
-
-    //if we have set revert object with autoSave on
-    if(revert &amp;&amp; autoSave) {
-      let hash = this.hashObject(JSON.parse(revert), true) !== this.get(
-        &#x27;currentHash&#x27;);
-
-      //check if changes have been made
-      if(hash) {
-        return true;
-      }
-    }
-
-    return false;
-  }),
-
-  cleanJson: computed(&#x27;json&#x27;, function(){
-    return this.get(&#x27;clean&#x27;).clean(this.get(&#x27;json&#x27;));
-  }).volatile(),
-
-  status: computed(&#x27;hasDirtyHash&#x27;, function () {
-    let dirty = this.get(&#x27;hasDirtyHash&#x27;);
-
-    if(this.get(&#x27;currentHash&#x27;)) {
-      return dirty ? &#x27;danger&#x27; : &#x27;success&#x27;;
-    }
-
-    return &#x27;success&#x27;;
-  })
 });
 
     </pre>

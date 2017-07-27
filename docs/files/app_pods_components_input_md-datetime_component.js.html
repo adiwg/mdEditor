@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3e17243b" target="_blank">
-                                  Tag: 0.0.0.3e17243b
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ff455369" target="_blank">
+                                  Tag: 0.0.0.ff455369
                                 </a>
                             </h4>
                         </div>
@@ -291,7 +291,7 @@ export default Component.extend({
           &#x27;validation.isValidating&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;hasContent&#x27;, computed.notEmpty(&#x27;value&#x27;)
+      defineProperty(this, &#x27;hasContent&#x27;, computed.notEmpty(&#x27;date&#x27;)
         .readOnly());
 
       defineProperty(this, &#x27;hasWarnings&#x27;, computed.notEmpty(
@@ -364,8 +364,17 @@ export default Component.extend({
   label: null,
 
   /**
+   * On show, will set the picker to the current date/time
+   *
+   * @property useCurrent
+   * @type Boolean
+   * @default false
+   */
+  useCurrent: false,
+
+  /**
    * Icons to be used by the datetime picker and calendar.
-   * Icons can be set for time, date, up, down, previous, next,
+   * Icons can be set for time, date, up, down, previous, next, clear,
    * and close.
    * The default icons are chosen from Font Awesome icons
    *
@@ -380,7 +389,8 @@ export default Component.extend({
     down: &quot;fa fa-chevron-down&quot;,
     previous: &quot;fa fa-angle-double-left&quot;,
     next: &quot;fa fa-angle-double-right&quot;,
-    close: &quot;fa fa-times&quot;
+    close: &quot;fa fa-times&quot;,
+    clear: &quot;fa fa-trash&quot;
   }
 
 });

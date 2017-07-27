@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3e17243b" target="_blank">
-                                  Tag: 0.0.0.3e17243b
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ff455369" target="_blank">
+                                  Tag: 0.0.0.ff455369
                                 </a>
                             </h4>
                         </div>
@@ -283,7 +283,27 @@ export default Component.extend({
         //Ember.run.once(()=&gt;model.set(valuePath, &quot;&quot;));
       }
 
-      defineProperty(this, &#x27;value&#x27;, computed.alias(&#x60;model.${valuePath}&#x60;));
+      if(this.get(&#x27;type&#x27;) === &#x27;number&#x27;) {
+        let attribute = &#x60;model.${valuePath}&#x60;;
+
+        defineProperty(this, &#x27;value&#x27;, computed(attribute, {
+          get() {
+            let val = this.get(attribute);
+
+            return val ? val.toString() : &#x27;&#x27;;
+          },
+
+          set(key, value) {
+            let parse = this.get(&#x27;step&#x27;) ? parseFloat : parseInt;
+
+            this.set(attribute, parse(value, 10));
+
+            return value;
+          }
+        }));
+      } else {
+        defineProperty(this, &#x27;value&#x27;, computed.alias(&#x60;model.${valuePath}&#x60;));
+      }
 
       defineProperty(this, &#x27;validation&#x27;, computed.alias(
           &#x60;model.validations.attrs.${valuePath}&#x60;)
@@ -292,7 +312,7 @@ export default Component.extend({
       defineProperty(this, &#x27;required&#x27;, computed(
           &#x27;validation.options.presence.presence&#x27;,
           &#x27;validation.options.presence.disabled&#x27;,
-          function () {
+          function() {
             return this.get(&#x27;validation.options.presence.presence&#x27;) &amp;&amp;
               !this.get(&#x27;validation.options.presence.disabled&#x27;);
           })

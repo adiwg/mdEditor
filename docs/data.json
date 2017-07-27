@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.3e17243b",
+        "version": "0.0.0.ff455369",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -483,6 +483,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/object/md-time-period/component.js": {
+            "name": "app/pods/components/object/md-time-period/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/contact/new/id/route.js": {
             "name": "app/pods/contact/new/id/route.js",
             "modules": {},
@@ -813,7 +820,7 @@
             "namespace": "",
             "file": "app/pods/components/layout/md-card/component.js",
             "line": 9,
-            "description": "Component that renders a Bootstrap card.",
+            "description": "Component that renders a Bootstrap card.\n\n```handlebars\n\\{{#layout/md-card\n  title=\"title\"\n  collapsible=true\n  collapsed=false\n  profilePath=\"card\"\n  data-spy=\"Card\"\n  shadow=true\n}}\n  Content\n{{/layout/md-card}}\n```",
             "is_constructor": 1
         },
         "components-object": {
@@ -1280,7 +1287,7 @@
             "namespace": "",
             "file": "app/pods/components/layout/md-card/component.js",
             "line": 9,
-            "description": "Component that renders a Bootstrap card."
+            "description": "Component that renders a Bootstrap card.\n\n```handlebars\n\\{{#layout/md-card\n  title=\"title\"\n  collapsible=true\n  collapsed=false\n  profilePath=\"card\"\n  data-spy=\"Card\"\n  shadow=true\n}}\n  Content\n{{/layout/md-card}}\n```"
         },
         "md-address": {
             "name": "md-address",
@@ -1800,7 +1807,7 @@
         },
         {
             "file": "app/models/record.js",
-            "line": 119,
+            "line": 122,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -2731,7 +2738,19 @@
         {
             "file": "app/pods/components/input/md-datetime/component.js",
             "line": 136,
-            "description": "Icons to be used by the datetime picker and calendar.\nIcons can be set for time, date, up, down, previous, next,\nand close.\nThe default icons are chosen from Font Awesome icons",
+            "description": "On show, will set the picker to the current date/time",
+            "itemtype": "property",
+            "name": "useCurrent",
+            "type": "Boolean",
+            "default": "false",
+            "class": "md-datetime",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-datetime/component.js",
+            "line": 145,
+            "description": "Icons to be used by the datetime picker and calendar.\nIcons can be set for time, date, up, down, previous, next, clear,\nand close.\nThe default icons are chosen from Font Awesome icons",
             "itemtype": "property",
             "name": "calendarIcons",
             "type": "Object",
@@ -2742,7 +2761,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 112,
+            "line": 132,
             "description": "Value of the input.\nValue sets the initial value and returns the edited result.\nThis property is overridden if valuePath and model are supplied.",
             "itemtype": "property",
             "name": "value",
@@ -2754,7 +2773,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 122,
+            "line": 142,
             "description": "Type of data represented by the value string.\nHTML5 types may be specified ('text', 'number', etc.)",
             "itemtype": "property",
             "name": "type",
@@ -2766,7 +2785,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 132,
+            "line": 152,
             "description": "The form label to display",
             "itemtype": "property",
             "name": "label",
@@ -2778,7 +2797,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 141,
+            "line": 161,
             "description": "Whether a value is required",
             "itemtype": "property",
             "name": "required",
@@ -2790,7 +2809,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 150,
+            "line": 170,
             "description": "Whether a input is disabled",
             "itemtype": "property",
             "name": "disabled",
@@ -2802,7 +2821,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 159,
+            "line": 179,
             "description": "Maximum number of characters for each input string.\nIf no maxlength is specified the length will not be restricted",
             "itemtype": "property",
             "name": "maxlength",
@@ -2814,7 +2833,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 169,
+            "line": 189,
             "description": "Text displayed in empty inputs",
             "itemtype": "property",
             "name": "placeholder",
@@ -2826,7 +2845,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 178,
+            "line": 198,
             "description": "CSS class to set on the input control",
             "itemtype": "property",
             "name": "class",
@@ -2838,7 +2857,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 187,
+            "line": 207,
             "description": "The model or object containing the input value. Only needed for validation.",
             "itemtype": "property",
             "name": "model",
@@ -2851,7 +2870,7 @@
         },
         {
             "file": "app/pods/components/input/md-input/component.js",
-            "line": 196,
+            "line": 216,
             "description": "The path of the input value. Only needed for validation.",
             "itemtype": "property",
             "name": "valuePath",
@@ -3699,7 +3718,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 24,
+            "line": 36,
             "description": "The card element id.",
             "itemtype": "property",
             "name": "cardId",
@@ -3717,7 +3736,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 38,
+            "line": 50,
             "description": "The card title.",
             "itemtype": "property",
             "name": "title",
@@ -3729,7 +3748,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 46,
+            "line": 58,
             "description": "The card title icon.",
             "itemtype": "property",
             "name": "titleIcon",
@@ -3741,7 +3760,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 54,
+            "line": 66,
             "description": "If true, the \"row\" the card body will be initally collapse.",
             "itemtype": "property",
             "name": "collapsed",
@@ -3753,7 +3772,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 62,
+            "line": 74,
             "description": "If true, the scroll-card class will be applied to the card.",
             "itemtype": "property",
             "name": "scroll",
@@ -3765,7 +3784,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 70,
+            "line": 82,
             "description": "If true, the maximize control will be avialable on the card.",
             "itemtype": "property",
             "name": "maximizable",
@@ -3777,7 +3796,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 78,
+            "line": 90,
             "description": "If true, a box shadow will be rendered around the card.",
             "itemtype": "property",
             "name": "shadow",
@@ -3789,7 +3808,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 87,
+            "line": 99,
             "description": "If true, the card-block class will be added.",
             "itemtype": "property",
             "name": "block",
@@ -3801,7 +3820,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 96,
+            "line": 108,
             "description": "If true, the card-block text color will be muted.",
             "itemtype": "property",
             "name": "muted",
@@ -3813,7 +3832,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 105,
+            "line": 117,
             "description": "If true, the collapse control will be added to the card header.",
             "itemtype": "property",
             "name": "collapsible",
@@ -3825,8 +3844,20 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 113,
+            "line": 125,
             "description": "If true, the \"row\" class will be added to the card body.",
+            "itemtype": "property",
+            "name": "bodyIsRow",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 133,
+            "description": "Bootstrap button class to apply to header buttton",
             "itemtype": "property",
             "name": "btnClass",
             "type": "{String}",
@@ -3837,7 +3868,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 129,
+            "line": 142,
             "description": "Icon to display in heder button",
             "itemtype": "property",
             "name": "btnIcon",
@@ -3849,7 +3880,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 137,
+            "line": 150,
             "description": "The text to display in the header button.",
             "itemtype": "property",
             "name": "btnText",
@@ -3861,7 +3892,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 144,
+            "line": 157,
             "description": "The action to perform whrn the header button is clicked.",
             "itemtype": "property",
             "name": "btnAction",
@@ -3873,7 +3904,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 151,
+            "line": 164,
             "description": "The data-spy text. Defaults to the title.",
             "itemtype": "property",
             "name": "data-spy",
@@ -4425,6 +4456,16 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/components/object/md-lineage/component.js",
+            "line": 45,
+            "description": "See [md-array-table](md-array-table.html#property_templateClass).",
+            "itemtype": "property",
+            "name": "stepTemplateClass",
+            "type": "Ember.Object",
+            "class": "md-maintenance",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-locale/component.js",
             "line": 63,
             "description": "This templateClass to apply to the supplied model or model.modelPath.",
@@ -4732,7 +4773,7 @@
         },
         {
             "file": "app/pods/components/object/md-process-step/component.js",
-            "line": 30,
+            "line": 40,
             "description": "The string representing the path in the profile object for the processStep.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4744,7 +4785,7 @@
         },
         {
             "file": "app/pods/components/object/md-process-step/component.js",
-            "line": 39,
+            "line": 49,
             "description": "The object to use as the data model for the processStep.",
             "itemtype": "property",
             "name": "model",
@@ -4797,6 +4838,16 @@
             "class": "md-simple-array-table",
             "module": "mdeditor",
             "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-time-period/component.js",
+            "line": 61,
+            "description": "The profile path for the component",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "class": "tree-branch",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/contact/new/id/route.js",
