@@ -79,6 +79,7 @@ export default Service.extend({
         if(typeOf(obj[key]) === 'object' || typeOf(obj[key]) ===
           'instance') {
           let objOpt = assign(opt, {
+            preserveArrays: !opt.preserveRootOnly,
             target: {}
           });
           const res = this.clean(obj[key], objOpt);
