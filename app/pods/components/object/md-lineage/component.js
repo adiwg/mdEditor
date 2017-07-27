@@ -16,7 +16,7 @@ export default Component.extend({
 
     let model = get(this, 'model');
 
-    once(function () {
+    once(function() {
       set(model, 'scope', getWithDefault(model, 'scope', {}));
       set(model, 'citation', getWithDefault(model, 'citation', []));
       set(model, 'processStep', getWithDefault(model, 'processStep', []));
@@ -41,4 +41,17 @@ export default Component.extend({
    * @type {Object}
    * @required
    */
+
+  /**
+   * See [md-array-table](md-array-table.html#property_templateClass).
+   *
+   * @property stepTemplateClass
+   * @type Ember.Object
+   */
+  stepTemplateClass: Ember.Object.extend({
+    init() {
+      this._super(...arguments);
+      this.set('timePeriod', {});
+    }
+  })
 });

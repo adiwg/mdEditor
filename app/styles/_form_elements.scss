@@ -44,6 +44,12 @@
   }
 }
 
+.md-select {
+  .ember-power-select-trigger {
+    min-width: 125px;
+  }
+}
+
 .md-button-column {
   line-height: $input-height-base;
 }
@@ -93,8 +99,8 @@ form {
 }
 
 .md-datetime {
-  max-width: 200px;
-  min-width: 160px;
+  max-width: 220px;
+  min-width: 190px;
 }
 
 .md-codelist {

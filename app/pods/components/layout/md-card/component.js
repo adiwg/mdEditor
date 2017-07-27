@@ -9,6 +9,18 @@ export default Component.extend({
   /**
    * Component that renders a Bootstrap card.
    *
+   * ```handlebars
+   * \{{#layout/md-card
+   *   title="title"
+   *   collapsible=true
+   *   collapsed=false
+   *   profilePath="card"
+   *   data-spy="Card"
+   *   shadow=true
+   * }}
+   *   Content
+   * {{/layout/md-card}}
+   * ```
    * @module mdeditor
    * @submodule components-layout
    * @class md-card
@@ -116,6 +128,7 @@ export default Component.extend({
    * @property bodyIsRow
    * @type {Boolean}
    * @default undefined
+   */
 
   /**
    * Bootstrap button class to apply to header buttton
@@ -124,7 +137,7 @@ export default Component.extend({
    * @type {String}
    * @default 'primary'
    */
-  default: 'primary',
+  btnClass: 'primary',
 
   /**
    * Icon to display in heder button

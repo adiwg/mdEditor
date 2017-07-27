@@ -70,6 +70,11 @@
           editCitation="editCitation"
         }}
 
+        {{object/md-time-period model=resource.timePeriod
+          profilePath="record.main.timePeriod" data-spy="Time Period"
+          label="Time Period"
+        }}
+
         {{#layout/md-card title="Description" collapsible=true collapsed=false
           profilePath="record.main.description"
         }}

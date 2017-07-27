@@ -11,6 +11,16 @@ const {
 } = Ember;
 
 export default Component.extend({
+  init(){
+    this._super(...arguments);
+
+    let model = get(this, 'model');
+
+    once(this, function () {
+      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
+    });
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
 

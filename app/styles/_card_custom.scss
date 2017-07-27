@@ -46,6 +46,16 @@
   &.muted .card-block {
     color: $text-muted;
   }
+
+  .form-inline {
+    > * {
+      padding-right: 1em;
+    }
+
+    > label {
+      padding-right: 2em;
+    }
+  }
 }
 
 .md-card-chevron a {

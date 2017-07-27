@@ -44,6 +44,11 @@
   editItem=editCitation label="Step Reference"
 }}
 
+{{object/md-time-period model=model.timePeriod
+  profilePath=(concat profilePath ".timePeriod") data-spy="Time Period"
+  label="Time Period"
+}}
+
 {{input/md-codelist
   value=model.scope.scopeCode
   label="Scope"

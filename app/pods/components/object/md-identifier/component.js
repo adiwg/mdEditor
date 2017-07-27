@@ -24,7 +24,7 @@ export default Component.extend(Validations, {
   init() {
     this._super(...arguments);
 
-    let model = getWithDefault(this, 'model', {});
+    let model = getWithDefault(this, 'model', {}) || {};
     set(model, 'authority', getWithDefault(model, 'authority', {}));
     set(this, 'model', model);
   },

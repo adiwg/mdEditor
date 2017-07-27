@@ -81,6 +81,9 @@ export default Model.extend(Validations, Copyable, {
               // country: USA,
               // language: eng
             },
+            timePeriod: {
+              periodName: []
+            },
             extent: [],
             keyword: []
           }

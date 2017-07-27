@@ -61,7 +61,7 @@ export default Component.extend({
           'validation.isValidating')
         .readOnly());
 
-      defineProperty(this, 'hasContent', computed.notEmpty('value')
+      defineProperty(this, 'hasContent', computed.notEmpty('date')
         .readOnly());
 
       defineProperty(this, 'hasWarnings', computed.notEmpty(
@@ -134,8 +134,17 @@ export default Component.extend({
   label: null,
 
   /**
+   * On show, will set the picker to the current date/time
+   *
+   * @property useCurrent
+   * @type Boolean
+   * @default false
+   */
+  useCurrent: false,
+
+  /**
    * Icons to be used by the datetime picker and calendar.
-   * Icons can be set for time, date, up, down, previous, next,
+   * Icons can be set for time, date, up, down, previous, next, clear,
    * and close.
    * The default icons are chosen from Font Awesome icons
    *
@@ -150,7 +159,8 @@ export default Component.extend({
     down: "fa fa-chevron-down",
     previous: "fa fa-angle-double-left",
     next: "fa fa-angle-double-right",
-    close: "fa fa-times"
+    close: "fa fa-times",
+    clear: "fa fa-trash"
   }
 
 });

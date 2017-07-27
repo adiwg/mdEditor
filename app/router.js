@@ -91,6 +91,7 @@ Router.map(function() {
             });
           });
           this.route('funding');
+          this.route('dictionary');
         });
         this.route('translate');
       }

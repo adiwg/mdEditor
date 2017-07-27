@@ -1,30 +1,35 @@
 {{#if label}}
   <label>{{label}}</label>
 {{/if}}
-{{bs-datetimepicker
-    date=date
-    format=format
-    dateIcon="fa fa-calendar"
-    icons=calendarIcons
-    forceDateOutput=forceDateOutput
-    updateDate=(action (mut date))
-}}
-<span class='md-inputgroup-error'>
-  {{#if showErrorMessage}}
-    <span class='md-error'>
-      {{fa-icon "exclamation-circle"}}
-      {{#tooltip-on-element side="right" class="md-tooltip danger"}}
-          {{v-get model valuePath 'message'}}
-      {{/tooltip-on-element}}
-    </span>
-  {{/if}}
+<div class="md-input-input">
+  {{bs-datetimepicker
+      date=date
+      format=format
+      dateIcon="fa fa-calendar"
+      icons=calendarIcons
+      forceDateOutput=forceDateOutput
+      placeholder=placeholder
+      showClear=showClear
+      useCurrent=useCurrent
+      updateDate=(action (mut date))
+  }}
+  <span class='md-inputgroup-error'>
+    {{#if showErrorMessage}}
+      <span class='md-error'>
+        {{fa-icon "exclamation-circle"}}
+        {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+            {{v-get model valuePath 'message'}}
+        {{/tooltip-on-element}}
+      </span>
+    {{/if}}
 
-  {{#if showWarningMessage}}
-    <span class='md-warning'>
-      {{fa-icon "exclamation-triangle"}}
-      {{#tooltip-on-element side="right" class="md-tooltip warning"}}
-      {{v-get model valuePath 'warningMessage'}}
-      {{/tooltip-on-element}}
-    </span>
-  {{/if}}
-</span>
+    {{#if showWarningMessage}}
+      <span class='md-warning'>
+        {{fa-icon "exclamation-triangle"}}
+        {{#tooltip-on-element side="right" class="md-tooltip warning"}}
+        {{v-get model valuePath 'warningMessage'}}
+        {{/tooltip-on-element}}
+      </span>
+    {{/if}}
+  </span>
+</div>

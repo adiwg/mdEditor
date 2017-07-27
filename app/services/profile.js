@@ -85,6 +85,10 @@ export default Ember.Service.extend({
           title: 'Funding',
           target: 'record.show.edit.funding'
 
+        }, {
+          title: 'Dictionaries',
+          target: 'record.show.edit.dictionary'
+
         }
         /*, {
                 title: 'Coverage',

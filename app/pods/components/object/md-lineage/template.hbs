@@ -4,6 +4,7 @@
   label="Statement"
   placeholder="A general statement of the actions taken to verify, transform, repair, and integrate the resource."
   data-spy="Statement"
+  required=true
 }}
 
 {{object/md-objectroute-table
@@ -11,7 +12,7 @@
   header="Process Step"
   buttonText="Add Step"
   ellipsis=ellipsis
-  templateClass=templateClass
+  templateClass=stepTemplateClass
   editItem=editProcessStep
   attributes="stepId,description"
   profilePath=(concat profilePath ".processStep") data-spy="Process Step"

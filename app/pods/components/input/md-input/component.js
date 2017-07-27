@@ -53,7 +53,27 @@ export default Component.extend({
         //Ember.run.once(()=>model.set(valuePath, ""));
       }
 
-      defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+      if(this.get('type') === 'number') {
+        let attribute = `model.${valuePath}`;
+
+        defineProperty(this, 'value', computed(attribute, {
+          get() {
+            let val = this.get(attribute);
+
+            return val ? val.toString() : '';
+          },
+
+          set(key, value) {
+            let parse = this.get('step') ? parseFloat : parseInt;
+
+            this.set(attribute, parse(value, 10));
+
+            return value;
+          }
+        }));
+      } else {
+        defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+      }
 
       defineProperty(this, 'validation', computed.alias(
           `model.validations.attrs.${valuePath}`)
@@ -62,7 +82,7 @@ export default Component.extend({
       defineProperty(this, 'required', computed(
           'validation.options.presence.presence',
           'validation.options.presence.disabled',
-          function () {
+          function() {
             return this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
           })
