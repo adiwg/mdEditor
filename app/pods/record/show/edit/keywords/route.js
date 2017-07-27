@@ -1,12 +1,14 @@
 import Ember from 'ember';
-import has from 'npm:lodash.has';
+//import has from 'npm:lodash.has';
 
 const {
   Route,
   A,
   set,
-  Object: EmObject,
+  //Object: EmObject,
   NativeArray,
+  getWithDefault,
+  //assign,
   copy,
   inject
 } = Ember;
@@ -18,27 +20,38 @@ export default Route.extend({
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    set(info,'keyword', !info.hasOwnProperty('keyword') ? A() : NativeArray.apply(
-      info.keyword));
+    set(info, 'keyword', !info.hasOwnProperty('keyword') ? A() :
+      NativeArray.apply(
+        info.keyword));
 
     //check to see if custom list
-    info.keyword.forEach((k, idx, arr) => {
-      if(!has(k, 'thesaurus')) {
-        set(k, 'thesaurus', {});
-      }
-      if(!has(k, 'thesaurus.identifier')) {
-        set(k, 'thesaurus.identifier', [{
+    info.keyword.forEach((k) => {
+      set(k, 'thesaurus', getWithDefault(k, 'thesaurus', {}));
+      set(k, 'thesaurus.identifier', getWithDefault(k,
+        'thesaurus.identifier', [{
           identifier: 'custom'
-        }]);
-      }
-      if(!has(k, 'thesaurus.date')) {
-        set(k, 'thesaurus.date', [{}]);
-      }
-      if(!has(k, 'thesaurus.onlineResource')) {
-        set(k, 'thesaurus.onlineResource', [{}]);
-      }
+        }]));
+      set(k, 'thesaurus.date', getWithDefault(k, 'thesaurus.date', [{}]));
+      set(k, 'thesaurus.onlineResource', getWithDefault(k,
+        'thesaurus.onlineResource', [{}]));
 
-      arr.replace(idx, 1, EmObject.create(k));
+      // if(!has(k, 'thesaurus')) {
+      //   set(k, 'thesaurus', {});
+      // }
+      // if(!has(k, 'thesaurus.identifier')) {
+      //   set(k, 'thesaurus.identifier', [{
+      //     identifier: 'custom'
+      //   }]);
+      // }
+      // if(!has(k, 'thesaurus.date')) {
+      //   set(k, 'thesaurus.date', [{}]);
+      // }
+      // if(!has(k, 'thesaurus.onlineResource')) {
+      //   set(k, 'thesaurus.onlineResource', [{}]);
+      // }
+
+      //let obj = arr.objectAt(idx);
+      //assign(obj, EmObject.create(k));
     });
 
     return model;
@@ -46,12 +59,12 @@ export default Route.extend({
 
   subbar: 'control/subbar-keywords',
 
-  clearSubbar: function () {
+  clearSubbar: function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
   }.on('deactivate'),
 
-  setupController: function () {
+  setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -114,7 +127,7 @@ export default Route.extend({
       let me = this;
 
       me.transitionTo(me.get('routeName'))
-        .then(function () {
+        .then(function() {
           me.setupController();
         });
     }
