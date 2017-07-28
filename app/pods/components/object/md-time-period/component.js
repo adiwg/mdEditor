@@ -17,6 +17,13 @@ const {
 } = Ember;
 
 const Validations = buildValidations({
+  'intervalAmount': [
+    validator('presence', {
+      presence: true,
+      //disabled: computed.notEmpty('model.endDateTime'),
+      ignoreBlank: true
+    })
+  ],
   'startDateTime': [
     validator('presence', {
       presence: true,
@@ -67,6 +74,7 @@ export default Component.extend(Validations, {
 
   startDateTime: computed.alias('model.startDateTime'),
   endDateTime: computed.alias('model.endDateTime'),
+  intervalAmount: computed.alias('model.interval.interval'),
   timeUnit: [{
       name: 'year',
       value: 'year'
