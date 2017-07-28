@@ -74,7 +74,7 @@ export default Component.extend(Validations, {
 
   startDateTime: computed.alias('model.startDateTime'),
   endDateTime: computed.alias('model.endDateTime'),
-  intervalAmount: computed.alias('model.interval.interval'),
+  intervalAmount: computed.alias('model.timeInterval.interval'),
   timeUnit: [{
       name: 'year',
       value: 'year'
