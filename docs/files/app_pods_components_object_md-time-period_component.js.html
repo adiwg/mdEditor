@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ff455369" target="_blank">
-                                  Tag: 0.0.0.ff455369
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/b0006cdb" target="_blank">
+                                  Tag: 0.0.0.b0006cdb
                                 </a>
                             </h4>
                         </div>
@@ -247,6 +247,13 @@ const {
 } = Ember;
 
 const Validations = buildValidations({
+  &#x27;intervalAmount&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      //disabled: computed.notEmpty(&#x27;model.endDateTime&#x27;),
+      ignoreBlank: true
+    })
+  ],
   &#x27;startDateTime&#x27;: [
     validator(&#x27;presence&#x27;, {
       presence: true,
@@ -273,7 +280,7 @@ export default Component.extend(Validations, {
 
     let model = get(this, &#x27;model&#x27;);
 
-    once(function () {
+    once(function() {
       set(model, &#x27;periodName&#x27;, getWithDefault(model,
         &#x27;periodName&#x27;, []));
       set(model, &#x27;timeInterval&#x27;, getWithDefault(model, &#x27;timeInterval&#x27;, {}));
@@ -295,8 +302,29 @@ export default Component.extend(Validations, {
    * @type {String}
    */
 
-  startDateTime: computed.alias(&#x27;model.startDateTime&#x27;),
-  endDateTime: computed.alias(&#x27;model.endDateTime&#x27;),
+  startDateTime: computed(&#x27;model.startDateTime&#x27;, {
+    get(){
+      return get(this, &#x27;model.startDateTime&#x27;);
+    },
+    set(key, value) {
+      once(this,function() {
+        set(this, &#x27;model.startDateTime&#x27;, value);
+        return value;
+      });
+    }
+  }),
+  endDateTime: computed(&#x27;model.endDateTime&#x27;, {
+    get(){
+      return get(this, &#x27;model.endDateTime&#x27;);
+    },
+    set(key, value) {
+      once(this,function() {
+        set(this, &#x27;model.endDateTime&#x27;, value);
+        return value;
+      });
+    }
+  }),
+  intervalAmount: computed.alias(&#x27;model.timeInterval.interval&#x27;),
   timeUnit: [{
       name: &#x27;year&#x27;,
       value: &#x27;year&#x27;

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ff455369" target="_blank">
-                                  Tag: 0.0.0.ff455369
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/b0006cdb" target="_blank">
+                                  Tag: 0.0.0.b0006cdb
                                 </a>
                             </h4>
                         </div>
@@ -234,12 +234,18 @@
  */
 
 import Ember from &#x27;ember&#x27;;
+import moment from &#x27;moment&#x27;;
 
 const {
   Component,
   defineProperty,
   computed,
   isBlank,
+  set,
+  get,
+  run: {
+    once
+  },
   assert
 } = Ember;
 
@@ -272,7 +278,17 @@ export default Component.extend({
         );
       }
 
-      defineProperty(this, &#x27;date&#x27;, computed.alias(&#x60;model.${valuePath}&#x60;));
+      defineProperty(this, &#x27;date&#x27;, computed(&#x60;model.${valuePath}&#x60;, {
+        get() {
+          return moment(get(this, &#x60;model.${valuePath}&#x60;));
+        },
+        set(key, value) {
+          once(this, () =&gt; {
+            this.set(&#x60;model.${valuePath}&#x60;, value);
+          });
+          return value;
+        }
+      }));
 
       defineProperty(this, &#x27;validation&#x27;, computed.alias(
           &#x60;model.validations.attrs.${valuePath}&#x60;)
@@ -281,7 +297,7 @@ export default Component.extend({
       defineProperty(this, &#x27;required&#x27;, computed(
           &#x27;validation.options.presence.presence&#x27;,
           &#x27;validation.options.presence.disabled&#x27;,
-          function () {
+          function() {
             return this.get(&#x27;validation.options.presence.presence&#x27;) &amp;&amp;
               !this.get(&#x27;validation.options.presence.disabled&#x27;);
           })
@@ -334,7 +350,7 @@ export default Component.extend({
    * @default null
    * @return String
    */
-  date: null,
+  //date: null,
 
   /**
    * Format of date string for property &#x27;date&#x27;.
@@ -391,8 +407,22 @@ export default Component.extend({
     next: &quot;fa fa-angle-double-right&quot;,
     close: &quot;fa fa-times&quot;,
     clear: &quot;fa fa-trash&quot;
-  }
+  },
 
+  actions: {
+    updateDate(date) {
+      let utc = moment(date);
+
+      //utc.add(utc.utcOffset(), &#x27;minutes&#x27;);
+
+      if(utc &amp;&amp; utc.toISOString() !== this.get(&#x27;date&#x27;)) {
+
+        //once(this, function() {
+          set(this, &#x27;date&#x27;, utc.toISOString());
+        //});
+      }
+    }
+  }
 });
 
     </pre>

@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.ff455369",
+        "version": "0.0.0.b0006cdb",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1120,7 +1120,7 @@
             "submodule": "components-input",
             "namespace": "",
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 18,
+            "line": 24,
             "description": "Datetime control with dropdown calendar.\nBased on Bootstrap datetime picker.",
             "is_constructor": 1
         },
@@ -2686,7 +2686,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 99,
+            "line": 115,
             "description": "Datetime string passed in, edited, and returned.",
             "itemtype": "property",
             "name": "date",
@@ -2701,7 +2701,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 109,
+            "line": 125,
             "description": "Format of date string for property 'date'.",
             "itemtype": "property",
             "name": "format",
@@ -2713,7 +2713,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 118,
+            "line": 134,
             "description": "The string to display when no datetime is selected.",
             "itemtype": "property",
             "name": "placeholder",
@@ -2725,7 +2725,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 127,
+            "line": 143,
             "description": "Form label for datetime input.",
             "itemtype": "property",
             "name": "label",
@@ -2737,7 +2737,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 136,
+            "line": 152,
             "description": "On show, will set the picker to the current date/time",
             "itemtype": "property",
             "name": "useCurrent",
@@ -2749,7 +2749,7 @@
         },
         {
             "file": "app/pods/components/input/md-datetime/component.js",
-            "line": 145,
+            "line": 161,
             "description": "Icons to be used by the datetime picker and calendar.\nIcons can be set for time, date, up, down, previous, next, clear,\nand close.\nThe default icons are chosen from Font Awesome icons",
             "itemtype": "property",
             "name": "calendarIcons",
@@ -4841,7 +4841,7 @@
         },
         {
             "file": "app/pods/components/object/md-time-period/component.js",
-            "line": 61,
+            "line": 68,
             "description": "The profile path for the component",
             "itemtype": "property",
             "name": "profilePath",
