@@ -4,12 +4,18 @@
  */
 
 import Ember from 'ember';
+import moment from 'moment';
 
 const {
   Component,
   defineProperty,
   computed,
   isBlank,
+  set,
+  get,
+  run: {
+    once
+  },
   assert
 } = Ember;
 
@@ -42,7 +48,17 @@ export default Component.extend({
         );
       }
 
-      defineProperty(this, 'date', computed.alias(`model.${valuePath}`));
+      defineProperty(this, 'date', computed(`model.${valuePath}`, {
+        get() {
+          return moment(get(this, `model.${valuePath}`));
+        },
+        set(key, value) {
+          once(this, () => {
+            this.set(`model.${valuePath}`, value);
+          });
+          return value;
+        }
+      }));
 
       defineProperty(this, 'validation', computed.alias(
           `model.validations.attrs.${valuePath}`)
@@ -51,7 +67,7 @@ export default Component.extend({
       defineProperty(this, 'required', computed(
           'validation.options.presence.presence',
           'validation.options.presence.disabled',
-          function () {
+          function() {
             return this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
           })
@@ -104,7 +120,7 @@ export default Component.extend({
    * @default null
    * @return String
    */
-  date: null,
+  //date: null,
 
   /**
    * Format of date string for property 'date'.
@@ -161,6 +177,20 @@ export default Component.extend({
     next: "fa fa-angle-double-right",
     close: "fa fa-times",
     clear: "fa fa-trash"
-  }
+  },
 
+  actions: {
+    updateDate(date) {
+      let utc = moment(date);
+
+      //utc.add(utc.utcOffset(), 'minutes');
+
+      if(utc && utc.toISOString() !== this.get('date')) {
+
+        //once(this, function() {
+          set(this, 'date', utc.toISOString());
+        //});
+      }
+    }
+  }
 });

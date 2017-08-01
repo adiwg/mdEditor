@@ -11,7 +11,8 @@
       placeholder=placeholder
       showClear=showClear
       useCurrent=useCurrent
-      updateDate=(action (mut date))
+      textFieldRequired=required
+      updateDate=(action "updateDate")
   }}
   <span class='md-inputgroup-error'>
     {{#if showErrorMessage}}

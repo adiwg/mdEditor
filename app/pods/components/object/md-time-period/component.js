@@ -50,7 +50,7 @@ export default Component.extend(Validations, {
 
     let model = get(this, 'model');
 
-    once(function () {
+    once(function() {
       set(model, 'periodName', getWithDefault(model,
         'periodName', []));
       set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
@@ -72,8 +72,28 @@ export default Component.extend(Validations, {
    * @type {String}
    */
 
-  startDateTime: computed.alias('model.startDateTime'),
-  endDateTime: computed.alias('model.endDateTime'),
+  startDateTime: computed('model.startDateTime', {
+    get(){
+      return get(this, 'model.startDateTime');
+    },
+    set(key, value) {
+      once(this,function() {
+        set(this, 'model.startDateTime', value);
+        return value;
+      });
+    }
+  }),
+  endDateTime: computed('model.endDateTime', {
+    get(){
+      return get(this, 'model.endDateTime');
+    },
+    set(key, value) {
+      once(this,function() {
+        set(this, 'model.endDateTime', value);
+        return value;
+      });
+    }
+  }),
   intervalAmount: computed.alias('model.timeInterval.interval'),
   timeUnit: [{
       name: 'year',
