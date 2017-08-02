@@ -12,7 +12,7 @@ export default Route.extend({
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'resourceLineage', getWithDefault(model, 'resourceLineage', []));
+    set(model, 'associatedResource', getWithDefault(model, 'associatedResource', []));
   },
 
   setupController: function() {
@@ -24,9 +24,9 @@ export default Route.extend({
   },
 
   actions: {
-    editLineage(id) {
-      this.transitionTo('record.show.edit.lineage.lineageobject', id);
-    }//,
+    editResource(id) {
+      this.transitionTo('record.show.edit.associated.resource', id);
+    } //,
     // templateClass() {
     //   return Ember.Object.extend({
     //     init() {

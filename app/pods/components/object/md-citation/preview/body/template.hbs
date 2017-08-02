@@ -1,0 +1,55 @@
+<div class="row">
+  <dl class="dl-horizontal col-lg-6">
+      {{control/md-definition title="Title" text=citation.title}}
+  </dl>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Alternate Titles" }}
+          {{#each citation.alternateTitle as |title|}}
+              {{title}}
+              <br>
+              {{else}}
+              <em class="text-muted">No alternate titles assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
+  <div class="clearfix"></div>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Dates" }}
+          {{#each citation.date as |date|}}
+              {{format-date date.date format="MMMM Do YYYY"}}
+              ({{date.dateType}})
+              <br>
+              {{else}}
+              <em class="text-muted">No dates assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Identifier" }}
+          {{#each citation.identifier as |id|}}
+              {{id.identifier}} {{if id.namespace (concat "(" id.namespace ")")}}
+              <br>
+              {{else}}
+              <em class="text-muted">No identifiers assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
+  <div class="clearfix"></div>
+  <dl class="dl-horizontal col-lg-6">
+      {{#control/md-definition title="Responsible Party" }}
+          {{#each citation.responsibleParty as |party|}}
+              {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+              (
+              {{#each party.party as |contact index|}}
+                  {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
+              {{else}}
+                  <em class="text-muted">No Contacts assigned.</em>
+              {{/each}}
+              )
+              <br>
+              {{else}}
+              <em class="text-muted">No responsibility assigned.</em>
+          {{/each}}
+      {{/control/md-definition}}
+  </dl>
+</div>

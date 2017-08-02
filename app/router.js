@@ -79,7 +79,11 @@ Router.map(function() {
             });
           });
           this.route('distribution');
-          this.route('associated');
+          this.route('associated', function() {
+            this.route('resource', {
+              path: ':resource_id'
+            }, function() {});
+          });
           this.route('documents');
           this.route('coverages');
           this.route('grid');

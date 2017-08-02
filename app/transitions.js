@@ -76,4 +76,10 @@ export default function () {
     this.use('toLeft'),
     this.reverse('toRight')
   );
+  this.transition(
+    this.toRoute('record.show.edit.associated.resource'),
+    this.fromRoute('record.show.edit.associated.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
 }

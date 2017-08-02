@@ -1,0 +1,43 @@
+<h4 class="section-header">
+  Editing Associated Resource #{{resourceId}}
+  {{control/md-status model=parentModel}}
+</h4>
+
+<form class="form">
+  {{input/md-codelist
+    label="Association Type"
+    create=true
+    tooltip=true
+    icon=false
+    disabled=false
+    allowClear=true
+    showValidations=true
+    mdCodeName="associationType"
+    path="associationType"
+    model=model
+    placeholder="Choose Type of Association"
+    profilePath="record.associated.associationType"
+  }}
+
+  {{input/md-codelist
+    label="Initiative Type"
+    create=true
+    tooltip=true
+    icon=false
+    disabled=false
+    allowClear=true
+    showValidations=true
+    mdCodeName="initiativeType"
+    path="initiativeType"
+    model=model
+    placeholder="Choose Type of Initiative"
+    profilePath="record.associated.initiativeType"
+  }}
+</form>
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Resource List" icon="arrow-left" route="record.show.edit.associated")
+}}
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
