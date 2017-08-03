@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.c0b132a3",
+        "version": "0.0.0.f7085389",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -317,6 +317,20 @@
             "classes": {
                 "md-array-table": 1
             },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-associated/preview/component.js": {
+            "name": "app/pods/components/object/md-associated/preview/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-associated/component.js": {
+            "name": "app/pods/components/object/md-associated/component.js",
+            "modules": {},
+            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -4191,6 +4205,40 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/components/object/md-associated/preview/component.js",
+            "line": 10,
+            "description": "Whether to render the text muted.",
+            "itemtype": "property",
+            "name": "muted",
+            "type": "{Boolean}",
+            "default": "\"true\"",
+            "class": "md-citation-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-associated/component.js",
+            "line": 43,
+            "description": "The string representing the path in the profile object for the resource.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "\"false\"",
+            "required": 1,
+            "class": "md-citation-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-associated/component.js",
+            "line": 52,
+            "description": "The object to use as the data model for the resource.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-citation-array",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-citation/preview/component.js",
             "line": 4,
             "description": "Title for the card",
@@ -4226,7 +4274,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 33,
+            "line": 38,
             "description": "The string representing the path in the profile object for the citation.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4238,7 +4286,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 42,
+            "line": 47,
             "description": "The object to use as the data model for the citation.",
             "itemtype": "property",
             "name": "model",
@@ -4249,7 +4297,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 50,
+            "line": 55,
             "description": "Indicates whether the citation is embedded and should prevent recursion.",
             "itemtype": "property",
             "name": "embedded",
@@ -4260,7 +4308,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 59,
+            "line": 64,
             "description": "Indicates whether the citation identifier Component should be rendered.",
             "itemtype": "property",
             "name": "noIdentifier",

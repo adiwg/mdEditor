@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>tree-branch - mdeditor</title>
+    <title>app/pods/components/object/md-associated/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -222,414 +222,75 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> tree-branch Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/f7085389/lib/ember-json-tree/addon/components/tree-branch.js#L9" target="_blank">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
-<div class="content-meta">
+const {
+  Component,
+  computed,
+  set,
+  get,
+  getWithDefault,
+  run: {
+    once
+  }
+} = Ember;
 
+const Validations = buildValidations({
+  &#x27;associationType&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      ignoreBlank: true
+    })
+  ]
+});
 
-            Module: <a href="../modules/tree-view.html">tree-view</a><br>
-            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
+export default Component.extend(Validations, {
+  didReceiveAttrs() {
+    this._super(...arguments);
 
+    let model = get(this, &#x27;model&#x27;);
 
-        <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/f7085389/lib/ember-json-tree/addon/components/tree-branch.js#L9">lib/ember-json-tree/addon/components/tree-branch.js:9</a>
-        </div>
-</div>
+    once(this, function() {
+      set(model, &#x27;scope&#x27;, getWithDefault(model, &#x27;scope&#x27;, {}));
+      set(model, &#x27;resourceType&#x27;, getWithDefault(model, &#x27;resourceType&#x27;, []));
+      set(model, &#x27;resourceCitation&#x27;, getWithDefault(model, &#x27;resourceCitation&#x27;, {}));
+      set(model, &#x27;metadataCitation&#x27;, getWithDefault(model, &#x27;metadataCitation&#x27;, {}));
+    });
+  },
 
+  tagName: &#x27;form&#x27;,
 
+  /**
+   * The string representing the path in the profile object for the resource.
+   *
+   * @property profilePath
+   * @type {String}
+   * @default &quot;false&quot;
+   * @required
+   */
 
+  /**
+   * The object to use as the data model for the resource.
+   *
+   * @property model
+   * @type {Object}
+   * @required
+   */
 
-<div>
-    <div class="page-section">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
-            <li role="presentation"><a href="#tab_methods" aria-controls="tab_methods" role="tab" data-toggle="tab">Methods</a></li>
+  associationType: computed.alias(&#x27;model.associationType&#x27;)
+});
 
-            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
-
-
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-
-              <form id="options-form" class="form-inline">
-                  Show:
-                  <label for="api-show-inherited" class="checkbox">
-                      <input type="checkbox" id="api-show-inherited" checked>
-                      Inherited
-                  </label>
-          
-                  <label for="api-show-protected" class="checkbox">
-                      <input type="checkbox" id="api-show-protected">
-                      Protected
-                  </label>
-          
-                  <label for="api-show-private" class="checkbox">
-                      <input type="checkbox" id="api-show-private">
-                      Private
-                  </label>
-                  <label for="api-show-deprecated" class="checkbox">
-                      <input type="checkbox" id="api-show-deprecated">
-                      Deprecated
-                  </label>
-          
-              </form>
-
-          <div id="tab_index" role="tabpanel" class="tab-pane active" >
-                  <div class="index-section methods">
-                      <h3>Methods</h3>
-
-                      <ul class="index-list methods">
-                              <li class="index-item method">
-                                  <a href="#method_currentRouteModel">currentRouteModel</a>
-
-                              </li>
-                              <li class="index-item method">
-                                  <a href="#method_deactivate">deactivate</a>
-
-                              </li>
-                              <li class="index-item method">
-                                  <a href="#method_model">model</a>
-
-                              </li>
-                              <li class="index-item method">
-                                  <a href="#method_"></a>
-
-                              </li>
-                      </ul>
-                  </div>
-
-                  <div class="index-section properties">
-                      <h3>Properties</h3>
-
-                      <ul class="index-list properties">
-                              <li class="index-item property">
-                                  <a href="#property_breadCrumb">breadCrumb</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_mapped">mapped</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_profilePath">profilePath</a>
-
-                              </li>
-                      </ul>
-                  </div>
-
-
-          </div>
-
-              <div id="tab_methods" role="tabpanel" class="tab-pane">
-                  <div class="item-list">
-  <div id="method_currentRouteModel" class="method item">
-  	<span class="method-signature">
-  	<span class="name anchorable-toc">
-  		<a class="fa fa-link toc-anchor" href="#method_currentRouteModel"></a>
-  		currentRouteModel
-  	</span>
-  
-  		<span class="paren">()</span>
-  		<span class="returns-inline">
-  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  		</span>
-  	</span>
-  
-  
-  
-  
-  
-  
-  
-  	<div class="meta">
-  					<p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-  				<p>
-  				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/routes/application.js#L75">app/routes/application.js:75</a>
-  		</p>
-  
-  
-  
-  	</div>
-  
-  	<div class="description"><p>The current model for the route</p>
-  </div>
-  
-  
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  			</div>
-  		</div>
-  
-  </div>
-  <div id="method_deactivate" class="method item">
-  	<span class="method-signature">
-  	<span class="name anchorable-toc">
-  		<a class="fa fa-link toc-anchor" href="#method_deactivate"></a>
-  		deactivate
-  	</span>
-  
-  		<span class="paren">()</span>
-  	</span>
-  
-  
-  
-  
-  
-  
-  
-  	<div class="meta">
-  					<p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-  				<p>
-  				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/contact/new/id/route.js#L36">app/pods/contact/new/id/route.js:36</a>
-  		</p>
-  
-  
-  
-  	</div>
-  
-  	<div class="description"><p>Called when route is deactivated.
-  The model is destroyed if still "new".</p>
-  </div>
-  
-  
-  
-  </div>
-  <div id="method_model" class="method item">
-  	<span class="method-signature">
-  	<span class="name anchorable-toc">
-  		<a class="fa fa-link toc-anchor" href="#method_model"></a>
-  		model
-  	</span>
-  
-  		<div class="args">
-  			<span class="paren">(</span><ul class="args-list inline commas">
-  				<li class="arg">
-  						<code>params</code>
-  				</li>
-  			</ul><span class="paren">)</span>
-  		</div>
-  		<span class="returns-inline">
-  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  		</span>
-  	</span>
-  
-  
-  
-  
-  
-  		<span class="flag chainable">chainable</span>
-  
-  
-  	<div class="meta">
-  					<p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-  				<p>
-  				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/contact/new/id/route.js#L9">app/pods/contact/new/id/route.js:9</a>
-  		</p>
-  
-  
-  
-  	</div>
-  
-  	<div class="description"><p>The route model</p>
-  </div>
-  
-  		<div class="params">
-  			<h4>Parameters:</h4>
-  
-  			<ul class="params-list">
-  				<li class="param">
-  						<code class="param-name">params</code>
-  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  
-  
-  
-  				</li>
-  			</ul>
-  		</div>
-  
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  			</div>
-  		</div>
-  
-  </div>
-  <div id="method_" class="method item">
-  	<span class="method-signature">
-  	<span class="name anchorable-toc">
-  		<a class="fa fa-link toc-anchor" href="#method_"></a>
-  		
-  	</span>
-  
-  		<span class="paren">()</span>
-  		<span class="returns-inline">
-  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  		</span>
-  	</span>
-  
-  
-  
-  
-  
-  
-  
-  	<div class="meta">
-  					<p>Provided by the <a href="../modules/.html"></a> module.</p>
-  				<p>
-  				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/services/profile.js#L24">app/services/profile.js:24</a>
-  		</p>
-  
-  
-  
-  	</div>
-  
-  	<div class="description"><p>Get the active profile.</p>
-  </div>
-  
-  
-  		<div class="returns">
-  			<h4>Returns:</h4>
-  
-  			<div class="returns-description">
-  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
-  			</div>
-  		</div>
-  
-  </div>
-                  </div>
-              </div>
-
-              <div id="tab_properties" role="tabpanel" class="tab-pane">
-                  <div class="item-list">
-  
-  
-  <div id="property_breadCrumb" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_breadCrumb"></a>
-          breadCrumb
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/contact/new/id/route.js#L27">app/pods/contact/new/id/route.js:27</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The breadcrumb title string.</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> null</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_mapped" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_mapped"></a>
-          mapped
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
-  
-          <span class="flag required">computed
-            (
-              <span class="computed">mdCodeName</span>
-            )
-          </span>
-  
-  
-  
-  
-  
-      <div class="meta">
-                      <p>Provided by the <a href="../modules/.html"></a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/services/contacts.js#L47">app/services/contacts.js:47</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>mapped is a re-mapped array of code objects.</p>
-  
-      </div>
-  
-  
-  
-  </div>
-  
-  
-  <div id="property_profilePath" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_profilePath"></a>
-          profilePath
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-time-period/component.js#L68">app/pods/components/object/md-time-period/component.js:68</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The profile path for the component</p>
-  
-      </div>
-  
-  
-  
-  </div>
-                  </div>
-              </div>
-
-
-      </div>
-    </div>
+    </pre>
 </div>
                         </div>
                     </div>

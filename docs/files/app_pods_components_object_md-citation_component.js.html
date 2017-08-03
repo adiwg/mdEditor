@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/c0b132a3" target="_blank">
-                                  Tag: 0.0.0.c0b132a3
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f7085389" target="_blank">
+                                  Tag: 0.0.0.f7085389
                                 </a>
                             </h4>
                         </div>
@@ -246,14 +246,19 @@ export default Component.extend({
 
     let model = get(this, &#x27;model&#x27;);
 
-    once(function () {
+    once(this, function() {
       set(model, &#x27;responsibleParty&#x27;, getWithDefault(model,
         &#x27;responsibleParty&#x27;, []));
+      set(model, &#x27;date&#x27;, getWithDefault(model,
+        &#x27;date&#x27;, []));
+      set(model, &#x27;alternateTitle&#x27;, getWithDefault(model,
+        &#x27;alternateTitle&#x27;, []));
       set(model, &#x27;presentationForm&#x27;, getWithDefault(model,
         &#x27;presentationForm&#x27;, []));
       set(model, &#x27;onlineResource&#x27;, getWithDefault(model,
         &#x27;onlineResource&#x27;, []));
       set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, []));
+      set(model, &#x27;otherCitationDetails&#x27;, getWithDefault(model, &#x27;otherCitationDetails&#x27;, []));
       set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
       set(model, &#x27;series&#x27;, getWithDefault(model, &#x27;series&#x27;, {}));
     });
