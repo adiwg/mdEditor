@@ -3,37 +3,9 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-<form class="form">
-  {{input/md-codelist
-    label="Association Type"
-    create=true
-    tooltip=true
-    icon=false
-    disabled=false
-    allowClear=true
-    showValidations=true
-    mdCodeName="associationType"
-    path="associationType"
-    model=model
-    placeholder="Choose Type of Association"
-    profilePath="record.associated.associationType"
-  }}
-
-  {{input/md-codelist
-    label="Initiative Type"
-    create=true
-    tooltip=true
-    icon=false
-    disabled=false
-    allowClear=true
-    showValidations=true
-    mdCodeName="initiativeType"
-    path="initiativeType"
-    model=model
-    placeholder="Choose Type of Initiative"
-    profilePath="record.associated.initiativeType"
-  }}
-</form>
+{{object/md-associated model=model
+  profilePath="record.associated"
+}}
 
 {{to-elsewhere
   named="md-subbar-extra"

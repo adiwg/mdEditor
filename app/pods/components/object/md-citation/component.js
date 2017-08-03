@@ -16,14 +16,19 @@ export default Component.extend({
 
     let model = get(this, 'model');
 
-    once(function () {
+    once(this, function() {
       set(model, 'responsibleParty', getWithDefault(model,
         'responsibleParty', []));
+      set(model, 'date', getWithDefault(model,
+        'date', []));
+      set(model, 'alternateTitle', getWithDefault(model,
+        'alternateTitle', []));
       set(model, 'presentationForm', getWithDefault(model,
         'presentationForm', []));
       set(model, 'onlineResource', getWithDefault(model,
         'onlineResource', []));
       set(model, 'identifier', getWithDefault(model, 'identifier', []));
+      set(model, 'otherCitationDetails', getWithDefault(model, 'otherCitationDetails', []));
       set(model, 'graphic', getWithDefault(model, 'graphic', []));
       set(model, 'series', getWithDefault(model, 'series', {}));
     });

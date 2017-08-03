@@ -1,5 +1,5 @@
 .required > .card-header .card-title::after,
-form .required label::after,
+form .required > label::after,
 label.required::after {
   @extend sup;
   color: $brand-danger;

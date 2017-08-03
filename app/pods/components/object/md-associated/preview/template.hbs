@@ -1,7 +1,13 @@
 {{#with item as |model|}}
   <dl class="dl-horizontal">
-      {{control/md-definition title="Association Type" text=model.associationType}}
-      {{control/md-definition title="Initiative Type" text=model.initiativeType}}
+    <div class="row">
+      <div class="col-xxl-6">
+        {{control/md-definition title="Association Type" text=model.associationType}}
+      </div>
+      <div class="col-xxl-6">
+        {{control/md-definition title="Initiative Type" text=model.initiativeType}}
+      </div>
+    </div>
   </dl>
 
   {{object/md-citation/preview/body citation=model.resourceCitation}}
