@@ -1,8 +1,3 @@
-/**
- * @submodule components-object
- * @module mdeditor
- */
-
 import Ember from 'ember';
 import Template from 'mdeditor/mixins/object-template';
 
@@ -23,7 +18,22 @@ export default Component.extend(Template, {
    * for selection for edit or deletion.
    * The class is configurable for reuse with mdJSON object arrays.
    *
+   * ```handlebars
+   * \{{#object/md-object-table
+   *  items=model
+   *  header=label
+   *  buttonText=buttonText
+   *  templateClass=templateClass
+   *  previewTemplate=previewTemplate
+   *  attributes=attributes as |editing|
+   * }}
+   *
+   * {{/object/md-object-table}}
+   * ```
+   *
    * @class md-object-table
+   * @submodule components-object
+   * @module mdeditor
    * @constructor
    * @uses object-template
    */
