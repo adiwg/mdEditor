@@ -18,7 +18,8 @@ const {
   get,
   getWithDefault,
   defineProperty,
-  computed
+  computed,
+  isNone
 } = Ember;
 
 let App;
@@ -51,6 +52,8 @@ Component.reopen({
 
     let profile = get(this, 'profile');
     let path = get(this, 'profilePath');
+    let visibility = get(this, 'visibility');
+    let isVisible = isNone(visibility) ? true : visibility;
 
     if(path !== undefined) {
       defineProperty(this, 'isVisible', computed(
@@ -60,7 +63,7 @@ Component.reopen({
             '.components.' +
             path;
 
-          return getWithDefault(profile, fullPath, true);
+          return getWithDefault(profile, fullPath, isVisible);
         }));
     }
   }
