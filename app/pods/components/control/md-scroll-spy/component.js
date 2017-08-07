@@ -147,10 +147,10 @@ export default Component.extend({
     let $anchor = $(id);
 
     if($anchor.length === 0) {
-      $('html').scrollTop(0 - get(this, 'offset'));
+      $('html, body').scrollTop(0 - get(this, 'offset'));
       return;
     }
-    $('html').scrollTop($anchor.offset().top - get(this, 'offset'));
+    $('html, body').scrollTop($anchor.offset().top - get(this, 'offset'));
 
     if(hilite) {
       $('[href=#' + id + ']')
