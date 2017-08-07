@@ -1,5 +1,8 @@
 import Ember from 'ember';
+
 const { Route } = Ember;
+
+/* global L */
 
 export default Route.extend({
   actions: {
