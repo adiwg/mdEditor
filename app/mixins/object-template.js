@@ -64,9 +64,12 @@ export default Mixin.create({
 
         property.forEach((item, idx, items) => {
           run.once(() => {
-            items.replace(idx, 1, merge(Template.create(owner.ownerInjection(),
+            let newItem = merge(Template.create(owner.ownerInjection(),
                 defaults || {}),
-              item));
+              item);
+
+            items.removeObject(item);
+            items.insertAt(idx, newItem);
           });
         });
       }
