@@ -1,0 +1,7 @@
+<div class="btn-group-vertical center-block" role="group" aria-label="Citation Button Controls">
+  <button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action selectAction}}>
+    {{fa-icon "check"}} Select a Resource
+  </button>
+  {{#link-to route class="btn btn-lg btn-primary btn-block md-btn-responsive" }} {{fa-icon icon}} {{text}}{{/link-to}}
+  {{yield}}
+</div>

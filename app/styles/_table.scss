@@ -58,3 +58,24 @@
 .md-logo-preview {
   max-height: 50px;
 }
+
+.md-select-table {
+  .inner-table-wrapper {
+    margin-top: 1.25em;
+  }
+
+  .table-header {
+    color: $gray-darker;
+    transition: color .5s linear;
+
+    &:hover {
+      color: $brand-info;
+      cursor: pointer;
+    }
+  }
+
+  .table-hover > tbody > tr:hover {
+    background-color: lighten($brand-primary, 50);
+    cursor: pointer;
+  }
+}
