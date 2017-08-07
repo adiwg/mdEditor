@@ -25,6 +25,7 @@ export default Component.extend(Template, {
    *  buttonText=buttonText
    *  templateClass=templateClass
    *  previewTemplate=previewTemplate
+   *  ellipsis=ellipsis
    *  attributes=attributes as |editing|
    * }}
    *

@@ -11,6 +11,7 @@
   model=this
   placeholder="Choose Type of Association"
   profilePath=(concat profilePath ".associationType")
+  data-spy="Association Type"
 }}
 
 {{input/md-codelist
@@ -38,24 +39,17 @@
     }}
 </div>
 
-{{#layout/md-card
-  title="Associated Resource Citation"
-  profilePath=(concat profilePath '.resourceCitation')
-  shadow=true
-  collapsible=true
-  required=true
-}}
+
 {{#with model.resourceCitation as |citation|}}
   {{object/md-citation
     model=citation
     profilePath=(concat profilePath '.resourceCitation')
-    embedded=true
+    simpleIdentifier=true
   }}
 {{/with}}
-{{/layout/md-card}}
 
 {{#layout/md-card
-  title="Associated Metadata Citation"
+  title="Metadata Citation"
   profilePath=(concat profilePath '.metadataCitation')
   shadow=true
   collapsible=true
@@ -66,6 +60,7 @@
     model=metdata
     profilePath=(concat profilePath '.metadataCitation')
     embedded=true
+    simpleIdentifier=true
   }}
 {{/with}}
 {{/layout/md-card}}

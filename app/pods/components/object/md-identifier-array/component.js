@@ -19,11 +19,12 @@ export default Component.extend({
    * mdEditor class for input and edit of mdJSON 'identifier' object
    * arrays.
    * The class manages the maintenance of an array of identifier
-   * objects using the md-object-table class.
+   * objects using the md-objectroute-table class.
    *
    * @module mdeditor
    * @submodule components-object
    * @class md-identifier-array
+   * @uses md-objectroute-table
    * @constructor
    */
 

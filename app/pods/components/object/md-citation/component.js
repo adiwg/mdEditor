@@ -62,11 +62,12 @@ export default Component.extend({
   embedded: false,
 
   /**
-   * Indicates whether the citation identifier Component should be rendered.
+   * Indicates whether the citation identifier Component should be rendered using
+   * the inline form: md-identifier-object-table.
    *
-   * @property noIdentifier
+   * @property simpleIdentifier
    * @type {Boolean}
    * @default "false"
    */
-  noIdentifier: false
+  simpleIdentifier: false
 });
