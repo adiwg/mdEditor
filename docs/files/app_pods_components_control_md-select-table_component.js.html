@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/control/md-button-modal/component.js - mdeditor</title>
+    <title>app/pods/components/control/md-select-table/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -235,74 +235,102 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+import Table from &#x27;ember-models-table/components/models-table&#x27;;
 
-export default Ember.Component.extend({
+const {
+  get
+} = Ember;
+
+export default Table.extend({
   /**
-   * mdEditor Component that renders a button which displays a modal
-   * dialog when clicked.
-   *
-   * @class md-button-modal
    * @module mdeditor
    * @submodule components-control
-   * @constructor
    */
 
-  tagName: &#x27;button&#x27;,
-  classNames: &#x27;md-button-modal&#x27;,
-  attributeBindings: [&#x27;type&#x27;],
-
   /**
-   * Element selector or element that serves as the reference for modal position
+   * Table with action on row click. Used to select objects(records).
    *
-   * @property target
-   * @type {String}
-   */
-  target: &#x27;html&#x27;,
-
-  /**
-   * A boolean, when true renders the modal without wormholing or tethering
+   *&#x60;&#x60;&#x60;handlebars
+   * \{{control/md-select-table
+   *   data=model.data
+   *   columns=model.columns
+   *   select=callback
+   * }}
+   * &#x60;&#x60;&#x60;
    *
-   * @property renderInPlace
-   * @type {Boolean}
+   * @class md-select-table
+   * @extends models-table
    */
-  renderInPlace: false,
+
+  classNames: [&#x27;md-select-table&#x27;],
 
   /**
-   * Indicates whether the modal dialog is being displayed.
-   * @type {Boolean}
-   */
-  isShowingModal: false,
-
-  /**
-   * The function to call when action is cancelled.
+   * Array of table records
    *
-   * @method onCancel
+   * @property data
+   * @type {Array}
+   * @default []
+   * @required
    */
-  onCancel() {},
 
   /**
-   * The function to call when action is confirmed.
+   * Array of column configs for the table.
+   * See http://onechiporenko.github.io/ember-models-table
    *
-   * @method onConfirm
+   * &#x60;&#x60;&#x60;javascript
+   * [{
+   *  propertyName: &#x27;id&#x27;,
+   *  title: &#x27;ID&#x27;
+   * }, {
+   *  title: &#x27;&#x27;,
+   *  template: &#x27;components/leaflet-table/actions&#x27;,
+   *  className: &#x27;text-center text-nowrap&#x27;
+   * }]
+   * &#x60;&#x60;&#x60;
+   *
+   * @property columns
+   * @type {Array}
+   * @required
+   * @default []
    */
-  onConfirm() {},
 
-  //click handler, sets modal state
-  click() {
-    this.toggleProperty(&#x27;isShowingModal&#x27;);
+  filteringIgnoreCase: true,
+  //rowTemplate: &#x27;components/control/md-select-table/row&#x27;,
+
+  customIcons: {
+    &#x27;sort-asc&#x27;: &#x27;fa fa-caret-up&#x27;,
+    &#x27;sort-desc&#x27;: &#x27;fa fa-caret-down&#x27;,
+    &#x27;column-visible&#x27;: &#x27;fa fa-check-square-o&#x27;,
+    &#x27;column-hidden&#x27;: &#x27;fa fa-square-o&#x27;,
+    &#x27;nav-first&#x27;: &#x27;fa fa-fast-backward&#x27;,
+    &#x27;nav-prev&#x27;: &#x27;fa fa-backward&#x27;,
+    &#x27;nav-next&#x27;: &#x27;fa fa-forward&#x27;,
+    &#x27;nav-last&#x27;: &#x27;fa fa-fast-forward&#x27;,
+    &#x27;caret&#x27;: &#x27;fa fa-caret-down&#x27;
+  },
+  customClasses: {
+    &#x27;table&#x27;: &#x27;table table-striped table-bordered table-condensed table-hover&#x27;
+  },
+
+  /**
+   * Callback on row selection.
+   *
+   * @method select
+   * @param {Array} selected Selected items.
+   * @return {Array}
+   */
+  select(selected) {
+    console.info(selected);
+    return selected;
   },
 
   actions: {
-    toggleModal() {
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    cancel() {
-      this.get(&#x27;onCancel&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    confirm() {
-      this.get(&#x27;onConfirm&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
+    clickOnRow() {
+      this._super(...arguments);
+
+      let sel = get(this, &#x27;_selectedItems&#x27;);
+
+      this.get(&#x27;select&#x27;)(sel);
     }
   }
 });

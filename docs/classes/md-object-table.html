@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f7085389" target="_blank">
-                                  Tag: 0.0.0.f7085389
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2307ef42" target="_blank">
+                                  Tag: 0.0.0.2307ef42
                                 </a>
                             </h4>
                         </div>
@@ -151,6 +151,9 @@
                                         <a href="../classes/md-identifier-array.html">md-identifier-array</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-identifier-object-table.html">md-identifier-object-table</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-input.html">md-input</a>
                                     </li>
                                     <li>
@@ -182,6 +185,9 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-select-contact.html">md-select-contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-table.html">md-select-table</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-select-thesaurus.html">md-select-thesaurus</a>
@@ -226,7 +232,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-object-table Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L21" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L16" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -242,11 +248,12 @@
         </div>
 
 
-            Module: <a href="../modules/mdeditor.html">mdeditor</a>
+            Module: <a href="../modules/components-object.html">components-object</a><br>
+            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L21">app/pods/components/object/md-object-table/component.js:21</a>
+            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L16">app/pods/components/object/md-object-table/component.js:16</a>
         </div>
 </div>
 
@@ -272,7 +279,7 @@
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L21">app/pods/components/object/md-object-table/component.js:21</a>
+		<a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L16">app/pods/components/object/md-object-table/component.js:16</a>
 		</p>
 
 
@@ -289,6 +296,18 @@
   <p>mdEditor class for managing a table of similar mdJSON objects
 for selection for edit or deletion.
 The class is configurable for reuse with mdJSON object arrays.</p>
+<pre class="code prettyprint"><code class="language-handlebars">{{#object/md-object-table
+ items=model
+ header=label
+ buttonText=buttonText
+ templateClass=templateClass
+ previewTemplate=previewTemplate
+ ellipsis=ellipsis
+ attributes=attributes as |editing|
+}}
+
+{{/object/md-object-table}}
+</code></pre>
 
   </div>
 
@@ -426,7 +445,7 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   	<div class="meta">
   				<p>Inherited from
   				<a href="#method_applyTemplate">object-template</a>:
-  		<a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/mixins/object-template.js#L28">app/mixins/object-template.js:28</a>
+  		<a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/mixins/object-template.js#L28">app/mixins/object-template.js:28</a>
   		</p>
   
   
@@ -489,7 +508,7 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   	<div class="meta">
   				<p>Inherited from
   				<a href="#method_applyTemplateArray">object-template</a>:
-  		<a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/mixins/object-template.js#L50">app/mixins/object-template.js:50</a>
+  		<a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/mixins/object-template.js#L50">app/mixins/object-template.js:50</a>
   		</p>
   
   
@@ -544,9 +563,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L58">app/pods/components/object/md-object-table/component.js:58</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L69">app/pods/components/object/md-object-table/component.js:69</a>
           </p>
   
   
@@ -577,9 +597,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L107">app/pods/components/object/md-object-table/component.js:107</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L118">app/pods/components/object/md-object-table/component.js:118</a>
           </p>
   
   
@@ -614,9 +635,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L141">app/pods/components/object/md-object-table/component.js:141</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L152">app/pods/components/object/md-object-table/component.js:152</a>
           </p>
   
   
@@ -645,9 +667,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L124">app/pods/components/object/md-object-table/component.js:124</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L135">app/pods/components/object/md-object-table/component.js:135</a>
           </p>
   
   
@@ -677,9 +700,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L68">app/pods/components/object/md-object-table/component.js:68</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L79">app/pods/components/object/md-object-table/component.js:79</a>
           </p>
   
   
@@ -709,9 +733,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L116">app/pods/components/object/md-object-table/component.js:116</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L127">app/pods/components/object/md-object-table/component.js:127</a>
           </p>
   
   
@@ -741,9 +766,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L47">app/pods/components/object/md-object-table/component.js:47</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L58">app/pods/components/object/md-object-table/component.js:58</a>
           </p>
   
   
@@ -774,9 +800,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L77">app/pods/components/object/md-object-table/component.js:77</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L88">app/pods/components/object/md-object-table/component.js:88</a>
           </p>
   
   
@@ -807,9 +834,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L132">app/pods/components/object/md-object-table/component.js:132</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L143">app/pods/components/object/md-object-table/component.js:143</a>
           </p>
   
   
@@ -839,9 +867,10 @@ The class is configurable for reuse with mdJSON object arrays.</p>
   
   
       <div class="meta">
+                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/f7085389/app/pods/components/object/md-object-table/component.js#L87">app/pods/components/object/md-object-table/component.js:87</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-object-table/component.js#L98">app/pods/components/object/md-object-table/component.js:98</a>
           </p>
   
   

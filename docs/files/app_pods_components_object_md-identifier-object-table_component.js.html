@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/control/md-button-modal/component.js - mdeditor</title>
+    <title>app/pods/components/object/md-identifier-object-table/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -234,77 +234,57 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import Identifier from &#x27;../md-identifier-array/component&#x27;;
 
-export default Ember.Component.extend({
+export default Identifier.extend({
   /**
-   * mdEditor Component that renders a button which displays a modal
-   * dialog when clicked.
+   * mdEditor class for input and edit of mdJSON &#x27;identifier&#x27; object
+   * arrays.
+   * The class manages the maintenance of an array of identifier
+   * objects using the md-object-table class.
    *
-   * @class md-button-modal
    * @module mdeditor
-   * @submodule components-control
+   * @submodule components-object
+   * @class md-identifier-object-table
+   * @uses md-object-table
    * @constructor
    */
 
-  tagName: &#x27;button&#x27;,
-  classNames: &#x27;md-button-modal&#x27;,
-  attributeBindings: [&#x27;type&#x27;],
-
   /**
-   * Element selector or element that serves as the reference for modal position
+   * Label for the panel
    *
-   * @property target
+   * @property label
    * @type {String}
+   * @default undefined
    */
-  target: &#x27;html&#x27;,
 
   /**
-   * A boolean, when true renders the modal without wormholing or tethering
+   * Array of identifiers
    *
-   * @property renderInPlace
+   * @property model
+   * @type {Array}
+   * @default undefined
+   */
+
+  /**
+   * Attributes displayed in the preview table.
+   *
+   * @property attributes
+   * @type {String}
+   * @default &#x27;identifier,namespace&#x27;
+   */
+  attributes: &#x27;identifier,namespace&#x27;,
+
+  ellipsis: true,
+
+  /**
+   * Default profile visibility
+   *
+   * @property visibility
    * @type {Boolean}
+   * @default false
    */
-  renderInPlace: false,
-
-  /**
-   * Indicates whether the modal dialog is being displayed.
-   * @type {Boolean}
-   */
-  isShowingModal: false,
-
-  /**
-   * The function to call when action is cancelled.
-   *
-   * @method onCancel
-   */
-  onCancel() {},
-
-  /**
-   * The function to call when action is confirmed.
-   *
-   * @method onConfirm
-   */
-  onConfirm() {},
-
-  //click handler, sets modal state
-  click() {
-    this.toggleProperty(&#x27;isShowingModal&#x27;);
-  },
-
-  actions: {
-    toggleModal() {
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    cancel() {
-      this.get(&#x27;onCancel&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    confirm() {
-      this.get(&#x27;onConfirm&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    }
-  }
+  visibility: false
 });
 
     </pre>

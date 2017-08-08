@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/control/md-button-modal/component.js - mdeditor</title>
+    <title>md-select-table - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -228,86 +228,263 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
+
+
 <div class="page-header">
-    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
+    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-select-table Class
+            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/control/md-select-table/component.js#L14" target="_blank">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+    </h1>
 </div>
 
-<div class="file">
-    <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
 
-export default Ember.Component.extend({
-  /**
-   * mdEditor Component that renders a button which displays a modal
-   * dialog when clicked.
-   *
-   * @class md-button-modal
-   * @module mdeditor
-   * @submodule components-control
-   * @constructor
-   */
+<div class="content-meta">
 
-  tagName: &#x27;button&#x27;,
-  classNames: &#x27;md-button-modal&#x27;,
-  attributeBindings: [&#x27;type&#x27;],
+        <div class="extends">
+            Extends: Models-table
+        </div>
 
-  /**
-   * Element selector or element that serves as the reference for modal position
-   *
-   * @property target
-   * @type {String}
-   */
-  target: &#x27;html&#x27;,
+            Module: <a href="../modules/components-control.html">components-control</a><br>
+            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
 
-  /**
-   * A boolean, when true renders the modal without wormholing or tethering
-   *
-   * @property renderInPlace
-   * @type {Boolean}
-   */
-  renderInPlace: false,
 
-  /**
-   * Indicates whether the modal dialog is being displayed.
-   * @type {Boolean}
-   */
-  isShowingModal: false,
+        <div class="foundat">
+            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/control/md-select-table/component.js#L14">app/pods/components/control/md-select-table/component.js:14</a>
+        </div>
+</div>
 
-  /**
-   * The function to call when action is cancelled.
-   *
-   * @method onCancel
-   */
-  onCancel() {},
 
-  /**
-   * The function to call when action is confirmed.
-   *
-   * @method onConfirm
-   */
-  onConfirm() {},
 
-  //click handler, sets modal state
-  click() {
-    this.toggleProperty(&#x27;isShowingModal&#x27;);
-  },
+  <div class="class-description">
+  <p>Table with action on row click. Used to select objects(records).</p>
+<pre class="code prettyprint"><code class="language-handlebars">{{control/md-select-table
+  data=model.data
+  columns=model.columns
+  select=callback
+}}
+</code></pre>
 
-  actions: {
-    toggleModal() {
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    cancel() {
-      this.get(&#x27;onCancel&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    confirm() {
-      this.get(&#x27;onConfirm&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    }
-  }
-});
+  </div>
 
-    </pre>
+<div>
+    <div class="page-section">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
+            <li role="presentation"><a href="#tab_methods" aria-controls="tab_methods" role="tab" data-toggle="tab">Methods</a></li>
+
+            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
+
+
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+
+              <form id="options-form" class="form-inline">
+                  Show:
+                  <label for="api-show-inherited" class="checkbox">
+                      <input type="checkbox" id="api-show-inherited" checked>
+                      Inherited
+                  </label>
+          
+                  <label for="api-show-protected" class="checkbox">
+                      <input type="checkbox" id="api-show-protected">
+                      Protected
+                  </label>
+          
+                  <label for="api-show-private" class="checkbox">
+                      <input type="checkbox" id="api-show-private">
+                      Private
+                  </label>
+                  <label for="api-show-deprecated" class="checkbox">
+                      <input type="checkbox" id="api-show-deprecated">
+                      Deprecated
+                  </label>
+          
+              </form>
+
+          <div id="tab_index" role="tabpanel" class="tab-pane active" >
+                  <div class="index-section methods">
+                      <h3>Methods</h3>
+
+                      <ul class="index-list methods extends">
+                              <li class="index-item method">
+                                  <a href="#method_select">select</a>
+
+                              </li>
+                      </ul>
+                  </div>
+
+                  <div class="index-section properties">
+                      <h3>Properties</h3>
+
+                      <ul class="index-list properties extends">
+                              <li class="index-item property">
+                                  <a href="#property_columns">columns</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_data">data</a>
+
+                              </li>
+                      </ul>
+                  </div>
+
+
+          </div>
+
+              <div id="tab_methods" role="tabpanel" class="tab-pane">
+                  <div class="item-list">
+  <div id="method_select" class="method item">
+  	<span class="method-signature">
+  	<span class="name anchorable-toc">
+  		<a class="fa fa-link toc-anchor" href="#method_select"></a>
+  		select
+  	</span>
+  
+  		<div class="args">
+  			<span class="paren">(</span><ul class="args-list inline commas">
+  				<li class="arg">
+  						<code>selected</code>
+  				</li>
+  			</ul><span class="paren">)</span>
+  		</div>
+  		<span class="returns-inline">
+  			<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  		</span>
+  	</span>
+  
+  
+  
+  
+  
+  
+  
+  	<div class="meta">
+  				<p>
+  				Defined in
+  		<a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/control/md-select-table/component.js#L79">app/pods/components/control/md-select-table/component.js:79</a>
+  		</p>
+  
+  
+  
+  	</div>
+  
+  	<div class="description"><p>Callback on row selection.</p>
+  </div>
+  
+  		<div class="params">
+  			<h4>Parameters:</h4>
+  
+  			<ul class="params-list">
+  				<li class="param">
+  						<code class="param-name">selected</code>
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  					<div class="param-description"><p>Selected items.</p>
+  </div>
+  
+  				</li>
+  			</ul>
+  		</div>
+  
+  		<div class="returns">
+  			<h4>Returns:</h4>
+  
+  			<div class="returns-description">
+  						<span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  			</div>
+  		</div>
+  
+  </div>
+                  </div>
+              </div>
+
+              <div id="tab_properties" role="tabpanel" class="tab-pane">
+                  <div class="item-list">
+  
+  
+  <div id="property_columns" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_columns"></a>
+          columns
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/control/md-select-table/component.js#L40">app/pods/components/control/md-select-table/component.js:40</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Array of column configs for the table.
+  See <a href="http://onechiporenko.github.io/ember-models-table">http://onechiporenko.github.io/ember-models-table</a></p>
+  <pre class="code prettyprint"><code class="language-javascript">[{
+   propertyName: 'id',
+   title: 'ID'
+  }, {
+   title: '',
+   template: 'components/leaflet-table/actions',
+   className: 'text-center text-nowrap'
+  }]
+  </code></pre>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> []</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_data" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_data"></a>
+          data
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/control/md-select-table/component.js#L31">app/pods/components/control/md-select-table/component.js:31</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Array of table records</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> []</p>
+  
+  
+  </div>
+                  </div>
+              </div>
+
+
+      </div>
+    </div>
 </div>
                         </div>
                     </div>

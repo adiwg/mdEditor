@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/control/md-button-modal/component.js - mdeditor</title>
+    <title>md-identifier-object-table - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -228,86 +228,241 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
+
+
 <div class="page-header">
-    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
+    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-identifier-object-table Class
+            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-identifier-object-table/component.js#L4" target="_blank">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </a>
+    </h1>
 </div>
 
-<div class="file">
-    <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
 
-export default Ember.Component.extend({
-  /**
-   * mdEditor Component that renders a button which displays a modal
-   * dialog when clicked.
-   *
-   * @class md-button-modal
-   * @module mdeditor
-   * @submodule components-control
-   * @constructor
-   */
+<div class="content-meta">
 
-  tagName: &#x27;button&#x27;,
-  classNames: &#x27;md-button-modal&#x27;,
-  attributeBindings: [&#x27;type&#x27;],
 
-  /**
-   * Element selector or element that serves as the reference for modal position
-   *
-   * @property target
-   * @type {String}
-   */
-  target: &#x27;html&#x27;,
+            Module: <a href="../modules/components-object.html">components-object</a><br>
+            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
 
-  /**
-   * A boolean, when true renders the modal without wormholing or tethering
-   *
-   * @property renderInPlace
-   * @type {Boolean}
-   */
-  renderInPlace: false,
 
-  /**
-   * Indicates whether the modal dialog is being displayed.
-   * @type {Boolean}
-   */
-  isShowingModal: false,
+        <div class="foundat">
+            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-identifier-object-table/component.js#L4">app/pods/components/object/md-identifier-object-table/component.js:4</a>
+        </div>
+</div>
 
-  /**
-   * The function to call when action is cancelled.
-   *
-   * @method onCancel
-   */
-  onCancel() {},
 
-  /**
-   * The function to call when action is confirmed.
-   *
-   * @method onConfirm
-   */
-  onConfirm() {},
 
-  //click handler, sets modal state
-  click() {
-    this.toggleProperty(&#x27;isShowingModal&#x27;);
-  },
+  <div class="class-description">
+  <p>mdEditor class for input and edit of mdJSON 'identifier' object
+arrays.
+The class manages the maintenance of an array of identifier
+objects using the md-object-table class.</p>
 
-  actions: {
-    toggleModal() {
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    cancel() {
-      this.get(&#x27;onCancel&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    },
-    confirm() {
-      this.get(&#x27;onConfirm&#x27;)();
-      this.toggleProperty(&#x27;isShowingModal&#x27;);
-    }
-  }
-});
+  </div>
 
-    </pre>
+<div>
+    <div class="page-section">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
+
+            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
+
+
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+
+              <form id="options-form" class="form-inline">
+                  Show:
+                  <label for="api-show-inherited" class="checkbox">
+                      <input type="checkbox" id="api-show-inherited" checked>
+                      Inherited
+                  </label>
+          
+                  <label for="api-show-protected" class="checkbox">
+                      <input type="checkbox" id="api-show-protected">
+                      Protected
+                  </label>
+          
+                  <label for="api-show-private" class="checkbox">
+                      <input type="checkbox" id="api-show-private">
+                      Private
+                  </label>
+                  <label for="api-show-deprecated" class="checkbox">
+                      <input type="checkbox" id="api-show-deprecated">
+                      Deprecated
+                  </label>
+          
+              </form>
+
+          <div id="tab_index" role="tabpanel" class="tab-pane active" >
+
+                  <div class="index-section properties">
+                      <h3>Properties</h3>
+
+                      <ul class="index-list properties">
+                              <li class="index-item property">
+                                  <a href="#property_attributes">attributes</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_label">label</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_model">model</a>
+
+                              </li>
+                              <li class="index-item property">
+                                  <a href="#property_visibility">visibility</a>
+
+                              </li>
+                      </ul>
+                  </div>
+
+
+          </div>
+
+
+              <div id="tab_properties" role="tabpanel" class="tab-pane">
+                  <div class="item-list">
+  
+  
+  <div id="property_attributes" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_attributes"></a>
+          attributes
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-identifier-object-table/component.js#L33">app/pods/components/object/md-identifier-object-table/component.js:33</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Attributes displayed in the preview table.</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> &#x27;identifier,namespace&#x27;</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_label" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_label"></a>
+          label
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-identifier-object-table/component.js#L17">app/pods/components/object/md-identifier-object-table/component.js:17</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Label for the panel</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> undefined</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_model" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_model"></a>
+          model
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-identifier-object-table/component.js#L25">app/pods/components/object/md-identifier-object-table/component.js:25</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Array of identifiers</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> undefined</p>
+  
+  
+  </div>
+  
+  
+  <div id="property_visibility" class="property item">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_visibility"></a>
+          visibility
+      </h3>
+      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>
+                  Defined in
+          <a href="https://github.com/adiwg/mdEditor/blob/2307ef42/app/pods/components/object/md-identifier-object-table/component.js#L44">app/pods/components/object/md-identifier-object-table/component.js:44</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Default profile visibility</p>
+  
+      </div>
+  
+          <p><br><strong>Default:</strong> false</p>
+  
+  
+  </div>
+                  </div>
+              </div>
+
+
+      </div>
+    </div>
 </div>
                         </div>
                     </div>
