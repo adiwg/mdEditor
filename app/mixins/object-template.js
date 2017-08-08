@@ -62,13 +62,14 @@ export default Mixin.create({
       if(Template) {
         let owner = getOwner(this);
 
-        property.forEach((item, idx, items) => {
-          run.once(() => {
+        run.once(this, () => {
+          property.forEach((item, idx, items) => {
+            items.removeAt(idx);
+
             let newItem = merge(Template.create(owner.ownerInjection(),
                 defaults || {}),
               item);
 
-            items.removeObject(item);
             items.insertAt(idx, newItem);
           });
         });
