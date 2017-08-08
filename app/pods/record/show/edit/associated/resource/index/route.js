@@ -3,11 +3,12 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 const {
   Route,
-  get
+  get,
+  merge
 } = Ember;
 
 export default Route.extend(ScrollTo, {
-  sliderColumns:[{
+  sliderColumns: [{
     propertyName: 'recordId',
     title: 'ID'
   }, {
@@ -17,7 +18,7 @@ export default Route.extend(ScrollTo, {
     propertyName: 'defaultType',
     title: 'Type'
   }],
-  setupController: function () {
+  setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -27,22 +28,29 @@ export default Route.extend(ScrollTo, {
       'record.show.edit.associated.resource'), 'resourceId'));
   },
   actions: {
-    insertResource(selected){
+    insertResource(selected) {
       console.log(selected);
       let app = this.controllerFor('application');
+      let rec = selected[0];
 
+      if(rec) {
+        let resource = get(this, 'currentModel');
+
+        // merge(get(resource, 'resourceCitation'),
+        //   get(rec, 'json.metadata.resourceInfo.citation'));
+      }
       app.set('showSlider', false);
     },
-    selectResource(){
+    selectResource() {
       let app = this.controllerFor('application');
 
       this.controller.set('slider', 'md-select-table');
       app.set('showSlider', true);
     },
-    sliderData(){
+    sliderData() {
       return this.store.peekAll('record');
     },
-    sliderColumns(){
+    sliderColumns() {
       return this.get('sliderColumns');
     }
   }
