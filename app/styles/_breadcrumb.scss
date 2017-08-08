@@ -6,4 +6,9 @@
   a {
     text-decoration: none;
   }
+
+  li {
+    @include text-overflow();
+    max-width: 175px;
+  }
 }
