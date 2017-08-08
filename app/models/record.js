@@ -119,6 +119,9 @@ export default Model.extend(Validations, Copyable, {
   recordId: computed.alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
 
+  defaultType: computed.alias(
+    'json.metadata.resourceInfo.resourceType.0.type'),
+
   /**
    * The trimmed varsion of the recordId.
    *

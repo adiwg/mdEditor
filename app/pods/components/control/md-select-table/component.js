@@ -18,6 +18,7 @@ export default Table.extend({
    * \{{control/md-select-table
    *   data=model.data
    *   columns=model.columns
+   *   select=callback
    * }}
    * ```
    *
