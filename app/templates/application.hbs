@@ -16,6 +16,15 @@
 </div>
 
 <div id="md-wrapper" class="">
+
+  <!-- Slider -->
+    {{#layout/md-slider visible=showSlider}}
+      {{!-- <section class="md-slider-body">
+        {{from-elsewhere name="md-slider-content"}}
+      </section> --}}
+    {{/layout/md-slider}}
+  <!-- /#slider -->
+
   <!-- Sidebar -->
   <div id="md-sidebar-wrapper">
     {{layout/md-nav-sidebar items=model}} {{md-help}}

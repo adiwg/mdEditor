@@ -1,0 +1,11 @@
+<button type="button" class="close huge-text" aria-label="Close" {{action "toggleVisibility"}}>
+  {{fa-icon "arrow-right"}}
+</button>
+<section class="md-slider-body">
+  {{#from-elsewhere name="md-slider-content" as |slider|}}
+    <h3 class="text-info">{{slider.title}}</h3>
+    <hr>
+    {{component slider.body}}
+  {{/from-elsewhere}}
+</section>
+{{yield}}
