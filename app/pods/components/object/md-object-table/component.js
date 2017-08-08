@@ -39,7 +39,7 @@ export default Component.extend(Template, {
    * @uses object-template
    */
 
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
     this.applyTemplateArray('items');

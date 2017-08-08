@@ -75,14 +75,14 @@
 {{object/md-identifier-array model=model.identifier
   profilePath=(concat profilePath ".identifier") data-spy="Identifier"
   editItem=editIdentifier
-  class="md-embedded"
+  class=(if embedded "md-embedded")
   visibility=(if simpleIdentifier false true)
 }}
 
 {{object/md-identifier-object-table model=model.identifier
   profilePath=(concat profilePath ".identifierSimple") data-spy="Identifier"
   visibility=(if simpleIdentifier true false)
-  class="md-embedded"
+  class=(if embedded "md-embedded")
 }}
 
 {{#unless embedded}}
