@@ -46,7 +46,7 @@ export default Component.extend(Template, {
   },
 
   attributeBindings: ['data-spy'],
-  classNameBindings: ['shadow:box-shadow--8dp'],
+  classNameBindings: ['shadow:box-shadow--4dp'],
   //classNames: ['md-object-table', 'panel', 'panel-default'],
 
   //reset the 'editing' flag

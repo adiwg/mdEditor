@@ -28,7 +28,7 @@ export default Component.extend({
    */
 
   classNames: ['md-card', 'card'],
-  classNameBindings: ['shadow:box-shadow--8dp', 'scroll:scroll-card',
+  classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card',
     'maximizable', 'fullScreen', 'required', 'muted'
   ],
   attributeBindings: ['data-spy'],
