@@ -20,7 +20,7 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+const theComp = Component.extend(Validations, {
   init() {
     this._super(...arguments);
 
@@ -40,5 +40,18 @@ export default Component.extend(Validations, {
    * @required
    */
 
+  /**
+   * Render short form of the identifier template, i.e. no authority
+   *
+   * @property short
+   * @type {Boolean}
+   */
+
   identifier: computed.alias('model.identifier')
 });
+
+export {
+  Validations,
+  theComp as
+  default
+};

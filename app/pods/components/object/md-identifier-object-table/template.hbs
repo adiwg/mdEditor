@@ -7,7 +7,14 @@
   attributes=attributes
  as |editing|
 }}
-{{input/md-input
+
+{{object/md-identifier
+  model=editing
+  short=short
+  profilePath=(concat profilePath 'identifier')
+}}
+
+{{!-- {{input/md-input
   value=editing.identifier
   placeholder="Enter the identifier for the resource."
   label="Identifier"
@@ -42,5 +49,5 @@
   profilePath=(concat profilePath 'description')
   label="Description"
   placeholder="Enter a description of the identifier."
-}}
+}} --}}
 {{/object/md-object-table}}

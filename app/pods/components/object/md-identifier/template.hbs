@@ -23,6 +23,7 @@
   profilePath=(concat profilePath '.namespace')
 }}
 
+
 {{input/md-input
   value=model.version
   placeholder="Enter the version for the identifier."
@@ -37,17 +38,19 @@
   placeholder="Enter a description of the identifier."
 }}
 
-{{#layout/md-card
-  title="Authority"
-  profilePath=(concat profilePath '.authority')
-  shadow=true
-  collapsible=true
-}}
-  {{object/md-citation
-    model=model.authority
+{{#unless short}}
+  {{#layout/md-card
+    title="Authority"
     profilePath=(concat profilePath '.authority')
-    embedded=true
-    simpleIdentifier=true    
+    shadow=true
+    collapsible=true
   }}
-{{/layout/md-card}}
+    {{object/md-citation
+      model=model.authority
+      profilePath=(concat profilePath '.authority')
+      embedded=true
+      simpleIdentifier=true
+    }}
+  {{/layout/md-card}}
+{{/unless}}
 {{yield}}

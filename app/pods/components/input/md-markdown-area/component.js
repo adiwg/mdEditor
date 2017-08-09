@@ -38,7 +38,7 @@ export default Component.extend({
 
     const oldEditorSetOption = editor.codemirror.setOption;
 
-    editor.codemirror.setOption = function (option, value) {
+    editor.codemirror.setOption = function(option, value) {
       oldEditorSetOption.apply(this, arguments);
 
       if(option === 'fullScreen') {
@@ -117,7 +117,7 @@ export default Component.extend({
    * @category computed
    * @requires placeholder
    */
-  options: computed('placeholder', function () {
+  options: computed('placeholder', function() {
     return {
       placeholder: get(this, 'placeholder'),
       status: [{
@@ -146,7 +146,7 @@ export default Component.extend({
    * @category computed
    * @requires value
    */
-  length: computed('value', function () {
+  length: computed('value', function() {
       return get(this, 'value') ? get(this, 'value')
         .length : 0;
     })
@@ -160,9 +160,13 @@ export default Component.extend({
    * @category computed
    * @requires value|maxlength
    */
-  errorClass: computed('value', 'maxlength', function () {
+  errorClass: computed('value', 'maxlength', function() {
     let length = get(this, 'length');
     let max = get(this, 'maxlength');
+
+    if(get(this, 'required') && length < 1) {
+      return 'error';
+    }
 
     if(!max || length <= max - 25) {
       return '';

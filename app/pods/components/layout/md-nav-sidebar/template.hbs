@@ -23,13 +23,14 @@
           </h4>
             </div>
             <div class="panel-collapse collapse in" role="tabpanel" aria-expanded="true" id="{{meta.listId}}" aria-labelledby="{{meta.listId}}-heading">
+              <div class="list-group">
               {{#each class as |record|}}
-                <div class="list-group">
                   <div class="list-group-item" draggable="true">
                     <div class="btn-group btn-group-xs pull-right" role="group" aria-label="Navigation Buttons">
                       {{#link-to (concat meta.type ".show.edit") record
                         class=(concat "btn btn-" record.status)
                         disabledWhen=record.isNew
+                        draggable="false"
                       }}
                         {{fa-icon "pencil"}}
                       {{/link-to}}
@@ -39,12 +40,13 @@
                       record class="sidebar-row"
                       disabledWhen=record.isNew
                       activeClass=(concat "active text-" record.status)
+                      draggable="false"
                     }}
                         <span class="fa fa-{{record.icon}}"></span> {{record.title}}
                     {{/link-to}}
                   </div>
-                </div>
               {{/each}}
+              </div>
               <!-- <div class="panel-footer">
                     <button>More</button>
                     </div> -->

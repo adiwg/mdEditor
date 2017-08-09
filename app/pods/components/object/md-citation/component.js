@@ -10,27 +10,34 @@ const {
   }
 } = Ember;
 
-export default Component.extend({
+const formatCitation = function(model) {
+  set(model, 'responsibleParty', getWithDefault(model,
+    'responsibleParty', []));
+  set(model, 'date', getWithDefault(model,
+    'date', []));
+  set(model, 'alternateTitle', getWithDefault(model,
+    'alternateTitle', []));
+  set(model, 'presentationForm', getWithDefault(model,
+    'presentationForm', []));
+  set(model, 'onlineResource', getWithDefault(model,
+    'onlineResource', []));
+  set(model, 'identifier', getWithDefault(model, 'identifier', []));
+  set(model, 'otherCitationDetails', getWithDefault(model,
+    'otherCitationDetails', []));
+  set(model, 'graphic', getWithDefault(model, 'graphic', []));
+  set(model, 'series', getWithDefault(model, 'series', {}));
+
+  return model;
+};
+
+const theComp = Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
     let model = get(this, 'model');
 
     once(this, function() {
-      set(model, 'responsibleParty', getWithDefault(model,
-        'responsibleParty', []));
-      set(model, 'date', getWithDefault(model,
-        'date', []));
-      set(model, 'alternateTitle', getWithDefault(model,
-        'alternateTitle', []));
-      set(model, 'presentationForm', getWithDefault(model,
-        'presentationForm', []));
-      set(model, 'onlineResource', getWithDefault(model,
-        'onlineResource', []));
-      set(model, 'identifier', getWithDefault(model, 'identifier', []));
-      set(model, 'otherCitationDetails', getWithDefault(model, 'otherCitationDetails', []));
-      set(model, 'graphic', getWithDefault(model, 'graphic', []));
-      set(model, 'series', getWithDefault(model, 'series', {}));
+      formatCitation(model);
     });
   },
   tagName: 'form',
@@ -71,3 +78,9 @@ export default Component.extend({
    */
   simpleIdentifier: false
 });
+
+export {
+  formatCitation,
+  theComp as
+  default
+};

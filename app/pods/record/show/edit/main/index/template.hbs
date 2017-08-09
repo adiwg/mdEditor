@@ -3,6 +3,7 @@
     <form class="col-sm-11 col-md-offset-1">
       {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
         profilePath="record.main.basicInformation" data-spy="Basic Information"
+        required=true
       }}
         {{input/md-input-confirm
           valuePath='recordId'
@@ -70,13 +71,9 @@
           editCitation="editCitation"
         }}
 
-        {{object/md-time-period model=resource.timePeriod
-          profilePath="record.main.timePeriod" data-spy="Time Period"
-          label="Time Period"
-        }}
-
         {{#layout/md-card title="Description" collapsible=true collapsed=false
           profilePath="record.main.description"
+          required=true
         }}
           {{input/md-markdown-area
             value=resource.abstract
@@ -115,6 +112,11 @@
             placeholder="Description of the processing environment, for example the software, hardware, or the computer operating system."
           }}
         {{/layout/md-card}}
+
+        {{object/md-time-period model=resource.timePeriod
+          profilePath="record.main.timePeriod" data-spy="Time Period"
+          label="Time Period"
+        }}
 
         {{#object/md-simple-array-table
           data-spy="Credit"
