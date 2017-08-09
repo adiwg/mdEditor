@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1ab04cd3" target="_blank">
-                                  Tag: 0.0.0.1ab04cd3
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/500d301c" target="_blank">
+                                  Tag: 0.0.0.500d301c
                                 </a>
                             </h4>
                         </div>
@@ -256,7 +256,7 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+const theComp = Component.extend(Validations, {
   init() {
     this._super(...arguments);
 
@@ -276,8 +276,21 @@ export default Component.extend(Validations, {
    * @required
    */
 
+  /**
+   * Render short form of the identifier template, i.e. no authority
+   *
+   * @property short
+   * @type {Boolean}
+   */
+
   identifier: computed.alias(&#x27;model.identifier&#x27;)
 });
+
+export {
+  Validations,
+  theComp as
+  default
+};
 
     </pre>
 </div>

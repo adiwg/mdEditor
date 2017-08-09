@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1ab04cd3" target="_blank">
-                                  Tag: 0.0.0.1ab04cd3
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/500d301c" target="_blank">
+                                  Tag: 0.0.0.500d301c
                                 </a>
                             </h4>
                         </div>
@@ -274,7 +274,7 @@ export default Component.extend({
 
     const oldEditorSetOption = editor.codemirror.setOption;
 
-    editor.codemirror.setOption = function (option, value) {
+    editor.codemirror.setOption = function(option, value) {
       oldEditorSetOption.apply(this, arguments);
 
       if(option === &#x27;fullScreen&#x27;) {
@@ -353,7 +353,7 @@ export default Component.extend({
    * @category computed
    * @requires placeholder
    */
-  options: computed(&#x27;placeholder&#x27;, function () {
+  options: computed(&#x27;placeholder&#x27;, function() {
     return {
       placeholder: get(this, &#x27;placeholder&#x27;),
       status: [{
@@ -382,7 +382,7 @@ export default Component.extend({
    * @category computed
    * @requires value
    */
-  length: computed(&#x27;value&#x27;, function () {
+  length: computed(&#x27;value&#x27;, function() {
       return get(this, &#x27;value&#x27;) ? get(this, &#x27;value&#x27;)
         .length : 0;
     })
@@ -396,9 +396,13 @@ export default Component.extend({
    * @category computed
    * @requires value|maxlength
    */
-  errorClass: computed(&#x27;value&#x27;, &#x27;maxlength&#x27;, function () {
+  errorClass: computed(&#x27;value&#x27;, &#x27;maxlength&#x27;, function() {
     let length = get(this, &#x27;length&#x27;);
     let max = get(this, &#x27;maxlength&#x27;);
+
+    if(get(this, &#x27;required&#x27;) &amp;&amp; length &lt; 1) {
+      return &#x27;error&#x27;;
+    }
 
     if(!max || length &lt;= max - 25) {
       return &#x27;&#x27;;

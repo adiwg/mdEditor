@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.1ab04cd3",
+        "version": "0.0.0.500d301c",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -1425,7 +1425,7 @@
             "submodule": "components-object",
             "namespace": "",
             "file": "app/pods/components/object/md-identifier-array/component.js",
-            "line": 18,
+            "line": 21,
             "description": "mdEditor class for input and edit of mdJSON 'identifier' object\narrays.\nThe class manages the maintenance of an array of identifier\nobjects using the md-objectroute-table class."
         },
         "md-identifier-object-table": {
@@ -4380,7 +4380,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 38,
+            "line": 45,
             "description": "The string representing the path in the profile object for the citation.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4392,7 +4392,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 47,
+            "line": 54,
             "description": "The object to use as the data model for the citation.",
             "itemtype": "property",
             "name": "model",
@@ -4403,7 +4403,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 55,
+            "line": 62,
             "description": "Indicates whether the citation is embedded and should prevent recursion.",
             "itemtype": "property",
             "name": "embedded",
@@ -4414,7 +4414,7 @@
         },
         {
             "file": "app/pods/components/object/md-citation/component.js",
-            "line": 64,
+            "line": 71,
             "description": "Indicates whether the citation identifier Component should be rendered using\nthe inline form: md-identifier-object-table.",
             "itemtype": "property",
             "name": "simpleIdentifier",
@@ -4540,8 +4540,18 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/components/object/md-identifier/component.js",
+            "line": 43,
+            "description": "Render short form of the identifier template, i.e. no authority",
+            "itemtype": "property",
+            "name": "short",
+            "type": "{Boolean}",
+            "class": "md-identifier-array",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-identifier-array/component.js",
-            "line": 33,
+            "line": 36,
             "description": "mdJSON object containing the 'identifier' array.",
             "itemtype": "property",
             "name": "model",
@@ -4553,7 +4563,7 @@
         },
         {
             "file": "app/pods/components/object/md-identifier-array/component.js",
-            "line": 41,
+            "line": 44,
             "description": "List of mdJSON 'identifier' object attributes to display in\nmd-object-table to aid in choosing the identifier to edit or\ndelete.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "attributes",
@@ -4565,7 +4575,7 @@
         },
         {
             "file": "app/pods/components/object/md-identifier-array/component.js",
-            "line": 53,
+            "line": 56,
             "description": "Name to place on the mdEditor panel header for entry and edit of\n'identifier' objects.\nThe property is passed to md-object-table for configuration.",
             "itemtype": "property",
             "name": "label",
@@ -4577,7 +4587,7 @@
         },
         {
             "file": "app/pods/components/object/md-identifier-array/component.js",
-            "line": 64,
+            "line": 67,
             "description": "See [md-array-table](md-array-table.html#property_templateClass).",
             "itemtype": "property",
             "name": "templateClass",

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1ab04cd3" target="_blank">
-                                  Tag: 0.0.0.1ab04cd3
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/500d301c" target="_blank">
+                                  Tag: 0.0.0.500d301c
                                 </a>
                             </h4>
                         </div>
@@ -235,6 +235,9 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
+import {
+  Validations
+} from &#x27;../md-identifier/component&#x27;;
 
 const {
   A,
@@ -303,7 +306,7 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: Ember.Object.extend({
+  templateClass: Ember.Object.extend(Validations, {
     init() {
       this._super(...arguments);
       this.set(&#x27;authority&#x27;, {});
