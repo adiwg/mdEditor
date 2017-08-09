@@ -1,10 +1,15 @@
 import Ember from 'ember';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import {
+  formatCitation
+} from 'mdeditor/pods/components/object/md-citation/component';
 
 const {
   Route,
   get,
-  merge
+  set,
+  Object: EmObject,
+  getWithDefault
 } = Ember;
 
 export default Route.extend(ScrollTo, {
@@ -32,13 +37,25 @@ export default Route.extend(ScrollTo, {
       console.log(selected);
       let app = this.controllerFor('application');
       let rec = selected[0];
+      let info = get(rec, 'json.metadata.metadataInfo') || {};
+      let metadata = {
+        'title': `Metadata for ${get(rec,'title')}`,
+        'responsibleParty': getWithDefault(info, 'metadataContact', []),
+        'date': getWithDefault(info, 'metadataDate', []),
+        'onlineResource': getWithDefault(info, 'metadataOnlineResource', []),
+        'identifier': [getWithDefault(info, 'metadataIdentifier', {})],
+      };
 
       if(rec) {
         let resource = get(this, 'currentModel');
+        let citation = get(rec, 'json.metadata.resourceInfo.citation') || {};
 
-        // merge(get(resource, 'resourceCitation'),
-        //   get(rec, 'json.metadata.resourceInfo.citation'));
+        set(resource, 'resourceCitation', EmObject.create(formatCitation(
+          citation)));
+        set(resource, 'metadataCitation', EmObject.create(formatCitation(
+          metadata)));
       }
+
       app.set('showSlider', false);
     },
     selectResource() {
