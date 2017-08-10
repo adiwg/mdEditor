@@ -13,12 +13,12 @@
           {{title}}
         {{/if}}
         {{#if maximizable}}
-          <a role="button" class="pull-right md-card-maximize">
+          <a role="button" class="pull-right md-card-maximize hidden-print">
             {{fa-icon windowIcon size=1 click=(action "toggleFullScreen")}}
           </a>
         {{/if}}
         {{#if btnText}}
-          <button type="button" name="button" class="btn btn-{{if btnClass btnClass "primary"}} btn-xs pull-right" {{action btnAction}}>
+          <button type="button" name="button" class="btn btn-{{if btnClass btnClass "primary"}} btn-xs pull-right hidden-print" {{action btnAction}}>
             {{fa-icon btnIcon}}
             {{btnText}}
           </button>

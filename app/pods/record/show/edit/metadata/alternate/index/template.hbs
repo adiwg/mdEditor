@@ -1,10 +1,10 @@
-<h4 class="col-sm-11 col-md-offset-1 section-header">Editing Alternate Metadata Reference
+<h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Alternate Metadata Reference
   {{control/md-status model=(compute (route-action "parentModel"))}}
 </h4>
 {{#with model as |citation|}}
     <div class="row">
       {{object/md-citation
-        class="col-sm-11 col-md-offset-1"
+        class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
         model=citation
         profilePath="record.metadata.alternateMetadata"
         editIdentifier=(route-action "editIdentifier")

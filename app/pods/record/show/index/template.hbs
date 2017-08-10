@@ -136,7 +136,7 @@
         {{outlet}}
     </div>
     <div class="col-sm-2">
-      <div class="md-control-sidebar">
+      <div class="md-control-sidebar hidden-print">
         {{#control/md-crud-buttons model=model doDelete="destroyRecord" doCopy="copyRecord" }}
           {{#link-to "record.show.edit" model.id class="btn btn-lg btn-success" }}
             {{fa-icon "pencil"}} Edit{{/link-to}}

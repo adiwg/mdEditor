@@ -1,10 +1,10 @@
-<h4 class="col-sm-11 col-md-offset-1 section-header">Editing Citation
+<h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Citation
   {{control/md-status model=model}}
 </h4>
 {{#with model.json.metadata.resourceInfo.citation as |citation|}}
     <div class="row">
       {{object/md-citation
-        class="col-sm-11 col-md-offset-1"
+        class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
         model=citation
         profilePath="record.main.citation"
         editIdentifier=(route-action "editIdentifier")
