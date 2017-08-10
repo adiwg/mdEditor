@@ -84,7 +84,11 @@ Router.map(function() {
               path: ':resource_id'
             }, function() {});
           });
-          this.route('documents');
+          this.route('documents', function() {
+            this.route('citation', {
+              path: 'documents/:citation_id'
+            });
+          });
           this.route('coverages');
           this.route('grid');
           this.route('main', function() {
@@ -96,6 +100,7 @@ Router.map(function() {
           });
           this.route('funding');
           this.route('dictionary');
+          this.route('spatial', function() {});
         });
         this.route('translate');
       }

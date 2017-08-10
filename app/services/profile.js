@@ -66,6 +66,10 @@ export default Ember.Service.extend({
           target: 'record.show.edit.extent'
 
         }, {
+          title: 'Spatial',
+          target: 'record.show.edit.spatial'
+
+        }, {
           title: 'Lineage',
           target: 'record.show.edit.lineage'
 
