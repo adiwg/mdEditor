@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.bc1094cb",
+        "version": "0.0.0.f409124b",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -370,6 +370,20 @@
         },
         "app/pods/components/object/md-date-array/component.js": {
             "name": "app/pods/components/object/md-date-array/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-documentation/preview/component.js": {
+            "name": "app/pods/components/object/md-documentation/preview/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-documentation/component.js": {
+            "name": "app/pods/components/object/md-documentation/component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -4481,6 +4495,40 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/components/object/md-documentation/preview/component.js",
+            "line": 10,
+            "description": "Whether to render the text muted.",
+            "itemtype": "property",
+            "name": "muted",
+            "type": "{Boolean}",
+            "default": "\"true\"",
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-documentation/component.js",
+            "line": 40,
+            "description": "The string representing the path in the profile object for the resource.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "\"false\"",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-documentation/component.js",
+            "line": 49,
+            "description": "The object to use as the data model for the resource.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-graphic-array/component.js",
             "line": 34,
             "description": "mdJSON object containing the 'graphic' array.",
@@ -4795,6 +4843,17 @@
         {
             "file": "app/pods/components/object/md-object-table/component.js",
             "line": 127,
+            "description": "Render the row actions vertically.",
+            "itemtype": "property",
+            "name": "verticalButtons",
+            "type": "{Boolean}",
+            "default": "undefined",
+            "class": "md-object-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 135,
             "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -4805,7 +4864,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 135,
+            "line": 143,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -4816,7 +4875,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 143,
+            "line": 151,
             "description": "If true, a box shadow will be rendered around the panel.",
             "itemtype": "property",
             "name": "shadow",
@@ -4827,7 +4886,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 152,
+            "line": 160,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",

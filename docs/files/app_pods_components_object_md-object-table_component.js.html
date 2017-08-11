@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bc1094cb" target="_blank">
-                                  Tag: 0.0.0.bc1094cb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f409124b" target="_blank">
+                                  Tag: 0.0.0.f409124b
                                 </a>
                             </h4>
                         </div>
@@ -361,6 +361,14 @@ export default Component.extend(Template, {
   buttonText: &quot;Add&quot;,
 
   /**
+   * Render the row actions vertically.
+   *
+   * @property verticalButtons
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
    * Inital collapse state for the panel.
    *
    * @property isCollapsed
@@ -409,6 +417,10 @@ export default Component.extend(Template, {
 
   panelId: computed(&#x27;items.@each.val&#x27;, &#x27;editing&#x27;, function () {
     return &#x27;panel-&#x27; + this.get(&#x27;elementId&#x27;);
+  }),
+
+  btnSize: computed(&#x27;verticalButtons&#x27;, function () {
+    return this.get(&#x27;verticalButtons&#x27;) ?  &#x27;md&#x27; : &#x27;xs&#x27;;
   }),
 
   /*citems: computed(&#x27;items.@each.val&#x27;, function () {

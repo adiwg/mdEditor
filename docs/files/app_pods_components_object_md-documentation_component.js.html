@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/app.js - mdeditor</title>
+    <title>app/pods/components/object/md-documentation/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -234,122 +234,65 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * The mdEditor application instance.
- *
- * @module mdeditor
- * @category docs
- */
-
 import Ember from &#x27;ember&#x27;;
-import Resolver from &#x27;./resolver&#x27;;
-import loadInitializers from &#x27;ember-load-initializers&#x27;;
-import config from &#x27;./config/environment&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
 const {
-  LinkComponent,
-  Route,
   Component,
-  Application,
+  computed,
+  set,
   get,
   getWithDefault,
-  defineProperty,
-  computed,
-  isNone
+  run: {
+    once
+  }
 } = Ember;
 
-let App;
-
-Ember.MODEL_FACTORY_INJECTIONS = true;
-
-App = Application.extend({
-  modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
-  Resolver
+const Validations = buildValidations({
+  &#x27;resourceType&#x27;: [
+    validator(&#x27;array-required&#x27;, {
+      track: [&#x27;type&#x27;]
+    })
+  ]
 });
 
-loadInitializers(App, config.modulePrefix);
-
-//for bootstrap
-LinkComponent.reopen({
-  attributeBindings: [&#x27;data-toggle&#x27;, &#x27;data-placement&#x27;]
-});
-//for crumbly
-Route.reopen({
-  //breadCrumb: null
-  currentRouteModel: function () {
-    return this.modelFor(this.routeName);
-  }
-});
-//for profiles
-Component.reopen({
-  init() {
+export default Component.extend(Validations, {
+  didReceiveAttrs() {
     this._super(...arguments);
 
-    let profile = get(this, &#x27;profile&#x27;);
-    let path = get(this, &#x27;profilePath&#x27;);
-    let visibility = get(this, &#x27;visibility&#x27;);
-    let isVisible = isNone(visibility) ? true : visibility;
+    let model = get(this, &#x27;model&#x27;);
 
-    if(path !== undefined) {
-      defineProperty(this, &#x27;isVisible&#x27;, computed(
-        &#x27;profile.active&#x27;,
-        function () {
-          let fullPath = &#x27;profiles.&#x27; + get(profile, &#x27;active&#x27;) +
-            &#x27;.components.&#x27; +
-            path;
+    once(this, function() {
+      set(model, &#x27;resourceType&#x27;, getWithDefault(model, &#x27;resourceType&#x27;, []));
+      set(model, &#x27;citation&#x27;, getWithDefault(model, &#x27;citation&#x27;, []));
+    });
+  },
 
-          return getWithDefault(profile, fullPath, isVisible);
-        }));
-    }
-  }
+  tagName: &#x27;form&#x27;,
+
+  /**
+   * The string representing the path in the profile object for the resource.
+   *
+   * @property profilePath
+   * @type {String}
+   * @default &quot;false&quot;
+   * @required
+   */
+
+  /**
+   * The object to use as the data model for the resource.
+   *
+   * @property model
+   * @type {Object}
+   * @required
+   */
+
+  citation: computed.alias(&#x27;model.citation&#x27;),
+  resourceType: computed.alias(&#x27;model.resourceType&#x27;)
 });
-export default App;
-
-/**
-* Models for the mdEditor data store
-
-* @main data-models
-* @module mdeditor
-* @submodule data-models
-* @category docs
-*/
-
-/**
- * Components used to create objects or arrays of objects.
- *
- * @module mdeditor
- * @submodule components-object
- * @main components-object
- * @category docs
- */
-
-/**
- * Components used to input scalar or arrays of scalar values.
- *
- * @module mdeditor
- * @submodule components-input
- * @main components-input
- * @category docs
- */
-
-/**
- * Components used as UI controls.
- *
- * @module mdeditor
- * @submodule components-control
- * @main components-control
- * @category docs
- */
-
-/**
- * Mixins.
- *
- * @module mdeditor
- * @submodule mixins
- * @main mixins
- * @category docs
- */
 
     </pre>
 </div>

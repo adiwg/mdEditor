@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bc1094cb" target="_blank">
-                                  Tag: 0.0.0.bc1094cb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f409124b" target="_blank">
+                                  Tag: 0.0.0.f409124b
                                 </a>
                             </h4>
                         </div>
@@ -239,7 +239,7 @@ import Table from &#x27;../md-object-table/component&#x27;;
 
 const {
   typeOf,
-  getOwner
+  getOwner, isBlank, assert
 } = Ember;
 
 export default Table.extend({
@@ -267,12 +267,20 @@ export default Table.extend({
       const Template = this.get(&#x27;templateClass&#x27;);
       const owner = getOwner(this);
 
+      let editItem = this.get(&#x27;editItem&#x27;);
       let items = this.get(&#x27;items&#x27;);
       let itm = typeOf(Template) === &#x27;class&#x27; ? Template.create(owner.ownerInjection()) :
         Ember.Object.create({});
 
+        if(isBlank(editItem)) {
+          assert(
+            &#x60;You must supply an editItem method to ${this.toString()}.&#x60;
+          );
+        }
+
       items.pushObject(itm);
-      this.get(&#x27;editItem&#x27;)(items.indexOf(itm));
+
+      editItem(items.indexOf(itm));
     },
 
     editItem: function(items, index) {

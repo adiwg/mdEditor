@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/bc1094cb" target="_blank">
-                                  Tag: 0.0.0.bc1094cb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f409124b" target="_blank">
+                                  Tag: 0.0.0.f409124b
                                 </a>
                             </h4>
                         </div>
@@ -501,6 +501,32 @@ export default Ember.Service.extend({
                   date: true,
                   responsibleParty: true
                 }
+              }
+            }
+          },
+          documents: {
+            resourceType: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
               }
             }
           }
