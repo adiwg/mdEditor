@@ -1,9 +1,9 @@
   <section>
     {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
-      <div class="md-keywords-container">
+      <div class="md-keywords-container" data-spy="{{concat "Thesaurus " index}}" id={{concat "thesaurus-container-" index}}>
         <div class="md-keywords-header">
           <h4 class="inline-block text-primary" code="">
-            <strong>Thesaurus #{{index}}</strong>
+            <strong>{{concat "Thesaurus #" index}}</strong>
           </h4>
           {{input/md-select-thesaurus class="md-keywords-select"
           thesaurus=thesaurus
@@ -30,7 +30,12 @@
               {{object/md-keyword-citation model=thesaurus }}
             </div>
             <div class="md-keywords-list col-md-6 col-lg-5">
-              {{object/md-keyword-list model=thesaurus id=index addKeyword=(route-action "addKeyword") deleteKeyword=(route-action "deleteKeyword") editThesaurus=(route-action "editThesaurus") }}
+              {{object/md-keyword-list model=thesaurus listId=index
+                addKeyword=(route-action "addKeyword")
+                deleteKeyword=(route-action "deleteKeyword")
+                editThesaurus=(route-action "editThesaurus")
+                hideThesaurus=(route-action "hideThesaurus")
+              }}
             </div>
           </div>
         {{/with}}
@@ -45,3 +50,6 @@
   </section>
 
   {{outlet}}
+
+  {{to-elsewhere named="md-scroll-spy-record-edit"
+    send=(component "control/md-scroll-spy" refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

@@ -1,5 +1,5 @@
 import Ember from 'ember';
-//import has from 'npm:lodash.has';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 const {
   Route,
@@ -10,10 +10,11 @@ const {
   getWithDefault,
   //assign,
   copy,
-  inject
+  inject,
+  $
 } = Ember;
 
-export default Route.extend({
+export default Route.extend(ScrollTo, {
   keyword: inject.service(),
   model() {
     let model = this.modelFor('record.show.edit');
@@ -81,6 +82,8 @@ export default Route.extend({
       let the = this.currentRouteModel().get(
         'json.metadata.resourceInfo.keyword');
 
+      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+
       the.pushObject({
         keyword: [],
         keywordType: 'theme',
@@ -91,11 +94,15 @@ export default Route.extend({
         },
         fullPath: true
       });
+
+      this.controller.set('refresh', the.get('length'));
+      this.controller.set('scrollTo', 'thesaurus-' + (the.get('length')-1));
     },
     deleteThesaurus(id) {
       let the = this.currentRouteModel().get(
         'json.metadata.resourceInfo.keyword');
       the.removeAt(id);
+      this.controller.set('refresh', the.get('length'));
     },
     editThesaurus(id) {
       this.transitionTo('record.show.edit.keywords.thesaurus', id);
@@ -122,6 +129,9 @@ export default Route.extend({
       } else {
         model.removeObject(obj);
       }
+    },
+    hideThesaurus(el) {
+      $(el).closest('.md-keywords-container').toggleClass('hide-thesaurus');
     },
     toList() {
       let me = this;
