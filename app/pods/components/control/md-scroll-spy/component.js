@@ -52,7 +52,7 @@ export default Component.extend({
    * @category computed
    * @requires
    */
-  links: computed(function () {
+  links: computed('refresh', function () {
     //console.info('computed links');
 
     let liquid = '';
@@ -72,7 +72,7 @@ export default Component.extend({
 
       links.pushObject({
         id: $link.attr('id'),
-        text: $link.data('spy'),
+        text: $link.attr('data-spy'),
         embedded: $link.hasClass('md-embedded')
       });
     });
