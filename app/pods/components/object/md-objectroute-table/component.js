@@ -3,7 +3,7 @@ import Table from '../md-object-table/component';
 
 const {
   typeOf,
-  getOwner
+  getOwner, isBlank, assert
 } = Ember;
 
 export default Table.extend({
@@ -31,12 +31,20 @@ export default Table.extend({
       const Template = this.get('templateClass');
       const owner = getOwner(this);
 
+      let editItem = this.get('editItem');
       let items = this.get('items');
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
         Ember.Object.create({});
 
+        if(isBlank(editItem)) {
+          assert(
+            `You must supply an editItem method to ${this.toString()}.`
+          );
+        }
+
       items.pushObject(itm);
-      this.get('editItem')(items.indexOf(itm));
+
+      editItem(items.indexOf(itm));
     },
 
     editItem: function(items, index) {

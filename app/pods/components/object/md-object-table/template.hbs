@@ -47,26 +47,33 @@
                                 {{/if}}
                             {{/each}}
                         {{/if}}
-                        <td class="md-row-actions">
-                            {{#if item.validations.isInvalid}}
-                            <span class="md-error pull-right">
-                              {{fa-icon "exclamation-circle" fixedWidth=true}}
-                              {{#tooltip-on-element side="right" class="md-tooltip danger"}}
-                              This item has errors.
-                              {{/tooltip-on-element}}
-                            </span>
-                            {{else}}
-                            <span class="md-error pull-right">
+                        <td class="md-row-actions {{if verticalButtons "vertical"}}">
+                          <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
+                            <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
+                              <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
+                                  <span class="fa fa-times"></span> Delete
+                              </button>
+
+                              <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index}}>
+                                  {{fa-icon "pencil"}} Edit
+                              </button>
+                            </div>
+
+                            <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
+                              {{#if item.validations.isInvalid}}
+                              <span class="md-error">
+                                {{fa-icon "exclamation-circle" fixedWidth=true}}
+                                {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+                                This item has errors.
+                                {{/tooltip-on-element}}
+                              </span>
+                              {{else}}
+                              <span class="md-error">
                                 <span class="fa fa-fw"></span>
-                            </span>
-                            {{/if}}
-                            <button type="button" class="btn btn-xs btn-danger pull-right" {{action "deleteItem" items index}}>
-                                <span class="fa fa-times"></span> Delete
-                            </button>
-                            <span class="pull-right">&nbsp;</span>
-                            <button type="button" class="btn btn-xs btn-success pull-right" {{action "editItem" items index}}>
-                                {{fa-icon "pencil"}} Edit
-                            </button>
+                              </span>
+                              {{/if}}
+                            </div>
+                          </div>
                         </td>
                     </tr>
                 {{else}}

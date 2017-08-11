@@ -1,8 +1,8 @@
 <div class="row">
-  <dl class="dl-horizontal col-lg-6">
+  <dl class="dl-horizontal col-lg-12">
       {{control/md-definition title="Title" text=citation.title}}
   </dl>
-  <dl class="dl-horizontal col-lg-6">
+  <dl class="dl-horizontal col-lg-12">
       {{#control/md-definition title="Alternate Titles" }}
           {{#each citation.alternateTitle as |title|}}
               {{title}}
@@ -13,7 +13,7 @@
       {{/control/md-definition}}
   </dl>
   <div class="clearfix"></div>
-  <dl class="dl-horizontal col-lg-6">
+  <dl class="dl-horizontal col-lg-12">
       {{#control/md-definition title="Dates" }}
           {{#each citation.date as |date|}}
               {{format-date date.date format="MMMM Do YYYY"}}
@@ -24,7 +24,7 @@
           {{/each}}
       {{/control/md-definition}}
   </dl>
-  <dl class="dl-horizontal col-lg-6">
+  <dl class="dl-horizontal col-lg-12">
       {{#control/md-definition title="Identifier" }}
           {{#each citation.identifier as |id|}}
               {{id.identifier}} {{if id.namespace (concat "(" id.namespace ")")}}
@@ -35,7 +35,7 @@
       {{/control/md-definition}}
   </dl>
   <div class="clearfix"></div>
-  <dl class="dl-horizontal col-lg-6">
+  <dl class="dl-horizontal col-lg-12">
       {{#control/md-definition title="Responsible Party" }}
           {{#each citation.responsibleParty as |party|}}
               {{{if party.role party.role "<em>No Roles assigned.</em>"}}}

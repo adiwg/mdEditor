@@ -267,6 +267,32 @@ export default Ember.Service.extend({
                 }
               }
             }
+          },
+          documents: {
+            resourceType: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
+              }
+            }
           }
         }
       }

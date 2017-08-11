@@ -125,6 +125,14 @@ export default Component.extend(Template, {
   buttonText: "Add",
 
   /**
+   * Render the row actions vertically.
+   *
+   * @property verticalButtons
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
    * Inital collapse state for the panel.
    *
    * @property isCollapsed
@@ -173,6 +181,10 @@ export default Component.extend(Template, {
 
   panelId: computed('items.@each.val', 'editing', function () {
     return 'panel-' + this.get('elementId');
+  }),
+
+  btnSize: computed('verticalButtons', function () {
+    return this.get('verticalButtons') ?  'md' : 'xs';
   }),
 
   /*citems: computed('items.@each.val', function () {

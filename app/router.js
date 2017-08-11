@@ -87,7 +87,7 @@ Router.map(function() {
           this.route('documents', function() {
             this.route('citation', {
               path: 'documents/:citation_id'
-            });
+            }, function() {});
           });
           this.route('coverages');
           this.route('grid');

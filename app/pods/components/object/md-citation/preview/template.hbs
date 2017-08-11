@@ -4,39 +4,6 @@
 }}
 
 {{object/md-citation/preview/body citation=citation}}
-{{!-- <div class="">
-  {{#layout/md-card title="Responsible Party" class="card-table"
-    data-spy=false shadow=false
-  }}
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Role</th>
-            <th>Name</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each citation.responsibleParty as |party|}}
-            <tr>
-              <td>{{get-dash party "role"}}</td>
-              <td>
-                {{#each party.party as |contact|}}
-                    {{control/md-contact-link contactId=contact.contactId}}
-                    <br>
-                    {{else}}
-                    <em class="text-muted">No Contacts assigned.</em>
-                {{/each}}
-              </td>
-            </tr>
-          {{else}}
-            <tr><td><em class="text-muted">No Responsibility assigned.</em></td></tr>
-          {{/each}}
-        </tbody>
-      </table>
-    </div>
-  {{/layout/md-card}}
-</div> --}}
 
 {{yield}}
 <div class="card-footer">

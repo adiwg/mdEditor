@@ -1,0 +1,17 @@
+<div class="form-group">
+    {{object/md-resource-type-array
+      plain=false
+      value=model.resourceType
+      required=true
+      data-spy="Resource Types"
+      profilePath=(concat profilePath ".resourceType")
+    }}
+</div>
+
+{{object/md-citation
+  model=(object-at 0 model.citation)
+  profilePath=(concat profilePath '.citation')
+  simpleIdentifier=true
+}}
+
+{{yield}}

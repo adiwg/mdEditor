@@ -52,6 +52,22 @@
 
   .md-row-actions {
     min-width: 150px;
+
+    .btn-toolbar {
+      text-align: right;
+
+      .btn-group {
+        float: none;
+      }
+    }
+
+    &.vertical {
+      width: 150px;
+
+      .md-error {
+        font-size: 1.5em;
+      }
+    }
   }
 }
 
@@ -66,7 +82,7 @@
 
   .table-header {
     color: $gray-darker;
-    transition: color .5s linear;
+    transition: color 0.5s linear;
 
     &:hover {
       color: $brand-info;

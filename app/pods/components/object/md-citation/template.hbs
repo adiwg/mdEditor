@@ -2,6 +2,7 @@
   profilePath=(concat profilePath ".basicInformation") data-spy="Basic Information"
   class=(if embedded "md-embedded")
   shadow=(if embedded false true)
+  required=true
 }}
   {{input/md-input
     value=model.title
@@ -82,7 +83,14 @@
 {{object/md-identifier-object-table model=model.identifier
   profilePath=(concat profilePath ".identifierSimple") data-spy="Identifier"
   visibility=(if simpleIdentifier true false)
-  short=simpleIdentifier
+  short=shortIdentifier
+  class=(if embedded "md-embedded")
+}}
+
+{{object/md-identifier-object-table model=model.identifier
+  profilePath=(concat profilePath ".identifierShort") data-spy="Identifier"
+  visibility=false
+  short=true
   class=(if embedded "md-embedded")
 }}
 
