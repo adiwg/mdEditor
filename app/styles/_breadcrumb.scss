@@ -1,5 +1,6 @@
 .breadcrumb {
-  background-color: lighten($brand-primary, 50);
+  background-color: lighten($brand-primary, 55);
+  border-radius: 0;
   font-size: 12px;
   margin-bottom: 0;
 
@@ -10,5 +11,9 @@
   li {
     @include text-overflow();
     max-width: 175px;
+
+    + li::before {
+      color: $gray-light;
+    }
   }
 }

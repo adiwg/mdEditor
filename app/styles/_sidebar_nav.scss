@@ -5,9 +5,9 @@
   width: 275px;
   height: 100vh;
   margin: 0;
-  padding: 53px 0 10px;
+  padding: 53px 0 26px;
   list-style: outside none none;
-  background-color: $gray-darker;
+  background-color: $navbar-inverse-bg;
 
   li {
     line-height: 40px;
@@ -45,7 +45,7 @@
   }
 
   > .sidebar-brand {
-    background-color: $gray-darker;
+    background-color: $navbar-inverse-bg;
     border-top: 1px solid $body-bg;
     display: none;
     font-size: 18px;
@@ -58,7 +58,7 @@
     z-index: 1000;
 
     a {
-      color: lighten($gray-dark, 40);
+      color: $navbar-inverse-link-color;;
 
       &:hover {
         background: none repeat scroll 0 0;
@@ -92,7 +92,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     height: 100%;
-    margin: 0 0 15px;
+    margin: 0 0 0px;
     background-color: $gray-darker;
 
     .panel {
@@ -165,6 +165,7 @@
       padding: 0;
       text-overflow: ellipsis;
       white-space: nowrap;
+      border-radius: 0;
 
       &:hover {
         background-color: lighten($brand-primary, 46.5);

@@ -64,13 +64,13 @@
 form {
   .table-striped {
     > tbody > tr:nth-of-type(odd) {
-      background-color: lighten($brand-primary, 52);
+      background-color: lighten($brand-info, 45);
     }
   }
 
   .table-hover {
     > tbody > tr:hover {
-      background-color: lighten($brand-primary, 50);
+      background-color: lighten($brand-info, 42);
     }
   }
 
