@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f409124b" target="_blank">
-                                  Tag: 0.0.0.f409124b
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d6ba1020" target="_blank">
+                                  Tag: 0.0.0.d6ba1020
                                 </a>
                             </h4>
                         </div>
@@ -244,7 +244,7 @@ const {
   isEmpty,
   typeOf,
   getOwner,
-  A
+  A,$
 } = Ember;
 
 export default Component.extend(Template, {
@@ -402,7 +402,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;items.[]&#x27;, function () {
+  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;items.[]&#x27;, function() {
     let isCollapsed = this.get(&#x27;isCollapsed&#x27;);
     let value = this.get(&#x27;items&#x27;);
 
@@ -415,12 +415,12 @@ export default Component.extend(Template, {
     }
   }),
 
-  panelId: computed(&#x27;items.@each.val&#x27;, &#x27;editing&#x27;, function () {
+  panelId: computed(&#x27;items.@each.val&#x27;, &#x27;editing&#x27;, function() {
     return &#x27;panel-&#x27; + this.get(&#x27;elementId&#x27;);
   }),
 
-  btnSize: computed(&#x27;verticalButtons&#x27;, function () {
-    return this.get(&#x27;verticalButtons&#x27;) ?  &#x27;md&#x27; : &#x27;xs&#x27;;
+  btnSize: computed(&#x27;verticalButtons&#x27;, function() {
+    return this.get(&#x27;verticalButtons&#x27;) ? &#x27;md&#x27; : &#x27;xs&#x27;;
   }),
 
   /*citems: computed(&#x27;items.@each.val&#x27;, function () {
@@ -431,15 +431,15 @@ export default Component.extend(Template, {
     return i;
   }),*/
 
-  attrArray: computed(&#x27;attributes&#x27;, function () {
+  attrArray: computed(&#x27;attributes&#x27;, function() {
     let attr = this.get(&#x27;attributes&#x27;);
 
     return attr ? attr.split(&#x27;,&#x27;) : null;
   }),
 
-  attrTitleArray: computed(&#x27;attrArray&#x27;, function () {
+  attrTitleArray: computed(&#x27;attrArray&#x27;, function() {
     return this.get(&#x27;attrArray&#x27;)
-      .map(function (item) {
+      .map(function(item) {
         return item.trim()
           .dasherize()
           .replace(/-/g, &#x27; &#x27;);
@@ -448,7 +448,7 @@ export default Component.extend(Template, {
 
   editing: false,
 
-  editingChanged: observer(&#x27;editing&#x27;, function () {
+  editingChanged: observer(&#x27;editing&#x27;, function() {
     // deal with the change
     //Ember.run.schedule(&#x27;afterRender&#x27;, this, function () {
     let panel = this.$(&#x27;&gt; .md-object-table &gt; .panel-collapse&#x27;);
@@ -470,28 +470,43 @@ export default Component.extend(Template, {
     }
 
     if(panel.hasClass(&#x27;in&#x27;)) {
+      let out = editing ? table[0] : table[1];
+      let inn = editing ? table[1] : table[0];
+      $(out).fadeOut(100, function() {
+        $(inn).fadeIn(100, function() {
+          panel.get(0).scrollIntoView({
+            block: &quot;end&quot;,
+            behavior: &quot;smooth&quot;
+          });
+        });
+      });
+
       table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
     } else { //add a one-time listener to wait until panel is open
-      panel.one(&#x27;shown.bs.collapse&#x27;, function () {
+      panel.one(&#x27;shown.bs.collapse&#x27;, function() {
         table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
+        panel.get(0).scrollIntoView({
+          block: &quot;end&quot;,
+          behavior: &quot;smooth&quot;
+        });
       });
       panel.collapse(&#x27;show&#x27;);
     }
     //});
   }),
 
-  pillColor: computed(&#x27;items.[]&#x27;, function () {
+  pillColor: computed(&#x27;items.[]&#x27;, function() {
     let count = this.get(&#x27;items&#x27;)
       .length;
     return(count &gt; 0) ? &#x27;label-info&#x27; : &#x27;label-warning&#x27;;
   }),
 
   actions: {
-    deleteItem: function (items, index) {
+    deleteItem: function(items, index) {
       items.removeAt(index);
     },
 
-    addItem: function () {
+    addItem: function() {
       const Template = this.get(&#x27;templateClass&#x27;);
       const owner = getOwner(this);
 
@@ -500,14 +515,16 @@ export default Component.extend(Template, {
 
       this.set(&#x27;saveItem&#x27;, itm);
       this.set(&#x27;editing&#x27;, &#x27;adding&#x27;);
+      this.set(&#x27;spotlight&#x27;, true);
     },
 
-    editItem: function (items, index) {
+    editItem: function(items, index) {
       this.set(&#x27;saveItem&#x27;, items.objectAt(index));
       this.set(&#x27;editing&#x27;, &#x27;editing&#x27;);
+      this.set(&#x27;spotlight&#x27;, true);
     },
 
-    cancelEdit: function () {
+    cancelEdit: function() {
       this.set(&#x27;editing&#x27;, false);
     }
   }
