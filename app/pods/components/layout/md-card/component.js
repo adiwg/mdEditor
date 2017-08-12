@@ -42,7 +42,7 @@ export default Component.extend({
    * @category computed
    * @requires elementId
    */
-  cardId: computed('elementId', function () {
+  cardId: computed('elementId', function() {
       return 'card-' + this.get('elementId');
     })
     .readOnly(),
@@ -171,13 +171,28 @@ export default Component.extend({
    */
   'data-spy': computed.oneWay('title'),
 
-  windowIcon: computed('fullScreen', function () {
+  windowIcon: computed('fullScreen', function() {
     return this.get('fullScreen') ? 'compress' : 'expand';
   }),
 
-  isCollapsible: computed('fullScreen', 'collapsible', function () {
+  isCollapsible: computed('fullScreen', 'collapsible', function() {
     return !this.get('fullScreen') && this.get('collapsible');
   }),
+
+  didInsertElement() {
+    this._super(...arguments);
+
+    if(this.get('collapsible')) {
+      let card = this.$(' > .card-collapse');
+
+      card.on('shown.bs.collapse', function() {
+        card.get(0).scrollIntoView({
+          block: "end",
+          behavior: "smooth"
+        });
+      });
+    }
+  },
 
   actions: {
     toggleFullScreen() {

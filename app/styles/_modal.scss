@@ -25,7 +25,7 @@
 
 .md-modal-overlay.translucent {
   background-color: rgba($gray-lighter, .85);
-  z-index: 2000;
+  z-index: 1100;
 }
 
 .md-modal-close {
@@ -36,7 +36,7 @@
   color: $gray-dark;
   display: none;
   font-size: 14px;
-  opacity: .8;
+  opacity: 0.8;
   padding: 1px;
   position: absolute;
   right: -1em;
@@ -57,4 +57,20 @@
   .md-modal-close {
     display: block;
   }
+}
+
+.md-no-liquid {
+  .liquid-container,
+  .liquid-child {
+    transform: none !important;
+  }
+
+  .md-flash {
+    animation: none !important;
+  }
+}
+
+.md-spotlight-target {
+  position: relative;
+  z-index: 1101;
 }

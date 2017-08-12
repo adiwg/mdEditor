@@ -17,15 +17,27 @@
             {{fa-icon windowIcon size=1 click=(action "toggleFullScreen")}}
           </a>
         {{/if}}
-        {{#if btnText}}
-          <button type="button" name="button" class="btn btn-{{if btnClass btnClass "primary"}} btn-xs pull-right hidden-print" {{action btnAction}}>
-            {{fa-icon btnIcon}}
-            {{btnText}}
+        <div class="btn-group hidden-print pull-right">
+          {{#if btnText}}
+            <button type="button" name="button" class="btn btn-{{if btnClass btnClass "primary"}} btn-xs" {{action btnAction}}>
+              {{fa-icon btnIcon}}
+              {{btnText}}
+            </button>
+          {{/if}}
+          <button type="button" name="button" class="btn btn-info btn-xs" {{action (toggle "spotlight" this)}}>
+            {{fa-icon "circle"}}
           </button>
-        {{/if}}
+        </div>
       </h4>
   </div>
 {{/if}}
 <div id="{{cardId}}" class="card-collapse {{if collapsed "collapse" "in"}} {{if bodyIsRow "row"}} {{if block "card-block"}}">
     {{yield}}
 </div>
+
+{{#if spotlight}}
+  {{control/md-spotlight
+    spotlightTargetId=elementId
+    onClose=(action (toggle "spotlight" this))
+  }}
+{{/if}}

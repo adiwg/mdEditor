@@ -8,7 +8,7 @@ const {
   isEmpty,
   typeOf,
   getOwner,
-  A
+  A,$
 } = Ember;
 
 export default Component.extend(Template, {
@@ -166,7 +166,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', 'items.[]', function () {
+  collapsed: computed('isCollapsed', 'items.[]', function() {
     let isCollapsed = this.get('isCollapsed');
     let value = this.get('items');
 
@@ -179,12 +179,12 @@ export default Component.extend(Template, {
     }
   }),
 
-  panelId: computed('items.@each.val', 'editing', function () {
+  panelId: computed('items.@each.val', 'editing', function() {
     return 'panel-' + this.get('elementId');
   }),
 
-  btnSize: computed('verticalButtons', function () {
-    return this.get('verticalButtons') ?  'md' : 'xs';
+  btnSize: computed('verticalButtons', function() {
+    return this.get('verticalButtons') ? 'md' : 'xs';
   }),
 
   /*citems: computed('items.@each.val', function () {
@@ -195,15 +195,15 @@ export default Component.extend(Template, {
     return i;
   }),*/
 
-  attrArray: computed('attributes', function () {
+  attrArray: computed('attributes', function() {
     let attr = this.get('attributes');
 
     return attr ? attr.split(',') : null;
   }),
 
-  attrTitleArray: computed('attrArray', function () {
+  attrTitleArray: computed('attrArray', function() {
     return this.get('attrArray')
-      .map(function (item) {
+      .map(function(item) {
         return item.trim()
           .dasherize()
           .replace(/-/g, ' ');
@@ -212,7 +212,7 @@ export default Component.extend(Template, {
 
   editing: false,
 
-  editingChanged: observer('editing', function () {
+  editingChanged: observer('editing', function() {
     // deal with the change
     //Ember.run.schedule('afterRender', this, function () {
     let panel = this.$('> .md-object-table > .panel-collapse');
@@ -234,28 +234,43 @@ export default Component.extend(Template, {
     }
 
     if(panel.hasClass('in')) {
+      let out = editing ? table[0] : table[1];
+      let inn = editing ? table[1] : table[0];
+      $(out).fadeOut(100, function() {
+        $(inn).fadeIn(100, function() {
+          panel.get(0).scrollIntoView({
+            block: "end",
+            behavior: "smooth"
+          });
+        });
+      });
+
       table.toggleClass('fadeOut fadeIn');
     } else { //add a one-time listener to wait until panel is open
-      panel.one('shown.bs.collapse', function () {
+      panel.one('shown.bs.collapse', function() {
         table.toggleClass('fadeOut fadeIn');
+        panel.get(0).scrollIntoView({
+          block: "end",
+          behavior: "smooth"
+        });
       });
       panel.collapse('show');
     }
     //});
   }),
 
-  pillColor: computed('items.[]', function () {
+  pillColor: computed('items.[]', function() {
     let count = this.get('items')
       .length;
     return(count > 0) ? 'label-info' : 'label-warning';
   }),
 
   actions: {
-    deleteItem: function (items, index) {
+    deleteItem: function(items, index) {
       items.removeAt(index);
     },
 
-    addItem: function () {
+    addItem: function() {
       const Template = this.get('templateClass');
       const owner = getOwner(this);
 
@@ -264,14 +279,16 @@ export default Component.extend(Template, {
 
       this.set('saveItem', itm);
       this.set('editing', 'adding');
+      this.set('spotlight', true);
     },
 
-    editItem: function (items, index) {
+    editItem: function(items, index) {
       this.set('saveItem', items.objectAt(index));
       this.set('editing', 'editing');
+      this.set('spotlight', true);
     },
 
-    cancelEdit: function () {
+    cancelEdit: function() {
       this.set('editing', false);
     }
   }
