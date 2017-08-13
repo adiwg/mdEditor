@@ -48,7 +48,6 @@
     opacity: 1;
   }
 }
-
 @media (min-width: 420px) {
   .md-modal-container.ember-modal-dialog {
     width: 375px;
@@ -60,8 +59,8 @@
 }
 
 .md-no-liquid {
-  .liquid-container,
-  .liquid-child {
+  .liquid-child,
+  .liquid-container {
     transform: none !important;
   }
 
@@ -73,4 +72,10 @@
 .md-spotlight-target {
   position: relative;
   z-index: 1101;
+}
+
+.md-no-spotlight {
+  .md-btn-spotlight {
+    display: none;
+  }
 }

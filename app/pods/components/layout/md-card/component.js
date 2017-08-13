@@ -2,7 +2,11 @@ import Ember from 'ember';
 
 const {
   Component,
-  computed
+  computed,
+  get,
+  inject: {
+    service
+  },
 } = Ember;
 
 export default Component.extend({
@@ -26,6 +30,8 @@ export default Component.extend({
    * @class md-card
    * @constructor
    */
+
+  spotlight: service(),
 
   classNames: ['md-card', 'card'],
   classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card',
@@ -197,6 +203,9 @@ export default Component.extend({
   actions: {
     toggleFullScreen() {
       this.toggleProperty('fullScreen');
+    },
+    spotlight(id) {
+      get(this, 'spotlight').setTarget(id);
     }
   }
 });

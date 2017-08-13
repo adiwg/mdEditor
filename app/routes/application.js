@@ -7,7 +7,10 @@ const {
   Object: EmberObject,
   guidFor,
   RSVP,
-  Logger
+  Logger,
+  inject: {
+    service
+  }
 } = Ember;
 
 export default Route.extend({
@@ -26,6 +29,8 @@ export default Route.extend({
       return evt.returnValue;
     });
   },
+
+  spotlight: service(),
 
   /**
    * Models for sidebar navigation
@@ -72,6 +77,13 @@ export default Route.extend({
     return RSVP.map(promises, mapFn);
   },
 
+  setupController(controller, model) {
+    // Call _super for default behavior
+    this._super(controller, model);
+    // Implement your custom setup after
+    controller.set('spotlight', this.get('spotlight'));
+  },
+
   /**
    * The current model for the route
    * @method currentRouteModel
@@ -82,7 +94,7 @@ export default Route.extend({
     error(error) {
       Logger.error(error);
 
-      if (error.status === 404) {
+      if(error.status === 404) {
         return this.transitionTo('not-found');
       }
 

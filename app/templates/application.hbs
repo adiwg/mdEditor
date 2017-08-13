@@ -66,3 +66,10 @@
         Current Version: <span class="text-info">{{control/md-repo-link}}</span>
     </p>
 {{/control/md-modal}}
+
+{{#if spotlight.show}}
+  {{control/md-spotlight
+    spotlightTargetId=spotlight.elementId
+    onClose=(action (toggle "spotlight.show" this))
+  }}
+{{/if}}

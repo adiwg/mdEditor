@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Template from 'mdeditor/mixins/object-template';
+import InViewportMixin from 'ember-in-viewport';
 
 const {
   computed,
@@ -8,10 +9,14 @@ const {
   isEmpty,
   typeOf,
   getOwner,
-  A,$
+  A,
+  $,
+  inject: {
+    service
+  }
 } = Ember;
 
-export default Component.extend(Template, {
+export default Component.extend(InViewportMixin, Template, {
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -38,6 +43,8 @@ export default Component.extend(Template, {
    * @constructor
    * @uses object-template
    */
+
+  spotlight: service(),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -212,6 +219,15 @@ export default Component.extend(Template, {
 
   editing: false,
 
+  scrollTo(el) {
+    if(this.get('viewportEntered')) {
+      el.scrollIntoView({
+        block: "end",
+        behavior: "smooth"
+      });
+    }
+  },
+
   editingChanged: observer('editing', function() {
     // deal with the change
     //Ember.run.schedule('afterRender', this, function () {
@@ -220,6 +236,8 @@ export default Component.extend(Template, {
       '> .panel-body > table, > .panel-body > .object-editor');
     let items = this.get('items');
     let editing = this.get('editing');
+    let el = this.get('element');
+    let comp = this;
 
     if(editing === 'adding') {
       items.pushObject(this.get('saveItem'));
@@ -236,12 +254,10 @@ export default Component.extend(Template, {
     if(panel.hasClass('in')) {
       let out = editing ? table[0] : table[1];
       let inn = editing ? table[1] : table[0];
+
       $(out).fadeOut(100, function() {
         $(inn).fadeIn(100, function() {
-          panel.get(0).scrollIntoView({
-            block: "end",
-            behavior: "smooth"
-          });
+          comp.scrollTo(el);
         });
       });
 
@@ -249,10 +265,7 @@ export default Component.extend(Template, {
     } else { //add a one-time listener to wait until panel is open
       panel.one('shown.bs.collapse', function() {
         table.toggleClass('fadeOut fadeIn');
-        panel.get(0).scrollIntoView({
-          block: "end",
-          behavior: "smooth"
-        });
+        comp.scrollTo(el);
       });
       panel.collapse('show');
     }
@@ -273,19 +286,22 @@ export default Component.extend(Template, {
     addItem: function() {
       const Template = this.get('templateClass');
       const owner = getOwner(this);
+      const spotlight = this.get('spotlight');
 
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
         Ember.Object.create({});
 
       this.set('saveItem', itm);
       this.set('editing', 'adding');
-      this.set('spotlight', true);
+      spotlight.setTarget(this.get('elementId'));
     },
 
     editItem: function(items, index) {
+      const spotlight = this.get('spotlight');
+
       this.set('saveItem', items.objectAt(index));
       this.set('editing', 'editing');
-      this.set('spotlight', true);
+      spotlight.setTarget(this.get('elementId'));
     },
 
     cancelEdit: function() {

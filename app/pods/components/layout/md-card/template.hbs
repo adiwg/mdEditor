@@ -24,7 +24,7 @@
               {{btnText}}
             </button>
           {{/if}}
-          <button type="button" name="button" class="btn btn-info btn-xs" {{action (toggle "spotlight" this)}}>
+          <button type="button" name="button" class="btn btn-info btn-xs md-btn-spotlight" {{action "spotlight" elementId}}>
             {{fa-icon "circle"}}
           </button>
         </div>
@@ -34,10 +34,3 @@
 <div id="{{cardId}}" class="card-collapse {{if collapsed "collapse" "in"}} {{if bodyIsRow "row"}} {{if block "card-block"}}">
     {{yield}}
 </div>
-
-{{#if spotlight}}
-  {{control/md-spotlight
-    spotlightTargetId=elementId
-    onClose=(action (toggle "spotlight" this))
-  }}
-{{/if}}
