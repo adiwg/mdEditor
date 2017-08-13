@@ -20,7 +20,7 @@
 {{to-elsewhere
   named="md-slider-content"
   send=(hash
-    title="Click row to select a resource record"
+    title=(concat "Click row to select a resource: " model.associationType)
     body=(component "control/md-select-table"
       select=(route-action "insertResource")
       data=(compute (route-action "sliderData"))

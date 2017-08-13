@@ -38,7 +38,7 @@ export default Route.extend({
     let resourceId = get(this, 'resourceId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.associatedResource');
-    let resource = resourceId && isArray(objects) ? objects.get(resourceId) :
+    let resource = resourceId && isArray(objects) ? objects.objectAt(resourceId) :
       undefined;
 
     //make sure the identifier exists
