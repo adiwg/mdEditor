@@ -46,9 +46,6 @@ module.exports = function(environment) {
       timeout: 5000,
       extendedTimeout: 1500,
       //sticky: true
-    },
-    intl: {
-      disablePolyfill: true
     }
 
   };
