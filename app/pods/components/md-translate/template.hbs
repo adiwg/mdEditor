@@ -1,6 +1,11 @@
 <div class="col-md-4">
 
-    {{#layout/md-card title="Options" class="md-translator-options" block=false}}
+    {{#layout/md-card
+      title="Options"
+      class="md-translator-options"
+      spotlightEnabled=false
+      block=false
+    }}
         <form {{action "translate" on="submit"}}>
             <div class="card-block">
                 {{input/md-select label="Choose Format"
@@ -51,6 +56,7 @@
         scroll=false
         maximizable=true
         titleIcon="check"
+        spotlightEnabled=false
       }}
           {{#if isHtml}}
           <iframe srcdoc="{{result}}" sandbox="allow-scripts" width="100%" height="100%">

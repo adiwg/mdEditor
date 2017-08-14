@@ -70,12 +70,21 @@ export default Component.extend({
    */
 
   /**
-   * If true, the "row" the card body will be initally collapse.
+   * If true, the "row" the card body will be initally collapsed.
    *
    * @property collapsed
    * @type {Boolean}
    * @default undefined
    */
+
+  /**
+   * If true, the spotlight button will be inserted into the toolbar.
+   *
+   * @property spotlightEnabled
+   * @type {Boolean}
+   * @default true
+   */
+  spotlightEnabled: true,
 
   /**
    * If true, the scroll-card class will be applied to the card.

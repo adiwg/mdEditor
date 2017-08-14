@@ -24,9 +24,11 @@
               {{btnText}}
             </button>
           {{/if}}
-          <button type="button" name="button" class="btn btn-info btn-xs md-btn-spotlight" {{action "spotlight" elementId}}>
-            {{fa-icon "circle"}}
-          </button>
+          {{#if spotlightEnabled}}
+            <button type="button" name="button" class="btn btn-info btn-xs md-btn-spotlight" {{action "spotlight" elementId}}>
+              {{fa-icon "circle"}}
+            </button>
+          {{/if}}
         </div>
       </h4>
   </div>
