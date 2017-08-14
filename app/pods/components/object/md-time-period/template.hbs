@@ -8,29 +8,10 @@
   {{#layout/md-card shadow=false
     muted=false
     plain=true}}
-    <div class="form-inline">
-      <label class="text-info required">Dates</label>
-      {{input/md-datetime
-        valuePath="startDateTime"
-        model=this
-        showValidations=true
-        forceDateOutput=true
-        label="Start Date"
-        showClear=true
-        format="YYYY-MM-DD HH:mm:ss"
-        placeholder="Enter start dateTime"
-      }}
-      {{input/md-datetime
-        valuePath="endDateTime"
-        model=this
-        showValidations=true
-        forceDateOutput=true
-        showClear=true
-        label="End Date"
-        format="YYYY-MM-DD HH:mm:ss"
-        placeholder="Enter end dateTime"
-      }}
-    </div>
+    {{input/md-date-range
+      startDateTime=startDateTime
+      endDateTime=endDateTime
+    }}
   {{/layout/md-card}}
 
   {{input/md-input

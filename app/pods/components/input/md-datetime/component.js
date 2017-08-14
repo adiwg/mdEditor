@@ -120,7 +120,7 @@ export default Component.extend({
    * @default null
    * @return String
    */
-  //date: null,
+  date: null,
 
   /**
    * Format of date string for property 'date'.
@@ -181,6 +181,12 @@ export default Component.extend({
 
   actions: {
     updateDate(date) {
+      if(isBlank(date)){
+        set(this, 'date', null);
+
+        return;
+      }
+
       let utc = moment(date);
 
       //utc.add(utc.utcOffset(), 'minutes');
