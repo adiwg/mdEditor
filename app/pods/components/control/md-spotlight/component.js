@@ -3,16 +3,48 @@ import ModalDialog from 'ember-modal-dialog/components/tether-dialog';
 
 const {
   $,
-  isPresent
+  isPresent,
+  computed
 } = Ember;
 
 export default ModalDialog.extend({
+  /**
+   * Component that highlights a DOM element
+   *
+   * @class md-spotlight
+   * @module mdeditor
+   * @submodule components-control
+   * @extends tether-dialog
+   * @uses service-spotlight
+   * @constructor
+   */
+
+  /**
+  * The inected spotlight Service
+  *
+  * @property spotlight
+  * @type {Service}
+  */
+  spotlight: Ember.inject.service(),
+
   containerClassNames: ['md-spotlight-modal'],
   overlayClassNames: ['md-modal-overlay'],
   targetAttachment: 'none',
-  //spotlightTargetId: null,
   translucentOverlay: true,
   clickOutsideToClose: false,
+
+  /**
+  * The id of the DOM element to spotlight. Uses the spotlight service "elementId"
+  * by default.
+  *
+  * @property spotlightTargetId
+  * @type {String}
+  * @default "computed.alias('spotlight.elementId')"
+  * @category computed
+  * @requires spotlight.elementId
+  * @required
+  */
+  spotlightTargetId: computed.alias('spotlight.elementId'),
 
   willInsertElement() {
     $('.md-modal-overlay').click();
@@ -28,10 +60,9 @@ export default ModalDialog.extend({
     }
 
   },
+
   actions: {
     close() {
-      console.info(this);
-
       let id = this.get('spotlightTargetId');
 
       if(isPresent(id)) {
@@ -39,7 +70,7 @@ export default ModalDialog.extend({
         $('#' + id).removeClass('md-spotlight-target');
       }
 
-      this.get('onClose')();
+      this.get('spotlight').close();
       this._super(...arguments);
     }
   }

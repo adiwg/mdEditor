@@ -68,8 +68,5 @@
 {{/control/md-modal}}
 
 {{#if spotlight.show}}
-  {{control/md-spotlight
-    spotlightTargetId=spotlight.elementId
-    onClose=(action (toggle "spotlight.show" this))
-  }}
+  {{control/md-spotlight}}
 {{/if}}

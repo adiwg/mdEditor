@@ -10,16 +10,19 @@ export default Service.extend({
   elementId: undefined,
   setTarget(id) {
     if(id === this.get('elementId')) {
-      setProperties(this, {
-        show: false,
-        elementId: undefined
-      });
+      this.close();
 
       return;
     }
     setProperties(this, {
       show: true,
       elementId: id
+    });
+  },
+  close() {
+    setProperties(this, {
+      show: false,
+      elementId: undefined
     });
   }
 });
