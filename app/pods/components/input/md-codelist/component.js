@@ -152,6 +152,7 @@ export default Select.extend({
     let mdCodelist = this.get('mdCodes')
       .get(codelistName)
       .codelist
+      //.rejectBy('deprecated')
       .sortBy(codeName);
 
     mdCodelist.forEach(function (item) {

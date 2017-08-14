@@ -7,6 +7,7 @@ const {
   inject: {
     service
   },
+  $
 } = Ember;
 
 export default Component.extend({
@@ -177,6 +178,15 @@ export default Component.extend({
    */
 
   /**
+   * The height to offset from top of container when scrolling.
+   *
+   * @property offset
+   * @type {Number}
+   * @default 130
+   */
+  offset: 130,
+
+  /**
    * The data-spy text. Defaults to the title.
    *
    * @property data-spy
@@ -198,13 +208,24 @@ export default Component.extend({
     this._super(...arguments);
 
     if(this.get('collapsible')) {
-      let card = this.$(' > .card-collapse');
+      let card = this.$();
+      let body = this.$(' > .card-collapse');
+      let offset = this.get('offset') || 0;
 
-      card.on('shown.bs.collapse', function() {
-        card.get(0).scrollIntoView({
-          block: "end",
-          behavior: "smooth"
-        });
+      body.on('shown.bs.collapse', function() {
+        // card.get(0).scrollIntoView({
+        //   block: "end",
+        //   behavior: "smooth"
+        // });
+        //
+        // let scrolledY = window.scrollY;
+        //
+        // if(scrolledY) {
+        //   window.scroll(0, scrolledY - offset);
+        // }
+        $('html,body').animate({
+          scrollTop: card.offset().top - offset
+        }, 'slow');
       });
     }
   },

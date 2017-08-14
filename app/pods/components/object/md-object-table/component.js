@@ -165,6 +165,15 @@ export default Component.extend(InViewportMixin, Template, {
   shadow: true,
 
   /**
+   * The height to offset from top of container when scrolling.
+   *
+   * @property offset
+   * @type {Number}
+   * @default 130
+   */
+  offset: 130,
+
+  /**
    * Uses isCollapsed if defined, otherwise inspects array length.
    *
    * @property collapsed
@@ -220,11 +229,17 @@ export default Component.extend(InViewportMixin, Template, {
   editing: false,
 
   scrollTo(el) {
+    let offset = this.get('offset');
+
     if(this.get('viewportEntered')) {
-      el.scrollIntoView({
-        block: "end",
-        behavior: "smooth"
-      });
+      // el.scrollIntoView({
+      //   block: "end",
+      //   behavior: "smooth"
+      // });
+
+      $('html,body').animate({
+        scrollTop: $(el).offset().top - offset
+      }, 'slow');
     }
   },
 
