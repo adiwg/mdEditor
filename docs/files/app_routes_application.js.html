@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d6ba1020" target="_blank">
-                                  Tag: 0.0.0.d6ba1020
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/a981db3b" target="_blank">
+                                  Tag: 0.0.0.a981db3b
                                 </a>
                             </h4>
                         </div>
@@ -139,6 +139,9 @@
                                         <a href="../classes/md-contact-title.html">md-contact-title</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-date-range.html">md-date-range</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-datetime.html">md-datetime</a>
                                     </li>
                                     <li>
@@ -196,6 +199,9 @@
                                         <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-spotlight.html">md-spotlight</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-textarea.html">md-textarea</a>
                                     </li>
                                     <li>
@@ -243,7 +249,10 @@ const {
   Object: EmberObject,
   guidFor,
   RSVP,
-  Logger
+  Logger,
+  inject: {
+    service
+  }
 } = Ember;
 
 export default Route.extend({
@@ -262,6 +271,8 @@ export default Route.extend({
       return evt.returnValue;
     });
   },
+
+  spotlight: service(),
 
   /**
    * Models for sidebar navigation
@@ -308,6 +319,13 @@ export default Route.extend({
     return RSVP.map(promises, mapFn);
   },
 
+  setupController(controller, model) {
+    // Call _super for default behavior
+    this._super(controller, model);
+    // Implement your custom setup after
+    controller.set(&#x27;spotlight&#x27;, this.get(&#x27;spotlight&#x27;));
+  },
+
   /**
    * The current model for the route
    * @method currentRouteModel
@@ -318,7 +336,7 @@ export default Route.extend({
     error(error) {
       Logger.error(error);
 
-      if (error.status === 404) {
+      if(error.status === 404) {
         return this.transitionTo(&#x27;not-found&#x27;);
       }
 

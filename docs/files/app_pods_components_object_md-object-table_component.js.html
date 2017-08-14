@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d6ba1020" target="_blank">
-                                  Tag: 0.0.0.d6ba1020
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/a981db3b" target="_blank">
+                                  Tag: 0.0.0.a981db3b
                                 </a>
                             </h4>
                         </div>
@@ -139,6 +139,9 @@
                                         <a href="../classes/md-contact-title.html">md-contact-title</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-date-range.html">md-date-range</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-datetime.html">md-datetime</a>
                                     </li>
                                     <li>
@@ -196,6 +199,9 @@
                                         <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-spotlight.html">md-spotlight</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-textarea.html">md-textarea</a>
                                     </li>
                                     <li>
@@ -236,6 +242,7 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 import Template from &#x27;mdeditor/mixins/object-template&#x27;;
+import InViewportMixin from &#x27;ember-in-viewport&#x27;;
 
 const {
   computed,
@@ -244,10 +251,14 @@ const {
   isEmpty,
   typeOf,
   getOwner,
-  A,$
+  A,
+  $,
+  inject: {
+    service
+  }
 } = Ember;
 
-export default Component.extend(Template, {
+export default Component.extend(InViewportMixin, Template, {
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -274,6 +285,8 @@ export default Component.extend(Template, {
    * @constructor
    * @uses object-template
    */
+
+  spotlight: service(),
 
   didReceiveAttrs() {
     this._super(...arguments);
@@ -394,6 +407,15 @@ export default Component.extend(Template, {
   shadow: true,
 
   /**
+   * The height to offset from top of container when scrolling.
+   *
+   * @property offset
+   * @type {Number}
+   * @default 130
+   */
+  offset: 130,
+
+  /**
    * Uses isCollapsed if defined, otherwise inspects array length.
    *
    * @property collapsed
@@ -448,6 +470,21 @@ export default Component.extend(Template, {
 
   editing: false,
 
+  scrollTo(el) {
+    let offset = this.get(&#x27;offset&#x27;);
+
+    if(this.get(&#x27;viewportEntered&#x27;)) {
+      // el.scrollIntoView({
+      //   block: &quot;end&quot;,
+      //   behavior: &quot;smooth&quot;
+      // });
+
+      $(&#x27;html,body&#x27;).animate({
+        scrollTop: $(el).offset().top - offset
+      }, &#x27;slow&#x27;);
+    }
+  },
+
   editingChanged: observer(&#x27;editing&#x27;, function() {
     // deal with the change
     //Ember.run.schedule(&#x27;afterRender&#x27;, this, function () {
@@ -456,6 +493,8 @@ export default Component.extend(Template, {
       &#x27;&gt; .panel-body &gt; table, &gt; .panel-body &gt; .object-editor&#x27;);
     let items = this.get(&#x27;items&#x27;);
     let editing = this.get(&#x27;editing&#x27;);
+    let el = this.get(&#x27;element&#x27;);
+    let comp = this;
 
     if(editing === &#x27;adding&#x27;) {
       items.pushObject(this.get(&#x27;saveItem&#x27;));
@@ -472,12 +511,10 @@ export default Component.extend(Template, {
     if(panel.hasClass(&#x27;in&#x27;)) {
       let out = editing ? table[0] : table[1];
       let inn = editing ? table[1] : table[0];
+
       $(out).fadeOut(100, function() {
         $(inn).fadeIn(100, function() {
-          panel.get(0).scrollIntoView({
-            block: &quot;end&quot;,
-            behavior: &quot;smooth&quot;
-          });
+          comp.scrollTo(el);
         });
       });
 
@@ -485,10 +522,7 @@ export default Component.extend(Template, {
     } else { //add a one-time listener to wait until panel is open
       panel.one(&#x27;shown.bs.collapse&#x27;, function() {
         table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
-        panel.get(0).scrollIntoView({
-          block: &quot;end&quot;,
-          behavior: &quot;smooth&quot;
-        });
+        comp.scrollTo(el);
       });
       panel.collapse(&#x27;show&#x27;);
     }
@@ -509,19 +543,22 @@ export default Component.extend(Template, {
     addItem: function() {
       const Template = this.get(&#x27;templateClass&#x27;);
       const owner = getOwner(this);
+      const spotlight = this.get(&#x27;spotlight&#x27;);
 
       let itm = typeOf(Template) === &#x27;class&#x27; ? Template.create(owner.ownerInjection()) :
         Ember.Object.create({});
 
       this.set(&#x27;saveItem&#x27;, itm);
       this.set(&#x27;editing&#x27;, &#x27;adding&#x27;);
-      this.set(&#x27;spotlight&#x27;, true);
+      spotlight.setTarget(this.get(&#x27;elementId&#x27;));
     },
 
     editItem: function(items, index) {
+      const spotlight = this.get(&#x27;spotlight&#x27;);
+
       this.set(&#x27;saveItem&#x27;, items.objectAt(index));
       this.set(&#x27;editing&#x27;, &#x27;editing&#x27;);
-      this.set(&#x27;spotlight&#x27;, true);
+      spotlight.setTarget(this.get(&#x27;elementId&#x27;));
     },
 
     cancelEdit: function() {

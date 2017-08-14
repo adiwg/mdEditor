@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/d6ba1020" target="_blank">
-                                  Tag: 0.0.0.d6ba1020
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/a981db3b" target="_blank">
+                                  Tag: 0.0.0.a981db3b
                                 </a>
                             </h4>
                         </div>
@@ -139,6 +139,9 @@
                                         <a href="../classes/md-contact-title.html">md-contact-title</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-date-range.html">md-date-range</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-datetime.html">md-datetime</a>
                                     </li>
                                     <li>
@@ -196,6 +199,9 @@
                                         <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-spotlight.html">md-spotlight</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-textarea.html">md-textarea</a>
                                     </li>
                                     <li>
@@ -238,7 +244,12 @@ import Ember from &#x27;ember&#x27;;
 
 const {
   Component,
-  computed
+  computed,
+  get,
+  inject: {
+    service
+  },
+  $
 } = Ember;
 
 export default Component.extend({
@@ -262,6 +273,8 @@ export default Component.extend({
    * @class md-card
    * @constructor
    */
+
+  spotlight: service(),
 
   classNames: [&#x27;md-card&#x27;, &#x27;card&#x27;],
   classNameBindings: [&#x27;shadow:box-shadow--4dp&#x27;, &#x27;scroll:scroll-card&#x27;,
@@ -300,12 +313,21 @@ export default Component.extend({
    */
 
   /**
-   * If true, the &quot;row&quot; the card body will be initally collapse.
+   * If true, the &quot;row&quot; the card body will be initally collapsed.
    *
    * @property collapsed
    * @type {Boolean}
    * @default undefined
    */
+
+  /**
+   * If true, the spotlight button will be inserted into the toolbar.
+   *
+   * @property spotlightEnabled
+   * @type {Boolean}
+   * @default true
+   */
+  spotlightEnabled: true,
 
   /**
    * If true, the scroll-card class will be applied to the card.
@@ -398,6 +420,15 @@ export default Component.extend({
    */
 
   /**
+   * The height to offset from top of container when scrolling.
+   *
+   * @property offset
+   * @type {Number}
+   * @default 130
+   */
+  offset: 130,
+
+  /**
    * The data-spy text. Defaults to the title.
    *
    * @property data-spy
@@ -419,13 +450,24 @@ export default Component.extend({
     this._super(...arguments);
 
     if(this.get(&#x27;collapsible&#x27;)) {
-      let card = this.$(&#x27; &gt; .card-collapse&#x27;);
+      let card = this.$();
+      let body = this.$(&#x27; &gt; .card-collapse&#x27;);
+      let offset = this.get(&#x27;offset&#x27;) || 0;
 
-      card.on(&#x27;shown.bs.collapse&#x27;, function() {
-        card.get(0).scrollIntoView({
-          block: &quot;end&quot;,
-          behavior: &quot;smooth&quot;
-        });
+      body.on(&#x27;shown.bs.collapse&#x27;, function() {
+        // card.get(0).scrollIntoView({
+        //   block: &quot;end&quot;,
+        //   behavior: &quot;smooth&quot;
+        // });
+        //
+        // let scrolledY = window.scrollY;
+        //
+        // if(scrolledY) {
+        //   window.scroll(0, scrolledY - offset);
+        // }
+        $(&#x27;html,body&#x27;).animate({
+          scrollTop: card.offset().top - offset
+        }, &#x27;slow&#x27;);
       });
     }
   },
@@ -433,6 +475,9 @@ export default Component.extend({
   actions: {
     toggleFullScreen() {
       this.toggleProperty(&#x27;fullScreen&#x27;);
+    },
+    spotlight(id) {
+      get(this, &#x27;spotlight&#x27;).setTarget(id);
     }
   }
 });

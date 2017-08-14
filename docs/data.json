@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.d6ba1020",
+        "version": "0.0.0.a981db3b",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -144,6 +144,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/control/md-spotlight/component.js": {
+            "name": "app/pods/components/control/md-spotlight/component.js",
+            "modules": {},
+            "classes": {
+                "md-spotlight": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/control/md-status/component.js": {
             "name": "app/pods/components/control/md-status/component.js",
             "modules": {},
@@ -185,6 +194,15 @@
             "modules": {},
             "classes": {
                 "md-codelist-multi": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-date-range/component.js": {
+            "name": "app/pods/components/input/md-date-range/component.js",
+            "modules": {},
+            "classes": {
+                "md-date-range": 1
             },
             "fors": {},
             "namespaces": {}
@@ -714,9 +732,11 @@
                 "md-definition": 1,
                 "md-scroll-spy": 1,
                 "md-select-table": 1,
+                "md-spotlight": 1,
                 "md-boolean": 1,
                 "md-codelist": 1,
                 "md-codelist-multi": 1,
+                "md-date-range": 1,
                 "md-datetime": 1,
                 "md-input": 1,
                 "md-input-confirm": 1,
@@ -807,15 +827,16 @@
                 "md-contact-title": 1,
                 "md-definition": 1,
                 "md-scroll-spy": 1,
-                "md-select-table": 1
+                "md-select-table": 1,
+                "md-spotlight": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/pods/components/control/md-select-table/component.js",
-            "line": 14,
+            "file": "app/pods/components/control/md-spotlight/component.js",
+            "line": 11,
             "description": "Components used as UI controls.",
             "tag": "main",
             "itemtype": "main",
@@ -831,6 +852,7 @@
                 "md-boolean": 1,
                 "md-codelist": 1,
                 "md-codelist-multi": 1,
+                "md-date-range": 1,
                 "md-datetime": 1,
                 "md-input": 1,
                 "md-input-confirm": 1,
@@ -869,7 +891,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 9,
+            "line": 14,
             "description": "Component that renders a Bootstrap card.\n\n```handlebars\n\\{{#layout/md-card\n  title=\"title\"\n  collapsible=true\n  collapsed=false\n  profilePath=\"card\"\n  data-spy=\"Card\"\n  shadow=true\n}}\n  Content\n{{/layout/md-card}}\n```",
             "is_constructor": 1
         },
@@ -1129,6 +1151,26 @@
             "description": "Table with action on row click. Used to select objects(records).\n\n```handlebars\n\\{{control/md-select-table\n  data=model.data\n  columns=model.columns\n  select=callback\n}}\n```",
             "extends": "models-table"
         },
+        "md-spotlight": {
+            "name": "md-spotlight",
+            "shortname": "md-spotlight",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/control/md-spotlight/component.js",
+            "line": 11,
+            "description": "Component that highlights a DOM element",
+            "submodule": "components-control",
+            "extends": "tether-dialog",
+            "uses": [
+                "service-spotlight"
+            ],
+            "is_constructor": 1
+        },
         "md-boolean": {
             "name": "md-boolean",
             "shortname": "md-boolean",
@@ -1178,6 +1220,23 @@
             "description": "Specialized select list control for displaying and selecting options in\nmdCodes codelists. Extends md-codelist. Allows selection of multiple\noptions.\n\n```handlebars\n\\{{input/md-codelist-multi\n  value=array\n  create=true\n  tooltip=true\n  icon=false\n  mdCodeName=\"codeName\"\n  closeOnSelect=false\n  placeholder=\"Select or enter one or more\"\n}}\n```",
             "is_constructor": 1,
             "extends": "md-codelist"
+        },
+        "md-date-range": {
+            "name": "md-date-range",
+            "shortname": "md-date-range",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "components-input",
+            "namespace": "",
+            "file": "app/pods/components/input/md-date-range/component.js",
+            "line": 46,
+            "description": "Date range with start date and end date fields.\n\n```handlebars\n\\{{input/md-date-range\n  startDateTime\n  endDateTime=false\n}}\n```",
+            "extends": "Ember.Component",
+            "is_constructor": 1
         },
         "md-datetime": {
             "name": "md-datetime",
@@ -1357,7 +1416,7 @@
             "submodule": "components-layout",
             "namespace": "",
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 9,
+            "line": 14,
             "description": "Component that renders a Bootstrap card.\n\n```handlebars\n\\{{#layout/md-card\n  title=\"title\"\n  collapsible=true\n  collapsed=false\n  profilePath=\"card\"\n  data-spy=\"Card\"\n  shadow=true\n}}\n  Content\n{{/layout/md-card}}\n```"
         },
         "md-address": {
@@ -1484,7 +1543,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 16,
+            "line": 21,
             "description": "mdEditor class for managing a table of similar mdJSON objects\nfor selection for edit or deletion.\nThe class is configurable for reuse with mdJSON object arrays.\n\n```handlebars\n\\{{#object/md-object-table\n items=model\n header=label\n buttonText=buttonText\n templateClass=templateClass\n previewTemplate=previewTemplate\n ellipsis=ellipsis\n attributes=attributes as |editing|\n}}\n\n{{/object/md-object-table}}\n```",
             "submodule": "components-object",
             "is_constructor": 1,
@@ -2437,7 +2496,7 @@
             "type": "{String}",
             "default": "\"false\"",
             "optional": 1,
-            "class": "md-button-modal",
+            "class": "md-spotlight",
             "module": "mdeditor"
         },
         {
@@ -2448,8 +2507,19 @@
             "name": "text",
             "type": "{String}",
             "optional": 1,
-            "class": "md-button-modal",
+            "class": "md-spotlight",
             "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/control/md-spotlight/component.js",
+            "line": 22,
+            "description": "The inected spotlight Service",
+            "itemtype": "property",
+            "name": "spotlight",
+            "type": "{Service}",
+            "class": "md-spotlight",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-status/component.js",
@@ -2653,7 +2723,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 170,
+            "line": 171,
             "description": "If a value is provided by the user which is not in the codelist and 'create=true'\nthe new value will be added into the codelist array",
             "itemtype": "property",
             "name": "codelist",
@@ -2670,7 +2740,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 198,
+            "line": 199,
             "description": "Creates a new codelist entry with a randomly generated code identifier.",
             "itemtype": "method",
             "name": "createCode",
@@ -2691,7 +2761,7 @@
         },
         {
             "file": "app/pods/components/input/md-codelist/component.js",
-            "line": 213,
+            "line": 214,
             "description": "Set the value on the select.",
             "itemtype": "method",
             "name": "setValue",
@@ -2815,6 +2885,44 @@
                 }
             ],
             "class": "md-codelist-multi",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-date-range/component.js",
+            "line": 63,
+            "description": "If true, render the fields inline",
+            "itemtype": "property",
+            "name": "startDateTime",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "md-date-range",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-date-range/component.js",
+            "line": 72,
+            "description": "The value for the start datetime",
+            "itemtype": "property",
+            "name": "startDateTime",
+            "type": "{String|Date|moment}",
+            "default": "moment().hour(0).second(0).minute(0)",
+            "required": 1,
+            "class": "md-date-range",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-date-range/component.js",
+            "line": 82,
+            "description": "The value for the end datetime",
+            "itemtype": "property",
+            "name": "endDateTime",
+            "type": "{String|Date|moment}",
+            "default": "moment().hour(0).second(0).minute(0)",
+            "required": 1,
+            "class": "md-date-range",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -3852,7 +3960,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 36,
+            "line": 43,
             "description": "The card element id.",
             "itemtype": "property",
             "name": "cardId",
@@ -3870,7 +3978,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 50,
+            "line": 57,
             "description": "The card title.",
             "itemtype": "property",
             "name": "title",
@@ -3882,7 +3990,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 58,
+            "line": 65,
             "description": "The card title icon.",
             "itemtype": "property",
             "name": "titleIcon",
@@ -3894,8 +4002,8 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 66,
-            "description": "If true, the \"row\" the card body will be initally collapse.",
+            "line": 73,
+            "description": "If true, the \"row\" the card body will be initally collapsed.",
             "itemtype": "property",
             "name": "collapsed",
             "type": "{Boolean}",
@@ -3906,7 +4014,19 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 74,
+            "line": 81,
+            "description": "If true, the spotlight button will be inserted into the toolbar.",
+            "itemtype": "property",
+            "name": "spotlightEnabled",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 90,
             "description": "If true, the scroll-card class will be applied to the card.",
             "itemtype": "property",
             "name": "scroll",
@@ -3918,7 +4038,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 82,
+            "line": 98,
             "description": "If true, the maximize control will be avialable on the card.",
             "itemtype": "property",
             "name": "maximizable",
@@ -3930,7 +4050,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 90,
+            "line": 106,
             "description": "If true, a box shadow will be rendered around the card.",
             "itemtype": "property",
             "name": "shadow",
@@ -3942,7 +4062,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 99,
+            "line": 115,
             "description": "If true, the card-block class will be added.",
             "itemtype": "property",
             "name": "block",
@@ -3954,7 +4074,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 108,
+            "line": 124,
             "description": "If true, the card-block text color will be muted.",
             "itemtype": "property",
             "name": "muted",
@@ -3966,7 +4086,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 117,
+            "line": 133,
             "description": "If true, the collapse control will be added to the card header.",
             "itemtype": "property",
             "name": "collapsible",
@@ -3978,7 +4098,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 125,
+            "line": 141,
             "description": "If true, the \"row\" class will be added to the card body.",
             "itemtype": "property",
             "name": "bodyIsRow",
@@ -3990,7 +4110,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 133,
+            "line": 149,
             "description": "Bootstrap button class to apply to header buttton",
             "itemtype": "property",
             "name": "btnClass",
@@ -4002,7 +4122,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 142,
+            "line": 158,
             "description": "Icon to display in heder button",
             "itemtype": "property",
             "name": "btnIcon",
@@ -4014,7 +4134,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 150,
+            "line": 166,
             "description": "The text to display in the header button.",
             "itemtype": "property",
             "name": "btnText",
@@ -4026,7 +4146,7 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 157,
+            "line": 173,
             "description": "The action to perform whrn the header button is clicked.",
             "itemtype": "property",
             "name": "btnAction",
@@ -4038,7 +4158,19 @@
         },
         {
             "file": "app/pods/components/layout/md-card/component.js",
-            "line": 164,
+            "line": 180,
+            "description": "The height to offset from top of container when scrolling.",
+            "itemtype": "property",
+            "name": "offset",
+            "type": "{Number}",
+            "default": "130",
+            "class": "md-card",
+            "module": "mdeditor",
+            "submodule": "components-layout"
+        },
+        {
+            "file": "app/pods/components/layout/md-card/component.js",
+            "line": 189,
             "description": "The data-spy text. Defaults to the title.",
             "itemtype": "property",
             "name": "data-spy",
@@ -4772,7 +4904,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 58,
+            "line": 65,
             "description": "Array of the mdJSON object to display in the object table for\nselection to edit or delete.",
             "itemtype": "property",
             "name": "items",
@@ -4784,7 +4916,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 69,
+            "line": 76,
             "description": "List of items object attributes to display in\nmd-object-table to aid in choosing the item to edit or\ndelete.",
             "itemtype": "property",
             "name": "attributes",
@@ -4795,7 +4927,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 79,
+            "line": 86,
             "description": "Name to place on the mdEditor panel header for entry and edit of\nitems objects.",
             "itemtype": "property",
             "name": "header",
@@ -4806,7 +4938,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 88,
+            "line": 95,
             "description": "The path of template to render in the table preview for each row.\nTemplate content will be wrapped in a `<td>` element.",
             "itemtype": "property",
             "name": "previewTemplate",
@@ -4818,7 +4950,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 98,
+            "line": 105,
             "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
             "itemtype": "property",
             "name": "templateClass",
@@ -4831,7 +4963,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 118,
+            "line": 125,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -4842,7 +4974,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 127,
+            "line": 134,
             "description": "Render the row actions vertically.",
             "itemtype": "property",
             "name": "verticalButtons",
@@ -4853,7 +4985,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 135,
+            "line": 142,
             "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -4864,7 +4996,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 143,
+            "line": 150,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -4875,7 +5007,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 151,
+            "line": 158,
             "description": "If true, a box shadow will be rendered around the panel.",
             "itemtype": "property",
             "name": "shadow",
@@ -4886,7 +5018,18 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 160,
+            "line": 167,
+            "description": "The height to offset from top of container when scrolling.",
+            "itemtype": "property",
+            "name": "offset",
+            "type": "{Number}",
+            "default": "130",
+            "class": "md-object-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 176,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -5263,7 +5406,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 30,
+            "line": 35,
             "description": "Models for sidebar navigation",
             "return": {
                 "description": "",
@@ -5274,7 +5417,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 75,
+            "line": 87,
             "description": "The current model for the route",
             "itemtype": "method",
             "name": "currentRouteModel",
@@ -5583,7 +5726,7 @@
         },
         {
             "message": "Missing item type\nModels for sidebar navigation",
-            "line": " app/routes/application.js:30"
+            "line": " app/routes/application.js:35"
         },
         {
             "message": "Missing item type",
