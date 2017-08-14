@@ -28,12 +28,14 @@ Object.keys(codes)
     const name = key.replace(/^iso_|adiwg_/, '');
 
     codelist[name] = list;
+    //remove deprecated codes
+    codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
   });
 
 let recordProfiles = Object.keys(profile.profiles).without('dictionary');
 
 codelist.profile = {
-  codelist: recordProfiles.map((itm) => {    
+  codelist: recordProfiles.map((itm) => {
     return {
       code: itm,
       codeName: itm,
