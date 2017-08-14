@@ -47,7 +47,6 @@ module.exports = function(environment) {
       extendedTimeout: 1500,
       //sticky: true
     }
-
   };
 
   if (environment === 'development') {

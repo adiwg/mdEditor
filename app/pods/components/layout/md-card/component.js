@@ -212,7 +212,8 @@ export default Component.extend({
       let body = this.$(' > .card-collapse');
       let offset = this.get('offset') || 0;
 
-      body.on('shown.bs.collapse', function() {
+      body.on('shown.bs.collapse', function(e) {
+        e.stopPropagation();
         // card.get(0).scrollIntoView({
         //   block: "end",
         //   behavior: "smooth"
