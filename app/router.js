@@ -98,7 +98,7 @@ Router.map(function() {
               });
             });
           });
-          this.route('funding');
+          this.route('funding', function() {});
           this.route('dictionary');
           this.route('spatial', function() {});
         });
