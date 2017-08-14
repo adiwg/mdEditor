@@ -2,9 +2,9 @@ import Ember from 'ember';
 import ModalDialog from 'ember-modal-dialog/components/tether-dialog';
 
 const {
-  $,
-  isPresent,
-  computed
+  inject: {
+    service
+  }
 } = Ember;
 
 export default ModalDialog.extend({
@@ -20,12 +20,12 @@ export default ModalDialog.extend({
    */
 
   /**
-  * The inected spotlight Service
-  *
-  * @property spotlight
-  * @type {Service}
-  */
-  spotlight: Ember.inject.service(),
+   * The inected spotlight Service
+   *
+   * @property spotlight
+   * @type {Service}
+   */
+  spotlight: service(),
 
   containerClassNames: ['md-spotlight-modal'],
   overlayClassNames: ['md-modal-overlay'],
@@ -33,43 +33,36 @@ export default ModalDialog.extend({
   translucentOverlay: true,
   clickOutsideToClose: false,
 
-  /**
-  * The id of the DOM element to spotlight. Uses the spotlight service "elementId"
-  * by default.
-  *
-  * @property spotlightTargetId
-  * @type {String}
-  * @default "computed.alias('spotlight.elementId')"
-  * @category computed
-  * @requires spotlight.elementId
-  * @required
-  */
-  spotlightTargetId: computed.alias('spotlight.elementId'),
+  // /**
+  // * The id of the DOM element to spotlight. Uses the spotlight service "elementId"
+  // * by default.
+  // *
+  // * @property spotlightTargetId
+  // * @type {String}
+  // * @default "computed.alias('spotlight.elementId')"
+  // * @category computed
+  // * @requires spotlight.elementId
+  // * @required
+  // */
+  // spotlightTargetId: computed.alias('spotlight.elementId'),
 
-  willInsertElement() {
-    $('.md-modal-overlay').click();
-  },
-  didInsertElement() {
-    this._super(...arguments);
-
-    let id = this.get('spotlightTargetId');
-
-    if(isPresent(id)) {
-      $('body').addClass('md-no-liquid');
-      $('#' + id).addClass('md-spotlight-target');
-    }
-
-  },
+  // willInsertElement() {
+  //   $('.md-modal-overlay').click();
+  // },
+  // didInsertElement() {
+  //   this._super(...arguments);
+  //
+  //   let id = this.get('spotlightTargetId');
+  //
+  //   if(isPresent(id)) {
+  //     $('body').addClass('md-no-liquid');
+  //     $('#' + id).addClass('md-spotlight-target');
+  //   }
+  //
+  // },
 
   actions: {
     close() {
-      let id = this.get('spotlightTargetId');
-
-      if(isPresent(id)) {
-        $('body').removeClass('md-no-liquid');
-        $('#' + id).removeClass('md-spotlight-target');
-      }
-
       this.get('spotlight').close();
       this._super(...arguments);
     }
