@@ -1,1 +1,26 @@
-{{outlet}}
+<h4 class="section-header">
+  Editing Funding
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{log model.json.metadata.funding}}
+
+{{#object/md-object-table
+  items=model.json.metadata.funding
+  header="Funding"
+  shadow=true
+  buttonText="Add Funding"
+  ellipsis=ellipsis
+  attributes="amount,currency"
+  profilePath="record.funding"
+  collapsible=false
+  isCollapsed=false
+  verticalButtons=true as |editing|
+}}
+
+  {{object/md-allocation
+    model=editing
+    profilePath="record.funding"
+  }}
+
+{{/object/md-object-table}}
