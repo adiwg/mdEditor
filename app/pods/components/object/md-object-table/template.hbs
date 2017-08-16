@@ -2,11 +2,17 @@
 
     <div class="panel-heading">
         <h3 class="panel-title md-panel-chevron">
+          {{#if collapsible}}
             <a role="button" data-toggle="collapse" href="#{{unless editing panelId}}" aria-expanded="{{if collapsed "false" "true"}}"
                class="{{if collapsed "collapsed"}}" aria-controls="{{panelId}}">
                 <span class="fa"></span> {{header}}
                 <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
             </a>
+          {{else}}
+            {{header}}
+            <label class="label label-pill {{pillColor}}"> {{items.length}} </label>          
+          {{/if}}
+
             <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right {{if editing "hidden"}}"
                 {{action "addItem" items}}>
                 {{fa-icon "plus"}} Add

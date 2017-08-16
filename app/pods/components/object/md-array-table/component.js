@@ -11,7 +11,7 @@ const {
   Component,
   A,
   getOwner,
-  //Object: EmObject,
+  isArray,
   run,
   typeOf
 } = Ember;
@@ -161,13 +161,13 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', 'value.[]', function () {
+  collapsed: computed('isCollapsed', 'value.[]', function() {
     let isCollapsed = this.get('isCollapsed');
+    let value = this.get('value');
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(this.get('value')
-      .length > 0) {
+    } else if(isArray(value).length > 0) {
       return false;
     } else {
       return true;
@@ -208,9 +208,8 @@ export default Component.extend(Template, {
    * @category computed
    * @requires value.[]
    */
-  pillColor: computed('value.[]', function () {
-    let count = this.get('value')
-      .length;
+  pillColor: computed('value.[]', function() {
+    let count = this.get('value.length') || 0;
     let required = this.get('required');
     return(count === 0) ? required ? 'label-danger' : 'label-warning' :
       'label-info';

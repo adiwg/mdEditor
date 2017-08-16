@@ -1,1 +1,45 @@
+{{#layout/md-card shadow=false
+  muted=false
+  plain=true}}
+    <div class="row">
+    <label class="text-info col-md-2 col-xxl-1">Amount</label>
+    {{input/md-input
+      class="col-md-5 col-xxl-3"
+      type="number"
+      model=this
+      valuePath="amount"
+      step="0.01"
+      label="Amount"
+      placeholder="Enter amount for the allocation."
+      profilePath=(concat profilePath ".amount")
+      showValidations=true
+    }}
+    {{input/md-codelist
+      create=false
+      model=this
+      class="col-md-5 col-xxl-3"
+      mdCodeName="currency"
+      namePath="codeName"
+      valuePath="codeName"
+      path="currency"
+      label="Currency"
+      required=true
+      tooltip=true
+      icon=false
+      allowClear=true
+      placeholder="Choose unit of currency"
+    }}
+  </div>
+
+  {{input/md-select-contact
+      label="Recipient"
+      placeholder="Pick contact that received funds"
+      value="model.recipientId"
+      contactType="contacts"
+      icon=true
+      tooltip=false
+      multiple=false
+    }}
+{{/layout/md-card}}
+
 {{yield}}

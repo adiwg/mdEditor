@@ -5,7 +5,8 @@ const {
   get,
   isEmpty,
   isArray,
-  computed
+  computed,
+  NativeArray
 } = Ember;
 
 export default Route.extend({
@@ -37,8 +38,8 @@ export default Route.extend({
   setupModel() {
     let citationId = get(this, 'citationId');
     let model = this.modelFor('record.show.edit');
-    let objects = model.get('json.metadata.additionalDocumentation');
-    let resource = citationId && isArray(objects) ? objects.get(citationId) :
+    let objects = NativeArray.apply(model.get('json.metadata.additionalDocumentation'));
+    let resource = citationId && isArray(objects) ? objects.objectAt(citationId) :
       undefined;
 
     //make sure the identifier exists

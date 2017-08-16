@@ -82,4 +82,10 @@ export default function () {
     this.use('toLeft'),
     this.reverse('toRight')
   );
+  this.transition(
+    this.toRoute('record.show.edit.documents.citation'),
+    this.fromRoute('record.show.edit.documents.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
 }

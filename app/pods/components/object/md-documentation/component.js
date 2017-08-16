@@ -12,7 +12,8 @@ const {
   getWithDefault,
   run: {
     once
-  }
+  },
+  NativeArray
 } = Ember;
 
 const Validations = buildValidations({
@@ -31,7 +32,7 @@ export default Component.extend(Validations, {
 
     once(this, function() {
       set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'citation', getWithDefault(model, 'citation', []));
+      set(model, 'citation', NativeArray.apply(getWithDefault(model, 'citation', [{}])));
     });
   },
 

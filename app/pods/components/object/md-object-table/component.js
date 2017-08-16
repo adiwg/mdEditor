@@ -148,6 +148,15 @@ export default Component.extend(InViewportMixin, Template, {
    */
 
   /**
+   * Whether the panel is collapsible.
+   *
+   * @property collapsible
+   * @type {Boolean}
+   * @default true
+   */
+   collapsible: true,
+
+  /**
    * True to truncate the preview table cell text.
    *
    * @property ellipsis
@@ -288,8 +297,8 @@ export default Component.extend(InViewportMixin, Template, {
   }),
 
   pillColor: computed('items.[]', function() {
-    let count = this.get('items')
-      .length;
+    let count = this.get('items.length') || 0;
+
     return(count > 0) ? 'label-info' : 'label-warning';
   }),
 
@@ -320,7 +329,10 @@ export default Component.extend(InViewportMixin, Template, {
     },
 
     cancelEdit: function() {
+      const spotlight = this.get('spotlight');
+
       this.set('editing', false);
+      spotlight.close();
     }
   }
 

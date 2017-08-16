@@ -19,7 +19,8 @@ const {
   getWithDefault,
   defineProperty,
   computed,
-  isNone
+  isNone,
+  assert
 } = Ember;
 
 let App;
@@ -56,12 +57,14 @@ Component.reopen({
     let isVisible = isNone(visibility) ? true : visibility;
 
     if(path !== undefined) {
+      assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
       defineProperty(this, 'isVisible', computed(
         'profile.active',
         function () {
           let fullPath = 'profiles.' + get(profile, 'active') +
             '.components.' +
             path;
+
 
           return getWithDefault(profile, fullPath, isVisible);
         }));
