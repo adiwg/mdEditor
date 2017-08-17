@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/a3181d92" target="_blank">
-                                  Tag: 0.0.0.a3181d92
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e7f11bb5" target="_blank">
+                                  Tag: 0.0.0.e7f11bb5
                                 </a>
                             </h4>
                         </div>
@@ -187,7 +187,7 @@
                                         <a href="../classes/md-select.html">md-select</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-select-contact.html">md-select-contact</a>
+                                        <a href="../classes/md-select-contacts.html">md-select-contacts</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-select-table.html">md-select-table</a>
@@ -261,7 +261,8 @@ const {
   getWithDefault,
   defineProperty,
   computed,
-  isNone
+  isNone,
+  assert
 } = Ember;
 
 let App;
@@ -298,12 +299,14 @@ Component.reopen({
     let isVisible = isNone(visibility) ? true : visibility;
 
     if(path !== undefined) {
+      assert(&#x60;${path} is not a profile path!&#x60;, path.charAt(0) !== &#x27;.&#x27;);
       defineProperty(this, &#x27;isVisible&#x27;, computed(
         &#x27;profile.active&#x27;,
         function () {
           let fullPath = &#x27;profiles.&#x27; + get(profile, &#x27;active&#x27;) +
             &#x27;.components.&#x27; +
             path;
+
 
           return getWithDefault(profile, fullPath, isVisible);
         }));

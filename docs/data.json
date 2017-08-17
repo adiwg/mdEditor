@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.a3181d92",
+        "version": "0.0.0.e7f11bb5",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -264,8 +264,15 @@
         "app/pods/components/input/md-select-contact/component.js": {
             "name": "app/pods/components/input/md-select-contact/component.js",
             "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/input/md-select-contacts/component.js": {
+            "name": "app/pods/components/input/md-select-contacts/component.js",
+            "modules": {},
             "classes": {
-                "md-select-contact": 1
+                "md-select-contacts": 1
             },
             "fors": {},
             "namespaces": {}
@@ -340,6 +347,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/object/md-allocation/component.js": {
+            "name": "app/pods/components/object/md-allocation/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/object/md-array-table/component.js": {
             "name": "app/pods/components/object/md-array-table/component.js",
             "modules": {},
@@ -402,6 +416,13 @@
         },
         "app/pods/components/object/md-documentation/component.js": {
             "name": "app/pods/components/object/md-documentation/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-funding/component.js": {
+            "name": "app/pods/components/object/md-funding/component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -743,7 +764,7 @@
                 "md-inputs": 1,
                 "md-markdown-editor": 1,
                 "md-select": 1,
-                "md-select-contact": 1,
+                "md-select-contacts": 1,
                 "md-select-thesaurus": 1,
                 "md-textarea": 1,
                 "md-toggle": 1,
@@ -859,7 +880,7 @@
                 "md-inputs": 1,
                 "md-markdown-editor": 1,
                 "md-select": 1,
-                "md-select-contact": 1,
+                "md-select-contacts": 1,
                 "md-select-thesaurus": 1,
                 "md-textarea": 1,
                 "md-toggle": 1
@@ -1338,9 +1359,9 @@
             "description": "A select list control for displaying and selecting options\nprovided in an array or promise array.",
             "is_constructor": 1
         },
-        "md-select-contact": {
-            "name": "md-select-contact",
-            "shortname": "md-select-contact",
+        "md-select-contacts": {
+            "name": "md-select-contacts",
+            "shortname": "md-select-contacts",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -1349,7 +1370,7 @@
             "module": "mdeditor",
             "submodule": "components-input",
             "namespace": "",
-            "file": "app/pods/components/input/md-select-contact/component.js",
+            "file": "app/pods/components/input/md-select-contacts/component.js",
             "line": 15,
             "description": "Specialized select list control for displaying and selecting\ncontacts.",
             "is_constructor": 1,
@@ -3680,7 +3701,7 @@
             "name": "contacts",
             "type": "{Ember.Service}",
             "readonly": "",
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -3691,9 +3712,9 @@
             "itemtype": "property",
             "name": "classNames",
             "type": "{Array}",
-            "default": "['md-select-organization']",
+            "default": "['md-select-contact']",
             "readonly": "",
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -3708,7 +3729,7 @@
             "type": "{String}",
             "default": "'contacts'",
             "readonly": "",
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -3723,7 +3744,7 @@
             "type": "{String}",
             "default": "'valuePath'",
             "readonly": "",
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -3738,7 +3759,7 @@
             "type": "{String}",
             "default": "'namePath'",
             "readonly": "",
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -3752,7 +3773,7 @@
             "tagname": "",
             "type": "{String}",
             "default": "'contacts'",
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -3761,7 +3782,7 @@
             "line": 88,
             "description": "The contact list mapped from the store to a codelist.",
             "itemtype": "property",
-            "name": "mdCodes",
+            "name": "mapped",
             "type": "{Array}",
             "category": [
                 "computed"
@@ -3769,14 +3790,98 @@
             "requires": [
                 "contacts.[]"
             ],
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
         {
-            "file": "app/pods/components/input/md-select-contact/component.js",
-            "line": 107,
-            "description": "mapped is a re-mapped array of code objects.",
+            "file": "app/pods/components/input/md-select-contacts/component.js",
+            "line": 24,
+            "description": "The contacts service",
+            "itemtype": "property",
+            "name": "contacts",
+            "type": "{Ember.Service}",
+            "readonly": "",
+            "class": "md-select-contacts",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contacts/component.js",
+            "line": 33,
+            "description": "The default CSS classnames",
+            "itemtype": "property",
+            "name": "classNames",
+            "type": "{Array}",
+            "default": "['md-select-organization']",
+            "readonly": "",
+            "class": "md-select-contacts",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contacts/component.js",
+            "line": 43,
+            "description": "The default codelist name. Should not be overridden.",
+            "itemtype": "property",
+            "name": "classNames",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'contacts'",
+            "readonly": "",
+            "class": "md-select-contacts",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contacts/component.js",
+            "line": 54,
+            "description": "The property that holds the select item value. Should not be overridden.",
+            "itemtype": "property",
+            "name": "valuePath",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'valuePath'",
+            "readonly": "",
+            "class": "md-select-contacts",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contacts/component.js",
+            "line": 65,
+            "description": "The property that holds the select item text. Should not be overridden.",
+            "itemtype": "property",
+            "name": "namePath",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'namePath'",
+            "readonly": "",
+            "class": "md-select-contacts",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contacts/component.js",
+            "line": 76,
+            "description": "The contact type to display in the list. Choices are `organizations` or\n`individuals` or 'contacts'. Passing any other value will default to\n'contacts'.",
+            "itemtype": "property",
+            "name": "contactType",
+            "access": "protected",
+            "tagname": "",
+            "type": "{String}",
+            "default": "'contacts'",
+            "class": "md-select-contacts",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-contacts/component.js",
+            "line": 88,
+            "description": "The contact list mapped from the store to a codelist.",
             "itemtype": "property",
             "name": "mapped",
             "type": "{Array}",
@@ -3784,9 +3889,9 @@
                 "computed"
             ],
             "requires": [
-                "mdCodeName"
+                "contacts.[]"
             ],
-            "class": "md-select-contact",
+            "class": "md-select-contacts",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -4255,6 +4360,29 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/components/object/md-allocation/component.js",
+            "line": 45,
+            "description": "The string representing the path in the profile object for the resource.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "'false'",
+            "required": 1,
+            "class": "md-array-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-allocation/component.js",
+            "line": 54,
+            "description": "The object to use as the data model for the resource.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-array-table",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-array-table/component.js",
             "line": 50,
             "description": "The array to render in the template",
@@ -4446,7 +4574,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 219,
+            "line": 218,
             "description": "Focus the added row, or the last row on deletion.",
             "itemtype": "method",
             "name": "valueChanged",
@@ -4639,7 +4767,7 @@
         },
         {
             "file": "app/pods/components/object/md-documentation/component.js",
-            "line": 40,
+            "line": 41,
             "description": "The string representing the path in the profile object for the resource.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4651,7 +4779,30 @@
         },
         {
             "file": "app/pods/components/object/md-documentation/component.js",
+            "line": 50,
+            "description": "The object to use as the data model for the resource.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-funding/component.js",
             "line": 49,
+            "description": "The string representing the path in the profile object for the resource.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "'false'",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-funding/component.js",
+            "line": 58,
             "description": "The object to use as the data model for the resource.",
             "itemtype": "property",
             "name": "model",
@@ -4997,6 +5148,17 @@
         {
             "file": "app/pods/components/object/md-object-table/component.js",
             "line": 150,
+            "description": "Whether the panel is collapsible.",
+            "itemtype": "property",
+            "name": "collapsible",
+            "type": "{Boolean}",
+            "default": "true",
+            "class": "md-object-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 159,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -5007,7 +5169,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 158,
+            "line": 167,
             "description": "If true, a box shadow will be rendered around the panel.",
             "itemtype": "property",
             "name": "shadow",
@@ -5018,7 +5180,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 167,
+            "line": 176,
             "description": "The height to offset from top of container when scrolling.",
             "itemtype": "property",
             "name": "offset",
@@ -5029,7 +5191,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 176,
+            "line": 185,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",

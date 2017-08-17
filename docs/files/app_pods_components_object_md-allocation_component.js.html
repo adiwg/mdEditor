@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/input/md-codelist/component.js - mdeditor</title>
+    <title>app/pods/components/object/md-allocation/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -240,250 +240,72 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * @module mdeditor
- * @submodule components-input
- */
-
 import Ember from &#x27;ember&#x27;;
-import Select from &#x27;../md-select/component&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
-export default Select.extend({
-  /**
-   * Specialized select list control for displaying and selecting
-   * options in mdCodes codelists.
-   * Access to codelists is provided by the &#x27;codelist&#x27; service.
-   * Descriptions of all codes (tooltips) are embedded within the codelists.
-   *
-   * &#x60;&#x60;&#x60;handlebars
-   * \{{input/md-codelist
-   *   create=true
-   *   required=false
-   *   tooltip=fasle
-   *   icon=false
-   *   disabled=false
-   *   allowClear=true
-   *   showValidations=true
-   *   mdCodeName=&quot;codeName&quot;
-   *   value=value
-   *   path=&quot;path&quot;
-   *   model=model
-   *   placeholder=&quot;Choose&quot;
-   * }}
-   * &#x60;&#x60;&#x60;
-   *
-   * @class md-codelist
-   * @extends md-select
-   * @constructor
-   */
-
-  classNames: [&#x27;md-codelist&#x27;],
-  layoutName: &#x27;components/input/md-select&#x27;,
-
-  /**
-   * The name of the mdCodes&#x27;s codelist to use
-   *
-   * @property mdCodeName
-   * @type String
-   * @required
-   */
-
-  /**
-   * Name of the attribute in the objectArray to be used for the
-   * select list&#x27;s option value.
-   *
-   * @property valuePath
-   * @type String
-   * @default codeName
-   * @required
-   */
-  valuePath: &#x27;codeName&#x27;,
-  /**
-   * Name of the attribute in the objectArray to be used for the
-   * select list&#x27;s option name or display text.
-   *
-   * @property namePath
-   * @type String
-   * @default codename
-   * @required
-   */
-  namePath: &#x27;codeName&#x27;,
-
-  /**
-   * Name of the attribute in the objectArray to be used for the
-   * select list&#x27;s tooltip.  If null, no tooltip will be
-   * generated.
-   *
-   * @property tooltipPath
-   * @type String
-   * @default null
-   */
-  tooltipPath: &#x27;description&#x27;,
-
-  /**
-   * Initial value, returned value.
-   *
-   * @property value
-   * @type String
-   * @return String
-   * @required
-   */
-
-  /**
-   * Whether to render a button to clear the selection.
-   *
-   * @property allowClear
-   * @type Boolean
-   * @default true
-   */
-  allowClear: true,
-
-  /**
-   * The string to display when no option is selected.
-   *
-   * @property placeholder
-   * @type String
-   * @default &#x27;Select one option&#x27;
-   */
-  placeholder: &quot;Select one option&quot;,
-
-  /**
-   * Form label for select list
-   *
-   * @property label
-   * @type String
-   * @default null
-   */
-  label: null,
-
-  mdCodes: Ember.inject.service(&#x27;codelist&#x27;),
-
-  /*
-   * The currently selected item in the codelist
-   *
-   * @property selectedItem
-   * @type Ember.computed
-   * @return PromiseObject
-   */
-  selectedItem: Ember.computed(&#x27;value&#x27;, function () {
-    let value = this.get(&#x27;value&#x27;);
-
-    return this.get(&#x27;codelist&#x27;)
-      .find((item) =&gt; {
-        return item[&#x27;codeId&#x27;] === value;
-      });
-  }),
-
-  /**
-   * mapped is a re-mapped array of code objects.
-   * The initial codelist for &#x27;mdCodeName&#x27; is provided by the &#x27;codelist&#x27; service.
-   *
-   * @property mapped
-   * @type {Array}
-   * @category computed
-   * @requires mdCodeName
-   */
-  mapped: Ember.computed(&#x27;mdCodeName&#x27;, function () {
-    let codeId = this.get(&#x27;valuePath&#x27;);
-    let codeName = this.get(&#x27;namePath&#x27;);
-    let tooltip = this.get(&#x27;tooltipPath&#x27;);
-    let codelist = [];
-    let icons = this.get(&#x27;icons&#x27;);
-    let defaultIcon = this.get(&#x27;defaultIcon&#x27;);
-    let codelistName = this.get(&#x27;mdCodeName&#x27;);
-    let mdCodelist = this.get(&#x27;mdCodes&#x27;)
-      .get(codelistName)
-      .codelist
-      //.uniqBy(codeName)
-      .sortBy(codeName);
-
-    mdCodelist.forEach(function (item) {
-      let newObject = {
-        codeId: item[codeId],
-        codeName: item[codeName],
-        tooltip: item[tooltip],
-        icon: icons.get(item[codeName]) || icons.get(defaultIcon)
-      };
-      codelist.pushObject(newObject);
-    });
-
-    return codelist;
-  }),
-
-  /**
-   * If a value is provided by the user which is not in the codelist and &#x27;create=true&#x27;
-   * the new value will be added into the codelist array
-   *
-   * @property codelist
-   * @type {Array}
-   * @category computed
-   * @requires value
-   */
-  codelist: Ember.computed(&#x27;value&#x27;, &#x27;filterId&#x27;, function () {
-    let codelist = this.get(&#x27;mapped&#x27;);
-    let value = this.get(&#x27;value&#x27;);
-    let create = this.get(&#x27;create&#x27;);
-    let filter = this.get(&#x27;filterId&#x27;);
-
-    if(value) {
-      if(create) {
-        let found = codelist.findBy(&#x27;codeId&#x27;, value);
-        if(found === undefined) {
-          let newObject = this.createCode(value);
-          codelist.pushObject(newObject);
-        }
-      }
-    }
-
-    return codelist.rejectBy(&#x27;codeId&#x27;, filter);
-  }),
-
-  /**
-   * Creates a new codelist entry with a randomly generated code identifier.
-   *
-   * @method createCode
-   * @param  {String} code The codeName
-   * @return {Object}      Returns a new codelist object
-   */
-  createCode(code) {
-    return {
-      codeId: code,
-      codeName: code,
-      description: &#x27;Undefined&#x27;
-    };
+const {
+  Component,
+  computed: {
+    alias
   },
+  get,
+  run: {
+    once
+  },
+  getWithDefault,
+  set
+} = Ember;
+
+const Validations = buildValidations({
+  &#x27;amount&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      ignoreBlank: true
+    })
+  ],
+  &#x27;currency&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      ignoreBlank: true
+    })
+  ]
+});
+
+export default Component.extend(Validations, {
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    let model = get(this, &#x27;model&#x27;);
+
+    once(this, function() {
+      set(model, &#x27;currency&#x27;, getWithDefault(model, &#x27;currency&#x27;, &#x27;USD&#x27;));
+    });
+  },
+  /**
+   * The string representing the path in the profile object for the resource.
+   *
+   * @property profilePath
+   * @type {String}
+   * @default &#x27;false&#x27;
+   * @required
+   */
 
   /**
-   * Set the value on the select.
+   * The object to use as the data model for the resource.
    *
-   * @method setValue
-   * @param {Object} selected The object with the value(codeName) to set.
+   * @property model
+   * @type {Object}
+   * @required
    */
-  /*setValue(selected) {
-    let valuePath = this.get(&#x27;valuePath&#x27;);
-    let namePath = this.get(&#x27;namePath&#x27;);
 
-    if(selected) {
-      this.get(&#x27;codelist&#x27;)
-    }
-    let val = selected ? selected.codeName : null;
-    this.set(&#x27;value&#x27;, val);
-    this.change();
-  },*/
-
-  actions: {
-    // do the binding to value
-    setValue: function (selected) {
-      this.setValue(selected);
-    },
-    //handle the create
-    create(selected) {
-      let code = this.createCode(selected);
-
-      this.setValue(code);
-    }
-  }
-
+  attributeBindings: [&#x27;data-spy&#x27;],
+  &#x27;data-spy&#x27;: &#x27;Allocation&#x27;,
+  tagName: &#x27;form&#x27;,
+  amount: alias(&#x27;model.amount&#x27;),
+  currency: alias(&#x27;model.currency&#x27;)
 });
 
     </pre>

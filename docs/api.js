@@ -29,7 +29,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-phone-array",
         "md-scroll-spy",
         "md-select",
-        "md-select-contact",
+        "md-select-contacts",
         "md-select-table",
         "md-select-thesaurus",
         "md-simple-array-table",
