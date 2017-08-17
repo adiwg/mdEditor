@@ -1,0 +1,29 @@
+{{#object/md-object-table
+  items=model.allocation
+  header="Allocation"
+  data-spy="Allocation"
+  shadow=true
+  buttonText="Add Allocation"
+  ellipsis=true
+  attributes="amount,currency,matching"
+  profilePath="record.funding.allocation"
+  collapsible=false
+  isCollapsed=false
+  verticalButtons=true as |editing|
+}}
+
+  {{object/md-allocation
+    model=editing
+    profilePath="record.funding.allocation"
+  }}
+
+{{/object/md-object-table}}
+
+{{#if model.timePeriod}}
+
+{{object/md-timePeriod
+  model=model.timePeriod
+  profilePath="record.funding.allocation"
+}}
+
+{{/if}}

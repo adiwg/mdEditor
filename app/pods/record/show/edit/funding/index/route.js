@@ -25,16 +25,8 @@ export default Route.extend({
   },
 
   actions: {
-    // editResource(id) {
-    //   this.transitionTo('record.show.edit.associated.resource', id);
-    // } //,
-    // templateClass() {
-    //   return Ember.Object.extend({
-    //     init() {
-    //       this._super(...arguments);
-    //       //this.set('authority', {});
-    //     }
-    //   });
-    // }
+    editAllocation(id) {
+      this.transitionTo('record.show.edit.funding.allocation', id);
+    }
   }
 });

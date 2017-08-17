@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 const {
   Route,
@@ -9,16 +10,16 @@ const {
   NativeArray
 } = Ember;
 
-export default Route.extend({
-  breadCrumb: computed('citationId', function () {
+export default Route.extend(ScrollTo, {
+  breadCrumb: computed('allocationId', function () {
     return {
-      title: get(this, 'citationId'),
+      title: get(this, 'allocationId'),
       linkable: true
     };
   }),
 
   model(params) {
-    this.set('citationId', params.citation_id);
+    this.set('allocationId', params.allocation_id);
 
     return this.setupModel();
   },
@@ -28,7 +29,8 @@ export default Route.extend({
     this._super(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-    this.controller.set('citationId', get(this, 'citationId'));
+    this.controller.set('allocationId', get(this, 'allocationId'));
+
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel
@@ -36,17 +38,17 @@ export default Route.extend({
   },
 
   setupModel() {
-    let citationId = get(this, 'citationId');
+    let allocationId = get(this, 'allocationId');
     let model = this.modelFor('record.show.edit');
-    let objects = model.get('json.metadata.additionalDocumentation');
-    let resource = citationId && isArray(objects) ? NativeArray.apply(objects).objectAt(citationId) :
+    let objects = model.get('json.metadata.funding');
+    let resource = allocationId && isArray(objects) ? NativeArray.apply(objects).objectAt(allocationId) :
       undefined;
 
-    //make sure the identifier exists
+    //make sure the allocation exists
     if(isEmpty(resource)) {
       Ember.get(this, 'flashMessages')
-        .warning('No Document object found! Re-directing to list...');
-      this.replaceWith('record.show.edit.documents');
+        .warning('No Funding object found! Re-directing to list...');
+      this.replaceWith('record.show.edit.funding');
 
       return;
     }

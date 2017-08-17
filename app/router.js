@@ -98,7 +98,11 @@ Router.map(function() {
               });
             });
           });
-          this.route('funding', function() {});
+          this.route('funding', function() {
+            this.route('allocation', {
+              path: ':allocation_id'
+            });
+          });
           this.route('dictionary');
           this.route('spatial', function() {});
         });

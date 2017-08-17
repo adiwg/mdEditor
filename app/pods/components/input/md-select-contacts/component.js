@@ -4,7 +4,7 @@
  */
 
 import Ember from 'ember';
-import Select from '../md-codelist/component';
+import Select from '../md-codelist-multi/component';
 
 const {
   inject,
@@ -35,7 +35,7 @@ export default Select.extend({
    *
    * @property classNames
    * @type {Array}
-   * @default ['md-select-contact']
+   * @default ['md-select-organization']
    * @readOnly
    */
   classNames: ['md-select-contact'],

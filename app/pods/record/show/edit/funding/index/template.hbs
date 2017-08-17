@@ -3,24 +3,15 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{log model.json.metadata.funding}}
-
-{{#object/md-object-table
+{{object/md-objectroute-table
   items=model.json.metadata.funding
-  header="Funding"
+  collapsible=false
+  isCollapsed=false
+  header="Funding Allocations"
   shadow=true
   buttonText="Add Funding"
   ellipsis=ellipsis
-  attributes="amount,currency"
-  profilePath="record.funding"
-  collapsible=false
-  isCollapsed=false
-  verticalButtons=true as |editing|
+  attributes="amount"
+  editItem=(route-action "editAllocation")
+  verticalButtons=true
 }}
-
-  {{object/md-allocation
-    model=editing
-    profilePath="record.funding"
-  }}
-
-{{/object/md-object-table}}

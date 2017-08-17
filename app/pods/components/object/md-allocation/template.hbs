@@ -2,7 +2,7 @@
   muted=false
   plain=true}}
     <div class="row">
-    <label class="text-info col-md-2 col-xxl-1">Amount</label>
+    <label class="text-info col-md-2 col-xxl-1 required">Amount</label>
     {{input/md-input
       class="col-md-5 col-xxl-3"
       type="number"
@@ -28,18 +28,43 @@
       icon=false
       allowClear=true
       placeholder="Choose unit of currency"
+      profilePath=(concat profilePath ".currency")
     }}
   </div>
 
   {{input/md-select-contact
-      label="Recipient"
-      placeholder="Pick contact that received funds"
-      value="model.recipientId"
+      label="Source"
+      placeholder="Pick contact that supplied funds"
+      value=model.sourceId
       contactType="contacts"
       icon=true
       tooltip=false
-      multiple=false
-    }}
+      profilePath=(concat profilePath ".sourceId")
+   }}
+
+  {{input/md-select-contact
+      label="Recipient"
+      placeholder="Pick contact that received funds"
+      value=model.recipientId
+      contactType="contacts"
+      icon=true
+      tooltip=false
+      profilePath=(concat profilePath ".recipientId")
+  }}
+
+  {{input/md-boolean
+    label="Matching"
+    text="Matching funds or in-kind services"
+    value=model.matching
+    profilePath=(concat profilePath ".matching")
+  }}
+
+ {{input/md-textarea
+     value=model.description
+     profilePath=(concat profilePath ".description")
+     label="Description"
+     placeholder="Enter text describing the allocation."
+   }}
 {{/layout/md-card}}
 
 {{yield}}

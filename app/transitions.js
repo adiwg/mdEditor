@@ -88,4 +88,10 @@ export default function () {
     this.use('toLeft'),
     this.reverse('toRight')
   );
+  this.transition(
+    this.toRoute('record.show.edit.funding.allocation'),
+    this.fromRoute('record.show.edit.funding.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
 }

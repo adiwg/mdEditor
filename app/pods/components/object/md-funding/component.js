@@ -6,6 +6,7 @@ import {
 
 const {
   Component,
+  computed,
   computed: {
     alias
   },
@@ -18,16 +19,18 @@ const {
 } = Ember;
 
 const Validations = buildValidations({
-  'amount': [
+  'allocation': [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
+      ignoreBlank: true,
+      disabled: computed.notEmpty('model.timePeriod')
     })
   ],
-  'currency': [
+  'timePeriod': [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
+      ignoreBlank: true,
+      disabled: computed.notEmpty('model.allocation')
     })
   ]
 });
@@ -39,7 +42,8 @@ export default Component.extend(Validations, {
     let model = get(this, 'model');
 
     once(this, function() {
-      set(model, 'currency', getWithDefault(model, 'currency', 'USD'));
+      set(model, 'allocation', getWithDefault(model, 'allocation', []));
+      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
     });
   },
   /**
@@ -59,9 +63,7 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  attributeBindings: ['data-spy'],
-  'data-spy': 'Allocation',
   tagName: 'form',
-  amount: alias('model.amount'),
-  currency: alias('model.currency')
+  allocation: alias('model.allocation'),
+  timePeriod: alias('model.timePeriod')
 });
