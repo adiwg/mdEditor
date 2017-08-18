@@ -1,45 +1,6 @@
 <section>
   {{#each model.json.metadata.resourceInfo.extent as |extent index|}}
-    <div class="row md-extent-container">
-      <div class="col-sm-6">
-        <div class="row">
-          <h4 class="col-sm-12 text-primary"><strong>Spatial Extent #{{index}}</strong></h4>
-        </div>
-        <div class="row">
-          <div class="col-sm-4 md-extent-buttons">
-            <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action (route-action "editExtent" index)}}>
-              {{fa-icon "pencil"}} Edit Spatial Extent</button>
-            <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteExtent" index)}}>
-                {{fa-icon "times"}} Delete Spatial Extent</button>
-          </div>
-          <div class="col-sm-8 md-extent-description">
-            {{input/md-textarea value=extent.description rows=5 maxHeight=300 placeholder="Description of extent" label="Description"}}
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 md-extent-map">
-        {{#if extent.geographicExtent.0.geographicElement.length}}
-          {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(route-action "setupMap" extent.geographicExtent.0.geographicElement)}}
-            {{!-- Specify child layer components here --}}
-            {{#layer-group name="Terrain" baselayer=true default=true}}
-              {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
-            {{/layer-group}}
-
-            {{#feature-group name="Features" default=true}}
-              {{#each extent.geographicExtent.0.geographicElement as |l|}}
-                {{geojson-layer geoJSON=l}}
-              {{/each}}
-            {{/feature-group}}
-
-            {{layer-control}}
-          {{/leaflet-map}}
-        {{else}}
-          <div class="alert alert-info">
-            No Features to display.
-          </div>
-        {{/if}}
-      </div>
-    </div>
+{{object/md-spatial-extent extent=extent index=index}}
     {{else}}
     <h3 class="alert alert-info">No spatial extents found.
       <button type="button" class="btn btn-success" {{action (route-action "addExtent")}}>

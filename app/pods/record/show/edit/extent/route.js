@@ -1,10 +1,13 @@
 import Ember from 'ember';
-/* global L */
 
 const {
   A,
   Route,
-  computed
+  computed,
+  set,
+  getWithDefault,
+  get,
+  $
 } = Ember;
 
 export default Route.extend({
@@ -13,14 +16,13 @@ export default Route.extend({
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    if (!info.hasOwnProperty('extent')) {
-      info.extent = A();
-    }
+    set(info, 'extent', getWithDefault(info, 'extent', A()));
 
-    // return Ember.Object.create({
-    //   extents: info.extent,
-    //   featureGroup: null
-    // });
+    get(info, 'extent').forEach((itm) => {
+      set(itm, 'geographicExtent', getWithDefault(itm, 'geographicExtent', A()));
+      set(itm, 'geographicExtent.0', getWithDefault(itm, 'geographicExtent.0', {}));
+      set(itm, 'geographicExtent.0.boundingBox', getWithDefault(itm, 'geographicExtent.0.boundingBox', {}));
+    });
     return model;
   },
 
@@ -57,9 +59,15 @@ export default Route.extend({
       extents.pushObject({
         description: '',
         geographicExtent: [{
+          boundingBox: {},
           geographicElement: A()
         }]
       });
+
+      $("html, body").animate({
+        scrollTop: $(document).height()
+      }, "slow");
+
     },
     deleteExtent(id) {
       let extents = this.get('extents');
@@ -68,13 +76,6 @@ export default Route.extend({
     },
     editExtent(id) {
       this.transitionTo('record.show.edit.extent.spatial', id);
-    },
-    setupMap(features, m) {
-      let map = m.target;
-      let bounds = L.geoJson(features)
-        .getBounds();
-
-      map.fitBounds(bounds);
     },
     toList() {
       let me = this;

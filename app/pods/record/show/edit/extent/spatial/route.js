@@ -30,7 +30,7 @@ export default Ember.Route.extend({
   //     .set('subbar', null);
   // }.on('deactivate'),
 
-  setupController: function (controller) {
+  setupController: function(controller) {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -63,15 +63,13 @@ export default Ember.Route.extend({
       return;
     }
 
-    if(!isArray(extent.geographicExtent)) {
-      set(extent, 'geographicExtent', [{
-        geographicElement:NativeArray.apply([])
-      }]);
+    if(!isArray(extent.geographicExtent[0].geographicElement)) {
+      set(extent, 'geographicExtent.0.geographicElement', NativeArray.apply([]));
     }
 
     let layers = extent.geographicExtent[0].geographicElement;
 
-    layers.forEach(function (l, idx, arr) {
+    layers.forEach(function(l, idx, arr) {
       arr.replace(idx, 1, EmberObject.create(l));
     });
 

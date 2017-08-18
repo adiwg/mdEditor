@@ -1,0 +1,68 @@
+{{#layout/md-card
+title=(concat "Spatial Extent #" index)
+collapsible=true
+collapsed=false
+profilePath="card"
+data-spy="Card"
+shadow=true
+spotlightEnabled=false
+}}
+    <div class="card-buttons">
+      <div class="row">
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action (route-action "editExtent" index)}}>
+            {{fa-icon "pencil"}} Edit Extent Features</button>
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteExtent" index)}}>
+              {{fa-icon "times"}} Delete Spatial Extent</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col-xxxl-6">
+          <label>Bounding Box</label>
+          {{#object/md-bbox model=bbox profilePath="record.extent.bbox"}}
+          <div class="">
+            <button type="button" class="btn btn-primary" {{action "calculateBox"}}>Calculate</button>
+          </div>
+          {{/object/md-bbox}}
+        </div>
+        <div class="col-xxxl-6 md-extent-description">
+          {{input/md-textarea value=extent.description rows=5 maxHeight=300 placeholder="Description of extent" label="Description"}}
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 md-extent-map">
+      {{#if showMap}}
+        {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(action setupMap)}}
+          {{!-- Specify child layer components here --}}
+          {{#layer-group name="Terrain" baselayer=true default=true}}
+            {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+          {{/layer-group}}
+
+          {{#if geographicElement.length}}
+          {{#feature-group name="Features" default=true}}
+            {{#each geographicElement as |l|}}
+              {{geojson-layer geoJSON=l}}
+            {{/each}}
+          {{/feature-group}}
+          {{/if}}
+
+
+          {{#if bboxPoly}}
+            {{#feature-group name="Bounding Box" default=true}}
+                {{polygon-layer locations=bboxPoly color="#29abe0" fillOpacity=0}}
+            {{/feature-group}}
+          {{/if}}
+
+          {{layer-control}}
+        {{/leaflet-map}}
+      {{else}}
+        <div class="alert alert-info">
+          No Features to display.
+        </div>
+      {{/if}}
+    </div>
+  {{/layout/md-card}}
