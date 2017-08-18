@@ -24,9 +24,11 @@ spotlightEnabled=false
         <div class="col-xxxl-6">
           <label>Bounding Box</label>
           {{#object/md-bbox model=bbox profilePath="record.extent.bbox"}}
-          <div class="">
-            <button type="button" class="btn btn-primary" {{action "calculateBox"}}>Calculate</button>
-          </div>
+          {{#if geographicElement.length}}
+            <div class="">
+              <button type="button" class="btn btn-primary" {{action "calculateBox"}}>Calculate</button>
+            </div>
+          {{/if}}
           {{/object/md-bbox}}
         </div>
         <div class="col-xxxl-6 md-extent-description">

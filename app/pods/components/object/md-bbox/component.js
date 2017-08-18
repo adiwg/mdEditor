@@ -26,7 +26,7 @@ const Validations = buildValidations({
       lte: 90
     }),
     validator('number', {
-      lt: readOnly('model.north')
+      lte: readOnly('model.north')
     })
   ],
   'east': [
@@ -43,7 +43,7 @@ const Validations = buildValidations({
       lte: 180
     }),
     validator('number', {
-      lt: readOnly('model.east')
+      lte: readOnly('model.east')
     })
   ]
 });
