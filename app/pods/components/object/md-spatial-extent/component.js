@@ -14,12 +14,12 @@ const {
 } = Ember;
 
 const {
-  isNaN
+  isNaN:isNan
 } = Number;
 
 export default Component.extend({
   isTrulyNone(val) {
-    return isNone(val) || isNaN(val);
+    return isNone(val) || isNan(val);
   },
 
   bboxPoly: computed('bbox', 'bbox.northLatitude',
