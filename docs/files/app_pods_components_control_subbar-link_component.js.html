@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/90544bdf" target="_blank">
-                                  Tag: 0.0.0.90544bdf
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/b54df3bc" target="_blank">
+                                  Tag: 0.0.0.b54df3bc
                                 </a>
                             </h4>
                         </div>
@@ -242,9 +242,17 @@
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
 
-export default Ember.Component.extend({
+const {
+  Component,
+  computed: {
+    or
+  }
+} = Ember;
+
+export default Component.extend({
   /**
-   * mdEditor Component that renders a button used to navigate to a parent route.
+   * mdEditor Component that renders a button used to navigate to a parent route
+   * or perform an action on click.
    *
    * @class md-button-modal
    * @module mdeditor
@@ -261,6 +269,14 @@ export default Ember.Component.extend({
    */
 
   /**
+   * The click text to display
+   *
+   * @property clickText
+   * @type {String}
+   * @required
+   */
+
+  /**
    * The button icon
    *
    * @property icon
@@ -269,12 +285,47 @@ export default Ember.Component.extend({
    */
 
   /**
+   * The button type
+   *
+   * @property btnType
+   * @type {String}
+   * @default &#x27;primary&#x27;
+   */
+
+  /**
+   * The click button icon
+   *
+   * @property clickIcon
+   * @type {String}
+   * @required
+   */
+
+  /**
+   * The click button type
+   *
+   * @property clickType
+   * @type {String}
+   * @default &#x27;primary&#x27;
+   */
+  btnType: &#x27;primary&#x27;,
+
+  /**
    * The route to link to.
    *
    * @property route
    * @type {String}
-   * @required
    */
+
+  /**
+   * The click action.
+   *
+   * @property click
+   * @type {String}
+   */
+
+  clickTxt: or(&#x27;clickText&#x27;, &#x27;text&#x27;),
+  clickButtonType: or(&#x27;clickType&#x27;, &#x27;btnType&#x27;),
+  clickButtonIcon: or(&#x27;clickIcon&#x27;, &#x27;icon&#x27;)
 });
 
     </pre>

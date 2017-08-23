@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.90544bdf",
+        "version": "0.0.0.b54df3bc",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -407,6 +407,20 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/object/md-distribution/component.js": {
+            "name": "app/pods/components/object/md-distribution/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-distributor/component.js": {
+            "name": "app/pods/components/object/md-distributor/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/object/md-documentation/preview/component.js": {
             "name": "app/pods/components/object/md-documentation/preview/component.js",
             "modules": {},
@@ -499,6 +513,13 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/object/md-medium/component.js": {
+            "name": "app/pods/components/object/md-medium/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/object/md-object-table/component.js": {
             "name": "app/pods/components/object/md-object-table/component.js",
             "modules": {},
@@ -572,6 +593,13 @@
         },
         "app/pods/components/object/md-time-period/component.js": {
             "name": "app/pods/components/object/md-time-period/component.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/object/md-transfer/component.js": {
+            "name": "app/pods/components/object/md-transfer/component.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -1087,8 +1115,8 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "app/pods/components/control/subbar-link/component.js",
-            "line": 4,
-            "description": "mdEditor Component that renders a button used to navigate to a parent route.",
+            "line": 11,
+            "description": "mdEditor Component that renders a button used to navigate to a parent route\nor perform an action on click.",
             "submodule": "components-control",
             "is_constructor": 1
         },
@@ -2555,7 +2583,7 @@
         },
         {
             "file": "app/pods/components/control/subbar-link/component.js",
-            "line": 13,
+            "line": 21,
             "description": "The text to display",
             "itemtype": "property",
             "name": "text",
@@ -2567,7 +2595,19 @@
         },
         {
             "file": "app/pods/components/control/subbar-link/component.js",
-            "line": 21,
+            "line": 29,
+            "description": "The click text to display",
+            "itemtype": "property",
+            "name": "clickText",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/subbar-link/component.js",
+            "line": 37,
             "description": "The button icon",
             "itemtype": "property",
             "name": "icon",
@@ -2579,12 +2619,58 @@
         },
         {
             "file": "app/pods/components/control/subbar-link/component.js",
-            "line": 29,
+            "line": 45,
+            "description": "The button type",
+            "itemtype": "property",
+            "name": "btnType",
+            "type": "{String}",
+            "default": "'primary'",
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/subbar-link/component.js",
+            "line": 53,
+            "description": "The click button icon",
+            "itemtype": "property",
+            "name": "clickIcon",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/subbar-link/component.js",
+            "line": 61,
+            "description": "The click button type",
+            "itemtype": "property",
+            "name": "clickType",
+            "type": "{String}",
+            "default": "'primary'",
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/subbar-link/component.js",
+            "line": 70,
             "description": "The route to link to.",
             "itemtype": "property",
             "name": "route",
             "type": "{String}",
-            "required": 1,
+            "class": "md-button-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/subbar-link/component.js",
+            "line": 77,
+            "description": "The click action.",
+            "itemtype": "property",
+            "name": "click",
+            "type": "{String}",
             "class": "md-button-modal",
             "module": "mdeditor",
             "submodule": "components-control"
@@ -4755,6 +4841,52 @@
             "module": "mdeditor"
         },
         {
+            "file": "app/pods/components/object/md-distribution/component.js",
+            "line": 25,
+            "description": "The string representing the path in the profile object for the resource.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "'false'",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-distribution/component.js",
+            "line": 34,
+            "description": "The object to use as the data model for the resource.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-distributor/component.js",
+            "line": 52,
+            "description": "The string representing the path in the profile object for the resource.",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "default": "\"false\"",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-distributor/component.js",
+            "line": 61,
+            "description": "The object to use as the data model for the resource.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-graphic-array",
+            "module": "mdeditor"
+        },
+        {
             "file": "app/pods/components/object/md-documentation/preview/component.js",
             "line": 10,
             "description": "Whether to render the text muted.",
@@ -5052,6 +5184,16 @@
             "class": "md-maintenance",
             "module": "mdeditor",
             "submodule": "components-object"
+        },
+        {
+            "file": "app/pods/components/object/md-medium/component.js",
+            "line": 31,
+            "description": "The profile path for the component",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "class": "md-object-table",
+            "module": "mdeditor"
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
@@ -5418,6 +5560,16 @@
         {
             "file": "app/pods/components/object/md-time-period/component.js",
             "line": 68,
+            "description": "The profile path for the component",
+            "itemtype": "property",
+            "name": "profilePath",
+            "type": "{String}",
+            "class": "tree-branch",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-transfer/component.js",
+            "line": 70,
             "description": "The profile path for the component",
             "itemtype": "property",
             "name": "profilePath",

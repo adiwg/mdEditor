@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>md-spotlight - mdeditor</title>
+    <title>app/pods/components/object/md-transfer/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -234,244 +234,148 @@
                 <div class="apidocs">
                     <div id="docs-main">
                         <div class="content">
-
-
 <div class="page-header">
-    <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> md-spotlight Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/b54df3bc/app/pods/components/control/md-spotlight/component.js#L11" target="_blank">
-              <i class="fa fa-pencil" aria-hidden="true"></i>
-            </a>
-    </h1>
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
 </div>
 
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
 
-<div class="content-meta">
-        <div class="uses">
-            Uses:
-            <ul class="inline commas">
-                    <li><a href="service-spotlight.html">service-spotlight</a></li>
-            </ul>
-        </div>
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
-        <div class="extends">
-            Extends: Tether-dialog
-        </div>
+const {
+  Component,
+  computed,
+  set,
+  get,
+  getWithDefault,
+  run: {
+    once
+  }
+} = Ember;
 
-            Module: <a href="../modules/components-control.html">components-control</a><br>
-            Parent Module: <a href="../modules/mdeditor.html">mdeditor</a>
+const Validations = buildValidations({
+  // &#x27;intervalAmount&#x27;: [
+  //   validator(&#x27;presence&#x27;, {
+  //     presence: true,
+  //     //disabled: computed.notEmpty(&#x27;model.endDateTime&#x27;),
+  //     ignoreBlank: true
+  //   })
+  // ],
+  // &#x27;startDateTime&#x27;: [
+  //   validator(&#x27;presence&#x27;, {
+  //     presence: true,
+  //     disabled: computed.notEmpty(&#x27;model.endDateTime&#x27;),
+  //     ignoreBlank: true
+  //   })
+  // ],
+  // &#x27;endDateTime&#x27;: [
+  //   validator(&#x27;date&#x27;, {
+  //     onOrAfter: computed.alias(&#x27;model.startDateTime&#x27;),
+  //     isWarning: true
+  //   }),
+  //   validator(&#x27;presence&#x27;, {
+  //     presence: true,
+  //     disabled: computed.notEmpty(&#x27;model.startDateTime&#x27;),
+  //     ignoreBlank: true
+  //   })
+  // ]
+});
 
+export default Component.extend({
+  didReceiveAttrs() {
+    this._super(...arguments);
 
-        <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/b54df3bc/app/pods/components/control/md-spotlight/component.js#L11">app/pods/components/control/md-spotlight/component.js:11</a>
-        </div>
-</div>
+    let model = get(this, &#x27;model&#x27;);
 
+    once(function() {
+      set(model, &#x27;onlineOption&#x27;, getWithDefault(model, &#x27;onlineOption&#x27;, []));
+      set(model, &#x27;offlineOption&#x27;, getWithDefault(model, &#x27;offlineOption&#x27;, [{}]));
+      set(model, &#x27;transferFrequency&#x27;, getWithDefault(model,
+        &#x27;transferFrequency&#x27;, {}));
+      set(model, &#x27;distributionFormat&#x27;, getWithDefault(model,
+        &#x27;distributionFormat&#x27;, []));
+      // set(model, &#x27;presentationForm&#x27;, getWithDefault(model,
+      //   &#x27;presentationForm&#x27;, []));
+      // set(model, &#x27;onlineResource&#x27;, getWithDefault(model,
+      //   &#x27;onlineResource&#x27;, []));
+      // set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, []));
+      // set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
+    });
+  },
+  tagName: &#x27;form&#x27;,
 
-    <div class="constructor">
-        <h2>Constructor</h2>
-<div id="method_md-spotlight" class="method item">
-	<span class="method-signature">
-	<span class="name anchorable-toc">
-		<a class="fa fa-link toc-anchor" href="#method_md-spotlight"></a>
-		md-spotlight
-	</span>
+  /**
+   * The profile path for the component
+   *
+   * @property profilePath
+   * @type {String}
+   */
 
-		<span class="paren">()</span>
-	</span>
+  // startDateTime: computed(&#x27;model.startDateTime&#x27;, {
+  //   get(){
+  //     return get(this, &#x27;model.startDateTime&#x27;);
+  //   },
+  //   set(key, value) {
+  //     once(this,function() {
+  //       set(this, &#x27;model.startDateTime&#x27;, value);
+  //       return value;
+  //     });
+  //   }
+  // }),
+  // endDateTime: computed(&#x27;model.endDateTime&#x27;, {
+  //   get(){
+  //     return get(this, &#x27;model.endDateTime&#x27;);
+  //   },
+  //   set(key, value) {
+  //     once(this,function() {
+  //       set(this, &#x27;model.endDateTime&#x27;, value);
+  //       return value;
+  //     });
+  //   }
+  // }),
+  formatUri: computed.alias(
+    &#x27;model.distributionFormat.firstObject.formatSpecification.title&#x27;),
+  timeUnit: [{
+      name: &#x27;year&#x27;,
+      value: &#x27;year&#x27;
+    },
+    {
+      name: &#x27;month&#x27;,
+      value: &#x27;month&#x27;
+    },
+    {
+      name: &#x27;day&#x27;,
+      value: &#x27;day&#x27;
+    },
+    {
+      name: &#x27;hour&#x27;,
+      value: &#x27;hour&#x27;
+    },
+    {
+      name: &#x27;minute&#x27;,
+      value: &#x27;minute&#x27;
+    },
+    {
+      name: &#x27;second&#x27;,
+      value: &#x27;second&#x27;
+    }
+  ],
 
+  formatTemplate:Ember.Object.extend(Validations, {
+    init() {
+      this._super(...arguments);
+      this.set(&#x27;formatSpecification&#x27;, {});
+      this.set(&#x27;formatSpecification.onlineResource&#x27;, [{}]);
+    }
+  })
+});
 
-
-
-
-
-
-	<div class="meta">
-				<p>
-				Defined in
-		<a href="https://github.com/adiwg/mdEditor/blob/b54df3bc/app/pods/components/control/md-spotlight/component.js#L11">app/pods/components/control/md-spotlight/component.js:11</a>
-		</p>
-
-
-
-	</div>
-
-
-
-
-</div>
-    </div>
-
-  <div class="class-description">
-  <p>Component that highlights a DOM element</p>
-
-  </div>
-
-<div>
-    <div class="page-section">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href="#tab_index" aria-controls="tab_index" role="tab" data-toggle="tab">Index</a></li>
-
-            <li role="presentation"><a href="#tab_properties" aria-controls="tab_properties" role="tab" data-toggle="tab">Properties</a></li>
-
-
-        </ul>
-
-        <!-- Tab panes -->
-        <div class="tab-content">
-
-              <form id="options-form" class="form-inline">
-                  Show:
-                  <label for="api-show-inherited" class="checkbox">
-                      <input type="checkbox" id="api-show-inherited" checked>
-                      Inherited
-                  </label>
-          
-                  <label for="api-show-protected" class="checkbox">
-                      <input type="checkbox" id="api-show-protected">
-                      Protected
-                  </label>
-          
-                  <label for="api-show-private" class="checkbox">
-                      <input type="checkbox" id="api-show-private">
-                      Private
-                  </label>
-                  <label for="api-show-deprecated" class="checkbox">
-                      <input type="checkbox" id="api-show-deprecated">
-                      Deprecated
-                  </label>
-          
-              </form>
-
-          <div id="tab_index" role="tabpanel" class="tab-pane active" >
-
-                  <div class="index-section properties">
-                      <h3>Properties</h3>
-
-                      <ul class="index-list properties extends">
-                              <li class="index-item property">
-                                  <a href="#property_size">size</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_spotlight">spotlight</a>
-
-                              </li>
-                              <li class="index-item property">
-                                  <a href="#property_text">text</a>
-
-                              </li>
-                      </ul>
-                  </div>
-
-
-          </div>
-
-
-              <div id="tab_properties" role="tabpanel" class="tab-pane">
-                  <div class="item-list">
-  
-  
-  <div id="property_size" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_size"></a>
-          size
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/b54df3bc/app/pods/components/control/md-spinner/component.js#L6">app/pods/components/control/md-spinner/component.js:6</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The size of the FontAwesome icon.</p>
-  
-      </div>
-  
-          <p><br><strong>Default:</strong> &quot;false&quot;</p>
-  
-  
-  </div>
-  
-  
-  <div id="property_spotlight" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_spotlight"></a>
-          spotlight
-      </h3>
-      <span class="type">Service</span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/b54df3bc/app/pods/components/control/md-spotlight/component.js#L22">app/pods/components/control/md-spotlight/component.js:22</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The inected spotlight Service</p>
-  
-      </div>
-  
-  
-  
-  </div>
-  
-  
-  <div id="property_text" class="property item">
-      <h3 class="name anchorable-toc">
-          <a class="fa fa-link toc-anchor" href="#property_text"></a>
-          text
-      </h3>
-      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
-  
-  
-  
-  
-  
-  
-      <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/b54df3bc/app/pods/components/control/md-spinner/component.js#L15">app/pods/components/control/md-spinner/component.js:15</a>
-          </p>
-  
-  
-      </div>
-  
-      <div class="description">
-          <p>The the text to show below the spinner.</p>
-  
-      </div>
-  
-  
-  
-  </div>
-                  </div>
-              </div>
-
-
-      </div>
-    </div>
+    </pre>
 </div>
                         </div>
                     </div>
