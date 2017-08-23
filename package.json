@@ -32,7 +32,7 @@
     "broccoli-asset-rev": "^2.4.5",
     "csv2geojson": "^5.0.2",
     "ember-ajax": "^2.4.1",
-    "ember-autoresize": "~0.5.17",
+    "ember-autoresize": "~0.6.0",
     "ember-bootstrap-datetimepicker": "1.1.0",
     "ember-browserify": "^1.1.12",
     "ember-cli": "2.11.1",

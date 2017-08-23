@@ -7,6 +7,7 @@
           {{fa-icon "plus"}} Add {{title}}
       </button>
   </label>
+  <div class="{{if responsive "table-responsive"}}">
   <table class="table table-striped table-hover">
       {{#if columnArray}}
           <thead>
@@ -44,6 +45,7 @@
           {{/each}}
       </tbody>
   </table>
+  </div>
 {{else}}
     <div class="panel panel-default box-shadow--4dp">
 
@@ -63,7 +65,7 @@
         </div>
 
         <div id="{{panelId}}" class="panel-collapse {{if collapsed "collapse" "in"}}">
-            <div class="panel-body">
+            <div class="panel-body {{if responsive "table-responsive"}}">
                 <table class="table table-striped table-hover fadeIn">
                     {{#if columnArray}}
                         <thead>

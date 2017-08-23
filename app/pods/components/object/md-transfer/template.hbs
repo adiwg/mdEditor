@@ -1,0 +1,106 @@
+  {{input/md-input
+    type="number"
+    value=model.transferSize
+    step="0.01"
+    label="Transfer Size (MB)"
+    placeholder="Estimated size of a unit in the specified transfer format, expressed in megabytes."
+    profilePath=(concat profilePath ".transferSize")
+  }}
+  {{input/md-input
+    value=model.unitsOfDistribution
+    label="Distribution units"
+    placeholder="Description of the tiles, layers, geographic areas, etc., in which data are available."
+    profilePath=(concat profilePath ".distributionUnit")
+  }}
+
+  {{object/md-online-resource-array model=model.onlineOption
+    label="Online Option"
+    profilePath=(concat profilePath ".onlineOption")
+    class="md-embedded"
+    shadow=false
+    data-spy=fales}}
+
+    {{#object/md-object-table
+     items=model.offlineOption
+     header="Offline Option"
+     buttonText="Add Offline Option"
+     templateClass=templateClass
+     ellipsis=false
+     shadow=false
+     attributes="title" as |editing|
+    }}
+      {{object/md-medium model=editing
+        profilePath=(concat profilePath ".offlineOption")
+      }}
+    {{/object/md-object-table}}
+
+  {{#object/md-array-table
+    columns="Format Name,Version,Compression Method,URL"
+    plain=false
+    responsive=true
+    title="Distribution Format"
+    value=model.distributionFormat
+    validation=formatValidation
+    templateClass=formatTemplate
+    profilePath=(concat profilePath ".distributionFormat") as |format|
+  }}
+
+    <td>
+        {{input/md-input
+          value=format.item.formatSpecification.title
+          placeholder="Name of the format"
+
+        }}
+    </td>
+    <td>
+        {{input/md-input
+          value=format.item.amendmentNumber
+          placeholder="Format version"
+
+        }}
+    </td>
+    <td>
+        {{input/md-input
+          value=format.item.compressionMethod
+          placeholder="Compression Method"
+
+        }}
+    </td>
+    <td>
+      {{input/md-input
+        value=format.item.formatSpecification.onlineResource.firstObject.uri
+        placeholder="On-line information about the format"
+      }}
+    </td>
+  {{/object/md-array-table}}
+
+  {{#layout/md-card shadow=false
+    muted=false
+    plain=true
+    bodyIsRow=true}}
+    <label class="text-info col-sm-2">Transfer Frequency</label>
+    <div class="col-sm-10">
+      <div class="row">
+        {{#each (array
+          "years"
+          "months"
+          "days"
+          "hours"
+          "minutes"
+          "seconds")
+          as
+          |unit|}}
+          {{input/md-input
+        class="col-sm-6 col-md-4 col-lg-2"
+        valuePath=(concat "transferFrequency." unit)
+        model=model
+        type="number"
+        label=(uc-words unit)
+        placeholder=(concat "Enter " unit)
+        profilePath=(concat profilePath ".transferFrequency." unit)
+      }}
+        {{/each}}
+      </div>
+    </div>
+  {{/layout/md-card}}
+{{yield}}

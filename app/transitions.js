@@ -94,4 +94,10 @@ export default function () {
     this.use('toLeft'),
     this.reverse('toRight')
   );
+  this.transition(
+    this.toRoute('record.show.edit.distribution.distributor'),
+    this.fromRoute('record.show.edit.distribution.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
 }

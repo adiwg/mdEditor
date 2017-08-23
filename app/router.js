@@ -78,7 +78,11 @@ Router.map(function() {
               });
             });
           });
-          this.route('distribution');
+          this.route('distribution', function() {
+            this.route('distributor', {
+              path: ':distribution_id/distributor'
+            }, function() {});
+          });
           this.route('associated', function() {
             this.route('resource', {
               path: ':resource_id'

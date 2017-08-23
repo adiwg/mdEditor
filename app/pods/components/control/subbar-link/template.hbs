@@ -1,6 +1,11 @@
-{{#if route}}
-  {{#link-to route class="btn btn-lg btn-primary btn-block md-btn-responsive" }} {{fa-icon icon}} {{text}}{{/link-to}}
-{{else}}
-  <button type="button" name="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" click=click>{{fa-icon icon}} {{text}}</button>
-{{/if}}
-{{yield}}
+<div class="btn-group-vertical center-block" role="group" aria-label="Action Button Controls">
+  {{#if click}}
+  <button type="button" name="button" class="btn btn-lg {{concat "btn-" clickButtonType}} btn-block md-btn-responsive" click=click>{{fa-icon clickButtonIcon}} {{clickTxt}}</button>
+  {{/if}}
+
+  {{#if route}}
+    {{#link-to route class=(concat "btn btn-lg btn-" btnType " btn-block md-btn-responsive") }} {{fa-icon icon}} {{text}}{{/link-to}}
+  {{/if}}
+
+  {{yield}}
+</div>

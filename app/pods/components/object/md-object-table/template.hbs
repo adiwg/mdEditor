@@ -10,7 +10,7 @@
             </a>
           {{else}}
             {{header}}
-            <label class="label label-pill {{pillColor}}"> {{items.length}} </label>          
+            <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
           {{/if}}
 
             <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right {{if editing "hidden"}}"
@@ -39,11 +39,13 @@
                 <tbody>
                 {{#each items as |item index|}}
                     <tr>
+                      {{#unless hideIndex}}
                         <td class="md-table-index">
                           {{index}}
                         </td>
+                      {{/unless}}
                         {{#if previewTemplate}}
-                            <td class="property">{{component previewTemplate item=item}}</td>
+                            <td class="property">{{component previewTemplate item=item index=index}}</td>
                         {{else}}
                             {{#each attrArray as |prop|}}
                                 {{#if (get item prop)}}
