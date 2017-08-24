@@ -34,7 +34,6 @@ export default Route.extend(ScrollTo, {
   },
   actions: {
     insertResource(selected) {
-      console.log(selected);
       let app = this.controllerFor('application');
       let rec = selected[0];
       let info = get(rec, 'json.metadata.metadataInfo') || {};

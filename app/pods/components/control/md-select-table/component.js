@@ -84,7 +84,6 @@ export default Table.extend({
    * @return {Array}
    */
   select(selected) {
-    console.info(selected);
     return selected;
   },
 
