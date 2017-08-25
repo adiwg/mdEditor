@@ -1,7 +1,18 @@
 <ul id="md-navbar-secondary" class="nav nav-pills" role="navigation">
   {{#each links as |link|}}
     <li>
-      {{#link-to link.target class="link.class" }}{{link.title}}{{/link-to}}
+      {{#link-to link.target class="link.class" }}{{link.title}}
+        {{#if link.tip}}
+          {{#tooltip-on-component
+            effect="slide"
+            side="bottom"
+            delay=500 
+            class="md-tooltip info"
+          }}
+            {{link.tip}}
+          {{/tooltip-on-component}}
+        {{/if}}
+      {{/link-to}}
     </li>
   {{/each}}
 

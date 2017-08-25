@@ -51,47 +51,58 @@ export default Ember.Service.extend({
       profile: null,
       secondaryNav: [{
           title: 'Main',
-          target: 'record.show.edit.main'
+          target: 'record.show.edit.main',
+          tip:'Basic information about the resource.'
 
         }, {
           title: 'Metadata',
-          target: 'record.show.edit.metadata'
+          target: 'record.show.edit.metadata',
+          tip:'Information about the metadata for the resource.'
 
         }, {
           title: 'Keywords',
-          target: 'record.show.edit.keywords'
+          target: 'record.show.edit.keywords',
+          tip: 'Terms used to describe the resource.'
 
         }, {
           title: 'Extent',
-          target: 'record.show.edit.extent'
+          target: 'record.show.edit.extent',
+          tip:'Information describing the bounds of the resource.'
 
         }, {
           title: 'Spatial',
-          target: 'record.show.edit.spatial'
+          target: 'record.show.edit.spatial',
+          tip: 'Information concerning the spatial attributes of the resource.'
 
         }, {
           title: 'Lineage',
-          target: 'record.show.edit.lineage'
+          target: 'record.show.edit.lineage',
+          tip: 'Information on the history of the resource.'
 
         }, {
           title: 'Distribution',
-          target: 'record.show.edit.distribution'
+          target: 'record.show.edit.distribution',
+          tip: 'Information about obtaining the resource.'
 
         }, {
           title: 'Associated',
-          target: 'record.show.edit.associated'
+          target: 'record.show.edit.associated',
+          tip: 'Other resources with a defined relationship to the resource.'
 
         }, {
           title: 'Documents',
-          target: 'record.show.edit.documents'
+          target: 'record.show.edit.documents',
+          tip: 'Other documents related to, but not defining, the resource.'
 
         }, {
           title: 'Funding',
-          target: 'record.show.edit.funding'
+          target: 'record.show.edit.funding',
+          tip: 'Information about funding allocated to development of the resource.'
 
         }, {
           title: 'Dictionaries',
-          target: 'record.show.edit.dictionary'
+          target: 'record.show.edit.dictionary',
+          tip: 'Data dictionaries associated with the resource.'
 
         }
         /*, {
