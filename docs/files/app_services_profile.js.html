@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2f1a9477" target="_blank">
-                                  Tag: 0.0.0.2f1a9477
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47096bc5" target="_blank">
+                                  Tag: 0.0.0.47096bc5
                                 </a>
                             </h4>
                         </div>
@@ -293,47 +293,58 @@ export default Ember.Service.extend({
       profile: null,
       secondaryNav: [{
           title: &#x27;Main&#x27;,
-          target: &#x27;record.show.edit.main&#x27;
+          target: &#x27;record.show.edit.main&#x27;,
+          tip:&#x27;Basic information about the resource.&#x27;
 
         }, {
           title: &#x27;Metadata&#x27;,
-          target: &#x27;record.show.edit.metadata&#x27;
+          target: &#x27;record.show.edit.metadata&#x27;,
+          tip:&#x27;Information about the metadata for the resource.&#x27;
 
         }, {
           title: &#x27;Keywords&#x27;,
-          target: &#x27;record.show.edit.keywords&#x27;
+          target: &#x27;record.show.edit.keywords&#x27;,
+          tip: &#x27;Terms used to describe the resource.&#x27;
 
         }, {
           title: &#x27;Extent&#x27;,
-          target: &#x27;record.show.edit.extent&#x27;
+          target: &#x27;record.show.edit.extent&#x27;,
+          tip:&#x27;Information describing the bounds of the resource.&#x27;
 
         }, {
           title: &#x27;Spatial&#x27;,
-          target: &#x27;record.show.edit.spatial&#x27;
+          target: &#x27;record.show.edit.spatial&#x27;,
+          tip: &#x27;Information concerning the spatial attributes of the resource.&#x27;
 
         }, {
           title: &#x27;Lineage&#x27;,
-          target: &#x27;record.show.edit.lineage&#x27;
+          target: &#x27;record.show.edit.lineage&#x27;,
+          tip: &#x27;Information on the history of the resource.&#x27;
 
         }, {
           title: &#x27;Distribution&#x27;,
-          target: &#x27;record.show.edit.distribution&#x27;
+          target: &#x27;record.show.edit.distribution&#x27;,
+          tip: &#x27;Information about obtaining the resource.&#x27;
 
         }, {
           title: &#x27;Associated&#x27;,
-          target: &#x27;record.show.edit.associated&#x27;
+          target: &#x27;record.show.edit.associated&#x27;,
+          tip: &#x27;Other resources with a defined relationship to the resource.&#x27;
 
         }, {
           title: &#x27;Documents&#x27;,
-          target: &#x27;record.show.edit.documents&#x27;
+          target: &#x27;record.show.edit.documents&#x27;,
+          tip: &#x27;Other documents related to, but not defining, the resource.&#x27;
 
         }, {
           title: &#x27;Funding&#x27;,
-          target: &#x27;record.show.edit.funding&#x27;
+          target: &#x27;record.show.edit.funding&#x27;,
+          tip: &#x27;Information about funding allocated to development of the resource.&#x27;
 
         }, {
           title: &#x27;Dictionaries&#x27;,
-          target: &#x27;record.show.edit.dictionary&#x27;
+          target: &#x27;record.show.edit.dictionary&#x27;,
+          tip: &#x27;Data dictionaries associated with the resource.&#x27;
 
         }
         /*, {
