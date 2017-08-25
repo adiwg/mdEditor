@@ -80,7 +80,7 @@
 
         {{/layout/md-card}}
 
-        {{#layout/md-card shadow=false muted=true title="Spatial Extent" bodyIsRow=false
+        {{#layout/md-card shadow=false muted=true title="Geographic Extent" bodyIsRow=false
           collapsible=true
           btnText="Edit" btnClass="success"
           btnAction=(route-action "linkTo" "record.show.edit.extent") btnIcon="pencil"
@@ -91,7 +91,7 @@
             <div class="row md-extent-container">
               <div class="col-sm-12">
                 <h4 class="text-info">
-                  Spatial Extent #{{index}}
+                  Geographic Extent #{{index}}
                 </h4>
               </div>
               <div class="col-sm-6">
@@ -126,7 +126,7 @@
               </div>
             </div>
             {{else}}
-            <h3 class="alert alert-info">No spatial extents found.
+            <h3 class="alert alert-info">No geographic extents found.
             </h3>
             {{/each}}
         </section>
