@@ -82,8 +82,10 @@ export default Component.extend({
       defineProperty(this, 'required', computed(
           'validation.options.presence.presence',
           'validation.options.presence.disabled',
+          'disabled',
           function() {
-            return this.get('validation.options.presence.presence') &&
+            return !this.get('disabled') &&
+              this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
           })
         .readOnly());

@@ -1,4 +1,4 @@
-export default function () {
+export default function() {
   this.transition(
     this.toRoute('record.show.edit.main.citation'),
     this.fromRoute('record.show.edit.main.index'),
@@ -100,4 +100,12 @@ export default function () {
     this.use('toLeft'),
     this.reverse('toRight')
   );
+
+  //if
+  // this.transition(
+  //   this.hasClass('liquid-collapse'),
+  //   this.includingInitialRender(),
+  //   this.use('fade'),
+  //   this.reverse('fade')
+  // );
 }

@@ -230,6 +230,8 @@ export default Component.extend(InViewportMixin, Template, {
     return this.get('attrArray')
       .map(function(item) {
         return item.trim()
+          .split('.')
+          .get('lastObject')
           .dasherize()
           .replace(/-/g, ' ');
       });

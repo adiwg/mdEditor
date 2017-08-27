@@ -18,6 +18,15 @@ label.required::after {
   //font-size: 12px;
 }
 
+.md-input-input [type=number] + .md-input-error {
+  right: 30px;
+}
+
+[aria-disabled=true] ~ .md-input-error,
+input[disabled] + .md-input-error {
+  display: none;
+}
+
 .md-inputgroup-error {
   right: 45px;
   z-index: 2;

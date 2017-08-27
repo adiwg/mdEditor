@@ -1,1 +1,3 @@
-{{outlet}}
+{{#with model.json.metadata.resourceInfo as |model|}}
+  {{object/md-spatial-info model=model profilePath="record.spatial"}}
+{{/with}}

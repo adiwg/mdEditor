@@ -31,14 +31,14 @@ export default Component.extend({
     let model = this.get('model');
     let path = this.get('path');
 
-    if (isNone(model) !== isNone(path)) {
+    if(isNone(model) !== isNone(path)) {
       assert(
         `You must supply both model and path to ${this.toString()} or neither.`
       );
     }
 
-    if (!isBlank(model)) {
-      if (this.get(`model.${path}`) === undefined) {
+    if(!isBlank(model)) {
+      if(this.get(`model.${path}`) === undefined) {
         Ember.debug(
           `model.${path} is undefined in ${this.toString()}.`
         );
@@ -54,8 +54,10 @@ export default Component.extend({
       defineProperty(this, 'required', computed(
         'validation.options.presence.presence',
         'validation.options.presence.disabled',
+        'disabled',
         function() {
-          return this.get('validation.options.presence.presence') &&
+          return !this.get('disabled') &&
+            this.get('validation.options.presence.presence') &&
             !this.get('validation.options.presence.disabled');
         }).readOnly());
 
@@ -101,6 +103,15 @@ export default Component.extend({
    * name value pairs displayed as select list options.
    * Tooltips may also be included.
    * Other attributes in the array elements will be ignored.
+   *
+   * ```javascript
+   * {
+   *   name: 'displayed',
+   *   value: 'option',
+   *   type: 'xtra info',
+   *   tip: 'tooltip'
+   * }
+   * ```
    *
    * @property objectArray
    * @type Array
@@ -253,7 +264,7 @@ export default Component.extend({
    */
   label: null,
 
-  ariaLabel: Ember.computed('label', function () {
+  ariaLabel: Ember.computed('label', function() {
     return this.get('label');
   }),
 
@@ -285,7 +296,7 @@ export default Component.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed('create', function () {
+  theComponent: Ember.computed('create', function() {
     return this.get('create') ? 'power-select-with-create' :
       'power-select';
   }),
@@ -304,12 +315,12 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function () {
+  selectedItem: Ember.computed('value', function() {
     let value = this.get('value');
 
     return DS.PromiseObject.create({
       promise: this.get('codelist')
-        .then(function (arr) {
+        .then(function(arr) {
           return arr.find((item) => {
             return item['codeId'] === value;
           });
@@ -326,9 +337,9 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseArray
    */
-  codelist: Ember.computed('objectArray', function () {
+  codelist: Ember.computed('objectArray', function() {
     const objArray = this.get('objectArray');
-    let inList = new Ember.RSVP.Promise(function (resolve, reject) {
+    let inList = new Ember.RSVP.Promise(function(resolve, reject) {
       // succeed
       resolve(objArray);
       // or reject
@@ -342,13 +353,14 @@ export default Component.extend({
     let outList = Ember.A();
 
     return DS.PromiseArray.create({
-      promise: inList.then(function (arr) {
-        arr.forEach(function (item) {
+      promise: inList.then(function(arr) {
+        arr.forEach(function(item) {
           let newObject = {
             codeId: get(item, codeId),
             codeName: get(item, codeName),
             tooltip: false,
-            icon: icons.get(item[codeName]) || icons.get(defaultIcon)
+            icon: icons.get(item[codeName]) || icons.get(
+              defaultIcon)
           };
           if(tooltip) {
             newObject.tooltip = get(item, tooltip);

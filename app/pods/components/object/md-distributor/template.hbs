@@ -60,10 +60,9 @@
         autoresize=false
         profilePath=(concat profilePath ".fees")
       }}
-      {{input/md-textarea
-        value=order.plannedAvailability
-        autoresize=false
-        placeholder="Describe when the resource will be avialable"
+      {{input/md-datetime
+        date=order.plannedAvailability
+        placeholder="Date when the resource will be avialable"
         label="Planned Availability"
         profilePath=(concat profilePath ".plannedAvailability")
       }}
