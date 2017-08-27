@@ -1,0 +1,74 @@
+{{input/md-input
+  type="number"
+  model=this
+  valuePath="scaleFactor"
+  label="Scale Factor"
+  placeholder="Enter the geographic(map) scale for the resource."
+  profilePath=(concat profilePath ".scaleFactor")
+  showValidations=true
+  label="Scale Factor"
+  disabled=scaleDisabled
+  class=(if (v-get model "scaleFactor" "isInvalid") "required")
+}}
+
+{{input/md-input
+   model=this
+   valuePath="levelOfDetail"
+   autoresize=true
+   label="Level Of Detail"
+   placeholder="Enter description of the spatial resolution of the resource."
+   showValidations=true
+   disabled=levelDisabled
+   profilePath=(concat profilePath ".levelOfDetail")
+   class=(if (v-get model "levelOfDetail" "isInvalid") "required")
+ }}
+
+{{#layout/md-card
+   collapsible=false
+   collapsed=false
+   profilePath="card"
+   data-spy=false
+   shadow=false
+   profilePath=(concat profilePath ".measure")
+   class=(if measureDisabled "text-muted")
+}}
+  <label class="text-info {{if (v-get model "measure" "isInvalid") "required"}}">Measure</label>
+  {{input/md-select
+    label="Measure Type"
+    showValidations=true
+    model=this
+    path="measureType"
+    valuePath="value"
+    namePath="name"
+    objectArray=typeOptions
+    tooltip=true
+    tooltipPath="tip"
+    searchEnabled=false
+    disabled=measureDisabled
+    placeholder="The type of measurement."
+    profilePath=(concat profilePath ".measure.type")
+  }}
+  {{input/md-input
+    type="number"
+    step="0.0001"
+    model=this
+    valuePath="measureValue"
+    label="Value"
+    placeholder="Enter the number of units in the measurement."
+    profilePath=(concat profilePath ".measure.value")
+    showValidations=true
+    label="Value"
+    disabled=measureDisabled
+  }}
+  {{input/md-input
+     model=this
+     valuePath="measureUnit"
+     label="Units"
+     placeholder="Type of units to associated with the value."
+     showValidations=true
+     disabled=measureDisabled
+     profilePath=(concat profilePath ".measure.units")
+   }}
+{{/layout/md-card}}
+
+{{yield}}
