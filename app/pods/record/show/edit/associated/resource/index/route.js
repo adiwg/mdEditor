@@ -34,7 +34,6 @@ export default Route.extend(ScrollTo, {
   },
   actions: {
     insertResource(selected) {
-      console.log(selected);
       let app = this.controllerFor('application');
       let rec = selected[0];
       let info = get(rec, 'json.metadata.metadataInfo') || {};
@@ -49,11 +48,13 @@ export default Route.extend(ScrollTo, {
       if(rec) {
         let resource = get(this, 'currentModel');
         let citation = get(rec, 'json.metadata.resourceInfo.citation') || {};
+        let resourceType = get(rec, 'json.metadata.resourceInfo.resourceType') || [];
 
         set(resource, 'resourceCitation', EmObject.create(formatCitation(
           citation)));
         set(resource, 'metadataCitation', EmObject.create(formatCitation(
           metadata)));
+        set(resource, 'resourceType', resourceType);
       }
 
       app.set('showSlider', false);

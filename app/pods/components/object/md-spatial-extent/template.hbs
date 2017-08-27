@@ -1,5 +1,5 @@
 {{#layout/md-card
-title=(concat "Spatial Extent #" index)
+title=(concat "Geographic Extent #" index)
 collapsible=true
 collapsed=false
 data-spy=false
@@ -14,7 +14,7 @@ spotlightEnabled=false
         </div>
         <div class="col-sm-6">
           <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteExtent" index)}}>
-              {{fa-icon "times"}} Delete Spatial Extent</button>
+              {{fa-icon "times"}} Delete Extent</button>
         </div>
       </div>
     </div>

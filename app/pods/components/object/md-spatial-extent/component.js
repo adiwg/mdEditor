@@ -81,8 +81,6 @@ export default Component.extend({
       let bounds = L.geoJson(geo).getBounds();
       let bbox = this.get('bbox');
 
-      console.log(bounds);
-
       setProperties(bbox, {
         northLatitude: bounds.getNorth(),
         southLatitude: bounds.getSouth(),
