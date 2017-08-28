@@ -85,6 +85,11 @@ export default Ember.Service.extend({
           tip: 'Information about obtaining the resource.'
 
         }, {
+          title: 'Constraints',
+          target: 'record.show.edit.constraint',
+          tip: 'Information about constraints applied to the resource.'
+
+        }, {
           title: 'Associated',
           target: 'record.show.edit.associated',
           tip: 'Other resources with a defined relationship to the resource.'

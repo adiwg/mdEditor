@@ -1,9 +1,9 @@
 import Ember from 'ember';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+// import {
+//   validator,
+//   buildValidations
+// } from 'ember-cp-validations';
 
 const {
   Component,
@@ -16,33 +16,33 @@ const {
   }
 } = Ember;
 
-const Validations = buildValidations({
-  // 'intervalAmount': [
-  //   validator('presence', {
-  //     presence: true,
-  //     //disabled: computed.notEmpty('model.endDateTime'),
-  //     ignoreBlank: true
-  //   })
-  // ],
-  // 'startDateTime': [
-  //   validator('presence', {
-  //     presence: true,
-  //     disabled: computed.notEmpty('model.endDateTime'),
-  //     ignoreBlank: true
-  //   })
-  // ],
-  // 'endDateTime': [
-  //   validator('date', {
-  //     onOrAfter: computed.alias('model.startDateTime'),
-  //     isWarning: true
-  //   }),
-  //   validator('presence', {
-  //     presence: true,
-  //     disabled: computed.notEmpty('model.startDateTime'),
-  //     ignoreBlank: true
-  //   })
-  // ]
-});
+// const Validations = buildValidations({
+//   // 'intervalAmount': [
+//   //   validator('presence', {
+//   //     presence: true,
+//   //     //disabled: computed.notEmpty('model.endDateTime'),
+//   //     ignoreBlank: true
+//   //   })
+//   // ],
+//   // 'startDateTime': [
+//   //   validator('presence', {
+//   //     presence: true,
+//   //     disabled: computed.notEmpty('model.endDateTime'),
+//   //     ignoreBlank: true
+//   //   })
+//   // ],
+//   // 'endDateTime': [
+//   //   validator('date', {
+//   //     onOrAfter: computed.alias('model.startDateTime'),
+//   //     isWarning: true
+//   //   }),
+//   //   validator('presence', {
+//   //     presence: true,
+//   //     disabled: computed.notEmpty('model.startDateTime'),
+//   //     ignoreBlank: true
+//   //   })
+//   // ]
+// });
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -124,7 +124,7 @@ export default Component.extend({
     }
   ],
 
-  formatTemplate:Ember.Object.extend(Validations, {
+  formatTemplate:Ember.Object.extend(/*Validations, */{
     init() {
       this._super(...arguments);
       this.set('formatSpecification', {});

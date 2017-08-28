@@ -109,6 +109,7 @@ Router.map(function() {
           });
           this.route('dictionary');
           this.route('spatial', function() {});
+          this.route('constraint', function() {});
         });
         this.route('translate');
       }

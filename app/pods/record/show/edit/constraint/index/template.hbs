@@ -1,0 +1,10 @@
+{{#object/md-object-table
+  items=model.json.metadata.resourceInfo.constraint
+  collasped=false
+  header="Constraints"
+  buttonText="Add Constraint"
+  previewTemplate=previewTemplate
+  attributes="type" as |editing|
+}}
+  {{object/md-constraint model=editing profilePath="record.constraints"}}
+{{/object/md-object-table}}

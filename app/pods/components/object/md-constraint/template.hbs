@@ -1,0 +1,54 @@
+{{input/md-select
+  label="Constraint Type"
+  showValidations=true
+  model=this
+  path="type"
+  valuePath="value"
+  namePath="name"
+  objectArray=typeOptions
+  tooltip=true
+  tooltipPath="tip"
+  searchEnabled=false
+  placeholder="The type of constraint."
+  profilePath=(concat profilePath ".type")
+}}
+
+{{#object/md-simple-array-table
+  title="Use Limitations"
+  data-spy=false
+  plain=false
+  required=useRequired
+  profilePath=(concat profilePath ".useLimitation")
+  value=model.useLimitation as |val|
+}}
+  <td>
+    {{input/md-textarea value=val.item.value
+     placeholder="Describe Limitation affecting the fitness for use of the resource or metadata. For example, \"not to be used for navigation\"."}}
+  </td>
+{{/object/md-simple-array-table}}
+
+{{#layout/md-card
+  title="Legal"
+  collapsible=true
+  collapsed=legalRequired
+  required=legalRequired
+  profilePath=(concat profilePath ".legal")
+  data-spy=false
+  shadow=true
+}}
+  Content
+{{/layout/md-card}}
+
+{{#layout/md-card
+  title="Security"
+  collapsible=true
+  collapsed=securityRequired
+  required=securityRequired
+  profilePath=(concat profilePath ".security")
+  data-spy=false
+  shadow=true
+}}
+  Content
+{{/layout/md-card}}
+
+{{yield}}

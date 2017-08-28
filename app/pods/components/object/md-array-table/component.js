@@ -13,7 +13,8 @@ const {
   getOwner,
   isArray,
   run,
-  typeOf
+  typeOf,
+  get
 } = Ember;
 
 export default Component.extend(Template, {
@@ -146,7 +147,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires columns
    */
-  columnArray: computed('columns', function () {
+  columnArray: computed('columns', function() {
     let columns = this.get('columns');
 
     return(typeof columns === 'string') ? columns.split(',') : null;
@@ -167,7 +168,7 @@ export default Component.extend(Template, {
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(isArray(value).length > 0) {
+    } else if(isArray(value) && get(value, 'length') > 0) {
       return false;
     } else {
       return true;
@@ -195,7 +196,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires elementId
    */
-  panelId: computed('elementId', function () {
+  panelId: computed('elementId', function() {
     return 'panel-' + this.get('elementId');
   }),
 
@@ -208,7 +209,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires value.[]
    */
-  pillColor: computed('value.[]', function() {
+  pillColor: computed('value.[]', 'required', function() {
     let count = this.get('value.length') || 0;
     let required = this.get('required');
     return(count === 0) ? required ? 'label-danger' : 'label-warning' :
@@ -222,7 +223,7 @@ export default Component.extend(Template, {
    * @return none
    */
   valueChanged() {
-    run.schedule('afterRender', this, function () {
+    run.schedule('afterRender', this, function() {
       let panel = this.$('.panel-collapse');
       let input = this.$('.panel-collapse tbody tr:last-of-type input')
         .first();
@@ -230,7 +231,7 @@ export default Component.extend(Template, {
       if(panel.hasClass('in')) {
         input.focus();
       } else { //add a one-time listener to wait until panel is open
-        panel.one('shown.bs.collapse', function () {
+        panel.one('shown.bs.collapse', function() {
           input.focus();
         });
         panel.collapse('show');
@@ -239,7 +240,7 @@ export default Component.extend(Template, {
   },
 
   actions: {
-    addItem: function (value) {
+    addItem: function(value) {
       const Template = this.get('templateClass');
       const owner = getOwner(this);
 
@@ -250,7 +251,7 @@ export default Component.extend(Template, {
       this.valueChanged();
     },
 
-    deleteItem: function (value, idx) {
+    deleteItem: function(value, idx) {
       if(value.length > idx) {
         value.removeAt(idx);
       }
