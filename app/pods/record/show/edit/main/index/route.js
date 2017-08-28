@@ -17,6 +17,7 @@ export default Route.extend(ScrollTo, {
     set(model, 'status', getWithDefault(model, 'status', []));
     set(model, 'credit', getWithDefault(model, 'credit', []));
     set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
+    set(model, 'graphicOverview', getWithDefault(model, 'graphicOverview', []));
   },
   actions: {
     editCitation(scrollTo) {
