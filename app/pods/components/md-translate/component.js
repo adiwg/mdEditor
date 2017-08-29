@@ -125,7 +125,7 @@ export default Component.extend({
       this._clearResult();
       set(this, 'isLoading', true);
 
-      $.ajax("http://mdtranslator.adiwg.org/api/v2/translator", {
+      $.ajax("https://mdtranslator.herokuapp.com/api/v2/translator", {
         type: 'POST',
         data: {
           file: JSON.stringify(json),
