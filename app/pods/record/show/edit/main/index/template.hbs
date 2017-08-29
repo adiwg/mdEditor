@@ -16,6 +16,8 @@
           class="md-embedded"
         }}
 
+
+        {{#if (is-array resource.Status)}}
         {{input/md-codelist-multi
           value=resource.status label="Status" required=true
           create=true tooltip=true icon=false mdCodeName="progress"
@@ -24,6 +26,7 @@
           data-spy="Status"
           class="md-embedded"
         }}
+        {{/if}}
 
         {{!-- {{input/md-codelist-multi
           value=resource.topicCategory label="ISO Topic Category"
@@ -44,6 +47,7 @@
 
       {{/layout/md-card}}
 
+        {{#if (is-array resource.resourceType)}}
         <div class="form-group">
             {{object/md-resource-type-array
               plain=false
@@ -53,7 +57,9 @@
               profilePath="record.main.resourceType"
             }}
         </div>
+        {{/if}}
 
+        {{#if (is-array resource.pointOfContact)}}
         {{object/md-party
           title="Point Of Contact"
           data-spy="Point Of Contact"
@@ -62,6 +68,7 @@
           value=resource.pointOfContact
           profilePath="record.main.pointOfContact"
         }}
+        {{/if}}
 
         {{object/md-citation/preview
           profilePath="record.main.citation"
@@ -113,17 +120,22 @@
           }}
         {{/layout/md-card}}
 
+        {{#if resource.timePeriod}}
         {{object/md-time-period model=resource.timePeriod
           profilePath="record.main.timePeriod" data-spy="Time Period"
           label="Time Period"
         }}
+        {{/if}}
 
+        {{#if (is-array resource.graphicOverview)}}
         {{object/md-graphic-array
           model=resource.graphicOverview data-spy="Graphic Overview"
           button-text="Add Graphic"
           label="Graphic Overview"
         }}
+        {{/if}}
 
+        {{#if (is-array resource.credit)}}
         {{#object/md-simple-array-table
           data-spy="Credit"
           title="Credit"
@@ -133,6 +145,7 @@
                 {{input/md-input value=credit.item.value placeholder="Additional credits for the resource."}}
             </td>
         {{/object/md-simple-array-table}}
+        {{/if}}
     </form>
 </div>
 {{/with}}
