@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/ea4366ce" target="_blank">
-                                  Tag: 0.0.0.ea4366ce
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/deaf44c4" target="_blank">
+                                  Tag: 0.0.0.deaf44c4
                                 </a>
                             </h4>
                         </div>
@@ -367,7 +367,7 @@ export default Component.extend({
       this._clearResult();
       set(this, &#x27;isLoading&#x27;, true);
 
-      $.ajax(&quot;http://mdtranslator.adiwg.org/api/v2/translator&quot;, {
+      $.ajax(&quot;https://mdtranslator.herokuapp.com/api/v2/translator&quot;, {
         type: &#x27;POST&#x27;,
         data: {
           file: JSON.stringify(json),
