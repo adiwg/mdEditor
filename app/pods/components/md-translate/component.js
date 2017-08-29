@@ -60,25 +60,25 @@ export default Component.extend({
   errors: null,
   xhrError: null,
   isLoading: false,
-  subTitle:null,
+  subTitle: null,
 
-  writeObj: computed('writer', function () {
+  writeObj: computed('writer', function() {
     return get(this, 'writerOptions').findBy('value', get(this,
       'writer'));
   }),
 
-  writerType: computed('writeObj', function () {
+  writerType: computed('writeObj', function() {
     return get(this, 'writeObj').type.split('/')[1];
   }),
 
   isJson: computed.equal('writerType', 'json'),
-  isHtml: computed('writerType', function () {
+  isHtml: computed('writerType', function() {
     //IE does not supoprt srcdoc, so default to non-html display
     return get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement(
       'iframe');
   }),
 
-  messages: computed('errors', function () {
+  messages: computed('errors', function() {
     let err = get(this, 'errors');
 
     if(!err) {
@@ -86,12 +86,12 @@ export default Component.extend({
     }
 
     if(!err.readerStructurePass) {
-      set(this,'subtitle', 'Errors ocurred when reading the mdJSON');
+      set(this, 'subtitle', 'Errors ocurred when reading the mdJSON');
       return err.readerStructureMessages;
     }
 
     if(!err.readerValidationPass) {
-      set(this,'subtitle', 'mdJSON Schema validation failed');
+      set(this, 'subtitle', 'mdJSON Schema validation failed');
       return JSON.parse(err.readerValidationMessages[1]);
     }
 
@@ -113,12 +113,12 @@ export default Component.extend({
 
   actions: {
     translate() {
-      let model = get(this, 'model');
-      let json = JSON.parse(JSON.stringify(model.get('json')));
-      let contacts = this.store.peekAll('contact').mapBy('json');
       let cleaner = this.get('cleaner');
+      let model = get(this, 'model');
+      let json = JSON.parse(JSON.stringify(cleaner.clean(model.get('json'))));
+      let contacts = this.store.peekAll('contact').mapBy('json');
 
-      json.contact = contacts;
+      json.contact = cleaner.clean(contacts);
 
       //console.info(JSON.stringify(json));
 
@@ -128,7 +128,7 @@ export default Component.extend({
       $.ajax("http://mdtranslator.adiwg.org/api/v2/translator", {
         type: 'POST',
         data: {
-          file: JSON.stringify(cleaner.clean(json)),
+          file: JSON.stringify(json),
           reader: 'mdJson',
           writer: get(this, 'writer'),
           showAllTags: get(this, 'showAllTags'),
@@ -136,7 +136,7 @@ export default Component.extend({
           format: 'json'
         },
         context: this
-      }).then(function (response) {
+      }).then(function(response) {
         //this.sendAction("select", response);
         //console.info(response);
 
