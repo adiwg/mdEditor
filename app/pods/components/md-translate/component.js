@@ -12,7 +12,7 @@ const {
 export default Component.extend({
   classNames: ['row'],
 
-  clean: inject.service('cleaner'),
+  cleaner: inject.service(),
   flashMessages: inject.service(),
   //store: inject.service(),
 
@@ -114,9 +114,9 @@ export default Component.extend({
   actions: {
     translate() {
       let model = get(this, 'model');
-      let json = JSON.parse(JSON.stringify(this.get('clean').clean(model.get(
-        'json'))));
+      let json = JSON.parse(JSON.stringify(model.get('json')));
       let contacts = this.store.peekAll('contact').mapBy('json');
+      let cleaner = this.get('cleaner');
 
       json.contact = contacts;
 
@@ -128,7 +128,7 @@ export default Component.extend({
       $.ajax("http://mdtranslator.adiwg.org/api/v2/translator", {
         type: 'POST',
         data: {
-          file: JSON.stringify(json),
+          file: JSON.stringify(cleaner.clean(json)),
           reader: 'mdJson',
           writer: get(this, 'writer'),
           showAllTags: get(this, 'showAllTags'),
