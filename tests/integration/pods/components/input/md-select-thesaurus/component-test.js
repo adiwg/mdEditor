@@ -8,7 +8,7 @@ import {
 } from '../../../../../helpers/ember-power-select';
 import {
   triggerEvent
-} from 'ember-native-dom-helpers/test-support/helpers';
+} from 'ember-native-dom-helpers';
 
 moduleForComponent('input/md-select-thesaurus',
   'Integration | Component | input/md select thesaurus', {

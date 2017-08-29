@@ -4,7 +4,7 @@ import {
 from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger } from '../../../../../helpers/ember-power-select';
-import { triggerEvent } from 'ember-native-dom-helpers/test-support/helpers';
+import { triggerEvent } from 'ember-native-dom-helpers';
 
 moduleForComponent('input/md-select-profile',
   'Integration | Component | input/md select profile', {

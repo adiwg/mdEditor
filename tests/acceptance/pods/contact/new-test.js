@@ -14,11 +14,11 @@ test('test new contact initial page conditions', function(assert) {
   assert.expect(5);
   visit('/contact/new');
   andThen(function() {
-    assert.equal(find('input:eq(0)').val().length, 36);
-    assert.equal(find('input:eq(1)').val(), "");
+    assert.equal(find('input:eq(0)').val(), 'on');
+    assert.equal(find('input:eq(1)').val().length, 36);
     assert.equal(find('input:eq(2)').val(), "");
+    assert.equal(find('input:eq(3)').val(), "");
     assert.equal(find('button.md-form-save').prop('disabled'), true);
-    assert.equal(find('div.md-form-alert').length, 1);
   });
 });
 
