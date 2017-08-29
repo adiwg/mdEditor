@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.8fb94731",
+        "version": "0.0.0.1a966644",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -4878,7 +4878,7 @@
         },
         {
             "file": "app/pods/components/object/md-constraint/component.js",
-            "line": 91,
+            "line": 56,
             "description": "The string representing the path in the profile object for the resource.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4890,7 +4890,7 @@
         },
         {
             "file": "app/pods/components/object/md-constraint/component.js",
-            "line": 100,
+            "line": 65,
             "description": "The object to use as the data model for the resource.",
             "itemtype": "property",
             "name": "model",
@@ -5313,7 +5313,7 @@
         {
             "file": "app/pods/components/object/md-object-table/component.js",
             "line": 105,
-            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
+            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this._super(...arguments);\n     \n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
             "itemtype": "property",
             "name": "templateClass",
             "type": "{Any}",
@@ -5325,7 +5325,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 125,
+            "line": 127,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -5336,7 +5336,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 134,
+            "line": 136,
             "description": "Render the row actions vertically.",
             "itemtype": "property",
             "name": "verticalButtons",
@@ -5347,7 +5347,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 142,
+            "line": 144,
             "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -5358,7 +5358,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 150,
+            "line": 152,
             "description": "Whether the panel is collapsible.",
             "itemtype": "property",
             "name": "collapsible",
@@ -5369,7 +5369,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 159,
+            "line": 161,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -5380,7 +5380,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 167,
+            "line": 169,
             "description": "If true, a box shadow will be rendered around the panel.",
             "itemtype": "property",
             "name": "shadow",
@@ -5391,7 +5391,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 176,
+            "line": 178,
             "description": "The height to offset from top of container when scrolling.",
             "itemtype": "property",
             "name": "offset",
@@ -5402,7 +5402,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 185,
+            "line": 187,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",

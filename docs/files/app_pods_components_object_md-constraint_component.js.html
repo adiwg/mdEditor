@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/8fb94731" target="_blank">
-                                  Tag: 0.0.0.8fb94731
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1a966644" target="_blank">
+                                  Tag: 0.0.0.1a966644
                                 </a>
                             </h4>
                         </div>
@@ -248,8 +248,6 @@ import {
 
 const {
   Component,
-  computed,
-  isEmpty,
   computed: {
     alias,
     equal//,
@@ -264,51 +262,18 @@ const {
 } = Ember;
 
 const Validations = buildValidations({
-  // &#x27;scaleFactor&#x27;: {
-  //   disabled: alias(&#x27;model.scaleDisabled&#x27;),
-  //   validators: [
-  //     validator(&#x27;presence&#x27;, {
-  //       presence: true,
-  //       ignoreBlank: true
-  //     }),
-  //     validator(&#x27;number&#x27;, {
-  //       integer: true,
-  //       allowBlank: true,
-  //       positive: true,
-  //       gt: 0
-  //     })
-  //   ]
-  // },
   &#x27;classification&#x27;: [
     validator(&#x27;presence&#x27;, {
       presence: true,
-      ignoreBlank: true//,
-      //disabled: not(&#x27;model.securityRequired&#x27;)
+      ignoreBlank: true
     })
   ],
-  // &#x27;measure&#x27;: [
-  //   validator(&#x27;dependent&#x27;, {
-  //     on: [&#x27;measureType&#x27;, &#x27;measureValue&#x27;, &#x27;measureUnit&#x27;]
-  //   })
-  // ],
   &#x27;type&#x27;: [
     validator(&#x27;presence&#x27;, {
       presence: true,
       ignoreBlank: true
     })
-  ] //,
-  // &#x27;measureUnit&#x27;: [
-  //   validator(&#x27;presence&#x27;, {
-  //     presence: true,
-  //     ignoreBlank: true
-  //   })
-  // ],
-  // &#x27;measureValue&#x27;: [
-  //   validator(&#x27;presence&#x27;, {
-  //     presence: true,
-  //     ignoreBlank: true
-  //   })
-  // ]
+  ]
 });
 
 export default Component.extend(Validations, {
@@ -348,34 +313,7 @@ export default Component.extend(Validations, {
    */
 
   tagName: &#x27;form&#x27;,
-  // scaleFactor: alias(&#x27;model.scaleFactor&#x27;),
-  // scaleDisabled: computed(
-  //   &#x27;model.levelOfDetail&#x27;, &#x27;measurePresent&#x27;,
-  //   function() {
-  //     return !isEmpty(this.get(&#x27;model.levelOfDetail&#x27;)) || this.get(
-  //       &#x27;measurePresent&#x27;
-  //     );
-  //   }),
-  // levelOfDetail: alias(&#x27;model.levelOfDetail&#x27;),
-  // levelDisabled: computed(
-  //   &#x27;model.scaleFactor&#x27;, &#x27;measurePresent&#x27;,
-  //   function() {
-  //     let scaleFactor = this.get(&#x27;model.scaleFactor&#x27;);
-  //     return(!isEmpty(scaleFactor) &amp;&amp; !Number.isNaN(scaleFactor)) ||
-  //       this.get(
-  //         &#x27;measurePresent&#x27;
-  //       );
-  //   }
-  // ),
-  // measure: alias(&#x27;model.measure&#x27;),
-  // measureDisabled: computed(
-  //   &#x27;model.scaleFactor&#x27;, &#x27;model.levelOfDetail&#x27;,
-  //   function() {
-  //     let scaleFactor = this.get(&#x27;model.scaleFactor&#x27;);
-  //     return(!isEmpty(scaleFactor) &amp;&amp; !Number.isNaN(scaleFactor)) ||
-  //       !isEmpty(this.get(&#x27;model.levelOfDetail&#x27;));
-  //   }
-  // ),
+
   type: alias(&#x27;model.type&#x27;),
   useRequired: equal(&#x27;type&#x27;, &#x27;use&#x27;),
   securityRequired: equal(&#x27;type&#x27;, &#x27;security&#x27;),
