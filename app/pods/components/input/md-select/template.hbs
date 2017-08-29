@@ -18,6 +18,7 @@
         as |code|
       }}
         {{#unless filter}}
+        <span class="md-select-option {{if code.tooltip "with-tip"}}">
           {{#if icon}}
             {{#if code.icon}}
               <span class="fa fa-{{code.icon}}"> </span>
@@ -26,7 +27,7 @@
           <span class="select-value">{{code.codeName}}</span>
           {{#if tooltip}}
             {{#if code.tooltip}}
-            <div class="pull-right">
+            <span class="select-tip">
               <span class="badge tooltip">?
                 {{tooltip-on-element
                   text=code.tooltip
@@ -34,9 +35,10 @@
                   enableLazyRendering=true
                 }}
               </span>
-            </div>
+            </span>
             {{/if}}
           {{/if}}
+        </span>
         {{/unless}}
       {{/component}}
       <span class='md-input-error'>

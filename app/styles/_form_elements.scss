@@ -50,6 +50,18 @@
   }
 }
 
+.ember-power-select-option > .md-select-option.with-tip{
+  @include text-overflow();
+  display: list-item;
+  padding-right: 1.5em;
+  position: relative;
+
+  .select-tip {
+    position: absolute;
+    right: 0;
+  }
+}
+
 .md-button-column {
   line-height: $input-height-base;
 }

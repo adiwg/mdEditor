@@ -42,7 +42,12 @@
                       activeClass=(concat "active text-" record.status)
                       draggable="false"
                     }}
-                        <span class="fa fa-{{record.icon}}"></span> {{record.title}}
+                        {{#if record.defaultLogo}}
+                          <img src="{{record.defaultLogo}}" alt="Logo" class="fa-fw">
+                        {{else}}
+                          <span class="fa fa-{{record.icon}} fa-fw"></span>
+                        {{/if}}
+                        {{record.title}}
                     {{/link-to}}
                   </div>
               {{/each}}

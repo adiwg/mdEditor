@@ -52,7 +52,7 @@ export default Service.extend({
    * @category computed
    * @requires mdCodeName
    */
-  contactsCodes: Ember.computed('contacts.[]', function() {
+  contactsCodes: Ember.computed('contacts.@each.name', function() {
     //let codeId = this.get('valuePath');
     //let codeName = this.get('namePath');
     //let tooltip = this.get('tooltipPath');

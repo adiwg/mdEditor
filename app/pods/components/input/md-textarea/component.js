@@ -121,6 +121,10 @@ export default Ember.Component.extend({
    * @type {string}
    * @default 'form-control'
    */
-  class: 'form-control'
+  class: 'form-control',
+
+  _didInsertArea(){
+    this.scheduleMeasurement();
+  },
 
 });

@@ -49,6 +49,7 @@ export default Ember.Service.extend({
   profiles: {
     full: {
       profile: null,
+      description: 'The kitchen sink',
       secondaryNav: [{
           title: 'Main',
           target: 'record.show.edit.main',
