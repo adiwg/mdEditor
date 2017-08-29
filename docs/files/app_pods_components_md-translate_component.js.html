@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47096bc5" target="_blank">
-                                  Tag: 0.0.0.47096bc5
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/8fb94731" target="_blank">
+                                  Tag: 0.0.0.8fb94731
                                 </a>
                             </h4>
                         </div>
@@ -254,7 +254,7 @@ const {
 export default Component.extend({
   classNames: [&#x27;row&#x27;],
 
-  clean: inject.service(&#x27;cleaner&#x27;),
+  cleaner: inject.service(),
   flashMessages: inject.service(),
   //store: inject.service(),
 
@@ -356,9 +356,9 @@ export default Component.extend({
   actions: {
     translate() {
       let model = get(this, &#x27;model&#x27;);
-      let json = JSON.parse(JSON.stringify(this.get(&#x27;clean&#x27;).clean(model.get(
-        &#x27;json&#x27;))));
+      let json = JSON.parse(JSON.stringify(model.get(&#x27;json&#x27;)));
       let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
+      let cleaner = this.get(&#x27;cleaner&#x27;);
 
       json.contact = contacts;
 
@@ -370,7 +370,7 @@ export default Component.extend({
       $.ajax(&quot;http://mdtranslator.adiwg.org/api/v2/translator&quot;, {
         type: &#x27;POST&#x27;,
         data: {
-          file: JSON.stringify(json),
+          file: JSON.stringify(cleaner.clean(json)),
           reader: &#x27;mdJson&#x27;,
           writer: get(this, &#x27;writer&#x27;),
           showAllTags: get(this, &#x27;showAllTags&#x27;),

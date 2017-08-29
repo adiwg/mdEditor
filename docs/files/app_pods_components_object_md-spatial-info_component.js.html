@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/object/md-graphic-array/component.js - mdeditor</title>
+    <title>app/pods/components/object/md-spatial-info/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -240,88 +240,48 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- *  @module mdeditor
- * @submodule components-object
- */
-
 import Ember from &#x27;ember&#x27;;
 
 const {
   Component,
-  A
+  get,
+  run: {
+    once
+  },
+  getWithDefault,
+  set
 } = Ember;
 
 export default Component.extend({
-  /**
-   * mdEditor class for input and edit of mdJSON &#x27;graphic&#x27; object arrays. The
-   * class manages the maintenance of an array of graphic objects using the
-   * md-object-table class.
-   *
-   * &#x60;&#x60;&#x60;handlebars
-   * \{{object/md-graphic-array
-   *   model=model
-   *   data-spy=&quot;Graphic&quot;
-   *   button-text=&quot;Add Graphic&quot;
-   *   label=&quot;Graphic&quot;
-   * }}
-   * &#x60;&#x60;&#x60;
-   *
-   * @class md-graphic-array
-   * @constructor
-   */
+  didReceiveAttrs() {
+    this._super(...arguments);
 
-  attributeBindings: [&#x27;data-spy&#x27;],
+    let model = get(this, &#x27;model&#x27;);
 
+    once(this, function() {
+      set(model, &#x27;spatialReferenceSystem&#x27;, getWithDefault(model, &#x27;spatialReferenceSystem&#x27;, []));
+      set(model, &#x27;spatialRepresentationType&#x27;, getWithDefault(model, &#x27;spatialRepresentationType&#x27;, []));
+      set(model, &#x27;spatialResolution&#x27;, getWithDefault(model, &#x27;spatialResolution&#x27;, []));
+    });
+  },
   /**
-   * mdJSON object containing the &#x27;graphic&#x27; array.
+   * The string representing the path in the profile object for the resource.
    *
-   * @property model
-   * @type Object
+   * @property profilePath
+   * @type {String}
+   * @default &#x27;false&#x27;
    * @required
    */
 
   /**
-   * List of mdJSON &#x27;graphic&#x27; object attributes to display in
-   * md-object-table to aid in choosing the onlineResource to edit or
-   * delete.
-   * The property is passed to md-object-table for configuration.
+   * The object to use as the data model for the resource.
    *
-   * @property attributes
-   * @type String
-   * @default &#x27;name, uri&#x27;
+   * @property model
+   * @type {Object}
+   * @required
    */
-  attributes: &#x27;fileName,fileDescription&#x27;,
 
-  /**
-   * Name to place on the mdEditor panel header for entry and edit of
-   * &#x27;onlineResource&#x27; objects.
-   * The property is passed to md-object-table for configuration.
-   *
-   * @property label
-   * @type String
-   * @default &#x27;Graphic&#x27;
-   */
-  label: &#x27;Graphic&#x27;,
-
-  /**
-   * Label for the &#x27;add item&#x27; button.
-   * The property is passed to md-object-table for configuration.
-   *
-   * @property buttonText
-   * @type String
-   * @default &#x27;Graphic&#x27;
-   */
-  buttonText: &#x27;Add Graphic&#x27;,
-
-  previewTemplate: &#x27;object/md-graphic-array/md-graphic-preview&#x27;,
-
-  templateClass: Ember.Object.extend({
-    init() {
-      this.set(&#x27;fileConstraint&#x27;, A());
-      this.set(&#x27;fileUri&#x27;, A());
-    }
-  })
+  tagName: &#x27;form&#x27;
 });
 
     </pre>

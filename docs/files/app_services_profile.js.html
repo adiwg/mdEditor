@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47096bc5" target="_blank">
-                                  Tag: 0.0.0.47096bc5
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/8fb94731" target="_blank">
+                                  Tag: 0.0.0.8fb94731
                                 </a>
                             </h4>
                         </div>
@@ -291,6 +291,7 @@ export default Ember.Service.extend({
   profiles: {
     full: {
       profile: null,
+      description: &#x27;The kitchen sink&#x27;,
       secondaryNav: [{
           title: &#x27;Main&#x27;,
           target: &#x27;record.show.edit.main&#x27;,
@@ -325,6 +326,11 @@ export default Ember.Service.extend({
           title: &#x27;Distribution&#x27;,
           target: &#x27;record.show.edit.distribution&#x27;,
           tip: &#x27;Information about obtaining the resource.&#x27;
+
+        }, {
+          title: &#x27;Constraints&#x27;,
+          target: &#x27;record.show.edit.constraint&#x27;,
+          tip: &#x27;Information about constraints applied to the resource.&#x27;
 
         }, {
           title: &#x27;Associated&#x27;,

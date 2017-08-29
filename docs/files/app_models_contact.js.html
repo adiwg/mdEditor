@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47096bc5" target="_blank">
-                                  Tag: 0.0.0.47096bc5
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/8fb94731" target="_blank">
+                                  Tag: 0.0.0.8fb94731
                                 </a>
                             </h4>
                         </div>
@@ -253,7 +253,8 @@ import {
 const {
   Copyable,
   computed,
-  isEmpty
+  isEmpty,
+  get
 } = Ember;
 
 const Validations = buildValidations({
@@ -340,7 +341,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @required
    */
   json: DS.attr(&#x27;json&#x27;, {
-    defaultValue: function () {
+    defaultValue: function() {
       return JsonDefault.create();
     }
   }),
@@ -372,7 +373,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.name, json.positionName
    */
   title: computed(&#x27;json.name&#x27;, &#x27;json.positionName&#x27;,
-    function () {
+    function() {
       const json = this.get(&#x27;json&#x27;);
 
       return json.name || (json.isOrganization ? null : json.positionName);
@@ -419,7 +420,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.isOrganization
    */
   type: computed(&#x27;json.isOrganization&#x27;,
-    function () {
+    function() {
       return this.get(&#x27;json.isOrganization&#x27;) ? &#x27;Organization&#x27; :
         &#x27;Individual&#x27;;
     }),
@@ -434,7 +435,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.isOrganization
    */
   icon: computed(&#x27;json.isOrganization&#x27;,
-    function () {
+    function() {
       const name = this.get(&#x27;json.isOrganization&#x27;);
 
       return name ? &#x27;users&#x27; : &#x27;user&#x27;;
@@ -447,13 +448,50 @@ const Contact = Model.extend(Validations, Copyable, {
    * @type {String}
    * @readOnly
    * @category computed
-   * @requires json.logoGraphic.0.fileUri.0.uri
+   * @requires json.logoGraphic.firstObject.fileUri.firstObject.uri
    */
-  defaultLogo: computed(&#x27;json.logoGraphic.[]&#x27;,
-    function () {
-      const uri = this.get(&#x27;json.logoGraphic.0.fileUri.0.uri&#x27;);
+  defaultLogo: computed(&#x27;json.logoGraphic.firstObject.fileUri.firstObject.uri&#x27;,
+    &#x27;defaultOrganization&#x27;,
+    function() {
+      let uri = this.get(&#x27;json.logoGraphic.firstObject.fileUri.firstObject.uri&#x27;);
 
-      return uri;
+      if(uri) {
+        return uri;
+      }
+      let orgId = get(this, &#x27;defaultOrganization&#x27;);
+
+      if(orgId) {
+        let contacts = this.get(&#x27;store&#x27;).peekAll(&#x27;contact&#x27;);
+        let org = contacts.findBy(&#x27;json.contactId&#x27;, orgId);
+
+        if(org) {
+          return get(org, &#x27;defaultLogo&#x27;);
+        }
+      }
+
+      return null;
+    }),
+
+  /**
+   * The id of the default organization for the contact.
+   *
+   * @property defaultOrganization
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires json.memberOfOrganization.[]
+   */
+  defaultOrganization: computed(&#x27;json.memberOfOrganization.[]&#x27;,
+    function() {
+      const json = this.get(&#x27;json&#x27;);
+
+      let {
+        memberOfOrganization
+      } = json;
+
+      return !isEmpty(memberOfOrganization) ?
+        memberOfOrganization[0] :
+        null;
     }),
 
   /**
@@ -465,9 +503,9 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.name, json.isOrganization
    */
-  combinedName: computed(&#x27;json.name&#x27;, &#x27;json.isOrganization&#x27;,
-    &#x27;json.positionName&#x27;,
-    function () {
+  combinedName: computed(&#x27;name&#x27;, &#x27;json.isOrganization&#x27;,
+    &#x27;json.positionName&#x27;, &#x27;json.memberOfOrganization[]&#x27;,
+    function() {
       const json = this.get(&#x27;json&#x27;);
 
       let {
@@ -488,7 +526,7 @@ const Contact = Model.extend(Validations, Copyable, {
         let org = contacts.findBy(&#x27;json.contactId&#x27;, orgId);
 
         if(org) {
-          orgName = org.name;
+          orgName = get(org, &#x27;name&#x27;);
         }
       }
 
@@ -508,7 +546,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.contactId
    */
-  shortId: Ember.computed(&#x27;json.contactId&#x27;, function () {
+  shortId: Ember.computed(&#x27;json.contactId&#x27;, function() {
     const contactId = this.get(&#x27;json.contactId&#x27;);
     if(contactId &amp;&amp; Validator.isUUID(contactId)) {
       let index = contactId.indexOf(&#x27;-&#x27;);

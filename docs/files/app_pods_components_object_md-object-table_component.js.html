@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47096bc5" target="_blank">
-                                  Tag: 0.0.0.47096bc5
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/8fb94731" target="_blank">
+                                  Tag: 0.0.0.8fb94731
                                 </a>
                             </h4>
                         </div>
@@ -472,6 +472,8 @@ export default Component.extend(InViewportMixin, Template, {
     return this.get(&#x27;attrArray&#x27;)
       .map(function(item) {
         return item.trim()
+          .split(&#x27;.&#x27;)
+          .get(&#x27;lastObject&#x27;)
           .dasherize()
           .replace(/-/g, &#x27; &#x27;);
       });

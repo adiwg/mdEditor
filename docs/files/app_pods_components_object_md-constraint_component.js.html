@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/object/md-graphic-array/component.js - mdeditor</title>
+    <title>app/pods/components/object/md-constraint/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -240,88 +240,163 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- *  @module mdeditor
- * @submodule components-object
- */
-
 import Ember from &#x27;ember&#x27;;
+import {
+  validator,
+  buildValidations
+} from &#x27;ember-cp-validations&#x27;;
 
 const {
   Component,
-  A
+  computed,
+  isEmpty,
+  computed: {
+    alias,
+    equal//,
+    //not
+  },
+  get,
+  run: {
+    once
+  },
+  getWithDefault,
+  set
 } = Ember;
 
-export default Component.extend({
-  /**
-   * mdEditor class for input and edit of mdJSON &#x27;graphic&#x27; object arrays. The
-   * class manages the maintenance of an array of graphic objects using the
-   * md-object-table class.
-   *
-   * &#x60;&#x60;&#x60;handlebars
-   * \{{object/md-graphic-array
-   *   model=model
-   *   data-spy=&quot;Graphic&quot;
-   *   button-text=&quot;Add Graphic&quot;
-   *   label=&quot;Graphic&quot;
-   * }}
-   * &#x60;&#x60;&#x60;
-   *
-   * @class md-graphic-array
-   * @constructor
-   */
+const Validations = buildValidations({
+  // &#x27;scaleFactor&#x27;: {
+  //   disabled: alias(&#x27;model.scaleDisabled&#x27;),
+  //   validators: [
+  //     validator(&#x27;presence&#x27;, {
+  //       presence: true,
+  //       ignoreBlank: true
+  //     }),
+  //     validator(&#x27;number&#x27;, {
+  //       integer: true,
+  //       allowBlank: true,
+  //       positive: true,
+  //       gt: 0
+  //     })
+  //   ]
+  // },
+  &#x27;classification&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      ignoreBlank: true//,
+      //disabled: not(&#x27;model.securityRequired&#x27;)
+    })
+  ],
+  // &#x27;measure&#x27;: [
+  //   validator(&#x27;dependent&#x27;, {
+  //     on: [&#x27;measureType&#x27;, &#x27;measureValue&#x27;, &#x27;measureUnit&#x27;]
+  //   })
+  // ],
+  &#x27;type&#x27;: [
+    validator(&#x27;presence&#x27;, {
+      presence: true,
+      ignoreBlank: true
+    })
+  ] //,
+  // &#x27;measureUnit&#x27;: [
+  //   validator(&#x27;presence&#x27;, {
+  //     presence: true,
+  //     ignoreBlank: true
+  //   })
+  // ],
+  // &#x27;measureValue&#x27;: [
+  //   validator(&#x27;presence&#x27;, {
+  //     presence: true,
+  //     ignoreBlank: true
+  //   })
+  // ]
+});
 
-  attributeBindings: [&#x27;data-spy&#x27;],
+export default Component.extend(Validations, {
+  didReceiveAttrs() {
+    this._super(...arguments);
 
+    let model = get(this, &#x27;model&#x27;);
+
+    once(this, function() {
+      set(model, &#x27;useLimitation&#x27;, getWithDefault(model, &#x27;useLimitation&#x27;, []));
+      set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
+      set(model, &#x27;responsibleParty&#x27;, getWithDefault(model,
+        &#x27;responsibleParty&#x27;, []));
+      set(model, &#x27;legal&#x27;, getWithDefault(model, &#x27;legal&#x27;, {
+        accessConstraint: [],
+        useConstraint: [],
+        otherConstraint: []
+      }));
+      set(model, &#x27;security&#x27;, getWithDefault(model, &#x27;security&#x27;, {}));
+    });
+  },
   /**
-   * mdJSON object containing the &#x27;graphic&#x27; array.
+   * The string representing the path in the profile object for the resource.
    *
-   * @property model
-   * @type Object
+   * @property profilePath
+   * @type {String}
+   * @default &#x27;false&#x27;
    * @required
    */
 
   /**
-   * List of mdJSON &#x27;graphic&#x27; object attributes to display in
-   * md-object-table to aid in choosing the onlineResource to edit or
-   * delete.
-   * The property is passed to md-object-table for configuration.
+   * The object to use as the data model for the resource.
    *
-   * @property attributes
-   * @type String
-   * @default &#x27;name, uri&#x27;
+   * @property model
+   * @type {Object}
+   * @required
    */
-  attributes: &#x27;fileName,fileDescription&#x27;,
 
-  /**
-   * Name to place on the mdEditor panel header for entry and edit of
-   * &#x27;onlineResource&#x27; objects.
-   * The property is passed to md-object-table for configuration.
-   *
-   * @property label
-   * @type String
-   * @default &#x27;Graphic&#x27;
-   */
-  label: &#x27;Graphic&#x27;,
+  tagName: &#x27;form&#x27;,
+  // scaleFactor: alias(&#x27;model.scaleFactor&#x27;),
+  // scaleDisabled: computed(
+  //   &#x27;model.levelOfDetail&#x27;, &#x27;measurePresent&#x27;,
+  //   function() {
+  //     return !isEmpty(this.get(&#x27;model.levelOfDetail&#x27;)) || this.get(
+  //       &#x27;measurePresent&#x27;
+  //     );
+  //   }),
+  // levelOfDetail: alias(&#x27;model.levelOfDetail&#x27;),
+  // levelDisabled: computed(
+  //   &#x27;model.scaleFactor&#x27;, &#x27;measurePresent&#x27;,
+  //   function() {
+  //     let scaleFactor = this.get(&#x27;model.scaleFactor&#x27;);
+  //     return(!isEmpty(scaleFactor) &amp;&amp; !Number.isNaN(scaleFactor)) ||
+  //       this.get(
+  //         &#x27;measurePresent&#x27;
+  //       );
+  //   }
+  // ),
+  // measure: alias(&#x27;model.measure&#x27;),
+  // measureDisabled: computed(
+  //   &#x27;model.scaleFactor&#x27;, &#x27;model.levelOfDetail&#x27;,
+  //   function() {
+  //     let scaleFactor = this.get(&#x27;model.scaleFactor&#x27;);
+  //     return(!isEmpty(scaleFactor) &amp;&amp; !Number.isNaN(scaleFactor)) ||
+  //       !isEmpty(this.get(&#x27;model.levelOfDetail&#x27;));
+  //   }
+  // ),
+  type: alias(&#x27;model.type&#x27;),
+  useRequired: equal(&#x27;type&#x27;, &#x27;use&#x27;),
+  securityRequired: equal(&#x27;type&#x27;, &#x27;security&#x27;),
+  legalRequired: equal(&#x27;type&#x27;, &#x27;legal&#x27;),
+  classification: alias(&#x27;model.security.classification&#x27;),
+  // measureUnit: alias(&#x27;model.measure.unitOfMeasure&#x27;),
+  // measurePresent: or(&#x27;measureType&#x27;,&#x27;measureUnit&#x27;,&#x27;measureValue&#x27;),
 
-  /**
-   * Label for the &#x27;add item&#x27; button.
-   * The property is passed to md-object-table for configuration.
-   *
-   * @property buttonText
-   * @type String
-   * @default &#x27;Graphic&#x27;
-   */
-  buttonText: &#x27;Add Graphic&#x27;,
-
-  previewTemplate: &#x27;object/md-graphic-array/md-graphic-preview&#x27;,
-
-  templateClass: Ember.Object.extend({
-    init() {
-      this.set(&#x27;fileConstraint&#x27;, A());
-      this.set(&#x27;fileUri&#x27;, A());
+  typeOptions: [{
+      name: &#x27;use&#x27;,
+      value: &#x27;use&#x27;
+    },
+    {
+      name: &#x27;legal&#x27;,
+      value: &#x27;legal&#x27;
+    },
+    {
+      name: &#x27;security&#x27;,
+      value: &#x27;security&#x27;
     }
-  })
+  ]
 });
 
     </pre>

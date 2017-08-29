@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47096bc5" target="_blank">
-                                  Tag: 0.0.0.47096bc5
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/8fb94731" target="_blank">
+                                  Tag: 0.0.0.8fb94731
                                 </a>
                             </h4>
                         </div>
@@ -255,7 +255,8 @@ const {
   getOwner,
   isArray,
   run,
-  typeOf
+  typeOf,
+  get
 } = Ember;
 
 export default Component.extend(Template, {
@@ -388,7 +389,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires columns
    */
-  columnArray: computed(&#x27;columns&#x27;, function () {
+  columnArray: computed(&#x27;columns&#x27;, function() {
     let columns = this.get(&#x27;columns&#x27;);
 
     return(typeof columns === &#x27;string&#x27;) ? columns.split(&#x27;,&#x27;) : null;
@@ -409,7 +410,7 @@ export default Component.extend(Template, {
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(isArray(value).length &gt; 0) {
+    } else if(isArray(value) &amp;&amp; get(value, &#x27;length&#x27;) &gt; 0) {
       return false;
     } else {
       return true;
@@ -437,7 +438,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires elementId
    */
-  panelId: computed(&#x27;elementId&#x27;, function () {
+  panelId: computed(&#x27;elementId&#x27;, function() {
     return &#x27;panel-&#x27; + this.get(&#x27;elementId&#x27;);
   }),
 
@@ -450,7 +451,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires value.[]
    */
-  pillColor: computed(&#x27;value.[]&#x27;, function() {
+  pillColor: computed(&#x27;value.[]&#x27;, &#x27;required&#x27;, function() {
     let count = this.get(&#x27;value.length&#x27;) || 0;
     let required = this.get(&#x27;required&#x27;);
     return(count === 0) ? required ? &#x27;label-danger&#x27; : &#x27;label-warning&#x27; :
@@ -464,7 +465,7 @@ export default Component.extend(Template, {
    * @return none
    */
   valueChanged() {
-    run.schedule(&#x27;afterRender&#x27;, this, function () {
+    run.schedule(&#x27;afterRender&#x27;, this, function() {
       let panel = this.$(&#x27;.panel-collapse&#x27;);
       let input = this.$(&#x27;.panel-collapse tbody tr:last-of-type input&#x27;)
         .first();
@@ -472,7 +473,7 @@ export default Component.extend(Template, {
       if(panel.hasClass(&#x27;in&#x27;)) {
         input.focus();
       } else { //add a one-time listener to wait until panel is open
-        panel.one(&#x27;shown.bs.collapse&#x27;, function () {
+        panel.one(&#x27;shown.bs.collapse&#x27;, function() {
           input.focus();
         });
         panel.collapse(&#x27;show&#x27;);
@@ -481,7 +482,7 @@ export default Component.extend(Template, {
   },
 
   actions: {
-    addItem: function (value) {
+    addItem: function(value) {
       const Template = this.get(&#x27;templateClass&#x27;);
       const owner = getOwner(this);
 
@@ -492,7 +493,7 @@ export default Component.extend(Template, {
       this.valueChanged();
     },
 
-    deleteItem: function (value, idx) {
+    deleteItem: function(value, idx) {
       if(value.length &gt; idx) {
         value.removeAt(idx);
       }
