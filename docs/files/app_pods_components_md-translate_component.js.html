@@ -302,25 +302,25 @@ export default Component.extend({
   errors: null,
   xhrError: null,
   isLoading: false,
-  subTitle:null,
+  subTitle: null,
 
-  writeObj: computed(&#x27;writer&#x27;, function () {
+  writeObj: computed(&#x27;writer&#x27;, function() {
     return get(this, &#x27;writerOptions&#x27;).findBy(&#x27;value&#x27;, get(this,
       &#x27;writer&#x27;));
   }),
 
-  writerType: computed(&#x27;writeObj&#x27;, function () {
+  writerType: computed(&#x27;writeObj&#x27;, function() {
     return get(this, &#x27;writeObj&#x27;).type.split(&#x27;/&#x27;)[1];
   }),
 
   isJson: computed.equal(&#x27;writerType&#x27;, &#x27;json&#x27;),
-  isHtml: computed(&#x27;writerType&#x27;, function () {
+  isHtml: computed(&#x27;writerType&#x27;, function() {
     //IE does not supoprt srcdoc, so default to non-html display
     return get(this, &#x27;writerType&#x27;) === &#x27;html&#x27; &amp;&amp; &#x27;srcdoc&#x27; in document.createElement(
       &#x27;iframe&#x27;);
   }),
 
-  messages: computed(&#x27;errors&#x27;, function () {
+  messages: computed(&#x27;errors&#x27;, function() {
     let err = get(this, &#x27;errors&#x27;);
 
     if(!err) {
@@ -328,12 +328,12 @@ export default Component.extend({
     }
 
     if(!err.readerStructurePass) {
-      set(this,&#x27;subtitle&#x27;, &#x27;Errors ocurred when reading the mdJSON&#x27;);
+      set(this, &#x27;subtitle&#x27;, &#x27;Errors ocurred when reading the mdJSON&#x27;);
       return err.readerStructureMessages;
     }
 
     if(!err.readerValidationPass) {
-      set(this,&#x27;subtitle&#x27;, &#x27;mdJSON Schema validation failed&#x27;);
+      set(this, &#x27;subtitle&#x27;, &#x27;mdJSON Schema validation failed&#x27;);
       return JSON.parse(err.readerValidationMessages[1]);
     }
 
@@ -355,12 +355,12 @@ export default Component.extend({
 
   actions: {
     translate() {
-      let model = get(this, &#x27;model&#x27;);
-      let json = JSON.parse(JSON.stringify(model.get(&#x27;json&#x27;)));
-      let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
       let cleaner = this.get(&#x27;cleaner&#x27;);
+      let model = get(this, &#x27;model&#x27;);
+      let json = JSON.parse(JSON.stringify(cleaner.clean(model.get(&#x27;json&#x27;))));
+      let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
 
-      json.contact = contacts;
+      json.contact = cleaner.clean(contacts);
 
       //console.info(JSON.stringify(json));
 
@@ -370,7 +370,7 @@ export default Component.extend({
       $.ajax(&quot;http://mdtranslator.adiwg.org/api/v2/translator&quot;, {
         type: &#x27;POST&#x27;,
         data: {
-          file: JSON.stringify(cleaner.clean(json)),
+          file: JSON.stringify(json),
           reader: &#x27;mdJson&#x27;,
           writer: get(this, &#x27;writer&#x27;),
           showAllTags: get(this, &#x27;showAllTags&#x27;),
@@ -378,7 +378,7 @@ export default Component.extend({
           format: &#x27;json&#x27;
         },
         context: this
-      }).then(function (response) {
+      }).then(function(response) {
         //this.sendAction(&quot;select&quot;, response);
         //console.info(response);
 
