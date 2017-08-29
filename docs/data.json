@@ -4449,7 +4449,7 @@
         },
         {
             "file": "app/pods/components/md-translate/component.js",
-            "line": 19,
+            "line": 21,
             "description": "Indicates whether empty tags should be written to the translated output",
             "itemtype": "property",
             "name": "showAllTags",

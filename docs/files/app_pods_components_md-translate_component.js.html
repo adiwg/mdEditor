@@ -251,6 +251,8 @@ const {
   $
 } = Ember;
 
+const _contacts = [];
+
 export default Component.extend({
   classNames: [&#x27;row&#x27;],
 
@@ -353,14 +355,26 @@ export default Component.extend({
     set(this, &#x27;xhrError&#x27;, null);
   },
 
+  _contacts: [],
+
+  _replacer(key, value) {
+    //console.log(arguments);
+    if(key===&#x27;contactId&#x27; &amp;&amp; !_contacts.includes(value)){
+      _contacts.push(value);
+    }
+    return value;
+  },
+
   actions: {
     translate() {
       let cleaner = this.get(&#x27;cleaner&#x27;);
-      let model = get(this, &#x27;model&#x27;);
-      let json = JSON.parse(JSON.stringify(cleaner.clean(model.get(&#x27;json&#x27;))));
+      let clean = cleaner.clean(get(this,&#x27;model.json&#x27;));
+      let json = JSON.parse(JSON.stringify(clean, get(this, &#x27;_replacer&#x27;)));
       let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
 
-      json.contact = contacts;
+      json.contact = contacts.filter((item)=&gt;{
+        return _contacts.includes(get(item, &#x27;contactId&#x27;));
+      });
       //console.info(JSON.stringify(json));
 
       this._clearResult();
