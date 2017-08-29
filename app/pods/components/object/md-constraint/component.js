@@ -10,7 +10,8 @@ const {
   isEmpty,
   computed: {
     alias,
-    equal
+    equal//,
+    //not
   },
   get,
   run: {
@@ -36,13 +37,13 @@ const Validations = buildValidations({
   //     })
   //   ]
   // },
-  // 'levelOfDetail': [
-  //   validator('presence', {
-  //     presence: true,
-  //     ignoreBlank: true,
-  //     disabled: alias('model.levelDisabled')
-  //   })
-  // ],
+  'classification': [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true//,
+      //disabled: not('model.securityRequired')
+    })
+  ],
   // 'measure': [
   //   validator('dependent', {
   //     on: ['measureType', 'measureValue', 'measureUnit']
@@ -137,7 +138,7 @@ export default Component.extend(Validations, {
   useRequired: equal('type', 'use'),
   securityRequired: equal('type', 'security'),
   legalRequired: equal('type', 'legal'),
-  // measureValue: alias('model.measure.value'),
+  classification: alias('model.security.classification'),
   // measureUnit: alias('model.measure.unitOfMeasure'),
   // measurePresent: or('measureType','measureUnit','measureValue'),
 
