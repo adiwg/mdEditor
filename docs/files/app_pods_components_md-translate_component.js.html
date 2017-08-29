@@ -360,8 +360,7 @@ export default Component.extend({
       let json = JSON.parse(JSON.stringify(cleaner.clean(model.get(&#x27;json&#x27;))));
       let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
 
-      json.contact = cleaner.clean(contacts);
-
+      json.contact = contacts;
       //console.info(JSON.stringify(json));
 
       this._clearResult();
@@ -370,7 +369,7 @@ export default Component.extend({
       $.ajax(&quot;https://mdtranslator.herokuapp.com/api/v2/translator&quot;, {
         type: &#x27;POST&#x27;,
         data: {
-          file: JSON.stringify(json),
+          file: JSON.stringify(cleaner.clean(json)),
           reader: &#x27;mdJson&#x27;,
           writer: get(this, &#x27;writer&#x27;),
           showAllTags: get(this, &#x27;showAllTags&#x27;),
