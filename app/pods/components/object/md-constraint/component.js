@@ -6,8 +6,6 @@ import {
 
 const {
   Component,
-  computed,
-  isEmpty,
   computed: {
     alias,
     equal//,
@@ -22,51 +20,18 @@ const {
 } = Ember;
 
 const Validations = buildValidations({
-  // 'scaleFactor': {
-  //   disabled: alias('model.scaleDisabled'),
-  //   validators: [
-  //     validator('presence', {
-  //       presence: true,
-  //       ignoreBlank: true
-  //     }),
-  //     validator('number', {
-  //       integer: true,
-  //       allowBlank: true,
-  //       positive: true,
-  //       gt: 0
-  //     })
-  //   ]
-  // },
   'classification': [
     validator('presence', {
       presence: true,
-      ignoreBlank: true//,
-      //disabled: not('model.securityRequired')
+      ignoreBlank: true
     })
   ],
-  // 'measure': [
-  //   validator('dependent', {
-  //     on: ['measureType', 'measureValue', 'measureUnit']
-  //   })
-  // ],
   'type': [
     validator('presence', {
       presence: true,
       ignoreBlank: true
     })
-  ] //,
-  // 'measureUnit': [
-  //   validator('presence', {
-  //     presence: true,
-  //     ignoreBlank: true
-  //   })
-  // ],
-  // 'measureValue': [
-  //   validator('presence', {
-  //     presence: true,
-  //     ignoreBlank: true
-  //   })
-  // ]
+  ]
 });
 
 export default Component.extend(Validations, {
@@ -106,34 +71,7 @@ export default Component.extend(Validations, {
    */
 
   tagName: 'form',
-  // scaleFactor: alias('model.scaleFactor'),
-  // scaleDisabled: computed(
-  //   'model.levelOfDetail', 'measurePresent',
-  //   function() {
-  //     return !isEmpty(this.get('model.levelOfDetail')) || this.get(
-  //       'measurePresent'
-  //     );
-  //   }),
-  // levelOfDetail: alias('model.levelOfDetail'),
-  // levelDisabled: computed(
-  //   'model.scaleFactor', 'measurePresent',
-  //   function() {
-  //     let scaleFactor = this.get('model.scaleFactor');
-  //     return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
-  //       this.get(
-  //         'measurePresent'
-  //       );
-  //   }
-  // ),
-  // measure: alias('model.measure'),
-  // measureDisabled: computed(
-  //   'model.scaleFactor', 'model.levelOfDetail',
-  //   function() {
-  //     let scaleFactor = this.get('model.scaleFactor');
-  //     return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
-  //       !isEmpty(this.get('model.levelOfDetail'));
-  //   }
-  // ),
+
   type: alias('model.type'),
   useRequired: equal('type', 'use'),
   securityRequired: equal('type', 'security'),
