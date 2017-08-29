@@ -56,6 +56,8 @@ export default Component.extend({
 
   templateClass: Ember.Object.extend({
     init() {
+      this._super(...arguments);
+
       this.set('addressType', A());
       this.set('deliveryPoint', A());
     }

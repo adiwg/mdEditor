@@ -108,6 +108,8 @@ export default Component.extend(InViewportMixin, Template, {
    *  ```javascript
    *  Ember.Object.extend({
    *    init() {
+   *      this._super(...arguments);
+   *      
    *      this.set('foo', A());
    *      this.set('bar', A());
    *    }

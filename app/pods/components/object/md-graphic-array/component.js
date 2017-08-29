@@ -76,6 +76,8 @@ export default Component.extend({
 
   templateClass: Ember.Object.extend({
     init() {
+      this._super(...arguments);
+      
       this.set('fileConstraint', A());
       this.set('fileUri', A());
     }
