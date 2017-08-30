@@ -17,7 +17,7 @@
         }}
 
 
-        {{#if (is-array resource.Status)}}
+        {{#if (is-array resource.status)}}
         {{input/md-codelist-multi
           value=resource.status label="Status" required=true
           create=true tooltip=true icon=false mdCodeName="progress"

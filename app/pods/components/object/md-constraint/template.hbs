@@ -36,7 +36,7 @@
   shadow=true
 }}
 
-  {{#layout/md-card shadow=false}}
+  {{!-- {{#layout/md-card shadow=false}}
     {{#object/md-simple-array-table
       title="Access Constraint"
       data-spy=false
@@ -49,8 +49,32 @@
          placeholder="Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource."}}
       </td>
     {{/object/md-simple-array-table}}
-  {{/layout/md-card}}
+  {{/layout/md-card}} --}}
 
+  {{input/md-codelist-multi
+    value=model.legal.accessConstraint
+    label="Access Constraints"
+    create=false
+    tooltip=true
+    icon=false
+    mdCodeName="restriction"
+    closeOnSelect=false
+    profilePath=(concat profilePath ".legal.accessConstraint")
+    placeholder="Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource."
+  }}
+
+  {{input/md-codelist-multi
+    value=model.legal.useConstraint
+    label="Use Constraints"
+    create=false
+    tooltip=true
+    icon=false
+    mdCodeName="restriction"
+    closeOnSelect=false
+    profilePath=(concat profilePath ".legal.useConstraint")
+    placeholder="Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource."
+  }}
+{{!--
   {{#layout/md-card shadow=false}}
     {{#object/md-simple-array-table
       title="Use Constraint"
@@ -64,7 +88,7 @@
          placeholder="Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource."}}
       </td>
     {{/object/md-simple-array-table}}
-  {{/layout/md-card}}
+  {{/layout/md-card}} --}}
 
   {{#layout/md-card shadow=false}}
     {{#object/md-simple-array-table
@@ -119,5 +143,18 @@
     profilePath=(concat profilePath ".security.handlingDescription")
   }}
 {{/layout/md-card}}
+
+{{object/md-party
+  title="Responsible Party"
+  value=model.responsibleParty
+  profilePath=(concat profilePath ".responsibleParty")
+}}
+
+{{object/md-graphic-array
+  model=model.graphic
+  button-text="Add Graphic"
+  label="Graphic or Logo"
+  profilePath=(concat profilePath ".graphic")
+}}
 
 {{yield}}
