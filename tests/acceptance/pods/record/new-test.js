@@ -15,47 +15,45 @@ test('test new mdJSON record initial page conditions', function(assert) {
   assert.expect(4);
   visit('/record/new');
   andThen(function() {
-    assert.equal(find('input:eq(0)').val(), "");
+    assert.ok(find('input:eq(0)').val());
+    assert.equal(find('input:eq(1)').val(), '');
     assert.equal(find('ember-power-select-selected-item .select-value')
       .text(), "");
     assert.equal(find('button.md-form-save').prop('disabled'), true);
-    assert.equal(find('div.md-form-alert').length, 2);
   });
 });
 
 test('test new mdJSON record completed form', function (assert) {
-  assert.expect(4);
+  assert.expect(3);
   visit('/record/new');
-  fillIn('input:eq(0)', 'Record Title');
-  selectChoose('div.md-form-select .md-select', 'attribute');
+  fillIn('input:eq(1)', 'Record Title');
+  selectChoose('.md-select', 'attribute');
   andThen(function() {
-    assert.equal(find('input:eq(0)').val(), "Record Title");
+    assert.equal(find('input:eq(1)').val(), "Record Title");
     assert.equal(find(
-        'div.md-form-select .ember-power-select-selected-item .select-value'
+        'div.md-select .ember-power-select-selected-item .select-value'
       )
       .text()
       .trim(), "attribute");
     assert.equal(find('button.md-form-save').prop('disabled'), false);
-    assert.equal(find('div.md-form-alert').length, 0);
   });
 });
 
 test('test new mdJSON record missing record title', function (assert) {
-  assert.expect(2);
+  assert.expect(1);
   visit('/record/new');
-  selectChoose('div.md-form-select .md-select', 'attribute');
+  selectChoose('.md-select', 'attribute');
   andThen(function() {
     assert.equal(find('button.md-form-save').prop('disabled'), true);
-    assert.equal(find('div.md-form-alert').length, 1);
   });
 });
 
 test('test new mdJSON record missing data record type (scope)', function (assert) {
   assert.expect(2);
   visit('/record/new');
-  fillIn('input:eq(0)', 'Record Title');
+  fillIn('input:eq(1)', 'Record Title');
   andThen(function() {
     assert.equal(find('button.md-form-save').prop('disabled'), true);
-    assert.equal(find('div.md-form-alert').length, 1);
+    assert.equal(find('.md-error').length, 1);
   });
 });
