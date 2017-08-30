@@ -9,6 +9,8 @@ const {
   $
 } = Ember;
 
+const _contacts = [];
+
 export default Component.extend({
   classNames: ['row'],
 
@@ -111,15 +113,26 @@ export default Component.extend({
     set(this, 'xhrError', null);
   },
 
+  _contacts: [],
+
+  _replacer(key, value) {
+    //console.log(arguments);
+    if(key==='contactId' && !_contacts.includes(value)){
+      _contacts.push(value);
+    }
+    return value;
+  },
+
   actions: {
     translate() {
       let cleaner = this.get('cleaner');
-      let model = get(this, 'model');
-      let json = JSON.parse(JSON.stringify(cleaner.clean(model.get('json'))));
+      let clean = cleaner.clean(get(this,'model.json'));
+      let json = JSON.parse(JSON.stringify(clean, get(this, '_replacer')));
       let contacts = this.store.peekAll('contact').mapBy('json');
 
-      json.contact = cleaner.clean(contacts);
-
+      json.contact = contacts.filter((item)=>{
+        return _contacts.includes(get(item, 'contactId'));
+      });
       //console.info(JSON.stringify(json));
 
       this._clearResult();
@@ -128,7 +141,7 @@ export default Component.extend({
       $.ajax("https://mdtranslator.herokuapp.com/api/v2/translator", {
         type: 'POST',
         data: {
-          file: JSON.stringify(json),
+          file: JSON.stringify(cleaner.clean(json)),
           reader: 'mdJson',
           writer: get(this, 'writer'),
           showAllTags: get(this, 'showAllTags'),
