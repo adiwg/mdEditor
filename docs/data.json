@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.1aca6aa2",
+        "version": "0.0.0.f086c337",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -4493,7 +4493,7 @@
         },
         {
             "file": "app/pods/components/object/md-allocation/component.js",
-            "line": 45,
+            "line": 46,
             "description": "The string representing the path in the profile object for the resource.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4505,7 +4505,7 @@
         },
         {
             "file": "app/pods/components/object/md-allocation/component.js",
-            "line": 54,
+            "line": 55,
             "description": "The object to use as the data model for the resource.",
             "itemtype": "property",
             "name": "model",
@@ -5178,7 +5178,7 @@
         },
         {
             "file": "app/pods/components/object/md-lineage/component.js",
-            "line": 28,
+            "line": 29,
             "description": "The string representing the path in the profile object for the citation.",
             "itemtype": "property",
             "name": "profilePath",
@@ -5190,7 +5190,7 @@
         },
         {
             "file": "app/pods/components/object/md-lineage/component.js",
-            "line": 37,
+            "line": 38,
             "description": "The object to use as the data model for the citation.",
             "itemtype": "property",
             "name": "model",
@@ -5201,7 +5201,7 @@
         },
         {
             "file": "app/pods/components/object/md-lineage/component.js",
-            "line": 45,
+            "line": 46,
             "description": "See [md-array-table](md-array-table.html#property_templateClass).",
             "itemtype": "property",
             "name": "stepTemplateClass",
@@ -5313,7 +5313,7 @@
         {
             "file": "app/pods/components/object/md-object-table/component.js",
             "line": 105,
-            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this._super(...arguments);\n     \n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
+            "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this._super(...arguments);\n\n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
             "itemtype": "property",
             "name": "templateClass",
             "type": "{Any}",
@@ -5560,7 +5560,7 @@
         },
         {
             "file": "app/pods/components/object/md-process-step/component.js",
-            "line": 40,
+            "line": 42,
             "description": "The string representing the path in the profile object for the processStep.",
             "itemtype": "property",
             "name": "profilePath",
@@ -5572,7 +5572,7 @@
         },
         {
             "file": "app/pods/components/object/md-process-step/component.js",
-            "line": 49,
+            "line": 51,
             "description": "The object to use as the data model for the processStep.",
             "itemtype": "property",
             "name": "model",

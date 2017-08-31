@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1aca6aa2" target="_blank">
-                                  Tag: 0.0.0.1aca6aa2
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f086c337" target="_blank">
+                                  Tag: 0.0.0.f086c337
                                 </a>
                             </h4>
                         </div>
@@ -253,12 +253,12 @@ const {
 } = Ember;
 
 export default Component.extend({
-  init(){
+  init() {
     this._super(...arguments);
 
     let model = get(this, &#x27;model&#x27;);
 
-    once(this, function () {
+    once(this, function() {
       set(model, &#x27;timePeriod&#x27;, getWithDefault(model, &#x27;timePeriod&#x27;, {}));
     });
   },
@@ -268,12 +268,14 @@ export default Component.extend({
 
     let model = get(this, &#x27;model&#x27;);
 
-    once(this, function () {
+    once(this, function() {
       set(model, &#x27;stepId&#x27;, getWithDefault(model, &#x27;stepId&#x27;, get(this, &#x27;itemId&#x27;)));
       set(model, &#x27;timePeriod&#x27;, getWithDefault(model, &#x27;timePeriod&#x27;, {}));
       set(model, &#x27;scope&#x27;, getWithDefault(model, &#x27;scope&#x27;, {}));
       set(model, &#x27;reference&#x27;, getWithDefault(model, &#x27;reference&#x27;, []));
       set(model, &#x27;processor&#x27;, getWithDefault(model, &#x27;processor&#x27;, []));
+      set(model, &#x27;stepSource&#x27;, getWithDefault(model, &#x27;stepSource&#x27;, []));
+      set(model, &#x27;stepProduct&#x27;, getWithDefault(model, &#x27;stepProduct&#x27;, []));
     });
   },
 
@@ -295,6 +297,8 @@ export default Component.extend({
    * @type {Object}
    * @required
    */
+
+  sourceTemplate: Ember.Object.extend()
 });
 
     </pre>
