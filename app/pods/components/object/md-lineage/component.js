@@ -20,6 +20,7 @@ export default Component.extend({
       set(model, 'scope', getWithDefault(model, 'scope', {}));
       set(model, 'citation', getWithDefault(model, 'citation', []));
       set(model, 'processStep', getWithDefault(model, 'processStep', []));
+      set(model, 'source', getWithDefault(model, 'source', []));
     });
   },
 
@@ -53,5 +54,7 @@ export default Component.extend({
       this._super(...arguments);
       this.set('timePeriod', {});
     }
-  })
+  }),
+
+  sourceTemplate: Ember.Object.extend()
 });

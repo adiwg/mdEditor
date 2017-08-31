@@ -29,7 +29,9 @@
                 {{#unless previewTemplate}}
 
                 <thead>
+                  {{#unless hideIndex}}
                   <th>#</th>
+                  {{/unless}}
                   {{#each attrTitleArray as |prop|}}
                   <th>{{uc-words prop}}</th>
                   {{/each}}
@@ -86,7 +88,7 @@
                     </tr>
                 {{else}}
                 <tr>
-                    <td colspan="{{add-em attrArray.length 2}}">
+                    <td colspan="{{add-em attrArray.length (if hideIndex 1 2)}}">
                       <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
                           {{action "addItem" items}}>
                           {{fa-icon "plus"}} {{buttonText}}

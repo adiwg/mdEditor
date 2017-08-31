@@ -54,7 +54,7 @@ export default Component.extend(InViewportMixin, Template, {
 
   attributeBindings: ['data-spy'],
   classNameBindings: ['shadow:box-shadow--4dp'],
-  //classNames: ['md-object-table', 'panel', 'panel-default'],
+  classNames: ['md-object-table'],
 
   //reset the 'editing' flag
   didUpdateAttrs() {
@@ -109,7 +109,7 @@ export default Component.extend(InViewportMixin, Template, {
    *  Ember.Object.extend({
    *    init() {
    *      this._super(...arguments);
-   *      
+   *
    *      this.set('foo', A());
    *      this.set('bar', A());
    *    }

@@ -12,7 +12,9 @@
       {{#if columnArray}}
           <thead>
             <tr>
+              {{#unless hideIndex}}
               <th>#</th>
+              {{/unless}}
               {{#each columnArray as |prop|}}
               <th>{{uc-words prop}}</th>
               {{/each}}
@@ -23,7 +25,9 @@
       <tbody>
           {{#each arrayValues as |item index|}}
               <tr>
+                  {{#unless hideIndex}}
                   <td>{{index}}</td>
+                  {{/unless}}
                   {{yield (hash item=item index=index)}}
                   <td>
                       <div class="md-button-column">
@@ -35,7 +39,7 @@
               </tr>
           {{else}}
           <tr>
-              <td colspan="{{add-em 2 columnArray.length}}">
+              <td colspan="{{add-em (if hideIndex 1 2) columnArray.length}}">
                   <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
                       {{action "addItem" value}}>
                       {{fa-icon "plus"}} Add {{title}}
@@ -70,7 +74,9 @@
                     {{#if columnArray}}
                         <thead>
                           <tr>
+                            {{#unless hideIndex}}
                             <th>#</th>
+                            {{/unless}}
                             {{#each columnArray as |prop|}}
                             <th>{{uc-words prop}}</th>
                             {{/each}}
@@ -81,7 +87,9 @@
                     <tbody>
                         {{#each arrayValues as |item index|}}
                             <tr>
+                                {{#unless hideIndex}}
                                 <td>{{index}}</td>
+                                {{/unless}}
                                 {{yield (hash item=item index=index)}}
                                 <td>
                                     <div class="md-button-column">
@@ -93,7 +101,7 @@
                             </tr>
                         {{else}}
                         <tr>
-                            <td colspan="{{add-em 2 columnArray.length}}">
+                            <td colspan="{{add-em (if hideIndex 1 2) columnArray.length}}">
                                 <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
                                     {{action "addItem" value}}>
                                     {{fa-icon "plus"}} Add {{title}}

@@ -1,1 +1,13 @@
-{{item.statement}}
+<dl class="dl-horizontal col-lg-12">
+    {{control/md-definition title="Statement" text=item.statement}}
+</dl>
+<dl class="dl-horizontal col-lg-12">
+    {{#control/md-definition title="Process Step" }}
+        {{#each item.processStep as |step|}}
+            {{step.stepId}}: {{step.description}}
+            <br>
+            {{else}}
+            <em class="text-muted">No proces steps assigned.</em>
+        {{/each}}
+    {{/control/md-definition}}
+</dl>

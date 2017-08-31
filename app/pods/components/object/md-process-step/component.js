@@ -11,12 +11,12 @@ const {
 } = Ember;
 
 export default Component.extend({
-  init(){
+  init() {
     this._super(...arguments);
 
     let model = get(this, 'model');
 
-    once(this, function () {
+    once(this, function() {
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
     });
   },
@@ -26,12 +26,14 @@ export default Component.extend({
 
     let model = get(this, 'model');
 
-    once(this, function () {
+    once(this, function() {
       set(model, 'stepId', getWithDefault(model, 'stepId', get(this, 'itemId')));
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
       set(model, 'scope', getWithDefault(model, 'scope', {}));
       set(model, 'reference', getWithDefault(model, 'reference', []));
       set(model, 'processor', getWithDefault(model, 'processor', []));
+      set(model, 'stepSource', getWithDefault(model, 'stepSource', []));
+      set(model, 'stepProduct', getWithDefault(model, 'stepProduct', []));
     });
   },
 
@@ -53,4 +55,6 @@ export default Component.extend({
    * @type {Object}
    * @required
    */
+
+  sourceTemplate: Ember.Object.extend()
 });

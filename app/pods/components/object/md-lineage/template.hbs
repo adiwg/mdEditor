@@ -9,6 +9,7 @@
 
 {{object/md-objectroute-table
   items=model.processStep
+  hideIndex=true
   header="Process Step"
   buttonText="Add Step"
   ellipsis=ellipsis
@@ -17,6 +18,24 @@
   attributes="stepId,description"
   profilePath=(concat profilePath ".processStep") data-spy="Process Step"
 }}
+
+{{#object/md-array-table
+  columns="Description"
+  value=model.source
+  required=required
+  title="Source"
+  templateClass=sourceTemplate
+  profilePath=(concat profilePath ".source")
+  data-spy=Source as |source|
+}}
+  <td>
+    {{input/md-textarea
+      value=source.item.value
+      placeholder="A brief description about the source dataset used in creating the data."
+    }}
+  </td>
+{{/object/md-array-table}}
+
 
 {{object/md-citation-array model=model.citation
   profilePath=(concat profilePath ".citation") data-spy="Lineage Citation"
