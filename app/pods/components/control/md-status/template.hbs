@@ -1,6 +1,17 @@
 {{#if model.hasDirtyHash}}
-  {{fa-icon "exclamation-circle"}}
-  {{tooltip-on-element text='This record has been modified!' side="right"
+<span>
+  {{fa-icon "exclamation-circle" class="text-danger"}}
+  {{tooltip-on-element text='This record has been modified!' side="top"
     class="md-tooltip danger"
   }}
+</span>
+{{/if}}
+
+{{#if model.hasSchemaErrors}}
+<span>
+  {{fa-icon "exclamation-circle" class="md-warning"}}
+  {{tooltip-on-element text='This record has errors!' side="right"
+    class="md-tooltip warning"
+  }}
+</span>
 {{/if}}

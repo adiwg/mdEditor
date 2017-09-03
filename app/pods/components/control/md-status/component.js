@@ -5,7 +5,7 @@ const {
 
 export default Component.extend({
   tagName: 'span',
-  classNames: ['md-status', 'text-danger'],
+  classNames: ['md-status'],
 
   /**
    * Model to display status for.

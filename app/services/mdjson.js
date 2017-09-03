@@ -1,4 +1,19 @@
 import Ember from 'ember';
+import Ajv from 'npm:ajv';
+import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
+
+const validator = new Ajv({
+  verbose: true,
+  allErrors: true,
+  jsonPointers: true,
+  removeAdditional: false
+});
+
+Object.keys(Schemas).forEach(function(key) {
+  let val = Schemas[key];
+
+  validator.addSchema(val, key);
+});
 
 const {
   Service,
@@ -37,6 +52,12 @@ export default Service.extend({
       return _contacts.includes(get(item, 'contactId'));
     });
 
-    return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(json);
+    return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(
+      json);
+  },
+  validateRecord(record) {
+    validator.validate('schema', this.formatRecord(record));
+
+    return validator;
   }
 });

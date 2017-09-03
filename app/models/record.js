@@ -102,11 +102,11 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   title: computed('json.metadata.resourceInfo.citation.title',
-    function () {
+    function() {
       return this.get('json.metadata.resourceInfo.citation.title');
     }),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.[]', function () {
+  icon: computed('json.metadata.resourceInfo.resourceType.[]', function() {
     const type = this.get(
       'json.metadata.resourceInfo.resourceType.0.type') || '';
     const list = Ember.getOwner(this)
@@ -131,7 +131,7 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed('recordId', function () {
+  shortId: Ember.computed('recordId', function() {
     const recordId = this.get('recordId');
     if(recordId) {
       let index = recordId.indexOf('-');
@@ -140,6 +140,26 @@ export default Model.extend(Validations, Copyable, {
     }
 
     return recordId;
+  }),
+
+  hasSchemaErrors: computed('status', function() {
+    let mdjson = this.get('mdjson');
+    let errors = mdjson.validateRecord(this).errors;
+
+    //console.log(errors);
+
+    return errors;
+  }),
+
+  status: computed('hasDirtyHash', function() {
+    let dirty = this.get('hasDirtyHash');
+    let errors = this.get('hasSchemaErrors');
+
+    if(this.get('currentHash')) {
+      return dirty ? 'danger' : errors ? 'warning' : 'success';
+    }
+
+    return 'success';
   }),
 
   copy() {
