@@ -9,14 +9,14 @@ const {
   $
 } = Ember;
 
-const _contacts = [];
+//const _contacts = [];
 
 export default Component.extend({
   classNames: ['row'],
 
   cleaner: inject.service(),
   flashMessages: inject.service(),
-  //store: inject.service(),
+  mdjson: inject.service(),
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -113,26 +113,24 @@ export default Component.extend({
     set(this, 'xhrError', null);
   },
 
-  _contacts: [],
-
-  _replacer(key, value) {
-    //console.log(arguments);
-    if(key==='contactId' && !_contacts.includes(value)){
-      _contacts.push(value);
-    }
-    return value;
-  },
+  // _replacer(key, value) {
+  //   //console.log(arguments);
+  //   if(key==='contactId' && !_contacts.includes(value)){
+  //     _contacts.push(value);
+  //   }
+  //   return value;
+  // },
 
   actions: {
     translate() {
-      let cleaner = this.get('cleaner');
-      let clean = cleaner.clean(get(this,'model.json'));
-      let json = JSON.parse(JSON.stringify(clean, get(this, '_replacer')));
-      let contacts = this.store.peekAll('contact').mapBy('json');
-
-      json.contact = contacts.filter((item)=>{
-        return _contacts.includes(get(item, 'contactId'));
-      });
+      let mdjson = this.get('mdjson');
+      // let clean = cleaner.clean(get(this,'model.json'));
+      // let json = JSON.parse(JSON.stringify(clean, get(this, '_replacer')));
+      // let contacts = this.store.peekAll('contact').mapBy('json');
+      //
+      // json.contact = contacts.filter((item)=>{
+      //   return _contacts.includes(get(item, 'contactId'));
+      // });
       //console.info(JSON.stringify(json));
 
       this._clearResult();
@@ -141,7 +139,8 @@ export default Component.extend({
       $.ajax("https://mdtranslator.herokuapp.com/api/v2/translator", {
         type: 'POST',
         data: {
-          file: JSON.stringify(cleaner.clean(json)),
+          //file: JSON.stringify(cleaner.clean(json)),
+          file: mdjson.formatRecord(get(this,'model'),true),
           reader: 'mdJson',
           writer: get(this, 'writer'),
           showAllTags: get(this, 'showAllTags'),

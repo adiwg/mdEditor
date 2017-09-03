@@ -30,7 +30,7 @@ export default Component.extend({
   offset: 110,
 
   /**
-   * The initial scroll target wgen the comopnent is inserted.
+   * The initial scroll target when the component is inserted.
    *
    * @property scrollInit
    * @type {String}

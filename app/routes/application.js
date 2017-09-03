@@ -52,15 +52,18 @@ export default Route.extend({
     let meta = A([EmberObject.create({
       type: 'record',
       list: 'records',
-      title: 'Metadata Records'
+      title: 'Metadata Records',
+      icon: 'file-o'
     }), EmberObject.create({
       type: 'contact',
       list: 'contacts',
-      title: 'Contacts'
+      title: 'Contacts',
+      icon: 'users'
     }), EmberObject.create({
       type: 'dictionary',
       list: 'dictionaries',
-      title: 'Dictionaries'
+      title: 'Dictionaries',
+      icon: 'book'
     })]);
 
     let idx = 0;

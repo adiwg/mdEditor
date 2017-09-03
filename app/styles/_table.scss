@@ -75,7 +75,8 @@
   max-height: 50px;
 }
 
-.md-select-table {
+.md-select-table,
+.md-record-table {
   .inner-table-wrapper {
     margin-top: 1.25em;
   }
@@ -90,8 +91,12 @@
     }
   }
 
+  .table-hover > tbody > tr {
+    transition: background-color .1s linear;
+  }
+
   .table-hover > tbody > tr:hover {
-    background-color: lighten($brand-primary, 50);
+    background-color: lighten($brand-info, 40);
     cursor: pointer;
   }
 }

@@ -2,14 +2,15 @@
 
   <div class="col-sm-{{if model.files "9" "12"}} col-xxl-{{if model.files "10" "12"}}">
 
-    <h2>Import Data</h2>
+    <h3>Import Data</h3>
     {{#if model.preview}}
       <h3>{{capitalize (singularize model.preview.model.type)}}: {{model.preview.model.id}}</h3>
       {{control/md-json-viewer class="md-import-preview" json=model.preview.json modal=false}}
     {{else}}
       {{#unless model.files}}
         {{#file-picker class="md-file-picker md-import-picker" fileLoaded="readData" preview=false accept=".json" readAs="readAsText"}}
-          <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}} Click or Drop a File Here to Import Data</button>
+          <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}}
+            Click or Drop a file here to import data. <br>mdEditor and mdJSON files are supported.</button>
         {{/file-picker}}
       {{/unless}}
       {{#each-in model.files as |key item|}}

@@ -208,10 +208,12 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.logoGraphic.firstObject.fileUri.firstObject.uri
    */
-  defaultLogo: computed('json.logoGraphic.firstObject.fileUri.firstObject.uri',
+  defaultLogo: computed(
+    'json.logoGraphic.firstObject.fileUri.firstObject.uri',
     'defaultOrganization',
     function() {
-      let uri = this.get('json.logoGraphic.firstObject.fileUri.firstObject.uri');
+      let uri = this.get(
+        'json.logoGraphic.firstObject.fileUri.firstObject.uri');
 
       if(uri) {
         return uri;
@@ -250,6 +252,17 @@ const Contact = Model.extend(Validations, Copyable, {
       return !isEmpty(memberOfOrganization) ?
         memberOfOrganization[0] :
         null;
+    }),
+
+  defaultOrganizationName: computed('defaultOrganization',
+    function() {
+      let contacts = this.get('store').peekAll('contact');
+
+      let org = contacts.findBy('json.contactId', get(this,
+        'defaultOrganization'));
+
+      return get(org, 'name');
+
     }),
 
   /**

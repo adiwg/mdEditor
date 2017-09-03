@@ -46,7 +46,7 @@ export default Route.extend(ScrollTo, {
       };
 
       if(rec) {
-        let resource = get(this, 'currentModel');
+        let resource = get(this, 'currentRouteModel');
         let citation = get(rec, 'json.metadata.resourceInfo.citation') || {};
         let resourceType = get(rec, 'json.metadata.resourceInfo.resourceType') || [];
 
