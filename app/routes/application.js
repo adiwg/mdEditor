@@ -31,6 +31,7 @@ export default Route.extend({
   },
 
   spotlight: service(),
+  slider: service(),
 
   /**
    * Models for sidebar navigation
@@ -85,6 +86,7 @@ export default Route.extend({
     this._super(controller, model);
     // Implement your custom setup after
     controller.set('spotlight', this.get('spotlight'));
+    controller.set('slider', this.get('slider'));
   },
 
   /**

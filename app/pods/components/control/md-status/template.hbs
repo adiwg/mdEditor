@@ -8,10 +8,20 @@
 {{/if}}
 
 {{#if model.hasSchemaErrors}}
-<span>
+<span {{action "showSlider"}}>
   {{fa-icon "exclamation-circle" class="md-warning"}}
   {{tooltip-on-element text='This record has errors!' side="right"
     class="md-tooltip warning"
   }}
 </span>
 {{/if}}
+
+{{to-elsewhere
+  named="md-slider-error"
+  send=(hash
+    title=(concat "Viewing errors for: " model.title)
+    body=(component "control/md-errors"
+      errors=model.hasSchemaErrors
+    )
+  )
+}}

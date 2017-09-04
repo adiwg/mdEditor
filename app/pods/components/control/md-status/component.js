@@ -1,9 +1,11 @@
 import Ember from 'ember';
 const {
-  Component
+  Component,
+  inject
 } = Ember;
 
 export default Component.extend({
+  slider: inject.service(),
   tagName: 'span',
   classNames: ['md-status'],
 
@@ -14,4 +16,13 @@ export default Component.extend({
    * @type {DS.model}
    * @required
    */
+
+  actions: {
+    showSlider() {
+      let slider = this.get('slider');
+
+      slider.set('fromName', 'md-slider-error');
+      slider.toggleSlider(true);
+    }
+  }
 });

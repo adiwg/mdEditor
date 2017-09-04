@@ -9,10 +9,13 @@ const {
   get,
   set,
   Object: EmObject,
-  getWithDefault
+  getWithDefault,
+  inject
 } = Ember;
 
 export default Route.extend(ScrollTo, {
+  slider: inject.service(),
+
   sliderColumns: [{
     propertyName: 'recordId',
     title: 'ID'
@@ -23,7 +26,7 @@ export default Route.extend(ScrollTo, {
     propertyName: 'defaultType',
     title: 'Type'
   }],
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -34,8 +37,8 @@ export default Route.extend(ScrollTo, {
   },
   actions: {
     insertResource(selected) {
-      let app = this.controllerFor('application');
-      let rec = selected[0];
+      let slider = this.get('slider');
+      let rec = selected.get('firstObject');
       let info = get(rec, 'json.metadata.metadataInfo') || {};
       let metadata = {
         'title': `Metadata for ${get(rec,'title')}`,
@@ -46,9 +49,10 @@ export default Route.extend(ScrollTo, {
       };
 
       if(rec) {
-        let resource = get(this, 'currentRouteModel');
+        let resource = this.currentRouteModel();
         let citation = get(rec, 'json.metadata.resourceInfo.citation') || {};
-        let resourceType = get(rec, 'json.metadata.resourceInfo.resourceType') || [];
+        let resourceType = get(rec,
+          'json.metadata.resourceInfo.resourceType') || [];
 
         set(resource, 'resourceCitation', EmObject.create(formatCitation(
           citation)));
@@ -57,13 +61,15 @@ export default Route.extend(ScrollTo, {
         set(resource, 'resourceType', resourceType);
       }
 
-      app.set('showSlider', false);
+      //this.controller.set('slider', false);
+      slider.toggleSlider(false);
+      selected.clear();
     },
     selectResource() {
-      let app = this.controllerFor('application');
+      let slider = this.get('slider');
 
-      this.controller.set('slider', 'md-select-table');
-      app.set('showSlider', true);
+      //this.controller.set('slider', true);
+      slider.toggleSlider(true);
     },
     sliderData() {
       return this.store.peekAll('record');
