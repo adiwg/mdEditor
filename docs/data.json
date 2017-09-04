@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.67534c7c",
+        "version": "0.0.0.aec700bd",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2694,7 +2694,7 @@
         },
         {
             "file": "app/pods/components/control/md-status/component.js",
-            "line": 10,
+            "line": 12,
             "description": "Model to display status for.",
             "itemtype": "property",
             "name": "model",
@@ -5934,7 +5934,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 35,
+            "line": 36,
             "description": "Models for sidebar navigation",
             "return": {
                 "description": "",
@@ -5945,7 +5945,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 90,
+            "line": 92,
             "description": "The current model for the route",
             "itemtype": "method",
             "name": "currentRouteModel",
@@ -6254,7 +6254,7 @@
         },
         {
             "message": "Missing item type\nModels for sidebar navigation",
-            "line": " app/routes/application.js:35"
+            "line": " app/routes/application.js:36"
         },
         {
             "message": "Missing item type",
