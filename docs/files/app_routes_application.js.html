@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f086c337" target="_blank">
-                                  Tag: 0.0.0.f086c337
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/67534c7c" target="_blank">
+                                  Tag: 0.0.0.67534c7c
                                 </a>
                             </h4>
                         </div>
@@ -294,15 +294,18 @@ export default Route.extend({
     let meta = A([EmberObject.create({
       type: &#x27;record&#x27;,
       list: &#x27;records&#x27;,
-      title: &#x27;Metadata Records&#x27;
+      title: &#x27;Metadata Records&#x27;,
+      icon: &#x27;file-o&#x27;
     }), EmberObject.create({
       type: &#x27;contact&#x27;,
       list: &#x27;contacts&#x27;,
-      title: &#x27;Contacts&#x27;
+      title: &#x27;Contacts&#x27;,
+      icon: &#x27;users&#x27;
     }), EmberObject.create({
       type: &#x27;dictionary&#x27;,
       list: &#x27;dictionaries&#x27;,
-      title: &#x27;Dictionaries&#x27;
+      title: &#x27;Dictionaries&#x27;,
+      icon: &#x27;book&#x27;
     })]);
 
     let idx = 0;

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f086c337" target="_blank">
-                                  Tag: 0.0.0.f086c337
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/67534c7c" target="_blank">
+                                  Tag: 0.0.0.67534c7c
                                 </a>
                             </h4>
                         </div>
@@ -262,6 +262,7 @@ export default DS.Model.extend({
 
   settings: inject.service(),
   clean: inject.service(&#x27;cleaner&#x27;),
+  mdjson: inject.service(&#x27;mdjson&#x27;),
 
   /**
    * The hash for the clean record.
@@ -277,7 +278,7 @@ export default DS.Model.extend({
    * @type {String}
    */
 
-  observeReload: Ember.observer(&#x27;isReloading&#x27;, function () {
+  observeReload: Ember.observer(&#x27;isReloading&#x27;, function() {
     let reloading = this.get(&#x27;isReloading&#x27;);
 
     if(!reloading) {
@@ -286,14 +287,14 @@ export default DS.Model.extend({
   }),
 
   observeAutoSave: Ember.observer(&#x27;hasDirtyAttributes&#x27;, &#x27;hasDirtyHash&#x27;,
-    function () {
+    function() {
       if(this.get(&#x27;isNew&#x27;)) {
         return;
       }
 
       if(this.get(&#x27;settings.data.autoSave&#x27;) &amp;&amp; (this.get(&#x27;hasDirtyHash&#x27;) ||
           this.get(&#x27;hasDirtyAttributes&#x27;))) {
-        Ember.run.once(this, function () {
+        Ember.run.once(this, function() {
           this.save();
         });
       }
@@ -323,7 +324,6 @@ export default DS.Model.extend({
 
     return this._super(...arguments);
   },
-
 
   /**
    * Compute and set the model hash.
@@ -357,7 +357,7 @@ export default DS.Model.extend({
    * @property hasDirtyHash
    * @returns {Boolean} Boolean value indicating if hashes are equivalent
    */
-  hasDirtyHash: computed(&#x27;currentHash&#x27;, function () {
+  hasDirtyHash: computed(&#x27;currentHash&#x27;, function() {
     let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes
       .json), true);
 
@@ -375,7 +375,7 @@ export default DS.Model.extend({
     return false;
   }),
 
-  canRevert: computed(&#x27;hasDirtyHash&#x27;, &#x27;settings.data.autoSave&#x27;, function () {
+  canRevert: computed(&#x27;hasDirtyHash&#x27;, &#x27;settings.data.autoSave&#x27;, function() {
     let dirty = this.get(&#x27;hasDirtyHash&#x27;);
     let autoSave = this.get(&#x27;settings.data.autoSave&#x27;);
 
@@ -400,11 +400,11 @@ export default DS.Model.extend({
     return false;
   }),
 
-  cleanJson: computed(&#x27;json&#x27;, function(){
+  cleanJson: computed(&#x27;json&#x27;, function() {
     return this.get(&#x27;clean&#x27;).clean(this.get(&#x27;json&#x27;));
   }).volatile(),
 
-  status: computed(&#x27;hasDirtyHash&#x27;, function () {
+  status: computed(&#x27;hasDirtyHash&#x27;, function() {
     let dirty = this.get(&#x27;hasDirtyHash&#x27;);
 
     if(this.get(&#x27;currentHash&#x27;)) {

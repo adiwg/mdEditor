@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f086c337" target="_blank">
-                                  Tag: 0.0.0.f086c337
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/67534c7c" target="_blank">
+                                  Tag: 0.0.0.67534c7c
                                 </a>
                             </h4>
                         </div>
@@ -251,14 +251,14 @@ const {
   $
 } = Ember;
 
-const _contacts = [];
+//const _contacts = [];
 
 export default Component.extend({
   classNames: [&#x27;row&#x27;],
 
   cleaner: inject.service(),
   flashMessages: inject.service(),
-  //store: inject.service(),
+  mdjson: inject.service(),
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -355,26 +355,24 @@ export default Component.extend({
     set(this, &#x27;xhrError&#x27;, null);
   },
 
-  _contacts: [],
-
-  _replacer(key, value) {
-    //console.log(arguments);
-    if(key===&#x27;contactId&#x27; &amp;&amp; !_contacts.includes(value)){
-      _contacts.push(value);
-    }
-    return value;
-  },
+  // _replacer(key, value) {
+  //   //console.log(arguments);
+  //   if(key===&#x27;contactId&#x27; &amp;&amp; !_contacts.includes(value)){
+  //     _contacts.push(value);
+  //   }
+  //   return value;
+  // },
 
   actions: {
     translate() {
-      let cleaner = this.get(&#x27;cleaner&#x27;);
-      let clean = cleaner.clean(get(this,&#x27;model.json&#x27;));
-      let json = JSON.parse(JSON.stringify(clean, get(this, &#x27;_replacer&#x27;)));
-      let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
-
-      json.contact = contacts.filter((item)=&gt;{
-        return _contacts.includes(get(item, &#x27;contactId&#x27;));
-      });
+      let mdjson = this.get(&#x27;mdjson&#x27;);
+      // let clean = cleaner.clean(get(this,&#x27;model.json&#x27;));
+      // let json = JSON.parse(JSON.stringify(clean, get(this, &#x27;_replacer&#x27;)));
+      // let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
+      //
+      // json.contact = contacts.filter((item)=&gt;{
+      //   return _contacts.includes(get(item, &#x27;contactId&#x27;));
+      // });
       //console.info(JSON.stringify(json));
 
       this._clearResult();
@@ -383,7 +381,8 @@ export default Component.extend({
       $.ajax(&quot;https://mdtranslator.herokuapp.com/api/v2/translator&quot;, {
         type: &#x27;POST&#x27;,
         data: {
-          file: JSON.stringify(cleaner.clean(json)),
+          //file: JSON.stringify(cleaner.clean(json)),
+          file: mdjson.formatRecord(get(this,&#x27;model&#x27;),true),
           reader: &#x27;mdJson&#x27;,
           writer: get(this, &#x27;writer&#x27;),
           showAllTags: get(this, &#x27;showAllTags&#x27;),

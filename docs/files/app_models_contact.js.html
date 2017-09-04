@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f086c337" target="_blank">
-                                  Tag: 0.0.0.f086c337
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/67534c7c" target="_blank">
+                                  Tag: 0.0.0.67534c7c
                                 </a>
                             </h4>
                         </div>
@@ -450,10 +450,12 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.logoGraphic.firstObject.fileUri.firstObject.uri
    */
-  defaultLogo: computed(&#x27;json.logoGraphic.firstObject.fileUri.firstObject.uri&#x27;,
+  defaultLogo: computed(
+    &#x27;json.logoGraphic.firstObject.fileUri.firstObject.uri&#x27;,
     &#x27;defaultOrganization&#x27;,
     function() {
-      let uri = this.get(&#x27;json.logoGraphic.firstObject.fileUri.firstObject.uri&#x27;);
+      let uri = this.get(
+        &#x27;json.logoGraphic.firstObject.fileUri.firstObject.uri&#x27;);
 
       if(uri) {
         return uri;
@@ -492,6 +494,17 @@ const Contact = Model.extend(Validations, Copyable, {
       return !isEmpty(memberOfOrganization) ?
         memberOfOrganization[0] :
         null;
+    }),
+
+  defaultOrganizationName: computed(&#x27;defaultOrganization&#x27;,
+    function() {
+      let contacts = this.get(&#x27;store&#x27;).peekAll(&#x27;contact&#x27;);
+
+      let org = contacts.findBy(&#x27;json.contactId&#x27;, get(this,
+        &#x27;defaultOrganization&#x27;));
+
+      return get(org, &#x27;name&#x27;);
+
     }),
 
   /**

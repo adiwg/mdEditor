@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.f086c337",
+        "version": "0.0.0.67534c7c",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -110,6 +110,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/control/md-record-table/component.js": {
+            "name": "app/pods/components/control/md-record-table/component.js",
+            "modules": {
+                "components-control": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/control/md-repo-link/component.js": {
             "name": "app/pods/components/control/md-repo-link/component.js",
             "modules": {},
@@ -128,9 +137,7 @@
         },
         "app/pods/components/control/md-select-table/component.js": {
             "name": "app/pods/components/control/md-select-table/component.js",
-            "modules": {
-                "components-control": 1
-            },
+            "modules": {},
             "classes": {
                 "md-select-table": 1
             },
@@ -807,8 +814,8 @@
                 "md-contact-link": 1,
                 "md-contact-title": 1,
                 "md-definition": 1,
-                "md-scroll-spy": 1,
                 "md-select-table": 1,
+                "md-scroll-spy": 1,
                 "md-spotlight": 1,
                 "md-boolean": 1,
                 "md-codelist": 1,
@@ -903,8 +910,8 @@
                 "md-contact-link": 1,
                 "md-contact-title": 1,
                 "md-definition": 1,
-                "md-scroll-spy": 1,
                 "md-select-table": 1,
+                "md-scroll-spy": 1,
                 "md-spotlight": 1
             },
             "fors": {},
@@ -1196,22 +1203,6 @@
             "submodule": "components-control",
             "is_constructor": 1
         },
-        "md-scroll-spy": {
-            "name": "md-scroll-spy",
-            "shortname": "md-scroll-spy",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "mdeditor",
-            "namespace": "",
-            "file": "app/pods/components/control/md-scroll-spy/component.js",
-            "line": 12,
-            "description": "mdEditor Component that enables scrollspy",
-            "submodule": "components-control",
-            "is_constructor": 1
-        },
         "md-select-table": {
             "name": "md-select-table",
             "shortname": "md-select-table",
@@ -1227,6 +1218,22 @@
             "line": 14,
             "description": "Table with action on row click. Used to select objects(records).\n\n```handlebars\n\\{{control/md-select-table\n  data=model.data\n  columns=model.columns\n  select=callback\n}}\n```",
             "extends": "models-table"
+        },
+        "md-scroll-spy": {
+            "name": "md-scroll-spy",
+            "shortname": "md-scroll-spy",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/control/md-scroll-spy/component.js",
+            "line": 12,
+            "description": "mdEditor Component that enables scrollspy",
+            "submodule": "components-control",
+            "is_constructor": 1
         },
         "md-spotlight": {
             "name": "md-spotlight",
@@ -1808,7 +1815,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 24,
+            "line": 25,
             "description": "The hash for the clean record.",
             "itemtype": "property",
             "name": "currentHash",
@@ -1818,7 +1825,7 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 31,
+            "line": 32,
             "description": "The clean json object.",
             "itemtype": "property",
             "name": "jsonSnapshot",
@@ -1978,7 +1985,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 233,
+            "line": 235,
             "description": "The id of the default organization for the contact.",
             "itemtype": "property",
             "name": "defaultOrganization",
@@ -1996,7 +2003,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 255,
+            "line": 268,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -2015,7 +2022,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 298,
+            "line": 311,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -2033,7 +2040,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 318,
+            "line": 331,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -2251,7 +2258,7 @@
             "line": 10,
             "description": "True to render in modal dialog",
             "type": "{Boolean}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2261,7 +2268,7 @@
             "itemtype": "property",
             "name": "target",
             "type": "{String}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2269,7 +2276,7 @@
             "line": 25,
             "description": "Object or string to render as JSON in viewer",
             "type": "{ObjectString}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2279,7 +2286,7 @@
             "itemtype": "property",
             "name": "isShowing",
             "type": "{Boolean}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2289,7 +2296,7 @@
             "itemtype": "property",
             "name": "message",
             "type": "{String}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2299,7 +2306,7 @@
             "itemtype": "property",
             "name": "target",
             "type": "{String}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2309,7 +2316,7 @@
             "itemtype": "property",
             "name": "showConfirm",
             "type": "{Boolean}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2319,7 +2326,7 @@
             "itemtype": "property",
             "name": "renderInPlace",
             "type": "{Boolean}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2329,7 +2336,7 @@
             "itemtype": "property",
             "name": "showCancel",
             "type": "{Boolean}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
@@ -2339,29 +2346,98 @@
             "itemtype": "property",
             "name": "confirmLabel",
             "type": "{String}",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
             "line": 60,
             "description": "Close action callback",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
             "line": 67,
             "description": "Confirm action callback",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
             "line": 74,
             "description": "Cancel action callback",
-            "class": "md-scroll-spy",
+            "class": "md-select-table",
             "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/control/md-record-table/component.js",
+            "line": 35,
+            "description": "Array of table records",
+            "itemtype": "property",
+            "name": "data",
+            "type": "{Array}",
+            "default": "[]",
+            "required": 1,
+            "class": "md-select-table",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-record-table/component.js",
+            "line": 44,
+            "description": "Array of column configs for the table.\nSee http://onechiporenko.github.io/ember-models-table\n\n```javascript\n[{\n propertyName: 'id',\n title: 'ID'\n}, {\n title: '',\n template: 'components/leaflet-table/actions',\n className: 'text-center text-nowrap'\n}]\n```",
+            "itemtype": "property",
+            "name": "dataColumns",
+            "type": "{Array}",
+            "required": 1,
+            "default": "[]",
+            "class": "md-select-table",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-record-table/component.js",
+            "line": 66,
+            "description": "Column configs for the checkbox column.\nSee http://onechiporenko.github.io/ember-models-table",
+            "itemtype": "property",
+            "name": "checkColumns",
+            "type": "{Array|Boolean}",
+            "required": 1,
+            "class": "md-select-table",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-record-table/component.js",
+            "line": 118,
+            "description": "Callback on row selection.",
+            "itemtype": "method",
+            "name": "select",
+            "params": [
+                {
+                    "name": "rec",
+                    "description": "Selected record.",
+                    "type": "Object"
+                },
+                {
+                    "name": "index",
+                    "description": "Selected row index.",
+                    "type": "Number"
+                },
+                {
+                    "name": "selected",
+                    "description": "Selected records.",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "Selected records.",
+                "type": "Array"
+            },
+            "class": "md-select-table",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-repo-link/component.js",
@@ -2434,7 +2510,7 @@
         {
             "file": "app/pods/components/control/md-scroll-spy/component.js",
             "line": 32,
-            "description": "The initial scroll target wgen the comopnent is inserted.",
+            "description": "The initial scroll target when the component is inserted.",
             "itemtype": "property",
             "name": "scrollInit",
             "type": "{String}",
@@ -5869,7 +5945,7 @@
         },
         {
             "file": "app/routes/application.js",
-            "line": 87,
+            "line": 90,
             "description": "The current model for the route",
             "itemtype": "method",
             "name": "currentRouteModel",

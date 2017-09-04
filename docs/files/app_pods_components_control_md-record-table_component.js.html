@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>app/pods/components/object/md-funding/component.js - mdeditor</title>
+    <title>app/pods/components/control/md-record-table/component.js - mdeditor</title>
     <meta name="description" content="Small description for mdeditor goes here">
     <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
     <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
@@ -241,73 +241,163 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-import {
-  validator,
-  buildValidations
-} from &#x27;ember-cp-validations&#x27;;
+import Table from &#x27;ember-models-table/components/models-table&#x27;;
 
 const {
-  Component,
-  computed,
-  computed: {
-    alias
-  },
   get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
+  computed,
+  set,
+  A
 } = Ember;
 
-const Validations = buildValidations({
-  &#x27;allocation&#x27;: [
-    validator(&#x27;presence&#x27;, {
-      presence: true,
-      ignoreBlank: true,
-      disabled: computed.notEmpty(&#x27;model.timePeriod&#x27;)
-    })
-  ],
-  &#x27;timePeriod&#x27;: [
-    validator(&#x27;presence&#x27;, {
-      presence: true,
-      ignoreBlank: true,
-      disabled: computed.notEmpty(&#x27;model.allocation&#x27;)
-    })
-  ]
-});
+export default Table.extend({
+  /**
+   * @module mdeditor
+   * @submodule components-control
+   */
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
+  /**
+   * Table used to display objects. Includes column to toggle selection for all
+   * rows.
+   *
+   *&#x60;&#x60;&#x60;handlebars
+   * \{{control/md-record-table
+   *   data=model.data
+   *   columns=model.columns
+   *   select=callback
+   * }}
+   * &#x60;&#x60;&#x60;
+   *
+   * @class md-select-table
+   * @extends models-table
+   */
 
-    let model = get(this, &#x27;model&#x27;);
+  classNames: [&#x27;md-record-table&#x27;],
 
-    once(this, function() {
-      set(model, &#x27;allocation&#x27;, getWithDefault(model, &#x27;allocation&#x27;, []));
-      set(model, &#x27;timePeriod&#x27;, getWithDefault(model, &#x27;timePeriod&#x27;, {}));
-    });
+  /**
+   * Array of table records
+   *
+   * @property data
+   * @type {Array}
+   * @default []
+   * @required
+   */
+
+  /**
+   * Array of column configs for the table.
+   * See http://onechiporenko.github.io/ember-models-table
+   *
+   * &#x60;&#x60;&#x60;javascript
+   * [{
+   *  propertyName: &#x27;id&#x27;,
+   *  title: &#x27;ID&#x27;
+   * }, {
+   *  title: &#x27;&#x27;,
+   *  template: &#x27;components/leaflet-table/actions&#x27;,
+   *  className: &#x27;text-center text-nowrap&#x27;
+   * }]
+   * &#x60;&#x60;&#x60;
+   *
+   * @property dataColumns
+   * @type {Array}
+   * @required
+   * @default []
+   */
+  dataColumns: A(),
+
+  /**
+   * Column configs for the checkbox column.
+   * See http://onechiporenko.github.io/ember-models-table
+   *
+   *
+   * @property checkColumns
+   * @type {Array|Boolean}
+   * @required
+   */
+  checkColumn: {
+    template: &#x27;components/control/md-record-table/templates/check&#x27;,
+    useFilter: false,
+    mayBeHidden: false,
+    templateForSortCell: &#x27;components/control/md-record-table/templates/check-all&#x27;,
+    className: &#x27;text-center&#x27;
   },
-  /**
-   * The string representing the path in the profile object for the resource.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default &#x27;false&#x27;
-   * @required
-   */
+
+  columns: computed(&#x27;dataColumns&#x27;, &#x27;checkColumn&#x27;, function() {
+    let chk = get(this, &#x27;checkColumn&#x27;);
+
+    if(chk) {
+      return [chk].concat(get(this, &#x27;dataColumns&#x27;));
+    }
+
+    return get(this, &#x27;dataColumns&#x27;);
+  }),
+
+  filteringIgnoreCase: true,
+  //rowTemplate: &#x27;components/control/md-select-table/row&#x27;,
+
+  customIcons: {
+    &#x27;sort-asc&#x27;: &#x27;fa fa-caret-up&#x27;,
+    &#x27;sort-desc&#x27;: &#x27;fa fa-caret-down&#x27;,
+    &#x27;column-visible&#x27;: &#x27;fa fa-check-square-o&#x27;,
+    &#x27;column-hidden&#x27;: &#x27;fa fa-square-o&#x27;,
+    &#x27;nav-first&#x27;: &#x27;fa fa-fast-backward&#x27;,
+    &#x27;nav-prev&#x27;: &#x27;fa fa-backward&#x27;,
+    &#x27;nav-next&#x27;: &#x27;fa fa-forward&#x27;,
+    &#x27;nav-last&#x27;: &#x27;fa fa-fast-forward&#x27;,
+    &#x27;caret&#x27;: &#x27;fa fa-caret-down&#x27;,
+    &#x27;select-row&#x27;: &#x27;fa fa-fw fa-check-square-o&#x27;,
+    &#x27;deselect-row&#x27;: &#x27;fa fa-fw fa-square-o&#x27;,
+    &#x27;select-all-rows&#x27;: &#x27;fa fa-fw fa-check-square-o&#x27;,
+    &#x27;deselect-all-rows&#x27;: &#x27;fa fa-fw fa-square-o&#x27;
+  },
+
+  customClasses: {
+    &#x27;table&#x27;: &#x27;table table-striped table-bordered table-condensed table-hover&#x27;
+  },
+
+  multipleSelect: true,
 
   /**
-   * The object to use as the data model for the resource.
+   * Callback on row selection.
    *
-   * @property model
-   * @type {Object}
-   * @required
+   * @method select
+   * @param {Object} rec Selected record.
+   * @param {Number} index Selected row index.
+   * @param {Array} selected Selected records.
+   * @return {Array} Selected records.
    */
+  select(rec, index, selected) {
+    return selected;
+  },
 
-  tagName: &#x27;form&#x27;,
-  allocation: alias(&#x27;model.allocation&#x27;),
-  timePeriod: alias(&#x27;model.timePeriod&#x27;)
+  actions: {
+    clickOnRow(idx, rec) {
+      this._super(...arguments);
+
+      let sel = get(this, &#x27;_selectedItems&#x27;);
+
+      rec.toggleProperty(&#x27;_selected&#x27;);
+      this.get(&#x27;select&#x27;)(rec, idx, sel);
+    },
+
+    toggleAll() {
+      let selected = get(this, &#x27;_selectedItems&#x27;);
+      let data = get(this, &#x27;data&#x27;);
+
+      if(get(selected, &#x27;length&#x27;) === get(data, &#x27;length&#x27;)) {
+        selected.setEach(&#x27;_selected&#x27;, undefined);
+        selected.clear();
+        this.userInteractionObserver();
+        return false;
+      }
+
+      data.setEach(&#x27;_selected&#x27;, true);
+      set(this, &#x27;_selectedItems&#x27;, data.slice());
+
+      this.get(&#x27;select&#x27;)(null, null, selected);
+      this.userInteractionObserver();
+    }
+  }
 });
 
     </pre>
