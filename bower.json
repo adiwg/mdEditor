@@ -2,7 +2,7 @@
   "name": "mdeditor",
   "dependencies": {
     "font-awesome": "~4.6.0",
-    "bootstrap-sass": "~3.3.6",
+    "bootstrap-sass": "~3.3.7",
     "blob-polyfill": "^1.0.20150320",
     "jquery-jsonview": "^1.2.3",
     "blob": "*",

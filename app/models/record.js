@@ -101,10 +101,7 @@ export default Model.extend(Validations, Copyable, {
     }
   }),
 
-  title: computed('json.metadata.resourceInfo.citation.title',
-    function() {
-      return this.get('json.metadata.resourceInfo.citation.title');
-    }),
+  title: computed.alias('json.metadata.resourceInfo.citation.title'),
 
   icon: computed('json.metadata.resourceInfo.resourceType.[]', function() {
     const type = this.get(

@@ -23,6 +23,12 @@
   }
 }
 
+.md-table-align-middle {
+  > tbody > tr > td {
+    vertical-align: middle;
+  }
+}
+
 .panel-body .table {
   address {
     margin: 0;

@@ -1,7 +1,7 @@
 <h3>Metadata Record Dashboard</h3>
 <hr>
 <div class="container-fluid">
-  <table class="table table-striped table-hover">
+  <table class="table table-striped table-hover md-table-align-middle">
     <thead>
       <tr>
         <th></th>
@@ -21,22 +21,23 @@
           <td>
             <div class="pull-right">
               {{!-- {{debugger}} --}}
-              {{#link-to "record.show" item.id class="btn btn-xs btn-info"}}
+              {{control/md-status model=item isBtn=true}}
+              {{#link-to "record.show" item.id class="btn btn-sm btn-info"}}
                 {{fa-icon "eye"}} Show
               {{/link-to}}
-              <button type="button" class="btn btn-xs btn-success" {{action "editItem" item}}>
+              <button type="button" class="btn btn-sm btn-success" {{action "editItem" item}}>
                 {{fa-icon "pencil"}} Edit
               </button>
-              {{!-- {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(route-action "deleteItem" item)}}
+              {{!-- {{#control/md-button-confirm class="btn btn-sm btn-danger" onConfirm=(route-action "deleteItem" item)}}
                 <span class="fa fa-times"></span> Delete
               {{/control/md-button-confirm}} --}}
-              {{#control/md-button-modal class="btn btn-xs btn-danger" message="<h1>Do
+              {{#control/md-button-modal class="btn btn-sm btn-danger" message="<h1>Do
             you really want to delete this record?</h1>Be sure this record is
             not referenced by a metadata record or dictionary or it's deletion
             may cause those records to fail validation." onConfirm=(route-action "deleteItem" item)}}
                 <span class="fa fa-times"></span> Delete
               {{/control/md-button-modal}}
-              {{control/md-json-button class="btn-xs btn-primary" json=item.cleanJson}}
+              {{control/md-json-button class="btn-sm btn-primary" json=item.cleanJson}}
             </div>
           </td>
         </tr>

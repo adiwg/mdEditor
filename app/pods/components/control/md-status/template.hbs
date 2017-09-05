@@ -1,16 +1,16 @@
 {{#if model.hasDirtyHash}}
-<span>
-  {{fa-icon "exclamation-circle" class="text-danger"}}
-  {{tooltip-on-element text='This record has been modified!' side="top"
+<span class="md-status-icon" {{action "saveRecord"}}>
+  {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-danger btn-" btnSize) "md-error")}}
+  {{tooltip-on-element text='This record has been modified! Cick to save.' side="top"
     class="md-tooltip danger"
   }}
 </span>
 {{/if}}
 
 {{#if model.hasSchemaErrors}}
-<span {{action "showSlider"}}>
-  {{fa-icon "exclamation-circle" class="md-warning"}}
-  {{tooltip-on-element text='This record has errors!' side="right"
+<span class="md-status-icon" {{action "showSlider"}}>
+  {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-warning btn-" btnSize) "md-warning")}}
+  {{tooltip-on-element text='This record has errors! Click to view.' side="right"
     class="md-tooltip warning"
   }}
 </span>

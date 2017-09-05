@@ -1,3 +1,7 @@
+<h4 class="section-header">
+  Editing Keywords
+  {{control/md-status model=model}}
+</h4>
   <section>
     {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
       <div class="md-keywords-container" data-spy="{{concat "Thesaurus " index}}" id={{concat "thesaurus-container-" index}}>
