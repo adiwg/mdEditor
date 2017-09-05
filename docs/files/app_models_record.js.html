@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/aec700bd" target="_blank">
-                                  Tag: 0.0.0.aec700bd
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/4ce96b6b" target="_blank">
+                                  Tag: 0.0.0.4ce96b6b
                                 </a>
                             </h4>
                         </div>
@@ -343,10 +343,7 @@ export default Model.extend(Validations, Copyable, {
     }
   }),
 
-  title: computed(&#x27;json.metadata.resourceInfo.citation.title&#x27;,
-    function() {
-      return this.get(&#x27;json.metadata.resourceInfo.citation.title&#x27;);
-    }),
+  title: computed.alias(&#x27;json.metadata.resourceInfo.citation.title&#x27;),
 
   icon: computed(&#x27;json.metadata.resourceInfo.resourceType.[]&#x27;, function() {
     const type = this.get(

@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.aec700bd",
+        "version": "0.0.0.4ce96b6b",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2055,7 +2055,7 @@
         },
         {
             "file": "app/models/record.js",
-            "line": 125,
+            "line": 122,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -2694,7 +2694,7 @@
         },
         {
             "file": "app/pods/components/control/md-status/component.js",
-            "line": 12,
+            "line": 14,
             "description": "Model to display status for.",
             "itemtype": "property",
             "name": "model",

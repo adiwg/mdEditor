@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/aec700bd" target="_blank">
-                                  Tag: 0.0.0.aec700bd
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/4ce96b6b" target="_blank">
+                                  Tag: 0.0.0.4ce96b6b
                                 </a>
                             </h4>
                         </div>
@@ -243,6 +243,7 @@
 import Ember from &#x27;ember&#x27;;
 const {
   Component,
+  get,
   inject
 } = Ember;
 
@@ -250,6 +251,7 @@ export default Component.extend({
   slider: inject.service(),
   tagName: &#x27;span&#x27;,
   classNames: [&#x27;md-status&#x27;],
+
 
   /**
    * Model to display status for.
@@ -259,12 +261,25 @@ export default Component.extend({
    * @required
    */
 
+  isBtn: false,
+  btnSize: &#x27;sm&#x27;,
+
   actions: {
     showSlider() {
       let slider = this.get(&#x27;slider&#x27;);
 
       slider.set(&#x27;fromName&#x27;, &#x27;md-slider-error&#x27;);
       slider.toggleSlider(true);
+    },
+
+    saveRecord() {
+      let model = this.get(&#x27;model&#x27;);
+
+      model.save()
+        .then(() =&gt; {
+          get(this, &#x27;flashMessages&#x27;)
+            .success(&#x60;Saved Record: ${model.get(&#x27;title&#x27;)}&#x60;);
+        });
     }
   }
 });
