@@ -489,7 +489,7 @@ export default Component.extend(Template, {
       value.pushObject(typeOf(Template) === &#x27;class&#x27; ? Template.create(
           owner.ownerInjection()
         ) :
-        null);
+        get(this,&#x27;templateAsObject&#x27;) ? {} : null);
       this.valueChanged();
     },
 
