@@ -14,12 +14,12 @@
         create=true tooltip=true icon=false mdCodeName="progress"
         placeholder="Select the current status"
         profilePath="record.metadata.metadataStatus"
-        data-spy="Status"
+        data-spy=false
         class="md-embedded"
       }}
 
       {{#layout/md-card profilePath="record.metadata.metadataDate"
-        data-spy="Metadata Dates"
+        data-spy=flase
         shadow=false
         class="md-embedded"
       }}
@@ -60,6 +60,8 @@
       muted=true
       editCitation="editParent"
     }}
+
+    {{object/md-repository-array value=model.json.metadataRepository data-spy="Metadata Repository"}}
 
     {{object/md-online-resource-array model=metadata.metadataOnlineResource
       data-spy="Online Resources"}}

@@ -1,12 +1,20 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
+const {
+  //inject,
+  run,
+  computed,
+  observer
+} = Ember;
+
 export default DS.Model.extend({
   init() {
     this._super(...arguments);
 
     this.get('hasDirtyAttributes');
   },
+  //cleaner: inject.service(),
   compressOnSave: DS.attr('boolean', {
     defaultValue: true
   }),
@@ -33,11 +41,12 @@ export default DS.Model.extend({
   language: DS.attr('string', {
     defaultValue: 'eng'
   }),
-  locale: Ember.computed.alias('defaultLocale'),
-  updateSettings: Ember.observer('hasDirtyAttributes',
+  repositoryDefaults: DS.attr('json'),
+  locale: computed.alias('defaultLocale'),
+  updateSettings: observer('hasDirtyAttributes',
     function () {
       if(this.get('hasDirtyAttributes')) {
-        Ember.run.once(this, function () {
+        run.once(this, function () {
           this.save();
         });
       }

@@ -247,7 +247,7 @@ export default Component.extend(Template, {
       value.pushObject(typeOf(Template) === 'class' ? Template.create(
           owner.ownerInjection()
         ) :
-        null);
+        get(this,'templateAsObject') ? {} : null);
       this.valueChanged();
     },
 

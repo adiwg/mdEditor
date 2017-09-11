@@ -13,6 +13,9 @@ export default Ember.Route.extend({
       window.localStorage.clear();
       this.transitionTo('application');
       window.location.reload();
+    },
+    save(){
+      this.currentRouteModel().save();
     }
   }
 });

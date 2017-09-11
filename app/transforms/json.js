@@ -2,18 +2,26 @@ import Ember from 'ember';
 import DS from 'ember-data';
 
 const {
-  inject
+  inject,isArray,A
 } = Ember;
+
 
 export default DS.Transform.extend({
   clean: inject.service('cleaner'),
 
   deserialize(serialized) {
-    return Ember.Object.create(JSON.parse(serialized));
+    let json = JSON.parse(serialized);
+
+    if(isArray(json)){
+      return A(json);
+    }
+
+    return Ember.Object.create(json);
   },
 
   serialize(deserialized) {
-    return JSON.stringify(this.get('clean').clean(deserialized));
+    let target = isArray(deserialized) ? [] :{};
+    return JSON.stringify(this.get('clean').clean(deserialized, {target:target}));
   }
 
 });

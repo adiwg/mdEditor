@@ -8,8 +8,15 @@ const {
   environment
 } = config;
 
-export default Ember.Service.extend({
-  store: Ember.inject.service(),
+const {
+  Service,
+  getWithDefault,
+  inject,
+  set
+} = Ember;
+
+export default Service.extend({
+  store: inject.service(),
   data: 'null',
 
   init() {
@@ -31,10 +38,18 @@ export default Ember.Service.extend({
           settings.set('lastVersion', version);
         }
 
-        if ( !(me.get('isDestroyed') || me.get('isDestroying')) ) {
+        set(settings, 'repositoryDefaults', getWithDefault(settings,
+          'repositoryDefaults', []));
+
+        if(!(me.get('isDestroyed') || me.get('isDestroying'))) {
           me.set('data', settings);
         }
       });
 
-  }
+  },
+  repositoryTemplate: Ember.Object.extend({
+    init() {
+      this._super(...arguments);
+    }
+  })
 });

@@ -4,7 +4,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 const {
   get,
-  Object,
+  Object: EmObject,
   defineProperty,
   computed,
   inject,
@@ -26,7 +26,7 @@ export default Ember.Route.extend(ScrollTo, {
     return store.queryRecord('setting', {}).then(function(rec) {
       settings = rec ? rec : store.createRecord('setting');
 
-      return Object.create({
+      return EmObject.create({
         records: route.modelFor('application'),
         settings: settings
       });
@@ -62,7 +62,7 @@ export default Ember.Route.extend(ScrollTo, {
       }));
   },
 
-  columns: Object.create({
+  columns: EmObject.create({
     record: [{
       propertyName: 'title',
       title: 'Title'
