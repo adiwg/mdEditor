@@ -103,9 +103,9 @@ export default Model.extend(Validations, Copyable, {
 
   title: computed.alias('json.metadata.resourceInfo.citation.title'),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.[]', function() {
+  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type', function() {
     const type = this.get(
-      'json.metadata.resourceInfo.resourceType.0.type') || '';
+      'json.metadata.resourceInfo.resourceType.firstObject.type') || '';
     const list = Ember.getOwner(this)
       .lookup('service:icon');
 
@@ -117,7 +117,7 @@ export default Model.extend(Validations, Copyable, {
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
 
   defaultType: computed.alias(
-    'json.metadata.resourceInfo.resourceType.0.type'),
+    'json.metadata.resourceInfo.resourceType.firstObject.type'),
 
   /**
    * The trimmed varsion of the recordId.

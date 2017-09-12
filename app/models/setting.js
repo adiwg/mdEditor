@@ -41,6 +41,9 @@ export default DS.Model.extend({
   language: DS.attr('string', {
     defaultValue: 'eng'
   }),
+  importUriBase: DS.attr('string', {
+    defaultValue: ''
+  }),
   repositoryDefaults: DS.attr('json'),
   locale: computed.alias('defaultLocale'),
   updateSettings: observer('hasDirtyAttributes',

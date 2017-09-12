@@ -220,7 +220,7 @@ const Contact = Model.extend(Validations, Copyable, {
       }
       let orgId = get(this, 'defaultOrganization');
 
-      if(orgId) {
+      if(orgId && orgId !== this.get('json.contactId')) {
         let contacts = this.get('store').peekAll('contact');
         let org = contacts.findBy('json.contactId', orgId);
 

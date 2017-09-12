@@ -12,6 +12,29 @@
           <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}}
             Click or Drop a file here to import data. <br>mdEditor and mdJSON files are supported.</button>
         {{/file-picker}}
+<hr>
+        <h3>Import from Online URL</h3>
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="input-group input-group-lg">
+              {{input
+                type="url"
+                value=importUri
+                placeholder="Enter online link to mdJSON"
+                class="form-control"
+              }}
+              <span class="input-group-btn">
+                  <button class="btn btn-primary" type="button" {{action (route-action "readFromUri")}}>
+                    {{#if isLoading}}
+                      {{fa-icon "spinner" spin=true}}
+                    {{else}}
+                      {{fa-icon "cloud-download"}}
+                    {{/if}}
+                    Import</button>
+              </span>
+            </div>
+          </div>
+        </div>
       {{/unless}}
       {{#each-in model.files as |key item|}}
         <div class="md-table-block md-table-checkbox box-shadow--2dp">
