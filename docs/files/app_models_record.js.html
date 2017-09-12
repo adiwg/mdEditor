@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/cffcb34c" target="_blank">
-                                  Tag: 0.0.0.cffcb34c
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/60879f45" target="_blank">
+                                  Tag: 0.0.0.60879f45
                                 </a>
                             </h4>
                         </div>
@@ -345,9 +345,9 @@ export default Model.extend(Validations, Copyable, {
 
   title: computed.alias(&#x27;json.metadata.resourceInfo.citation.title&#x27;),
 
-  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.[]&#x27;, function() {
+  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;, function() {
     const type = this.get(
-      &#x27;json.metadata.resourceInfo.resourceType.0.type&#x27;) || &#x27;&#x27;;
+      &#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;) || &#x27;&#x27;;
     const list = Ember.getOwner(this)
       .lookup(&#x27;service:icon&#x27;);
 
@@ -359,7 +359,7 @@ export default Model.extend(Validations, Copyable, {
     &#x27;json.metadata.metadataInfo.metadataIdentifier.identifier&#x27;),
 
   defaultType: computed.alias(
-    &#x27;json.metadata.resourceInfo.resourceType.0.type&#x27;),
+    &#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;),
 
   /**
    * The trimmed varsion of the recordId.
