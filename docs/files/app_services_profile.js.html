@@ -295,12 +295,12 @@ export default Ember.Service.extend({
       secondaryNav: [{
           title: &#x27;Main&#x27;,
           target: &#x27;record.show.edit.main&#x27;,
-          tip:&#x27;Basic information about the resource.&#x27;
+          tip: &#x27;Basic information about the resource.&#x27;
 
         }, {
           title: &#x27;Metadata&#x27;,
           target: &#x27;record.show.edit.metadata&#x27;,
-          tip:&#x27;Information about the metadata for the resource.&#x27;
+          tip: &#x27;Information about the metadata for the resource.&#x27;
 
         }, {
           title: &#x27;Keywords&#x27;,
@@ -310,7 +310,7 @@ export default Ember.Service.extend({
         }, {
           title: &#x27;Extent&#x27;,
           target: &#x27;record.show.edit.extent&#x27;,
-          tip:&#x27;Information describing the bounds of the resource.&#x27;
+          tip: &#x27;Information describing the bounds of the resource.&#x27;
 
         }, {
           title: &#x27;Spatial&#x27;,
@@ -556,6 +556,226 @@ export default Ember.Service.extend({
         }
       }
     },
+    lccProject: {
+      profile: null,
+      description: &#x27;Profile for LCC Projects&#x27;,
+      secondaryNav: [{
+        title: &#x27;Main&#x27;,
+        target: &#x27;record.show.edit.main&#x27;,
+        tip: &#x27;Basic information about the project.&#x27;
+
+      }, {
+        title: &#x27;Metadata&#x27;,
+        target: &#x27;record.show.edit.metadata&#x27;,
+        tip: &#x27;Information about the metadata for the project.&#x27;
+
+      }, {
+        title: &#x27;Keywords&#x27;,
+        target: &#x27;record.show.edit.keywords&#x27;,
+        tip: &#x27;Terms used to describe the project.&#x27;
+
+      }, {
+        title: &#x27;Extent&#x27;,
+        target: &#x27;record.show.edit.extent&#x27;,
+        tip: &#x27;Information describing the bounds of the project.&#x27;
+
+      }, {
+        title: &#x27;Associated&#x27;,
+        target: &#x27;record.show.edit.associated&#x27;,
+        tip: &#x27;Other records with a defined relationship to the project.&#x27;
+
+      }, {
+        title: &#x27;Documents&#x27;,
+        target: &#x27;record.show.edit.documents&#x27;,
+        tip: &#x27;Other documents related to, but not defining, the project.&#x27;
+
+      }, {
+        title: &#x27;Funding&#x27;,
+        target: &#x27;record.show.edit.funding&#x27;,
+        tip: &#x27;Information about funding allocated to development of the project.&#x27;
+
+      }],
+      components: {
+        record: {
+          main: {
+            recordId: false,
+            purpose: false,
+            environmentDescription: false,
+            credit: false,
+            timePeriod: {
+              id: false,
+              description: false,
+              periodName: false,
+              duration: false,
+              interval: false
+            },
+            citation: {
+              edition: false,
+              onlineResource: {
+                protocol: false
+              },
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphic: false,
+              series: false,
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: false,
+                description: false,
+                authority: {
+                  date: false,
+                  alternateTitle: false,
+                  identifier: false,
+                  onlineResource: false
+                }
+              },
+              graphicOverview: false
+            },
+            graphicOverview: false
+          },
+          metadata: {
+            identifier: {
+              identifier: true,
+              namespace: true,
+              version: false,
+              description: false,
+              authority: false
+            },
+            parentMetadata: {
+              title: true,
+              alternateTitle: false,
+              date: false,
+              edition: false,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: false,
+              identifier: false,
+              identifierSimple: {
+                identifier: true,
+                namespace: true,
+                version: false,
+                description: false,
+                authority: false
+              }
+            },
+            alternateMetadataReference: false,
+            defaultLocale: false,
+            maintenance: false
+          },
+          lineage: {
+            statement: true,
+            processStep: {
+              stepId: true,
+              description: true,
+              processor: true,
+              reference: true,
+              scope: true
+            },
+            scope: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
+              }
+            }
+          },
+          associated: {
+            resourceType: true,
+            resourceCitation: {
+              alternateTitle: false,
+              edition: false,
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: false,
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
+              }
+            },
+            metadataCitation: {
+              alternateTitle: false,
+              edition: false,
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: false,
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
+              }
+            }
+          },
+          documents: {
+            resourceType: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
+              }
+            }
+          },
+          funding: {
+            timePeriod: {
+              id: false,
+              description: false,
+              periodName: false,
+              duration: false,
+              interval: false
+            }
+          }
+        }
+      }
+    },
     publication: {
       secondaryNav: [{
         title: &#x27;Main&#x27;,
@@ -622,13 +842,43 @@ export default Ember.Service.extend({
         record: {
           main: {
             recordId: false,
-            defaultLocale: false,
-            description: true,
-            shortAbstract: false,
-            supplementalInfo: false,
             purpose: false,
             environmentDescription: false,
-            credit: false
+            supplementalInfo: false,
+            credit: false,
+            timePeriod: {
+              id: false,
+              description: false,
+              periodName: false,
+              duration: false,
+              interval: false
+            },
+            citation: {
+              edition: false,
+              onlineResource: {
+                protocol: false
+              },
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphic: false,
+              series: false,
+              identifier: false,
+              graphicOverview: false
+            },
+            graphicOverview: false
+          },
+          metadata: {
+            identifier: {
+              identifier: true,
+              namespace: true,
+              version: false,
+              description: false,
+              authority: false
+            },
+            parentMetadata: false,
+            alternateMetadataReference: false,
+            defaultLocale: false,
+            maintenance: false
           }
         }
       }
