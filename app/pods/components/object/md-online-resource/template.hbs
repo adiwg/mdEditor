@@ -1,6 +1,11 @@
-{{input/md-input value=model.name label="Name" placeholder="Online Resource Name"}}
+{{input/md-input value=model.name label="Name" placeholder="Online Resource Name"
+  profilePath=(concat profilePath ".name")
+}}
+
+{{log profilePath}}
 
 {{input/md-input type="url" valuePath="uri" model=model
+profilePath=(concat profilePath ".url")
 label="URI" placeholder="Online Resource URI"}}
 
 {{#if imagePicker}}
@@ -30,13 +35,16 @@ label="URI" placeholder="Online Resource URI"}}
 {{/if}}
 
 {{input/md-input value=model.protocol
+profilePath=(concat profilePath ".protocol")
 label="Protocol" placeholder="Protocol for accessing the Online Resource"}}
 
 {{input/md-textarea maxlength=500 value=model.description label="Description"
+profilePath=(concat profilePath ".description")
 placeholder="Description of the Online Resource: Less than 500 characters"}}
 
 {{input/md-codelist value=model.function mdCodeName="onlineFunction"
 label="Function" placeholder="Select function of the Online Resource"
+profilePath=(concat profilePath ".onlineFunction")
 tooltip=true allowClear=true width="70%"}}
 
 {{yield}}

@@ -4,6 +4,9 @@
   shadow=(if embedded false true)
   required=true
 }}
+
+{{log profilePath}}
+
   {{input/md-input
     value=model.title
     placeholder="Enter the title for the resource."
@@ -136,6 +139,7 @@
     data-spy="Graphic"
     button-text="Add Graphic"
     label="Graphic"
+    profilePath=(concat profilePath '.graphicOverview')
   }}
 {{/unless}}
 
