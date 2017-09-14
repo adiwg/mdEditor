@@ -9,11 +9,12 @@ const validator = new Ajv({
   removeAdditional: false
 });
 
-Object.keys(Schemas).forEach(function(key) {
-  let val = Schemas[key];
+Object.keys(Schemas)
+  .forEach(function (key) {
+    let val = Schemas[key];
 
-  validator.addSchema(val, key);
-});
+    validator.addSchema(val, key);
+  });
 
 const {
   Service,
@@ -36,8 +37,13 @@ export default Service.extend({
   formatRecord(rec, asText) {
     let _contacts = [];
     const _replacer = (key, value) => {
+      let check = {
+        contactId: true,
+        sourceId: true,
+        recipientId: true
+      };
       //console.log(arguments);
-      if(key === 'contactId' && !_contacts.includes(value)) {
+      if(check[key] && !_contacts.includes(value)) {
         _contacts.push(value);
       }
       return value;
@@ -46,7 +52,9 @@ export default Service.extend({
     let cleaner = this.get('cleaner');
     let clean = cleaner.clean(get(rec, 'json'));
     let json = JSON.parse(JSON.stringify(clean, _replacer));
-    let contacts = this.get('store').peekAll('contact').mapBy('json');
+    let contacts = this.get('store')
+      .peekAll('contact')
+      .mapBy('json');
 
     json.contact = contacts.filter((item) => {
       return _contacts.includes(get(item, 'contactId'));
