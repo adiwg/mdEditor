@@ -19,7 +19,7 @@
           <td>{{item.json.metadata.resourceInfo.citation.title}}</td>
           <td>{{join ', ' (map-by "type" item.json.metadata.resourceInfo.resourceType)}}</td>
           <td>
-            <div class="pull-right">
+            <div class="pull-right md-dashboard-buttons">
               {{!-- {{debugger}} --}}
               {{control/md-status model=item isBtn=true}}
               {{#link-to "record.show" item.id class="btn btn-sm btn-info"}}

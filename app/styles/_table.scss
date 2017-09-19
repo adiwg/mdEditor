@@ -166,3 +166,17 @@
     }
   }
 }
+
+.md-dashboard-buttons {
+  @media screen and (min-width: $screen-sm-min) {
+    white-space: nowrap;
+ }
+
+  @media screen and (max-width: $screen-xs-max) {
+    .btn {
+      display: block;
+      margin: 1px auto;
+      width: 100%;
+    }
+ }
+}
