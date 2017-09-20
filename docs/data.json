@@ -4782,7 +4782,7 @@
         },
         {
             "file": "app/pods/components/object/md-array-table/component.js",
-            "line": 219,
+            "line": 220,
             "description": "Focus the added row, or the last row on deletion.",
             "itemtype": "method",
             "name": "valueChanged",

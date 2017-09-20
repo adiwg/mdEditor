@@ -389,7 +389,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires columns
    */
-  columnArray: computed(&#x27;columns&#x27;, function() {
+  columnArray: computed(&#x27;columns&#x27;, function () {
     let columns = this.get(&#x27;columns&#x27;);
 
     return(typeof columns === &#x27;string&#x27;) ? columns.split(&#x27;,&#x27;) : null;
@@ -404,7 +404,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;value.[]&#x27;, function() {
+  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;value.[]&#x27;, function () {
     let isCollapsed = this.get(&#x27;isCollapsed&#x27;);
     let value = this.get(&#x27;value&#x27;);
 
@@ -438,7 +438,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires elementId
    */
-  panelId: computed(&#x27;elementId&#x27;, function() {
+  panelId: computed(&#x27;elementId&#x27;, function () {
     return &#x27;panel-&#x27; + this.get(&#x27;elementId&#x27;);
   }),
 
@@ -451,13 +451,14 @@ export default Component.extend(Template, {
    * @category computed
    * @requires value.[]
    */
-  pillColor: computed(&#x27;value.[]&#x27;, &#x27;required&#x27;, function() {
+  pillColor: computed(&#x27;value.[]&#x27;, &#x27;required&#x27;, function () {
     let count = this.get(&#x27;value.length&#x27;) || 0;
     let required = this.get(&#x27;required&#x27;);
     return(count === 0) ? required ? &#x27;label-danger&#x27; : &#x27;label-warning&#x27; :
       &#x27;label-info&#x27;;
   }),
 
+  onChange() {},
   /**
    * Focus the added row, or the last row on deletion.
    *
@@ -465,7 +466,7 @@ export default Component.extend(Template, {
    * @return none
    */
   valueChanged() {
-    run.schedule(&#x27;afterRender&#x27;, this, function() {
+    run.schedule(&#x27;afterRender&#x27;, this, function () {
       let panel = this.$(&#x27;.panel-collapse&#x27;);
       let input = this.$(&#x27;.panel-collapse tbody tr:last-of-type input&#x27;)
         .first();
@@ -473,27 +474,29 @@ export default Component.extend(Template, {
       if(panel.hasClass(&#x27;in&#x27;)) {
         input.focus();
       } else { //add a one-time listener to wait until panel is open
-        panel.one(&#x27;shown.bs.collapse&#x27;, function() {
+        panel.one(&#x27;shown.bs.collapse&#x27;, function () {
           input.focus();
         });
         panel.collapse(&#x27;show&#x27;);
       }
     });
+
+    this.onChange();
   },
 
   actions: {
-    addItem: function(value) {
+    addItem: function (value) {
       const Template = this.get(&#x27;templateClass&#x27;);
       const owner = getOwner(this);
 
       value.pushObject(typeOf(Template) === &#x27;class&#x27; ? Template.create(
           owner.ownerInjection()
         ) :
-        get(this,&#x27;templateAsObject&#x27;) ? {} : null);
+        get(this, &#x27;templateAsObject&#x27;) ? {} : null);
       this.valueChanged();
     },
 
-    deleteItem: function(value, idx) {
+    deleteItem: function (value, idx) {
       if(value.length &gt; idx) {
         value.removeAt(idx);
       }
