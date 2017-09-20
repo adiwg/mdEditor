@@ -22,6 +22,9 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
+    this.setup();
+  },
+  setup() {
     let me = this;
     let settings;
     let store = this.get('store');
@@ -45,7 +48,6 @@ export default Service.extend({
           me.set('data', settings);
         }
       });
-
   },
   repositoryTemplate: Ember.Object.extend({
     init() {

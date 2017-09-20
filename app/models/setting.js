@@ -5,13 +5,21 @@ const {
   //inject,
   run,
   computed,
-  observer
+  observer,
+  inject: {
+    service
+  }
 } = Ember;
 
 export default DS.Model.extend({
+  settings: service(),
+
   init() {
     this._super(...arguments);
 
+    //this.on('didUpdate', this, this.wasUpdated);
+    this.on('didLoad', this, this.wasLoaded);
+    //this.on('didUpdate', this, this.wasLoaded);
     this.get('hasDirtyAttributes');
   },
   //cleaner: inject.service(),
@@ -46,6 +54,11 @@ export default DS.Model.extend({
   }),
   repositoryDefaults: DS.attr('json'),
   locale: computed.alias('defaultLocale'),
+
+  wasLoaded() {
+    this.get('settings')
+      .setup();
+  },
   updateSettings: observer('hasDirtyAttributes',
     function () {
       if(this.get('hasDirtyAttributes')) {
