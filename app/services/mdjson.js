@@ -10,7 +10,7 @@ const validator = new Ajv({
 });
 
 Object.keys(Schemas)
-  .forEach(function (key) {
+  .forEach(function(key) {
     let val = Schemas[key];
 
     validator.addSchema(val, key);
@@ -24,6 +24,7 @@ const {
 
 export default Service.extend({
   cleaner: inject.service(),
+  contacts: inject.service(),
   store: inject.service(),
 
   // _replacer(key, value) {
@@ -36,6 +37,8 @@ export default Service.extend({
 
   formatRecord(rec, asText) {
     let _contacts = [];
+    let conts = this.get('contacts');
+
     const _replacer = (key, value) => {
       let check = {
         contactId: true,
@@ -44,8 +47,12 @@ export default Service.extend({
       };
       //console.log(arguments);
       if(check[key] && !_contacts.includes(value)) {
-        _contacts.push(value);
+      if(!conts.get('contacts').findBy('contactId', value)) {
+          return null;
+        }
+          _contacts.push(value);
       }
+
       return value;
     };
 
