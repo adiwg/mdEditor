@@ -97,7 +97,7 @@
     "lodash.has": "^4.5.2",
     "mdcodes": "^2.3.0",
     "mdjson-schemas": "^2.3.1",
-    "mdkeywords": "^1.0.0",
+    "mdkeywords": "^1.0.2",
     "moment-timezone": "^0.5.13",
     "object-hash": "^1.1.7",
     "shapefile": "^0.6.2",
