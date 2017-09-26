@@ -92,6 +92,9 @@ export default Service.extend({
 
         if(target) {
           if(array) {
+            target.forEach((item)=>{
+              set(item, path[1], undefined);
+            });
 
             return;
           }
