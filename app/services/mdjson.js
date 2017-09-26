@@ -19,8 +19,26 @@ Object.keys(Schemas)
 const {
   Service,
   inject,
+  isArray,
+  set,
   get
 } = Ember;
+
+const unImplemented = [
+  'dataDictionary',
+  'metadata.metadataInfo.otherMetadataLocale',
+  'metadata.resourceInfo.spatialRepresentation', [
+    'metadata.resourceInfo.extent',
+    'verticalExtent'
+  ],
+  ['metadata.resourceInfo.extent',
+    'temporalExtent'
+  ],
+  'metadata.resourceInfo.coverageDescription',
+  'metadata.resourceInfo.taxonomy',
+  'metadata.resourceInfo.otherResourceLocale',
+  'metadata.resourceInfo.resourceMaintenance'
+];
 
 export default Service.extend({
   cleaner: inject.service(),
@@ -33,7 +51,7 @@ export default Service.extend({
   //     _contacts.push(value);
   //   }
   //   return value;
-  // },
+  // }
 
   formatRecord(rec, asText) {
     let _contacts = [];
@@ -47,10 +65,10 @@ export default Service.extend({
       };
       //console.log(arguments);
       if(check[key] && !_contacts.includes(value)) {
-      if(!conts.get('contacts').findBy('contactId', value)) {
+        if(!conts.get('contacts').findBy('contactId', value)) {
           return null;
         }
-          _contacts.push(value);
+        _contacts.push(value);
       }
 
       return value;
@@ -67,9 +85,27 @@ export default Service.extend({
       return _contacts.includes(get(item, 'contactId'));
     });
 
+    if(unImplemented) {
+      unImplemented.forEach((path) => {
+        let array = isArray(path);
+        let target = array ? get(json, path[0]) : get(json, path);
+
+        if(target) {
+          if(array) {
+
+            return;
+          }
+
+          set(json, path, undefined);
+        }
+
+      });
+    }
+
     return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(
       json);
   },
+
   validateRecord(record) {
     validator.validate('schema', this.formatRecord(record));
 
