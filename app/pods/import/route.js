@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Base from 'ember-local-storage/adapters/base';
+import uuidV4 from "npm:uuid/v4";
 import {
   JsonDefault as Contact
 } from 'mdeditor/models/contact';
@@ -86,6 +87,13 @@ export default Route.extend({
         type: 'contacts'
       }));
     });
+
+    if(get(json,'metadata.metadataInfo.metadataIdentifier') === undefined){
+        json.metadata.metadataInfo.metadataIdentifier = {
+            identifier: uuidV4(),
+            namespace: 'urn:uuid'
+        };
+    }
 
     data.pushObject(template.create({
       attributes: {
