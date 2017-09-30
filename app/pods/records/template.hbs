@@ -21,7 +21,12 @@
           <td>
             <div class="pull-right md-dashboard-buttons">
               {{!-- {{debugger}} --}}
-              {{control/md-status model=item isBtn=true}}
+              {{control/md-status
+                model=item
+                isBtn=true
+                hideSlider=true
+                showSlider=(route-action "showSlider" item)
+              }}
               {{#link-to "record.show" item.id class="btn btn-sm btn-info"}}
                 {{fa-icon "eye"}} Show
               {{/link-to}}
@@ -54,3 +59,15 @@
 </div>
 
 {{outlet}}
+
+{{#if errorTarget}}
+  {{to-elsewhere
+    named="md-slider-error"
+    send=(hash
+      title=(concat "Viewing errors for: " errorTarget.title)
+      body=(component "control/md-errors"
+        errors=errorTarget.hasSchemaErrors
+      )
+    )
+  }}
+{{/if}}

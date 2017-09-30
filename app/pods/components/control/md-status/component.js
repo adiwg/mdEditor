@@ -20,14 +20,19 @@ export default Component.extend({
    */
 
   isBtn: false,
+  hideSlider: false,
   btnSize: 'sm',
+
+  showSlider() {
+    let slider = this.get('slider');
+
+    slider.set('fromName', 'md-slider-error');
+    slider.toggleSlider(true);
+  },
 
   actions: {
     showSlider() {
-      let slider = this.get('slider');
-
-      slider.set('fromName', 'md-slider-error');
-      slider.toggleSlider(true);
+      this.showSlider();
     },
 
     saveRecord() {

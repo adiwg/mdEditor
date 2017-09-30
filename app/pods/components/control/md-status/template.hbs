@@ -16,12 +16,14 @@
 </span>
 {{/if}}
 
-{{to-elsewhere
-  named="md-slider-error"
-  send=(hash
-    title=(concat "Viewing errors for: " model.title)
-    body=(component "control/md-errors"
-      errors=model.hasSchemaErrors
+{{#unless hideSlider}}
+  {{to-elsewhere
+    named="md-slider-error"
+    send=(hash
+      title=(concat "Viewing errors for: " model.title)
+      body=(component "control/md-errors"
+        errors=model.hasSchemaErrors
+      )
     )
-  )
-}}
+  }}
+{{/unless}}
