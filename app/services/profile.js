@@ -534,6 +534,241 @@ export default Ember.Service.extend({
         }
       }
     },
+    lccProduct: {
+      profile: null,
+      description: 'Profile for LCC Products',
+      secondaryNav: [{
+        title: 'Main',
+        target: 'record.show.edit.main',
+        tip: 'Basic information about the product.'
+
+      }, {
+        title: 'Metadata',
+        target: 'record.show.edit.metadata',
+        tip: 'Information about the metadata for the product.'
+
+      }, {
+        title: 'Keywords',
+        target: 'record.show.edit.keywords',
+        tip: 'Terms used to describe the product.'
+
+      }, {
+        title: 'Extent',
+        target: 'record.show.edit.extent',
+        tip: 'Information describing the bounds of the product.'
+
+      }, {
+        title: 'Spatial',
+        target: 'record.show.edit.spatial',
+        tip: 'Information concerning the spatial attributes of the product.'
+
+      }, {
+        title: 'Lineage',
+        target: 'record.show.edit.lineage',
+        tip: 'Information on the history of the product.'
+
+      },{
+        title: 'Distribution',
+        target: 'record.show.edit.distribution',
+        tip: 'Information about obtaining the product.'
+
+      }, {
+        title: 'Constraints',
+        target: 'record.show.edit.constraint',
+        tip: 'Information about constraints applied to the product.'
+
+      }, {
+        title: 'Associated',
+        target: 'record.show.edit.associated',
+        tip: 'Other records with a defined relationship to the product.'
+
+      }, {
+        title: 'Documents',
+        target: 'record.show.edit.documents',
+        tip: 'Other documents related to, but not defining, the product.'
+
+      }],
+      components: {
+        record: {
+          main: {
+            recordId: false,
+            purpose: false,
+            environmentDescription: false,
+            credit: false,
+            timePeriod: {
+              id: false,
+              description: false,
+              periodName: false,
+              duration: false,
+              interval: false
+            },
+            citation: {
+              edition: false,
+              onlineResource: {
+                protocol: false
+              },
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphic: false,
+              series: false,
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: false,
+                description: false,
+                authority: {
+                  date: false,
+                  alternateTitle: false,
+                  identifier: false,
+                  onlineResource: false
+                }
+              },
+              graphicOverview: false
+            },
+            graphicOverview: false
+          },
+          metadata: {
+            identifier: {
+              identifier: true,
+              namespace: true,
+              version: false,
+              description: false,
+              authority: false
+            },
+            parentMetadata: {
+              title: true,
+              alternateTitle: false,
+              date: false,
+              edition: false,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: false,
+              identifier: false,
+              identifierSimple: {
+                identifier: true,
+                namespace: true,
+                version: false,
+                description: false,
+                authority: false
+              }
+            },
+            alternateMetadataReference: false,
+            defaultLocale: false,
+            maintenance: false
+          },
+          lineage: {
+            statement: true,
+            processStep: {
+              stepId: true,
+              description: true,
+              processor: true,
+              reference: true,
+              scope: true
+            },
+            scope: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: true,
+              graphic: true,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifier: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true,
+                authority: {
+                  title: true,
+                  alternateTitle: true,
+                  date: true,
+                  responsibleParty: true
+                }
+              }
+            }
+          },
+          associated: {
+            resourceType: true,
+            resourceCitation: {
+              alternateTitle: false,
+              edition: false,
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: false,
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
+              }
+            },
+            metadataCitation: {
+              alternateTitle: false,
+              edition: false,
+              presentationForm: false,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: false,
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
+              }
+            }
+          },
+          documents: {
+            resourceType: true,
+            citation: {
+              title: true,
+              alternateTitle: true,
+              date: true,
+              edition: true,
+              onlineResource: true,
+              responsibleParty: true,
+              presentationForm: true,
+              otherCitationDetails: false,
+              graphicOverview: false,
+              series: {
+                name: true,
+                issue: true,
+                page: true
+              },
+              identifierSimple: false,
+              identifierShort: {
+                identifier: true,
+                namespace: true,
+                version: true,
+                description: true
+              }
+            }
+          },
+          funding: {
+            timePeriod: {
+              id: false,
+              description: false,
+              periodName: false,
+              duration: false,
+              interval: false
+            }
+          }
+        }
+      }
+    },
     publication: {
       secondaryNav: [{
         title: 'Main',
