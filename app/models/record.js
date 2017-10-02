@@ -103,15 +103,17 @@ export default Model.extend(Validations, Copyable, {
 
   title: computed.alias('json.metadata.resourceInfo.citation.title'),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type', function() {
-    const type = this.get(
-      'json.metadata.resourceInfo.resourceType.firstObject.type') || '';
-    const list = Ember.getOwner(this)
-      .lookup('service:icon');
+  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
+    function() {
+      const type = this.get(
+          'json.metadata.resourceInfo.resourceType.firstObject.type') ||
+        '';
+      const list = Ember.getOwner(this)
+        .lookup('service:icon');
 
-    return type ? list.get(type) || list.get('default') : list.get(
-      'defaultFile');
-  }),
+      return type ? list.get(type) || list.get('default') : list.get(
+        'defaultFile');
+    }),
 
   recordId: computed.alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
@@ -165,6 +167,10 @@ export default Model.extend(Validations, Copyable, {
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
+    json.set('metadata.metadataInfo.metadataIdentifier', {
+      identifier: uuidV4(),
+      namespace: 'urn:uuid'
+    });
 
     return this.store.createRecord('record', {
       json: json
