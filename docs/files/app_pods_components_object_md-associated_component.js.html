@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e917c491" target="_blank">
-                                  Tag: 0.0.0.e917c491
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/fda2a041" target="_blank">
+                                  Tag: 0.0.0.fda2a041
                                 </a>
                             </h4>
                         </div>
@@ -254,6 +254,9 @@ const {
   getWithDefault,
   run: {
     once
+  },
+  inject: {
+    service
   }
 } = Ember;
 
@@ -267,6 +270,8 @@ const Validations = buildValidations({
 });
 
 export default Component.extend(Validations, {
+  store: service(),
+
   didReceiveAttrs() {
     this._super(...arguments);
 
@@ -275,8 +280,10 @@ export default Component.extend(Validations, {
     once(this, function() {
       set(model, &#x27;scope&#x27;, getWithDefault(model, &#x27;scope&#x27;, {}));
       set(model, &#x27;resourceType&#x27;, getWithDefault(model, &#x27;resourceType&#x27;, []));
-      set(model, &#x27;resourceCitation&#x27;, getWithDefault(model, &#x27;resourceCitation&#x27;, {}));
-      set(model, &#x27;metadataCitation&#x27;, getWithDefault(model, &#x27;metadataCitation&#x27;, {}));
+      set(model, &#x27;resourceCitation&#x27;, getWithDefault(model,
+        &#x27;resourceCitation&#x27;, {}));
+      set(model, &#x27;metadataCitation&#x27;, getWithDefault(model,
+        &#x27;metadataCitation&#x27;, {}));
     });
   },
 
@@ -299,7 +306,53 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  associationType: computed.alias(&#x27;model.associationType&#x27;)
+  associationType: computed.alias(&#x27;model.associationType&#x27;),
+
+  linkedRecord: computed(&#x27;model.mdRecordId&#x27;, function() {
+    let store = this.get(&#x27;store&#x27;);
+
+    return store.peekAll(&#x27;record&#x27;)
+      .filterBy(&#x27;recordId&#x27;, get(this, &#x27;model.mdRecordId&#x27;))
+      .get(&#x27;firstObject&#x27;);
+  }),
+
+  linkedAssociation: computed(
+    &#x27;linkedRecord.json.metadata.associatedResource.[]&#x27;,
+    function() {
+      return this.get(&#x27;linkedRecord.json.metadata.associatedResource&#x27;).findBy(
+        &#x27;mdRecordId&#x27;, this.get(&#x27;recordId&#x27;));
+    }),
+
+  linkedAssociationType: computed(&#x27;linkedAssociation.associationType&#x27;, {
+    get() {
+      return this.get(&#x27;linkedAssociation.associationType&#x27;);
+    },
+    set(key, value) {
+      let assoc = this.get(&#x27;linkedAssociation&#x27;);
+
+      if(!assoc) {
+        let model = this.get(&#x27;linkedRecord&#x27;);
+
+        set(model, &#x27;associatedResource&#x27;, getWithDefault(model,
+          &#x27;associatedResource&#x27;, []));
+
+        model.get(&#x27;json.metadata.associatedResource&#x27;).pushObject({
+          mdRecordId: get(this, &#x27;recordId&#x27;),
+          associationType: value
+        });
+
+        return value;
+      }
+
+      assoc.set(&#x27;associationType&#x27;, value);
+
+      return value;
+    }
+  }),
+
+  editLinked(record) {
+    return record;
+  }
 });
 
     </pre>

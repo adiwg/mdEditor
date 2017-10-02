@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e917c491" target="_blank">
-                                  Tag: 0.0.0.e917c491
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/fda2a041" target="_blank">
+                                  Tag: 0.0.0.fda2a041
                                 </a>
                             </h4>
                         </div>
@@ -262,14 +262,19 @@ export default Component.extend({
    */
 
   isBtn: false,
+  hideSlider: false,
   btnSize: &#x27;sm&#x27;,
+
+  showSlider() {
+    let slider = this.get(&#x27;slider&#x27;);
+
+    slider.set(&#x27;fromName&#x27;, &#x27;md-slider-error&#x27;);
+    slider.toggleSlider(true);
+  },
 
   actions: {
     showSlider() {
-      let slider = this.get(&#x27;slider&#x27;);
-
-      slider.set(&#x27;fromName&#x27;, &#x27;md-slider-error&#x27;);
-      slider.toggleSlider(true);
+      this.showSlider();
     },
 
     saveRecord() {

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e917c491" target="_blank">
-                                  Tag: 0.0.0.e917c491
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/fda2a041" target="_blank">
+                                  Tag: 0.0.0.fda2a041
                                 </a>
                             </h4>
                         </div>
@@ -345,15 +345,17 @@ export default Model.extend(Validations, Copyable, {
 
   title: computed.alias(&#x27;json.metadata.resourceInfo.citation.title&#x27;),
 
-  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;, function() {
-    const type = this.get(
-      &#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;) || &#x27;&#x27;;
-    const list = Ember.getOwner(this)
-      .lookup(&#x27;service:icon&#x27;);
+  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;,
+    function() {
+      const type = this.get(
+          &#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;) ||
+        &#x27;&#x27;;
+      const list = Ember.getOwner(this)
+        .lookup(&#x27;service:icon&#x27;);
 
-    return type ? list.get(type) || list.get(&#x27;default&#x27;) : list.get(
-      &#x27;defaultFile&#x27;);
-  }),
+      return type ? list.get(type) || list.get(&#x27;default&#x27;) : list.get(
+        &#x27;defaultFile&#x27;);
+    }),
 
   recordId: computed.alias(
     &#x27;json.metadata.metadataInfo.metadataIdentifier.identifier&#x27;),
@@ -407,6 +409,10 @@ export default Model.extend(Validations, Copyable, {
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set(&#x27;metadata.resourceInfo.citation.title&#x27;, &#x60;Copy of ${name}&#x60;);
+    json.set(&#x27;metadata.metadataInfo.metadataIdentifier&#x27;, {
+      identifier: uuidV4(),
+      namespace: &#x27;urn:uuid&#x27;
+    });
 
     return this.store.createRecord(&#x27;record&#x27;, {
       json: json

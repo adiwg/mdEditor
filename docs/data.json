@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.e917c491",
+        "version": "0.0.0.fda2a041",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2055,7 +2055,7 @@
         },
         {
             "file": "app/models/record.js",
-            "line": 122,
+            "line": 124,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -2232,6 +2232,17 @@
         {
             "file": "app/pods/components/control/md-definition/component.js",
             "line": 22,
+            "description": "The class(es) to apply to the definition title",
+            "itemtype": "property",
+            "name": "titleClass",
+            "type": "{String}",
+            "class": "md-definition",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-definition/component.js",
+            "line": 29,
             "description": "The definition text",
             "itemtype": "property",
             "name": "text",
@@ -2243,7 +2254,7 @@
         },
         {
             "file": "app/pods/components/control/md-definition/component.js",
-            "line": 30,
+            "line": 37,
             "description": "The text to display if the text is falsy.",
             "itemtype": "property",
             "name": "empty",
@@ -4794,7 +4805,7 @@
         },
         {
             "file": "app/pods/components/object/md-associated/preview/component.js",
-            "line": 10,
+            "line": 16,
             "description": "Whether to render the text muted.",
             "itemtype": "property",
             "name": "muted",
@@ -4805,7 +4816,7 @@
         },
         {
             "file": "app/pods/components/object/md-associated/component.js",
-            "line": 43,
+            "line": 50,
             "description": "The string representing the path in the profile object for the resource.",
             "itemtype": "property",
             "name": "profilePath",
@@ -4817,7 +4828,7 @@
         },
         {
             "file": "app/pods/components/object/md-associated/component.js",
-            "line": 52,
+            "line": 59,
             "description": "The object to use as the data model for the resource.",
             "itemtype": "property",
             "name": "model",

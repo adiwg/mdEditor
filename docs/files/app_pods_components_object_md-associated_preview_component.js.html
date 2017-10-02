@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/e917c491" target="_blank">
-                                  Tag: 0.0.0.e917c491
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/fda2a041" target="_blank">
+                                  Tag: 0.0.0.fda2a041
                                 </a>
                             </h4>
                         </div>
@@ -243,10 +243,16 @@
 import Ember from &#x27;ember&#x27;;
 
 const {
-  Component
+  Component,
+  get,
+  computed,
+  inject: {
+    service
+  }
 } = Ember;
 
 export default Component.extend({
+  store: service(),
   classNameBindings: [&#x27;muted:text-muted&#x27;],
 
   /**
@@ -256,7 +262,31 @@ export default Component.extend({
    * @type {Boolean}
    * @default &quot;true&quot;
    */
-  muted: true
+  muted: true,
+
+  citation: computed(&#x27;item&#x27;, &#x27;item.mdRecordId&#x27;, function() {
+    if(!this.get(&#x27;item.mdRecordId&#x27;)) {
+      return this.get(&#x27;item.resourceCitation&#x27;);
+    }
+
+    let store = this.get(&#x27;store&#x27;);
+
+    return store.peekAll(&#x27;record&#x27;)
+      .filterBy(&#x27;recordId&#x27;, get(this, &#x27;item.mdRecordId&#x27;))
+      .get(&#x27;firstObject.json.metadata.resourceInfo.citation&#x27;);
+  }),
+
+  metadataIdentifier: computed(&#x27;item.metadataCitation.identifier&#x27;, &#x27;item.mdRecordId&#x27;, function() {
+    if(!this.get(&#x27;item.mdRecordId&#x27;)) {
+      return this.get(&#x27;item.metadataCitation.identifier.0&#x27;);
+    }
+
+    let store = this.get(&#x27;store&#x27;);
+
+    return store.peekAll(&#x27;record&#x27;)
+      .filterBy(&#x27;recordId&#x27;, get(this, &#x27;item.mdRecordId&#x27;))
+      .get(&#x27;firstObject.json.metadata.metadataInfo.metadataIdentifier&#x27;);
+  }),
 });
 
     </pre>
