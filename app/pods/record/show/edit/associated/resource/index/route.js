@@ -1,15 +1,10 @@
 import Ember from 'ember';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-import {
-  formatCitation
-} from 'mdeditor/pods/components/object/md-citation/component';
 
 const {
   Route,
   get,
   set,
-  Object: EmObject,
-  getWithDefault,
   inject
 } = Ember;
 
@@ -26,7 +21,7 @@ export default Route.extend(ScrollTo, {
     propertyName: 'defaultType',
     title: 'Type'
   }],
-  setupController: function () {
+  setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -39,26 +34,11 @@ export default Route.extend(ScrollTo, {
     insertResource(selected) {
       let slider = this.get('slider');
       let rec = selected.get('firstObject');
-      let info = get(rec, 'json.metadata.metadataInfo') || {};
-      let metadata = {
-        'title': `Metadata for ${get(rec,'title')}`,
-        'responsibleParty': getWithDefault(info, 'metadataContact', []),
-        'date': getWithDefault(info, 'metadataDate', []),
-        'onlineResource': getWithDefault(info, 'metadataOnlineResource', []),
-        'identifier': [getWithDefault(info, 'metadataIdentifier', {})],
-      };
 
       if(rec) {
         let resource = this.currentRouteModel();
-        let citation = get(rec, 'json.metadata.resourceInfo.citation') || {};
-        let resourceType = get(rec,
-          'json.metadata.resourceInfo.resourceType') || [];
 
-        set(resource, 'resourceCitation', EmObject.create(formatCitation(
-          citation)));
-        set(resource, 'metadataCitation', EmObject.create(formatCitation(
-          metadata)));
-        set(resource, 'resourceType', resourceType);
+        set(resource, 'mdRecordId', get(rec, 'recordId'));
       }
 
       //this.controller.set('slider', false);
@@ -72,10 +52,13 @@ export default Route.extend(ScrollTo, {
       slider.toggleSlider(true);
     },
     sliderData() {
-      return this.store.peekAll('record');
+      return this.store.peekAll('record').filterBy('recordId');
     },
     sliderColumns() {
       return this.get('sliderColumns');
+    },
+    editLinked(rec) {
+      this.transitionTo('record.show.edit', rec.get('id'));
     }
   }
 });

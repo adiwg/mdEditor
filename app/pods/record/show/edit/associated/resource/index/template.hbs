@@ -3,8 +3,9 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{object/md-associated model=model
+{{object/md-associated model=model recordId=parentModel.recordId
   profilePath="record.associated"
+  editLinked=(route-action "editLinked")
 }}
 
 {{to-elsewhere

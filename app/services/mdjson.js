@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import Ajv from 'npm:ajv';
 import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
+import {
+  formatCitation
+} from 'mdeditor/pods/components/object/md-citation/component';
 
 const validator = new Ajv({
   verbose: true,
@@ -21,7 +24,10 @@ const {
   inject,
   isArray,
   set,
-  get
+  get,
+  getWithDefault,
+  Object: EmObject
+
 } = Ember;
 
 const unImplemented = [
@@ -45,13 +51,48 @@ export default Service.extend({
   contacts: inject.service(),
   store: inject.service(),
 
-  // _replacer(key, value) {
-  //   //console.log(arguments);
-  //   if(key==='contactId' && !_contacts.includes(value)){
-  //     _contacts.push(value);
-  //   }
-  //   return value;
-  // }
+  injectCitations(json) {
+    let assoc = json.metadata.associatedResource;
+
+    if(assoc) {
+      let refs = assoc.reduce((acc, itm) => {
+        if(itm.mdRecordId) {
+          acc.push(itm);
+        }
+        return acc;
+      }, []);
+
+      let records = this.get('store').peekAll('record').filterBy('recordId');
+
+      refs.forEach((ref) => {
+        let record = records.findBy('recordId', ref.mdRecordId);
+
+        if(record) {
+          let info = get(record, 'json.metadata.metadataInfo') || {};
+          let metadata = {
+            'title': `Metadata for ${get(record,'title')}`,
+            'responsibleParty': getWithDefault(info,
+              'metadataContact', []),
+            'date': getWithDefault(info, 'metadataDate', []),
+            'onlineResource': getWithDefault(info,
+              'metadataOnlineResource', []),
+            'identifier': [getWithDefault(info, 'metadataIdentifier', {})],
+          };
+
+          let citation = get(record,
+            'json.metadata.resourceInfo.citation') || {};
+          let resourceType = get(record,
+            'json.metadata.resourceInfo.resourceType') || [];
+
+          set(ref, 'resourceCitation', EmObject.create(formatCitation(
+            citation)));
+          set(ref, 'metadataCitation', EmObject.create(formatCitation(
+            metadata)));
+          set(ref, 'resourceType', resourceType);
+        }
+      });
+    }
+  },
 
   formatRecord(rec, asText) {
     let _contacts = [];
@@ -101,6 +142,8 @@ export default Service.extend({
 
       });
     }
+
+    this.injectCitations(json);
 
     return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(
       json);
