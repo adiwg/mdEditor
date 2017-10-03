@@ -47,6 +47,13 @@ const theComp = Component.extend(Validations, {
    * @type {Boolean}
    */
 
+  /**
+   * Determines whether to render identifier field with confirmation button
+   *
+   * @property confirmIdentifier
+   * @type {Boolean}
+   */
+
   identifier: computed.alias('model.identifier')
 });
 

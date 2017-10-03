@@ -25,6 +25,13 @@ export default Route.extend(ScrollTo, {
         .then(function () {
           this.setScrollTo(scrollTo);
         }.bind(this));
+    },
+    editId() {
+      this.transitionTo('record.show.edit.metadata.identifier', {
+        queryParams: {
+          scrollTo: 'identifier'
+        }
+      });
     }
   }
 });

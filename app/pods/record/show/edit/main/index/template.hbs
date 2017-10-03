@@ -9,16 +9,26 @@
         profilePath="record.main.basicInformation" data-spy="Basic Information"
         required=true
       }}
-        {{input/md-input-confirm
-          valuePath='recordId'
-          model=model
-          confirmTip="Note! Editing the Record ID may break links. Be aware."
-          placeholder="Assigned Record ID"
-          label="Record ID"
-          profilePath="record.main.recordId"
-          data-spy="Record ID"
-          class="md-embedded"
-        }}
+
+      {{#layout/md-wrap data-spy="Record ID" class="md-embedded"}}
+        <div class="form-group">
+          <label class="required">Record ID</label>
+          <div class="input-group input-group-md">
+            {{input/md-input
+              valuePath='recordId'
+              model=model
+              placeholder="Assigned Record ID"
+              profilePath="record.main.recordId"
+              disabled=true
+            }}
+            <span class="input-group-btn">
+                <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
+                  {{fa-icon "pencil"}}
+                  Edit</button>
+            </span>
+          </div>
+        </div>
+        {{/layout/md-wrap}}
 
         {{input/md-input
           value=model.title
