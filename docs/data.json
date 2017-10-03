@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.fda2a041",
+        "version": "0.0.0.f68ab43f",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -333,6 +333,15 @@
             "name": "app/pods/components/layout/md-nav-secondary/component.js",
             "modules": {},
             "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/layout/md-wrap/component.js": {
+            "name": "app/pods/components/layout/md-wrap/component.js",
+            "modules": {},
+            "classes": {
+                "md-wrap": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -832,6 +841,7 @@
                 "md-textarea": 1,
                 "md-toggle": 1,
                 "md-card": 1,
+                "md-wrap": 1,
                 "md-address": 1,
                 "md-array-table": 1,
                 "md-citation-array": 1,
@@ -967,15 +977,16 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "md-card": 1
+                "md-card": 1,
+                "md-wrap": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/pods/components/layout/md-card/component.js",
-            "line": 14,
+            "file": "app/pods/components/layout/md-wrap/component.js",
+            "line": 8,
             "description": "Component that renders a Bootstrap card.\n\n```handlebars\n\\{{#layout/md-card\n  title=\"title\"\n  collapsible=true\n  collapsed=false\n  profilePath=\"card\"\n  data-spy=\"Card\"\n  shadow=true\n}}\n  Content\n{{/layout/md-card}}\n```",
             "is_constructor": 1
         },
@@ -1502,6 +1513,21 @@
             "file": "app/pods/components/layout/md-card/component.js",
             "line": 14,
             "description": "Component that renders a Bootstrap card.\n\n```handlebars\n\\{{#layout/md-card\n  title=\"title\"\n  collapsible=true\n  collapsed=false\n  profilePath=\"card\"\n  data-spy=\"Card\"\n  shadow=true\n}}\n  Content\n{{/layout/md-card}}\n```"
+        },
+        "md-wrap": {
+            "name": "md-wrap",
+            "shortname": "md-wrap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "components-layout",
+            "namespace": "",
+            "file": "app/pods/components/layout/md-wrap/component.js",
+            "line": 8,
+            "description": "Component used as a wrapper, data-spy enabled.\n\n```handlebars\n\\{{#layout/md-wrap\n  data-spy=\"Wrap\"\n  shadow=true\n}}\n  Content\n{{/layout/md-wrap}}\n```"
         },
         "md-address": {
             "name": "md-address",
@@ -4513,7 +4539,7 @@
             "description": "translated \"more\" text",
             "name": "more",
             "type": "{String}",
-            "class": "md-address",
+            "class": "md-wrap",
             "module": "mdeditor"
         },
         {
@@ -4522,7 +4548,7 @@
             "description": "selector for the navbar container",
             "name": "parent",
             "type": "{String}",
-            "class": "md-address",
+            "class": "md-wrap",
             "module": "mdeditor"
         },
         {
@@ -4531,7 +4557,7 @@
             "description": "width that needs to be subtracted from the parent div width",
             "name": "offset",
             "type": "{Number}",
-            "class": "md-address",
+            "class": "md-wrap",
             "module": "mdeditor"
         },
         {
@@ -5164,6 +5190,16 @@
             "description": "Render short form of the identifier template, i.e. no authority",
             "itemtype": "property",
             "name": "short",
+            "type": "{Boolean}",
+            "class": "md-identifier-array",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-identifier/component.js",
+            "line": 50,
+            "description": "Determines whether to render identifier field with confirmation button",
+            "itemtype": "property",
+            "name": "confirmIdentifier",
             "type": "{Boolean}",
             "class": "md-identifier-array",
             "module": "mdeditor"

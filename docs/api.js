@@ -36,6 +36,7 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-spotlight",
         "md-textarea",
         "md-toggle",
+        "md-wrap",
         "object-template",
         "tree-branch",
         "tree-label",
