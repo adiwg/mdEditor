@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.f68ab43f",
+        "version": "0.0.0.c48650f1",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2231,7 +2231,7 @@
             "line": 31,
             "description": "description",
             "itemtype": "property",
-            "name": "title",
+            "name": "contact",
             "type": "{String}",
             "readonly": "",
             "category": [
