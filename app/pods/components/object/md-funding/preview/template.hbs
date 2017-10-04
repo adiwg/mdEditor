@@ -1,0 +1,43 @@
+{{#with item
+  as
+  |model|}}
+  <dl class="dl-horizontal">
+    <h3 class="text-info">Allocation #{{index}}</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <label>Start</label>{{log model}}
+        {{moment-format model.timePeriod.startDateTime "MM-DD-YYYY"}}
+      </div>
+      <div class="col-md-6">
+        <label>End</label>
+        {{moment-format model.timePeriod.endDateTime "MM-DD-YYYY"}}
+      </div>
+    </div>
+  </dl>
+  <div class="table-responsive">
+    <table class="table table-condensed table-bordered">
+      <thead>
+        <tr>
+          <th>Amount</th>
+          <th>Currency</th>
+          <th>Source</th>
+          <th>Recipient</th>
+          <th>Match?</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each model.allocation
+          as
+          |alloc|}}
+          <tr>
+            <td>{{get-dash alloc "amount"}}</td>
+            <td>{{get-dash alloc "currency"}}</td>
+            <td>{{control/md-contact-title contactId=alloc.sourceId default="--"}}</td>
+            <td>{{control/md-contact-title contactId=alloc.recipientId default="--"}}</td>
+            <td>{{get-dash alloc "matching"}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+{{/with}}

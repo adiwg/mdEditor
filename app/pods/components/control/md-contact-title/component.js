@@ -31,7 +31,7 @@ export default Component.extend({
   /**
    * description
    *
-   * @property title
+   * @property contact
    * @type {String}
    * @readOnly
    * @category computed
