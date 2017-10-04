@@ -356,7 +356,7 @@ export default Ember.Service.extend({
       components: {
         record: {
           main: {
-            recordId: false,
+            recordId: true,
             purpose: false,
             environmentDescription: false,
             credit: false,
@@ -591,7 +591,7 @@ export default Ember.Service.extend({
       components: {
         record: {
           main: {
-            recordId: false,
+            recordId: true,
             purpose: false,
             environmentDescription: false,
             credit: false,

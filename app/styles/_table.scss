@@ -29,23 +29,33 @@
   }
 }
 
-.panel-body .table {
-  address {
-    margin: 0;
+.panel-body {
+  &.condensed {
+    padding: 0;
+    
+    > .table {
+      margin-bottom: 0;
+    }
   }
 
-  td {
-    vertical-align: middle;
-  }
+  .table {
+    address {
+      margin: 0;
+    }
 
-  &.ellipsis {
-    td.property {
-      max-width: 15vw;
+    td {
+      vertical-align: middle;
+    }
 
-      div.wrap {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+    &.ellipsis {
+      td.property {
+        max-width: 15vw;
+
+        div.wrap {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
       }
     }
   }
@@ -75,14 +85,26 @@
       }
     }
   }
+
+  .table-hover > tbody > tr {
+    transition: background-color 0.25s ease;
+  }
+
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: lighten($brand-info, 47);
+  }
+
+  .table-hover > tbody > tr:hover {
+    background-color: lighten($brand-info, 44);
+  }
 }
 
 .md-logo-preview {
   max-height: 50px;
 }
 
-.md-select-table,
-.md-record-table {
+.md-record-table,
+.md-select-table {
   .inner-table-wrapper {
     margin-top: 1.25em;
   }
@@ -98,7 +120,7 @@
   }
 
   .table-hover > tbody > tr {
-    transition: background-color .1s linear;
+    transition: background-color 0.1s linear;
   }
 
   .table-hover > tbody > tr:hover {
@@ -106,13 +128,11 @@
     cursor: pointer;
   }
 }
-
 //Wider Responsive tables
 
 .md-table-responsive {
-  min-height: .01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
+  min-height: 0.01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
   overflow-x: auto;
-
   @media screen and (max-width: $screen-sm-max) {
     border: 1px solid $table-border-color;
     margin-bottom: ($line-height-computed * .75);
@@ -125,8 +145,8 @@
       margin-bottom: 0;
       // Ensure the content doesn't wrap
        > tbody,
-       > tfoot,
-      > thead {
+       > thead,
+      > tfoot {
         > tr {
            > td,
           > th {
@@ -138,9 +158,10 @@
     // Special overrides for the bordered tables
     > .table-bordered {
       border: 0;
+
        > tbody,
-       > tfoot,
-      > thead {
+       > thead,
+      > tfoot {
         > tr {
            > td:first-child,
           > th:first-child {
@@ -170,13 +191,12 @@
 .md-dashboard-buttons {
   @media screen and (min-width: $screen-sm-min) {
     white-space: nowrap;
- }
-
+  }
   @media screen and (max-width: $screen-xs-max) {
     .btn {
       display: block;
       margin: 1px auto;
       width: 100%;
     }
- }
+  }
 }

@@ -10,7 +10,9 @@
         required=true
       }}
 
-      {{#layout/md-wrap data-spy="Record ID" class="md-embedded"}}
+      {{#layout/md-wrap data-spy="Record ID" class="md-embedded"
+        profilePath="record.main.recordId"
+      }}
         <div class="form-group">
           <label class="required">Record ID</label>
           <div class="input-group input-group-md">
@@ -18,13 +20,13 @@
               valuePath='recordId'
               model=model
               placeholder="Assigned Record ID"
-              profilePath="record.main.recordId"
               disabled=true
             }}
             <span class="input-group-btn">
                 <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
                   {{fa-icon "pencil"}}
                   Edit</button>
+                  {{tooltip-on-element text="Edit the metadata id" class="md-tooltip warning"}}
             </span>
           </div>
         </div>
