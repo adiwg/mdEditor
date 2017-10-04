@@ -424,45 +424,6 @@ export default Ember.Service.extend({
             defaultLocale: false,
             maintenance: false
           },
-          lineage: {
-            statement: true,
-            processStep: {
-              stepId: true,
-              description: true,
-              processor: true,
-              reference: true,
-              scope: true
-            },
-            scope: true,
-            citation: {
-              title: true,
-              alternateTitle: true,
-              date: true,
-              edition: true,
-              onlineResource: true,
-              responsibleParty: true,
-              presentationForm: true,
-              otherCitationDetails: true,
-              graphic: true,
-              series: {
-                name: true,
-                issue: true,
-                page: true
-              },
-              identifier: {
-                identifier: true,
-                namespace: true,
-                version: true,
-                description: true,
-                authority: {
-                  title: true,
-                  alternateTitle: true,
-                  date: true,
-                  responsibleParty: true
-                }
-              }
-            }
-          },
           associated: {
             resourceType: true,
             resourceCitation: {
@@ -567,7 +528,7 @@ export default Ember.Service.extend({
         target: 'record.show.edit.lineage',
         tip: 'Information on the history of the product.'
 
-      },{
+      }, {
         title: 'Distribution',
         target: 'record.show.edit.distribution',
         tip: 'Information about obtaining the product.'
@@ -659,44 +620,22 @@ export default Ember.Service.extend({
             defaultLocale: false,
             maintenance: false
           },
-          lineage: {
-            statement: true,
-            processStep: {
-              stepId: true,
-              description: true,
-              processor: true,
-              reference: true,
-              scope: true
-            },
-            scope: true,
-            citation: {
-              title: true,
-              alternateTitle: true,
-              date: true,
-              edition: true,
-              onlineResource: true,
-              responsibleParty: true,
-              presentationForm: true,
-              otherCitationDetails: true,
-              graphic: true,
-              series: {
-                name: true,
-                issue: true,
-                page: true
-              },
-              identifier: {
-                identifier: true,
-                namespace: true,
-                version: true,
-                description: true,
-                authority: {
-                  title: true,
-                  alternateTitle: true,
-                  date: true,
-                  responsibleParty: true
+          distribution: {
+            distributor: {
+              transferOption: {
+                distributionUnit: false,
+                transferFrequency: false,
+                distributionFormat: false,
+                offlineOption: {
+                  identifier: false
                 }
-              }
+              },
+              orderProcess: false
             }
+          },
+          constraints: {
+            responsibleParty: false,
+            graphic: false
           },
           associated: {
             resourceType: true,

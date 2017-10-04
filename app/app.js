@@ -65,7 +65,7 @@ Component.reopen({
             '.components.' +
             path;
 
-
+          //console.log(fullPath);
           return getWithDefault(profile, fullPath, isVisible);
         }));
     }

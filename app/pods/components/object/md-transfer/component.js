@@ -52,7 +52,7 @@ export default Component.extend({
 
     once(function() {
       set(model, 'onlineOption', getWithDefault(model, 'onlineOption', []));
-      set(model, 'offlineOption', getWithDefault(model, 'offlineOption', [{}]));
+      set(model, 'offlineOption', getWithDefault(model, 'offlineOption', []));
       set(model, 'transferFrequency', getWithDefault(model,
         'transferFrequency', {}));
       set(model, 'distributionFormat', getWithDefault(model,

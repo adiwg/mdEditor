@@ -33,7 +33,7 @@
       class="md-embedded"
       data-spy=false
       collapsible=true
-      collapsed=true
+      collapsed=false
       bodyIsRow=false
     }}
       {{object/md-transfer model=opt profilePath=(concat profilePath ".transferOption")}}
@@ -50,6 +50,7 @@
       collapsible=true
       collapsed=true
       bodyIsRow=false
+      profilePath=(concat profilePath ".orderProcess")
     }}
       {{!-- <label class="text-info col-sm-2">Order Process</label>
       <div class="col-sm-10"> --}}
@@ -58,27 +59,27 @@
         placeholder="Describe the fees and terms for retrieving the resource, including monetary units."
         label="Fees"
         autoresize=false
-        profilePath=(concat profilePath ".fees")
+        profilePath=(concat profilePath ".orderProcess.fees")
       }}
       {{input/md-datetime
         date=order.plannedAvailability
         placeholder="Date when the resource will be avialable"
         label="Planned Availability"
-        profilePath=(concat profilePath ".plannedAvailability")
+        profilePath=(concat profilePath ".orderProcess.plannedAvailability")
       }}
       {{input/md-textarea
         value=order.orderingInstructions
         maxheight=100
         placeholder="Describe general instructions for obtaining the resource"
         label="Ordering Instructions"
-        profilePath=(concat profilePath ".orderingInstructions")
+        profilePath=(concat profilePath ".orderProcess.orderingInstructions")
       }}
       {{input/md-textarea
         value=order.turnaround
         autoresize=false
         placeholder="Describe the typical turnaround time for the filling of an order"
         label="Turnaround"
-        profilePath=(concat profilePath ".turnaround")
+        profilePath=(concat profilePath ".orderProcess.turnaround")
       }}
     {{!-- </div> --}}
     {{/layout/md-card}}

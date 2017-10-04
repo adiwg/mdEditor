@@ -23,7 +23,7 @@ export default Component.extend({
       set(model, 'mediumSpecification', getWithDefault(model,
         'mediumSpecification', {}));
       set(model, 'identifier', getWithDefault(model, 'identifier', {}));
-      set(model, 'mediumFormat', getWithDefault(model, 'mediumFormat', {}));
+      set(model, 'mediumFormat', getWithDefault(model, 'mediumFormat', []));
     });
   },
   tagName: 'form',
