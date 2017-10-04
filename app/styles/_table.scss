@@ -32,7 +32,7 @@
 .panel-body {
   &.condensed {
     padding: 0;
-    
+
     > .table {
       margin-bottom: 0;
     }
@@ -91,6 +91,10 @@
   }
 
   .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: inherit;
+  }
+
+  .table-striped > tbody > tr:nth-of-type(even) {
     background-color: lighten($brand-info, 47);
   }
 
