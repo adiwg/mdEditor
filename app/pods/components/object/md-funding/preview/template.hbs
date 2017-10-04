@@ -5,12 +5,12 @@
     <h4 class="text-info">Allocation #{{index}}</h4>
     <div class="row">
       <div class="col-md-6">
-        <label>Start</label>{{log model}}
-        {{moment-format model.timePeriod.startDateTime "MM-DD-YYYY"}}
+        <label>Start Date:</label>{{log model}}
+        {{if model.timePeriod.startDateTime (moment-format model.timePeriod.startDateTime "MM-DD-YYYY") "Not defined"}}
       </div>
       <div class="col-md-6">
-        <label>End</label>
-        {{moment-format model.timePeriod.endDateTime "MM-DD-YYYY"}}
+        <label>End Date:</label>
+        {{if model.timePeriod.endDateTime (moment-format model.timePeriod.endDateTime "MM-DD-YYYY") "Not defined"}}
       </div>
     </div>
   </dl>
@@ -35,6 +35,10 @@
             <td>{{control/md-contact-title contactId=alloc.sourceId default="--"}}</td>
             <td>{{control/md-contact-title contactId=alloc.recipientId default="--"}}</td>
             <td>{{get-dash alloc "matching"}}</td>
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan=5>No allocations found.</td>
           </tr>
         {{/each}}
       </tbody>
