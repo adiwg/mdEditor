@@ -58,23 +58,23 @@ export default DS.Model.extend({
       }
     }),
 
-  wasUpdated(model) {
+  wasUpdated() {
     this._super(...arguments);
 
-    let record = model.record || model;
-    let json = JSON.parse(record.serialize().data.attributes.json);
+    //let record = model.record || this;
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
-    record.set('jsonSnapshot', json);
+    this.set('jsonSnapshot', json);
   },
 
-  wasLoaded(model) {
+  wasLoaded() {
     this._super(...arguments);
 
-    let json = JSON.parse(model.serialize().data.attributes.json);
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
-    model.set('jsonSnapshot', json);
+    this.set('jsonSnapshot', json);
   },
 
   saved() {

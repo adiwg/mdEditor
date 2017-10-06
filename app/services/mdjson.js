@@ -4,6 +4,7 @@ import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
 import {
   formatCitation
 } from 'mdeditor/pods/components/object/md-citation/component';
+import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
 
 const validator = new Ajv({
   verbose: true,
@@ -11,6 +12,9 @@ const validator = new Ajv({
   jsonPointers: true,
   removeAdditional: false
 });
+
+//support draft-04
+validator.addMetaSchema(draft4);
 
 Object.keys(Schemas)
   .forEach(function(key) {

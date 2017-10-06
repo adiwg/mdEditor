@@ -25,7 +25,7 @@ const {
 
 let App;
 
-Ember.MODEL_FACTORY_INJECTIONS = true;
+//Ember.MODEL_FACTORY_INJECTIONS = true;
 
 App = Application.extend({
   modulePrefix: config.modulePrefix,
