@@ -177,7 +177,7 @@ export default Route.extend({
       file,
       json
     } = data;
-    let jv = get(this, 'jsonvalidator');
+    let jv = get(this, 'jsonvalidator.validator');
     let valid = jv.validate('jsonapi', json);
 
     if(!valid) {

@@ -370,4 +370,6 @@ validator.addSchema({
   }
 }, 'jsonapi');
 
-export default Ember.Service.extend(validator);
+export default Ember.Service.extend({
+  validator: validator
+});
