@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import ModalDialog from 'ember-modal-dialog/components/tether-dialog';
+import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 
 const {
   inject: {
@@ -14,7 +14,7 @@ export default ModalDialog.extend({
    * @class md-spotlight
    * @module mdeditor
    * @submodule components-control
-   * @extends tether-dialog
+   * @extends modal-dialog
    * @uses service-spotlight
    * @constructor
    */
@@ -32,6 +32,7 @@ export default ModalDialog.extend({
   targetAttachment: 'none',
   translucentOverlay: true,
   clickOutsideToClose: false,
+  tetherTarget: 'viewport',
 
   // /**
   // * The id of the DOM element to spotlight. Uses the spotlight service "elementId"
@@ -62,9 +63,14 @@ export default ModalDialog.extend({
   // },
 
   actions: {
-    close() {
-      this.get('spotlight').close();
+    onClose() {
       this._super(...arguments);
+      this.get('spotlight').close();
+    },
+
+    onClickOverlay() {
+      this._super(...arguments);
+      this.get('spotlight').close();
     }
   }
 });
