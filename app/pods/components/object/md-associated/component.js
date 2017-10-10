@@ -77,7 +77,13 @@ export default Component.extend(Validations, {
   linkedAssociation: computed(
     'linkedRecord.json.metadata.associatedResource.[]',
     function() {
-      return this.get('linkedRecord.json.metadata.associatedResource').findBy(
+      let ar = this.get('linkedRecord.json.metadata.associatedResource');
+
+      if(!ar) {
+        return null;
+      }
+
+      return ar.findBy(
         'mdRecordId', this.get('recordId'));
     }),
 
@@ -87,11 +93,10 @@ export default Component.extend(Validations, {
     },
     set(key, value) {
       let assoc = this.get('linkedAssociation');
+      let model = this.get('linkedRecord');
 
       if(!assoc) {
-        let model = this.get('linkedRecord');
-
-        set(model, 'associatedResource', getWithDefault(model,
+        set(model, 'json.metadata.associatedResource', getWithDefault(model,
           'associatedResource', []));
 
         model.get('json.metadata.associatedResource').pushObject({
@@ -99,10 +104,13 @@ export default Component.extend(Validations, {
           associationType: value
         });
 
+        model.notifyPropertyChange('hasDirtyHash');
+
         return value;
       }
 
-      assoc.set('associationType', value);
+      set(assoc, 'associationType', value);
+      model.notifyPropertyChange('hasDirtyHash');
 
       return value;
     }
