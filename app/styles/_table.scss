@@ -109,11 +109,10 @@
 
 .md-record-table,
 .md-select-table {
-  .inner-table-wrapper {
+  > .table {
     margin-top: 1.25em;
-  }
 
-  .table-header {
+  > thead > tr:first-of-type > .table-header {
     color: $gray-darker;
     transition: color 0.5s linear;
 
@@ -122,6 +121,7 @@
       cursor: pointer;
     }
   }
+}
 
   .table-hover > tbody > tr {
     transition: background-color 0.1s linear;

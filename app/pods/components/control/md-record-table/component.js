@@ -1,10 +1,9 @@
 import Ember from 'ember';
-import Table from 'ember-models-table/components/models-table';
+import Table from 'mdeditor/pods/components/md-models-table/component';
 
 const {
   get,
   computed,
-  set,
   A
 } = Ember;
 
@@ -73,10 +72,10 @@ export default Table.extend({
    * @required
    */
   checkColumn: {
-    template: 'components/control/md-record-table/templates/check',
+    component: 'components/md-models-table/components/check',
     useFilter: false,
     mayBeHidden: false,
-    templateForSortCell: 'components/control/md-record-table/templates/check-all',
+    componentForSortCell: 'components/md-models-table/components/check-all',
     className: 'text-center'
   },
 
@@ -92,26 +91,6 @@ export default Table.extend({
 
   filteringIgnoreCase: true,
   //rowTemplate: 'components/control/md-select-table/row',
-
-  customIcons: {
-    'sort-asc': 'fa fa-caret-up',
-    'sort-desc': 'fa fa-caret-down',
-    'column-visible': 'fa fa-check-square-o',
-    'column-hidden': 'fa fa-square-o',
-    'nav-first': 'fa fa-fast-backward',
-    'nav-prev': 'fa fa-backward',
-    'nav-next': 'fa fa-forward',
-    'nav-last': 'fa fa-fast-forward',
-    'caret': 'fa fa-caret-down',
-    'select-row': 'fa fa-fw fa-check-square-o',
-    'deselect-row': 'fa fa-fw fa-square-o',
-    'select-all-rows': 'fa fa-fw fa-check-square-o',
-    'deselect-all-rows': 'fa fa-fw fa-square-o'
-  },
-
-  customClasses: {
-    'table': 'table table-striped table-bordered table-condensed table-hover'
-  },
 
   multipleSelect: true,
 
@@ -138,22 +117,20 @@ export default Table.extend({
       this.get('select')(rec, idx, sel);
     },
 
-    toggleAll() {
+    toggleAllSelection() {
+      this._super(...arguments);
+
       let selected = get(this, '_selectedItems');
       let data = get(this, 'data');
 
-      if(get(selected, 'length') === get(data, 'length')) {
-        selected.setEach('_selected', undefined);
-        selected.clear();
-        this.userInteractionObserver();
-        return false;
+      if(get(selected, 'length')) {
+        selected.setEach('_selected', true);
+        return;
       }
 
-      data.setEach('_selected', true);
-      set(this, '_selectedItems', data.slice());
+      data.setEach('_selected', false);
 
       this.get('select')(null, null, selected);
-      this.userInteractionObserver();
     }
   }
 });

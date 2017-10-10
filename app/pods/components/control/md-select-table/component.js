@@ -1,5 +1,5 @@
 import Ember from 'ember';
-import Table from 'ember-models-table/components/models-table';
+import Table from 'mdeditor/pods/components/md-models-table/component';
 
 const {
   get
@@ -59,22 +59,6 @@ export default Table.extend({
    */
 
   filteringIgnoreCase: true,
-  //rowTemplate: 'components/control/md-select-table/row',
-
-  customIcons: {
-    'sort-asc': 'fa fa-caret-up',
-    'sort-desc': 'fa fa-caret-down',
-    'column-visible': 'fa fa-check-square-o',
-    'column-hidden': 'fa fa-square-o',
-    'nav-first': 'fa fa-fast-backward',
-    'nav-prev': 'fa fa-backward',
-    'nav-next': 'fa fa-forward',
-    'nav-last': 'fa fa-fast-forward',
-    'caret': 'fa fa-caret-down'
-  },
-  customClasses: {
-    'table': 'table table-striped table-bordered table-condensed table-hover'
-  },
 
   /**
    * Callback on row selection.
