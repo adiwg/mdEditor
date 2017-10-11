@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/77982beb" target="_blank">
-                                  Tag: 0.0.0.77982beb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d594dcf" target="_blank">
+                                  Tag: 0.0.0.2d594dcf
                                 </a>
                             </h4>
                         </div>
@@ -265,6 +265,24 @@ export default Component.extend({
   /**
    * A select list control for displaying and selecting options
    * provided in an array or promise array.
+   *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{input/md-select
+   *  label=&quot;Measure Type&quot;
+   *  showValidations=true
+   *  model=this
+   *  path=&quot;measureType&quot;
+   *  valuePath=&quot;value&quot;
+   *  namePath=&quot;name&quot;
+   *  objectArray=typeOptions
+   *  tooltip=true
+   *  tooltipPath=&quot;tip&quot;
+   *  searchEnabled=false
+   *  disabled=measureDisabled
+   *  placeholder=&quot;The type of measurement.&quot;
+   *  profilePath=(concat profilePath &quot;.measure.type&quot;)
+   * }}
+   * &#x60;&#x60;&#x60;
    *
    * @class md-select
    * @constructor
@@ -604,7 +622,7 @@ export default Component.extend({
             codeId: get(item, codeId),
             codeName: get(item, codeName),
             tooltip: false,
-            icon: icons.get(item[codeName]) || icons.get(
+            icon: icons.get(item[codeName].toString()) || icons.get(
               defaultIcon)
           };
           if(tooltip) {

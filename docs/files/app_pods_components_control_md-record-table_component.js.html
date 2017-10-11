@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/77982beb" target="_blank">
-                                  Tag: 0.0.0.77982beb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d594dcf" target="_blank">
+                                  Tag: 0.0.0.2d594dcf
                                 </a>
                             </h4>
                         </div>
@@ -244,12 +244,11 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-import Table from &#x27;ember-models-table/components/models-table&#x27;;
+import Table from &#x27;mdeditor/pods/components/md-models-table/component&#x27;;
 
 const {
   get,
   computed,
-  set,
   A
 } = Ember;
 
@@ -318,10 +317,10 @@ export default Table.extend({
    * @required
    */
   checkColumn: {
-    template: &#x27;components/control/md-record-table/templates/check&#x27;,
+    component: &#x27;components/md-models-table/components/check&#x27;,
     useFilter: false,
     mayBeHidden: false,
-    templateForSortCell: &#x27;components/control/md-record-table/templates/check-all&#x27;,
+    componentForSortCell: &#x27;components/md-models-table/components/check-all&#x27;,
     className: &#x27;text-center&#x27;
   },
 
@@ -337,26 +336,6 @@ export default Table.extend({
 
   filteringIgnoreCase: true,
   //rowTemplate: &#x27;components/control/md-select-table/row&#x27;,
-
-  customIcons: {
-    &#x27;sort-asc&#x27;: &#x27;fa fa-caret-up&#x27;,
-    &#x27;sort-desc&#x27;: &#x27;fa fa-caret-down&#x27;,
-    &#x27;column-visible&#x27;: &#x27;fa fa-check-square-o&#x27;,
-    &#x27;column-hidden&#x27;: &#x27;fa fa-square-o&#x27;,
-    &#x27;nav-first&#x27;: &#x27;fa fa-fast-backward&#x27;,
-    &#x27;nav-prev&#x27;: &#x27;fa fa-backward&#x27;,
-    &#x27;nav-next&#x27;: &#x27;fa fa-forward&#x27;,
-    &#x27;nav-last&#x27;: &#x27;fa fa-fast-forward&#x27;,
-    &#x27;caret&#x27;: &#x27;fa fa-caret-down&#x27;,
-    &#x27;select-row&#x27;: &#x27;fa fa-fw fa-check-square-o&#x27;,
-    &#x27;deselect-row&#x27;: &#x27;fa fa-fw fa-square-o&#x27;,
-    &#x27;select-all-rows&#x27;: &#x27;fa fa-fw fa-check-square-o&#x27;,
-    &#x27;deselect-all-rows&#x27;: &#x27;fa fa-fw fa-square-o&#x27;
-  },
-
-  customClasses: {
-    &#x27;table&#x27;: &#x27;table table-striped table-bordered table-condensed table-hover&#x27;
-  },
 
   multipleSelect: true,
 
@@ -383,22 +362,20 @@ export default Table.extend({
       this.get(&#x27;select&#x27;)(rec, idx, sel);
     },
 
-    toggleAll() {
+    toggleAllSelection() {
+      this._super(...arguments);
+
       let selected = get(this, &#x27;_selectedItems&#x27;);
       let data = get(this, &#x27;data&#x27;);
 
-      if(get(selected, &#x27;length&#x27;) === get(data, &#x27;length&#x27;)) {
-        selected.setEach(&#x27;_selected&#x27;, undefined);
-        selected.clear();
-        this.userInteractionObserver();
-        return false;
+      if(get(selected, &#x27;length&#x27;)) {
+        selected.setEach(&#x27;_selected&#x27;, true);
+        return;
       }
 
-      data.setEach(&#x27;_selected&#x27;, true);
-      set(this, &#x27;_selectedItems&#x27;, data.slice());
+      data.setEach(&#x27;_selected&#x27;, false);
 
       this.get(&#x27;select&#x27;)(null, null, selected);
-      this.userInteractionObserver();
     }
   }
 });

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/77982beb" target="_blank">
-                                  Tag: 0.0.0.77982beb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d594dcf" target="_blank">
+                                  Tag: 0.0.0.2d594dcf
                                 </a>
                             </h4>
                         </div>
@@ -322,7 +322,13 @@ export default Component.extend(Validations, {
   linkedAssociation: computed(
     &#x27;linkedRecord.json.metadata.associatedResource.[]&#x27;,
     function() {
-      return this.get(&#x27;linkedRecord.json.metadata.associatedResource&#x27;).findBy(
+      let ar = this.get(&#x27;linkedRecord.json.metadata.associatedResource&#x27;);
+
+      if(!ar) {
+        return null;
+      }
+
+      return ar.findBy(
         &#x27;mdRecordId&#x27;, this.get(&#x27;recordId&#x27;));
     }),
 
@@ -332,11 +338,10 @@ export default Component.extend(Validations, {
     },
     set(key, value) {
       let assoc = this.get(&#x27;linkedAssociation&#x27;);
+      let model = this.get(&#x27;linkedRecord&#x27;);
 
       if(!assoc) {
-        let model = this.get(&#x27;linkedRecord&#x27;);
-
-        set(model, &#x27;associatedResource&#x27;, getWithDefault(model,
+        set(model, &#x27;json.metadata.associatedResource&#x27;, getWithDefault(model,
           &#x27;associatedResource&#x27;, []));
 
         model.get(&#x27;json.metadata.associatedResource&#x27;).pushObject({
@@ -344,10 +349,13 @@ export default Component.extend(Validations, {
           associationType: value
         });
 
+        model.notifyPropertyChange(&#x27;hasDirtyHash&#x27;);
+
         return value;
       }
 
-      assoc.set(&#x27;associationType&#x27;, value);
+      set(assoc, &#x27;associationType&#x27;, value);
+      model.notifyPropertyChange(&#x27;hasDirtyHash&#x27;);
 
       return value;
     }

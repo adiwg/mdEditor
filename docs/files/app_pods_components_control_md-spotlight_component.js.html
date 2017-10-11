@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/77982beb" target="_blank">
-                                  Tag: 0.0.0.77982beb
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d594dcf" target="_blank">
+                                  Tag: 0.0.0.2d594dcf
                                 </a>
                             </h4>
                         </div>
@@ -244,7 +244,7 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Ember from &#x27;ember&#x27;;
-import ModalDialog from &#x27;ember-modal-dialog/components/tether-dialog&#x27;;
+import ModalDialog from &#x27;ember-modal-dialog/components/modal-dialog&#x27;;
 
 const {
   inject: {
@@ -259,7 +259,7 @@ export default ModalDialog.extend({
    * @class md-spotlight
    * @module mdeditor
    * @submodule components-control
-   * @extends tether-dialog
+   * @extends modal-dialog
    * @uses service-spotlight
    * @constructor
    */
@@ -277,6 +277,7 @@ export default ModalDialog.extend({
   targetAttachment: &#x27;none&#x27;,
   translucentOverlay: true,
   clickOutsideToClose: false,
+  tetherTarget: &#x27;viewport&#x27;,
 
   // /**
   // * The id of the DOM element to spotlight. Uses the spotlight service &quot;elementId&quot;
@@ -307,9 +308,14 @@ export default ModalDialog.extend({
   // },
 
   actions: {
-    close() {
-      this.get(&#x27;spotlight&#x27;).close();
+    onClose() {
       this._super(...arguments);
+      this.get(&#x27;spotlight&#x27;).close();
+    },
+
+    onClickOverlay() {
+      this._super(...arguments);
+      this.get(&#x27;spotlight&#x27;).close();
     }
   }
 });
