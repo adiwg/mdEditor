@@ -106,8 +106,9 @@
   },
   "ember-addon": {
     "paths": [
+      "lib/ember-json-tree",
       "lib/ember-leaflet-table",
-      "lib/ember-json-tree"
+      "lib/mdeditor-sciencebase"
     ]
   }
 }
