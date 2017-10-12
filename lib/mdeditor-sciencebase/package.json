@@ -2,5 +2,12 @@
   "name": "mdeditor-sciencebase",
   "keywords": [
     "ember-addon"
-  ]
+  ],
+  "dependencies": {
+    "babel-plugin-htmlbars-inline-precompile": "^0.1.0",
+    "ember-cli-babel": "^6.3.0",
+    "ember-cli-htmlbars": "^2.0.1",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.0",
+    "ember-cli-sass": "~7.0.0"
+  }
 }
