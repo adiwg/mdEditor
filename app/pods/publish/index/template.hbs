@@ -1,2 +1,22 @@
-{{#link-to "publish.sciencebase"}} SB {{/link-to}}
-{{outlet}}
+<h3 class="text-info">Click to choose a publishing service:</h3>
+
+<div class="list-group">
+  {{#each model as |catalog|}}
+    {{#link-to (concat "publish." catalog.route) class="list-group-item" }}
+    <div class="media">
+      <div class="media-left media-middle">
+          {{#if catalog.image}}
+            <img class="media-object fa-fw fa-5x" src="{{catalog.image}}" alt="{{catalog.title}} icon">
+          {{else}}
+            {{fa-icon (if catalog.icon catalog.icon "list-alt") size="5" fixedWidth=true class="text-info"}}
+          {{/if}}
+      </div>
+      <div class="media-body">
+        {{!-- <h4 >Middle aligned media</h4> --}}
+          <h1 class="media-heading">{{catalog.name}}</h1>
+          <p class="text-muted">{{catalog.description}}</p>
+      </div>
+    </div>
+    {{/link-to}}
+  {{/each}}
+</div>
