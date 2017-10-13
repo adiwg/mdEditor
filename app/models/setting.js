@@ -20,7 +20,7 @@ export default DS.Model.extend({
     //this.on('didUpdate', this, this.wasUpdated);
     this.on('didLoad', this, this.wasLoaded);
     //this.on('didUpdate', this, this.wasLoaded);
-    this.get('hasDirtyAttributes');
+    this.get('updateSettings');
   },
   //cleaner: inject.service(),
   compressOnSave: DS.attr('boolean', {

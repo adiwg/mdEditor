@@ -44,9 +44,12 @@ export default Service.extend({
         set(settings, 'repositoryDefaults', getWithDefault(settings,
           'repositoryDefaults', []));
 
+        settings.notifyPropertyChange('hasDirtyAttributes');
+
         if(!(me.get('isDestroyed') || me.get('isDestroying'))) {
           me.set('data', settings);
         }
+
       });
   },
   repositoryTemplate: Ember.Object.extend({
