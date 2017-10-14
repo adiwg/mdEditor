@@ -37,6 +37,15 @@
 
   .tree-cell {
     display: table-cell;
+    vertical-align: middle;
+  }
+
+  .tree-icon {
+    font-size: 1.25em;
+  }
+
+  .tree-fill {
+    width: 100%;
   }
 
   .tree-indent {
@@ -46,12 +55,11 @@
 
   span.icon {
     margin-right: 5px;
-    width: 12px;
+    min-width: 12px;
   }
 
-  .node-tip {
+  .badge {
     background-color: $gray-base;
-    float: right;
   }
 
   .toggle-icon {

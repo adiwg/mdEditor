@@ -117,6 +117,9 @@ export default Model.extend(Validations, Copyable, {
 
   recordId: computed.alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
+    
+  parentIds: computed.alias(
+    'json.metadata.metadataInfo.parentMetadata.identifier'),
 
   defaultType: computed.alias(
     'json.metadata.resourceInfo.resourceType.firstObject.type'),

@@ -18,5 +18,12 @@
       </div>
     </div>
     {{/link-to}}
+  {{else}}
+  <div class="card card-inverse card-warning">
+    <div class="card-block">
+      <h4 class="card-title">{{fa-icon "exclamation-triangle"}} No Services Available!</h4>
+      <p class="card-text">No publication services have been configured. Contact your technical support for assistance.</p>
+    </div>
+  </div>
   {{/each}}
 </div>

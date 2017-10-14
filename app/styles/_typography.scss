@@ -1,6 +1,6 @@
 .md-fa-link i.fa {
-  padding-left: .3em;
-  padding-right: .3em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
 }
 
 .page-header {
@@ -23,9 +23,13 @@
 }
 
 a {
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 .wrapped {
   white-space: normal !important;
+}
+
+.text-white {
+  color: #fff !important;
 }
