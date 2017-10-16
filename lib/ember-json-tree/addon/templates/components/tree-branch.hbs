@@ -1,18 +1,26 @@
-{{tree-leaf model=model
-  inTree=true
-  select=select
-  selected=selected
-  hover=hover
-  nodeDepth=nodeDepth
-  nodePath=nodePath
-}}
-
-{{#if model.isExpanded}}
-  {{tree-view model=model.children
+{{#draggable-object content=this sortingScope="elementId" isDraggable=model.draggable dragStartAction="dragStart"}}
+  {{#draggable-object-target validateDragEvent=validateDragEvent validateDrag=validateDrag dragged=dragged}}
+  {{tree-leaf model=model
+    inTree=true
     select=select
     selected=selected
     hover=hover
-    parentDepth=nodeDepth
-    parentPath=nodePath
+    nodeDepth=nodeDepth
+    nodePath=nodePath
+    disableCheck=disableCheck
+    labelComponent=labelComponent
   }}
-{{/if}}
+  {{/draggable-object-target}}
+
+  {{#if model.isExpanded}}
+    {{tree-view model=model.children
+      select=select
+      selected=selected
+      hover=hover
+      parentDepth=nodeDepth
+      parentPath=nodePath
+      disableCheck=disableCheck
+      labelComponent=labelComponent
+    }}
+  {{/if}}
+{{/draggable-object}}

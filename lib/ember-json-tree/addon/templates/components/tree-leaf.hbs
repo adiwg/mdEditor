@@ -1,3 +1,9 @@
+<span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
+  {{#if model.draggable}}
+  {{fa-icon "ellipsis-v" fixedWidth=false}}
+  {{/if}}
+</span>
+
 {{#if inTree}}
 <span class="tree-cell text-nowrap">
   {{#each (range 1 nodeDepth)}}
@@ -6,19 +12,22 @@
 </span>
 
 <span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
-  {{#if model.checkable}}
-  {{!-- <input type="checkbox" checked={{model.isChecked}} > --}}
-  {{fa-icon (if model.isChecked "check-square-o" "square-o") fixedWidth=true}}
-  {{/if}}
+  {{#unless disableCheck}}
+    {{#if model.checkable}}
+      {{fa-icon (if model.isChecked "check-square-o" "square-o") fixedWidth=true}}
+    {{else}}
+      <span class="icon fa fa-fw"></span>
+    {{/if}}
+  {{/unless}}
 </span>
 <span class="tree-cell tree-icon">
   <span class="toggle-icon" {{action 'toggleExpand' bubbles=false}}>
     {{#if model.children.length}}
-    {{#if model.isExpanded}}
-    <span class="icon expand-icon fa fa-minus fa-fw"></span>
-    {{else}}
-    <span class="icon expand-icon fa fa-plus  fa-fw"></span>
-    {{/if}}
+      {{#if model.isExpanded}}
+      <span class="icon expand-icon fa fa-minus fa-fw"></span>
+      {{else}}
+      <span class="icon expand-icon fa fa-plus  fa-fw"></span>
+      {{/if}}
     {{else}}
     <span class="icon fa fa-fw"></span>
     {{/if}}
@@ -27,7 +36,7 @@
 
 <span class="tree-cell tree-fill">
   <span class="tree-cell">
-    {{tree-label model=model}}
+    {{tree-label model=model labelComponent=labelComponent}}
   </span>
 </span>
 {{#if model.definition}}
@@ -38,5 +47,5 @@
    </span>
 {{/if}}
 {{else}}
-  {{tree-label model=model path=model.path highlight=highlight}}
+  {{tree-label labelComponent=labelComponent model=model path=model.path highlight=highlight}}
 {{/if}}

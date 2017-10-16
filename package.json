@@ -61,6 +61,7 @@
     "ember-cp-validations": "3.5.0",
     "ember-crumbly": "^1.0.2",
     "ember-data": "~2.15.0",
+    "ember-drag-drop": "^0.4.6",
     "ember-elsewhere": "1.0.2",
     "ember-export-application-global": "^2.0.0",
     "ember-font-awesome": "^3.0",

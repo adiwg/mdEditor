@@ -1,1 +1,5 @@
-<span class="tree-label-text">{{label}}</span>
+{{#if labelComponent}}
+  {{component labelComponent model=model}}
+{{else}}
+  <span class="tree-label-text">{{label}}</span>
+{{/if}}
