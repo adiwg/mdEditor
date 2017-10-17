@@ -1,5 +1,5 @@
 {{#draggable-object content=this sortingScope="elementId" isDraggable=model.draggable dragStartAction="dragStart"}}
-  {{#draggable-object-target validateDragEvent=validateDragEvent validateDrag=validateDrag dragged=dragged}}
+  {{#draggable-object-target validateDragEvent=validateDragEvent validateDrag=validateDrag dragged=tree.dragged}}
   {{tree-leaf model=model
     inTree=true
     select=select
@@ -21,6 +21,8 @@
       parentPath=nodePath
       disableCheck=disableCheck
       labelComponent=labelComponent
+      tree=tree
+      validateDrag=tree.validateDrag
     }}
   {{/if}}
 {{/draggable-object}}

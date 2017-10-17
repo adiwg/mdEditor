@@ -117,9 +117,23 @@ export default Model.extend(Validations, Copyable, {
 
   recordId: computed.alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
-    
+
   parentIds: computed.alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
+
+  hasParent: computed('parentIds.[]', function() {
+    let ids = this.get('parentIds');
+    let records = this.get('store').peekAll('record').rejectBy(
+      'hasSchemaErrors');
+
+    if(!ids) {
+      return false;
+    }
+
+    return ids.find((id)=>{
+      return records.findBy('recordId', id.identifier) ? true : false;
+    });
+  }),
 
   defaultType: computed.alias(
     'json.metadata.resourceInfo.resourceType.firstObject.type'),

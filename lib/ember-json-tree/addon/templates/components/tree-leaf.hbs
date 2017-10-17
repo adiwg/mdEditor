@@ -1,14 +1,14 @@
-<span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
-  {{#if model.draggable}}
-  {{fa-icon "ellipsis-v" fixedWidth=false}}
-  {{/if}}
-</span>
-
 {{#if inTree}}
 <span class="tree-cell text-nowrap">
   {{#each (range 1 nodeDepth)}}
     <span class="tree-indent"></span>
   {{/each}}
+</span>
+
+<span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
+  {{#if model.draggable}}
+  {{fa-icon "ellipsis-v" fixedWidth=false}}
+  {{/if}}
 </span>
 
 <span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
