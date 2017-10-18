@@ -1,5 +1,11 @@
-{{#draggable-object content=this sortingScope="elementId" isDraggable=model.draggable dragStartAction="dragStart"}}
-  {{#draggable-object-target validateDragEvent=validateDragEvent validateDrag=validateDrag dragged=tree.dragged}}
+{{#nestable-draggable-object content=this isDraggable=model.draggable dragStartAction="dragStart"}}
+  {{#draggable-object-target
+    action=handleDrop
+    model=model
+    validateDragEvent=validateDragEvent
+    validateDrag=validateDrag
+    dragged=tree.dragged
+  }}
   {{tree-leaf model=model
     inTree=true
     select=select
@@ -23,6 +29,7 @@
       labelComponent=labelComponent
       tree=tree
       validateDrag=tree.validateDrag
+      handleDrop=tree.handleDrop
     }}
   {{/if}}
-{{/draggable-object}}
+{{/nestable-draggable-object}}

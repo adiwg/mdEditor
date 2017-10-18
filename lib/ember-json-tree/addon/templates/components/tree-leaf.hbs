@@ -1,9 +1,11 @@
 {{#if inTree}}
-<span class="tree-cell text-nowrap">
-  {{#each (range 1 nodeDepth)}}
-    <span class="tree-indent"></span>
-  {{/each}}
-</span>
+{{#unless model.isRoot}}
+  <span class="tree-cell text-nowrap">
+    {{#each (range 1 nodeDepth)}}
+      <span class="tree-indent"></span>
+    {{/each}}
+  </span>
+{{/unless}}
 
 <span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
   {{#if model.draggable}}
@@ -11,28 +13,29 @@
   {{/if}}
 </span>
 
-<span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
-  {{#unless disableCheck}}
-    {{#if model.checkable}}
-      {{fa-icon (if model.isChecked "check-square-o" "square-o") fixedWidth=true}}
-    {{else}}
-      <span class="icon fa fa-fw"></span>
-    {{/if}}
+{{#unless disableCheck}}
+  {{#unless model.hideCheck}}
+  <span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
+      {{#if model.checkable}}
+        {{fa-icon (if model.isChecked "check-square-o" "square-o") fixedWidth=true}}
+      {{else}}
+        <span class="icon fa fa-fw"></span>
+      {{/if}}
+  </span>
   {{/unless}}
-</span>
+{{/unless}}
+
+{{#unless model.hideToggle}}
 <span class="tree-cell tree-icon">
   <span class="toggle-icon" {{action 'toggleExpand' bubbles=false}}>
     {{#if model.children.length}}
-      {{#if model.isExpanded}}
-      <span class="icon expand-icon fa fa-minus fa-fw"></span>
-      {{else}}
-      <span class="icon expand-icon fa fa-plus  fa-fw"></span>
-      {{/if}}
+      {{fa-icon (if model.isExpanded "minus" "plus") fixedWidth=true class="icon expand-icon"}}
     {{else}}
-    <span class="icon fa fa-fw"></span>
+      <span class="icon fa fa-fw"></span>
     {{/if}}
   </span>
 </span>
+{{/unless}}
 
 <span class="tree-cell tree-fill">
   <span class="tree-cell">

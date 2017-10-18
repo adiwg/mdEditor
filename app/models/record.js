@@ -104,7 +104,7 @@ export default Model.extend(Validations, Copyable, {
   title: computed.alias('json.metadata.resourceInfo.citation.title'),
 
   icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
-    function() {
+    function () {
       const type = this.get(
           'json.metadata.resourceInfo.resourceType.firstObject.type') ||
         '';
@@ -117,21 +117,26 @@ export default Model.extend(Validations, Copyable, {
 
   recordId: computed.alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
+  recordIdNamespace: computed.alias(
+    'json.metadata.metadataInfo.metadataIdentifier.namespace'),
 
   parentIds: computed.alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
-  hasParent: computed('parentIds.[]', function() {
+  hasParent: computed('parentIds.[]', function () {
     let ids = this.get('parentIds');
-    let records = this.get('store').peekAll('record').rejectBy(
-      'hasSchemaErrors');
+    let records = this.get('store')
+      .peekAll('record')
+      .rejectBy(
+        'hasSchemaErrors');
 
     if(!ids) {
       return false;
     }
 
-    return ids.find((id)=>{
-      return records.findBy('recordId', id.identifier) ? true : false;
+    return ids.find((id) => {
+      return records.findBy('recordId', id.identifier) ? true :
+        false;
     });
   }),
 
@@ -147,7 +152,7 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed('recordId', function() {
+  shortId: Ember.computed('recordId', function () {
     const recordId = this.get('recordId');
     if(recordId) {
       let index = recordId.indexOf('-');
@@ -158,16 +163,24 @@ export default Model.extend(Validations, Copyable, {
     return recordId;
   }),
 
-  hasSchemaErrors: computed('status', function() {
+  hasSchemaErrors: computed('status', function () {
     let mdjson = this.get('mdjson');
-    let errors = mdjson.validateRecord(this).errors;
+    let errors = mdjson.validateRecord(this)
+      .errors;
 
     //console.log(errors);
 
     return errors;
   }),
 
-  status: computed('hasDirtyHash', function() {
+  formatted: computed(function () {
+      let mdjson = this.get('mdjson');
+
+      return mdjson.formatRecord(this);
+    })
+    .volatile(),
+
+  status: computed('hasDirtyHash', function () {
     let dirty = this.get('hasDirtyHash');
     let errors = this.get('hasSchemaErrors');
 
