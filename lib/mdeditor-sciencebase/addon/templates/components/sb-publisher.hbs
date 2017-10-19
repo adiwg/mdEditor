@@ -4,5 +4,17 @@
   </div>
   <div class="col-sm-2">
     <button type="button" class="btn btn-lg btn-primary" {{action "publish"}}>Publish</button>
+
+    <hr>
+
+    {{#unless credInfo}}
+    <div class="=form">
+      {{input/md-input type="text" value=username label="Username"}}
+      {{input/md-input type="password" value=password label="Password"}}
+      <button type="button" class="btn btn-lg btn-success" {{action "login"}}>Login</button>
+    </div>
+    {{else}}
+    Logged in as: {{credInfo.username}}
+    {{/unless}}
   </div>
 </div>
