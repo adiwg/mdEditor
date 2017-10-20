@@ -1,1 +1,10 @@
-<span class="tree-label-text">{{fa-icon model.icon}} {{model.label}}</span>
+<span class="tree-label-text tree-cell">
+  <span class="tree-cell">
+    {{fa-icon model.icon}} {{model.label}}
+  </span>
+  {{#if model.isLoading}}
+    <span class="tree-cell text-warning">
+      {{fa-icon "spinner" spin=true}} Publishing...
+    </span>
+  {{/if}}
+</span>

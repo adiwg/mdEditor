@@ -1,20 +1,36 @@
 <div class="row">
-  <div class="col-sm-10">
+  <div class="col-sm-9">
     {{sb-tree labelComponent='sb-tree-label' model=model}}
   </div>
-  <div class="col-sm-2">
-    <button type="button" class="btn btn-lg btn-primary" {{action "publish"}}>Publish</button>
-
-    <hr>
-
-    {{#unless credInfo}}
-    <div class="=form">
-      {{input/md-input type="text" value=username label="Username"}}
-      {{input/md-input type="password" value=password label="Password"}}
-      <button type="button" class="btn btn-lg btn-success" {{action "login"}}>Login</button>
+  <div class="col-sm-3">
+  {{#if isLoadingCreds}}
+    <div class="text-info">
+      Logging in...
+      {{fa-icon "spinner" spin=true size=3}}
     </div>
-    {{else}}
-    Logged in as: {{credInfo.username}}
+  {{else}}
+    {{#unless credInfo}}
+      <div class="=form">
+        <h4 class="text-info">Login to ScienceBase</h4>
+        {{input/md-input type="text" value=username label="Username"}}
+        {{input/md-input type="password" value=password label="Password"}}
+        <button type="button"
+          class="btn btn-lg btn-success"
+          disabled={{canLogin}}
+          {{action "login"}}>Login</button>
+      </div>
+      {{else}}
+        <button type="button"
+          class="btn btn-lg btn-primary"
+          {{action "publish"}}>Publish</button>
+
+        <hr>
+        <div class="card">
+          <div class="card-block">
+            Logged in as: {{credInfo.username}}
+          </div>
+        </div>
     {{/unless}}
+  {{/if}}
   </div>
 </div>
