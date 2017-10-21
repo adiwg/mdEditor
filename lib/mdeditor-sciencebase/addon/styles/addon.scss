@@ -2,6 +2,11 @@
   .tree-label-text {
     .tree-cell {
       padding-left: .5em;
+      padding-right: .5em;
+
+      &:not(:first-child) {
+        border-left: 1px solid #ccc;
+      }
     }
   }
 }

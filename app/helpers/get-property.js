@@ -13,7 +13,7 @@ export default Helper.helper(
     let val = null;
 
     if(obj) {
-      val = get(obj, prop) || obj[prop];
+      val = get(obj, prop);
     }
     return val || EmberString.htmlSafe("<em>Not Defined</em>");
   }

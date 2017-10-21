@@ -11,7 +11,7 @@ export function getDash(params /*, hash*/ ) {
   let val = null;
 
   if(obj) {
-    val = get(obj, prop) || obj[prop];
+    val = get(obj, prop);
   }
   return val || "--";
 }

@@ -2,9 +2,21 @@
   <span class="tree-cell">
     {{fa-icon model.icon}} {{model.label}}
   </span>
+
+  {{#unless model.isRoot}}
+  <span class="tree-cell"> SB Id:
+    {{#if model.sbId}}
+        <a href="{{model.config.rootItemURL}}{{model.sbId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
+          {{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
+        </a>
+    {{else}}
+      <em>Not Defined</em>
+    {{/if}}
+  </span>
+  {{/unless}}
+
   {{#if model.isLoading}}
-    <span class="tree-cell text-warning">
-      {{fa-icon "spinner" spin=true}} Publishing...
-    </span>
+    <span class="tree-cell
+  text-info"> <strong>{{fa-icon "spinner" spin=true}} Publishing... </strong></span>
   {{/if}}
 </span>
