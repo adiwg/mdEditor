@@ -10,10 +10,10 @@ const {
 export default Select.extend({
   layout,
   objectArray: computed(function() {
-    return Array.apply(0, Array(10))
+    return Array.apply(0, Array(12))
       .map(function(element, index) {
         return {
-          year: index + (moment().year() - 5)
+          year: index + (moment().year() - 10)
         };
       });
   }),
@@ -21,12 +21,12 @@ export default Select.extend({
   valuePath: 'year',
   namePath: 'year',
   tooltip: false,
-  searchEnabled: false,
+  searchEnabled: true,
   placeholder: 'Select a Fiscal Year.',
+  create: true,
   change(){
     let val = this.get('value');
-
-    let start = moment(val, 'YYYY').subtract('year', 1).month('October').startOf('month');
+    let start = moment(val, 'YYYY').subtract(1, 'year').month('October').startOf('month');
     let end = moment(val, 'YYYY').month('September').endOf('month');
 
     this.setProperties({
