@@ -1,4 +1,4 @@
-<span class="tree-label-text tree-cell">
+<span class="tree-label-text tree-cell {{if model.notSelectable "text-muted"}}">
   <span class="tree-cell">
     {{fa-icon model.icon}} {{model.label}}
   </span>
@@ -8,6 +8,15 @@
     {{#if model.sbId}}
         <a href="{{model.config.rootItemURL}}{{model.sbId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
           {{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
+        </a>
+    {{else}}
+      <em>Not Defined</em>
+    {{/if}}
+  </span>
+  <span class="tree-cell"> Parent Id:
+    {{#if model.sbParentId}}
+        <a href="{{model.config.rootItemURL}}{{model.sbParentId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
+          {{model.sbParentId}}<sup>{{fa-icon "external-link"}}</sup>
         </a>
     {{else}}
       <em>Not Defined</em>

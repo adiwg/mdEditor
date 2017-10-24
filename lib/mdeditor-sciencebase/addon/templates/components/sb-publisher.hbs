@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-sm-9">
-    {{sb-tree labelComponent='sb-tree-label' model=model select=(action "selectRecord")}}
+    {{sb-tree labelComponent='sb-tree-label' model=model selected=selected select=(action "selectRecord")}}
   </div>
   <div class="col-sm-3">
   {{#if isLoadingCreds}}
@@ -22,8 +22,8 @@
       {{else}}
         <button type="button"
           class="btn btn-lg btn-primary"
+          disabled={{if canPublish false true}}
           {{action "publish"}}>Publish</button>
-
         <hr>
         <div class="card">
           <div class="card-block">

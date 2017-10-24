@@ -104,7 +104,7 @@ export default Model.extend(Validations, Copyable, {
   title: computed.alias('json.metadata.resourceInfo.citation.title'),
 
   icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
-    function () {
+    function() {
       const type = this.get(
           'json.metadata.resourceInfo.resourceType.firstObject.type') ||
         '';
@@ -123,7 +123,7 @@ export default Model.extend(Validations, Copyable, {
   parentIds: computed.alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
-  hasParent: computed('parentIds.[]', function () {
+  hasParent: computed('parentIds.[]', function() {
     let ids = this.get('parentIds');
     let records = this.get('store')
       .peekAll('record')
@@ -140,6 +140,19 @@ export default Model.extend(Validations, Copyable, {
     });
   }),
 
+  defaultParent: computed('hasParent', function() {
+    let id = this.get('hasParent.identifier');
+
+    if(!id) {
+      return undefined;
+    }
+
+    return this.get('store')
+      .peekAll('record')
+      .findBy(
+        'recordId', id);
+  }),
+
   defaultType: computed.alias(
     'json.metadata.resourceInfo.resourceType.firstObject.type'),
 
@@ -152,7 +165,7 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed('recordId', function () {
+  shortId: Ember.computed('recordId', function() {
     const recordId = this.get('recordId');
     if(recordId) {
       let index = recordId.indexOf('-');
@@ -163,7 +176,7 @@ export default Model.extend(Validations, Copyable, {
     return recordId;
   }),
 
-  hasSchemaErrors: computed('status', function () {
+  hasSchemaErrors: computed('status', function() {
     let mdjson = this.get('mdjson');
     let errors = mdjson.validateRecord(this)
       .errors;
@@ -173,14 +186,14 @@ export default Model.extend(Validations, Copyable, {
     return errors;
   }),
 
-  formatted: computed(function () {
+  formatted: computed(function() {
       let mdjson = this.get('mdjson');
 
       return mdjson.formatRecord(this);
     })
     .volatile(),
 
-  status: computed('hasDirtyHash', function () {
+  status: computed('hasDirtyHash', function() {
     let dirty = this.get('hasDirtyHash');
     let errors = this.get('hasSchemaErrors');
 

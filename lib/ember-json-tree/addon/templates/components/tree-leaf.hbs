@@ -39,7 +39,7 @@
 
 <span class="tree-cell tree-fill">
   <span class="tree-cell">
-    {{tree-label model=model labelComponent=labelComponent}}
+    {{tree-label model=model labelComponent=labelComponent nodePath=nodePath selected=selected}}
   </span>
 </span>
 {{#if model.definition}}
@@ -50,5 +50,5 @@
    </span>
 {{/if}}
 {{else}}
-  {{tree-label labelComponent=labelComponent model=model path=model.path highlight=highlight}}
+  {{tree-label labelComponent=labelComponent model=model nodePath=nodePath selected=selected highlight=highlight}}
 {{/if}}
