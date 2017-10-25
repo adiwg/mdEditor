@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.2d594dcf",
+        "version": "0.0.0.26caf240",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -863,7 +863,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 9,
+            "line": 10,
             "description": "The mdEditor application instance.",
             "category": [
                 "docs"
@@ -1039,7 +1039,7 @@
             "module": "ember-json-tree",
             "namespace": "",
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 9,
+            "line": 10,
             "description": "Renders JSON tree structures.",
             "tag": "main",
             "itemtype": "main",
@@ -1748,7 +1748,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "lib/ember-json-tree/addon/components/tree-leaf.js",
-            "line": 11,
+            "line": 12,
             "submodule": "tree-view"
         },
         "tree-search": {
@@ -1776,7 +1776,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 9,
+            "line": 10,
             "submodule": "tree-view"
         },
         "make-range": {
@@ -2081,7 +2081,7 @@
         },
         {
             "file": "app/models/record.js",
-            "line": 124,
+            "line": 159,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -6119,7 +6119,7 @@
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 24,
+            "line": 31,
             "description": "Array containing initially selected node objects (models).\nObjects in the array must have an identifier property.",
             "itemtype": "property",
             "name": "selected",
@@ -6130,7 +6130,18 @@
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 32,
+            "line": 39,
+            "description": "Message to display when model is empty.",
+            "itemtype": "property",
+            "name": "emptyMessage",
+            "type": "{String}",
+            "class": "tree-view",
+            "module": "mdeditor",
+            "submodule": "tree-view"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-view.js",
+            "line": 46,
             "description": "Called when a tree node is selected. Override as needed.",
             "params": [
                 {
@@ -6148,6 +6159,18 @@
                 "description": "selected leaf node model",
                 "type": "Object"
             },
+            "class": "tree-view",
+            "module": "mdeditor",
+            "submodule": "tree-view"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-view.js",
+            "line": 57,
+            "description": "Validates drag events. Override this to restrict which data types your\ncomponent accepts.\n\nExample:\n\n```js\nvalidateDragEvent: function(event) {\n  return event.dataTransfer.types.contains('text/x-foo');\n}\n```",
+            "itemtype": "method",
+            "name": "validateDragEvent",
+            "access": "public",
+            "tagname": "",
             "class": "tree-view",
             "module": "mdeditor",
             "submodule": "tree-view"
@@ -6333,7 +6356,7 @@
         },
         {
             "message": "Missing item type\nCalled when a tree node is selected. Override as needed.",
-            "line": " lib/ember-json-tree/addon/components/tree-view.js:32"
+            "line": " lib/ember-json-tree/addon/components/tree-view.js:46"
         }
     ]
 }

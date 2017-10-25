@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d594dcf" target="_blank">
-                                  Tag: 0.0.0.2d594dcf
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26caf240" target="_blank">
+                                  Tag: 0.0.0.26caf240
                                 </a>
                             </h4>
                         </div>
@@ -362,6 +362,41 @@ export default Model.extend(Validations, Copyable, {
 
   recordId: computed.alias(
     &#x27;json.metadata.metadataInfo.metadataIdentifier.identifier&#x27;),
+  recordIdNamespace: computed.alias(
+    &#x27;json.metadata.metadataInfo.metadataIdentifier.namespace&#x27;),
+
+  parentIds: computed.alias(
+    &#x27;json.metadata.metadataInfo.parentMetadata.identifier&#x27;),
+
+  hasParent: computed(&#x27;parentIds.[]&#x27;, function() {
+    let ids = this.get(&#x27;parentIds&#x27;);
+    let records = this.get(&#x27;store&#x27;)
+      .peekAll(&#x27;record&#x27;)
+      .rejectBy(
+        &#x27;hasSchemaErrors&#x27;);
+
+    if(!ids) {
+      return false;
+    }
+
+    return ids.find((id) =&gt; {
+      return records.findBy(&#x27;recordId&#x27;, id.identifier) ? true :
+        false;
+    });
+  }),
+
+  defaultParent: computed(&#x27;hasParent&#x27;, function() {
+    let id = this.get(&#x27;hasParent.identifier&#x27;);
+
+    if(!id) {
+      return undefined;
+    }
+
+    return this.get(&#x27;store&#x27;)
+      .peekAll(&#x27;record&#x27;)
+      .findBy(
+        &#x27;recordId&#x27;, id);
+  }),
 
   defaultType: computed.alias(
     &#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;),
@@ -388,12 +423,20 @@ export default Model.extend(Validations, Copyable, {
 
   hasSchemaErrors: computed(&#x27;status&#x27;, function() {
     let mdjson = this.get(&#x27;mdjson&#x27;);
-    let errors = mdjson.validateRecord(this).errors;
+    let errors = mdjson.validateRecord(this)
+      .errors;
 
     //console.log(errors);
 
     return errors;
   }),
+
+  formatted: computed(function() {
+      let mdjson = this.get(&#x27;mdjson&#x27;);
+
+      return mdjson.formatRecord(this);
+    })
+    .volatile(),
 
   status: computed(&#x27;hasDirtyHash&#x27;, function() {
     let dirty = this.get(&#x27;hasDirtyHash&#x27;);

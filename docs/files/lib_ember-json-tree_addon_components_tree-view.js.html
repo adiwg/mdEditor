@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d594dcf" target="_blank">
-                                  Tag: 0.0.0.2d594dcf
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26caf240" target="_blank">
+                                  Tag: 0.0.0.26caf240
                                 </a>
                             </h4>
                         </div>
@@ -247,7 +247,8 @@ import Ember from &#x27;ember&#x27;;
 import layout from &#x27;../templates/components/tree-view&#x27;;
 
 const {
-  Component
+  Component,
+  getWithDefault
 } = Ember;
 
 export default Component.extend({
@@ -256,13 +257,19 @@ export default Component.extend({
    * @submodule tree-view
    */
 
+  init() {
+    this._super(...arguments);
+
+    this.set(&#x27;tree&#x27;, getWithDefault(this, &#x27;tree&#x27;, this));
+  },
+
   layout,
   tagName: &#x27;ul&#x27;,
   classNames: [&#x27;tree-trunk list-group&#x27;],
 
   parentDepth: 0,
   parentPath: Ember.A(),
-  nodeDepth: Ember.computed(&#x27;depth&#x27;, function () {
+  nodeDepth: Ember.computed(&#x27;depth&#x27;, function() {
     return this.get(&#x27;parentDepth&#x27;) + 1;
   }),
 
@@ -275,15 +282,47 @@ export default Component.extend({
    */
 
   /**
+   * Message to display when model is empty.
+   *
+   * @property emptyMessage
+   * @type {String}
+   */
+
+  /**
    * Called when a tree node is selected. Override as needed.
    *
    * @param  {Object} model selected leaf node model
    * @param  {Object} path selected leaf path
    * @return {Object}       selected leaf node model
    */
-  select: function (model) {
+  select: function(model) {
     return model;
+  },
+
+  /**
+   * Validates drag events. Override this to restrict which data types your
+   * component accepts.
+   *
+   * Example:
+   *
+   * &#x60;&#x60;&#x60;js
+   * validateDragEvent: function(event) {
+   *   return event.dataTransfer.types.contains(&#x27;text/x-foo&#x27;);
+   * }
+   * &#x60;&#x60;&#x60;
+   *
+   * @method validateDragEvent
+   * @public
+   */
+
+  validateDrag: function() {
+    return true;
+  },
+
+  handleDrop: function() {
+    return true;
   }
+
 });
 
     </pre>

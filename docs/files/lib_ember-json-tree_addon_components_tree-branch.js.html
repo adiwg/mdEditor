@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2d594dcf" target="_blank">
-                                  Tag: 0.0.0.2d594dcf
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/26caf240" target="_blank">
+                                  Tag: 0.0.0.26caf240
                                 </a>
                             </h4>
                         </div>
@@ -266,7 +266,17 @@ export default Component.extend({
     node.push(this.get(&#x27;model&#x27;));
 
     return node;
-  })
+  }),
+  validateDragEvent: function(event) {
+    return this.validateDrag(event);
+  },
+  actions: {
+    dragStart(dragged){
+      this.set(&#x27;tree.dragged&#x27;, dragged);
+
+      return false;
+    }
+  }
 });
 
     </pre>
