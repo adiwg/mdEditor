@@ -1,25 +1,25 @@
 <span class="tree-label-text tree-cell {{if model.notSelectable "text-muted"}}">
   <span class="tree-cell">
     {{fa-icon model.icon}} {{model.label}}
-  </span>
+  {{!-- </span> --}}
 
-  {{#unless model.isRoot}}
-  <span class="tree-cell"> SB Id:
+  {{!-- <span class="tree-cell"> SB Id: --}}
     {{#if model.sbId}}
         <a href="{{model.config.rootItemURL}}{{model.sbId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
-          {{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
+          ({{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>)
         </a>
     {{else}}
-      <em>Not Defined</em>
+      <em>(No Id)</em>
     {{/if}}
   </span>
+  {{#unless model.isRoot}}
   <span class="tree-cell"> Parent Id:
     {{#if model.sbParentId}}
         <a href="{{model.config.rootItemURL}}{{model.sbParentId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
           {{model.sbParentId}}<sup>{{fa-icon "external-link"}}</sup>
         </a>
     {{else}}
-      <em>Not Defined</em>
+      <em>None</em>
     {{/if}}
   </span>
   {{/unless}}

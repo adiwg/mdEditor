@@ -122,4 +122,17 @@
     </td>
   {{/object/md-array-table}}
 {{/layout/md-card}}
+
+{{#layout/md-card title="Publishing Settings"}}
+  {{#each (compute (route-action "catalogs")) as |catalog|}}
+    {{#layout/md-card
+      title=catalog.name
+      collapsible=true
+      collapsed=true
+      shadow=false
+    }}
+    {{component catalog.settingsComponent model=model.publishOptions}}
+    {{/layout/md-card}}
+  {{/each}}
+{{/layout/md-card}}
  {{outlet}}

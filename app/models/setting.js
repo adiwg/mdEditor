@@ -53,6 +53,9 @@ export default DS.Model.extend({
     defaultValue: ''
   }),
   repositoryDefaults: DS.attr('json'),
+  publishOptions: DS.attr('json', {
+    defaultValue: {}
+  }),
   locale: computed.alias('defaultLocale'),
 
   wasLoaded() {

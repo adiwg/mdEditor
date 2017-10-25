@@ -1,0 +1,20 @@
+<div class="form">
+  {{input/md-input
+    label="Default Parent Identifier"
+    value=model.sb-defaultParent
+    placeholder="Enter the identifier for the default Parent item."
+    change=(route-action "save")
+  }}
+  {{input/md-input
+    label="Default Community"
+    value=model.sb-defaultCommunity
+    placeholder="Enter the default community for published items."
+    change=(route-action "save")
+  }}
+  {{input/md-input
+    label="Default Organization"
+    value=model.sb-defaultOrganization
+    placeholder="Enter the default organization for published items."
+    change=(route-action "save")
+  }}
+</div>

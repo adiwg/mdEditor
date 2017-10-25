@@ -1,7 +1,15 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
-  settings: Ember.inject.service(),
+const {
+  Route,
+  inject: {
+    service
+  }
+} = Ember;
+
+export default Route.extend({
+  settings: service(),
+  publish: service(),
   model() {
     // this.get('store').findAll('settings').then(function(settings) {
     //   return settings.get("firstObject");
@@ -16,6 +24,10 @@ export default Ember.Route.extend({
     },
     save(){
       this.currentRouteModel().save();
+    },
+
+    catalogs(){
+      return this.get('publish.catalogs');
     }
   }
 });
