@@ -1,5 +1,6 @@
 <label class="text-info required">Dates</label>
 {{input/md-datetime
+  class="start"
   valuePath="start"
   model=this
   showValidations=true
@@ -10,6 +11,7 @@
   placeholder="Enter start dateTime"
 }}
 {{input/md-datetime
+  class="end"
   valuePath="end"
   model=this
   showValidations=true
@@ -19,5 +21,5 @@
   format="YYYY-MM-DD HH:mm:ss"
   placeholder="Enter end dateTime"
 }}
-{{control/md-fiscalyear start=start end=end}}
+{{control/md-fiscalyear start="start" end="end" context=this}}
 {{yield}}
