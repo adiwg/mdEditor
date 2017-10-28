@@ -44,13 +44,12 @@ export default Component.extend({
       value: 'html',
       type: 'text/html',
       tip: 'HTML "human-readable" and printable report of the metadata content'
-    },
-    {
-      name: 'mdJSON',
-      value: 'mdJson',
-      type: 'application/json',
-      tip: 'Alaska Data Integration working group (ADIwg) metadata format'
     }, {
+    //   name: 'mdJSON',
+    //   value: 'mdJson',
+    //   type: 'application/json',
+    //   tip: 'Alaska Data Integration working group (ADIwg) metadata format'
+    // }, {
       name: 'sbJSON',
       value: 'sbJson',
       type: 'application/json',
