@@ -110,10 +110,22 @@ export default Service.extend({
       };
       //console.log(arguments);
       if(check[key] && !_contacts.includes(value)) {
-        if(!conts.get('contacts').findBy('contactId', value)) {
+        let contact = conts.get('contacts').findBy('contactId', value);
+
+        if(!contact) {
           return null;
         }
+
+        let orgs = contact.get('json.memberOfOrganization');
         _contacts.push(value);
+
+        if(orgs && orgs.length) {
+          orgs.forEach(itm => {
+            if(conts.get('contacts').findBy('contactId', itm)) {
+              _contacts.push(itm);
+            }
+          });
+        }
       }
 
       return value;
@@ -137,7 +149,7 @@ export default Service.extend({
 
         if(target) {
           if(array) {
-            target.forEach((item)=>{
+            target.forEach((item) => {
               set(item, path[1], undefined);
             });
 
