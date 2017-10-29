@@ -93,6 +93,9 @@ export default Table.extend({
   //rowTemplate: 'components/control/md-select-table/row',
 
   multipleSelect: true,
+  preselectedItems: computed(function() {
+    return this.get('data').filterBy('_selected');
+  }),
 
   /**
    * Callback on row selection.

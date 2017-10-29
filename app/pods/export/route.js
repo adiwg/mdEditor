@@ -17,19 +17,13 @@ const modelTypes = ['records', 'contacts', 'dictionaries', 'settings'];
 
 export default Ember.Route.extend(ScrollTo, {
   mdjson: inject.service(),
+  settings: inject.service(),
   model() {
-    const store = this.get('store');
+    //const store = this.get('store');
 
-    let settings;
-    let route = this;
-
-    return store.queryRecord('setting', {}).then(function(rec) {
-      settings = rec ? rec : store.createRecord('setting');
-
-      return EmObject.create({
-        records: route.modelFor('application'),
-        settings: settings
-      });
+    return EmObject.create({
+      records: this.modelFor('application'),
+      settings: this.get('settings.data')
     });
 
   },
