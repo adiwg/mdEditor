@@ -4,6 +4,9 @@ import uuidV4 from "npm:uuid/v4";
 import {
   JsonDefault as Contact
 } from 'mdeditor/models/contact';
+import {
+  allSettled
+} from 'rsvp';
 
 const generateIdForRecord = Base.create()
   .generateIdForRecord;
@@ -29,7 +32,6 @@ export default Route.extend({
   jsonvalidator: inject.service(),
   settings: inject.service(),
 
-
   setupController(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
@@ -49,14 +51,14 @@ export default Route.extend({
     let json = raw ? JSON.parse(raw) : null;
 
     switch(record.type) {
-    case 'records':
-      return json.metadata.resourceInfo.citation.title;
-    case 'dictionaries':
-      return json.dataDictionary.citation.title;
-    case 'contacts':
-      return json.name;
-    default:
-      return 'N/A';
+      case 'records':
+        return json.metadata.resourceInfo.citation.title;
+      case 'dictionaries':
+        return json.dataDictionary.citation.title;
+      case 'contacts':
+        return json.name;
+      default:
+        return 'N/A';
     }
   },
 
@@ -88,11 +90,11 @@ export default Route.extend({
       }));
     });
 
-    if(get(json,'metadata.metadataInfo.metadataIdentifier') === undefined){
-        json.metadata.metadataInfo.metadataIdentifier = {
-            identifier: uuidV4(),
-            namespace: 'urn:uuid'
-        };
+    if(get(json, 'metadata.metadataInfo.metadataIdentifier') === undefined) {
+      json.metadata.metadataInfo.metadataIdentifier = {
+        identifier: uuidV4(),
+        namespace: 'urn:uuid'
+      };
     }
 
     data.pushObject(template.create({
@@ -234,7 +236,7 @@ export default Route.extend({
           dataType: 'text',
           crossDomain: true
         })
-        .then(function (response, textStatus) {
+        .then(function(response, textStatus) {
 
           if(response && textStatus === 'success') {
             let json;
@@ -286,15 +288,14 @@ export default Route.extend({
 
     },
     importData() {
+      let store = this.store;
       let data = {
         data: this.currentRouteModel()
           .get('data')
-          .filter((record) => {
-            return record.meta.export;
-          })
+          .filterBy('meta.export').rejectBy('type', 'settings')
       };
 
-      this.store.importData(data, {
+      store.importData(data, {
           truncate: !this.currentRouteModel()
             .get('merge'),
           json: false
@@ -308,6 +309,35 @@ export default Route.extend({
               });
           //this.transitionTo('dashboard');
         });
+
+      let settingService = this.get('settings');
+      let newSettings = this.currentRouteModel().get('data').filterBy(
+        'meta.export').findBy('type', 'settings');
+
+      if(newSettings) {
+        let settings = {
+          data: [newSettings]
+        };
+        let destroys = [];
+
+        store.findAll('setting').forEach(rec => {
+          destroys.pushObject(rec.destroyRecord());
+        });
+
+        allSettled(destroys).then(() => {
+          store.importData(settings, {
+              json: false
+            })
+            .then(() => {
+              settingService.setup();
+              get(this, 'flashMessages')
+                .success(
+                  `Imported Settings.`, {
+                    extendedTimeout: 1500
+                  });
+            });
+        });
+      }
     },
     showPreview(model) {
       let json = {};
