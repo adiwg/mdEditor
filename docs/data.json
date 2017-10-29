@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.6e17a2b0",
+        "version": "0.0.0.e1932ce1",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2447,7 +2447,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 97,
+            "line": 100,
             "description": "Callback on row selection.",
             "itemtype": "method",
             "name": "select",
