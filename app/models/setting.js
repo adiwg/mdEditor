@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import EmberObject from "@ember/object";
 
 const {
   //inject,
@@ -54,7 +55,9 @@ export default DS.Model.extend({
   }),
   repositoryDefaults: DS.attr('json'),
   publishOptions: DS.attr('json', {
-    defaultValue: {}
+    defaultValue: function(){
+      return EmberObject.create();
+    }
   }),
   locale: computed.alias('defaultLocale'),
 
