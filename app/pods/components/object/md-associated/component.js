@@ -97,7 +97,7 @@ export default Component.extend(Validations, {
 
       if(!assoc) {
         set(model, 'json.metadata.associatedResource', getWithDefault(model,
-          'associatedResource', []));
+          'json.metadata.associatedResource', []));
 
         model.get('json.metadata.associatedResource').pushObject({
           mdRecordId: get(this, 'recordId'),
