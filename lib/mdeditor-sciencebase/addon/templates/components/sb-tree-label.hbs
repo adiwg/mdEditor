@@ -1,15 +1,15 @@
 <span class="tree-label-text tree-cell {{if model.notSelectable "text-muted"}}">
-  <span class="tree-cell">
+  <span class="tree-cell {{if model.isRoot "tree-root-label"}}">
     {{fa-icon model.icon}} {{model.label}}
   {{!-- </span> --}}
 
   {{!-- <span class="tree-cell"> SB Id: --}}
     {{#if model.sbId}}
-        <a href="{{model.config.rootItemURL}}{{model.sbId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
-          ({{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>)
+        : <a href="{{model.config.rootItemURL}}{{model.sbId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
+          {{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
         </a>
     {{else}}
-      <em>(No Id)</em>
+      <em>No Id</em>
     {{/if}}
   </span>
   {{#unless model.isRoot}}
@@ -22,10 +22,18 @@
       <em>None</em>
     {{/if}}
   </span>
-  {{/unless}}
 
   {{#if model.isLoading}}
-    <span class="tree-cell
-  text-info"> <strong>{{fa-icon "spinner" spin=true}} Publishing... </strong></span>
+    <span class="tree-cell text-info text-nowrap"> <strong>{{fa-icon "spinner" spin=true}} Publishing... </strong></span>
+  {{else}}
+    {{#if model.xhrError}}
+      <span class="tree-cell text-danger">{{fa-icon "exclamation-circle"}} Publishing Error
+          {{tooltip-on-element text=model.xhrError side="right"}}
+      </span>
+    {{else}}
+      <span class="tree-cell"> {{if model.sbDate (moment-format model.sbDate "LLL") "--"}}</span>
+    {{/if}}
   {{/if}}
+  {{/unless}}
+
 </span>

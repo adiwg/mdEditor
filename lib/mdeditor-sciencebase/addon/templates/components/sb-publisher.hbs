@@ -13,7 +13,7 @@
       <div class="=form">
         <h4 class="text-info">Login to ScienceBase</h4>
         {{input/md-input type="text" value=username label="Username"}}
-        {{input/md-input type="password" value=password label="Password"}}
+        {{input/md-input type="password" label="Password" change=(action "hash" value="target.value")}}
         <button type="button"
           class="btn btn-lg btn-success"
           disabled={{canLogin}}
