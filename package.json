@@ -55,7 +55,7 @@
     "ember-cli-shims": "^1.1.0",
     "ember-cli-sri": "^2.1.0",
     "ember-cli-string-helpers": "1.4.0",
-    "ember-cli-uglify": "^1.2.0",
+    "ember-cli-uglify": "^2.0.0",
     "ember-cli-yuidoc": "^0.8.8",
     "ember-composable-helpers": "^2.0.0",
     "ember-cp-validations": "3.5.0",
