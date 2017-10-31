@@ -1,4 +1,15 @@
 .sb-publisher {
+  .sb-parent-cell {
+    width: 220px;
+  }
+
+  .sb-date-cell {
+    width: 150px;
+  }
+  .sb-label-cell {
+    width: 1005;
+  }
+
   .tree-label-text {
     transition: color .5s linear;
 
@@ -16,7 +27,17 @@
     }
   }
 
-  .tree-label-dropped{
+  .tree-label-dropped {
     color: #f47c3c;
   }
+
+.sb-tree-root > div > .tree-trunk {
+  > .tree-node-unrooted {
+    border-top: 3px solid #29abe0;
+
+    ~ .tree-node-unrooted {
+      border-top: 3px solid #ccc;
+    }
+  }
+}
 }
