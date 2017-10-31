@@ -3,6 +3,7 @@
     {{sb-tree labelComponent='sb-tree-label' model=model selected=selected select=(action "selectRecord")}}
   </div>
   <div class="col-sm-3">
+  <div class="md-control-sidebar">
   {{#if isLoadingCreds}}
     <div class="text-info">
       Logging in...
@@ -32,5 +33,6 @@
         </div>
     {{/unless}}
   {{/if}}
+  </div>
   </div>
 </div>
