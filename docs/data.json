@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.47c88b93",
+        "version": "0.0.0.5a855d10",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -863,7 +863,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 10,
+            "line": 11,
             "description": "The mdEditor application instance.",
             "category": [
                 "docs"
@@ -1039,7 +1039,7 @@
             "module": "ember-json-tree",
             "namespace": "",
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 10,
+            "line": 11,
             "description": "Renders JSON tree structures.",
             "tag": "main",
             "itemtype": "main",
@@ -1776,7 +1776,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 10,
+            "line": 11,
             "submodule": "tree-view"
         },
         "make-range": {
@@ -6119,7 +6119,7 @@
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 31,
+            "line": 42,
             "description": "Array containing initially selected node objects (models).\nObjects in the array must have an identifier property.",
             "itemtype": "property",
             "name": "selected",
@@ -6130,7 +6130,7 @@
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 39,
+            "line": 50,
             "description": "Message to display when model is empty.",
             "itemtype": "property",
             "name": "emptyMessage",
@@ -6141,7 +6141,7 @@
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 46,
+            "line": 57,
             "description": "Called when a tree node is selected. Override as needed.",
             "params": [
                 {
@@ -6165,7 +6165,7 @@
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 57,
+            "line": 68,
             "description": "Validates drag events. Override this to restrict which data types your\ncomponent accepts.\n\nExample:\n\n```js\nvalidateDragEvent: function(event) {\n  return event.dataTransfer.types.contains('text/x-foo');\n}\n```",
             "itemtype": "method",
             "name": "validateDragEvent",
@@ -6356,7 +6356,7 @@
         },
         {
             "message": "Missing item type\nCalled when a tree node is selected. Override as needed.",
-            "line": " lib/ember-json-tree/addon/components/tree-view.js:46"
+            "line": " lib/ember-json-tree/addon/components/tree-view.js:57"
         }
     ]
 }

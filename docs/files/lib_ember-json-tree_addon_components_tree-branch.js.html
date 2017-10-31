@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47c88b93" target="_blank">
-                                  Tag: 0.0.0.47c88b93
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/5a855d10" target="_blank">
+                                  Tag: 0.0.0.5a855d10
                                 </a>
                             </h4>
                         </div>
@@ -258,7 +258,8 @@ export default Component.extend({
 
   layout,
   tagName: &#x27;li&#x27;,
-  classNames: [&#x27;tree-branch list-group-item&#x27;],
+  classNames: [&#x27;tree-branch&#x27;, &#x27;list-group-item&#x27;],
+  classNameBindings:[&#x27;model.nodeClass&#x27;],
   nodePath: Ember.computed(&#x27;path&#x27;, function () {
     let path = this.get(&#x27;path&#x27;);
     let node = path.copy();

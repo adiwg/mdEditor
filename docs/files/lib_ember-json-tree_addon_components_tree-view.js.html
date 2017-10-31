@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/47c88b93" target="_blank">
-                                  Tag: 0.0.0.47c88b93
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/5a855d10" target="_blank">
+                                  Tag: 0.0.0.5a855d10
                                 </a>
                             </h4>
                         </div>
@@ -248,7 +248,8 @@ import layout from &#x27;../templates/components/tree-view&#x27;;
 
 const {
   Component,
-  getWithDefault
+  getWithDefault,
+  computed
 } = Ember;
 
 export default Component.extend({
@@ -271,6 +272,16 @@ export default Component.extend({
   parentPath: Ember.A(),
   nodeDepth: Ember.computed(&#x27;depth&#x27;, function() {
     return this.get(&#x27;parentDepth&#x27;) + 1;
+  }),
+  sortKeys: [&#x27;label&#x27;],
+  sorted: computed(&#x27;model&#x27;, function() {
+    let model = this.get(&#x27;model&#x27;);
+
+    if(model) {
+      let keys = this.get(&#x27;sortKeys&#x27;);
+
+      return model.sortBy(...keys);
+    }
   }),
 
   /**
@@ -322,7 +333,6 @@ export default Component.extend({
   handleDrop: function() {
     return true;
   }
-
 });
 
     </pre>
