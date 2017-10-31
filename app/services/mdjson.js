@@ -133,7 +133,10 @@ export default Service.extend({
 
     let cleaner = this.get('cleaner');
     let clean = cleaner.clean(get(rec, 'json'));
-    let json = JSON.parse(JSON.stringify(clean, _replacer));
+
+    this.injectCitations(clean);
+
+    let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
     let contacts = this.get('store')
       .peekAll('contact')
       .mapBy('json');
@@ -162,7 +165,6 @@ export default Service.extend({
       });
     }
 
-    this.injectCitations(json);
 
     return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(
       json);
