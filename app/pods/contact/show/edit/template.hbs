@@ -2,12 +2,13 @@
     <div class="col-sm-9 col-md-offset-1">
         <h3>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
           <span class="text-danger">
-            {{#if model.hasDirtyHash}}
+            {{!-- {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
               {{tooltip-on-element text='This record has been modified!' side="right"
                 class="md-tooltip danger"
               }}
-            {{/if}}
+            {{/if}} --}}
+            {{control/md-status model=model}}
           </span>
         </h3>
         <form>

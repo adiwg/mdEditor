@@ -8,14 +8,15 @@
       {{/if}}
 
       Viewing {{model.type}} Contact: {{model.title}}
-          <span class="text-danger">
+          {{!-- <span class="text-danger">
             {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
               {{tooltip-on-element text='This record has been modified!' side="right"
                 class="md-tooltip danger"
               }}
             {{/if}}
-          </span>
+          </span> --}}
+          {{control/md-status model=model}}
     </h3>
     {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
         <dl class="dl-horizontal col-lg-6">

@@ -174,5 +174,11 @@ export default Service.extend({
     validator.validate('schema', this.formatRecord(record));
 
     return validator;
+  },
+
+  validateContact(contact) {
+    validator.validate('contact', contact.get('cleanJson'));
+
+    return validator;
   }
 });

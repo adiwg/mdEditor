@@ -176,6 +176,15 @@ export default Model.extend(Validations, Copyable, {
     return recordId;
   }),
 
+  /**
+   * A list of schema errors return by the validator.
+   *
+   * @property hasSchemaErrors
+   * @type {Array}
+   * @readOnly
+   * @category computed
+   * @requires status
+   */
   hasSchemaErrors: computed('status', function() {
     let mdjson = this.get('mdjson');
     let errors = mdjson.validateRecord(this)
