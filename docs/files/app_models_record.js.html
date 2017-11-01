@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/5b1eac73" target="_blank">
-                                  Tag: 0.0.0.5b1eac73
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/4af54b90" target="_blank">
+                                  Tag: 0.0.0.4af54b90
                                 </a>
                             </h4>
                         </div>
@@ -421,6 +421,15 @@ export default Model.extend(Validations, Copyable, {
     return recordId;
   }),
 
+  /**
+   * A list of schema errors return by the validator.
+   *
+   * @property hasSchemaErrors
+   * @type {Array}
+   * @readOnly
+   * @category computed
+   * @requires status
+   */
   hasSchemaErrors: computed(&#x27;status&#x27;, function() {
     let mdjson = this.get(&#x27;mdjson&#x27;);
     let errors = mdjson.validateRecord(this)

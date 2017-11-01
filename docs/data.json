@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.5b1eac73",
+        "version": "0.0.0.4af54b90",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2011,7 +2011,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 235,
+            "line": 236,
             "description": "The id of the default organization for the contact.",
             "itemtype": "property",
             "name": "defaultOrganization",
@@ -2029,7 +2029,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 268,
+            "line": 269,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -2048,7 +2048,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 311,
+            "line": 313,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -2066,7 +2066,25 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 331,
+            "line": 344,
+            "description": "A list of schema errors return by the validator.",
+            "itemtype": "property",
+            "name": "hasSchemaErrors",
+            "type": "{Array}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "status"
+            ],
+            "class": "contact",
+            "module": "mdeditor",
+            "submodule": "data-models"
+        },
+        {
+            "file": "app/models/contact.js",
+            "line": 363,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -2092,6 +2110,23 @@
             ],
             "requires": [
                 "recordId"
+            ],
+            "class": "md-button-modal",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/models/record.js",
+            "line": 179,
+            "description": "A list of schema errors return by the validator.",
+            "itemtype": "property",
+            "name": "hasSchemaErrors",
+            "type": "{Array}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "status"
             ],
             "class": "md-button-modal",
             "module": "mdeditor"
