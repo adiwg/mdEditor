@@ -25,7 +25,7 @@
 
 @media (min-width: 1040px) {
   #md-wrapper {
-    padding-left: 275px;
+    padding-left: #{$sidebar-width}px;
 
     &.toggled {
       padding-left: 0;
@@ -33,7 +33,7 @@
   }
 
   #md-sidebar-wrapper {
-    width: 275px;
+    width: #{$sidebar-width}px;
   }
 
   #md-wrapper.toggled #md-sidebar-wrapper {
@@ -83,7 +83,7 @@
 
   #md-wrapper.toggled {
     .footer .footer-container {
-      left: -275px;
+      left: -#{$sidebar-width}px;
     }
 
   }
