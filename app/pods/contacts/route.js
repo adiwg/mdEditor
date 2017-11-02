@@ -1,6 +1,14 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+const {
+  Route,
+  inject: {
+    service
+  }
+} = Ember;
+
+export default Route.extend({
+  slider: service(),
   model() {
     return this.store.peekAll('contact');
   },
@@ -13,6 +21,14 @@ export default Ember.Route.extend({
 
     editItem(item) {
       this.transitionTo('contact.show.edit', item);
+    },
+
+    showSlider(rec) {
+      let slider = this.get('slider');
+
+      this.controller.set('errorTarget', rec);
+      slider.set('fromName', 'md-slider-error');
+      slider.toggleSlider(true);
     }
   },
 

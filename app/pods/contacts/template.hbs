@@ -23,22 +23,28 @@
           <td>
             <div class="pull-right md-dashboard-buttons">
               {{!-- {{debugger}} --}}
-              {{#link-to "contact.show" item.id class="btn btn-xs btn-info"}}
+              {{control/md-status
+                model=item
+                isBtn=true
+                hideSlider=true
+                showSlider=(route-action "showSlider" item)
+              }}
+              {{#link-to "contact.show" item.id class="btn btn-sm btn-info"}}
                 {{fa-icon "eye"}} Show
               {{/link-to}}
-              <button type="button" class="btn btn-xs btn-success" {{action "editItem" item}}>
+              <button type="button" class="btn btn-sm btn-success" {{action "editItem" item}}>
                 {{fa-icon "pencil"}} Edit
               </button>
-              {{!-- {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(route-action "deleteItem" item)}}
+              {{!-- {{#control/md-button-confirm class="btn btn-sm btn-danger" onConfirm=(route-action "deleteItem" item)}}
                 <span class="fa fa-times"></span> Delete
               {{/control/md-button-confirm}} --}}
-              {{#control/md-button-modal class="btn btn-xs btn-danger" message="<h1>Do
+              {{#control/md-button-modal class="btn btn-sm btn-danger" message="<h1>Do
             you really want to delete this contact?</h1>Be sure this contact is
             not referenced by a metadata record or dictionary or it's deletion
             may cause those records to fail validation." onConfirm=(route-action "deleteItem" item)}}
                 <span class="fa fa-times"></span> Delete
               {{/control/md-button-modal}}
-              {{control/md-json-button class="btn-xs btn-primary" json=item.cleanJson}}
+              {{control/md-json-button class="btn-sm btn-primary" json=item.cleanJson}}
             </div>
           </td>
         </tr>
@@ -54,3 +60,14 @@
   </table>
 </div>
 {{outlet}}
+{{#if errorTarget}}
+  {{to-elsewhere
+    named="md-slider-error"
+    send=(hash
+      title=(concat "Viewing errors for: " errorTarget.title)
+      body=(component "control/md-errors"
+        errors=errorTarget.hasSchemaErrors
+      )
+    )
+  }}
+{{/if}}
