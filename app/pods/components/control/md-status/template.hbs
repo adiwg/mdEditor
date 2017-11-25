@@ -1,5 +1,5 @@
 {{#if model.hasDirtyHash}}
-<span class="md-status-icon" {{action "saveRecord"}}>
+<span class="md-status-icon" onclick={{action "saveRecord"}}>
   {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-danger btn-" btnSize) "md-error")}}
   {{tooltip-on-element text='This record has been modified! Cick to save.' side="top"
     class="md-tooltip danger"
@@ -8,7 +8,7 @@
 {{/if}}
 
 {{#if model.hasSchemaErrors}}
-<span class="md-status-icon" {{action "showSlider"}}>
+<span class="md-status-icon" onclick={{action "showSlider"}}>
   {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-warning btn-" btnSize) "md-warning")}}
   {{tooltip-on-element text='This record has errors! Click to view.' side="right"
     class="md-tooltip warning"

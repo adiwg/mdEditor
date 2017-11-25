@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   attributeBindings: ['type'],
   type: 'button',
   isShowingConfirm: false,
+  propagateClick: false,
 
   /**
    * The function to call when action is confirmed.
@@ -16,7 +17,11 @@ export default Ember.Component.extend({
   onConfirm(){},
 
   //click handler, sets button state
-  click() {
+  click(evt) {
+    if(!this.get('propagateClick')) {
+      evt.stopPropagation();
+    }
+
     if(this.get('isShowingConfirm')) {
       this.get('onConfirm')();
     } else {

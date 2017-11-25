@@ -109,22 +109,32 @@
 
 .md-record-table,
 .md-select-table {
+  .table-header .form-group {
+    margin-bottom: 0;
+  }
+
   > .table {
     margin-top: 1.25em;
 
-  > thead > tr:first-of-type > .table-header {
-    color: $gray-darker;
-    transition: color 0.5s linear;
+    .selected-row {
+      background-color: lighten($brand-info, 45);
+      color: $state-info-text;
+    }
 
-    &:hover {
-      color: $brand-info;
-      cursor: pointer;
+    > thead > tr:first-of-type > .table-header {
+      color: $gray-darker;
+      transition: color .5s linear;
+
+      &:hover {
+        color: $brand-info;
+        cursor: pointer;
+      }
     }
   }
-}
 
   .table-hover > tbody > tr {
-    transition: background-color 0.1s linear;
+    transition: all .1s linear;
+    transition-property: color, background-color;
   }
 
   .table-hover > tbody > tr:hover {
@@ -193,10 +203,17 @@
 }
 
 .md-dashboard-buttons {
-  @media screen and (min-width: $screen-sm-min) {
+  @media screen and (min-width: $screen-md-min) {
+    display: table;
     white-space: nowrap;
+
+    .btn {
+      margin-left: 1px;
+      margin-right: 1px;
+    }
   }
-  @media screen and (max-width: $screen-xs-max) {
+
+  @media screen and (max-width: $screen-sm-max) {
     .btn {
       display: block;
       margin: 1px auto;

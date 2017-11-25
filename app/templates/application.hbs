@@ -18,7 +18,12 @@
 <div id="md-wrapper" class="">
 
   <!-- Slider -->
-    {{#layout/md-slider visible=slider.showSlider fromName=slider.fromName}}
+    {{#layout/md-slider
+      visible=slider.showSlider
+      fromName=slider.fromName
+      onClose=slider.onClose
+      context=slider.context
+    }}
       {{!-- <section class="md-slider-body">
         {{from-elsewhere name="md-slider-content"}}
       </section> --}}

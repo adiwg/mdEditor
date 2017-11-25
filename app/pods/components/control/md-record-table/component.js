@@ -68,33 +68,61 @@ export default Table.extend({
    *
    *
    * @property checkColumns
-   * @type {Array|Boolean}
+   * @type {Object}
    * @required
    */
   checkColumn: {
     component: 'components/md-models-table/components/check',
-    useFilter: false,
+    disableFiltering: true,
     mayBeHidden: false,
     componentForSortCell: 'components/md-models-table/components/check-all',
     className: 'text-center'
   },
 
-  columns: computed('dataColumns', 'checkColumn', function() {
+  /**
+   * Column configs for the action column.
+   * See http://onechiporenko.github.io/ember-models-table
+   *
+   *
+   * @property checkColumns
+   * @type {Object}
+   * @required
+   */
+  actionsColumn: computed('allActions', function () {
+    let all = this.get('allActions');
+
+    return {
+      title: 'Actions',
+      component: all ?
+        'control/md-record-table/buttons' : 'control/md-record-table/buttons/show',
+      disableFiltering: !all,
+      componentForFilterCell: all ? 'control/md-record-table/buttons/filter' : null
+    };
+  }),
+
+  columns: computed('dataColumns', 'checkColumn', function () {
     let chk = get(this, 'checkColumn');
+    let action = get(this, 'actionsColumn');
+    let cols = get(this, 'dataColumns');
 
     if(chk) {
-      return [chk].concat(get(this, 'dataColumns'));
+      cols = [chk].concat(cols);
     }
 
-    return get(this, 'dataColumns');
+    if(action) {
+      cols.push(action);
+    }
+
+    return cols;
   }),
 
   filteringIgnoreCase: true,
   //rowTemplate: 'components/control/md-select-table/row',
 
   multipleSelect: true,
-  preselectedItems: computed(function() {
-    return this.get('data').filterBy('_selected');
+  preselectedItems: computed(function () {
+    return this.get('data')
+      .filterBy('_selected');
   }),
 
   /**

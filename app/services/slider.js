@@ -7,6 +7,7 @@ const {
 export default Service.extend({
   showSlider: false,
   fromName: 'md-slider-content',
+  onClose() {},
 
   toggleSlider(state) {
     if(state === undefined) {

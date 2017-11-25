@@ -14,6 +14,15 @@ export default Theme.extend({
   'deselect-row': 'fa fa-fw fa-square-o',
   'select-all-rows': 'fa fa-fw fa-check-square-o',
   'deselect-all-rows': 'fa fa-fw fa-square-o',
+  'expand-row': 'fa fa-plus',
+  'expand-all-rows': 'fa fa-plus',
+  'collapse-row': 'fa fa-minus',
+  'collapse-all-rows': 'fa fa-minus',
+  clearFilterIcon: 'fa fa-times form-control-feedback',
+  clearAllFiltersIcon: 'fa fa-times',
+  sortGroupedPropertyBtn: 'btn',
+  input: 'form-control',
+  inputGroup: 'input-group',
 
   table: 'table table-striped table-bordered table-condensed table-hover'
 });

@@ -31,13 +31,14 @@ export default Component.extend({
   },
 
   actions: {
-    showSlider() {
-      this.showSlider();
+    showSlider(evt) {
+      this.showSlider(evt);
     },
 
-    saveRecord() {
+    saveRecord(evt) {
       let model = this.get('model');
 
+      evt.stopPropagation();
       model.save()
         .then(() => {
           get(this, 'flashMessages')

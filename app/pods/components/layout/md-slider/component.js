@@ -28,6 +28,7 @@ export default Component.extend({
 
       if(!this.get('visible')) {
         this.set('fromName', null);
+        this.get('onClose').call(this.get('context'));
       }
     }
   }
