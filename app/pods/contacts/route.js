@@ -10,7 +10,8 @@ const {
 export default Route.extend({
   slider: service(),
   model() {
-    return this.store.peekAll('contact');
+    //return this.store.peekAll('contact');
+    return this.modelFor('application').findBy('modelName','contact');
   },
 
   columns: [{
@@ -70,7 +71,9 @@ export default Route.extend({
         `Do you really want to delete this contact?\n\n
         Be sure this contact is not referenced by a metadata record or dictionary
         or it's deletion may cause those records to not validate.`;*/
-      item.destroyRecord();
+      item.destroyRecord().then(()=>{
+        item.unloadRecord();
+      });
   }
 
 });

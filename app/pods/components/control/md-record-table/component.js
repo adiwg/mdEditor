@@ -32,6 +32,18 @@ export default Table.extend({
   classNames: ['md-record-table'],
 
   /**
+  * Property name used to identify selected records. Should begin with underscore.
+  *
+  * @property selectProperty
+  * @type {String}
+  * @default "_selected"
+  * @static
+  * @readOnly
+  * @required
+  */
+  selectProperty: '_selected',
+
+  /**
    * Array of table records
    *
    * @property data
@@ -121,8 +133,10 @@ export default Table.extend({
 
   multipleSelect: true,
   preselectedItems: computed(function () {
+    let prop = this.get('selectProperty');
+
     return this.get('data')
-      .filterBy('_selected');
+      .filterBy(prop);
   }),
 
   /**
@@ -142,9 +156,10 @@ export default Table.extend({
     clickOnRow(idx, rec) {
       this._super(...arguments);
 
+      let prop = this.get('selectProperty');
       let sel = get(this, '_selectedItems');
 
-      rec.toggleProperty('_selected');
+      rec.toggleProperty(prop);
       this.get('select')(rec, idx, sel);
     },
 
@@ -152,14 +167,15 @@ export default Table.extend({
       this._super(...arguments);
 
       let selected = get(this, '_selectedItems');
+      let prop = this.get('selectProperty');
       let data = get(this, 'data');
 
       if(get(selected, 'length')) {
-        selected.setEach('_selected', true);
+        selected.setEach(prop, true);
         return;
       }
 
-      data.setEach('_selected', false);
+      data.setEach(prop, false);
 
       this.get('select')(null, null, selected);
     }
