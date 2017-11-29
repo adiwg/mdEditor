@@ -38,21 +38,6 @@ export default Route.extend({
       return this.get('columns');
     },
 
-    deleteItem(item, index, isSelected, clickOnRow) {
-      if (isSelected) {
-        clickOnRow(index,item);
-      }
-
-      this._deleteItem(item);
-    },
-
-    editItem(item, evt) {
-      evt.stopPropagation();
-      this.transitionTo('contact.show.edit', item);
-
-      return false;
-    },
-
     showSlider(rec, evt) {
       let slider = this.get('slider');
 
@@ -63,17 +48,5 @@ export default Route.extend({
 
       return false;
     }
-  },
-
-  // action methods
-  _deleteItem(item) {
-    /*let message =
-        `Do you really want to delete this contact?\n\n
-        Be sure this contact is not referenced by a metadata record or dictionary
-        or it's deletion may cause those records to not validate.`;*/
-      item.destroyRecord().then(()=>{
-        item.unloadRecord();
-      });
   }
-
 });

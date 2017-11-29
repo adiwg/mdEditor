@@ -1,8 +1,8 @@
 {{control/md-record-table/buttons/show record=record}}
-<button type="button" class="btn btn-sm btn-success" onclick={{action (route-action "editItem" record)}}>
+<button type="button" class="btn btn-sm btn-success" onclick={{action "editItem" record}}>
   {{fa-icon "pencil"}} Edit
 </button>
-{{#control/md-button-confirm class="btn btn-sm btn-danger" onConfirm=(route-action "deleteItem" record index isSelected clickOnRow)}}
+{{#control/md-button-confirm class="btn btn-sm btn-danger" onConfirm=(action "deleteItem" record index isSelected clickOnRow)}}
   <span class="fa fa-times"></span> Delete
 {{/control/md-button-confirm}}
 {{!-- {{#control/md-button-modal class="btn btn-sm btn-danger" message="<h1>Do

@@ -109,8 +109,16 @@
 
 .md-record-table,
 .md-select-table {
-  .table-header .form-group {
-    margin-bottom: 0;
+  .table-header {
+    white-space: nowrap;
+
+    .form-group {
+      margin-bottom: 0;
+
+      .changeFilterForColumn {
+        width: auto;
+      }
+    }
   }
 
   > .table {
