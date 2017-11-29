@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import Base from 'ember-local-storage/adapters/base';
 import uuidV4 from "npm:uuid/v4";
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   JsonDefault as Contact
 } from 'mdeditor/models/contact';
@@ -24,10 +25,11 @@ const {
   isArray,
   $,
   A,
-  merge
+  merge,
+  computed
 } = Ember;
 
-export default Route.extend({
+export default Route.extend(ScrollTo, {
   flashMessages: inject.service(),
   jsonvalidator: inject.service(),
   settings: inject.service(),
@@ -51,15 +53,22 @@ export default Route.extend({
     let json = raw ? JSON.parse(raw) : null;
 
     switch(record.type) {
-    case 'records':
-      return json.metadata.resourceInfo.citation.title;
-    case 'dictionaries':
-      return json.dataDictionary.citation.title;
-    case 'contacts':
-      return json.name;
-    default:
-      return 'N/A';
+      case 'records':
+        return json.metadata.resourceInfo.citation.title;
+      case 'dictionaries':
+        return json.dataDictionary.citation.title;
+      case 'contacts':
+        return json.name;
+      default:
+        return 'N/A';
     }
+  },
+
+  icons: {
+    records: 'file',
+    dictionaries: 'book',
+    contacts: 'users',
+    settings: 'gear'
   },
 
   formatMdJSON(json) {
@@ -167,6 +176,7 @@ export default Route.extend({
 
       item.meta = {};
       item.meta.title = this.getTitle(item);
+      item.meta.icon = this.icons[item.type];
       item.meta.export = true;
 
       map[item.type].push(EmObject.create(item));
@@ -189,7 +199,10 @@ export default Route.extend({
     return this.mapRecords(json.data);
   },
 
-  columns: [{
+  columns: computed(function() {
+    let route = this;
+
+    return [{
       propertyName: 'meta.title',
       title: 'Title'
     }, {
@@ -198,12 +211,41 @@ export default Route.extend({
     }, {
       propertyName: 'id',
       title: 'ID'
+    }, {
+      title: 'Actions',
+      component: 'control/md-record-table/buttons/custom',
+      disableFiltering: true,
+      buttonConfig: {
+        title: 'Preview JSON',
+        action(model) {
+          route.showPreview.call(route, model);
+        },
+        iconPath: 'meta.icon'
+      }
+    }];
+  }),
+
+  showPreview(model) {
+    let json = {};
+    assign(json, model.attributes);
+
+    if(model.attributes.json) {
+      json.json = JSON.parse(model.attributes.json);
     }
-  ],
+
+    this.currentRouteModel()
+      .set('preview', {
+        model: model,
+        json: json
+      });
+  },
 
   actions: {
     getColumns() {
       return get(this, 'columns');
+    },
+    getIcon(type){
+      return this.get('icons')[type];
     },
     readData(file) {
       let json;
@@ -251,7 +293,7 @@ export default Route.extend({
           dataType: 'text',
           crossDomain: true
         })
-        .then(function (response, textStatus) {
+        .then(function(response, textStatus) {
 
           if(response && textStatus === 'success') {
             let json;
@@ -353,20 +395,6 @@ export default Route.extend({
             });
         });
       }
-    },
-    showPreview(model) {
-      let json = {};
-      assign(json, model.attributes);
-
-      if(model.attributes.json) {
-        json.json = JSON.parse(model.attributes.json);
-      }
-
-      this.currentRouteModel()
-        .set('preview', {
-          model: model,
-          json: json
-        });
     },
     closePreview() {
       this.currentRouteModel()
