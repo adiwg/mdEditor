@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.2a4b7845",
+        "version": "0.0.0.1688d4e9",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2133,7 +2133,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-confirm/component.js",
-            "line": 10,
+            "line": 11,
             "description": "The function to call when action is confirmed.",
             "itemtype": "method",
             "name": "onConfirm",
@@ -2445,6 +2445,21 @@
         {
             "file": "app/pods/components/control/md-record-table/component.js",
             "line": 34,
+            "description": "Property name used to identify selected records. Should begin with underscore.",
+            "itemtype": "property",
+            "name": "selectProperty",
+            "type": "{String}",
+            "default": "\"_selected\"",
+            "static": 1,
+            "readonly": "",
+            "required": 1,
+            "class": "md-select-table",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-record-table/component.js",
+            "line": 46,
             "description": "Array of table records",
             "itemtype": "property",
             "name": "data",
@@ -2457,7 +2472,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 43,
+            "line": 55,
             "description": "Array of column configs for the table.\nSee http://onechiporenko.github.io/ember-models-table\n\n```javascript\n[{\n propertyName: 'id',\n title: 'ID'\n}, {\n title: '',\n template: 'components/leaflet-table/actions',\n className: 'text-center text-nowrap'\n}]\n```",
             "itemtype": "property",
             "name": "dataColumns",
@@ -2470,11 +2485,11 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 65,
+            "line": 77,
             "description": "Column configs for the checkbox column.\nSee http://onechiporenko.github.io/ember-models-table",
             "itemtype": "property",
             "name": "checkColumns",
-            "type": "{Array|Boolean}",
+            "type": "{Object}",
             "required": 1,
             "class": "md-select-table",
             "module": "mdeditor",
@@ -2482,7 +2497,19 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 100,
+            "line": 94,
+            "description": "Column configs for the action column.\nSee http://onechiporenko.github.io/ember-models-table",
+            "itemtype": "property",
+            "name": "checkColumns",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-select-table",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-record-table/component.js",
+            "line": 142,
             "description": "Callback on row selection.",
             "itemtype": "method",
             "name": "select",

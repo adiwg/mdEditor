@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/2a4b7845" target="_blank">
-                                  Tag: 0.0.0.2a4b7845
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/1688d4e9" target="_blank">
+                                  Tag: 0.0.0.1688d4e9
                                 </a>
                             </h4>
                         </div>
@@ -277,6 +277,18 @@ export default Table.extend({
   classNames: [&#x27;md-record-table&#x27;],
 
   /**
+  * Property name used to identify selected records. Should begin with underscore.
+  *
+  * @property selectProperty
+  * @type {String}
+  * @default &quot;_selected&quot;
+  * @static
+  * @readOnly
+  * @required
+  */
+  selectProperty: &#x27;_selected&#x27;,
+
+  /**
    * Array of table records
    *
    * @property data
@@ -313,33 +325,63 @@ export default Table.extend({
    *
    *
    * @property checkColumns
-   * @type {Array|Boolean}
+   * @type {Object}
    * @required
    */
   checkColumn: {
     component: &#x27;components/md-models-table/components/check&#x27;,
-    useFilter: false,
+    disableFiltering: true,
     mayBeHidden: false,
     componentForSortCell: &#x27;components/md-models-table/components/check-all&#x27;,
     className: &#x27;text-center&#x27;
   },
 
-  columns: computed(&#x27;dataColumns&#x27;, &#x27;checkColumn&#x27;, function() {
+  /**
+   * Column configs for the action column.
+   * See http://onechiporenko.github.io/ember-models-table
+   *
+   *
+   * @property checkColumns
+   * @type {Object}
+   * @required
+   */
+  actionsColumn: computed(&#x27;allActions&#x27;, function () {
+    let all = this.get(&#x27;allActions&#x27;);
+
+    return {
+      title: &#x27;Actions&#x27;,
+      component: all ?
+        &#x27;control/md-record-table/buttons&#x27; : &#x27;control/md-record-table/buttons/show&#x27;,
+      disableFiltering: !all,
+      componentForFilterCell: all ? &#x27;control/md-record-table/buttons/filter&#x27; : null
+    };
+  }),
+
+  columns: computed(&#x27;dataColumns&#x27;, &#x27;checkColumn&#x27;, function () {
     let chk = get(this, &#x27;checkColumn&#x27;);
+    let action = get(this, &#x27;actionsColumn&#x27;);
+    let cols = get(this, &#x27;dataColumns&#x27;);
 
     if(chk) {
-      return [chk].concat(get(this, &#x27;dataColumns&#x27;));
+      cols = [chk].concat(cols);
     }
 
-    return get(this, &#x27;dataColumns&#x27;);
+    if(action) {
+      cols.push(action);
+    }
+
+    return cols;
   }),
 
   filteringIgnoreCase: true,
   //rowTemplate: &#x27;components/control/md-select-table/row&#x27;,
 
   multipleSelect: true,
-  preselectedItems: computed(function() {
-    return this.get(&#x27;data&#x27;).filterBy(&#x27;_selected&#x27;);
+  preselectedItems: computed(function () {
+    let prop = this.get(&#x27;selectProperty&#x27;);
+
+    return this.get(&#x27;data&#x27;)
+      .filterBy(prop);
   }),
 
   /**
@@ -359,9 +401,10 @@ export default Table.extend({
     clickOnRow(idx, rec) {
       this._super(...arguments);
 
+      let prop = this.get(&#x27;selectProperty&#x27;);
       let sel = get(this, &#x27;_selectedItems&#x27;);
 
-      rec.toggleProperty(&#x27;_selected&#x27;);
+      rec.toggleProperty(prop);
       this.get(&#x27;select&#x27;)(rec, idx, sel);
     },
 
@@ -369,14 +412,15 @@ export default Table.extend({
       this._super(...arguments);
 
       let selected = get(this, &#x27;_selectedItems&#x27;);
+      let prop = this.get(&#x27;selectProperty&#x27;);
       let data = get(this, &#x27;data&#x27;);
 
       if(get(selected, &#x27;length&#x27;)) {
-        selected.setEach(&#x27;_selected&#x27;, true);
+        selected.setEach(prop, true);
         return;
       }
 
-      data.setEach(&#x27;_selected&#x27;, false);
+      data.setEach(prop, false);
 
       this.get(&#x27;select&#x27;)(null, null, selected);
     }
