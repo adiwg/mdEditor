@@ -51,14 +51,14 @@ export default Route.extend({
     let json = raw ? JSON.parse(raw) : null;
 
     switch(record.type) {
-      case 'records':
-        return json.metadata.resourceInfo.citation.title;
-      case 'dictionaries':
-        return json.dataDictionary.citation.title;
-      case 'contacts':
-        return json.name;
-      default:
-        return 'N/A';
+    case 'records':
+      return json.metadata.resourceInfo.citation.title;
+    case 'dictionaries':
+      return json.dataDictionary.citation.title;
+    case 'contacts':
+      return json.name;
+    default:
+      return 'N/A';
     }
   },
 
@@ -169,7 +169,7 @@ export default Route.extend({
       item.meta.title = this.getTitle(item);
       item.meta.export = true;
 
-      map[item.type].push(item);
+      map[item.type].push(EmObject.create(item));
       return map;
     }, {});
   },
@@ -189,7 +189,22 @@ export default Route.extend({
     return this.mapRecords(json.data);
   },
 
+  columns: [{
+      propertyName: 'meta.title',
+      title: 'Title'
+    }, {
+      propertyName: 'attributes.date-updated',
+      title: 'Last Updated'
+    }, {
+      propertyName: 'id',
+      title: 'ID'
+    }
+  ],
+
   actions: {
+    getColumns() {
+      return get(this, 'columns');
+    },
     readData(file) {
       let json;
 
@@ -236,7 +251,7 @@ export default Route.extend({
           dataType: 'text',
           crossDomain: true
         })
-        .then(function(response, textStatus) {
+        .then(function (response, textStatus) {
 
           if(response && textStatus === 'success') {
             let json;

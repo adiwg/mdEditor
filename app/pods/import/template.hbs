@@ -70,6 +70,22 @@
             </table>
           </div>
         </div>
+        {{#layout/md-card
+          title=(capitalize key)
+          titleIcon="file"
+          collapsible=true
+          collapsed=false
+          data-spy=key
+          shadow=true
+        }}
+        {{!-- <h3>{{section.meta.title}}</h3> --}}
+        {{control/md-record-table
+          data=item
+          dataColumns=(compute (route-action "getColumns") key)
+          actionsColumn=false
+          selectProperty="meta.export"
+        }}
+        {{/layout/md-card}}
       {{/each-in}}
     {{/if}}
   </div>
