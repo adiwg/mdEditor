@@ -1,11 +1,8 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import { singularize } from 'ember-inflector';
 
 const {
-  //assert,
-  String: {
-    singularize
-  },
   run
 } = Ember;
 const assign = Ember.assign || Ember.merge;

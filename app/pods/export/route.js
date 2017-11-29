@@ -1,16 +1,14 @@
 import Ember from 'ember';
 import moment from 'moment';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { singularize } from 'ember-inflector';
 
 const {
   get,
   Object: EmObject,
   defineProperty,
   computed,
-  inject,
-  String: {
-    singularize
-  }
+  inject
 } = Ember;
 
 const modelTypes = ['records', 'contacts', 'dictionaries', 'settings'];
