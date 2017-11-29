@@ -22,7 +22,7 @@ export default Component.extend({
 
     editItem(item, evt) {
       evt.stopPropagation();
-      this.get('router').transitionTo('contact.show.edit', item);
+      this.get('router').transitionTo(`${item.constructor.modelName}.show.edit`, item);
 
       return false;
     }
