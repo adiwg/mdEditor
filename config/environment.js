@@ -69,8 +69,13 @@ module.exports = function(environment) {
     ENV.APP.rootElement = '#ember-testing';
   }
 
-  if (environment === 'production') {
+  if (environment === 'staging') {
     ENV.rootURL = '/mdEditor';
+    ENV.locationType = 'hash';
+  }
+
+  if (environment === 'production') {
+    //ENV.rootURL = '/mdEditor';
     ENV.locationType = 'hash';
   }
 
