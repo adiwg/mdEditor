@@ -1,24 +1,23 @@
-Showing Dictionary {{model.id}}
-{{outlet}}
+<div class="row md-no-spotlight">
+  <div class="col-sm-9 col-md-offset-1">
+    <h3>
+      {{fa-icon "book" class="text-muted"}}
 
-<style media="screen">
-    .construction {
-        width: 50vh;
-        min-width:240px;
-        font-size:5vh;
-        border: 2vh solid #333333;
-        margin: 10vh auto;
-        padding: 3vh;
-        border-radius: 5vh;
-    }
-</style>
-{{#layout/md-card class="construction card-inverse card-warning" shadow=false}}
-    <div class="text-center">
-        <div>
-            {{fa-icon "exclamation-triangle" size=2}}
-        </div>
-        <div>
-            <b>Page Under <br>Construction</b>
-        </div>
+      Viewing Dictionary: {{model.title}}
+      {{control/md-status model=model}}
+    </h3>
+  </div>
+
+  <div class="col-sm-2">
+    <div class="md-control-sidebar">
+      {{#control/md-crud-buttons model=model doDelete="destroyDictionary" doCopy="copyDictionary" }}
+        {{#link-to "dictionary.show.edit" model.id class="btn btn-lg btn-success" }}
+          {{fa-icon "pencil"}} Edit{{/link-to}}
+      {{/control/md-crud-buttons}}
+      <hr>
+      {{#link-to "dictionaries" class="btn btn-lg btn-primary btn-block" }}
+      {{fa-icon "list"}} Show List{{/link-to}}
+      {{control/md-scroll-spy}}
     </div>
-{{/layout/md-card}}
+  </div>
+</div>

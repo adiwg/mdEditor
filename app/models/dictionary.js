@@ -1,9 +1,22 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import uuidV4 from 'npm:uuid/v4';
+import Validator from 'npm:validator';
 import Model from 'mdeditor/models/base';
+import {
+  validator,
+  buildValidations
+} from 'ember-cp-validations';
 
+const {
+  Copyable,
+  computed,
+  isEmpty,
+  get,
+  Object:EmObject
+} = Ember;
 
-export default Model.extend(Ember.Copyable, {
+export default Model.extend(Copyable, {
   json: DS.attr('json', {
     defaultValue() {
       const obj = {
@@ -32,15 +45,45 @@ export default Model.extend(Ember.Copyable, {
     }
   }),
 
-  title: Ember.computed('json.dataDictionary.citation.title', function () {
+  title: computed('json.dataDictionary.citation.title', function () {
     return this.get('json.dataDictionary.citation.title');
   }),
 
   icon: 'book',
 
+  status: computed('hasDirtyHash', function () {
+    let dirty = this.get('hasDirtyHash');
+    let errors = this.get('hasSchemaErrors');
+
+    if(this.get('currentHash')) {
+      return dirty ? 'danger' : errors ? 'warning' : 'success';
+    }
+
+    return 'success';
+  }),
+
+  /**
+   * A list of schema errors return by the validator.
+   *
+   * @property hasSchemaErrors
+   * @type {Array}
+   * @readOnly
+   * @category computed
+   * @requires status
+   */
+  hasSchemaErrors: computed('status', function () {
+    let mdjson = this.get('mdjson');
+    let errors = mdjson.validateDictionary(this)
+      .errors;
+
+    //console.log(errors);
+
+    return errors;
+  }),
+
   copy() {
     let current = this.get('cleanJson');
-    let json = Ember.Object.create(current);
+    let json = EmObject.create(current);
     let name = current.dataDictionary.citation.title;
 
     json.set('dataDictionary.citation.title', `Copy of ${name}`);

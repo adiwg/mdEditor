@@ -180,5 +180,11 @@ export default Service.extend({
     validator.validate('contact', contact.get('cleanJson'));
 
     return validator;
+  },
+
+  validateDictionary(dictionary) {
+    validator.validate('dataDictionary', dictionary.get('cleanJson').dataDictionary);
+
+    return validator;
   }
 });
