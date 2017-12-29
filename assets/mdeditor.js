@@ -98,20 +98,6 @@ define('mdeditor/blueprints/ember-string-helpers', ['exports', 'ember-string-hel
     }
   });
 });
-define("mdeditor/cldrs/en", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = [{ "locale": "en-US", "parentLocale": "en" }, { "locale": "en", "pluralRuleFunction": function pluralRuleFunction(n, ord) {
-      var s = String(n).split("."),
-          v0 = !s[1],
-          t0 = Number(s[0]) == n,
-          n10 = t0 && s[0].slice(-1),
-          n100 = t0 && s[0].slice(-2);if (ord) return n10 == 1 && n100 != 11 ? "one" : n10 == 2 && n100 != 12 ? "two" : n10 == 3 && n100 != 13 ? "few" : "other";return n == 1 && v0 ? "one" : "other";
-    }, "fields": { "year": { "displayName": "year", "relative": { "0": "this year", "1": "next year", "-1": "last year" }, "relativeTime": { "future": { "one": "in {0} year", "other": "in {0} years" }, "past": { "one": "{0} year ago", "other": "{0} years ago" } } }, "month": { "displayName": "month", "relative": { "0": "this month", "1": "next month", "-1": "last month" }, "relativeTime": { "future": { "one": "in {0} month", "other": "in {0} months" }, "past": { "one": "{0} month ago", "other": "{0} months ago" } } }, "day": { "displayName": "day", "relative": { "0": "today", "1": "tomorrow", "-1": "yesterday" }, "relativeTime": { "future": { "one": "in {0} day", "other": "in {0} days" }, "past": { "one": "{0} day ago", "other": "{0} days ago" } } }, "hour": { "displayName": "hour", "relativeTime": { "future": { "one": "in {0} hour", "other": "in {0} hours" }, "past": { "one": "{0} hour ago", "other": "{0} hours ago" } } }, "minute": { "displayName": "minute", "relativeTime": { "future": { "one": "in {0} minute", "other": "in {0} minutes" }, "past": { "one": "{0} minute ago", "other": "{0} minutes ago" } } }, "second": { "displayName": "second", "relative": { "0": "now" }, "relativeTime": { "future": { "one": "in {0} second", "other": "in {0} seconds" }, "past": { "one": "{0} second ago", "other": "{0} seconds ago" } } } } }];
-});
 define("mdeditor/components/-lf-get-outlet-state", ["exports", "liquid-fire/components/-lf-get-outlet-state"], function (exports, _lfGetOutletState) {
   "use strict";
 
@@ -5779,13 +5765,23 @@ define('mdeditor/models/coordinator', ['exports', 'mdeditor/models/obj-hash'], f
     }
   });
 });
-define('mdeditor/models/dictionary', ['exports', 'ember-data', 'mdeditor/models/base'], function (exports, _emberData, _base) {
+define('mdeditor/models/dictionary', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:validator', 'mdeditor/models/base', 'ember-cp-validations'], function (exports, _emberData, _v, _npmValidator, _base, _emberCpValidations) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _base.default.extend(Ember.Copyable, {
+
+
+  const {
+    Copyable,
+    computed,
+    isEmpty,
+    get,
+    Object: EmObject
+  } = Ember;
+
+  exports.default = _base.default.extend(Copyable, {
     json: _emberData.default.attr('json', {
       defaultValue() {
         const obj = {
@@ -5813,15 +5809,44 @@ define('mdeditor/models/dictionary', ['exports', 'ember-data', 'mdeditor/models/
       }
     }),
 
-    title: Ember.computed('json.dataDictionary.citation.title', function () {
+    title: computed('json.dataDictionary.citation.title', function () {
       return this.get('json.dataDictionary.citation.title');
     }),
 
     icon: 'book',
 
+    status: computed('hasDirtyHash', function () {
+      let dirty = this.get('hasDirtyHash');
+      let errors = this.get('hasSchemaErrors');
+
+      if (this.get('currentHash')) {
+        return dirty ? 'danger' : errors ? 'warning' : 'success';
+      }
+
+      return 'success';
+    }),
+
+    /**
+     * A list of schema errors return by the validator.
+     *
+     * @property hasSchemaErrors
+     * @type {Array}
+     * @readOnly
+     * @category computed
+     * @requires status
+     */
+    hasSchemaErrors: computed('status', function () {
+      let mdjson = this.get('mdjson');
+      let errors = mdjson.validateDictionary(this).errors;
+
+      //console.log(errors);
+
+      return errors;
+    }),
+
     copy() {
       let current = this.get('cleanJson');
-      let json = Ember.Object.create(current);
+      let json = EmObject.create(current);
       let name = current.dataDictionary.citation.title;
 
       json.set('dataDictionary.citation.title', `Copy of ${name}`);
@@ -14073,7 +14098,7 @@ define("mdeditor/pods/components/object/md-phone-array/template", ["exports"], f
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "2ZH5jeVj", "block": "{\"symbols\":[\"phone\"],\"statements\":[[4,\"object/md-array-table\",null,[[\"columns\",\"title\",\"value\",\"validation\",\"templateClass\"],[\"Name,Number,Services\",\"Phone\",[19,0,[\"value\"]],[19,0,[\"validation\"]],[19,0,[\"templateClass\"]]]],{\"statements\":[[0,\"  \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"phoneName\"]],\"Name or location or phone\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"valuePath\",\"model\",\"showValidations\",\"placeholder\"],[\"phoneNumber\",[19,1,[\"item\"]],true,\"Phone number\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"td\"],[7],[0,\"\\n    \"],[1,[25,\"input/md-codelist-multi\",null,[[\"create\",\"tooltip\",\"icon\",\"disabled\",\"allowClear\",\"mdCodeName\",\"value\",\"placeholder\"],[true,true,false,[19,0,[\"disabled\"]],true,\"telephone\",[19,1,[\"item\",\"service\"]],\"Choose phone type\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-phone-array/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "CXtQAKX0", "block": "{\"symbols\":[\"phone\"],\"statements\":[[4,\"object/md-array-table\",null,[[\"columns\",\"title\",\"value\",\"validation\",\"data-spy\",\"templateClass\"],[\"Name,Number,Services\",\"Phone\",[19,0,[\"value\"]],[19,0,[\"validation\"]],null,[19,0,[\"templateClass\"]]]],{\"statements\":[[0,\"  \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"phoneName\"]],\"Name or location or phone\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"valuePath\",\"model\",\"showValidations\",\"placeholder\"],[\"phoneNumber\",[19,1,[\"item\"]],true,\"Phone number\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"td\"],[7],[0,\"\\n    \"],[1,[25,\"input/md-codelist-multi\",null,[[\"create\",\"tooltip\",\"icon\",\"disabled\",\"allowClear\",\"mdCodeName\",\"value\",\"placeholder\"],[true,true,false,[19,0,[\"disabled\"]],true,\"telephone\",[19,1,[\"item\",\"service\"]],\"Choose phone type\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-phone-array/template.hbs" } });
 });
 define('mdeditor/pods/components/object/md-process-step/component', ['exports'], function (exports) {
   'use strict';
@@ -15708,7 +15733,71 @@ define('mdeditor/pods/dictionary/show/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Route.extend({});
+
+
+  const {
+    inject,
+    Route,
+    get,
+    copy
+  } = Ember;
+
+  exports.default = Route.extend({
+    flashMessages: inject.service(),
+
+    model: function model(params) {
+      let rec = this.store.peekRecord('dictionary', params.dictionary_id);
+      return rec;
+    },
+
+    actions: {
+      saveDictionary: function saveDictionary() {
+        let model = this.currentRouteModel();
+
+        model.save().then(() => {
+          //this.refresh();
+          //this.setModelHash();
+          get(this, 'flashMessages').success(`Saved Dictionary: ${model.get('title')}`);
+
+          //this.transitionTo('contacts');
+        });
+      },
+
+      destroyDictionary: function destroyDictionary() {
+        let model = this.currentRouteModel();
+        model.destroyRecord().then(() => {
+          get(this, 'flashMessages').success(`Deleted Dictionary: ${model.get('title')}`);
+          this.replaceWith('dictionaries');
+        });
+      },
+
+      cancelDictionary: function cancelDictionary() {
+        let model = this.currentRouteModel();
+        let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
+
+        if (this.get('settings.data.autoSave')) {
+          let json = model.get('jsonRevert');
+
+          if (json) {
+            model.set('json', JSON.parse(json));
+            get(this, 'flashMessages').warning(message);
+          }
+
+          return;
+        }
+
+        model.reload().then(() => {
+          get(this, 'flashMessages').warning(message);
+        });
+      },
+
+      copyDictionary: function copyDictionary() {
+
+        get(this, 'flashMessages').success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
+        this.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
+      }
+    }
+  });
 });
 define("mdeditor/pods/dictionary/show/template", ["exports"], function (exports) {
   "use strict";
@@ -15716,7 +15805,7 @@ define("mdeditor/pods/dictionary/show/template", ["exports"], function (exports)
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Wp+VE51N", "block": "{\"symbols\":[],\"statements\":[[0,\"Showing Dictionary \"],[1,[20,[\"model\",\"id\"]],false],[0,\"\\n\"],[1,[18,\"outlet\"],false],[0,\"\\n\\n\"],[6,\"style\"],[9,\"media\",\"screen\"],[7],[0,\"\\n    .construction {\\n        width: 50vh;\\n        min-width:240px;\\n        font-size:5vh;\\n        border: 2vh solid #333333;\\n        margin: 10vh auto;\\n        padding: 3vh;\\n        border-radius: 5vh;\\n    }\\n\"],[8],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"class\",\"shadow\"],[\"construction card-inverse card-warning\",false]],{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"text-center\"],[7],[0,\"\\n        \"],[6,\"div\"],[7],[0,\"\\n            \"],[1,[25,\"fa-icon\",[\"exclamation-triangle\"],[[\"size\"],[2]]],false],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[7],[0,\"\\n            \"],[6,\"b\"],[7],[0,\"Page Under \"],[6,\"br\"],[7],[8],[0,\"Construction\"],[8],[0,\"\\n        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "rFCTZdld", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"row md-no-spotlight\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"col-sm-9 col-md-offset-1\"],[7],[0,\"\\n    \"],[6,\"h3\"],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[\"book\"],[[\"class\"],[\"text-muted\"]]],false],[0,\"\\n\\n      Viewing Dictionary: \"],[1,[20,[\"model\",\"title\"]],false],[0,\"\\n      \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"col-sm-2\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"md-control-sidebar\"],[7],[0,\"\\n\"],[4,\"control/md-crud-buttons\",null,[[\"model\",\"doDelete\",\"doCopy\"],[[19,0,[\"model\"]],\"destroyDictionary\",\"copyDictionary\"]],{\"statements\":[[4,\"link-to\",[\"dictionary.show.edit\",[19,0,[\"model\",\"id\"]]],[[\"class\"],[\"btn btn-lg btn-success\"]],{\"statements\":[[0,\"          \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit\"]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[6,\"hr\"],[7],[8],[0,\"\\n\"],[4,\"link-to\",[\"dictionaries\"],[[\"class\"],[\"btn btn-lg btn-primary btn-block\"]],{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"list\"],null],false],[0,\" Show List\"]],\"parameters\":[]},null],[0,\"\\n      \"],[1,[18,\"control/md-scroll-spy\"],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/template.hbs" } });
 });
 define("mdeditor/pods/dictionary/template", ["exports"], function (exports) {
   "use strict";
@@ -18943,7 +19032,7 @@ define("mdeditor/pods/record/show/edit/metadata/index/template", ["exports"], fu
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "wIx4BCXL", "block": "{\"symbols\":[\"metadata\",\"identifier\"],\"statements\":[[4,\"with\",[[19,0,[\"model\",\"json\",\"metadata\",\"metadataInfo\"]]],null,{\"statements\":[[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n  \"],[6,\"form\"],[9,\"class\",\"col-xxl-11 col-xxxl-10 col-xxl-offset-1\"],[7],[0,\"\\n    \"],[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n      Editing Metadata Information\\n      \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\"],[\"Basic Information\",true,false,\"record.metadata.basicInformation\",\"Basic Information\"]],{\"statements\":[[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"label\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"placeholder\",\"profilePath\",\"data-spy\",\"class\"],[[19,1,[\"metadataStatus\"]],\"Metadata Status\",true,true,false,\"progress\",\"Select the current status\",\"record.metadata.metadataStatus\",false,\"md-embedded\"]]],false],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"profilePath\",\"data-spy\",\"shadow\",\"class\"],[\"record.metadata.metadataDate\",[19,0,[\"flase\"]],false,\"md-embedded\"]],{\"statements\":[[0,\"        \"],[1,[25,\"object/md-date-array\",null,[[\"value\",\"plain\",\"data-spy\"],[[19,1,[\"metadataDate\"]],true,false]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"object/md-party\",null,[[\"title\",\"data-spy\",\"collapsible\",\"collapsed\",\"required\",\"value\",\"profilePath\"],[\"Metadata Contact\",\"Metadata Contacts\",true,false,true,[19,1,[\"metadataContact\"]],\"record.metadata.metadataContact\"]]],false],[0,\"\\n\\n\"],[4,\"with\",[[19,0,[\"model\",\"json\",\"metadata\",\"metadataInfo\",\"metadataIdentifier\"]]],null,{\"statements\":[[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"required\",\"btnText\",\"btnClass\",\"btnAction\",\"btnIcon\"],[\"Metadata Identifier\",true,false,\"record.metadata.metadataIdentifier\",false,\"Edit\",\"success\",[25,\"route-action\",[\"editIdentifier\"],null],\"pencil\"]],{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n        \"],[6,\"dl\"],[9,\"class\",\"dl-horizontal\"],[7],[0,\"\\n          \"],[1,[25,\"control/md-definition\",null,[[\"title\",\"text\"],[\"Identifier\",[19,2,[\"identifier\"]]]]],false],[0,\"\\n\"],[0,\"          \"],[1,[25,\"control/md-definition\",null,[[\"title\",\"text\"],[\"Namespace\",[19,2,[\"namespace\"]]]]],false],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[2]},null],[0,\"\\n    \"],[1,[25,\"object/md-citation/preview\",null,[[\"profilePath\",\"citation\",\"title\",\"muted\",\"editCitation\"],[\"record.metadata.parentMetadata\",[19,1,[\"parentMetadata\"]],\"Parent Metadata\",true,\"editParent\"]]],false],[0,\"\\n\\n    \"],[1,[25,\"object/md-repository-array\",null,[[\"value\",\"data-spy\"],[[19,0,[\"model\",\"json\",\"metadataRepository\"]],\"Metadata Repository\"]]],false],[0,\"\\n\\n    \"],[1,[25,\"object/md-online-resource-array\",null,[[\"model\",\"data-spy\"],[[19,1,[\"metadataOnlineResource\"]],\"Online Resources\"]]],false],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"profilePath\",\"title\",\"collapsible\",\"collapsed\",\"profilePath\"],[\"record.metadata.maintenance\",\"Metadata Maintenance\",true,true,\"record.metadata.maintenance\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-maintenance\",null,[[\"model\",\"profilePath\"],[[19,1,[\"metadataMaintenance\"]],\"record.metadata.maintenance\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"shadow\",\"data-spy\",\"profilePath\",\"collapsible\",\"collapsed\"],[\"Default Metadata Locale\",true,\"Default Locale\",\"record.metadata.defaultLocale\",true,true]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-locale\",null,[[\"model\",\"modelPath\"],[[19,0,[\"model\"]],\"json.metadata.metadataInfo.defaultMetadataLocale\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"object/md-citation-array\",null,[[\"model\",\"profilePath\",\"data-spy\",\"editItem\",\"label\"],[[19,1,[\"alternateMetadataReference\"]],\"record.metadata.alternateMetadataReference\",\"Alternate Metadata\",[25,\"route-action\",[\"editAlternate\"],null],\"Alternate Metadata Reference\"]]],false],[0,\"\\n\\n    \"],[1,[18,\"outlet\"],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-record-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[19,0,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/metadata/index/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Uhi9R7oo", "block": "{\"symbols\":[\"metadata\",\"identifier\"],\"statements\":[[4,\"with\",[[19,0,[\"model\",\"json\",\"metadata\",\"metadataInfo\"]]],null,{\"statements\":[[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n  \"],[6,\"form\"],[9,\"class\",\"col-xxl-11 col-xxxl-10 col-xxl-offset-1\"],[7],[0,\"\\n    \"],[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n      Editing Metadata Information\\n      \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\"],[\"Basic Information\",true,false,\"record.metadata.basicInformation\",\"Basic Information\"]],{\"statements\":[[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"label\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"placeholder\",\"profilePath\",\"data-spy\",\"class\"],[[19,1,[\"metadataStatus\"]],\"Metadata Status\",true,true,false,\"progress\",\"Select the current status\",\"record.metadata.metadataStatus\",false,\"md-embedded\"]]],false],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"profilePath\",\"data-spy\",\"shadow\",\"class\"],[\"record.metadata.metadataDate\",[19,0,[\"flase\"]],false,\"md-embedded\"]],{\"statements\":[[0,\"        \"],[1,[25,\"object/md-date-array\",null,[[\"value\",\"plain\",\"data-spy\"],[[19,1,[\"metadataDate\"]],true,false]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"object/md-party\",null,[[\"title\",\"data-spy\",\"collapsible\",\"collapsed\",\"required\",\"value\",\"profilePath\"],[\"Metadata Contact\",\"Metadata Contacts\",true,false,true,[19,1,[\"metadataContact\"]],\"record.metadata.metadataContact\"]]],false],[0,\"\\n\\n\"],[4,\"with\",[[19,0,[\"model\",\"json\",\"metadata\",\"metadataInfo\",\"metadataIdentifier\"]]],null,{\"statements\":[[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"required\",\"btnText\",\"btnClass\",\"btnAction\",\"btnIcon\"],[\"Metadata Identifier\",true,false,\"record.metadata.metadataIdentifier\",false,\"Edit\",\"success\",[25,\"route-action\",[\"editIdentifier\"],null],\"pencil\"]],{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n        \"],[6,\"dl\"],[9,\"class\",\"dl-horizontal\"],[7],[0,\"\\n          \"],[1,[25,\"control/md-definition\",null,[[\"title\",\"text\"],[\"Identifier\",[19,2,[\"identifier\"]]]]],false],[0,\"\\n\"],[0,\"          \"],[1,[25,\"control/md-definition\",null,[[\"title\",\"text\"],[\"Namespace\",[19,2,[\"namespace\"]]]]],false],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[2]},null],[0,\"\\n    \"],[1,[25,\"object/md-citation/preview\",null,[[\"profilePath\",\"citation\",\"title\",\"muted\",\"editCitation\"],[\"record.metadata.parentMetadata\",[19,1,[\"parentMetadata\"]],\"Parent Metadata\",true,\"editParent\"]]],false],[0,\"\\n\\n    \"],[1,[25,\"object/md-repository-array\",null,[[\"value\",\"data-spy\"],[[19,0,[\"model\",\"json\",\"metadataRepository\"]],\"Metadata Repository\"]]],false],[0,\"\\n\\n    \"],[1,[25,\"object/md-online-resource-array\",null,[[\"model\",\"profilePath\",\"data-spy\"],[[19,1,[\"metadataOnlineResource\"]],\"record.metadata.onlineResource\",\"Online Resources\"]]],false],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"profilePath\",\"title\",\"collapsible\",\"collapsed\",\"profilePath\"],[\"record.metadata.maintenance\",\"Metadata Maintenance\",true,true,\"record.metadata.maintenance\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-maintenance\",null,[[\"model\",\"profilePath\"],[[19,1,[\"metadataMaintenance\"]],\"record.metadata.maintenance\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"shadow\",\"data-spy\",\"profilePath\",\"collapsible\",\"collapsed\"],[\"Default Metadata Locale\",true,\"Default Locale\",\"record.metadata.defaultLocale\",true,true]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-locale\",null,[[\"model\",\"modelPath\"],[[19,0,[\"model\"]],\"json.metadata.metadataInfo.defaultMetadataLocale\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"object/md-citation-array\",null,[[\"model\",\"profilePath\",\"data-spy\",\"editItem\",\"label\"],[[19,1,[\"alternateMetadataReference\"]],\"record.metadata.alternateMetadataReference\",\"Alternate Metadata\",[25,\"route-action\",[\"editAlternate\"],null],\"Alternate Metadata Reference\"]]],false],[0,\"\\n\\n    \"],[1,[18,\"outlet\"],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-record-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[19,0,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/metadata/index/template.hbs" } });
 });
 define('mdeditor/pods/record/show/edit/metadata/parent/identifier/route', ['exports', 'mdeditor/mixins/scroll-to'], function (exports, _scrollTo) {
   'use strict';
@@ -20836,6 +20925,12 @@ define('mdeditor/services/mdjson', ['exports', 'npm:ajv', 'npm:mdjson-schemas/re
 
     validateContact(contact) {
       validator.validate('contact', contact.get('cleanJson'));
+
+      return validator;
+    },
+
+    validateDictionary(dictionary) {
+      validator.validate('dataDictionary', dictionary.get('cleanJson').dataDictionary);
 
       return validator;
     }
@@ -22760,6 +22855,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+b54d5b33"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+df3b9dbb"});
 }
 //# sourceMappingURL=mdeditor.map
