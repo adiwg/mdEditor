@@ -1,17 +1,26 @@
 <h3 class="text-info">{{fa-icon "file-text"}} Metadata Records</h3>
-{{#layout/md-card
-  collapsible=true
-  collapsed=false
-  shadow=true
-}}
-{{!-- <h3>{{section.meta.title}}</h3> --}}
-{{control/md-record-table
-  data=model
-  dataColumns=(compute (route-action "getColumns") section.meta.type)
-  allActions=true
-  selectProperty="_selectedFromList"
-}}
-{{/layout/md-card}}
+{{#if model.length}}
+  {{#layout/md-card
+    collapsible=true
+    collapsed=false
+    shadow=true
+  }}
+    {{control/md-record-table
+      data=model
+      dataColumns=(compute (route-action "getColumns") section.meta.type)
+      allActions=true
+      selectProperty="_selectedFromList"
+    }}
+  {{/layout/md-card}}
+{{else}}
+  <div class="alert alert-info">
+    <h3>No Metadata Records found.
+      {{#link-to "record.new" class="btn btn-success btn-lg" }}
+        {{fa-icon "plus"}} Create a Metadata Record
+      {{/link-to}}
+    </h3>
+  </div>
+{{/if}}
 
 {{outlet}}
 
