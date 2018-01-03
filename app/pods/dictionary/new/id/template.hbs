@@ -2,57 +2,47 @@
     <div class="col-md-8 col-md-offset-2">
         <h3>Create New Data Dictionary</h3>
         <p class="text-center">To create a <em> new</em> data dictionary, enter a dictionary name and
-            choose a data resource type.</p>
+            choose one or more subjects.</p>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-        <div class="">
-            {{#if noName}}
-                <div class="alert alert-danger md-form-alert" role="alert">
-                    You must provide a name for this dictionary.
-                </div>
-            {{/if}}
-            {{#if noType}}
-                <div class="alert alert-danger md-form-alert" role="alert">
-                    You must choose a type for this data resource.
-                </div>
-            {{/if}}
-        </div>
-    </div>
-</div>
-
-<div class="row">
-    <div class="form-horizontal col-md-6 col-md-offset-3">
+    <form {{action 'saveDictionary' on='submit'}}
+    class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3">
         <div class="form-group">
-            <label class="col-sm-3 control-label">Dictionary Name</label>
-            <div class="col-sm-9">
+            <label class="control-label
+            {{if (v-get model 'json.dataDictionary.citation.title'
+             'options.presence.presence') "required"}}">Dictionary Title</label>
+            <div class="">
                 {{input/md-input
-                value=model.json.dataDictionary.citation.title
-                placeholder="Enter an name for this dictionary"}}
+                valuePath="json.dataDictionary.citation.title"
+                model=model
+                placeholder='Enter a title for the dictionary'}}
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3 control-label">Data Resource Type</label>
-            <div class="col-sm-9 md-form-select">
-                {{input/md-codelist
-                value=model.json.dataDictionary.resourceType
+            <label class="control-label">Dictionary Subject</label>
+            <div class="">
+              {{input/md-codelist-multi
                 create=true
                 tooltip=true
                 icon=true
+                disabled=disabled
+                allowClear=true
                 mdCodeName="scope"
-                placeholder="Choose a type for this data resource"}}
+                showValidations=true
+                model=model
+                path='json.dataDictionary.subject' placeholder="Choose type(s) of resource" }}
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">
-                      <button {{action "saveDictionary"}} class="btn btn-success md-form-save"
-                                                          disabled={{allowSave}}>Save</button>
-                      <button {{action "cancelDictionary"}} class="btn btn-warning ">Cancel</button>
+                      <button type="submit" class="btn btn-success md-form-save"
+                                                      disabled={{v-get model 'isInvalid'}}>Save</button>
+                      <button type="button" {{action "cancelRecord"}} class="btn btn-warning ">Cancel</button>
                  </span>
             </div>
         </div>
-    </div>
+    </form>
 </div>

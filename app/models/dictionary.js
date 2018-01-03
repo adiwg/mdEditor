@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import DS from 'ember-data';
-import uuidV4 from 'npm:uuid/v4';
-import Validator from 'npm:validator';
+//import uuidV4 from 'npm:uuid/v4';
+//import Validator from 'npm:validator';
 import Model from 'mdeditor/models/base';
 import {
   validator,
@@ -11,32 +11,50 @@ import {
 const {
   Copyable,
   computed,
-  isEmpty,
-  get,
-  Object:EmObject
+  //isEmpty,
+  //get,
+  Object: EmObject
 } = Ember;
 
-export default Model.extend(Copyable, {
+const Validations = buildValidations({
+  'json.dataDictionary.citation.title': validator('presence', {
+    presence: true,
+    ignoreBlank: true
+  }),
+  'json.dataDictionary.subject': [
+    validator('array-required', {
+      track: []
+    })
+  ]
+});
+
+const JsonDefault = Ember.Object.extend({
+  init() {
+    this._super(...arguments);
+    this.setProperties({
+      dataDictionary: {
+        citation: {
+          title: null,
+          date: [{
+            date: new Date()
+              .toISOString(),
+            dateType: 'creation'
+          }]
+        },
+        description: null,
+        subject: [],
+        responsibleParty: {},
+        domain: [],
+        entity: []
+      },
+    });
+  }
+});
+
+export default Model.extend(Validations, Copyable, {
   json: DS.attr('json', {
     defaultValue() {
-      const obj = {
-        "dataDictionary": {
-          "citation": {
-            "title": null,
-            "date": [{
-              "date": new Date()
-                .toISOString(),
-              "dateType": "creation"
-            }]
-          },
-          "description": null,
-          "resourceType": null
-        },
-        "domain": [],
-        "entity": []
-      };
-
-      return obj;
+      return JsonDefault.create();
     }
   }),
   dateUpdated: DS.attr('date', {
