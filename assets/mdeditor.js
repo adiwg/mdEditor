@@ -98,6 +98,20 @@ define('mdeditor/blueprints/ember-string-helpers', ['exports', 'ember-string-hel
     }
   });
 });
+define("mdeditor/cldrs/en", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = [{ "locale": "en-US", "parentLocale": "en" }, { "locale": "en", "pluralRuleFunction": function pluralRuleFunction(n, ord) {
+      var s = String(n).split("."),
+          v0 = !s[1],
+          t0 = Number(s[0]) == n,
+          n10 = t0 && s[0].slice(-1),
+          n100 = t0 && s[0].slice(-2);if (ord) return n10 == 1 && n100 != 11 ? "one" : n10 == 2 && n100 != 12 ? "two" : n10 == 3 && n100 != 13 ? "few" : "other";return n == 1 && v0 ? "one" : "other";
+    }, "fields": { "year": { "displayName": "year", "relative": { "0": "this year", "1": "next year", "-1": "last year" }, "relativeTime": { "future": { "one": "in {0} year", "other": "in {0} years" }, "past": { "one": "{0} year ago", "other": "{0} years ago" } } }, "month": { "displayName": "month", "relative": { "0": "this month", "1": "next month", "-1": "last month" }, "relativeTime": { "future": { "one": "in {0} month", "other": "in {0} months" }, "past": { "one": "{0} month ago", "other": "{0} months ago" } } }, "day": { "displayName": "day", "relative": { "0": "today", "1": "tomorrow", "-1": "yesterday" }, "relativeTime": { "future": { "one": "in {0} day", "other": "in {0} days" }, "past": { "one": "{0} day ago", "other": "{0} days ago" } } }, "hour": { "displayName": "hour", "relativeTime": { "future": { "one": "in {0} hour", "other": "in {0} hours" }, "past": { "one": "{0} hour ago", "other": "{0} hours ago" } } }, "minute": { "displayName": "minute", "relativeTime": { "future": { "one": "in {0} minute", "other": "in {0} minutes" }, "past": { "one": "{0} minute ago", "other": "{0} minutes ago" } } }, "second": { "displayName": "second", "relative": { "0": "now" }, "relativeTime": { "future": { "one": "in {0} second", "other": "in {0} seconds" }, "past": { "one": "{0} second ago", "other": "{0} seconds ago" } } } } }];
+});
 define("mdeditor/components/-lf-get-outlet-state", ["exports", "liquid-fire/components/-lf-get-outlet-state"], function (exports, _lfGetOutletState) {
   "use strict";
 
@@ -5765,42 +5779,59 @@ define('mdeditor/models/coordinator', ['exports', 'mdeditor/models/obj-hash'], f
     }
   });
 });
-define('mdeditor/models/dictionary', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:validator', 'mdeditor/models/base', 'ember-cp-validations'], function (exports, _emberData, _v, _npmValidator, _base, _emberCpValidations) {
+define('mdeditor/models/dictionary', ['exports', 'ember-data', 'mdeditor/models/base', 'ember-cp-validations'], function (exports, _emberData, _base, _emberCpValidations) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
 
-
+  //import uuidV4 from 'npm:uuid/v4';
+  //import Validator from 'npm:validator';
   const {
     Copyable,
     computed,
-    isEmpty,
-    get,
+    //isEmpty,
+    //get,
     Object: EmObject
   } = Ember;
 
-  exports.default = _base.default.extend(Copyable, {
+  const Validations = (0, _emberCpValidations.buildValidations)({
+    'json.dataDictionary.citation.title': (0, _emberCpValidations.validator)('presence', {
+      presence: true,
+      ignoreBlank: true
+    }),
+    'json.dataDictionary.subject': [(0, _emberCpValidations.validator)('array-required', {
+      track: []
+    })]
+  });
+
+  const JsonDefault = Ember.Object.extend({
+    init() {
+      this._super(...arguments);
+      this.setProperties({
+        dataDictionary: {
+          citation: {
+            title: null,
+            date: [{
+              date: new Date().toISOString(),
+              dateType: 'creation'
+            }]
+          },
+          description: null,
+          subject: [],
+          responsibleParty: {},
+          domain: [],
+          entity: []
+        }
+      });
+    }
+  });
+
+  exports.default = _base.default.extend(Validations, Copyable, {
     json: _emberData.default.attr('json', {
       defaultValue() {
-        const obj = {
-          "dataDictionary": {
-            "citation": {
-              "title": null,
-              "date": [{
-                "date": new Date().toISOString(),
-                "dateType": "creation"
-              }]
-            },
-            "description": null,
-            "resourceType": null
-          },
-          "domain": [],
-          "entity": []
-        };
-
-        return obj;
+        return JsonDefault.create();
       }
     }),
     dateUpdated: _emberData.default.attr('date', {
@@ -15533,7 +15564,7 @@ define("mdeditor/pods/dictionary/new/id/template", ["exports"], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "jKDZprZ0", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"row text-center\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-8 col-md-offset-2\"],[7],[0,\"\\n        \"],[6,\"h3\"],[7],[0,\"Create New Data Dictionary\"],[8],[0,\"\\n        \"],[6,\"p\"],[9,\"class\",\"text-center\"],[7],[0,\"To create a \"],[6,\"em\"],[7],[0,\" new\"],[8],[0,\" data dictionary, enter a dictionary name and\\n            choose a data resource type.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-6 col-md-offset-3\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"noName\"]]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[9,\"class\",\"alert alert-danger md-form-alert\"],[9,\"role\",\"alert\"],[7],[0,\"\\n                    You must provide a name for this dictionary.\\n                \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[19,0,[\"noType\"]]],null,{\"statements\":[[0,\"                \"],[6,\"div\"],[9,\"class\",\"alert alert-danger md-form-alert\"],[9,\"role\",\"alert\"],[7],[0,\"\\n                    You must choose a type for this data resource.\\n                \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"form-horizontal col-md-6 col-md-offset-3\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"label\"],[9,\"class\",\"col-sm-3 control-label\"],[7],[0,\"Dictionary Name\"],[8],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"col-sm-9\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,0,[\"model\",\"json\",\"dataDictionary\",\"citation\",\"title\"]],\"Enter an name for this dictionary\"]]],false],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"label\"],[9,\"class\",\"col-sm-3 control-label\"],[7],[0,\"Data Resource Type\"],[8],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"col-sm-9 md-form-select\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"placeholder\"],[[19,0,[\"model\",\"json\",\"dataDictionary\",\"resourceType\"]],true,true,true,\"scope\",\"Choose a type for this data resource\"]]],false],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"col-sm-offset-4 col-sm-8\"],[7],[0,\"\\n                 \"],[6,\"span\"],[9,\"class\",\"pull-right\"],[7],[0,\"\\n                      \"],[6,\"button\"],[9,\"class\",\"btn btn-success md-form-save\"],[10,\"disabled\",[18,\"allowSave\"],null],[3,\"action\",[[19,0,[]],\"saveDictionary\"]],[7],[0,\"Save\"],[8],[0,\"\\n                      \"],[6,\"button\"],[9,\"class\",\"btn btn-warning \"],[3,\"action\",[[19,0,[]],\"cancelDictionary\"]],[7],[0,\"Cancel\"],[8],[0,\"\\n                 \"],[8],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/new/id/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "SjJnXKBF", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"row text-center\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-8 col-md-offset-2\"],[7],[0,\"\\n        \"],[6,\"h3\"],[7],[0,\"Create New Data Dictionary\"],[8],[0,\"\\n        \"],[6,\"p\"],[9,\"class\",\"text-center\"],[7],[0,\"To create a \"],[6,\"em\"],[7],[0,\" new\"],[8],[0,\" data dictionary, enter a dictionary name and\\n            choose one or more subjects.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n    \"],[6,\"form\"],[9,\"class\",\"col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3\"],[3,\"action\",[[19,0,[]],\"saveDictionary\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"label\"],[10,\"class\",[26,[\"control-label\\n            \",[25,\"if\",[[25,\"get\",[[25,\"get\",[[19,0,[\"model\",\"validations\",\"attrs\"]],\"json.dataDictionary.citation.title\"],null],\"options.presence.presence\"],null],\"required\"],null]]]],[7],[0,\"Dictionary Title\"],[8],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"valuePath\",\"model\",\"placeholder\"],[\"json.dataDictionary.citation.title\",[19,0,[\"model\"]],\"Enter a title for the dictionary\"]]],false],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"label\"],[9,\"class\",\"control-label\"],[7],[0,\"Dictionary Subject\"],[8],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n              \"],[1,[25,\"input/md-codelist-multi\",null,[[\"create\",\"tooltip\",\"icon\",\"disabled\",\"allowClear\",\"mdCodeName\",\"showValidations\",\"model\",\"path\",\"placeholder\"],[true,true,true,[19,0,[\"disabled\"]],true,\"scope\",true,[19,0,[\"model\"]],\"json.dataDictionary.subject\",\"Choose type(s) of resource\"]]],false],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"col-sm-offset-4 col-sm-8\"],[7],[0,\"\\n                 \"],[6,\"span\"],[9,\"class\",\"pull-right\"],[7],[0,\"\\n                      \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"btn btn-success md-form-save\"],[10,\"disabled\",[25,\"get\",[[19,0,[\"model\",\"validations\"]],\"isInvalid\"],null],null],[7],[0,\"Save\"],[8],[0,\"\\n                      \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-warning \"],[3,\"action\",[[19,0,[]],\"cancelRecord\"]],[7],[0,\"Cancel\"],[8],[0,\"\\n                 \"],[8],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/new/id/template.hbs" } });
 });
 define('mdeditor/pods/dictionary/new/index/route', ['exports'], function (exports) {
   'use strict';
@@ -22855,6 +22886,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+df3b9dbb"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+5335bed8"});
 }
 //# sourceMappingURL=mdeditor.map

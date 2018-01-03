@@ -354,7 +354,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('models/dictionary.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'models/dictionary.js should pass ESLint\n\n3:8 - \'uuidV4\' is defined but never used. (no-unused-vars)\n4:8 - \'Validator\' is defined but never used. (no-unused-vars)\n7:3 - \'validator\' is defined but never used. (no-unused-vars)\n8:3 - \'buildValidations\' is defined but never used. (no-unused-vars)\n14:3 - \'isEmpty\' is assigned a value but never used. (no-unused-vars)\n15:3 - \'get\' is assigned a value but never used. (no-unused-vars)');
+    assert.ok(true, 'models/dictionary.js should pass ESLint\n\n');
   });
 
   QUnit.test('models/record.js', function (assert) {
