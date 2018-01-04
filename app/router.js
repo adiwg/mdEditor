@@ -147,6 +147,7 @@ Router.map(function() {
       this.route('edit', function() {
         this.route('domains');
         this.route('entities');
+        this.route('citation');
       });
     });
   });

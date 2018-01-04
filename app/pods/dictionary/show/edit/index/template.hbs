@@ -1,2 +1,48 @@
-This is the index route.
-{{outlet}}
+{{#with model.json.dataDictionary as |resource|}}
+<div class="row">
+    <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
+      <h4 class="section-header">
+        Editing <em>{{model.title}}</em>
+        {{control/md-status model=model}}
+      </h4>
+      {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
+        profilePath="dictionary.main.basicInformation" data-spy="Basic Information"
+        required=true
+      }}
+        {{input/md-input
+          value=model.title
+          placeholder="Enter the title for the dictionary."
+          label="Title"
+          required=true
+          profilePath="dictionary.main.title"
+          data-spy="Title"
+          class="md-embedded"
+        }}
+
+        {{#if (is-array resource.subject)}}
+          {{input/md-codelist-multi
+            create=true
+            label="Subject"
+            required=true
+            tooltip=true
+            icon=true
+            disabled=disabled
+            allowClear=true
+            mdCodeName="scope"
+            showValidations=true
+            model=model
+            path='json.dataDictionary.subject'
+            placeholder="Choose type(s) of resource"
+            profilePath="dictionary.main.subject"
+            data-spy="Subject"
+            class="md-embedded"
+          }}
+        {{/if}}
+
+      {{/layout/md-card}}
+    </form>
+</div>
+{{/with}}
+
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

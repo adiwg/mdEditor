@@ -1,0 +1,23 @@
+<div class="row md-no-spotlight">
+  <div class="col-sm-9 col-md-offset-1">
+    <h3>
+      {{fa-icon "book" class="text-muted"}}
+
+      Viewing Dictionary: {{model.title}}
+      {{control/md-status model=model}}
+    </h3>
+  </div>
+
+  <div class="col-sm-2">
+    <div class="md-control-sidebar">
+      {{#control/md-crud-buttons model=model doDelete="destroyDictionary" doCopy="copyDictionary" }}
+        {{#link-to "dictionary.show.edit" model.id class="btn btn-lg btn-success" }}
+          {{fa-icon "pencil"}} Edit{{/link-to}}
+      {{/control/md-crud-buttons}}
+      <hr>
+      {{#link-to "dictionaries" class="btn btn-lg btn-primary btn-block" }}
+      {{fa-icon "list"}} Show List{{/link-to}}
+      {{control/md-scroll-spy}}
+    </div>
+  </div>
+</div>

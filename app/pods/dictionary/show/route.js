@@ -42,7 +42,7 @@ export default Route.extend({
         });
     },
 
-    cancelDictionary: function() {
+    cancelDictionar: function() {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
 
