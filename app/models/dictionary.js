@@ -21,7 +21,10 @@ const Validations = buildValidations({
     presence: true,
     ignoreBlank: true
   }),
-  'json.dataDictionary.subject': [
+  'json.dataDictionary.subject': [validator('presence', {
+      presence: true,
+      ignoreBlank: true
+    }),
     validator('array-required', {
       track: []
     })
