@@ -977,6 +977,11 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'pods/dictionary/route.js should pass ESLint\n\n');
   });
 
+  QUnit.test('pods/dictionary/show/edit/citation/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/citation/route.js should pass ESLint\n\n');
+  });
+
   QUnit.test('pods/dictionary/show/edit/domains/route.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/dictionary/show/edit/domains/route.js should pass ESLint\n\n');
@@ -994,7 +999,12 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n7:3 - \'get\' is assigned a value but never used. (no-unused-vars)\n8:3 - \'copy\' is assigned a value but never used. (no-unused-vars)');
+  });
+
+  QUnit.test('pods/dictionary/show/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/index/route.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/dictionary/show/route.js', function (assert) {
@@ -1415,6 +1425,11 @@ define('mdeditor/tests/app.lint-test', [], function () {
   QUnit.test('services/mdjson.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'services/mdjson.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('services/patch.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'services/patch.js should pass ESLint\n\n');
   });
 
   QUnit.test('services/profile.js', function (assert) {
@@ -2447,8 +2462,8 @@ define('mdeditor/tests/integration/components/feature-form-test', ['ember-qunit'
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "Y/Dfkhsx",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-form\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false]],\"hasEval\":false}",
+      "id": "qodNgu2S",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-form\",null,[[\"model\"],[[20,[\"model\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2456,8 +2471,8 @@ define('mdeditor/tests/integration/components/feature-form-test', ['ember-qunit'
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "pb0rKW4W",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"feature-form\",null,[[\"model\"],[[19,0,[\"model\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "boWLAnXl",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"feature-form\",null,[[\"model\"],[[20,[\"model\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2478,8 +2493,8 @@ define('mdeditor/tests/integration/components/feature-group-test', ['ember-qunit
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "V+f6aWu2",
-      "block": "{\"symbols\":[\"l\"],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"        \"],[1,[25,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[19,0,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"feature-group\",null,[[\"name\",\"default\"],[\"Extents\",true]],{\"statements\":[[4,\"each\",[[19,0,[\"layers\"]]],null,{\"statements\":[[0,\"          \"],[1,[25,\"geojson-layer\",null,[[\"geoJSON\",\"draw\"],[[19,1,[]],true]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n      \"],[1,[18,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "7kCC356F",
+      "block": "{\"symbols\":[\"l\"],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"        \"],[1,[25,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[20,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"feature-group\",null,[[\"name\",\"default\"],[\"Extents\",true]],{\"statements\":[[4,\"each\",[[20,[\"layers\"]]],null,{\"statements\":[[0,\"          \"],[1,[25,\"geojson-layer\",null,[[\"geoJSON\",\"draw\"],[[19,1,[]],true]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n      \"],[1,[18,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2502,8 +2517,8 @@ define('mdeditor/tests/integration/components/feature-table-test', ['ember-qunit
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "KQ4PO14S",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-table\",null,[[\"data\",\"showForm\"],[[19,0,[\"data\",\"features\"]],[19,0,[\"showForm\"]]]]],false]],\"hasEval\":false}",
+      "id": "AnIn4SVs",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-table\",null,[[\"data\",\"showForm\"],[[20,[\"data\",\"features\"]],[20,[\"showForm\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2525,8 +2540,8 @@ define('mdeditor/tests/integration/components/geojson-layer-test', ['ember-qunit
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "DiPSVWa+",
-      "block": "{\"symbols\":[\"l\"],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"        \"],[1,[25,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[19,0,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"feature-group\",null,[[\"name\",\"default\"],[\"Extents\",true]],{\"statements\":[[4,\"each\",[[19,0,[\"layers\"]]],null,{\"statements\":[[0,\"          \"],[1,[25,\"geojson-layer\",null,[[\"geoJSON\",\"draw\",\"editLayers\"],[[19,1,[]],true,[19,0,[\"layers\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n      \"],[1,[18,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "/hQfdPCr",
+      "block": "{\"symbols\":[\"l\"],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"        \"],[1,[25,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[20,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"feature-group\",null,[[\"name\",\"default\"],[\"Extents\",true]],{\"statements\":[[4,\"each\",[[20,[\"layers\"]]],null,{\"statements\":[[0,\"          \"],[1,[25,\"geojson-layer\",null,[[\"geoJSON\",\"draw\",\"editLayers\"],[[19,1,[]],true,[20,[\"layers\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n      \"],[1,[18,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2548,8 +2563,8 @@ define('mdeditor/tests/integration/components/leaflet-draw-test', ['ember-qunit'
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "n1MPIZ8+",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"        \"],[1,[25,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[19,0,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n      \"],[1,[18,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "bB8jFq/g",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"        \"],[1,[25,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[20,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n      \"],[1,[18,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2627,8 +2642,8 @@ define('mdeditor/tests/integration/components/leaflet-table-test', ['ember-qunit
     this.set('layers', (0, _createMapLayer.default)(2));
 
     this.render(Ember.HTMLBars.template({
-      "id": "vZqhtpdL",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"leaflet-table\",null,[[\"layers\",\"resizeDebouncedEventsEnabled\"],[[19,0,[\"layers\",\"features\"]],true]]],false]],\"hasEval\":false}",
+      "id": "RHH4eUZa",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"leaflet-table\",null,[[\"layers\",\"resizeDebouncedEventsEnabled\"],[[20,[\"layers\",\"features\"]],true]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2785,8 +2800,8 @@ define('mdeditor/tests/integration/components/tree-branch-test', ['ember-qunit']
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "S4WPqSvQ",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"tree-branch\",null,[[\"model\",\"select\",\"selected\",\"nodeDepth\",\"path\"],[[19,0,[\"model\"]],[19,0,[\"select\"]],[19,0,[\"selected\"]],3,[19,0,[\"path\"]]]]],false]],\"hasEval\":false}",
+      "id": "Cbig8K8S",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"tree-branch\",null,[[\"model\",\"select\",\"selected\",\"nodeDepth\",\"path\"],[[20,[\"model\"]],[20,[\"select\"]],[20,[\"selected\"]],3,[20,[\"path\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2796,8 +2811,8 @@ define('mdeditor/tests/integration/components/tree-branch-test', ['ember-qunit']
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "Orfzp/4N",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-branch\",null,[[\"model\",\"select\",\"selected\",\"nodeDepth\",\"path\"],[[19,0,[\"model\"]],[19,0,[\"select\"]],[19,0,[\"selected\"]],3,[19,0,[\"path\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "qyPjRKDF",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-branch\",null,[[\"model\",\"select\",\"selected\",\"nodeDepth\",\"path\"],[[20,[\"model\"]],[20,[\"select\"]],[20,[\"selected\"]],3,[20,[\"path\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2831,8 +2846,8 @@ define('mdeditor/tests/integration/components/tree-label-test', ['ember-qunit'],
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     this.render(Ember.HTMLBars.template({
-      "id": "x1WJwA4O",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"tree-label\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false]],\"hasEval\":false}",
+      "id": "bF1V4Gaz",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"tree-label\",null,[[\"model\"],[[20,[\"model\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2840,8 +2855,8 @@ define('mdeditor/tests/integration/components/tree-label-test', ['ember-qunit'],
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "9I5/GSpu",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-label\",null,[[\"model\"],[[19,0,[\"model\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "io1xjMyR",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-label\",null,[[\"model\"],[[20,[\"model\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2882,8 +2897,8 @@ define('mdeditor/tests/integration/components/tree-leaf-test', ['ember-qunit'], 
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "/NFIQZ4S",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"tree-leaf\",null,[[\"model\",\"inTree\",\"select\",\"selected\",\"nodeDepth\",\"nodePath\"],[[19,0,[\"model\"]],true,[19,0,[\"select\"]],[19,0,[\"selected\"]],3,[19,0,[\"nodePath\"]]]]],false]],\"hasEval\":false}",
+      "id": "ZJ1FfM4d",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"tree-leaf\",null,[[\"model\",\"inTree\",\"select\",\"selected\",\"nodeDepth\",\"nodePath\"],[[20,[\"model\"]],true,[20,[\"select\"]],[20,[\"selected\"]],3,[20,[\"nodePath\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2893,8 +2908,8 @@ define('mdeditor/tests/integration/components/tree-leaf-test', ['ember-qunit'], 
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "ItHj6pJj",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-leaf\",null,[[\"model\",\"inTree\",\"select\",\"selected\"],[[19,0,[\"model\"]],false,[19,0,[\"select\"]],[19,0,[\"selected\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "xzA0dLtv",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-leaf\",null,[[\"model\",\"inTree\",\"select\",\"selected\"],[[20,[\"model\"]],false,[20,[\"select\"]],[20,[\"selected\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2940,8 +2955,8 @@ define('mdeditor/tests/integration/components/tree-search-test', ['ember-qunit']
 
     this.set('searchString', 'foo');
     this.render(Ember.HTMLBars.template({
-      "id": "OcgGbVYB",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"tree-search\",null,[[\"model\",\"selected\",\"select\",\"searchString\",\"exactMatch\"],[[19,0,[\"model\"]],[19,0,[\"selected\"]],[19,0,[\"select\"]],[19,0,[\"searchString\"]],[19,0,[\"exactMatch\"]]]]],false]],\"hasEval\":false}",
+      "id": "aCvtvy4K",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"tree-search\",null,[[\"model\",\"selected\",\"select\",\"searchString\",\"exactMatch\"],[[20,[\"model\"]],[20,[\"selected\"]],[20,[\"select\"]],[20,[\"searchString\"]],[20,[\"exactMatch\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2953,8 +2968,8 @@ define('mdeditor/tests/integration/components/tree-search-test', ['ember-qunit']
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "g7mZ5Lhd",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-search\",null,[[\"model\",\"selected\",\"select\"],[[19,0,[\"model\"]],[19,0,[\"selected\"]],[19,0,[\"select\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "vL74I/Rf",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-search\",null,[[\"model\",\"selected\",\"select\"],[[20,[\"model\"]],[20,[\"selected\"]],[20,[\"select\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -2998,8 +3013,8 @@ define('mdeditor/tests/integration/components/tree-view-test', ['ember-qunit'], 
     assert.expect(7);
 
     this.render(Ember.HTMLBars.template({
-      "id": "cBDuugZe",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"tree-view\",null,[[\"model\",\"selected\"],[[19,0,[\"model\"]],[19,0,[\"selected\"]]]]],false]],\"hasEval\":false}",
+      "id": "Wm/rVldd",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"tree-view\",null,[[\"model\",\"selected\"],[[20,[\"model\"]],[20,[\"selected\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -3015,8 +3030,8 @@ define('mdeditor/tests/integration/components/tree-view-test', ['ember-qunit'], 
 
     // Template block usage:
     this.render(Ember.HTMLBars.template({
-      "id": "loY8pbBs",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-view\",null,[[\"model\",\"select\"],[[19,0,[\"model\"]],[19,0,[\"select\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "HOKegU9H",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-view\",null,[[\"model\",\"select\"],[[20,[\"model\"]],[20,[\"select\"]]]],{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -3123,8 +3138,8 @@ define('mdeditor/tests/integration/pods/components/control/md-button-confirm/com
 
     // Template block usage:" + EOL +
     this.render(Ember.HTMLBars.template({
-      "id": "QzKqtQXG",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-button-confirm\",null,[[\"onConfirm\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]],\"onConfirm\"],null]]],{\"statements\":[[0,\"      Test\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "mc4xfBq1",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-button-confirm\",null,[[\"onConfirm\"],[[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]],\"onConfirm\"],null]]],{\"statements\":[[0,\"      Test\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -3175,8 +3190,8 @@ define('mdeditor/tests/integration/pods/components/control/md-button-modal/compo
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "7c/JLFBv",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[6,\"div\"],[9,\"id\",\"test-div\"],[7],[8],[0,\"\\n    \"],[4,\"control/md-button-modal\",null,[[\"message\",\"onConfirm\",\"onCancel\"],[\"Hello\",[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]],\"confirm\"],null],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]],\"cancel\"],null]]],{\"statements\":[[0,\" Test\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "UZyEEcwy",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[6,\"div\"],[9,\"id\",\"test-div\"],[7],[8],[0,\"\\n    \"],[4,\"control/md-button-modal\",null,[[\"message\",\"onConfirm\",\"onCancel\"],[\"Hello\",[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]],\"confirm\"],null],[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]],\"cancel\"],null]]],{\"statements\":[[0,\" Test\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -3300,8 +3315,8 @@ define('mdeditor/tests/integration/pods/components/control/md-crud-buttons/compo
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "O9qbB8Mt",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-crud-buttons\",null,[[\"doSave\",\"doCancel\",\"doCopy\",\"doDelete\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]],\"doSave\"],null],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]],\"doCancel\"],null],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]],\"doCopy\"],null],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]],\"doDelete\"],null]]]],false]],\"hasEval\":false}",
+      "id": "/cX+9bOi",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-crud-buttons\",null,[[\"doSave\",\"doCancel\",\"doCopy\",\"doDelete\"],[[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]],\"doSave\"],null],[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]],\"doCancel\"],null],[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]],\"doCopy\"],null],[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]],\"doDelete\"],null]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -3442,8 +3457,8 @@ define('mdeditor/tests/integration/pods/components/control/md-json-button/compon
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "LP49GlrO",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-json-button\",null,[[\"json\"],[[19,0,[\"json\"]]]]],false]],\"hasEval\":false}",
+      "id": "dTNtBdof",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-json-button\",null,[[\"json\"],[[20,[\"json\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -3467,8 +3482,8 @@ define('mdeditor/tests/integration/pods/components/control/md-json-viewer/compon
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "gBfGxMd3",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-json-viewer\",null,[[\"json\"],[[19,0,[\"json\"]]]]],false]],\"hasEval\":false}",
+      "id": "u4beRUY0",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-json-viewer\",null,[[\"json\"],[[20,[\"json\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -3483,8 +3498,8 @@ define('mdeditor/tests/integration/pods/components/control/md-json-viewer/compon
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "56gNPhwN",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-json-viewer\",null,[[\"json\",\"modal\"],[[19,0,[\"json\"]],false]]],false]],\"hasEval\":false}",
+      "id": "85gLqzZ/",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"control/md-json-viewer\",null,[[\"json\",\"modal\"],[[20,[\"json\"]],false]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4204,8 +4219,8 @@ define('mdeditor/tests/integration/pods/components/input/md-codelist-multi/compo
 
     // Template block usage:" + EOL +
     this.render(Ember.HTMLBars.template({
-      "id": "p+k2c/IM",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-codelist-multi\",null,[[\"mdCodeName\",\"value\"],[\"foobar\",[19,0,[\"fooVal\"]]]],{\"statements\":[[0,\"      \"],[6,\"p\"],[7],[0,\"template block text\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "id": "8Q18dkbX",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-codelist-multi\",null,[[\"mdCodeName\",\"value\"],[\"foobar\",[20,[\"fooVal\"]]]],{\"statements\":[[0,\"      \"],[6,\"p\"],[7],[0,\"template block text\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4224,8 +4239,8 @@ define('mdeditor/tests/integration/pods/components/input/md-codelist-multi/compo
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "1Qvnv/fz",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist-multi\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[false,[19,0,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[19,0,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
+      "id": "uG9L24cY",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist-multi\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[false,[20,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[20,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4248,8 +4263,8 @@ define('mdeditor/tests/integration/pods/components/input/md-codelist-multi/compo
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "ZXU741UE",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist-multi\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[true,[19,0,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[19,0,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
+      "id": "fp38Okep",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist-multi\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[true,[20,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[20,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4314,8 +4329,8 @@ define('mdeditor/tests/integration/pods/components/input/md-codelist/component-t
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "IQruT3wh",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist\",null,[[\"value\",\"mdCodeName\",\"change\"],[[19,0,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[19,0,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
+      "id": "I2O8FrLM",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist\",null,[[\"value\",\"mdCodeName\",\"change\"],[[20,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[20,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4338,8 +4353,8 @@ define('mdeditor/tests/integration/pods/components/input/md-codelist/component-t
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "auA25OPb",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[true,[19,0,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[19,0,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
+      "id": "pes7TSnX",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-codelist\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[true,[20,[\"value\"]],\"foobar\",[25,\"action\",[[19,0,[]],\"update\",[20,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4396,8 +4411,8 @@ define('mdeditor/tests/integration/pods/components/input/md-datetime/component-t
 
     this.set('mydate', '1999-12-31T23:59:59.999+0900');
     this.render(Ember.HTMLBars.template({
-      "id": "kpbGv3yK",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-datetime\",null,[[\"date\",\"format\",\"placeholder\"],[[19,0,[\"mydate\"]],\"YYYY-MM-DD\",\"Enter date\"]]],false]],\"hasEval\":false}",
+      "id": "bAl7k7Fb",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-datetime\",null,[[\"date\",\"format\",\"placeholder\"],[[20,[\"mydate\"]],\"YYYY-MM-DD\",\"Enter date\"]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4483,8 +4498,8 @@ define('mdeditor/tests/integration/pods/components/input/md-inputs/component-tes
     this.set('model', ['Foo', 'Bar', '']);
 
     this.render(Ember.HTMLBars.template({
-      "id": "nF1wFVzU",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\",\"header\",\"placeholder\",\"label\",\"buttonText\",\"maxlength\"],[[19,0,[\"model\"]],\"Header\",\"Enter Line\",\"Lines\",\"Add One\",100]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
+      "id": "pISENCxb",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\",\"header\",\"placeholder\",\"label\",\"buttonText\",\"maxlength\"],[[20,[\"model\"]],\"Header\",\"Enter Line\",\"Lines\",\"Add One\",100]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4512,8 +4527,8 @@ define('mdeditor/tests/integration/pods/components/input/md-inputs/component-tes
     this.set('model', ['foo']);
 
     this.render(Ember.HTMLBars.template({
-      "id": "a5GFQRai",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
+      "id": "BKziU0QP",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\"],[[20,[\"model\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4534,8 +4549,8 @@ define('mdeditor/tests/integration/pods/components/input/md-inputs/component-tes
     this.set('model', ['foo']);
 
     this.render(Ember.HTMLBars.template({
-      "id": "a5GFQRai",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
+      "id": "BKziU0QP",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\"],[[20,[\"model\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4558,8 +4573,8 @@ define('mdeditor/tests/integration/pods/components/input/md-inputs/component-tes
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "bISWJ1YP",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\",\"addItem\"],[[19,0,[\"model\"]],[19,0,[\"addItem\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
+      "id": "svCsBn+z",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\",\"addItem\"],[[20,[\"model\"]],[20,[\"addItem\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4576,8 +4591,8 @@ define('mdeditor/tests/integration/pods/components/input/md-inputs/component-tes
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "MBsRUCls",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\",\"deleteItem\"],[[19,0,[\"model\"]],[19,0,[\"deleteItem\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
+      "id": "59v1KSQr",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-inputs\",null,[[\"model\",\"deleteItem\"],[[20,[\"model\"]],[20,[\"deleteItem\"]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4706,8 +4721,8 @@ define('mdeditor/tests/integration/pods/components/input/md-select-profile/compo
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "YOgd9ElO",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-select-profile\",null,[[\"value\",\"updateProfile\"],[[19,0,[\"full\"]],[25,\"action\",[[19,0,[]],[19,0,[\"updateProfile\"]]],null]]]],false]],\"hasEval\":false}",
+      "id": "OUdvUPqL",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-select-profile\",null,[[\"value\",\"updateProfile\"],[[20,[\"full\"]],[25,\"action\",[[19,0,[]],[20,[\"updateProfile\"]]],null]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4756,8 +4771,8 @@ define('mdeditor/tests/integration/pods/components/input/md-select-thesaurus/com
     });
 
     this.render(Ember.HTMLBars.template({
-      "id": "o5FVuuhE",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-select-thesaurus\",null,[[\"selectThesaurus\"],[[19,0,[\"selectThesaurus\"]]]]],false]],\"hasEval\":false}",
+      "id": "huaGqwin",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-select-thesaurus\",null,[[\"selectThesaurus\"],[[20,[\"selectThesaurus\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4784,8 +4799,8 @@ define('mdeditor/tests/integration/pods/components/input/md-select/component-tes
     })]);
 
     this.render(Ember.HTMLBars.template({
-      "id": "u9U0W3oX",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-select\",null,[[\"value\",\"objectArray\",\"valuePath\",\"namePath\",\"tooltipPath\",\"placeholder\"],[1,[19,0,[\"objArray\"]],\"id\",\"name\",\"tip\",\"Select one\"]]],false],[0,\"\\n  \"]],\"hasEval\":false}",
+      "id": "8ZxyHz53",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-select\",null,[[\"value\",\"objectArray\",\"valuePath\",\"namePath\",\"tooltipPath\",\"placeholder\"],[1,[20,[\"objArray\"]],\"id\",\"name\",\"tip\",\"Select one\"]]],false],[0,\"\\n  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4810,8 +4825,8 @@ define('mdeditor/tests/integration/pods/components/input/md-select/component-tes
     this.set('value', 1);
 
     this.render(Ember.HTMLBars.template({
-      "id": "bSmcrfXF",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-select\",null,[[\"value\",\"objectArray\",\"valuePath\",\"namePath\"],[[19,0,[\"value\"]],[19,0,[\"objArray\"]],\"id\",\"name\"]]],false],[0,\"\\n  \"]],\"hasEval\":false}",
+      "id": "e1jA5pf4",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-select\",null,[[\"value\",\"objectArray\",\"valuePath\",\"namePath\"],[[20,[\"value\"]],[20,[\"objArray\"]],\"id\",\"name\"]]],false],[0,\"\\n  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -4844,8 +4859,8 @@ define('mdeditor/tests/integration/pods/components/input/md-select/component-tes
     this.set('value', 1);
 
     this.render(Ember.HTMLBars.template({
-      "id": "0yO2F0LE",
-      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-select\",null,[[\"value\",\"create\",\"objectArray\",\"valuePath\",\"namePath\"],[[19,0,[\"value\"]],true,[19,0,[\"objArray\"]],\"id\",\"name\"]]],false],[0,\"\\n  \"]],\"hasEval\":false}",
+      "id": "ryyN1rGP",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n    \"],[1,[25,\"input/md-select\",null,[[\"value\",\"create\",\"objectArray\",\"valuePath\",\"namePath\"],[[20,[\"value\"]],true,[20,[\"objArray\"]],\"id\",\"name\"]]],false],[0,\"\\n  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -5151,8 +5166,8 @@ define('mdeditor/tests/integration/pods/components/layout/md-nav-sidebar/compone
     this.set('model', [records, contacts, dicts]);
 
     this.render(Ember.HTMLBars.template({
-      "id": "RrlsWqQK",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"layout/md-nav-sidebar\",null,[[\"items\",\"version\"],[[19,0,[\"model\"]],\"test\"]]],false]],\"hasEval\":false}",
+      "id": "KSMvTrkL",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"layout/md-nav-sidebar\",null,[[\"items\",\"version\"],[[20,[\"model\"]],\"test\"]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -6159,16 +6174,16 @@ define('mdeditor/tests/integration/pods/components/object/md-keyword-list/compon
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     this.render(Ember.HTMLBars.template({
-      "id": "DLzMm/W9",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"object/md-keyword-list\",null,[[\"model\"],[[19,0,[\"model\"]]]]],false]],\"hasEval\":false}",
+      "id": "PD/YcUCG",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"object/md-keyword-list\",null,[[\"model\"],[[20,[\"model\"]]]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
     assert.equal(this.$().text().replace(/[ \n]+/g, '|').trim(), '|Delete|foo1|Delete|bar1|');
 
     this.render(Ember.HTMLBars.template({
-      "id": "3ovoY0R0",
-      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"object/md-keyword-list\",null,[[\"model\",\"readOnly\"],[[19,0,[\"model\"]],false]]],false]],\"hasEval\":false}",
+      "id": "I4PaXnlW",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"object/md-keyword-list\",null,[[\"model\",\"readOnly\"],[[20,[\"model\"]],false]]],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -7623,6 +7638,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'unit/pods/dictionary/new/index/route-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('unit/pods/dictionary/show/edit/citation/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/citation/route-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('unit/pods/dictionary/show/edit/domains/route-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/pods/dictionary/show/edit/domains/route-test.js should pass ESLint\n\n');
@@ -7641,6 +7661,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
   QUnit.test('unit/pods/dictionary/show/edit/route-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/pods/dictionary/show/edit/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/index/route-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/pods/dictionary/show/route-test.js', function (assert) {
@@ -8026,6 +8051,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
   QUnit.test('unit/services/mdjson-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/services/mdjson-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/services/patch-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/services/patch-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/services/profile-test.js', function (assert) {
@@ -8601,6 +8631,19 @@ define('mdeditor/tests/unit/pods/dictionary/new/index/route-test', ['ember-qunit
     assert.ok(route);
   });
 });
+define('mdeditor/tests/unit/pods/dictionary/show/edit/citation/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/citation', 'Unit | Route | dictionary/show/edit/citation', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
 define('mdeditor/tests/unit/pods/dictionary/show/edit/domains/route-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -8650,6 +8693,19 @@ define('mdeditor/tests/unit/pods/dictionary/show/edit/route-test', ['ember-qunit
 
   (0, _emberQunit.test)('it exists', function (assert) {
     var route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/index', 'Unit | Route | dictionary/show/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
     assert.ok(route);
   });
 });
@@ -9741,6 +9797,20 @@ define('mdeditor/tests/unit/services/mdjson-test', ['ember-qunit'], function (_e
   'use strict';
 
   (0, _emberQunit.moduleFor)('service:mdjson', 'Unit | Service | mdjson', {
+    // Specify the other units that are required for this test.
+    // needs: ['service:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let service = this.subject();
+    assert.ok(service);
+  });
+});
+define('mdeditor/tests/unit/services/patch-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('service:patch', 'Unit | Service | patch', {
     // Specify the other units that are required for this test.
     // needs: ['service:foo']
   });
