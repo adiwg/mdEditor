@@ -14,11 +14,13 @@ export default DS.Model.extend({
 
     this.on('didUpdate', this, this.wasUpdated);
     this.on('didCreate', this, this.wasUpdated);
+    this.on('didLoad', this, this.applyPatch);
     this.get('hasDirtyAttributes');
     //this.on('didLoad', this, this.wasLoaded);
   },
 
   settings: inject.service(),
+  patch: inject.service(),
   clean: inject.service('cleaner'),
   mdjson: inject.service('mdjson'),
 
@@ -36,7 +38,7 @@ export default DS.Model.extend({
    * @type {String}
    */
 
-  observeReload: Ember.observer('isReloading', function() {
+  observeReload: Ember.observer('isReloading', function () {
     let reloading = this.get('isReloading');
 
     if(!reloading) {
@@ -45,24 +47,31 @@ export default DS.Model.extend({
   }),
 
   observeAutoSave: Ember.observer('hasDirtyAttributes', 'hasDirtyHash',
-    function() {
+    function () {
       if(this.get('isNew')) {
         return;
       }
 
       if(this.get('settings.data.autoSave') && (this.get('hasDirtyHash') ||
           this.get('hasDirtyAttributes'))) {
-        Ember.run.once(this, function() {
+        Ember.run.once(this, function () {
           this.save();
         });
       }
     }),
 
+  applyPatch() {
+    let patch = this.get('patch');
+
+    patch.applyModelPatch(this);
+  },
+
   wasUpdated() {
     this._super(...arguments);
 
     //let record = model.record || this;
-    let json = JSON.parse(this.serialize().data.attributes.json);
+    let json = JSON.parse(this.serialize()
+      .data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -71,7 +80,8 @@ export default DS.Model.extend({
   wasLoaded() {
     this._super(...arguments);
 
-    let json = JSON.parse(this.serialize().data.attributes.json);
+    let json = JSON.parse(this.serialize()
+      .data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -115,8 +125,9 @@ export default DS.Model.extend({
    * @property hasDirtyHash
    * @returns {Boolean} Boolean value indicating if hashes are equivalent
    */
-  hasDirtyHash: computed('currentHash', function() {
-    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes
+  hasDirtyHash: computed('currentHash', function () {
+    let newHash = this.hashObject(JSON.parse(this.serialize()
+      .data.attributes
       .json), true);
 
     //if the currentHash is undefined, the record is either new or hasn't had the
@@ -133,7 +144,7 @@ export default DS.Model.extend({
     return false;
   }),
 
-  canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function() {
+  canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
     let dirty = this.get('hasDirtyHash');
     let autoSave = this.get('settings.data.autoSave');
 
@@ -158,11 +169,13 @@ export default DS.Model.extend({
     return false;
   }),
 
-  cleanJson: computed('json', function() {
-    return this.get('clean').clean(this.get('json'));
-  }).volatile(),
+  cleanJson: computed('json', function () {
+      return this.get('clean')
+        .clean(this.get('json'));
+    })
+    .volatile(),
 
-  status: computed('hasDirtyHash', function() {
+  status: computed('hasDirtyHash', function () {
     let dirty = this.get('hasDirtyHash');
 
     if(this.get('currentHash')) {
