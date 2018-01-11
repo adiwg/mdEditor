@@ -50,40 +50,6 @@
       {{control/md-spinner size=5 text="Translating..."}}
     {{/if}}
 
-    {{#if result}}
-      {{#layout/md-card
-        title="Result"
-        class="md-translator-preview"
-        scroll=false
-        maximizable=true
-        titleIcon="check"
-        spotlightEnabled=false
-      }}
-          {{#if isHtml}}
-          <iframe srcdoc="{{result}}" sandbox="allow-scripts" width="100%" height="100%">
-          </iframe>
-          {{else}}
-          {{input/md-textarea rows=20 class="md-translator-area" placeholder="" value=result}}
-          {{/if}}
-
-          <div class="card-footer text-right">
-            {{#if isJson}}
-              {{control/md-json-button class="btn-lg btn-primary" json=result disabled=(if result false true)}}
-
-              <button type="button" class="btn btn-lg btn-primary"
-              {{action "prettifyJson"}}
-              disabled={{if result false true}}>
-              {{fa-icon "align-left"}} Format </button>
-            {{/if}}
-
-              <button type="button" class="btn btn-lg btn-success"
-              {{action "saveResult"}}
-              disabled={{if result false true}}>
-              {{fa-icon "floppy-o"}} Save Result </button>
-          </div>
-      {{/layout/md-card}}
-    {{/if}}
-
     {{#if messages}}
       {{#layout/md-card
         title="Translation Error"
@@ -115,6 +81,40 @@
         <p>{{xhrError}}</p>
         <p>An error occurred during the translation. The incident has been
         logged. If the problem persists, please contact techincal support.</p>
+      {{/layout/md-card}}
+    {{/if}}
+
+    {{#if result}}
+      {{#layout/md-card
+        title="Result"
+        class=(if messages "card-inverse card-outline-danger md-translator-error md-translator-preview" "md-translator-preview")
+        scroll=false
+        maximizable=true
+        titleIcon="check"
+        spotlightEnabled=false
+      }}
+          {{#if isHtml}}
+          <iframe srcdoc="{{result}}" sandbox="allow-scripts" width="100%" height="100%">
+          </iframe>
+          {{else}}
+          {{input/md-textarea rows=20 class="md-translator-area" placeholder="" value=result}}
+          {{/if}}
+
+          <div class="card-footer text-right">
+            {{#if isJson}}
+              {{control/md-json-button class="btn-lg btn-primary" json=result disabled=(if result false true)}}
+
+              <button type="button" class="btn btn-lg btn-primary"
+              {{action "prettifyJson"}}
+              disabled={{if result false true}}>
+              {{fa-icon "align-left"}} Format </button>
+            {{/if}}
+
+              <button type="button" class="btn btn-lg btn-success"
+              {{action "saveResult"}}
+              disabled={{if result false true}}>
+              {{fa-icon "floppy-o"}} Save Result </button>
+          </div>
       {{/layout/md-card}}
     {{/if}}
 </div>
