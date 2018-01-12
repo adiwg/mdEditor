@@ -1,10 +1,8 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  computed,
-  $
-} = Ember;
+import Component from '@ember/component';
+import {
+  computed
+} from '@ember/object';
+import $ from 'jquery';
 
 export default Component.extend({
   classNames: ['md-slider'],
@@ -27,8 +25,14 @@ export default Component.extend({
       this.toggleProperty('visible');
 
       if(!this.get('visible')) {
+        let context = this.get('context');
+
         this.set('fromName', null);
-        this.get('onClose').call(this.get('context'));
+
+        if(!context.isDestroying) {
+          this.get('onClose')
+            .call();
+        }
       }
     }
   }

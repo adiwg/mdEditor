@@ -1,10 +1,8 @@
-import Ember from 'ember';
-const {
-  inject
-} = Ember;
+import Component from '@ember/component';
+import { inject } from '@ember/service';
 
-export default Ember.Component.extend({
-  slider: inject.service(),
+export default Component.extend({
+  slider: inject(),
 
   tagName: 'button',
   classNames: ['btn'],
