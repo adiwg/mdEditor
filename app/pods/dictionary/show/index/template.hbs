@@ -6,6 +6,13 @@
       Viewing Dictionary: {{model.title}}
       {{control/md-status model=model}}
     </h3>
+
+    {{object/md-citation/preview
+      profilePath="dictionary.main.citation"
+      citation=model.json.dataDictionary.citation
+      muted=true
+      editCitation="editCitation"
+    }}
   </div>
 
   <div class="col-sm-2">

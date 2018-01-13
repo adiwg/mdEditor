@@ -147,7 +147,11 @@ Router.map(function() {
       this.route('edit', function() {
         this.route('domains');
         this.route('entities');
-        this.route('citation');
+        this.route('citation', function() {
+          this.route('identifier', {
+            path: 'identifier/:identifier_id'
+          });
+        });
       });
     });
   });
