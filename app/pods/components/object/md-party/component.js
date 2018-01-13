@@ -7,16 +7,18 @@ import {
   once
 } from '@ember/runloop';
 import {
+  alias
+} from '@ember/object/computed';
+import {
   computed,
-  defineProperty,
   get,
+  getWithDefault,
   set
 } from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-import ObjectTemplate from 'mdeditor/mixins/object-template';
 
 const Validations = buildValidations({
   'role': [
@@ -54,36 +56,33 @@ const Template = EmberObject.extend(Validations, {
   })
 });
 
-const theComp = Component.extend(ObjectTemplate, {
-  init() {
-    this._super(...arguments);
+const theComp = Component.extend(Validations, {
+  contacts: computed('model', {
+    get() {
+      let party = get(this, 'model.party');
+      return party ? party.mapBy('contactId') : [];
+    },
+    set(key, value) {
+      let map = value.map((itm) => {
+        return {
+          contactId: itm
+        };
+      });
+      set(this, 'model.party', map);
+      return value;
+    }
+  }),
 
-    let path = this.get('path');
-    let model = this.get('model');
-
-    defineProperty(this, 'party', computed(
-      "model."+path,
-      function () {
-        if(model && path) {
-          return get(model, path);
-        }
-        return model;
-      }));
-  },
-
+  role: alias('model.role'),
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let path = this.get('path');
     let model = this.get('model');
 
-    if(model && path) {
-      let obj = get(this, 'model.' + path);
-
-      once(this, function () {
-        set(model, path, this.applyTemplate(obj));
-      });
-    }
+    once(this, function () {
+      set(model, 'party', getWithDefault(model, 'party', []));
+      set(model, 'role', getWithDefault(model, 'role', null));
+    });
   },
 
   attributeBindings: ['data-spy'],

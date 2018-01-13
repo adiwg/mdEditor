@@ -31,7 +31,7 @@ export default Component.extend({
 
         if(!context.isDestroying) {
           this.get('onClose')
-            .call();
+            .call(this);
         }
       }
     }

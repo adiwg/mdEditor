@@ -1,0 +1,50 @@
+{{#object/md-array-table
+     columns="Language,Character Set,Country"
+     title=title
+     required=required
+     plain=plain
+     value=value
+     validation=validation
+     data-spy=false
+     templateClass=templateClass as |locale|
+   }}
+   {{#with locale.item as |item|}}
+     <td>
+       {{input/md-codelist
+         path="language"
+         model=item
+         create=true
+         tooltip=true
+         icon=false
+         disabled=disabled
+         mdCodeName="language"
+         showValidations=true
+         placeholder="Select or enter a language code."
+       }}
+     </td>
+     <td>
+       {{input/md-codelist
+         path="characterSet"
+         model=item
+         create=false
+         tooltip=true
+         icon=false
+         disabled=disabled
+         mdCodeName="characterSet"
+         showValidations=true
+         placeholder="Select character set."
+       }}
+     </td>
+     <td>
+       {{input/md-codelist
+         value=item.country
+         create=false
+         tooltip=true
+         icon=false
+         disabled=disabled
+         mdCodeName="countries"
+         placeholder="Select country code."
+       }}
+     </td>
+    {{/with}}
+{{/object/md-array-table}}
