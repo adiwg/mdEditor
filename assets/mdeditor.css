@@ -5871,7 +5871,7 @@ body.slider {
 
 @media (min-width: 768px) {
   .md-control-sidebar {
-    padding: 10px;
+    padding: 10px 10px 10px 0;
     position: fixed; }
     .md-control-sidebar .btn {
       display: inline-block; } }
