@@ -1019,7 +1019,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n7:3 - \'get\' is assigned a value but never used. (no-unused-vars)\n8:3 - \'copy\' is assigned a value but never used. (no-unused-vars)');
+    assert.ok(true, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/dictionary/show/index/route.js', function (assert) {

@@ -16069,9 +16069,7 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
 
   const {
     inject,
-    Route,
-    get,
-    copy
+    Route
   } = Ember;
 
   exports.default = Route.extend(_hashPoll.default, {
@@ -23312,6 +23310,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+1a01fbb8"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+eceb3653"});
 }
 //# sourceMappingURL=mdeditor.map
