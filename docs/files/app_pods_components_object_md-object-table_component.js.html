@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app/pods/components/object/md-object-table/component.js - mdeditor</title>
+    <meta name="description" content="Small description for mdeditor goes here">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
+    
+</head>
+<body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">
+            <img src="../assets/img/mdeditor-logo.png" alt="">
+            <span>API Docs</span>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/adiwg/mdEditor" class="fa fa-github github"></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="main-wrapper" class="row">
+        <div id="content-wrapper">
+            <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-search-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-search" aria-expanded="true" aria-controls="collapseOne">
+                        Search
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-search" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-search-heading">
+                        <div class="panel-body">
+                            <div id="api-tabview-filter">
+                                <input type="search" id="api-filter" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="sidebar-version-heading">
+                            <h4 class="panel-title">
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/f9e27872" target="_blank">
+                                  Tag: 0.0.0.f9e27872
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-modules-heading">
+                        <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" href="#sidebar-modules" aria-expanded="true" aria-controls="collapseOne">
+                      Modules
+                    </a>
+                  </h4>
+                    </div>
+                    <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
+                        <div class="panel-body">
+                                <ol>
+                                        <li>
+                                            <a href="../modules/ember-json-tree.html">ember-json-tree</a>
+                                                    <li class="sub"><a href="../modules/tree-view.html">tree-view</a></li>
+                                                    <li class="sub"><a href="../modules/tree-search.html">tree-search</a></li>
+                                                    <li class="sub"><a href="../modules/helpers.html">helpers</a></li>
+                                        </li>
+                                        <li>
+                                            <a href="../modules/mdeditor.html">mdeditor</a>
+                                                    <li class="sub"><a href="../modules/mixins.html">mixins</a></li>
+                                                    <li class="sub"><a href="../modules/data-models.html">data-models</a></li>
+                                                    <li class="sub"><a href="../modules/components-control.html">components-control</a></li>
+                                                    <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
+                                                    <li class="sub"><a href="../modules/components-layout.html">components-layout</a></li>
+                                                    <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
+                                        </li>
+                                </ol>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-classes-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-classes" aria-expanded="true" aria-controls="collapseOne">
+                        Classes
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
+                        <div class="panel-body">
+                            <ol>
+                                    <li>
+                                        <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/make-range.html">make-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-address.html">md-address</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-array-table.html">md-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-boolean.html">md-boolean</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-button-modal.html">md-button-modal</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-card.html">md-card</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-citation-array.html">md-citation-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist.html">md-codelist</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist-multi.html">md-codelist-multi</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-link.html">md-contact-link</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-title.html">md-contact-title</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-date-range.html">md-date-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-datetime.html">md-datetime</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-definition.html">md-definition</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-graphic-array.html">md-graphic-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-object-table.html">md-identifier-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input.html">md-input</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input-confirm.html">md-input-confirm</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-inputs.html">md-inputs</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-object-table.html">md-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-online-resource-array.html">md-online-resource-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select.html">md-select</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-contacts.html">md-select-contacts</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-table.html">md-select-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-thesaurus.html">md-select-thesaurus</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-spotlight.html">md-spotlight</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-textarea.html">md-textarea</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-toggle.html">md-toggle</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-wrap.html">md-wrap</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/object-template.html">object-template</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-branch.html">tree-branch</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-label.html">tree-label</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-leaf.html">tree-leaf</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-search.html">tree-search</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-view.html">tree-view</a>
+                                    </li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <div class="content-container">
+                <div class="apidocs">
+                    <div id="docs-main">
+                        <div class="content">
+<div class="page-header">
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import Template from &#x27;mdeditor/mixins/object-template&#x27;;
+import InViewportMixin from &#x27;ember-in-viewport&#x27;;
+
+const {
+  computed,
+  Component,
+  observer,
+  isEmpty,
+  typeOf,
+  getOwner,
+  A,
+  $,
+  inject: {
+    service
+  }
+} = Ember;
+
+export default Component.extend(InViewportMixin, Template, {
+
+  /**
+   * mdEditor class for managing a table of similar mdJSON objects
+   * for selection for edit or deletion.
+   * The class is configurable for reuse with mdJSON object arrays.
+   *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{#object/md-object-table
+   *  items=model
+   *  header=label
+   *  buttonText=buttonText
+   *  templateClass=templateClass
+   *  previewTemplate=previewTemplate
+   *  ellipsis=ellipsis
+   *  attributes=attributes as |editing|
+   * }}
+   *
+   * {{/object/md-object-table}}
+   * &#x60;&#x60;&#x60;
+   *
+   * @class md-object-table
+   * @submodule components-object
+   * @module mdeditor
+   * @constructor
+   * @uses object-template
+   */
+
+  spotlight: service(),
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    this.applyTemplateArray(&#x27;items&#x27;);
+  },
+
+  attributeBindings: [&#x27;data-spy&#x27;],
+  classNameBindings: [&#x27;shadow:box-shadow--4dp&#x27;],
+  classNames: [&#x27;md-object-table&#x27;],
+
+  //reset the &#x27;editing&#x27; flag
+  didUpdateAttrs() {
+    this._super(...arguments);
+    this.set(&#x27;editing&#x27;, false);
+  },
+
+  /**
+   * Array of the mdJSON object to display in the object table for
+   * selection to edit or delete.
+   *
+   * @property items
+   * @type Array
+   * @default Ember.A()
+   * @required
+   */
+  items: A(),
+
+  /**
+   * List of items object attributes to display in
+   * md-object-table to aid in choosing the item to edit or
+   * delete.
+   *
+   * @property attributes
+   * @type String
+   * @required
+   */
+
+  /**
+   * Name to place on the mdEditor panel header for entry and edit of
+   * items objects.
+   *
+   * @property header
+   * @type String
+   * @required
+   */
+
+  /**
+   * The path of template to render in the table preview for each row.
+   * Template content will be wrapped in a &#x60;&lt;td&gt;&#x60; element.
+   *
+   * @property previewTemplate
+   * @type {String}
+   * @optional
+   * @default undefined
+   */
+
+  /**
+   * The template class to use for new items. This should be a constructor.
+   * Objects should be created by extending Ember.Object.
+   *  &#x60;&#x60;&#x60;javascript
+   *  Ember.Object.extend({
+   *    init() {
+   *      this._super(...arguments);
+   *
+   *      this.set(&#x27;foo&#x27;, A());
+   *      this.set(&#x27;bar&#x27;, A());
+   *    }
+   *  })
+   *  &#x60;&#x60;&#x60;
+   *
+   * @property templateClass
+   * @type {Any}
+   * @constructor
+   * @default null
+   * @required
+   */
+  templateClass: null,
+
+  /**
+   * Determines add button text
+   *
+   * @property buttonText
+   * @type String
+   * @default Add
+   */
+  buttonText: &quot;Add&quot;,
+
+  /**
+   * Render the row actions vertically.
+   *
+   * @property verticalButtons
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * Inital collapse state for the panel.
+   *
+   * @property isCollapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * Whether the panel is collapsible.
+   *
+   * @property collapsible
+   * @type {Boolean}
+   * @default true
+   */
+   collapsible: true,
+
+  /**
+   * True to truncate the preview table cell text.
+   *
+   * @property ellipsis
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, a box shadow will be rendered around the panel.
+   *
+   * @property shadow
+   * @type {Boolean}
+   * @default true
+   */
+  shadow: true,
+
+  /**
+   * The height to offset from top of container when scrolling.
+   *
+   * @property offset
+   * @type {Number}
+   * @default 130
+   */
+  offset: 130,
+
+  /**
+   * Uses isCollapsed if defined, otherwise inspects array length.
+   *
+   * @property collapsed
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires isCollapsed
+   */
+  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;items.[]&#x27;, function() {
+    let isCollapsed = this.get(&#x27;isCollapsed&#x27;);
+    let value = this.get(&#x27;items&#x27;);
+
+    if(isCollapsed !== undefined) {
+      return isCollapsed;
+    } else if(value &amp;&amp; value.length &gt; 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }),
+
+  panelId: computed(&#x27;items.@each.val&#x27;, &#x27;editing&#x27;, function() {
+    return &#x27;panel-&#x27; + this.get(&#x27;elementId&#x27;);
+  }),
+
+  btnSize: computed(&#x27;verticalButtons&#x27;, function() {
+    return this.get(&#x27;verticalButtons&#x27;) ? &#x27;md&#x27; : &#x27;xs&#x27;;
+  }),
+
+  /*citems: computed(&#x27;items.@each.val&#x27;, function () {
+    let i = this.get(&#x27;items&#x27;)
+      .map(function (itm) {
+        return Ember.Object.create(itm);
+      });
+    return i;
+  }),*/
+
+  attrArray: computed(&#x27;attributes&#x27;, function() {
+    let attr = this.get(&#x27;attributes&#x27;);
+
+    return attr ? attr.split(&#x27;,&#x27;) : null;
+  }),
+
+  attrTitleArray: computed(&#x27;attrArray&#x27;, function() {
+    return this.get(&#x27;attrArray&#x27;)
+      .map(function(item) {
+        return item.trim()
+          .split(&#x27;.&#x27;)
+          .get(&#x27;lastObject&#x27;)
+          .dasherize()
+          .replace(/-/g, &#x27; &#x27;);
+      });
+  }),
+
+  editing: false,
+
+  scrollTo(el) {
+    let offset = this.get(&#x27;offset&#x27;);
+
+    if(this.get(&#x27;viewportEntered&#x27;)) {
+      // el.scrollIntoView({
+      //   block: &quot;end&quot;,
+      //   behavior: &quot;smooth&quot;
+      // });
+
+      $(&#x27;html,body&#x27;).animate({
+        scrollTop: $(el).offset().top - offset
+      }, &#x27;slow&#x27;);
+    }
+  },
+
+  editingChanged: observer(&#x27;editing&#x27;, function() {
+    // deal with the change
+    //Ember.run.schedule(&#x27;afterRender&#x27;, this, function () {
+    let panel = this.$(&#x27;&gt; .md-object-table &gt; .panel-collapse&#x27;);
+    let table = panel.find(
+      &#x27;&gt; .panel-body &gt; table, &gt; .panel-body &gt; .object-editor&#x27;);
+    let items = this.get(&#x27;items&#x27;);
+    let editing = this.get(&#x27;editing&#x27;);
+    let el = this.get(&#x27;element&#x27;);
+    let comp = this;
+
+    if(editing === &#x27;adding&#x27;) {
+      items.pushObject(this.get(&#x27;saveItem&#x27;));
+    }
+
+    if(editing === false &amp;&amp; items.length) {
+      let last = Object.keys(items.get(&#x27;lastObject&#x27;));
+
+      if(isEmpty(last)) {
+        items.popObject();
+      }
+    }
+
+    if(panel.hasClass(&#x27;in&#x27;)) {
+      let out = editing ? table[0] : table[1];
+      let inn = editing ? table[1] : table[0];
+
+      $(out).fadeOut(100, function() {
+        $(inn).fadeIn(100, function() {
+          comp.scrollTo(el);
+        });
+      });
+
+      table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
+    } else { //add a one-time listener to wait until panel is open
+      panel.one(&#x27;shown.bs.collapse&#x27;, function() {
+        table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
+        comp.scrollTo(el);
+      });
+      panel.collapse(&#x27;show&#x27;);
+    }
+    //});
+  }),
+
+  pillColor: computed(&#x27;items.[]&#x27;, function() {
+    let count = this.get(&#x27;items.length&#x27;) || 0;
+
+    return(count &gt; 0) ? &#x27;label-info&#x27; : &#x27;label-warning&#x27;;
+  }),
+
+  actions: {
+    deleteItem: function(items, index) {
+      items.removeAt(index);
+    },
+
+    addItem: function() {
+      const Template = this.get(&#x27;templateClass&#x27;);
+      const owner = getOwner(this);
+      const spotlight = this.get(&#x27;spotlight&#x27;);
+
+      let itm = typeOf(Template) === &#x27;class&#x27; ? Template.create(owner.ownerInjection()) :
+        Ember.Object.create({});
+
+      this.set(&#x27;saveItem&#x27;, itm);
+      this.set(&#x27;editing&#x27;, &#x27;adding&#x27;);
+      spotlight.setTarget(this.get(&#x27;elementId&#x27;));
+    },
+
+    editItem: function(items, index) {
+      const spotlight = this.get(&#x27;spotlight&#x27;);
+
+      this.set(&#x27;saveItem&#x27;, items.objectAt(index));
+      this.set(&#x27;editing&#x27;, &#x27;editing&#x27;);
+      spotlight.setTarget(this.get(&#x27;elementId&#x27;));
+    },
+
+    cancelEdit: function() {
+      const spotlight = this.get(&#x27;spotlight&#x27;);
+
+      this.set(&#x27;editing&#x27;, false);
+      spotlight.close();
+    }
+  }
+
+});
+
+    </pre>
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>
