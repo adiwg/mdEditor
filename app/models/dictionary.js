@@ -44,7 +44,7 @@ const JsonDefault = Ember.Object.extend({
             dateType: 'creation'
           }]
         },
-        description: null,
+        description: '',
         subject: [],
         responsibleParty: {},
         domain: [],
