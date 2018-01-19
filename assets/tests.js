@@ -1002,6 +1002,26 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'pods/dictionary/show/edit/citation/route.js should pass ESLint\n\n');
   });
 
+  QUnit.test('pods/dictionary/show/edit/domain/citation/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/domain/citation/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/domain/edit/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/domain/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/domain/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/domain/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/domain/route.js should pass ESLint\n\n');
+  });
+
   QUnit.test('pods/dictionary/show/edit/domains/route.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/dictionary/show/edit/domains/route.js should pass ESLint\n\n');
@@ -7741,6 +7761,26 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'unit/pods/dictionary/show/edit/citation/route-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('unit/pods/dictionary/show/edit/domain/citation/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/domain/citation/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/domain/edit/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/domain/edit/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/domain/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/domain/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/domain/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/domain/route-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('unit/pods/dictionary/show/edit/domains/route-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/pods/dictionary/show/edit/domains/route-test.js should pass ESLint\n\n');
@@ -8759,6 +8799,58 @@ define('mdeditor/tests/unit/pods/dictionary/show/edit/citation/route-test', ['em
   'use strict';
 
   (0, _emberQunit.moduleFor)('route:dictionary/show/edit/citation', 'Unit | Route | dictionary/show/edit/citation', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/domain/citation/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/domain/citation', 'Unit | Route | dictionary/show/edit/domain/citation', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/domain/edit/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/domain/edit', 'Unit | Route | dictionary/show/edit/domain/edit', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/domain/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/domain/index', 'Unit | Route | dictionary/show/edit/domain/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/domain/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/domain', 'Unit | Route | dictionary/show/edit/domain', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   });
