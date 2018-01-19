@@ -27,23 +27,11 @@ export default Component.extend(Template, {
    * @uses object-template
    */
 
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
     this.applyTemplateArray('value');
 
-    /*const Validation = this.get('validation');
-
-    if(Validation) {
-      const owner = getOwner(this);
-      let Item = EmObject.extend(Validation);
-
-      this.set('value', this.get('value')
-        .map(i => Item.create(
-          owner.ownerInjection(),
-          i))
-      );
-    }*/
   },
 
   attributeBindings: ['data-spy'],
