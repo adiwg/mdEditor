@@ -1,106 +1,104 @@
 {{#with model.json.dataDictionary as |resource|}}
-<div class="row">
-    <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
-      <h4 class="section-header">
-        Editing <em>{{model.title}}</em>
-        {{control/md-status model=model}}
-      </h4>
-      {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
-        profilePath="dictionary.main.basicInformation" data-spy="Basic Information"
+  <form class="">
+    <h4 class="section-header">
+      Editing <em>{{model.title}}</em>
+      {{control/md-status model=model}}
+    </h4>
+    {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
+      profilePath="dictionary.main.basicInformation" data-spy="Basic Information"
+      required=true
+    }}
+      {{input/md-input
+        value=model.title
+        placeholder="Enter the title for the dictionary."
+        label="Title"
         required=true
+        profilePath="dictionary.main.title"
+        data-spy="Title"
+        class="md-embedded"
       }}
-        {{input/md-input
-          value=model.title
-          placeholder="Enter the title for the dictionary."
-          label="Title"
-          required=true
-          profilePath="dictionary.main.title"
-          data-spy="Title"
+
+      {{#if (is-array resource.subject)}}
+        {{input/md-codelist-multi
+          create=true
+          label="Subject"
+          tooltip=true
+          icon=true
+          disabled=disabled
+          allowClear=true
+          mdCodeName="scope"
+          showValidations=true
+          model=model
+          path='json.dataDictionary.subject'
+          placeholder="Choose type(s) of resource"
+          profilePath="dictionary.main.subject"
+          data-spy="Subject"
           class="md-embedded"
         }}
+      {{/if}}
 
-        {{#if (is-array resource.subject)}}
-          {{input/md-codelist-multi
-            create=true
-            label="Subject"
-            tooltip=true
-            icon=true
-            disabled=disabled
-            allowClear=true
-            mdCodeName="scope"
-            showValidations=true
-            model=model
-            path='json.dataDictionary.subject'
-            placeholder="Choose type(s) of resource"
-            profilePath="dictionary.main.subject"
-            data-spy="Subject"
-            class="md-embedded"
-          }}
-        {{/if}}
-
-        {{#layout/md-card
-          title="Responsible Party"
-          class="md-embedded"
-          required=true
-          collapsible=false
-          collapsed=false
-          profilePath="dictionary.main.responsibleParty"
-          data-spy="Responsible Party"
-          shadow=false
-        }}
-          {{!-- <label class="required"><h4 class="card-title inline-block">Responsible Party</h4></label> --}}
-          {{object/md-party model=resource.responsibleParty}}
-        {{/layout/md-card}}
-
-        {{input/md-markdown-area
-          value=resource.description
-          profilePath="dictionary.main.description"
-          label="Description"
-          placeholder="Enter text describing the dictionary."
-          data-spy="Description"
-          class="md-embedded"
-        }}
-
-        {{input/md-input
-          value=resource.dictionaryFormat
-          placeholder="Describe the language used in the dictionary, e.g. UML."
-          label="Dictionary Format"
-          required=false
-          profilePath="dictionary.main.dictionaryFormat"
-        }}
-
-        {{input/md-boolean
-          label="Dictionary Included?"
-          text="Dictionary is included with the resource"
-          value=resource.dictionaryIncludedWithResource
-          profilePath="dictionary.main.included"
-        }}
+      {{#layout/md-card
+        title="Responsible Party"
+        class="md-embedded"
+        required=true
+        collapsible=false
+        collapsed=false
+        profilePath="dictionary.main.responsibleParty"
+        data-spy="Responsible Party"
+        shadow=false
+      }}
+        {{!-- <label class="required"><h4 class="card-title inline-block">Responsible Party</h4></label> --}}
+        {{object/md-party model=resource.responsibleParty}}
       {{/layout/md-card}}
 
-      {{#object/md-simple-array-table
-        title="Recommended Use"
-        required=false
-        plain=false
+      {{input/md-markdown-area
+        value=resource.description
+        profilePath="dictionary.main.description"
+        label="Description"
+        placeholder="Enter text describing the dictionary."
+        data-spy="Description"
+        class="md-embedded"
+      }}
+
+      {{!-- {{input/md-boolean
+        label="Dictionary Included?"
+        text="Dictionary is included with the resource"
+        value=resource.dictionaryIncludedWithResource
         profilePath="dictionary.main.included"
-        value=resource.recommendedUse as |val|
       }}
-        <td>
-            {{input/md-textarea value=val.item.value
-              placeholder="Enter a description of how the dictionary should be used."}}
-        </td>
-      {{/object/md-simple-array-table}}
 
-      {{object/md-locale-array
-        title="Locale"
-        data-spy="Locales"
-        collapsible=true collapsed=false
+      {{input/md-input
+        value=resource.dictionaryFormat
+        placeholder="Describe the language used in the dictionary, e.g. UML."
+        label="Dictionary Format"
         required=false
-        value=resource.locale
-        profilePath="dictionary.main.locale"
-      }}
+        profilePath="dictionary.main.dictionaryFormat"
+      }} --}}
+    {{/layout/md-card}}
 
-    </form>
-</div>
+    {{#object/md-simple-array-table
+      title="Recommended Use"
+      required=false
+      plain=false
+      profilePath="dictionary.main.included"
+      value=resource.recommendedUse as |val|
+    }}
+      <td>
+          {{input/md-textarea value=val.item.value
+            placeholder="Enter a description of how the dictionary should be used."}}
+      </td>
+    {{/object/md-simple-array-table}}
+
+    {{object/md-locale-array
+      title="Locale"
+      data-spy="Locales"
+      collapsible=true collapsed=false
+      required=false
+      value=resource.locale
+      profilePath="dictionary.main.locale"
+    }}
+
+  </form>
 {{/with}}
 
 {{to-elsewhere named="md-scroll-spy-dict-edit"

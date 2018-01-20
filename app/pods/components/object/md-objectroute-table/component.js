@@ -15,6 +15,8 @@ export default Table.extend({
    * @required
    */
 
+  alertIfEmpty: true,
+
   /**
    * Method used to load form for editing item. Should be overidden.
    *

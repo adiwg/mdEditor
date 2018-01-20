@@ -1,112 +1,122 @@
-<div class="md-object-table panel panel-default {{if editing "editing"}}">
+{{#unless showAlert}}
+  <div class="md-object-table panel panel-default {{if editing "editing"}}">
 
-    <div class="panel-heading">
-        <h3 class="panel-title md-panel-chevron">
-          {{#if collapsible}}
-            <a role="button" data-toggle="collapse" href="#{{unless editing panelId}}" aria-expanded="{{if collapsed "false" "true"}}"
-               class="{{if collapsed "collapsed"}}" aria-controls="{{panelId}}">
-                <span class="fa"></span> {{header}}
-                <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
-            </a>
-          {{else}}
-            {{header}}
-            <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
-          {{/if}}
+      <div class="panel-heading">
+          <h3 class="panel-title md-panel-chevron">
+            {{#if collapsible}}
+              <a role="button" data-toggle="collapse" href="#{{unless editing panelId}}" aria-expanded="{{if collapsed "false" "true"}}"
+                 class="{{if collapsed "collapsed"}}" aria-controls="{{panelId}}">
+                  <span class="fa"></span> {{header}}
+                  <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
+              </a>
+            {{else}}
+              {{header}}
+              <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
+            {{/if}}
 
-            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right {{if editing "hidden"}}"
-                {{action "addItem" items}}>
-                {{fa-icon "plus"}} Add
-            </button>
-            <button type="button" class="btn btn-xs btn-info pull-right {{unless editing "hidden"}}" {{action 'cancelEdit'}}>
-                <span class="fa fa-check"></span> OK
-            </button>
-        </h3>
-    </div>
+              <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right {{if editing "hidden"}}"
+                  {{action "addItem" items}}>
+                  {{fa-icon "plus"}} Add
+              </button>
+              <button type="button" class="btn btn-xs btn-info pull-right {{unless editing "hidden"}}" {{action 'cancelEdit'}}>
+                  <span class="fa fa-check"></span> OK
+              </button>
+          </h3>
+      </div>
 
-    <div id="{{panelId}}" class="panel-collapse {{if collapsed "collapse" "in"}}">
-        <div class="panel-body {{if condensed "condensed"}}">
-            <table class="table table-striped table-hover fadeIn {{if ellipsis "ellipsis"}}">
-                {{#unless previewTemplate}}
+      <div id="{{panelId}}" class="panel-collapse {{if collapsed "collapse" "in"}}">
+          <div class="panel-body {{if condensed "condensed"}}">
+              <table class="table table-striped table-hover fadeIn {{if ellipsis "ellipsis"}}">
+                  {{#unless previewTemplate}}
 
-                <thead>
-                  {{#unless hideIndex}}
-                  <th>#</th>
+                  <thead>
+                    {{#unless hideIndex}}
+                    <th>#</th>
+                    {{/unless}}
+                    {{#each attrTitleArray as |prop|}}
+                    <th>{{uc-words prop}}</th>
+                    {{/each}}
+                    <th></th>
+                  </thead>
                   {{/unless}}
-                  {{#each attrTitleArray as |prop|}}
-                  <th>{{uc-words prop}}</th>
-                  {{/each}}
-                  <th></th>
-                </thead>
-                {{/unless}}
-                <tbody>
-                {{#each items as |item index|}}
-                    <tr>
-                      {{#unless hideIndex}}
-                        <td class="md-table-index">
-                          {{index}}
-                        </td>
-                      {{/unless}}
-                        {{#if previewTemplate}}
-                            <td class="property">{{component previewTemplate item=item index=index}}</td>
-                        {{else}}
-                            {{#each attrArray as |prop|}}
-                                {{#if (get item prop)}}
-                                <td class="property"><div class="wrap">{{get item prop}}</div></td>
+                  <tbody>
+                  {{#each items as |item index|}}
+                      <tr>
+                        {{#unless hideIndex}}
+                          <td class="md-table-index">
+                            {{index}}
+                          </td>
+                        {{/unless}}
+                          {{#if previewTemplate}}
+                              <td class="property">{{component previewTemplate item=item index=index}}</td>
+                          {{else}}
+                              {{#each attrArray as |prop|}}
+                                  {{#if (get item prop)}}
+                                  <td class="property"><div class="wrap">{{get item prop}}</div></td>
+                                  {{else}}
+                                  <td><em>Not Defined</em></td>
+                                  {{/if}}
+                              {{/each}}
+                          {{/if}}
+                          <td class="md-row-actions {{if verticalButtons "vertical"}}">
+                            <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
+                              <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
+                                <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
+                                    <span class="fa fa-times"></span> Delete
+                                </button>
+
+                                <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index}}>
+                                    {{fa-icon "pencil"}} Edit
+                                </button>
+                              </div>
+
+                              <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
+                                {{#if item.validations.isInvalid}}
+                                <span class="md-error">
+                                  {{fa-icon "exclamation-circle" fixedWidth=true}}
+                                  {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+                                  This item has errors.
+                                  {{/tooltip-on-element}}
+                                </span>
                                 {{else}}
-                                <td><em>Not Defined</em></td>
+                                <span class="md-error">
+                                  <span class="fa fa-fw"></span>
+                                </span>
                                 {{/if}}
-                            {{/each}}
-                        {{/if}}
-                        <td class="md-row-actions {{if verticalButtons "vertical"}}">
-                          <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
-                            <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
-                              <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
-                                  <span class="fa fa-times"></span> Delete
-                              </button>
-
-                              <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index}}>
-                                  {{fa-icon "pencil"}} Edit
-                              </button>
+                              </div>
                             </div>
-
-                            <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
-                              {{#if item.validations.isInvalid}}
-                              <span class="md-error">
-                                {{fa-icon "exclamation-circle" fixedWidth=true}}
-                                {{#tooltip-on-element side="right" class="md-tooltip danger"}}
-                                This item has errors.
-                                {{/tooltip-on-element}}
-                              </span>
-                              {{else}}
-                              <span class="md-error">
-                                <span class="fa fa-fw"></span>
-                              </span>
-                              {{/if}}
-                            </div>
-                          </div>
-                        </td>
-                    </tr>
-                {{else}}
-                <tr>
-                    <td colspan="{{add-em attrArray.length (if hideIndex 1 2)}}">
-                      <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
-                          {{action "addItem" items}}>
-                          {{fa-icon "plus"}} {{buttonText}}
-                      </button>
-                    </td>
-                </tr>
-                {{/each}}
-                </tbody>
-            </table>
-            <div class="object-editor fadeOut">
-                {{#if editing}}
-                    {{yield saveItem}}
-                {{/if}}
-                <hr>
-                <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
-                    <span class="fa fa-check"></span> OK
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
+                          </td>
+                      </tr>
+                  {{else}}
+                  <tr>
+                      <td colspan="{{add-em attrArray.length (if hideIndex 1 2)}}">
+                        <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
+                            {{action "addItem" items}}>
+                            {{fa-icon "plus"}} {{buttonText}}
+                        </button>
+                      </td>
+                  </tr>
+                  {{/each}}
+                  </tbody>
+              </table>
+              <div class="object-editor fadeOut">
+                  {{#if editing}}
+                      {{yield saveItem}}
+                  {{/if}}
+                  <hr>
+                  <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
+                      <span class="fa fa-check"></span> OK
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+{{else}}
+  <div class="alert alert-info">
+    <h3>No {{header}} found.
+      <button type="button"  class="btn btn-success btn-lg" {{action "addItem" items}}>
+        {{fa-icon "plus"}} Add {{singularize header}}
+      </button>
+    </h3>
+  </div>
+{{/unless}}

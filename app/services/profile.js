@@ -826,7 +826,7 @@ export default Ember.Service.extend({
         tip: 'The citation for the dictionary.'
       }, {
         title: 'Domains',
-        target: 'dictionary.show.edit.domains',
+        target: 'dictionary.show.edit.domain',
         tip: 'Information about defined value lists.'
 
       }, {

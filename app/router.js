@@ -145,12 +145,15 @@ Router.map(function() {
       path: ':dictionary_id'
     }, function() {
       this.route('edit', function() {
-        this.route('domains');
         this.route('entities');
         this.route('citation', function() {
           this.route('identifier', {
             path: 'identifier/:identifier_id'
           });
+        });
+        this.route('domain', function() {
+          this.route('citation');
+          this.route('edit');
         });
       });
     });

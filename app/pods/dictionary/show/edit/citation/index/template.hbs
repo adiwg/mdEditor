@@ -1,17 +1,15 @@
-<h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Citation
+<h4 class="section-header">Editing Citation
   <span class="small">for <em>{{model.title}}</em></span>
   {{control/md-status model=model}}
 </h4>
 {{#with model.json.dataDictionary.citation as |citation|}}
-    <div class="row">
-      {{object/md-citation
-        class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
-        model=citation
-        profilePath="dictionary.citation"
-        editIdentifier=(route-action "editIdentifier")
-      }}
-      {{outlet}}
-    </div>
+  {{object/md-citation
+    class=""
+    model=citation
+    profilePath="dictionary.citation"
+    editIdentifier=(route-action "editIdentifier")
+  }}
+  {{outlet}}
 {{/with}}
 {{to-elsewhere
   named="md-subbar-extra"
