@@ -19,7 +19,8 @@ export default Route.extend(ScrollTo, {
     this.controller.set('parentModel', this.modelFor('dictionary.show.edit.citation.index'));
     this.controllerFor('dictionary.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 

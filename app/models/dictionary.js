@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import { alias } from '@ember/object/computed';
 //import uuidV4 from 'npm:uuid/v4';
 //import Validator from 'npm:validator';
 import Model from 'mdeditor/models/base';
@@ -66,9 +67,7 @@ export default Model.extend(Validations, Copyable, {
     }
   }),
 
-  title: computed('json.dataDictionary.citation.title', function () {
-    return this.get('json.dataDictionary.citation.title');
-  }),
+  title: alias('json.dataDictionary.citation.title'),
 
   icon: 'book',
 

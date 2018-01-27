@@ -3,7 +3,9 @@ import Table from '../md-object-table/component';
 
 const {
   typeOf,
-  getOwner, isBlank, assert
+  getOwner,
+  isBlank,
+  assert
 } = Ember;
 
 export default Table.extend({
@@ -18,6 +20,15 @@ export default Table.extend({
   alertIfEmpty: true,
 
   /**
+  * Indicates whether to immediately navigate to the edit route on add
+  *
+  * @property editOnAdd
+  * @type {Boolean}
+  * @default "true"
+  */
+  editOnAdd: true,
+
+  /**
    * Method used to load form for editing item. Should be overidden.
    *
    * @method editItem
@@ -29,7 +40,7 @@ export default Table.extend({
   layoutName: 'components/object/md-object-table',
 
   actions: {
-    addItem: function() {
+    addItem: function () {
       const Template = this.get('templateClass');
       const owner = getOwner(this);
 
@@ -38,18 +49,20 @@ export default Table.extend({
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
         Ember.Object.create({});
 
-        if(isBlank(editItem)) {
-          assert(
-            `You must supply an editItem method to ${this.toString()}.`
-          );
-        }
+      if(isBlank(editItem)) {
+        assert(
+          `You must supply an editItem method to ${this.toString()}.`
+        );
+      }
 
       items.pushObject(itm);
 
-      editItem(items.indexOf(itm));
+      if(this.get('editOnAdd')) {
+        editItem(items.indexOf(itm));
+      }
     },
 
-    editItem: function(items, index) {
+    editItem: function (items, index) {
       this.get('editItem')(index);
     }
   }

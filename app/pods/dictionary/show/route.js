@@ -15,22 +15,17 @@ export default Route.extend({
     return rec;
   },
 
+  afterModel(model) {
+    const name = model.get('title');
+
+    const crumb = {
+      title: name
+    };
+
+    this.set('breadCrumb', crumb);
+  },
+
   actions: {
-    saveDictionary: function() {
-      let model = this.currentRouteModel();
-
-      model
-        .save()
-        .then(() => {
-          //this.refresh();
-          //this.setModelHash();
-          get(this, 'flashMessages')
-            .success(`Saved Dictionary: ${model.get('title')}`);
-
-          //this.transitionTo('contacts');
-        });
-    },
-
     destroyDictionary: function() {
       let model = this.currentRouteModel();
       model
@@ -39,28 +34,6 @@ export default Route.extend({
           get(this, 'flashMessages')
             .success(`Deleted Dictionary: ${model.get('title')}`);
           this.replaceWith('dictionaries');
-        });
-    },
-
-    cancelDictionar: function() {
-      let model = this.currentRouteModel();
-      let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
-
-      if (this.get('settings.data.autoSave')) {
-        let json = model.get('jsonRevert');
-
-        if (json) {
-          model.set('json', JSON.parse(json));
-          get(this, 'flashMessages').warning(message);
-        }
-
-        return;
-      }
-
-      model
-        .reload()
-        .then(() => {
-          get(this, 'flashMessages').warning(message);
         });
     },
 

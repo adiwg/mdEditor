@@ -60,7 +60,7 @@
         class="md-embedded"
       }}
 
-      {{!-- {{input/md-boolean
+      {{input/md-boolean
         label="Dictionary Included?"
         text="Dictionary is included with the resource"
         value=resource.dictionaryIncludedWithResource
@@ -68,12 +68,12 @@
       }}
 
       {{input/md-input
-        value=resource.dictionaryFormat
+        value=resource.dictionaryFunctionalLanguage
         placeholder="Describe the language used in the dictionary, e.g. UML."
-        label="Dictionary Format"
+        label="Functional Language"
         required=false
-        profilePath="dictionary.main.dictionaryFormat"
-      }} --}}
+        profilePath="dictionary.main.functionalLanguage"
+      }}
     {{/layout/md-card}}
 
     {{#object/md-simple-array-table

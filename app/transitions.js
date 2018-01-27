@@ -106,6 +106,24 @@ export default function() {
     this.use('toLeft'),
     this.reverse('toRight')
   );
+  this.transition(
+    this.toRoute('dictionary.show.edit.domain.edit'),
+    this.fromRoute('dictionary.show.edit.domain.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.domain.edit.item'),
+    this.fromRoute('dictionary.show.edit.domain.edit.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.domain.edit.citation.index'),
+    this.fromRoute('dictionary.show.edit.domain.edit'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
   //if
   // this.transition(
   //   this.hasClass('liquid-collapse'),

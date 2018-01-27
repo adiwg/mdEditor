@@ -152,8 +152,16 @@ Router.map(function() {
           });
         });
         this.route('domain', function() {
-          this.route('citation');
-          this.route('edit');
+          this.route('edit', {
+            path: ':domain_id'
+          }, function() {
+            this.route('citation', function() {
+              this.route('identifier');
+            });
+            this.route('item',{
+              path: 'item/:item_id'
+            });
+          });
         });
       });
     });

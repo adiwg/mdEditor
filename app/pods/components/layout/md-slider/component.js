@@ -25,11 +25,11 @@ export default Component.extend({
       this.toggleProperty('visible');
 
       if(!this.get('visible')) {
-        let context = this.get('context');
+        let context = this.get('context.isDestroying');
 
         this.set('fromName', null);
 
-        if(!context.isDestroying) {
+        if(!context) {
           this.get('onClose')
             .call(this);
         }

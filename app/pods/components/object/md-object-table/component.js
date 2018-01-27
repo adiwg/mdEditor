@@ -104,6 +104,17 @@ export default Component.extend(InViewportMixin, Template, {
    */
 
   /**
+   * The path of template to render in the table preview for each row.
+   * Template content will NOT be wrapped in a `<td>` element. The `property`
+   * class should be applied to each `<td>`.`
+   *
+   * @property previewTemplateTable
+   * @type {String}
+   * @optional
+   * @default undefined
+   */
+
+  /**
    * The template class to use for new items. This should be a constructor.
    * Objects should be created by extending Ember.Object.
    *  ```javascript
