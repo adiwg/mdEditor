@@ -124,6 +124,12 @@ export default function() {
     this.use('toLeft'),
     this.reverse('toRight')
   );
+  this.transition(
+    this.toRoute('dictionary.show.edit.domain.edit.citation.identifier'),
+    this.fromRoute('dictionary.show.edit.domain.edit.citation.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
   //if
   // this.transition(
   //   this.hasClass('liquid-collapse'),

@@ -1,6 +1,6 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:dictionary/show/edit/domain/edit/citation/indentifier', 'Unit | Route | dictionary/show/edit/domain/edit/citation/indentifier', {
+moduleFor('route:dictionary/show/edit/domain/edit/citation/identifier', 'Unit | Route | dictionary/show/edit/domain/edit/citation/identifier', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });

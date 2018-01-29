@@ -1,0 +1,23 @@
+<h4 class="section-header">
+  Editing Identifier: {{model.identifier}}
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{#if model.identifier}}
+<div class="">
+  {{object/md-identifier
+    class=""
+    model=model
+    profilePath="dictionary.domain.citation.identifier"
+    data-spy="Identifier"
+  }}
+  {{outlet}}
+</div>
+{{/if}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Domain Citation" icon="arrow-left" route="dictionary.show.edit.domain.edit.citation")
+}}
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

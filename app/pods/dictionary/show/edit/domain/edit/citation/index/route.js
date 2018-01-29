@@ -21,7 +21,7 @@ export default Route.extend(ScrollTo, {
         this.get('domainId'));
     },
     editIdentifier(index) {
-      this.transitionTo('dictionary.show.edit.domain.citation.identifier',
+      this.transitionTo('dictionary.show.edit.domain.edit.citation.identifier',
           index)
         .then(function () {
           this.setScrollTo('identifier');
