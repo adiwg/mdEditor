@@ -45,22 +45,21 @@
 
 {{/layout/md-card}}
 
-{{#if (is-array model.domainItem)}}
-  {{object/md-objectroute-table
-    attributes="Name,Value,Definition"
-    items=model.domainItem
-    header="Domain Items"
-    shadow=true
-    buttonText="Add Item"
-    ellipsis=fallse
-    previewTemplateTable="object/md-domainitem/preview"
-    editItem=(route-action "editItem")
-    verticalButtons=false
-    profilePath=profilePath
-    hideIndex=false
-    condensed=false
-  }}
-{{/if}}
+{{object/md-objectroute-table
+  attributes="Name,Value,Definition"
+  items=model.domainItem
+  header="Domain Items"
+  shadow=true
+  buttonText="Add Item"
+  ellipsis=fallse
+  previewTemplateTable="object/md-domainitem/preview"
+  editItem=(route-action "editItem")
+  verticalButtons=false
+  profilePath=profilePath
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+}}
 
 {{object/md-citation/preview
   title="Domain Reference"

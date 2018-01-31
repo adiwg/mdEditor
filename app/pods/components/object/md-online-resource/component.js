@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { once } from '@ember/runloop';
 import {
   validator,
   buildValidations
@@ -32,18 +33,20 @@ const Validations = buildValidations({
 });
 
 const theComp = Component.extend({
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
-    let plain = this.get('model');
+    once(this, ()=>{
+        let plain = this.get('model');
 
-    if (plain && !get(plain,'validations')) {
-      const Model = EmObject.extend(Validations, plain);
-      const owner = getOwner(this);
+        if (plain && !get(plain,'validations')) {
+          const Model = EmObject.extend(Validations, plain);
+          const owner = getOwner(this);
 
-      let model = Model.create(owner.ownerInjection(), plain);
-      this.set('model', model);
-    }
+          let model = Model.create(owner.ownerInjection(), plain);
+          this.set('model', model);
+        }
+    });
   },
 
   flashMessages: inject.service(),

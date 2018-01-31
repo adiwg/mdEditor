@@ -3,7 +3,6 @@ import Ember from 'ember';
 const {
   Component,
   set,
-  get,
   getWithDefault,
   run: {
     once
@@ -51,10 +50,11 @@ const theComp = Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    //let model = getWithDefault(this, 'model', {}) || {};
 
     once(this, function() {
-      formatCitation(model);
+      this.set('model', getWithDefault(this, 'model', {}));
+      formatCitation(this.get('model'));
     });
   },
   tagName: 'form',

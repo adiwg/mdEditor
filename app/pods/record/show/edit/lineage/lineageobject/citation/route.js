@@ -23,7 +23,8 @@ export default Route.extend({
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 

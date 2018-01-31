@@ -1,8 +1,14 @@
 import Ember from 'ember';
 import {
+  once
+} from '@ember/runloop';
+import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
+// import {
+//   formatCitation
+// } from '../md-citation/component';
 
 const {
   Component,
@@ -21,12 +27,15 @@ const Validations = buildValidations({
 });
 
 const theComp = Component.extend(Validations, {
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
     let model = getWithDefault(this, 'model', {}) || {};
-    set(model, 'authority', getWithDefault(model, 'authority', {}));
-    set(this, 'model', model);
+
+    once(this, function () {
+      set(model, 'authority', getWithDefault(model, 'authority',
+        {}));
+    });
   },
 
   classNames: ['md-identifier'],

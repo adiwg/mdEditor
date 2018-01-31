@@ -26,7 +26,7 @@ export default Route.extend(ScrollTo, {
 
   setupModel() {
     let identifierId = get(this, 'identifierId');
-    let model = this.modelFor('dictionary.show.edit.citation.index');
+    let model = this.modelFor('dictionary.show.edit.citation');
     let identifiers = model.get('json.dataDictionary.citation.identifier');
     let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 

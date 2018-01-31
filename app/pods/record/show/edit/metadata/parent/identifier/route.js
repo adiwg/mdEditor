@@ -23,7 +23,8 @@ export default Route.extend(ScrollTo, {
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 
@@ -36,8 +37,8 @@ export default Route.extend(ScrollTo, {
     //make sure the identifier exists
     if (isEmpty(identifier)) {
       Ember.get(this, 'flashMessages')
-        .warning('No identifier found! Re-directing to citation...');
-      this.replaceWith('record.show.edit.metadata.parent');
+        .warning('No identifier found! Re-directing to Parent Metadata...');
+      this.replaceWith('record.show.edit.metadata.parent.index');
 
       return;
     }

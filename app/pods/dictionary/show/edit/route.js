@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import HashPoll from 'mdeditor/mixins/hash-poll';
+import { once } from '@ember/runloop';
 
 const {
   inject,
@@ -59,10 +60,13 @@ export default Route.extend(HashPoll, {
         if(json) {
           model.set('json', JSON.parse(json));
 
-          if(this.controller.onCancel) {
-            controller.onCancel.call(controller.cancelScope || this);
-            controller.set('onCancel', null);
-            controller.set('cancelScope', null);
+          if(controller.onCancel) {
+            once(() => {
+              controller.onCancel.call(controller.cancelScope || this);
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
           }
 
           get(this, 'flashMessages')
@@ -76,9 +80,12 @@ export default Route.extend(HashPoll, {
         .reload()
         .then(() => {
           if(controller.onCancel) {
-            controller.onCancel.call(controller.cancelScope || this);
-            controller.set('onCancel', null);
-            controller.set('cancelScope', null);
+            once(() => {
+              controller.onCancel.call(controller.cancelScope || this);
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
           }
           get(this, 'flashMessages')
             .warning(message);

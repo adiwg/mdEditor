@@ -75,7 +75,9 @@ export default Mixin.create({
         });
       }
     } else {
-      this.set(propertyName, A());
+      run.once(this, () => {
+        this.set(propertyName, A());
+      });
     }
 
     return this.get(propertyName);

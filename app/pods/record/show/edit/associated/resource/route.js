@@ -30,7 +30,8 @@ export default Route.extend({
     this.controller.set('resourceId', get(this, 'resourceId'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 
@@ -38,13 +39,15 @@ export default Route.extend({
     let resourceId = get(this, 'resourceId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.associatedResource');
-    let resource = resourceId && isArray(objects) ? objects.objectAt(resourceId) :
+    let resource = resourceId && isArray(objects) ? objects.objectAt(
+        resourceId) :
       undefined;
 
     //make sure the identifier exists
     if(isEmpty(resource)) {
       Ember.get(this, 'flashMessages')
-        .warning('No Associated Resource object found! Re-directing to list...');
+        .warning(
+          'No Associated Resource object found! Re-directing to list...');
       this.replaceWith('record.show.edit.associated');
 
       return;

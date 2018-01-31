@@ -38,6 +38,7 @@ export default Ember.Route.extend({
       .setProperties({
         subbar: this.get('subbar'),
         onCancel: this.setupModel,
+        cancelScope: this,
         extentId: this.get('extentId')
       });
 

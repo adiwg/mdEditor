@@ -15,7 +15,6 @@ export default Route.extend(ScrollTo, {
     return this.setupModel();
   },
 
-
   setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
@@ -23,18 +22,21 @@ export default Route.extend(ScrollTo, {
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 
   setupModel() {
     let identifierId = get(this, 'identifierId');
-    let model = this.modelFor('record.show.edit.lineage.lineageobject.citation');
+    let model = this.modelFor(
+      'record.show.edit.lineage.lineageobject.citation');
     let identifiers = get(model, 'identifier');
-    let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+    let identifier = identifierId && isArray(identifiers) ? identifiers.get(
+      identifierId) : undefined;
 
     //make sure the identifier exists
-    if (isEmpty(identifier)) {
+    if(isEmpty(identifier)) {
       Ember.get(this, 'flashMessages')
         .warning('No identifier found! Re-directing to Citation...');
       this.replaceWith('record.show.edit.lineage.lineageobject.citation');
@@ -45,7 +47,7 @@ export default Route.extend(ScrollTo, {
     return identifier;
   },
   actions: {
-    goBack(){
+    goBack() {
       this.transitionTo('record.show.edit.lineage.lineageobject.citation');
     }
   }

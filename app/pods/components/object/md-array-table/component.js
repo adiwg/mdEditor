@@ -30,7 +30,9 @@ export default Component.extend(Template, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    this.applyTemplateArray('value');
+    if (this.get('value')) {
+      this.applyTemplateArray('value');
+    }
 
   },
 
