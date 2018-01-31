@@ -1017,9 +1017,9 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'pods/dictionary/show/edit/citation/route.js should pass ESLint\n\n');
   });
 
-  QUnit.test('pods/dictionary/show/edit/domain/edit/citation/indentifier/route.js', function (assert) {
+  QUnit.test('pods/dictionary/show/edit/domain/edit/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/citation/indentifier/route.js should pass ESLint\n\n');
+    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/citation/identifier/route.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/dictionary/show/edit/domain/edit/citation/index/route.js', function (assert) {
@@ -7893,9 +7893,9 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'unit/pods/dictionary/show/edit/citation/route-test.js should pass ESLint\n\n');
   });
 
-  QUnit.test('unit/pods/dictionary/show/edit/domain/edit/citation/indentifier/route-test.js', function (assert) {
+  QUnit.test('unit/pods/dictionary/show/edit/domain/edit/citation/identifier/route-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/pods/dictionary/show/edit/domain/edit/citation/indentifier/route-test.js should pass ESLint\n\n');
+    assert.ok(true, 'unit/pods/dictionary/show/edit/domain/edit/citation/identifier/route-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/pods/dictionary/show/edit/domain/edit/citation/index/route-test.js', function (assert) {
@@ -8955,10 +8955,10 @@ define('mdeditor/tests/unit/pods/dictionary/show/edit/citation/route-test', ['em
     assert.ok(route);
   });
 });
-define('mdeditor/tests/unit/pods/dictionary/show/edit/domain/edit/citation/indentifier/route-test', ['ember-qunit'], function (_emberQunit) {
+define('mdeditor/tests/unit/pods/dictionary/show/edit/domain/edit/citation/identifier/route-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
-  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/domain/edit/citation/indentifier', 'Unit | Route | dictionary/show/edit/domain/edit/citation/indentifier', {
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/domain/edit/citation/identifier', 'Unit | Route | dictionary/show/edit/domain/edit/citation/identifier', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   });

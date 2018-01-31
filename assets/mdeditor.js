@@ -5325,7 +5325,9 @@ define('mdeditor/mixins/object-template', ['exports'], function (exports) {
           });
         }
       } else {
-        this.set(propertyName, A());
+        run.once(this, () => {
+          this.set(propertyName, A());
+        });
       }
 
       return this.get(propertyName);
@@ -11500,7 +11502,9 @@ define('mdeditor/pods/components/object/md-array-table/component', ['exports', '
     didReceiveAttrs() {
       this._super(...arguments);
 
-      this.applyTemplateArray('value');
+      if (this.get('value')) {
+        this.applyTemplateArray('value');
+      }
     },
 
     attributeBindings: ['data-spy'],
@@ -12071,7 +12075,6 @@ define('mdeditor/pods/components/object/md-citation/component', ['exports'], fun
   const {
     Component,
     set,
-    get,
     getWithDefault,
     run: {
       once
@@ -12113,10 +12116,11 @@ define('mdeditor/pods/components/object/md-citation/component', ['exports'], fun
     didReceiveAttrs() {
       this._super(...arguments);
 
-      let model = get(this, 'model');
+      //let model = getWithDefault(this, 'model', {}) || {};
 
       once(this, function () {
-        formatCitation(model);
+        this.set('model', getWithDefault(this, 'model', {}));
+        formatCitation(this.get('model'));
       });
     },
     tagName: 'form',
@@ -12763,7 +12767,7 @@ define("mdeditor/pods/components/object/md-domain/template", ["exports"], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "dOKUhoyS", "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\",\"required\"],[\"Domain Information\",true,false,[25,\"concat\",[[20,[\"profilePath\"]],\".information\"],null],\"Domain Information\",true]],{\"statements\":[[0,\"  \"],[1,[25,\"input/md-input\",null,[[\"model\",\"valuePath\",\"placeholder\",\"label\",\"profilePath\",\"data-spy\",\"class\"],[[19,0,[]],\"domainId\",\"Enter the identifier for the domain.\",\"Domain Identifier\",[25,\"concat\",[[20,[\"profilePath\"]],\".identifier\"],null],\"Identifier\",\"md-embedded\"]]],false],[0,\"\\n\\n  \"],[1,[25,\"input/md-input\",null,[[\"model\",\"valuePath\",\"placeholder\",\"label\",\"data-spy\",\"profilePath\",\"class\"],[[19,0,[]],\"codeName\",\"Enter the name used to refer to the domain in schema definitions.\",\"Code Name\",\"Code Name\",[25,\"concat\",[[20,[\"profilePath\"]],\".codeName\"],null],\"md-embedded\"]]],false],[0,\"\\n\\n  \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\",\"label\",\"profilePath\",\"data-spy\",\"class\"],[[20,[\"model\",\"commonName\"]],\"Enter a short common name for the domain.\",\"Common Name\",[25,\"concat\",[[20,[\"profilePath\"]],\".commonName\"],null],\"Common Name\",\"md-embedded\"]]],false],[0,\"\\n\\n  \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[20,[\"model\",\"description\"]],true,true,\"A brief description of the domain.\",\"Description\",\"Description\",true,[25,\"concat\",[[20,[\"profilePath\"]],\".description\"],null]]]],false],[0,\"\\n\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[25,\"is-array\",[[20,[\"model\",\"domainItem\"]]],null]],null,{\"statements\":[[0,\"  \"],[1,[25,\"object/md-objectroute-table\",null,[[\"attributes\",\"items\",\"header\",\"shadow\",\"buttonText\",\"ellipsis\",\"previewTemplateTable\",\"editItem\",\"verticalButtons\",\"profilePath\",\"hideIndex\",\"condensed\"],[\"Name,Value,Definition\",[20,[\"model\",\"domainItem\"]],\"Domain Items\",true,\"Add Item\",[20,[\"fallse\"]],\"object/md-domainitem/preview\",[25,\"route-action\",[\"editItem\"],null],false,[20,[\"profilePath\"]],false,false]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[25,\"object/md-citation/preview\",null,[[\"title\",\"profilePath\",\"citation\",\"muted\",\"required\",\"editCitation\"],[\"Domain Reference\",[25,\"concat\",[[20,[\"profilePath\"]],\".domainReference\"],null],[20,[\"model\",\"domainReference\"]],true,false,\"editCitation\"]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-domain/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ps24x5wj", "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\",\"required\"],[\"Domain Information\",true,false,[25,\"concat\",[[20,[\"profilePath\"]],\".information\"],null],\"Domain Information\",true]],{\"statements\":[[0,\"  \"],[1,[25,\"input/md-input\",null,[[\"model\",\"valuePath\",\"placeholder\",\"label\",\"profilePath\",\"data-spy\",\"class\"],[[19,0,[]],\"domainId\",\"Enter the identifier for the domain.\",\"Domain Identifier\",[25,\"concat\",[[20,[\"profilePath\"]],\".identifier\"],null],\"Identifier\",\"md-embedded\"]]],false],[0,\"\\n\\n  \"],[1,[25,\"input/md-input\",null,[[\"model\",\"valuePath\",\"placeholder\",\"label\",\"data-spy\",\"profilePath\",\"class\"],[[19,0,[]],\"codeName\",\"Enter the name used to refer to the domain in schema definitions.\",\"Code Name\",\"Code Name\",[25,\"concat\",[[20,[\"profilePath\"]],\".codeName\"],null],\"md-embedded\"]]],false],[0,\"\\n\\n  \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\",\"label\",\"profilePath\",\"data-spy\",\"class\"],[[20,[\"model\",\"commonName\"]],\"Enter a short common name for the domain.\",\"Common Name\",[25,\"concat\",[[20,[\"profilePath\"]],\".commonName\"],null],\"Common Name\",\"md-embedded\"]]],false],[0,\"\\n\\n  \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[20,[\"model\",\"description\"]],true,true,\"A brief description of the domain.\",\"Description\",\"Description\",true,[25,\"concat\",[[20,[\"profilePath\"]],\".description\"],null]]]],false],[0,\"\\n\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"attributes\",\"items\",\"header\",\"shadow\",\"buttonText\",\"ellipsis\",\"previewTemplateTable\",\"editItem\",\"verticalButtons\",\"profilePath\",\"hideIndex\",\"condensed\",\"editOnAdd\"],[\"Name,Value,Definition\",[20,[\"model\",\"domainItem\"]],\"Domain Items\",true,\"Add Item\",[20,[\"fallse\"]],\"object/md-domainitem/preview\",[25,\"route-action\",[\"editItem\"],null],false,[20,[\"profilePath\"]],false,false,false]]],false],[0,\"\\n\\n\"],[1,[25,\"object/md-citation/preview\",null,[[\"title\",\"profilePath\",\"citation\",\"muted\",\"required\",\"editCitation\"],[\"Domain Reference\",[25,\"concat\",[[20,[\"profilePath\"]],\".domainReference\"],null],[20,[\"model\",\"domainReference\"]],true,false,\"editCitation\"]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-domain/template.hbs" } });
 });
 define('mdeditor/pods/components/object/md-domainitem/component', ['exports', 'ember-cp-validations'], function (exports, _emberCpValidations) {
   'use strict';
@@ -13232,7 +13236,11 @@ define('mdeditor/pods/components/object/md-identifier/component', ['exports', 'e
     value: true
   });
   exports.default = exports.Validations = undefined;
+  var once = Ember.run.once;
 
+  // import {
+  //   formatCitation
+  // } from '../md-citation/component';
 
   const {
     Component,
@@ -13249,12 +13257,14 @@ define('mdeditor/pods/components/object/md-identifier/component', ['exports', 'e
   });
 
   const theComp = Component.extend(Validations, {
-    init() {
+    didReceiveAttrs() {
       this._super(...arguments);
 
       let model = getWithDefault(this, 'model', {}) || {};
-      set(model, 'authority', getWithDefault(model, 'authority', {}));
-      set(this, 'model', model);
+
+      once(this, function () {
+        set(model, 'authority', getWithDefault(model, 'authority', {}));
+      });
     },
 
     classNames: ['md-identifier'],
@@ -14204,6 +14214,7 @@ define('mdeditor/pods/components/object/md-online-resource-array/component', ['e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var once = Ember.run.once;
 
 
   const {
@@ -14213,11 +14224,11 @@ define('mdeditor/pods/components/object/md-online-resource-array/component', ['e
 
   exports.default = Ember.Component.extend({
 
-    init() {
+    didReceiveAttrs() {
       this._super(...arguments);
 
       if (!this.get('model')) {
-        this.set('model', A());
+        once(this, () => this.set('model', A()));
       }
     },
 
@@ -14334,6 +14345,7 @@ define('mdeditor/pods/components/object/md-online-resource/component', ['exports
     value: true
   });
   exports.default = exports.regex = exports.Validations = undefined;
+  var once = Ember.run.once;
 
 
   const {
@@ -14361,18 +14373,20 @@ define('mdeditor/pods/components/object/md-online-resource/component', ['exports
   });
 
   const theComp = Component.extend({
-    init() {
+    didReceiveAttrs() {
       this._super(...arguments);
 
-      let plain = this.get('model');
+      once(this, () => {
+        let plain = this.get('model');
 
-      if (plain && !get(plain, 'validations')) {
-        const Model = EmObject.extend(Validations, plain);
-        const owner = getOwner(this);
+        if (plain && !get(plain, 'validations')) {
+          const Model = EmObject.extend(Validations, plain);
+          const owner = getOwner(this);
 
-        let model = Model.create(owner.ownerInjection(), plain);
-        this.set('model', model);
-      }
+          let model = Model.create(owner.ownerInjection(), plain);
+          this.set('model', model);
+        }
+      });
     },
 
     flashMessages: inject.service(),
@@ -16135,7 +16149,7 @@ define('mdeditor/pods/dictionary/show/edit/citation/identifier/route', ['exports
 
     setupModel() {
       let identifierId = get(this, 'identifierId');
-      let model = this.modelFor('dictionary.show.edit.citation.index');
+      let model = this.modelFor('dictionary.show.edit.citation');
       let identifiers = model.get('json.dataDictionary.citation.identifier');
       let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
@@ -16200,22 +16214,63 @@ define("mdeditor/pods/dictionary/show/edit/citation/template", ["exports"], func
   });
   exports.default = Ember.HTMLBars.template({ "id": "++BvoGuK", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"liquid-outlet\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/edit/citation/template.hbs" } });
 });
-define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/indentifier/route', ['exports'], function (exports) {
+define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/identifier/route', ['exports', 'mdeditor/mixins/scroll-to'], function (exports, _scrollTo) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   var Route = Ember.Route;
-  exports.default = Route.extend({});
+  var isEmpty = Ember.isEmpty;
+  var get = Ember.get;
+  exports.default = Route.extend(_scrollTo.default, {
+    beforeModel(transition) {
+      this.set('domainId', transition.params['dictionary.show.edit.domain.edit'].domain_id);
+    },
+    model(params) {
+      this.set('identifierId', params.identifier_id);
+
+      return this.setupModel();
+    },
+
+    setupController: function setupController() {
+      // Call _super for default behavior
+      this._super(...arguments);
+
+      this.controller.set('parentModel', this.modelFor('dictionary.show.edit.domain.edit.citation.index'));
+      this.controllerFor('dictionary.show.edit').setProperties({
+        onCancel: this.setupModel,
+        cancelScope: this
+      });
+    },
+
+    setupModel() {
+      let identifierId = get(this, 'identifierId');
+      //let model = this.modelFor('dictionary.show.edit.citation.index');
+      //let identifiers = model.get('json.dataDictionary.citation.identifier');
+      let model = this.modelFor('dictionary.show.edit');
+      let identifier = model.get('json.dataDictionary.domain.' + get(this, 'domainId') + '.domainReference.identifier.' + identifierId);
+      //let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+
+      //make sure the identifier exists
+      if (isEmpty(identifier)) {
+        get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
+        this.replaceWith('dictionary.show.edit.domain.edit.citation.index');
+
+        return;
+      }
+
+      return identifier;
+    }
+  });
 });
-define("mdeditor/pods/dictionary/show/edit/domain/edit/citation/indentifier/template", ["exports"], function (exports) {
+define("mdeditor/pods/dictionary/show/edit/domain/edit/citation/identifier/template", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "ickxTLkH", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/edit/domain/edit/citation/indentifier/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ywQGDm5d", "block": "{\"symbols\":[],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n  Editing Identifier: \"],[1,[20,[\"model\",\"identifier\"]],false],[0,\"\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"parentModel\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"model\",\"identifier\"]]],null,{\"statements\":[[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n  \"],[1,[25,\"object/md-identifier\",null,[[\"class\",\"model\",\"profilePath\",\"data-spy\"],[\"\",[20,[\"model\"]],\"dictionary.domain.citation.identifier\",\"Identifier\"]]],false],[0,\"\\n  \"],[1,[18,\"outlet\"],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"route\"],[\"Back to Domain Citation\",\"arrow-left\",\"dictionary.show.edit.domain.edit.citation\"]]]]]],false],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-dict-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/edit/domain/edit/citation/identifier/template.hbs" } });
 });
 define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/index/route', ['exports', 'mdeditor/mixins/scroll-to'], function (exports, _scrollTo) {
   'use strict';
@@ -16243,7 +16298,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/index/route', ['
         this.transitionTo('dictionary.show.edit.domain.edit', this.get('domainId'));
       },
       editIdentifier(index) {
-        this.transitionTo('dictionary.show.edit.domain.citation.identifier', index).then(function () {
+        this.transitionTo('dictionary.show.edit.domain.edit.citation.identifier', index).then(function () {
           this.setScrollTo('identifier');
         }.bind(this));
       }
@@ -16256,7 +16311,7 @@ define("mdeditor/pods/dictionary/show/edit/domain/edit/citation/index/template",
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Ui/Kfyg4", "block": "{\"symbols\":[\"citation\"],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"Editing Citation\\n  \"],[6,\"span\"],[9,\"class\",\"small\"],[7],[0,\"for \"],[6,\"em\"],[7],[1,[20,[\"model\",\"codeName\"]],false],[8],[8],[0,\"\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"model\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\"],[4,\"with\",[[20,[\"model\",\"domainReference\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"object/md-citation\",null,[[\"class\",\"model\",\"profilePath\",\"editIdentifier\"],[\"\",[19,1,[]],\"dictionary.citation\",[25,\"route-action\",[\"editIdentifier\"],null]]]],false],[0,\"\\n  \"],[1,[18,\"outlet\"],false],[0,\"\\n\"]],\"parameters\":[1]},null],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"type\",\"click\"],[\"Back to Domain\",\"arrow-left\",\"primary\",[25,\"route-action\",[\"backToDomain\"],null]]]]]]],false],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-dict-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/edit/domain/edit/citation/index/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Cy9mYlH2", "block": "{\"symbols\":[\"citation\"],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"Editing Citation\\n  \"],[6,\"span\"],[9,\"class\",\"small\"],[7],[0,\"for \"],[6,\"em\"],[7],[1,[20,[\"model\",\"codeName\"]],false],[8],[8],[0,\"\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"model\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\"],[4,\"with\",[[20,[\"model\",\"domainReference\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"object/md-citation\",null,[[\"class\",\"model\",\"profilePath\",\"simpleIdentifier\",\"editIdentifier\"],[\"\",[19,1,[]],\"dictionary.citation\",false,[25,\"route-action\",[\"editIdentifier\"],null]]]],false],[0,\"\\n  \"],[1,[18,\"outlet\"],false],[0,\"\\n\"]],\"parameters\":[1]},null],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"type\",\"click\"],[\"Back to Domain\",\"arrow-left\",\"primary\",[25,\"route-action\",[\"backToDomain\"],null]]]]]]],false],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-dict-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/edit/domain/edit/citation/index/template.hbs" } });
 });
 define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/route', ['exports'], function (exports) {
   'use strict';
@@ -16584,6 +16639,7 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var once = Ember.run.once;
 
 
   const {
@@ -16639,10 +16695,13 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
           if (json) {
             model.set('json', JSON.parse(json));
 
-            if (this.controller.onCancel) {
-              controller.onCancel.call(controller.cancelScope || this);
-              controller.set('onCancel', null);
-              controller.set('cancelScope', null);
+            if (controller.onCancel) {
+              once(() => {
+                controller.onCancel.call(controller.cancelScope || this);
+                this.refresh();
+                controller.set('onCancel', null);
+                controller.set('cancelScope', null);
+              });
             }
 
             get(this, 'flashMessages').warning(message);
@@ -16653,9 +16712,12 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
 
         model.reload().then(() => {
           if (controller.onCancel) {
-            controller.onCancel.call(controller.cancelScope || this);
-            controller.set('onCancel', null);
-            controller.set('cancelScope', null);
+            once(() => {
+              controller.onCancel.call(controller.cancelScope || this);
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
           }
           get(this, 'flashMessages').warning(message);
         });
@@ -17767,7 +17829,8 @@ define('mdeditor/pods/record/show/edit/associated/resource/route', ['exports'], 
       //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
       this.controller.set('resourceId', get(this, 'resourceId'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -18003,7 +18066,8 @@ define('mdeditor/pods/record/show/edit/distribution/distributor/route', ['export
       //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
       this.controller.set('distributionId', get(this, 'distributionId'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -18168,7 +18232,8 @@ define('mdeditor/pods/record/show/edit/documents/citation/route', ['exports'], f
       //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
       this.controller.set('citationId', get(this, 'citationId'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -18391,6 +18456,7 @@ define('mdeditor/pods/record/show/edit/extent/spatial/route', ['exports'], funct
       this.controllerFor('record.show.edit').setProperties({
         subbar: this.get('subbar'),
         onCancel: this.setupModel,
+        cancelScope: this,
         extentId: this.get('extentId')
       });
 
@@ -18568,7 +18634,8 @@ define('mdeditor/pods/record/show/edit/funding/allocation/route', ['exports', 'm
       this.controller.set('allocationId', get(this, 'allocationId'));
 
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -18915,6 +18982,7 @@ define('mdeditor/pods/record/show/edit/keywords/thesaurus/route', ['exports'], f
       this.controllerFor('record.show.edit').setProperties({
         subbar: this.get('subbar'),
         onCancel: this.setupModel,
+        cancelScope: this,
         thesaurusId: this.get('thesaurusId')
       });
     },
@@ -19065,7 +19133,8 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/citation/identifier
 
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19162,7 +19231,8 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/citation/route', ['
 
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19278,7 +19348,8 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/route', ['exports']
       //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
       this.controller.set('lineageId', get(this, 'lineageId'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19331,7 +19402,8 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/step/citation/route
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controller.set('stepId', get(this, 'stepId'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19450,7 +19522,8 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/step/route', ['expo
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controller.set('stepId', get(this, 'stepId'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19538,7 +19611,8 @@ define('mdeditor/pods/record/show/edit/main/citation/identifier/route', ['export
 
       this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19740,7 +19814,8 @@ define('mdeditor/pods/record/show/edit/metadata/alternate/identifier/route', ['e
 
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19833,7 +19908,8 @@ define('mdeditor/pods/record/show/edit/metadata/alternate/route', ['exports'], f
 
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -19879,7 +19955,7 @@ define('mdeditor/pods/record/show/edit/metadata/identifier/route', ['exports', '
   const {
     Route,
     get,
-    isEmpty
+    getWithDefault
     //isArray
   } = Ember;
 
@@ -19894,23 +19970,18 @@ define('mdeditor/pods/record/show/edit/metadata/identifier/route', ['exports', '
 
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
     setupModel() {
       let model = this.modelFor('record.show.edit');
-      let identifier = get(model, 'json.metadata.metadataInfo.metadataIdentifier');
 
       //make sure the identifier exists
-      if (isEmpty(identifier)) {
-        // Ember.get(this, 'flashMessages')
-        //   .warning('No identifier found! Re-directing to metadata...');
-        // this.replaceWith('record.show.edit.metadata');
-        model.set('json.metadata.metadataInfo.metadataIdentifier', {});
-      }
+      model.set('json.metadata.metadataInfo.metadataIdentifier', getWithDefault(model, 'json.metadata.metadataInfo.metadataIdentifier', {}));
 
-      return identifier;
+      return get(model, 'json.metadata.metadataInfo.metadataIdentifier');
     }
   });
 });
@@ -20008,7 +20079,8 @@ define('mdeditor/pods/record/show/edit/metadata/parent/identifier/route', ['expo
 
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
       this.controllerFor('record.show.edit').setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
     },
 
@@ -20020,8 +20092,8 @@ define('mdeditor/pods/record/show/edit/metadata/parent/identifier/route', ['expo
 
       //make sure the identifier exists
       if (isEmpty(identifier)) {
-        Ember.get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
-        this.replaceWith('record.show.edit.metadata.parent');
+        Ember.get(this, 'flashMessages').warning('No identifier found! Re-directing to Parent Metadata...');
+        this.replaceWith('record.show.edit.metadata.parent.index');
 
         return;
       }
@@ -20057,7 +20129,8 @@ define('mdeditor/pods/record/show/edit/metadata/parent/index/route', ['exports',
       this._super(...arguments);
 
       if (isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
-        this.transitionTo('record.show.edit.metadata', {
+        Ember.get(this, 'flashMessages').warning('No Parent Citation found! Re-directing to Metadata...');
+        this.replaceWith('record.show.edit.metadata', {
           queryParams: {
             scrollTo: 'parent-metadata'
           }
@@ -20138,6 +20211,7 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var once = Ember.run.once;
 
 
   const {
@@ -20221,6 +20295,7 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
       cancelRecord: function cancelRecord() {
         let model = this.currentRouteModel();
         let message = `Cancelled changes to Record: ${model.get('title')}`;
+        let controller = this.controller;
 
         if (this.get('settings.data.autoSave')) {
           let json = model.get('jsonRevert');
@@ -20228,9 +20303,13 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
           if (json) {
             model.set('json', JSON.parse(json));
 
-            if (this.controller.onCancel) {
-              this.controller.onCancel.call(this);
-              this.controller.set('onCancel', null);
+            if (controller.onCancel) {
+              once(() => {
+                controller.onCancel.call(controller.cancelScope || this);
+                this.refresh();
+                controller.set('onCancel', null);
+                controller.set('cancelScope', null);
+              });
             }
 
             get(this, 'flashMessages').warning(message);
@@ -20240,9 +20319,13 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
         }
 
         model.reload().then(() => {
-          if (this.controller.onCancel) {
-            this.controller.onCancel.call(this);
-            this.controller.set('onCancel', null);
+          if (controller.onCancel) {
+            once(() => {
+              controller.onCancel.call(controller.cancelScope || this);
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
           }
           get(this, 'flashMessages').warning(message);
         });
@@ -20759,7 +20842,9 @@ define('mdeditor/router', ['exports', 'mdeditor/config/environment'], function (
               path: ':domain_id'
             }, function () {
               this.route('citation', function () {
-                this.route('identifier');
+                this.route('identifier', {
+                  path: 'identifier/:identifier_id'
+                });
               });
               this.route('item', {
                 path: 'item/:item_id'
@@ -23268,6 +23353,7 @@ define('mdeditor/transitions', ['exports'], function (exports) {
     this.transition(this.toRoute('dictionary.show.edit.domain.edit'), this.fromRoute('dictionary.show.edit.domain.index'), this.use('toLeft'), this.reverse('toRight'));
     this.transition(this.toRoute('dictionary.show.edit.domain.edit.item'), this.fromRoute('dictionary.show.edit.domain.edit.index'), this.use('toLeft'), this.reverse('toRight'));
     this.transition(this.toRoute('dictionary.show.edit.domain.edit.citation.index'), this.fromRoute('dictionary.show.edit.domain.edit'), this.use('toLeft'), this.reverse('toRight'));
+    this.transition(this.toRoute('dictionary.show.edit.domain.edit.citation.identifier'), this.fromRoute('dictionary.show.edit.domain.edit.citation.index'), this.use('toLeft'), this.reverse('toRight'));
     //if
     // this.transition(
     //   this.hasClass('liquid-collapse'),
@@ -23867,6 +23953,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+6846cda4"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.0.0+8d7b70ff"});
 }
 //# sourceMappingURL=mdeditor.map
