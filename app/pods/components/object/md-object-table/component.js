@@ -115,6 +115,17 @@ export default Component.extend(InViewportMixin, Template, {
    */
 
   /**
+   * The prefix to use for creating the id for each row element. A dash,'-',
+   * followed by the item array index will be appended to the prefix to form the
+   * id.
+   *
+   * @property scrollToId
+   * @type {String}
+   * @optional
+   * @default undefined
+   */
+
+  /**
    * The template class to use for new items. This should be a constructor.
    * Objects should be created by extending Ember.Object.
    *  ```javascript
@@ -188,6 +199,16 @@ export default Component.extend(InViewportMixin, Template, {
   shadow: true,
 
   /**
+   * If true, an alert will be rendered with an "add" button when no items are
+   * present.
+   *
+   * @property alertIfEmpty
+   * @type {Boolean}
+   * @default false
+   */
+  alertIfEmpty: false,
+
+  /**
    * The height to offset from top of container when scrolling.
    *
    * @property offset
@@ -218,6 +239,16 @@ export default Component.extend(InViewportMixin, Template, {
     }
   }),
 
+  /**
+   * Render an alert if the items array is empty and alertIfEmpty is true.
+   *
+   * @property showAlert
+   * @type {Boolean}
+   * @default "false"
+   * @readOnly
+   * @category computed
+   * @requires items.length,alertIfEmpty
+   */
   showAlert: computed('items.length', 'alertIfEmpty', function () {
     return get(this, 'items.length') === 0 && get(this, 'alertIfEmpty');
   }),
@@ -229,6 +260,17 @@ export default Component.extend(InViewportMixin, Template, {
   btnSize: computed('verticalButtons', function () {
     return this.get('verticalButtons') ? 'md' : 'xs';
   }),
+
+  /**
+   * Render the footer if the items array length is greater than 5.
+   *
+   * @property showFooter
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires items.length
+   */
+  showFooter: computed.gt('items.length', 5),
 
   /*citems: computed('items.@each.val', function () {
     let i = this.get('items')

@@ -42,7 +42,7 @@
                 {{/unless}}
                 <tbody>
                   {{#each items as |item index|}}
-                      <tr>
+                      <tr id="{{if scrollToId (concat scrollToId "-" index) ""}}">
                         {{#unless hideIndex}}
                           <td class="md-table-index">
                             {{index}}
@@ -112,6 +112,14 @@
                   </button>
               </div>
           </div>
+          {{#if showFooter}}
+            <div class="panel-footer text-right">
+              <button type="button" id="{{panelId}}-btn" class="btn btn-sm btn-info {{if editing "hidden"}}"
+                  {{action "addItem" items}}>
+                  {{fa-icon "plus"}} Add {{header}}
+              </button>
+            </div>
+          {{/if}}
       </div>
   </div>
 {{else}}
