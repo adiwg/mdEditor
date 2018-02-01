@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.0.0.8d7b70ff",
+        "version": "0.0.0.44dfaf0b",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -2735,7 +2735,7 @@
         },
         {
             "file": "app/pods/components/control/md-scroll-spy/component.js",
-            "line": 139,
+            "line": 145,
             "description": "Scrolls to the target.",
             "itemtype": "method",
             "name": "MyMethod",
@@ -5615,6 +5615,18 @@
         {
             "file": "app/pods/components/object/md-object-table/component.js",
             "line": 117,
+            "description": "The prefix to use for creating the id for each row element. A dash,'-',\nfollowed by the item array index will be appended to the prefix to form the\nid.",
+            "itemtype": "property",
+            "name": "scrollToId",
+            "type": "{String}",
+            "optional": 1,
+            "default": "undefined",
+            "class": "md-object-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 128,
             "description": "The template class to use for new items. This should be a constructor.\nObjects should be created by extending Ember.Object.\n ```javascript\n Ember.Object.extend({\n   init() {\n     this._super(...arguments);\n\n     this.set('foo', A());\n     this.set('bar', A());\n   }\n })\n ```",
             "itemtype": "property",
             "name": "templateClass",
@@ -5627,7 +5639,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 139,
+            "line": 150,
             "description": "Determines add button text",
             "itemtype": "property",
             "name": "buttonText",
@@ -5638,7 +5650,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 148,
+            "line": 159,
             "description": "Render the row actions vertically.",
             "itemtype": "property",
             "name": "verticalButtons",
@@ -5649,7 +5661,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 156,
+            "line": 167,
             "description": "Inital collapse state for the panel.",
             "itemtype": "property",
             "name": "isCollapsed",
@@ -5660,7 +5672,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 164,
+            "line": 175,
             "description": "Whether the panel is collapsible.",
             "itemtype": "property",
             "name": "collapsible",
@@ -5671,7 +5683,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 173,
+            "line": 184,
             "description": "True to truncate the preview table cell text.",
             "itemtype": "property",
             "name": "ellipsis",
@@ -5682,7 +5694,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 181,
+            "line": 192,
             "description": "If true, a box shadow will be rendered around the panel.",
             "itemtype": "property",
             "name": "shadow",
@@ -5693,7 +5705,18 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 190,
+            "line": 201,
+            "description": "If true, an alert will be rendered with an \"add\" button when no items are\npresent.",
+            "itemtype": "property",
+            "name": "alertIfEmpty",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "md-object-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 211,
             "description": "The height to offset from top of container when scrolling.",
             "itemtype": "property",
             "name": "offset",
@@ -5704,7 +5727,7 @@
         },
         {
             "file": "app/pods/components/object/md-object-table/component.js",
-            "line": 199,
+            "line": 220,
             "description": "Uses isCollapsed if defined, otherwise inspects array length.",
             "itemtype": "property",
             "name": "collapsed",
@@ -5715,6 +5738,42 @@
             ],
             "requires": [
                 "isCollapsed"
+            ],
+            "class": "md-object-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 242,
+            "description": "Render an alert if the items array is empty and alertIfEmpty is true.",
+            "itemtype": "property",
+            "name": "showAlert",
+            "type": "{Boolean}",
+            "default": "\"false\"",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "items.length",
+                "alertIfEmpty"
+            ],
+            "class": "md-object-table",
+            "module": "mdeditor"
+        },
+        {
+            "file": "app/pods/components/object/md-object-table/component.js",
+            "line": 264,
+            "description": "Render the footer if the items array length is greater than 5.",
+            "itemtype": "property",
+            "name": "showFooter",
+            "type": "{Boolean}",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "items.length"
             ],
             "class": "md-object-table",
             "module": "mdeditor"

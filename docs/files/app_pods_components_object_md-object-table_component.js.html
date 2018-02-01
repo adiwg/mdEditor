@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/8d7b70ff" target="_blank">
-                                  Tag: 0.0.0.8d7b70ff
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/44dfaf0b" target="_blank">
+                                  Tag: 0.0.0.44dfaf0b
                                 </a>
                             </h4>
                         </div>
@@ -360,6 +360,17 @@ export default Component.extend(InViewportMixin, Template, {
    */
 
   /**
+   * The prefix to use for creating the id for each row element. A dash,&#x27;-&#x27;,
+   * followed by the item array index will be appended to the prefix to form the
+   * id.
+   *
+   * @property scrollToId
+   * @type {String}
+   * @optional
+   * @default undefined
+   */
+
+  /**
    * The template class to use for new items. This should be a constructor.
    * Objects should be created by extending Ember.Object.
    *  &#x60;&#x60;&#x60;javascript
@@ -433,6 +444,16 @@ export default Component.extend(InViewportMixin, Template, {
   shadow: true,
 
   /**
+   * If true, an alert will be rendered with an &quot;add&quot; button when no items are
+   * present.
+   *
+   * @property alertIfEmpty
+   * @type {Boolean}
+   * @default false
+   */
+  alertIfEmpty: false,
+
+  /**
    * The height to offset from top of container when scrolling.
    *
    * @property offset
@@ -463,6 +484,16 @@ export default Component.extend(InViewportMixin, Template, {
     }
   }),
 
+  /**
+   * Render an alert if the items array is empty and alertIfEmpty is true.
+   *
+   * @property showAlert
+   * @type {Boolean}
+   * @default &quot;false&quot;
+   * @readOnly
+   * @category computed
+   * @requires items.length,alertIfEmpty
+   */
   showAlert: computed(&#x27;items.length&#x27;, &#x27;alertIfEmpty&#x27;, function () {
     return get(this, &#x27;items.length&#x27;) === 0 &amp;&amp; get(this, &#x27;alertIfEmpty&#x27;);
   }),
@@ -474,6 +505,17 @@ export default Component.extend(InViewportMixin, Template, {
   btnSize: computed(&#x27;verticalButtons&#x27;, function () {
     return this.get(&#x27;verticalButtons&#x27;) ? &#x27;md&#x27; : &#x27;xs&#x27;;
   }),
+
+  /**
+   * Render the footer if the items array length is greater than 5.
+   *
+   * @property showFooter
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires items.length
+   */
+  showFooter: computed.gt(&#x27;items.length&#x27;, 5),
 
   /*citems: computed(&#x27;items.@each.val&#x27;, function () {
     let i = this.get(&#x27;items&#x27;)
