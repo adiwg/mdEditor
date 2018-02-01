@@ -132,6 +132,12 @@ export default Component.extend({
 
       if(link) {
         this.scroll('#' + link.id);
+      } else {
+        if($('#' + init)) {
+          this.scroll('#' + init);
+        } else {
+          this.scroll();
+        }
       }
     }
   },
