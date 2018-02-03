@@ -1,5 +1,5 @@
 import Ember from 'ember';
-
+import { inject as service } from '@ember/service';
 const {
   Component,
   computed,
@@ -18,6 +18,7 @@ export default Component.extend({
    * @constructor
    */
 
+  profile: service('profile'),
   classNames: ['md-scroll-spy'],
 
   /**
@@ -50,11 +51,9 @@ export default Component.extend({
    * @property links
    * @type {Array}
    * @category computed
-   * @requires
+   * @requires refresh,profile.active
    */
-  links: computed('refresh', function () {
-    //console.info('computed links');
-
+  links: computed('refresh', 'profile.active', function () {
     let liquid = '';
 
     if($('.liquid-spy').length) {
