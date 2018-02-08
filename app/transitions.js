@@ -119,14 +119,44 @@ export default function() {
     this.reverse('toRight')
   );
   this.transition(
-    this.toRoute('dictionary.show.edit.domain.edit.citation.index'),
-    this.fromRoute('dictionary.show.edit.domain.edit'),
+    this.toRoute('dictionary.show.edit.domain.edit.citation'),
+    this.fromRoute('dictionary.show.edit.domain.edit.index'),
     this.use('toLeft'),
     this.reverse('toRight')
   );
   this.transition(
     this.toRoute('dictionary.show.edit.domain.edit.citation.identifier'),
     this.fromRoute('dictionary.show.edit.domain.edit.citation.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.entity.edit'),
+    this.fromRoute('dictionary.show.edit.entity.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.entity.edit'),
+    this.fromRoute('dictionary.show.edit.entity.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.entity.edit.citation'),
+    this.fromRoute('dictionary.show.edit.entity.edit.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.entity.edit.citation.identifier'),
+    this.fromRoute('dictionary.show.edit.entity.edit.citation.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.entity.edit.attribute'),
+    this.fromRoute('dictionary.show.edit.entity.edit.index'),
     this.use('toLeft'),
     this.reverse('toRight')
   );

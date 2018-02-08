@@ -15,6 +15,7 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
+import uuidV4 from "npm:uuid/v4";
 
 const Validations = buildValidations({
   'domainId': [
@@ -44,6 +45,7 @@ export default Component.extend(Validations, {
     let model = get(this, 'model');
 
     once(this, function () {
+      set(model, 'domainId', getWithDefault(model, 'domainId', uuidV4()));
       set(model, 'domainItem', getWithDefault(model, 'domainItem', []));
       set(model, 'domainReference', getWithDefault(model,
         'domainReference', {}));

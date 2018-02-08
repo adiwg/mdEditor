@@ -15,7 +15,8 @@ export default Route.extend(ScrollTo, {
 
     this.controllerFor('dictionary.show.edit')
       .setProperties({
-        onCancel: parent.get('setupModel')
+        onCancel: parent.get('setupModel'),
+        cancelScope: this
       });
   },
 

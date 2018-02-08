@@ -1,0 +1,34 @@
+<td class="property">
+  {{input/md-input
+    model=this
+    valuePath="name"
+    placeholder="Descriptive name for the attribute(column)."
+    profilePath=(concat profilePath ".attribute.name")
+    showValidations=true
+  }}
+</td>
+<td class="property">
+  {{input/md-input
+    model=this
+    valuePath="dataType"
+    placeholder="The datatype for the attribute(column)."
+    profilePath=(concat profilePath ".attribute.dataType")
+    showValidations=true
+  }}
+</td>
+<td class="property">
+  {{input/md-input
+    model=this
+    valuePath="definition"
+    placeholder="A brief definition of the attribute(column)."
+    profilePath=(concat profilePath ".attribute.definition")
+    showValidations=true
+  }}
+</td>
+<td class="property text-center">
+  {{input/md-boolean
+    required=true
+    value=model.allowNull
+    profilePath=(concat profilePath ".attribute.allowNull")
+  }}
+</td>

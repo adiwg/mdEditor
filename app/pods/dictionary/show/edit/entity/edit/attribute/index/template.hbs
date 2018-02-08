@@ -1,0 +1,28 @@
+<h4 class="section-header">
+  Editing Attribute {{#if model.codeName}}
+    <em>{{model.codeName}}</em>
+  {{else}}
+    #{{attributeId}}
+  {{/if}}
+  <span class="small">for <em>{{parentModel.title}}</em></span>
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-attribute
+  class=""
+  model=model
+  profilePath="dictionary.entity.attribute"
+}}
+{{!-- editCitation=(route-action "editCitation") --}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Entity"
+    icon="arrow-left"
+    click=(route-action "backToEntity")
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

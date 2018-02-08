@@ -3,7 +3,6 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{#if model.identifier}}
 <div class="">
   {{object/md-identifier
     class=""
@@ -13,7 +12,6 @@
   }}
   {{outlet}}
 </div>
-{{/if}}
 
 {{to-elsewhere
   named="md-subbar-extra"

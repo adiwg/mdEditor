@@ -1,0 +1,150 @@
+{{#layout/md-card title="Attribute Information" collapsible=true collapsed=false
+  profilePath=(concat profilePath ".information") data-spy="Attribute Information"
+  required=true
+}}
+  {{input/md-input
+    model=this
+    valuePath="codeName"
+    placeholder="The code used to identify this attribute, e.g.the column name."
+    label="Code Name"
+    data-spy="Code Name"
+    profilePath=(concat profilePath ".codeName")
+    class="md-embedded"
+  }}
+
+  {{input/md-textarea
+    value=this.definition
+    required=true
+    autoresize=true
+    placeholder="A brief description of the attribute."
+    label="Definition"
+    data-spy="Definition"
+    embedded=true
+    profilePath=(concat profilePath ".definition")
+  }}
+
+  {{input/md-input
+    model=this
+    valuePath="dataType"
+    placeholder="The datatype for the attribute(column)."
+    label="Data Type"
+    data-spy="Data Type"
+    profilePath=(concat profilePath ".dataType")
+    class="md-embedded"
+  }}
+
+  {{input/md-boolean
+    label="Allow Null?"
+    required=true
+    text="Allow null values"
+    value=model.allowNull
+    profilePath=(concat profilePath ".allowNull")
+  }}
+
+  {{input/md-input
+    value=model.commonName
+    placeholder="Enter a short common(alternate) name for the attribute."
+    label="Common Name"
+    profilePath=(concat profilePath ".commonName")
+    data-spy="Common Name"
+    class="md-embedded"
+  }}
+
+  {{#object/md-simple-array-table
+    title="Alias"
+    required=false
+    plain=true
+    profilePath=(concat profilePath ".alias")
+    data-spy="Alias"
+    class="md-embedded"
+    value=model.alias as |val|
+  }}
+    <td>
+        {{input/md-input value=val.item.value
+        placeholder="Alternate names used to identify this attribute."}}
+    </td>
+  {{/object/md-simple-array-table}}
+
+{{/layout/md-card}}
+
+{{!-- {{object/md-objectroute-table
+  attributes="Name,Data Type, Definition"
+  items=model.attribute
+  header="Attributes"
+  shadow=true
+  buttonText="Add Attribute"
+  ellipsis=fallse
+  previewTemplateTable="object/md-attribute/preview"
+  editItem=(route-action "editAttribute")
+  verticalButtons=false
+  profilePath=profilePath
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-attribute"
+  data-spy="Attributes"
+}}
+
+{{#layout/md-card
+  title="Entity Structure"
+  collapsible=true
+  collapsed=false
+  profilePath=(concat profilePath ".structure")
+  data-spy="Entity Structure"
+}}
+
+  {{input/md-input
+    value=model.fieldSeparatorCharacter
+    placeholder="The character which indicates the end of data field contents."
+    label="Field Separator Character"
+    profilePath=(concat profilePath ".structure.fieldSeparatorCharacter")
+    class="md-embedded"
+  }}
+
+
+    {{input/md-input
+      type="number"
+      step=1
+      model=model
+      valuePath="numberOfHeaderLines"
+      placeholder="The number of lines at the beginning of the file."
+      label="# Header Lines"
+      profilePath=(concat profilePath ".structure.numberOfHeaderLines")
+      class="md-embedded"
+    }}
+
+  {{input/md-input
+    value=model.quoteCharacter
+    placeholder="Character used to quote fields in the data representation."
+    label="Quote Character"
+    profilePath=(concat profilePath ".structure.quoteCharacter")
+    class="md-embedded"
+  }}
+
+{{/layout/md-card}} --}}
+
+{{!-- {{object/md-objectroute-table
+  attributes="Name,Value,Definition"
+  items=model.entityItem
+  header="Entity Items"
+  shadow=true
+  buttonText="Add Item"
+  ellipsis=fallse
+  previewTemplateTable="object/md-entityitem/preview"
+  editItem=(route-action "editItem")
+  verticalButtons=false
+  profilePath=profilePath
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-entityitem"
+}}
+
+{{object/md-citation/preview
+  title="Entity Reference"
+  profilePath=(concat profilePath ".entityReference")
+  citation=model.entityReference
+  muted=true
+  required=false
+  editCitation="editCitation"
+}} --}}

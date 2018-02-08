@@ -4,6 +4,10 @@ import { isEmpty } from '@ember/utils';
 import { get, set } from '@ember/object';
 
 export default Route.extend(ScrollTo, {
+  breadCrumb: {
+    title: 'Reference'
+  },
+
   afterModel(model) {
     let domainId = this.paramsFor('dictionary.show.edit.domain.edit')
       .domain_id;
@@ -13,6 +17,13 @@ export default Route.extend(ScrollTo, {
     }
 
     this.set('domainId', domainId);
+  },
+
+  setupController: function () {
+    // Call _super for default behavior
+    this._super(...arguments);
+
+    this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
   },
 
   actions: {

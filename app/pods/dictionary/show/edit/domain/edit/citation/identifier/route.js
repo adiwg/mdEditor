@@ -20,7 +20,7 @@ export default Route.extend(ScrollTo, {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor('dictionary.show.edit.domain.edit.citation.index'));
+    this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
     this.controllerFor('dictionary.show.edit')
       .setProperties({
         onCancel: this.setupModel,

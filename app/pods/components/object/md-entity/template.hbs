@@ -1,0 +1,216 @@
+{{#layout/md-card title="Entity Information" collapsible=true collapsed=false
+  profilePath=(concat profilePath ".information") data-spy="Entity Information"
+  required=true
+}}
+  {{input/md-input
+    value=model.entityId
+    placeholder="Enter the identifier for the entity."
+    label="Entity Identifier"
+    profilePath=(concat profilePath ".identifier")
+    data-spy="Identifier"
+    class="md-embedded"
+  }}
+
+  {{input/md-input
+    model=this
+    valuePath="codeName"
+    placeholder="Enter the name used to refer to the entity in schema definitions or application software."
+    label="Code Name"
+    data-spy="Code Name"
+    profilePath=(concat profilePath ".codeName")
+    class="md-embedded"
+  }}
+
+  {{input/md-textarea
+    value=model.definition
+    required=true
+    autoresize=true
+    placeholder="A brief description of the entity."
+    label="Definition"
+    data-spy="Definition"
+    embedded=true
+    profilePath=(concat profilePath ".definition")
+  }}
+
+  {{input/md-input
+    value=model.commonName
+    placeholder="Enter a short common name for the entity."
+    label="Common Name"
+    profilePath=(concat profilePath ".commonName")
+    data-spy="Common Name"
+    class="md-embedded"
+  }}
+
+  {{#object/md-simple-array-table
+    title="Alias"
+    required=false
+    plain=true
+    profilePath=(concat profilePath ".alias")
+    data-spy="Alias"
+    class="md-embedded"
+    value=model.alias as |val|
+  }}
+    <td>
+        {{input/md-input value=val.item.value
+        placeholder="Alternate names used to identify this entity."}}
+    </td>
+  {{/object/md-simple-array-table}}
+
+{{/layout/md-card}}
+
+{{object/md-objectroute-table
+  attributes="Name,Data Type, Definition, Allow Null?"
+  items=model.attribute
+  header="Attributes"
+  shadow=true
+  buttonText="Add Attribute"
+  ellipsis=fallse
+  previewTemplateTable="object/md-attribute/preview"
+  editItem=(route-action "editAttribute")
+  verticalButtons=false
+  profilePath=profilePath
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-attribute"
+  data-spy="Attributes"
+}}
+
+{{#layout/md-card
+  title="Entity Structure"
+  collapsible=true
+  collapsed=false
+  profilePath=(concat profilePath ".structure")
+  data-spy="Entity Structure"
+}}
+
+  {{input/md-input
+    value=model.fieldSeparatorCharacter
+    placeholder="The character which indicates the end of data field contents."
+    label="Field Separator Character"
+    profilePath=(concat profilePath ".structure.fieldSeparatorCharacter")
+    class="md-embedded"
+  }}
+
+
+    {{input/md-input
+      type="number"
+      step=1
+      model=model
+      valuePath="numberOfHeaderLines"
+      placeholder="The number of lines at the beginning of the file."
+      label="# Header Lines"
+      profilePath=(concat profilePath ".structure.numberOfHeaderLines")
+      class="md-embedded"
+    }}
+
+  {{input/md-input
+    value=model.quoteCharacter
+    placeholder="Character used to quote fields in the data representation."
+    label="Quote Character"
+    profilePath=(concat profilePath ".structure.quoteCharacter")
+    class="md-embedded"
+  }}
+
+{{/layout/md-card}}
+
+{{#layout/md-card
+  title="Entity Keys"
+  collapsible=true
+  collapsed=false
+  profilePath=(concat profilePath ".keys")
+  data-spy="Entity Keys"
+}}
+
+  {{input/md-codelist-multi
+   label="Primary Key Attributes"
+   value=model.primaryKeyAttributeCodeName
+   mapped=attributeList
+   create=true
+   tooltip=true
+   placeholder="The codeNames of the attributes that compose the primary key."
+   profilePath=(concat profilePath "keys.primaryKey")
+   data-spy="Primary"
+   class="md-embedded"
+  }}
+
+  {{#object/md-array-table
+    columns="Local Attributes,Referenced Entity,Referenced Attributes"
+    value=model.foreignKey
+    title="Foreign Key Attributes"
+    class="md-embedded"
+    templateClass=foreignKeyTemplate
+    profilePath=(concat profilePath "keys.foreignKey")
+    data-spy="Foreign" as |fk|
+  }}
+    <td>
+      {{input/md-codelist-multi
+       model=fk.item
+       path="localAttributeCodeName"
+       mapped=attributeList
+       create=true
+       tooltip=true
+       placeholder="Select the local(child) attributes that compose the foreign key."
+       profilePath=(concat profilePath ".localAttributes")
+       showValidations=true
+      }}
+    </td>
+    <td>
+      {{input/md-codelist
+        model=fk.item
+        mapped=entityList
+        create=true
+        path="referencedEntityCodeName"
+        placeholder="Select the referenced (or parent) entity."
+        showValidations=true
+      }}
+    </td>
+    <td>
+      {{input/md-codelist-multi
+       model=fk.item
+       path="referencedAttributeCodeName"
+       mapped=(compute (action "getEntityAttributes") fk.item.referencedEntityCodeName)
+       create=true
+       tooltip=true
+       placeholder="Select the referenced(parent) attributes that compose the foreign key."
+       profilePath=(concat profilePath ".referencedAttributes")
+       showValidations=true
+      }}
+    </td>
+  {{/object/md-array-table}}
+
+{{/layout/md-card}}
+
+{{object/md-citation-array
+  model=model.entityReference
+  profilePath=(concat profilePath ".entityReference")
+  data-spy="Entity Reference"
+  editItem=(route-action "editCitation")
+  label="Entity Reference"
+}}
+
+{{!-- {{object/md-objectroute-table
+  attributes="Name,Value,Definition"
+  items=model.entityItem
+  header="Entity Items"
+  shadow=true
+  buttonText="Add Item"
+  ellipsis=fallse
+  previewTemplateTable="object/md-entityitem/preview"
+  editItem=(route-action "editItem")
+  verticalButtons=false
+  profilePath=profilePath
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-entityitem"
+}}
+
+{{object/md-citation/preview
+  title="Entity Reference"
+  profilePath=(concat profilePath ".entityReference")
+  citation=model.entityReference
+  muted=true
+  required=false
+  editCitation="editCitation"
+}} --}}

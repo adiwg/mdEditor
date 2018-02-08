@@ -831,7 +831,7 @@ export default Ember.Service.extend({
 
       }, {
         title: 'Entities',
-        target: 'dictionary.show.edit.entities',
+        target: 'dictionary.show.edit.entity',
         tip: 'Information about entities(tables) and attributes(columns or fields).'
       }]
     }

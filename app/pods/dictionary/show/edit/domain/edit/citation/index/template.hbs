@@ -1,6 +1,6 @@
-<h4 class="section-header">Editing Citation
-  <span class="small">for <em>{{model.codeName}}</em></span>
-  {{control/md-status model=model}}
+<h4 class="section-header">Editing Reference
+  <span class="small">for Domain <em>{{model.codeName}}</em></span>
+  {{control/md-status model=parentModel}}
 </h4>
 {{#with model.domainReference as |citation|}}
   {{object/md-citation

@@ -177,7 +177,7 @@ export default Select.extend({
    * @category computed
    * @requires value
    */
-  codelist: Ember.computed('value', 'filterId', function () {
+  codelist: Ember.computed('value', 'filterId', 'mapped', function () {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');

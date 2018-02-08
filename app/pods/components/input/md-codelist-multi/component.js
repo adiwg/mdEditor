@@ -109,7 +109,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: Ember.computed('value', 'filterId', function() {
+  codelist: Ember.computed('value', 'filterId', 'mapped', function() {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');

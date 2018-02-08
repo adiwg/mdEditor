@@ -145,7 +145,6 @@ Router.map(function () {
       path: ':dictionary_id'
     }, function () {
       this.route('edit', function () {
-        this.route('entities');
         this.route('citation', function () {
           this.route('identifier', {
             path: 'identifier/:identifier_id'
@@ -163,6 +162,22 @@ Router.map(function () {
             this.route('item', {
               path: 'item/:item_id'
             });
+          });
+        });
+        this.route('entity', function () {
+          this.route('edit', {
+            path: ':entity_id'
+          }, function () {
+            this.route('citation', {
+              path: 'citation/:citation_id'
+            }, function () {
+              this.route('identifier', {
+                path: 'identifier/:identifier_id'
+              });
+            });
+            this.route('attribute', {
+              path: 'attribute/:attribute_id'
+            }, function () {});
           });
         });
       });
