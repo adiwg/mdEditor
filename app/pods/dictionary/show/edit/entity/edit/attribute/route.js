@@ -61,6 +61,16 @@ export default Route.extend({
     backToEntity() {
       this.transitionTo('dictionary.show.edit.entity.edit',
         this.get('entityId'));
+    },
+    editIdentifier(index) {
+      let model = this.get('currentRouteModel')();
+
+      this.transitionTo(
+          'dictionary.show.edit.entity.edit.attribute.identifier',
+          get(model, 'attributeReference.identifier.' + index))
+        .then(function () {
+          this.setScrollTo('identifier');
+        }.bind(this));
     }
   }
 });

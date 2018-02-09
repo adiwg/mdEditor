@@ -139,6 +139,7 @@
     value=model.foreignKey
     title="Foreign Key Attributes"
     class="md-embedded"
+    plain=true
     templateClass=foreignKeyTemplate
     profilePath=(concat profilePath "keys.foreignKey")
     data-spy="Foreign" as |fk|
@@ -180,6 +181,46 @@
   {{/object/md-array-table}}
 
 {{/layout/md-card}}
+
+{{#object/md-array-table
+  columns="Name,Attributes,Duplicates?"
+  value=model.index
+  title="Entity Index"
+  class="md-embedded"
+  templateClass=indexTemplate
+  profilePath=(concat profilePath ".index")
+  data-spy="Entity Indexes" as |itm|
+}}
+  <td>
+    {{input/md-input
+      model=itm.item
+      valuePath="codeName"
+      placeholder="Name of the index."
+      showValidations=true
+      profilePath=(concat profilePath ".index.name")
+    }}
+  </td>
+  <td>
+    {{input/md-codelist-multi
+     model=itm.item
+     path="attributeCodeName"
+     mapped=attributeList
+     create=true
+     tooltip=true
+     placeholder="Select or enter the attributes that compose the index key."
+     profilePath=(concat profilePath ".index.attributes")
+     showValidations=true
+    }}
+  </td>
+  <td class="text-center">
+    {{input/md-boolean
+      required=true
+      value=itm.item.allowDuplicates
+      profilePath=(concat profilePath ".index.allowDuplicates")
+    }}
+  </td>
+{{/object/md-array-table}}
+
 
 {{object/md-citation-array
   model=model.entityReference

@@ -56,8 +56,7 @@ export default Component.extend(Validations, {
       set(model, 'primaryKeyAttributeCodeName', getWithDefault(model,
         'primaryKeyAttributeCodeName', []));
       set(model, 'index', getWithDefault(model, 'index', []));
-      set(model, 'attribute', getWithDefault(NativeArray.apply(model),
-        'attribute', []));
+      set(model, 'attribute', getWithDefault(model, 'attribute', []));
       set(model, 'foreignKey', getWithDefault(model, 'foreignKey', []));
       set(model, 'entityReference', getWithDefault(model,
         'entityReference', []));
@@ -124,26 +123,54 @@ export default Component.extend(Validations, {
     }
   }),
 
+  indexTemplate: EmberObject.extend(buildValidations({
+    'codeName': [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true
+      })
+    ],
+    'allowDuplicates': [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true
+      })
+    ],
+    'attributeCodeName': [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true
+      }),
+      validator('array-required', {
+        track: []
+      })
+    ]
+  }), {
+    init() {
+      this._super(...arguments);
+      this.set('attributeCodeName', []);
+    }
+  }),
+
   //entityId: alias('model.entityId'),
   codeName: alias('model.codeName'),
   description: alias('model.description'),
   entities: alias('dictionary.entity'),
   attributes: alias('model.attribute'),
 
-  attributeList: computed('attributes.@each.codeName', 'attributes.[]',
-    function () {
-      let attr = get(this, 'model.attribute');
-      if(attr) {
-        return attr.map((attr) => {
-          return {
-            codeId: get(attr, 'codeName'),
-            codeName: get(attr, 'codeName'),
-            tooltip: get(attr, 'definition')
-          };
-        });
-      }
-      return [];
-    }),
+  attributeList: computed('attributes.@each.codeName','attributes.[]', function () {
+let attr = get(this, 'model.attribute');
+if(attr){
+    return attr.map((attr) => {
+        return {
+          codeId: get(attr, 'codeName'),
+          codeName: get(attr, 'codeName'),
+          tooltip: get(attr, 'definition')
+        };
+      });
+    }
+    return [];
+  }),
 
   entityList: computed('entities.@each.entityId', 'entities.@each.codeName',
     function () {

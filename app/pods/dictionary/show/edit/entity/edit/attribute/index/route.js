@@ -33,6 +33,12 @@ export default Route.extend(ScrollTo, {
     backToEntity() {
       this.transitionTo('dictionary.show.edit.entity.edit',
         this.get('entityId'));
+    },
+    editCitation(scrollTo) {
+      this.transitionTo('dictionary.show.edit.domain.edit.citation')
+        .then(function () {
+          this.setScrollTo(scrollTo);
+        }.bind(this));
     }
   }
 });

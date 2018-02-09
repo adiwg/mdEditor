@@ -4,13 +4,18 @@ import {
   get,
   set
 } from '@ember/object';
+import { once } from '@ember/runloop';
 
 export default Route.extend({
   afterModel(m) {
     this._super(...arguments);
 
     let model = get(m, 'json.dataDictionary');
-    set(model, 'entity', getWithDefault(model, 'entity', []));
+
+    once(this, ()=>{
+
+      set(model, 'entity', getWithDefault(model, 'entity', []));
+    });
   },
 
   setupController: function () {

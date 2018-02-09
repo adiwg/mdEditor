@@ -3,7 +3,8 @@ import EmberObject from '@ember/object';
 import {
   set,
   getWithDefault,
-  get
+  get,
+  computed
 } from '@ember/object';
 import {
   alias
@@ -44,16 +45,15 @@ const Validations = buildValidations({
   ]
 });
 
-
 const TemplateClass = EmberObject.extend(Validations, {
   init() {
     this._super(...arguments);
 
     set(this, 'allowNull', false);
     set(this, 'attributeReference', {});
-    set(this, 'alias',[]);
-    set(this, 'valueRange',[]);
-    set(this, 'timePeriod',[]);
+    set(this, 'alias', []);
+    set(this, 'valueRange', []);
+    set(this, 'timePeriod', []);
   }
 });
 
@@ -93,7 +93,42 @@ const theComp = Component.extend(Validations, {
   codeName: alias('model.codeName'),
   dataType: alias('model.dataType'),
   definition: alias('model.definition'),
-  allowNull: alias('model.allowNull')
+  allowNull: alias('model.allowNull'),
+  domains: alias('dictionary.domain'),
+
+  domainList: computed('domains.@each.domainId', 'domains.@each.codeName',
+    function () {
+      let domains = get(this, 'domains') || [];
+
+      return domains.map((domain) => {
+        if(get(domain, 'domainId')) {
+          return {
+            codeId: get(domain, 'domainId'),
+            codeName: get(domain, 'codeName'),
+            tooltip: get(domain, 'description')
+          };
+        }
+      });
+    }),
+
+  rangeTemplate: EmberObject.extend(buildValidations({
+    'minRangeValue': [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true
+      })
+    ],
+    'maxRangeValue': [
+      validator('presence', {
+        presence: true,
+        ignoreBlank: true
+      })
+    ]
+  }), {
+    init() {
+      this._super(...arguments);
+    }
+  }),
 });
 
 export {
