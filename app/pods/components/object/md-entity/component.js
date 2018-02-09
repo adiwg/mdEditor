@@ -18,6 +18,10 @@ import {
 } from '@ember/debug';
 
 import {
+  Template as Attribute
+} from '../md-attribute/component';
+
+import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
@@ -149,9 +153,11 @@ export default Component.extend(Validations, {
     init() {
       this._super(...arguments);
       this.set('attributeCodeName', []);
+      this.set('allowDuplicates', false);
     }
   }),
 
+  attributeTemplate: Attribute,
   //entityId: alias('model.entityId'),
   codeName: alias('model.codeName'),
   description: alias('model.description'),

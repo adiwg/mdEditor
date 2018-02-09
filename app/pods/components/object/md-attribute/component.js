@@ -49,7 +49,7 @@ const TemplateClass = EmberObject.extend(Validations, {
   init() {
     this._super(...arguments);
 
-    set(this, 'allowNull', false);
+    set(this, 'allowNull', true);
     set(this, 'attributeReference', {});
     set(this, 'alias', []);
     set(this, 'valueRange', []);
