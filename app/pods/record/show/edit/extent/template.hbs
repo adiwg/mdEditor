@@ -1,3 +1,7 @@
+<h4 class="section-header">
+  Editing Extents
+  {{control/md-status model=model}}
+</h4>
 <section>
   {{#each model.json.metadata.resourceInfo.extent as |extent index|}}
 {{object/md-spatial-extent extent=extent index=index}}

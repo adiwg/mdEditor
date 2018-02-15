@@ -31,7 +31,8 @@ export default Route.extend({
     this.controller.set('citationId', get(this, 'citationId'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 
@@ -39,7 +40,9 @@ export default Route.extend({
     let citationId = get(this, 'citationId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.additionalDocumentation');
-    let resource = citationId && isArray(objects) ? NativeArray.apply(objects).objectAt(citationId) :
+    let resource = citationId && isArray(objects) ? NativeArray.apply(
+        objects)
+      .objectAt(citationId) :
       undefined;
 
     //make sure the identifier exists

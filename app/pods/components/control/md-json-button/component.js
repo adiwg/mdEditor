@@ -1,6 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject } from '@ember/service';
 
-export default Ember.Component.extend({
+export default Component.extend({
+  slider: inject(),
+
   tagName: 'button',
   classNames: ['btn'],
   attributeBindings: ['type'],
@@ -9,13 +12,38 @@ export default Ember.Component.extend({
   text: 'Preview JSON',
   icon: 'binoculars',
   json: {},
+  hideSlider: true,
+  propagateClick:false,
 
-  click() {
-    this.set('preview', true);
+  click(evt) {
+    //this.set('preview', true);
+    if(!this.get('propagateClick')) {
+      evt.stopPropagation();
+    }
+    this.showSlider();
   },
+
+  _close() {
+    this.set('preview', false);
+    this.set('hideSlider', true);
+  },
+
+  showSlider() {
+    let slider = this.get('slider');
+
+    slider.set('fromName', 'md-slider-json');
+    slider.set('onClose', this.get('_close'));
+    slider.set('context', this);
+    slider.toggleSlider(true);
+    this.set('hideSlider', false);
+  },
+
   actions: {
     close() {
-      this.set('preview', false);
+      this.get('_close');
+    },
+    showSlider() {
+      this.showSlider();
     }
   }
 });

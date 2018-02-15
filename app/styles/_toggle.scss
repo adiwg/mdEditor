@@ -62,3 +62,19 @@
 
   }
 }
+
+.x-toggle-component {
+  .on-label,
+  .off-label {
+    margin-bottom: 0;
+    }
+ }
+
+.form-horizontal {
+  .form-group {
+    .x-toggle-component {
+      justify-content: initial;
+      line-height: 32px;
+    }
+  }
+}

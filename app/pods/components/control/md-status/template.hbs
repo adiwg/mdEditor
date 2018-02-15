@@ -1,6 +1,29 @@
 {{#if model.hasDirtyHash}}
-  {{fa-icon "exclamation-circle"}}
-  {{tooltip-on-element text='This record has been modified!' side="right"
+<span class="md-status-icon" onclick={{action "saveRecord"}}>
+  {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-danger btn-" btnSize) "md-error")}}
+  {{tooltip-on-element text='This record has been modified! Cick to save.' side="top"
     class="md-tooltip danger"
   }}
+</span>
 {{/if}}
+
+{{#if model.hasSchemaErrors}}
+<span class="md-status-icon" onclick={{action "showSlider"}}>
+  {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-warning btn-" btnSize) "md-warning")}}
+  {{tooltip-on-element text='This record has errors! Click to view.' side="right"
+    class="md-tooltip warning"
+  }}
+</span>
+{{/if}}
+
+{{#unless hideSlider}}
+  {{to-elsewhere
+    named="md-slider-error"
+    send=(hash
+      title=(concat "Viewing errors for: " model.title)
+      body=(component "control/md-errors"
+        errors=model.hasSchemaErrors
+      )
+    )
+  }}
+{{/unless}}

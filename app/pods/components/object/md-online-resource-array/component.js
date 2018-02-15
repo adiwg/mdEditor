@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { once } from '@ember/runloop';
 import {
   Validations
 } from '../md-online-resource/component';
@@ -10,11 +11,11 @@ const {
 
 export default Ember.Component.extend({
 
-  init() {
+  didReceiveAttrs() {
     this._super(...arguments);
 
     if (!this.get('model')) {
-      this.set('model', A());
+      once(this, () => this.set('model', A()));
     }
   },
 

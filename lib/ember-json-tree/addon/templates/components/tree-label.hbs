@@ -1,1 +1,9 @@
-<span class="tree-label-text">{{label}}</span>
+{{#if labelComponent}}
+  {{component labelComponent model=model
+    nodePath=nodePath
+    selected=selected
+    highlight=highlight
+  }}
+{{else}}
+  <span class="tree-label-text">{{label}}</span>
+{{/if}}

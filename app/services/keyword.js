@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import GCMD from 'npm:gcmd-keywords';
+import Keywords from 'npm:mdkeywords';
 import ISO from 'npm:mdcodes/resources/js/iso_topicCategory';
 
 let service = Ember.Object.create({
@@ -72,5 +73,7 @@ service.get('thesaurus')
     keywordType: 'isoTopicCategory',
     label: 'ISO Topic Category'
   });
+
+service.get('thesaurus').pushObjects(Keywords);
 
 export default Ember.Service.extend(service);

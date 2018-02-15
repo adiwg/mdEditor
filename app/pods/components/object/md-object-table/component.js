@@ -6,6 +6,7 @@ const {
   computed,
   Component,
   observer,
+  get,
   isEmpty,
   typeOf,
   getOwner,
@@ -54,7 +55,7 @@ export default Component.extend(InViewportMixin, Template, {
 
   attributeBindings: ['data-spy'],
   classNameBindings: ['shadow:box-shadow--4dp'],
-  //classNames: ['md-object-table', 'panel', 'panel-default'],
+  classNames: ['md-object-table'],
 
   //reset the 'editing' flag
   didUpdateAttrs() {
@@ -103,13 +104,35 @@ export default Component.extend(InViewportMixin, Template, {
    */
 
   /**
+   * The path of template to render in the table preview for each row.
+   * Template content will NOT be wrapped in a `<td>` element. The `property`
+   * class should be applied to each `<td>`.`
+   *
+   * @property previewTemplateTable
+   * @type {String}
+   * @optional
+   * @default undefined
+   */
+
+  /**
+   * The prefix to use for creating the id for each row element. A dash,'-',
+   * followed by the item array index will be appended to the prefix to form the
+   * id.
+   *
+   * @property scrollToId
+   * @type {String}
+   * @optional
+   * @default undefined
+   */
+
+  /**
    * The template class to use for new items. This should be a constructor.
    * Objects should be created by extending Ember.Object.
    *  ```javascript
    *  Ember.Object.extend({
    *    init() {
    *      this._super(...arguments);
-   *      
+   *
    *      this.set('foo', A());
    *      this.set('bar', A());
    *    }
@@ -156,7 +179,7 @@ export default Component.extend(InViewportMixin, Template, {
    * @type {Boolean}
    * @default true
    */
-   collapsible: true,
+  collapsible: true,
 
   /**
    * True to truncate the preview table cell text.
@@ -176,6 +199,16 @@ export default Component.extend(InViewportMixin, Template, {
   shadow: true,
 
   /**
+   * If true, an alert will be rendered with an "add" button when no items are
+   * present.
+   *
+   * @property alertIfEmpty
+   * @type {Boolean}
+   * @default false
+   */
+  alertIfEmpty: false,
+
+  /**
    * The height to offset from top of container when scrolling.
    *
    * @property offset
@@ -193,7 +226,7 @@ export default Component.extend(InViewportMixin, Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', 'items.[]', function() {
+  collapsed: computed('isCollapsed', 'items.[]', function () {
     let isCollapsed = this.get('isCollapsed');
     let value = this.get('items');
 
@@ -206,13 +239,38 @@ export default Component.extend(InViewportMixin, Template, {
     }
   }),
 
-  panelId: computed('items.@each.val', 'editing', function() {
+  /**
+   * Render an alert if the items array is empty and alertIfEmpty is true.
+   *
+   * @property showAlert
+   * @type {Boolean}
+   * @default "false"
+   * @readOnly
+   * @category computed
+   * @requires items.length,alertIfEmpty
+   */
+  showAlert: computed('items.length', 'alertIfEmpty', function () {
+    return get(this, 'items.length') === 0 && get(this, 'alertIfEmpty');
+  }),
+
+  panelId: computed('items.@each.val', 'editing', function () {
     return 'panel-' + this.get('elementId');
   }),
 
-  btnSize: computed('verticalButtons', function() {
+  btnSize: computed('verticalButtons', function () {
     return this.get('verticalButtons') ? 'md' : 'xs';
   }),
+
+  /**
+   * Render the footer if the items array length is greater than 5.
+   *
+   * @property showFooter
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires items.length
+   */
+  showFooter: computed.gt('items.length', 5),
 
   /*citems: computed('items.@each.val', function () {
     let i = this.get('items')
@@ -222,15 +280,15 @@ export default Component.extend(InViewportMixin, Template, {
     return i;
   }),*/
 
-  attrArray: computed('attributes', function() {
+  attrArray: computed('attributes', function () {
     let attr = this.get('attributes');
 
     return attr ? attr.split(',') : null;
   }),
 
-  attrTitleArray: computed('attrArray', function() {
+  attrTitleArray: computed('attrArray', function () {
     return this.get('attrArray')
-      .map(function(item) {
+      .map(function (item) {
         return item.trim()
           .split('.')
           .get('lastObject')
@@ -250,13 +308,16 @@ export default Component.extend(InViewportMixin, Template, {
       //   behavior: "smooth"
       // });
 
-      $('html,body').animate({
-        scrollTop: $(el).offset().top - offset
-      }, 'slow');
+      $('html,body')
+        .animate({
+          scrollTop: $(el)
+            .offset()
+            .top - offset
+        }, 'slow');
     }
   },
 
-  editingChanged: observer('editing', function() {
+  editingChanged: observer('editing', function () {
     // deal with the change
     //Ember.run.schedule('afterRender', this, function () {
     let panel = this.$('> .md-object-table > .panel-collapse');
@@ -283,15 +344,17 @@ export default Component.extend(InViewportMixin, Template, {
       let out = editing ? table[0] : table[1];
       let inn = editing ? table[1] : table[0];
 
-      $(out).fadeOut(100, function() {
-        $(inn).fadeIn(100, function() {
-          comp.scrollTo(el);
+      $(out)
+        .fadeOut(100, function () {
+          $(inn)
+            .fadeIn(100, function () {
+              comp.scrollTo(el);
+            });
         });
-      });
 
       table.toggleClass('fadeOut fadeIn');
     } else { //add a one-time listener to wait until panel is open
-      panel.one('shown.bs.collapse', function() {
+      panel.one('shown.bs.collapse', function () {
         table.toggleClass('fadeOut fadeIn');
         comp.scrollTo(el);
       });
@@ -300,18 +363,18 @@ export default Component.extend(InViewportMixin, Template, {
     //});
   }),
 
-  pillColor: computed('items.[]', function() {
+  pillColor: computed('items.[]', function () {
     let count = this.get('items.length') || 0;
 
     return(count > 0) ? 'label-info' : 'label-warning';
   }),
 
   actions: {
-    deleteItem: function(items, index) {
+    deleteItem: function (items, index) {
       items.removeAt(index);
     },
 
-    addItem: function() {
+    addItem: function () {
       const Template = this.get('templateClass');
       const owner = getOwner(this);
       const spotlight = this.get('spotlight');
@@ -324,7 +387,7 @@ export default Component.extend(InViewportMixin, Template, {
       spotlight.setTarget(this.get('elementId'));
     },
 
-    editItem: function(items, index) {
+    editItem: function (items, index) {
       const spotlight = this.get('spotlight');
 
       this.set('saveItem', items.objectAt(index));
@@ -332,7 +395,7 @@ export default Component.extend(InViewportMixin, Template, {
       spotlight.setTarget(this.get('elementId'));
     },
 
-    cancelEdit: function() {
+    cancelEdit: function () {
       const spotlight = this.get('spotlight');
 
       this.set('editing', false);

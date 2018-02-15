@@ -101,26 +101,60 @@ export default Model.extend(Validations, Copyable, {
     }
   }),
 
-  title: computed('json.metadata.resourceInfo.citation.title',
-    function () {
-      return this.get('json.metadata.resourceInfo.citation.title');
+  title: computed.alias('json.metadata.resourceInfo.citation.title'),
+
+  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
+    function() {
+      const type = this.get(
+          'json.metadata.resourceInfo.resourceType.firstObject.type') ||
+        '';
+      const list = Ember.getOwner(this)
+        .lookup('service:icon');
+
+      return type ? list.get(type) || list.get('default') : list.get(
+        'defaultFile');
     }),
-
-  icon: computed('json.metadata.resourceInfo.resourceType.[]', function () {
-    const type = this.get(
-      'json.metadata.resourceInfo.resourceType.0.type') || '';
-    const list = Ember.getOwner(this)
-      .lookup('service:icon');
-
-    return type ? list.get(type) || list.get('default') : list.get(
-      'defaultFile');
-  }),
 
   recordId: computed.alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
+  recordIdNamespace: computed.alias(
+    'json.metadata.metadataInfo.metadataIdentifier.namespace'),
+
+  parentIds: computed.alias(
+    'json.metadata.metadataInfo.parentMetadata.identifier'),
+
+  hasParent: computed('parentIds.[]', function() {
+    let ids = this.get('parentIds');
+    let records = this.get('store')
+      .peekAll('record')
+      .rejectBy(
+        'hasSchemaErrors');
+
+    if(!ids) {
+      return false;
+    }
+
+    return ids.find((id) => {
+      return records.findBy('recordId', id.identifier) ? true :
+        false;
+    });
+  }),
+
+  defaultParent: computed('hasParent', function() {
+    let id = this.get('hasParent.identifier');
+
+    if(!id) {
+      return undefined;
+    }
+
+    return this.get('store')
+      .peekAll('record')
+      .findBy(
+        'recordId', id);
+  }),
 
   defaultType: computed.alias(
-    'json.metadata.resourceInfo.resourceType.0.type'),
+    'json.metadata.resourceInfo.resourceType.firstObject.type'),
 
   /**
    * The trimmed varsion of the recordId.
@@ -131,7 +165,7 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed('recordId', function () {
+  shortId: Ember.computed('recordId', function() {
     const recordId = this.get('recordId');
     if(recordId) {
       let index = recordId.indexOf('-');
@@ -142,12 +176,53 @@ export default Model.extend(Validations, Copyable, {
     return recordId;
   }),
 
+  /**
+   * A list of schema errors return by the validator.
+   *
+   * @property hasSchemaErrors
+   * @type {Array}
+   * @readOnly
+   * @category computed
+   * @requires status
+   */
+  hasSchemaErrors: computed('status', function() {
+    let mdjson = this.get('mdjson');
+    let errors = mdjson.validateRecord(this)
+      .errors;
+
+    //console.log(errors);
+
+    return errors;
+  }),
+
+  formatted: computed(function() {
+      let mdjson = this.get('mdjson');
+
+      return mdjson.formatRecord(this);
+    })
+    .volatile(),
+
+  status: computed('hasDirtyHash', function() {
+    let dirty = this.get('hasDirtyHash');
+    let errors = this.get('hasSchemaErrors');
+
+    if(this.get('currentHash')) {
+      return dirty ? 'danger' : errors ? 'warning' : 'success';
+    }
+
+    return 'success';
+  }),
+
   copy() {
     let current = this.get('cleanJson');
     let json = Ember.Object.create(current);
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
+    json.set('metadata.metadataInfo.metadataIdentifier', {
+      identifier: uuidV4(),
+      namespace: 'urn:uuid'
+    });
 
     return this.store.createRecord('record', {
       json: json

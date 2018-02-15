@@ -1,6 +1,10 @@
 {{#with model.json.metadata.metadataInfo as |metadata|}}
 <div class="row">
   <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
+    <h4 class="section-header">
+      Editing Metadata Information
+      {{control/md-status model=model}}
+    </h4>
     {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
       profilePath="record.metadata.basicInformation" data-spy="Basic Information"
     }}
@@ -10,12 +14,12 @@
         create=true tooltip=true icon=false mdCodeName="progress"
         placeholder="Select the current status"
         profilePath="record.metadata.metadataStatus"
-        data-spy="Status"
+        data-spy=false
         class="md-embedded"
       }}
 
       {{#layout/md-card profilePath="record.metadata.metadataDate"
-        data-spy="Metadata Dates"
+        data-spy=flase
         shadow=false
         class="md-embedded"
       }}
@@ -23,7 +27,7 @@
       {{/layout/md-card}}
     {{/layout/md-card}}
 
-    {{object/md-party
+    {{object/md-party-array
       title="Metadata Contact"
       data-spy="Metadata Contacts"
       collapsible=true collapsed=false
@@ -57,12 +61,18 @@
       editCitation="editParent"
     }}
 
-    {{object/md-online-resource-array model=metadata.metadataOnlineResource
-      data-spy="Online Resources"}}
+    {{object/md-repository-array value=model.json.metadataRepository data-spy="Metadata Repository"}}
+
+    {{object/md-online-resource-array
+      model=metadata.metadataOnlineResource
+      profilePath="record.metadata.onlineResource"
+      data-spy="Online Resources"
+    }}
 
     {{#layout/md-card profilePath="record.metadata.maintenance"
       title="Metadata Maintenance"
       collapsible=true collapsed=true
+      profilePath="record.metadata.maintenance"
     }}
       {{object/md-maintenance model=metadata.metadataMaintenance
         profilePath="record.metadata.maintenance"

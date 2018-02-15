@@ -25,7 +25,7 @@ const {
 
 let App;
 
-Ember.MODEL_FACTORY_INJECTIONS = true;
+//Ember.MODEL_FACTORY_INJECTIONS = true;
 
 App = Application.extend({
   modulePrefix: config.modulePrefix,
@@ -65,7 +65,7 @@ Component.reopen({
             '.components.' +
             path;
 
-
+          //console.log(fullPath);
           return getWithDefault(profile, fullPath, isVisible);
         }));
     }

@@ -18,18 +18,40 @@
   data-spy="Step Description"
   showValidations=true
 }}
-{{!--
-{{object/md-objectroute-table
-  items=model.processStep
-  header="Process Step"
-  buttonText="Add Step"
-  ellipsis=ellipsis
-  templateClass=templateClass
-  editItem=editProcessStep
-  attributes="stepId, description"
-}} --}}
 
-{{object/md-party
+{{#object/md-array-table
+  columns="Description"
+  value=model.stepSource
+  title="Step Source"
+  templateClass=sourceTemplate
+  profilePath=(concat profilePath ".stepSource")
+  data-spy="Step Source" as |source|
+}}
+  <td>
+    {{input/md-textarea
+      value=source.item.value
+      placeholder="Information about the source data used in the process step."
+    }}
+  </td>
+{{/object/md-array-table}}
+
+{{#object/md-array-table
+  columns="Description"
+  value=model.stepProduct
+  title="Step Product"
+  templateClass=sourceTemplate
+  profilePath=(concat profilePath ".stepProduct")
+  data-spy="Step Product" as |source|
+}}
+  <td>
+    {{input/md-textarea
+      value=source.item.value
+      placeholder="Information about an intermediate data set that (1) is significant in the opinion of the data producer, (2) is generated in the processing step, and (3) is used in later processing steps."
+    }}
+  </td>
+{{/object/md-array-table}}
+
+{{object/md-party-array
   title="Processors"
   data-spy="Processors"
   class=(if embedded "md-embedded")

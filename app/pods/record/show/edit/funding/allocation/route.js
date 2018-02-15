@@ -33,7 +33,8 @@ export default Route.extend(ScrollTo, {
 
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 
@@ -41,7 +42,9 @@ export default Route.extend(ScrollTo, {
     let allocationId = get(this, 'allocationId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.funding');
-    let resource = allocationId && isArray(objects) ? NativeArray.apply(objects).objectAt(allocationId) :
+    let resource = allocationId && isArray(objects) ? NativeArray.apply(
+        objects)
+      .objectAt(allocationId) :
       undefined;
 
     //make sure the allocation exists

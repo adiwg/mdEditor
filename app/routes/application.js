@@ -31,6 +31,7 @@ export default Route.extend({
   },
 
   spotlight: service(),
+  slider: service(),
 
   /**
    * Models for sidebar navigation
@@ -52,15 +53,18 @@ export default Route.extend({
     let meta = A([EmberObject.create({
       type: 'record',
       list: 'records',
-      title: 'Metadata Records'
+      title: 'Metadata Records',
+      icon: 'file-o'
     }), EmberObject.create({
       type: 'contact',
       list: 'contacts',
-      title: 'Contacts'
+      title: 'Contacts',
+      icon: 'users'
     }), EmberObject.create({
       type: 'dictionary',
       list: 'dictionaries',
-      title: 'Dictionaries'
+      title: 'Dictionaries',
+      icon: 'book'
     })]);
 
     let idx = 0;
@@ -82,6 +86,7 @@ export default Route.extend({
     this._super(controller, model);
     // Implement your custom setup after
     controller.set('spotlight', this.get('spotlight'));
+    controller.set('slider', this.get('slider'));
   },
 
   /**

@@ -21,6 +21,7 @@ export default Route.extend(ScrollTo, {
     set(model, 'metadataIdentifier', getWithDefault(model,'metadataIdentifier', {}));
     set(model, 'parentMetadata', getWithDefault(model,'parentMetadata', {}));
     set(model, 'alternateMetadataReference', getWithDefault(model, 'alternateMetadataReference', []));
+    set(m, 'json.metadataRepository', getWithDefault(m, 'json.metadataRepository', []));
   },
 
   actions: {

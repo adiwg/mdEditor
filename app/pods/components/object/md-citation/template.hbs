@@ -4,6 +4,9 @@
   shadow=(if embedded false true)
   required=true
 }}
+
+{{!-- {{log profilePath}} --}}
+
   {{input/md-input
     value=model.title
     placeholder="Enter the title for the resource."
@@ -57,7 +60,7 @@
 
 {{/layout/md-card}}
 
-{{object/md-party
+{{object/md-party-array
   title="Responsible Party"
   data-spy="Responsible Parties"
   class=(if embedded "md-embedded")
@@ -136,6 +139,7 @@
     data-spy="Graphic"
     button-text="Add Graphic"
     label="Graphic"
+    profilePath=(concat profilePath '.graphicOverview')
   }}
 {{/unless}}
 

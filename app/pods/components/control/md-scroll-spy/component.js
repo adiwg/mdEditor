@@ -1,5 +1,5 @@
 import Ember from 'ember';
-
+import { inject as service } from '@ember/service';
 const {
   Component,
   computed,
@@ -18,6 +18,7 @@ export default Component.extend({
    * @constructor
    */
 
+  profile: service('profile'),
   classNames: ['md-scroll-spy'],
 
   /**
@@ -30,7 +31,7 @@ export default Component.extend({
   offset: 110,
 
   /**
-   * The initial scroll target wgen the comopnent is inserted.
+   * The initial scroll target when the component is inserted.
    *
    * @property scrollInit
    * @type {String}
@@ -50,11 +51,9 @@ export default Component.extend({
    * @property links
    * @type {Array}
    * @category computed
-   * @requires
+   * @requires refresh,profile.active
    */
-  links: computed('refresh', function () {
-    //console.info('computed links');
-
+  links: computed('refresh', 'profile.active', function () {
     let liquid = '';
 
     if($('.liquid-spy').length) {
@@ -132,6 +131,12 @@ export default Component.extend({
 
       if(link) {
         this.scroll('#' + link.id);
+      } else {
+        if($('#' + init)) {
+          this.scroll('#' + init);
+        } else {
+          this.scroll();
+        }
       }
     }
   },

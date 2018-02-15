@@ -19,11 +19,20 @@
 
 {{/object/md-object-table}}
 
+
 {{#if model.timePeriod}}
 
 {{object/md-timePeriod
   model=model.timePeriod
-  profilePath="record.funding.allocation"
+  profilePath="record.funding.timePeriod"
 }}
 
+{{input/md-textarea
+  maxlength=500
+  value=model.description
+  label="Description"
+  data-spy="Description"
+  placeholder="Description: Less than 500 characters"
+  profilePath="record.funding.timePeriod"
+}}
 {{/if}}

@@ -1,12 +1,29 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import EmberObject from "@ember/object";
+
+const {
+  //inject,
+  run,
+  computed,
+  observer,
+  inject: {
+    service
+  }
+} = Ember;
 
 export default DS.Model.extend({
+  settings: service(),
+
   init() {
     this._super(...arguments);
 
-    this.get('hasDirtyAttributes');
+    //this.on('didUpdate', this, this.wasUpdated);
+    this.on('didLoad', this, this.wasLoaded);
+    //this.on('didUpdate', this, this.wasLoaded);
+    this.get('updateSettings');
   },
+  //cleaner: inject.service(),
   compressOnSave: DS.attr('boolean', {
     defaultValue: true
   }),
@@ -33,11 +50,25 @@ export default DS.Model.extend({
   language: DS.attr('string', {
     defaultValue: 'eng'
   }),
-  locale: Ember.computed.alias('defaultLocale'),
-  updateSettings: Ember.observer('hasDirtyAttributes',
+  importUriBase: DS.attr('string', {
+    defaultValue: ''
+  }),
+  repositoryDefaults: DS.attr('json'),
+  publishOptions: DS.attr('json', {
+    defaultValue: function(){
+      return EmberObject.create();
+    }
+  }),
+  locale: computed.alias('defaultLocale'),
+
+  wasLoaded() {
+    this.get('settings')
+      .setup();
+  },
+  updateSettings: observer('hasDirtyAttributes',
     function () {
       if(this.get('hasDirtyAttributes')) {
-        Ember.run.once(this, function () {
+        run.once(this, function () {
           this.save();
         });
       }

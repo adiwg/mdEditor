@@ -39,3 +39,30 @@ input[disabled] + .md-input-error {
 .md-warning {
   color: $brand-warning;
 }
+
+.md-error-list {
+  .media-left {
+    line-height: 45px;
+
+    .label {
+      font-size: 20px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.md-status-icon {
+  border: 0;
+  cursor: pointer;
+  outline: 0;
+
+  &:hover {
+    .md-error {
+      color: darken($brand-danger, 12);
+    }
+
+    .md-warning {
+      color: darken($brand-warning, 12);
+    }
+  }
+}

@@ -1,5 +1,11 @@
 import Ember from 'ember';
 import HashPoll from 'mdeditor/mixins/hash-poll';
+import {
+  once
+} from '@ember/runloop';
+import {
+  getOwner
+} from '@ember/application';
 
 const {
   inject,
@@ -88,6 +94,10 @@ export default Route.extend(HashPoll, {
     cancelRecord: function () {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
+      let controller = this.controller;
+      let same = !controller.cancelScope || getOwner(this)
+        .lookup('controller:application')
+        .currentPath === get(controller,'cancelScope.routeName');
 
       if(this.get('settings.data.autoSave')) {
         let json = model.get('jsonRevert');
@@ -95,9 +105,16 @@ export default Route.extend(HashPoll, {
         if(json) {
           model.set('json', JSON.parse(json));
 
-          if(this.controller.onCancel) {
-            this.controller.onCancel.call(this);
-            this.controller.set('onCancel', null);
+          if(controller.onCancel) {
+            once(() => {
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
           }
 
           get(this, 'flashMessages')
@@ -110,9 +127,16 @@ export default Route.extend(HashPoll, {
       model
         .reload()
         .then(() => {
-          if(this.controller.onCancel) {
-            this.controller.onCancel.call(this);
-            this.controller.set('onCancel', null);
+          if(controller.onCancel) {
+            once(() => {
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
           }
           get(this, 'flashMessages')
             .warning(message);

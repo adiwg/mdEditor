@@ -6,6 +6,7 @@
   }}
 
   {{#layout/md-card shadow=false
+    profilePath=(concat profilePath ".date")
     muted=false
     plain=true}}
     {{input/md-date-range
@@ -30,6 +31,7 @@
  }}
 
   {{#layout/md-card shadow=false
+    profilePath=(concat profilePath ".periodName")
     muted=false
     plain=true}}
     {{#object/md-simple-array-table title="Time Period Name"
@@ -47,6 +49,7 @@
   {{/layout/md-card}}
 
   {{#layout/md-card shadow=false
+    profilePath=(concat profilePath ".interval")
     muted=false
     plain=true}}
     <div class="form-inline">
@@ -78,6 +81,7 @@
   {{/layout/md-card}}
 
   {{#layout/md-card shadow=false
+    profilePath=(concat profilePath ".duration")
     muted=false
     plain=true
     bodyIsRow=true}}

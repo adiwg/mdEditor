@@ -12,13 +12,19 @@ module.exports = function(deployTarget) {
   }
 
   if (deployTarget === 'staging') {
-    ENV.build.environment = 'production';
+    ENV.build.environment = 'staging';
     // configure other plugins for staging deploy target here
   }
 
   if (deployTarget === 'production') {
     ENV.build.environment = 'production';
     // configure other plugins for production deploy target here
+    ENV.git = {
+      repo: 'git@github.com:adiwg/mdEditor.git',
+      //branch: 'gh-pages',
+      //worktreePath: '../deploy-mdeditor',
+      //commitMessage: 'Deployed %@'
+    };
   }
 
   // Note: if you need to build some configuration asynchronously, you can return

@@ -31,7 +31,8 @@ export default Route.extend({
     this.controller.set('distributionId', get(this, 'distributionId'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 

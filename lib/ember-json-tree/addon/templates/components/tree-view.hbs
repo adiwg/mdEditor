@@ -1,10 +1,27 @@
-{{#each (sort-by "label" model) as |child|}}
+{{#each sorted as |child|}}
   {{#unless child.invisible}}
     {{tree-branch model=child
       select=select
       selected=selected
       nodeDepth=nodeDepth
+      sortKeys=sortKeys
       path=parentPath
+      disableCheck=disableCheck
+      validateDrag=validateDrag
+      labelComponent=labelComponent
+      tree=tree
+      handleDrop=handleDrop
     }}
   {{/unless}}
+{{else}}
+  {{#if emptyMessage}}
+    <div class="card card-inverse card-warning">
+      <div class="card-block">
+        <h4 class="card-title">
+          {{fa-icon "exclamation-triangle"}} {{if emptyTitle emptyTitle "No items found."}}
+        </h4>
+        <p class="text-white">{{emptyMessage}}</p>
+      </div>
+    </div>
+  {{/if}}
 {{/each}}

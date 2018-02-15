@@ -21,6 +21,24 @@ export default Component.extend({
    * A select list control for displaying and selecting options
    * provided in an array or promise array.
    *
+   * ```handlebars
+   * \{{input/md-select
+   *  label="Measure Type"
+   *  showValidations=true
+   *  model=this
+   *  path="measureType"
+   *  valuePath="value"
+   *  namePath="name"
+   *  objectArray=typeOptions
+   *  tooltip=true
+   *  tooltipPath="tip"
+   *  searchEnabled=false
+   *  disabled=measureDisabled
+   *  placeholder="The type of measurement."
+   *  profilePath=(concat profilePath ".measure.type")
+   * }}
+   * ```
+   *
    * @class md-select
    * @constructor
    */
@@ -359,7 +377,7 @@ export default Component.extend({
             codeId: get(item, codeId),
             codeName: get(item, codeName),
             tooltip: false,
-            icon: icons.get(item[codeName]) || icons.get(
+            icon: icons.get(item[codeName].toString()) || icons.get(
               defaultIcon)
           };
           if(tooltip) {

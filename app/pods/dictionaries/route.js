@@ -1,29 +1,41 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+const {
+  Route,
+  inject: {
+    service
+  }
+} = Ember;
+
+export default Route.extend({
+  slider: service(),
   model() {
-    return this.store.findAll('dictionary');
+    //return this.store.peekAll('contact');
+    return this.modelFor('application').findBy('modelName','dictionary');
   },
+
+  columns: [{
+    propertyName: 'title',
+    title: 'Title'
+  }, {
+    propertyName: 'json.dataDictionary.subject',
+    title: 'Subject'
+  }],
 
   actions: {
-    deleteItem: function(item) {
-      let message =
-          "Do you really want to delete this dictionary?\n\n" +
-          "Be sure this dictionary is not referenced by an metadata records " +
-          "or it's deletion may cause those records to not validate.";
-      this._deleteItem(item, message);
+    getColumns(){
+      return this.get('columns');
     },
 
-    editItem: function(item) {
-      this.transitionTo('dictionary.show.edit', item);
-    }
-  },
-  
-  // action methods
-  _deleteItem(item, message) {
-    if (window.confirm(message)) {
-      item.destroyRecord();
+    showSlider(rec, evt) {
+      let slider = this.get('slider');
+
+      evt.stopPropagation();
+      this.controller.set('errorTarget', rec);
+      slider.set('fromName', 'md-slider-error');
+      slider.toggleSlider(true);
+
+      return false;
     }
   }
-  
 });

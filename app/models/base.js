@@ -14,12 +14,15 @@ export default DS.Model.extend({
 
     this.on('didUpdate', this, this.wasUpdated);
     this.on('didCreate', this, this.wasUpdated);
+    this.on('didLoad', this, this.applyPatch);
     this.get('hasDirtyAttributes');
     //this.on('didLoad', this, this.wasLoaded);
   },
 
   settings: inject.service(),
+  patch: inject.service(),
   clean: inject.service('cleaner'),
+  mdjson: inject.service('mdjson'),
 
   /**
    * The hash for the clean record.
@@ -57,23 +60,31 @@ export default DS.Model.extend({
       }
     }),
 
-  wasUpdated(model) {
-    this._super(...arguments);
+  applyPatch() {
+    let patch = this.get('patch');
 
-    let record = model.record || model;
-    let json = JSON.parse(record.serialize().data.attributes.json);
-
-    this.setCurrentHash(json);
-    record.set('jsonSnapshot', json);
+    patch.applyModelPatch(this);
   },
 
-  wasLoaded(model) {
+  wasUpdated() {
     this._super(...arguments);
 
-    let json = JSON.parse(model.serialize().data.attributes.json);
+    //let record = model.record || this;
+    let json = JSON.parse(this.serialize()
+      .data.attributes.json);
 
     this.setCurrentHash(json);
-    model.set('jsonSnapshot', json);
+    this.set('jsonSnapshot', json);
+  },
+
+  wasLoaded() {
+    this._super(...arguments);
+
+    let json = JSON.parse(this.serialize()
+      .data.attributes.json);
+
+    this.setCurrentHash(json);
+    this.set('jsonSnapshot', json);
   },
 
   saved() {
@@ -81,7 +92,6 @@ export default DS.Model.extend({
 
     return this._super(...arguments);
   },
-
 
   /**
    * Compute and set the model hash.
@@ -116,7 +126,8 @@ export default DS.Model.extend({
    * @returns {Boolean} Boolean value indicating if hashes are equivalent
    */
   hasDirtyHash: computed('currentHash', function () {
-    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes
+    let newHash = this.hashObject(JSON.parse(this.serialize()
+      .data.attributes
       .json), true);
 
     //if the currentHash is undefined, the record is either new or hasn't had the
@@ -158,9 +169,11 @@ export default DS.Model.extend({
     return false;
   }),
 
-  cleanJson: computed('json', function(){
-    return this.get('clean').clean(this.get('json'));
-  }).volatile(),
+  cleanJson: computed('json', function () {
+      return this.get('clean')
+        .clean(this.get('json'));
+    })
+    .volatile(),
 
   status: computed('hasDirtyHash', function () {
     let dirty = this.get('hasDirtyHash');

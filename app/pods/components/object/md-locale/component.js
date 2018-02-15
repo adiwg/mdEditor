@@ -29,7 +29,13 @@ const Validations = buildValidations({
   })
 });
 
-export default Component.extend(Template, {
+const TemplateClass = EmObject.extend(Validations, {
+  init() {
+    this._super(...arguments);
+  }
+});
+
+const theComp = Component.extend(Template, {
   settings: service(),
 
   init() {
@@ -42,7 +48,8 @@ export default Component.extend(Template, {
 
     //let model = get(model, modelPath);
 
-    if(isNone(model) || Object.keys(model).length === 0) {
+    if(isNone(model) || Object.keys(model)
+      .length === 0) {
       model = EmObject.create(this.applyTemplate(model, {
         language: copy(settings.get('language')),
         characterSet: copy(settings.get('characterSet')),
@@ -66,9 +73,12 @@ export default Component.extend(Template, {
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmObject.extend(Validations, {
-    init() {
-      this._super(...arguments);
-    }
-  })
+  templateClass: TemplateClass
 });
+
+export {
+  Validations,
+  TemplateClass as Template,
+  theComp as
+  default
+};

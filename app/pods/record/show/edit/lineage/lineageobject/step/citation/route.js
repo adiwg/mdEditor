@@ -27,7 +27,8 @@ export default Route.extend(ScrollTo, {
     this.controller.set('stepId', get(this, 'stepId'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 

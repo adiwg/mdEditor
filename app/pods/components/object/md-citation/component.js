@@ -3,7 +3,6 @@ import Ember from 'ember';
 const {
   Component,
   set,
-  get,
   getWithDefault,
   run: {
     once
@@ -31,13 +30,31 @@ const formatCitation = function(model) {
 };
 
 const theComp = Component.extend({
+  /**
+   * mdEditor class for input and edit of mdJSON 'citation' objects.
+   *
+   * ```handlebars
+   * \{{object/md-citation
+   *  model=citation
+   *  profilePath="path"
+   *  simpleIdentifier=false
+   *  embedded=false
+   * }}
+   *
+   * @module mdeditor
+   * @submodule components-object
+   * @class md-citation-array
+   * @constructor
+   */
+
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    //let model = getWithDefault(this, 'model', {}) || {};
 
     once(this, function() {
-      formatCitation(model);
+      this.set('model', getWithDefault(this, 'model', {}));
+      formatCitation(this.get('model'));
     });
   },
   tagName: 'form',

@@ -2,7 +2,7 @@
   position: absolute;
   top: 0;
   overflow: hidden;
-  width: 275px;
+  width: #{$sidebar-width}px;
   height: 100vh;
   margin: 0;
   padding: 53px 0 26px;
@@ -54,7 +54,7 @@
     padding: 0 10px;
     position: fixed;
     top: 0;
-    width: 275px;
+    width: #{$sidebar-width}px;
     z-index: 1000;
 
     a {
@@ -178,7 +178,7 @@
   }
 
   a.sidebar-row {
-    max-width: 220px;
+    max-width: #{$sidebar-width - 55}px;
     padding-left: 10px;
     display: block;
 

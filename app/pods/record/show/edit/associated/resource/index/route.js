@@ -1,18 +1,16 @@
 import Ember from 'ember';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-import {
-  formatCitation
-} from 'mdeditor/pods/components/object/md-citation/component';
 
 const {
   Route,
   get,
   set,
-  Object: EmObject,
-  getWithDefault
+  inject
 } = Ember;
 
 export default Route.extend(ScrollTo, {
+  slider: inject.service(),
+
   sliderColumns: [{
     propertyName: 'recordId',
     title: 'ID'
@@ -34,42 +32,33 @@ export default Route.extend(ScrollTo, {
   },
   actions: {
     insertResource(selected) {
-      let app = this.controllerFor('application');
-      let rec = selected[0];
-      let info = get(rec, 'json.metadata.metadataInfo') || {};
-      let metadata = {
-        'title': `Metadata for ${get(rec,'title')}`,
-        'responsibleParty': getWithDefault(info, 'metadataContact', []),
-        'date': getWithDefault(info, 'metadataDate', []),
-        'onlineResource': getWithDefault(info, 'metadataOnlineResource', []),
-        'identifier': [getWithDefault(info, 'metadataIdentifier', {})],
-      };
+      let slider = this.get('slider');
+      let rec = selected.get('firstObject');
 
       if(rec) {
-        let resource = get(this, 'currentModel');
-        let citation = get(rec, 'json.metadata.resourceInfo.citation') || {};
-        let resourceType = get(rec, 'json.metadata.resourceInfo.resourceType') || [];
+        let resource = this.currentRouteModel();
 
-        set(resource, 'resourceCitation', EmObject.create(formatCitation(
-          citation)));
-        set(resource, 'metadataCitation', EmObject.create(formatCitation(
-          metadata)));
-        set(resource, 'resourceType', resourceType);
+        set(resource, 'mdRecordId', get(rec, 'recordId'));
       }
 
-      app.set('showSlider', false);
+      //this.controller.set('slider', false);
+      slider.toggleSlider(false);
+      selected.clear();
     },
     selectResource() {
-      let app = this.controllerFor('application');
+      let slider = this.get('slider');
 
-      this.controller.set('slider', 'md-select-table');
-      app.set('showSlider', true);
+      //this.controller.set('slider', true);
+      slider.toggleSlider(true);
     },
     sliderData() {
-      return this.store.peekAll('record');
+      return this.store.peekAll('record').filterBy('recordId');
     },
     sliderColumns() {
       return this.get('sliderColumns');
+    },
+    editLinked(rec) {
+      this.transitionTo('record.show.edit', rec.get('id'));
     }
   }
 });

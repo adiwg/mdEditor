@@ -57,7 +57,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    run.once(() => {
+    run.once(this, () => {
       if(isNone(get(this, 'value'))) {
         set(this, 'value', '');
       }

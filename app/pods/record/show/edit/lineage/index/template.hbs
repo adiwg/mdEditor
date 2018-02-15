@@ -1,5 +1,3 @@
-{{log model.json.metadata.resourceLineage}}
-
 <h4 class="section-header">
   Editing Lineage
   {{control/md-status model=parentModel}}
@@ -13,4 +11,6 @@
   ellipsis=ellipsis
   previewTemplate="object/md-lineage/preview"
   editItem=(route-action "editLineage")
+  hideIndex=true
+  condensed=true
 }}

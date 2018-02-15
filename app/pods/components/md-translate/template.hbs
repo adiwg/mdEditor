@@ -36,6 +36,7 @@
                 </div>
             </div>
             <div class="card-footer">
+                {{control/md-status model=model isBtn=true bntSize="lg"}}
                 <button type="submit" class="btn btn-lg btn-primary pull-right"
                 disabled={{if writer false true}}>
                     {{fa-icon "retweet"}} Translate </button>
@@ -49,10 +50,44 @@
       {{control/md-spinner size=5 text="Translating..."}}
     {{/if}}
 
+    {{#if messages}}
+      {{#layout/md-card
+        title="Translation Error"
+        class="card-inverse card-outline-danger md-translator-error"
+        spotlightEnabled=false
+        scroll=false
+        maximizable=true
+        titleIcon="exclamation"
+        spotlightEnabled=false
+      }}
+        <h4 class="text-danger">{{subtitle}}</h4>
+        <ul>
+          {{#each messages as |message|}}
+              <li>{{message}}</li>
+          {{/each}}
+        </ul>
+      {{/layout/md-card}}
+    {{/if}}
+
+    {{#if xhrError}}
+      {{#layout/md-card
+        title="mdTranslator Error"
+        spotlightEnabled=false
+        class="card-inverse card-outline-danger md-translator-error"
+        scroll=false
+        maximizable=true
+        titleIcon="exclamation"
+      }}
+        <p>{{xhrError}}</p>
+        <p>An error occurred during the translation. The incident has been
+        logged. If the problem persists, please contact techincal support.</p>
+      {{/layout/md-card}}
+    {{/if}}
+
     {{#if result}}
       {{#layout/md-card
         title="Result"
-        class="md-translator-preview"
+        class=(if messages "card-inverse card-outline-danger md-translator-error md-translator-preview" "md-translator-preview")
         scroll=false
         maximizable=true
         titleIcon="check"
@@ -80,40 +115,6 @@
               disabled={{if result false true}}>
               {{fa-icon "floppy-o"}} Save Result </button>
           </div>
-      {{/layout/md-card}}
-    {{/if}}
-
-    {{#if messages}}
-      {{#layout/md-card
-        title="Translation Error"
-        class="card-inverse card-outline-danger md-translator-error"
-        spotlightEnabled=false
-        scroll=false
-        maximizable=true
-        titleIcon="exclamation"
-        spotlightEnabled=false        
-      }}
-        <h4 class="text-danger">{{subtitle}}</h4>
-        <ul>
-          {{#each messages as |message|}}
-              <li>{{message}}</li>
-          {{/each}}
-        </ul>
-      {{/layout/md-card}}
-    {{/if}}
-
-    {{#if xhrError}}
-      {{#layout/md-card
-        title="mdTranslator Error"
-        spotlightEnabled=false
-        class="card-inverse card-outline-danger md-translator-error"
-        scroll=false
-        maximizable=true
-        titleIcon="exclamation"
-      }}
-        <p>{{xhrError}}</p>
-        <p>An error occurred during the translation. The incident has been
-        logged. If the problem persists, please contact techincal support.</p>
       {{/layout/md-card}}
     {{/if}}
 </div>

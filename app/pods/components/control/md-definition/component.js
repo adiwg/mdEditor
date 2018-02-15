@@ -20,6 +20,13 @@ export default Ember.Component.extend({
    */
 
   /**
+   * The class(es) to apply to the definition title
+   *
+   * @property titleClass
+   * @type {String}
+   */
+
+  /**
    * The definition text
    *
    * @property text

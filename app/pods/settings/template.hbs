@@ -1,5 +1,10 @@
-<h4>App Version: {{control/md-repo-link}}</h4>
-<h3>Settings</h3>
+<div class="page-header">
+  <h3>Settings
+    <small class="small">mdEditor Version: {{control/md-repo-link}}</small>
+  </h3>
+</div>
+
+{{#layout/md-card title="General Settings"}}
 <form class="form-horizontal">
   <div class="form-group">
       <label class="col-sm-2 col-lg-1 control-label">Auto Save</label>
@@ -17,7 +22,7 @@
   </div>
   <div class="form-group">
       <label class="col-sm-2 col-lg-1 control-label">Clear All Records</label>
-      <div class="col-sm-1 col-sm-offset-">
+      <div class="col-sm-1">
           {{#control/md-button-modal class="btn btn-lg btn-danger" type="button"
             message="<h1>Are you sure?</h1> Clicking OK will delete ALL  records in
             your browser cache. Have you made a backup?"
@@ -28,6 +33,7 @@
       </div>
   </div>
 </form>
+{{/layout/md-card}}
 
 {{#layout/md-card
   title="Defaults"
@@ -72,7 +78,61 @@
         placeholder="Select country code."
       }}
     </div>
+    <hr>
+    <div class="col-md-8">
+      {{input/md-input
+        label="Import URL"
+        type="text"
+        value=model.importUriBase
+        placeholder="Text string used as the default URL for importing."
+      }}
+    </div>
 </div>
+
+<div class="clearfix"></div>
+<hr>
+  {{#object/md-array-table
+    columns="Repository, Collection Title"
+    value=model.repositoryDefaults
+    plain=true
+    title="Metadata Repository"
+    templateClass=settings.repositoryTemplate
+    onChange=(route-action "save")
+    data-spy="Metadata Repository" as |meta|
+  }}
+    <td>
+      {{input/md-codelist
+        value=meta.item.repository
+        create=true
+        tooltip=true
+        icon=false
+        mdCodeName="metadataRepository"
+        closeOnSelect=true
+        placeholder="Select or enter a repository."
+        change=(route-action "save")
+      }}
+    </td>
+    <td>
+      {{input/md-input
+        type="text"
+        value=meta.item.title
+        placeholder="Text string used to identify a set of resources in the repository."
+        change=(route-action "save")
+      }}
+    </td>
+  {{/object/md-array-table}}
 {{/layout/md-card}}
 
+{{#layout/md-card title="Publishing Settings"}}
+  {{#each (compute (route-action "catalogs")) as |catalog|}}
+    {{#layout/md-card
+      title=catalog.name
+      collapsible=true
+      collapsed=true
+      shadow=false
+    }}
+    {{component catalog.settingsComponent model=model.publishOptions}}
+    {{/layout/md-card}}
+  {{/each}}
+{{/layout/md-card}}
  {{outlet}}

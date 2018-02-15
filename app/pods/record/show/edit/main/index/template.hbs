@@ -1,21 +1,46 @@
 {{#with model.json.metadata.resourceInfo as |resource|}}
 <div class="row">
     <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
+      <h4 class="section-header">
+        Editing <em>{{model.title}}</em>
+        {{control/md-status model=model}}
+      </h4>
       {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
         profilePath="record.main.basicInformation" data-spy="Basic Information"
         required=true
       }}
-        {{input/md-input-confirm
-          valuePath='recordId'
-          model=model
-          confirmTip="Note! Editing the Record ID may break links. Be aware."
-          placeholder="Assigned Record ID"
-          label="Record ID"
-          profilePath="record.main.recordId"
-          data-spy="Record ID"
+
+      {{#layout/md-wrap data-spy="Record ID" class="md-embedded"
+        profilePath="record.main.recordId"
+      }}
+        <div class="form-group">
+          <label class="required">Record ID</label>
+          <div class="input-group input-group-md">
+            {{input/md-input
+              valuePath='recordId'
+              model=model
+              placeholder="Assigned Record ID"
+              disabled=true
+            }}
+            <span class="input-group-btn">
+                <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
+                  {{fa-icon "pencil"}}
+                  Edit</button>
+                  {{tooltip-on-element text="Edit the metadata id" class="md-tooltip warning"}}
+            </span>
+          </div>
+        </div>
+        {{/layout/md-wrap}}
+
+        {{input/md-input
+          value=model.title
+          placeholder="Enter the title for the resource."
+          label="Title"
+          required=true
+          profilePath="record.main.title"
+          data-spy="Title"
           class="md-embedded"
         }}
-
 
         {{#if (is-array resource.status)}}
         {{input/md-codelist-multi
@@ -60,7 +85,7 @@
         {{/if}}
 
         {{#if (is-array resource.pointOfContact)}}
-        {{object/md-party
+        {{object/md-party-array
           title="Point Of Contact"
           data-spy="Point Of Contact"
           collapsible=true collapsed=false
@@ -132,6 +157,7 @@
           model=resource.graphicOverview data-spy="Graphic Overview"
           button-text="Add Graphic"
           label="Graphic Overview"
+          profilePath="record.main.graphicOverview"
         }}
         {{/if}}
 
@@ -151,4 +177,4 @@
 {{/with}}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=model.profile)}}

@@ -30,7 +30,8 @@ export default Route.extend({
     this.controller.set('lineageId', get(this, 'lineageId'));
     this.controllerFor('record.show.edit')
       .setProperties({
-        onCancel: this.setupModel
+        onCancel: this.setupModel,
+        cancelScope: this
       });
   },
 

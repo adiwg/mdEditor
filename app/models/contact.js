@@ -99,7 +99,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @required
    */
   json: DS.attr('json', {
-    defaultValue: function() {
+    defaultValue: function () {
       return JsonDefault.create();
     }
   }),
@@ -131,7 +131,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.name, json.positionName
    */
   title: computed('json.name', 'json.positionName',
-    function() {
+    function () {
       const json = this.get('json');
 
       return json.name || (json.isOrganization ? null : json.positionName);
@@ -178,7 +178,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.isOrganization
    */
   type: computed('json.isOrganization',
-    function() {
+    function () {
       return this.get('json.isOrganization') ? 'Organization' :
         'Individual';
     }),
@@ -193,7 +193,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.isOrganization
    */
   icon: computed('json.isOrganization',
-    function() {
+    function () {
       const name = this.get('json.isOrganization');
 
       return name ? 'users' : 'user';
@@ -208,18 +208,21 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.logoGraphic.firstObject.fileUri.firstObject.uri
    */
-  defaultLogo: computed('json.logoGraphic.firstObject.fileUri.firstObject.uri',
+  defaultLogo: computed(
+    'json.logoGraphic.firstObject.fileUri.firstObject.uri',
     'defaultOrganization',
-    function() {
-      let uri = this.get('json.logoGraphic.firstObject.fileUri.firstObject.uri');
+    function () {
+      let uri = this.get(
+        'json.logoGraphic.firstObject.fileUri.firstObject.uri');
 
       if(uri) {
         return uri;
       }
       let orgId = get(this, 'defaultOrganization');
 
-      if(orgId) {
-        let contacts = this.get('store').peekAll('contact');
+      if(orgId && orgId !== this.get('json.contactId')) {
+        let contacts = this.get('store')
+          .peekAll('contact');
         let org = contacts.findBy('json.contactId', orgId);
 
         if(org) {
@@ -240,7 +243,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.memberOfOrganization.[]
    */
   defaultOrganization: computed('json.memberOfOrganization.[]',
-    function() {
+    function () {
       const json = this.get('json');
 
       let {
@@ -250,6 +253,17 @@ const Contact = Model.extend(Validations, Copyable, {
       return !isEmpty(memberOfOrganization) ?
         memberOfOrganization[0] :
         null;
+    }),
+
+  defaultOrganizationName: computed('defaultOrganization',
+    function () {
+      let contacts = this.get('store')
+        .peekAll('contact');
+
+      let org = contacts.findBy('json.contactId', get(this,
+        'defaultOrganization'));
+
+      return org ? get(org, 'name') : null;
     }),
 
   /**
@@ -263,7 +277,7 @@ const Contact = Model.extend(Validations, Copyable, {
    */
   combinedName: computed('name', 'json.isOrganization',
     'json.positionName', 'json.memberOfOrganization[]',
-    function() {
+    function () {
       const json = this.get('json');
 
       let {
@@ -280,7 +294,8 @@ const Contact = Model.extend(Validations, Copyable, {
       let orgName;
 
       if(orgId) {
-        let contacts = this.get('store').peekAll('contact');
+        let contacts = this.get('store')
+          .peekAll('contact');
         let org = contacts.findBy('json.contactId', orgId);
 
         if(org) {
@@ -304,7 +319,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.contactId
    */
-  shortId: Ember.computed('json.contactId', function() {
+  shortId: Ember.computed('json.contactId', function () {
     const contactId = this.get('json.contactId');
     if(contactId && Validator.isUUID(contactId)) {
       let index = contactId.indexOf('-');
@@ -313,6 +328,36 @@ const Contact = Model.extend(Validations, Copyable, {
     }
 
     return contactId;
+  }),
+
+  status: computed('hasDirtyHash', function () {
+    let dirty = this.get('hasDirtyHash');
+    let errors = this.get('hasSchemaErrors');
+
+    if(this.get('currentHash')) {
+      return dirty ? 'danger' : errors ? 'warning' : 'success';
+    }
+
+    return 'success';
+  }),
+
+  /**
+   * A list of schema errors return by the validator.
+   *
+   * @property hasSchemaErrors
+   * @type {Array}
+   * @readOnly
+   * @category computed
+   * @requires status
+   */
+  hasSchemaErrors: computed('status', function () {
+    let mdjson = this.get('mdjson');
+    let errors = mdjson.validateContact(this)
+      .errors;
+
+    //console.log(errors);
+
+    return errors;
   }),
 
   /**
