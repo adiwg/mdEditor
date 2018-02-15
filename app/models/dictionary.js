@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import DS from 'ember-data';
+import uuidV4 from "npm:uuid/v4";
 import { alias } from '@ember/object/computed';
 //import uuidV4 from 'npm:uuid/v4';
 //import Validator from 'npm:validator';
@@ -36,6 +37,7 @@ const JsonDefault = Ember.Object.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
+      dictionaryId: uuidV4(),
       dataDictionary: {
         citation: {
           title: null,
@@ -68,6 +70,7 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   title: alias('json.dataDictionary.citation.title'),
+  dictionaryId: alias('json.dictionaryId'),
 
   icon: 'book',
 

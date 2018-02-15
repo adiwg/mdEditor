@@ -30,7 +30,7 @@ export default Component.extend({
   writer: null,
 
   writerOptions: [{
-    name: 'FGDC CSDGM(beta)',
+    name: 'FGDC CSDGM',
     value: 'fgdc',
     type: 'application/xml',
     tip: 'Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata'

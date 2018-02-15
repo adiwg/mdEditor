@@ -38,6 +38,18 @@
     }
   }
 
+  &.hd-success .card-header {
+    background-color: $brand-success;
+
+    a {
+      color: $body-bg;
+
+      &:hover {
+        color: lighten($brand-info, 35);
+      }
+    }
+  }
+
   &.card-inverse .md-card-maximize {
     color: $body-bg;
 

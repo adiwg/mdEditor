@@ -35,7 +35,6 @@ const {
 } = Ember;
 
 const unImplemented = [
-  'dataDictionary',
   'metadata.metadataInfo.otherMetadataLocale',
   'metadata.resourceInfo.spatialRepresentation', [
     'metadata.resourceInfo.extent',
@@ -98,6 +97,26 @@ export default Service.extend({
     }
   },
 
+  injectDictionaries(rec, json) {
+    let ids = rec.get('json.mdDictionary') || [];
+    let arr =[];
+
+    if(ids.length) {
+
+      let dicts = this.get('store').peekAll('dictionary').filterBy('dictionaryId');
+
+      ids.forEach((id) => {
+        let record = dicts.findBy('dictionaryId', id);
+
+        if(record) {
+          arr.pushObject(record.get('json.dataDictionary'));
+        }
+      });
+    }
+
+    set(json, 'dataDictionary', arr);
+  },
+
   formatRecord(rec, asText) {
     let _contacts = [];
     let conts = this.get('contacts');
@@ -135,6 +154,7 @@ export default Service.extend({
     let clean = cleaner.clean(get(rec, 'json'));
 
     this.injectCitations(clean);
+    this.injectDictionaries(rec, clean);
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
     let contacts = this.get('store')
