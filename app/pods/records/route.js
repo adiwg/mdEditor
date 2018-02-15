@@ -1,5 +1,4 @@
 import Ember from 'ember';
-
 const {
   Route,
   inject: {
@@ -52,5 +51,4 @@ export default Route.extend({
       return false;
     }
   }
-
 });

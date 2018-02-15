@@ -1,6 +1,11 @@
 import Ember from 'ember';
 import Table from 'mdeditor/pods/components/md-models-table/component';
-
+import {
+  warn
+} from '@ember/debug';
+import {
+  isArray
+} from '@ember/array';
 const {
   get,
   computed,
@@ -32,15 +37,15 @@ export default Table.extend({
   classNames: ['md-record-table'],
 
   /**
-  * Property name used to identify selected records. Should begin with underscore.
-  *
-  * @property selectProperty
-  * @type {String}
-  * @default "_selected"
-  * @static
-  * @readOnly
-  * @required
-  */
+   * Property name used to identify selected records. Should begin with underscore.
+   *
+   * @property selectProperty
+   * @type {String}
+   * @default "_selected"
+   * @static
+   * @readOnly
+   * @required
+   */
   selectProperty: '_selected',
 
   /**
@@ -108,7 +113,8 @@ export default Table.extend({
       component: all ?
         'control/md-record-table/buttons' : 'control/md-record-table/buttons/show',
       disableFiltering: !all,
-      componentForFilterCell: all ? 'control/md-record-table/buttons/filter' : null
+      componentForFilterCell: all ?
+        'control/md-record-table/buttons/filter' : null
     };
   }),
 
@@ -132,11 +138,23 @@ export default Table.extend({
   //rowTemplate: 'components/control/md-select-table/row',
 
   multipleSelect: true,
-  preselectedItems: computed(function () {
-    let prop = this.get('selectProperty');
+  selectedItems: computed({
+    get() {
+      let prop = this.get('selectProperty');
 
-    return this.get('data')
-      .filterBy(prop);
+      return this.get('data')
+        .filterBy(prop)
+        .toArray();
+
+    },
+    set(k, v) {
+      if(!isArray(v)) {
+        warn('`selectedItems` must be an array.', false, {
+          id: '#emt-selectedItems-array'
+        });
+      }
+      return A(v);
+    }
   }),
 
   /**
@@ -157,26 +175,36 @@ export default Table.extend({
       this._super(...arguments);
 
       let prop = this.get('selectProperty');
-      let sel = get(this, '_selectedItems');
+      let sel = get(this, 'selectedItems');
 
       rec.toggleProperty(prop);
       this.get('select')(rec, idx, sel);
     },
 
     toggleAllSelection() {
-      this._super(...arguments);
-
-      let selected = get(this, '_selectedItems');
-      let prop = this.get('selectProperty');
+      //this._super(...arguments);
+      let selectedItems = get(this, 'selectedItems');
       let data = get(this, 'data');
+      const allSelectedBefore = get(selectedItems, 'length') === get(data,
+        'length');
+      get(this, 'selectedItems')
+        .clear();
+
+      if(!allSelectedBefore) {
+        get(this, 'selectedItems')
+          .pushObjects(data.toArray());
+      }
+      this.userInteractionObserver();
+
+      let selected = get(this, 'selectedItems');
+      let prop = this.get('selectProperty');
+      //let data = get(this, 'data');
 
       if(get(selected, 'length')) {
         selected.setEach(prop, true);
-        return;
+      } else {
+        data.setEach(prop, false);
       }
-
-      data.setEach(prop, false);
-
       this.get('select')(null, null, selected);
     }
   }
