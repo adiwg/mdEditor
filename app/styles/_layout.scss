@@ -177,5 +177,13 @@ footer {
     .text-warning {
       color: lighten($brand-warning, 10);
     }
+
+    >  span {
+      margin-left: 1em;
+    }
+  }
+
+  .btn-xs {
+    line-height: 1.25em;
   }
 }

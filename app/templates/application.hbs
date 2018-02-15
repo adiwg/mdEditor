@@ -54,18 +54,22 @@
 {{ember-load-remover}}
 
 {{#control/md-modal isShowing=settings.data.showSplash showConfirm=true confirmLabel="OK"}}
-    <div class="alert alert-warning" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
-    <div class="alert alert-danger" role="alert">{{fa-icon "wrench"}} Warning:
-        This application is under development!
+    <div class="alert alert-info" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
+    <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
+        This application is in beta testing,  <a
+        href="https://github.com/adiwg/mdEditor/issues"
+        target="_blank">please let us know</a> if you find any bugs.
+        Thank-you!
     </div>
     <p>
-        The application has been updated since your last session. Some features
-        may have been added or changed. Please note the version below (also shown
-        in the {{#link-to "settings"}}Settings{{/link-to}}) when reporting bugs or issues.
-        If you are having problems, you might want to {{#link-to "settings"}}
-        clear your localstorage{{/link-to}} which will
-        delete all records. This application is <strong class="text-warning">NOT
-        INTENDED FOR PRODUCTION USE until Version 1.0 (January 2018).</strong>
+        The  md<span class="md-icon-mdeditor"></span>ditor has been updated
+        since your last session. Some features may have been added or changed.
+        Please note the version below (also shown in the {{#link-to
+        "settings"}}Settings{{/link-to}}) when reporting bugs or issues. If you
+        are having problems, you might want to {{#link-to "settings"}} clear
+        your localstorage{{/link-to}} which will delete all records. This
+        application is in beta <strong class="text-warning">SHOULD BE</strong>
+        safe for production use.
     </p>
     <p>
         Current Version: <span class="text-info">{{control/md-repo-link}}</span>
