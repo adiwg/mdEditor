@@ -1,6 +1,11 @@
 import Ember from 'ember';
 import HashPoll from 'mdeditor/mixins/hash-poll';
-import { once } from '@ember/runloop';
+import {
+  once
+} from '@ember/runloop';
+import {
+  getOwner
+} from '@ember/application';
 
 const {
   inject,
@@ -90,6 +95,9 @@ export default Route.extend(HashPoll, {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
       let controller = this.controller;
+      let same = !controller.cancelScope || getOwner(this)
+        .lookup('controller:application')
+        .currentPath === get(controller,'cancelScope.routeName');
 
       if(this.get('settings.data.autoSave')) {
         let json = model.get('jsonRevert');
@@ -99,7 +107,10 @@ export default Route.extend(HashPoll, {
 
           if(controller.onCancel) {
             once(() => {
-              controller.onCancel.call(controller.cancelScope || this);
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
               this.refresh();
               controller.set('onCancel', null);
               controller.set('cancelScope', null);
@@ -118,7 +129,10 @@ export default Route.extend(HashPoll, {
         .then(() => {
           if(controller.onCancel) {
             once(() => {
-              controller.onCancel.call(controller.cancelScope || this);
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
               this.refresh();
               controller.set('onCancel', null);
               controller.set('cancelScope', null);
