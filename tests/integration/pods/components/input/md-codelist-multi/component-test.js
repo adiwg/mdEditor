@@ -5,7 +5,7 @@ from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Ember from 'ember';
 import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
-import { triggerEvent } from 'ember-native-dom-helpers/test-support/helpers';
+import { triggerEvent } from 'ember-native-dom-helpers';
 import wait from 'ember-test-helpers/wait';
 
 const codelist = Ember.Service.extend({

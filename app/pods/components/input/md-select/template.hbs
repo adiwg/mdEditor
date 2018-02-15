@@ -1,6 +1,7 @@
     {{#if label}}
       <label>{{label}}</label>
     {{/if}}
+<div class="md-input-input">
       {{#component theComponent
         selected=selectedItem
         multiple=multiple
@@ -16,23 +17,47 @@
         ariaLabel=ariaLabel
         as |code|
       }}
-        {{#if icon}}
-          {{#if code.icon}}
-            <span class="fa fa-{{code.icon}}"> </span>
+        {{#unless filter}}
+        <span class="md-select-option {{if code.tooltip "with-tip"}}">
+          {{#if icon}}
+            {{#if code.icon}}
+              <span class="fa fa-{{code.icon}}"> </span>
+            {{/if}}
           {{/if}}
-        {{/if}}
-        <span class="select-value">{{code.codeName}}</span>
-        {{#if tooltip}}
-          {{#if code.tooltip}}
-          <div class="pull-right">
-            <span class="badge tooltip">?
-              {{tooltip-on-element
-                text=code.tooltip
-                side="right"
-                enableLazyRendering=true
-              }}
+          <span class="select-value">{{code.codeName}}</span>
+          {{#if tooltip}}
+            {{#if code.tooltip}}
+            <span class="select-tip">
+              <span class="badge tooltip">?
+                {{tooltip-on-element
+                  text=code.tooltip
+                  side="right"
+                  enableLazyRendering=true
+                }}
+              </span>
             </span>
-          </div>
+            {{/if}}
           {{/if}}
-        {{/if}}
+        </span>
+        {{/unless}}
       {{/component}}
+      <span class='md-input-error'>
+        {{#if showErrorMessage}}
+          <span class='md-error'>
+            {{fa-icon "exclamation-circle"}}
+            {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+                {{v-get model path 'message'}}
+            {{/tooltip-on-element}}
+          </span>
+        {{/if}}
+
+        {{#if showWarningMessage}}
+          <span class='md-warning'>
+            {{fa-icon "exclamation-triangle"}}
+            {{#tooltip-on-element side="right" class="md-tooltip warning"}}
+            {{v-get model path 'warningMessage'}}
+            {{/tooltip-on-element}}
+          </span>
+        {{/if}}
+      </span>
+    </div>

@@ -1,4 +1,3 @@
-<div class="form-group">
     {{#if label}}
         <label>{{label}}</label>
     {{/if}}
@@ -8,10 +7,10 @@
     required=required
     maxlength=maxlength
     autoresize=autoresize
+    didInsertElement=_didInsertArea
     rows=rows
     max-rows=maxrows
     max-width=maxwidth
     max-height=maxheight
     class=class}}
     {{yield}}
-</div>

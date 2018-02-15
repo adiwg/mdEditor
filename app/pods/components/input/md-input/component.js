@@ -5,17 +5,136 @@
 
 import Ember from 'ember';
 
-export default Ember.Component.extend({
+const {
+  Component,
+  defineProperty,
+  computed,
+  isBlank,
+  assert
+} = Ember;
+
+export default Component.extend({
   /**
    * Input, edit, display a single item
+   *
+   * ```handlebars
+   * \{{input/md-input
+   *    value=val
+   *    model=null
+   *    valuePath=null
+   *    label="Name"
+   *    placeholder="Enter name."
+   *    required=false
+   *  }}
+   * ```
    *
    * @class md-input
    * @constructor
    */
 
+  init() {
+    this._super(...arguments);
+
+    let model = this.get('model');
+    let valuePath = this.get('valuePath');
+
+    if(isBlank(model) !== isBlank(valuePath)) {
+      assert(
+        `You must supply both model and valuePath to ${this.toString()} or neither.`
+      );
+    }
+
+    if(!isBlank(model)) {
+      if(this.get(`model.${valuePath}`) === undefined) {
+        Ember.debug(
+          `model.${valuePath} is undefined in ${this.toString()}.`
+        );
+
+        //Ember.run.once(()=>model.set(valuePath, ""));
+      }
+
+      if(this.get('type') === 'number') {
+        let attribute = `model.${valuePath}`;
+
+        defineProperty(this, 'value', computed(attribute, {
+          get() {
+            let val = this.get(attribute);
+
+            return val ? val.toString() : '';
+          },
+
+          set(key, value) {
+            let parse = this.get('step') ? parseFloat : parseInt;
+
+            this.set(attribute, parse(value, 10));
+
+            return value;
+          }
+        }));
+      } else {
+        defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+      }
+
+      defineProperty(this, 'validation', computed.alias(
+          `model.validations.attrs.${valuePath}`)
+        .readOnly());
+
+      defineProperty(this, 'required', computed(
+          'validation.options.presence.presence',
+          'validation.options.presence.disabled',
+          'disabled',
+          function() {
+            return !this.get('disabled') &&
+              this.get('validation.options.presence.presence') &&
+              !this.get('validation.options.presence.disabled');
+          })
+        .readOnly());
+
+      defineProperty(this, 'notValidating', computed.not(
+          'validation.isValidating')
+        .readOnly());
+
+      defineProperty(this, 'hasContent', computed.notEmpty('value')
+        .readOnly());
+
+      defineProperty(this, 'hasWarnings', computed.notEmpty(
+          'validation.warnings')
+        .readOnly());
+
+      defineProperty(this, 'isValid', computed.and('hasContent',
+          'validation.isTruelyValid')
+        .readOnly());
+
+      defineProperty(this, 'shouldDisplayValidations', computed.or(
+          'showValidations', 'didValidate',
+          'hasContent')
+        .readOnly());
+
+      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+          'showErrorMessage',
+          'hasContent', 'validation')
+        .readOnly());
+
+      defineProperty(this, 'showErrorMessage', computed.and(
+          'shouldDisplayValidations',
+          'validation.isInvalid')
+        .readOnly());
+
+      defineProperty(this, 'showWarningMessage', computed.and(
+          'shouldDisplayValidations',
+          'hasWarnings', 'isValid')
+        .readOnly());
+    }
+  },
+
+  classNames: ['md-input'],
+  classNameBindings: ['label:form-group', 'required'],
+  attributeBindings: ['data-spy'],
+
   /**
    * Value of the input.
-   * Value sets the initial value and returns the edited result
+   * Value sets the initial value and returns the edited result.
+   * This property is overridden if valuePath and model are supplied.
    *
    * @property value
    * @type String
@@ -51,6 +170,15 @@ export default Ember.Component.extend({
   required: false,
 
   /**
+   * Whether a input is disabled
+   *
+   * @property disabled
+   * @type Boolean
+   * @default false
+   */
+  disabled: false,
+
+  /**
    * Maximum number of characters for each input string.
    * If no maxlength is specified the length will not be restricted
    *
@@ -76,6 +204,25 @@ export default Ember.Component.extend({
    * @type String
    * @default 'form-control'
    */
-  inputClass: 'form-control'
+  inputClass: 'form-control',
+
+  /**
+   * The model or object containing the input value. Only needed for validation.
+   *
+   * @property model
+   * @type {Object}
+   * @default undefined
+   * @readOnly
+   */
+
+  /**
+   * The path of the input value. Only needed for validation.
+   *
+   * @property valuePath
+   * @type {String}
+   * @default ''
+   * @readOnly
+   */
+  valuePath: ''
 
 });

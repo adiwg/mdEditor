@@ -6,6 +6,6 @@ moduleFor('route:record/show/edit/index', 'Unit | Route | record/show/edit/index
 });
 
 test('it exists', function(assert) {
-  var route = this.subject();
+  let route = this.subject();
   assert.ok(route);
 });

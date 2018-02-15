@@ -1,6 +1,38 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+const {
+  $,
+  A,
+  Route,
+  Object: EmberObject,
+  guidFor,
+  RSVP,
+  Logger,
+  inject: {
+    service
+  }
+} = Ember;
+
+export default Route.extend({
+  init() {
+    this._super(...arguments);
+
+    $(window).bind('beforeunload', (evt) => {
+      let dirty = this.currentRouteModel().filter(function(itm) {
+        return itm.filterBy('hasDirtyHash').length;
+      }).length;
+
+      let message = 'Are you sure you want to leave unsaved work?';
+
+      evt.returnValue = dirty ? message : undefined;
+
+      return evt.returnValue;
+    });
+  },
+
+  spotlight: service(),
+  slider: service(),
+
   /**
    * Models for sidebar navigation
    *
@@ -18,53 +50,61 @@ export default Ember.Route.extend({
       })
     ];
 
-    let meta = Ember.A([Ember.Object.create({
+    let meta = A([EmberObject.create({
       type: 'record',
       list: 'records',
-      title: 'Metadata Records'
-    }), Ember.Object.create({
+      title: 'Metadata Records',
+      icon: 'file-o'
+    }), EmberObject.create({
       type: 'contact',
       list: 'contacts',
-      title: 'Contacts'
-    }), Ember.Object.create({
+      title: 'Contacts',
+      icon: 'users'
+    }), EmberObject.create({
       type: 'dictionary',
       list: 'dictionaries',
-      title: 'Dictionaries'
+      title: 'Dictionaries',
+      icon: 'book'
     })]);
 
     let idx = 0;
 
-    let mapFn = function (item) {
+    let mapFn = function(item) {
 
-      meta[idx].set('listId', Ember.guidFor(item));
+      meta[idx].set('listId', guidFor(item));
       item.set('meta', meta[idx]);
       idx = ++idx;
 
       return item;
     };
 
-    return Ember.RSVP.map(promises, mapFn);
+    return RSVP.map(promises, mapFn);
+  },
+
+  setupController(controller, model) {
+    // Call _super for default behavior
+    this._super(controller, model);
+    // Implement your custom setup after
+    controller.set('spotlight', this.get('spotlight'));
+    controller.set('slider', this.get('slider'));
   },
 
   /**
    * The current model for the route
-   *
-   * @return {DS.Model}
+   * @method currentRouteModel
+   * @return {Object}
    */
-  currentModel: function () {
-    return this.modelFor(this.routeName);
-  },
 
   actions: {
     error(error) {
-      Ember.Logger.error(error);
+      Logger.error(error);
 
       if(error.status === 404) {
         return this.transitionTo('not-found');
       }
 
       return this.replaceWith('error')
-        .then(function (route) {
+        .then(function(route) {
           route.controller.set('lastError', error);
         });
     },

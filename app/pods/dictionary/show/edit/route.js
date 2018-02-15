@@ -1,69 +1,109 @@
 import Ember from 'ember';
+import HashPoll from 'mdeditor/mixins/hash-poll';
+import {
+  once
+} from '@ember/runloop';
+import {
+  getOwner
+} from '@ember/application';
 
-export default Ember.Route.extend({
+const {
+  inject,
+  get,
+  Route
+} = Ember;
+
+export default Route.extend(HashPoll, {
   /**
    * The profile service
    *
    * @return {Ember.Service} profile
    */
-  profile: Ember.inject.service(),
+  profile: inject.service(),
 
   /**
    * The route activate hook, sets the profile to 'dictionary'.
    */
   activate() {
-    this.get('profile').set('active', 'dictionary');
+    this.get('profile')
+      .set('active', 'dictionary');
   },
 
-  renderTemplate () {
+  renderTemplate() {
     this.render('nav-secondary', {
       into: 'application',
       outlet: 'nav-secondary'
     });
     this.render('dictionary.show.edit', {
-      into: 'dictionary'
+      into: 'dictionary.show'
     });
   },
-
   actions: {
     saveDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
+
       model
         .save()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          //this.refresh();
+          //this.setModelHash();
+          get(this, 'flashMessages')
             .success(`Saved Dictionary: ${model.get('title')}`);
+
+          //this.transitionTo('contacts');
         });
     },
-
-    destroyDictionary: function () {
-      let model = this.currentModel;
-      model
-        .destroyRecord()
-        .then(() => {
-          Ember.get(this, 'flashMessages')
-            .success(`Deleted Dictionary: ${model.get('title')}`);
-          this.replaceWith('dictionaries');
-        });
-    },
-
     cancelDictionary: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
+      let message =
+        `Cancelled changes to Dictionary: ${model.get('title')}`;
+      let controller = this.controller;
+      let same = !controller.cancelScope || getOwner(this)
+        .lookup('controller:application')
+        .currentPath === get(controller,'cancelScope.routeName');
+
+      if(this.get('settings.data.autoSave')) {
+        let json = model.get('jsonRevert');
+
+        if(json) {
+          model.set('json', JSON.parse(json));
+
+          if(controller.onCancel) {
+            once(() => {
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
+          }
+
+          get(this, 'flashMessages')
+            .warning(message);
+        }
+
+        return;
+      }
+
       model
         .reload()
         .then(() => {
-          this.refresh();
-          Ember.get(this, 'flashMessages')
-            .warning(
-              `Cancelled changes to Dictionary: ${model.get('title')}`);
+          if(controller.onCancel) {
+            once(() => {
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
+          }
+          get(this, 'flashMessages')
+            .warning(message);
         });
     },
-
-    copyDictionary: function () {
-
-      Ember.get(this, 'flashMessages')
-        .success(`Copied Dictionary: ${this.currentModel.get('title')}`);
-      this.transitionTo('dictionary.new.id', Ember.copy(this.currentModel));
-    }
   }
 });

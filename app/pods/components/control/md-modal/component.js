@@ -23,7 +23,7 @@ export default Ember.Component.extend({
     * @property target
     * @type {String}
     */
-   target: 'html',
+   target: 'viewport',
 
   /**
    * Whether to display the confirm button

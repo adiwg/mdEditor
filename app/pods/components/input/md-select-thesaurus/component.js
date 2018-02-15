@@ -39,7 +39,7 @@ export default Ember.Component.extend({
 
     list.unshift(Ember.Object.create({
       id: 'custom',
-      label: 'Custom Entry'
+      label: 'Custom Thesaurus'
     }));
     return list;
   }),

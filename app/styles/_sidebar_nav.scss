@@ -2,12 +2,12 @@
   position: absolute;
   top: 0;
   overflow: hidden;
-  width: 275px;
+  width: #{$sidebar-width}px;
   height: 100vh;
   margin: 0;
-  padding: 53px 0 10px;
+  padding: 53px 0 26px;
   list-style: outside none none;
-  background-color: $gray-darker;
+  background-color: $navbar-inverse-bg;
 
   li {
     line-height: 40px;
@@ -45,7 +45,7 @@
   }
 
   > .sidebar-brand {
-    background-color: $gray-darker;
+    background-color: $navbar-inverse-bg;
     border-top: 1px solid $body-bg;
     display: none;
     font-size: 18px;
@@ -54,11 +54,11 @@
     padding: 0 10px;
     position: fixed;
     top: 0;
-    width: 275px;
+    width: #{$sidebar-width}px;
     z-index: 1000;
 
     a {
-      color: lighten($gray-dark, 40);
+      color: $navbar-inverse-link-color;;
 
       &:hover {
         background: none repeat scroll 0 0;
@@ -92,7 +92,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     height: 100%;
-    margin: 0 0 15px;
+    margin: 0 0 0px;
     background-color: $gray-darker;
 
     .panel {
@@ -165,6 +165,7 @@
       padding: 0;
       text-overflow: ellipsis;
       white-space: nowrap;
+      border-radius: 0;
 
       &:hover {
         background-color: lighten($brand-primary, 46.5);
@@ -177,12 +178,22 @@
   }
 
   a.sidebar-row {
-    max-width: 220px;
+    max-width: #{$sidebar-width - 55}px;
     padding-left: 10px;
     display: block;
 
     &.active {
-      color: darken($brand-warning, 15);
+      &.text-warning {
+        color: darken($brand-warning, 15);
+      }
+
+      &.text-danger {
+        color: darken($brand-danger, 15);
+      }
+
+      &.text-success {
+        color: darken($brand-success, 15);
+      }
     }
   }
 }

@@ -1,0 +1,16 @@
+<h4 class="section-header">
+  Editing Distribution
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-distribution model=model profilePath="record.distribution"}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Add Distribution Section"
+    icon="plus"
+    btnType="success"
+    click=(route-action "addDistribution")
+  )
+}}

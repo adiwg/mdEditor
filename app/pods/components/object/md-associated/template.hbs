@@ -1,0 +1,149 @@
+{{input/md-codelist
+  label="Association Type"
+  create=true
+  tooltip=true
+  icon=false
+  disabled=false
+  allowClear=true
+  showValidations=true
+  mdCodeName="associationType"
+  path="associationType"
+  model=this
+  placeholder="Choose Type of Association"
+  profilePath=(concat profilePath ".associationType")
+  data-spy="Association Type"
+}}
+
+{{input/md-codelist
+  label="Initiative Type"
+  create=true
+  tooltip=true
+  icon=false
+  disabled=false
+  allowClear=true
+  showValidations=true
+  mdCodeName="initiativeType"
+  path="initiativeType"
+  model=model
+  placeholder="Choose Type of Initiative"
+  profilePath=(concat profilePath ".initiativeType")
+}}
+
+{{#unless model.mdRecordId}}
+  <div class="form-group">
+      {{object/md-resource-type-array
+        plain=false
+        value=model.resourceType
+        required=true
+        data-spy="Resource Types"
+        profilePath=(concat profilePath ".resourceType")
+      }}
+  </div>
+
+
+  {{#with model.resourceCitation as |citation|}}
+    {{object/md-citation
+      model=citation
+      profilePath=(concat profilePath '.resourceCitation')
+      simpleIdentifier=true
+    }}
+  {{/with}}
+
+  {{#layout/md-card
+    title="Metadata Citation"
+    profilePath=(concat profilePath '.metadataCitation')
+    shadow=true
+    collapsible=true
+    collapsed=true
+  }}
+  {{#with model.metadataCitation as |metdata|}}
+    {{object/md-citation
+      model=metdata
+      profilePath=(concat profilePath '.metadataCitation')
+      embedded=true
+      simpleIdentifier=true
+    }}
+  {{/with}}
+  {{/layout/md-card}}
+{{else}}
+
+  {{#layout/md-card
+    title="Linked Record"
+    shadow=false
+    block=false
+    muted=false
+    collapsible=false
+    collapsed=false
+    btnText="Edit"
+    btnClass=(concat "success" (unless linkedRecord "disabled"))
+    btnAction=(action editLinked linkedRecord)
+    btnIcon="pencil"
+  }}
+  <div class="card-block">
+    {{#if linkedRecord}}
+      {{#object/md-citation/preview/body
+        citation=linkedRecord.json.metadata.resourceInfo.citation
+        class="text-muted"
+      }}
+        <dl class="dl-horizontal col-lg-12">
+          {{#control/md-definition title="Resource Type(s)" }}
+              {{#each linkedRecord.json.metadata.resourceInfo.resourceType as |type|}}
+                  {{type.type}}:
+                  {{#if type.name}}
+                      {{type.name}}
+                  {{else}}
+                      <em>Not named</em>
+                  {{/if}}
+                  <br>
+                  {{else}}
+                      <em class="text-muted">No types assigned!</em>
+              {{/each}}
+          {{/control/md-definition}}
+        </dl>
+        {{#with linkedRecord.json.metadata.metadataInfo.metadataIdentifier as |meta|}}
+          <dl class="dl-horizontal col-lg-12">
+              {{#control/md-definition title="Metadata Identifier"}}
+                {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
+              {{/control/md-definition}}
+          </dl>
+        {{/with}}
+      {{/object/md-citation/preview/body}}
+    {{else}}
+      <div class="card card-inverse card-danger">
+        <div class="card-block">
+          <h4 class="card-title">{{fa-icon "exclamation-triangle"}} Linked record is missing!</h4>
+          <p class="card-text">Cannot find the linked record with id <em>{{model.mdRecordId}}</em>.</p>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if recordId}}
+    <div class="card-footer">
+      <div class="row">
+        <dl class="dl-horizontal col-lg-12">
+          {{#control/md-definition title="Linked Association Type" titleClass="wrapped"}}
+            {{input/md-codelist
+              create=true
+              tooltip=true
+              icon=false
+              disabled=false
+              allowClear=true
+              showValidations=true
+              mdCodeName="associationType"
+              value=linkedAssociationType
+              placeholder="Choose Type of Association"
+              profilePath=(concat profilePath ".linkedAssociationType")
+              data-spy=false
+            }}
+          {{/control/md-definition}}
+        </dl>
+      </div>
+    </div>
+  {{/if}}
+
+  {{/layout/md-card}}
+
+{{/unless}}
+
+{{yield}}

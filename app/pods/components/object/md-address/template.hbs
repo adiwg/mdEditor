@@ -1,49 +1,61 @@
-<div class="panel panel-default box-shadow--8dp">
+{{#object/md-object-table
+  items=model
+  header=label
+  buttonText="Add Address"
+  previewTemplate="object/md-address/md-address-block"
+  templateClass=templateClass
+  attributes=attributes as |address|
+}}
 
-    <div class="panel-heading">
-        <h3 class="panel-title md-panel-chevron">
-            <a data-toggle="collapse" aria-expanded="false" class="collapsed"
-               href="#{{panelId}}" aria-controls="#{{panelId}}">
-                <span class="fa"></span> Address
-                {{#unless notEmpty}}
-                    <label class="label label-pill label-warning"> empty </label>
-                {{/unless}}
-            </a>
-        </h3>
-    </div>
+{{!-- Editing: {{address.name}} --}}
 
-    <div id="{{panelId}}" class="panel-collapse collapse">
-        <div class="panel-body">
-            {{input/md-inputs model=address.deliveryPoint
-            placeholder="Address line" label="Address Lines"
-            buttonText="Add Line"}}
-
-            {{input/md-input value=address.city
-            placeholder="City Name" label="City"}}
-
-            {{input/md-input value=address.adminsitrativeArea
-            placeholder="State or Province" label="State/Province"}}
-
-            {{input/md-input value=address.postalCode
-            placeholder="Zip or Postal Code" label="Postal Code"}}
-
-            {{input/md-input value=address.country
-            placeholder="Country Name" label="Country"}}
-
-            <div class="form-group">
-            {{input/md-codelist
-            value=address.country
-            width="175px"
-            create=true tooltip=true icon=false mdCodeName="country"
-            placeholder="Enter a country code"}}
-            </div>
-
-            {{input/md-inputs model=address.electronicMailAddress
-            placeholder="Email Address" label="Email Addresses"
-            buttonText="Add Email"}}
-
-            <hr>
-        </div>
-    </div>
-
+<div class="form-group">
+    <label>Address Type</label>
+    {{input/md-codelist-multi
+    value=address.addressType
+    create=true tooltip=true icon=false mdCodeName="addressType"
+    placeholder="Select or enter one or more types"}}
 </div>
+
+{{#object/md-simple-array-table
+  title="Street Line"
+  required=false
+  plain=true
+  value=address.deliveryPoint as |line|
+}}
+  <td>
+      {{input/md-input value=line.item.value
+      placeholder="Enter street address"}}
+  </td>
+{{/object/md-simple-array-table}}
+
+<div class="row">
+    {{input/md-input value=address.city class="col-md-6"
+    placeholder="City Name" label="City"}}
+
+    {{input/md-input value=address.administrativeArea class="col-md-6"
+    placeholder="State or Province" label="State/Province"}}
+
+    {{input/md-input value=address.postalCode class="col-md-6"
+    placeholder="Zip or Postal Code" label="Postal Code"}}
+
+    {{!-- {{input/md-input value=address.country
+    placeholder="Country Name" label="Country"}} --}}
+
+    <div class="form-group" class="col-md-6">
+        <label>Country</label>
+        {{input/md-codelist
+        value=address.country
+        namePath='description'
+        tooltipPath='codeName'
+        width="175px"
+        create=false tooltip=true icon=false mdCodeName="countries"
+        placeholder="Enter a country code"}}
+    </div>
+</div>
+
+{{input/md-textarea value=address.description
+placeholder="Address description" label="Description"}}
+
+{{/object/md-object-table}}
+{{yield}}

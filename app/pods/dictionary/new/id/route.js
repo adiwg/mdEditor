@@ -13,7 +13,7 @@ export default Ember.Route.extend({
 
   deactivate: function() {
     // We grab the model loaded in this route
-    let model = this.currentModel;
+    let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
     // 'isNew' state, which means it wasn't saved to the backend.
@@ -30,12 +30,12 @@ export default Ember.Route.extend({
 
     // setup tests for required attributes
     controller.noName = Ember.computed(
-      'model.json.dictionaryInfo.citation.title', function() {
-        return model.get('json.dictionaryInfo.citation.title') ? false : true;
+      'model.json.dataDictionary.citation.title', function() {
+        return model.get('json.dataDictionary.citation.title') ? false : true;
       });
     controller.noType = Ember.computed(
-      'model.json.dictionaryInfo.resourceType', function() {
-        return model.get('json.dictionaryInfo.resourceType') ? false : true;
+      'model.json.dataDictionary.resourceType', function() {
+        return model.get('json.dataDictionary.resourceType') ? false : true;
       });
     controller.allowSave = Ember.computed('noType', 'noName', function () {
       return (this.get('noName') || this.get('noType'));
@@ -59,13 +59,13 @@ export default Ember.Route.extend({
   actions: {
     willTransition: function (transition) {
       if (transition.targetName === 'dictionary.new.index') {
-          this.currentModel.destroyRecord();
+          this.currentRouteModel().destroyRecord();
           return true;
       }
     },
 
     saveDictionary() {
-      this.currentModel
+      this.currentRouteModel()
         .save()
         .then((model) => {
           this.replaceWith('dictionary.show.edit', model);

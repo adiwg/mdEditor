@@ -1,0 +1,58 @@
+{{#layout/md-card
+  collapsible=false
+  collapsed=false
+  profilePath=profilePath
+  data-spy=false
+  shadow=false
+}}
+<div class="row">
+  <div class="col-lg-6">
+    {{input/md-input
+      type="number"
+      step="0.0001"
+      model=this
+      valuePath="north"
+      label="North"
+      placeholder="Enter north latitude."
+      profilePath=(concat profilePath ".north")
+      showValidations=true
+    }}
+    {{input/md-input
+      type="number"
+      step="0.0001"
+      model=this
+      valuePath="east"
+      label="East"
+      placeholder="Enter east longitude."
+      profilePath=(concat profilePath ".east")
+      showValidations=true
+    }}
+  </div>
+  <div class="col-lg-6">
+
+    {{input/md-input
+      type="number"
+      step="0.0001"
+      model=this
+      valuePath="south"
+      label="South"
+      placeholder="Enter south latitude."
+      profilePath=(concat profilePath ".south")
+      showValidations=true
+    }}
+    {{input/md-input
+      type="number"
+      step="0.0001"
+      model=this
+      valuePath="west"
+      label="West"
+      placeholder="Enter west latitude."
+      profilePath=(concat profilePath ".west")
+      showValidations=true
+    }}
+  </div>
+</div>
+
+{{yield}}
+
+{{/layout/md-card}}

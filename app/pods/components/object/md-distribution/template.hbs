@@ -1,0 +1,64 @@
+{{#each model.json.metadata.resourceDistribution as |dist index|}}
+  {{#layout/md-card
+  title=(concat "Distribution Section #" index)
+  collapsible=true
+  collapsed=false
+  profilePath=profilePath
+  data-spy=(concat "Distribution #" index)
+  shadow=true
+  spotlightEnabled=false
+  }}
+      <div class="card-buttons">
+        <div class="row">
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action (route-action "editDistribution" index)}}>
+              {{fa-icon "pencil"}} Edit Distributors</button>
+          </div>
+          <div class="col-sm-6">
+            <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteDistribution" index)}}>
+                {{fa-icon "times"}} Delete Section</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <label>Distributors</label>
+        {{#if dist.distributor.length}}
+          {{#each dist.distributor as |dist|}}
+          <div>
+            {{#with dist.contact as |party|}}
+              {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+              (
+              {{#each party.party as |contact index|}}
+                  {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
+              {{else}}
+                  <em class="text-muted">No Contacts assigned.</em>
+              {{/each}}
+              )
+              {{else}}
+              <em class="text-muted">No responsibility assigned.</em>
+            {{/with}}
+          </div>
+          {{/each}}
+        {{else}}
+          <div class="alert alert-info">
+            No Distributors to display.
+          </div>
+        {{/if}}
+      </div>
+      <div class="col-sm-6">
+        {{input/md-textarea
+          value=dist.description
+          rows=5
+          maxHeight=300
+          placeholder="Describe the distribution of the resource"
+          label="Description"
+          profilePath=(concat profilePath ".description")
+        }}
+      </div>
+  {{/layout/md-card}}
+{{else}}
+  <h3 class="alert alert-info">No distribution sections found.
+    <button type="button" class="btn btn-success" {{action (route-action "addDistribution")}}>
+      {{fa-icon "plus"}} Add Distribution Section</button>
+  </h3>
+{{/each}}

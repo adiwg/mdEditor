@@ -1,47 +1,52 @@
 import Ember from 'ember';
+import DS from 'ember-data';
 
-export default Ember.Route.extend({
-  model: function (params) {
-    // if (!params.record_id) {
-    //   return this.store.createRecord('record');
-    // }
+const {
+  inject,
+  get,
+  Route
+} = Ember;
+
+const {
+  AdapterError
+} = DS;
+
+export default Route.extend({
+  model(params) {
+    let record = this.store.peekRecord('record', params.record_id);
+
+    if(record) {
+      return record;
+    }
 
     return this.store.findRecord('record', params.record_id);
   },
 
   breadCrumb: null,
 
-  deactivate: function () {
+  /**
+   * The profile service
+   *
+   * @return {Ember.Service} profile
+   */
+  profile: inject.service(),
+
+  deactivate() {
     // We grab the model loaded in this route
-    let model = this.currentModel;
+    let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
-    // 'isNew' state, which means it wasn't saved to the backend.
-    if (model && model.get('isNew')) {
+    // 'isNew' state, which means it wasn't saved to the metadata.
+    if(model && model.get('isNew')) {
       // We call DS#destroyRecord() which removes it from the store
       model.destroyRecord();
     }
   },
 
   //some test actions
-  setupController: function (controller, model) {
+  setupController(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
-
-    // setup tests for required attributes
-    controller.noTitle = Ember.computed(
-      'model.json.metadata.resourceInfo.citation.title',
-      function () {
-        return model.get('title') ? false : true;
-      });
-    controller.noType = Ember.computed(
-      'model.json.metadata.resourceInfo.resourceType',
-      function () {
-        return model.get('json.metadata.resourceInfo.resourceType') ? false : true;
-      });
-    controller.allowSave = Ember.computed('noType', 'noTitle', function () {
-      return (this.get('noTitle') || this.get('noType'));
-    });
   },
 
   // serialize: function (model) {
@@ -59,14 +64,35 @@ export default Ember.Route.extend({
   // },
 
   actions: {
-    willTransition: function (transition) {
-      if (transition.targetName === 'record.new.index') {
-          this.currentModel.destroyRecord();
-          return true;
+    willTransition: function(transition) {
+      if(transition.targetName === 'record.new.index') {
+        transition.abort();
+        return true;
+      }
+
+      // We grab the model loaded in this route
+      var model = this.currentRouteModel();
+      // If we are leaving the Route we verify if the model is in
+      // 'isNew' state, which means it wasn't saved to the backend.
+      if(model && model.get('isNew')) {
+        //let contexts = transition.intent.contexts;
+        // We call DS#destroyRecord() which removes it from the store
+        model.destroyRecord();
+        //transition.abort();
+
+        // if(contexts && contexts.length > 0) {
+        //   //grab any models ids and apply them to transition
+        //   let ids = contexts.mapBy('id');
+        //   this.replaceWith(transition.targetName, ...ids);
+        //   return true;
+        // }
+
+        //this.replaceWith(transition.targetName);
+        return true;
       }
     },
     saveRecord() {
-      this.currentModel
+      this.currentRouteModel()
         .save()
         .then((model) => {
           this.replaceWith('record.show.edit', model);
@@ -77,6 +103,28 @@ export default Ember.Route.extend({
       this.replaceWith('records');
 
       return false;
+    },
+
+    error(error) {
+      if(error instanceof AdapterError) {
+        get(this, 'flashMessages')
+          .warning('No record found! Re-directing to new record...');
+        // redirect to new
+        this.replaceWith('record.new');
+      } else {
+        // otherwise let the error bubble
+        return true;
+      }
+    },
+    /**
+     * Update the record profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
+     */
+    updateProfile(profile) {
+      this.get('profile')
+        .set('active', profile);
     }
   }
 

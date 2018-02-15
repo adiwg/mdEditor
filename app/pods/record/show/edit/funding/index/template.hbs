@@ -1,0 +1,19 @@
+<h4 class="section-header">
+  Editing Funding
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-objectroute-table
+  items=model.json.metadata.funding
+  collapsible=false
+  isCollapsed=false
+  header="Funding Allocations"
+  shadow=true
+  buttonText="Add Funding"
+  ellipsis=ellipsis
+  previewTemplate="object/md-funding/preview"
+  editItem=(route-action "editAllocation")
+  verticalButtons=true
+  hideIndex=true
+  condensed=true
+}}

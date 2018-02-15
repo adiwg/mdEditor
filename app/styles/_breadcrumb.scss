@@ -1,5 +1,26 @@
 .breadcrumb {
-    font-size: 12px;
-    margin-bottom: 0;
-    background-color: lighten($brand-primary, 50);
+  background-color: lighten($brand-primary, 55);
+  border-radius: 0;
+  color: $breadcrumb-color;
+  font-size: 12px;
+  margin-bottom: 0;
+
+  a {
+    opacity: .8;
+    text-decoration: none;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  li {
+    @include text-overflow();
+    font-weight: 600;
+    max-width: 175px;
+
+    + li::before {
+      color: $gray-light;
+    }
+  }
 }

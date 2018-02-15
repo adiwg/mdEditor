@@ -1,0 +1,12 @@
+<dt class="{{titleClass}}">{{if title title "--"}}</dt>
+<dd>
+  {{#if hasBlock}}
+    {{yield}}
+  {{else}}
+    {{#if text}}
+      {{text}}
+    {{else}}
+      <em class="text-muted">{{empty}}</em>
+    {{/if}}
+  {{/if}}
+</dd>

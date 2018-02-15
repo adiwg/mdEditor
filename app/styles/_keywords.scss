@@ -1,6 +1,21 @@
 .md-keywords-container {
   border: 1px solid $gray-lighter;
   padding: 15px;
+
+  &.hide-thesaurus {
+    .md-keywords-thesaurus {
+      left: -100px;
+      margin-left: -100px;
+      opacity: 0;
+      overflow-x: hidden;
+      position: fixed;
+    }
+
+    .md-keywords-list {
+      @include transition(width .5s ease .25s);
+      width: 100%;
+    }
+  }
 }
 
 .md-keywords-select {
@@ -13,6 +28,11 @@
   .form-group {
     margin-bottom: 0;
   }
+}
+
+//.md-keywords-list,
+.md-keywords-thesaurus {
+  @include transition(all .5s ease);
 }
 
 .md-keyword-tree {

@@ -1,11 +1,11 @@
 import { moduleFor, test } from 'ember-qunit';
 
-moduleFor('route:record/show/edit/spatial', 'Unit | Route | record/edit/spatial', {
+moduleFor('route:record/show/edit/spatial', 'Unit | Route | record/show/edit/spatial', {
   // Specify the other units that are required for this test.
   // needs: ['controller:foo']
 });
 
 test('it exists', function(assert) {
-  var route = this.subject();
+  let route = this.subject();
   assert.ok(route);
 });

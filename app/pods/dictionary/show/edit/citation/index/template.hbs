@@ -1,0 +1,23 @@
+<h4 class="section-header">Editing Citation
+  <span class="small">for <em>{{model.title}}</em></span>
+  {{control/md-status model=model}}
+</h4>
+{{#with model.json.dataDictionary.citation as |citation|}}
+  {{object/md-citation
+    class=""
+    model=citation
+    profilePath="dictionary.citation"
+    editIdentifier=(route-action "editIdentifier")
+  }}
+  {{outlet}}
+{{/with}}
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Overview"
+    icon="home"
+    route="dictionary.show.index"
+  )
+}}
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

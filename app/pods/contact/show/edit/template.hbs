@@ -1,28 +1,92 @@
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
-
-        <h2>Editing Contact: {{model.json.contactId}}</h2>
-
+        <h3>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
+          <span class="text-danger">
+            {{!-- {{#if model.hasDirtyHash}}
+              {{fa-icon "exclamation-circle"}}
+              {{tooltip-on-element text='This record has been modified!' side="right"
+                class="md-tooltip danger"
+              }}
+            {{/if}} --}}
+            {{control/md-status model=model}}
+          </span>
+        </h3>
         <form>
-            {{input/md-input value=model.json.contactId
-            placeholder="User assigned Contact ID" label="Contact ID"}}
+            {{input/md-input-confirm
+              valuePath='json.contactId'
+              model=model
+              data-spy="Contact ID"
+              confirmTip="Note! Editing the Contact ID may break links. Be aware."
+              placeholder="User assigned Contact ID" label="Contact ID"}}
 
-            {{input/md-input value=model.json.organizationName
-            placeholder="Organization Name" label="Organization Name"}}
+            {{input/md-input
+              valuePath='json.name'
+              model=model
+              placeholder=(concat model.type " Name")
+              label=(concat model.type " Name")}}
 
-            {{input/md-input value=model.json.individualName
-            placeholder="Individual Name" label="Individual Name"}}
+            {{#unless model.json.isOrganization}}
+                {{input/md-input
+                  valuePath='json.positionName'
+                  model=model
+                  placeholder="Position Name" label="Position Name"}}
+            {{/unless}}
 
-            {{input/md-input value=model.json.positionName
-            placeholder="If Individual Name, provide Position" label="Position Name"}}
+            {{input/md-codelist
+              value=model.json.contactType label="Contact Type"
+              create=false tooltip=true icon=false mdCodeName="entityType"
+              placeholder="Select a contact type"
+            }}
 
-            {{object/md-phone-array phoneBook=model.json.phoneBook isCollapsed=false}}
+            {{input/md-select-contacts
+                label="Member Of Organization"
+                placeholder="Pick organization(s) this contact belongs to"
+                value=model.json.memberOfOrganization
+                contactType="organizations"
+                icon=true
+                tooltip=false
+                defaultIcon="organizations"
+                filterId=model.json.contactId
+              }}
 
-            {{object/md-address address=model.json.address}}
 
-            {{object/md-online-resource-array model=model.json}}
+            {{object/md-phone-array value=model.json.phone data-spy="Phone"}}
 
-            {{input/md-textarea value=model.json.contactInstructions
+           {{#object/md-simple-array-table data-spy="E-mail"
+              title="E-mail Address"
+              required=false
+              value=model.json.electronicMailAddress as |email|
+            }}
+              <td>
+                  {{input/md-input value=email.item.value
+                  placeholder="Enter valid e-mail address"}}
+              </td>
+            {{/object/md-simple-array-table}}
+
+            {{object/md-address model=model.json.address  data-spy="Address"}}
+
+            {{object/md-online-resource-array model=model.json.onlineResource
+              profilePath="contact"
+              data-spy="Online Resource"}}
+
+            {{object/md-graphic-array
+              model=model.json.logoGraphic data-spy="Logo"
+              button-text="Add Logo"
+              label="Logo"
+              profilePath="contact"
+            }}
+
+            {{#object/md-simple-array-table data-spy="Availability"
+              title="Available Time"
+              value=model.json.hoursOfService as |hour|
+            }}
+              <td>
+                  {{input/md-input value=hour.item.value
+                  placeholder="Describe time when contact is avaiable"}}
+              </td>
+            {{/object/md-simple-array-table}}
+
+            {{input/md-textarea value=model.json.contactInstruction data-spy="Instructions"
             placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
         </form>
     </div>
@@ -35,7 +99,21 @@
                 doDelete="destroyContact"
                 doCopy="copyContact"
             }}
+            {{control/md-scroll-spy}}
+
         </div>
     </div>
-
 </div>
+
+{{!-- {{#control/md-modal
+  isShowing = pausedTransition
+  closeModal=(route-action "cancelTransition")
+}}
+  <strong>Warning</strong>: Changes have been made to this record!
+  Clicking <strong class="text-warning">Continue</strong> will
+  cancel changes made since the last save.
+  <div class="md-modal-buttons pull-right">
+    <button type="button" class="btn btn-danger" {{action (route-action "confirmTransition")}}>Continue</button>
+    <button type="button" class="btn btn-primary" {{action (route-action "cancelTransition")}}>Stay Here</button>
+  </div>
+{{/control/md-modal}} --}}

@@ -1,22 +1,35 @@
-{{#if label}}
-    <div class="form-group">
-        <label>{{label}}</label>
-        {{input
-        value=value
-        placeholder=placeholder
-        required=required
-        type=type
-        maxlength=maxlength
-        class=inputClass}}
-        {{yield}}
-    </div>
-{{else}}
-    {{input
+{{#if label}}<label>{{label}}</label>{{/if}}
+<div class="md-input-input">
+  {{input
     value=value
     placeholder=placeholder
     required=required
     type=type
+    step=step
     maxlength=maxlength
-    class=inputClass}}
-    {{yield}}
-{{/if}}
+    class=inputClass
+    disabled=disabled
+    change=change
+  }}
+
+  <span class='md-input-error'>
+    {{#if showErrorMessage}}
+      <span class='md-error'>
+        {{fa-icon "exclamation-circle"}}
+        {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+            {{v-get model valuePath 'message'}}
+        {{/tooltip-on-element}}
+      </span>
+    {{/if}}
+
+    {{#if showWarningMessage}}
+      <span class='md-warning'>
+        {{fa-icon "exclamation-triangle"}}
+        {{#tooltip-on-element side="right" class="md-tooltip warning"}}
+        {{v-get model valuePath 'warningMessage'}}
+        {{/tooltip-on-element}}
+      </span>
+    {{/if}}
+  </span>
+</div>
+{{yield}}

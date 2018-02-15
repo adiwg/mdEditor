@@ -1,0 +1,33 @@
+{{#with item as |model|}}
+  <dl class="dl-horizontal">
+    <dt>
+      <h4 class="text-info">Resource #{{index}}</h4>
+    </dt>
+    <dd></dd>
+    <div class="row">
+      <div class="col-xxl-6">
+        {{#control/md-definition title="Association Type"}}
+          {{model.associationType}}
+          {{#if model.mdRecordId}}
+            (<em>linked</em>)
+          {{/if}}
+        {{/control/md-definition}}
+      </div>
+      <div class="col-xxl-6">
+        {{control/md-definition title="Initiative Type" text=model.initiativeType}}
+      </div>
+    </div>
+  </dl>
+
+  {{object/md-citation/preview/body citation=citation}}
+
+  <dl class="dl-horizontal col-lg-12">
+  {{#control/md-definition title="Metadata Identifier"}}
+    {{#with metadataIdentifier as |meta|}}
+      {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
+    {{else}}
+      <em class="text-muted">No metadata identifier assigned.</em>
+    {{/with}}
+  {{/control/md-definition}}
+</dl>
+{{/with}}

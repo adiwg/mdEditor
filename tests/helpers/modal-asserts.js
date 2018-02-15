@@ -21,8 +21,8 @@ export default function registerAssertHelpers() {
     return this.ok(Ember.$(selector).is(':visible'), message);
   };
 
-  assert.dialogOpensAndCloses = function(options, message) {
-    message = message || `Dialog triggered by ${options.openSelector} failed to open and close`;
+  assert.dialogOpensAndCloses = function(options/*, message*/) {
+    //message = message || `Dialog triggered by ${options.openSelector} failed to open and close`;
     const dialogContent = options.dialogText ? [dialogSelector, `:contains(${options.dialogText})`].join('') : dialogSelector;
     const self = this;
     return click(options.openSelector, options.context).then(function() {

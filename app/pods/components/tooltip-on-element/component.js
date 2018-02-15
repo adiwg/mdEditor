@@ -1,0 +1,7 @@
+import TooltipOnElementComponent from 'ember-tooltips/components/tooltip-on-element';
+
+export default TooltipOnElementComponent.extend({
+  // effect: 'fade',
+  // side: 'bottom',
+  enableLazyRendering: true
+});

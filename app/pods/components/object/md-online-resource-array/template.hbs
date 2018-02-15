@@ -1,28 +1,18 @@
-<div class="form-group">
+{{#object/md-object-table
+  items=model
+  header=label
+  shadow=shadow
+  buttonText="Add Resource"
+  ellipsis=ellipsis
+  previewTemplate=previewTemplate
+  templateClass=templateClass
+  attributes=attributes as |editing|
+}}
+    Editing: {{editing.name}}
 
-    {{#object/md-object-table items=model.onlineResource header=label buttonText="Add Resource" attributes=attributes as |editing cancelEdit|}}
-        Editing: {{editing.name}}
+    {{object/md-online-resource imagePicker=imagePicker model=editing
+      profilePath=profilePath
+    }}
 
-        {{input/md-input value=editing.name label="Name" placeholder="Online Resource Name"}}
-
-        {{input/md-input type="url" required=true value=editing.uri label="URI" placeholder="Online Resource URI"}}
-
-        {{input/md-input value=editing.protocol
-        label="Protocol" placeholder="Protocol for accessing the Online Resource"}}
-
-        {{input/md-textarea maxlength=500 value=editing.description label="Description"
-        placeholder="Description of the Online Resource: Less than 500 characters"}}
-
-        {{input/md-codelist value=editing.function mdCodeName="onlineFunction"
-        label="Function" placeholder="Select function of the Online Resource"
-        tooltip=true allowClear=true width="70%"}}
-
-        <hr>
-        <button type="button" class="btn btn-xs btn-info" {{action cancelEdit}}>
-            <span class="fa fa-check"></span> OK
-        </button>
-
-    {{/object/md-object-table}}
-    {{yield}}
-
-</div>
+{{/object/md-object-table}}
+{{yield}}

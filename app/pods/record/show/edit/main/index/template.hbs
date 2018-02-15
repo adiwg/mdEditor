@@ -1,0 +1,180 @@
+{{#with model.json.metadata.resourceInfo as |resource|}}
+<div class="row">
+    <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
+      <h4 class="section-header">
+        Editing <em>{{model.title}}</em>
+        {{control/md-status model=model}}
+      </h4>
+      {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
+        profilePath="record.main.basicInformation" data-spy="Basic Information"
+        required=true
+      }}
+
+      {{#layout/md-wrap data-spy="Record ID" class="md-embedded"
+        profilePath="record.main.recordId"
+      }}
+        <div class="form-group">
+          <label class="required">Record ID</label>
+          <div class="input-group input-group-md">
+            {{input/md-input
+              valuePath='recordId'
+              model=model
+              placeholder="Assigned Record ID"
+              disabled=true
+            }}
+            <span class="input-group-btn">
+                <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
+                  {{fa-icon "pencil"}}
+                  Edit</button>
+                  {{tooltip-on-element text="Edit the metadata id" class="md-tooltip warning"}}
+            </span>
+          </div>
+        </div>
+        {{/layout/md-wrap}}
+
+        {{input/md-input
+          value=model.title
+          placeholder="Enter the title for the resource."
+          label="Title"
+          required=true
+          profilePath="record.main.title"
+          data-spy="Title"
+          class="md-embedded"
+        }}
+
+        {{#if (is-array resource.status)}}
+        {{input/md-codelist-multi
+          value=resource.status label="Status" required=true
+          create=true tooltip=true icon=false mdCodeName="progress"
+          placeholder="Select the current status"
+          profilePath="record.main.status"
+          data-spy="Status"
+          class="md-embedded"
+        }}
+        {{/if}}
+
+        {{!-- {{input/md-codelist-multi
+          value=resource.topicCategory label="ISO Topic Category"
+          create=false tooltip=true icon=false mdCodeName="topicCategory"
+          placeholder="Select one or more topic categories"
+          profilePath="record.main.topicCategory"
+        }} --}}
+
+        {{#layout/md-card
+          title="Default Locale"
+          shadow=false
+          data-spy=false
+          required=true
+          profilePath="record.main.defaultLocale"
+        }}
+          {{object/md-locale model=resource modelPath="defaultResourceLocale"}}
+        {{/layout/md-card}}
+
+      {{/layout/md-card}}
+
+        {{#if (is-array resource.resourceType)}}
+        <div class="form-group">
+            {{object/md-resource-type-array
+              plain=false
+              value=resource.resourceType
+              required=true
+              data-spy="Resource Types"
+              profilePath="record.main.resourceType"
+            }}
+        </div>
+        {{/if}}
+
+        {{#if (is-array resource.pointOfContact)}}
+        {{object/md-party-array
+          title="Point Of Contact"
+          data-spy="Point Of Contact"
+          collapsible=true collapsed=false
+          required=true
+          value=resource.pointOfContact
+          profilePath="record.main.pointOfContact"
+        }}
+        {{/if}}
+
+        {{object/md-citation/preview
+          profilePath="record.main.citation"
+          citation=resource.citation
+          muted=true
+          required=true
+          editCitation="editCitation"
+        }}
+
+        {{#layout/md-card title="Description" collapsible=true collapsed=false
+          profilePath="record.main.description"
+          required=true
+        }}
+          {{input/md-markdown-area
+            value=resource.abstract
+            profilePath="record.main.abstract"
+            label="Abstract"
+            placeholder="Enter an Abstract describing the resource."
+            required=true
+          }}
+
+          {{input/md-markdown-area
+            value=resource.shortAbstract
+            profilePath="record.main.shortAbstract"
+            label="Short Abstract"
+            placeholder="A short description of the resource. Max of 300 characters."
+            maxlength=300
+          }}
+
+          {{input/md-textarea
+            value=resource.purpose
+            profilePath="record.main.purpose"
+            label="Purpose"
+            placeholder="Enter text describing the reason for creating the resource."
+          }}
+
+          {{input/md-textarea
+            value=resource.supplementalInfo
+            profilePath="record.main.supplementalInfo"
+            label="Supplemental Information"
+            placeholder="Enter text describing other descriptive information about the resource."
+          }}
+
+          {{input/md-textarea
+            value=resource.environmentDescription
+            profilePath="record.main.environmentDescription"
+            label="Environment Description"
+            placeholder="Description of the processing environment, for example the software, hardware, or the computer operating system."
+          }}
+        {{/layout/md-card}}
+
+        {{#if resource.timePeriod}}
+        {{object/md-time-period model=resource.timePeriod
+          profilePath="record.main.timePeriod" data-spy="Time Period"
+          label="Time Period"
+        }}
+        {{/if}}
+
+        {{#if (is-array resource.graphicOverview)}}
+        {{object/md-graphic-array
+          model=resource.graphicOverview data-spy="Graphic Overview"
+          button-text="Add Graphic"
+          label="Graphic Overview"
+          profilePath="record.main.graphicOverview"
+        }}
+        {{/if}}
+
+        {{#if (is-array resource.credit)}}
+        {{#object/md-simple-array-table
+          data-spy="Credit"
+          title="Credit"
+          profilePath="record.main.credit"
+          value=resource.credit as |credit| }}
+            <td>
+                {{input/md-input value=credit.item.value placeholder="Additional credits for the resource."}}
+            </td>
+        {{/object/md-simple-array-table}}
+        {{/if}}
+    </form>
+</div>
+{{/with}}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=model.profile)}}

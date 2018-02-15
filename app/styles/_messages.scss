@@ -1,3 +1,11 @@
+.md-message-container {
+  bottom: 0;
+  height: 0;
+  position: fixed;
+  right: 0;
+  z-index: 10000;
+}
+
 .md-message-wrapper {
   bottom: 10px;
   overflow: hidden;
@@ -5,14 +13,13 @@
   right: 10px;
 
   .alert {
+    animation: slide-in .5s forwards;
     position: relative;
     transform: translateX(100%);
-    animation: slide-in .5s forwards;
     width: 300px;
 
     &.exiting {
       animation: slide-out .5s forwards;
-
     }
   }
 }

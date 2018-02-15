@@ -1,0 +1,68 @@
+.required > .card-header .card-title::after,
+form .required > label::after,
+label.required::after {
+  @extend sup;
+  color: $brand-danger;
+  content: '\f069';
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.md-input-error,
+.md-markdown-editor-error,
+.md-inputgroup-error {
+  position: absolute;
+  right: 20px;
+  top: 9px;
+  //font-size: 12px;
+}
+
+.md-input-input [type=number] + .md-input-error {
+  right: 30px;
+}
+
+[aria-disabled=true] ~ .md-input-error,
+input[disabled] + .md-input-error {
+  display: none;
+}
+
+.md-inputgroup-error {
+  right: 45px;
+  z-index: 2;
+}
+
+.md-error {
+  color: $brand-danger;
+}
+
+.md-warning {
+  color: $brand-warning;
+}
+
+.md-error-list {
+  .media-left {
+    line-height: 45px;
+
+    .label {
+      font-size: 20px;
+      vertical-align: middle;
+    }
+  }
+}
+
+.md-status-icon {
+  border: 0;
+  cursor: pointer;
+  outline: 0;
+
+  &:hover {
+    .md-error {
+      color: darken($brand-danger, 12);
+    }
+
+    .md-warning {
+      color: darken($brand-warning, 12);
+    }
+  }
+}

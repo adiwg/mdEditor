@@ -1,0 +1,39 @@
+.md-translator-preview {
+  animation: fadeIn 1s ease;
+  min-height: 300px;
+
+  .card-block,
+  .form-group,
+  .md-translator-area,
+  textarea {
+    display: block;
+    height: 100% !important;
+    width: 100% !important;
+  }
+
+  .md-translator-area textarea {
+    height: 95% !important;
+  }
+
+  iframe {
+    min-height: 500px;
+  }
+
+  &.full-screen {
+    .card-footer {
+      display: none;
+    }
+
+    iframe {
+      height: 95%;
+    }
+  }
+}
+
+.md-translator-error {
+  background-color: $body-bg;
+
+  .card-header {
+    background-color: $brand-danger;
+  }
+}

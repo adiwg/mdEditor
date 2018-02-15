@@ -1,0 +1,14 @@
+
+{{object/md-funding model=model profilePath="record.funding"}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Funding List"
+    icon="arrow-left"
+    route="record.show.edit.funding"
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

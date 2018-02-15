@@ -1,0 +1,29 @@
+{{#object/md-array-table
+  columns="Type, Name"
+  title="Resource Type"
+  data-spy=false
+  value=value
+  validation=validation
+  plain=plain
+  required=required
+  templateClass=templateClass as |type|
+}}
+  <td>
+    {{#with type.item as |item|}}
+    {{input/md-codelist
+      create=true
+      tooltip=true
+      icon=true
+      disabled=disabled
+      allowClear=true
+      mdCodeName="scope"
+      showValidations=true
+      model=item
+      path='type' placeholder="Choose type of resource" }}
+      {{/with}}
+  </td>
+  <td>
+    {{input/md-input value=type.item.name
+      placeholder="Name of resource"}}
+  </td>
+{{/object/md-array-table}}

@@ -1,0 +1,143 @@
+{{#with model.json.metadata.resourceInfo as |resource|}}
+<div class="row md-no-spotlight">
+    <div class="col-sm-9 col-md-offset-1">
+        <h3>
+        {{fa-icon model.icon class="text-muted"}}
+        Viewing Record: {{model.title}}
+        {{control/md-status model=model}}
+        </h3>
+
+        {{#layout/md-card shadow=false muted=true title="Main" bodyIsRow=false
+          collapsible=true
+          btnText="Edit" btnClass="success"
+          btnAction=(route-action "linkTo" "record.show.edit.main") btnIcon="pencil"
+        }}
+          <div class="row">
+            <dl class="dl-horizontal col-xxl-8">
+                {{control/md-definition title="Record Id" text=model.recordId}}
+                {{control/md-definition title="Record Title" text=model.title}}
+                {{control/md-definition title="Status" text=(if resource.status (join ", " resource.status))}}
+                {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
+
+            </dl>
+            <dl class="dl-horizontal col-xxl-4">
+                {{#control/md-definition title="Resource Type(s)" }}
+                    {{#each resource.resourceType as |type|}}
+                        {{type.type}}:
+                        {{#if type.name}}
+                            {{type.name}}
+                        {{else}}
+                            <em>Not named</em>
+                        {{/if}}
+                        <br>
+                        {{else}}
+                            <em class="text-muted">No types assigned!</em>
+                    {{/each}}
+                {{/control/md-definition}}
+            </dl>
+            <div class="col-xs-12">
+              {{#layout/md-card shadow=false muted=true plain=true shadow=false}}
+                <div class="row">
+                  <div class="text-info col-xs-6 col-sm-3">Default Resource Locale</div>
+                  <div class="col-xs-6 col-sm-3">
+                    <label class="text-nowrap">Character Set:</label>
+                    <span class="text-nowrap">{{resource.defaultResourceLocale.characterSet}}</span>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
+                    <label>Country:</label>
+                    <span class="text-nowrap">{{resource.defaultResourceLocale.country}}</span>
+                  </div>
+                  <div class="col-xs-6 col-sm-3">
+                    <label>Language:</label>
+                    <span>{{resource.defaultResourceLocale.language}}</span>
+                  </div>
+                </div>
+              {{/layout/md-card}}
+            </div>
+          </div>
+
+          {{#layout/md-card shadow=false muted=true title="Abstract"
+            collapsible=true scroll=true maximizable=true
+            class="md-embedded"
+          }}
+              {{md-markdown resource.abstract "Abstract not provided!"}}
+          {{/layout/md-card}}
+
+          {{#layout/md-card shadow=false muted=true title="Short Abstract"
+            collapsible=true scroll=false
+            class="md-embedded"
+          }}
+              {{md-markdown resource.shortAbstract "Short Abstract not provided!"}}
+          {{/layout/md-card}}
+
+        {{/layout/md-card}}
+
+        {{#layout/md-card shadow=false muted=true title="Geographic Extent" bodyIsRow=false
+          collapsible=true
+          btnText="Edit" btnClass="success"
+          btnAction=(route-action "linkTo" "record.show.edit.extent") btnIcon="pencil"
+        }}
+
+        <section>
+          {{#each resource.extent as |extent index|}}
+            <div class="row md-extent-container">
+              <div class="col-sm-12">
+                <h4 class="text-info">
+                  Geographic Extent #{{index}}
+                </h4>
+              </div>
+              <div class="col-sm-6">
+                <label class="">
+                  Description
+                </label>
+                <p>
+                  {{get-property extent "description"}}
+                </p>
+              </div>
+              <div class="col-sm-6 md-extent-map">
+                {{#if extent.geographicExtent.0.geographicElement.length}}
+                  {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(route-action "setupMap" extent.geographicExtent.0.geographicElement)}}
+                    {{!-- Specify child layer components here --}}
+                    {{#layer-group name="Terrain" baselayer=true default=true}}
+                      {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+                    {{/layer-group}}
+
+                    {{#feature-group name="Features" default=true}}
+                      {{#each extent.geographicExtent.0.geographicElement as |l|}}
+                        {{geojson-layer geoJSON=l}}
+                      {{/each}}
+                    {{/feature-group}}
+
+                    {{layer-control}}
+                  {{/leaflet-map}}
+                {{else}}
+                  <div class="alert alert-info">
+                    No Features to display.
+                  </div>
+                {{/if}}
+              </div>
+            </div>
+            {{else}}
+            <h3 class="alert alert-info">No geographic extents found.
+            </h3>
+            {{/each}}
+        </section>
+
+        {{/layout/md-card}}
+
+        {{outlet}}
+    </div>
+    <div class="col-sm-2">
+      <div class="md-control-sidebar hidden-print">
+        {{#control/md-crud-buttons model=model doDelete="destroyRecord" doCopy="copyRecord" }}
+          {{#link-to "record.show.edit" model.id class="btn btn-lg btn-success" }}
+            {{fa-icon "pencil"}} Edit{{/link-to}}
+        {{/control/md-crud-buttons}}
+        <hr>
+        {{#link-to "records" class="btn btn-lg btn-primary btn-block" }}
+        {{fa-icon "list"}} Show List{{/link-to}}
+        {{control/md-scroll-spy}}
+      </div>
+    </div>
+</div>
+{{/with}}

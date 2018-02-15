@@ -1,0 +1,29 @@
+{{#object/md-array-table
+  columns="Repository, Collection Title"
+  value=value
+  plain=plain
+  data-spy=data-spy
+  title="Metadata Repository"
+  templateClass=repositoryTemplate as |meta|
+}}
+  <td>
+    {{input/md-codelist
+      value=meta.item.repository
+      create=true
+      tooltip=true
+      icon=false
+      mdCodeName="metadataRepository"
+      closeOnSelect=true
+      placeholder="Select or enter a repository."
+      change=(action "lookupTitle" meta.item)
+    }}
+  </td>
+  <td>
+    {{input/md-input
+      type="text"
+      value=meta.item.citation.title
+      placeholder="Text string used to identify a set of resources in the repository."
+    }}
+  </td>
+  {{yield}}
+{{/object/md-array-table}}

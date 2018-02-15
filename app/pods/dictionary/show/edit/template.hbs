@@ -1,10 +1,14 @@
 <div class="row md-section-secondary">
-  <div class="col-sm-9 col-md-offset-1">
-    <section class="">Editing Dictionary {{model.id}}</section>
+  <div class="md-record-content col-sm-10">
     {{outlet}}
+    {{!-- <div class="row">
+      <div class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"> --}}
+        {{!-- {{liquid-outlet class="liquid-spy"}} --}}
+      {{!-- </div>
+    </div> --}}
   </div>
   <div class="col-sm-2">
-    <div class="md-control-sidebar">
+    <div class="md-control-sidebar hidden-print">
       {{control/md-crud-buttons
           model=model
           doSave="saveDictionary"
@@ -12,7 +16,14 @@
           doDelete="destroyDictionary"
           doCopy="copyDictionary"
       }}
+      {{component subbar context=(route-action "getContext")}}
+      <hr>
+      {{from-elsewhere name="md-subbar-extra"}}
+
+      {{#from-elsewhere name="md-scroll-spy-dict-edit" as |spy|}}
+          {{component spy offset=134}}
+      {{/from-elsewhere}}
+      {{!-- {{control/md-scroll-spy offset=134 scrollInit=scrollTo}} --}}
     </div>
   </div>
-
 </div>

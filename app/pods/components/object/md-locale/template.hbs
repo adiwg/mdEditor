@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-4">
+    {{input/md-codelist
+      path=(concat propPath "language")
+      model=model
+      create=true
+      tooltip=true
+      icon=false
+      disabled=disabled
+      mdCodeName="language"
+      label="Language"
+      showValidations=true
+      placeholder="Select or enter a language code."
+    }}
+  </div>
+  <div class="col-md-4">
+    {{input/md-codelist
+      path=(concat propPath "characterSet")
+      model=model
+      create=false
+      tooltip=true
+      icon=false
+      disabled=disabled
+      mdCodeName="characterSet"
+      label="Character Set"
+      showValidations=true
+      placeholder="Select character set."
+    }}
+  </div>
+  <div class="col-md-4">
+    {{input/md-codelist
+      value=(get model (concat propPath "country"))
+      create=false
+      tooltip=true
+      icon=false
+      disabled=disabled
+      mdCodeName="countries"
+      label="Country"
+      placeholder="Select country code."
+    }}
+  </div>
+</div>
+{{yield}}

@@ -1,0 +1,13 @@
+{{#object/md-array-table
+  columns="Date,Date Type,Description"
+  required=required
+  title="Date"
+  value=value
+  plain=plain
+  validation=validation
+  data-spy=data-spy
+  templateClass=templateClass as |date|
+}}
+  {{object/md-date model=date.item}}
+  {{yield}}
+{{/object/md-array-table}}

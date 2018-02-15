@@ -1,0 +1,23 @@
+$simple-mde-z: 10001;
+
+.CodeMirror,
+.CodeMirror-scroll {
+  max-height: 300px;
+  min-height: 80px;
+}
+
+.editor-toolbar {
+  &.fullscreen {
+    z-index: $simple-mde-z !important;
+  }
+}
+
+.CodeMirror-fullscreen,
+.editor-preview-side {
+  z-index: $simple-mde-z;
+}
+
+.CodeMirror-fullscreen.CodeMirror,
+.CodeMirror-fullscreen .CodeMirror-scroll {
+  max-height: none;
+}

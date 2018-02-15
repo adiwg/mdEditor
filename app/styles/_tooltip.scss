@@ -1,9 +1,29 @@
 .ember-tooltip {
-  z-index: 1100;
+  z-index: 1102;
 }
 
 .badge.tooltip {
   &:hover {
     opacity: .9;
+  }
+}
+
+.md-tooltip {
+  text-shadow: none;
+
+  &.danger {
+    background-color: darken($brand-danger, 15);
+  }
+
+  &.warning {
+    background-color: darken($brand-warning, 1);
+  }
+
+  &.info {
+    background-color: darken($brand-info, 10);
+  }
+
+  &.primary {
+    background-color: $brand-primary;
   }
 }

@@ -34,5 +34,7 @@ export default Ember.Service.extend({
   photographicImage: 'camera',
   presentation: 'file-powerpoint-o',
   defaultFile: 'file-o',
-  defaultList: 'caret-right'
+  defaultList: 'caret-right',
+  individuals: 'user',
+  organizations: 'users'
 });

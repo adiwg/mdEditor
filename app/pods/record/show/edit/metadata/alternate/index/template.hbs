@@ -1,0 +1,20 @@
+<h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Alternate Metadata Reference
+  {{control/md-status model=(compute (route-action "parentModel"))}}
+</h4>
+{{#with model as |citation|}}
+    <div class="row">
+      {{object/md-citation
+        class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
+        model=citation
+        profilePath="record.metadata.alternateMetadata"
+        editIdentifier=(route-action "editIdentifier")
+      }}
+      {{outlet}}
+    </div>
+{{/with}}
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Metadata" icon="arrow-left" route="record.show.edit.metadata")
+}}
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

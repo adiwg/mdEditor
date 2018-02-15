@@ -1,0 +1,27 @@
+.md-spinner {
+  animation: fadeIn 1s ease;
+  color: $brand-info;
+
+  .md-spinner-text {
+    color: $gray;
+    font-size: 1em;
+    font-variant: small-caps;
+    font-weight: 900;
+
+    &.size-5 {
+      font-size: 1.8em;
+    }
+
+    &.size-4 {
+      font-size: 1.6em;
+    }
+
+    &.size-3 {
+      font-size: 1.4em;
+    }
+
+    &.size-2 {
+      font-size: 1.2em;
+    }
+  }
+}

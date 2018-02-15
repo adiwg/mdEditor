@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import Ajv from 'npm:ajv';
+import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
 
 let validator = new Ajv({
   verbose: true,
@@ -7,6 +8,8 @@ let validator = new Ajv({
   removeAdditional: false
 });
 
+//support draft-04
+validator.addMetaSchema(draft4);
 //add JSON API schema
 validator.addSchema({
   "$schema": "http://json-schema.org/draft-04/schema#",
@@ -367,4 +370,6 @@ validator.addSchema({
   }
 }, 'jsonapi');
 
-export default Ember.Service.extend(validator);
+export default Ember.Service.extend({
+  validator: validator
+});

@@ -1,17 +1,47 @@
 import Ember from 'ember';
 
+const {
+  isArray,
+  A,
+  set,
+  get,
+  isEmpty
+} = Ember;
+
 export default Ember.Route.extend({
   keyword: Ember.inject.service(),
   model(params) {
+    this.set('thesaurusId', params.thesaurus_id);
+
+    return this.setupModel();
+  },
+
+  setupModel() {
+    let thesaurusId = get(this, 'thesaurusId') || this.controller.get('thesaurusId');
     let model = this.modelFor('record.show.edit.keywords');
-    let kw = model.get('keywords').get(params.thesaurus_id);
-    //let keywords = kw.keyword;
+    let thesaurus = model.get('json.metadata.resourceInfo.keyword')
+      .get(thesaurusId);
+
+    //make sure the thesaurus still exists
+    if(isEmpty(thesaurus)) {
+      Ember.get(this, 'flashMessages')
+        .warning('No thesaurus found! Re-directing to list...');
+      this.replaceWith('record.show.edit.keywords');
+
+      return;
+    }
+
+    if(!isArray(thesaurus.keyword)) {
+      set(thesaurus, 'keyword', A());
+    }
 
     return Ember.Object.create({
-      id: params.thesaurus_id,
-      keywords: kw,
+      id: thesaurusId,
+      keywords: thesaurus,
+      model: model,
+      path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
       thesaurus: this.get('keyword')
-        .findById(kw.thesaurus.identifier[0].identifier)
+        .findById(thesaurus.thesaurus.identifier[0].identifier)
     });
   },
 
@@ -33,7 +63,12 @@ export default Ember.Route.extend({
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
-      .set('subbar', this.get('subbar'));
+      .setProperties({
+        subbar: this.get('subbar'),
+        onCancel: this.setupModel,
+        cancelScope: this,
+        thesaurusId: this.get('thesaurusId')
+      });
   },
 
   actions: {
@@ -48,12 +83,14 @@ export default Ember.Route.extend({
       this.controllerFor('record.show.edit')
         .set('subbar', subbar);
     },
-    selectKeyword(model, path) {
-      let keywords = this.currentModel.get('keywords');
+    selectKeyword(node, path) {
+      let model = this.currentRouteModel();
+      let keywords = model.get('model')
+        .get(model.get('path'));
       let kw = keywords.keyword;
-      let target = kw.findBy('identifier', model.uuid);
+      let target = kw.findBy('identifier', node.uuid);
 
-      if(model.isSelected && target === undefined) {
+      if(node.isSelected && target === undefined) {
         let pathStr = '';
 
         if(Ember.isArray(path)) {
@@ -65,9 +102,9 @@ export default Ember.Route.extend({
         }
 
         kw.pushObject({
-          identifier: model.uuid,
+          identifier: node.uuid,
           keyword: keywords.fullPath && pathStr ?
-            pathStr : model.label,
+            pathStr : node.label,
           path: pathStr.split(' > ')
             .slice(0, pathStr.length - 1)
         });
@@ -79,10 +116,13 @@ export default Ember.Route.extend({
       this.send('deleteKeyword', ...arguments);
     },
     changeFullPath(evt) {
-      let kw = this.currentModel.get('keywords.keyword');
+      let model = this.currentRouteModel();
+      let keywords = model.get('model')
+        .get(model.get('path'));
+      let kw = get(keywords, 'keyword');
       let val = evt.target.checked;
 
-      this.currentModel.set('keywords.fullPath', val);
+      set(keywords, 'fullPath', val);
 
       kw.forEach(function (curr) {
         if(val) {

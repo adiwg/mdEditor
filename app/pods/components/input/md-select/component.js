@@ -6,17 +6,113 @@
 import Ember from 'ember';
 import DS from 'ember-data';
 
-export default Ember.Component.extend({
-  classNames: ['md-select'],
-  classNameBindings: ['formGroup'],
-  formGroup: Ember.computed.notEmpty('label'),
+const {
+  Component,
+  defineProperty,
+  get,
+  computed,
+  isNone,
+  isBlank,
+  assert
+} = Ember;
+
+export default Component.extend({
   /**
    * A select list control for displaying and selecting options
    * provided in an array or promise array.
    *
+   * ```handlebars
+   * \{{input/md-select
+   *  label="Measure Type"
+   *  showValidations=true
+   *  model=this
+   *  path="measureType"
+   *  valuePath="value"
+   *  namePath="name"
+   *  objectArray=typeOptions
+   *  tooltip=true
+   *  tooltipPath="tip"
+   *  searchEnabled=false
+   *  disabled=measureDisabled
+   *  placeholder="The type of measurement."
+   *  profilePath=(concat profilePath ".measure.type")
+   * }}
+   * ```
+   *
    * @class md-select
    * @constructor
    */
+
+  init() {
+    this._super(...arguments);
+
+    let model = this.get('model');
+    let path = this.get('path');
+
+    if(isNone(model) !== isNone(path)) {
+      assert(
+        `You must supply both model and path to ${this.toString()} or neither.`
+      );
+    }
+
+    if(!isBlank(model)) {
+      if(this.get(`model.${path}`) === undefined) {
+        Ember.debug(
+          `model.${path} is undefined in ${this.toString()}.`
+        );
+
+        //Ember.run.once(()=>model.set(path, ""));
+      }
+
+      defineProperty(this, 'value', computed.alias(`model.${path}`));
+
+      defineProperty(this, 'validation', computed.alias(
+        `model.validations.attrs.${path}`).readOnly());
+
+      defineProperty(this, 'required', computed(
+        'validation.options.presence.presence',
+        'validation.options.presence.disabled',
+        'disabled',
+        function() {
+          return !this.get('disabled') &&
+            this.get('validation.options.presence.presence') &&
+            !this.get('validation.options.presence.disabled');
+        }).readOnly());
+
+      defineProperty(this, 'notValidating', computed.not(
+        'validation.isValidating').readOnly());
+
+      defineProperty(this, 'hasContent', computed.notEmpty('value').readOnly());
+
+      defineProperty(this, 'hasWarnings', computed.notEmpty(
+        'validation.warnings').readOnly());
+
+      defineProperty(this, 'isValid', computed.and('hasContent',
+        'validation.isTruelyValid').readOnly());
+
+      defineProperty(this, 'shouldDisplayValidations', computed.or(
+        'showValidations', 'didValidate',
+        'hasContent').readOnly());
+
+      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+        'showErrorMessage',
+        'hasContent', 'validation').readOnly());
+
+      defineProperty(this, 'showErrorMessage', computed.and(
+        'shouldDisplayValidations',
+        'validation.isInvalid').readOnly());
+
+      defineProperty(this, 'showWarningMessage', computed.and(
+        'shouldDisplayValidations',
+        'hasWarnings', 'isValid').readOnly());
+    }
+  },
+
+  classNames: ['md-select'],
+  classNameBindings: ['formGroup', 'required'],
+  attributeBindings: ['data-spy'],
+  formGroup: Ember.computed.notEmpty('label'),
+  icons: Ember.inject.service('icon'),
 
   /**
    * An array or promise array containing the options for the
@@ -26,6 +122,15 @@ export default Ember.Component.extend({
    * Tooltips may also be included.
    * Other attributes in the array elements will be ignored.
    *
+   * ```javascript
+   * {
+   *   name: 'displayed',
+   *   value: 'option',
+   *   type: 'xtra info',
+   *   tip: 'tooltip'
+   * }
+   * ```
+   *
    * @property objectArray
    * @type Array
    * @required
@@ -33,13 +138,29 @@ export default Ember.Component.extend({
 
   /**
    * The initial value of the select. Type must match the type of the attribute
-   * identified by the valuePath option.
+   * identified by the path option.
    *
    * @property value
    * @type Any
    * @required
    */
   value: null,
+
+  /**
+   * Path in the model to be used for the select list's option value. Both
+   * `model` and `path` must be supplied together.
+   *
+   * @property path
+   * @type String
+   */
+
+  /**
+   * The model to be used to compute the value alias, generally used for
+   * validations. Both `model` and `path` must be supplied together.
+   *
+   * @property model
+   * @type String
+   */
 
   /**
    * Name of the attribute in the objectArray to be used for the
@@ -67,6 +188,25 @@ export default Ember.Component.extend({
    * @default false
    */
   icon: false,
+
+  /**
+   * Indicates if value is required.
+   *
+   * @property required
+   * @type Boolean
+   * @default false
+   */
+  required: false,
+
+  /**
+   * The default icon.
+   *
+   * @property defaultIcon
+   * @type {String}
+   * @default defaultList
+   * @required
+   */
+  defaultIcon: 'defaultList',
 
   /**
    * Indicates if tooltips should be rendered for the options.
@@ -142,7 +282,7 @@ export default Ember.Component.extend({
    */
   label: null,
 
-  ariaLabel: Ember.computed('label', function () {
+  ariaLabel: Ember.computed('label', function() {
     return this.get('label');
   }),
 
@@ -157,13 +297,24 @@ export default Ember.Component.extend({
   create: false,
 
   /**
+   * If set, removes the option with the specified id from the list. By default,
+   * it will hide options with a null id.
+   *
+   * @property filterId
+   * @type {String|Number|null}
+   * @default null
+   * @optional
+   */
+  filterId: null,
+
+  /**
    * The component to render
    *
    * @property theComponent
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed('create', function () {
+  theComponent: Ember.computed('create', function() {
     return this.get('create') ? 'power-select-with-create' :
       'power-select';
   }),
@@ -182,12 +333,12 @@ export default Ember.Component.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function () {
+  selectedItem: Ember.computed('value', function() {
     let value = this.get('value');
 
     return DS.PromiseObject.create({
       promise: this.get('codelist')
-        .then(function (arr) {
+        .then(function(arr) {
           return arr.find((item) => {
             return item['codeId'] === value;
           });
@@ -204,9 +355,9 @@ export default Ember.Component.extend({
    * @type Ember.computed
    * @return PromiseArray
    */
-  codelist: Ember.computed('objectArray', function () {
+  codelist: Ember.computed('objectArray', function() {
     const objArray = this.get('objectArray');
-    let inList = new Ember.RSVP.Promise(function (resolve, reject) {
+    let inList = new Ember.RSVP.Promise(function(resolve, reject) {
       // succeed
       resolve(objArray);
       // or reject
@@ -215,18 +366,22 @@ export default Ember.Component.extend({
     let codeId = this.get('valuePath');
     let codeName = this.get('namePath');
     let tooltip = this.get('tooltipPath');
+    let icons = this.get('icons');
+    let defaultIcon = this.get('defaultIcon');
     let outList = Ember.A();
 
     return DS.PromiseArray.create({
-      promise: inList.then(function (arr) {
-        arr.forEach(function (item) {
+      promise: inList.then(function(arr) {
+        arr.forEach(function(item) {
           let newObject = {
-            codeId: item.get(codeId),
-            codeName: item.get(codeName),
-            tooltip: false
+            codeId: get(item, codeId),
+            codeName: get(item, codeName),
+            tooltip: false,
+            icon: icons.get(item[codeName].toString()) || icons.get(
+              defaultIcon)
           };
           if(tooltip) {
-            newObject.tooltip = item.get(tooltip);
+            newObject.tooltip = get(item, tooltip);
           }
           outList.pushObject(newObject);
         });

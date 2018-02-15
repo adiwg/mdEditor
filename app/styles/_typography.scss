@@ -1,4 +1,35 @@
 .md-fa-link i.fa {
-  padding-left: .3em;
-  padding-right: .3em;
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+
+.page-header {
+  margin: 20px 0;
+}
+
+.section-header {
+  color: darken($brand-info, 5);
+  margin-bottom: 20px;
+  margin-top: 0;
+  padding: 0;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.huge-text {
+  font-size: 40px;
+}
+
+a {
+  transition: all 0.3s ease-out;
+}
+
+.wrapped {
+  white-space: normal !important;
+}
+
+.text-white {
+  color: #fff !important;
 }

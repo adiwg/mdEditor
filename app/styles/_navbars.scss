@@ -47,6 +47,10 @@
   width: 100%;
   z-index: 1001;
 
+  a:focus {
+    outline: none;
+  }
+
   .navbar {
     border-radius: 0;
   }
@@ -84,6 +88,11 @@
     display: inline-block;
     min-width: 125px;
   }
+
+  .ember-power-select-trigger{
+    line-height: 2em;
+    min-height: 2em;
+  }
 }
 
 #md-wrapper.toggled {
@@ -94,6 +103,7 @@
 
 #md-navbar-secondary {
   background-color: lighten($gray-base, 96);
+  border-bottom: 1px solid lighten($gray-base, 90);
   max-height: 40px;
 
   a.active {

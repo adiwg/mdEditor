@@ -4,8 +4,22 @@
  */
 
 import Ember from 'ember';
+import moment from 'moment';
 
-export default Ember.Component.extend({
+const {
+  Component,
+  defineProperty,
+  computed,
+  isBlank,
+  set,
+  get,
+  run: {
+    once
+  },
+  assert
+} = Ember;
+
+export default Component.extend({
 
   /**
    * Datetime control with dropdown calendar.
@@ -14,6 +28,89 @@ export default Ember.Component.extend({
    * @class md-datetime
    * @constructor
    */
+
+  init() {
+    this._super(...arguments);
+
+    let model = this.get('model');
+    let valuePath = this.get('valuePath');
+
+    if(isBlank(model) !== isBlank(valuePath)) {
+      assert(
+        `You must supply both model and valuePath to ${this.toString()} or neither.`
+      );
+    }
+
+    if(!isBlank(model)) {
+      if(this.get(`model.${valuePath}`) === undefined) {
+        Ember.debug(
+          `model.${valuePath} is undefined in ${this.toString()}.`
+        );
+      }
+
+      defineProperty(this, 'date', computed(`model.${valuePath}`, {
+        get() {
+          return moment(get(this, `model.${valuePath}`));
+        },
+        set(key, value) {
+          once(this, () => {
+            this.set(`model.${valuePath}`, value);
+          });
+          return value;
+        }
+      }));
+
+      defineProperty(this, 'validation', computed.alias(
+          `model.validations.attrs.${valuePath}`)
+        .readOnly());
+
+      defineProperty(this, 'required', computed(
+          'validation.options.presence.presence',
+          'validation.options.presence.disabled',
+          function() {
+            return this.get('validation.options.presence.presence') &&
+              !this.get('validation.options.presence.disabled');
+          })
+        .readOnly());
+
+      defineProperty(this, 'notValidating', computed.not(
+          'validation.isValidating')
+        .readOnly());
+
+      defineProperty(this, 'hasContent', computed.notEmpty('date')
+        .readOnly());
+
+      defineProperty(this, 'hasWarnings', computed.notEmpty(
+          'validation.warnings')
+        .readOnly());
+
+      defineProperty(this, 'isValid', computed.and('hasContent',
+          'validation.isTruelyValid')
+        .readOnly());
+
+      defineProperty(this, 'shouldDisplayValidations', computed.or(
+          'showValidations', 'didValidate',
+          'hasContent')
+        .readOnly());
+
+      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+          'showErrorMessage',
+          'hasContent', 'validation')
+        .readOnly());
+
+      defineProperty(this, 'showErrorMessage', computed.and(
+          'shouldDisplayValidations',
+          'validation.isInvalid')
+        .readOnly());
+
+      defineProperty(this, 'showWarningMessage', computed.and(
+          'shouldDisplayValidations',
+          'hasWarnings', 'isValid')
+        .readOnly());
+    }
+  },
+  classNames: ['md-datetime', 'md-input-input'],
+  classNameBindings: ['label:form-group', 'required'],
 
   /**
    * Datetime string passed in, edited, and returned.
@@ -53,8 +150,17 @@ export default Ember.Component.extend({
   label: null,
 
   /**
+   * On show, will set the picker to the current date/time
+   *
+   * @property useCurrent
+   * @type Boolean
+   * @default false
+   */
+  useCurrent: false,
+
+  /**
    * Icons to be used by the datetime picker and calendar.
-   * Icons can be set for time, date, up, down, previous, next,
+   * Icons can be set for time, date, up, down, previous, next, clear,
    * and close.
    * The default icons are chosen from Font Awesome icons
    *
@@ -69,8 +175,28 @@ export default Ember.Component.extend({
     down: "fa fa-chevron-down",
     previous: "fa fa-angle-double-left",
     next: "fa fa-angle-double-right",
-    close: "fa fa-times"
+    close: "fa fa-times",
+    clear: "fa fa-trash"
+  },
+
+  actions: {
+    updateDate(date) {
+      if(isBlank(date)){
+        set(this, 'date', null);
+
+        return;
+      }
+
+      let utc = moment(date);
+
+      //utc.add(utc.utcOffset(), 'minutes');
+
+      if(utc && utc.toISOString() !== this.get('date')) {
+
+        //once(this, function() {
+          set(this, 'date', utc.toISOString());
+        //});
+      }
+    }
   }
-
-
 });

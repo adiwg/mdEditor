@@ -1,13 +1,15 @@
-/*jshint node:true*/
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+/* eslint-env node */
+'use strict';
+
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
+  let app = new EmberApp(defaults, {
     // Add options here
     sassOptions: {
       includePaths: [
         'bower_components/bootstrap-sass/assets/stylesheets',
+        'bower_components/bootstrap-3-card/sass',
         // 'bower_components/select2/src/scss',
         // 'bower_components/select2-bootstrap-theme/src',
         'bower_components/jquery-jsonview/src'
@@ -50,6 +52,8 @@ module.exports = function(defaults) {
     '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
   app.import(app.bowerDirectory +
     '/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
+  app.import(app.bowerDirectory +
+    '/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js');
 
   //select2
   // app.import(app.bowerDirectory +

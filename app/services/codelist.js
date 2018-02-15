@@ -1,5 +1,11 @@
 import Ember from 'ember';
 import codes from 'npm:mdcodes/resources/js/mdcodes.js';
+import Profile from './profile';
+
+const {
+  get,
+  Service
+} = Ember;
 /**
  * Codelist Service
  *
@@ -10,28 +16,32 @@ import codes from 'npm:mdcodes/resources/js/mdcodes.js';
  * @module
  */
 
+const profile = Profile.create();
+
 //create a new object
 const codelist = {};
 
 //remap codelist names to be more generic
 Object.keys(codes)
-  .forEach(function (key) {
+  .forEach(function(key) {
     const list = codes[key];
-    const name = key.replace(/^iso_/, '');
+    const name = key.replace(/^iso_|adiwg_/, '');
 
     codelist[name] = list;
+    //remove deprecated codes
+    codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
   });
 
+let recordProfiles = Object.keys(profile.profiles).without('dictionary');
+
 codelist.profile = {
-  codelist: [{
-    code: '001',
-    codeName: 'full',
-    description: 'This profile includes all metadata properties.'
-  }, {
-    code: '002',
-    codeName: 'basic',
-    description: 'This profile includes metadata properties required for a minimal metadata record.'
-  }]
+  codelist: recordProfiles.map((itm) => {
+    return {
+      code: itm,
+      codeName: itm,
+      description: get(profile, 'profiles.' + itm + '.description')
+    };
+  })
 };
 
-export default Ember.Service.extend(codelist);
+export default Service.extend(codelist);

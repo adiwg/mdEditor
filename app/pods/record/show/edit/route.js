@@ -1,6 +1,19 @@
 import Ember from 'ember';
+import HashPoll from 'mdeditor/mixins/hash-poll';
+import {
+  once
+} from '@ember/runloop';
+import {
+  getOwner
+} from '@ember/application';
 
-export default Ember.Route.extend({
+const {
+  inject,
+  Route,
+  get
+} = Ember;
+
+export default Route.extend(HashPoll, {
   breadCrumb: {
     title: 'Edit',
     linkable: false
@@ -11,12 +24,14 @@ export default Ember.Route.extend({
    *
    * @return {Ember.Service} profile
    */
-  profile: Ember.inject.service(),
+  profile: inject.service(),
 
   /**
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
+    this._super(...arguments);
+
     this.get('profile')
       .set('active', model.get('profile'));
   },
@@ -29,7 +44,7 @@ export default Ember.Route.extend({
    */
   renderTemplate(controller, model) {
     this.render('record.show.edit.nav', {
-      into: 'records.nav'
+      into: 'record.nav'
     });
     this.render('nav-secondary', {
       into: 'application',
@@ -56,44 +71,85 @@ export default Ember.Route.extend({
     },
 
     saveRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
       model
         .save()
         .then(() => {
-          Ember.get(this, 'flashMessages')
+          get(this, 'flashMessages')
             .success(`Saved Record: ${model.get('title')}`);
         });
     },
 
-    destroyRecord: function () {
-      let model = this.currentModel;
-      model
-        .destroyRecord()
-        .then(() => {
-          Ember.get(this, 'flashMessages')
-            .success(`Deleted Record: ${model.get('title')}`);
-          this.replaceWith('records');
-        });
-    },
+    // destroyRecord: function () {
+    //   let model = this.currentRouteModel();
+    //   model
+    //     .destroyRecord()
+    //     .then(() => {
+    //       get(this, 'flashMessages')
+    //         .success(`Deleted Record: ${model.get('title')}`);
+    //       this.replaceWith('records');
+    //     });
+    // },
 
     cancelRecord: function () {
-      let model = this.currentModel;
+      let model = this.currentRouteModel();
+      let message = `Cancelled changes to Record: ${model.get('title')}`;
+      let controller = this.controller;
+      let same = !controller.cancelScope || getOwner(this)
+        .lookup('controller:application')
+        .currentPath === get(controller,'cancelScope.routeName');
+
+      if(this.get('settings.data.autoSave')) {
+        let json = model.get('jsonRevert');
+
+        if(json) {
+          model.set('json', JSON.parse(json));
+
+          if(controller.onCancel) {
+            once(() => {
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
+          }
+
+          get(this, 'flashMessages')
+            .warning(message);
+        }
+
+        return;
+      }
+
       model
         .reload()
         .then(() => {
-          this.refresh();
-          Ember.get(this, 'flashMessages')
-            .warning(
-              `Cancelled changes to Record: ${model.get('title')}`);
+          if(controller.onCancel) {
+            once(() => {
+              if(same) {
+                controller.onCancel.call(controller.cancelScope ||
+                  this);
+              }
+              this.refresh();
+              controller.set('onCancel', null);
+              controller.set('cancelScope', null);
+            });
+          }
+          get(this, 'flashMessages')
+            .warning(message);
         });
     },
 
-    copyRecord: function () {
-
-      Ember.get(this, 'flashMessages')
-        .success(`Copied Record: ${this.currentModel.get('title')}`);
-      this.transitionTo('record.new.id', Ember.copy(this.currentModel));
-    },
+    // copyRecord: function () {
+    //
+    //   get(this, 'flashMessages')
+    //     .success(
+    //       `Copied Record: ${this.currentRouteModel().get('title')}`);
+    //   this.transitionTo('record.new.id', copy(this.currentRouteModel()));
+    // },
     getContext() {
       return this;
     }

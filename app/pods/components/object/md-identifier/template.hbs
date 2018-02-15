@@ -1,0 +1,61 @@
+{{component (if confirmIdentifier "input/md-input-confirm" "input/md-input")
+  valuePath="identifier"
+  model=this
+  confirmTip="Note! Editing the identifier may break links. Be aware."
+  placeholder="Enter the identifier for the resource"
+  label="Identifier"
+  required=true
+  showValidations=true
+  profilePath=(concat profilePath '.identifier')
+  data-spy="Identifier"
+  class="md-embedded"
+}}
+
+{{input/md-codelist
+  label="Namespace"
+  data-spy="Namespace"
+  class="md-embedded"
+  placeholder="Select or type a namespace for the identifier."
+  create=true
+  required=false
+  tooltip=true
+  icon=false
+  disabled=disabled
+  allowClear=true
+  mdCodeName="namespace"
+  valuePath="code"
+  value=model.namespace
+  profilePath=(concat profilePath '.namespace')
+}}
+
+
+{{input/md-input
+  value=model.version
+  placeholder="Enter the version for the identifier."
+  label="Version"
+  profilePath=(concat profilePath '.version')
+}}
+
+{{input/md-textarea
+  value=model.description
+  profilePath=(concat profilePath '.description')
+  label="Description"
+  placeholder="Enter a description of the identifier."
+}}
+
+{{#unless short}}
+  {{#layout/md-card
+    title="Authority"
+    profilePath=(concat profilePath '.authority')
+    shadow=true
+    collapsible=true
+  }}
+    {{object/md-citation
+      model=model.authority
+      profilePath=(concat profilePath '.authority')
+      embedded=true
+      simpleIdentifier=true
+    }}
+  {{/layout/md-card}}
+{{/unless}}
+{{yield}}

@@ -4,8 +4,8 @@
             <label>{{label}}</label>
         {{/if}}
         {{#if buttonTop}}
-            <button {{action "addItem"}} class="btn btn-success btn-xs pull-right">
-                <span class="fa fa-plus"></span> {{buttonText}}
+            <button {{action "addItem"}} class="btn btn-info btn-xs pull-right">
+                {{fa-icon "plus"}} {{buttonText}}
             </button>
         {{/if}}
         <table class="table table-striped table-hover">
@@ -37,8 +37,8 @@
             <tfoot>
                 <tr>
                     <td colspan=3>
-                        <button {{action "addItem"}} class="btn btn-success btn-xs">
-                            <span class="fa fa-plus"></span> {{buttonText}}
+                        <button {{action "addItem"}} class="btn btn-info btn-xs">
+                            {{fa-icon "plus"}} {{buttonText}}
                         </button>
 
                     </td>

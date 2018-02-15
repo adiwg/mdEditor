@@ -22,3 +22,214 @@
     top: 15px;
   }
 }
+
+.md-table-align-middle {
+  > tbody > tr > td {
+    vertical-align: middle;
+  }
+}
+
+.panel-body {
+  &.condensed {
+    padding: 0;
+
+    > .table {
+      margin-bottom: 0;
+    }
+  }
+
+  .table {
+    address {
+      margin: 0;
+    }
+
+    td {
+      vertical-align: middle;
+    }
+
+    &.ellipsis {
+      td.property {
+        max-width: 15vw;
+
+        div.wrap {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+.md-object-table {
+  .md-preview-image img {
+    max-height: 100px;
+  }
+
+  .md-row-actions {
+    min-width: 150px;
+
+    .btn-toolbar {
+      text-align: right;
+
+      .btn-group {
+        float: none;
+      }
+    }
+
+    &.vertical {
+      width: 150px;
+
+      .md-error {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .table-hover > tbody > tr {
+    transition: background-color 0.25s ease;
+  }
+
+  .table-striped > tbody > tr:nth-of-type(odd) {
+    background-color: inherit;
+  }
+
+  .table-striped > tbody > tr:nth-of-type(even) {
+    background-color: lighten($brand-info, 47);
+  }
+
+  .table-hover > tbody > tr:hover {
+    background-color: lighten($brand-info, 44);
+  }
+}
+
+.md-logo-preview {
+  max-height: 50px;
+}
+
+.md-record-table,
+.md-select-table {
+  .table-header {
+    white-space: nowrap;
+
+    .form-group {
+      margin-bottom: 0;
+
+      .changeFilterForColumn {
+        width: auto;
+      }
+    }
+  }
+
+  .globalSearch .form-group {
+    padding-right: 0;
+  }
+
+  > .table {
+    margin-top: 1.25em;
+
+    .selected-row {
+      background-color: lighten($brand-info, 45);
+      color: $state-info-text;
+    }
+
+    > thead > tr:first-of-type > .table-header {
+      color: $gray-darker;
+      transition: color .5s linear;
+
+      &:hover {
+        color: $brand-info;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .table-hover > tbody > tr {
+    transition: all .1s linear;
+    transition-property: color, background-color;
+  }
+
+  .table-hover > tbody > tr:hover {
+    background-color: lighten($brand-info, 40);
+    cursor: pointer;
+  }
+}
+//Wider Responsive tables
+
+.md-table-responsive {
+  min-height: 0.01%; // Workaround for IE9 bug (see https://github.com/twbs/bootstrap/issues/14837)
+  overflow-x: auto;
+  @media screen and (max-width: $screen-sm-max) {
+    border: 1px solid $table-border-color;
+    margin-bottom: ($line-height-computed * .75);
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    overflow-y: hidden;
+    width: 100%;
+    // Tighten up spacing
+    > .table {
+      min-width: 800px;
+      margin-bottom: 0;
+      // Ensure the content doesn't wrap
+       > tbody,
+       > thead,
+      > tfoot {
+        > tr {
+           > td,
+          > th {
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+    // Special overrides for the bordered tables
+    > .table-bordered {
+      border: 0;
+
+       > tbody,
+       > thead,
+      > tfoot {
+        > tr {
+           > td:first-child,
+          > th:first-child {
+            border-left: 0;
+          }
+
+           > td:last-child,
+          > th:last-child {
+            border-right: 0;
+          }
+        }
+      }
+
+       > tfoot,
+      > tbody {
+        > tr:last-child {
+           > td,
+          > th {
+            border-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.md-dashboard-buttons {
+  @media screen and (min-width: $screen-md-min) {
+    display: table;
+    white-space: nowrap;
+
+    .btn {
+      margin-left: 1px;
+      margin-right: 1px;
+    }
+  }
+
+  @media screen and (max-width: $screen-sm-max) {
+    .btn {
+      display: block;
+      margin: 1px auto;
+      width: 100%;
+    }
+  }
+}

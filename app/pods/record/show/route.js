@@ -1,5 +1,10 @@
 import Ember from 'ember';
 
+const {
+  get,
+  copy
+} = Ember;
+
 export default Ember.Route.extend({
   breadCrumb: {},
   afterModel(model) {
@@ -12,15 +17,34 @@ export default Ember.Route.extend({
     this.set('breadCrumb', crumb);
   },
   model(params) {
-    return this.store.findRecord('record', params.record_id);
+    return this.store.peekRecord('record', params.record_id);
   },
   renderTemplate() {
-    this.render('records.nav', {
+    this.render('record.nav', {
       into: 'application',
       outlet: 'nav'
     });
     this.render('record.show', {
       into: 'record'
     });
+  },
+  actions: {
+    destroyRecord: function () {
+      let model = this.currentRouteModel();
+      model
+        .destroyRecord()
+        .then(() => {
+          get(this, 'flashMessages')
+            .success(`Deleted Record: ${model.get('title')}`);
+          this.replaceWith('records');
+        });
+    },
+    copyRecord: function () {
+
+      get(this, 'flashMessages')
+        .success(
+          `Copied Record: ${this.currentRouteModel().get('title')}`);
+      this.transitionTo('record.new.id', copy(this.currentRouteModel()));
+    }
   }
 });

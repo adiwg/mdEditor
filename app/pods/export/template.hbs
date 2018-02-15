@@ -1,13 +1,54 @@
 <div class="row">
-
   <div class="col-sm-10">
-    <h2>Export Records</h2>
-  </div>
-
+    <h3>Export Data</h3>
+    {{#each model.records as |section index|}}
+    {{#if section.length}}
+      {{#if index}}
+        <hr>
+      {{/if}}
+      <section >
+        {{#layout/md-card
+          title=section.meta.title
+          titleIcon=section.meta.icon
+          collapsible=true
+          collapsed=false
+          data-spy=section.meta.title
+          shadow=true
+        }}
+        {{!-- <h3>{{section.meta.title}}</h3> --}}
+        {{control/md-record-table
+          data=section
+          dataColumns=(compute (route-action "getColumns") section.meta.type)
+        }}
+        {{/layout/md-card}}
+      </section>
+    {{/if}}
+    {{/each}}
+</div>
   <div class="col-sm-2">
     <div class="md-control-sidebar">
-      <button class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "exportData"}}>
+      <div class="btn-group-vertical center-block" role="group" aria-label="Export Button Controls">
+        <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{action "exportData"}}>
           {{fa-icon "sign-out"}} Export All</button>
+        <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{action "exportSelectedData"}} disabled={{if hasSelected false true}}>
+          {{fa-icon "fa-check-square-o"}} Export Selected</button>
+        <button type="button" class="btn btn-lg btn-success md-btn-responsive" {{action "exportSelectedData" true}} disabled={{if hasSelectedRecords false true}}>
+          {{fa-icon "fa-check-square-o"}} Export mdJSON</button>
+      </div>
+      <hr>
+      <label class="center-block text-center">Include Settings?</label>
+      {{x-toggle
+        value=model.settings._selected
+        onToggle=(mut model.settings._selected)
+        showLabels=true
+        onLabel="Yes::true"
+        offLabel="No::false"
+        size="medium"
+        theme="form"
+      }}
+      <hr>
+      {{control/md-scroll-spy offset=134 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+
     </div>
   </div>
 

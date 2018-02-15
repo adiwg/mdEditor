@@ -5,8 +5,8 @@ import {
 import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/subbar-spatial',
-  'Integration | Component | control/subbar spatial', {
+moduleForComponent('control/subbar-extent',
+  'Integration | Component | control/subbar extent', {
     integration: true
   });
 
@@ -14,7 +14,7 @@ test('it renders', function (assert) {
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs `{{control/subbar-spatial}}`);
+  this.render(hbs `{{control/subbar-extent}}`);
 
   assert.equal(this.$()
     .text()
@@ -23,9 +23,9 @@ test('it renders', function (assert) {
 
   // Template block usage:
   this.render(hbs `
-    {{#control/subbar-spatial}}
+    {{#control/subbar-extent}}
       template block text
-    {{/control/subbar-spatial}}
+    {{/control/subbar-extent}}
   `);
 
   assert.equal(this.$()
@@ -54,7 +54,7 @@ test('fire actions', function (assert) {
     return new FakeRoute();
   });
 
-  this.render(hbs `{{control/subbar-spatial context=(action "getContext")}}`);
+  this.render(hbs `{{control/subbar-extent context=(action "getContext")}}`);
 
   this.$('button')
     .click();

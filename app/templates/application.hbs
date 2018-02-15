@@ -1,4 +1,35 @@
+<div class=md-message-container>
+  <div class=md-message-wrapper>
+    {{#each flashMessages.queue as |flash|}}
+    {{#flash-message flash=flash as |component flash|}}
+    {{flash.message}}
+    {{#if flash.showProgress}}
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{flash.progressValue}}" aria-valuemin="0" aria-valuemax="100" style="width: {{html-safe flash.progressValue}}%;">
+        {{flash.progressValue}}%
+      </div>
+    </div>
+    {{/if}}
+    {{/flash-message}}
+    {{/each}}
+  </div>
+</div>
+
 <div id="md-wrapper" class="">
+
+  <!-- Slider -->
+    {{#layout/md-slider
+      visible=slider.showSlider
+      fromName=slider.fromName
+      onClose=slider.onClose
+      context=slider.context
+    }}
+      {{!-- <section class="md-slider-body">
+        {{from-elsewhere name="md-slider-content"}}
+      </section> --}}
+    {{/layout/md-slider}}
+  <!-- /#slider -->
+
   <!-- Sidebar -->
   <div id="md-sidebar-wrapper">
     {{layout/md-nav-sidebar items=model}} {{md-help}}
@@ -18,34 +49,33 @@
     </div>
   </div>
   <!-- /#page-content-wrapper -->
-  <div class=md-message-wrapper>
-      {{#each flashMessages.queue as |flash|}}
-        {{#flash-message flash=flash as |component flash|}}
-          {{flash.message}}
-          {{#if flash.showProgress}}
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" aria-valuenow="{{flash.progressValue}}" aria-valuemin="0" aria-valuemax="100" style="width: {{html-safe flash.progressValue}}%;">
-                {{flash.progressValue}}%
-              </div>
-            </div>
-          {{/if}}
-        {{/flash-message}}
-      {{/each}}
-  </div>
+  {{layout/md-footer class="hidden-print"}}
 </div>
 {{ember-load-remover}}
 
 {{#control/md-modal isShowing=settings.data.showSplash showConfirm=true confirmLabel="OK"}}
-    <div class="alert alert-warning" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
-    <div class="alert alert-danger" role="alert">{{fa-icon "wrench"}} Warning:
-        This application is under development!
+    <div class="alert alert-info" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
+    <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
+        This application is in beta testing,  <a
+        href="https://github.com/adiwg/mdEditor/issues"
+        target="_blank">please let us know</a> if you find any bugs.
+        Thank-you!
     </div>
     <p>
-        The application has been updated since your last session. Some features
-        may have been added or changed. Please note the version below (also shown
-        in the {{#link-to "settings"}}Settings{{/link-to}}) when reporting bugs or issues.
+        The  md<span class="md-icon-mdeditor"></span>ditor has been updated
+        since your last session. Some features may have been added or changed.
+        Please note the version below (also shown in the {{#link-to
+        "settings"}}Settings{{/link-to}}) when reporting bugs or issues. If you
+        are having problems, you might want to {{#link-to "settings"}} clear
+        your localstorage{{/link-to}} which will delete all records. This
+        application is in beta <strong class="text-warning">SHOULD BE</strong>
+        safe for production use.
     </p>
     <p>
         Current Version: <span class="text-info">{{control/md-repo-link}}</span>
     </p>
 {{/control/md-modal}}
+
+{{#if spotlight.show}}
+  {{control/md-spotlight}}
+{{/if}}

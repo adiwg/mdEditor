@@ -2,7 +2,25 @@
 // Copyright 2011-2015 Twitter, Inc.
 //  Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
 // Core variables and mixins
+
+//== Colors
+//
+
+$brand-primary: #325d88 !default;
+$brand-success: #93c54b !default;
+$brand-info: #29abe0 !default;
+$brand-warning: #f47c3c !default;
+$brand-danger: #d9534f !default;
+
 @import 'bootstrap/variables';
+
+$navbar-inverse-bg: lighten($gray-darker, 4);
+$breadcrumb-color: $gray;
+//see https://v4-alpha.getbootstrap.com/content/reboot/#native-font-stack
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
+$font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-base:       $font-family-sans-serif !default;
+
 @import 'bootstrap/mixins';
 // Reset and dependencies
 @import 'bootstrap/normalize';

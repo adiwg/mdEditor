@@ -9,10 +9,21 @@ import MdCodelist from '../md-codelist/component';
 export default MdCodelist.extend({
   classNames: ['md-codelist-multi'],
   /**
-   * Specialized select list control for displaying and selecting
-   * options in mdCodes codelists.
-   * Extends md-codelist.
-   * Allows selection of multiple options.
+   * Specialized select list control for displaying and selecting options in
+   * mdCodes codelists. Extends md-codelist. Allows selection of multiple
+   * options.
+   *
+   * ```handlebars
+   * \{{input/md-codelist-multi
+   *   value=array
+   *   create=true
+   *   tooltip=true
+   *   icon=false
+   *   mdCodeName="codeName"
+   *   closeOnSelect=false
+   *   placeholder="Select or enter one or more"
+   * }}
+   * ```
    *
    * @class md-codelist-multi
    * @constructor
@@ -48,8 +59,8 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed('create', function () {
-    return this.get('create') ? 'power-select-with-create' :
+  theComponent: Ember.computed('create', function() {
+    return this.get('create') ? 'power-select-multiple-with-create' :
       'power-select-multiple';
   }),
 
@@ -78,13 +89,13 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function () {
+  selectedItem: Ember.computed('value', function() {
     let value = this.get('value');
     let codelist = this.get('codelist');
 
-    if(value) {
+    if (value) {
       return codelist.filter((item) => {
-        return value.includes(item['codeName']);
+        return value.includes(item['codeId']);
       });
     }
     return null;
@@ -98,16 +109,17 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: Ember.computed('value', function () {
+  codelist: Ember.computed('value', 'filterId', 'mapped', function() {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');
+    let filter = this.get('filterId');
 
-    if(value) {
-      if(create) {
+    if (value) {
+      if (create) {
         value.forEach((val) => {
-          let found = codelist.findBy('codeName', val);
-          if(found === undefined) {
+          let found = codelist.findBy('codeId', val);
+          if (found === undefined) {
             let newObject = this.createCode(val);
             codelist.pushObject(newObject);
           }
@@ -115,7 +127,7 @@ export default MdCodelist.extend({
       }
     }
 
-    return codelist;
+    return codelist.rejectBy('codeId', filter);
   }),
 
   /**
@@ -130,7 +142,7 @@ export default MdCodelist.extend({
 
     //power-select-with-create always sends a single object oncreate
     //we need to add that object to the selectedItem array
-    if(this.get('create') && !Ember.isArray(selected)) {
+    if (this.get('create') && !Ember.isArray(selected)) {
       sel = this.get('selectedItem')
         .compact();
       sel.pushObject(selected);
@@ -138,7 +150,7 @@ export default MdCodelist.extend({
       sel = selected;
     }
 
-    this.set('value', sel.mapBy('codeName'));
+    this.set('value', sel.mapBy('codeId'));
     this.change();
   }
 });

@@ -6,11 +6,14 @@ export default Ember.Component.extend({
    * dialog when clicked.
    *
    * @class md-button-modal
+   * @module mdeditor
+   * @submodule components-control
    * @constructor
    */
 
   tagName: 'button',
   classNames: 'md-button-modal',
+  attributeBindings: ['type'],
 
   /**
    * Element selector or element that serves as the reference for modal position

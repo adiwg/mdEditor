@@ -5,18 +5,9 @@
   ],
   "dependencies": {
     "babel-plugin-htmlbars-inline-precompile": "^0.1.0",
-    "ember-leaflet": "2.2.8-beta.3",
-    "ember-cli-htmlbars": "^1.1.1",
-    "ember-cli-htmlbars-inline-precompile": "^0.3.6",
-    "ember-leaflet-layer-control": "^0",
-    "ember-models-table": "^1.11",
-    "ember-cli-sass": "~6.1.1",
-    "ember-cli-file-picker": "0.0.10",
-    "ember-browserify": "^1.1.12",
-    "uuid": "^3.0.1",
-    "ember-resize": "0.0.17",
-    "csv2geojson": "^5.0.2",
-    "shapefile": "^0.6.2",
-    "@mapbox/togeojson": "^0.16.0"
+    "ember-cli-babel": "^6.6.0",
+    "ember-cli-htmlbars": "^2.0.1",
+    "ember-cli-htmlbars-inline-precompile": "^1.0.0",
+    "ember-cli-sass": "~7.0.0"
   }
 }

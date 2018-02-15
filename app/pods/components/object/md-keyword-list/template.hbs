@@ -34,7 +34,10 @@
       <tr>
         <td colspan="3">
           <button type="button" class="btn btn-xs btn-success" {{action "addKeyword" model.keyword}}>
-            <span class="fa fa-plus"></span> Add Keyword
+            {{fa-icon "plus"}} Add Keyword
+          </button>
+          <button type="button" class="btn btn-xs btn-info" {{action hideThesaurus this.element}}>
+            {{fa-icon "eye"}} Toggle Thesaurus
           </button>
         </td>
       </tr>
@@ -55,8 +58,8 @@
     {{/each}}
     {{#if editThesaurus}}
     <li class="list-group-item">
-      <button type="button" class="btn btn-block btn-warning" {{action editThesaurus id}}>
-        <span class="fa fa-pencil"></span> Edit keywords.
+      <button type="button" class="btn btn-block btn-success" {{action editThesaurus listId}}>
+        {{fa-icon "pencil"}} Edit keywords.
       </button>
     </li>
     {{/if}}

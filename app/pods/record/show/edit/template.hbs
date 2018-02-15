@@ -3,7 +3,7 @@
     {{outlet}}
   </div>
   <div class="col-sm-2">
-    <div class="md-control-sidebar">
+    <div class="md-control-sidebar hidden-print">
       {{control/md-crud-buttons
           model=model
           doSave="saveRecord"
@@ -11,6 +11,13 @@
           doDelete="destroyRecord"
           doCopy="copyRecord" }}
       {{component subbar context=(route-action "getContext")}}
+      <hr>
+      {{from-elsewhere name="md-subbar-extra"}}
+
+      {{#from-elsewhere name="md-scroll-spy-record-edit" as |spy|}}
+          {{component spy offset=134}}
+      {{/from-elsewhere}}
+      {{!-- {{control/md-scroll-spy offset=134 scrollInit=scrollTo}} --}}
     </div>
   </div>
 </div>

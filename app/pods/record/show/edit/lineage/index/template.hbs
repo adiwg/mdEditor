@@ -1,0 +1,16 @@
+<h4 class="section-header">
+  Editing Lineage
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-objectroute-table
+  items=model.json.metadata.resourceLineage
+  header="Lineage"
+  shadow=true
+  buttonText="Add Lineage Object"
+  ellipsis=ellipsis
+  previewTemplate="object/md-lineage/preview"
+  editItem=(route-action "editLineage")
+  hideIndex=true
+  condensed=true
+}}

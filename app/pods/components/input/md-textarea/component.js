@@ -1,3 +1,8 @@
+/**
+ * @module mdeditor
+ * @submodule components-input
+ */
+
 import Ember from 'ember';
 
 export default Ember.Component.extend({
@@ -6,9 +11,12 @@ export default Ember.Component.extend({
    * Input, edit, display a multi-line, expandable, text area.
    *
    * @class md-textarea
-   * @submodule components-input
    * @constructor
    */
+
+  attributeBindings: ['data-spy'],
+  classNames: ['md-textarea'],
+  classNameBindings: ['label:form-group', 'required','embedded:md-embedded'],
 
   /**
    * Initial value, returned value.
@@ -113,6 +121,10 @@ export default Ember.Component.extend({
    * @type {string}
    * @default 'form-control'
    */
-  class: 'form-control'
+  class: 'form-control',
+
+  _didInsertArea(){
+    this.scheduleMeasurement();
+  },
 
 });

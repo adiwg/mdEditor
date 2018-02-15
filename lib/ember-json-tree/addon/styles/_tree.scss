@@ -7,7 +7,19 @@
     border: 0;
     margin: 0;
     padding: 0;
+  }
 
+  .is-dragging-object {
+    .badge,
+    .tree-icon {
+      opacity: 0;
+    }
+  }
+
+  .draggable-object-target.accepts-drag {
+    .tree-leaf {
+      background-color: lighten($orange, 15);
+    }
   }
 }
 
@@ -24,6 +36,14 @@
   &.tree-highlight {
     background-color: $green;
     color: $white;
+
+    &:hover {
+      background-color: darken($green, 5);
+    }
+
+    .tree-icon {
+      color: $white;
+    }
   }
 
   &.node-disabled {
@@ -37,6 +57,21 @@
 
   .tree-cell {
     display: table-cell;
+    vertical-align: middle;
+  }
+
+  .tree-icon {
+    color: $light-blue;
+    font-size: 1.25em;
+
+    &:hover {
+      color: $orange;
+      cursor: default;
+    }
+  }
+
+  .tree-fill {
+    width: 100%;
   }
 
   .tree-indent {
@@ -44,21 +79,14 @@
     margin-right: 10px;
   }
 
-  span.icon {
+  span.icon,
+  i.icon {
     margin-right: 5px;
-    width: 12px;
+    min-width: 12px;
   }
 
-  .node-tip {
+  .badge {
     background-color: $gray-base;
-    float: right;
-  }
-
-  .toggle-icon {
-    &:hover {
-      color: $orange;
-      cursor: default;
-    }
   }
 
   .tree-label-text {

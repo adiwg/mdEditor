@@ -1,4 +1,15 @@
 import Ember from 'ember';
 
-export default Ember.Route.extend({
+const {
+  Route,
+  inject: {
+    service
+  }
+} = Ember;
+
+export default Route.extend({
+  publish: service('publish'),
+  model: function() {
+    return this.get('publish.catalogs');
+  }
 });

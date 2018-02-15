@@ -1,0 +1,29 @@
+<td>
+    {{input/md-datetime
+      valuePath="date"
+      model=this
+      showValidations=true
+      required=true
+      forceDateOutput=true
+    }}
+</td>
+<td>
+  {{input/md-codelist
+    create=true
+    required=true
+    tooltip=true
+    icon=false
+    disabled=disabled
+    allowClear=true
+    showValidations=true
+    mdCodeName="dateType"
+    path="dateType"
+    model=this
+    placeholder="Choose date type"
+  }}
+</td>
+<td>
+    {{input/md-input value=model.description
+    placeholder="Describe the date."}}
+</td>
+{{yield}}

@@ -1,0 +1,62 @@
+{{input/md-codelist
+  label="Frequency"
+  create=true
+  required=true
+  tooltip=true
+  icon=false
+  allowClear=true
+  showValidations=true
+  mdCodeName="maintenanceFrequency"
+  value=model.frequency
+
+  placeholder="Choose a value."
+  profilePath=(concat profilePath '.frequency')
+}}
+
+{{#layout/md-card shadow=false profilePath=(concat profilePath ".date")
+  data-spy="Dates"
+  class="md-embedded"
+}}
+  {{object/md-date-array value=model.date plain=true data-spy=false}}
+{{/layout/md-card}}
+
+{{#layout/md-card shadow=false profilePath=(concat profilePath ".contact")}}
+  {{object/md-party-array
+    title="Contact"
+    data-spy="Contacts"
+    collapsible=true collapsed=false
+    required=false
+    value=model.contact
+    class="md-embedded"
+    plain=true
+  }}
+{{/layout/md-card}}
+
+{{#layout/md-card shadow=false profilePath=(concat profilePath '.note')}}
+  {{#object/md-simple-array-table
+    title="Notes"
+    required=false
+    plain=true
+    class="md-embedded"
+    value=model.note as |val|
+  }}
+    <td>
+        {{input/md-textarea value=val.item.value
+        placeholder="Enter notes regarding the maintenance of the resource."}}
+    </td>
+  {{/object/md-simple-array-table}}
+{{/layout/md-card}}
+
+{{input/md-codelist-multi
+  value=scopes
+  label="Scope"
+  create=true
+  tooltip=true
+  icon=true
+  mdCodeName="scope"
+  closeOnSelect=false
+  placeholder="Select type of resource."
+  profilePath=(concat profilePath ".scope")
+}}
+
+{{yield}}
