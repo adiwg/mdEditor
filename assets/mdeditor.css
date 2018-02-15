@@ -5903,6 +5903,10 @@ footer {
       color: #56bce6; }
     footer .footer-container .text-warning {
       color: #f79c6c; }
+    footer .footer-container > span {
+      margin-left: 1em; }
+  footer .btn-xs, footer .btn-group-xs > .btn {
+    line-height: 1.25em; }
 
 @media (min-width: 532px) {
   .md-table-block {
@@ -5982,6 +5986,10 @@ footer {
     .md-record-table .table-header .form-group .changeFilterForColumn,
     .md-select-table .table-header .form-group .changeFilterForColumn {
       width: auto; }
+
+.md-record-table .globalSearch .form-group,
+.md-select-table .globalSearch .form-group {
+  padding-right: 0; }
 
 .md-record-table > .table,
 .md-select-table > .table {
@@ -7027,6 +7035,13 @@ form tfoot {
 
 .md-card .card-footer .btn:focus {
   outline: none; }
+
+.md-card.hd-success .card-header {
+  background-color: #93c54b; }
+  .md-card.hd-success .card-header a {
+    color: #fff; }
+    .md-card.hd-success .card-header a:hover {
+      color: #c5e8f7; }
 
 .md-card.card-inverse .md-card-maximize {
   color: #fff; }

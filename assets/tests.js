@@ -692,6 +692,16 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'pods/components/object/md-associated/preview/component.js should pass ESLint\n\n');
   });
 
+  QUnit.test('pods/components/object/md-attribute/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-attribute/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-attribute/preview/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-attribute/preview/component.js should pass ESLint\n\n');
+  });
+
   QUnit.test('pods/components/object/md-bbox/component.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/components/object/md-bbox/component.js should pass ESLint\n\n');
@@ -770,6 +780,11 @@ define('mdeditor/tests/app.lint-test', [], function () {
   QUnit.test('pods/components/object/md-domainitem/preview/component.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/components/object/md-domainitem/preview/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-entity/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-entity/component.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/components/object/md-funding/component.js', function (assert) {
@@ -1057,9 +1072,49 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'pods/dictionary/show/edit/domain/route.js should pass ESLint\n\n');
   });
 
-  QUnit.test('pods/dictionary/show/edit/entities/route.js', function (assert) {
+  QUnit.test('pods/dictionary/show/edit/entity/edit/attribute/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entities/route.js should pass ESLint\n\n');
+    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/attribute/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/edit/attribute/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/attribute/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/edit/citation/identifier/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/citation/identifier/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/edit/citation/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/citation/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/edit/citation/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/citation/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/edit/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/edit/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/dictionary/show/edit/entity/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/dictionary/show/edit/entity/route.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/dictionary/show/edit/index/route.js', function (assert) {
@@ -5622,6 +5677,64 @@ define('mdeditor/tests/integration/pods/components/object/md-associated/preview/
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
+define('mdeditor/tests/integration/pods/components/object/md-attribute/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-attribute', 'Integration | Component | object/md attribute', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "QXdXFrGg",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-attribute\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "+QN/82cM",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-attribute\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-attribute/preview/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-attribute/preview', 'Integration | Component | object/md attribute/preview', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "xLgDD0mU",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-attribute/preview\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "ksaMgv5r",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-attribute/preview\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
 define('mdeditor/tests/integration/pods/components/object/md-bbox/component-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -6093,6 +6206,35 @@ define('mdeditor/tests/integration/pods/components/object/md-domainitem/preview/
     this.render(Ember.HTMLBars.template({
       "id": "IeqgoyGG",
       "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-domainitem/preview\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-entity/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-entity', 'Integration | Component | object/md entity', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "BNvLfPjj",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-entity\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "bXXiW6DV",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-entity\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -7498,6 +7640,16 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'integration/pods/components/object/md-associated/preview/component-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('integration/pods/components/object/md-attribute/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-attribute/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-attribute/preview/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-attribute/preview/component-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('integration/pods/components/object/md-bbox/component-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/pods/components/object/md-bbox/component-test.js should pass ESLint\n\n');
@@ -7576,6 +7728,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
   QUnit.test('integration/pods/components/object/md-domainitem/preview/component-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/pods/components/object/md-domainitem/preview/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-entity/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-entity/component-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('integration/pods/components/object/md-funding/component-test.js', function (assert) {
@@ -7933,9 +8090,49 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'unit/pods/dictionary/show/edit/domain/route-test.js should pass ESLint\n\n');
   });
 
-  QUnit.test('unit/pods/dictionary/show/edit/entities/route-test.js', function (assert) {
+  QUnit.test('unit/pods/dictionary/show/edit/entity/edit/attribute/index/route-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/pods/dictionary/show/edit/entities/route-test.js should pass ESLint\n\n');
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/edit/attribute/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/edit/attribute/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/edit/attribute/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/edit/citation/identifier/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/edit/citation/identifier/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/edit/citation/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/edit/citation/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/edit/citation/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/edit/citation/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/edit/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/edit/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/edit/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/edit/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/dictionary/show/edit/entity/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/dictionary/show/edit/entity/route-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/pods/dictionary/show/edit/index/route-test.js', function (assert) {
@@ -9059,16 +9256,120 @@ define('mdeditor/tests/unit/pods/dictionary/show/edit/domain/route-test', ['embe
     assert.ok(route);
   });
 });
-define('mdeditor/tests/unit/pods/dictionary/show/edit/entities/route-test', ['ember-qunit'], function (_emberQunit) {
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/edit/attribute/index/route-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
-  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entities', 'Unit | Route | dictionary/edit/entities', {
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/edit/attribute/index', 'Unit | Route | dictionary/show/edit/entity/edit/attribute/index', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   });
 
   (0, _emberQunit.test)('it exists', function (assert) {
-    var route = this.subject();
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/edit/attribute/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/edit/attribute', 'Unit | Route | dictionary/show/edit/entity/edit/attribute', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/edit/citation/identifier/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/edit/citation/identifier', 'Unit | Route | dictionary/show/edit/entity/edit/citation/identifier', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/edit/citation/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/edit/citation/index', 'Unit | Route | dictionary/show/edit/entity/edit/citation/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/edit/citation/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/edit/citation', 'Unit | Route | dictionary/show/edit/entity/edit/citation', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/edit/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/edit/index', 'Unit | Route | dictionary/show/edit/entity/edit/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/edit/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/edit', 'Unit | Route | dictionary/show/edit/entity/edit', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity/index', 'Unit | Route | dictionary/show/edit/entity/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/dictionary/show/edit/entity/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:dictionary/show/edit/entity', 'Unit | Route | dictionary/show/edit/entity', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
     assert.ok(route);
   });
 });
