@@ -61,7 +61,7 @@ export default Component.extend(Validations, {
       if (!isArray(ol)) {
         this.set('model.thesaurus.date', [{}]);
       }
-      this.set('model.thesaurus.date.0.date', value.toISOString());
+      this.set('model.thesaurus.date.0.date', value);
       return value;
     }
   }),
