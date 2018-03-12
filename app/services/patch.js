@@ -1,8 +1,12 @@
 import Service from '@ember/service';
 import {
   get,
+  getWithDefault,
   set
 } from '@ember/object';
+import {
+  isArray
+} from '@ember/array';
 
 export default Service.extend({
   applyModelPatch(record) {
@@ -23,6 +27,28 @@ export default Service.extend({
         });
 
       break;
+    case 'record':
+      {
+        let lineage = record.get('json.metadata.resourceLineage');
+
+        if(isArray(lineage)) {
+          lineage
+            .forEach(itm => {
+              let source = get(itm, 'source');
+
+              if(isArray(source)) {
+                source.forEach(src => {
+                  set(src, 'description', getWithDefault(src,
+                    'description', get(src, 'value')));
+                  set(src, 'value', null);
+                });
+                record.save();
+              }
+            });
+
+          break;
+        }
+      }
     }
   }
 });
