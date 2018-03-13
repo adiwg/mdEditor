@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app/pods/components/md-translate/component.js - mdeditor</title>
+    <meta name="description" content="Small description for mdeditor goes here">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
+    
+</head>
+<body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">
+            <img src="../assets/img/mdeditor-logo.png" alt="">
+            <span>API Docs</span>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/adiwg/mdEditor" class="fa fa-github github"></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="main-wrapper" class="row">
+        <div id="content-wrapper">
+            <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-search-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-search" aria-expanded="true" aria-controls="collapseOne">
+                        Search
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-search" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-search-heading">
+                        <div class="panel-body">
+                            <div id="api-tabview-filter">
+                                <input type="search" id="api-filter" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="sidebar-version-heading">
+                            <h4 class="panel-title">
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/05c60e95" target="_blank">
+                                  Tag: 0.1.0.05c60e95
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-modules-heading">
+                        <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" href="#sidebar-modules" aria-expanded="true" aria-controls="collapseOne">
+                      Modules
+                    </a>
+                  </h4>
+                    </div>
+                    <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
+                        <div class="panel-body">
+                                <ol>
+                                        <li>
+                                            <a href="../modules/ember-json-tree.html">ember-json-tree</a>
+                                                    <li class="sub"><a href="../modules/tree-view.html">tree-view</a></li>
+                                                    <li class="sub"><a href="../modules/tree-search.html">tree-search</a></li>
+                                                    <li class="sub"><a href="../modules/helpers.html">helpers</a></li>
+                                        </li>
+                                        <li>
+                                            <a href="../modules/mdeditor.html">mdeditor</a>
+                                                    <li class="sub"><a href="../modules/mixins.html">mixins</a></li>
+                                                    <li class="sub"><a href="../modules/data-models.html">data-models</a></li>
+                                                    <li class="sub"><a href="../modules/components-control.html">components-control</a></li>
+                                                    <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
+                                                    <li class="sub"><a href="../modules/components-layout.html">components-layout</a></li>
+                                                    <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
+                                        </li>
+                                </ol>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-classes-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-classes" aria-expanded="true" aria-controls="collapseOne">
+                        Classes
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
+                        <div class="panel-body">
+                            <ol>
+                                    <li>
+                                        <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/make-range.html">make-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-address.html">md-address</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-array-table.html">md-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-boolean.html">md-boolean</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-button-modal.html">md-button-modal</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-card.html">md-card</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-citation-array.html">md-citation-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist.html">md-codelist</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist-multi.html">md-codelist-multi</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-link.html">md-contact-link</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-title.html">md-contact-title</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-date-range.html">md-date-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-datetime.html">md-datetime</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-definition.html">md-definition</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-graphic-array.html">md-graphic-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-object-table.html">md-identifier-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input.html">md-input</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input-confirm.html">md-input-confirm</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-inputs.html">md-inputs</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-object-table.html">md-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-online-resource-array.html">md-online-resource-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select.html">md-select</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-contacts.html">md-select-contacts</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-table.html">md-select-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-thesaurus.html">md-select-thesaurus</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-spotlight.html">md-spotlight</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-textarea.html">md-textarea</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-toggle.html">md-toggle</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-wrap.html">md-wrap</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/object-template.html">object-template</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-branch.html">tree-branch</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-label.html">tree-label</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-leaf.html">tree-leaf</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-search.html">tree-search</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-view.html">tree-view</a>
+                                    </li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <div class="content-container">
+                <div class="apidocs">
+                    <div id="docs-main">
+                        <div class="content">
+<div class="page-header">
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import moment from &#x27;moment&#x27;;
+const {
+  Component,
+  computed,
+  get,
+  inject,
+  set,
+  $
+} = Ember;
+
+//const _contacts = [];
+
+export default Component.extend({
+  classNames: [&#x27;row&#x27;],
+
+  cleaner: inject.service(),
+  flashMessages: inject.service(),
+  mdjson: inject.service(),
+
+  /**
+   * Indicates whether empty tags should be written to the translated output
+   *
+   * @property showAllTags
+   * @type {Boolean}
+   * @default &quot;false&quot;
+   */
+  showAllTags: false,
+
+  writer: null,
+
+  writerOptions: [{
+    name: &#x27;FGDC CSDGM&#x27;,
+    value: &#x27;fgdc&#x27;,
+    type: &#x27;application/xml&#x27;,
+    tip: &#x27;Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata&#x27;
+  }, {
+    name: &#x27;HTML&#x27;,
+    value: &#x27;html&#x27;,
+    type: &#x27;text/html&#x27;,
+    tip: &#x27;HTML &quot;human-readable&quot; and printable report of the metadata content&#x27;
+  }, {
+    name: &#x27;ISO 19115-2&#x27;,
+    value: &#x27;iso19115_2&#x27;,
+    type: &#x27;application/xml&#x27;,
+    tip: &#x27;International Standards Organization Geographic Information - Metadata 19115-2:2009&#x27;
+  }, {
+    name: &#x27;ISO 19110&#x27;,
+    value: &#x27;iso19110&#x27;,
+    type: &#x27;application/xml&#x27;,
+    tip: &#x27;International Standards Organization Geographic Information - Feature Catalogue 19110:2005&#x27;
+  }, {
+    name: &#x27;sbJSON&#x27;,
+    value: &#x27;sbJson&#x27;,
+    type: &#x27;application/json&#x27;,
+    tip: &#x27;USGS ScienceBase metadata format&#x27;
+  }],
+
+  result: null,
+  errors: null,
+  xhrError: null,
+  isLoading: false,
+  subTitle: null,
+
+  writeObj: computed(&#x27;writer&#x27;, function () {
+    return get(this, &#x27;writerOptions&#x27;)
+      .findBy(&#x27;value&#x27;, get(this,
+        &#x27;writer&#x27;));
+  }),
+
+  writerType: computed(&#x27;writeObj&#x27;, function () {
+    return get(this, &#x27;writeObj&#x27;)
+      .type.split(&#x27;/&#x27;)[1];
+  }),
+
+  isJson: computed.equal(&#x27;writerType&#x27;, &#x27;json&#x27;),
+  isHtml: computed(&#x27;writerType&#x27;, function () {
+    //IE does not supoprt srcdoc, so default to non-html display
+    return get(this, &#x27;writerType&#x27;) === &#x27;html&#x27; &amp;&amp; &#x27;srcdoc&#x27; in document.createElement(
+      &#x27;iframe&#x27;);
+  }),
+
+  messages: computed(&#x27;errors&#x27;, function () {
+    let err = get(this, &#x27;errors&#x27;);
+
+    if(!err) {
+      return null;
+    }
+
+    if(!err.readerStructurePass) {
+      set(this, &#x27;subtitle&#x27;, &#x27;Errors ocurred when reading the mdJSON&#x27;);
+      return err.readerStructureMessages;
+    }
+
+    if(!err.readerValidationPass) {
+      set(this, &#x27;subtitle&#x27;, &#x27;mdJSON Schema validation failed&#x27;);
+      return JSON.parse(err.readerValidationMessages[1]);
+    }
+
+    if(!err.readerExecutionPass) {
+      return err.readerExecutionMessages;
+    }
+
+    if(!err.writerPass) {
+      return err.writerMessages;
+    }
+  }),
+
+  _clearResult() {
+    set(this, &#x27;result&#x27;, null);
+    set(this, &#x27;subtitle&#x27;, null);
+    set(this, &#x27;errors&#x27;, null);
+    set(this, &#x27;xhrError&#x27;, null);
+  },
+
+  // _replacer(key, value) {
+  //   //console.log(arguments);
+  //   if(key===&#x27;contactId&#x27; &amp;&amp; !_contacts.includes(value)){
+  //     _contacts.push(value);
+  //   }
+  //   return value;
+  // },
+
+  actions: {
+    translate() {
+      let mdjson = this.get(&#x27;mdjson&#x27;);
+      // let clean = cleaner.clean(get(this,&#x27;model.json&#x27;));
+      // let json = JSON.parse(JSON.stringify(clean, get(this, &#x27;_replacer&#x27;)));
+      // let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
+      //
+      // json.contact = contacts.filter((item)=&gt;{
+      //   return _contacts.includes(get(item, &#x27;contactId&#x27;));
+      // });
+      //console.info(JSON.stringify(json));
+
+      this._clearResult();
+      set(this, &#x27;isLoading&#x27;, true);
+
+      $.ajax(&quot;https://mdtranslator.herokuapp.com/api/v2/translator&quot;, {
+          type: &#x27;POST&#x27;,
+          data: {
+            //file: JSON.stringify(cleaner.clean(json)),
+            file: mdjson.formatRecord(get(this, &#x27;model&#x27;), true),
+            reader: &#x27;mdJson&#x27;,
+            writer: get(this, &#x27;writer&#x27;),
+            showAllTags: get(this, &#x27;showAllTags&#x27;),
+            validate: &#x27;normal&#x27;,
+            format: &#x27;json&#x27;
+          },
+          context: this
+        })
+        .then(function (response) {
+          //this.sendAction(&quot;select&quot;, response);
+          //console.info(response);
+
+          set(this, &#x27;isLoading&#x27;, false);
+
+          if(response.success) {
+            set(this, &#x27;result&#x27;, response.data);
+            //Ember.$(&#x27;.md-translator-preview textarea&#x27;).val(response.data);
+          } else {
+            set(this, &#x27;errors&#x27;, response.messages);
+            set(this, &#x27;result&#x27;, response.data);
+            get(this, &#x27;flashMessages&#x27;)
+              .danger(&#x27;Translation error!&#x27;);
+          }
+        }, (response) =&gt; {
+          let error =
+            &#x60;mdTranslator Server error:
+          ${response.status}: ${response.statusText}&#x60;;
+
+          set(this, &#x27;xhrError&#x27;, error);
+          get(this, &#x27;flashMessages&#x27;)
+            .danger(error);
+        });
+
+    },
+    saveResult() {
+      let title = get(this, &#x27;model.title&#x27;);
+      let result = get(this, &#x27;result&#x27;);
+      let writer = get(this, &#x27;writeObj&#x27;);
+
+      window.saveAs(
+        new Blob([result], {
+          type: &#x60;${writer.type};charset=utf-8&#x60;
+        }),
+        &#x60;${title}_${moment().format(&#x27;YYYYMMDD&#x27;)}.${get(this, &#x27;writerType&#x27;)}&#x60;
+      );
+    },
+    clearResult() {
+      this._clearResult();
+    },
+    prettifyJson() {
+      let promise = new Ember.RSVP.Promise((resolve, reject) =&gt; {
+        let parsed = JSON.parse(get(this, &#x27;result&#x27;));
+
+        if(parsed) {
+          resolve(parsed);
+        } else {
+          reject(&#x27;JSON not valid&#x27;);
+        }
+      });
+
+      promise.then((obj) =&gt; {
+          set(this, &#x27;result&#x27;, JSON.stringify(obj, null, 2));
+        })
+        .
+      catch((error) =&gt; {
+        //console.log(error);
+        get(this, &#x27;flashMessages&#x27;)
+          .danger(error.message);
+      });
+    }
+  }
+});
+
+    </pre>
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>
