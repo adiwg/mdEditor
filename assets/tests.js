@@ -1853,7 +1853,10 @@ define('mdeditor/tests/helpers/drag-drop', ['exports', 'ember-native-dom-helpers
   }
 
   async function drop(dragSelector, dragEvent, options) {
-    let { drop: dropSelector, dropEndOptions, dragOverMoves } = options;
+    let dropSelector = options.drop,
+        dropEndOptions = options.dropEndOptions,
+        dragOverMoves = options.dragOverMoves;
+
 
     let dropElement = await (0, _emberNativeDomHelpers.find)(dropSelector);
     if (!dropElement) {
@@ -1888,40 +1891,6 @@ define('mdeditor/tests/helpers/drag-drop', ['exports', 'ember-native-dom-helpers
     }
   }
 });
-define('mdeditor/tests/helpers/ember-basic-dropdown', ['exports', 'ember-basic-dropdown/test-support/helpers', 'ember-native-dom-helpers'], function (exports, _helpers, _emberNativeDomHelpers) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.nativeClick = exports.fireKeydown = exports.tapTrigger = exports.clickTrigger = exports.nativeTap = undefined;
-  Object.defineProperty(exports, 'nativeTap', {
-    enumerable: true,
-    get: function () {
-      return _helpers.nativeTap;
-    }
-  });
-  Object.defineProperty(exports, 'clickTrigger', {
-    enumerable: true,
-    get: function () {
-      return _helpers.clickTrigger;
-    }
-  });
-  Object.defineProperty(exports, 'tapTrigger', {
-    enumerable: true,
-    get: function () {
-      return _helpers.tapTrigger;
-    }
-  });
-  Object.defineProperty(exports, 'fireKeydown', {
-    enumerable: true,
-    get: function () {
-      return _helpers.fireKeydown;
-    }
-  });
-  exports.default = _helpers.default;
-  const nativeClick = exports.nativeClick = _emberNativeDomHelpers.click;
-});
 define('mdeditor/tests/helpers/ember-cli-file-picker', ['exports'], function (exports) {
   'use strict';
 
@@ -1931,17 +1900,16 @@ define('mdeditor/tests/helpers/ember-cli-file-picker', ['exports'], function (ex
 
 
   function createFile(content = ['test'], options = {}) {
-    const {
-      name,
-      type,
-      lastModifiedDate
-    } = options;
+    const name = options.name,
+          type = options.type,
+          lastModifiedDate = options.lastModifiedDate;
+
 
     const file = new Blob(content, { type: type ? type : 'text/plain' });
     file.name = name ? name : 'test.txt';
 
     return file;
-  }
+  } /* global Blob, jQuery */
 
   const uploadFileHelper = function uploadFileHelper(content, options) {
     const file = createFile(content, options);
@@ -1970,11 +1938,10 @@ define('mdeditor/tests/helpers/ember-drag-drop', ['exports', 'mdeditor/tests/hel
     value: true
   });
   exports.drag = drag;
-  var $ = Ember.$;
 
 
   function drop($dragHandle, dropCssPath, dragEvent) {
-    let $dropTarget = $(dropCssPath);
+    let $dropTarget = Ember.$(dropCssPath);
 
     if ($dropTarget.length === 0) {
       throw `There are no drop targets by the given selector: '${dropCssPath}'`;
@@ -1991,11 +1958,10 @@ define('mdeditor/tests/helpers/ember-drag-drop', ['exports', 'mdeditor/tests/hel
     Ember.run(() => {
       triggerEvent($dragHandle, 'dragend', _dataTransfer.default.makeMockEvent());
     });
-  }
-
+  } /* global triggerEvent , andThen */
   function drag(cssPath, options = {}) {
     let dragEvent = _dataTransfer.default.makeMockEvent();
-    let $dragHandle = $(cssPath);
+    let $dragHandle = Ember.$(cssPath);
 
     Ember.run(() => {
       triggerEvent($dragHandle, 'mouseover');
@@ -2025,9 +1991,7 @@ define('mdeditor/tests/helpers/ember-pollboy', ['exports'], function (exports) {
     value: true
   });
   exports.stubPollboy = stubPollboy;
-
-  const { Service } = Ember;
-
+  const Service = Ember.Service;
   const PollerMock = exports.PollerMock = Ember.Object.extend({
     cancel() {},
     pause() {},
@@ -2063,61 +2027,42 @@ define('mdeditor/tests/helpers/ember-power-select', ['exports', 'ember-power-sel
     value: true
   });
   exports.selectChoose = exports.touchTrigger = exports.nativeTouch = exports.clickTrigger = exports.typeInSearch = exports.triggerKeydown = exports.nativeMouseUp = exports.nativeMouseDown = exports.findContains = undefined;
-  Object.defineProperty(exports, 'findContains', {
-    enumerable: true,
-    get: function () {
-      return _helpers.findContains;
-    }
-  });
-  Object.defineProperty(exports, 'nativeMouseDown', {
-    enumerable: true,
-    get: function () {
-      return _helpers.nativeMouseDown;
-    }
-  });
-  Object.defineProperty(exports, 'nativeMouseUp', {
-    enumerable: true,
-    get: function () {
-      return _helpers.nativeMouseUp;
-    }
-  });
-  Object.defineProperty(exports, 'triggerKeydown', {
-    enumerable: true,
-    get: function () {
-      return _helpers.triggerKeydown;
-    }
-  });
-  Object.defineProperty(exports, 'typeInSearch', {
-    enumerable: true,
-    get: function () {
-      return _helpers.typeInSearch;
-    }
-  });
-  Object.defineProperty(exports, 'clickTrigger', {
-    enumerable: true,
-    get: function () {
-      return _helpers.clickTrigger;
-    }
-  });
-  Object.defineProperty(exports, 'nativeTouch', {
-    enumerable: true,
-    get: function () {
-      return _helpers.nativeTouch;
-    }
-  });
-  Object.defineProperty(exports, 'touchTrigger', {
-    enumerable: true,
-    get: function () {
-      return _helpers.touchTrigger;
-    }
-  });
-  Object.defineProperty(exports, 'selectChoose', {
-    enumerable: true,
-    get: function () {
-      return _helpers.selectChoose;
-    }
-  });
-  exports.default = _helpers.default;
+  exports.default = deprecatedRegisterHelpers;
+
+
+  function deprecateHelper(fn, name) {
+    return function (...args) {
+      (true && !(false) && Ember.deprecate(`DEPRECATED \`import { ${name} } from '../../tests/helpers/ember-power-select';\` is deprecated. Please, replace it with \`import { ${name} } from 'ember-power-select/test-support/helpers';\``, false, { until: '1.11.0', id: `ember-power-select-test-support-${name}` }));
+
+      return fn(...args);
+    };
+  }
+
+  let findContains = deprecateHelper(_helpers.findContains, 'findContains');
+  let nativeMouseDown = deprecateHelper(_helpers.nativeMouseDown, 'nativeMouseDown');
+  let nativeMouseUp = deprecateHelper(_helpers.nativeMouseUp, 'nativeMouseUp');
+  let triggerKeydown = deprecateHelper(_helpers.triggerKeydown, 'triggerKeydown');
+  let typeInSearch = deprecateHelper(_helpers.typeInSearch, 'typeInSearch');
+  let clickTrigger = deprecateHelper(_helpers.clickTrigger, 'clickTrigger');
+  let nativeTouch = deprecateHelper(_helpers.nativeTouch, 'nativeTouch');
+  let touchTrigger = deprecateHelper(_helpers.touchTrigger, 'touchTrigger');
+  let selectChoose = deprecateHelper(_helpers.selectChoose, 'selectChoose');
+
+  function deprecatedRegisterHelpers() {
+    (true && !(false) && Ember.deprecate("DEPRECATED `import registerPowerSelectHelpers from '../../tests/helpers/ember-power-select';` is deprecated. Please, replace it with `import registerPowerSelectHelpers from 'ember-power-select/test-support/helpers';`", false, { until: '1.11.0', id: 'ember-power-select-test-support-register-helpers' }));
+
+    return (0, _helpers.default)();
+  }
+
+  exports.findContains = findContains;
+  exports.nativeMouseDown = nativeMouseDown;
+  exports.nativeMouseUp = nativeMouseUp;
+  exports.triggerKeydown = triggerKeydown;
+  exports.typeInSearch = typeInSearch;
+  exports.clickTrigger = clickTrigger;
+  exports.nativeTouch = nativeTouch;
+  exports.touchTrigger = touchTrigger;
+  exports.selectChoose = selectChoose;
 });
 define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) {
   'use strict';
@@ -2135,9 +2080,9 @@ define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) 
   exports.assertTooltipSide = assertTooltipSide;
   exports.assertTooltipSpacing = assertTooltipSpacing;
   exports.assertTooltipContent = assertTooltipContent;
+  const $ = Ember.$,
+        run = Ember.run;
 
-
-  const { $, run } = Ember;
 
   const tooltipOrPopoverSelector = '.ember-tooltip, .ember-popover';
   const tooltipOrPopoverTargetSelector = '.ember-tooltip-or-popover-target';
@@ -2172,8 +2117,12 @@ define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) 
   */
 
   function getPositionDifferences(options = {}) {
-    const { targetPosition, tooltipPosition } = getTooltipAndTargetPosition(options);
-    const { side } = options;
+    var _getTooltipAndTargetP = getTooltipAndTargetPosition(options);
+
+    const targetPosition = _getTooltipAndTargetP.targetPosition,
+          tooltipPosition = _getTooltipAndTargetP.tooltipPosition;
+    const side = options.side;
+
 
     const distanceToTarget = targetPosition[side];
     const distanceToTooltip = tooltipPosition[getOppositeSide(side)];
@@ -2338,11 +2287,16 @@ define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) 
   }
 
   function assertTooltipSide(assert, options = {}) {
-    const { side } = options;
+    const side = options.side;
+
 
     validateSide(side);
 
-    const { expectedGreaterDistance, expectedLesserDistance } = getPositionDifferences(options);
+    var _getPositionDifferenc = getPositionDifferences(options);
+
+    const expectedGreaterDistance = _getPositionDifferenc.expectedGreaterDistance,
+          expectedLesserDistance = _getPositionDifferenc.expectedLesserDistance;
+
 
     /* When the side is top or left, the greater number
     is the target's position. Thus, we check that the
@@ -2353,7 +2307,9 @@ define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) 
   }
 
   function assertTooltipSpacing(assert, options) {
-    const { side, spacing } = options;
+    const side = options.side,
+          spacing = options.spacing;
+
 
     validateSide(side, 'assertTooltipSpacing');
 
@@ -2361,7 +2317,11 @@ define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) 
       Ember.assert(`You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`);
     }
 
-    const { expectedGreaterDistance, expectedLesserDistance } = getPositionDifferences(options);
+    var _getPositionDifferenc2 = getPositionDifferences(options);
+
+    const expectedGreaterDistance = _getPositionDifferenc2.expectedGreaterDistance,
+          expectedLesserDistance = _getPositionDifferenc2.expectedLesserDistance;
+
     const actualSpacing = Math.round(expectedGreaterDistance - expectedLesserDistance);
 
     /* When the side is top or left, the greater number
@@ -2378,7 +2338,8 @@ define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) 
   }
 
   function assertTooltipContent(assert, options = {}) {
-    const { contentString } = options;
+    const contentString = options.contentString;
+
 
     if (Ember.isNone(contentString)) {
       Ember.assert('You must specify a contentString property in the options parameter');
@@ -2393,7 +2354,8 @@ define('mdeditor/tests/helpers/ember-tooltips', ['exports'], function (exports) 
 define('mdeditor/tests/helpers/flash-message', ['ember-cli-flash/flash/object'], function (_object) {
   'use strict';
 
-  const { K } = Ember;
+  const K = Ember.K;
+
 
   _object.default.reopen({ init: K });
 });
@@ -2462,7 +2424,8 @@ define('mdeditor/tests/helpers/modal-asserts', ['exports', 'qunit'], function (e
   });
   exports.default = registerAssertHelpers;
   function registerAssertHelpers() {
-    const { assert } = _qunit.default;
+    const assert = _qunit.default.assert;
+
     const overlaySelector = '.md-modal-overlay';
     const dialogSelector = '.ember-modal-dialog';
 
@@ -2525,7 +2488,7 @@ define('mdeditor/tests/helpers/module-for-acceptance', ['exports', 'qunit', 'mde
     });
   };
 
-  const { RSVP: { resolve } } = Ember;
+  const resolve = Ember.RSVP.resolve;
 });
 define('mdeditor/tests/helpers/resolver', ['exports', 'mdeditor/resolver', 'mdeditor/config/environment'], function (exports, _resolver, _environment) {
   'use strict';
@@ -3809,12 +3772,10 @@ define('mdeditor/tests/integration/pods/components/control/md-record-table/compo
 define('mdeditor/tests/integration/pods/components/control/md-repo-link/component-test', ['ember-qunit', 'mdeditor/config/environment'], function (_emberQunit, _environment) {
   'use strict';
 
-  const {
-    APP: {
-      repository,
-      version
-    }
-  } = _environment.default;
+  var _config$APP = _environment.default.APP;
+  const repository = _config$APP.repository,
+        version = _config$APP.version;
+
 
   (0, _emberQunit.moduleForComponent)('control/md-repo-link', 'Integration | Component | control/md repo link', {
     integration: true
@@ -10346,7 +10307,8 @@ define('mdeditor/tests/unit/serializers/application-test', ['ember-data', 'ember
   (0, _emberQunit.test)('it serializes records', function (assert) {
     assert.expect(2);
 
-    const { getOwner } = Ember;
+    const getOwner = Ember.getOwner;
+
     let serializer = this.subject();
     let store = getOwner(this).lookup('service:store');
     let record;

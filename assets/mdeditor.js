@@ -24,20 +24,17 @@ define('mdeditor/app', ['exports', 'mdeditor/resolver', 'ember-load-initializers
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const LinkComponent = Ember.LinkComponent,
+        Route = Ember.Route,
+        Component = Ember.Component,
+        Application = Ember.Application,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        defineProperty = Ember.defineProperty,
+        computed = Ember.computed,
+        isNone = Ember.isNone,
+        assert = Ember.assert;
 
-
-  const {
-    LinkComponent,
-    Route,
-    Component,
-    Application,
-    get,
-    getWithDefault,
-    defineProperty,
-    computed,
-    isNone,
-    assert
-  } = Ember;
 
   let App;
 
@@ -2265,14 +2262,7 @@ define('mdeditor/helpers/app-version', ['exports', 'mdeditor/config/environment'
     value: true
   });
   exports.appVersion = appVersion;
-
-
-  const {
-    APP: {
-      version
-    }
-  } = _environment.default;
-
+  const version = _environment.default.APP.version;
   function appVersion(_, hash = {}) {
     if (hash.hideSha) {
       return version.match(_regexp.versionRegExp)[0];
@@ -2380,7 +2370,7 @@ define('mdeditor/helpers/cancel-all', ['exports', 'ember-concurrency/-helpers'],
       Ember.assert(`The first argument passed to the \`cancel-all\` helper should be a Task or TaskGroup (without quotes); you passed ${cancelable}`, false);
     }
 
-    return (0, _helpers.taskHelperClosure)('cancelAll', [cancelable, CANCEL_REASON]);
+    return (0, _helpers.taskHelperClosure)('cancel-all', 'cancelAll', [cancelable, CANCEL_REASON]);
   }
 
   exports.default = Ember.Helper.helper(cancelHelper);
@@ -2855,13 +2845,8 @@ define("mdeditor/helpers/get-dash", ["exports"], function (exports) {
     value: true
   });
   exports.getDash = getDash;
-
-
-  const {
-    Helper,
-    get
-  } = Ember;
-
+  const Helper = Ember.Helper,
+        get = Ember.get;
   function getDash(params /*, hash*/) {
     let obj = params[0];
     let prop = params[1].trim();
@@ -2881,14 +2866,9 @@ define("mdeditor/helpers/get-property", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Helper,
-    get,
-    String: EmberString
-  } = Ember;
-
+  const Helper = Ember.Helper,
+        get = Ember.get,
+        EmberString = Ember.String;
   exports.default = Helper.helper(function (params) {
     let obj = params[0];
     let prop = params[1].trim();
@@ -3463,12 +3443,7 @@ define('mdeditor/helpers/md-markdown', ['exports', 'npm:marked'], function (expo
     value: true
   });
   exports.mdMarkdown = mdMarkdown;
-
-
-  const {
-    String: EmString
-  } = Ember;
-
+  const EmString = Ember.String;
   function mdMarkdown(params /*, hash*/) {
     _npmMarked.default.setOptions({
       renderer: new _npmMarked.default.Renderer(),
@@ -3497,11 +3472,7 @@ define('mdeditor/helpers/mod', ['exports'], function (exports) {
     value: true
   });
   exports.mod = mod;
-
-  const {
-    Helper
-  } = Ember;
-
+  const Helper = Ember.Helper;
   function mod(params) {
     return params.reduce((a, b) => Number(a) % Number(b));
   }
@@ -3804,7 +3775,7 @@ define('mdeditor/helpers/perform', ['exports', 'ember-concurrency/-helpers'], fu
   });
   exports.performHelper = performHelper;
   function performHelper(args, hash) {
-    return (0, _helpers.taskHelperClosure)('perform', args, hash);
+    return (0, _helpers.taskHelperClosure)('perform', 'perform', args, hash);
   }
 
   exports.default = Ember.Helper.helper(performHelper);
@@ -4455,12 +4426,11 @@ define('mdeditor/initializers/app-version', ['exports', 'ember-cli-app-version/i
   });
 
 
-  const {
-    APP: {
-      name,
-      version
-    }
-  } = _environment.default;
+  let name, version;
+  if (_environment.default.APP) {
+    name = _environment.default.APP.name;
+    version = _environment.default.APP.version;
+  }
 
   exports.default = {
     name: 'App Version',
@@ -4621,9 +4591,8 @@ define('mdeditor/initializers/flash-messages', ['exports', 'mdeditor/config/envi
     value: true
   });
   exports.initialize = initialize;
+  const deprecate = Ember.deprecate;
 
-
-  const { deprecate } = Ember;
   const merge = Ember.assign || Ember.merge;
   const INJECTION_FACTORIES_DEPRECATION_MESSAGE = '[ember-cli-flash] Future versions of ember-cli-flash will no longer inject the service automatically. Instead, you should explicitly inject it into your Route, Controller or Component with `Ember.inject.service`.';
   const addonDefaults = {
@@ -4640,8 +4609,15 @@ define('mdeditor/initializers/flash-messages', ['exports', 'mdeditor/config/envi
 
   function initialize() {
     const application = arguments[1] || arguments[0];
-    const { flashMessageDefaults } = _environment.default || {};
-    const { injectionFactories } = flashMessageDefaults || [];
+
+    var _ref = _environment.default || {};
+
+    const flashMessageDefaults = _ref.flashMessageDefaults;
+
+    var _ref2 = flashMessageDefaults || [];
+
+    const injectionFactories = _ref2.injectionFactories;
+
     const options = merge(addonDefaults, flashMessageDefaults);
     const shouldShowDeprecation = !(injectionFactories && injectionFactories.length);
 
@@ -4670,9 +4646,8 @@ define('mdeditor/initializers/hide-loading-screen', ['exports', 'mdeditor/instan
     value: true
   });
   exports.initialize = initialize;
+  const VERSION = Ember.VERSION;
 
-
-  const { VERSION } = Ember;
 
   const EMBER_VERSION_REGEX = /^([0-9]+)\.([0-9]+)\.([0-9]+)(?:(?:\-(alpha|beta)\.([0-9]+)(?:\.([0-9]+))?)?)?(?:\+(canary))?(?:\.([0-9abcdef]+))?(?:\-([A-Za-z0-9\.\-]+))?(?:\+([A-Za-z0-9\.\-]+))?$/;
 
@@ -4696,7 +4671,11 @@ define('mdeditor/initializers/hide-loading-screen', ['exports', 'mdeditor/instan
 
   function initialize() {
     if (isPre111) {
-      let [registry, application] = arguments;
+      var _arguments = Array.prototype.slice.call(arguments);
+
+      let registry = _arguments[0],
+          application = _arguments[1];
+
       _hideLoadingScreen.default.initialize(registry, application);
     }
   }
@@ -4802,11 +4781,8 @@ define('mdeditor/initializers/local-storage-export', ['exports', 'ember-data', '
     value: true
   });
   exports.initialize = initialize;
+  const run = Ember.run;
 
-
-  const {
-    run
-  } = Ember;
   const assign = Ember.assign || Ember.merge;
   const exportSelected = function exportSelected(store, types, options) {
     // merge defaults
@@ -4891,8 +4867,9 @@ define('mdeditor/initializers/resize', ['exports', 'ember-resize/services/resize
   function initialize() {
     let application = arguments[1] || arguments[0];
 
-    const { resizeServiceDefaults } = _environment.default;
-    const { injectionFactories } = resizeServiceDefaults;
+    const resizeServiceDefaults = _environment.default.resizeServiceDefaults;
+    const injectionFactories = resizeServiceDefaults.injectionFactories;
+
 
     application.register('config:resize-service', resizeServiceDefaults, { instantiate: false });
     application.register('service:resize', _resize.default);
@@ -4998,7 +4975,9 @@ define('mdeditor/initializers/viewport-config', ['exports', 'mdeditor/config/env
 
   function initialize() {
     const application = arguments[1] || arguments[0];
-    const { viewportConfig = {} } = _environment.default;
+    var _config$viewportConfi = _environment.default.viewportConfig;
+    const viewportConfig = _config$viewportConfi === undefined ? {} : _config$viewportConfi;
+
     const mergedConfig = assign({}, defaultConfig, viewportConfig);
 
     application.register('config:in-viewport', mergedConfig, { instantiate: false });
@@ -5090,12 +5069,11 @@ define('mdeditor/instance-initializers/route-publish', ['exports'], function (ex
     value: true
   });
   exports.initialize = initialize;
-  var Router = Ember.Router;
   function initialize(appInstance) {
     let catalogs = appInstance.lookup('service:publish').get('catalogs');
 
     // appInstance.inject('route', 'foo', 'service:foo');
-    Router.map(function () {
+    Ember.Router.map(function () {
       this.route('publish', function () {
         catalogs.forEach(itm => {
           this.route(itm.route);
@@ -5247,13 +5225,14 @@ define('mdeditor/mixins/hash-poll', ['exports'], function (exports) {
   });
   const pollInterval = exports.pollInterval = 750; // time in milliseconds
 
-  const {
-    Mixin,
-    //computed,
-    inject,
-    on
-  } = Ember;
+  /**
+   * @module mdeditor
+   * @submodule mixins
+   */
 
+  const Mixin = Ember.Mixin,
+        inject = Ember.inject,
+        on = Ember.on;
   exports.default = Mixin.create({
     settings: inject.service(),
 
@@ -5374,17 +5353,12 @@ define('mdeditor/mixins/object-template', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Mixin,
-    isArray,
-    getOwner,
-    A,
-    merge,
-    run
-  } = Ember;
-
+  const Mixin = Ember.Mixin,
+        isArray = Ember.isArray,
+        getOwner = Ember.getOwner,
+        A = Ember.A,
+        merge = Ember.merge,
+        run = Ember.run;
   exports.default = Mixin.create({
     /**
      * Use this mixin to apply 'templates' to an array of objects. Especially useful
@@ -5490,14 +5464,9 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject,
-    set,
-    computed
-  } = Ember;
-
+  const inject = Ember.inject,
+        set = Ember.set,
+        computed = Ember.computed;
   exports.default = _emberData.default.Model.extend({
     init() {
       this._super(...arguments);
@@ -5673,14 +5642,11 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
     value: true
   });
   exports.JsonDefault = exports.default = undefined;
+  const Copyable = Ember.Copyable,
+        computed = Ember.computed,
+        isEmpty = Ember.isEmpty,
+        get = Ember.get;
 
-
-  const {
-    Copyable,
-    computed,
-    isEmpty,
-    get
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'json.contactId': (0, _emberCpValidations.validator)('presence', {
@@ -5897,9 +5863,8 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
     defaultOrganization: computed('json.memberOfOrganization.[]', function () {
       const json = this.get('json');
 
-      let {
-        memberOfOrganization
-      } = json;
+      let memberOfOrganization = json.memberOfOrganization;
+
 
       return !isEmpty(memberOfOrganization) ? memberOfOrganization[0] : null;
     }),
@@ -5924,12 +5889,11 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
     combinedName: computed('name', 'json.isOrganization', 'json.positionName', 'json.memberOfOrganization[]', function () {
       const json = this.get('json');
 
-      let {
-        name,
-        positionName,
-        isOrganization,
-        memberOfOrganization
-      } = json;
+      let name = json.name,
+          positionName = json.positionName,
+          isOrganization = json.isOrganization,
+          memberOfOrganization = json.memberOfOrganization;
+
 
       let orgId = !isEmpty(memberOfOrganization) ? memberOfOrganization[0] : null;
       let combinedName = name || positionName;
@@ -6010,11 +5974,10 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
     copy() {
       let current = this.get('cleanJson');
       let json = Ember.Object.create(current);
-      let {
-        name,
-        positionName,
-        isOrganization
-      } = current;
+      let name = current.name,
+          positionName = current.positionName,
+          isOrganization = current.isOrganization;
+
 
       json.setProperties({
         isOrganization: isOrganization,
@@ -6072,16 +6035,10 @@ define('mdeditor/models/dictionary', ['exports', 'ember-data', 'npm:uuid/v4', 'm
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var alias = Ember.computed.alias;
+  const Copyable = Ember.Copyable,
+        computed = Ember.computed,
+        EmObject = Ember.Object;
 
-
-  const {
-    Copyable,
-    computed,
-    //isEmpty,
-    //get,
-    Object: EmObject
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'json.dataDictionary.citation.title': (0, _emberCpValidations.validator)('presence', {
@@ -6131,8 +6088,8 @@ define('mdeditor/models/dictionary', ['exports', 'ember-data', 'npm:uuid/v4', 'm
       }
     }),
 
-    title: alias('json.dataDictionary.citation.title'),
-    dictionaryId: alias('json.dictionaryId'),
+    title: Ember.computed.alias('json.dataDictionary.citation.title'),
+    dictionaryId: Ember.computed.alias('json.dictionaryId'),
 
     icon: 'book',
 
@@ -6185,9 +6142,13 @@ define('mdeditor/models/obj-hash', ['exports'], function (exports) {
     value: true
   });
   exports.default = Ember.Object.extend({
-    content: {},
     contentLength: 0,
     length: Ember.computed.alias('contentLength'),
+
+    init: function init() {
+      this._super();
+      this.content = {};
+    },
 
     add: function add(obj) {
       var id = this.generateId();
@@ -6227,12 +6188,9 @@ define('mdeditor/models/record', ['exports', 'ember-data', 'npm:uuid/v4', 'mdedi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Copyable = Ember.Copyable,
+        computed = Ember.computed;
 
-
-  const {
-    Copyable,
-    computed
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'recordId': (0, _emberCpValidations.validator)('presence', {
@@ -6436,19 +6394,10 @@ define('mdeditor/models/setting', ['exports', 'ember-data'], function (exports, 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var EmberObject = Ember.Object;
-
-
-  const {
-    //inject,
-    run,
-    computed,
-    observer,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const run = Ember.run,
+        computed = Ember.computed,
+        observer = Ember.observer,
+        service = Ember.inject.service;
   exports.default = _emberData.default.Model.extend({
     settings: service(),
 
@@ -6493,7 +6442,7 @@ define('mdeditor/models/setting', ['exports', 'ember-data'], function (exports, 
     repositoryDefaults: _emberData.default.attr('json'),
     publishOptions: _emberData.default.attr('json', {
       defaultValue: function defaultValue() {
-        return EmberObject.create();
+        return Ember.Object.create();
       }
     }),
     locale: computed.alias('defaultLocale'),
@@ -6516,14 +6465,7 @@ define('mdeditor/pods/components/bs-datetimepicker/component', ['exports', 'embe
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    run: {
-      once
-    }
-  } = Ember;
-
+  const once = Ember.run.once;
   exports.default = _bsDatetimepicker.default.extend({
     didReceiveAttrs() {
       // let arg=arguments;
@@ -6677,16 +6619,11 @@ define('mdeditor/pods/components/control/md-contact-link/component', ['exports']
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    computed,
-    inject,
-    LinkComponent,
-    get,
-    set
-  } = Ember;
-
+  const computed = Ember.computed,
+        inject = Ember.inject,
+        LinkComponent = Ember.LinkComponent,
+        get = Ember.get,
+        set = Ember.set;
   exports.default = LinkComponent.extend({
     /**
      * mdEditor Component that accepts a contact identifier and returns the
@@ -6757,14 +6694,9 @@ define('mdeditor/pods/components/control/md-contact-title/component', ['exports'
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    computed,
-    inject
-  } = Ember;
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        inject = Ember.inject;
   exports.default = Component.extend({
     tagName: '',
 
@@ -6911,12 +6843,7 @@ define('mdeditor/pods/components/control/md-errors/component', ['exports'], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component
-  } = Ember;
-
+  const Component = Ember.Component;
   exports.default = Component.extend({
     classNames: ['md-error-list']
   });
@@ -6935,12 +6862,7 @@ define('mdeditor/pods/components/control/md-fiscalyear/component', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    computed
-  } = Ember;
-
+  const computed = Ember.computed;
   exports.default = _component.default.extend({
     layout: _template.default,
     objectArray: computed(function () {
@@ -6980,10 +6902,8 @@ define('mdeditor/pods/components/control/md-json-button/component', ['exports'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var inject = Ember.inject.service;
-  exports.default = Component.extend({
-    slider: inject(),
+  exports.default = Ember.Component.extend({
+    slider: Ember.inject.service(),
 
     tagName: 'button',
     classNames: ['btn'],
@@ -7043,13 +6963,8 @@ define('mdeditor/pods/components/control/md-json-viewer/component', ['exports'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    typeOf
-  } = Ember;
-
+  const Component = Ember.Component,
+        typeOf = Ember.typeOf;
   exports.default = Component.extend({
     classNames: 'md-json-viewer',
     /**
@@ -7237,16 +7152,8 @@ define('mdeditor/pods/components/control/md-record-table/buttons/component', ['e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-
-
-  const {
-    inject: {
-      service
-    }
-  } = Ember;
-
-  exports.default = Component.extend({
+  const service = Ember.inject.service;
+  exports.default = Ember.Component.extend({
     router: service(),
     classNames: ['md-dashboard-buttons'],
 
@@ -7296,17 +7203,10 @@ define('mdeditor/pods/components/control/md-record-table/buttons/filter/componen
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    computed,
-    inject,
-    run: {
-      once
-    }
-  } = Ember;
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        inject = Ember.inject,
+        once = Ember.run.once;
   exports.default = Component.extend({
     flashMessages: inject.service(),
     showButton: computed('selectedItems.[]', function () {
@@ -7367,14 +7267,9 @@ define('mdeditor/pods/components/control/md-record-table/component', ['exports',
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var isArray = Ember.isArray;
-
-  const {
-    get,
-    computed,
-    A
-  } = Ember;
-
+  const get = Ember.get,
+        computed = Ember.computed,
+        A = Ember.A;
   exports.default = _component.default.extend({
     /**
      * @module mdeditor
@@ -7506,7 +7401,7 @@ define('mdeditor/pods/components/control/md-record-table/component', ['exports',
         return this.get('data').filterBy(prop).toArray();
       },
       set(k, v) {
-        if (!isArray(v)) {
+        if (!Ember.isArray(v)) {
           (true && Ember.warn('`selectedItems` must be an array.', false, {
             id: '#emt-selectedItems-array'
           }));
@@ -7571,15 +7466,9 @@ define('mdeditor/pods/components/control/md-repo-link/component', ['exports', 'm
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    APP: {
-      repository,
-      version
-    }
-  } = _environment.default;
-
+  var _config$APP = _environment.default.APP;
+  const repository = _config$APP.repository,
+        version = _config$APP.version;
   exports.default = Ember.Component.extend({
     tagName: 'a',
     attributeBindings: ['href', 'target'],
@@ -7651,16 +7540,11 @@ define('mdeditor/pods/components/control/md-scroll-spy/component', ['exports'], 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var service = Ember.inject.service;
-
-  const {
-    Component,
-    computed,
-    $,
-    A,
-    get
-  } = Ember;
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        $ = Ember.$,
+        A = Ember.A,
+        get = Ember.get;
   exports.default = Component.extend({
     /**
      * mdEditor Component that enables scrollspy
@@ -7671,7 +7555,7 @@ define('mdeditor/pods/components/control/md-scroll-spy/component', ['exports'], 
      * @constructor
      */
 
-    profile: service('profile'),
+    profile: Ember.inject.service('profile'),
     classNames: ['md-scroll-spy'],
 
     /**
@@ -7837,12 +7721,7 @@ define('mdeditor/pods/components/control/md-select-table/component', ['exports',
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    get
-  } = Ember;
-
+  const get = Ember.get;
   exports.default = _component.default.extend({
     /**
      * @module mdeditor
@@ -7961,14 +7840,7 @@ define('mdeditor/pods/components/control/md-spotlight/component', ['exports', 'e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const service = Ember.inject.service;
   exports.default = _modalDialog.default.extend({
     /**
      * Component that highlights a DOM element
@@ -8043,13 +7915,9 @@ define('mdeditor/pods/components/control/md-status/component', ['exports'], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    Component,
-    get,
-    inject
-  } = Ember;
-
+  const Component = Ember.Component,
+        get = Ember.get,
+        inject = Ember.inject;
   exports.default = Component.extend({
     slider: inject.service(),
     tagName: 'span',
@@ -8164,15 +8032,8 @@ define('mdeditor/pods/components/control/subbar-link/component', ['exports'], fu
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    computed: {
-      or
-    }
-  } = Ember;
-
+  const Component = Ember.Component,
+        or = Ember.computed.or;
   exports.default = Component.extend({
     /**
      * mdEditor Component that renders a button used to navigate to a parent route
@@ -8750,18 +8611,12 @@ define('mdeditor/pods/components/input/md-date-range/component', ['exports', 'em
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        get = Ember.get,
+        set = Ember.set,
+        once = Ember.run.once;
 
-
-  const {
-    Component,
-    computed,
-    get,
-    set,
-    run: {
-      once
-    }
-  } = Ember;
-  //import moment from 'moment';
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'start': [(0, _emberCpValidations.validator)('presence', {
@@ -8865,21 +8720,14 @@ define('mdeditor/pods/components/input/md-datetime/component', ['exports', 'mome
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    defineProperty,
-    computed,
-    isBlank,
-    set,
-    get,
-    run: {
-      once
-    },
-    assert
-  } = Ember;
-
+  const Component = Ember.Component,
+        defineProperty = Ember.defineProperty,
+        computed = Ember.computed,
+        isBlank = Ember.isBlank,
+        set = Ember.set,
+        get = Ember.get,
+        once = Ember.run.once,
+        assert = Ember.assert;
   exports.default = Component.extend({
 
     /**
@@ -9094,16 +8942,11 @@ define('mdeditor/pods/components/input/md-input/component', ['exports'], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    defineProperty,
-    computed,
-    isBlank,
-    assert
-  } = Ember;
-
+  const Component = Ember.Component,
+        defineProperty = Ember.defineProperty,
+        computed = Ember.computed,
+        isBlank = Ember.isBlank,
+        assert = Ember.assert;
   exports.default = Component.extend({
     /**
      * Input, edit, display a single item
@@ -9448,17 +9291,12 @@ define('mdeditor/pods/components/input/md-markdown-area/component', ['exports'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    computed,
-    get,
-    set,
-    isNone,
-    run
-  } = Ember;
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        get = Ember.get,
+        set = Ember.set,
+        isNone = Ember.isNone,
+        run = Ember.run;
   exports.default = Component.extend({
     /**
      * Component for markdown enabled text-area.
@@ -9634,13 +9472,8 @@ define('mdeditor/pods/components/input/md-select-contact/component', ['exports',
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject,
-    computed
-  } = Ember;
-
+  const inject = Ember.inject,
+        computed = Ember.computed;
   exports.default = _component.default.extend({
     /**
      * Specialized select list control for displaying and selecting
@@ -9740,13 +9573,8 @@ define('mdeditor/pods/components/input/md-select-contacts/component', ['exports'
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject,
-    computed
-  } = Ember;
-
+  const inject = Ember.inject,
+        computed = Ember.computed;
   exports.default = _component.default.extend({
     /**
      * Specialized select list control for displaying and selecting
@@ -9927,18 +9755,13 @@ define('mdeditor/pods/components/input/md-select/component', ['exports', 'ember-
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    defineProperty,
-    get,
-    computed,
-    isNone,
-    isBlank,
-    assert
-  } = Ember;
-
+  const Component = Ember.Component,
+        defineProperty = Ember.defineProperty,
+        get = Ember.get,
+        computed = Ember.computed,
+        isNone = Ember.isNone,
+        isBlank = Ember.isBlank,
+        assert = Ember.assert;
   exports.default = Component.extend({
     /**
      * A select list control for displaying and selecting options
@@ -10526,18 +10349,11 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    computed,
-    get,
-    inject: {
-      service
-    },
-    $
-  } = Ember;
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        get = Ember.get,
+        service = Ember.inject.service,
+        $ = Ember.$;
   exports.default = Component.extend({
     /**
      * Component that renders a Bootstrap card.
@@ -10780,13 +10596,8 @@ define('mdeditor/pods/components/layout/md-footer/component', ['exports'], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    inject
-  } = Ember;
-
+  const Component = Ember.Component,
+        inject = Ember.inject;
   exports.default = Component.extend({
     tagName: 'footer',
     classNames: ['footer'],
@@ -11030,21 +10841,18 @@ define('mdeditor/pods/components/layout/md-slider/component', ['exports'], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var computed = Ember.computed;
-  var $ = Ember.$;
-  exports.default = Component.extend({
+  exports.default = Ember.Component.extend({
     classNames: ['md-slider'],
     classNameBindings: ['visible:in'],
     visible: false,
 
     didReceiveAttrs() {
-      $('body').toggleClass('slider', this.get('visible') === true);
+      Ember.$('body').toggleClass('slider', this.get('visible') === true);
     },
 
     fromName: null,
 
-    name: computed('fromName', function () {
+    name: Ember.computed('fromName', function () {
       return this.get('fromName') || 'md-slider-content';
     }),
 
@@ -11079,12 +10887,7 @@ define('mdeditor/pods/components/layout/md-wrap/component', ['exports'], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component
-  } = Ember;
-
+  const Component = Ember.Component;
   exports.default = Component.extend({
     /**
      * Component used as a wrapper, data-spy enabled.
@@ -11147,12 +10950,10 @@ define('mdeditor/pods/components/md-models-table/components/check-all/component'
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var get = Ember.get;
-  exports.default = Component.extend({
+  exports.default = Ember.Component.extend({
     actions: {
       toggleAllSelection() {
-        get(this, 'toggleAllSelection')();
+        Ember.get(this, 'toggleAllSelection')();
       }
     }
   });
@@ -11171,12 +10972,10 @@ define('mdeditor/pods/components/md-models-table/components/check/component', ['
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var get = Ember.get;
-  exports.default = Component.extend({
+  exports.default = Ember.Component.extend({
     actions: {
       clickOnRow(index, record, event) {
-        get(this, 'clickOnRow')(index, record);
+        Ember.get(this, 'clickOnRow')(index, record);
         event.stopPropagation();
       }
     }
@@ -11237,18 +11036,12 @@ define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    Component,
-    computed,
-    get,
-    inject,
-    set,
-    $
-  } = Ember;
-
-  //const _contacts = [];
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        get = Ember.get,
+        inject = Ember.inject,
+        set = Ember.set,
+        $ = Ember.$;
   exports.default = Component.extend({
     classNames: ['row'],
 
@@ -11451,13 +11244,8 @@ define('mdeditor/pods/components/object/md-address/component', ['exports'], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    A
-  } = Ember;
-
+  const Component = Ember.Component,
+        A = Ember.A;
   exports.default = Component.extend({
     /**
      * mdEditor class for input and edit of mdJSON 'address' object
@@ -11542,20 +11330,13 @@ define('mdeditor/pods/components/object/md-allocation/component', ['exports', 'e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        alias = Ember.computed.alias,
+        get = Ember.get,
+        once = Ember.run.once,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
 
-
-  const {
-    Component,
-    computed: {
-      alias
-    },
-    get,
-    run: {
-      once
-    },
-    getWithDefault,
-    set
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'amount': [(0, _emberCpValidations.validator)('presence', {
@@ -11617,19 +11398,14 @@ define('mdeditor/pods/components/object/md-array-table/component', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    computed,
-    Component,
-    A,
-    getOwner,
-    isArray,
-    run,
-    typeOf,
-    get
-  } = Ember;
-
+  const computed = Ember.computed,
+        Component = Ember.Component,
+        A = Ember.A,
+        getOwner = Ember.getOwner,
+        isArray = Ember.isArray,
+        run = Ember.run,
+        typeOf = Ember.typeOf,
+        get = Ember.get;
   exports.default = Component.extend(_objectTemplate.default, {
     /**
      * mdEditor class for input and edit of arrays of objects. The
@@ -11875,21 +11651,14 @@ define('mdeditor/pods/components/object/md-associated/component', ['exports', 'e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once,
+        service = Ember.inject.service;
 
-
-  const {
-    Component,
-    computed,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    },
-    inject: {
-      service
-    }
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'associationType': [(0, _emberCpValidations.validator)('presence', {
@@ -11990,17 +11759,10 @@ define('mdeditor/pods/components/object/md-associated/preview/component', ['expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    get,
-    computed,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const Component = Ember.Component,
+        get = Ember.get,
+        computed = Ember.computed,
+        service = Ember.inject.service;
   exports.default = Component.extend({
     store: service(),
     classNameBindings: ['muted:text-muted'],
@@ -12058,14 +11820,6 @@ define('mdeditor/pods/components/object/md-attribute/component', ['exports', 'em
     value: true
   });
   exports.default = exports.Template = exports.Validations = undefined;
-  var Component = Ember.Component;
-  var EmberObject = Ember.Object;
-  var set = Ember.set;
-  var getWithDefault = Ember.getWithDefault;
-  var get = Ember.get;
-  var computed = Ember.computed;
-  var alias = Ember.computed.alias;
-  var once = Ember.run.once;
 
 
   const Validations = (0, _emberCpValidations.buildValidations)({
@@ -12087,30 +11841,30 @@ define('mdeditor/pods/components/object/md-attribute/component', ['exports', 'em
     })]
   });
 
-  const TemplateClass = EmberObject.extend(Validations, {
+  const TemplateClass = Ember.Object.extend(Validations, {
     init() {
       this._super(...arguments);
 
-      set(this, 'allowNull', true);
-      set(this, 'attributeReference', {});
-      set(this, 'alias', []);
-      set(this, 'valueRange', []);
-      set(this, 'timePeriod', []);
+      Ember.set(this, 'allowNull', true);
+      Ember.set(this, 'attributeReference', {});
+      Ember.set(this, 'alias', []);
+      Ember.set(this, 'valueRange', []);
+      Ember.set(this, 'timePeriod', []);
     }
   });
 
-  const theComp = Component.extend(Validations, {
+  const theComp = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
 
-      let model = get(this, 'model');
+      let model = Ember.get(this, 'model');
 
-      once(this, function () {
-        set(model, 'allowNull', getWithDefault(model, 'allowNull', false));
-        set(model, 'reference', getWithDefault(model, 'reference', {}));
-        set(model, 'alias', getWithDefault(model, 'alias', []));
-        set(model, 'valueRange', getWithDefault(model, 'valueRange', []));
-        set(model, 'timePeriod', getWithDefault(model, 'timePeriod', []));
+      Ember.run.once(this, function () {
+        Ember.set(model, 'allowNull', Ember.getWithDefault(model, 'allowNull', false));
+        Ember.set(model, 'reference', Ember.getWithDefault(model, 'reference', {}));
+        Ember.set(model, 'alias', Ember.getWithDefault(model, 'alias', []));
+        Ember.set(model, 'valueRange', Ember.getWithDefault(model, 'valueRange', []));
+        Ember.set(model, 'timePeriod', Ember.getWithDefault(model, 'timePeriod', []));
       });
     },
 
@@ -12132,27 +11886,27 @@ define('mdeditor/pods/components/object/md-attribute/component', ['exports', 'em
      */
 
     tagName: 'form',
-    codeName: alias('model.codeName'),
-    dataType: alias('model.dataType'),
-    definition: alias('model.definition'),
-    allowNull: alias('model.allowNull'),
-    domains: alias('dictionary.domain'),
+    codeName: Ember.computed.alias('model.codeName'),
+    dataType: Ember.computed.alias('model.dataType'),
+    definition: Ember.computed.alias('model.definition'),
+    allowNull: Ember.computed.alias('model.allowNull'),
+    domains: Ember.computed.alias('dictionary.domain'),
 
-    domainList: computed('domains.@each.domainId', 'domains.@each.codeName', function () {
-      let domains = get(this, 'domains') || [];
+    domainList: Ember.computed('domains.@each.domainId', 'domains.@each.codeName', function () {
+      let domains = Ember.get(this, 'domains') || [];
 
       return domains.map(domain => {
-        if (get(domain, 'domainId')) {
+        if (Ember.get(domain, 'domainId')) {
           return {
-            codeId: get(domain, 'domainId'),
-            codeName: get(domain, 'codeName'),
-            tooltip: get(domain, 'description')
+            codeId: Ember.get(domain, 'domainId'),
+            codeName: Ember.get(domain, 'codeName'),
+            tooltip: Ember.get(domain, 'description')
           };
         }
       });
     }),
 
-    rangeTemplate: EmberObject.extend((0, _emberCpValidations.buildValidations)({
+    rangeTemplate: Ember.Object.extend((0, _emberCpValidations.buildValidations)({
       'minRangeValue': [(0, _emberCpValidations.validator)('presence', {
         presence: true,
         ignoreBlank: true
@@ -12178,15 +11932,13 @@ define('mdeditor/pods/components/object/md-attribute/preview/component', ['expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var alias = Ember.computed.alias;
-  exports.default = Component.extend(_component.Validations, {
+  exports.default = Ember.Component.extend(_component.Validations, {
     tagName: '',
-    model: alias('item'),
-    name: alias('model.codeName'),
-    dataType: alias('model.dataType'),
-    definition: alias('model.definition'),
-    allowNull: alias('model.allowNull')
+    model: Ember.computed.alias('item'),
+    name: Ember.computed.alias('model.codeName'),
+    dataType: Ember.computed.alias('model.dataType'),
+    definition: Ember.computed.alias('model.definition'),
+    allowNull: Ember.computed.alias('model.allowNull')
   });
 });
 define("mdeditor/pods/components/object/md-attribute/preview/template", ["exports"], function (exports) {
@@ -12211,14 +11963,11 @@ define('mdeditor/pods/components/object/md-bbox/component', ['exports', 'ember-c
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component;
+  var _Ember$computed = Ember.computed;
+  const alias = _Ember$computed.alias,
+        readOnly = _Ember$computed.readOnly;
 
-
-  const {
-    Component,
-    computed: {
-      alias, readOnly
-    }
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'north': [(0, _emberCpValidations.validator)('number', {
@@ -12275,13 +12024,8 @@ define('mdeditor/pods/components/object/md-citation-array/component', ['exports'
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    A,
-    Component
-  } = Ember;
-
+  const A = Ember.A,
+        Component = Ember.Component;
   exports.default = Component.extend({
 
     init() {
@@ -12365,16 +12109,11 @@ define('mdeditor/pods/components/object/md-citation/component', ['exports'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once;
 
-
-  const {
-    Component,
-    set,
-    getWithDefault,
-    run: {
-      once
-    }
-  } = Ember;
 
   const formatCitation = function formatCitation(model) {
     set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
@@ -12534,22 +12273,15 @@ define('mdeditor/pods/components/object/md-constraint/component', ['exports', 'e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component;
+  var _Ember$computed = Ember.computed;
+  const alias = _Ember$computed.alias,
+        equal = _Ember$computed.equal,
+        get = Ember.get,
+        once = Ember.run.once,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
 
-
-  const {
-    Component,
-    computed: {
-      alias,
-      equal //,
-      //not
-    },
-    get,
-    run: {
-      once
-    },
-    getWithDefault,
-    set
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'classification': [(0, _emberCpValidations.validator)('presence', {
@@ -12633,16 +12365,11 @@ define('mdeditor/pods/components/object/md-date-array/component', ['exports'], f
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    Object: EmObject,
-    get,
-    set,
-    isNone
-  } = Ember;
-
+  const Component = Ember.Component,
+        EmObject = Ember.Object,
+        get = Ember.get,
+        set = Ember.set,
+        isNone = Ember.isNone;
   exports.default = Component.extend({
     init() {
       this._super(...arguments);
@@ -12683,12 +12410,9 @@ define('mdeditor/pods/components/object/md-date/component', ['exports', 'ember-c
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const computed = Ember.computed,
+        Component = Ember.Component;
 
-
-  const {
-    computed,
-    Component
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     date: (0, _emberCpValidations.validator)('presence', {
@@ -12730,19 +12454,12 @@ define('mdeditor/pods/components/object/md-distribution/component', ['exports'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    get,
-    run: {
-      once
-    },
-    getWithDefault,
-    set,
-    NativeArray
-  } = Ember;
-
+  const Component = Ember.Component,
+        get = Ember.get,
+        once = Ember.run.once,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set,
+        NativeArray = Ember.NativeArray;
   exports.default = Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
@@ -12788,19 +12505,14 @@ define('mdeditor/pods/components/object/md-distributor/component', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once,
+        NativeArray = Ember.NativeArray;
 
-
-  const {
-    Component,
-    computed,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    },
-    NativeArray
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'role': [(0, _emberCpValidations.validator)('presence', {
@@ -12896,19 +12608,14 @@ define('mdeditor/pods/components/object/md-documentation/component', ['exports',
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once,
+        NativeArray = Ember.NativeArray;
 
-
-  const {
-    Component,
-    computed,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    },
-    NativeArray
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'resourceType': [(0, _emberCpValidations.validator)('array-required', {
@@ -12957,12 +12664,7 @@ define('mdeditor/pods/components/object/md-documentation/preview/component', ['e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component
-  } = Ember;
-
+  const Component = Ember.Component;
   exports.default = Component.extend({
     classNameBindings: ['muted:text-muted'],
 
@@ -12998,12 +12700,6 @@ define('mdeditor/pods/components/object/md-domain/component', ['exports', 'ember
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var set = Ember.set;
-  var getWithDefault = Ember.getWithDefault;
-  var get = Ember.get;
-  var alias = Ember.computed.alias;
-  var once = Ember.run.once;
 
 
   const Validations = (0, _emberCpValidations.buildValidations)({
@@ -13021,16 +12717,16 @@ define('mdeditor/pods/components/object/md-domain/component', ['exports', 'ember
     })]
   });
 
-  exports.default = Component.extend(Validations, {
+  exports.default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
 
-      let model = get(this, 'model');
+      let model = Ember.get(this, 'model');
 
-      once(this, function () {
-        set(model, 'domainId', getWithDefault(model, 'domainId', (0, _v.default)()));
-        set(model, 'domainItem', getWithDefault(model, 'domainItem', []));
-        set(model, 'domainReference', getWithDefault(model, 'domainReference', {}));
+      Ember.run.once(this, function () {
+        Ember.set(model, 'domainId', Ember.getWithDefault(model, 'domainId', (0, _v.default)()));
+        Ember.set(model, 'domainItem', Ember.getWithDefault(model, 'domainItem', []));
+        Ember.set(model, 'domainReference', Ember.getWithDefault(model, 'domainReference', {}));
       });
     },
 
@@ -13052,9 +12748,9 @@ define('mdeditor/pods/components/object/md-domain/component', ['exports', 'ember
      */
 
     tagName: 'form',
-    domainId: alias('model.domainId'),
-    codeName: alias('model.codeName'),
-    description: alias('model.description')
+    domainId: Ember.computed.alias('model.domainId'),
+    codeName: Ember.computed.alias('model.codeName'),
+    description: Ember.computed.alias('model.description')
   });
 });
 define("mdeditor/pods/components/object/md-domain/template", ["exports"], function (exports) {
@@ -13072,13 +12768,6 @@ define('mdeditor/pods/components/object/md-domainitem/component', ['exports', 'e
     value: true
   });
   exports.default = exports.Template = exports.Validations = undefined;
-  var Component = Ember.Component;
-  var EmberObject = Ember.Object;
-  var set = Ember.set;
-  var getWithDefault = Ember.getWithDefault;
-  var get = Ember.get;
-  var alias = Ember.computed.alias;
-  var once = Ember.run.once;
 
 
   const Validations = (0, _emberCpValidations.buildValidations)({
@@ -13096,22 +12785,22 @@ define('mdeditor/pods/components/object/md-domainitem/component', ['exports', 'e
     })]
   });
 
-  const TemplateClass = EmberObject.extend(Validations, {
+  const TemplateClass = Ember.Object.extend(Validations, {
     init() {
       this._super(...arguments);
 
-      set(this, 'reference', {});
+      Ember.set(this, 'reference', {});
     }
   });
 
-  const theComp = Component.extend(Validations, {
+  const theComp = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
 
-      let model = get(this, 'model');
+      let model = Ember.get(this, 'model');
 
-      once(this, function () {
-        set(model, 'reference', getWithDefault(model, 'reference', {}));
+      Ember.run.once(this, function () {
+        Ember.set(model, 'reference', Ember.getWithDefault(model, 'reference', {}));
       });
     },
 
@@ -13133,9 +12822,9 @@ define('mdeditor/pods/components/object/md-domainitem/component', ['exports', 'e
      */
 
     tagName: 'form',
-    name: alias('model.name'),
-    value: alias('model.value'),
-    definition: alias('model.definition')
+    name: Ember.computed.alias('model.name'),
+    value: Ember.computed.alias('model.value'),
+    definition: Ember.computed.alias('model.definition')
   });
 
   exports.Validations = Validations;
@@ -13148,14 +12837,12 @@ define('mdeditor/pods/components/object/md-domainitem/preview/component', ['expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var alias = Ember.computed.alias;
-  exports.default = Component.extend(_component.Validations, {
+  exports.default = Ember.Component.extend(_component.Validations, {
     tagName: '',
-    model: alias('item'),
-    name: alias('model.name'),
-    value: alias('model.value'),
-    definition: alias('model.definition')
+    model: Ember.computed.alias('item'),
+    name: Ember.computed.alias('model.name'),
+    value: Ember.computed.alias('model.value'),
+    definition: Ember.computed.alias('model.definition')
   });
 });
 define("mdeditor/pods/components/object/md-domainitem/preview/template", ["exports"], function (exports) {
@@ -13180,15 +12867,6 @@ define('mdeditor/pods/components/object/md-entity/component', ['exports', 'mdedi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  var NativeArray = Ember.Array;
-  var EmberObject = Ember.Object;
-  var set = Ember.set;
-  var computed = Ember.computed;
-  var getWithDefault = Ember.getWithDefault;
-  var get = Ember.get;
-  var alias = Ember.computed.alias;
-  var once = Ember.run.once;
 
 
   const Validations = (0, _emberCpValidations.buildValidations)({
@@ -13202,25 +12880,25 @@ define('mdeditor/pods/components/object/md-entity/component', ['exports', 'mdedi
     })]
   });
 
-  exports.default = Component.extend(Validations, {
+  exports.default = Ember.Component.extend(Validations, {
     init() {
       this._super(...arguments);
-      (true && !(get(this, 'dictionary')) && Ember.assert(`You must supply a dictionary for ${this.toString()}.`, get(this, 'dictionary')));
+      (true && !(Ember.get(this, 'dictionary')) && Ember.assert(`You must supply a dictionary for ${this.toString()}.`, Ember.get(this, 'dictionary')));
     },
 
     didReceiveAttrs() {
       this._super(...arguments);
 
-      let model = get(this, 'model');
+      let model = Ember.get(this, 'model');
 
-      once(this, function () {
-        set(model, 'entityId', getWithDefault(model, 'entityId', (0, _v.default)()));
-        set(model, 'alias', getWithDefault(model, 'alias', []));
-        set(model, 'primaryKeyAttributeCodeName', getWithDefault(model, 'primaryKeyAttributeCodeName', []));
-        set(model, 'index', getWithDefault(model, 'index', []));
-        set(model, 'attribute', getWithDefault(model, 'attribute', []));
-        set(model, 'foreignKey', getWithDefault(model, 'foreignKey', []));
-        set(model, 'entityReference', getWithDefault(model, 'entityReference', []));
+      Ember.run.once(this, function () {
+        Ember.set(model, 'entityId', Ember.getWithDefault(model, 'entityId', (0, _v.default)()));
+        Ember.set(model, 'alias', Ember.getWithDefault(model, 'alias', []));
+        Ember.set(model, 'primaryKeyAttributeCodeName', Ember.getWithDefault(model, 'primaryKeyAttributeCodeName', []));
+        Ember.set(model, 'index', Ember.getWithDefault(model, 'index', []));
+        Ember.set(model, 'attribute', Ember.getWithDefault(model, 'attribute', []));
+        Ember.set(model, 'foreignKey', Ember.getWithDefault(model, 'foreignKey', []));
+        Ember.set(model, 'entityReference', Ember.getWithDefault(model, 'entityReference', []));
       });
     },
 
@@ -13251,7 +12929,7 @@ define('mdeditor/pods/components/object/md-entity/component', ['exports', 'mdedi
 
     tagName: 'form',
 
-    foreignKeyTemplate: EmberObject.extend((0, _emberCpValidations.buildValidations)({
+    foreignKeyTemplate: Ember.Object.extend((0, _emberCpValidations.buildValidations)({
       'referencedEntityCodeName': [(0, _emberCpValidations.validator)('presence', {
         presence: true,
         ignoreBlank: true
@@ -13276,7 +12954,7 @@ define('mdeditor/pods/components/object/md-entity/component', ['exports', 'mdedi
       }
     }),
 
-    indexTemplate: EmberObject.extend((0, _emberCpValidations.buildValidations)({
+    indexTemplate: Ember.Object.extend((0, _emberCpValidations.buildValidations)({
       'codeName': [(0, _emberCpValidations.validator)('presence', {
         presence: true,
         ignoreBlank: true
@@ -13301,32 +12979,32 @@ define('mdeditor/pods/components/object/md-entity/component', ['exports', 'mdedi
 
     attributeTemplate: _component.Template,
     //entityId: alias('model.entityId'),
-    codeName: alias('model.codeName'),
-    description: alias('model.description'),
-    entities: alias('dictionary.entity'),
-    attributes: alias('model.attribute'),
+    codeName: Ember.computed.alias('model.codeName'),
+    description: Ember.computed.alias('model.description'),
+    entities: Ember.computed.alias('dictionary.entity'),
+    attributes: Ember.computed.alias('model.attribute'),
 
-    attributeList: computed('attributes.@each.codeName', 'attributes.[]', function () {
-      let attr = get(this, 'model.attribute');
+    attributeList: Ember.computed('attributes.@each.codeName', 'attributes.[]', function () {
+      let attr = Ember.get(this, 'model.attribute');
       if (attr) {
         return attr.map(attr => {
           return {
-            codeId: get(attr, 'codeName'),
-            codeName: get(attr, 'codeName'),
-            tooltip: get(attr, 'definition')
+            codeId: Ember.get(attr, 'codeName'),
+            codeName: Ember.get(attr, 'codeName'),
+            tooltip: Ember.get(attr, 'definition')
           };
         });
       }
       return [];
     }),
 
-    entityList: computed('entities.@each.entityId', 'entities.@each.codeName', function () {
-      return get(this, 'entities').map(attr => {
-        if (get(attr, 'entityId')) {
+    entityList: Ember.computed('entities.@each.entityId', 'entities.@each.codeName', function () {
+      return Ember.get(this, 'entities').map(attr => {
+        if (Ember.get(attr, 'entityId')) {
           return {
-            codeId: get(attr, 'entityId'),
-            codeName: get(attr, 'codeName'),
-            tooltip: get(attr, 'definition')
+            codeId: Ember.get(attr, 'entityId'),
+            codeName: Ember.get(attr, 'codeName'),
+            tooltip: Ember.get(attr, 'definition')
           };
         }
       });
@@ -13334,14 +13012,14 @@ define('mdeditor/pods/components/object/md-entity/component', ['exports', 'mdedi
 
     actions: {
       getEntityAttributes(id) {
-        let entity = NativeArray.apply(this.get('dictionary.entity')).findBy('entityId', id);
+        let entity = Ember.Array.apply(this.get('dictionary.entity')).findBy('entityId', id);
 
         if (entity) {
-          let a = get(entity, 'attribute').map(attr => {
+          let a = Ember.get(entity, 'attribute').map(attr => {
             return {
-              codeId: get(attr, 'codeName'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
+              codeId: Ember.get(attr, 'codeName'),
+              codeName: Ember.get(attr, 'codeName'),
+              tooltip: Ember.get(attr, 'definition')
             };
           });
 
@@ -13367,21 +13045,14 @@ define('mdeditor/pods/components/object/md-funding/component', ['exports', 'embe
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        alias = Ember.computed.alias,
+        get = Ember.get,
+        once = Ember.run.once,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
 
-
-  const {
-    Component,
-    computed,
-    computed: {
-      alias
-    },
-    get,
-    run: {
-      once
-    },
-    getWithDefault,
-    set
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'allocation': [(0, _emberCpValidations.validator)('presence', {
@@ -13459,13 +13130,8 @@ define('mdeditor/pods/components/object/md-graphic-array/component', ['exports']
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    A
-  } = Ember;
-
+  const Component = Ember.Component,
+        A = Ember.A;
   exports.default = Component.extend({
     /**
      * mdEditor class for input and edit of mdJSON 'graphic' object arrays. The
@@ -13562,13 +13228,8 @@ define('mdeditor/pods/components/object/md-identifier-array/component', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    A,
-    Component
-  } = Ember;
-
+  const A = Ember.A,
+        Component = Ember.Component;
   exports.default = Component.extend({
 
     init() {
@@ -13719,18 +13380,11 @@ define('mdeditor/pods/components/object/md-identifier/component', ['exports', 'e
     value: true
   });
   exports.default = exports.Validations = undefined;
-  var once = Ember.run.once;
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault;
 
-  // import {
-  //   formatCitation
-  // } from '../md-citation/component';
-
-  const {
-    Component,
-    computed,
-    set,
-    getWithDefault
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'identifier': [(0, _emberCpValidations.validator)('presence', {
@@ -13745,7 +13399,7 @@ define('mdeditor/pods/components/object/md-identifier/component', ['exports', 'e
 
       let model = getWithDefault(this, 'model', {}) || {};
 
-      once(this, function () {
+      Ember.run.once(this, function () {
         set(model, 'authority', getWithDefault(model, 'authority', {}));
       });
     },
@@ -13795,13 +13449,10 @@ define('mdeditor/pods/components/object/md-keyword-citation/component', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const isArray = Ember.isArray,
+        computed = Ember.computed,
+        Component = Ember.Component;
 
-
-  const {
-    isArray,
-    computed,
-    Component
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'onlineResource': [(0, _emberCpValidations.validator)('format', {
@@ -13905,18 +13556,11 @@ define('mdeditor/pods/components/object/md-lineage/component', ['exports'], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    }
-  } = Ember;
-
+  const Component = Ember.Component,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once;
   exports.default = Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
@@ -13988,7 +13632,7 @@ define("mdeditor/pods/components/object/md-lineage/template", ["exports"], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "2gW4HipW", "block": "{\"symbols\":[\"source\",\"&default\"],\"statements\":[[1,[25,\"input/md-textarea\",null,[[\"value\",\"profilePath\",\"label\",\"placeholder\",\"data-spy\",\"required\"],[[20,[\"model\",\"statement\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".statement\"],null],\"Statement\",\"A general statement of the actions taken to verify, transform, repair, and integrate the resource.\",\"Statement\",true]]],false],[0,\"\\n\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"items\",\"hideIndex\",\"header\",\"buttonText\",\"ellipsis\",\"templateClass\",\"editItem\",\"attributes\",\"profilePath\",\"data-spy\"],[[20,[\"model\",\"processStep\"]],true,\"Process Step\",\"Add Step\",[20,[\"ellipsis\"]],[20,[\"stepTemplateClass\"]],[20,[\"editProcessStep\"]],\"stepId,description\",[25,\"concat\",[[20,[\"profilePath\"]],\".processStep\"],null],\"Process Step\"]]],false],[0,\"\\n\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"required\",\"title\",\"templateClass\",\"profilePath\",\"data-spy\"],[\"Description\",[20,[\"model\",\"source\"]],[20,[\"required\"]],\"Source\",[20,[\"sourceTemplate\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".source\"],null],[20,[\"Source\"]]]],{\"statements\":[[0,\"  \"],[6,\"td\"],[7],[0,\"\\n    \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"value\"]],\"A brief description about the source dataset used in creating the data.\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\\n\"],[1,[25,\"object/md-citation-array\",null,[[\"model\",\"profilePath\",\"data-spy\",\"editItem\",\"label\"],[[20,[\"model\",\"citation\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".citation\"],null],\"Lineage Citation\",[20,[\"editCitation\"]],\"Citation\"]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"label\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"closeOnSelect\",\"placeholder\",\"profilePath\",\"data-spy\"],[[20,[\"model\",\"scope\",\"scopeCode\"]],\"Scope\",true,true,true,\"scope\",false,\"Select type of resource.\",[25,\"concat\",[[20,[\"profilePath\"]],\".scope\"],null],\"Scope\"]]],false],[0,\"\\n\"],[11,2],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-lineage/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "pU1H8RvL", "block": "{\"symbols\":[\"source\",\"&default\"],\"statements\":[[1,[25,\"input/md-textarea\",null,[[\"value\",\"profilePath\",\"label\",\"placeholder\",\"data-spy\",\"required\"],[[20,[\"model\",\"statement\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".statement\"],null],\"Statement\",\"A general statement of the actions taken to verify, transform, repair, and integrate the resource.\",\"Statement\",true]]],false],[0,\"\\n\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"items\",\"hideIndex\",\"header\",\"buttonText\",\"ellipsis\",\"templateClass\",\"editItem\",\"attributes\",\"profilePath\",\"data-spy\"],[[20,[\"model\",\"processStep\"]],true,\"Process Step\",\"Add Step\",[20,[\"ellipsis\"]],[20,[\"stepTemplateClass\"]],[20,[\"editProcessStep\"]],\"stepId,description\",[25,\"concat\",[[20,[\"profilePath\"]],\".processStep\"],null],\"Process Step\"]]],false],[0,\"\\n\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"required\",\"title\",\"templateClass\",\"profilePath\",\"data-spy\"],[\"Description\",[20,[\"model\",\"source\"]],[20,[\"required\"]],\"Source\",[20,[\"sourceTemplate\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".source\"],null],[20,[\"Source\"]]]],{\"statements\":[[0,\"  \"],[6,\"td\"],[7],[0,\"\\n    \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"description\"]],\"A brief description about the source dataset used in creating the data.\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\\n\"],[1,[25,\"object/md-citation-array\",null,[[\"model\",\"profilePath\",\"data-spy\",\"editItem\",\"label\"],[[20,[\"model\",\"citation\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".citation\"],null],\"Lineage Citation\",[20,[\"editCitation\"]],\"Citation\"]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"label\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"closeOnSelect\",\"placeholder\",\"profilePath\",\"data-spy\"],[[20,[\"model\",\"scope\",\"scopeCode\"]],\"Scope\",true,true,true,\"scope\",false,\"Select type of resource.\",[25,\"concat\",[[20,[\"profilePath\"]],\".scope\"],null],\"Scope\"]]],false],[0,\"\\n\"],[11,2],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-lineage/template.hbs" } });
 });
 define('mdeditor/pods/components/object/md-locale-array/component', ['exports', 'mdeditor/pods/components/object/md-locale/component'], function (exports, _component) {
   'use strict';
@@ -13996,8 +13640,7 @@ define('mdeditor/pods/components/object/md-locale-array/component', ['exports', 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  exports.default = Component.extend({
+  exports.default = Ember.Component.extend({
     attributeBindings: ['data-spy'],
 
     /**
@@ -14024,20 +13667,15 @@ define('mdeditor/pods/components/object/md-locale/component', ['exports', 'mdedi
     value: true
   });
   exports.default = exports.Template = exports.Validations = undefined;
+  const Component = Ember.Component,
+        get = Ember.get,
+        set = Ember.set,
+        EmObject = Ember.Object,
+        computed = Ember.computed,
+        copy = Ember.copy,
+        isNone = Ember.isNone,
+        service = Ember.inject.service;
 
-
-  const {
-    Component,
-    get,
-    set,
-    Object: EmObject,
-    computed,
-    copy,
-    isNone,
-    inject: {
-      service
-    }
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'language': (0, _emberCpValidations.validator)('presence', {
@@ -14113,20 +13751,13 @@ define('mdeditor/pods/components/object/md-maintenance/component', ['exports'], 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    set,
-    get,
-    getWithDefault,
-    setProperties,
-    computed,
-    run: {
-      once
-    }
-  } = Ember;
-
+  const Component = Ember.Component,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        setProperties = Ember.setProperties,
+        computed = Ember.computed,
+        once = Ember.run.once;
   exports.default = Component.extend({
     /**
      * mdEditor class for input and edit of mdJSON 'maintenance' objects.
@@ -14206,21 +13837,12 @@ define('mdeditor/pods/components/object/md-medium/component', ['exports'], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    },
-    computed: {
-      alias
-    }
-  } = Ember;
-
+  const Component = Ember.Component,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once,
+        alias = Ember.computed.alias;
   exports.default = Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
@@ -14259,23 +13881,16 @@ define('mdeditor/pods/components/object/md-object-table/component', ['exports', 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    computed,
-    Component,
-    observer,
-    get,
-    isEmpty,
-    typeOf,
-    getOwner,
-    A,
-    $,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const computed = Ember.computed,
+        Component = Ember.Component,
+        observer = Ember.observer,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        typeOf = Ember.typeOf,
+        getOwner = Ember.getOwner,
+        A = Ember.A,
+        $ = Ember.$,
+        service = Ember.inject.service;
   exports.default = Component.extend(_emberInViewport.default, _objectTemplate.default, {
 
     /**
@@ -14667,15 +14282,10 @@ define('mdeditor/pods/components/object/md-objectroute-table/component', ['expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    typeOf,
-    getOwner,
-    isBlank,
-    assert
-  } = Ember;
-
+  const typeOf = Ember.typeOf,
+        getOwner = Ember.getOwner,
+        isBlank = Ember.isBlank,
+        assert = Ember.assert;
   exports.default = _component.default.extend({
     /**
      * The route used to edit items
@@ -14739,21 +14349,15 @@ define('mdeditor/pods/components/object/md-online-resource-array/component', ['e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var once = Ember.run.once;
-
-
-  const {
-    A,
-    computed
-  } = Ember;
-
+  const A = Ember.A,
+        computed = Ember.computed;
   exports.default = Ember.Component.extend({
 
     didReceiveAttrs() {
       this._super(...arguments);
 
       if (!this.get('model')) {
-        once(this, () => this.set('model', A()));
+        Ember.run.once(this, () => this.set('model', A()));
       }
     },
 
@@ -14870,19 +14474,13 @@ define('mdeditor/pods/components/object/md-online-resource/component', ['exports
     value: true
   });
   exports.default = exports.regex = exports.Validations = undefined;
-  var once = Ember.run.once;
+  const Component = Ember.Component,
+        getOwner = Ember.getOwner,
+        EmObject = Ember.Object,
+        set = Ember.set,
+        inject = Ember.inject,
+        get = Ember.get;
 
-
-  const {
-    Component,
-    getOwner,
-    Object: EmObject,
-    set,
-    inject,
-    // isArray,
-    // merge,
-    get
-  } = Ember;
 
   const regex = new RegExp("([A-Za-z][A-Za-z0-9+\\-.]*):(?:(//)(?:((?:[A-Za-z0-9\\-._~!$&'()*+,;=:]|%[0-9A-Fa-f]{2})*)@)?((?:\\[(?:(?:(?:(?:[0-9A-Fa-f]{1,4}:){6}|::(?:[0-9A-Fa-f]{1,4}:){5}|(?:[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,1}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){3}|(?:(?:[0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})?::(?:[0-9A-Fa-f]{1,4}:){2}|(?:(?:[0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}:|(?:(?:[0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})?::)(?:[0-9A-Fa-f]{1,4}:[0-9A-Fa-f]{1,4}|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))|(?:(?:[0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})?::[0-9A-Fa-f]{1,4}|(?:(?:[0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})?::)|[Vv][0-9A-Fa-f]+\\.[A-Za-z0-9\\-._~!$&'()*+,;=:]+)\\]|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:[A-Za-z0-9\\-._~!$&'()*+,;=]|%[0-9A-Fa-f]{2})*))(?::([0-9]*))?((?:/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)|/((?:(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)?)|((?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})+(?:/(?:[A-Za-z0-9\\-._~!$&'()*+,;=:@]|%[0-9A-Fa-f]{2})*)*)|)(?:\\?((?:[A-Za-z0-9\\-._~!$&'()*+,;=:@/?]|%[0-9A-Fa-f]{2})*))?(?:\\#((?:[A-Za-z0-9\\-._~!$&'()*+,;=:@/?]|%[0-9A-Fa-f]{2})*))?");
 
@@ -14901,7 +14499,7 @@ define('mdeditor/pods/components/object/md-online-resource/component', ['exports
     didReceiveAttrs() {
       this._super(...arguments);
 
-      once(this, () => {
+      Ember.run.once(this, () => {
         let plain = this.get('model');
 
         if (plain && !get(plain, 'validations')) {
@@ -14965,8 +14563,7 @@ define('mdeditor/pods/components/object/md-party-array/component', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Component = Ember.Component;
-  exports.default = Component.extend({
+  exports.default = Ember.Component.extend({
     attributeBindings: ['data-spy'],
 
     /**
@@ -14993,15 +14590,6 @@ define('mdeditor/pods/components/object/md-party/component', ['exports', 'ember-
     value: true
   });
   exports.default = exports.Template = exports.Validations = undefined;
-  var Component = Ember.Component;
-  var EmberObject = Ember.Object;
-  var A = Ember.A;
-  var once = Ember.run.once;
-  var alias = Ember.computed.alias;
-  var computed = Ember.computed;
-  var get = Ember.get;
-  var getWithDefault = Ember.getWithDefault;
-  var set = Ember.set;
 
 
   const Validations = (0, _emberCpValidations.buildValidations)({
@@ -15015,15 +14603,15 @@ define('mdeditor/pods/components/object/md-party/component', ['exports', 'ember-
     })
   });
 
-  const Template = EmberObject.extend(Validations, {
+  const Template = Ember.Object.extend(Validations, {
     init() {
       this._super(...arguments);
-      this.set('party', A());
+      this.set('party', Ember.A());
       this.set('role', null);
     },
-    contacts: computed('party', {
+    contacts: Ember.computed('party', {
       get() {
-        let party = get(this, 'party');
+        let party = Ember.get(this, 'party');
         return party.mapBy('contactId');
       },
       set(key, value) {
@@ -15032,16 +14620,16 @@ define('mdeditor/pods/components/object/md-party/component', ['exports', 'ember-
             contactId: itm
           };
         });
-        set(this, 'party', map);
+        Ember.set(this, 'party', map);
         return value;
       }
     })
   });
 
-  const theComp = Component.extend(Validations, {
-    contacts: computed('model', {
+  const theComp = Ember.Component.extend(Validations, {
+    contacts: Ember.computed('model', {
       get() {
-        let party = get(this, 'model.party');
+        let party = Ember.get(this, 'model.party');
         return party ? party.mapBy('contactId') : [];
       },
       set(key, value) {
@@ -15050,20 +14638,20 @@ define('mdeditor/pods/components/object/md-party/component', ['exports', 'ember-
             contactId: itm
           };
         });
-        set(this, 'model.party', map);
+        Ember.set(this, 'model.party', map);
         return value;
       }
     }),
 
-    role: alias('model.role'),
+    role: Ember.computed.alias('model.role'),
     didReceiveAttrs() {
       this._super(...arguments);
 
       let model = this.get('model');
 
-      once(this, function () {
-        set(model, 'party', getWithDefault(model, 'party', []));
-        set(model, 'role', getWithDefault(model, 'role', null));
+      Ember.run.once(this, function () {
+        Ember.set(model, 'party', Ember.getWithDefault(model, 'party', []));
+        Ember.set(model, 'role', Ember.getWithDefault(model, 'role', null));
       });
     },
 
@@ -15089,12 +14677,9 @@ define('mdeditor/pods/components/object/md-phone-array/component', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const EmObject = Ember.Object,
+        A = Ember.A;
 
-
-  const {
-    Object: EmObject,
-    A
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'phoneNumber': [(0, _emberCpValidations.validator)('presence', {
@@ -15150,18 +14735,11 @@ define('mdeditor/pods/components/object/md-process-step/component', ['exports'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    }
-  } = Ember;
-
+  const Component = Ember.Component,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once;
   exports.default = Component.extend({
     init() {
       this._super(...arguments);
@@ -15225,14 +14803,10 @@ define('mdeditor/pods/components/object/md-repository-array/component', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    Component,
-    get,
-    set,
-    inject
-  } = Ember;
-
+  const Component = Ember.Component,
+        get = Ember.get,
+        set = Ember.set,
+        inject = Ember.inject;
   exports.default = Component.extend({
     settings: inject.service(),
     repositoryTemplate: Ember.Object.extend({
@@ -15269,11 +14843,8 @@ define('mdeditor/pods/components/object/md-resource-type-array/component', ['exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const EmObject = Ember.Object;
 
-
-  const {
-    Object: EmObject
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'type': [(0, _emberCpValidations.validator)('presence', {
@@ -15324,13 +14895,8 @@ define('mdeditor/pods/components/object/md-simple-array-table/component', ['expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    computed,
-    observer
-  } = Ember;
-
+  const computed = Ember.computed,
+        observer = Ember.observer;
   exports.default = _component.default.extend({
     /**
      * mdEditor component for input and edit of arrays of scalars. The
@@ -15408,25 +14974,15 @@ define('mdeditor/pods/components/object/md-spatial-extent/component', ['exports'
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  /* global L */
-
-  const {
-    Component,
-    computed,
-    observer,
-    computed: {
-      alias,
-      or
-    },
-    setProperties,
-    isNone
-  } = Ember;
-
-  const {
-    isNaN: isNan
-  } = Number;
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        observer = Ember.observer;
+  var _Ember$computed = Ember.computed;
+  const alias = _Ember$computed.alias,
+        or = _Ember$computed.or,
+        setProperties = Ember.setProperties,
+        isNone = Ember.isNone;
+  const isNan = Number.isNaN;
   exports.default = Component.extend({
     isTrulyNone(val) {
       return isNone(val) || isNan(val);
@@ -15505,18 +15061,11 @@ define('mdeditor/pods/components/object/md-spatial-info/component', ['exports'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Component,
-    get,
-    run: {
-      once
-    },
-    getWithDefault,
-    set
-  } = Ember;
-
+  const Component = Ember.Component,
+        get = Ember.get,
+        once = Ember.run.once,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
   exports.default = Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
@@ -15563,22 +15112,17 @@ define('mdeditor/pods/components/object/md-spatial-resolution/component', ['expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        isEmpty = Ember.isEmpty;
+  var _Ember$computed = Ember.computed;
+  const alias = _Ember$computed.alias,
+        or = _Ember$computed.or,
+        get = Ember.get,
+        once = Ember.run.once,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
 
-
-  const {
-    Component,
-    computed,
-    isEmpty,
-    computed: {
-      alias, or
-    },
-    get,
-    run: {
-      once
-    },
-    getWithDefault,
-    set
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'scaleFactor': {
@@ -15694,21 +15238,14 @@ define('mdeditor/pods/components/object/md-srs/component', ['exports', 'ember-cp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        alias = Ember.computed.alias,
+        get = Ember.get,
+        once = Ember.run.once,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
 
-
-  const {
-    Component,
-    computed,
-    computed: {
-      alias
-    },
-    get,
-    run: {
-      once
-    },
-    getWithDefault,
-    set
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'refType': [(0, _emberCpValidations.validator)('presence', {
@@ -15769,18 +15306,13 @@ define('mdeditor/pods/components/object/md-time-period/component', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once;
 
-
-  const {
-    Component,
-    computed,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    }
-  } = Ember;
 
   const Validations = (0, _emberCpValidations.buildValidations)({
     'intervalAmount': [(0, _emberCpValidations.validator)('presence', {
@@ -15889,52 +15421,12 @@ define('mdeditor/pods/components/object/md-transfer/component', ['exports'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  // import {
-  //   validator,
-  //   buildValidations
-  // } from 'ember-cp-validations';
-
-  const {
-    Component,
-    computed,
-    set,
-    get,
-    getWithDefault,
-    run: {
-      once
-    }
-  } = Ember;
-
-  // const Validations = buildValidations({
-  //   // 'intervalAmount': [
-  //   //   validator('presence', {
-  //   //     presence: true,
-  //   //     //disabled: computed.notEmpty('model.endDateTime'),
-  //   //     ignoreBlank: true
-  //   //   })
-  //   // ],
-  //   // 'startDateTime': [
-  //   //   validator('presence', {
-  //   //     presence: true,
-  //   //     disabled: computed.notEmpty('model.endDateTime'),
-  //   //     ignoreBlank: true
-  //   //   })
-  //   // ],
-  //   // 'endDateTime': [
-  //   //   validator('date', {
-  //   //     onOrAfter: computed.alias('model.startDateTime'),
-  //   //     isWarning: true
-  //   //   }),
-  //   //   validator('presence', {
-  //   //     presence: true,
-  //   //     disabled: computed.notEmpty('model.startDateTime'),
-  //   //     ignoreBlank: true
-  //   //   })
-  //   // ]
-  // });
-
+  const Component = Ember.Component,
+        computed = Ember.computed,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        once = Ember.run.once;
   exports.default = Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
@@ -16053,12 +15545,7 @@ define('mdeditor/pods/contact/new/id/route', ['exports', 'ember-data'], function
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    AdapterError
-  } = _emberData.default;
-
+  const AdapterError = _emberData.default.AdapterError;
   exports.default = Ember.Route.extend({
     /**
      * The route model
@@ -16256,12 +15743,7 @@ define('mdeditor/pods/contact/show/edit/route', ['exports', 'mdeditor/mixins/has
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route
-  } = Ember;
-
+  const Route = Ember.Route;
   exports.default = Route.extend(_hashPoll.default, {
 
     renderTemplate() {
@@ -16285,15 +15767,10 @@ define('mdeditor/pods/contact/show/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject,
-    Route,
-    get,
-    copy
-  } = Ember;
-
+  const inject = Ember.inject,
+        Route = Ember.Route,
+        get = Ember.get,
+        copy = Ember.copy;
   exports.default = Route.extend({
     flashMessages: inject.service(),
 
@@ -16373,15 +15850,8 @@ define('mdeditor/pods/contacts/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const Route = Ember.Route,
+        service = Ember.inject.service;
   exports.default = Route.extend({
     slider: service(),
     model() {
@@ -16456,15 +15926,8 @@ define('mdeditor/pods/dictionaries/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const Route = Ember.Route,
+        service = Ember.inject.service;
   exports.default = Route.extend({
     slider: service(),
     model() {
@@ -16650,11 +16113,7 @@ define('mdeditor/pods/dictionary/show/edit/citation/identifier/route', ['exports
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var isEmpty = Ember.isEmpty;
-  var isArray = Ember.isArray;
-  var get = Ember.get;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     model(params) {
       this.set('identifierId', params.identifier_id);
 
@@ -16673,14 +16132,14 @@ define('mdeditor/pods/dictionary/show/edit/citation/identifier/route', ['exports
     },
 
     setupModel() {
-      let identifierId = get(this, 'identifierId');
+      let identifierId = Ember.get(this, 'identifierId');
       let model = this.modelFor('dictionary.show.edit.citation');
       let identifiers = model.get('json.dataDictionary.citation.identifier');
-      let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+      let identifier = identifierId && Ember.isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
       //make sure the identifier exists
-      if (isEmpty(identifier)) {
-        get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
+      if (Ember.isEmpty(identifier)) {
+        Ember.get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
         this.replaceWith('dictionary.show.edit.citation.index');
 
         return;
@@ -16704,8 +16163,7 @@ define('mdeditor/pods/dictionary/show/edit/citation/index/route', ['exports', 'm
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     actions: {
       editIdentifier(index) {
         this.transitionTo('dictionary.show.edit.citation.identifier', index).then(function () {
@@ -16745,10 +16203,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/identifier/route
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var isEmpty = Ember.isEmpty;
-  var get = Ember.get;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     beforeModel(transition) {
       this.set('domainId', transition.params['dictionary.show.edit.domain.edit'].domain_id);
     },
@@ -16770,16 +16225,16 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/identifier/route
     },
 
     setupModel() {
-      let identifierId = get(this, 'identifierId');
+      let identifierId = Ember.get(this, 'identifierId');
       //let model = this.modelFor('dictionary.show.edit.citation.index');
       //let identifiers = model.get('json.dataDictionary.citation.identifier');
       let model = this.modelFor('dictionary.show.edit');
-      let identifier = model.get('json.dataDictionary.domain.' + get(this, 'domainId') + '.domainReference.identifier.' + identifierId);
+      let identifier = model.get('json.dataDictionary.domain.' + Ember.get(this, 'domainId') + '.domainReference.identifier.' + identifierId);
       //let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
       //make sure the identifier exists
-      if (isEmpty(identifier)) {
-        get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
+      if (Ember.isEmpty(identifier)) {
+        Ember.get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
         this.replaceWith('dictionary.show.edit.domain.edit.citation.index');
 
         return;
@@ -16803,11 +16258,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/index/route', ['
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var isEmpty = Ember.isEmpty;
-  var get = Ember.get;
-  var set = Ember.set;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     breadCrumb: {
       title: 'Reference'
     },
@@ -16815,8 +16266,8 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/index/route', ['
     afterModel(model) {
       let domainId = this.paramsFor('dictionary.show.edit.domain.edit').domain_id;
 
-      if (isEmpty(get(model, 'domainReference'))) {
-        set(model, 'domainReference', {});
+      if (Ember.isEmpty(Ember.get(model, 'domainReference'))) {
+        Ember.set(model, 'domainReference', {});
       }
 
       this.set('domainId', domainId);
@@ -16855,8 +16306,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/citation/route', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     breadCrumb: {
       title: 'Reference'
     }
@@ -16876,9 +16326,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/index/route', ['exports',
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     beforeModel(transition) {
       this.set('domainId', transition.params['dictionary.show.edit.domain.edit'].domain_id);
     },
@@ -16890,7 +16338,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/index/route', ['exports',
       let parent = this.controllerFor('dictionary.show.edit.domain.edit');
 
       this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
-      this.controller.set('domainId', get(parent, 'domainId'));
+      this.controller.set('domainId', Ember.get(parent, 'domainId'));
 
       this.controllerFor('dictionary.show.edit').setProperties({
         onCancel: parent.get('setupModel'),
@@ -16926,12 +16374,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/item/route', ['exports', 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  var computed = Ember.computed;
-  var isArray = Ember.isArray;
-  var isEmpty = Ember.isEmpty;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     beforeModel(transition) {
       this.set('domainId', transition.params['dictionary.show.edit.domain.edit'].domain_id);
     },
@@ -16941,9 +16384,9 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/item/route', ['exports', 
       return this.setupModel();
     },
 
-    breadCrumb: computed('itemId', function () {
+    breadCrumb: Ember.computed('itemId', function () {
       return {
-        title: 'Item ' + get(this, 'itemId')
+        title: 'Item ' + Ember.get(this, 'itemId')
       };
     }),
 
@@ -16954,8 +16397,8 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/item/route', ['exports', 
       //let parent = this.controllerFor('dictionary.show.edit.domain.edit.index');
 
       this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
-      this.controller.set('domainId', get(this, 'domainId'));
-      this.controller.set('itemId', get(this, 'itemId'));
+      this.controller.set('domainId', Ember.get(this, 'domainId'));
+      this.controller.set('itemId', Ember.get(this, 'itemId'));
       this.controllerFor('dictionary.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
@@ -16963,14 +16406,14 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/item/route', ['exports', 
     },
 
     setupModel() {
-      let itemId = get(this, 'itemId');
+      let itemId = Ember.get(this, 'itemId');
       let model = this.modelFor('dictionary.show.edit');
-      let objects = model.get('json.dataDictionary.domain.' + get(this, 'domainId') + '.domainItem');
-      let resource = itemId && isArray(objects) ? objects.objectAt(itemId) : undefined;
+      let objects = model.get('json.dataDictionary.domain.' + Ember.get(this, 'domainId') + '.domainItem');
+      let resource = itemId && Ember.isArray(objects) ? objects.objectAt(itemId) : undefined;
 
       //make sure the domain item exists
-      if (isEmpty(resource)) {
-        get(this, 'flashMessages').warning('No Domain Item found! Re-directing to list...');
+      if (Ember.isEmpty(resource)) {
+        Ember.get(this, 'flashMessages').warning('No Domain Item found! Re-directing to list...');
         this.replaceWith('dictionary.show.edit.domain');
 
         return;
@@ -17000,21 +16443,16 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/route', ['exports'], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  var computed = Ember.computed;
-  var isArray = Ember.isArray;
-  var isEmpty = Ember.isEmpty;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     model(params) {
       this.set('domainId', params.domain_id);
 
       return this.setupModel();
     },
 
-    breadCrumb: computed('domainId', function () {
+    breadCrumb: Ember.computed('domainId', function () {
       return {
-        title: get(this, 'domainId')
+        title: Ember.get(this, 'domainId')
       };
     }),
 
@@ -17022,8 +16460,8 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/route', ['exports'], func
       // Call _super for default behavior
       this._super(...arguments);
 
-      this.controller.set('setupModel', get(this, 'setupModel'));
-      this.controller.set('domainId', get(this, 'domainId'));
+      this.controller.set('setupModel', Ember.get(this, 'setupModel'));
+      this.controller.set('domainId', Ember.get(this, 'domainId'));
       this.controllerFor('dictionary.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
@@ -17031,14 +16469,14 @@ define('mdeditor/pods/dictionary/show/edit/domain/edit/route', ['exports'], func
     },
 
     setupModel() {
-      let domainId = get(this, 'domainId');
+      let domainId = Ember.get(this, 'domainId');
       let model = this.modelFor('dictionary.show.edit');
       let objects = model.get('json.dataDictionary.domain');
-      let resource = domainId && isArray(objects) ? objects.objectAt(domainId) : undefined;
+      let resource = domainId && Ember.isArray(objects) ? objects.objectAt(domainId) : undefined;
 
       //make sure the domain exists
-      if (isEmpty(resource)) {
-        get(this, 'flashMessages').warning('No Domain object found! Re-directing to list...');
+      if (Ember.isEmpty(resource)) {
+        Ember.get(this, 'flashMessages').warning('No Domain object found! Re-directing to list...');
         this.replaceWith('dictionary.show.edit.domain');
 
         return;
@@ -17062,16 +16500,12 @@ define('mdeditor/pods/dictionary/show/edit/domain/index/route', ['exports'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var getWithDefault = Ember.getWithDefault;
-  var get = Ember.get;
-  var set = Ember.set;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     afterModel(m) {
       this._super(...arguments);
 
-      let model = get(m, 'json.dataDictionary');
-      set(model, 'domain', getWithDefault(model, 'domain', []));
+      let model = Ember.get(m, 'json.dataDictionary');
+      Ember.set(model, 'domain', Ember.getWithDefault(model, 'domain', []));
     },
 
     setupController: function setupController() {
@@ -17102,8 +16536,7 @@ define('mdeditor/pods/dictionary/show/edit/domain/route', ['exports'], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     breadCrumb: {
       title: 'Domains'
     }
@@ -17123,9 +16556,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/attribute/index/route', [
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     beforeModel(transition) {
       this.set('entityId', transition.params['dictionary.show.edit.entity.edit'].entity_id);
       this.set('attributeId', transition.params['dictionary.show.edit.entity.edit.attribute'].attribute_id);
@@ -17138,10 +16569,10 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/attribute/index/route', [
       let parent = this.controllerFor('dictionary.show.edit.entity.edit.attribute');
 
       this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
-      this.controller.set('entityId', get(this, 'entityId'));
-      this.controller.set('attributeId', get(this, 'attributeId'));
+      this.controller.set('entityId', Ember.get(this, 'entityId'));
+      this.controller.set('attributeId', Ember.get(this, 'attributeId'));
       this.controllerFor('dictionary.show.edit').setProperties({
-        onCancel: get(parent, 'setupModel'),
+        onCancel: Ember.get(parent, 'setupModel'),
         cancelScope: this
       });
     },
@@ -17172,11 +16603,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/attribute/route', ['expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  var isArray = Ember.isArray;
-  var isEmpty = Ember.isEmpty;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     beforeModel(transition) {
       this.set('entityId', transition.params['dictionary.show.edit.entity.edit'].entity_id);
     },
@@ -17197,18 +16624,18 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/attribute/route', ['expor
     setupController(controller, model) {
       this._super(controller, model);
 
-      this.controller.set('setupModel', get(this, 'setupModel'));
+      this.controller.set('setupModel', Ember.get(this, 'setupModel'));
     },
 
     setupModel() {
-      let attributeId = get(this, 'attributeId');
+      let attributeId = Ember.get(this, 'attributeId');
       let model = this.modelFor('dictionary.show.edit');
-      let objects = model.get('json.dataDictionary.entity.' + get(this, 'entityId') + '.attribute');
-      let resource = attributeId && isArray(objects) ? objects.objectAt(attributeId) : undefined;
+      let objects = model.get('json.dataDictionary.entity.' + Ember.get(this, 'entityId') + '.attribute');
+      let resource = attributeId && Ember.isArray(objects) ? objects.objectAt(attributeId) : undefined;
 
       //make sure the entity item exists
-      if (isEmpty(resource)) {
-        get(this, 'flashMessages').warning('No Attribute found! Re-directing to Entity...');
+      if (Ember.isEmpty(resource)) {
+        Ember.get(this, 'flashMessages').warning('No Attribute found! Re-directing to Entity...');
         this.replaceWith('dictionary.show.edit.entity.edit');
 
         return;
@@ -17224,7 +16651,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/attribute/route', ['expor
       editIdentifier(index) {
         let model = this.get('currentRouteModel')();
 
-        this.transitionTo('dictionary.show.edit.entity.edit.attribute.identifier', get(model, 'attributeReference.identifier.' + index)).then(function () {
+        this.transitionTo('dictionary.show.edit.entity.edit.attribute.identifier', Ember.get(model, 'attributeReference.identifier.' + index)).then(function () {
           this.setScrollTo('identifier');
         }.bind(this));
       }
@@ -17245,11 +16672,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/citation/identifier/route
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var isEmpty = Ember.isEmpty;
-  var isArray = Ember.isArray;
-  var get = Ember.get;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     beforeModel(transition) {
       this.set('entityId', transition.params['dictionary.show.edit.entity.edit'].entity_id);
       this.set('citationId', transition.params['dictionary.show.edit.entity.edit.citation'].citation_id);
@@ -17272,16 +16695,16 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/citation/identifier/route
     },
 
     setupModel() {
-      let identifierId = get(this, 'identifierId');
+      let identifierId = Ember.get(this, 'identifierId');
       //let model = this.modelFor('dictionary.show.edit.citation.index');
       //let identifiers = model.get('json.dataDictionary.citation.identifier');
       let model = this.modelFor('dictionary.show.edit');
-      let identifiers = model.get('json.dataDictionary.entity.' + get(this, 'entityId') + '.entityReference.' + get(this, 'citationId') + '.identifier');
-      let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+      let identifiers = model.get('json.dataDictionary.entity.' + Ember.get(this, 'entityId') + '.entityReference.' + Ember.get(this, 'citationId') + '.identifier');
+      let identifier = identifierId && Ember.isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
       //make sure the identifier exists
-      if (isEmpty(identifier)) {
-        get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
+      if (Ember.isEmpty(identifier)) {
+        Ember.get(this, 'flashMessages').warning('No identifier found! Re-directing to citation...');
         this.replaceWith('dictionary.show.edit.entity.edit.citation.index');
 
         return;
@@ -17311,8 +16734,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/citation/index/route', ['
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     actions: {
       editIdentifier(index) {
         this.transitionTo('dictionary.show.edit.entity.edit.citation.identifier', index).then(function () {
@@ -17339,11 +16761,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/citation/route', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  var isArray = Ember.isArray;
-  var isEmpty = Ember.isEmpty;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     breadCrumb: {
       title: 'Reference'
     },
@@ -17370,14 +16788,14 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/citation/route', ['export
     },
 
     setupModel() {
-      let citationId = get(this, 'citationId');
+      let citationId = Ember.get(this, 'citationId');
       let model = this.modelFor('dictionary.show.edit');
-      let citations = model.get('json.dataDictionary.entity.' + get(this, 'entityId') + '.entityReference');
-      let citation = citationId && isArray(citations) ? citations.get(citationId) : undefined;
+      let citations = model.get('json.dataDictionary.entity.' + Ember.get(this, 'entityId') + '.entityReference');
+      let citation = citationId && Ember.isArray(citations) ? citations.get(citationId) : undefined;
 
       //make sure the citation exists
-      if (isEmpty(citation)) {
-        get(this, 'flashMessages').warning('No Entity Reference found! Re-directing...');
+      if (Ember.isEmpty(citation)) {
+        Ember.get(this, 'flashMessages').warning('No Entity Reference found! Re-directing...');
         this.replaceWith('dictionary.show.edit.entity.edit');
 
         return;
@@ -17406,9 +16824,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/index/route', ['exports',
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  exports.default = Route.extend(_scrollTo.default, {
+  exports.default = Ember.Route.extend(_scrollTo.default, {
     beforeModel(transition) {
       this.set('entityId', transition.params['dictionary.show.edit.entity.edit'].entity_id);
     },
@@ -17420,7 +16836,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/index/route', ['exports',
       let parent = this.controllerFor('dictionary.show.edit.entity.edit');
 
       this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
-      this.controller.set('entityId', get(parent, 'entityId'));
+      this.controller.set('entityId', Ember.get(parent, 'entityId'));
 
       this.controllerFor('dictionary.show.edit').setProperties({
         onCancel: parent.get('setupModel'),
@@ -17456,21 +16872,16 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/route', ['exports'], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var get = Ember.get;
-  var computed = Ember.computed;
-  var isArray = Ember.isArray;
-  var isEmpty = Ember.isEmpty;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     model(params) {
       this.set('entityId', params.entity_id);
 
       return this.setupModel();
     },
 
-    breadCrumb: computed('entityId', function () {
+    breadCrumb: Ember.computed('entityId', function () {
       return {
-        title: get(this, 'entityId')
+        title: Ember.get(this, 'entityId')
       };
     }),
 
@@ -17478,8 +16889,8 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/route', ['exports'], func
       // Call _super for default behavior
       this._super(...arguments);
 
-      this.controller.set('setupModel', get(this, 'setupModel'));
-      this.controller.set('entityId', get(this, 'entityId'));
+      this.controller.set('setupModel', Ember.get(this, 'setupModel'));
+      this.controller.set('entityId', Ember.get(this, 'entityId'));
       this.controllerFor('dictionary.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
@@ -17487,14 +16898,14 @@ define('mdeditor/pods/dictionary/show/edit/entity/edit/route', ['exports'], func
     },
 
     setupModel() {
-      let entityId = get(this, 'entityId');
+      let entityId = Ember.get(this, 'entityId');
       let model = this.modelFor('dictionary.show.edit');
       let objects = model.get('json.dataDictionary.entity');
-      let resource = entityId && isArray(objects) ? objects.objectAt(entityId) : undefined;
+      let resource = entityId && Ember.isArray(objects) ? objects.objectAt(entityId) : undefined;
 
       //make sure the entity exists
-      if (isEmpty(resource)) {
-        get(this, 'flashMessages').warning('No Entity object found! Re-directing to list...');
+      if (Ember.isEmpty(resource)) {
+        Ember.get(this, 'flashMessages').warning('No Entity object found! Re-directing to list...');
         this.replaceWith('dictionary.show.edit.entity');
 
         return;
@@ -17518,20 +16929,15 @@ define('mdeditor/pods/dictionary/show/edit/entity/index/route', ['exports'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var getWithDefault = Ember.getWithDefault;
-  var get = Ember.get;
-  var set = Ember.set;
-  var once = Ember.run.once;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     afterModel(m) {
       this._super(...arguments);
 
-      let model = get(m, 'json.dataDictionary');
+      let model = Ember.get(m, 'json.dataDictionary');
 
-      once(this, () => {
+      Ember.run.once(this, () => {
 
-        set(model, 'entity', getWithDefault(model, 'entity', []));
+        Ember.set(model, 'entity', Ember.getWithDefault(model, 'entity', []));
       });
     },
 
@@ -17563,8 +16969,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/route', ['exports'], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  exports.default = Route.extend({});
+  exports.default = Ember.Route.extend({});
 });
 define("mdeditor/pods/dictionary/show/edit/entity/template", ["exports"], function (exports) {
   "use strict";
@@ -17580,14 +16985,10 @@ define('mdeditor/pods/dictionary/show/edit/index/route', ['exports', 'mdeditor/m
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    Route,
-    get,
-    getWithDefault,
-    set
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
   exports.default = Route.extend(_scrollTo.default, {
     afterModel(m) {
       this._super(...arguments);
@@ -17624,16 +17025,9 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var once = Ember.run.once;
-  var getOwner = Ember.getOwner;
-
-
-  const {
-    inject,
-    get,
-    Route
-  } = Ember;
-
+  const inject = Ember.inject,
+        get = Ember.get,
+        Route = Ember.Route;
   exports.default = Route.extend(_hashPoll.default, {
     /**
      * The profile service
@@ -17674,7 +17068,7 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
         let model = this.currentRouteModel();
         let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
         let controller = this.controller;
-        let same = !controller.cancelScope || getOwner(this).lookup('controller:application').currentPath === get(controller, 'cancelScope.routeName');
+        let same = !controller.cancelScope || Ember.getOwner(this).lookup('controller:application').currentPath === get(controller, 'cancelScope.routeName');
 
         if (this.get('settings.data.autoSave')) {
           let json = model.get('jsonRevert');
@@ -17683,7 +17077,7 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
             model.set('json', JSON.parse(json));
 
             if (controller.onCancel) {
-              once(() => {
+              Ember.run.once(() => {
                 if (same) {
                   controller.onCancel.call(controller.cancelScope || this);
                 }
@@ -17701,7 +17095,7 @@ define('mdeditor/pods/dictionary/show/edit/route', ['exports', 'mdeditor/mixins/
 
         model.reload().then(() => {
           if (controller.onCancel) {
-            once(() => {
+            Ember.run.once(() => {
               if (same) {
                 controller.onCancel.call(controller.cancelScope || this);
               }
@@ -17754,15 +17148,10 @@ define('mdeditor/pods/dictionary/show/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject,
-    Route,
-    get,
-    copy
-  } = Ember;
-
+  const inject = Ember.inject,
+        Route = Ember.Route,
+        get = Ember.get,
+        copy = Ember.copy;
   exports.default = Route.extend({
     flashMessages: inject.service(),
 
@@ -17836,15 +17225,12 @@ define('mdeditor/pods/export/route', ['exports', 'moment', 'mdeditor/mixins/scro
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const get = Ember.get,
+        EmObject = Ember.Object,
+        defineProperty = Ember.defineProperty,
+        computed = Ember.computed,
+        inject = Ember.inject;
 
-
-  const {
-    get,
-    Object: EmObject,
-    defineProperty,
-    computed,
-    inject
-  } = Ember;
 
   const modelTypes = ['records', 'contacts', 'dictionaries', 'settings'];
 
@@ -17979,28 +17365,22 @@ define('mdeditor/pods/import/route', ['exports', 'ember-local-storage/adapters/b
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var allSettled = Ember.RSVP.allSettled;
 
 
   const generateIdForRecord = _base.default.create().generateIdForRecord;
 
-  const {
-    Route,
-    get,
-    set,
-    RSVP: {
-      Promise
-    },
-    inject,
-    Object: EmObject,
-    assign,
-    isArray,
-    $,
-    A,
-    merge,
-    computed
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        set = Ember.set,
+        Promise = Ember.RSVP.Promise,
+        inject = Ember.inject,
+        EmObject = Ember.Object,
+        assign = Ember.assign,
+        isArray = Ember.isArray,
+        $ = Ember.$,
+        A = Ember.A,
+        merge = Ember.merge,
+        computed = Ember.computed;
   exports.default = Route.extend(_scrollTo.default, {
     flashMessages: inject.service(),
     jsonvalidator: inject.service(),
@@ -18044,10 +17424,9 @@ define('mdeditor/pods/import/route', ['exports', 'ember-local-storage/adapters/b
     },
 
     formatMdJSON(json) {
-      let {
-        contact,
-        dataDictionary
-      } = json;
+      let contact = json.contact,
+          dataDictionary = json.dataDictionary;
+
       let data = A();
       let template = EmObject.extend({
         init() {
@@ -18103,10 +17482,9 @@ define('mdeditor/pods/import/route', ['exports', 'ember-local-storage/adapters/b
     },
 
     mapJSON(data) {
-      let {
-        json,
-        route
-      } = data;
+      let json = data.json,
+          route = data.route;
+
       let files;
 
       if (isArray(data.json.data)) {
@@ -18155,10 +17533,9 @@ define('mdeditor/pods/import/route', ['exports', 'ember-local-storage/adapters/b
     },
 
     mapEditorJSON(data) {
-      let {
-        file,
-        json
-      } = data;
+      let file = data.file,
+          json = data.json;
+
       let jv = get(this, 'jsonvalidator.validator');
       let valid = jv.validate('jsonapi', json);
 
@@ -18323,7 +17700,7 @@ define('mdeditor/pods/import/route', ['exports', 'ember-local-storage/adapters/b
             destroys.pushObject(rec.destroyRecord());
           });
 
-          allSettled(destroys).then(() => {
+          Ember.RSVP.allSettled(destroys).then(() => {
             store.importData(settings, {
               json: false
             }).then(() => {
@@ -18393,9 +17770,7 @@ define('mdeditor/pods/publish/index/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const { Route } = Ember;
-
+  const Route = Ember.Route;
   exports.default = Route.extend({});
 });
 define("mdeditor/pods/publish/index/template", ["exports"], function (exports) {
@@ -18412,15 +17787,8 @@ define('mdeditor/pods/publish/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const Route = Ember.Route,
+        service = Ember.inject.service;
   exports.default = Route.extend({
     publish: service('publish'),
     model: function model() {
@@ -18471,18 +17839,10 @@ define('mdeditor/pods/record/new/id/route', ['exports', 'ember-data'], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject,
-    get,
-    Route
-  } = Ember;
-
-  const {
-    AdapterError
-  } = _emberData.default;
-
+  const inject = Ember.inject,
+        get = Ember.get,
+        Route = Ember.Route;
+  const AdapterError = _emberData.default.AdapterError;
   exports.default = Route.extend({
     model(params) {
       let record = this.store.peekRecord('record', params.record_id);
@@ -18660,15 +18020,10 @@ define('mdeditor/pods/record/show/edit/associated/index/route', ['exports'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    set,
-    getWithDefault,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault,
+        get = Ember.get;
   exports.default = Route.extend({
     afterModel(m) {
       this._super(...arguments);
@@ -18713,15 +18068,10 @@ define('mdeditor/pods/record/show/edit/associated/resource/index/route', ['expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    set,
-    inject
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        set = Ember.set,
+        inject = Ember.inject;
   exports.default = Route.extend(_scrollTo.default, {
     slider: inject.service(),
 
@@ -18789,16 +18139,11 @@ define('mdeditor/pods/record/show/edit/associated/resource/route', ['exports'], 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray,
-    computed
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray,
+        computed = Ember.computed;
   exports.default = Route.extend({
     breadCrumb: computed('resourceId', function () {
       return {
@@ -18873,15 +18218,10 @@ define('mdeditor/pods/record/show/edit/constraint/index/route', ['exports'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    set,
-    getWithDefault,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault,
+        get = Ember.get;
   exports.default = Route.extend({
     afterModel(m) {
       this._super(...arguments);
@@ -18944,14 +18284,7 @@ define('mdeditor/pods/record/show/edit/dictionary/route', ['exports', 'npm:uuid/
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Route = Ember.Route;
-  var EmberObject = Ember.Object;
-  var get = Ember.get;
-  var computed = Ember.computed;
-  var defineProperty = Ember.defineProperty;
-  var getWithDefault = Ember.getWithDefault;
-  var set = Ember.set;
-  exports.default = Route.extend({
+  exports.default = Ember.Route.extend({
     breadCrumb: {
       title: 'Dictionaries'
     },
@@ -18960,22 +18293,22 @@ define('mdeditor/pods/record/show/edit/dictionary/route', ['exports', 'npm:uuid/
       let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
       let rec = this.modelFor('record.show.edit');
 
-      set(rec, 'json.mdDictionary', getWithDefault(rec, 'json.mdDictionary', []));
+      Ember.set(rec, 'json.mdDictionary', Ember.getWithDefault(rec, 'json.mdDictionary', []));
       let selected = rec.get('json.mdDictionary');
 
       return dicts.map(dict => {
-        let json = get(dict, 'json');
-        let id = get(json, 'dictionaryId');
-        let data = get(json, 'dataDictionary');
+        let json = Ember.get(dict, 'json');
+        let id = Ember.get(json, 'dictionaryId');
+        let data = Ember.get(json, 'dataDictionary');
 
         if (!id) {
-          set(json, 'dictionaryId', (0, _v.default)());
+          Ember.set(json, 'dictionaryId', (0, _v.default)());
           dict.save();
         }
 
-        return EmberObject.create({
+        return Ember.Object.create({
           id: json.dictionaryId,
-          title: get(data, 'citation.title'),
+          title: Ember.get(data, 'citation.title'),
           description: data.description,
           subject: data.subject,
           selected: selected.includes(json.dictionaryId)
@@ -18989,7 +18322,7 @@ define('mdeditor/pods/record/show/edit/dictionary/route', ['exports', 'npm:uuid/
 
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
 
-      defineProperty(this.controller, 'selected', computed('model', function () {
+      Ember.defineProperty(this.controller, 'selected', Ember.computed('model', function () {
         return this.model.filterBy('selected');
       }));
 
@@ -19032,7 +18365,7 @@ define('mdeditor/pods/record/show/edit/dictionary/route', ['exports', 'npm:uuid/
       },
 
       remove(obj) {
-        set(obj, 'selected', false);
+        Ember.set(obj, 'selected', false);
         this._select(obj);
       }
     }
@@ -19052,15 +18385,10 @@ define('mdeditor/pods/record/show/edit/distribution/distributor/index/route', ['
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    set,
-    $
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        set = Ember.set,
+        $ = Ember.$;
   exports.default = Route.extend(_scrollTo.default, {
     setupController: function setupController() {
       // Call _super for default behavior
@@ -19113,17 +18441,12 @@ define('mdeditor/pods/record/show/edit/distribution/distributor/route', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray,
-    NativeArray,
-    computed
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray,
+        NativeArray = Ember.NativeArray,
+        computed = Ember.computed;
   exports.default = Route.extend({
     model(params) {
       this.set('distributionId', params.distribution_id);
@@ -19182,13 +18505,8 @@ define('mdeditor/pods/record/show/edit/distribution/index/route', ['exports'], f
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    $
-  } = Ember;
-
+  const Route = Ember.Route,
+        $ = Ember.$;
   exports.default = Route.extend({
     setupController: function setupController() {
       // Call _super for default behavior
@@ -19248,13 +18566,8 @@ define('mdeditor/pods/record/show/edit/documents/citation/index/route', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get;
   exports.default = Route.extend(_scrollTo.default, {
     setupController: function setupController() {
       // Call _super for default behavior
@@ -19279,17 +18592,12 @@ define('mdeditor/pods/record/show/edit/documents/citation/route', ['exports'], f
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray,
-    computed,
-    NativeArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray,
+        computed = Ember.computed,
+        NativeArray = Ember.NativeArray;
   exports.default = Route.extend({
     breadCrumb: computed('citationId', function () {
       return {
@@ -19348,15 +18656,10 @@ define('mdeditor/pods/record/show/edit/documents/index/route', ['exports'], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    set,
-    getWithDefault,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault,
+        get = Ember.get;
   exports.default = Route.extend({
     afterModel(m) {
       this._super(...arguments);
@@ -19409,18 +18712,13 @@ define('mdeditor/pods/record/show/edit/extent/route', ['exports'], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    A,
-    Route,
-    computed,
-    set,
-    getWithDefault,
-    get,
-    $
-  } = Ember;
-
+  const A = Ember.A,
+        Route = Ember.Route,
+        computed = Ember.computed,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault,
+        get = Ember.get,
+        $ = Ember.$;
   exports.default = Route.extend({
     model() {
       let model = this.modelFor('record.show.edit');
@@ -19497,17 +18795,12 @@ define('mdeditor/pods/record/show/edit/extent/spatial/route', ['exports'], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Object: EmberObject,
-    NativeArray,
-    set,
-    get,
-    isArray,
-    isEmpty
-  } = Ember;
-
+  const EmberObject = Ember.Object,
+        NativeArray = Ember.NativeArray,
+        set = Ember.set,
+        get = Ember.get,
+        isArray = Ember.isArray,
+        isEmpty = Ember.isEmpty;
   exports.default = Ember.Route.extend({
     model(params) {
       this.set('extentId', params.extent_id);
@@ -19680,17 +18973,12 @@ define('mdeditor/pods/record/show/edit/funding/allocation/route', ['exports', 'm
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray,
-    computed,
-    NativeArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray,
+        computed = Ember.computed,
+        NativeArray = Ember.NativeArray;
   exports.default = Route.extend(_scrollTo.default, {
     breadCrumb: computed('allocationId', function () {
       return {
@@ -19750,16 +19038,11 @@ define('mdeditor/pods/record/show/edit/funding/index/route', ['exports'], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    set,
-    getWithDefault,
-    get,
-    NativeArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault,
+        get = Ember.get,
+        NativeArray = Ember.NativeArray;
   exports.default = Route.extend({
     afterModel(m) {
       this._super(...arguments);
@@ -19848,21 +19131,14 @@ define('mdeditor/pods/record/show/edit/keywords/route', ['exports', 'mdeditor/mi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    A,
-    set,
-    //Object: EmObject,
-    NativeArray,
-    getWithDefault,
-    //assign,
-    copy,
-    inject,
-    $
-  } = Ember;
-
+  const Route = Ember.Route,
+        A = Ember.A,
+        set = Ember.set,
+        NativeArray = Ember.NativeArray,
+        getWithDefault = Ember.getWithDefault,
+        copy = Ember.copy,
+        inject = Ember.inject,
+        $ = Ember.$;
   exports.default = Route.extend(_scrollTo.default, {
     keyword: inject.service(),
     model() {
@@ -19997,16 +19273,11 @@ define('mdeditor/pods/record/show/edit/keywords/thesaurus/route', ['exports'], f
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    isArray,
-    A,
-    set,
-    get,
-    isEmpty
-  } = Ember;
-
+  const isArray = Ember.isArray,
+        A = Ember.A,
+        set = Ember.set,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty;
   exports.default = Ember.Route.extend({
     keyword: Ember.inject.service(),
     model(params) {
@@ -20137,15 +19408,10 @@ define('mdeditor/pods/record/show/edit/lineage/index/route', ['exports'], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    set,
-    getWithDefault,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        set = Ember.set,
+        getWithDefault = Ember.getWithDefault,
+        get = Ember.get;
   exports.default = Route.extend({
     afterModel(m) {
       this._super(...arguments);
@@ -20190,15 +19456,10 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/citation/identifier
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray;
   exports.default = Route.extend(_scrollTo.default, {
     model(params) {
       this.set('identifierId', params.identifier_id);
@@ -20254,12 +19515,7 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/citation/index/rout
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route
-  } = Ember;
-
+  const Route = Ember.Route;
   exports.default = Route.extend(_scrollTo.default, {
     actions: {
       editIdentifier(index) {
@@ -20287,15 +19543,10 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/citation/route', ['
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray;
   exports.default = Route.extend({
     model(params, transition) {
       this.set('citationId', params.citation_id);
@@ -20353,13 +19604,8 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/index/route', ['exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get;
   exports.default = Route.extend(_scrollTo.default, {
     setupController: function setupController() {
       // Call _super for default behavior
@@ -20396,16 +19642,11 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/route', ['exports']
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray,
-    computed
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray,
+        computed = Ember.computed;
   exports.default = Route.extend({
     breadCrumb: computed('lineageId', function () {
       return {
@@ -20456,15 +19697,10 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/step/citation/route
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray;
   exports.default = Route.extend(_scrollTo.default, {
     model(params, transition) {
       this.set('citationId', params.citation_id);
@@ -20528,13 +19764,8 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/step/index/route', 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get;
   exports.default = Route.extend(_scrollTo.default, {
     setupController: function setupController() {
       // Call _super for default behavior
@@ -20569,16 +19800,11 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/step/route', ['expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray,
-    computed
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray,
+        computed = Ember.computed;
   exports.default = Route.extend({
     model(params, transition) {
       this.set('stepId', params.step_id);
@@ -20668,15 +19894,10 @@ define('mdeditor/pods/record/show/edit/main/citation/identifier/route', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray;
   exports.default = Route.extend(_scrollTo.default, {
     model(params) {
       this.set('identifierId', params.identifier_id);
@@ -20727,15 +19948,7 @@ define('mdeditor/pods/record/show/edit/main/citation/index/route', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route //,
-    // get,
-    // getWithDefault,
-    // set
-  } = Ember;
-
+  const Route = Ember.Route;
   exports.default = Route.extend(_scrollTo.default, {
     // afterModel() {
     //   this.setupModel();
@@ -20805,14 +20018,10 @@ define('mdeditor/pods/record/show/edit/main/index/route', ['exports', 'mdeditor/
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    Route,
-    get,
-    getWithDefault,
-    set
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        set = Ember.set;
   exports.default = Route.extend(_scrollTo.default, {
     afterModel(m) {
       this._super(...arguments);
@@ -20871,15 +20080,10 @@ define('mdeditor/pods/record/show/edit/metadata/alternate/identifier/route', ['e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray;
   exports.default = Route.extend(_scrollTo.default, {
     model(params) {
       this.set('identifierId', params.identifier_id);
@@ -20935,12 +20139,7 @@ define('mdeditor/pods/record/show/edit/metadata/alternate/index/route', ['export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route
-  } = Ember;
-
+  const Route = Ember.Route;
   exports.default = Route.extend(_scrollTo.default, {
     actions: {
       editIdentifier(index) {
@@ -20965,15 +20164,10 @@ define('mdeditor/pods/record/show/edit/metadata/alternate/route', ['exports'], f
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray;
   exports.default = Route.extend({
     model(params) {
       this.set('citationId', params.citation_id);
@@ -21029,15 +20223,9 @@ define('mdeditor/pods/record/show/edit/metadata/identifier/route', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    getWithDefault
-    //isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault;
   exports.default = Route.extend(_scrollTo.default, {
     model() {
       return this.setupModel();
@@ -21078,15 +20266,10 @@ define('mdeditor/pods/record/show/edit/metadata/index/route', ['exports', 'mdedi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    getWithDefault,
-    get,
-    set
-  } = Ember;
-
+  const Route = Ember.Route,
+        getWithDefault = Ember.getWithDefault,
+        get = Ember.get,
+        set = Ember.set;
   exports.default = Route.extend(_scrollTo.default, {
     afterModel(m) {
       this._super(...arguments);
@@ -21136,15 +20319,10 @@ define('mdeditor/pods/record/show/edit/metadata/parent/identifier/route', ['expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    get,
-    isEmpty,
-    isArray
-  } = Ember;
-
+  const Route = Ember.Route,
+        get = Ember.get,
+        isEmpty = Ember.isEmpty,
+        isArray = Ember.isArray;
   exports.default = Route.extend(_scrollTo.default, {
     model(params) {
       this.set('identifierId', params.identifier_id);
@@ -21195,14 +20373,9 @@ define('mdeditor/pods/record/show/edit/metadata/parent/index/route', ['exports',
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    isNone,
-    get
-  } = Ember;
-
+  const Route = Ember.Route,
+        isNone = Ember.isNone,
+        get = Ember.get;
   exports.default = Route.extend(_scrollTo.default, {
     afterModel(model) {
       this._super(...arguments);
@@ -21290,16 +20463,9 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var once = Ember.run.once;
-  var getOwner = Ember.getOwner;
-
-
-  const {
-    inject,
-    Route,
-    get
-  } = Ember;
-
+  const inject = Ember.inject,
+        Route = Ember.Route,
+        get = Ember.get;
   exports.default = Route.extend(_hashPoll.default, {
     breadCrumb: {
       title: 'Edit',
@@ -21376,7 +20542,7 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
         let model = this.currentRouteModel();
         let message = `Cancelled changes to Record: ${model.get('title')}`;
         let controller = this.controller;
-        let same = !controller.cancelScope || getOwner(this).lookup('controller:application').currentPath === get(controller, 'cancelScope.routeName');
+        let same = !controller.cancelScope || Ember.getOwner(this).lookup('controller:application').currentPath === get(controller, 'cancelScope.routeName');
 
         if (this.get('settings.data.autoSave')) {
           let json = model.get('jsonRevert');
@@ -21385,7 +20551,7 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
             model.set('json', JSON.parse(json));
 
             if (controller.onCancel) {
-              once(() => {
+              Ember.run.once(() => {
                 if (same) {
                   controller.onCancel.call(controller.cancelScope || this);
                 }
@@ -21403,7 +20569,7 @@ define('mdeditor/pods/record/show/edit/route', ['exports', 'mdeditor/mixins/hash
 
         model.reload().then(() => {
           if (controller.onCancel) {
-            once(() => {
+            Ember.run.once(() => {
               if (same) {
                 controller.onCancel.call(controller.cancelScope || this);
               }
@@ -21475,12 +20641,7 @@ define('mdeditor/pods/record/show/index/route', ['exports'], function (exports) 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const { Route } = Ember;
-
-  /* global L */
-
+  const Route = Ember.Route;
   exports.default = Route.extend({
     actions: {
       linkTo(route) {
@@ -21517,13 +20678,8 @@ define('mdeditor/pods/record/show/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    get,
-    copy
-  } = Ember;
-
+  const get = Ember.get,
+        copy = Ember.copy;
   exports.default = Ember.Route.extend({
     breadCrumb: {},
     afterModel(model) {
@@ -21577,11 +20733,7 @@ define('mdeditor/pods/record/show/translate/route', ['exports'], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    Route
-  } = Ember;
-
+  const Route = Ember.Route;
   exports.default = Route.extend({});
 });
 define("mdeditor/pods/record/show/translate/template", ["exports"], function (exports) {
@@ -21614,14 +20766,8 @@ define('mdeditor/pods/records/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    Route,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const Route = Ember.Route,
+        service = Ember.inject.service;
   exports.default = Route.extend({
     slider: service(),
     model() {
@@ -21699,15 +20845,8 @@ define('mdeditor/pods/settings/route', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Route,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const Route = Ember.Route,
+        service = Ember.inject.service;
   exports.default = Route.extend({
     settings: service(),
     publish: service(),
@@ -21967,21 +21106,14 @@ define('mdeditor/routes/application', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    $,
-    A,
-    Route,
-    Object: EmberObject,
-    guidFor,
-    RSVP,
-    Logger,
-    inject: {
-      service
-    }
-  } = Ember;
-
+  const $ = Ember.$,
+        A = Ember.A,
+        Route = Ember.Route,
+        EmberObject = Ember.Object,
+        guidFor = Ember.guidFor,
+        RSVP = Ember.RSVP,
+        Logger = Ember.Logger,
+        service = Ember.inject.service;
   exports.default = Route.extend({
     init() {
       this._super(...arguments);
@@ -22134,15 +21266,11 @@ define('mdeditor/services/cleaner', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-  const {
-    typeOf,
-    isArray,
-    isBlank,
-    Service,
-    assign
-  } = Ember;
-
+  const typeOf = Ember.typeOf,
+        isArray = Ember.isArray,
+        isBlank = Ember.isBlank,
+        Service = Ember.Service,
+        assign = Ember.assign;
   exports.default = Service.extend({
     clean(obj, options) {
       const opt = assign({
@@ -22231,12 +21359,9 @@ define('mdeditor/services/codelist', ['exports', 'npm:mdcodes/resources/js/mdcod
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const get = Ember.get,
+        Service = Ember.Service;
 
-
-  const {
-    get,
-    Service
-  } = Ember;
   /**
    * Codelist Service
    *
@@ -22282,15 +21407,10 @@ define('mdeditor/services/contacts', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Service,
-    inject,
-    A,
-    computed
-  } = Ember;
-
+  const Service = Ember.Service,
+        inject = Ember.inject,
+        A = Ember.A,
+        computed = Ember.computed;
   exports.default = Service.extend({
     init() {
       this._super(...arguments);
@@ -22940,16 +22060,14 @@ define('mdeditor/services/mdjson', ['exports', 'npm:ajv', 'npm:mdjson-schemas/re
     validator.addSchema(val, key);
   });
 
-  const {
-    Service,
-    inject,
-    isArray,
-    set,
-    get,
-    getWithDefault,
-    Object: EmObject
+  const Service = Ember.Service,
+        inject = Ember.inject,
+        isArray = Ember.isArray,
+        set = Ember.set,
+        get = Ember.get,
+        getWithDefault = Ember.getWithDefault,
+        EmObject = Ember.Object;
 
-  } = Ember;
 
   const unImplemented = ['metadata.metadataInfo.otherMetadataLocale', 'metadata.resourceInfo.spatialRepresentation', ['metadata.resourceInfo.extent', 'verticalExtent'], ['metadata.resourceInfo.extent', 'temporalExtent'], 'metadata.resourceInfo.coverageDescription', 'metadata.resourceInfo.taxonomy', 'metadata.resourceInfo.otherResourceLocale', 'metadata.resourceInfo.resourceMaintenance'];
 
@@ -23108,9 +22226,9 @@ define('mdeditor/services/modal-dialog', ['exports', 'mdeditor/config/environmen
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const computed = Ember.computed,
+        Service = Ember.Service;
 
-
-  const { computed, Service } = Ember;
 
   function computedFromConfig(prop) {
     return computed(function () {
@@ -23151,27 +22269,44 @@ define('mdeditor/services/patch', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Service = Ember.Service;
-  var get = Ember.get;
-  var set = Ember.set;
-  exports.default = Service.extend({
+  exports.default = Ember.Service.extend({
     applyModelPatch(record) {
       let type = record.constructor.modelName;
 
       switch (type) {
         case 'contact':
           record.get('json.address').forEach(itm => {
-            let oldAdm = get(itm, 'adminstrativeArea');
+            let oldAdm = Ember.get(itm, 'adminstrativeArea');
 
             if (oldAdm) {
-              set(itm, 'administrativeArea', oldAdm);
-              set(itm, 'adminstrativeArea', null);
+              Ember.set(itm, 'administrativeArea', oldAdm);
+              Ember.set(itm, 'adminstrativeArea', null);
 
               record.save();
             }
           });
 
           break;
+        case 'record':
+          {
+            let lineage = record.get('json.metadata.resourceLineage');
+
+            if (Ember.isArray(lineage)) {
+              lineage.forEach(itm => {
+                let source = Ember.get(itm, 'source');
+
+                if (Ember.isArray(source)) {
+                  source.forEach(src => {
+                    Ember.set(src, 'description', Ember.getWithDefault(src, 'description', Ember.get(src, 'value')));
+                    Ember.set(src, 'value', null);
+                  });
+                  record.save();
+                }
+              });
+
+              break;
+            }
+          }
       }
     }
   });
@@ -23195,20 +22330,8 @@ define('mdeditor/services/profile', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    get,
-    inject
-  } = Ember;
-  /**
-   * Profile service
-   *
-   * Service that provides profile configurations for metadata records.
-   *
-   * @module
-   * @augments ember/Service
-   */
+  const get = Ember.get,
+        inject = Ember.inject;
   exports.default = Ember.Service.extend({
     flashMessages: inject.service(),
     /**
@@ -24037,13 +23160,8 @@ define('mdeditor/services/publish', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    A,
-    Service
-  } = Ember;
-
+  const A = Ember.A,
+        Service = Ember.Service;
   exports.default = Service.extend({
     catalogs: A()
   });
@@ -24067,22 +23185,12 @@ define('mdeditor/services/settings', ['exports', 'mdeditor/config/environment'],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    APP: {
-      version
-    },
-    environment
-  } = _environment.default;
-
-  const {
-    Service,
-    getWithDefault,
-    inject,
-    set
-  } = Ember;
-
+  const version = _environment.default.APP.version,
+        environment = _environment.default.environment;
+  const Service = Ember.Service,
+        getWithDefault = Ember.getWithDefault,
+        inject = Ember.inject,
+        set = Ember.set;
   exports.default = Service.extend({
     store: inject.service(),
     data: 'null',
@@ -24129,22 +23237,19 @@ define('mdeditor/services/slider', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  var Service = Ember.Service;
-  var service = Ember.inject.service;
-  var observer = Ember.observer;
-  exports.default = Service.extend({
+  exports.default = Ember.Service.extend({
     init() {
       this._super(...arguments);
 
       this.get('router.currentRouteName');
     },
 
-    router: service(),
+    router: Ember.inject.service(),
 
     showSlider: false,
     fromName: 'md-slider-content',
 
-    routeObserver: observer('router.currentRouteName', function () {
+    routeObserver: Ember.observer('router.currentRouteName', function () {
       this.toggleSlider(false);
       this.set('fromName', 'md-slider-content');
     }),
@@ -24168,15 +23273,10 @@ define('mdeditor/services/spotlight', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    Service,
-    setProperties,
-    $,
-    isPresent
-  } = Ember;
-
+  const Service = Ember.Service,
+        setProperties = Ember.setProperties,
+        $ = Ember.$,
+        isPresent = Ember.isPresent;
   exports.default = Service.extend({
     show: false,
     elementId: undefined,
@@ -24408,12 +23508,9 @@ define('mdeditor/transforms/json', ['exports', 'ember-data'], function (exports,
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  const {
-    inject, isArray, A
-  } = Ember;
-
+  const inject = Ember.inject,
+        isArray = Ember.isArray,
+        A = Ember.A;
   exports.default = _emberData.default.Transform.extend({
     clean: inject.service('cleaner'),
 
@@ -24775,13 +23872,10 @@ define('mdeditor/validators/array-required', ['exports', 'ember-cp-validations/v
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const assert = Ember.assert,
+        get = Ember.get,
+        isArray = Ember.isArray;
 
-
-  const {
-    assert,
-    get,
-    isArray
-  } = Ember;
 
   const ArrayRequired = _base.default.extend({
     validate(value) {
@@ -24830,11 +23924,8 @@ define('mdeditor/validators/array-valid', ['exports', 'ember-cp-validations/vali
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  const get = Ember.get;
 
-
-  const {
-    get
-  } = Ember;
 
   const ArrayValid = _base.default.extend({
     validate(value /*, options, model, attribute*/) {
@@ -25077,6 +24168,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.1.0+4705da9b"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.1.0+05c60e95"});
 }
 //# sourceMappingURL=mdeditor.map
