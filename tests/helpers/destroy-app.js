@@ -1,14 +1,14 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 
 export default function destroyApp(application) {
   var store = application.__container__.lookup('service:store');
 
   if(store) {
-    Ember.run(function() {
+    run(function() {
       store.unloadAll();
       application.destroy();
     });
   } else {
-    Ember.run(application, 'destroy');
+    run(application, 'destroy');
   }
 }
