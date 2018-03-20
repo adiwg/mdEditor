@@ -49,7 +49,7 @@ Make use of the many generators for code, try `ember help generate` for more det
 
 By default, this will deploy to GitHub pages:
 
- `ember deploy production`
+ `ember deploy staging`
 
  Note that the `gh-pages` branch must exist in the git repository. See [ember-cli-deploy-git](https://github.com/ef4/ember-cli-deploy-git#usage) for details.
 
