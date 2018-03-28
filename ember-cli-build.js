@@ -15,6 +15,9 @@ module.exports = function(defaults) {
         'bower_components/jquery-jsonview/src'
       ]
     },
+    'ember-math-helpers': {
+      only: ['round']
+    },
     fingerprint: {
       exclude: [
         'images/layers-2x.png',
@@ -23,7 +26,8 @@ module.exports = function(defaults) {
         'images/marker-icon.png',
         'images/marker-shadow.png',
         'images/spritesheet-2x.png',
-        'images/spritesheet.png'
+        'images/spritesheet.png',
+        'worker'
       ]
     }
   });
@@ -62,6 +66,9 @@ module.exports = function(defaults) {
   //jquery-jsonview
   app.import(app.bowerDirectory +
     '/jquery-jsonview/dist/jquery.jsonview.js');
+
+  //papaparse for worker
+  app.import('node_modules/papaparse/papaparse.js',{outputFile:'assets/workers/worker_papaparse.js'});
 
   return app.toTree();
 };

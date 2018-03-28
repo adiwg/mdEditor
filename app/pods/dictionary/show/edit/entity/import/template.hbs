@@ -1,0 +1,136 @@
+<h3 class="section-header">Generate Entity from CSV</h3>
+{{#unless processed}}
+  {{control/md-import-csv
+    beforeFirstChunk=(route-action "processData")
+    processChunk=(route-action "reduceData")
+    processComplete=(route-action "processComplete")
+  }}
+  {{else}}
+    <form class="form">
+      {{input/md-input
+        value=entity.entityId
+        placeholder="Enter the identifier for the entity."
+        label="Entity Identifier"
+        data-spy="Identifier"
+      }}
+
+      {{input/md-input
+        value=entity.codeName
+        required=true
+        placeholder="Enter the name used to refer to the entity in schema definitions or application software."
+        label="Entity Code Name"
+        data-spy="Code Name"
+      }}
+
+      {{input/md-textarea
+        value=entity.definition
+        required=true
+        autoresize=true
+        placeholder="A brief description of the entity."
+        label="Entity Definition"
+        data-spy="Definition"
+      }}
+    </form>
+    {{#layout/md-card
+      title="Setup"
+      titleIcon="gear"
+      collapsible=false
+      collapsed=false
+      data-spy="Setup"
+      shadow=true
+    }}
+      <div class="md-table md-table-checkbox">
+        <div class="md-table-title">Select options for Attributes</div>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover form-inline md-table-align-middle">
+            <thead>
+              <tr>
+                <th>Import</th>
+                <th>Name</th>
+                <th>Data Type</th>
+                <th>Domain</th>
+                <th>Allow Null</th>
+                <th>Max/Min</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each-in columns as |col row|}}
+                <tr>
+                  <td>{{input type="checkbox" name="import" checked=row.import}}</td>
+                  <td class="text-nowrap">
+                    {{input type="text" value=row.importName class="form-control"}}
+                    ({{col}})
+                  </td>
+                  <td>
+                    {{input/md-codelist
+                      create=true
+                      required=false
+                      tooltip=true
+                      icon=false
+                      disabled=false
+                      allowClear=true
+                      showValidations=false
+                      mdCodeName="dataType"
+                      path="importType"
+                      model=row
+                      placeholder="Choose a data type"
+                      class="inline-block"
+                    }}
+                  </td>
+                  <td>
+                    {{input type="checkbox" name="hasDomain" checked=row.hasDomain}}
+                    <span class="{{if row.domainWarn "text-danger"}}">({{row.domain.length}})</span>
+                  </td>
+                  <td>
+                    {{input type="checkbox" name="allowNull" checked=row.allowNull}}
+                  </td>
+                  <td class="text-nowrap">
+                    {{input type="checkbox" name="range" checked=row.range disabled=row.disableRange}}
+                    {{#if row.isNumber}}
+                      ({{round row.min decimals=2}}/{{round row.max decimals=2}})
+                    {{/if}}
+                  </td>
+                  <td class="text-nowrap">
+                    <div class="pull-right">
+                      <button type="button" class="btn btn-xs btn-info">
+                        <span class="fa fa-eye"></span> Example
+
+                        {{#popover-on-element
+                          showOn="mouseenter"
+                          showOn="mouseleave"
+                          side="left"
+                          enableLazyRendering=true
+                        }}
+                          {{#each row.example as |ex|}}
+                            {{#if (present ex)}}
+                              {{ex}}
+                            {{else}}
+                              <i class="text-warning">NULL</i>
+                            {{/if}}
+                            <hr>
+                          {{/each}}
+                        {{/popover-on-element}}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              {{/each-in}}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {{/layout/md-card}}
+  {{/unless}}
+
+{{#if processed}}
+  {{to-elsewhere
+    named="md-subbar-extra"
+    send=(component "control/subbar-importcsv"
+      doImport=(route-action "doImport")
+      cancelImport=(route-action "cancelImport")
+      actionContext=this
+    )
+  }}
+{{/if}}
+
+{{outlet}}

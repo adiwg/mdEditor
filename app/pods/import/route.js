@@ -325,7 +325,7 @@ export default Route.extend(ScrollTo, {
               })
               .finally(() => {
                 set(this.controller, 'isLoading', false);
-                $('.import-file-picker input:file')
+                $('.md-import-picker input:file')
                   .val('');
               });
           } else {
