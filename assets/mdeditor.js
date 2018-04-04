@@ -7653,13 +7653,9 @@ define('mdeditor/pods/components/control/md-import-csv/component', ['exports', '
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-
-
-  _npmPapaparse.default.SCRIPT_PATH = '/assets/workers/worker_papaparse.js';
-  // import {
-  //   later
-  // } from '@ember/runloop';
   exports.default = Ember.Component.extend({
+    router: Ember.inject.service(),
+
     isProcessing: false,
     progress: 0,
     barWidth: Ember.computed('progress', function () {
@@ -7674,6 +7670,8 @@ define('mdeditor/pods/components/control/md-import-csv/component', ['exports', '
         this.set('isProcessing', false);
       },
       readData(file) {
+        _npmPapaparse.default.SCRIPT_PATH = this.get('router.rootURL') + 'assets/workers/worker_papaparse.js';
+
         let comp = this;
 
         Ember.set(comp, 'isProcessing', true);
