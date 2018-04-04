@@ -8,12 +8,17 @@
   }}
 </td>
 <td class="property">
-  {{input/md-input
+  {{input/md-codelist
+    create=true
+    tooltip=true
+    icon=false
+    allowClear=true
+    showValidations=true
+    mdCodeName="dataType"
     model=this
-    valuePath="dataType"
+    path="dataType"
     placeholder="The datatype for the attribute(column)."
     profilePath=(concat profilePath ".attribute.dataType")
-    showValidations=true
   }}
 </td>
 <td class="property">

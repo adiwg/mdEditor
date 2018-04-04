@@ -24,9 +24,25 @@
       profilePath=(concat profilePath ".definition")
     }}
 
-    {{input/md-input
+    {{!-- {{input/md-input
       model=this
       valuePath="dataType"
+      placeholder="The datatype for the attribute(column)."
+      label="Data Type"
+      data-spy="Data Type"
+      profilePath=(concat profilePath ".dataType")
+      class="md-embedded"
+    }} --}}
+
+    {{input/md-codelist
+      create=true
+      tooltip=true
+      icon=false
+      allowClear=true
+      showValidations=true
+      mdCodeName="dataType"
+      model=this
+      path="dataType"
       placeholder="The datatype for the attribute(column)."
       label="Data Type"
       data-spy="Data Type"
