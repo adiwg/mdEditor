@@ -7654,16 +7654,85 @@ define('mdeditor/pods/components/control/md-import-csv/component', ['exports', '
     value: true
   });
   exports.default = Ember.Component.extend({
+    /**
+     * @module mdeditor
+     * @submodule components-control
+     */
+
+    /**
+     * Button with drop zone used to load CSV files
+     *
+     *```handlebars
+     * \{{control/md-import-csv
+     *   beforeFirstChunk=callback
+     *   processChunk=callback
+     *   processComplete=callback
+     * }}
+     * ```
+     *
+     * @class md-import-csv
+     */
+
     router: Ember.inject.service(),
 
+    /**
+     * True if processing CSV file
+     *
+     * @property isProcessing
+     * @type {Boolean}
+     * @default "false"
+     * @required
+     */
     isProcessing: false,
+
+    /**
+     * Percent of file processed
+     *
+     * @property progress
+     * @type {Number}
+     * @default 0
+     */
     progress: 0,
+
+    /**
+     * Style string for progress bar
+     *
+     * @property barWidth
+     * @type {String}
+     * @default "min-width: 10em;width:0%;""
+     * @category computed
+     * @requires progress
+     */
     barWidth: Ember.computed('progress', function () {
-      return Ember.String.htmlSafe(`min-width: 10em;width:${this.get('progress')}%`);
+      return Ember.String.htmlSafe(`min-width: 10em;width:${this.get('progress')}%;`);
     }),
+
+    /**
+     * Callback fires before first chunk is processed
+     *
+     * @method beforeFirstChunk
+     * @param {Object} result Data returned from parser
+     * @param {Array} options.data Chunk of data
+     * @param {Array} options.errors
+     * @param {Object} options.metadata
+     */
     beforeFirstChunk() {},
+
+    /**
+     * Method that processes each chunk of data
+     *
+     * @method processChunk
+     * @param {Array} data Chunk of data
+     */
     processChunk() {},
+
+    /**
+     * Method called when processsing is complete
+     *
+     * @method processComplete
+     */
     processComplete() {},
+
     actions: {
       stopParsing() {
         this.get('parser').abort();
@@ -7688,7 +7757,6 @@ define('mdeditor/pods/components/control/md-import-csv/component', ['exports', '
                 worker: true,
                 dynamicTyping: true,
                 skipEmptyLines: true,
-                //preview:1,
                 chunkSize: chunkSize,
                 complete: () => {
                   resolve();
@@ -7705,12 +7773,7 @@ define('mdeditor/pods/components/control/md-import-csv/component', ['exports', '
                   this.get('processChunk')(results.data);
 
                   processed++;
-
-                  console.log(results);
-                } //,
-                // beforeFirstChunk: function(results) {
-                //   console.log(results);
-                // }
+                }
               });
             } catch (e) {
               reject(`Failed to parse file: ${file.name}. Is it a valid CSV?\n${e}`);
@@ -17947,7 +18010,7 @@ define('mdeditor/pods/dictionary/show/edit/entity/import/route', ['exports', 'np
     },
 
     actions: {
-      cancel() {
+      cancelImport() {
         Ember.set(this, 'controller.columns', null);
         Ember.set(this, 'controller.processed', false);
       },
@@ -18029,7 +18092,7 @@ define("mdeditor/pods/dictionary/show/edit/entity/import/template", ["exports"],
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "4z/y5JXX", "block": "{\"symbols\":[\"col\",\"row\",\"ex\"],\"statements\":[[0,\"\\n    \"],[6,\"h3\"],[7],[0,\"Generate Entity from CSV\"],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"model\",\"preview\"]]],null,{\"statements\":[[0,\"      \"],[6,\"h3\"],[7],[0,\"Dictionary JSON Preview\"],[8],[0,\"\\n      \"],[1,[25,\"control/md-json-viewer\",null,[[\"class\",\"json\",\"modal\"],[\"md-import-preview\",[20,[\"model\",\"preview\",\"json\"]],false]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"unless\",[[20,[\"processed\"]]],null,{\"statements\":[[0,\"        \"],[1,[25,\"control/md-import-csv\",null,[[\"beforeFirstChunk\",\"processChunk\",\"processComplete\"],[[25,\"route-action\",[\"processData\"],null],[25,\"route-action\",[\"reduceData\"],null],[25,\"route-action\",[\"processComplete\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          \"],[6,\"form\"],[9,\"class\",\"form\"],[7],[0,\"\\n            \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\",\"label\",\"data-spy\"],[[20,[\"entity\",\"entityId\"]],\"Enter the identifier for the entity.\",\"Entity Identifier\",\"Identifier\"]]],false],[0,\"\\n\\n            \"],[1,[25,\"input/md-input\",null,[[\"value\",\"required\",\"placeholder\",\"label\",\"data-spy\"],[[20,[\"entity\",\"codeName\"]],true,\"Enter the name used to refer to the entity in schema definitions or application software.\",\"Code Name\",\"Code Name\"]]],false],[0,\"\\n\\n            \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\"],[[20,[\"entity\",\"definition\"]],true,true,\"A brief description of the entity.\",\"Definition\",\"Definition\"]]],false],[0,\"\\n          \"],[8],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"titleIcon\",\"collapsible\",\"collapsed\",\"data-spy\",\"shadow\"],[\"Setup\",\"gear\",false,false,\"Setup\",true]],{\"statements\":[[0,\"            \"],[6,\"div\"],[9,\"class\",\"md-table md-table-checkbox\"],[7],[0,\"\\n              \"],[6,\"div\"],[9,\"class\",\"md-table-title\"],[7],[0,\"Select options for Attributes\"],[8],[0,\"\\n              \"],[6,\"div\"],[9,\"class\",\"table-responsive\"],[7],[0,\"\\n                \"],[6,\"table\"],[9,\"class\",\"table table-striped table-hover form-inline md-table-align-middle\"],[7],[0,\"\\n                  \"],[6,\"thead\"],[7],[0,\"\\n                    \"],[6,\"tr\"],[7],[0,\"\\n                      \"],[6,\"th\"],[7],[0,\"Import\"],[8],[0,\"\\n                      \"],[6,\"th\"],[7],[0,\"Name\"],[8],[0,\"\\n                      \"],[6,\"th\"],[7],[0,\"Data Type\"],[8],[0,\"\\n                      \"],[6,\"th\"],[7],[0,\"Domain\"],[8],[0,\"\\n                      \"],[6,\"th\"],[7],[0,\"Allow Null\"],[8],[0,\"\\n                      \"],[6,\"th\"],[7],[0,\"Max/Min\"],[8],[0,\"\\n                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"tbody\"],[7],[0,\"\\n\"],[4,\"each\",[[25,\"-each-in\",[[20,[\"columns\"]]],null]],null,{\"statements\":[[0,\"                      \"],[6,\"tr\"],[7],[0,\"\\n                        \"],[6,\"td\"],[7],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\"],[\"checkbox\",\"import\",[19,2,[\"import\"]]]]],false],[8],[0,\"\\n                        \"],[6,\"td\"],[9,\"class\",\"text-nowrap\"],[7],[0,\"\\n                          \"],[1,[25,\"input\",null,[[\"type\",\"value\",\"class\"],[\"text\",[19,2,[\"importName\"]],\"form-control\"]]],false],[0,\"\\n                          (\"],[1,[19,1,[]],false],[0,\")\\n                        \"],[8],[0,\"\\n                        \"],[6,\"td\"],[7],[0,\"\\n                          \"],[1,[25,\"input/md-codelist\",null,[[\"create\",\"required\",\"tooltip\",\"icon\",\"disabled\",\"allowClear\",\"showValidations\",\"mdCodeName\",\"path\",\"model\",\"placeholder\",\"class\"],[true,false,true,false,false,true,false,\"dataType\",\"importType\",[19,2,[]],\"Choose a data type\",\"inline-block\"]]],false],[0,\"\\n                        \"],[8],[0,\"\\n                        \"],[6,\"td\"],[7],[0,\"\\n                          \"],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\"],[\"checkbox\",\"hasDomain\",[19,2,[\"hasDomain\"]]]]],false],[0,\"\\n                          \"],[6,\"span\"],[10,\"class\",[26,[[25,\"if\",[[19,2,[\"domainWarn\"]],\"text-danger\"],null]]]],[7],[0,\"(\"],[1,[19,2,[\"domain\",\"length\"]],false],[0,\")\"],[8],[0,\"\\n                        \"],[8],[0,\"\\n                        \"],[6,\"td\"],[7],[0,\"\\n                          \"],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\"],[\"checkbox\",\"allowNull\",[19,2,[\"allowNull\"]]]]],false],[0,\"\\n                        \"],[8],[0,\"\\n                        \"],[6,\"td\"],[9,\"class\",\"text-nowrap\"],[7],[0,\"\\n                          \"],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\",\"disabled\"],[\"checkbox\",\"range\",[19,2,[\"range\"]],[19,2,[\"disableRange\"]]]]],false],[0,\"\\n\"],[4,\"if\",[[19,2,[\"isNumber\"]]],null,{\"statements\":[[0,\"                            (\"],[1,[25,\"round\",[[19,2,[\"min\"]]],[[\"decimals\"],[2]]],false],[0,\"/\"],[1,[25,\"round\",[[19,2,[\"max\"]]],[[\"decimals\"],[2]]],false],[0,\")\\n\"]],\"parameters\":[]},null],[0,\"                        \"],[8],[0,\"\\n                        \"],[6,\"td\"],[9,\"class\",\"text-nowrap\"],[7],[0,\"\\n                          \"],[6,\"div\"],[9,\"class\",\"pull-right\"],[7],[0,\"\\n                            \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-xs btn-info\"],[7],[0,\"\\n                              \"],[6,\"span\"],[9,\"class\",\"fa fa-eye\"],[7],[8],[0,\" Example\\n\\n\"],[4,\"popover-on-element\",null,[[\"showOn\",\"showOn\",\"side\",\"enableLazyRendering\"],[\"mouseenter\",\"mouseleave\",\"left\",true]],{\"statements\":[[4,\"each\",[[19,2,[\"example\"]]],null,{\"statements\":[[4,\"if\",[[25,\"present\",[[19,3,[]]],null]],null,{\"statements\":[[0,\"                                    \"],[1,[19,3,[]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                                    \"],[6,\"i\"],[9,\"class\",\"text-warning\"],[7],[0,\"NULL\"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                                  \"],[6,\"hr\"],[7],[8],[0,\"\\n\"]],\"parameters\":[3]},null]],\"parameters\":[]},null],[0,\"                            \"],[8],[0,\"\\n                            \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-xs btn-primary\"],[3,\"action\",[[19,0,[]],\"showPreview\",[19,2,[]]]],[7],[0,\"\\n                              \"],[6,\"span\"],[9,\"class\",\"fa fa-binoculars\"],[7],[8],[0,\" JSON\\n                            \"],[8],[0,\"\\n                          \"],[8],[0,\"\\n                        \"],[8],[0,\"\\n                      \"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"                  \"],[8],[0,\"\\n                \"],[8],[0,\"\\n              \"],[8],[0,\"\\n            \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n\"],[4,\"if\",[[20,[\"processed\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-importcsv\"],[[\"doImport\",\"cancelImport\",\"actionContext\"],[[25,\"route-action\",[\"doImport\"],null],[25,\"route-action\",[\"cancel\"],null],[19,0,[]]]]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[18,\"outlet\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/edit/entity/import/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "1hLGIk6W", "block": "{\"symbols\":[\"col\",\"row\",\"ex\"],\"statements\":[[6,\"h3\"],[7],[0,\"Generate Entity from CSV\"],[8],[0,\"\\n\"],[4,\"unless\",[[20,[\"processed\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"control/md-import-csv\",null,[[\"beforeFirstChunk\",\"processChunk\",\"processComplete\"],[[25,\"route-action\",[\"processData\"],null],[25,\"route-action\",[\"reduceData\"],null],[25,\"route-action\",[\"processComplete\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"form\"],[9,\"class\",\"form\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\",\"label\",\"data-spy\"],[[20,[\"entity\",\"entityId\"]],\"Enter the identifier for the entity.\",\"Entity Identifier\",\"Identifier\"]]],false],[0,\"\\n\\n      \"],[1,[25,\"input/md-input\",null,[[\"value\",\"required\",\"placeholder\",\"label\",\"data-spy\"],[[20,[\"entity\",\"codeName\"]],true,\"Enter the name used to refer to the entity in schema definitions or application software.\",\"Code Name\",\"Code Name\"]]],false],[0,\"\\n\\n      \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\"],[[20,[\"entity\",\"definition\"]],true,true,\"A brief description of the entity.\",\"Definition\",\"Definition\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"titleIcon\",\"collapsible\",\"collapsed\",\"data-spy\",\"shadow\"],[\"Setup\",\"gear\",false,false,\"Setup\",true]],{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"md-table md-table-checkbox\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"md-table-title\"],[7],[0,\"Select options for Attributes\"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"table-responsive\"],[7],[0,\"\\n          \"],[6,\"table\"],[9,\"class\",\"table table-striped table-hover form-inline md-table-align-middle\"],[7],[0,\"\\n            \"],[6,\"thead\"],[7],[0,\"\\n              \"],[6,\"tr\"],[7],[0,\"\\n                \"],[6,\"th\"],[7],[0,\"Import\"],[8],[0,\"\\n                \"],[6,\"th\"],[7],[0,\"Name\"],[8],[0,\"\\n                \"],[6,\"th\"],[7],[0,\"Data Type\"],[8],[0,\"\\n                \"],[6,\"th\"],[7],[0,\"Domain\"],[8],[0,\"\\n                \"],[6,\"th\"],[7],[0,\"Allow Null\"],[8],[0,\"\\n                \"],[6,\"th\"],[7],[0,\"Max/Min\"],[8],[0,\"\\n              \"],[8],[0,\"\\n            \"],[8],[0,\"\\n            \"],[6,\"tbody\"],[7],[0,\"\\n\"],[4,\"each\",[[25,\"-each-in\",[[20,[\"columns\"]]],null]],null,{\"statements\":[[0,\"                \"],[6,\"tr\"],[7],[0,\"\\n                  \"],[6,\"td\"],[7],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\"],[\"checkbox\",\"import\",[19,2,[\"import\"]]]]],false],[8],[0,\"\\n                  \"],[6,\"td\"],[9,\"class\",\"text-nowrap\"],[7],[0,\"\\n                    \"],[1,[25,\"input\",null,[[\"type\",\"value\",\"class\"],[\"text\",[19,2,[\"importName\"]],\"form-control\"]]],false],[0,\"\\n                    (\"],[1,[19,1,[]],false],[0,\")\\n                  \"],[8],[0,\"\\n                  \"],[6,\"td\"],[7],[0,\"\\n                    \"],[1,[25,\"input/md-codelist\",null,[[\"create\",\"required\",\"tooltip\",\"icon\",\"disabled\",\"allowClear\",\"showValidations\",\"mdCodeName\",\"path\",\"model\",\"placeholder\",\"class\"],[true,false,true,false,false,true,false,\"dataType\",\"importType\",[19,2,[]],\"Choose a data type\",\"inline-block\"]]],false],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"td\"],[7],[0,\"\\n                    \"],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\"],[\"checkbox\",\"hasDomain\",[19,2,[\"hasDomain\"]]]]],false],[0,\"\\n                    \"],[6,\"span\"],[10,\"class\",[26,[[25,\"if\",[[19,2,[\"domainWarn\"]],\"text-danger\"],null]]]],[7],[0,\"(\"],[1,[19,2,[\"domain\",\"length\"]],false],[0,\")\"],[8],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"td\"],[7],[0,\"\\n                    \"],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\"],[\"checkbox\",\"allowNull\",[19,2,[\"allowNull\"]]]]],false],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"td\"],[9,\"class\",\"text-nowrap\"],[7],[0,\"\\n                    \"],[1,[25,\"input\",null,[[\"type\",\"name\",\"checked\",\"disabled\"],[\"checkbox\",\"range\",[19,2,[\"range\"]],[19,2,[\"disableRange\"]]]]],false],[0,\"\\n\"],[4,\"if\",[[19,2,[\"isNumber\"]]],null,{\"statements\":[[0,\"                      (\"],[1,[25,\"round\",[[19,2,[\"min\"]]],[[\"decimals\"],[2]]],false],[0,\"/\"],[1,[25,\"round\",[[19,2,[\"max\"]]],[[\"decimals\"],[2]]],false],[0,\")\\n\"]],\"parameters\":[]},null],[0,\"                  \"],[8],[0,\"\\n                  \"],[6,\"td\"],[9,\"class\",\"text-nowrap\"],[7],[0,\"\\n                    \"],[6,\"div\"],[9,\"class\",\"pull-right\"],[7],[0,\"\\n                      \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-xs btn-info\"],[7],[0,\"\\n                        \"],[6,\"span\"],[9,\"class\",\"fa fa-eye\"],[7],[8],[0,\" Example\\n\\n\"],[4,\"popover-on-element\",null,[[\"showOn\",\"showOn\",\"side\",\"enableLazyRendering\"],[\"mouseenter\",\"mouseleave\",\"left\",true]],{\"statements\":[[4,\"each\",[[19,2,[\"example\"]]],null,{\"statements\":[[4,\"if\",[[25,\"present\",[[19,3,[]]],null]],null,{\"statements\":[[0,\"                              \"],[1,[19,3,[]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                              \"],[6,\"i\"],[9,\"class\",\"text-warning\"],[7],[0,\"NULL\"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                            \"],[6,\"hr\"],[7],[8],[0,\"\\n\"]],\"parameters\":[3]},null]],\"parameters\":[]},null],[0,\"                      \"],[8],[0,\"\\n                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n                \"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"            \"],[8],[0,\"\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"\\n\"],[4,\"if\",[[20,[\"processed\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-importcsv\"],[[\"doImport\",\"cancelImport\",\"actionContext\"],[[25,\"route-action\",[\"doImport\"],null],[25,\"route-action\",[\"cancelImport\"],null],[19,0,[]]]]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[18,\"outlet\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/dictionary/show/edit/entity/import/template.hbs" } });
 });
 define('mdeditor/pods/dictionary/show/edit/entity/index/route', ['exports'], function (exports) {
   'use strict';
@@ -25277,6 +25340,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.1.0+76e46a68"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.1.0+2b6e522c"});
 }
 //# sourceMappingURL=mdeditor.map

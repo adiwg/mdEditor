@@ -419,7 +419,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/control/md-import-csv/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/control/md-import-csv/component.js should pass ESLint\n\n76:21 - Unexpected console statement. (no-console)');
+    assert.ok(true, 'pods/components/control/md-import-csv/component.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/components/control/md-json-button/component.js', function (assert) {
