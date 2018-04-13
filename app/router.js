@@ -179,6 +179,7 @@ Router.map(function () {
               path: 'attribute/:attribute_id'
             }, function () {});
           });
+          this.route('import');
         });
       });
     });
