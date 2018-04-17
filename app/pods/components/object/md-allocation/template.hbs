@@ -59,6 +59,14 @@
       profilePath=(concat profilePath ".recipientId")
   }}
 
+  {{object/md-party-array
+    title="Other Contacts"
+    plain=false
+    required=false
+    value=model.responsibleParty
+    profilePath=(concat profilePath ".responsibleParty")
+  }}
+
   {{input/md-boolean
     label="Matching"
     text="Matching funds or in-kind services"
