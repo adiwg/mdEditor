@@ -26,7 +26,7 @@
   title="Source"
   templateClass=sourceTemplate
   profilePath=(concat profilePath ".source")
-  data-spy=Source as |source|
+  data-spy="Source" as |source|
 }}
   <td>
     {{input/md-textarea
@@ -36,6 +36,23 @@
   </td>
 {{/object/md-array-table}}
 
+{{object/md-objectroute-table
+  attributes="description"
+  items=model.source
+  header="Source"
+  shadow=true
+  buttonText="Add Source"
+  ellipsis=fallse
+  previewTemplateTable="object/md-source/preview"
+  editItem=editSource
+  verticalButtons=false
+  profilePath=profilePath
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-source"
+  data-spy="Source"
+}}
 
 {{object/md-citation-array model=model.citation
   profilePath=(concat profilePath ".citation") data-spy="Lineage Citation"

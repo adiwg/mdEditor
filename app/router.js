@@ -76,6 +76,9 @@ Router.map(function () {
                   path: 'citation/:citation_id'
                 });
               });
+              this.route('source', {
+                path: 'source/:source_id'
+              }, function () {});
             });
           });
           this.route('distribution', function () {
