@@ -69,7 +69,7 @@
                                 </button>
 
                                 <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index}}>
-                                    {{fa-icon "pencil"}} Edit
+                                    {{fa-icon "pencil"}} {{if editBtnText editBtnText "Edit"}}
                                 </button>
                               </div>
 

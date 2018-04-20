@@ -5,18 +5,26 @@
   placeholder="A general statement of the actions taken to verify, transform, repair, and integrate the resource."
   data-spy="Statement"
   required=true
+  autoresize=true
+  maxrows=25
 }}
 
 {{object/md-objectroute-table
+  attributes="description"
   items=model.processStep
-  hideIndex=true
   header="Process Step"
   buttonText="Add Step"
-  ellipsis=ellipsis
+  ellipsis=false
+  previewTemplateTable="object/md-source/preview"
   templateClass=stepTemplateClass
   editItem=editProcessStep
-  attributes="stepId,description"
-  profilePath=(concat profilePath ".processStep") data-spy="Process Step"
+  profilePath=(concat profilePath ".processStep")
+  verticalButtons=true
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-process-step"
+  data-spy="Process Step"
 }}
 
 {{#object/md-array-table
@@ -42,11 +50,11 @@
   header="Source"
   shadow=true
   buttonText="Add Source"
-  ellipsis=fallse
+  ellipsis=false
   previewTemplateTable="object/md-source/preview"
   editItem=editSource
-  verticalButtons=false
-  profilePath=profilePath
+  profilePath=(concat profilePath ".source")
+  verticalButtons=true
   hideIndex=false
   condensed=false
   editOnAdd=false

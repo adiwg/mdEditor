@@ -1,1 +1,36 @@
-{{yield}}
+{{input/md-input
+   value=model.sourceId
+   model=null
+   valuePath=null
+   label="Source ID"
+   data-spy="Source ID"
+   placeholder="Enter unique identifer for the source."
+   required=false
+   profilePath=(concat profilePath ".sourceId")
+ }}
+
+{{input/md-textarea
+  value=model.description
+  required=true
+  profilePath=(concat profilePath ".description")
+  label="Description"
+  placeholder="Description of the source."
+  data-spy="Source Description"
+  showValidations=true
+}}
+
+{{#layout/md-card
+  title="Source Citation"
+  collapsible=true
+  profilePath=(concat profilePath '.sourceCitation')
+  data-spy="Source Citation"
+  shadow=true
+  content=model.sourceCitation
+}}
+  {{object/md-citation
+    model=model.sourceCitation
+    simpleIdentifier=true
+    profilePath=(concat profilePath '.sourceCitation')
+    embedded=true
+  }}
+{{/layout/md-card}}

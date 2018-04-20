@@ -1,14 +1,12 @@
-import Ember from 'ember';
-
-const {
-  Component,
+import Component from '@ember/component';
+import {
   computed,
-  get,
-  inject: {
-    service
-  },
-  $
-} = Ember;
+  get
+} from '@ember/object';
+import {
+  inject as service
+} from '@ember/service';
+import $ from 'jquery';
 
 export default Component.extend({
   /**
@@ -32,7 +30,23 @@ export default Component.extend({
    * @constructor
    */
 
+  // init() {
+  //   this._super(...arguments);
+  //
+  //   let content = this.get('content');
+  //
+  //   if(content !== null) {
+  //     let empty = content ? Object.keys(this.get('cleaner').clean(content, {
+  //         preserveArrays: false
+  //       })).length ===
+  //       0 : true;
+  //
+  //     this.set('collapsed', empty);
+  //   }
+  // },
+
   spotlight: service(),
+  cleaner: service(),
 
   classNames: ['md-card', 'card'],
   classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card',
@@ -40,6 +54,7 @@ export default Component.extend({
   ],
   attributeBindings: ['data-spy'],
 
+  content: null,
   /**
    * The card element id.
    *
@@ -49,7 +64,7 @@ export default Component.extend({
    * @category computed
    * @requires elementId
    */
-  cardId: computed('elementId', function() {
+  cardId: computed('elementId', function () {
       return 'card-' + this.get('elementId');
     })
     .readOnly(),
@@ -196,11 +211,11 @@ export default Component.extend({
    */
   'data-spy': computed.oneWay('title'),
 
-  windowIcon: computed('fullScreen', function() {
+  windowIcon: computed('fullScreen', function () {
     return this.get('fullScreen') ? 'compress' : 'expand';
   }),
 
-  isCollapsible: computed('fullScreen', 'collapsible', function() {
+  isCollapsible: computed('fullScreen', 'collapsible', function () {
     return !this.get('fullScreen') && this.get('collapsible');
   }),
 
@@ -212,7 +227,7 @@ export default Component.extend({
       let body = this.$(' > .card-collapse');
       let offset = this.get('offset') || 0;
 
-      body.on('shown.bs.collapse', function(e) {
+      body.on('shown.bs.collapse', function (e) {
         e.stopPropagation();
         // card.get(0).scrollIntoView({
         //   block: "end",
@@ -228,6 +243,17 @@ export default Component.extend({
           scrollTop: card.offset().top - offset
         }, 'slow');
       });
+    }
+
+    let content = this.get('content');
+
+    if(content !== null) {
+      let empty = content ? Object.keys(this.get('cleaner').clean(content, {
+          preserveArrays: false
+        })).length ===
+        0 : true;
+
+      this.set('collapsed', empty);
     }
   },
 

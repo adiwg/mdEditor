@@ -43,7 +43,7 @@ const theComp = Component.extend({
    *
    * @module mdeditor
    * @submodule components-object
-   * @class md-citation-array
+   * @class md-citation
    * @constructor
    */
 
