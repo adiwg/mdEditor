@@ -307,6 +307,11 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'helpers/uc-words.js should pass ESLint\n\n');
   });
 
+  QUnit.test('helpers/word-limit.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'helpers/word-limit.js should pass ESLint\n\n');
+  });
+
   QUnit.test('initializers/leaflet.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'initializers/leaflet.js should pass ESLint\n\n');
@@ -927,6 +932,16 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'pods/components/object/md-simple-array-table/component.js should pass ESLint\n\n');
   });
 
+  QUnit.test('pods/components/object/md-source/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-source/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-source/preview/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-source/preview/component.js should pass ESLint\n\n');
+  });
+
   QUnit.test('pods/components/object/md-spatial-extent/component.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/components/object/md-spatial-extent/component.js should pass ESLint\n\n');
@@ -1370,6 +1385,16 @@ define('mdeditor/tests/app.lint-test', [], function () {
   QUnit.test('pods/record/show/edit/lineage/lineageobject/route.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/lineage/lineageobject/source/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/source/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/lineage/lineageobject/source/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/source/route.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/step/citation/route.js', function (assert) {
@@ -3162,6 +3187,26 @@ define('mdeditor/tests/integration/helpers/present-test', ['ember-qunit'], funct
     this.render(Ember.HTMLBars.template({
       "id": "BBakFKAP",
       "block": "{\"symbols\":[],\"statements\":[[1,[25,\"present\",[[20,[\"inputValue\"]]],null],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '1234');
+  });
+});
+define('mdeditor/tests/integration/helpers/word-limit-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('word-limit', 'helper:word-limit', {
+    integration: true
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it renders', function (assert) {
+    this.set('inputValue', '1234');
+
+    this.render(Ember.HTMLBars.template({
+      "id": "Nl0wWOis",
+      "block": "{\"symbols\":[],\"statements\":[[1,[25,\"word-limit\",[[20,[\"inputValue\"]]],null],false]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -6977,6 +7022,64 @@ define('mdeditor/tests/integration/pods/components/object/md-simple-array-table/
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
+define('mdeditor/tests/integration/pods/components/object/md-source/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-source', 'Integration | Component | object/md source', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "k084dJ8P",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-source\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "UUIBx/Hj",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-source\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-source/preview/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-source/preview', 'Integration | Component | object/md source/preview', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "+YcT2MVB",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-source/preview\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "sb5QHFuy",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-source/preview\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
 define('mdeditor/tests/integration/pods/components/object/md-spatial-extent/component-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -7391,6 +7494,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
   QUnit.test('integration/helpers/present-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/helpers/present-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/helpers/word-limit-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/helpers/word-limit-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('integration/pods/components/bs-datetimepicker/component-test.js', function (assert) {
@@ -7918,6 +8026,16 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'integration/pods/components/object/md-simple-array-table/component-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('integration/pods/components/object/md-source/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-source/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-source/preview/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-source/preview/component-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('integration/pods/components/object/md-spatial-extent/component-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/pods/components/object/md-spatial-extent/component-test.js should pass ESLint\n\n');
@@ -8421,6 +8539,16 @@ define('mdeditor/tests/tests.lint-test', [], function () {
   QUnit.test('unit/pods/record/show/edit/lineage/lineageobject/route-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/pods/record/show/edit/lineage/lineageobject/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/lineage/lineageobject/source/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/lineage/lineageobject/source/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/lineage/lineageobject/source/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/lineage/lineageobject/source/route-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/pods/record/show/edit/lineage/lineageobject/step/citation/route-test.js', function (assert) {
@@ -10001,6 +10129,32 @@ define('mdeditor/tests/unit/pods/record/show/edit/lineage/lineageobject/route-te
   'use strict';
 
   (0, _emberQunit.moduleFor)('route:record/show/edit/lineage/lineageobject', 'Unit | Route | record/show/edit/lineage/lineageobject', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/lineage/lineageobject/source/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/lineage/lineageobject/source/index', 'Unit | Route | record/show/edit/lineage/lineageobject/source/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/lineage/lineageobject/source/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/lineage/lineageobject/source', 'Unit | Route | record/show/edit/lineage/lineageobject/source', {
     // Specify the other units that are required for this test.
     // needs: ['controller:foo']
   });

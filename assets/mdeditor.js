@@ -5132,6 +5132,88 @@ define('mdeditor/helpers/without', ['exports', 'ember-composable-helpers/helpers
     }
   });
 });
+define('mdeditor/helpers/word-limit', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.wordLimit = wordLimit;
+
+  var _slicedToArray = function () {
+    function sliceIterator(arr, i) {
+      var _arr = [];
+      var _n = true;
+      var _d = false;
+      var _e = undefined;
+
+      try {
+        for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {
+          _arr.push(_s.value);
+
+          if (i && _arr.length === i) break;
+        }
+      } catch (err) {
+        _d = true;
+        _e = err;
+      } finally {
+        try {
+          if (!_n && _i["return"]) _i["return"]();
+        } finally {
+          if (_d) throw _e;
+        }
+      }
+
+      return _arr;
+    }
+
+    return function (arr, i) {
+      if (Array.isArray(arr)) {
+        return arr;
+      } else if (Symbol.iterator in Object(arr)) {
+        return sliceIterator(arr, i);
+      } else {
+        throw new TypeError("Invalid attempt to destructure non-iterable instance");
+      }
+    };
+  }();
+
+  function wordLimit(params, hash) {
+    var _params = _slicedToArray(params, 1);
+
+    const value = _params[0];
+    const limit = hash.limit;
+
+
+    if (Ember.isPresent(value)) {
+      let arr = value.split(/(?=\s)/gi);
+      let words = limit || 50;
+      let stop;
+
+      arr.every((itm, idx) => {
+        stop = idx;
+
+        if (itm.trim() === "") {
+          return true;
+        }
+
+        return idx < words;
+      });
+
+      let text = arr.slice(0, stop).join('');
+
+      if (arr.length > words) {
+        text += '...';
+      }
+
+      return text;
+    }
+
+    return value;
+  }
+
+  exports.default = Ember.Helper.helper(wordLimit);
+});
 define('mdeditor/helpers/xor', ['exports', 'ember-truth-helpers/helpers/xor'], function (exports, _xor) {
   'use strict';
 
@@ -11323,12 +11405,7 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  const Component = Ember.Component,
-        computed = Ember.computed,
-        get = Ember.get,
-        service = Ember.inject.service,
-        $ = Ember.$;
-  exports.default = Component.extend({
+  exports.default = Ember.Component.extend({
     /**
      * Component that renders a Bootstrap card.
      *
@@ -11350,12 +11427,29 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
      * @constructor
      */
 
-    spotlight: service(),
+    // init() {
+    //   this._super(...arguments);
+    //
+    //   let content = this.get('content');
+    //
+    //   if(content !== null) {
+    //     let empty = content ? Object.keys(this.get('cleaner').clean(content, {
+    //         preserveArrays: false
+    //       })).length ===
+    //       0 : true;
+    //
+    //     this.set('collapsed', empty);
+    //   }
+    // },
+
+    spotlight: Ember.inject.service(),
+    cleaner: Ember.inject.service(),
 
     classNames: ['md-card', 'card'],
     classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card', 'maximizable', 'fullScreen', 'required', 'muted'],
     attributeBindings: ['data-spy'],
 
+    content: null,
     /**
      * The card element id.
      *
@@ -11365,7 +11459,7 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
      * @category computed
      * @requires elementId
      */
-    cardId: computed('elementId', function () {
+    cardId: Ember.computed('elementId', function () {
       return 'card-' + this.get('elementId');
     }).readOnly(),
 
@@ -11509,13 +11603,13 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
      * @default "this.title"
      * @category computed
      */
-    'data-spy': computed.oneWay('title'),
+    'data-spy': Ember.computed.oneWay('title'),
 
-    windowIcon: computed('fullScreen', function () {
+    windowIcon: Ember.computed('fullScreen', function () {
       return this.get('fullScreen') ? 'compress' : 'expand';
     }),
 
-    isCollapsible: computed('fullScreen', 'collapsible', function () {
+    isCollapsible: Ember.computed('fullScreen', 'collapsible', function () {
       return !this.get('fullScreen') && this.get('collapsible');
     }),
 
@@ -11539,10 +11633,20 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
           // if(scrolledY) {
           //   window.scroll(0, scrolledY - offset);
           // }
-          $('html,body').animate({
+          Ember.$('html,body').animate({
             scrollTop: card.offset().top - offset
           }, 'slow');
         });
+      }
+
+      let content = this.get('content');
+
+      if (content !== null) {
+        let empty = content ? Object.keys(this.get('cleaner').clean(content, {
+          preserveArrays: false
+        })).length === 0 : true;
+
+        this.set('collapsed', empty);
       }
     },
 
@@ -11551,7 +11655,7 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
         this.toggleProperty('fullScreen');
       },
       spotlight(id) {
-        get(this, 'spotlight').setTarget(id);
+        Ember.get(this, 'spotlight').setTarget(id);
       }
     }
   });
@@ -13118,7 +13222,7 @@ define('mdeditor/pods/components/object/md-citation/component', ['exports'], fun
      *
      * @module mdeditor
      * @submodule components-object
-     * @class md-citation-array
+     * @class md-citation
      * @constructor
      */
 
@@ -14599,7 +14703,7 @@ define("mdeditor/pods/components/object/md-lineage/preview/template", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "wRNKsy6a", "block": "{\"symbols\":[\"step\"],\"statements\":[[6,\"dl\"],[9,\"class\",\"dl-horizontal col-lg-12\"],[7],[0,\"\\n    \"],[6,\"dt\"],[7],[0,\"\\n      \"],[6,\"h4\"],[9,\"class\",\"text-info\"],[7],[0,\"Lineage #\"],[1,[18,\"index\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"dd\"],[7],[8],[0,\"\\n    \"],[1,[25,\"control/md-definition\",null,[[\"title\",\"text\"],[\"Statement\",[20,[\"item\",\"statement\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\"],[6,\"dl\"],[9,\"class\",\"dl-horizontal col-lg-12\"],[7],[0,\"\\n\"],[4,\"control/md-definition\",null,[[\"title\"],[\"Process Step\"]],{\"statements\":[[4,\"each\",[[20,[\"item\",\"processStep\"]]],null,{\"statements\":[[0,\"          \"],[6,\"em\"],[7],[1,[19,1,[\"stepId\"]],false],[8],[0,\": \"],[1,[19,1,[\"description\"]],false],[0,\"\\n            \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[1]},{\"statements\":[[0,\"            \"],[6,\"em\"],[9,\"class\",\"text-muted\"],[7],[0,\"No proces steps assigned.\"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-lineage/preview/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "3J8Byf9i", "block": "{\"symbols\":[\"step\"],\"statements\":[[6,\"dl\"],[9,\"class\",\"dl-horizontal col-lg-12\"],[7],[0,\"\\n    \"],[6,\"dt\"],[7],[0,\"\\n      \"],[6,\"h4\"],[9,\"class\",\"text-info\"],[7],[0,\"Lineage #\"],[1,[18,\"index\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"dd\"],[7],[8],[0,\"\\n    \"],[1,[25,\"control/md-definition\",null,[[\"title\",\"text\"],[\"Statement\",[25,\"word-limit\",[[20,[\"item\",\"statement\"]]],null]]]],false],[0,\"\\n\"],[8],[0,\"\\n\"],[6,\"dl\"],[9,\"class\",\"dl-horizontal col-lg-12\"],[7],[0,\"\\n\"],[4,\"control/md-definition\",null,[[\"title\"],[\"Process Step\"]],{\"statements\":[[4,\"each\",[[20,[\"item\",\"processStep\"]]],null,{\"statements\":[[0,\"          \"],[6,\"em\"],[7],[1,[19,1,[\"stepId\"]],false],[8],[0,\": \"],[1,[25,\"word-limit\",[[19,1,[\"description\"]]],null],false],[0,\"\\n            \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[1]},{\"statements\":[[0,\"            \"],[6,\"em\"],[9,\"class\",\"text-muted\"],[7],[0,\"No proces steps assigned.\"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-lineage/preview/template.hbs" } });
 });
 define("mdeditor/pods/components/object/md-lineage/template", ["exports"], function (exports) {
   "use strict";
@@ -14607,7 +14711,7 @@ define("mdeditor/pods/components/object/md-lineage/template", ["exports"], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "pU1H8RvL", "block": "{\"symbols\":[\"source\",\"&default\"],\"statements\":[[1,[25,\"input/md-textarea\",null,[[\"value\",\"profilePath\",\"label\",\"placeholder\",\"data-spy\",\"required\"],[[20,[\"model\",\"statement\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".statement\"],null],\"Statement\",\"A general statement of the actions taken to verify, transform, repair, and integrate the resource.\",\"Statement\",true]]],false],[0,\"\\n\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"items\",\"hideIndex\",\"header\",\"buttonText\",\"ellipsis\",\"templateClass\",\"editItem\",\"attributes\",\"profilePath\",\"data-spy\"],[[20,[\"model\",\"processStep\"]],true,\"Process Step\",\"Add Step\",[20,[\"ellipsis\"]],[20,[\"stepTemplateClass\"]],[20,[\"editProcessStep\"]],\"stepId,description\",[25,\"concat\",[[20,[\"profilePath\"]],\".processStep\"],null],\"Process Step\"]]],false],[0,\"\\n\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"required\",\"title\",\"templateClass\",\"profilePath\",\"data-spy\"],[\"Description\",[20,[\"model\",\"source\"]],[20,[\"required\"]],\"Source\",[20,[\"sourceTemplate\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".source\"],null],[20,[\"Source\"]]]],{\"statements\":[[0,\"  \"],[6,\"td\"],[7],[0,\"\\n    \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"description\"]],\"A brief description about the source dataset used in creating the data.\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\\n\"],[1,[25,\"object/md-citation-array\",null,[[\"model\",\"profilePath\",\"data-spy\",\"editItem\",\"label\"],[[20,[\"model\",\"citation\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".citation\"],null],\"Lineage Citation\",[20,[\"editCitation\"]],\"Citation\"]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"label\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"closeOnSelect\",\"placeholder\",\"profilePath\",\"data-spy\"],[[20,[\"model\",\"scope\",\"scopeCode\"]],\"Scope\",true,true,true,\"scope\",false,\"Select type of resource.\",[25,\"concat\",[[20,[\"profilePath\"]],\".scope\"],null],\"Scope\"]]],false],[0,\"\\n\"],[11,2],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-lineage/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "qHQuZrlu", "block": "{\"symbols\":[\"source\",\"&default\"],\"statements\":[[1,[25,\"input/md-textarea\",null,[[\"value\",\"profilePath\",\"label\",\"placeholder\",\"data-spy\",\"required\",\"autoresize\",\"maxrows\"],[[20,[\"model\",\"statement\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".statement\"],null],\"Statement\",\"A general statement of the actions taken to verify, transform, repair, and integrate the resource.\",\"Statement\",true,true,25]]],false],[0,\"\\n\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"attributes\",\"items\",\"header\",\"buttonText\",\"ellipsis\",\"previewTemplateTable\",\"templateClass\",\"editItem\",\"profilePath\",\"verticalButtons\",\"hideIndex\",\"condensed\",\"editOnAdd\",\"scrollToId\",\"data-spy\"],[\"description\",[20,[\"model\",\"processStep\"]],\"Process Step\",\"Add Step\",false,\"object/md-source/preview\",[20,[\"stepTemplateClass\"]],[20,[\"editProcessStep\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".processStep\"],null],true,false,false,false,\"md-process-step\",\"Process Step\"]]],false],[0,\"\\n\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"required\",\"title\",\"templateClass\",\"profilePath\",\"data-spy\"],[\"Description\",[20,[\"model\",\"source\"]],[20,[\"required\"]],\"Source\",[20,[\"sourceTemplate\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".source\"],null],\"Source\"]],{\"statements\":[[0,\"  \"],[6,\"td\"],[7],[0,\"\\n    \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"description\"]],\"A brief description about the source dataset used in creating the data.\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"attributes\",\"items\",\"header\",\"shadow\",\"buttonText\",\"ellipsis\",\"previewTemplateTable\",\"editItem\",\"profilePath\",\"verticalButtons\",\"hideIndex\",\"condensed\",\"editOnAdd\",\"scrollToId\",\"data-spy\"],[\"description\",[20,[\"model\",\"source\"]],\"Source\",true,\"Add Source\",false,\"object/md-source/preview\",[20,[\"editSource\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".source\"],null],true,false,false,false,\"md-source\",\"Source\"]]],false],[0,\"\\n\\n\"],[1,[25,\"object/md-citation-array\",null,[[\"model\",\"profilePath\",\"data-spy\",\"editItem\",\"label\"],[[20,[\"model\",\"citation\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".citation\"],null],\"Lineage Citation\",[20,[\"editCitation\"]],\"Citation\"]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"label\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"closeOnSelect\",\"placeholder\",\"profilePath\",\"data-spy\"],[[20,[\"model\",\"scope\",\"scopeCode\"]],\"Scope\",true,true,true,\"scope\",false,\"Select type of resource.\",[25,\"concat\",[[20,[\"profilePath\"]],\".scope\"],null],\"Scope\"]]],false],[0,\"\\n\"],[11,2],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-lineage/template.hbs" } });
 });
 define('mdeditor/pods/components/object/md-locale-array/component', ['exports', 'mdeditor/pods/components/object/md-locale/component'], function (exports, _component) {
   'use strict';
@@ -15249,7 +15353,7 @@ define("mdeditor/pods/components/object/md-object-table/template", ["exports"], 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "9fAOE5Fn", "block": "{\"symbols\":[\"item\",\"index\",\"prop\",\"prop\",\"&default\"],\"statements\":[[4,\"unless\",[[20,[\"showAlert\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"md-object-table panel panel-default \",[25,\"if\",[[20,[\"editing\"]],\"editing\"],null]]]],[7],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"panel-heading\"],[7],[0,\"\\n          \"],[6,\"h3\"],[9,\"class\",\"panel-title md-panel-chevron\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"collapsible\"]]],null,{\"statements\":[[0,\"              \"],[6,\"a\"],[9,\"role\",\"button\"],[9,\"data-toggle\",\"collapse\"],[10,\"href\",[26,[\"#\",[25,\"unless\",[[20,[\"editing\"]],[20,[\"panelId\"]]],null]]]],[10,\"aria-expanded\",[26,[[25,\"if\",[[20,[\"collapsed\"]],\"false\",\"true\"],null]]]],[10,\"class\",[26,[[25,\"if\",[[20,[\"collapsed\"]],\"collapsed\"],null]]]],[10,\"aria-controls\",[26,[[18,\"panelId\"]]]],[7],[0,\"\\n                  \"],[6,\"span\"],[9,\"class\",\"fa\"],[7],[8],[0,\" \"],[1,[18,\"header\"],false],[0,\"\\n                  \"],[6,\"label\"],[10,\"class\",[26,[\"label label-pill \",[18,\"pillColor\"]]]],[7],[0,\" \"],[1,[20,[\"items\",\"length\"]],false],[0,\" \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"              \"],[1,[18,\"header\"],false],[0,\"\\n              \"],[6,\"label\"],[10,\"class\",[26,[\"label label-pill \",[18,\"pillColor\"]]]],[7],[0,\" \"],[1,[20,[\"items\",\"length\"]],false],[0,\" \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"id\",[26,[[18,\"panelId\"],\"-btn\"]]],[10,\"class\",[26,[\"btn btn-xs btn-info pull-right \",[25,\"if\",[[20,[\"editing\"]],\"hidden\"],null]]]],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n                  \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add\\n              \"],[8],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"class\",[26,[\"btn btn-xs btn-info pull-right \",[25,\"unless\",[[20,[\"editing\"]],\"hidden\"],null]]]],[3,\"action\",[[19,0,[]],\"cancelEdit\"]],[7],[0,\"\\n                  \"],[6,\"span\"],[9,\"class\",\"fa fa-check\"],[7],[8],[0,\" OK\\n              \"],[8],[0,\"\\n          \"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[10,\"id\",[26,[[18,\"panelId\"]]]],[10,\"class\",[26,[\"panel-collapse \",[25,\"if\",[[20,[\"collapsed\"]],\"collapse\",\"in\"],null]]]],[7],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",[26,[\"panel-body \",[25,\"if\",[[20,[\"condensed\"]],\"condensed\"],null]]]],[7],[0,\"\\n              \"],[6,\"table\"],[10,\"class\",[26,[\"table table-striped table-hover fadeIn \",[25,\"if\",[[20,[\"ellipsis\"]],\"ellipsis\"],null]]]],[7],[0,\"\\n\"],[4,\"unless\",[[20,[\"previewTemplate\"]]],null,{\"statements\":[[0,\"                  \"],[6,\"thead\"],[7],[0,\"\\n                    \"],[6,\"tr\"],[7],[0,\"\\n\"],[4,\"unless\",[[20,[\"hideIndex\"]]],null,{\"statements\":[[0,\"                      \"],[6,\"th\"],[7],[0,\"#\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[20,[\"attrTitleArray\"]]],null,{\"statements\":[[0,\"                      \"],[6,\"th\"],[7],[1,[25,\"uc-words\",[[19,4,[]]],null],false],[8],[0,\"\\n\"]],\"parameters\":[4]},null],[0,\"                      \"],[6,\"th\"],[7],[8],[0,\"\\n                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"                \"],[6,\"tbody\"],[7],[0,\"\\n\"],[4,\"each\",[[20,[\"items\"]]],null,{\"statements\":[[0,\"                      \"],[6,\"tr\"],[10,\"id\",[26,[[25,\"if\",[[20,[\"scrollToId\"]],[25,\"concat\",[[20,[\"scrollToId\"]],\"-\",[19,2,[]]],null],\"\"],null]]]],[7],[0,\"\\n\"],[4,\"unless\",[[20,[\"hideIndex\"]]],null,{\"statements\":[[0,\"                          \"],[6,\"td\"],[9,\"class\",\"md-table-index\"],[7],[0,\"\\n                            \"],[1,[19,2,[]],false],[0,\"\\n                          \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[20,[\"previewTemplateTable\"]]],null,{\"statements\":[[0,\"                              \"],[1,[25,\"component\",[[20,[\"previewTemplateTable\"]]],[[\"item\",\"index\",\"profilePath\"],[[19,1,[]],[19,2,[]],[20,[\"profilePath\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[20,[\"previewTemplate\"]]],null,{\"statements\":[[0,\"                              \"],[6,\"td\"],[9,\"class\",\"property\"],[7],[1,[25,\"component\",[[20,[\"previewTemplate\"]]],[[\"item\",\"index\",\"profilePath\"],[[19,1,[]],[19,2,[]],[20,[\"profilePath\"]]]]],false],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"each\",[[20,[\"attrArray\"]]],null,{\"statements\":[[4,\"if\",[[25,\"get\",[[19,1,[]],[19,3,[]]],null]],null,{\"statements\":[[0,\"                                  \"],[6,\"td\"],[9,\"class\",\"property\"],[7],[6,\"div\"],[9,\"class\",\"wrap\"],[7],[1,[25,\"get\",[[19,1,[]],[19,3,[]]],null],false],[8],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                                  \"],[6,\"td\"],[7],[6,\"em\"],[7],[0,\"Not Defined\"],[8],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[3]},null],[0,\"                          \"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"                          \"],[6,\"td\"],[10,\"class\",[26,[\"md-row-actions \",[25,\"if\",[[20,[\"verticalButtons\"]],\"vertical\"],null]]]],[7],[0,\"\\n                            \"],[6,\"div\"],[9,\"class\",\"btn-toolbar\"],[9,\"role\",\"toolbar\"],[9,\"aria-label\",\"Row Toolbar\"],[7],[0,\"\\n                              \"],[6,\"div\"],[10,\"class\",[26,[\"btn-group\",[25,\"if\",[[20,[\"verticalButtons\"]],\"-vertical\"],null]]]],[9,\"role\",\"group\"],[9,\"aria-label\",\"Action Buttons\"],[7],[0,\"\\n                                \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"class\",[26,[\"btn btn-\",[18,\"btnSize\"],\" btn-danger\"]]],[3,\"action\",[[19,0,[]],\"deleteItem\",[20,[\"items\"]],[19,2,[]]]],[7],[0,\"\\n                                    \"],[6,\"span\"],[9,\"class\",\"fa fa-times\"],[7],[8],[0,\" Delete\\n                                \"],[8],[0,\"\\n\\n                                \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"class\",[26,[\"btn btn-\",[18,\"btnSize\"],\" btn-success\"]]],[3,\"action\",[[19,0,[]],\"editItem\",[20,[\"items\"]],[19,2,[]]]],[7],[0,\"\\n                                    \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit\\n                                \"],[8],[0,\"\\n                              \"],[8],[0,\"\\n\\n                              \"],[6,\"div\"],[10,\"class\",[26,[\"btn-group\",[25,\"if\",[[20,[\"verticalButtons\"]],\"-vertical\"],null]]]],[9,\"role\",\"group\"],[9,\"aria-label\",\"Row Error\"],[7],[0,\"\\n\"],[4,\"if\",[[19,1,[\"validations\",\"isInvalid\"]]],null,{\"statements\":[[0,\"                                \"],[6,\"span\"],[9,\"class\",\"md-error\"],[7],[0,\"\\n                                  \"],[1,[25,\"fa-icon\",[\"exclamation-circle\"],[[\"fixedWidth\"],[true]]],false],[0,\"\\n\"],[4,\"tooltip-on-element\",null,[[\"side\",\"class\"],[\"right\",\"md-tooltip danger\"]],{\"statements\":[[0,\"                                  This item has errors.\\n\"]],\"parameters\":[]},null],[0,\"                                \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                                \"],[6,\"span\"],[9,\"class\",\"md-error\"],[7],[0,\"\\n                                  \"],[6,\"span\"],[9,\"class\",\"fa fa-fw\"],[7],[8],[0,\"\\n                                \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                              \"],[8],[0,\"\\n                            \"],[8],[0,\"\\n                          \"],[8],[0,\"\\n                      \"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},{\"statements\":[[0,\"                      \"],[6,\"tr\"],[7],[0,\"\\n                          \"],[6,\"td\"],[10,\"colspan\",[26,[[25,\"add-em\",[[20,[\"attrArray\",\"length\"]],[25,\"if\",[[20,[\"hideIndex\"]],1,2],null]],null]]]],[7],[0,\"\\n                            \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"id\",[26,[[18,\"panelId\"],\"-btn\"]]],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n                                \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" \"],[1,[18,\"buttonText\"],false],[0,\"\\n                            \"],[8],[0,\"\\n                          \"],[8],[0,\"\\n                      \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                  \"],[8],[0,\"\\n              \"],[8],[0,\"\\n              \"],[6,\"div\"],[9,\"class\",\"object-editor fadeOut\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"editing\"]]],null,{\"statements\":[[0,\"                      \"],[11,5,[[20,[\"saveItem\"]]]],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"                  \"],[6,\"hr\"],[7],[8],[0,\"\\n                  \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"cancelEdit\"]],[7],[0,\"\\n                      \"],[6,\"span\"],[9,\"class\",\"fa fa-check\"],[7],[8],[0,\" OK\\n                  \"],[8],[0,\"\\n              \"],[8],[0,\"\\n          \"],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"showFooter\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[9,\"class\",\"panel-footer text-right\"],[7],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"id\",[26,[[18,\"panelId\"],\"-btn\"]]],[10,\"class\",[26,[\"btn btn-sm btn-info \",[25,\"if\",[[20,[\"editing\"]],\"hidden\"],null]]]],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n                  \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add \"],[1,[18,\"header\"],false],[0,\"\\n              \"],[8],[0,\"\\n            \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"alert alert-info\"],[7],[0,\"\\n    \"],[6,\"h3\"],[7],[0,\"No \"],[1,[18,\"header\"],false],[0,\" found.\\n      \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-success btn-lg\"],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n        \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add \"],[1,[25,\"singularize\",[[20,[\"header\"]]],null],false],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-object-table/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "DFZl/wbq", "block": "{\"symbols\":[\"item\",\"index\",\"prop\",\"prop\",\"&default\"],\"statements\":[[4,\"unless\",[[20,[\"showAlert\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"md-object-table panel panel-default \",[25,\"if\",[[20,[\"editing\"]],\"editing\"],null]]]],[7],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"panel-heading\"],[7],[0,\"\\n          \"],[6,\"h3\"],[9,\"class\",\"panel-title md-panel-chevron\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"collapsible\"]]],null,{\"statements\":[[0,\"              \"],[6,\"a\"],[9,\"role\",\"button\"],[9,\"data-toggle\",\"collapse\"],[10,\"href\",[26,[\"#\",[25,\"unless\",[[20,[\"editing\"]],[20,[\"panelId\"]]],null]]]],[10,\"aria-expanded\",[26,[[25,\"if\",[[20,[\"collapsed\"]],\"false\",\"true\"],null]]]],[10,\"class\",[26,[[25,\"if\",[[20,[\"collapsed\"]],\"collapsed\"],null]]]],[10,\"aria-controls\",[26,[[18,\"panelId\"]]]],[7],[0,\"\\n                  \"],[6,\"span\"],[9,\"class\",\"fa\"],[7],[8],[0,\" \"],[1,[18,\"header\"],false],[0,\"\\n                  \"],[6,\"label\"],[10,\"class\",[26,[\"label label-pill \",[18,\"pillColor\"]]]],[7],[0,\" \"],[1,[20,[\"items\",\"length\"]],false],[0,\" \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"              \"],[1,[18,\"header\"],false],[0,\"\\n              \"],[6,\"label\"],[10,\"class\",[26,[\"label label-pill \",[18,\"pillColor\"]]]],[7],[0,\" \"],[1,[20,[\"items\",\"length\"]],false],[0,\" \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"id\",[26,[[18,\"panelId\"],\"-btn\"]]],[10,\"class\",[26,[\"btn btn-xs btn-info pull-right \",[25,\"if\",[[20,[\"editing\"]],\"hidden\"],null]]]],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n                  \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add\\n              \"],[8],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"class\",[26,[\"btn btn-xs btn-info pull-right \",[25,\"unless\",[[20,[\"editing\"]],\"hidden\"],null]]]],[3,\"action\",[[19,0,[]],\"cancelEdit\"]],[7],[0,\"\\n                  \"],[6,\"span\"],[9,\"class\",\"fa fa-check\"],[7],[8],[0,\" OK\\n              \"],[8],[0,\"\\n          \"],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[10,\"id\",[26,[[18,\"panelId\"]]]],[10,\"class\",[26,[\"panel-collapse \",[25,\"if\",[[20,[\"collapsed\"]],\"collapse\",\"in\"],null]]]],[7],[0,\"\\n          \"],[6,\"div\"],[10,\"class\",[26,[\"panel-body \",[25,\"if\",[[20,[\"condensed\"]],\"condensed\"],null]]]],[7],[0,\"\\n              \"],[6,\"table\"],[10,\"class\",[26,[\"table table-striped table-hover fadeIn \",[25,\"if\",[[20,[\"ellipsis\"]],\"ellipsis\"],null]]]],[7],[0,\"\\n\"],[4,\"unless\",[[20,[\"previewTemplate\"]]],null,{\"statements\":[[0,\"                  \"],[6,\"thead\"],[7],[0,\"\\n                    \"],[6,\"tr\"],[7],[0,\"\\n\"],[4,\"unless\",[[20,[\"hideIndex\"]]],null,{\"statements\":[[0,\"                      \"],[6,\"th\"],[7],[0,\"#\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[20,[\"attrTitleArray\"]]],null,{\"statements\":[[0,\"                      \"],[6,\"th\"],[7],[1,[25,\"uc-words\",[[19,4,[]]],null],false],[8],[0,\"\\n\"]],\"parameters\":[4]},null],[0,\"                      \"],[6,\"th\"],[7],[8],[0,\"\\n                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"                \"],[6,\"tbody\"],[7],[0,\"\\n\"],[4,\"each\",[[20,[\"items\"]]],null,{\"statements\":[[0,\"                      \"],[6,\"tr\"],[10,\"id\",[26,[[25,\"if\",[[20,[\"scrollToId\"]],[25,\"concat\",[[20,[\"scrollToId\"]],\"-\",[19,2,[]]],null],\"\"],null]]]],[7],[0,\"\\n\"],[4,\"unless\",[[20,[\"hideIndex\"]]],null,{\"statements\":[[0,\"                          \"],[6,\"td\"],[9,\"class\",\"md-table-index\"],[7],[0,\"\\n                            \"],[1,[19,2,[]],false],[0,\"\\n                          \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"if\",[[20,[\"previewTemplateTable\"]]],null,{\"statements\":[[0,\"                              \"],[1,[25,\"component\",[[20,[\"previewTemplateTable\"]]],[[\"item\",\"index\",\"profilePath\"],[[19,1,[]],[19,2,[]],[20,[\"profilePath\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[20,[\"previewTemplate\"]]],null,{\"statements\":[[0,\"                              \"],[6,\"td\"],[9,\"class\",\"property\"],[7],[1,[25,\"component\",[[20,[\"previewTemplate\"]]],[[\"item\",\"index\",\"profilePath\"],[[19,1,[]],[19,2,[]],[20,[\"profilePath\"]]]]],false],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"each\",[[20,[\"attrArray\"]]],null,{\"statements\":[[4,\"if\",[[25,\"get\",[[19,1,[]],[19,3,[]]],null]],null,{\"statements\":[[0,\"                                  \"],[6,\"td\"],[9,\"class\",\"property\"],[7],[6,\"div\"],[9,\"class\",\"wrap\"],[7],[1,[25,\"get\",[[19,1,[]],[19,3,[]]],null],false],[8],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                                  \"],[6,\"td\"],[7],[6,\"em\"],[7],[0,\"Not Defined\"],[8],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[3]},null],[0,\"                          \"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"                          \"],[6,\"td\"],[10,\"class\",[26,[\"md-row-actions \",[25,\"if\",[[20,[\"verticalButtons\"]],\"vertical\"],null]]]],[7],[0,\"\\n                            \"],[6,\"div\"],[9,\"class\",\"btn-toolbar\"],[9,\"role\",\"toolbar\"],[9,\"aria-label\",\"Row Toolbar\"],[7],[0,\"\\n                              \"],[6,\"div\"],[10,\"class\",[26,[\"btn-group\",[25,\"if\",[[20,[\"verticalButtons\"]],\"-vertical\"],null]]]],[9,\"role\",\"group\"],[9,\"aria-label\",\"Action Buttons\"],[7],[0,\"\\n                                \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"class\",[26,[\"btn btn-\",[18,\"btnSize\"],\" btn-danger\"]]],[3,\"action\",[[19,0,[]],\"deleteItem\",[20,[\"items\"]],[19,2,[]]]],[7],[0,\"\\n                                    \"],[6,\"span\"],[9,\"class\",\"fa fa-times\"],[7],[8],[0,\" Delete\\n                                \"],[8],[0,\"\\n\\n                                \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"class\",[26,[\"btn btn-\",[18,\"btnSize\"],\" btn-success\"]]],[3,\"action\",[[19,0,[]],\"editItem\",[20,[\"items\"]],[19,2,[]]]],[7],[0,\"\\n                                    \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" \"],[1,[25,\"if\",[[20,[\"editBtnText\"]],[20,[\"editBtnText\"]],\"Edit\"],null],false],[0,\"\\n                                \"],[8],[0,\"\\n                              \"],[8],[0,\"\\n\\n                              \"],[6,\"div\"],[10,\"class\",[26,[\"btn-group\",[25,\"if\",[[20,[\"verticalButtons\"]],\"-vertical\"],null]]]],[9,\"role\",\"group\"],[9,\"aria-label\",\"Row Error\"],[7],[0,\"\\n\"],[4,\"if\",[[19,1,[\"validations\",\"isInvalid\"]]],null,{\"statements\":[[0,\"                                \"],[6,\"span\"],[9,\"class\",\"md-error\"],[7],[0,\"\\n                                  \"],[1,[25,\"fa-icon\",[\"exclamation-circle\"],[[\"fixedWidth\"],[true]]],false],[0,\"\\n\"],[4,\"tooltip-on-element\",null,[[\"side\",\"class\"],[\"right\",\"md-tooltip danger\"]],{\"statements\":[[0,\"                                  This item has errors.\\n\"]],\"parameters\":[]},null],[0,\"                                \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"                                \"],[6,\"span\"],[9,\"class\",\"md-error\"],[7],[0,\"\\n                                  \"],[6,\"span\"],[9,\"class\",\"fa fa-fw\"],[7],[8],[0,\"\\n                                \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                              \"],[8],[0,\"\\n                            \"],[8],[0,\"\\n                          \"],[8],[0,\"\\n                      \"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},{\"statements\":[[0,\"                      \"],[6,\"tr\"],[7],[0,\"\\n                          \"],[6,\"td\"],[10,\"colspan\",[26,[[25,\"add-em\",[[20,[\"attrArray\",\"length\"]],[25,\"if\",[[20,[\"hideIndex\"]],1,2],null]],null]]]],[7],[0,\"\\n                            \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"id\",[26,[[18,\"panelId\"],\"-btn\"]]],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n                                \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" \"],[1,[18,\"buttonText\"],false],[0,\"\\n                            \"],[8],[0,\"\\n                          \"],[8],[0,\"\\n                      \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"                  \"],[8],[0,\"\\n              \"],[8],[0,\"\\n              \"],[6,\"div\"],[9,\"class\",\"object-editor fadeOut\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"editing\"]]],null,{\"statements\":[[0,\"                      \"],[11,5,[[20,[\"saveItem\"]]]],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"                  \"],[6,\"hr\"],[7],[8],[0,\"\\n                  \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"cancelEdit\"]],[7],[0,\"\\n                      \"],[6,\"span\"],[9,\"class\",\"fa fa-check\"],[7],[8],[0,\" OK\\n                  \"],[8],[0,\"\\n              \"],[8],[0,\"\\n          \"],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"showFooter\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[9,\"class\",\"panel-footer text-right\"],[7],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[10,\"id\",[26,[[18,\"panelId\"],\"-btn\"]]],[10,\"class\",[26,[\"btn btn-sm btn-info \",[25,\"if\",[[20,[\"editing\"]],\"hidden\"],null]]]],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n                  \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add \"],[1,[18,\"header\"],false],[0,\"\\n              \"],[8],[0,\"\\n            \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"alert alert-info\"],[7],[0,\"\\n    \"],[6,\"h3\"],[7],[0,\"No \"],[1,[18,\"header\"],false],[0,\" found.\\n      \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-success btn-lg\"],[3,\"action\",[[19,0,[]],\"addItem\",[20,[\"items\"]]]],[7],[0,\"\\n        \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add \"],[1,[25,\"singularize\",[[20,[\"header\"]]],null],false],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-object-table/template.hbs" } });
 });
 define('mdeditor/pods/components/object/md-objectroute-table/component', ['exports', 'mdeditor/pods/components/object/md-object-table/component'], function (exports, _component) {
   'use strict';
@@ -15290,6 +15394,7 @@ define('mdeditor/pods/components/object/md-objectroute-table/component', ['expor
       return this;
     },
 
+    editBtnText: 'More...',
     layoutName: 'components/object/md-object-table',
 
     actions: {
@@ -15943,6 +16048,89 @@ define('mdeditor/pods/components/object/md-simple-array-table/component', ['expo
     })
   });
 });
+define('mdeditor/pods/components/object/md-source/component', ['exports', 'ember-cp-validations', 'npm:uuid/v4'], function (exports, _emberCpValidations, _v) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+
+  const Validations = (0, _emberCpValidations.buildValidations)({
+    'description': [(0, _emberCpValidations.validator)('presence', {
+      presence: true,
+      ignoreBlank: true
+    })]
+  });
+
+  exports.default = Ember.Component.extend(Validations, {
+    didReceiveAttrs() {
+      this._super(...arguments);
+
+      let model = Ember.get(this, 'model');
+
+      Ember.run.once(this, function () {
+        Ember.set(model, 'sourceId', Ember.getWithDefault(model, 'sourceId', (0, _v.default)()));
+        Ember.set(model, 'sourceCitation', Ember.getWithDefault(model, 'sourceCitation', {}));
+        Ember.set(model, 'metadataCitation', Ember.getWithDefault(model, 'metadataCitation', []));
+        Ember.set(model, 'spatialResolution', Ember.getWithDefault(model, 'spatialResolution', {}));
+        Ember.set(model, 'referenceSystem', Ember.getWithDefault(model, 'referenceSystem', {}));
+        Ember.set(model, 'sourceProcessStep', Ember.getWithDefault(model, 'sourceProcessStep', []));
+        Ember.set(model, 'scope', Ember.getWithDefault(model, 'scope', {}));
+      });
+    },
+
+    /**
+     * The string representing the path in the profile object for the domain.
+     *
+     * @property profilePath
+     * @type {String}
+     * @default 'false'
+     * @required
+     */
+
+    /**
+     * The object to use as the data model for the domain.
+     *
+     * @property model
+     * @type {Object}
+     * @required
+     */
+
+    tagName: 'form',
+    domainId: Ember.computed.alias('model.domainId'),
+    codeName: Ember.computed.alias('model.codeName'),
+    description: Ember.computed.alias('model.description')
+  });
+});
+define('mdeditor/pods/components/object/md-source/preview/component', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Component.extend( /*Validations,*/{
+    tagName: '',
+    model: Ember.computed.alias('item'),
+    name: Ember.computed.alias('model.description')
+  });
+});
+define("mdeditor/pods/components/object/md-source/preview/template", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "DwjTeG3S", "block": "{\"symbols\":[],\"statements\":[[6,\"td\"],[7],[0,\"\\n  \"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"profilePath\",\"placeholder\",\"maxrows\"],[[20,[\"model\",\"description\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".source.description\"],null],\"A brief description about the source dataset used in creating the data.\",7]]],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-source/preview/template.hbs" } });
+});
+define("mdeditor/pods/components/object/md-source/template", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "BSGgWYju", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-input\",null,[[\"value\",\"model\",\"valuePath\",\"label\",\"data-spy\",\"placeholder\",\"required\",\"profilePath\"],[[20,[\"model\",\"sourceId\"]],null,null,\"Source ID\",\"Source ID\",\"Enter unique identifer for the source.\",false,[25,\"concat\",[[20,[\"profilePath\"]],\".sourceId\"],null]]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"profilePath\",\"label\",\"placeholder\",\"data-spy\",\"showValidations\"],[[20,[\"model\",\"description\"]],true,[25,\"concat\",[[20,[\"profilePath\"]],\".description\"],null],\"Description\",\"Description of the source.\",\"Source Description\",true]]],false],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"profilePath\",\"data-spy\",\"shadow\",\"content\"],[\"Source Citation\",true,[25,\"concat\",[[20,[\"profilePath\"]],\".sourceCitation\"],null],\"Source Citation\",true,[20,[\"model\",\"sourceCitation\"]]]],{\"statements\":[[0,\"  \"],[1,[25,\"object/md-citation\",null,[[\"model\",\"simpleIdentifier\",\"profilePath\",\"embedded\"],[[20,[\"model\",\"sourceCitation\"]],true,[25,\"concat\",[[20,[\"profilePath\"]],\".sourceCitation\"],null],true]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-source/template.hbs" } });
+});
 define('mdeditor/pods/components/object/md-spatial-extent/component', ['exports'], function (exports) {
   'use strict';
 
@@ -16488,7 +16676,7 @@ define("mdeditor/pods/components/object/md-transfer/template", ["exports"], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "IdnIHF0l", "block": "{\"symbols\":[\"unit\",\"format\",\"editing\",\"&default\"],\"statements\":[[0,\"  \"],[1,[25,\"input/md-input\",null,[[\"type\",\"valuePath\",\"model\",\"step\",\"label\",\"placeholder\",\"profilePath\"],[\"number\",\"transferSize\",[20,[\"model\"]],\"0.01\",\"Transfer Size (MB)\",\"Estimated size of a unit in the specified transfer format, expressed in megabytes.\",[25,\"concat\",[[20,[\"profilePath\"]],\".transferSize\"],null]]]],false],[0,\"\\n  \"],[1,[25,\"input/md-input\",null,[[\"value\",\"label\",\"placeholder\",\"profilePath\"],[[20,[\"model\",\"unitsOfDistribution\"]],\"Distribution units\",\"Description of the tiles, layers, geographic areas, etc., in which data are available.\",[25,\"concat\",[[20,[\"profilePath\"]],\".distributionUnit\"],null]]]],false],[0,\"\\n\\n  \"],[1,[25,\"object/md-online-resource-array\",null,[[\"model\",\"label\",\"profilePath\",\"class\",\"shadow\",\"data-spy\"],[[20,[\"model\",\"onlineOption\"]],\"Online Option\",[25,\"concat\",[[20,[\"profilePath\"]],\".onlineOption\"],null],\"md-embedded\",false,[20,[\"fales\"]]]]],false],[0,\"\\n\\n\"],[4,\"object/md-object-table\",null,[[\"items\",\"header\",\"buttonText\",\"templateClass\",\"ellipsis\",\"shadow\",\"attributes\"],[[20,[\"model\",\"offlineOption\"]],\"Offline Option\",\"Add Offline Option\",[20,[\"templateClass\"]],false,false,\"title\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-medium\",null,[[\"model\",\"profilePath\"],[[19,3,[]],[25,\"concat\",[[20,[\"profilePath\"]],\".offlineOption\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[3]},null],[0,\"\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"plain\",\"responsive\",\"title\",\"value\",\"validation\",\"templateClass\",\"profilePath\"],[\"Format Name,Version,Compression Method,URL\",false,true,\"Distribution Format\",[20,[\"model\",\"distributionFormat\"]],[20,[\"formatValidation\"]],[20,[\"formatTemplate\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".distributionFormat\"],null]]],{\"statements\":[[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"formatSpecification\",\"title\"]],\"Name of the format\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"amendmentNumber\"]],\"Format version\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"compressionMethod\"]],\"Compression Method\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"formatSpecification\",\"onlineResource\",\"firstObject\",\"uri\"]],\"On-line information about the format\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"shadow\",\"profilePath\",\"muted\",\"plain\",\"bodyIsRow\"],[false,[25,\"concat\",[[20,[\"profilePath\"]],\".transferFrequency\"],null],false,true,true]],{\"statements\":[[0,\"    \"],[6,\"label\"],[9,\"class\",\"text-info col-sm-2\"],[7],[0,\"Transfer Frequency\"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-sm-10\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n\"],[4,\"each\",[[25,\"array\",[\"years\",\"months\",\"days\",\"hours\",\"minutes\",\"seconds\"],null]],null,{\"statements\":[[0,\"          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"valuePath\",\"model\",\"type\",\"label\",\"placeholder\",\"profilePath\"],[\"col-sm-6 col-md-4 col-lg-2\",[25,\"concat\",[\"transferFrequency.\",[19,1,[]]],null],[20,[\"model\"]],\"number\",[25,\"uc-words\",[[19,1,[]]],null],[25,\"concat\",[\"Enter \",[19,1,[]]],null],[25,\"concat\",[[20,[\"profilePath\"]],\".transferFrequency.\",[19,1,[]]],null]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[11,4],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-transfer/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "V0eeXdOC", "block": "{\"symbols\":[\"unit\",\"format\",\"editing\",\"&default\"],\"statements\":[[0,\"  \"],[1,[25,\"input/md-input\",null,[[\"type\",\"valuePath\",\"model\",\"step\",\"label\",\"placeholder\",\"profilePath\"],[\"number\",\"transferSize\",[20,[\"model\"]],\"0.01\",\"Transfer Size (MB)\",\"Estimated size of a unit in the specified transfer format, expressed in megabytes.\",[25,\"concat\",[[20,[\"profilePath\"]],\".transferSize\"],null]]]],false],[0,\"\\n  \"],[1,[25,\"input/md-input\",null,[[\"value\",\"label\",\"placeholder\",\"profilePath\"],[[20,[\"model\",\"unitsOfDistribution\"]],\"Distribution units\",\"Description of the tiles, layers, geographic areas, etc., in which data are available.\",[25,\"concat\",[[20,[\"profilePath\"]],\".distributionUnit\"],null]]]],false],[0,\"\\n\\n  \"],[1,[25,\"object/md-online-resource-array\",null,[[\"model\",\"label\",\"profilePath\",\"class\",\"shadow\",\"data-spy\"],[[20,[\"model\",\"onlineOption\"]],\"Online Option\",[25,\"concat\",[[20,[\"profilePath\"]],\".onlineOption\"],null],\"md-embedded\",false,[20,[\"fales\"]]]]],false],[0,\"\\n\\n\"],[4,\"object/md-object-table\",null,[[\"items\",\"header\",\"buttonText\",\"templateClass\",\"ellipsis\",\"shadow\",\"attributes\"],[[20,[\"model\",\"offlineOption\"]],\"Offline Option\",\"Add Offline Option\",[20,[\"templateClass\"]],false,false,\"title\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-medium\",null,[[\"model\",\"profilePath\"],[[19,3,[]],[25,\"concat\",[[20,[\"profilePath\"]],\".offlineOption\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[3]},null],[0,\"\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"plain\",\"responsive\",\"title\",\"data-spy\",\"value\",\"validation\",\"templateClass\",\"profilePath\"],[\"Format Name,Version,Compression Method,URL\",false,true,\"Distribution Format\",false,[20,[\"model\",\"distributionFormat\"]],[20,[\"formatValidation\"]],[20,[\"formatTemplate\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".distributionFormat\"],null]]],{\"statements\":[[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"formatSpecification\",\"title\"]],\"Name of the format\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"amendmentNumber\"]],\"Format version\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"compressionMethod\"]],\"Compression Method\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,2,[\"item\",\"formatSpecification\",\"onlineResource\",\"firstObject\",\"uri\"]],\"On-line information about the format\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"shadow\",\"profilePath\",\"muted\",\"plain\",\"bodyIsRow\"],[false,[25,\"concat\",[[20,[\"profilePath\"]],\".transferFrequency\"],null],false,true,true]],{\"statements\":[[0,\"    \"],[6,\"label\"],[9,\"class\",\"text-info col-sm-2\"],[7],[0,\"Transfer Frequency\"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-sm-10\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n\"],[4,\"each\",[[25,\"array\",[\"years\",\"months\",\"days\",\"hours\",\"minutes\",\"seconds\"],null]],null,{\"statements\":[[0,\"          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"valuePath\",\"model\",\"type\",\"label\",\"placeholder\",\"profilePath\"],[\"col-sm-6 col-md-4 col-lg-2\",[25,\"concat\",[\"transferFrequency.\",[19,1,[]]],null],[20,[\"model\"]],\"number\",[25,\"uc-words\",[[19,1,[]]],null],[25,\"concat\",[\"Enter \",[19,1,[]]],null],[25,\"concat\",[[20,[\"profilePath\"]],\".transferFrequency.\",[19,1,[]]],null]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[11,4],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-transfer/template.hbs" } });
 });
 define('mdeditor/pods/components/tooltip-on-component/component', ['exports', 'ember-tooltips/components/tooltip-on-component'], function (exports, _tooltipOnComponent) {
   'use strict';
@@ -20620,7 +20808,7 @@ define("mdeditor/pods/record/show/edit/lineage/index/template", ["exports"], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "yXveYufq", "block": "{\"symbols\":[],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n  Editing Lineage\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"parentModel\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"items\",\"header\",\"shadow\",\"buttonText\",\"ellipsis\",\"previewTemplate\",\"editItem\",\"hideIndex\",\"condensed\"],[[20,[\"model\",\"json\",\"metadata\",\"resourceLineage\"]],\"Lineage\",true,\"Add Lineage Object\",[20,[\"ellipsis\"]],\"object/md-lineage/preview\",[25,\"route-action\",[\"editLineage\"],null],true,true]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/lineage/index/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "m/vFOB+7", "block": "{\"symbols\":[],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n  Editing Lineage\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"parentModel\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"items\",\"header\",\"shadow\",\"buttonText\",\"ellipsis\",\"previewTemplate\",\"editItem\",\"hideIndex\",\"condensed\"],[[20,[\"model\",\"json\",\"metadata\",\"resourceLineage\"]],\"Lineage\",true,\"Add Lineage Object\",false,\"object/md-lineage/preview\",[25,\"route-action\",[\"editLineage\"],null],true,true]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/lineage/index/template.hbs" } });
 });
 define('mdeditor/pods/record/show/edit/lineage/lineageobject/citation/identifier/route', ['exports', 'mdeditor/mixins/scroll-to'], function (exports, _scrollTo) {
   'use strict';
@@ -20792,6 +20980,11 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/index/route', ['exp
           this.setScrollTo('citation');
         }.bind(this));
       },
+      editSource(index) {
+        this.transitionTo('record.show.edit.lineage.lineageobject.source', index).then(function () {
+          this.setScrollTo('source');
+        }.bind(this));
+      },
       editProcessStep(index) {
         this.transitionTo('record.show.edit.lineage.lineageobject.step', index).then(function () {
           this.setScrollTo('process-step');
@@ -20806,7 +20999,7 @@ define("mdeditor/pods/record/show/edit/lineage/lineageobject/index/template", ["
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "5NCjP+Di", "block": "{\"symbols\":[],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n  Editing Lineage #\"],[1,[18,\"lineageId\"],false],[0,\"\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"parentModel\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[25,\"object/md-lineage\",null,[[\"model\",\"profilePath\",\"editCitation\",\"editProcessStep\"],[[20,[\"model\"]],\"record.lineage\",[25,\"route-action\",[\"editCitation\"],null],[25,\"route-action\",[\"editProcessStep\"],null]]]],false],[0,\"\\n\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"route\"],[\"Back to Lineage List\",\"arrow-left\",\"record.show.edit.lineage\"]]]]]],false],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-record-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/lineage/lineageobject/index/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "XAt0PAZV", "block": "{\"symbols\":[],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n  Editing Lineage #\"],[1,[18,\"lineageId\"],false],[0,\"\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"parentModel\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[25,\"object/md-lineage\",null,[[\"model\",\"profilePath\",\"ellipsis\",\"editCitation\",\"editProcessStep\",\"editSource\"],[[20,[\"model\"]],\"record.lineage\",true,[25,\"route-action\",[\"editCitation\"],null],[25,\"route-action\",[\"editProcessStep\"],null],[25,\"route-action\",[\"editSource\"],null]]]],false],[0,\"\\n\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"route\"],[\"Back to Lineage List\",\"arrow-left\",\"record.show.edit.lineage\"]]]]]],false],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-record-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/lineage/lineageobject/index/template.hbs" } });
 });
 define('mdeditor/pods/record/show/edit/lineage/lineageobject/route', ['exports'], function (exports) {
   'use strict';
@@ -20862,6 +21055,95 @@ define('mdeditor/pods/record/show/edit/lineage/lineageobject/route', ['exports']
       return lineage;
     }
   });
+});
+define('mdeditor/pods/record/show/edit/lineage/lineageobject/source/index/route', ['exports', 'mdeditor/mixins/scroll-to'], function (exports, _scrollTo) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend(_scrollTo.default, {
+    setupController: function setupController(controller) {
+      // Call _super for default behavior
+      this._super(...arguments);
+
+      let sourceId = this.paramsFor('record.show.edit.lineage.lineageobject.source').source_id;
+
+      controller.set('parentModel', this.modelFor('record.show.edit'));
+      controller.set('sourceId', sourceId);
+    },
+
+    actions: {
+      goBack() {
+        this.transitionTo('record.show.edit.lineage.lineageobject');
+      }
+    }
+  });
+});
+define("mdeditor/pods/record/show/edit/lineage/lineageobject/source/index/template", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "zMkrHvdH", "block": "{\"symbols\":[\"source\"],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"Editing Source #\"],[1,[18,\"sourceId\"],false],[0,\"\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[25,\"compute\",[[25,\"route-action\",[\"parentModel\"],null]],null]]]],false],[0,\"\\n\"],[8],[0,\"\\n\"],[4,\"with\",[[20,[\"model\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n      \"],[1,[25,\"object/md-source\",null,[[\"model\",\"profilePath\"],[[19,1,[]],\"record.metadata.resourceLineage.source\"]]],false],[0,\"\\n      \"],[1,[18,\"outlet\"],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"click\"],[\"Back to Lineage Object\",\"arrow-left\",[25,\"route-action\",[\"goBack\"],null]]]]]]],false],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-record-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"scrollInit\",\"setScrollTo\"],[[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/lineage/lineageobject/source/index/template.hbs" } });
+});
+define('mdeditor/pods/record/show/edit/lineage/lineageobject/source/route', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({
+    model(params, transition) {
+      this.set('sourceId', params.source_id);
+      this.set('lineageId', transition.params['record.show.edit.lineage.lineageobject'].lineage_id);
+
+      return this.setupModel();
+    },
+
+    setupController: function setupController() {
+      // Call _super for default behavior
+      this._super(...arguments);
+
+      this.controller.set('parentModel', this.modelFor('record.show.edit'));
+      this.controllerFor('record.show.edit').setProperties({
+        onCancel: this.setupModel,
+        cancelScope: this
+      });
+    },
+
+    setupModel() {
+      let sourceId = Ember.get(this, 'sourceId');
+      let lineageId = Ember.get(this, 'lineageId');
+      let model = this.modelFor('record.show.edit');
+      let sources = model.get('json.metadata.resourceLineage.' + lineageId + '.source');
+      let source = sourceId && Ember.isArray(sources) ? sources.get(sourceId) : undefined;
+
+      //make sure the identifier exists
+      if (Ember.isEmpty(source)) {
+        Ember.get(this, 'flashMessages').warning('No source found! Re-directing...');
+        this.replaceWith('record.show.edit.lineage.lineageobject');
+
+        return;
+      }
+
+      return source;
+    },
+    actions: {
+      parentModel() {
+        return this.modelFor('record.show.edit');
+      }
+    }
+  });
+});
+define("mdeditor/pods/record/show/edit/lineage/lineageobject/source/template", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "8wwd1c9V", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"liquid-outlet\",null,[[\"class\"],[\"liquid-spy\"]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/lineage/lineageobject/source/template.hbs" } });
 });
 define('mdeditor/pods/record/show/edit/lineage/lineageobject/step/citation/route', ['exports', 'mdeditor/mixins/scroll-to'], function (exports, _scrollTo) {
   'use strict';
@@ -22158,6 +22440,9 @@ define('mdeditor/router', ['exports', 'mdeditor/config/environment'], function (
                   path: 'citation/:citation_id'
                 });
               });
+              this.route('source', {
+                path: 'source/:source_id'
+              }, function () {});
             });
           });
           this.route('distribution', function () {
@@ -25341,6 +25626,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.1.1+fc171ea1"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.1.1+a1da1a38"});
 }
 //# sourceMappingURL=mdeditor.map
