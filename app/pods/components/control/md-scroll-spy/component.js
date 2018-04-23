@@ -1,12 +1,8 @@
-import Ember from 'ember';
 import { inject as service } from '@ember/service';
-const {
-  Component,
-  computed,
-  $,
-  A,
-  get
-} = Ember;
+import { get, computed } from '@ember/object';
+import Component from '@ember/component';
+import $ from 'jquery';
+import { A } from '@ember/array';
 
 export default Component.extend({
   /**
@@ -19,6 +15,7 @@ export default Component.extend({
    */
 
   profile: service('profile'),
+  router: service('router'),
   classNames: ['md-scroll-spy'],
 
   /**
@@ -140,6 +137,14 @@ export default Component.extend({
       }
     }
   },
+
+didReceiveAttrs() {
+  this._super(...arguments);
+
+  if(!this.setScrollTo) {
+    this.scroll();
+  }
+},
 
   /**
    * Scrolls to the target.

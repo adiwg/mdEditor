@@ -108,5 +108,8 @@ export default Route.extend({
           route.controller.set('lastError', error);
         });
     },
+    didTransition() {
+      this.controller.set('currentRoute', this.router.get('currentRouteName'));
+    }
   }
 });
