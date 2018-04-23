@@ -86,6 +86,15 @@ const theComp = Component.extend({
   embedded: false,
 
   /**
+   * The data-spy title, set to false to hide.
+   *
+   * @property data-spy
+   * @type {String}
+   * @default "Citation"
+   */
+  'data-spy': 'Citation',
+
+  /**
    * Indicates whether the citation identifier Component should be rendered using
    * the inline form: md-identifier-object-table.
    *
