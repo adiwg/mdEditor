@@ -3,9 +3,10 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{object/md-lineage model=model profilePath="record.lineage"
+{{object/md-lineage model=model profilePath="record.lineage" ellipsis=true
   editCitation=(route-action "editCitation")
   editProcessStep=(route-action "editProcessStep")
+  editSource=(route-action "editSource")
 }}
 
 {{to-elsewhere

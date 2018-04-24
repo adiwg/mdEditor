@@ -37,6 +37,7 @@ export default Table.extend({
     return this;
   },
 
+  editBtnText: 'More...',
   layoutName: 'components/object/md-object-table',
 
   actions: {

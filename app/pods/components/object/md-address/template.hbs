@@ -10,10 +10,13 @@
 {{!-- Editing: {{address.name}} --}}
 
 <div class="form-group">
-    <label>Address Type</label>
+    <label class="required">Address Type</label>
     {{input/md-codelist-multi
-    value=address.addressType
+    model=address
+    path="addressType"
     create=true tooltip=true icon=false mdCodeName="addressType"
+    required=true
+    showValidations=true
     placeholder="Select or enter one or more types"}}
 </div>
 

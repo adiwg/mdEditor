@@ -1,5 +1,6 @@
 {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
-  profilePath=(concat profilePath ".basicInformation") data-spy="Basic Information"
+  profilePath=(concat profilePath ".basicInformation")
+  data-spy=(if data-spy "Basic Information")
   class=(if embedded "md-embedded")
   shadow=(if embedded false true)
   required=true
@@ -13,7 +14,7 @@
     label="Title"
     required=true
     profilePath=(concat profilePath ".title")
-    data-spy="Title"
+    data-spy=(if data-spy "Title")
     class="md-embedded"
   }}
 
@@ -30,7 +31,7 @@
   {{/layout/md-card}}
 
   {{#layout/md-card shadow=false profilePath=(concat profilePath ".date")
-    data-spy="Dates"
+    data-spy=(if data-spy "Dates")
     class="md-embedded"
   }}
     {{object/md-date-array value=model.date plain=true data-spy=false}}
@@ -62,7 +63,7 @@
 
 {{object/md-party-array
   title="Responsible Party"
-  data-spy="Responsible Parties"
+  data-spy=(if data-spy "Responsible Parties")
   class=(if embedded "md-embedded")
   collapsible=true collapsed=false
   required=false
@@ -73,32 +74,36 @@
 {{object/md-online-resource-array model=model.onlineResource
   profilePath=(concat profilePath ".onlineResource")
   class=(if embedded "md-embedded")
-  data-spy="Online Resource"}}
+  data-spy=(if data-spy "Online Resource")
+}}
 
 
 {{object/md-identifier-array model=model.identifier
-  profilePath=(concat profilePath ".identifier") data-spy="Identifier"
+  profilePath=(concat profilePath ".identifier") data-spy=(if data-spy "Identifier")
   editItem=editIdentifier
   class=(if embedded "md-embedded")
   visibility=(if simpleIdentifier false true)
 }}
 
 {{object/md-identifier-object-table model=model.identifier
-  profilePath=(concat profilePath ".identifierSimple") data-spy="Identifier"
+  profilePath=(concat profilePath ".identifierSimple") data-spy=(if data-spy "Identifier")
   visibility=(if simpleIdentifier true false)
   short=shortIdentifier
   class=(if embedded "md-embedded")
 }}
 
 {{object/md-identifier-object-table model=model.identifier
-  profilePath=(concat profilePath ".identifierShort") data-spy="Identifier"
+  profilePath=(concat profilePath ".identifierShort") data-spy=(if data-spy "Identifier")
   visibility=false
   short=true
   class=(if embedded "md-embedded")
 }}
 
 {{#unless embedded}}
-  {{#layout/md-card collapsible=true title="Series" profilePath=(concat profilePath ".series") data-spy="Series"}}
+  {{#layout/md-card collapsible=true title="Series" profilePath=(concat profilePath ".series")
+    data-spy=(if data-spy "Series")
+    content=model.series
+  }}
     {{input/md-input
       value=model.series.seriesName
       placeholder="Enter the name for the series."
@@ -125,6 +130,7 @@
     title="Other Details"
     required=false
     plain=false
+    data-spy=(if data-spy "Other Details")
     profilePath=(concat profilePath '.otherCitationDetails')
     value=model.otherCitationDetails as |val|
   }}
@@ -136,7 +142,7 @@
 
   {{object/md-graphic-array
     model=model.graphic
-    data-spy="Graphic"
+    data-spy=(if data-spy "Graphic")
     button-text="Add Graphic"
     label="Graphic"
     profilePath=(concat profilePath '.graphicOverview')

@@ -17,7 +17,18 @@ const {
   }
 } = Ember;
 
-export default Component.extend({
+const formatMaint = function(model) {
+  setProperties(model, {
+    'date': getWithDefault(model, 'date', []),
+    'scope': getWithDefault(model, 'scope', []),
+    'note': getWithDefault(model, 'note', []),
+    'contact': getWithDefault(model, 'contact', [])
+  });
+
+  return model;
+};
+
+const theComp = Component.extend({
   /**
    * mdEditor class for input and edit of mdJSON 'maintenance' objects.
    *
@@ -53,15 +64,9 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
-
-    once(function () {
-      setProperties(model, {
-        'date': getWithDefault(model, 'date', []),
-        'scope': getWithDefault(model, 'scope', []),
-        'note': getWithDefault(model, 'note', []),
-        'contact': getWithDefault(model, 'contact', [])
-      });
+    once(this, function() {
+      this.set('model', getWithDefault(this, 'model', {}));
+      formatMaint(this.get('model'));
     });
   },
 
@@ -81,3 +86,9 @@ export default Component.extend({
     }
   })
 });
+
+export {
+  formatMaint,
+  theComp as
+  default
+};

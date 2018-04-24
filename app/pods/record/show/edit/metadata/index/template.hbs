@@ -69,9 +69,10 @@
       data-spy="Online Resources"
     }}
 
-    {{#layout/md-card profilePath="record.metadata.maintenance"
+    {{#layout/md-card
       title="Metadata Maintenance"
-      collapsible=true collapsed=true
+      collapsible=true
+      content=metadata.metadataMaintenance
       profilePath="record.metadata.maintenance"
     }}
       {{object/md-maintenance model=metadata.metadataMaintenance
@@ -84,7 +85,8 @@
       shadow=true
       data-spy="Default Locale"
       profilePath="record.metadata.defaultLocale"
-      collapsible=true collapsed=true
+      collapsible=true
+      content=model.json.metadata.metadataInfo.defaultMetadataLocale
     }}
       {{object/md-locale model=model modelPath="json.metadata.metadataInfo.defaultMetadataLocale"}}
     {{/layout/md-card}}

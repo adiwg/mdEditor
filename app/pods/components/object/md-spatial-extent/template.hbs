@@ -40,7 +40,7 @@ spotlightEnabled=false
         {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(action setupMap)}}
           {{!-- Specify child layer components here --}}
           {{#layer-group name="Terrain" baselayer=true default=true}}
-            {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+            {{tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
           {{/layer-group}}
 
           {{#if geographicElement.length}}

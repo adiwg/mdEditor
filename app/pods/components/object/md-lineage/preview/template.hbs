@@ -3,12 +3,12 @@
       <h4 class="text-info">Lineage #{{index}}</h4>
     </dt>
     <dd></dd>
-    {{control/md-definition title="Statement" text=item.statement}}
+    {{control/md-definition title="Statement" text=(word-limit item.statement)}}
 </dl>
 <dl class="dl-horizontal col-lg-12">
     {{#control/md-definition title="Process Step" }}
-        {{#each item.processStep as |step|}}
-          <em>{{step.stepId}}</em>: {{step.description}}
+        {{#each item.processStep as |step i|}}
+          <em>{{if step.stepId step.stepId i}}</em>: {{word-limit step.description}}
             <br>
             {{else}}
             <em class="text-muted">No proces steps assigned.</em>

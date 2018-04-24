@@ -99,7 +99,7 @@
                   {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(route-action "setupMap" extent.geographicExtent.0.geographicElement)}}
                     {{!-- Specify child layer components here --}}
                     {{#layer-group name="Terrain" baselayer=true default=true}}
-                      {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+                      {{tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
                     {{/layer-group}}
 
                     {{#feature-group name="Features" default=true}}

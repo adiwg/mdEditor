@@ -41,6 +41,7 @@ export default Component.extend(Validations, {
     once(this, function() {
       set(model, 'currency', getWithDefault(model, 'currency', 'USD'));
       set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
+      set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
     });
   },
   /**

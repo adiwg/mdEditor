@@ -19,8 +19,7 @@
 {{#layout/md-card
   collapsible=false
   collapsed=false
-  profilePath="card"
-  data-spy="Card"
+  data-spy=false
   shadow=false
   profilePath=(concat profilePath ".referenceSystemIdentifier")
 }}
@@ -29,6 +28,7 @@
   {{object/md-identifier
     model=model.referenceSystemIdentifier
     profilePath=(concat profilePath ".referenceSystemIdentifier")
+    data-spy=false
   }}
 {{/layout/md-card}}
 {{/if}}

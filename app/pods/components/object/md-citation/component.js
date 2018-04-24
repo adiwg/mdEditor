@@ -43,7 +43,7 @@ const theComp = Component.extend({
    *
    * @module mdeditor
    * @submodule components-object
-   * @class md-citation-array
+   * @class md-citation
    * @constructor
    */
 
@@ -84,6 +84,15 @@ const theComp = Component.extend({
    * @default "false"
    */
   embedded: false,
+
+  /**
+   * The data-spy title, set to false to hide.
+   *
+   * @property data-spy
+   * @type {String}
+   * @default "Citation"
+   */
+  'data-spy': 'Citation',
 
   /**
    * Indicates whether the citation identifier Component should be rendered using

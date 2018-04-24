@@ -25,6 +25,14 @@ export default Route.extend(ScrollTo, {
             this.setScrollTo('citation');
           }.bind(this));
     },
+    editSource(index) {
+      this.transitionTo('record.show.edit.lineage.lineageobject.source',
+          index)
+        .then(
+          function () {
+            this.setScrollTo('source');
+          }.bind(this));
+    },
     editProcessStep(index) {
       this.transitionTo('record.show.edit.lineage.lineageobject.step',
           index)

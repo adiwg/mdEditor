@@ -40,10 +40,11 @@ export default Component.extend(Validations, {
     this._super(...arguments);
 
     let model = get(this, 'model');
-
+if(model){
     once(this, function() {
       set(model, 'referenceSystemIdentifier', getWithDefault(model, 'referenceSystemIdentifier', {}));
     });
+  }
   },
   /**
    * The string representing the path in the profile object for the resource.

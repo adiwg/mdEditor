@@ -1,6 +1,6 @@
 {
   "name": "mdeditor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Small description for mdeditor goes here",
   "license": "GPLv3",
@@ -97,8 +97,8 @@
     "geojson-coords": "0.0.0",
     "liquid-fire": "0.28.0",
     "loader.js": "^4.2.3",
-    "mdcodes": "^2.6.2",
-    "mdjson-schemas": "^2.4.2",
+    "mdcodes": "^2.6.3",
+    "mdjson-schemas": "^2.4.8",
     "mdkeywords": "^1.0.3",
     "moment-timezone": "^0.5.13",
     "object-hash": "^1.1.7",

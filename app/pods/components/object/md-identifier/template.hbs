@@ -7,13 +7,13 @@
   required=true
   showValidations=true
   profilePath=(concat profilePath '.identifier')
-  data-spy="Identifier"
+  data-spy=(if data-spy "Identifier")
   class="md-embedded"
 }}
 
 {{input/md-codelist
   label="Namespace"
-  data-spy="Namespace"
+  data-spy=(if data-spy "Namespace")
   class="md-embedded"
   placeholder="Select or type a namespace for the identifier."
   create=true
@@ -49,11 +49,14 @@
     profilePath=(concat profilePath '.authority')
     shadow=true
     collapsible=true
+    data-spy=(if data-spy "Authority")
+    content=model.authority
   }}
     {{object/md-citation
       model=model.authority
       profilePath=(concat profilePath '.authority')
       embedded=true
+      data-spy=data-spy
       simpleIdentifier=true
     }}
   {{/layout/md-card}}
