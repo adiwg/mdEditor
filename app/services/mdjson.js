@@ -36,7 +36,8 @@ const {
 
 const unImplemented = [
   'metadata.metadataInfo.otherMetadataLocale',
-  'metadata.resourceInfo.spatialRepresentation', [
+  'metadata.resourceInfo.spatialRepresentation',
+  [
     'metadata.resourceInfo.extent',
     'verticalExtent'
   ],
@@ -46,7 +47,7 @@ const unImplemented = [
   'metadata.resourceInfo.coverageDescription',
   'metadata.resourceInfo.taxonomy',
   'metadata.resourceInfo.otherResourceLocale',
-  'metadata.resourceInfo.resourceMaintenance'
+  //'metadata.resourceInfo.resourceMaintenance'
 ];
 
 export default Service.extend({

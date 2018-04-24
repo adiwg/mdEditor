@@ -152,6 +152,22 @@
         }}
         {{/if}}
 
+        {{#object/md-object-table
+          items=resource.resourceMaintenance
+          header="Maintenance"
+          data-spy="Maintenance"
+          profilePath="record.main.maintenance"
+          buttonText="Add Maintenance"
+          ellipsis=true
+          attributes="frequency"
+          collapsible=true
+          as |editing|
+        }}
+          {{object/md-maintenance model=editing
+            profilePath="record.main.maintenance"
+          }}
+        {{/object/md-object-table}}
+
         {{#if (is-array resource.graphicOverview)}}
         {{object/md-graphic-array
           model=resource.graphicOverview data-spy="Graphic Overview"
