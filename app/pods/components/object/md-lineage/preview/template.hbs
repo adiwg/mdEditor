@@ -7,8 +7,8 @@
 </dl>
 <dl class="dl-horizontal col-lg-12">
     {{#control/md-definition title="Process Step" }}
-        {{#each item.processStep as |step|}}
-          <em>{{step.stepId}}</em>: {{word-limit step.description}}
+        {{#each item.processStep as |step i|}}
+          <em>{{if step.stepId step.stepId i}}</em>: {{word-limit step.description}}
             <br>
             {{else}}
             <em class="text-muted">No proces steps assigned.</em>

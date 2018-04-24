@@ -9,7 +9,8 @@ const {
   computed,
   isEmpty,
   computed: {
-    alias,or
+    alias,
+    or
   },
   get,
   run: {
@@ -73,9 +74,11 @@ export default Component.extend(Validations, {
 
     let model = get(this, 'model');
 
-    once(this, function() {
-      set(model, 'measure', getWithDefault(model, 'measure', {}));
-    });
+    if(model) {
+      once(this, function () {
+        set(model, 'measure', getWithDefault(model, 'measure', {}));
+      });
+    }
   },
   /**
    * The string representing the path in the profile object for the resource.
@@ -98,7 +101,7 @@ export default Component.extend(Validations, {
   scaleFactor: alias('model.scaleFactor'),
   scaleDisabled: computed(
     'model.levelOfDetail', 'measurePresent',
-    function() {
+    function () {
       return !isEmpty(this.get('model.levelOfDetail')) || this.get(
         'measurePresent'
       );
@@ -106,7 +109,7 @@ export default Component.extend(Validations, {
   levelOfDetail: alias('model.levelOfDetail'),
   levelDisabled: computed(
     'model.scaleFactor', 'measurePresent',
-    function() {
+    function () {
       let scaleFactor = this.get('model.scaleFactor');
       return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
         this.get(
@@ -117,7 +120,7 @@ export default Component.extend(Validations, {
   measure: alias('model.measure'),
   measureDisabled: computed(
     'model.scaleFactor', 'model.levelOfDetail',
-    function() {
+    function () {
       let scaleFactor = this.get('model.scaleFactor');
       return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
         !isEmpty(this.get('model.levelOfDetail'));
@@ -126,7 +129,7 @@ export default Component.extend(Validations, {
   measureType: alias('model.measure.type'),
   measureValue: alias('model.measure.value'),
   measureUnit: alias('model.measure.unitOfMeasure'),
-  measurePresent: or('measureType','measureUnit','measureValue'),
+  measurePresent: or('measureType', 'measureUnit', 'measureValue'),
 
   typeOptions: [{
       name: 'distance',

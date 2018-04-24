@@ -33,11 +33,19 @@ export default Component.extend(Validations, {
 
     once(this, function () {
       set(model, 'sourceId', getWithDefault(model, 'sourceId', uuidV4()));
-      set(model, 'sourceCitation', getWithDefault(model, 'sourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model, 'metadataCitation', []));
-      set(model, 'spatialResolution', getWithDefault(model, 'spatialResolution', {}));
-      set(model, 'referenceSystem', getWithDefault(model, 'referenceSystem', {}));
-      set(model, 'sourceProcessStep', getWithDefault(model, 'sourceProcessStep', []));
+      set(model, 'sourceCitation', getWithDefault(model,
+        'sourceCitation', {}));
+      set(model, 'metadataCitation', getWithDefault(model,
+        'metadataCitation', []));
+      set(model, 'spatialResolution', getWithDefault(model,
+        'spatialResolution', {}));
+      set(model, 'referenceSystem', getWithDefault(model,
+        'referenceSystem', {}));
+      set(model, 'referenceSystem.referenceSystemIdentifier',
+        getWithDefault(model,
+          'referenceSystem.referenceSystemIdentifier', {}));
+      set(model, 'sourceProcessStep', getWithDefault(model,
+        'sourceProcessStep', []));
       set(model, 'scope', getWithDefault(model, 'scope', {}));
     });
   },

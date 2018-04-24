@@ -27,23 +27,6 @@
   data-spy="Process Step"
 }}
 
-{{#object/md-array-table
-  columns="Description"
-  value=model.source
-  required=required
-  title="Source"
-  templateClass=sourceTemplate
-  profilePath=(concat profilePath ".source")
-  data-spy="Source" as |source|
-}}
-  <td>
-    {{input/md-textarea
-      value=source.item.description
-      placeholder="A brief description about the source dataset used in creating the data."
-    }}
-  </td>
-{{/object/md-array-table}}
-
 {{object/md-objectroute-table
   attributes="description"
   items=model.source
