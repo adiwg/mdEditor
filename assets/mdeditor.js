@@ -7227,11 +7227,18 @@ define('mdeditor/models/setting', ['exports', 'ember-data'], function (exports, 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  exports.default = exports.defaultValues = undefined;
   const run = Ember.run,
         computed = Ember.computed,
         observer = Ember.observer,
         service = Ember.inject.service;
-  exports.default = _emberData.default.Model.extend({
+
+
+  const defaultValues = {
+    mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v2/translator'
+  };
+
+  const theModel = _emberData.default.Model.extend({
     settings: service(),
 
     init() {
@@ -7272,6 +7279,9 @@ define('mdeditor/models/setting', ['exports', 'ember-data'], function (exports, 
     importUriBase: _emberData.default.attr('string', {
       defaultValue: ''
     }),
+    mdTranslatorAPI: _emberData.default.attr('string', {
+      defaultValue: defaultValues.mdTranslatorAPI
+    }),
     repositoryDefaults: _emberData.default.attr('json'),
     publishOptions: _emberData.default.attr('json', {
       defaultValue: function defaultValue() {
@@ -7291,6 +7301,9 @@ define('mdeditor/models/setting', ['exports', 'ember-data'], function (exports, 
       }
     })
   });
+
+  exports.defaultValues = defaultValues;
+  exports.default = theModel;
 });
 define('mdeditor/pods/components/bs-datetimepicker/component', ['exports', 'ember-bootstrap-datetimepicker/components/bs-datetimepicker'], function (exports, _bsDatetimepicker) {
   'use strict';
@@ -12112,24 +12125,19 @@ define('mdeditor/pods/components/md-models-table/themes/bootstrap3', ['exports',
     table: 'table table-striped table-bordered table-condensed table-hover'
   });
 });
-define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'], function (exports, _moment) {
+define('mdeditor/pods/components/md-translate/component', ['exports', 'moment', 'mdeditor/models/setting'], function (exports, _moment, _setting) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  const Component = Ember.Component,
-        computed = Ember.computed,
-        get = Ember.get,
-        inject = Ember.inject,
-        set = Ember.set,
-        $ = Ember.$;
-  exports.default = Component.extend({
+  exports.default = Ember.Component.extend({
     classNames: ['row'],
 
-    cleaner: inject.service(),
-    flashMessages: inject.service(),
-    mdjson: inject.service(),
+    cleaner: Ember.inject.service(),
+    flashMessages: Ember.inject.service(),
+    mdjson: Ember.inject.service(),
+    settings: Ember.inject.service(),
 
     /**
      * Indicates whether empty tags should be written to the translated output
@@ -12175,34 +12183,36 @@ define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'],
     isLoading: false,
     subTitle: null,
 
-    writeObj: computed('writer', function () {
-      return get(this, 'writerOptions').findBy('value', get(this, 'writer'));
+    writeObj: Ember.computed('writer', function () {
+      return Ember.get(this, 'writerOptions').findBy('value', Ember.get(this, 'writer'));
     }),
 
-    writerType: computed('writeObj', function () {
-      return get(this, 'writeObj').type.split('/')[1];
+    writerType: Ember.computed('writeObj', function () {
+      return Ember.get(this, 'writeObj').type.split('/')[1];
     }),
 
-    isJson: computed.equal('writerType', 'json'),
-    isHtml: computed('writerType', function () {
+    isJson: Ember.computed.equal('writerType', 'json'),
+    defaultAPI: _setting.defaultValues.mdTranslatorAPI,
+    apiURL: Ember.computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+    isHtml: Ember.computed('writerType', function () {
       //IE does not supoprt srcdoc, so default to non-html display
-      return get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement('iframe');
+      return Ember.get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement('iframe');
     }),
 
-    messages: computed('errors', function () {
-      let err = get(this, 'errors');
+    messages: Ember.computed('errors', function () {
+      let err = Ember.get(this, 'errors');
 
       if (!err) {
         return null;
       }
 
       if (!err.readerStructurePass) {
-        set(this, 'subtitle', 'Errors ocurred when reading the mdJSON');
+        Ember.set(this, 'subtitle', 'Errors ocurred when reading the mdJSON');
         return err.readerStructureMessages;
       }
 
       if (!err.readerValidationPass) {
-        set(this, 'subtitle', 'mdJSON Schema validation failed');
+        Ember.set(this, 'subtitle', 'mdJSON Schema validation failed');
         return JSON.parse(err.readerValidationMessages[1]);
       }
 
@@ -12216,10 +12226,10 @@ define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'],
     }),
 
     _clearResult() {
-      set(this, 'result', null);
-      set(this, 'subtitle', null);
-      set(this, 'errors', null);
-      set(this, 'xhrError', null);
+      Ember.set(this, 'result', null);
+      Ember.set(this, 'subtitle', null);
+      Ember.set(this, 'errors', null);
+      Ember.set(this, 'xhrError', null);
     },
 
     // _replacer(key, value) {
@@ -12233,6 +12243,7 @@ define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'],
     actions: {
       translate() {
         let mdjson = this.get('mdjson');
+        let url = this.get('apiURL');
         // let clean = cleaner.clean(get(this,'model.json'));
         // let json = JSON.parse(JSON.stringify(clean, get(this, '_replacer')));
         // let contacts = this.store.peekAll('contact').mapBy('json');
@@ -12243,16 +12254,16 @@ define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'],
         //console.info(JSON.stringify(json));
 
         this._clearResult();
-        set(this, 'isLoading', true);
+        Ember.set(this, 'isLoading', true);
 
-        $.ajax("https://mdtranslator.herokuapp.com/api/v2/translator", {
+        Ember.$.ajax(url, {
           type: 'POST',
           data: {
             //file: JSON.stringify(cleaner.clean(json)),
-            file: mdjson.formatRecord(get(this, 'model'), true),
+            file: mdjson.formatRecord(Ember.get(this, 'model'), true),
             reader: 'mdJson',
-            writer: get(this, 'writer'),
-            showAllTags: get(this, 'showAllTags'),
+            writer: Ember.get(this, 'writer'),
+            showAllTags: Ember.get(this, 'showAllTags'),
             validate: 'normal',
             format: 'json'
           },
@@ -12261,39 +12272,39 @@ define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'],
           //this.sendAction("select", response);
           //console.info(response);
 
-          set(this, 'isLoading', false);
+          Ember.set(this, 'isLoading', false);
 
           if (response.success) {
-            set(this, 'result', response.data);
+            Ember.set(this, 'result', response.data);
             //Ember.$('.md-translator-preview textarea').val(response.data);
           } else {
-            set(this, 'errors', response.messages);
-            set(this, 'result', response.data);
-            get(this, 'flashMessages').danger('Translation error!');
+            Ember.set(this, 'errors', response.messages);
+            Ember.set(this, 'result', response.data);
+            Ember.get(this, 'flashMessages').danger('Translation error!');
           }
         }, response => {
           let error = `mdTranslator Server error:
           ${response.status}: ${response.statusText}`;
 
-          set(this, 'xhrError', error);
-          get(this, 'flashMessages').danger(error);
+          Ember.set(this, 'xhrError', error);
+          Ember.get(this, 'flashMessages').danger(error);
         });
       },
       saveResult() {
-        let title = get(this, 'model.title');
-        let result = get(this, 'result');
-        let writer = get(this, 'writeObj');
+        let title = Ember.get(this, 'model.title');
+        let result = Ember.get(this, 'result');
+        let writer = Ember.get(this, 'writeObj');
 
         window.saveAs(new Blob([result], {
           type: `${writer.type};charset=utf-8`
-        }), `${title}_${(0, _moment.default)().format('YYYYMMDD')}.${get(this, 'writerType')}`);
+        }), `${title}_${(0, _moment.default)().format('YYYYMMDD')}.${Ember.get(this, 'writerType')}`);
       },
       clearResult() {
         this._clearResult();
       },
       prettifyJson() {
         let promise = new Ember.RSVP.Promise((resolve, reject) => {
-          let parsed = JSON.parse(get(this, 'result'));
+          let parsed = JSON.parse(Ember.get(this, 'result'));
 
           if (parsed) {
             resolve(parsed);
@@ -12303,10 +12314,10 @@ define('mdeditor/pods/components/md-translate/component', ['exports', 'moment'],
         });
 
         promise.then(obj => {
-          set(this, 'result', JSON.stringify(obj, null, 2));
+          Ember.set(this, 'result', JSON.stringify(obj, null, 2));
         }).catch(error => {
           //console.log(error);
-          get(this, 'flashMessages').danger(error.message);
+          Ember.get(this, 'flashMessages').danger(error.message);
         });
       }
     }
@@ -22321,17 +22332,15 @@ define("mdeditor/pods/save/template", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "O6ovKlVM", "block": "{\"symbols\":[],\"statements\":[[0,\"Save the Record(s)\\n\"],[1,[18,\"outlet\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/save/template.hbs" } });
 });
-define('mdeditor/pods/settings/route', ['exports'], function (exports) {
+define('mdeditor/pods/settings/route', ['exports', 'mdeditor/models/setting'], function (exports, _setting) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  const Route = Ember.Route,
-        service = Ember.inject.service;
-  exports.default = Route.extend({
-    settings: service(),
-    publish: service(),
+  exports.default = Ember.Route.extend({
+    settings: Ember.inject.service(),
+    publish: Ember.inject.service(),
     model() {
       // this.get('store').findAll('settings').then(function(settings) {
       //   return settings.get("firstObject");
@@ -22350,6 +22359,13 @@ define('mdeditor/pods/settings/route', ['exports'], function (exports) {
 
       catalogs() {
         return this.get('publish.catalogs');
+      },
+
+      resetMdTranslatorAPI() {
+        let url = Ember.get(_setting.default, 'attributes').get('mdTranslatorAPI').options.defaultValue;
+        let model = Ember.get(this.controller, 'model');
+
+        model.set('mdTranslatorAPI', url);
       }
     }
   });
@@ -22360,7 +22376,7 @@ define("mdeditor/pods/settings/template", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Wk1WFqhz", "block": "{\"symbols\":[\"catalog\",\"meta\"],\"statements\":[[6,\"div\"],[9,\"class\",\"page-header\"],[7],[0,\"\\n  \"],[6,\"h3\"],[7],[0,\"Settings\\n    \"],[6,\"small\"],[9,\"class\",\"small\"],[7],[0,\"mdEditor Version: \"],[1,[18,\"control/md-repo-link\"],false],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"title\"],[\"General Settings\"]],{\"statements\":[[6,\"form\"],[9,\"class\",\"form-horizontal\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"col-sm-2 col-lg-1 control-label\"],[7],[0,\"Auto Save\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"col-sm-1\"],[7],[0,\"\\n        \"],[1,[25,\"x-toggle\",null,[[\"value\",\"onToggle\",\"showLabels\",\"onLabel\",\"offLabel\",\"size\",\"theme\"],[[20,[\"model\",\"autoSave\"]],[25,\"mut\",[[20,[\"model\",\"autoSave\"]]],null],true,\"On::true\",\"Off::false\",\"medium\",\"default\"]]],false],[0,\"\\n      \"],[8],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"col-sm-2 col-lg-1 control-label\"],[7],[0,\"Clear All Records\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"col-sm-1\"],[7],[0,\"\\n\"],[4,\"control/md-button-modal\",null,[[\"class\",\"type\",\"message\",\"onConfirm\"],[\"btn btn-lg btn-danger\",\"button\",\"<h1>Are you sure?</h1> Clicking OK will delete ALL  records in\\n            your browser cache. Have you made a backup?\",[25,\"route-action\",[\"clearLocalStorage\"],null]]],{\"statements\":[[0,\"            \"],[6,\"span\"],[9,\"class\",\"fa fa-times\"],[7],[8],[0,\" Clear Storage Cache\\n\"]],\"parameters\":[]},null],[0,\"      \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"shadow\"],[\"Defaults\",true]],{\"statements\":[[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-4\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"disabled\",\"mdCodeName\",\"label\",\"showValidations\",\"placeholder\"],[[20,[\"model\",\"language\"]],true,true,false,[20,[\"disabled\"]],\"language\",\"Language\",true,\"Select or enter a language code.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-4\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"disabled\",\"mdCodeName\",\"label\",\"showValidations\",\"placeholder\"],[[20,[\"model\",\"characterSet\"]],false,true,false,[20,[\"disabled\"]],\"characterSet\",\"Character Set\",true,\"Select character set.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-4\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"disabled\",\"mdCodeName\",\"label\",\"placeholder\"],[[20,[\"model\",\"country\"]],false,true,false,[20,[\"disabled\"]],\"countries\",\"Country\",\"Select country code.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"hr\"],[7],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-8\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"label\",\"type\",\"value\",\"placeholder\"],[\"Import URL\",\"text\",[20,[\"model\",\"importUriBase\"]],\"Text string used as the default URL for importing.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"clearfix\"],[7],[8],[0,\"\\n\"],[6,\"hr\"],[7],[8],[0,\"\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"plain\",\"title\",\"templateClass\",\"onChange\",\"data-spy\"],[\"Repository, Collection Title\",[20,[\"model\",\"repositoryDefaults\"]],true,\"Metadata Repository\",[20,[\"settings\",\"repositoryTemplate\"]],[25,\"route-action\",[\"save\"],null],\"Metadata Repository\"]],{\"statements\":[[0,\"    \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"closeOnSelect\",\"placeholder\",\"change\"],[[19,2,[\"item\",\"repository\"]],true,true,false,\"metadataRepository\",true,\"Select or enter a repository.\",[25,\"route-action\",[\"save\"],null]]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"type\",\"value\",\"placeholder\",\"change\"],[\"text\",[19,2,[\"item\",\"title\"]],\"Text string used to identify a set of resources in the repository.\",[25,\"route-action\",[\"save\"],null]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[2]},null]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\"],[\"Publishing Settings\"]],{\"statements\":[[4,\"each\",[[25,\"compute\",[[25,\"route-action\",[\"catalogs\"],null]],null]],null,{\"statements\":[[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"shadow\"],[[19,1,[\"name\"]],true,true,false]],{\"statements\":[[0,\"    \"],[1,[25,\"component\",[[19,1,[\"settingsComponent\"]]],[[\"model\"],[[20,[\"model\",\"publishOptions\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\" \"],[1,[18,\"outlet\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/settings/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "2KyX8vRm", "block": "{\"symbols\":[\"catalog\",\"meta\"],\"statements\":[[6,\"div\"],[9,\"class\",\"page-header\"],[7],[0,\"\\n  \"],[6,\"h3\"],[7],[0,\"Settings\\n    \"],[6,\"small\"],[9,\"class\",\"small\"],[7],[0,\"mdEditor Version: \"],[1,[18,\"control/md-repo-link\"],false],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"title\"],[\"General Settings\"]],{\"statements\":[[6,\"form\"],[9,\"class\",\"form-horizontal\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"col-sm-2 col-lg-1 control-label\"],[7],[0,\"Auto Save\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"col-sm-1\"],[7],[0,\"\\n        \"],[1,[25,\"x-toggle\",null,[[\"value\",\"onToggle\",\"showLabels\",\"onLabel\",\"offLabel\",\"size\",\"theme\"],[[20,[\"model\",\"autoSave\"]],[25,\"mut\",[[20,[\"model\",\"autoSave\"]]],null],true,\"On::true\",\"Off::false\",\"medium\",\"default\"]]],false],[0,\"\\n      \"],[8],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"col-sm-2 col-lg-1 control-label\"],[7],[0,\"Clear All Records\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"col-sm-1\"],[7],[0,\"\\n\"],[4,\"control/md-button-modal\",null,[[\"class\",\"type\",\"message\",\"onConfirm\"],[\"btn btn-lg btn-danger\",\"button\",\"<h1>Are you sure?</h1> Clicking OK will delete ALL  records in\\n            your browser cache. Have you made a backup?\",[25,\"route-action\",[\"clearLocalStorage\"],null]]],{\"statements\":[[0,\"            \"],[6,\"span\"],[9,\"class\",\"fa fa-times\"],[7],[8],[0,\" Clear Storage Cache\\n\"]],\"parameters\":[]},null],[0,\"      \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"shadow\"],[\"Defaults\",true]],{\"statements\":[[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-4\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"disabled\",\"mdCodeName\",\"label\",\"showValidations\",\"placeholder\"],[[20,[\"model\",\"language\"]],true,true,false,[20,[\"disabled\"]],\"language\",\"Language\",true,\"Select or enter a language code.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-4\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"disabled\",\"mdCodeName\",\"label\",\"showValidations\",\"placeholder\"],[[20,[\"model\",\"characterSet\"]],false,true,false,[20,[\"disabled\"]],\"characterSet\",\"Character Set\",true,\"Select character set.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-4\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"disabled\",\"mdCodeName\",\"label\",\"placeholder\"],[[20,[\"model\",\"country\"]],false,true,false,[20,[\"disabled\"]],\"countries\",\"Country\",\"Select country code.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"hr\"],[9,\"class\",\"col-md-12\"],[7],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-8\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"label\",\"type\",\"value\",\"placeholder\"],[\"Import URL\",\"url\",[20,[\"model\",\"importUriBase\"]],\"Text string used as the default URL for importing.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"hr\"],[9,\"class\",\"col-md-12\"],[7],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-8\"],[7],[0,\"\\n      \"],[6,\"label\"],[7],[0,\"mdTranslator API URL\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"input-group\"],[7],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"type\",\"value\",\"placeholder\"],[\"url\",[20,[\"model\",\"mdTranslatorAPI\"]],\"URL for the ADIwg Metadata Translator.\"]]],false],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"input-group-btn\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"class\",\"btn btn-warning\"],[9,\"type\",\"button\"],[3,\"action\",[[19,0,[]],\"resetMdTranslatorAPI\"]],[7],[0,\"Default\\n            \"],[1,[25,\"tooltip-on-element\",null,[[\"class\",\"text\"],[\"md-tooltip info\",\"Reset to default\"]]],false],[0,\"\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"clearfix\"],[7],[8],[0,\"\\n\"],[6,\"hr\"],[7],[8],[0,\"\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"plain\",\"title\",\"templateClass\",\"onChange\",\"data-spy\"],[\"Repository, Collection Title\",[20,[\"model\",\"repositoryDefaults\"]],true,\"Metadata Repository\",[20,[\"settings\",\"repositoryTemplate\"]],[25,\"route-action\",[\"save\"],null],\"Metadata Repository\"]],{\"statements\":[[0,\"    \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-codelist\",null,[[\"value\",\"create\",\"tooltip\",\"icon\",\"mdCodeName\",\"closeOnSelect\",\"placeholder\",\"change\"],[[19,2,[\"item\",\"repository\"]],true,true,false,\"metadataRepository\",true,\"Select or enter a repository.\",[25,\"route-action\",[\"save\"],null]]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"td\"],[7],[0,\"\\n      \"],[1,[25,\"input/md-input\",null,[[\"type\",\"value\",\"placeholder\",\"change\"],[\"text\",[19,2,[\"item\",\"title\"]],\"Text string used to identify a set of resources in the repository.\",[25,\"route-action\",[\"save\"],null]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[2]},null]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\"],[\"Publishing Settings\"]],{\"statements\":[[4,\"each\",[[25,\"compute\",[[25,\"route-action\",[\"catalogs\"],null]],null]],null,{\"statements\":[[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"shadow\"],[[19,1,[\"name\"]],true,true,false]],{\"statements\":[[0,\"    \"],[1,[25,\"component\",[[19,1,[\"settingsComponent\"]]],[[\"model\"],[[20,[\"model\",\"publishOptions\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\" \"],[1,[18,\"outlet\"],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/settings/template.hbs" } });
 });
 define('mdeditor/pods/translate/route', ['exports'], function (exports) {
   'use strict';
@@ -25658,6 +25674,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.2.0+8857c062"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.2.0+1b5b13f7"});
 }
 //# sourceMappingURL=mdeditor.map
