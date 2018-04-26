@@ -1,22 +1,30 @@
-import Ember from 'ember';
-import moment from 'moment';
-const {
-  Component,
+import Component from '@ember/component';
+import {
   computed,
   get,
-  inject,
-  set,
-  $
-} = Ember;
+  set
+} from '@ember/object';
+import $ from 'jquery';
+import {
+  inject as service
+} from '@ember/service';
+import {
+  Promise
+} from 'rsvp';
+import moment from 'moment';
+import {
+  defaultValues
+} from 'mdeditor/models/setting';
 
 //const _contacts = [];
 
 export default Component.extend({
   classNames: ['row'],
 
-  cleaner: inject.service(),
-  flashMessages: inject.service(),
-  mdjson: inject.service(),
+  cleaner: service(),
+  flashMessages: service(),
+  mdjson: service(),
+  settings: service(),
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -74,6 +82,8 @@ export default Component.extend({
   }),
 
   isJson: computed.equal('writerType', 'json'),
+  defaultAPI: defaultValues.mdTranslatorAPI,
+  apiURL: computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
   isHtml: computed('writerType', function () {
     //IE does not supoprt srcdoc, so default to non-html display
     return get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement(
@@ -124,6 +134,7 @@ export default Component.extend({
   actions: {
     translate() {
       let mdjson = this.get('mdjson');
+      let url = this.get('apiURL');
       // let clean = cleaner.clean(get(this,'model.json'));
       // let json = JSON.parse(JSON.stringify(clean, get(this, '_replacer')));
       // let contacts = this.store.peekAll('contact').mapBy('json');
@@ -136,7 +147,7 @@ export default Component.extend({
       this._clearResult();
       set(this, 'isLoading', true);
 
-      $.ajax("https://mdtranslator.herokuapp.com/api/v2/translator", {
+      $.ajax(url, {
           type: 'POST',
           data: {
             //file: JSON.stringify(cleaner.clean(json)),
@@ -191,7 +202,7 @@ export default Component.extend({
       this._clearResult();
     },
     prettifyJson() {
-      let promise = new Ember.RSVP.Promise((resolve, reject) => {
+      let promise = new Promise((resolve, reject) => {
         let parsed = JSON.parse(get(this, 'result'));
 
         if(parsed) {
