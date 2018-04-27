@@ -31,9 +31,9 @@
         <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{action "exportData"}}>
           {{fa-icon "sign-out"}} Export All</button>
         <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{action "exportSelectedData"}} disabled={{if hasSelected false true}}>
-          {{fa-icon "fa-check-square-o"}} Export Selected</button>
+          {{fa-icon "check-square-o"}} Export Selected</button>
         <button type="button" class="btn btn-lg btn-success md-btn-responsive" {{action "exportSelectedData" true}} disabled={{if hasSelectedRecords false true}}>
-          {{fa-icon "fa-check-square-o"}} Export mdJSON</button>
+          {{fa-icon "check-square-o"}} Export mdJSON</button>
       </div>
       <hr>
       <label class="center-block text-center">Include Settings?</label>
