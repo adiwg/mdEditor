@@ -6297,9 +6297,6 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  const inject = Ember.inject,
-        set = Ember.set,
-        computed = Ember.computed;
   exports.default = _emberData.default.Model.extend({
     init() {
       this._super(...arguments);
@@ -6311,10 +6308,10 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
       //this.on('didLoad', this, this.wasLoaded);
     },
 
-    settings: inject.service(),
-    patch: inject.service(),
-    clean: inject.service('cleaner'),
-    mdjson: inject.service('mdjson'),
+    settings: Ember.inject.service(),
+    patch: Ember.inject.service(),
+    clean: Ember.inject.service('cleaner'),
+    mdjson: Ember.inject.service('mdjson'),
 
     /**
      * The hash for the clean record.
@@ -6351,9 +6348,12 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
     }),
 
     applyPatch() {
-      let patch = this.get('patch');
+      Ember.run.once(this, function () {
 
-      patch.applyModelPatch(this);
+        let patch = this.get('patch');
+
+        patch.applyModelPatch(this);
+      });
     },
 
     wasUpdated() {
@@ -6390,7 +6390,7 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
     setCurrentHash(json) {
       let target = json || this.get('json');
 
-      set(this, 'currentHash', this.hashObject(target), true);
+      Ember.set(this, 'currentHash', this.hashObject(target), true);
     },
 
     /**
@@ -6413,7 +6413,7 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
      * @property hasDirtyHash
      * @returns {Boolean} Boolean value indicating if hashes are equivalent
      */
-    hasDirtyHash: computed('currentHash', function () {
+    hasDirtyHash: Ember.computed('currentHash', function () {
       let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes.json), true);
 
       //if the currentHash is undefined, the record is either new or hasn't had the
@@ -6429,7 +6429,7 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
       return false;
     }),
 
-    canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
+    canRevert: Ember.computed('hasDirtyHash', 'settings.data.autoSave', function () {
       let dirty = this.get('hasDirtyHash');
       let autoSave = this.get('settings.data.autoSave');
 
@@ -6453,11 +6453,11 @@ define('mdeditor/models/base', ['exports', 'ember-data', 'npm:object-hash'], fun
       return false;
     }),
 
-    cleanJson: computed('json', function () {
+    cleanJson: Ember.computed('json', function () {
       return this.get('clean').clean(this.get('json'));
     }).volatile(),
 
-    status: computed('hasDirtyHash', function () {
+    status: Ember.computed('hasDirtyHash', function () {
       let dirty = this.get('hasDirtyHash');
 
       if (this.get('currentHash')) {
@@ -6543,6 +6543,7 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
      * @submodule data-models
      */
 
+    contactsService: Ember.inject.service('contacts'),
     contacts: _emberData.default.hasMany('contact', {
       inverse: 'organizations'
     }),
@@ -6673,7 +6674,7 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
       let orgId = get(this, 'defaultOrganization');
 
       if (orgId && orgId !== this.get('json.contactId')) {
-        let contacts = this.get('store').peekAll('contact');
+        let contacts = this.get('contactsService.organizations');
         let org = contacts.findBy('json.contactId', orgId);
 
         if (org) {
@@ -6699,11 +6700,11 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
       let memberOfOrganization = json.memberOfOrganization;
 
 
-      return !isEmpty(memberOfOrganization) ? memberOfOrganization[0] : null;
+      return !isEmpty(memberOfOrganization) ? get(memberOfOrganization, '0') : null;
     }),
 
     defaultOrganizationName: computed('defaultOrganization', function () {
-      let contacts = this.get('store').peekAll('contact');
+      let contacts = this.get('contactsService.organizations');
 
       let org = contacts.findBy('json.contactId', get(this, 'defaultOrganization'));
 
@@ -6728,12 +6729,12 @@ define('mdeditor/models/contact', ['exports', 'ember-data', 'npm:uuid/v4', 'npm:
           memberOfOrganization = json.memberOfOrganization;
 
 
-      let orgId = !isEmpty(memberOfOrganization) ? memberOfOrganization[0] : null;
+      let orgId = !isEmpty(memberOfOrganization) ? get(memberOfOrganization, '0') : null;
       let combinedName = name || positionName;
       let orgName;
 
       if (orgId) {
-        let contacts = this.get('store').peekAll('contact');
+        let contacts = this.get('contactsService.organizations');
         let org = contacts.findBy('json.contactId', orgId);
 
         if (org) {
@@ -7055,6 +7056,11 @@ define('mdeditor/models/record', ['exports', 'ember-data', 'npm:uuid/v4', 'mdedi
     // })
   });
   exports.default = _base.default.extend(Validations, Copyable, {
+    init() {
+      this._super(...arguments);
+
+      this.set('allRecords', this.get('store').peekAll('record'));
+    },
     profile: _emberData.default.attr('string', {
       defaultValue: 'full'
     }),
@@ -7126,7 +7132,7 @@ define('mdeditor/models/record', ['exports', 'ember-data', 'npm:uuid/v4', 'mdedi
 
     hasParent: computed('parentIds.[]', function () {
       let ids = this.get('parentIds');
-      let records = this.get('store').peekAll('record').rejectBy('hasSchemaErrors');
+      let records = this.get('allRecords').rejectBy('hasSchemaErrors');
 
       if (!ids) {
         return false;
@@ -7144,7 +7150,7 @@ define('mdeditor/models/record', ['exports', 'ember-data', 'npm:uuid/v4', 'mdedi
         return undefined;
       }
 
-      return this.get('store').peekAll('record').findBy('recordId', id);
+      return this.get('allRecords').findBy('recordId', id);
     }),
 
     defaultType: computed.alias('json.metadata.resourceInfo.resourceType.firstObject.type'),
@@ -25674,6 +25680,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.2.0+af452fc5"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.2.0+3976b3c2"});
 }
 //# sourceMappingURL=mdeditor.map
