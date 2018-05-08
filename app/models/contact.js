@@ -7,7 +7,9 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
+import {
+  inject as service
+} from '@ember/service';
 const {
   Copyable,
   computed,
@@ -83,6 +85,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @submodule data-models
    */
 
+  contactsService: service('contacts'),
   contacts: DS.hasMany('contact', {
     inverse: 'organizations'
   }),
@@ -221,8 +224,7 @@ const Contact = Model.extend(Validations, Copyable, {
       let orgId = get(this, 'defaultOrganization');
 
       if(orgId && orgId !== this.get('json.contactId')) {
-        let contacts = this.get('store')
-          .peekAll('contact');
+        let contacts = this.get('contactsService.organizations');
         let org = contacts.findBy('json.contactId', orgId);
 
         if(org) {
@@ -251,14 +253,13 @@ const Contact = Model.extend(Validations, Copyable, {
       } = json;
 
       return !isEmpty(memberOfOrganization) ?
-        memberOfOrganization[0] :
+        get(memberOfOrganization, '0') :
         null;
     }),
 
   defaultOrganizationName: computed('defaultOrganization',
     function () {
-      let contacts = this.get('store')
-        .peekAll('contact');
+      let contacts = this.get('contactsService.organizations');
 
       let org = contacts.findBy('json.contactId', get(this,
         'defaultOrganization'));
@@ -288,14 +289,13 @@ const Contact = Model.extend(Validations, Copyable, {
       } = json;
 
       let orgId = !isEmpty(memberOfOrganization) ?
-        memberOfOrganization[0] :
+        get(memberOfOrganization, '0') :
         null;
       let combinedName = name || positionName;
       let orgName;
 
       if(orgId) {
-        let contacts = this.get('store')
-          .peekAll('contact');
+        let contacts = this.get('contactsService.organizations');
         let org = contacts.findBy('json.contactId', orgId);
 
         if(org) {

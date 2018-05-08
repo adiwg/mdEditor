@@ -78,14 +78,30 @@
         placeholder="Select country code."
       }}
     </div>
-    <hr>
+    <hr class="col-md-12">
     <div class="col-md-8">
       {{input/md-input
         label="Import URL"
-        type="text"
+        type="url"
         value=model.importUriBase
         placeholder="Text string used as the default URL for importing."
       }}
+    </div>
+    <hr class="col-md-12">
+    <div class="col-md-8">
+      <label>mdTranslator API URL</label>
+      <div class="input-group">
+        {{input/md-input
+          type="url"
+          value=model.mdTranslatorAPI
+          placeholder="URL for the ADIwg Metadata Translator."
+        }}
+        <span class="input-group-btn">
+          <button class="btn btn-warning" type="button" {{action "resetMdTranslatorAPI"}}>Default
+            {{tooltip-on-element class="md-tooltip info" text='Reset to default'}}
+          </button>
+        </span>
+      </div>
     </div>
 </div>
 

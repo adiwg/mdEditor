@@ -1,11 +1,7 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  inject: {
-    service
-  }
-} = Ember;
+import Route from '@ember/routing/route';
+import Setting from 'mdeditor/models/setting';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
   settings: service(),
@@ -28,6 +24,13 @@ export default Route.extend({
 
     catalogs(){
       return this.get('publish.catalogs');
+    },
+
+    resetMdTranslatorAPI(){
+      let url = get(Setting,'attributes').get('mdTranslatorAPI').options.defaultValue;
+      let model = get(this.controller, 'model');
+
+      model.set('mdTranslatorAPI', url);
     }
   }
 });

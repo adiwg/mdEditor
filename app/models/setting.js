@@ -12,7 +12,11 @@ const {
   }
 } = Ember;
 
-export default DS.Model.extend({
+const defaultValues = {
+  mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v2/translator'
+};
+
+const theModel = DS.Model.extend({
   settings: service(),
 
   init() {
@@ -53,9 +57,12 @@ export default DS.Model.extend({
   importUriBase: DS.attr('string', {
     defaultValue: ''
   }),
+  mdTranslatorAPI: DS.attr('string', {
+    defaultValue: defaultValues.mdTranslatorAPI
+  }),
   repositoryDefaults: DS.attr('json'),
   publishOptions: DS.attr('json', {
-    defaultValue: function(){
+    defaultValue: function () {
       return EmberObject.create();
     }
   }),
@@ -74,3 +81,9 @@ export default DS.Model.extend({
       }
     })
 });
+
+export {
+  defaultValues,
+  theModel as
+  default
+};

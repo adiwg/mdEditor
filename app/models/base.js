@@ -1,12 +1,16 @@
-import Ember from 'ember';
 import DS from 'ember-data';
 import hash from 'npm:object-hash';
-
-const {
-  inject,
+import {
+  inject as service
+} from '@ember/service';
+import {
+  computed,
   set,
-  computed
-} = Ember;
+  observer
+} from '@ember/object';
+import {
+  once
+} from '@ember/runloop';
 
 export default DS.Model.extend({
   init() {
@@ -19,10 +23,10 @@ export default DS.Model.extend({
     //this.on('didLoad', this, this.wasLoaded);
   },
 
-  settings: inject.service(),
-  patch: inject.service(),
-  clean: inject.service('cleaner'),
-  mdjson: inject.service('mdjson'),
+  settings: service(),
+  patch: service(),
+  clean: service('cleaner'),
+  mdjson: service('mdjson'),
 
   /**
    * The hash for the clean record.
@@ -38,7 +42,7 @@ export default DS.Model.extend({
    * @type {String}
    */
 
-  observeReload: Ember.observer('isReloading', function () {
+  observeReload: observer('isReloading', function () {
     let reloading = this.get('isReloading');
 
     if(!reloading) {
@@ -46,7 +50,7 @@ export default DS.Model.extend({
     }
   }),
 
-  observeAutoSave: Ember.observer('hasDirtyAttributes', 'hasDirtyHash',
+  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
     function () {
       if(this.get('isNew')) {
         return;
@@ -54,16 +58,19 @@ export default DS.Model.extend({
 
       if(this.get('settings.data.autoSave') && (this.get('hasDirtyHash') ||
           this.get('hasDirtyAttributes'))) {
-        Ember.run.once(this, function () {
+        once(this, function () {
           this.save();
         });
       }
     }),
 
   applyPatch() {
-    let patch = this.get('patch');
+    once(this, function () {
 
-    patch.applyModelPatch(this);
+      let patch = this.get('patch');
+
+      patch.applyModelPatch(this);
+    });
   },
 
   wasUpdated() {
