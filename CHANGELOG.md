@@ -1,15 +1,50 @@
 # Change Log
 
-## [v0.2.0](https://github.com/adiwg/mdEditor/tree/v0.2.0)
+## [v0.2.1](https://github.com/adiwg/mdEditor/tree/v0.2.1)
 
-[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.1.0...v0.2.0)
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.2.0...v0.2.1)
+
+**Implemented enhancements:**
+
+- Support importing features from .geojson files [\#186](https://github.com/adiwg/mdEditor/issues/186)
+- Add mdTranslator API url to Settings [\#184](https://github.com/adiwg/mdEditor/issues/184)
+
+**Fixed bugs:**
+
+- Fix rendering error in list views [\#188](https://github.com/adiwg/mdEditor/issues/188)
+
+**Merged pull requests:**
+
+- Tweaks and bug fixes [\#189](https://github.com/adiwg/mdEditor/pull/189) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.2.0](https://github.com/adiwg/mdEditor/tree/v0.2.0) (2018-04-24)
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.1.1...v0.2.0)
+
+**Implemented enhancements:**
+
+- Please make source citation in linage editable [\#164](https://github.com/adiwg/mdEditor/issues/164)
+
+**Fixed bugs:**
+
+- Extra links in ScrollSpy in distributor  [\#180](https://github.com/adiwg/mdEditor/issues/180)
+- Fix initial scroll on routes without scrollspy [\#171](https://github.com/adiwg/mdEditor/issues/171)
+
+**Closed issues:**
+
+- Resource Maintenance [\#99](https://github.com/adiwg/mdEditor/issues/99)
+
+**Merged pull requests:**
+
+- v0.2.0 [\#183](https://github.com/adiwg/mdEditor/pull/183) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.1.1](https://github.com/adiwg/mdEditor/tree/v0.1.1) (2018-04-17)
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.1.0...v0.1.1)
 
 **Implemented enhancements:**
 
 - Use SSL compatible stamen map tiles [\#182](https://github.com/adiwg/mdEditor/issues/182)
 - Add support for dataType codelist [\#179](https://github.com/adiwg/mdEditor/issues/179)
 - Feature Request:  Additional pointOfcontact fields in Funding section [\#174](https://github.com/adiwg/mdEditor/issues/174)
-- Please make source citation in linage editable [\#164](https://github.com/adiwg/mdEditor/issues/164)
 - Add select/unselect all function to imports & list [\#143](https://github.com/adiwg/mdEditor/issues/143)
 - Translate mdJSON awardID to SB  Agreement Number [\#131](https://github.com/adiwg/mdEditor/issues/131)
 - Fix funding preview [\#114](https://github.com/adiwg/mdEditor/issues/114)
@@ -20,9 +55,7 @@
 
 **Fixed bugs:**
 
-- Extra links in ScrollSpy in distributor  [\#180](https://github.com/adiwg/mdEditor/issues/180)
 - In lineage template source.value should be source.description  [\#172](https://github.com/adiwg/mdEditor/issues/172)
-- Fix initial scroll on routes without scrollspy [\#171](https://github.com/adiwg/mdEditor/issues/171)
 - Keyword Thesaurus Update [\#169](https://github.com/adiwg/mdEditor/issues/169)
 
 **Closed issues:**
@@ -32,7 +65,6 @@
 - Resource type does not update [\#110](https://github.com/adiwg/mdEditor/issues/110)
 - Citation Support [\#102](https://github.com/adiwg/mdEditor/issues/102)
 - Constraint [\#100](https://github.com/adiwg/mdEditor/issues/100)
-- Resource Maintenance [\#99](https://github.com/adiwg/mdEditor/issues/99)
 - Keyword Support [\#97](https://github.com/adiwg/mdEditor/issues/97)
 - Metadata Repository Support [\#93](https://github.com/adiwg/mdEditor/issues/93)
 - Funding Support [\#92](https://github.com/adiwg/mdEditor/issues/92)
@@ -47,7 +79,6 @@
 
 **Merged pull requests:**
 
-- v0.2.0 [\#183](https://github.com/adiwg/mdEditor/pull/183) ([jlblcc](https://github.com/jlblcc))
 - Feature 178 import dictionary csv [\#181](https://github.com/adiwg/mdEditor/pull/181) ([jlblcc](https://github.com/jlblcc))
 - Update ember-try, travis config [\#175](https://github.com/adiwg/mdEditor/pull/175) ([jlblcc](https://github.com/jlblcc))
 - Fix 172 lineage source description [\#173](https://github.com/adiwg/mdEditor/pull/173) ([jlblcc](https://github.com/jlblcc))
