@@ -1,6 +1,9 @@
 import Ember from 'ember';
 import Template from 'mdeditor/mixins/object-template';
 import {
+  once
+} from '@ember/runloop';
+import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
@@ -58,7 +61,7 @@ const theComp = Component.extend(Template, {
     }
 
     if(modelPath) {
-      set(main, modelPath, model);
+      once(this, () => set(main, modelPath, model));
     }
 
   },
