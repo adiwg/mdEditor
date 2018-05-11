@@ -1,3 +1,5 @@
+{{head-layout}}
+
 <div class=md-message-container>
   <div class=md-message-wrapper>
     {{#each flashMessages.queue as |flash|}}
@@ -14,6 +16,10 @@
     {{/each}}
   </div>
 </div>
+
+{{#md-title as |title|}}
+  {{title title replace=false}}
+{{/md-title}}
 
 <div id="md-wrapper" class="">
 
