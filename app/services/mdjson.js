@@ -141,8 +141,20 @@ export default Service.extend({
 
         if(orgs && orgs.length) {
           orgs.forEach(itm => {
-            if(conts.get('contacts').findBy('contactId', itm)) {
+            let org = conts.get('contacts').findBy('contactId', itm);
+
+            if(!org) {
+              return;
+            }
+
+            if(!_contacts.includes(value) && org) {
               _contacts.push(itm);
+            }
+
+            let iOrgs = org.get('json.memberOfOrganization');
+
+            if(iOrgs.length) {
+              orgs.push(...iOrgs);
             }
           });
         }
