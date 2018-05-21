@@ -1,7 +1,34 @@
 # Change Log
 
-## [v0.2.1](https://github.com/adiwg/mdEditor/tree/v0.2.1)
+## [v0.3.0](https://github.com/adiwg/mdEditor/tree/v0.3.0)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.2.1...v0.3.0)
+
+**Implemented enhancements:**
+
+- Default record ID namespace persists [\#194](https://github.com/adiwg/mdEditor/issues/194)
+
+**Fixed bugs:**
+
+- Contacts from memberOfOrganization missing [\#195](https://github.com/adiwg/mdEditor/issues/195)
+- mis-spelling in LCC Project Category thesaurus [\#191](https://github.com/adiwg/mdEditor/issues/191)
+
+**Closed issues:**
+
+- Display breadcrumbs in page titles [\#192](https://github.com/adiwg/mdEditor/issues/192)
+- No JSON object could be decoded error when publishing [\#163](https://github.com/adiwg/mdEditor/issues/163)
+- Publishing to update an existing item fails [\#149](https://github.com/adiwg/mdEditor/issues/149)
+- Permission Denied [\#148](https://github.com/adiwg/mdEditor/issues/148)
+- Parent Metadata Title not created when publishing child item  [\#138](https://github.com/adiwg/mdEditor/issues/138)
+- Parent and child items no longer publishing together  [\#135](https://github.com/adiwg/mdEditor/issues/135)
+- Patrick's publishing errors log [\#132](https://github.com/adiwg/mdEditor/issues/132)
+
+**Merged pull requests:**
+
+- Breadcrumb Titles and memberOfOrganization fix [\#198](https://github.com/adiwg/mdEditor/pull/198) ([jlblcc](https://github.com/jlblcc))
+- Released v0.2.1 [\#190](https://github.com/adiwg/mdEditor/pull/190) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.2.1](https://github.com/adiwg/mdEditor/tree/v0.2.1) (2018-05-08)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.2.0...v0.2.1)
 
 **Implemented enhancements:**
