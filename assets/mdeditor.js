@@ -19448,7 +19448,7 @@ define("mdeditor/pods/record/new/id/template", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "AepyKMmY", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"row page-header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3\"],[7],[0,\"\\n        \"],[6,\"h3\"],[7],[0,\"Create New Record\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n    \"],[6,\"form\"],[9,\"class\",\"col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3\"],[3,\"action\",[[19,0,[]],\"saveRecord\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n          \"],[6,\"label\"],[9,\"class\",\"control-label required\"],[7],[0,\"Record ID\"],[8],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n              \"],[1,[25,\"input/md-input\",null,[[\"valuePath\",\"model\",\"placeholder\"],[\"recordId\",[20,[\"model\"]],\"Enter an ID for this record\"]]],false],[0,\"\\n          \"],[8],[0,\"\\n      \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"label\"],[10,\"class\",[26,[\"control-label\\n            \",[25,\"if\",[[25,\"get\",[[25,\"get\",[[20,[\"model\",\"validations\",\"attrs\"]],\"json.metadata.resourceInfo.citation.title\"],null],\"options.presence.presence\"],null],\"required\"],null]]]],[7],[0,\"Record Title\"],[8],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"valuePath\",\"model\",\"placeholder\"],[\"json.metadata.resourceInfo.citation.title\",[20,[\"model\"]],\"Enter a title for the record\"]]],false],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group clear\"],[7],[0,\"\\n\"],[0,\"            \"],[6,\"div\"],[9,\"class\",\"card\"],[7],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"card-block\"],[7],[0,\"\\n\\n            \"],[1,[25,\"object/md-resource-type-array\",null,[[\"plain\",\"value\",\"required\"],[true,[20,[\"model\",\"json\",\"metadata\",\"resourceInfo\",\"resourceType\"]],true]]],false],[0,\"\\n          \"],[8],[0,\"\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"col-sm-offset-4 col-sm-8\"],[7],[0,\"\\n                 \"],[6,\"span\"],[9,\"class\",\"pull-right\"],[7],[0,\"\\n                      \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"btn btn-success md-form-save\"],[10,\"disabled\",[25,\"get\",[[20,[\"model\",\"validations\"]],\"isInvalid\"],null],null],[7],[0,\"Save\"],[8],[0,\"\\n                      \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-warning \"],[3,\"action\",[[19,0,[]],\"cancelRecord\"]],[7],[0,\"Cancel\"],[8],[0,\"\\n                 \"],[8],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/new/id/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "UTXlLhaj", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"row page-header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3\"],[7],[0,\"\\n        \"],[6,\"h3\"],[7],[0,\"Create New Record\"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n    \"],[6,\"form\"],[9,\"class\",\"col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3\"],[3,\"action\",[[19,0,[]],\"saveRecord\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n          \"],[6,\"label\"],[9,\"class\",\"control-label\"],[7],[0,\"Record ID\"],[8],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"text-muted\"],[7],[1,[20,[\"model\",\"recordId\"]],false],[8],[0,\"\\n\"],[0,\"      \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"label\"],[10,\"class\",[26,[\"control-label\\n            \",[25,\"if\",[[25,\"get\",[[25,\"get\",[[20,[\"model\",\"validations\",\"attrs\"]],\"json.metadata.resourceInfo.citation.title\"],null],\"options.presence.presence\"],null],\"required\"],null]]]],[7],[0,\"Record Title\"],[8],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"valuePath\",\"model\",\"placeholder\"],[\"json.metadata.resourceInfo.citation.title\",[20,[\"model\"]],\"Enter a title for the record\"]]],false],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group clear\"],[7],[0,\"\\n\"],[0,\"            \"],[6,\"div\"],[9,\"class\",\"card\"],[7],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"card-block\"],[7],[0,\"\\n\\n            \"],[1,[25,\"object/md-resource-type-array\",null,[[\"plain\",\"value\",\"required\"],[true,[20,[\"model\",\"json\",\"metadata\",\"resourceInfo\",\"resourceType\"]],true]]],false],[0,\"\\n          \"],[8],[0,\"\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"form-group\"],[7],[0,\"\\n            \"],[6,\"div\"],[9,\"class\",\"col-sm-offset-4 col-sm-8\"],[7],[0,\"\\n                 \"],[6,\"span\"],[9,\"class\",\"pull-right\"],[7],[0,\"\\n                      \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"btn btn-success md-form-save\"],[10,\"disabled\",[25,\"get\",[[20,[\"model\",\"validations\"]],\"isInvalid\"],null],null],[7],[0,\"Save\"],[8],[0,\"\\n                      \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-warning \"],[3,\"action\",[[19,0,[]],\"cancelRecord\"]],[7],[0,\"Cancel\"],[8],[0,\"\\n                 \"],[8],[0,\"\\n            \"],[8],[0,\"\\n        \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/new/id/template.hbs" } });
 });
 define('mdeditor/pods/record/new/index/route', ['exports'], function (exports) {
   'use strict';
@@ -23763,8 +23763,20 @@ define('mdeditor/services/mdjson', ['exports', 'npm:ajv', 'npm:mdjson-schemas/re
 
           if (orgs && orgs.length) {
             orgs.forEach(itm => {
-              if (conts.get('contacts').findBy('contactId', itm)) {
+              let org = conts.get('contacts').findBy('contactId', itm);
+
+              if (!org) {
+                return;
+              }
+
+              if (!_contacts.includes(value) && org) {
                 _contacts.push(itm);
+              }
+
+              let iOrgs = org.get('json.memberOfOrganization');
+
+              if (iOrgs.length) {
+                orgs.push(...iOrgs);
               }
             });
           }
@@ -25805,6 +25817,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.2.1+924c84b3"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.3.0+b9c7725d"});
 }
 //# sourceMappingURL=mdeditor.map
