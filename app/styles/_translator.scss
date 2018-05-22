@@ -33,7 +33,34 @@
 .md-translator-error {
   background-color: $body-bg;
 
-  .card-header {
+  &.danger .card-header {
     background-color: $brand-danger;
   }
+
+  &.success .card-header {
+    background-color: $brand-success;
+  }
+
+  &.info .card-header {
+    background-color: $brand-info;
+  }
+
+  &.warning .card-header {
+    background-color: $brand-warning;
+  }
+
+  .list-group-item-heading {
+    .label {
+      display: inline-block;
+    }
+  }
+
+  &.card-inverse .card-title a {
+    color: $body-bg;
+
+    &:hover {
+      color: darken($body-bg, 10);
+    }
+  }
+
 }
