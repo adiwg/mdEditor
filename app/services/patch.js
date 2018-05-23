@@ -5,7 +5,8 @@ import {
   set
 } from '@ember/object';
 import {
-  isArray
+  isArray,
+  A
 } from '@ember/array';
 
 export default Service.extend({
@@ -21,10 +22,14 @@ export default Service.extend({
           if(oldAdm) {
             set(itm, 'administrativeArea', oldAdm);
             set(itm, 'adminstrativeArea', null);
-
-            record.save();
           }
         });
+
+      record.set('json.memberOfOrganization', A(record.get(
+        'json.memberOfOrganization')).uniq());
+      record.save().then(function () {
+        record.notifyPropertyChange('currentHash');
+      });
 
       break;
     case 'record':
@@ -42,7 +47,9 @@ export default Service.extend({
                     'description', get(src, 'value')));
                   set(src, 'value', null);
                 });
-                record.save();
+                record.save().then(function () {
+                  record.notifyPropertyChange('currentHash');
+                });
               }
             });
 
