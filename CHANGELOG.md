@@ -1,12 +1,24 @@
 # Change Log
 
-## [v0.3.0](https://github.com/adiwg/mdEditor/tree/v0.3.0)
+## [v0.3.1](https://github.com/adiwg/mdEditor/tree/v0.3.1)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.3.0...v0.3.1)
+
+**Fixed bugs:**
+
+- Ensure memberOfOrganization IDs are unique [\#200](https://github.com/adiwg/mdEditor/issues/200)
+
+**Merged pull requests:**
+
+- Fix Contacts in mdJSON [\#201](https://github.com/adiwg/mdEditor/pull/201) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.3.0](https://github.com/adiwg/mdEditor/tree/v0.3.0) (2018-05-21)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.2.1...v0.3.0)
 
 **Implemented enhancements:**
 
 - Default record ID namespace persists [\#194](https://github.com/adiwg/mdEditor/issues/194)
+- Display breadcrumbs in page titles [\#192](https://github.com/adiwg/mdEditor/issues/192)
 
 **Fixed bugs:**
 
@@ -15,7 +27,6 @@
 
 **Closed issues:**
 
-- Display breadcrumbs in page titles [\#192](https://github.com/adiwg/mdEditor/issues/192)
 - No JSON object could be decoded error when publishing [\#163](https://github.com/adiwg/mdEditor/issues/163)
 - Publishing to update an existing item fails [\#149](https://github.com/adiwg/mdEditor/issues/149)
 - Permission Denied [\#148](https://github.com/adiwg/mdEditor/issues/148)
@@ -25,6 +36,7 @@
 
 **Merged pull requests:**
 
+- v0.3.0 [\#199](https://github.com/adiwg/mdEditor/pull/199) ([jlblcc](https://github.com/jlblcc))
 - Breadcrumb Titles and memberOfOrganization fix [\#198](https://github.com/adiwg/mdEditor/pull/198) ([jlblcc](https://github.com/jlblcc))
 - Released v0.2.1 [\#190](https://github.com/adiwg/mdEditor/pull/190) ([jlblcc](https://github.com/jlblcc))
 
