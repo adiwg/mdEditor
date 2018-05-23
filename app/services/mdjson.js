@@ -17,7 +17,7 @@ const validator = new Ajv({
 validator.addMetaSchema(draft4);
 
 Object.keys(Schemas)
-  .forEach(function(key) {
+  .forEach(function (key) {
     let val = Schemas[key];
 
     validator.addSchema(val, key);
@@ -36,8 +36,7 @@ const {
 
 const unImplemented = [
   'metadata.metadataInfo.otherMetadataLocale',
-  'metadata.resourceInfo.spatialRepresentation',
-  [
+  'metadata.resourceInfo.spatialRepresentation', [
     'metadata.resourceInfo.extent',
     'verticalExtent'
   ],
@@ -100,11 +99,12 @@ export default Service.extend({
 
   injectDictionaries(rec, json) {
     let ids = rec.get('json.mdDictionary') || [];
-    let arr =[];
+    let arr = [];
 
     if(ids.length) {
 
-      let dicts = this.get('store').peekAll('dictionary').filterBy('dictionaryId');
+      let dicts = this.get('store').peekAll('dictionary').filterBy(
+        'dictionaryId');
 
       ids.forEach((id) => {
         let record = dicts.findBy('dictionaryId', id);
@@ -136,7 +136,7 @@ export default Service.extend({
           return null;
         }
 
-        let orgs = contact.get('json.memberOfOrganization');
+        let orgs = isArray(contact.get('json.memberOfOrganization')) ? contact.get('json.memberOfOrganization').slice(0) : null;
         _contacts.push(value);
 
         if(orgs && orgs.length) {
@@ -154,7 +154,11 @@ export default Service.extend({
             let iOrgs = org.get('json.memberOfOrganization');
 
             if(iOrgs.length) {
-              orgs.push(...iOrgs);
+              iOrgs.forEach(iOrg => {
+                if(!_contacts.includes(iOrg)) {
+                  orgs.push(iOrg);
+                }
+              });
             }
           });
         }
@@ -197,7 +201,6 @@ export default Service.extend({
 
       });
     }
-
 
     return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(
       json);
