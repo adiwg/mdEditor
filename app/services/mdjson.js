@@ -147,7 +147,7 @@ export default Service.extend({
               return;
             }
 
-            if(!_contacts.includes(value) && org) {
+            if(!_contacts.includes(itm) && org) {
               _contacts.push(itm);
             }
 
