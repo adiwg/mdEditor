@@ -13,7 +13,7 @@ const {
 } = Ember;
 
 const defaultValues = {
-  mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v2/translator'
+  mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v3/translator'
 };
 
 const theModel = DS.Model.extend({
