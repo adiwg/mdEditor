@@ -90,7 +90,7 @@
                 </div>
                 <div class="">
                   <span class="label label-pill {{if message.[3] "label-primary" "label-default"}}">{{message.[1]}}</span>
-                  {{if message.[3] (humanize message.[3]) "context not provided"}}
+                  {{compute (action "formatMessage" message.[3])}}
                 </div>
               </li>
             {{/with}}

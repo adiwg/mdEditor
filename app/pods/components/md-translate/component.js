@@ -254,17 +254,18 @@ export default Component.extend({
       });
 
       promise.then((obj) => {
-          set(this, 'result', JSON.stringify(obj, null, 2));
-        })
-        .
-      catch((error) => {
+        set(this, 'result', JSON.stringify(obj, null, 2));
+      }).catch((error) => {
         //console.log(error);
-        get(this, 'flashMessages')
-          .danger(error.message);
+        get(this, 'flashMessages').danger(error.message);
       });
     },
     errorClass(level) {
       return errorClasses[errorLevels[level]] || 'primary';
+    },
+    formatMessage(message) {
+      return message ? message.trim().replace(/^([A-Z]{2,})/g, match => match.toLowerCase()) :
+        'context not provided'
     }
   }
 });
