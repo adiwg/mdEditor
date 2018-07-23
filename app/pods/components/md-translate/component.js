@@ -16,7 +16,14 @@ import {
   defaultValues
 } from 'mdeditor/models/setting';
 
-//const _contacts = [];
+const errorLevels = {
+  'OK': 0,
+  'NOTICE': 1,
+  'WARNING': 2,
+  'ERROR': 3
+};
+
+const errorClasses = ['success', 'info', 'warning', 'danger'];
 
 export default Component.extend({
   classNames: ['row'],
@@ -34,6 +41,15 @@ export default Component.extend({
    * @default "false"
    */
   showAllTags: false,
+
+  /**
+   * Indicates whether to force writer to meet the output standard
+   *
+   * @property forceValid
+   * @type {Boolean}
+   * @default "false"
+   */
+  forceValid: false,
 
   writer: null,
 
@@ -65,10 +81,21 @@ export default Component.extend({
   }],
 
   result: null,
+  errorLevel: null,
   errors: null,
   xhrError: null,
   isLoading: false,
   subTitle: null,
+
+  errorClass: computed('errorLevel', 'errors', function () {
+    return errorClasses[get(this, 'errorLevel')];
+  }),
+
+  errorTitle: computed('errorLevel', 'errors', function () {
+    let type = ['Success', 'Notice', 'Warning', 'Error'];
+
+    return type[get(this, 'errorLevel')];
+  }),
 
   writeObj: computed('writer', function () {
     return get(this, 'writerOptions')
@@ -77,8 +104,9 @@ export default Component.extend({
   }),
 
   writerType: computed('writeObj', function () {
-    return get(this, 'writeObj')
-      .type.split('/')[1];
+    let obj = get(this, 'writeObj');
+
+    return obj ? obj.type.split('/')[1] : null;
   }),
 
   isJson: computed.equal('writerType', 'json'),
@@ -97,23 +125,24 @@ export default Component.extend({
       return null;
     }
 
-    if(!err.readerStructurePass) {
-      set(this, 'subtitle', 'Errors ocurred when reading the mdJSON');
-      return err.readerStructureMessages;
+    if(err.length) {
+      set(this, 'subtitle', get(this, 'errorTitle') +
+        ' ocurred during translation.');
+      return err;
     }
 
-    if(!err.readerValidationPass) {
-      set(this, 'subtitle', 'mdJSON Schema validation failed');
-      return JSON.parse(err.readerValidationMessages[1]);
-    }
-
-    if(!err.readerExecutionPass) {
-      return err.readerExecutionMessages;
-    }
-
-    if(!err.writerPass) {
-      return err.writerMessages;
-    }
+    // if(!err.readerValidationPass) {
+    //   set(this, 'subtitle', 'mdJSON Schema validation failed');
+    //   return JSON.parse(err.readerValidationMessages[1]);
+    // }
+    //
+    // if(!err.readerExecutionPass) {
+    //   return err.readerExecutionMessages;
+    // }
+    //
+    // if(!err.writerPass) {
+    //   return err.writerMessages;
+    // }
   }),
 
   _clearResult() {
@@ -155,6 +184,7 @@ export default Component.extend({
             reader: 'mdJson',
             writer: get(this, 'writer'),
             showAllTags: get(this, 'showAllTags'),
+            forceValid: get(this, 'forceValid'),
             validate: 'normal',
             format: 'json'
           },
@@ -166,12 +196,21 @@ export default Component.extend({
 
           set(this, 'isLoading', false);
 
-          if(response.success) {
-            set(this, 'result', response.data);
-            //Ember.$('.md-translator-preview textarea').val(response.data);
-          } else {
-            set(this, 'errors', response.messages);
-            set(this, 'result', response.data);
+          // if(response.success) {
+          //   set(this, 'result', response.writerOutput);
+          //   //Ember.$('.md-translator-preview textarea').val(response.data);
+          // } else {
+          let level = Math.max(...[response.readerExecutionStatus,
+            response.readerStructureStatus,
+            response.readerValidationStatus, response.writerStatus
+          ].map(itm => errorLevels[itm]));
+
+          set(this, 'errorLevel', level);
+          set(this, 'errors', response.readerExecutionMessages.concat(
+            response.readerStructureMessages, response.readerValidationMessages,
+            response.writerMessages).map(itm => itm.split(':')));
+          set(this, 'result', response.writerOutput);
+          if(!response.success) {
             get(this, 'flashMessages')
               .danger('Translation error!');
           }
@@ -180,6 +219,8 @@ export default Component.extend({
             `mdTranslator Server error:
           ${response.status}: ${response.statusText}`;
 
+          set(this, 'errorLevel', 3);
+          set(this, 'isLoading', false);
           set(this, 'xhrError', error);
           get(this, 'flashMessages')
             .danger(error);
@@ -213,14 +254,18 @@ export default Component.extend({
       });
 
       promise.then((obj) => {
-          set(this, 'result', JSON.stringify(obj, null, 2));
-        })
-        .
-      catch((error) => {
+        set(this, 'result', JSON.stringify(obj, null, 2));
+      }).catch((error) => {
         //console.log(error);
-        get(this, 'flashMessages')
-          .danger(error.message);
+        get(this, 'flashMessages').danger(error.message);
       });
+    },
+    errorClass(level) {
+      return errorClasses[errorLevels[level]] || 'primary';
+    },
+    formatMessage(message) {
+      return message ? message.trim().replace(/^([A-Z]{2,})/g, match => match.toLowerCase()) :
+        'context not provided'
     }
   }
 });

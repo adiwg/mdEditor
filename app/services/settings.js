@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import config from 'mdeditor/config/environment';
+import { defaultValues } from 'mdeditor/models/setting';
+import { isEmpty } from '@ember/utils';
 
 const {
   APP: {
@@ -43,6 +45,14 @@ export default Service.extend({
 
         set(settings, 'repositoryDefaults', getWithDefault(settings,
           'repositoryDefaults', []));
+
+        //update mdTranslatorAPI if default is being used
+        let isDefaultAPI = isEmpty(settings.get('mdTranslatorAPI')) || settings.get('mdTranslatorAPI').match(
+          'https://mdtranslator.herokuapp.com/api/v(.)/translator');
+
+        if(isDefaultAPI) {
+          settings.set('mdTranslatorAPI', defaultValues.mdTranslatorAPI);
+        }
 
         settings.notifyPropertyChange('hasDirtyAttributes');
 

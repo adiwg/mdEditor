@@ -19,6 +19,22 @@
                   change=(action "clearResult")
                 }}
                 <div class="form-group">
+                    <label>Force Valid Ouput?</label>
+                    <div class="form-control">
+                        <div class="inline-block">
+                            {{input/md-toggle
+                              value=forceValid
+                              onToggle=(mut forceValid)
+                              showLabels=true
+                              onLabel="Yes::true"
+                              offLabel="No::false"
+                              size="medium"
+                              theme="form"
+                            }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>Show Empty Tags?</label>
                     <div class="form-control">
                         <div class="inline-block">
@@ -52,18 +68,32 @@
 
     {{#if messages}}
       {{#layout/md-card
-        title="Translation Error"
-        class="card-inverse card-outline-danger md-translator-error"
+        title=(concat "Translation " errorTitle)
+        class=(concat "card-inverse card-outline-" errorClass " md-translator-error " errorClass)
         spotlightEnabled=false
         scroll=false
         maximizable=true
         titleIcon="exclamation"
         spotlightEnabled=false
+        collapsible=true
       }}
-        <h4 class="text-danger">{{subtitle}}</h4>
-        <ul>
+        <h4 class="text-{{errorClass}}">{{subtitle}}</h4>
+        <ul class="list-group">
           {{#each messages as |message|}}
-              <li>{{message}}</li>
+            {{#with (compute (action "errorClass") message.[0]) as |errorClass|}}
+              <li class="list-group-item">
+                <div class="">
+                  <h4 class="list-group-item-heading">
+                    <span class="label label-{{errorClass}}">{{message.[0]}}</span>
+                    {{message.[2]}}
+                  </h4>
+                </div>
+                <div class="">
+                  <span class="label label-pill {{if message.[3] "label-primary" "label-default"}}">{{message.[1]}}</span>
+                  {{compute (action "formatMessage" message.[3])}}
+                </div>
+              </li>
+            {{/with}}
           {{/each}}
         </ul>
       {{/layout/md-card}}
@@ -73,7 +103,7 @@
       {{#layout/md-card
         title="mdTranslator Error"
         spotlightEnabled=false
-        class="card-inverse card-outline-danger md-translator-error"
+        class="card-inverse card-outline-danger md-translator-error danger"
         scroll=false
         maximizable=true
         titleIcon="exclamation"
@@ -87,7 +117,7 @@
     {{#if result}}
       {{#layout/md-card
         title="Result"
-        class=(if messages "card-inverse card-outline-danger md-translator-error md-translator-preview" "md-translator-preview")
+        class=(if messages (concat "card-inverse card-outline-" errorClass " md-translator-error " errorClass " md-translator-preview") "md-translator-preview")
         scroll=false
         maximizable=true
         titleIcon="check"
