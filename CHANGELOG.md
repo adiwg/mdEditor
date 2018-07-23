@@ -1,8 +1,20 @@
 # Change Log
 
-## [v0.3.1](https://github.com/adiwg/mdEditor/tree/v0.3.1)
+## [v0.4.0](https://github.com/adiwg/mdEditor/tree/v0.4.0)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.3.1...v0.4.0)
+
+**Merged pull requests:**
+
+- Support mdTranslator API v3 [\#210](https://github.com/adiwg/mdEditor/pull/210) ([jlblcc](https://github.com/jlblcc))
+- Released v0.3.1 [\#202](https://github.com/adiwg/mdEditor/pull/202) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.3.1](https://github.com/adiwg/mdEditor/tree/v0.3.1) (2018-05-23)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.3.0...v0.3.1)
+
+**Implemented enhancements:**
+
+- Add support for messaging in Translator [\#206](https://github.com/adiwg/mdEditor/issues/206)
 
 **Fixed bugs:**
 
