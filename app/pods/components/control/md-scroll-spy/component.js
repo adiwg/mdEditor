@@ -1,8 +1,16 @@
-import { inject as service } from '@ember/service';
-import { get, computed } from '@ember/object';
+import {
+  inject as service
+} from '@ember/service';
+import {
+  get,
+  set,
+  computed
+} from '@ember/object';
 import Component from '@ember/component';
 import $ from 'jquery';
-import { A } from '@ember/array';
+import {
+  A
+} from '@ember/array';
 
 export default Component.extend({
   /**
@@ -43,7 +51,7 @@ export default Component.extend({
    */
 
   /**
-   * Array of data objects for the navigatoin links.
+   * Array of data objects for the navigation links.
    *
    * @property links
    * @type {Array}
@@ -115,6 +123,12 @@ export default Component.extend({
    */
   didInsertElement() {
     this._super(...arguments);
+
+    let data = $('body').data('bs.scrollspy');
+
+    if(data) {
+      set(data, 'options.offset', get(this, 'offset'));
+    }
     this.setupSpy();
 
     let init = this.get('scrollInit');
@@ -138,19 +152,19 @@ export default Component.extend({
     }
   },
 
-didReceiveAttrs() {
-  this._super(...arguments);
+  didReceiveAttrs() {
+    this._super(...arguments);
 
-  if(!this.setScrollTo) {
-    this.scroll();
-  }
-},
+    if(!this.setScrollTo) {
+      this.scroll();
+    }
+  },
 
   /**
    * Scrolls to the target.
    *
    * @method MyMethod
-   * @param {String} id elemnet id of target
+   * @param {String} id element id of target
    * @param {Boolean} hilite If true, set the spy nav link to active
    */
   scroll(id, hilite) {
@@ -163,7 +177,7 @@ didReceiveAttrs() {
     $('html, body').scrollTop($anchor.offset().top - get(this, 'offset'));
 
     if(hilite) {
-      $('[href=#' + id + ']')
+      $('[href="' + id + '"]')
         .closest('li')
         .addClass('active');
     }
