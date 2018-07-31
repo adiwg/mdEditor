@@ -1,7 +1,20 @@
 # Change Log
 
-## [v0.4.0](https://github.com/adiwg/mdEditor/tree/v0.4.0)
+## [v0.4.1](https://github.com/adiwg/mdEditor/tree/v0.4.1)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.4.0...v0.4.1)
+
+**Fixed bugs:**
+
+- Typo in Award ID field [\#212](https://github.com/adiwg/mdEditor/issues/212)
+- ScrollSpy highlighting wrong menu item [\#196](https://github.com/adiwg/mdEditor/issues/196)
+
+**Merged pull requests:**
+
+- v0.4.1 [\#213](https://github.com/adiwg/mdEditor/pull/213) ([jlblcc](https://github.com/jlblcc))
+- Bump version to 0.4.0 [\#211](https://github.com/adiwg/mdEditor/pull/211) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.4.0](https://github.com/adiwg/mdEditor/tree/v0.4.0) (2018-07-23)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.3.1...v0.4.0)
 
 **Merged pull requests:**
