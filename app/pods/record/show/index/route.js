@@ -1,10 +1,9 @@
-import Ember from 'ember';
-
-const { Route } = Ember;
+import Route from '@ember/routing/route';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 /* global L */
 
-export default Route.extend({
+export default Route.extend(ScrollTo, {
   actions: {
     linkTo(route){
       this.transitionTo(route);

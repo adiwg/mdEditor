@@ -170,7 +170,7 @@
       <hr>
       {{#link-to "contacts" class="btn btn-lg btn-primary btn-block" }}
       {{fa-icon "list"}} Show List{{/link-to}}
-      {{control/md-scroll-spy}}
+      {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
     </div>
   </div>
 </div>
