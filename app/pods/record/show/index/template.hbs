@@ -136,7 +136,8 @@
         <hr>
         {{#link-to "records" class="btn btn-lg btn-primary btn-block" }}
         {{fa-icon "list"}} Show List{{/link-to}}
-        {{control/md-scroll-spy}}
+
+        {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=model.profile}}
       </div>
     </div>
 </div>

@@ -1,14 +1,11 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { copy } from '@ember/object/internals';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-const {
-  inject,
-  Route,
-  get,
-  copy
-} = Ember;
-
-export default Route.extend({
-  flashMessages: inject.service(),
+export default Route.extend(ScrollTo, {
+  flashMessages: service(),
 
   model: function(params) {
     let rec= this.store.peekRecord('contact', params.contact_id);
