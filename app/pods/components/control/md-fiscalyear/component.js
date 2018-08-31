@@ -2,6 +2,9 @@ import Ember from 'ember';
 import Select from 'mdeditor/pods/components/input/md-select/component';
 import layout from 'mdeditor/pods/components/input/md-select/template';
 import moment from 'moment';
+import {
+  inject as service
+} from '@ember/service';
 
 const {
   computed
@@ -9,9 +12,10 @@ const {
 
 export default Select.extend({
   layout,
+  settings: service('settings'),
   classNames: ['md-fiscalyear'],
-  objectArray: computed(function() {
-    return Array.apply(0, Array(12)).map(function(element, index) {
+  objectArray: computed(function () {
+    return Array.apply(0, Array(12)).map(function (element, index) {
       return {
         year: index + (moment().year() - 10)
       };
@@ -26,9 +30,12 @@ export default Select.extend({
   create: true,
   change() {
     let val = this.get('value');
-    let start = moment(val, 'YYYY').subtract(1, 'year').month('October').startOf(
-      'month');
-    let end = moment(val, 'YYYY').month('September').endOf('month');
+    let month = parseInt(this.get(
+      'settings.data.fiscalStartMonth'), 10) - 1;
+    let dt = month <= 6 ? moment(val, 'YYYY') : moment(val, 'YYYY').subtract(1, 'year');
+    let start = dt.month(month).startOf('month');
+    //let end = moment(val, 'YYYY').month('September').endOf('month');
+    let end = start.clone().add(11, 'months').endOf('month');
     let context = this.get('context');
 
     this.setProperties({
