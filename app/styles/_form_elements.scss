@@ -118,3 +118,23 @@ form {
 .md-codelist {
   min-width: 150px;
 }
+
+//fiscalyear
+.md-fiscalyear {
+  label {
+    color: lighten($brand-primary, 10);
+    font-size: 0;
+  }
+
+  .ember-power-select-trigger {
+    background-color: $brand-primary;
+
+    .ember-power-select-placeholder {
+      color: $body-bg;
+    }
+
+    .ember-power-select-status-icon {
+      border-top-color: $body-bg;
+    }
+  }
+}

@@ -9,6 +9,7 @@ const {
 
 export default Select.extend({
   layout,
+  classNames: ['md-fiscalyear'],
   objectArray: computed(function() {
     return Array.apply(0, Array(12)).map(function(element, index) {
       return {
@@ -16,12 +17,12 @@ export default Select.extend({
       };
     });
   }),
-  label: 'Fiscal Year',
+  label: 'Pick Fiscal Year',
   valuePath: 'year',
   namePath: 'year',
   tooltip: false,
   searchEnabled: true,
-  placeholder: 'Select a Fiscal Year.',
+  placeholder: 'Pick a Fiscal Year',
   create: true,
   change() {
     let val = this.get('value');
@@ -42,5 +43,7 @@ export default Select.extend({
     context.$('.end .date')
       .data("DateTimePicker")
       .date(end);
+
+    this.set('value', null);
   }
 });
