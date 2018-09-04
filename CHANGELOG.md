@@ -1,13 +1,34 @@
 # Change Log
 
-## [v0.4.1](https://github.com/adiwg/mdEditor/tree/v0.4.1)
+## [v0.5.0](https://github.com/adiwg/mdEditor/tree/v0.5.0)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.4.1...v0.5.0)
+
+**Implemented enhancements:**
+
+- TimePeriod element titles [\#223](https://github.com/adiwg/mdEditor/issues/223)
+
+**Fixed bugs:**
+
+- TimePeriod element titles [\#223](https://github.com/adiwg/mdEditor/issues/223)
+
+**Closed issues:**
+
+- Support direct import of FGDC CSDGM [\#226](https://github.com/adiwg/mdEditor/issues/226)
+- Need to be able to add a scale denominator for a source citation [\#215](https://github.com/adiwg/mdEditor/issues/215)
+- Add cooperator to role code list [\#204](https://github.com/adiwg/mdEditor/issues/204)
+
+**Merged pull requests:**
+
+- FGDC import, fiscal year improvements [\#227](https://github.com/adiwg/mdEditor/pull/227) ([jlblcc](https://github.com/jlblcc))
+- Update CHANGELOG [\#214](https://github.com/adiwg/mdEditor/pull/214) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.4.1](https://github.com/adiwg/mdEditor/tree/v0.4.1) (2018-07-31)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.4.0...v0.4.1)
 
 **Fixed bugs:**
 
 - Typo in Award ID field [\#212](https://github.com/adiwg/mdEditor/issues/212)
-- ScrollSpy highlighting wrong menu item [\#196](https://github.com/adiwg/mdEditor/issues/196)
 
 **Merged pull requests:**
 
