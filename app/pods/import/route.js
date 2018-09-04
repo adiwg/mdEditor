@@ -39,6 +39,7 @@ export default Route.extend(ScrollTo, {
     this._super(controller, model);
     // Implement your custom setup after
     controller.set('importUri', this.get('settings.data.importUriBase'));
+    controller.set('apiURL', this.get('apiURL'));
   },
 
   model() {
@@ -48,19 +49,21 @@ export default Route.extend(ScrollTo, {
     });
   },
 
+  apiURL: computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+
   getTitle(record) {
     let raw = record.attributes.json;
     let json = raw ? JSON.parse(raw) : null;
 
     switch(record.type) {
-      case 'records':
-        return json.metadata.resourceInfo.citation.title;
-      case 'dictionaries':
-        return json.dataDictionary.citation.title;
-      case 'contacts':
-        return json.name;
-      default:
-        return 'N/A';
+    case 'records':
+      return json.metadata.resourceInfo.citation.title;
+    case 'dictionaries':
+      return json.dataDictionary.citation.title;
+    case 'contacts':
+      return json.name;
+    default:
+      return 'N/A';
     }
   },
 
@@ -199,7 +202,7 @@ export default Route.extend(ScrollTo, {
     return this.mapRecords(json.data);
   },
 
-  columns: computed(function() {
+  columns: computed(function () {
     let route = this;
 
     return [{
@@ -244,25 +247,71 @@ export default Route.extend(ScrollTo, {
     getColumns() {
       return get(this, 'columns');
     },
-    getIcon(type){
+    getIcon(type) {
       return this.get('icons')[type];
     },
     readData(file) {
       let json;
+      let url = this.get('apiURL');
+      let controller = this.controller;
 
       new Promise((resolve, reject) => {
-          try {
-            json = JSON.parse(file.data);
-          } catch(e) {
-            reject(
-              `Failed to parse file: ${file.name}. Is it valid JSON?`);
-          }
+          if(file.type.match(/.*\/xml$/)) {
+            set(controller, 'isTranslating', true);
+            get(this, 'flashMessages')
+              .info(`Translation service provided by ${url}.`);
 
-          resolve({
-            json: json,
-            file: file,
-            route: this
-          });
+            $.ajax(url, {
+                type: 'POST',
+                data: {
+                  //file: JSON.stringify(cleaner.clean(json)),
+                  file: file.data,
+                  reader: 'fgdc',
+                  writer: 'mdJson',
+                  validate: 'normal',
+                  format: 'json'
+                },
+                context: this
+              })
+              .then(function (response) {
+                set(controller, 'isTranslating', false);
+
+                if(response.success) {
+                  resolve({
+                    json: JSON.parse(response.writerOutput),
+                    file: file,
+                    route: this
+                  });
+
+                  return;
+                }
+
+                reject(
+                  `Failed to translate file: ${file.name}. Is it valid FGDC CSDGM XML?`
+                );
+
+              }, (response) => {
+                set(controller, 'isTranslating', false);
+
+                reject(
+                  `mdTranslator Server error: ${response.status}: ${response.statusText}. Is your file valid FGDC CSDGM XML?`
+                );
+              });
+          } else {
+
+            try {
+              json = JSON.parse(file.data);
+            } catch(e) {
+              reject(
+                `Failed to parse file: ${file.name}. Is it valid JSON?`
+              );
+            }
+            resolve({
+              json: json,
+              file: file,
+              route: this
+            });
+          }
         })
         .then((data) => {
           //determine file type and map
@@ -293,7 +342,7 @@ export default Route.extend(ScrollTo, {
           dataType: 'text',
           crossDomain: true
         })
-        .then(function(response, textStatus) {
+        .then(function (response, textStatus) {
 
           if(response && textStatus === 'success') {
             let json;

@@ -13,7 +13,8 @@ const {
 } = Ember;
 
 const defaultValues = {
-  mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v3/translator'
+  mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v3/translator',
+  fiscalStartMonth: '10'
 };
 
 const theModel = DS.Model.extend({
@@ -59,6 +60,9 @@ const theModel = DS.Model.extend({
   }),
   mdTranslatorAPI: DS.attr('string', {
     defaultValue: defaultValues.mdTranslatorAPI
+  }),
+  fiscalStartMonth: DS.attr('string', {
+    defaultValue: defaultValues.fiscalStartMonth
   }),
   repositoryDefaults: DS.attr('json'),
   publishOptions: DS.attr('json', {

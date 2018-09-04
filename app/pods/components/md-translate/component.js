@@ -207,7 +207,8 @@ export default Component.extend({
 
           set(this, 'errorLevel', level);
           set(this, 'errors', response.readerExecutionMessages.concat(
-            response.readerStructureMessages, response.readerValidationMessages,
+            response.readerStructureMessages,
+            response.readerValidationMessages.length ? response.readerValidationMessages[0] : response.readerValidationMessages,
             response.writerMessages).map(itm => itm.split(':')));
           set(this, 'result', response.writerOutput);
           if(!response.success) {
