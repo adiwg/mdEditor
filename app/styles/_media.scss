@@ -12,14 +12,22 @@
     padding-left: 0;
   }
 
-  #md-navbar-main-collapse {
-    span.md-nav-text {
-      display: inline;
-    }
+  // #md-navbar-main-collapse {
+    // span.md-nav-text {
+    //   display: inline;
+    // }
 
     // span.md-nav-text.nav-settings {
     //   display: none;
     // }
+  // }
+}
+
+@media (min-width: 860px) {
+  #md-navbar-main-collapse {
+    span.md-nav-text {
+      display: inline;
+    }
   }
 }
 
