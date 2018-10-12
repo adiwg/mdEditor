@@ -1,0 +1,58 @@
+{{input/md-input
+  label="Title"
+  data-spy="title"
+  model=this
+  valuePath="title"
+  placeholder="Descriptive name for the collection taxonomic system."
+  profilePath=(concat profilePath ".title")
+  showValidations=true
+}}
+
+{{input/md-textarea
+  value=this.identificationProcedure
+  required=true
+  autoresize=true
+  placeholder="Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc."
+  label="Identification Procedure"
+  data-spy="Procedure"
+  embedded=true
+  profilePath=(concat profilePath ".identificationProcedure")
+}}
+
+{{!-- {{input/md-input
+  label="Value"
+  data-spy="Value"
+  model=this
+  valuePath="value"
+  placeholder="Value of the domain item."
+  profilePath=(concat profilePath ".domainItem.value")
+  showValidations=true
+}}
+{{input/md-input
+  label="Definition"
+  data-spy="Definition"
+  model=this
+  valuePath="definition"
+  placeholder="A brief definition for the domain item."
+  profilePath=(concat profilePath ".domainItem.definition")
+  showValidations=true
+}}
+
+{{#with model.reference as |citation|}}
+{{#layout/md-card
+  title="Item Reference"
+  collapsible=true
+  collapsed=false
+  profilePath=(concat profilePath '.reference')
+  data-spy="Item Reference"
+  shadow=true
+}}
+    Content
+    {{object/md-citation
+      model=citation
+      profilePath=(concat profilePath '.reference')
+      simpleIdentifier=true
+      embedded=true
+    }}
+{{/layout/md-card}}
+{{/with}} --}}

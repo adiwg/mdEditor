@@ -79,6 +79,10 @@ export default Ember.Service.extend({
           title: 'Lineage',
           target: 'record.show.edit.lineage',
           tip: 'Information on the history of the resource.'
+        }, {
+          title: 'Taxonomy',
+          target: 'record.show.edit.taxonomy',
+          tip: 'Information on the taxa associated with the resource.'
 
         }, {
           title: 'Distribution',

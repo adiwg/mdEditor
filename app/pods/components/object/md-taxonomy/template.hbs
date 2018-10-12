@@ -1,0 +1,57 @@
+{{#layout/md-card
+title=title
+collapsible=true
+collapsed=false
+profilePath="record.taxonomy"
+data-spy=(concat "Collection " index)
+shadow=true
+spotlightEnabled=false
+}}
+    <div class="card-buttons">
+      <div class="row">
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action (route-action "editCollection" index)}}>
+            {{fa-icon "pencil"}} Edit Collection</button>
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteCollection" index)}}>
+              {{fa-icon "times"}} Delete Collection</button>
+        </div>
+      </div>
+    </div>
+    {{!-- <div class="col-sm-6">
+      <label>Distributors</label>
+      {{#if model.distributor.length}}
+        {{#each model.distributor as |model|}}
+        <div>
+          {{#with model.contact as |party|}}
+            {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+            (
+            {{#each party.party as |contact index|}}
+                {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
+            {{else}}
+                <em class="text-muted">No Contacts assigned.</em>
+            {{/each}}
+            )
+            {{else}}
+            <em class="text-muted">No responsibility assigned.</em>
+          {{/with}}
+        </div>
+        {{/each}}
+      {{else}}
+        <div class="alert alert-info">
+          No Distributors to display.
+        </div>
+      {{/if}}
+    </div>
+    <div class="col-sm-6">
+      {{input/md-textarea
+        value=model.description
+        rows=5
+        maxHeight=300
+        placeholder="Describe the distribution of the resource"
+        label="Description"
+        profilePath=(concat profilePath ".description")
+      }}
+    </div> --}}
+{{/layout/md-card}}
