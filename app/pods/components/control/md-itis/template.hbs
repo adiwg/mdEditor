@@ -1,0 +1,166 @@
+{{#layout/md-card
+  spotlightEnabled=false
+  block=false
+}}
+  <div class="card-block row">
+    <div class="form-group col-lg-9">
+      <label class="control-label">Search Value</label>
+        {{input/md-input
+          value=this.searchString
+          placeholder="Search ITIS using common name, scientific name, or TSN"
+        }}
+    </div>
+
+    <div class="form-group col-lg-3">
+      <label class="control-label">Kingdom <em>(optional)</em></label>
+      {{input/md-select
+       value=this.kingdom
+       valuePath="kingdomName"
+       namePath="title"
+       objectArray=(sort-by "title" itis.kingdoms.kingdomNames)
+       searchEnabled=false
+       tooltip=true
+       tooltipPath="kingdomName"
+       disabled=(if searchString false true)
+       placeholder="Select a kingdom."
+      }}
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary pull-right" type="submit" {{action "search"}} disabled={{if searchString false true}}>
+      {{#if isLoading}}
+      {{fa-icon "spinner" spin=true}}
+      {{else}}
+      {{fa-icon "search"}}
+      {{tooltip-on-element text="Click to send search request" class="md-tooltip info" side="left"}}
+      {{/if}}
+      Search
+    </button>
+  </div>
+{{/layout/md-card}}
+
+{{#if notFound}}
+  <div class="alert alert-warning">
+    <h5>{{fa-icon "exclamation-triangle"}} No taxa matched the search. Please try again.</h5>
+  </div>
+{{/if}}
+
+{{#liquid-if found use="fade" enableGrowth=false}}
+<div class="row">
+  <div class="col-md-6">
+    <div class="card md-card">
+      <div class="card-header">
+        <h4 class="card-title">
+          Select Taxa <small>Showing {{resultTitle}} found</small>
+        </h4>
+      </div>
+      <div class="card-block no-padding">
+        <div class="list-group no-margin">
+          {{#each searchResult as |result|}}
+          {{#liquid-unless result.selected class=(concat "list-group-item " (if result.animate "md-itis-unselected")) enableGrowth=true shrinkDelay=500}}
+              <div class="media">
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    {{result.name}}
+                    <small class="text-success">{{result.rank}}</small>
+                  </h4>
+                  <p>
+                    <div><strong>Kingdom:</strong> {{result.kingdom}}</div>
+                    <div><strong>TSN:</strong>
+                      <a href="https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value={{result.tsn}}"
+                       target="_blank">{{result.tsn}}</a>
+                       (<span class="text-{{result.style}}">{{result.status}}</span>)
+                    </div>
+                    <dl class="no-margin">
+                        {{#control/md-definition title="Common Name:" }}
+                            {{#each result.common as |name|}}
+                                {{name.name}} ({{name.language}})
+                                <br>
+                                {{else}}
+                                <em class="text-muted">No names assigned.</em>
+                            {{/each}}
+                        {{/control/md-definition}}
+                    </dl>
+                  </p>
+                </div>
+                <div class="media-right media-middle">
+                  <button type="button" class="btn btn-success btn-lg btn-block" {{action "selectItem" result}}>Add</button>
+                </div>
+              </div>
+            {{/liquid-unless}}
+            {{else}}
+              <div class="list-group-item">
+                <p class="list-group-item-text">
+                  Perform a search to select additional taxa.
+                </p>
+              </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+  </div>
+  {{!-- Selected --}}
+  <div class="col-md-6">
+    <div class="card md-card hd-success card-inverse card-outline-success">
+      <div class="card-header">
+        <h4 class="card-title">
+          Taxa Selected
+          {{!-- <small class="text-white">{{selected.length}}</small> --}}
+        </h4>
+      </div>
+      <div class="card-block no-padding">
+        <div class="list-group no-margin">
+          {{#liquid-if selected.length use="fade"}}
+          <div class="list-group-item">
+            <p class="list-group-item-text">
+              <button type="button" class="btn btn-primary btn-lg btn-block">Import Taxa</button>
+            </p>
+          </div>
+          {{/liquid-if}}
+          {{#each selected as |result|}}
+            {{#liquid-if result.selected class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
+              <div class="media">
+                <div class="media-body">
+                  <h4 class="media-heading">
+                    {{result.name}}
+                    <small class="text-success">{{result.rank}}</small>
+                  </h4>
+                  <p>
+                    <div><strong>Kingdom:</strong> {{result.kingdom}}</div>
+                    <div><strong>TSN:</strong>
+                      <a href="https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value={{result.tsn}}"
+                       target="_blank">{{result.tsn}}</a>
+                       (<span class="text-{{result.style}}">{{result.status}}</span>)
+                    </div>
+                    <dl class="no-margin">
+                        {{#control/md-definition title="Common Name:" }}
+                            {{#each result.common as |name|}}
+                                {{name.name}} ({{name.language}})
+                                <br>
+                                {{else}}
+                                <em class="text-muted">No names assigned.</em>
+                            {{/each}}
+                        {{/control/md-definition}}
+                    </dl>
+                  </p>
+                </div>
+                <div class="media-left media-middle">
+                  <button type="button" class="btn btn-danger btn-lg btn-block" {{action "deselectItem" result}}>Remove</button>
+                </div>
+              </div>
+            {{else}}
+            {{/liquid-if}}
+          {{else}}
+            <div class="list-group-item">
+              <p class="list-group-item-text">
+                Select taxa from the list.
+              </p>
+            </div>
+          {{/each}}
+        </div>
+        {{!-- {{/liquid-spacer}} --}}
+      </div>
+    </div>
+  </div>
+</div>
+{{/liquid-if}}

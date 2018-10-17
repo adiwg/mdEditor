@@ -8,3 +8,20 @@
   id=collectionId
   profilePath="record.taxonomy.collection"
 }}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+  clickText="Add Taxa from ITIS"
+  clickIcon="plus"
+  clickType="success"
+  text="Back to List"
+  icon="arrow-left"
+  type="primary"
+  route="record.show.edit.taxonomy"
+  click=(route-action "addITIS")
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" offset=135 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

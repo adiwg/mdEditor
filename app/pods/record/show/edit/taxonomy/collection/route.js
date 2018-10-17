@@ -13,8 +13,10 @@ export default Route.extend({
   },
 
   breadCrumb: computed('collectionId', function () {
+    let index = get(this, 'collectionId');
+
     return {
-      title: 'Collection'
+      title: `Collection ${index > 0 ? index : ''}`
       //title: `${get(this, 'collectionId')}: Distributors`
     };
   }),

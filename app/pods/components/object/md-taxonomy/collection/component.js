@@ -48,7 +48,9 @@ const TemplateClass = EmberObject.extend(Validations, {
   init() {
     this._super(...arguments);
 
-    set(this, 'taxonomicSystem', [{}]);
+    set(this, 'taxonomicSystem', [{
+      citation: {}
+    }]);
     set(this, 'identificationReference', []);
     set(this, 'observer', []);
     set(this, 'voucher', []);
@@ -66,7 +68,9 @@ const theComp = Component.extend(Validations, {
       set(model, 'taxonomicClassification', getWithDefault(model,
         'taxonomicClassification', {}));
       set(model, 'taxonomicSystem', getWithDefault(model,
-        'taxonomicSystem', [{}]));
+        'taxonomicSystem', [{
+          citation: {}
+        }]));
       set(model, 'identificationReference', getWithDefault(model,
         'identificationReference', []));
       set(model, 'observer', getWithDefault(model, 'observer', []));
@@ -93,7 +97,7 @@ const theComp = Component.extend(Validations, {
 
   tagName: 'form',
   taxonomicSystem: alias('model.taxonomicSystem'),
-  title: alias('model.taxonomicSystem.0.citation.title'),
+  title: alias('model.taxonomicSystem.firstObject.citation.title'),
   identificationProcedure: alias('model.identificationProcedure'),
   taxonomicClassification: alias('model.taxonomicClassification')
 });

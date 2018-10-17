@@ -116,7 +116,9 @@ Router.map(function () {
           this.route('taxonomy', function() {
             this.route('collection', {
               path: ':collection_id'
-            }, function() {});
+            }, function() {
+              this.route('itis');
+            });
           });
         });
         this.route('translate');

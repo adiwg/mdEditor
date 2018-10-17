@@ -1,6 +1,6 @@
 {{input/md-input
   label="Title"
-  data-spy="title"
+  data-spy="Title"
   model=this
   valuePath="title"
   placeholder="Descriptive name for the collection taxonomic system."
@@ -15,9 +15,41 @@
   placeholder="Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc."
   label="Identification Procedure"
   data-spy="Procedure"
-  embedded=true
+  embedded=false
   profilePath=(concat profilePath ".identificationProcedure")
 }}
+
+{{object/md-party-array
+  title="Observer"
+  plain=false
+  required=false
+  value=model.observer
+  profilePath=(concat profilePath ".observer")
+  data-spy="Observer"
+}}
+
+{{input/md-textarea
+  value=model.generalScope
+  required=false
+  autoresize=true
+  placeholder="Description of the range of taxa addressed in the data set or collection. For example, \"all vascular plants were identified to family or species.\""
+  label="General Scope"
+  data-spy="General Scope"
+  embedded=false
+  profilePath=(concat profilePath ".generalScope")
+}}
+
+{{input/md-textarea
+  value=model.identificationCompleteness
+  required=false
+  autoresize=true
+  placeholder="Information concerning the proportions and treatment of unidentified materials; estimates of the importance, and identities of misidentifications, uncertain determinations, synonyms or other incorrect usages; taxa not well treated or requiring further work; and expertise of field workers."
+  label="Identification Completeness"
+  data-spy="Completeness"
+  embedded=false
+  profilePath=(concat profilePath ".identificationCompleteness")
+}}
+
 
 {{!-- {{input/md-input
   label="Value"

@@ -44,7 +44,7 @@ const unImplemented = [
     'temporalExtent'
   ],
   'metadata.resourceInfo.coverageDescription',
-  'metadata.resourceInfo.taxonomy',
+  //'metadata.resourceInfo.taxonomy',
   'metadata.resourceInfo.otherResourceLocale',
   //'metadata.resourceInfo.resourceMaintenance'
 ];
