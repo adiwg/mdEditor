@@ -128,7 +128,7 @@
   </div>
 {{else}}
   <div class="alert alert-info">
-    <h3>No {{header}} found.
+    <h3>No <span class="{{if required "required"}}">{{header}}</span> found.
       <button type="button"  class="btn btn-success btn-lg" {{action "addItem" items}}>
         {{fa-icon "plus"}} Add {{singularize header}}
       </button>
