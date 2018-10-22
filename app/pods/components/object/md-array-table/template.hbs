@@ -1,6 +1,6 @@
 {{#if plain}}
   <label class="show">
-      <span class="fa"></span> {{pluralize title}}
+      <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
       <label class="label label-pill {{pillColor}}"> {{value.length}} </label>
       <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
           {{action "addItem" value}}>
@@ -63,7 +63,7 @@
                 <a data-toggle="collapse" aria-expanded="{{if collapsed "false" "true"}}"
                    class="{{if collapsed "collapsed"}}"
                    href="#{{panelId}}" aria-controls="#{{panelId}}">
-                    <span class="fa"></span> {{pluralize title}}
+                    <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
                     <label class="label label-pill {{pillColor}}"> {{value.length}} </label>
                 </a>
                 <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
