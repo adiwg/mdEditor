@@ -135,3 +135,15 @@
     </h3>
   </div>
 {{/unless}}
+
+{{#if addSubbar}}
+  {{to-elsewhere
+    named=addSubbar
+    send=(component "control/subbar-link"
+    clickText=buttonText
+    clickIcon="plus"
+    clickType="success"
+    click=(action "addItem")
+    )
+  }}
+{{/if}}
