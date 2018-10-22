@@ -1,20 +1,20 @@
-import Ember from 'ember';
+import {
+  helper
+} from '@ember/component/helper';
+import {
+  htmlSafe
+} from '@ember/string';
+import {
+  get
+} from '@ember/object';
 
-const {
-  Helper,
-  get,
-  String: EmberString
-} = Ember;
+export function getProperty([obj, prop]) {
+  let val = null;
 
-export default Helper.helper(
-  function (params) {
-    let obj = params[0];
-    let prop = params[1].trim();
-    let val = null;
-
-    if(obj) {
-      val = get(obj, prop);
-    }
-    return val || EmberString.htmlSafe("<em>Not Defined</em>");
+  if(obj) {
+    val = get(obj, prop.trim());
   }
-);
+  return val || htmlSafe("<em>Not Defined</em>");
+}
+
+export default helper(getProperty);
