@@ -113,7 +113,7 @@
           {{#liquid-if selected.length use="fade"}}
           <div class="list-group-item">
             <p class="list-group-item-text">
-              <button type="button" class="btn btn-primary btn-lg btn-block">Import Taxa</button>
+              <button type="button" class="btn btn-primary btn-lg btn-block" {{action "importTaxa" selected}}>Import Taxa</button>
             </p>
           </div>
           {{/liquid-if}}

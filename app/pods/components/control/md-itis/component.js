@@ -14,12 +14,14 @@ import {
 import {
   later
 } from '@ember/runloop';
+import { assert } from '@ember/debug';
 
 export default Component.extend({
   init() {
     this._super(...arguments);
 
     this.selected = [];
+    assert('No taxonomy object supplied', this.get('taxonomy'));
   },
   tagName: 'form',
   // classNames: ['form-horizontal'],
@@ -82,6 +84,9 @@ export default Component.extend({
         this.get('selected').removeObject(item);
         this.get('searchResult').pushObject(item);
       }, 250);
+    },
+    importTaxa(taxa){
+      console.log(taxa);
     }
   }
 });

@@ -1,0 +1,24 @@
+<h4 class="section-header">Editing Taxonomic System #{{systemId}}
+  {{control/md-status model=(compute (route-action "parentModel"))}}
+</h4>
+
+{{#with model as |system|}}
+    <div class="">
+      {{object/md-taxonomy/collection/system
+        model=system
+        profilePath="record.metadata.taxonomy.collection.system"
+      }}
+    </div>
+{{/with}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component
+    "control/subbar-link"
+    text="Back to Collection"
+    icon="arrow-left"
+    click=(route-action "goBack")
+  )
+}}
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" offset=135 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

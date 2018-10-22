@@ -30,12 +30,12 @@ const Validations = buildValidations({
       ignoreBlank: true
     })
   ],
-  'identificationProcedure': [
-    validator('presence', {
-      presence: true,
-      ignoreBlank: true
-    })
-  ],
+  // 'identificationProcedure': [
+  //   validator('presence', {
+  //     presence: true,
+  //     ignoreBlank: true
+  //   })
+  // ],
   'taxonomicClassification': [
     validator('presence', {
       presence: true,
@@ -48,13 +48,11 @@ const TemplateClass = EmberObject.extend(Validations, {
   init() {
     this._super(...arguments);
 
-    set(this, 'taxonomicSystem', [{
-      citation: {}
-    }]);
+    set(this, 'taxonomicSystem', []);
     set(this, 'identificationReference', []);
     set(this, 'observer', []);
     set(this, 'voucher', []);
-    set(this, 'taxonomicClassification', {});
+    set(this, 'taxonomicClassification', []);
   }
 });
 
@@ -66,11 +64,9 @@ const theComp = Component.extend(Validations, {
 
     once(this, function () {
       set(model, 'taxonomicClassification', getWithDefault(model,
-        'taxonomicClassification', {}));
+        'taxonomicClassification', []));
       set(model, 'taxonomicSystem', getWithDefault(model,
-        'taxonomicSystem', [{
-          citation: {}
-        }]));
+        'taxonomicSystem', []));
       set(model, 'identificationReference', getWithDefault(model,
         'identificationReference', []));
       set(model, 'observer', getWithDefault(model, 'observer', []));
@@ -99,7 +95,13 @@ const theComp = Component.extend(Validations, {
   taxonomicSystem: alias('model.taxonomicSystem'),
   title: alias('model.taxonomicSystem.firstObject.citation.title'),
   identificationProcedure: alias('model.identificationProcedure'),
-  taxonomicClassification: alias('model.taxonomicClassification')
+  taxonomicClassification: alias('model.taxonomicClassification'),
+  systemTemplate: EmberObject.extend({
+    init() {
+      this._super(...arguments);
+      this.set('citation', {});
+    }
+  })
 });
 
 export {

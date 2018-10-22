@@ -17,6 +17,14 @@ export default Route.extend(ScrollTo, {
   actions: {
     addITIS(){
       this.transitionTo('record.show.edit.taxonomy.collection.itis');
+    },
+    editSystem(index) {
+      this.transitionTo('record.show.edit.taxonomy.collection.system',
+          index)
+        .then(
+          function () {
+            this.setScrollTo('system');
+          }.bind(this));
     }
   }
 });

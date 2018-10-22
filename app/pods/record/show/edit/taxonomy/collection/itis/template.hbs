@@ -3,14 +3,24 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{control/md-itis}}
+{{control/md-itis taxonomy=model}}
 
-{{to-elsewhere
+{{!-- {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link"
   text="Back to Collection"
   icon="arrow-left"
   type="primary"
-  route="record.show.edit.taxonomy.collection"
+  route="record.show.edit.taxonomy"
+  )
+}} --}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+  clickText="Back to Collection"
+  clickIcon="arrow-left"
+  clickType="primary"
+  click=(route-action "toCollection")
   )
 }}

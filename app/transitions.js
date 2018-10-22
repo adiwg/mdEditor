@@ -177,8 +177,8 @@ export default function () {
     }),
     this.reverse('toLeft', {
       duration: 250
-    }),
-    this.debug()
+    })//,
+    //this.debug()
   );
   this.transition(
     this.hasClass('md-itis-unselected'),
@@ -189,7 +189,7 @@ export default function () {
     }),
     this.reverse('toRight', {
       duration: 250
-    }),
-    this.debug()
+    })//,
+    //this.debug()
   );
 }

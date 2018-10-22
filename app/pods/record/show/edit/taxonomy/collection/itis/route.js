@@ -1,11 +1,17 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
+import {
+  get
+} from '@ember/object';
 
 export default Route.extend({
-  breadCrumb: {
-    "title": "ITIS"
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      "title": "ITIS"
+    };
   },
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -14,5 +20,10 @@ export default Route.extend({
     this.controller.set('collectionId', get(this.controllerFor(
         'record.show.edit.taxonomy.collection'),
       'collectionId'));
+  },
+  actions: {
+    toCollection() {
+      this.transitionTo('record.show.edit.taxonomy.collection');
+    }
   }
 });

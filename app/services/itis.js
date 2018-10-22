@@ -13,6 +13,7 @@ import {
   isForbiddenError
 } from 'ember-ajax/errors';
 import EmberObject from '@ember/object';
+import moment from 'moment';
 
 const console = window.console;
 
@@ -76,6 +77,35 @@ export default Service.extend({
         "kingdomName": "Archaea",
         "title": "Archaea",
         "tsn": "935939"
+      }]
+    }
+
+    this.citation = {
+      "title": "Integrated Taxonomic Information System (ITIS)",
+      "date": [/*{
+        "date": moment().format('YYYY-MM-DD'),
+        "dateType": "transmitted"
+      }*/],
+      "presentationForm": [
+        "webService",
+        "webSite"
+      ],
+      "otherCitationDetails": [
+        "Retrieved from the Integrated Taxonomic Information System on-line database, https://www.itis.gov."
+      ],
+      "onlineResource": [{
+        "uri": "https://www.itis.gov",
+        "name": "ITIS website",
+        "protocol": "HTTPS",
+        "function": "information",
+        "description": "ITIS contains taxonomic information on plants, animals, fungi, and microbes of North America and the world."
+      }],
+      "graphic": [{
+        "fileName": "itis_logo.jpg",
+        "fileType": "JPEG",
+        "fileUri": [{
+          "uri": "https://itis.gov/Static/images/itis_logo.jpg"
+        }]
       }]
     }
   },
