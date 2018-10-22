@@ -7289,10 +7289,10 @@ mdcodes@^2.6.3:
     glob "^7.1.0"
     rimraf "^2.6.2"
 
-mdjson-schemas@^2.4.9:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.5.1.tgz#820f852a43fe62a9713bce2cde035ae3b476970c"
-  integrity sha512-YbL2AqPGsY51RVmHoTQXIFqvb/1RDM12qMEfE8SGwlTGbvD4yUxz0K+gdhNVsQsqP6zyOWUaAeKqlCIhcjBYlg==
+mdjson-schemas@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.6.1.tgz#d8a3d9bceb2215034b993d25dca67640ba84c670"
+  integrity sha512-nAqHYxMvEun3PxnxjFq5kM1bLH5F2LaDuffOJTPunFsC7svUvxsYO4oyEqJ2DkZv/E9sSvQIrDVxLgV7rJskhw==
 
 mdkeywords@^1.0.4:
   version "1.0.4"
