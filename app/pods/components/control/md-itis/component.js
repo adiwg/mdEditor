@@ -3,7 +3,10 @@ import {
   inject as service
 } from '@ember/service';
 import {
-  computed
+  computed,
+  set,
+  get,
+  getWithDefault
 } from '@ember/object';
 import {
   or
@@ -14,7 +17,9 @@ import {
 import {
   later
 } from '@ember/runloop';
-import { assert } from '@ember/debug';
+import {
+  assert
+} from '@ember/debug';
 
 export default Component.extend({
   init() {
@@ -26,16 +31,18 @@ export default Component.extend({
   tagName: 'form',
   // classNames: ['form-horizontal'],
   itis: service(),
+  flashMessages: service(),
   searchString: null,
   kingdom: null,
   total: null,
   isLoading: false,
   limit: 25,
-  resultTitle: computed('total', function () {
+  resultTitle: computed('limit', 'total', 'searchResult.[]', function () {
     let total = this.get('total');
+    let result = this.get('searchResult.length');
     let limit = this.get('limit');
 
-    return total <= limit ? total : `${limit} of ${total}`;
+    return total <= limit ? result : `${result} of ${total}`;
   }),
   notFound: computed('searchResult', function () {
     let result = this.get('searchResult');
@@ -85,8 +92,24 @@ export default Component.extend({
         this.get('searchResult').pushObject(item);
       }, 250);
     },
-    importTaxa(taxa){
+    importTaxa(taxa) {
+      let taxonomy = this.get('taxonomy');
+
+      set(taxonomy, 'taxonomicClassification', getWithDefault(taxonomy,
+        'taxonomicClassification', []));
+
       console.log(taxa);
+      console.log(this.get('taxonomy'));
+
+      let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
+
+      allTaxa.forEach(itm => this.get('itis').mergeTaxa(itm, get(taxonomy,
+        'taxonomicClassification')));
+
+      this.get('flashMessages')
+        .success(
+          `Successfully imported ${allTaxa.length} taxa from ITIS.`
+        );
     }
   }
 });

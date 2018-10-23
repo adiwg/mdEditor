@@ -4,6 +4,7 @@ import {
 } from '@ember/service';
 import {
   get,
+  set,
   computed
 } from '@ember/object';
 import titleize from 'ember-cli-string-helpers/utils/titleize';
@@ -13,7 +14,7 @@ import {
   isForbiddenError
 } from 'ember-ajax/errors';
 import EmberObject from '@ember/object';
-import moment from 'moment';
+//import moment from 'moment';
 
 const console = window.console;
 
@@ -25,7 +26,9 @@ const proxy =
 
 const Taxa = EmberObject.extend({
   style: computed('status', function () {
-    return this.get('status') === 'valid' ? 'success' : 'danger';
+    let status = this.get('status');
+    return status === 'valid' || status === 'accepted' ? 'success' :
+      'danger';
   })
 });
 
@@ -82,10 +85,12 @@ export default Service.extend({
 
     this.citation = {
       "title": "Integrated Taxonomic Information System (ITIS)",
-      "date": [/*{
-        "date": moment().format('YYYY-MM-DD'),
-        "dateType": "transmitted"
-      }*/],
+      "date": [
+        /*{
+                "date": moment().format('YYYY-MM-DD'),
+                "dateType": "transmitted"
+              }*/
+      ],
       "presentationForm": [
         "webService",
         "webSite"
@@ -171,15 +176,27 @@ export default Service.extend({
       vernacular,
       usage: status
     } = doc;
+    let taxonomy = this.parseRanks(ranks, this.parseHierarchyTSN(
+      hierarchyTSN));
+    let common = this.parseVernacular(vernacular);
+
+    if(common) {
+      taxonomy.forEach(i => {
+        let taxa = i.findBy('tsn', tsn);
+
+        if(taxa) {
+          set(taxa, 'common', common.mapBy('name'));
+        }
+      });
+    }
 
     return Taxa.create({
       kingdom: kingdom,
       name: name,
       rank: rank,
       tsn: tsn,
-      taxonomy: this.parseRanks(ranks, this.parseHierarchyTSN(
-        hierarchyTSN)),
-      common: this.parseVernacular(vernacular),
+      taxonomy: taxonomy,
+      common: common,
       status: status
     });
   },
@@ -219,5 +236,33 @@ export default Service.extend({
         };
       });
     });
+  },
+  getBranch(taxon, branches) {
+    let branch = branches.filterBy('taxonomicLevel', taxon.rank).findBy(
+      'taxonomicName', taxon.value);
+
+    if(!branch) {
+      return branches.pushObject({
+        "taxonomicSystemId": taxon.tsn,
+        "taxonomicLevel": taxon.rank,
+        "taxonomicName": taxon.value,
+        "commonName": taxon.common,
+        "subClassification": []
+      });
+    }
+
+    return branch;
+  },
+  mergeTaxa(taxa, tree) {
+    taxa.reduce((tree, taxon) => {
+      let branch = this.getBranch(taxon, tree);
+      let sub = get(branch, 'subClassification');
+
+      if(!sub) {
+        set(branch, 'subClassification', []);
+      }
+
+      return get(branch, 'subClassification');
+    }, tree);
   }
 });

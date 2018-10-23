@@ -68,3 +68,8 @@
     }
   }
 }
+
+.md-card.full-screen .card-collapse > .md-classification {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}
