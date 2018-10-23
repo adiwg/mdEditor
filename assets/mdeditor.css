@@ -70,15 +70,19 @@ sub,
 sup,
 .required > .card-header .card-title::after,
 form .required > label::after,
-label.required::after {
+label.required::after,
+span.required::after {
   font-size: 75%;
   line-height: 0;
   position: relative;
   vertical-align: baseline; }
 
-sup, .required > .card-header .card-title::after,
+
+sup,
+.required > .card-header .card-title::after,
 form .required > label::after,
-label.required::after {
+label.required::after,
+span.required::after {
   top: -0.5em; }
 
 sub {
@@ -249,7 +253,7 @@ th {
 
 html {
   font-size: 10px;
-  -webkit-tap-highlight-color: transparent; }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
 
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1550,49 +1554,49 @@ input[type="search"] {
   input[type="datetime-local"].form-control,
   input[type="month"].form-control {
     line-height: 34px; }
-  input[type="date"].input-sm, .input-group-sm > input[type="date"].form-control,
-  .input-group-sm > input[type="date"].input-group-addon,
-  .input-group-sm > .input-group-btn > input[type="date"].btn,
+  input[type="date"].input-sm, .input-group-sm > input.form-control[type="date"],
+  .input-group-sm > input.input-group-addon[type="date"],
+  .input-group-sm > .input-group-btn > input.btn[type="date"],
   .input-group-sm input[type="date"],
   input[type="time"].input-sm,
-  .input-group-sm > input[type="time"].form-control,
-  .input-group-sm > input[type="time"].input-group-addon,
-  .input-group-sm > .input-group-btn > input[type="time"].btn,
+  .input-group-sm > input.form-control[type="time"],
+  .input-group-sm > input.input-group-addon[type="time"],
+  .input-group-sm > .input-group-btn > input.btn[type="time"],
   .input-group-sm
   input[type="time"],
   input[type="datetime-local"].input-sm,
-  .input-group-sm > input[type="datetime-local"].form-control,
-  .input-group-sm > input[type="datetime-local"].input-group-addon,
-  .input-group-sm > .input-group-btn > input[type="datetime-local"].btn,
+  .input-group-sm > input.form-control[type="datetime-local"],
+  .input-group-sm > input.input-group-addon[type="datetime-local"],
+  .input-group-sm > .input-group-btn > input.btn[type="datetime-local"],
   .input-group-sm
   input[type="datetime-local"],
   input[type="month"].input-sm,
-  .input-group-sm > input[type="month"].form-control,
-  .input-group-sm > input[type="month"].input-group-addon,
-  .input-group-sm > .input-group-btn > input[type="month"].btn,
+  .input-group-sm > input.form-control[type="month"],
+  .input-group-sm > input.input-group-addon[type="month"],
+  .input-group-sm > .input-group-btn > input.btn[type="month"],
   .input-group-sm
   input[type="month"] {
     line-height: 30px; }
-  input[type="date"].input-lg, .input-group-lg > input[type="date"].form-control,
-  .input-group-lg > input[type="date"].input-group-addon,
-  .input-group-lg > .input-group-btn > input[type="date"].btn,
+  input[type="date"].input-lg, .input-group-lg > input.form-control[type="date"],
+  .input-group-lg > input.input-group-addon[type="date"],
+  .input-group-lg > .input-group-btn > input.btn[type="date"],
   .input-group-lg input[type="date"],
   input[type="time"].input-lg,
-  .input-group-lg > input[type="time"].form-control,
-  .input-group-lg > input[type="time"].input-group-addon,
-  .input-group-lg > .input-group-btn > input[type="time"].btn,
+  .input-group-lg > input.form-control[type="time"],
+  .input-group-lg > input.input-group-addon[type="time"],
+  .input-group-lg > .input-group-btn > input.btn[type="time"],
   .input-group-lg
   input[type="time"],
   input[type="datetime-local"].input-lg,
-  .input-group-lg > input[type="datetime-local"].form-control,
-  .input-group-lg > input[type="datetime-local"].input-group-addon,
-  .input-group-lg > .input-group-btn > input[type="datetime-local"].btn,
+  .input-group-lg > input.form-control[type="datetime-local"],
+  .input-group-lg > input.input-group-addon[type="datetime-local"],
+  .input-group-lg > .input-group-btn > input.btn[type="datetime-local"],
   .input-group-lg
   input[type="datetime-local"],
   input[type="month"].input-lg,
-  .input-group-lg > input[type="month"].form-control,
-  .input-group-lg > input[type="month"].input-group-addon,
-  .input-group-lg > .input-group-btn > input[type="month"].btn,
+  .input-group-lg > input.form-control[type="month"],
+  .input-group-lg > input.input-group-addon[type="month"],
+  .input-group-lg > .input-group-btn > input.btn[type="month"],
   .input-group-lg
   input[type="month"] {
     line-height: 46px; } }
@@ -1695,9 +1699,9 @@ textarea.input-sm, .input-group-sm > textarea.form-control,
 .input-group-sm > textarea.input-group-addon,
 .input-group-sm > .input-group-btn > textarea.btn,
 select[multiple].input-sm,
-.input-group-sm > select[multiple].form-control,
-.input-group-sm > select[multiple].input-group-addon,
-.input-group-sm > .input-group-btn > select[multiple].btn {
+.input-group-sm > select.form-control[multiple],
+.input-group-sm > select.input-group-addon[multiple],
+.input-group-sm > .input-group-btn > select.btn[multiple] {
   height: auto; }
 
 .form-group-sm .form-control {
@@ -1741,9 +1745,9 @@ textarea.input-lg, .input-group-lg > textarea.form-control,
 .input-group-lg > textarea.input-group-addon,
 .input-group-lg > .input-group-btn > textarea.btn,
 select[multiple].input-lg,
-.input-group-lg > select[multiple].form-control,
-.input-group-lg > select[multiple].input-group-addon,
-.input-group-lg > .input-group-btn > select[multiple].btn {
+.input-group-lg > select.form-control[multiple],
+.input-group-lg > select.input-group-addon[multiple],
+.input-group-lg > .input-group-btn > select.btn[multiple] {
   height: auto; }
 
 .form-group-lg .form-control {
@@ -1785,18 +1789,14 @@ select[multiple].input-lg,
   text-align: center;
   pointer-events: none; }
 
-.input-lg + .form-control-feedback, .input-group-lg > .form-control + .form-control-feedback,
-.input-group-lg > .input-group-addon + .form-control-feedback,
-.input-group-lg > .input-group-btn > .btn + .form-control-feedback,
+.input-lg + .form-control-feedback, .input-group-lg > .form-control + .form-control-feedback, .input-group-lg > .input-group-addon + .form-control-feedback, .input-group-lg > .input-group-btn > .btn + .form-control-feedback,
 .input-group-lg + .form-control-feedback,
 .form-group-lg .form-control + .form-control-feedback {
   width: 46px;
   height: 46px;
   line-height: 46px; }
 
-.input-sm + .form-control-feedback, .input-group-sm > .form-control + .form-control-feedback,
-.input-group-sm > .input-group-addon + .form-control-feedback,
-.input-group-sm > .input-group-btn > .btn + .form-control-feedback,
+.input-sm + .form-control-feedback, .input-group-sm > .form-control + .form-control-feedback, .input-group-sm > .input-group-addon + .form-control-feedback, .input-group-sm > .input-group-btn > .btn + .form-control-feedback,
 .input-group-sm + .form-control-feedback,
 .form-group-sm .form-control + .form-control-feedback {
   width: 30px;
@@ -2825,16 +2825,20 @@ tbody.collapse.in {
     margin-right: 0;
     border-radius: 4px; }
   .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a,
-  .nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,
-  .nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus {
+  .nav-tabs-justified > .active > a:hover,
+  .nav-tabs.nav-justified > .active > a:hover,
+  .nav-tabs-justified > .active > a:focus,
+  .nav-tabs.nav-justified > .active > a:focus {
     border: 1px solid #ddd; }
   @media (min-width: 768px) {
     .nav-tabs-justified > li > a, .nav-tabs.nav-justified > li > a {
       border-bottom: 1px solid #ddd;
       border-radius: 4px 4px 0 0; }
     .nav-tabs-justified > .active > a, .nav-tabs.nav-justified > .active > a,
-    .nav-tabs-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:hover,
-    .nav-tabs-justified > .active > a:focus, .nav-tabs.nav-justified > .active > a:focus {
+    .nav-tabs-justified > .active > a:hover,
+    .nav-tabs.nav-justified > .active > a:hover,
+    .nav-tabs-justified > .active > a:focus,
+    .nav-tabs.nav-justified > .active > a:focus {
       border-bottom-color: #fff; } }
 
 .tab-content > .tab-pane {
@@ -4455,7 +4459,7 @@ button.close {
   color: #fff;
   text-align: center;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
-  background-color: transparent; }
+  background-color: rgba(0, 0, 0, 0); }
   .carousel-control.left {
     background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
     background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.0001) 100%);
@@ -4524,7 +4528,7 @@ button.close {
     border-radius: 10px;
     cursor: pointer;
     background-color: #000 \9;
-    background-color: transparent; }
+    background-color: rgba(0, 0, 0, 0); }
   .carousel-indicators .active {
     margin: 0;
     width: 12px;
@@ -5683,6 +5687,9 @@ div.ember-basic-dropdown-content {
 .no-margin {
   margin: 0; }
 
+.no-padding {
+  padding: 0; }
+
 .huge-text {
   font-size: 40px; }
 
@@ -5697,7 +5704,8 @@ a {
 
 .required > .card-header .card-title::after,
 form .required > label::after,
-label.required::after {
+label.required::after,
+span.required::after {
   color: #d9534f;
   content: '\f069';
   font-family: FontAwesome;
@@ -5877,7 +5885,7 @@ body.slider {
   .md-control-sidebar {
     margin-left: -10px; } }
 
-footer {
+.md-footer {
   background-color: #2d2d2d;
   border-left: 1px solid;
   bottom: 0;
@@ -5888,21 +5896,21 @@ footer {
   text-align: right;
   width: 100%;
   z-index: 1000; }
-  footer .footer-container {
+  .md-footer .footer-container {
     left: -300px;
     position: relative; }
     @media (max-width: 768px) {
-      footer .footer-container {
+      .md-footer .footer-container {
         left: 0; } }
-    footer .footer-container .text-success {
+    .md-footer .footer-container .text-success {
       color: #aad172; }
-    footer .footer-container .text-info {
+    .md-footer .footer-container .text-info {
       color: #56bce6; }
-    footer .footer-container .text-warning {
+    .md-footer .footer-container .text-warning {
       color: #f79c6c; }
-    footer .footer-container > span {
+    .md-footer .footer-container > span {
       margin-left: 1em; }
-  footer .btn-xs, footer .btn-group-xs > .btn {
+  .md-footer .btn-xs, .md-footer .btn-group-xs > .btn {
     line-height: 1.25em; }
 
 @media (min-width: 532px) {
@@ -6231,11 +6239,13 @@ footer {
     margin-left: 0; }
   #md-navbar-main-collapse,
   #md-navbar-main .container-fluid {
-    padding-left: 0; }
+    padding-left: 0; } }
+
+@media (min-width: 860px) {
   #md-navbar-main-collapse span.md-nav-text {
     display: inline; } }
 
-@media (min-width: 1040px) {
+@media (min-width: 1100px) {
   #md-wrapper {
     padding-left: 300px; }
     #md-wrapper.toggled {
@@ -6258,7 +6268,7 @@ footer {
   #md-wrapper.toggled #md-navbar-main .navbar-brand {
     display: inline-block; } }
 
-@media (max-width: 1039px) {
+@media (max-width: 1099px) {
   #md-page-content fieldset .collapse {
     padding: 15px 15px 10px; }
   #md-wrapper #md-navbar-main .nav.navbar-nav.navbar-right {
@@ -6549,6 +6559,17 @@ form tfoot {
 
 .md-codelist {
   min-width: 150px; }
+
+.md-fiscalyear label {
+  color: #4077ad;
+  font-size: 0; }
+
+.md-fiscalyear .ember-power-select-trigger {
+  background-color: #325d88; }
+  .md-fiscalyear .ember-power-select-trigger .ember-power-select-placeholder {
+    color: #fff; }
+  .md-fiscalyear .ember-power-select-trigger .ember-power-select-status-icon {
+    border-top-color: #fff; }
 
 @-moz-keyframes fadeIn {
   0% {
@@ -6950,6 +6971,14 @@ form tfoot {
 .md-btn-responsive {
   white-space: normal; }
 
+.btn {
+  transition: background-color .25s ease; }
+
+.md-button-confirm {
+  min-width: 7em; }
+  .md-button-confirm.btn-xs, .btn-group-xs > .md-button-confirm.btn {
+    min-width: 6em; }
+
 .md-extent-container {
   border: 1px solid #eeeeee;
   margin-left: 0;
@@ -7043,8 +7072,7 @@ form tfoot {
 .md-card.card-inverse .md-card-maximize {
   color: #fff; }
   .md-card.card-inverse .md-card-maximize:hover {
-    color: #e6e6e6;
-    font-weight: 900; }
+    color: #e6e6e6; }
 
 .md-card.muted .card-block {
   color: #777777; }
@@ -7054,6 +7082,16 @@ form tfoot {
 
 .md-card .form-inline > label {
   padding-right: 2em; }
+
+.md-card .list-group-item {
+  border-left: 0;
+  border-right: 0; }
+  .md-card .list-group-item:first-child {
+    border-top: 0; }
+  .md-card .list-group-item:last-child {
+    border-bottom: 0; }
+  .md-card .list-group-item:focus {
+    outline: none; }
 
 .md-card-chevron a {
   text-decoration: none; }
@@ -7106,8 +7144,20 @@ form tfoot {
 
 .md-translator-error {
   background-color: #fff; }
-  .md-translator-error .card-header {
+  .md-translator-error.danger .card-header {
     background-color: #d9534f; }
+  .md-translator-error.success .card-header {
+    background-color: #93c54b; }
+  .md-translator-error.info .card-header {
+    background-color: #29abe0; }
+  .md-translator-error.warning .card-header {
+    background-color: #f47c3c; }
+  .md-translator-error .list-group-item-heading .label {
+    display: inline-block; }
+  .md-translator-error.card-inverse .card-title a {
+    color: #fff; }
+    .md-translator-error.card-inverse .card-title a:hover {
+      color: #e6e6e6; }
 
 .md-spinner {
   animation: fadeIn 1s ease;
@@ -7125,6 +7175,60 @@ form tfoot {
       font-size: 1.4em; }
     .md-spinner .md-spinner-text.size-2 {
       font-size: 1.2em; }
+
+.md-control-sidebar .btn-group-vertical {
+  margin-top: .5em; }
+
+.md-control-sidebar .md-crud-buttons .btn-group-vertical {
+  margin-top: initial; }
+
+.md-classification,
+.md-classification .list-group {
+  margin-bottom: 0; }
+
+.md-classification .list-group-item {
+  padding: 0; }
+
+.md-classification .md-taxon-body {
+  padding: 10px;
+  transition: background-color 0.5s; }
+  .md-classification .md-taxon-body:hover {
+    background-color: #edf8fc; }
+  .md-classification .md-taxon-body .icon:hover {
+    cursor: pointer; }
+  .md-classification .md-taxon-body .md-taxon-text {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    white-space: nowrap;
+    width: 100%; }
+    .md-classification .md-taxon-body .md-taxon-text .text-truncate {
+      flex-grow: 3;
+      margin: 0 .4rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap; }
+    .md-classification .md-taxon-body .md-taxon-text .spacer {
+      display: inline-block;
+      margin: 0 .2rem;
+      font-weight: 700; }
+      .md-classification .md-taxon-body .md-taxon-text .spacer::after {
+        content: ':'; }
+
+.md-classification .md-taxon-form {
+  margin-top: 1em; }
+  .md-classification .md-taxon-form input {
+    width: 100%; }
+  .md-classification .md-taxon-form .card {
+    margin: 1.5rem; }
+    .md-classification .md-taxon-form .card table {
+      margin: 0; }
+    .md-classification .md-taxon-form .card .show {
+      padding: 1rem; }
+
+.md-card.full-screen .card-collapse > .md-classification {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto; }
 
 .ember-modal-dialog {
   z-index: 51;

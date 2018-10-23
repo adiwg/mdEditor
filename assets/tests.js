@@ -259,7 +259,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('app.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'app.js should pass ESLint\n\n');
+    assert.ok(false, 'app.js should pass ESLint\n\n14:3 - Use import LinkComponent from \'@ember/routing/link-component\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import Application from \'@ember/application\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n19:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n20:3 - Use import { defineProperty } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n21:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n22:3 - Use import { isNone } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n23:3 - Use import { assert } from \'@ember/debug\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('formats.js', function (assert) {
@@ -269,17 +269,17 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('helpers/add-em.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/add-em.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/add-em.js should pass ESLint\n\n7:16 - Use import { helper as buildHelper } from \'@ember/component/helper\'; instead of using Ember.Helper.helper (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/bbox-to-poly.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/bbox-to-poly.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/bbox-to-poly.js should pass ESLint\n\n19:16 - Use import { helper as buildHelper } from \'@ember/component/helper\'; instead of using Ember.Helper.helper (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/get-dash.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/get-dash.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/get-dash.js should pass ESLint\n\n4:3 - Use import Helper from \'@ember/component/helper\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/get-property.js', function (assert) {
@@ -289,12 +289,12 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('helpers/md-markdown.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/md-markdown.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/md-markdown.js should pass ESLint\n\n27:16 - Use import { helper as buildHelper } from \'@ember/component/helper\'; instead of using Ember.Helper.helper (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/mod.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/mod.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/mod.js should pass ESLint\n\n3:3 - Use import Helper from \'@ember/component/helper\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/present.js', function (assert) {
@@ -304,7 +304,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('helpers/uc-words.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/uc-words.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/uc-words.js should pass ESLint\n\n14:16 - Use import { helper as buildHelper } from \'@ember/component/helper\'; instead of using Ember.Helper.helper (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/word-limit.js', function (assert) {
@@ -319,7 +319,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('initializers/local-storage-export.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'initializers/local-storage-export.js should pass ESLint\n\n');
+    assert.ok(false, 'initializers/local-storage-export.js should pass ESLint\n\n6:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n8:16 - Use import { assign } from \'@ember/polyfills\'; instead of using Ember.assign (ember/new-module-imports)\n8:32 - Use import { merge } from \'@ember/polyfills\'; instead of using Ember.merge (ember/new-module-imports)\n52:14 - Use import { Promise } from \'rsvp\'; instead of using Ember.RSVP.Promise (ember/new-module-imports)');
   });
 
   QUnit.test('instance-initializers/profile.js', function (assert) {
@@ -339,17 +339,17 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('mixins/hash-poll.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'mixins/hash-poll.js should pass ESLint\n\n');
+    assert.ok(false, 'mixins/hash-poll.js should pass ESLint\n\n11:3 - Use import Mixin from \'@ember/object/mixin\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { on } from \'@ember/object/evented\'; instead of using Ember destructuring (ember/new-module-imports)\n59:16 - Use import { Promise } from \'rsvp\'; instead of using Ember.RSVP.Promise (ember/new-module-imports)');
   });
 
   QUnit.test('mixins/object-template.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'mixins/object-template.js should pass ESLint\n\n');
+    assert.ok(false, 'mixins/object-template.js should pass ESLint\n\n9:3 - Use import Mixin from \'@ember/object/mixin\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { getOwner } from \'@ember/application\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { merge } from \'@ember/polyfills\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('mixins/scroll-to.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'mixins/scroll-to.js should pass ESLint\n\n');
+    assert.ok(false, 'mixins/scroll-to.js should pass ESLint\n\n8:16 - Use import Mixin from \'@ember/object/mixin\'; instead of using Ember.Mixin (ember/new-module-imports)');
   });
 
   QUnit.test('models/base.js', function (assert) {
@@ -359,27 +359,27 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('models/contact.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/contact.js should pass ESLint\n\n');
+    assert.ok(false, 'models/contact.js should pass ESLint\n\n15:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n55:21 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n125:14 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember.computed.alias (ember/new-module-imports)\n136:10 - Use brace expansion (ember/use-brace-expansion)\n279:17 - Use brace expansion (ember/use-brace-expansion)\n322:12 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n372:16 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('models/dictionary.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/dictionary.js should pass ESLint\n\n');
+    assert.ok(false, 'models/dictionary.js should pass ESLint\n\n15:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n36:21 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('models/record.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/record.js should pass ESLint\n\n');
+    assert.ok(false, 'models/record.js should pass ESLint\n\n12:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n59:19 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n116:20 - Use import { getOwner } from \'@ember/application\'; instead of using Ember.getOwner (ember/new-module-imports)\n166:12 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n215:16 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('models/setting.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/setting.js should pass ESLint\n\n');
+    assert.ok(false, 'models/setting.js should pass ESLint\n\n7:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { observer } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/bs-datetimepicker/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/bs-datetimepicker/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/bs-datetimepicker/component.js should pass ESLint\n\n6:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-button-confirm/component.js', function (assert) {
@@ -389,87 +389,92 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/control/md-button-modal/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-button-modal/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-button-modal/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-contact-link/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-contact-link/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-contact-link/component.js should pass ESLint\n\n4:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import LinkComponent from \'@ember/routing/link-component\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-contact-title/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-contact-title/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-contact-title/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-crud-buttons/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-crud-buttons/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-crud-buttons/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n8:7 - Use closure actions, unless you need bubbling (ember/closure-actions)\n12:7 - Use closure actions, unless you need bubbling (ember/closure-actions)\n16:7 - Use closure actions, unless you need bubbling (ember/closure-actions)\n20:7 - Use closure actions, unless you need bubbling (ember/closure-actions)');
   });
 
   QUnit.test('pods/components/control/md-definition/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-definition/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-definition/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-errors/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-errors/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-errors/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-fiscalyear/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-fiscalyear/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-fiscalyear/component.js should pass ESLint\n\n10:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-import-csv/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-import-csv/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-import-csv/component.js should pass ESLint\n\n231:11 - Don\'t use jQuery without Ember Run Loop (ember/jquery-ember-run)');
+  });
+
+  QUnit.test('pods/components/control/md-itis/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'pods/components/control/md-itis/component.js should pass ESLint\n\n61:7 - Unexpected console statement. (no-console)\n69:7 - Unexpected console statement. (no-console)\n101:7 - Unexpected console statement. (no-console)\n102:7 - Unexpected console statement. (no-console)');
   });
 
   QUnit.test('pods/components/control/md-json-button/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-json-button/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-json-button/component.js should pass ESLint\n\n14:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/control/md-json-viewer/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-json-viewer/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-json-viewer/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { typeOf } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n30:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n50:5 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-modal/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-modal/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-modal/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-record-table/buttons/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/component.js should pass ESLint\n\n6:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-record-table/buttons/custom/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/custom/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/custom/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-record-table/buttons/filter/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/filter/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/filter/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-record-table/buttons/show/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/show/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/show/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-record-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/component.js should pass ESLint\n\n10:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n91:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/control/md-repo-link/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-repo-link/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-repo-link/component.js should pass ESLint\n\n11:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n47:9 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n61:9 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-scroll-spy/component.js', function (assert) {
@@ -479,32 +484,32 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/control/md-select-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-select-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-select-table/component.js should pass ESLint\n\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-spinner/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-spinner/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-spinner/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/md-spotlight/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-spotlight/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-spotlight/component.js should pass ESLint\n\n6:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n30:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n31:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/control/md-status/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-status/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-status/component.js should pass ESLint\n\n3:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n4:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/subbar-citation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-citation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-citation/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/subbar-extent/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-extent/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-extent/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n4:18 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/subbar-importcsv/component.js', function (assert) {
@@ -514,97 +519,102 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/control/subbar-keywords/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-keywords/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-keywords/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n4:18 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/subbar-link/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-link/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-link/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n6:5 - Use import { or } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/subbar-spatial/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-spatial/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-spatial/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n4:18 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/control/subbar-thesaurus/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-thesaurus/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-thesaurus/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n4:18 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-boolean/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-boolean/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-boolean/component.js should pass ESLint\n\n8:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-codelist-multi/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-codelist-multi/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-codelist-multi/component.js should pass ESLint\n\n62:17 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n92:17 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n112:13 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n145:32 - Use import { isArray } from \'@ember/array\'; instead of using Ember.isArray (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-codelist/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-codelist/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-codelist/component.js should pass ESLint\n\n117:12 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n126:17 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n144:11 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n180:13 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-date-range/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-date-range/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-date-range/component.js should pass ESLint\n\n15:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n20:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-datetime/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-datetime/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-datetime/component.js should pass ESLint\n\n10:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { defineProperty } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { isBlank } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n19:3 - Use import { assert } from \'@ember/debug\'; instead of using Ember destructuring (ember/new-module-imports)\n46:9 - Use import { debug } from \'@ember/debug\'; instead of using Ember.debug (ember/new-module-imports)\n67:40 - Use brace expansion (ember/use-brace-expansion)\n171:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/input/md-input-confirm/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-input-confirm/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-input-confirm/component.js should pass ESLint\n\n22:15 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n37:7 - Use import { once } from \'@ember/runloop\'; instead of using Ember.run.once (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-input/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-input/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-input/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { defineProperty } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { isBlank } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { assert } from \'@ember/debug\'; instead of using Ember destructuring (ember/new-module-imports)\n49:9 - Use import { debug } from \'@ember/debug\'; instead of using Ember.debug (ember/new-module-imports)\n82:40 - Use brace expansion (ember/use-brace-expansion)');
   });
 
   QUnit.test('pods/components/input/md-inputs/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-inputs/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-inputs/component.js should pass ESLint\n\n8:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n25:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n93:10 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n118:18 - Use import { observer } from \'@ember/object\'; instead of using Ember.observer (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-markdown-area/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-markdown-area/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-markdown-area/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { isNone } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
+  });
+
+  QUnit.test('pods/components/input/md-month/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(false, 'pods/components/input/md-month/component.js should pass ESLint\n\n12:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/input/md-select-contact/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select-contact/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select-contact/component.js should pass ESLint\n\n11:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-select-contacts/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select-contacts/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select-contacts/component.js should pass ESLint\n\n11:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-select-profile/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select-profile/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select-profile/component.js should pass ESLint\n\n8:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n11:7 - Use closure actions, unless you need bubbling (ember/closure-actions)');
   });
 
   QUnit.test('pods/components/input/md-select-thesaurus/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select-thesaurus/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select-thesaurus/component.js should pass ESLint\n\n8:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n18:12 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n30:18 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n34:16 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n40:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-select/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select/component.js should pass ESLint\n\n10:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { defineProperty } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { isNone } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import { isBlank } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { assert } from \'@ember/debug\'; instead of using Ember destructuring (ember/new-module-imports)\n60:9 - Use import { debug } from \'@ember/debug\'; instead of using Ember.debug (ember/new-module-imports)\n72:40 - Use brace expansion (ember/use-brace-expansion)\n114:14 - Use import { notEmpty } from \'@ember/object/computed\'; instead of using Ember.computed.notEmpty (ember/new-module-imports)\n115:10 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n285:14 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n317:17 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n336:17 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n358:13 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n360:22 - Use import { Promise } from \'rsvp\'; instead of using Ember.RSVP.Promise (ember/new-module-imports)\n371:19 - Use import { A } from \'@ember/array\'; instead of using Ember.A (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-textarea/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-textarea/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-textarea/component.js should pass ESLint\n\n8:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/input/md-toggle/component.js', function (assert) {
@@ -614,7 +624,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/layout/md-breadcrumb/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-breadcrumb/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-breadcrumb/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/layout/md-card/component.js', function (assert) {
@@ -624,22 +634,22 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/layout/md-footer/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-footer/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-footer/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/layout/md-nav-main/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-nav-main/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-nav-main/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n10:7 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n13:7 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/layout/md-nav-secondary/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-nav-secondary/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-nav-secondary/component.js should pass ESLint\n\n4:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n5:12 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n6:18 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n7:10 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n46:5 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n50:16 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n57:26 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n58:47 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n62:22 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n66:20 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n67:25 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n70:25 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n78:23 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n85:9 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n85:17 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n91:25 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n97:29 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n119:36 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n157:5 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/layout/md-nav-sidebar/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-nav-sidebar/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-nav-sidebar/component.js should pass ESLint\n\n4:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n6:12 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n11:11 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n17:12 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n24:18 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n26:7 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n31:7 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n34:7 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/layout/md-slider/component.js', function (assert) {
@@ -649,17 +659,17 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/layout/md-wrap/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-wrap/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-wrap/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/md-help/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-help/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-help/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/md-models-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-models-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-models-table/component.js should pass ESLint\n\n10:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/md-models-table/components/check-all/component.js', function (assert) {
@@ -684,42 +694,42 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/md-translate/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-translate/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-translate/component.js should pass ESLint\n\n56:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n226:11 - Don\'t use jQuery without Ember Run Loop (ember/jquery-ember-run)');
   });
 
   QUnit.test('pods/components/object/md-address/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-address/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-address/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n57:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-address/md-address-block/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-address/md-address-block/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-address/md-address-block/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-allocation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-allocation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-allocation/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-array-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-array-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-array-table/component.js should pass ESLint\n\n10:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { getOwner } from \'@ember/application\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { typeOf } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-associated/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-associated/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-associated/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n17:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-associated/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-associated/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-associated/preview/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n37:23 - Use brace expansion (ember/use-brace-expansion)');
   });
 
   QUnit.test('pods/components/object/md-attribute/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-attribute/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-attribute/component.js should pass ESLint\n\n99:15 - Use brace expansion (ember/use-brace-expansion)');
   });
 
   QUnit.test('pods/components/object/md-attribute/preview/component.js', function (assert) {
@@ -729,67 +739,67 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-bbox/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-bbox/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-bbox/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n10:11 - Use import { readOnly } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-citation-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation-array/component.js should pass ESLint\n\n4:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n69:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-citation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-citation/preview/body/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation/preview/body/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation/preview/body/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-citation/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation/preview/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-constraint/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-constraint/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-constraint/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n11:5 - Use import { equal } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n16:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n19:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n83:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/object/md-date-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-date-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-date-array/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isNone } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-date/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-date/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-date/component.js should pass ESLint\n\n8:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-distribution/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-distribution/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-distribution/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-distributor/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-distributor/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-distributor/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-distributor/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-distributor/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-distributor/preview/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-documentation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-documentation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-documentation/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-documentation/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-documentation/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-documentation/preview/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-domain/component.js', function (assert) {
@@ -809,27 +819,27 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-entity/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-entity/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-entity/component.js should pass ESLint\n\n167:18 - Use brace expansion (ember/use-brace-expansion)\n181:15 - Use brace expansion (ember/use-brace-expansion)');
   });
 
   QUnit.test('pods/components/object/md-funding/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-funding/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-funding/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n15:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-funding/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-funding/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-funding/preview/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-graphic-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-graphic-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-graphic-array/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n77:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-identifier-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-identifier-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-identifier-array/component.js should pass ESLint\n\n7:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n73:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-identifier-object-table/component.js', function (assert) {
@@ -839,27 +849,27 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-identifier/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-identifier/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-identifier/component.js should pass ESLint\n\n14:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-keyword-citation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-keyword-citation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-keyword-citation/component.js should pass ESLint\n\n15:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-keyword-list/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-keyword-list/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-keyword-list/component.js should pass ESLint\n\n8:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n9:13 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-lineage/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-lineage/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-lineage/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n52:22 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n59:19 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-lineage/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-lineage/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-lineage/preview/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-locale-array/component.js', function (assert) {
@@ -869,37 +879,37 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-locale/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-locale/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-locale/component.js should pass ESLint\n\n12:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { copy } from \'@ember/object/internals\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import { isNone } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n20:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-maintenance/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-maintenance/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-maintenance/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { setProperties } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n16:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-medium/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-medium/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-medium/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n12:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-object-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-object-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-object-table/component.js should pass ESLint\n\n6:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { observer } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { typeOf } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { getOwner } from \'@ember/application\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import $ from \'jquery\'; instead of using Ember destructuring (ember/new-module-imports)\n16:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n391:9 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-objectroute-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-objectroute-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-objectroute-table/component.js should pass ESLint\n\n5:3 - Use import { typeOf } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getOwner } from \'@ember/application\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isBlank } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { assert } from \'@ember/debug\'; instead of using Ember destructuring (ember/new-module-imports)\n51:9 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-online-resource-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-online-resource-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-online-resource-array/component.js should pass ESLint\n\n8:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n106:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-online-resource/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-online-resource/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-online-resource/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { getOwner } from \'@ember/application\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-party-array/component.js', function (assert) {
@@ -914,27 +924,27 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-phone-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-phone-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-phone-array/component.js should pass ESLint\n\n8:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n26:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-process-step/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-process-step/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-process-step/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n59:19 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-repository-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-repository-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-repository-array/component.js should pass ESLint\n\n3:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n4:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:23 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-resource-type-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-resource-type-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-resource-type-array/component.js should pass ESLint\n\n8:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n20:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-simple-array-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-simple-array-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-simple-array-table/component.js should pass ESLint\n\n5:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { observer } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-source/component.js', function (assert) {
@@ -949,32 +959,62 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-spatial-extent/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-spatial-extent/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-spatial-extent/component.js should pass ESLint\n\n5:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { observer } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n10:5 - Use import { or } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { setProperties } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { isNone } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n25:13 - Use brace expansion (ember/use-brace-expansion)');
   });
 
   QUnit.test('pods/components/object/md-spatial-info/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-spatial-info/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-spatial-info/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/object/md-spatial-resolution/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-spatial-resolution/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-spatial-resolution/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n12:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n13:5 - Use import { or } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n19:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n20:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n121:20 - Use brace expansion (ember/use-brace-expansion)\n134:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/object/md-srs/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-srs/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-srs/component.js should pass ESLint\n\n8:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:5 - Use import { alias } from \'@ember/object/computed\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n15:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
+  });
+
+  QUnit.test('pods/components/object/md-taxonomy/classification/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-taxonomy/classification/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-taxonomy/classification/taxon/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-taxonomy/classification/taxon/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-taxonomy/collection/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-taxonomy/collection/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-taxonomy/collection/system/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-taxonomy/collection/system/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-taxonomy/collection/system/preview/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-taxonomy/collection/system/preview/component.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/components/object/md-taxonomy/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-taxonomy/component.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/components/object/md-time-period/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-time-period/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-time-period/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n15:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n98:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/components/object/md-transfer/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-transfer/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-transfer/component.js should pass ESLint\n\n9:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n15:5 - Use import { once } from \'@ember/runloop\'; instead of using Ember destructuring (ember/new-module-imports)\n101:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n127:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('pods/components/tooltip-on-component/component.js', function (assert) {
@@ -989,27 +1029,27 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/contact/new/id/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/new/id/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/new/id/route.js should pass ESLint\n\n8:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n134:9 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/contact/new/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/new/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/new/index/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/contact/new/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/new/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/new/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/contact/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/contact/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/show/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/show/edit/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/contact/show/route.js', function (assert) {
@@ -1019,37 +1059,37 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/contacts/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contacts/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contacts/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dashboard/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dashboard/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dashboard/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/dictionaries/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionaries/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionaries/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/new/id/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/new/id/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/new/id/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n32:25 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n36:25 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n40:28 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)');
   });
 
   QUnit.test('pods/dictionary/new/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/new/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/new/index/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/dictionary/new/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/new/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/new/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/show/edit/citation/identifier/route.js', function (assert) {
@@ -1064,7 +1104,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/citation/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/dictionary/show/edit/domain/edit/citation/identifier/route.js', function (assert) {
@@ -1074,12 +1114,12 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/domain/edit/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/citation/index/route.js should pass ESLint\n\n7:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/show/edit/domain/edit/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/citation/route.js should pass ESLint\n\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/show/edit/domain/edit/index/route.js', function (assert) {
@@ -1104,7 +1144,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/domain/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/route.js should pass ESLint\n\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/show/edit/entity/edit/attribute/index/route.js', function (assert) {
@@ -1129,7 +1169,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/entity/edit/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/citation/route.js should pass ESLint\n\n7:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/show/edit/entity/edit/index/route.js', function (assert) {
@@ -1144,7 +1184,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/entity/import/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/import/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/import/route.js should pass ESLint\n\n44:5 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/dictionary/show/edit/entity/index/route.js', function (assert) {
@@ -1159,237 +1199,237 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/dictionary/show/edit/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/dictionary/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n12:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/dictionary/show/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/index/route.js should pass ESLint\n\n4:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/dictionary/show/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { copy } from \'@ember/object/internals\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/error/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/error/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/error/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/export/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/export/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/export/route.js should pass ESLint\n\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { defineProperty } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n16:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n32:52 - Use brace expansion (ember/use-brace-expansion)');
   });
 
   QUnit.test('pods/help/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/help/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/help/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/import/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/import/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/import/route.js should pass ESLint\n\n16:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n18:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n20:5 - Use import { Promise } from \'rsvp\'; instead of using Ember destructuring (ember/new-module-imports)\n23:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n24:3 - Use import { assign } from \'@ember/polyfills\'; instead of using Ember destructuring (ember/new-module-imports)\n25:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n26:3 - Use import $ from \'jquery\'; instead of using Ember destructuring (ember/new-module-imports)\n27:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n28:3 - Use import { merge } from \'@ember/polyfills\'; instead of using Ember destructuring (ember/new-module-imports)\n29:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n70:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n89:7 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n391:11 - Don\'t use jQuery without Ember Run Loop (ember/jquery-ember-run)');
   });
 
   QUnit.test('pods/not-found/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/not-found/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/not-found/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n5:12 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n10:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/publish/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/publish/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/publish/index/route.js should pass ESLint\n\n2:9 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/publish/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/publish/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/publish/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/index/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/record/new/id/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/new/id/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/new/id/route.js should pass ESLint\n\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/new/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/new/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/new/index/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/new/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/new/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/new/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/record/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n4:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/record/show/edit/associated/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/associated/resource/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/resource/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/resource/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/record/show/edit/associated/resource/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/resource/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/resource/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n48:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/associated/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/constraint/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/constraint/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/constraint/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/constraint/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/constraint/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/constraint/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/coverages/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/coverages/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/coverages/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/dictionary/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/dictionary/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/dictionary/route.js should pass ESLint\n\n13:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n63:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/record/show/edit/distribution/distributor/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/distributor/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/distributor/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import $ from \'jquery\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/distribution/distributor/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/distributor/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/distributor/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n49:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/distribution/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import $ from \'jquery\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/distribution/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/documents/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/citation/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/documents/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/citation/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n50:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/documents/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/documents/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/extent/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/extent/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/extent/route.js should pass ESLint\n\n4:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import $ from \'jquery\'; instead of using Ember destructuring (ember/new-module-imports)\n36:16 - Don\'t use Ember\'s function prototype extensions (ember/no-function-prototype-extensions)');
   });
 
   QUnit.test('pods/record/show/edit/extent/spatial/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/extent/spatial/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/extent/spatial/route.js should pass ESLint\n\n4:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n12:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n60:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)\n92:7 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n93:18 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n94:23 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n98:7 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n175:9 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/funding/allocation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/funding/allocation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/funding/allocation/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n52:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/funding/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/funding/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/funding/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/funding/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/funding/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/funding/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/grid/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/grid/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/grid/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/index/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/keywords/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/keywords/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/keywords/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:3 - Use import { copy } from \'@ember/object/internals\'; instead of using Ember destructuring (ember/new-module-imports)\n14:3 - Use import $ from \'jquery\'; instead of using Ember destructuring (ember/new-module-imports)\n63:16 - Don\'t use Ember\'s function prototype extensions (ember/no-function-prototype-extensions)');
   });
 
   QUnit.test('pods/record/show/edit/keywords/thesaurus/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/keywords/thesaurus/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/keywords/thesaurus/route.js should pass ESLint\n\n4:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n11:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n12:12 - Use import { inject } from \'@ember/service\'; instead of using Ember.inject.service (ember/new-module-imports)\n27:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)\n38:12 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n96:12 - Use import { isArray } from \'@ember/array\'; instead of using Ember.isArray (ember/new-module-imports)\n129:11 - Use import { set } from \'@ember/object\'; instead of using Ember.set (ember/new-module-imports)\n132:11 - Use import { set } from \'@ember/object\'; instead of using Ember.set (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/citation/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/citation/identifier/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n40:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/citation/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/citation/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n42:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n47:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/source/index/route.js', function (assert) {
@@ -1399,112 +1439,147 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/source/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/source/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/source/route.js should pass ESLint\n\n39:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/step/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/step/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/step/citation/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n47:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/step/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/step/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/step/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/lineageobject/step/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/step/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/step/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n51:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/lineage/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/main/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/citation/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/citation/identifier/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n39:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/main/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/citation/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/main/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/citation/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/main/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/main/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/alternate/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/alternate/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/alternate/identifier/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n39:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/alternate/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/alternate/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/alternate/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/alternate/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/alternate/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/alternate/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n39:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/identifier/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/index/route.js should pass ESLint\n\n8:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n11:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/parent/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/parent/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/parent/identifier/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isEmpty } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n39:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/parent/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/parent/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/parent/index/route.js should pass ESLint\n\n5:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { isNone } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n15:7 - Use import { get } from \'@ember/object\'; instead of using Ember.get (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/parent/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/parent/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/parent/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/metadata/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/route.js should pass ESLint\n\n12:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n13:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/record/show/edit/spatial/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/spatial/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/spatial/index/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/spatial/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/spatial/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/spatial/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
+  });
+
+  QUnit.test('pods/record/show/edit/taxonomy/collection/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/taxonomy/collection/itis/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/itis/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/taxonomy/collection/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/taxonomy/collection/system/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/system/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/taxonomy/collection/system/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/system/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/taxonomy/index/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/taxonomy/index/route.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('pods/record/show/edit/taxonomy/route.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/record/show/edit/taxonomy/route.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/record/show/index/route.js', function (assert) {
@@ -1514,22 +1589,22 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/record/show/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/route.js should pass ESLint\n\n4:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { copy } from \'@ember/object/internals\'; instead of using Ember destructuring (ember/new-module-imports)\n8:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)\n9:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/record/show/translate/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/translate/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/translate/route.js should pass ESLint\n\n3:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/records/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/records/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/records/route.js should pass ESLint\n\n3:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n16:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('pods/save/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/save/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/save/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('pods/settings/route.js', function (assert) {
@@ -1539,7 +1614,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/translate/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/translate/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/translate/route.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('resolver.js', function (assert) {
@@ -1549,17 +1624,17 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('router.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'router.js should pass ESLint\n\n');
+    assert.ok(false, 'router.js should pass ESLint\n\n4:16 - Use import EmberRouter from \'@ember/routing/router\'; instead of using Ember.Router (ember/new-module-imports)');
   });
 
   QUnit.test('routes/application.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'routes/application.js should pass ESLint\n\n');
+    assert.ok(false, 'routes/application.js should pass ESLint\n\n4:3 - Use import $ from \'jquery\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { guidFor } from \'@ember/object/internals\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import RSVP from \'rsvp\'; instead of using Ember destructuring (ember/new-module-imports)\n12:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('routes/index.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'routes/index.js should pass ESLint\n\n');
+    assert.ok(false, 'routes/index.js should pass ESLint\n\n3:16 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('serializers/application.js', function (assert) {
@@ -1569,37 +1644,42 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('services/cleaner.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/cleaner.js should pass ESLint\n\n');
+    assert.ok(false, 'services/cleaner.js should pass ESLint\n\n3:3 - Use import { typeOf } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n4:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { isBlank } from \'@ember/utils\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { assign } from \'@ember/polyfills\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('services/codelist.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/codelist.js should pass ESLint\n\n');
+    assert.ok(false, 'services/codelist.js should pass ESLint\n\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('services/contacts.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/contacts.js should pass ESLint\n\n');
+    assert.ok(false, 'services/contacts.js should pass ESLint\n\n4:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n55:18 - Use import { computed } from \'@ember/object\'; instead of using Ember.computed (ember/new-module-imports)\n65:23 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('services/icon.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/icon.js should pass ESLint\n\n');
+    assert.ok(false, 'services/icon.js should pass ESLint\n\n3:16 - Use import Service from \'@ember/service\'; instead of using Ember.Service (ember/new-module-imports)');
+  });
+
+  QUnit.test('services/itis.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'services/itis.js should pass ESLint\n\n');
   });
 
   QUnit.test('services/jsonvalidator.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/jsonvalidator.js should pass ESLint\n\n');
+    assert.ok(false, 'services/jsonvalidator.js should pass ESLint\n\n373:16 - Use import Service from \'@ember/service\'; instead of using Ember.Service (ember/new-module-imports)');
   });
 
   QUnit.test('services/keyword.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/keyword.js should pass ESLint\n\n');
+    assert.ok(false, 'services/keyword.js should pass ESLint\n\n6:15 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n7:14 - Use import { A } from \'@ember/array\'; instead of using Ember.A (ember/new-module-imports)\n79:16 - Use import Service from \'@ember/service\'; instead of using Ember.Service (ember/new-module-imports)');
   });
 
   QUnit.test('services/mdjson.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/mdjson.js should pass ESLint\n\n');
+    assert.ok(false, 'services/mdjson.js should pass ESLint\n\n27:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n29:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n30:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n31:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n32:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n33:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('services/patch.js', function (assert) {
@@ -1614,12 +1694,12 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('services/publish.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/publish.js should pass ESLint\n\n');
+    assert.ok(false, 'services/publish.js should pass ESLint\n\n4:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('services/settings.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/settings.js should pass ESLint\n\n');
+    assert.ok(false, 'services/settings.js should pass ESLint\n\n14:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n15:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n17:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n65:23 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('services/slider.js', function (assert) {
@@ -1634,7 +1714,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('transforms/json.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'transforms/json.js should pass ESLint\n\n');
+    assert.ok(false, 'transforms/json.js should pass ESLint\n\n5:10 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n5:18 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n19:12 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('transitions.js', function (assert) {
@@ -1644,12 +1724,12 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('validators/array-required.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'validators/array-required.js should pass ESLint\n\n');
+    assert.ok(false, 'validators/array-required.js should pass ESLint\n\n5:3 - Use import { assert } from \'@ember/debug\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n12:8 - Use import { isArray } from \'@ember/array\'; instead of using Ember.isArray (ember/new-module-imports)');
   });
 
   QUnit.test('validators/array-valid.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'validators/array-valid.js should pass ESLint\n\n');
+    assert.ok(false, 'validators/array-valid.js should pass ESLint\n\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 });
 define("mdeditor/tests/helpers/create-contact", ["exports"], function (exports) {
@@ -3622,6 +3702,35 @@ define('mdeditor/tests/integration/pods/components/control/md-import-csv/compone
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
+define('mdeditor/tests/integration/pods/components/control/md-itis/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('control/md-itis', 'Integration | Component | control/md itis', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "fmxlIQTt",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"control/md-itis\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "pMcr/JjA",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-itis\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
 define('mdeditor/tests/integration/pods/components/control/md-json-button/component-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -4855,6 +4964,35 @@ define('mdeditor/tests/integration/pods/components/input/md-markdown-area/compon
     this.render(Ember.HTMLBars.template({
       "id": "hXxSibLZ",
       "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-markdown-area\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/input/md-month/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('input/md-month', 'Integration | Component | input/md month', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "JDnpX0Pb",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"input/md-month\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "a+6WBvys",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-month\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
       "meta": {}
     }));
 
@@ -7234,6 +7372,180 @@ define('mdeditor/tests/integration/pods/components/object/md-srs/component-test'
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
+define('mdeditor/tests/integration/pods/components/object/md-taxonomy/classification/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-taxonomy/classification', 'Integration | Component | object/md taxonomy/classification', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "SBfyzrBS",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-taxonomy/classification\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "1a8AuHZ+",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/classification\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-taxonomy/classification/taxon/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-taxonomy/classification/taxon', 'Integration | Component | object/md taxonomy/classification/taxon', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "n2cRMJu6",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-taxonomy/classification/taxon\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "JkuUUeLA",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/classification/taxon\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-taxonomy/collection/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-taxonomy/collection', 'Integration | Component | object/md taxonomy/collection', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "MZ1UC7Lo",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-taxonomy/collection\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "NEeJEiJv",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-taxonomy/collection/system/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-taxonomy/collection/system', 'Integration | Component | object/md taxonomy/collection/system', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "e5J5a/Hi",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-taxonomy/collection/system\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "gFAsxm2R",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection/system\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-taxonomy/collection/system/preview/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-taxonomy/collection/system/preview', 'Integration | Component | object/md taxonomy/collection/system/preview', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "+306W8BY",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-taxonomy/collection/system/preview\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "FcMfYI0t",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection/system/preview\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
+define('mdeditor/tests/integration/pods/components/object/md-taxonomy/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-taxonomy', 'Integration | Component | object/md taxonomy', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "IHv6JXoK",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-taxonomy\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "ejIbaBGP",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
 define('mdeditor/tests/integration/pods/components/object/md-time-period/component-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -7377,7 +7689,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('acceptance/pods/contacts/contacts-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'acceptance/pods/contacts/contacts-test.js should pass ESLint\n\n');
+    assert.ok(false, 'acceptance/pods/contacts/contacts-test.js should pass ESLint\n\n23:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)');
   });
 
   QUnit.test('acceptance/pods/dictionary/new-test.js', function (assert) {
@@ -7392,22 +7704,22 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('helpers/create-contact.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/create-contact.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/create-contact.js should pass ESLint\n\n9:21 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/create-dictionary.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/create-dictionary.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/create-dictionary.js should pass ESLint\n\n9:24 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/create-map-layer.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/create-map-layer.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/create-map-layer.js should pass ESLint\n\n12:19 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/create-record.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/create-record.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/create-record.js should pass ESLint\n\n9:20 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/destroy-app.js', function (assert) {
@@ -7422,7 +7734,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('helpers/modal-asserts.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/modal-asserts.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/modal-asserts.js should pass ESLint\n\n11:23 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n16:23 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)\n21:20 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)');
   });
 
   QUnit.test('helpers/module-for-acceptance.js', function (assert) {
@@ -7452,7 +7764,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/components/feature-table-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/components/feature-table-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/components/feature-table-test.js should pass ESLint\n\n22:16 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/components/geojson-layer-test.js', function (assert) {
@@ -7477,7 +7789,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/components/leaflet-table-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/components/leaflet-table-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/components/leaflet-table-test.js should pass ESLint\n\n20:16 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/components/sb-publisher-test.js', function (assert) {
@@ -7542,7 +7854,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/pods/components/control/md-button-confirm/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/md-button-confirm/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/md-button-confirm/component-test.js should pass ESLint\n\n60:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)');
   });
 
   QUnit.test('integration/pods/components/control/md-button-modal/component-test.js', function (assert) {
@@ -7585,19 +7897,24 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'integration/pods/components/control/md-import-csv/component-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('integration/pods/components/control/md-itis/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/control/md-itis/component-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('integration/pods/components/control/md-json-button/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/md-json-button/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/md-json-button/component-test.js should pass ESLint\n\n49:16 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)');
   });
 
   QUnit.test('integration/pods/components/control/md-json-viewer/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/md-json-viewer/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/md-json-viewer/component-test.js should pass ESLint\n\n18:16 - Use import $ from \'jquery\'; instead of using Ember.$ (ember/new-module-imports)');
   });
 
   QUnit.test('integration/pods/components/control/md-modal/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/md-modal/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/md-modal/component-test.js should pass ESLint\n\n14:16 - Do not use global `$` or `jQuery` (ember/no-global-jquery)\n23:16 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/pods/components/control/md-record-table/buttons/component-test.js', function (assert) {
@@ -7662,7 +7979,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/pods/components/control/subbar-extent/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/subbar-extent/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/subbar-extent/component-test.js should pass ESLint\n\n45:19 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('integration/pods/components/control/subbar-importcsv/component-test.js', function (assert) {
@@ -7672,7 +7989,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/pods/components/control/subbar-keywords/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/subbar-keywords/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/subbar-keywords/component-test.js should pass ESLint\n\n43:19 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('integration/pods/components/control/subbar-link/component-test.js', function (assert) {
@@ -7682,12 +7999,12 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/pods/components/control/subbar-spatial/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/subbar-spatial/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/subbar-spatial/component-test.js should pass ESLint\n\n45:19 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('integration/pods/components/control/subbar-thesaurus/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/subbar-thesaurus/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/subbar-thesaurus/component-test.js should pass ESLint\n\n42:19 - Use import Route from \'@ember/routing/route\'; instead of using Ember.Route (ember/new-module-imports)');
   });
 
   QUnit.test('integration/pods/components/input/md-boolean/component-test.js', function (assert) {
@@ -7697,12 +8014,12 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/pods/components/input/md-codelist-multi/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-codelist-multi/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-codelist-multi/component-test.js should pass ESLint\n\n11:18 - Use import Service from \'@ember/service\'; instead of using Ember.Service (ember/new-module-imports)\n12:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n77:18 - Do not use global `$` or `jQuery` (ember/no-global-jquery)\n106:18 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/pods/components/input/md-codelist/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-codelist/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-codelist/component-test.js should pass ESLint\n\n11:18 - Use import Service from \'@ember/service\'; instead of using Ember.Service (ember/new-module-imports)\n12:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)\n65:18 - Do not use global `$` or `jQuery` (ember/no-global-jquery)\n94:18 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/pods/components/input/md-date-range/component-test.js', function (assert) {
@@ -7735,6 +8052,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'integration/pods/components/input/md-markdown-area/component-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('integration/pods/components/input/md-month/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/input/md-month/component-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('integration/pods/components/input/md-select-contact/component-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/pods/components/input/md-select-contact/component-test.js should pass ESLint\n\n');
@@ -7747,17 +8069,17 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/pods/components/input/md-select-profile/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-select-profile/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-select-profile/component-test.js should pass ESLint\n\n44:16 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/pods/components/input/md-select-thesaurus/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-select-thesaurus/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-select-thesaurus/component-test.js should pass ESLint\n\n55:16 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/pods/components/input/md-select/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-select/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-select/component-test.js should pass ESLint\n\n20:25 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n46:25 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n50:7 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n71:18 - Do not use global `$` or `jQuery` (ember/no-global-jquery)\n86:25 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n90:7 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)\n113:18 - Do not use global `$` or `jQuery` (ember/no-global-jquery)');
   });
 
   QUnit.test('integration/pods/components/input/md-textarea/component-test.js', function (assert) {
@@ -7787,7 +8109,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('integration/pods/components/layout/md-nav-secondary/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/layout/md-nav-secondary/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/layout/md-nav-secondary/component-test.js should pass ESLint\n\n10:21 - Use import Service from \'@ember/service\'; instead of using Ember.Service (ember/new-module-imports)\n19:3 - Only string, number, symbol, boolean, null, undefined, and function are allowed as default properties (ember/avoid-leaking-state-in-ember-objects)');
   });
 
   QUnit.test('integration/pods/components/layout/md-nav-sidebar/component-test.js', function (assert) {
@@ -8095,6 +8417,36 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'integration/pods/components/object/md-srs/component-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('integration/pods/components/object/md-taxonomy/classification/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-taxonomy/classification/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-taxonomy/classification/taxon/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-taxonomy/classification/taxon/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-taxonomy/collection/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-taxonomy/collection/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-taxonomy/collection/system/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-taxonomy/collection/system/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-taxonomy/collection/system/preview/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-taxonomy/collection/system/preview/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-taxonomy/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-taxonomy/component-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('integration/pods/components/object/md-time-period/component-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/pods/components/object/md-time-period/component-test.js should pass ESLint\n\n');
@@ -8152,47 +8504,47 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('unit/initializers/leaflet-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/initializers/leaflet-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/initializers/leaflet-test.js should pass ESLint\n\n9:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)\n10:21 - Use import Application from \'@ember/application\'; instead of using Ember.Application (ember/new-module-imports)');
   });
 
   QUnit.test('unit/initializers/local-storage-export-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/initializers/local-storage-export-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/initializers/local-storage-export-test.js should pass ESLint\n\n8:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)\n9:26 - Use import Application from \'@ember/application\'; instead of using Ember.Application (ember/new-module-imports)');
   });
 
   QUnit.test('unit/instance-initializers/profile-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/instance-initializers/profile-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/instance-initializers/profile-test.js should pass ESLint\n\n8:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)\n9:26 - Use import Application from \'@ember/application\'; instead of using Ember.Application (ember/new-module-imports)\n14:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)');
   });
 
   QUnit.test('unit/instance-initializers/route-publish-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/instance-initializers/route-publish-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/instance-initializers/route-publish-test.js should pass ESLint\n\n8:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)\n9:26 - Use import Application from \'@ember/application\'; instead of using Ember.Application (ember/new-module-imports)\n14:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)');
   });
 
   QUnit.test('unit/instance-initializers/settings-sciencebase-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/instance-initializers/settings-sciencebase-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/instance-initializers/settings-sciencebase-test.js should pass ESLint\n\n8:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)\n9:26 - Use import Application from \'@ember/application\'; instead of using Ember.Application (ember/new-module-imports)\n14:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)');
   });
 
   QUnit.test('unit/instance-initializers/settings-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/instance-initializers/settings-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/instance-initializers/settings-test.js should pass ESLint\n\n8:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)\n9:26 - Use import Application from \'@ember/application\'; instead of using Ember.Application (ember/new-module-imports)\n14:5 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)');
   });
 
   QUnit.test('unit/mixins/hash-poll-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/mixins/hash-poll-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/mixins/hash-poll-test.js should pass ESLint\n\n9:24 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('unit/mixins/object-template-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/mixins/object-template-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/mixins/object-template-test.js should pass ESLint\n\n9:30 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('unit/mixins/scroll-to-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/mixins/scroll-to-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/mixins/scroll-to-test.js should pass ESLint\n\n9:24 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
   });
 
   QUnit.test('unit/models/base-test.js', function (assert) {
@@ -8212,7 +8564,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('unit/models/record-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/models/record-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/models/record-test.js should pass ESLint\n\n28:16 - Use import { getOwner } from \'@ember/application\'; instead of using Ember.getOwner (ember/new-module-imports)');
   });
 
   QUnit.test('unit/models/setting-test.js', function (assert) {
@@ -8695,6 +9047,41 @@ define('mdeditor/tests/tests.lint-test', [], function () {
     assert.ok(true, 'unit/pods/record/show/edit/spatial/route-test.js should pass ESLint\n\n');
   });
 
+  QUnit.test('unit/pods/record/show/edit/taxonomy/collection/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/taxonomy/collection/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/taxonomy/collection/itis/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/taxonomy/collection/itis/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/taxonomy/collection/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/taxonomy/collection/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/taxonomy/collection/system/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/taxonomy/collection/system/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/taxonomy/collection/system/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/taxonomy/collection/system/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/taxonomy/index/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/taxonomy/index/route-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/pods/record/show/edit/taxonomy/route-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/pods/record/show/edit/taxonomy/route-test.js should pass ESLint\n\n');
+  });
+
   QUnit.test('unit/pods/record/show/index/route-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/pods/record/show/index/route-test.js should pass ESLint\n\n');
@@ -8742,7 +9129,7 @@ define('mdeditor/tests/tests.lint-test', [], function () {
 
   QUnit.test('unit/serializers/application-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/serializers/application-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/serializers/application-test.js should pass ESLint\n\n16:11 - Use import { getOwner } from \'@ember/application\'; instead of using Ember destructuring (ember/new-module-imports)\n44:3 - Use import { run } from \'@ember/runloop\'; instead of using Ember.run (ember/new-module-imports)');
   });
 
   QUnit.test('unit/services/cleaner-test.js', function (assert) {
@@ -8763,6 +9150,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
   QUnit.test('unit/services/icon-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'unit/services/icon-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('unit/services/itis-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'unit/services/itis-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('unit/services/jsonvalidator-test.js', function (assert) {
@@ -10476,6 +10868,97 @@ define('mdeditor/tests/unit/pods/record/show/edit/spatial/route-test', ['ember-q
     assert.ok(route);
   });
 });
+define('mdeditor/tests/unit/pods/record/show/edit/taxonomy/collection/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/taxonomy/collection/index', 'Unit | Route | record/show/edit/taxonomy/collection/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/taxonomy/collection/itis/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/taxonomy/collection/itis', 'Unit | Route | record/show/edit/taxonomy/collection/itis', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/taxonomy/collection/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/taxonomy/collection', 'Unit | Route | record/show/edit/taxonomy/collection', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/taxonomy/collection/system/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/taxonomy/collection/system/index', 'Unit | Route | record/show/edit/taxonomy/collection/system/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/taxonomy/collection/system/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/taxonomy/collection/system', 'Unit | Route | record/show/edit/taxonomy/collection/system', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/taxonomy/index/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/taxonomy/index', 'Unit | Route | record/show/edit/taxonomy/index', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
+define('mdeditor/tests/unit/pods/record/show/edit/taxonomy/route-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('route:record/show/edit/taxonomy', 'Unit | Route | record/show/edit/taxonomy', {
+    // Specify the other units that are required for this test.
+    // needs: ['controller:foo']
+  });
+
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let route = this.subject();
+    assert.ok(route);
+  });
+});
 define('mdeditor/tests/unit/pods/record/show/index/route-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -10724,6 +11207,20 @@ define('mdeditor/tests/unit/services/icon-test', ['ember-qunit'], function (_emb
   // Replace this with your real tests.
   (0, _emberQunit.test)('it exists', function (assert) {
     var service = this.subject();
+    assert.ok(service);
+  });
+});
+define('mdeditor/tests/unit/services/itis-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleFor)('service:itis', 'Unit | Service | itis', {
+    // Specify the other units that are required for this test.
+    // needs: ['service:foo']
+  });
+
+  // Replace this with your real tests.
+  (0, _emberQunit.test)('it exists', function (assert) {
+    let service = this.subject();
     assert.ok(service);
   });
 });
