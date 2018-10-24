@@ -7411,6 +7411,7 @@ define('mdeditor/pods/components/control/md-button-confirm/component', ['exports
 
       if (this.get('isShowingConfirm')) {
         this.get('onConfirm')();
+        this.set('isShowingConfirm', false);
       } else {
         this.set('isShowingConfirm', true);
       }
@@ -27117,6 +27118,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+3f4db0ba"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+812bcf3f"});
 }
 //# sourceMappingURL=mdeditor.map
