@@ -247,7 +247,8 @@ export default Service.extend({
         "taxonomicLevel": taxon.rank,
         "taxonomicName": taxon.value,
         "commonName": taxon.common,
-        "subClassification": []
+        "subClassification": [],
+        "isITIS": true
       });
     }
 

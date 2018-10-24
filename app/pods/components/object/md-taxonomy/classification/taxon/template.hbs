@@ -16,8 +16,12 @@
     {{!-- <span class="text-level">{{levelText}}</span>  --}}
      <em>{{if taxonomicName taxonomicName "Not Defined"}}</em>
       {{#if taxonomicSystemId}}
-        (<a href="https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value={{taxonomicSystemId}}"
-         target="_blank"><small class="text-muted">{{taxonomicSystemId}}</small></a>)
+        {{#if model.isITIS}}
+          (<a href="https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value={{taxonomicSystemId}}"
+            target="_blank"><small class="text-muted">{{taxonomicSystemId}}</small></a>)
+        {{else}}
+          (<small>{{taxonomicSystemId}}</small>)
+        {{/if}}
       {{/if}}
       {{#if model.commonName}}
         <div class="spacer"></div>
