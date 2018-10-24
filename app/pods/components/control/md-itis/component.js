@@ -12,7 +12,8 @@ import {
   or
 } from '@ember/object/computed';
 import {
-  isArray
+  isArray,
+  A
 } from '@ember/array';
 import {
   later
@@ -20,6 +21,10 @@ import {
 import {
   assert
 } from '@ember/debug';
+import moment from 'moment';
+import {
+  formatCitation
+} from '../../object/md-citation/component';
 
 export default Component.extend({
   init() {
@@ -58,7 +63,6 @@ export default Component.extend({
 
     itis.sendQuery(this.get('searchString'), this.get(
       'kingdom'), this.get('limit')).then(response => {
-      console.log(response);
 
       if(!response) {
         return;
@@ -66,7 +70,6 @@ export default Component.extend({
 
       let docs = response.response.docs;
       let data = docs.map(doc => itis.parseDoc(doc));
-      console.log(data);
 
       this.set('searchResult', data);
       this.set('total', response.response.numFound);
@@ -94,17 +97,39 @@ export default Component.extend({
     },
     importTaxa(taxa) {
       let taxonomy = this.get('taxonomy');
+      let itisCitation = this.get('itis.citation');
 
-      set(taxonomy, 'taxonomicClassification', getWithDefault(taxonomy,
+      let classification = set(taxonomy, 'taxonomicClassification', getWithDefault(taxonomy,
         'taxonomicClassification', []));
-
-      console.log(taxa);
-      console.log(this.get('taxonomy'));
+      let systems= set(taxonomy, 'taxonomicSystem', getWithDefault(taxonomy,
+        'taxonomicSystem', [{citation:{}}]));
+      let system = systems.findBy('citation.title', get(itisCitation,'title'));
 
       let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
+      let today = moment().format('YYYY-MM-DD');
+      let dateObj = {
+        date: today,
+        dateType: 'transmitted',
+        description: 'Taxa imported from ITIS'
+      };
 
-      allTaxa.forEach(itm => this.get('itis').mergeTaxa(itm, get(taxonomy,
-        'taxonomicClassification')));
+      allTaxa.forEach(itm => this.get('itis').mergeTaxa(itm, classification));
+
+      if(!system) {
+        itisCitation.get('date').pushObject(dateObj);
+        systems.pushObject({
+          citation: itisCitation
+        });
+      } else {
+        let citation = set(system, 'citation', getWithDefault(system,'citation', {}));
+        formatCitation(citation);
+
+        let date = A(get(citation, 'date'));
+
+        if(!date.findBy('date', today)) {
+          date.pushObject(dateObj);
+        }
+      }
 
       this.get('flashMessages')
         .success(

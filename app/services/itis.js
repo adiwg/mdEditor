@@ -83,7 +83,7 @@ export default Service.extend({
       }]
     }
 
-    this.citation = {
+    this.citation = EmberObject.create({
       "title": "Integrated Taxonomic Information System (ITIS)",
       "date": [
         /*{
@@ -112,7 +112,7 @@ export default Service.extend({
           "uri": "https://itis.gov/Static/images/itis_logo.jpg"
         }]
       }]
-    }
+    })
   },
 
   ajax: service(),
