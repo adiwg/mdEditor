@@ -429,7 +429,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/control/md-itis/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/control/md-itis/component.js should pass ESLint\n\n61:7 - Unexpected console statement. (no-console)\n69:7 - Unexpected console statement. (no-console)\n101:7 - Unexpected console statement. (no-console)\n102:7 - Unexpected console statement. (no-console)');
+    assert.ok(true, 'pods/components/control/md-itis/component.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/components/control/md-json-button/component.js', function (assert) {
@@ -904,7 +904,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-online-resource-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/object/md-online-resource-array/component.js should pass ESLint\n\n8:3 - Use import { A } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n12:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)\n106:18 - Use import EmberObject from \'@ember/object\'; instead of using Ember.Object (ember/new-module-imports)');
+    assert.ok(true, 'pods/components/object/md-online-resource-array/component.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/components/object/md-online-resource/component.js', function (assert) {

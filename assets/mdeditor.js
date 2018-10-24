@@ -8036,7 +8036,7 @@ define("mdeditor/pods/components/control/md-import-csv/template", ["exports"], f
   });
   exports.default = Ember.HTMLBars.template({ "id": "lT8f3D7t", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[20,[\"isProcessing\"]]],null,{\"statements\":[[0,\"  \"],[6,\"h3\"],[7],[1,[25,\"fa-icon\",[\"spinner\"],[[\"spin\"],[true]]],false],[0,\" Processing...\\n  \"],[6,\"button\"],[9,\"class\",\"btn btn-info\"],[9,\"type\",\"button\"],[3,\"action\",[[19,0,[]],\"stopParsing\"]],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[\"cross\"],[[\"spin\"],[true]]],false],[0,\"\\n    Stop\"],[8],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"progress\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"progress-bar\"],[9,\"role\",\"progressbar\"],[10,\"aria-valuenow\",[26,[[18,\"progress\"]]]],[9,\"aria-valuemin\",\"0\"],[9,\"aria-valuemax\",\"100\"],[10,\"style\",[18,\"barWidth\"],null],[7],[0,\"\\n      \"],[6,\"span\"],[9,\"class\",\"sr-onl\"],[7],[1,[18,\"progress\"],false],[0,\"% Complete\"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"file-picker\",null,[[\"class\",\"fileLoaded\",\"preview\",\"accept\",\"readAs\"],[\"md-file-picker md-import-picker\",\"readData\",false,\".csv,.txt\",\"readAsText\"]],{\"statements\":[[0,\"    \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-lg btn-info btn-block\"],[7],[1,[25,\"fa-icon\",[\"bullseye\"],null],false],[0,\"\\n      Click or Drop a CSV here.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/control/md-import-csv/template.hbs" } });
 });
-define('mdeditor/pods/components/control/md-itis/component', ['exports'], function (exports) {
+define('mdeditor/pods/components/control/md-itis/component', ['exports', 'moment', 'mdeditor/pods/components/object/md-citation/component'], function (exports, _moment, _component) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8078,7 +8078,6 @@ define('mdeditor/pods/components/control/md-itis/component', ['exports'], functi
       this.set('searchResult', null);
 
       itis.sendQuery(this.get('searchString'), this.get('kingdom'), this.get('limit')).then(response => {
-        console.log(response);
 
         if (!response) {
           return;
@@ -8086,7 +8085,6 @@ define('mdeditor/pods/components/control/md-itis/component', ['exports'], functi
 
         let docs = response.response.docs;
         let data = docs.map(doc => itis.parseDoc(doc));
-        console.log(data);
 
         this.set('searchResult', data);
         this.set('total', response.response.numFound);
@@ -8114,15 +8112,37 @@ define('mdeditor/pods/components/control/md-itis/component', ['exports'], functi
       },
       importTaxa(taxa) {
         let taxonomy = this.get('taxonomy');
+        let itisCitation = this.get('itis.citation');
 
-        Ember.set(taxonomy, 'taxonomicClassification', Ember.getWithDefault(taxonomy, 'taxonomicClassification', []));
-
-        console.log(taxa);
-        console.log(this.get('taxonomy'));
+        let classification = Ember.set(taxonomy, 'taxonomicClassification', Ember.getWithDefault(taxonomy, 'taxonomicClassification', []));
+        let systems = Ember.set(taxonomy, 'taxonomicSystem', Ember.getWithDefault(taxonomy, 'taxonomicSystem', [{ citation: {} }]));
+        let system = systems.findBy('citation.title', Ember.get(itisCitation, 'title'));
 
         let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
+        let today = (0, _moment.default)().format('YYYY-MM-DD');
+        let dateObj = {
+          date: today,
+          dateType: 'transmitted',
+          description: 'Taxa imported from ITIS'
+        };
 
-        allTaxa.forEach(itm => this.get('itis').mergeTaxa(itm, Ember.get(taxonomy, 'taxonomicClassification')));
+        allTaxa.forEach(itm => this.get('itis').mergeTaxa(itm, classification));
+
+        if (!system) {
+          itisCitation.get('date').pushObject(dateObj);
+          systems.pushObject({
+            citation: itisCitation
+          });
+        } else {
+          let citation = Ember.set(system, 'citation', Ember.getWithDefault(system, 'citation', {}));
+          (0, _component.formatCitation)(citation);
+
+          let date = Ember.A(Ember.get(citation, 'date'));
+
+          if (!date.findBy('date', today)) {
+            date.pushObject(dateObj);
+          }
+        }
 
         this.get('flashMessages').success(`Successfully imported ${allTaxa.length} taxa from ITIS.`);
       }
@@ -15765,15 +15785,13 @@ define('mdeditor/pods/components/object/md-online-resource-array/component', ['e
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  const A = Ember.A,
-        computed = Ember.computed;
   exports.default = Ember.Component.extend({
 
     didReceiveAttrs() {
       this._super(...arguments);
 
       if (!this.get('model')) {
-        Ember.run.once(this, () => this.set('model', A()));
+        Ember.run.once(this, () => this.set('model', Ember.A()));
       }
     },
 
@@ -15806,6 +15824,15 @@ define('mdeditor/pods/components/object/md-online-resource-array/component', ['e
      * @type {Boolean}
      * @default undefined
      */
+
+    /**
+     * Truncate the text
+     *
+     * @property ellipsis
+     * @type {Boolean}
+     * @default true
+     */
+    ellipsis: true,
 
     /**
      * List of mdJSON 'onlineResource' object attributes to display in
@@ -15849,7 +15876,7 @@ define('mdeditor/pods/components/object/md-online-resource-array/component', ['e
      * @category computed
      * @requires imagePicker
      */
-    previewTemplate: computed('imagePicker', function () {
+    previewTemplate: Ember.computed('imagePicker', function () {
       return this.get('imagePicker') ? "object/md-online-resource-array/md-image-preview" : null;
     }),
 
@@ -16910,7 +16937,7 @@ define("mdeditor/pods/components/object/md-taxonomy/classification/taxon/templat
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "KtVCMQXT", "block": "{\"symbols\":[\"val\"],\"statements\":[[6,\"div\"],[9,\"class\",\"md-taxon-body\"],[7],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"md-taxon-text\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"collapsible\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block icon\"],[10,\"onClick\",[25,\"action\",[[19,0,[]],\"toggleCollapse\"],null],null],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[[25,\"if\",[[20,[\"collapse\"]],\"folder\",\"folder-open\"],null]],[[\"fixedWidth\"],[true]]],false],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-success\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block\"],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[6,\"i\"],[9,\"class\",\"fa-fw inline-block\"],[7],[8],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-info\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[6,\"div\"],[9,\"class\",\"inline-block text-truncate\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n\"],[0,\"     \"],[6,\"em\"],[7],[1,[25,\"if\",[[20,[\"taxonomicName\"]],[20,[\"taxonomicName\"]],\"Not Defined\"],null],false],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"taxonomicSystemId\"]]],null,{\"statements\":[[0,\"        (\"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[18,\"taxonomicSystemId\"]]]],[9,\"target\",\"_blank\"],[7],[6,\"small\"],[9,\"class\",\"text-muted\"],[7],[1,[18,\"taxonomicSystemId\"],false],[8],[8],[0,\")\\n\"]],\"parameters\":[]},null],[4,\"if\",[[20,[\"model\",\"commonName\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"text-warning\"],[7],[1,[25,\"join\",[\", \",[20,[\"model\",\"commonName\"]]],null],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\\n\"],[4,\"unless\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"md-taxon-btn\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"btn btn-xs btn-success\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"      \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit\\n    \"],[8],[0,\"\\n\\n\"],[4,\"control/md-button-confirm\",null,[[\"class\",\"onConfirm\"],[\"btn btn-xs btn-danger\",[25,\"action\",[[19,0,[]],\"deleteTaxa\",[20,[\"model\"]]],null]]],{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"times\"],null],false],[0,\" Delete\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"],[6,\"div\"],[10,\"id\",[25,\"concat\",[\"editor-\",[20,[\"elementId\"]]],null],null],[7],[0,\"\\n\\n\"],[4,\"liquid-if\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"md-taxon-form\"],[7],[0,\"\\n      \"],[6,\"form\"],[9,\"class\",\"card form\"],[3,\"action\",[[19,0,[]],\"toggleEditing\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card-block row form-inline\"],[7],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Level\",[19,0,[]],\"taxonomicLevel\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Name\",[19,0,[]],\"taxonomicName\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"value\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic ID\",[19,0,[\"taxonomicSystemId\"]],\"\"]]],false],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n\"],[4,\"object/md-simple-array-table\",null,[[\"title\",\"required\",\"plain\",\"value\"],[\"Common Name\",false,true,[20,[\"model\",\"commonName\"]]]],{\"statements\":[[0,\"              \"],[6,\"td\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"value\"]],\"Enter value\"]]],false],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n\\n        \"],[6,\"footer\"],[9,\"class\",\"card-footer text-right\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"            \"],[1,[25,\"fa-icon\",[\"check\"],null],false],[0,\" OK\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"model\",\"subClassification\",\"length\"]]],null,{\"statements\":[[4,\"liquid-unless\",[[20,[\"collapse\"]]],[[\"class\"],[\"list-group-item\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-taxonomy/classification\",null,[[\"model\",\"parentItem\",\"dragging\"],[[20,[\"model\",\"subClassification\"]],[19,0,[]],[20,[\"dragging\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/classification/taxon/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "13bX4Sxi", "block": "{\"symbols\":[\"val\"],\"statements\":[[6,\"div\"],[9,\"class\",\"md-taxon-body\"],[7],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"md-taxon-text\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"collapsible\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block icon\"],[10,\"onClick\",[25,\"action\",[[19,0,[]],\"toggleCollapse\"],null],null],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[[25,\"if\",[[20,[\"collapse\"]],\"folder\",\"folder-open\"],null]],[[\"fixedWidth\"],[true]]],false],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-success\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block\"],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[6,\"i\"],[9,\"class\",\"fa-fw inline-block\"],[7],[8],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-info\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[6,\"div\"],[9,\"class\",\"inline-block text-truncate\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n\"],[0,\"     \"],[6,\"em\"],[7],[1,[25,\"if\",[[20,[\"taxonomicName\"]],[20,[\"taxonomicName\"]],\"Not Defined\"],null],false],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"taxonomicSystemId\"]]],null,{\"statements\":[[4,\"if\",[[20,[\"model\",\"isITIS\"]]],null,{\"statements\":[[0,\"          (\"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[18,\"taxonomicSystemId\"]]]],[9,\"target\",\"_blank\"],[7],[6,\"small\"],[9,\"class\",\"text-muted\"],[7],[1,[18,\"taxonomicSystemId\"],false],[8],[8],[0,\")\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          (\"],[6,\"small\"],[7],[1,[18,\"taxonomicSystemId\"],false],[8],[0,\")\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[4,\"if\",[[20,[\"model\",\"commonName\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"text-warning\"],[7],[1,[25,\"join\",[\", \",[20,[\"model\",\"commonName\"]]],null],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\\n\"],[4,\"unless\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"md-taxon-btn\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"btn btn-xs btn-success\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"      \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit\\n    \"],[8],[0,\"\\n\\n\"],[4,\"control/md-button-confirm\",null,[[\"class\",\"onConfirm\"],[\"btn btn-xs btn-danger\",[25,\"action\",[[19,0,[]],\"deleteTaxa\",[20,[\"model\"]]],null]]],{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"times\"],null],false],[0,\" Delete\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"],[6,\"div\"],[10,\"id\",[25,\"concat\",[\"editor-\",[20,[\"elementId\"]]],null],null],[7],[0,\"\\n\\n\"],[4,\"liquid-if\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"md-taxon-form\"],[7],[0,\"\\n      \"],[6,\"form\"],[9,\"class\",\"card form\"],[3,\"action\",[[19,0,[]],\"toggleEditing\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card-block row form-inline\"],[7],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Level\",[19,0,[]],\"taxonomicLevel\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Name\",[19,0,[]],\"taxonomicName\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"value\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic ID\",[19,0,[\"taxonomicSystemId\"]],\"\"]]],false],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n\"],[4,\"object/md-simple-array-table\",null,[[\"title\",\"required\",\"plain\",\"value\"],[\"Common Name\",false,true,[20,[\"model\",\"commonName\"]]]],{\"statements\":[[0,\"              \"],[6,\"td\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"value\"]],\"Enter value\"]]],false],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n\\n        \"],[6,\"footer\"],[9,\"class\",\"card-footer text-right\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"            \"],[1,[25,\"fa-icon\",[\"check\"],null],false],[0,\" OK\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"model\",\"subClassification\",\"length\"]]],null,{\"statements\":[[4,\"liquid-unless\",[[20,[\"collapse\"]]],[[\"class\"],[\"list-group-item\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-taxonomy/classification\",null,[[\"model\",\"parentItem\",\"dragging\"],[[20,[\"model\",\"subClassification\"]],[19,0,[]],[20,[\"dragging\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/classification/taxon/template.hbs" } });
 });
 define("mdeditor/pods/components/object/md-taxonomy/classification/template", ["exports"], function (exports) {
   "use strict";
@@ -24146,7 +24173,7 @@ define('mdeditor/services/itis', ['exports', 'ember-cli-string-helpers/utils/tit
         }]
       };
 
-      this.citation = {
+      this.citation = Ember.Object.create({
         "title": "Integrated Taxonomic Information System (ITIS)",
         "date": [
           /*{
@@ -24170,7 +24197,7 @@ define('mdeditor/services/itis', ['exports', 'ember-cli-string-helpers/utils/tit
             "uri": "https://itis.gov/Static/images/itis_logo.jpg"
           }]
         }]
-      };
+      });
     },
 
     ajax: Ember.inject.service(),
@@ -24291,7 +24318,8 @@ define('mdeditor/services/itis', ['exports', 'ember-cli-string-helpers/utils/tit
           "taxonomicLevel": taxon.rank,
           "taxonomicName": taxon.value,
           "commonName": taxon.common,
-          "subClassification": []
+          "subClassification": [],
+          "isITIS": true
         });
       }
 
@@ -27030,6 +27058,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+b67a2014"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+27486a20"});
 }
 //# sourceMappingURL=mdeditor.map
