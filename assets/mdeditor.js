@@ -2363,31 +2363,17 @@ define('mdeditor/helpers/app-version', ['exports', 'mdeditor/config/environment'
     value: true
   });
   exports.appVersion = appVersion;
+  const version = _environment.default.APP.version;
   function appVersion(_, hash = {}) {
-    const version = _environment.default.APP.version;
-    // e.g. 1.0.0-alpha.1+4jds75hf
-
-    // Allow use of 'hideSha' and 'hideVersion' For backwards compatibility
-    let versionOnly = hash.versionOnly || hash.hideSha;
-    let shaOnly = hash.shaOnly || hash.hideVersion;
-
-    let match = null;
-
-    if (versionOnly) {
-      if (hash.showExtended) {
-        match = version.match(_regexp.versionExtendedRegExp); // 1.0.0-alpha.1
-      }
-      // Fallback to just version
-      if (!match) {
-        match = version.match(_regexp.versionRegExp); // 1.0.0
-      }
+    if (hash.hideSha) {
+      return version.match(_regexp.versionRegExp)[0];
     }
 
-    if (shaOnly) {
-      match = version.match(_regexp.shaRegExp); // 4jds75hf
+    if (hash.hideVersion) {
+      return version.match(_regexp.shaRegExp)[0];
     }
 
-    return match ? match[0] : version;
+    return version;
   }
 
   exports.default = Ember.Helper.helper(appVersion);
@@ -2573,6 +2559,12 @@ define('mdeditor/helpers/cancel-all', ['exports', 'ember-concurrency/helpers/can
     enumerable: true,
     get: function () {
       return _cancelAll.default;
+    }
+  });
+  Object.defineProperty(exports, 'cancelAll', {
+    enumerable: true,
+    get: function () {
+      return _cancelAll.cancelAll;
     }
   });
 });
@@ -3229,25 +3221,6 @@ define('mdeditor/helpers/fround', ['exports', 'ember-math-helpers/helpers/fround
     }
   });
 });
-define('mdeditor/helpers/gcd', ['exports', 'ember-math-helpers/helpers/gcd'], function (exports, _gcd) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _gcd.default;
-    }
-  });
-  Object.defineProperty(exports, 'gcd', {
-    enumerable: true,
-    get: function () {
-      return _gcd.gcd;
-    }
-  });
-});
 define("mdeditor/helpers/get-dash", ["exports"], function (exports) {
   "use strict";
 
@@ -3611,19 +3584,6 @@ define('mdeditor/helpers/is-between', ['exports', 'mdeditor/config/environment',
   });
   exports.default = _isBetween.default.extend({
     globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
-  });
-});
-define('mdeditor/helpers/is-empty', ['exports', 'ember-truth-helpers/helpers/is-empty'], function (exports, _isEmpty) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(exports, 'default', {
-    enumerable: true,
-    get: function () {
-      return _isEmpty.default;
-    }
   });
 });
 define('mdeditor/helpers/is-equal', ['exports', 'ember-truth-helpers/helpers/is-equal'], function (exports, _isEqual) {
@@ -4379,6 +4339,12 @@ define('mdeditor/helpers/perform', ['exports', 'ember-concurrency/helpers/perfor
       return _perform.default;
     }
   });
+  Object.defineProperty(exports, 'perform', {
+    enumerable: true,
+    get: function () {
+      return _perform.perform;
+    }
+  });
 });
 define('mdeditor/helpers/pipe-action', ['exports', 'ember-composable-helpers/helpers/pipe-action'], function (exports, _pipeAction) {
   'use strict';
@@ -4948,6 +4914,12 @@ define('mdeditor/helpers/task', ['exports', 'ember-concurrency/helpers/task'], f
       return _task.default;
     }
   });
+  Object.defineProperty(exports, 'task', {
+    enumerable: true,
+    get: function () {
+      return _task.task;
+    }
+  });
 });
 define('mdeditor/helpers/titleize', ['exports', 'ember-cli-string-helpers/helpers/titleize'], function (exports, _titleize) {
   'use strict';
@@ -5406,6 +5378,12 @@ define('mdeditor/initializers/ember-concurrency', ['exports', 'ember-concurrency
     enumerable: true,
     get: function () {
       return _emberConcurrency.default;
+    }
+  });
+  Object.defineProperty(exports, 'initialize', {
+    enumerable: true,
+    get: function () {
+      return _emberConcurrency.initialize;
     }
   });
 });
@@ -6315,6 +6293,7 @@ define('mdeditor/mixins/object-template', ['exports'], function (exports) {
               //items.insertAt(idx, newItem);
               items.set(`${idx}`, newItem);
             });
+            this.notifyPropertyChange(propertyName);
           });
         }
       } else {
@@ -11905,7 +11884,10 @@ define('mdeditor/pods/components/layout/md-card/component', ['exports'], functio
 
     actions: {
       toggleFullScreen() {
-        this.toggleProperty('fullScreen');
+        let val = this.toggleProperty('fullScreen');
+
+        Ember.$(this.element).parents('.liquid-child,.liquid-container, .md-card').toggleClass('full-screen', val);
+        Ember.$('body').toggleClass('slider', val);
       },
       spotlight(id) {
         Ember.get(this, 'spotlight').setTarget(id);
@@ -16840,7 +16822,8 @@ define('mdeditor/pods/components/object/md-taxonomy/classification/component', [
   exports.default = Ember.Component.extend({
     tagName: 'ul',
     classNames: ['list-group', 'md-classification'],
-    dragging: null
+    dragging: null,
+    preview: false
   });
 });
 define('mdeditor/pods/components/object/md-taxonomy/classification/taxon/component', ['exports', 'ember-cp-validations'], function (exports, _emberCpValidations) {
@@ -16866,7 +16849,7 @@ define('mdeditor/pods/components/object/md-taxonomy/classification/taxon/compone
     init() {
       this._super(...arguments);
 
-      // this.collapse = !this.parentItem;
+      this.collapse = this.preview && !this.parentItem;
     },
     didReceiveAttrs() {
       this._super(...arguments);
@@ -16880,6 +16863,7 @@ define('mdeditor/pods/components/object/md-taxonomy/classification/taxon/compone
     classNames: ['list-group-item', 'md-taxon'],
     classNameBindings: ['collapse'],
     isEditing: false,
+    preview: false,
 
     level: Ember.computed('parent.level', function () {
       let parent = this.get('parentItem');
@@ -16937,7 +16921,7 @@ define("mdeditor/pods/components/object/md-taxonomy/classification/taxon/templat
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "13bX4Sxi", "block": "{\"symbols\":[\"val\"],\"statements\":[[6,\"div\"],[9,\"class\",\"md-taxon-body\"],[7],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"md-taxon-text\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"collapsible\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block icon\"],[10,\"onClick\",[25,\"action\",[[19,0,[]],\"toggleCollapse\"],null],null],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[[25,\"if\",[[20,[\"collapse\"]],\"folder\",\"folder-open\"],null]],[[\"fixedWidth\"],[true]]],false],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-success\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block\"],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[6,\"i\"],[9,\"class\",\"fa-fw inline-block\"],[7],[8],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-info\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[6,\"div\"],[9,\"class\",\"inline-block text-truncate\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n\"],[0,\"     \"],[6,\"em\"],[7],[1,[25,\"if\",[[20,[\"taxonomicName\"]],[20,[\"taxonomicName\"]],\"Not Defined\"],null],false],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"taxonomicSystemId\"]]],null,{\"statements\":[[4,\"if\",[[20,[\"model\",\"isITIS\"]]],null,{\"statements\":[[0,\"          (\"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[18,\"taxonomicSystemId\"]]]],[9,\"target\",\"_blank\"],[7],[6,\"small\"],[9,\"class\",\"text-muted\"],[7],[1,[18,\"taxonomicSystemId\"],false],[8],[8],[0,\")\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          (\"],[6,\"small\"],[7],[1,[18,\"taxonomicSystemId\"],false],[8],[0,\")\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[4,\"if\",[[20,[\"model\",\"commonName\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"text-warning\"],[7],[1,[25,\"join\",[\", \",[20,[\"model\",\"commonName\"]]],null],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\\n\"],[4,\"unless\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"md-taxon-btn\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"btn btn-xs btn-success\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"      \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit\\n    \"],[8],[0,\"\\n\\n\"],[4,\"control/md-button-confirm\",null,[[\"class\",\"onConfirm\"],[\"btn btn-xs btn-danger\",[25,\"action\",[[19,0,[]],\"deleteTaxa\",[20,[\"model\"]]],null]]],{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"times\"],null],false],[0,\" Delete\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"],[6,\"div\"],[10,\"id\",[25,\"concat\",[\"editor-\",[20,[\"elementId\"]]],null],null],[7],[0,\"\\n\\n\"],[4,\"liquid-if\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"md-taxon-form\"],[7],[0,\"\\n      \"],[6,\"form\"],[9,\"class\",\"card form\"],[3,\"action\",[[19,0,[]],\"toggleEditing\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card-block row form-inline\"],[7],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Level\",[19,0,[]],\"taxonomicLevel\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Name\",[19,0,[]],\"taxonomicName\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"value\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic ID\",[19,0,[\"taxonomicSystemId\"]],\"\"]]],false],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n\"],[4,\"object/md-simple-array-table\",null,[[\"title\",\"required\",\"plain\",\"value\"],[\"Common Name\",false,true,[20,[\"model\",\"commonName\"]]]],{\"statements\":[[0,\"              \"],[6,\"td\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"value\"]],\"Enter value\"]]],false],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n\\n        \"],[6,\"footer\"],[9,\"class\",\"card-footer text-right\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"            \"],[1,[25,\"fa-icon\",[\"check\"],null],false],[0,\" OK\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"model\",\"subClassification\",\"length\"]]],null,{\"statements\":[[4,\"liquid-unless\",[[20,[\"collapse\"]]],[[\"class\"],[\"list-group-item\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-taxonomy/classification\",null,[[\"model\",\"parentItem\",\"dragging\"],[[20,[\"model\",\"subClassification\"]],[19,0,[]],[20,[\"dragging\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/classification/taxon/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "qwJfiG1T", "block": "{\"symbols\":[\"val\"],\"statements\":[[6,\"div\"],[9,\"class\",\"md-taxon-body\"],[7],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"md-taxon-text\"],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"collapsible\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block icon\"],[10,\"onClick\",[25,\"action\",[[19,0,[]],\"toggleCollapse\"],null],null],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[[25,\"if\",[[20,[\"collapse\"]],\"folder\",\"folder-open\"],null]],[[\"fixedWidth\"],[true]]],false],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-success\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"inline-block\"],[10,\"style\",[18,\"padding\"],null],[7],[0,\"\\n      \"],[6,\"i\"],[9,\"class\",\"fa-fw inline-block\"],[7],[8],[0,\"\\n      \"],[6,\"strong\"],[9,\"class\",\"text-info\"],[7],[1,[18,\"taxonomicLevel\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[6,\"div\"],[9,\"class\",\"inline-block text-truncate\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n\"],[0,\"     \"],[6,\"em\"],[7],[1,[25,\"if\",[[20,[\"taxonomicName\"]],[20,[\"taxonomicName\"]],\"Not Defined\"],null],false],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"taxonomicSystemId\"]]],null,{\"statements\":[[4,\"if\",[[20,[\"model\",\"isITIS\"]]],null,{\"statements\":[[0,\"          (\"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[18,\"taxonomicSystemId\"]]]],[9,\"target\",\"_blank\"],[7],[6,\"small\"],[9,\"class\",\"text-muted\"],[7],[1,[18,\"taxonomicSystemId\"],false],[8],[8],[0,\")\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"          (\"],[6,\"small\"],[7],[1,[18,\"taxonomicSystemId\"],false],[8],[0,\")\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[4,\"if\",[[20,[\"model\",\"commonName\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"spacer\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"text-warning\"],[7],[1,[25,\"join\",[\", \",[20,[\"model\",\"commonName\"]]],null],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\\n\"],[4,\"unless\",[[20,[\"preview\"]]],null,{\"statements\":[[4,\"unless\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"md-taxon-btn\"],[7],[0,\"\\n      \"],[6,\"button\"],[9,\"class\",\"btn btn-xs btn-success\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"        \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit\\n      \"],[8],[0,\"\\n\\n\"],[4,\"control/md-button-confirm\",null,[[\"class\",\"onConfirm\"],[\"btn btn-xs btn-danger\",[25,\"action\",[[19,0,[]],\"deleteTaxa\",[20,[\"model\"]]],null]]],{\"statements\":[[0,\"        \"],[1,[25,\"fa-icon\",[\"times\"],null],false],[0,\" Delete\\n\"]],\"parameters\":[]},null],[0,\"    \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[8],[0,\"\\n\"],[6,\"div\"],[10,\"id\",[25,\"concat\",[\"editor-\",[20,[\"elementId\"]]],null],null],[7],[0,\"\\n\\n\"],[4,\"liquid-if\",[[20,[\"isEditing\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"md-taxon-form\"],[7],[0,\"\\n      \"],[6,\"form\"],[9,\"class\",\"card form\"],[3,\"action\",[[19,0,[]],\"toggleEditing\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card-block row form-inline\"],[7],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Level\",[19,0,[]],\"taxonomicLevel\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"model\",\"valuePath\",\"showValidations\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic Name\",[19,0,[]],\"taxonomicName\",true,\"\"]]],false],[0,\"\\n          \"],[1,[25,\"input/md-input\",null,[[\"class\",\"label\",\"value\",\"placeholder\"],[\"col-lg-4\",\"Taxonomic ID\",[19,0,[\"taxonomicSystemId\"]],\"\"]]],false],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"card\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"\"],[7],[0,\"\\n\"],[4,\"object/md-simple-array-table\",null,[[\"title\",\"required\",\"plain\",\"value\"],[\"Common Name\",false,true,[20,[\"model\",\"commonName\"]]]],{\"statements\":[[0,\"              \"],[6,\"td\"],[7],[0,\"\\n                \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,1,[\"item\",\"value\"]],\"Enter value\"]]],false],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n\\n        \"],[6,\"footer\"],[9,\"class\",\"card-footer text-right\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"btn btn-xs btn-info\"],[3,\"action\",[[19,0,[]],\"toggleEditing\",[20,[\"elementId\"]]]],[7],[0,\"\\n\"],[0,\"            \"],[1,[25,\"fa-icon\",[\"check\"],null],false],[0,\" OK\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"model\",\"subClassification\",\"length\"]]],null,{\"statements\":[[4,\"liquid-unless\",[[20,[\"collapse\"]]],[[\"class\"],[\"list-group-item\"]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-taxonomy/classification\",null,[[\"model\",\"parentItem\",\"dragging\",\"preview\"],[[20,[\"model\",\"subClassification\"]],[19,0,[]],[20,[\"dragging\"]],[20,[\"preview\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/classification/taxon/template.hbs" } });
 });
 define("mdeditor/pods/components/object/md-taxonomy/classification/template", ["exports"], function (exports) {
   "use strict";
@@ -16945,9 +16929,9 @@ define("mdeditor/pods/components/object/md-taxonomy/classification/template", ["
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "aHlfMnYf", "block": "{\"symbols\":[\"class\",\"index\"],\"statements\":[[4,\"each\",[[25,\"sort-by\",[\"order\",[20,[\"model\"]]],null]],null,{\"statements\":[[0,\"  \"],[1,[25,\"object/md-taxonomy/classification/taxon\",null,[[\"model\",\"parentItem\",\"top\",\"index\",\"dragging\"],[[19,1,[]],[20,[\"parentItem\"]],[25,\"unless\",[[20,[\"parentItem\"]],[20,[\"model\"]]],null],[19,2,[]],[20,[\"dragging\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1,2]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"alert alert-info no-margin\"],[7],[0,\"\\n    \"],[6,\"h3\"],[7],[0,\"No \"],[6,\"span\"],[9,\"class\",\"required\"],[7],[0,\"Classification\"],[8],[0,\" found.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/classification/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "nYv7me1c", "block": "{\"symbols\":[\"class\",\"index\"],\"statements\":[[4,\"each\",[[25,\"sort-by\",[\"order\",[20,[\"model\"]]],null]],null,{\"statements\":[[0,\"  \"],[1,[25,\"object/md-taxonomy/classification/taxon\",null,[[\"model\",\"parentItem\",\"top\",\"index\",\"dragging\",\"preview\"],[[19,1,[]],[20,[\"parentItem\"]],[25,\"unless\",[[20,[\"parentItem\"]],[20,[\"model\"]]],null],[19,2,[]],[20,[\"dragging\"]],[20,[\"preview\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1,2]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"alert alert-info no-margin\"],[7],[0,\"\\n    \"],[6,\"h3\"],[7],[0,\"No \"],[6,\"span\"],[9,\"class\",\"required\"],[7],[0,\"Classification\"],[8],[0,\" found.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/classification/template.hbs" } });
 });
-define('mdeditor/pods/components/object/md-taxonomy/collection/component', ['exports', 'ember-cp-validations'], function (exports, _emberCpValidations) {
+define('mdeditor/pods/components/object/md-taxonomy/collection/component', ['exports', 'ember-cp-validations', 'mdeditor/pods/components/object/md-taxonomy/collection/voucher/component'], function (exports, _emberCpValidations, _component) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -17003,6 +16987,7 @@ define('mdeditor/pods/components/object/md-taxonomy/collection/component', ['exp
         Ember.set(model, 'voucher', Ember.getWithDefault(model, 'voucher', []));
       });
     },
+    voucherTemplate: _component.Template,
 
     /**
      * The string representing the path in the profile object for the collection.
@@ -17129,7 +17114,66 @@ define("mdeditor/pods/components/object/md-taxonomy/collection/template", ["expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "dd2FHKL4", "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"attributes\",\"items\",\"header\",\"shadow\",\"required\",\"buttonText\",\"ellipsis\",\"previewTemplateTable\",\"editItem\",\"profilePath\",\"verticalButtons\",\"hideIndex\",\"condensed\",\"editOnAdd\",\"templateClass\",\"scrollToId\",\"data-spy\"],[\"citation.title,modifications\",[20,[\"model\",\"taxonomicSystem\"]],\"Taxonomic System\",true,true,\"Add system\",true,\"object/md-taxonomy/collection/system/preview\",[20,[\"editSystem\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".taxonomicSystem\"],null],true,false,false,false,[20,[\"systemTemplate\"]],\"md-system\",\"System\"]]],false],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\",\"required\",\"shadow\",\"maximizable\",\"spotlightEnabled\",\"block\"],[\"Classification\",true,false,\"card\",\"Classification\",true,true,true,false,[25,\"if\",[[20,[\"model\",\"taxonomicClassification\",\"length\"]],false,true],null]]],{\"statements\":[[0,\"  \"],[1,[25,\"object/md-taxonomy/classification\",null,[[\"model\"],[[20,[\"model\",\"taxonomicClassification\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[25,\"object/md-party-array\",null,[[\"title\",\"plain\",\"required\",\"value\",\"profilePath\",\"data-spy\"],[\"Observer\",false,false,[20,[\"model\",\"observer\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".observer\"],null],\"Observer\"]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[20,[\"model\",\"generalScope\"]],false,true,\"Description of the range of taxa addressed in the data set or collection. For example, \\\"all vascular plants were identified to family or species.\\\"\",\"General Scope\",\"General Scope\",false,[25,\"concat\",[[20,[\"profilePath\"]],\".generalScope\"],null]]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[19,0,[\"identificationProcedure\"]],false,true,\"Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc.\",\"Identification Procedure\",\"Procedure\",false,[25,\"concat\",[[20,[\"profilePath\"]],\".identificationProcedure\"],null]]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[20,[\"model\",\"identificationCompleteness\"]],false,true,\"Information concerning the proportions and treatment of unidentified materials; estimates of the importance, and identities of misidentifications, uncertain determinations, synonyms or other incorrect usages; taxa not well treated or requiring further work; and expertise of field workers.\",\"Identification Completeness\",\"Completeness\",false,[25,\"concat\",[[20,[\"profilePath\"]],\".identificationCompleteness\"],null]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/collection/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Z8uSQrzF", "block": "{\"symbols\":[\"editing\"],\"statements\":[[0,\"\\n\"],[1,[25,\"object/md-objectroute-table\",null,[[\"attributes\",\"items\",\"header\",\"shadow\",\"required\",\"buttonText\",\"ellipsis\",\"previewTemplateTable\",\"editItem\",\"profilePath\",\"verticalButtons\",\"hideIndex\",\"condensed\",\"editOnAdd\",\"templateClass\",\"scrollToId\",\"data-spy\"],[\"citation.title,modifications\",[20,[\"model\",\"taxonomicSystem\"]],\"Taxonomic System\",true,true,\"Add system\",true,\"object/md-taxonomy/collection/system/preview\",[20,[\"editSystem\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".taxonomicSystem\"],null],true,false,false,false,[20,[\"systemTemplate\"]],\"md-system\",\"System\"]]],false],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\",\"required\",\"shadow\",\"maximizable\",\"spotlightEnabled\",\"block\"],[\"Classification\",true,false,\"card\",\"Classification\",true,true,true,false,[25,\"if\",[[20,[\"model\",\"taxonomicClassification\",\"length\"]],false,true],null]]],{\"statements\":[[0,\"  \"],[1,[25,\"object/md-taxonomy/classification\",null,[[\"model\"],[[20,[\"model\",\"taxonomicClassification\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[25,\"object/md-party-array\",null,[[\"title\",\"plain\",\"required\",\"value\",\"profilePath\",\"data-spy\"],[\"Observer\",false,false,[20,[\"model\",\"observer\"]],[25,\"concat\",[[20,[\"profilePath\"]],\".observer\"],null],\"Observer\"]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[20,[\"model\",\"generalScope\"]],false,true,\"Description of the range of taxa addressed in the data set or collection. For example, \\\"all vascular plants were identified to family or species.\\\"\",\"General Scope\",\"General Scope\",false,[25,\"concat\",[[20,[\"profilePath\"]],\".generalScope\"],null]]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[19,0,[\"identificationProcedure\"]],false,true,\"Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc.\",\"Identification Procedure\",\"Procedure\",false,[25,\"concat\",[[20,[\"profilePath\"]],\".identificationProcedure\"],null]]]],false],[0,\"\\n\\n\"],[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"autoresize\",\"placeholder\",\"label\",\"data-spy\",\"embedded\",\"profilePath\"],[[20,[\"model\",\"identificationCompleteness\"]],false,true,\"Information concerning the proportions and treatment of unidentified materials; estimates of the importance, and identities of misidentifications, uncertain determinations, synonyms or other incorrect usages; taxa not well treated or requiring further work; and expertise of field workers.\",\"Identification Completeness\",\"Completeness\",false,[25,\"concat\",[[20,[\"profilePath\"]],\".identificationCompleteness\"],null]]]],false],[0,\"\\n\\n\"],[4,\"object/md-object-table\",null,[[\"items\",\"header\",\"data-spy\",\"profilePath\",\"buttonText\",\"ellipsis\",\"attributes\",\"collapsible\",\"templateClass\"],[[20,[\"model\",\"voucher\"]],\"Voucher\",\"Voucher\",[25,\"concat\",[[20,[\"profilePath\"]],\".voucher\"],null],\"Add Voucher\",true,\"specimen\",true,[20,[\"voucherTemplate\"]]]],{\"statements\":[[0,\"  \"],[1,[25,\"object/md-taxonomy/collection/voucher\",null,[[\"model\",\"profilePath\"],[[19,1,[]],[25,\"concat\",[[20,[\"profilePath\"]],\".voucher\"],null]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/collection/template.hbs" } });
+});
+define('mdeditor/pods/components/object/md-taxonomy/collection/voucher/component', ['exports', 'ember-cp-validations'], function (exports, _emberCpValidations) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = exports.Template = exports.Validations = undefined;
+
+
+  const Validations = (0, _emberCpValidations.buildValidations)({
+    'specimen': [(0, _emberCpValidations.validator)('presence', {
+      presence: true,
+      ignoreBlank: true
+    })],
+    'repository': [(0, _emberCpValidations.validator)('presence', {
+      presence: true,
+      ignoreBlank: true
+    })]
+  });
+
+  const Template = Ember.Object.extend(Validations, {
+    init() {
+      this._super(...arguments);
+      this.set('repository', {});
+      this.set('specimen', null);
+    }
+  });
+
+  const theComp = Ember.Component.extend(Validations, {
+    classNames: ['form'],
+    specimen: Ember.computed.alias('model.specimen'),
+    repository: Ember.computed.alias('model.repository'),
+    didReceiveAttrs() {
+      this._super(...arguments);
+
+      let model = this.get('model');
+
+      Ember.run.once(this, function () {
+        Ember.set(model, 'repository', Ember.getWithDefault(model, 'repository', {}));
+        Ember.set(model, 'specimen', Ember.getWithDefault(model, 'specimen', null));
+      });
+    },
+
+    //attributeBindings: ['data-spy'],
+    templateClass: Template
+  });
+
+  exports.Validations = Validations;
+  exports.Template = Template;
+  exports.default = theComp;
+});
+define("mdeditor/pods/components/object/md-taxonomy/collection/voucher/template", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "ch2YE5TJ", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"input/md-textarea\",null,[[\"value\",\"required\",\"rows\",\"profilePath\",\"label\",\"placeholder\",\"data-spy\",\"showValidations\"],[[20,[\"specimen\"]],true,3,[25,\"concat\",[[20,[\"profilePath\"]],\".specimen\"],null],\"Specimen\",\"Description of the type of specimen collected (e.g. 'herbarium specimens', 'blood samples', 'photographs', 'individuals', or 'batches').\",\"Specimen\",true]]],false],[0,\"\\n\\n\"],[6,\"label\"],[9,\"class\",\"required\"],[7],[0,\"Repository\"],[8],[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"required\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\",\"shadow\",\"spotlightEnabled\"],[true,false,false,[25,\"concat\",[[20,[\"profilePath\"]],\".repository\"],null],\"Repository\",false,false]],{\"statements\":[[0,\"  \"],[1,[25,\"object/md-party\",null,[[\"model\"],[[20,[\"repository\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/collection/voucher/template.hbs" } });
 });
 define('mdeditor/pods/components/object/md-taxonomy/component', ['exports'], function (exports) {
   'use strict';
@@ -17138,12 +17182,23 @@ define('mdeditor/pods/components/object/md-taxonomy/component', ['exports'], fun
     value: true
   });
   exports.default = Ember.Component.extend({
+    router: Ember.inject.service(),
     title: Ember.computed('model.taxonomicSystem.0.citation.title', function () {
       let title = this.get('model.taxonomicSystem.0.citation.title');
       let index = this.get('index');
 
       return `Collection #${index}` + (title ? `: ${title}` : '');
-    })
+    }),
+    actions: {
+      editCollection(id) {
+        this.set('scrollTo', `collection-${id}`);
+        this.get('router').transitionTo('record.show.edit.taxonomy.collection.index', id);
+      },
+      deleteCollection(id) {
+        let taxa = this.get('record.json.metadata.resourceInfo.taxonomy');
+        taxa.removeAt(id);
+      }
+    }
   });
 });
 define("mdeditor/pods/components/object/md-taxonomy/template", ["exports"], function (exports) {
@@ -17152,7 +17207,7 @@ define("mdeditor/pods/components/object/md-taxonomy/template", ["exports"], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "c3Zl4PPW", "block": "{\"symbols\":[],\"statements\":[[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\",\"shadow\",\"spotlightEnabled\"],[[20,[\"title\"]],true,false,\"record.taxonomy\",[25,\"concat\",[\"Collection \",[20,[\"index\"]]],null],true,false]],{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"card-buttons\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"col-sm-6\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-md btn-success btn-block md-btn-responsive\"],[3,\"action\",[[19,0,[]],[25,\"route-action\",[\"editCollection\",[20,[\"index\"]]],null]]],[7],[0,\"\\n            \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit Collection\"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"col-sm-6\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-md btn-danger btn-block md-btn-responsive\"],[3,\"action\",[[19,0,[]],[25,\"route-action\",[\"deleteCollection\",[20,[\"index\"]]],null]]],[7],[0,\"\\n              \"],[1,[25,\"fa-icon\",[\"times\"],null],false],[0,\" Delete Collection\"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "urcvd0ei", "block": "{\"symbols\":[],\"statements\":[[4,\"layout/md-card\",null,[[\"title\",\"collapsible\",\"collapsed\",\"profilePath\",\"data-spy\",\"shadow\",\"spotlightEnabled\"],[[20,[\"title\"]],true,false,\"record.taxonomy\",[25,\"concat\",[\"Collection \",[20,[\"index\"]]],null],true,false]],{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"card-buttons\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"col-sm-6\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-md btn-success btn-block md-btn-responsive\"],[3,\"action\",[[19,0,[]],\"editCollection\",[20,[\"index\"]]]],[7],[0,\"\\n            \"],[1,[25,\"fa-icon\",[\"pencil\"],null],false],[0,\" Edit Collection\"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"col-sm-6\"],[7],[0,\"\\n          \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-md btn-danger btn-block md-btn-responsive\"],[3,\"action\",[[19,0,[]],\"deleteCollection\",[20,[\"index\"]]]],[7],[0,\"\\n              \"],[1,[25,\"fa-icon\",[\"times\"],null],false],[0,\" Delete Collection\"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\"],[4,\"layout/md-card\",null,[[\"collapsible\",\"collapsed\",\"shadow\",\"maximizable\",\"spotlightEnabled\",\"block\"],[true,false,false,false,false,false]],{\"statements\":[[0,\"      \"],[1,[25,\"object/md-taxonomy/classification\",null,[[\"model\",\"preview\"],[[20,[\"model\",\"taxonomicClassification\"]],true]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/object/md-taxonomy/template.hbs" } });
 });
 define('mdeditor/pods/components/object/md-time-period/component', ['exports', 'ember-cp-validations'], function (exports, _emberCpValidations) {
   'use strict';
@@ -23036,7 +23091,7 @@ define("mdeditor/pods/record/show/edit/taxonomy/collection/template", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "6fI1cVGJ", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/taxonomy/collection/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "CNrOJeOo", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"liquid-outlet\",null,[[\"class\"],[\"liquid-spy\"]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/taxonomy/collection/template.hbs" } });
 });
 define('mdeditor/pods/record/show/edit/taxonomy/index/route', ['exports', 'mdeditor/mixins/scroll-to'], function (exports, _scrollTo) {
   'use strict';
@@ -23093,7 +23148,7 @@ define("mdeditor/pods/record/show/edit/taxonomy/index/template", ["exports"], fu
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "AdUd0ZnN", "block": "{\"symbols\":[\"collection\",\"index\"],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n  Editing Taxonomy\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"parentModel\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[0,\"\\n\\n\"],[4,\"each\",[[20,[\"model\",\"json\",\"metadata\",\"resourceInfo\",\"taxonomy\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"object/md-taxonomy\",null,[[\"model\",\"index\"],[[19,1,[]],[19,2,[]]]]],false],[0,\"\\n\"]],\"parameters\":[1,2]},{\"statements\":[[0,\"  \"],[6,\"h3\"],[9,\"class\",\"alert alert-info\"],[7],[0,\"No taxonomic collections found.\\n    \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-success\"],[3,\"action\",[[19,0,[]],[25,\"route-action\",[\"addCollection\"],null]]],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add Collection\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"btnType\",\"click\"],[\"Add Collection\",\"plus\",\"success\",[25,\"route-action\",[\"addCollection\"],null]]]]]]],false],[0,\"\\n\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-record-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"offset\",\"scrollInit\",\"setScrollTo\"],[135,[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/taxonomy/index/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "nCnhtavi", "block": "{\"symbols\":[\"collection\",\"index\"],\"statements\":[[6,\"h4\"],[9,\"class\",\"section-header\"],[7],[0,\"\\n  Editing Taxonomy\\n  \"],[1,[25,\"control/md-status\",null,[[\"model\"],[[20,[\"parentModel\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[0,\"\\n\\n\"],[4,\"each\",[[20,[\"model\",\"json\",\"metadata\",\"resourceInfo\",\"taxonomy\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"object/md-taxonomy\",null,[[\"model\",\"index\",\"scrollTo\",\"record\"],[[19,1,[]],[19,2,[]],[20,[\"scrollTo\"]],[20,[\"model\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1,2]},{\"statements\":[[0,\"  \"],[6,\"h3\"],[9,\"class\",\"alert alert-info\"],[7],[0,\"No taxonomic collections found.\\n    \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-success\"],[3,\"action\",[[19,0,[]],[25,\"route-action\",[\"addCollection\"],null]]],[7],[0,\"\\n      \"],[1,[25,\"fa-icon\",[\"plus\"],null],false],[0,\" Add Collection\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-subbar-extra\",[25,\"component\",[\"control/subbar-link\"],[[\"text\",\"icon\",\"btnType\",\"click\"],[\"Add Collection\",\"plus\",\"success\",[25,\"route-action\",[\"addCollection\"],null]]]]]]],false],[0,\"\\n\\n\"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-scroll-spy-record-edit\",[25,\"component\",[\"control/md-scroll-spy\"],[[\"offset\",\"scrollInit\",\"setScrollTo\"],[135,[20,[\"scrollTo\"]],[25,\"route-action\",[\"setScrollTo\"],null]]]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/taxonomy/index/template.hbs" } });
 });
 define('mdeditor/pods/record/show/edit/taxonomy/route', ['exports'], function (exports) {
   'use strict';
@@ -23109,7 +23164,7 @@ define("mdeditor/pods/record/show/edit/taxonomy/template", ["exports"], function
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Sgr3h8eC", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"col-xxl-11 col-xxxl-10 col-xxl-offset-1\"],[7],[0,\"\\n    \"],[1,[25,\"outlet\",null,[[\"class\"],[\"\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/taxonomy/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "UNPkFHd7", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"col-xxl-11 col-xxxl-10 col-xxl-offset-1\"],[7],[0,\"\\n    \"],[1,[25,\"liquid-outlet\",null,[[\"class\"],[\"liquid-spy\"]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/record/show/edit/taxonomy/template.hbs" } });
 });
 define("mdeditor/pods/record/show/edit/template", ["exports"], function (exports) {
   "use strict";
@@ -24799,6 +24854,8 @@ define('mdeditor/services/mdjson', ['exports', 'npm:ajv', 'npm:mdjson-schemas/re
   });
 
 
+  Ember.libraries.register('mdJson-schemas', _schemas.default.schema.version);
+
   const validator = new _npmAjv.default({
     verbose: true,
     allErrors: true,
@@ -26436,6 +26493,8 @@ define('mdeditor/transitions', ['exports'], function (exports) {
     );
     this.transition(this.toRoute('record.show.edit.metadata.parent'), this.fromRoute('record.show.edit.metadata.index'), this.use('toLeft'), this.reverse('toRight'));
     this.transition(this.toRoute('record.show.edit.metadata.parent.identifier'), this.fromRoute('record.show.edit.metadata.parent.index'), this.use('toLeft'), this.reverse('toRight'));
+    this.transition(this.toRoute('record.show.edit.taxonomy.collection'), this.fromRoute('record.show.edit.taxonomy.index'), this.use('toLeft'), this.reverse('toRight'));
+    this.transition(this.toRoute('record.show.edit.taxonomy.collection.itis'), this.fromRoute('record.show.edit.taxonomy.collection.index'), this.use('toLeft'), this.reverse('toRight'));
     this.transition(this.toRoute('record.show.edit.lineage.lineageobject'), this.fromRoute('record.show.edit.lineage.index'), this.use('toLeft'), this.reverse('toRight'));
     this.transition(this.toRoute('record.show.edit.lineage.lineageobject.citation'), this.fromRoute('record.show.edit.lineage.lineageobject.index'), this.use('toLeft'), this.reverse('toRight'));
     this.transition(this.toRoute('record.show.edit.lineage.lineageobject.citation.identifier'), this.fromRoute('record.show.edit.lineage.lineageobject.citation.index'), this.use('toLeft'), this.reverse('toRight'));
@@ -27058,6 +27117,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+27486a20"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+3f4db0ba"});
 }
 //# sourceMappingURL=mdeditor.map

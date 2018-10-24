@@ -1002,6 +1002,11 @@ define('mdeditor/tests/app.lint-test', [], function () {
     assert.ok(true, 'pods/components/object/md-taxonomy/collection/system/preview/component.js should pass ESLint\n\n');
   });
 
+  QUnit.test('pods/components/object/md-taxonomy/collection/voucher/component.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'pods/components/object/md-taxonomy/collection/voucher/component.js should pass ESLint\n\n');
+  });
+
   QUnit.test('pods/components/object/md-taxonomy/component.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'pods/components/object/md-taxonomy/component.js should pass ESLint\n\n');
@@ -1679,7 +1684,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('services/mdjson.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'services/mdjson.js should pass ESLint\n\n27:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n29:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n30:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n31:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n32:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n33:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
+    assert.ok(false, 'services/mdjson.js should pass ESLint\n\n29:3 - Use import Service from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n31:3 - Use import { isArray } from \'@ember/array\'; instead of using Ember destructuring (ember/new-module-imports)\n32:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n33:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n34:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n35:3 - Use import EmberObject from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('services/patch.js', function (assert) {
@@ -7517,6 +7522,35 @@ define('mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
     assert.equal(this.$().text().trim(), 'template block text');
   });
 });
+define('mdeditor/tests/integration/pods/components/object/md-taxonomy/collection/voucher/component-test', ['ember-qunit'], function (_emberQunit) {
+  'use strict';
+
+  (0, _emberQunit.moduleForComponent)('object/md-taxonomy/collection/voucher', 'Integration | Component | object/md taxonomy/collection/voucher', {
+    integration: true
+  });
+
+  (0, _emberQunit.test)('it renders', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    this.render(Ember.HTMLBars.template({
+      "id": "nGBHUkTL",
+      "block": "{\"symbols\":[],\"statements\":[[1,[18,\"object/md-taxonomy/collection/voucher\"],false]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), '');
+
+    // Template block usage:
+    this.render(Ember.HTMLBars.template({
+      "id": "pvtJ0TmW",
+      "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection/voucher\",null,null,{\"statements\":[[0,\"      template block text\\n\"]],\"parameters\":[]},null],[0,\"  \"]],\"hasEval\":false}",
+      "meta": {}
+    }));
+
+    assert.equal(this.$().text().trim(), 'template block text');
+  });
+});
 define('mdeditor/tests/integration/pods/components/object/md-taxonomy/component-test', ['ember-qunit'], function (_emberQunit) {
   'use strict';
 
@@ -8440,6 +8474,11 @@ define('mdeditor/tests/tests.lint-test', [], function () {
   QUnit.test('integration/pods/components/object/md-taxonomy/collection/system/preview/component-test.js', function (assert) {
     assert.expect(1);
     assert.ok(true, 'integration/pods/components/object/md-taxonomy/collection/system/preview/component-test.js should pass ESLint\n\n');
+  });
+
+  QUnit.test('integration/pods/components/object/md-taxonomy/collection/voucher/component-test.js', function (assert) {
+    assert.expect(1);
+    assert.ok(true, 'integration/pods/components/object/md-taxonomy/collection/voucher/component-test.js should pass ESLint\n\n');
   });
 
   QUnit.test('integration/pods/components/object/md-taxonomy/component-test.js', function (assert) {
