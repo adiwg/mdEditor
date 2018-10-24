@@ -72,8 +72,8 @@ export default Mixin.create({
 
             //items.insertAt(idx, newItem);
             items.set(`${idx}`, newItem);
-
           });
+          this.notifyPropertyChange(propertyName);
         });
       }
     } else {
