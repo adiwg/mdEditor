@@ -37,7 +37,7 @@ export default Component.extend(Validations, {
   init() {
     this._super(...arguments);
 
-    // this.collapse = !this.parentItem;
+    this.collapse = (this.preview && !this.parentItem);
   },
   didReceiveAttrs() {
     this._super(...arguments);
@@ -51,6 +51,7 @@ export default Component.extend(Validations, {
   classNames: ['list-group-item', 'md-taxon'],
   classNameBindings: ['collapse'],
   isEditing: false,
+  preview: false,
 
   level: computed('parent.level', function () {
     let parent = this.get('parentItem');

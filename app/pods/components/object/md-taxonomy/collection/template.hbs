@@ -84,3 +84,20 @@
   embedded=false
   profilePath=(concat profilePath ".identificationCompleteness")
 }}
+
+{{#object/md-object-table
+  items=model.voucher
+  header="Voucher"
+  data-spy="Voucher"
+  profilePath=(concat profilePath ".voucher")
+  buttonText="Add Voucher"
+  ellipsis=true
+  attributes="specimen"
+  collapsible=true
+  templateClass=voucherTemplate
+  as |editing|
+}}
+  {{object/md-taxonomy/collection/voucher model=editing
+    profilePath=(concat profilePath ".voucher")
+  }}
+{{/object/md-object-table}}

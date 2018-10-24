@@ -1,0 +1,24 @@
+{{input/md-textarea
+  value=specimen
+  required=true
+  rows=3
+  profilePath=(concat profilePath ".specimen")
+  label="Specimen"
+  placeholder="Description of the type of specimen collected (e.g. 'herbarium specimens', 'blood samples', 'photographs', 'individuals', or 'batches')."
+  data-spy="Specimen"
+  showValidations=true
+}}
+
+<label class="required">Repository</label>
+{{#layout/md-card
+  required=true
+  collapsible=false
+  collapsed=false
+  profilePath=(concat profilePath ".repository")
+  data-spy="Repository"
+  shadow=false
+  spotlightEnabled=false
+}}
+  {{!-- <label class="required"><h4 class="card-title inline-block">Repository</h4></label> --}}
+  {{object/md-party model=repository}}
+{{/layout/md-card}}

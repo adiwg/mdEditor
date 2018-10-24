@@ -16,6 +16,9 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
+import {
+  Template as Voucher
+} from './voucher/component';
 
 const Validations = buildValidations({
   'title': [
@@ -73,6 +76,7 @@ const theComp = Component.extend(Validations, {
       set(model, 'voucher', getWithDefault(model, 'voucher', []));
     });
   },
+  voucherTemplate: Voucher,
 
   /**
    * The string representing the path in the profile object for the collection.

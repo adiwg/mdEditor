@@ -29,17 +29,19 @@
       {{/if}}
   </div>
 
-  {{#unless isEditing}}
-  <div class="md-taxon-btn">
-    <button class="btn btn-xs btn-success" {{action "toggleEditing" elementId}}>
-    {{!-- <button class="btn btn-xs btn-success" {{action (toggle "isEditing" this)}}> --}}
-      {{fa-icon "pencil"}} Edit
-    </button>
+  {{#unless preview}}
+    {{#unless isEditing}}
+    <div class="md-taxon-btn">
+      <button class="btn btn-xs btn-success" {{action "toggleEditing" elementId}}>
+      {{!-- <button class="btn btn-xs btn-success" {{action (toggle "isEditing" this)}}> --}}
+        {{fa-icon "pencil"}} Edit
+      </button>
 
-    {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(action "deleteTaxa" model)}}
-      {{fa-icon "times"}} Delete
-    {{/control/md-button-confirm}}
-  </div>
+      {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(action "deleteTaxa" model)}}
+        {{fa-icon "times"}} Delete
+      {{/control/md-button-confirm}}
+    </div>
+    {{/unless}}
   {{/unless}}
 </div>
 <div id={{concat "editor-" elementId}}>
@@ -101,6 +103,6 @@
 
   {{#if model.subClassification.length}}
     {{#liquid-unless collapse class="list-group-item"}}
-      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging}}
+      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview}}
     {{/liquid-unless}}
   {{/if}}
