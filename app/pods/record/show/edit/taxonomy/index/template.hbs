@@ -7,7 +7,7 @@
 
 
 {{#each model.json.metadata.resourceInfo.taxonomy as |collection index|}}
-  {{object/md-taxonomy model=collection index=index}}
+  {{object/md-taxonomy model=collection index=index scrollTo=scrollTo record=model}}
 {{else}}
   <h3 class="alert alert-info">No taxonomic collections found.
     <button type="button" class="btn btn-success" {{action (route-action "addCollection")}}>
