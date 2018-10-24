@@ -25,6 +25,7 @@ export default Component.extend({
 
     if(this.get('isShowingConfirm')) {
       this.get('onConfirm')();
+      this.set('isShowingConfirm', false);
     } else {
       this.set('isShowingConfirm', true);
     }
