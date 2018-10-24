@@ -259,7 +259,11 @@ export default Component.extend({
 
   actions: {
     toggleFullScreen() {
-      this.toggleProperty('fullScreen');
+      let val = this.toggleProperty('fullScreen');
+
+      $(this.element).parents('.liquid-child,.liquid-container, .md-card').toggleClass(
+        'full-screen',val);
+      $('body').toggleClass('slider', val);
     },
     spotlight(id) {
       get(this, 'spotlight').setTarget(id);
