@@ -6,6 +6,8 @@ import {
 } from 'mdeditor/pods/components/object/md-citation/component';
 import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
 
+Ember.libraries.register('mdJson-schemas', Schemas.schema.version);
+
 const validator = new Ajv({
   verbose: true,
   allErrors: true,

@@ -99,7 +99,7 @@
     "liquid-fire": "0.28.0",
     "loader.js": "^4.2.3",
     "mdcodes": "^2.6.3",
-    "mdjson-schemas": "^2.6.1",
+    "mdjson-schemas": "^2.6.2",
     "mdkeywords": "^1.0.4",
     "moment-timezone": "^0.5.13",
     "object-hash": "^1.1.7",
