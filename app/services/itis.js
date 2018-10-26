@@ -121,11 +121,11 @@ export default Service.extend({
 
   sendQuery(searchString, kingdom, limit = 50) {
     let formatted = searchString.replace(/(-| )/g, '*');
-    let titleized = titleize(searchString.replace(/(-)/g, ' ')).replace(
-      /( )/g, '*');
+    let titleized = titleize(searchString.replace(/(-)/g, '#')).replace(/( |#)/g, '*');
+    let titleized2 = titleize(searchString).replace(/( )/g, '*');
     let url = proxy +
       `&rows=${limit}&q=` +
-      `(vernacular:*${formatted}*~0.5%20OR%20vernacular:*${titleized}*~0.5` +
+      `(vernacular:*${formatted}*~0.5%20OR%20vernacular:*${titleized}*~0.5%20OR%20vernacular:*${titleized2}*~0.5` +
       `%20OR%20nameWOInd:${formatted}*~0.5%20OR%20nameWOInd:*${titleized}*~0.5` +
       `%20OR%20tsn:${formatted})` +
       (kingdom ? `%20AND%20kingdom:${kingdom}&` : '');
