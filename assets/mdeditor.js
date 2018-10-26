@@ -2363,17 +2363,31 @@ define('mdeditor/helpers/app-version', ['exports', 'mdeditor/config/environment'
     value: true
   });
   exports.appVersion = appVersion;
-  const version = _environment.default.APP.version;
   function appVersion(_, hash = {}) {
-    if (hash.hideSha) {
-      return version.match(_regexp.versionRegExp)[0];
+    const version = _environment.default.APP.version;
+    // e.g. 1.0.0-alpha.1+4jds75hf
+
+    // Allow use of 'hideSha' and 'hideVersion' For backwards compatibility
+    let versionOnly = hash.versionOnly || hash.hideSha;
+    let shaOnly = hash.shaOnly || hash.hideVersion;
+
+    let match = null;
+
+    if (versionOnly) {
+      if (hash.showExtended) {
+        match = version.match(_regexp.versionExtendedRegExp); // 1.0.0-alpha.1
+      }
+      // Fallback to just version
+      if (!match) {
+        match = version.match(_regexp.versionRegExp); // 1.0.0
+      }
     }
 
-    if (hash.hideVersion) {
-      return version.match(_regexp.shaRegExp)[0];
+    if (shaOnly) {
+      match = version.match(_regexp.shaRegExp); // 4jds75hf
     }
 
-    return version;
+    return match ? match[0] : version;
   }
 
   exports.default = Ember.Helper.helper(appVersion);
@@ -2559,12 +2573,6 @@ define('mdeditor/helpers/cancel-all', ['exports', 'ember-concurrency/helpers/can
     enumerable: true,
     get: function () {
       return _cancelAll.default;
-    }
-  });
-  Object.defineProperty(exports, 'cancelAll', {
-    enumerable: true,
-    get: function () {
-      return _cancelAll.cancelAll;
     }
   });
 });
@@ -3221,6 +3229,25 @@ define('mdeditor/helpers/fround', ['exports', 'ember-math-helpers/helpers/fround
     }
   });
 });
+define('mdeditor/helpers/gcd', ['exports', 'ember-math-helpers/helpers/gcd'], function (exports, _gcd) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _gcd.default;
+    }
+  });
+  Object.defineProperty(exports, 'gcd', {
+    enumerable: true,
+    get: function () {
+      return _gcd.gcd;
+    }
+  });
+});
 define("mdeditor/helpers/get-dash", ["exports"], function (exports) {
   "use strict";
 
@@ -3584,6 +3611,19 @@ define('mdeditor/helpers/is-between', ['exports', 'mdeditor/config/environment',
   });
   exports.default = _isBetween.default.extend({
     globalAllowEmpty: !!Ember.get(_environment.default, 'moment.allowEmpty')
+  });
+});
+define('mdeditor/helpers/is-empty', ['exports', 'ember-truth-helpers/helpers/is-empty'], function (exports, _isEmpty) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _isEmpty.default;
+    }
   });
 });
 define('mdeditor/helpers/is-equal', ['exports', 'ember-truth-helpers/helpers/is-equal'], function (exports, _isEqual) {
@@ -4339,12 +4379,6 @@ define('mdeditor/helpers/perform', ['exports', 'ember-concurrency/helpers/perfor
       return _perform.default;
     }
   });
-  Object.defineProperty(exports, 'perform', {
-    enumerable: true,
-    get: function () {
-      return _perform.perform;
-    }
-  });
 });
 define('mdeditor/helpers/pipe-action', ['exports', 'ember-composable-helpers/helpers/pipe-action'], function (exports, _pipeAction) {
   'use strict';
@@ -4914,12 +4948,6 @@ define('mdeditor/helpers/task', ['exports', 'ember-concurrency/helpers/task'], f
       return _task.default;
     }
   });
-  Object.defineProperty(exports, 'task', {
-    enumerable: true,
-    get: function () {
-      return _task.task;
-    }
-  });
 });
 define('mdeditor/helpers/titleize', ['exports', 'ember-cli-string-helpers/helpers/titleize'], function (exports, _titleize) {
   'use strict';
@@ -5378,12 +5406,6 @@ define('mdeditor/initializers/ember-concurrency', ['exports', 'ember-concurrency
     enumerable: true,
     get: function () {
       return _emberConcurrency.default;
-    }
-  });
-  Object.defineProperty(exports, 'initialize', {
-    enumerable: true,
-    get: function () {
-      return _emberConcurrency.initialize;
     }
   });
 });
@@ -8135,7 +8157,7 @@ define("mdeditor/pods/components/control/md-itis/template", ["exports"], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "QmQGiCAl", "block": "{\"symbols\":[\"result\",\"name\",\"result\",\"name\"],\"statements\":[[4,\"layout/md-card\",null,[[\"spotlightEnabled\",\"block\"],[false,false]],{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"card-block row\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"form-group col-lg-9\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"control-label\"],[7],[0,\"Search Value\"],[8],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,0,[\"searchString\"]],\"Search ITIS using common name, scientific name, or TSN\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"div\"],[9,\"class\",\"form-group col-lg-3\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"control-label\"],[7],[0,\"Kingdom \"],[6,\"em\"],[7],[0,\"(optional)\"],[8],[8],[0,\"\\n      \"],[1,[25,\"input/md-select\",null,[[\"value\",\"valuePath\",\"namePath\",\"objectArray\",\"searchEnabled\",\"tooltip\",\"tooltipPath\",\"disabled\",\"placeholder\"],[[19,0,[\"kingdom\"]],\"kingdomName\",\"title\",[25,\"sort-by\",[\"title\",[20,[\"itis\",\"kingdoms\",\"kingdomNames\"]]],null],false,true,\"kingdomName\",[25,\"if\",[[20,[\"searchString\"]],false,true],null],\"Select a kingdom.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"card-footer\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"btn btn-primary pull-right\"],[9,\"type\",\"submit\"],[10,\"disabled\",[25,\"if\",[[20,[\"searchString\"]],false,true],null],null],[3,\"action\",[[19,0,[]],\"search\"]],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"isLoading\"]]],null,{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"spinner\"],[[\"spin\"],[true]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"search\"],null],false],[0,\"\\n      \"],[1,[25,\"tooltip-on-element\",null,[[\"text\",\"class\",\"side\"],[\"Click to send search request\",\"md-tooltip info\",\"left\"]]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"      Search\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"notFound\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"alert alert-warning\"],[7],[0,\"\\n    \"],[6,\"h5\"],[7],[1,[25,\"fa-icon\",[\"exclamation-triangle\"],null],false],[0,\" No taxa matched the search. Please try again.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"liquid-if\",[[20,[\"found\"]]],[[\"use\",\"enableGrowth\"],[\"fade\",false]],{\"statements\":[[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"col-md-6\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"card md-card\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-header\"],[7],[0,\"\\n        \"],[6,\"h4\"],[9,\"class\",\"card-title\"],[7],[0,\"\\n          Select Taxa \"],[6,\"small\"],[7],[0,\"Showing \"],[1,[18,\"resultTitle\"],false],[0,\" found\"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-block no-padding\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"list-group no-margin\"],[7],[0,\"\\n\"],[4,\"each\",[[20,[\"searchResult\"]]],null,{\"statements\":[[4,\"liquid-unless\",[[19,3,[\"selected\"]]],[[\"class\",\"enableGrowth\",\"shrinkDelay\"],[[25,\"concat\",[\"list-group-item \",[25,\"if\",[[19,3,[\"animate\"]],\"md-itis-unselected\"],null]],null],true,500]],{\"statements\":[[0,\"              \"],[6,\"div\"],[9,\"class\",\"media\"],[7],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-body\"],[7],[0,\"\\n                  \"],[6,\"h4\"],[9,\"class\",\"media-heading\"],[7],[0,\"\\n                    \"],[1,[19,3,[\"name\"]],false],[0,\"\\n                    \"],[6,\"small\"],[9,\"class\",\"text-success\"],[7],[1,[19,3,[\"rank\"]],false],[8],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"p\"],[7],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"Kingdom:\"],[8],[0,\" \"],[1,[19,3,[\"kingdom\"]],false],[8],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"TSN:\"],[8],[0,\"\\n                      \"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[19,3,[\"tsn\"]]]]],[9,\"target\",\"_blank\"],[7],[1,[19,3,[\"tsn\"]],false],[8],[0,\"\\n                       (\"],[6,\"span\"],[10,\"class\",[26,[\"text-\",[19,3,[\"style\"]]]]],[7],[1,[19,3,[\"status\"]],false],[8],[0,\")\\n                    \"],[8],[0,\"\\n                    \"],[6,\"dl\"],[9,\"class\",\"no-margin\"],[7],[0,\"\\n\"],[4,\"control/md-definition\",null,[[\"title\"],[\"Common Name:\"]],{\"statements\":[[4,\"each\",[[19,3,[\"common\"]]],null,{\"statements\":[[0,\"                                \"],[1,[19,4,[\"name\"]],false],[0,\" (\"],[1,[19,4,[\"language\"]],false],[0,\")\\n                                \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[4]},{\"statements\":[[0,\"                                \"],[6,\"em\"],[9,\"class\",\"text-muted\"],[7],[0,\"No names assigned.\"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[0,\"                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n                \"],[8],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-right media-middle\"],[7],[0,\"\\n                  \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-success btn-lg btn-block\"],[3,\"action\",[[19,0,[]],\"selectItem\",[19,3,[]]]],[7],[0,\"Add\"],[8],[0,\"\\n                \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[3]},{\"statements\":[[0,\"              \"],[6,\"div\"],[9,\"class\",\"list-group-item\"],[7],[0,\"\\n                \"],[6,\"p\"],[9,\"class\",\"list-group-item-text\"],[7],[0,\"\\n                  Perform a search to select additional taxa.\\n                \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[0,\"  \"],[6,\"div\"],[9,\"class\",\"col-md-6\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"card md-card hd-success card-inverse card-outline-success\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-header\"],[7],[0,\"\\n        \"],[6,\"h4\"],[9,\"class\",\"card-title\"],[7],[0,\"\\n          Taxa Selected\\n\"],[0,\"        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-block no-padding\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"list-group no-margin\"],[7],[0,\"\\n\"],[4,\"liquid-if\",[[20,[\"selected\",\"length\"]]],[[\"use\"],[\"fade\"]],{\"statements\":[[0,\"          \"],[6,\"div\"],[9,\"class\",\"list-group-item\"],[7],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"list-group-item-text\"],[7],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-primary btn-lg btn-block\"],[3,\"action\",[[19,0,[]],\"importTaxa\",[20,[\"selected\"]]]],[7],[0,\"Import Taxa\"],[8],[0,\"\\n            \"],[8],[0,\"\\n          \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[20,[\"selected\"]]],null,{\"statements\":[[4,\"liquid-if\",[[19,1,[\"selected\"]]],[[\"class\",\"enableGrowth\",\"shrinkDelay\"],[\"list-group-item md-itis-selected\",true,500]],{\"statements\":[[0,\"              \"],[6,\"div\"],[9,\"class\",\"media\"],[7],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-body\"],[7],[0,\"\\n                  \"],[6,\"h4\"],[9,\"class\",\"media-heading\"],[7],[0,\"\\n                    \"],[1,[19,1,[\"name\"]],false],[0,\"\\n                    \"],[6,\"small\"],[9,\"class\",\"text-success\"],[7],[1,[19,1,[\"rank\"]],false],[8],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"p\"],[7],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"Kingdom:\"],[8],[0,\" \"],[1,[19,1,[\"kingdom\"]],false],[8],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"TSN:\"],[8],[0,\"\\n                      \"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[19,1,[\"tsn\"]]]]],[9,\"target\",\"_blank\"],[7],[1,[19,1,[\"tsn\"]],false],[8],[0,\"\\n                       (\"],[6,\"span\"],[10,\"class\",[26,[\"text-\",[19,1,[\"style\"]]]]],[7],[1,[19,1,[\"status\"]],false],[8],[0,\")\\n                    \"],[8],[0,\"\\n                    \"],[6,\"dl\"],[9,\"class\",\"no-margin\"],[7],[0,\"\\n\"],[4,\"control/md-definition\",null,[[\"title\"],[\"Common Name:\"]],{\"statements\":[[4,\"each\",[[19,1,[\"common\"]]],null,{\"statements\":[[0,\"                                \"],[1,[19,2,[\"name\"]],false],[0,\" (\"],[1,[19,2,[\"language\"]],false],[0,\")\\n                                \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[2]},{\"statements\":[[0,\"                                \"],[6,\"em\"],[9,\"class\",\"text-muted\"],[7],[0,\"No names assigned.\"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[0,\"                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n                \"],[8],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-left media-middle\"],[7],[0,\"\\n                  \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-danger btn-lg btn-block\"],[3,\"action\",[[19,0,[]],\"deselectItem\",[19,1,[]]]],[7],[0,\"Remove\"],[8],[0,\"\\n                \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[],\"parameters\":[]}]],\"parameters\":[1]},{\"statements\":[[0,\"            \"],[6,\"div\"],[9,\"class\",\"list-group-item\"],[7],[0,\"\\n              \"],[6,\"p\"],[9,\"class\",\"list-group-item-text\"],[7],[0,\"\\n                Select taxa from the list.\\n              \"],[8],[0,\"\\n            \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"        \"],[8],[0,\"\\n\"],[0,\"      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/control/md-itis/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "dcRTylM4", "block": "{\"symbols\":[\"result\",\"name\",\"result\",\"name\"],\"statements\":[[4,\"layout/md-card\",null,[[\"spotlightEnabled\",\"block\"],[false,false]],{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"card-block row\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"form-group col-lg-9\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"control-label\"],[7],[0,\"Search Value\"],[8],[0,\"\\n        \"],[1,[25,\"input/md-input\",null,[[\"value\",\"placeholder\"],[[19,0,[\"searchString\"]],\"Search ITIS using common name, scientific name, or TSN\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"div\"],[9,\"class\",\"form-group col-lg-3\"],[7],[0,\"\\n      \"],[6,\"label\"],[9,\"class\",\"control-label\"],[7],[0,\"Kingdom \"],[6,\"em\"],[7],[0,\"(optional)\"],[8],[8],[0,\"\\n      \"],[1,[25,\"input/md-select\",null,[[\"value\",\"valuePath\",\"namePath\",\"objectArray\",\"searchEnabled\",\"tooltip\",\"allowClear\",\"tooltipPath\",\"disabled\",\"placeholder\"],[[19,0,[\"kingdom\"]],\"kingdomName\",\"title\",[25,\"sort-by\",[\"title\",[20,[\"itis\",\"kingdoms\",\"kingdomNames\"]]],null],false,true,true,\"kingdomName\",[25,\"if\",[[20,[\"searchString\"]],false,true],null],\"Select a kingdom.\"]]],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"card-footer\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"btn btn-primary pull-right\"],[9,\"type\",\"submit\"],[10,\"disabled\",[25,\"if\",[[20,[\"searchString\"]],false,true],null],null],[3,\"action\",[[19,0,[]],\"search\"]],[7],[0,\"\\n\"],[4,\"if\",[[20,[\"isLoading\"]]],null,{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"spinner\"],[[\"spin\"],[true]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[1,[25,\"fa-icon\",[\"search\"],null],false],[0,\"\\n      \"],[1,[25,\"tooltip-on-element\",null,[[\"text\",\"class\",\"side\"],[\"Click to send search request\",\"md-tooltip info\",\"left\"]]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"      Search\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"notFound\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"alert alert-warning\"],[7],[0,\"\\n    \"],[6,\"h5\"],[7],[1,[25,\"fa-icon\",[\"exclamation-triangle\"],null],false],[0,\" No taxa matched the search. Please try again.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"liquid-if\",[[20,[\"found\"]]],[[\"use\",\"enableGrowth\"],[\"fade\",false]],{\"statements\":[[6,\"div\"],[9,\"class\",\"row\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"col-md-6\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"card md-card\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-header\"],[7],[0,\"\\n        \"],[6,\"h4\"],[9,\"class\",\"card-title\"],[7],[0,\"\\n          Select Taxa \"],[6,\"small\"],[7],[0,\"Showing \"],[1,[18,\"resultTitle\"],false],[0,\" found\"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-block no-padding\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"list-group no-margin\"],[7],[0,\"\\n\"],[4,\"each\",[[20,[\"searchResult\"]]],null,{\"statements\":[[4,\"liquid-unless\",[[19,3,[\"selected\"]]],[[\"class\",\"enableGrowth\",\"shrinkDelay\"],[[25,\"concat\",[\"list-group-item \",[25,\"if\",[[19,3,[\"animate\"]],\"md-itis-unselected\"],null]],null],true,500]],{\"statements\":[[0,\"              \"],[6,\"div\"],[9,\"class\",\"media\"],[7],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-body\"],[7],[0,\"\\n                  \"],[6,\"h4\"],[9,\"class\",\"media-heading\"],[7],[0,\"\\n                    \"],[1,[19,3,[\"name\"]],false],[0,\"\\n                    \"],[6,\"small\"],[9,\"class\",\"text-success\"],[7],[1,[19,3,[\"rank\"]],false],[8],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"p\"],[7],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"Kingdom:\"],[8],[0,\" \"],[1,[19,3,[\"kingdom\"]],false],[8],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"TSN:\"],[8],[0,\"\\n                      \"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[19,3,[\"tsn\"]]]]],[9,\"target\",\"_blank\"],[7],[1,[19,3,[\"tsn\"]],false],[8],[0,\"\\n                       (\"],[6,\"span\"],[10,\"class\",[26,[\"text-\",[19,3,[\"style\"]]]]],[7],[1,[19,3,[\"status\"]],false],[8],[0,\")\\n                    \"],[8],[0,\"\\n                    \"],[6,\"dl\"],[9,\"class\",\"no-margin\"],[7],[0,\"\\n\"],[4,\"control/md-definition\",null,[[\"title\"],[\"Common Name:\"]],{\"statements\":[[4,\"each\",[[19,3,[\"common\"]]],null,{\"statements\":[[0,\"                                \"],[1,[19,4,[\"name\"]],false],[0,\" (\"],[1,[19,4,[\"language\"]],false],[0,\")\\n                                \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[4]},{\"statements\":[[0,\"                                \"],[6,\"em\"],[9,\"class\",\"text-muted\"],[7],[0,\"No names assigned.\"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[0,\"                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n                \"],[8],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-right media-middle\"],[7],[0,\"\\n                  \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-success btn-lg btn-block\"],[3,\"action\",[[19,0,[]],\"selectItem\",[19,3,[]]]],[7],[0,\"Add\"],[8],[0,\"\\n                \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[3]},{\"statements\":[[0,\"              \"],[6,\"div\"],[9,\"class\",\"list-group-item\"],[7],[0,\"\\n                \"],[6,\"p\"],[9,\"class\",\"list-group-item-text\"],[7],[0,\"\\n                  Perform a search to select additional taxa.\\n                \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[0,\"  \"],[6,\"div\"],[9,\"class\",\"col-md-6\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"card md-card hd-success card-inverse card-outline-success\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-header\"],[7],[0,\"\\n        \"],[6,\"h4\"],[9,\"class\",\"card-title\"],[7],[0,\"\\n          Taxa Selected\\n\"],[0,\"        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"card-block no-padding\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"list-group no-margin\"],[7],[0,\"\\n\"],[4,\"liquid-if\",[[20,[\"selected\",\"length\"]]],[[\"use\"],[\"fade\"]],{\"statements\":[[0,\"          \"],[6,\"div\"],[9,\"class\",\"list-group-item\"],[7],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"list-group-item-text\"],[7],[0,\"\\n              \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-primary btn-lg btn-block\"],[3,\"action\",[[19,0,[]],\"importTaxa\",[20,[\"selected\"]]]],[7],[0,\"Import Taxa\"],[8],[0,\"\\n            \"],[8],[0,\"\\n          \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[4,\"each\",[[20,[\"selected\"]]],null,{\"statements\":[[4,\"liquid-if\",[[19,1,[\"selected\"]]],[[\"class\",\"enableGrowth\",\"shrinkDelay\"],[\"list-group-item md-itis-selected\",true,500]],{\"statements\":[[0,\"              \"],[6,\"div\"],[9,\"class\",\"media\"],[7],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-body\"],[7],[0,\"\\n                  \"],[6,\"h4\"],[9,\"class\",\"media-heading\"],[7],[0,\"\\n                    \"],[1,[19,1,[\"name\"]],false],[0,\"\\n                    \"],[6,\"small\"],[9,\"class\",\"text-success\"],[7],[1,[19,1,[\"rank\"]],false],[8],[0,\"\\n                  \"],[8],[0,\"\\n                  \"],[6,\"p\"],[7],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"Kingdom:\"],[8],[0,\" \"],[1,[19,1,[\"kingdom\"]],false],[8],[0,\"\\n                    \"],[6,\"div\"],[7],[6,\"strong\"],[7],[0,\"TSN:\"],[8],[0,\"\\n                      \"],[6,\"a\"],[10,\"href\",[26,[\"https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=\",[19,1,[\"tsn\"]]]]],[9,\"target\",\"_blank\"],[7],[1,[19,1,[\"tsn\"]],false],[8],[0,\"\\n                       (\"],[6,\"span\"],[10,\"class\",[26,[\"text-\",[19,1,[\"style\"]]]]],[7],[1,[19,1,[\"status\"]],false],[8],[0,\")\\n                    \"],[8],[0,\"\\n                    \"],[6,\"dl\"],[9,\"class\",\"no-margin\"],[7],[0,\"\\n\"],[4,\"control/md-definition\",null,[[\"title\"],[\"Common Name:\"]],{\"statements\":[[4,\"each\",[[19,1,[\"common\"]]],null,{\"statements\":[[0,\"                                \"],[1,[19,2,[\"name\"]],false],[0,\" (\"],[1,[19,2,[\"language\"]],false],[0,\")\\n                                \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[2]},{\"statements\":[[0,\"                                \"],[6,\"em\"],[9,\"class\",\"text-muted\"],[7],[0,\"No names assigned.\"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[0,\"                    \"],[8],[0,\"\\n                  \"],[8],[0,\"\\n                \"],[8],[0,\"\\n                \"],[6,\"div\"],[9,\"class\",\"media-left media-middle\"],[7],[0,\"\\n                  \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-danger btn-lg btn-block\"],[3,\"action\",[[19,0,[]],\"deselectItem\",[19,1,[]]]],[7],[0,\"Remove\"],[8],[0,\"\\n                \"],[8],[0,\"\\n              \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[],\"parameters\":[]}]],\"parameters\":[1]},{\"statements\":[[0,\"            \"],[6,\"div\"],[9,\"class\",\"list-group-item\"],[7],[0,\"\\n              \"],[6,\"p\"],[9,\"class\",\"list-group-item-text\"],[7],[0,\"\\n                Select taxa from the list.\\n              \"],[8],[0,\"\\n            \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"        \"],[8],[0,\"\\n\"],[0,\"      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/control/md-itis/template.hbs" } });
 });
 define('mdeditor/pods/components/control/md-json-button/component', ['exports'], function (exports) {
   'use strict';
@@ -24262,8 +24284,9 @@ define('mdeditor/services/itis', ['exports', 'ember-cli-string-helpers/utils/tit
 
     sendQuery(searchString, kingdom, limit = 50) {
       let formatted = searchString.replace(/(-| )/g, '*');
-      let titleized = (0, _titleize.default)(searchString.replace(/(-)/g, ' ')).replace(/( )/g, '*');
-      let url = proxy + `&rows=${limit}&q=` + `(vernacular:*${formatted}*~0.5%20OR%20vernacular:*${titleized}*~0.5` + `%20OR%20nameWOInd:${formatted}*~0.5%20OR%20nameWOInd:*${titleized}*~0.5` + `%20OR%20tsn:${formatted})` + (kingdom ? `%20AND%20kingdom:${kingdom}&` : '');
+      let titleized = (0, _titleize.default)(searchString.replace(/(-)/g, '#')).replace(/( |#)/g, '*');
+      let titleized2 = (0, _titleize.default)(searchString).replace(/( )/g, '*');
+      let url = proxy + `&rows=${limit}&q=` + `(vernacular:*${formatted}*~0.5%20OR%20vernacular:*${titleized}*~0.5%20OR%20vernacular:*${titleized2}*~0.5` + `%20OR%20nameWOInd:${formatted}*~0.5%20OR%20nameWOInd:*${titleized}*~0.5` + `%20OR%20tsn:${formatted})` + (kingdom ? `%20AND%20kingdom:${kingdom}&` : '');
 
       return this.get('ajax').request(url, {
         method: 'GET'
@@ -27118,6 +27141,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+812bcf3f"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0-beta+629ab53a"});
 }
 //# sourceMappingURL=mdeditor.map
