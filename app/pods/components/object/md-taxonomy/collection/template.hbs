@@ -1,0 +1,103 @@
+{{!-- {{input/md-input
+  label="Main Title"
+  data-spy="Main Title"
+  model=this
+  valuePath="title"
+  placeholder="Descriptive name for the collection taxonomic system."
+  profilePath=(concat profilePath ".mainTitle")
+  showValidations=true
+}} --}}
+
+{{object/md-objectroute-table
+  attributes="citation.title,modifications"
+  items=model.taxonomicSystem
+  header="Taxonomic System"
+  shadow=true
+  required=true
+  buttonText="Add system"
+  ellipsis=true
+  previewTemplateTable="object/md-taxonomy/collection/system/preview"
+  editItem=editSystem
+  profilePath=(concat profilePath ".taxonomicSystem")
+  verticalButtons=true
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  templateClass=systemTemplate
+  scrollToId="md-system"
+  data-spy="System"
+}}
+
+{{#layout/md-card
+  title="Classification"
+  collapsible=true
+  collapsed=false
+  profilePath="card"
+  data-spy="Classification"
+  required=true
+  shadow=true
+  maximizable=true
+  spotlightEnabled=false
+  block=(if model.taxonomicClassification.length false true)
+}}
+  {{object/md-taxonomy/classification model=model.taxonomicClassification}}
+{{/layout/md-card}}
+
+{{object/md-party-array
+  title="Observer"
+  plain=false
+  required=false
+  value=model.observer
+  profilePath=(concat profilePath ".observer")
+  data-spy="Observer"
+}}
+
+{{input/md-textarea
+  value=model.generalScope
+  required=false
+  autoresize=true
+  placeholder="Description of the range of taxa addressed in the data set or collection. For example, \"all vascular plants were identified to family or species.\""
+  label="General Scope"
+  data-spy="General Scope"
+  embedded=false
+  profilePath=(concat profilePath ".generalScope")
+}}
+
+{{input/md-textarea
+  value=this.identificationProcedure
+  required=false
+  autoresize=true
+  placeholder="Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc."
+  label="Identification Procedure"
+  data-spy="Procedure"
+  embedded=false
+  profilePath=(concat profilePath ".identificationProcedure")
+}}
+
+{{input/md-textarea
+  value=model.identificationCompleteness
+  required=false
+  autoresize=true
+  placeholder="Information concerning the proportions and treatment of unidentified materials; estimates of the importance, and identities of misidentifications, uncertain determinations, synonyms or other incorrect usages; taxa not well treated or requiring further work; and expertise of field workers."
+  label="Identification Completeness"
+  data-spy="Completeness"
+  embedded=false
+  profilePath=(concat profilePath ".identificationCompleteness")
+}}
+
+{{#object/md-object-table
+  items=model.voucher
+  header="Voucher"
+  data-spy="Voucher"
+  profilePath=(concat profilePath ".voucher")
+  buttonText="Add Voucher"
+  ellipsis=true
+  attributes="specimen"
+  collapsible=true
+  templateClass=voucherTemplate
+  as |editing|
+}}
+  {{object/md-taxonomy/collection/voucher model=editing
+    profilePath=(concat profilePath ".voucher")
+  }}
+{{/object/md-object-table}}

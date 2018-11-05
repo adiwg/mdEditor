@@ -1,0 +1,75 @@
+.md-classification {
+  &,
+  .list-group {
+    margin-bottom: 0;
+  }
+
+  .list-group-item {
+    padding: 0;
+  }
+
+  .md-taxon-body {
+    padding: 10px;
+    transition: background-color 0.5s;
+
+    &:hover {
+      background-color: lighten($brand-info, 44);
+    }
+
+    .icon:hover {
+      cursor: pointer;
+    }
+
+    .md-taxon-text {
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      white-space: nowrap;
+      width: 100%;
+
+      .text-truncate {
+        flex-grow: 3;
+        margin: 0 .4rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .spacer {
+        display: inline-block;
+        margin: 0 .2rem;
+        font-weight: 700;
+
+        &::after {
+          content: ':';
+        }
+
+      }
+    }
+  }
+
+  .md-taxon-form {
+    margin-top: 1em;
+
+    input {
+      width: 100%;
+    }
+
+    .card {
+      margin: 1.5rem;
+
+      table {
+        margin: 0;
+      }
+
+      .show {
+        padding: 1rem;
+      }
+    }
+  }
+}
+
+.md-card.full-screen .card-collapse > .md-classification {
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+}

@@ -173,6 +173,14 @@ export default Component.extend(InViewportMixin, Template, {
    */
 
   /**
+   * Indicates at least one object is required.
+   *
+   * @property required
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
    * Whether the panel is collapsible.
    *
    * @property collapsible

@@ -1,17 +1,13 @@
-import Ember from 'ember';
-
-const {
-  Service,
-  setProperties,
-  $,
-  isPresent
-} = Ember;
+import Service from '@ember/service';
+import $ from 'jquery';
+import { isPresent } from '@ember/utils';
+import { setProperties } from '@ember/object';
 
 export default Service.extend({
   show: false,
   elementId: undefined,
 
-  setTarget(id) {
+  setTarget(id, onClose, scope) {
     let el = this.get('elementId');
 
     if(id === el) {
@@ -26,7 +22,9 @@ export default Service.extend({
 
     setProperties(this, {
       show: true,
-      elementId: id
+      elementId: id,
+      onClose: onClose,
+      scope: scope
     });
 
     $('body').addClass('md-no-liquid');
@@ -35,15 +33,22 @@ export default Service.extend({
 
   close() {
     let id = this.get('elementId');
+    let onClose = this.get('onClose');
 
     if(isPresent(id)) {
       $('body').removeClass('md-no-liquid');
       $('#' + id).removeClass('md-spotlight-target');
     }
 
+    if(onClose) {
+      onClose.call(this.get('scope') || this);
+    }
+
     setProperties(this, {
       show: false,
-      elementId: undefined
+      elementId: undefined,
+      onClose: undefined,
+      scope: undefined
     });
   }
 });

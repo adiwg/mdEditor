@@ -40,7 +40,8 @@ export default Route.extend({
     let distributionId = get(this, 'distributionId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.resourceDistribution');
-    let resource = distributionId && isArray(objects) ? NativeArray.apply(objects).objectAt(distributionId) :
+    let resource = distributionId && isArray(objects) ? NativeArray.apply(
+        objects).objectAt(distributionId) :
       undefined;
 
     //make sure the identifier exists

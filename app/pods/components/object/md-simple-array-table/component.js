@@ -32,6 +32,7 @@ export default ArrayTable.extend({
    */
 
   layoutName: 'components/object/md-array-table',
+  simple: true,
 
   /**
    * Convert the input 'primitive' array to an 'ember' array of objects

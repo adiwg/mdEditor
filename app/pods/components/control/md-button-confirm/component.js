@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'button',
-  classNames: 'md-button-modal',
-  attributeBindings: ['type'],
+  classNames: 'md-button-confirm',
+  attributeBindings: ['type', 'disabled'],
   type: 'button',
   isShowingConfirm: false,
   propagateClick: false,
+  disabled: null,
 
   /**
    * The function to call when action is confirmed.
@@ -24,6 +25,7 @@ export default Ember.Component.extend({
 
     if(this.get('isShowingConfirm')) {
       this.get('onConfirm')();
+      this.set('isShowingConfirm', false);
     } else {
       this.set('isShowingConfirm', true);
     }

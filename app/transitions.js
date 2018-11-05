@@ -1,4 +1,4 @@
-export default function() {
+export default function () {
   this.transition(
     this.toRoute('record.show.edit.main.citation'),
     this.fromRoute('record.show.edit.main.index'),
@@ -43,6 +43,18 @@ export default function() {
   this.transition(
     this.toRoute('record.show.edit.metadata.parent.identifier'),
     this.fromRoute('record.show.edit.metadata.parent.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.taxonomy.collection'),
+    this.fromRoute('record.show.edit.taxonomy.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.taxonomy.collection.itis'),
+    this.fromRoute('record.show.edit.taxonomy.collection.index'),
     this.use('toLeft'),
     this.reverse('toRight')
   );
@@ -166,11 +178,30 @@ export default function() {
     this.use('toLeft'),
     this.reverse('toRight')
   );
-  //if
-  // this.transition(
-  //   this.hasClass('liquid-collapse'),
-  //   this.includingInitialRender(),
-  //   this.use('fade'),
-  //   this.reverse('fade')
-  // );
+
+  //non-route transitions
+  this.transition(
+    this.hasClass('md-itis-selected'),
+    this.includingInitialRender(),
+    this.toValue(true),
+    this.use('toRight', {
+      duration: 250
+    }),
+    this.reverse('toLeft', {
+      duration: 250
+    })//,
+    //this.debug()
+  );
+  this.transition(
+    this.hasClass('md-itis-unselected'),
+    this.includingInitialRender(),
+    this.toValue(true),
+    this.use('toLeft', {
+      duration: 250
+    }),
+    this.reverse('toRight', {
+      duration: 250
+    })//,
+    //this.debug()
+  );
 }

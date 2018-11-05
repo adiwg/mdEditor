@@ -1,5 +1,8 @@
 import Ember from 'ember';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import {
+  formatCitation
+} from 'mdeditor/pods/components/object/md-citation/component';
 const {
   Route,
   get,
@@ -15,6 +18,7 @@ export default Route.extend(ScrollTo, {
     set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
     set(model, 'pointOfContact', getWithDefault(model, 'pointOfContact', []));
     set(model, 'status', getWithDefault(model, 'status', []));
+    set(model, 'citation', getWithDefault(model, 'citation', formatCitation({})));
     set(model, 'credit', getWithDefault(model, 'credit', []));
     set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
     set(model, 'resourceMaintenance', getWithDefault(model, 'resourceMaintenance', []));

@@ -7,7 +7,7 @@ const {
 
 export default Component.extend({
   tagName: 'footer',
-  classNames: ['footer'],
+  classNames: ['md-footer'],
 
   settings: inject.service()
 });

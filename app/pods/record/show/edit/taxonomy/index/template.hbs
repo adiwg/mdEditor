@@ -1,0 +1,29 @@
+<h4 class="section-header">
+  Editing Taxonomy
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{!-- {{object/md-distribution model=model profilePath="record.distribution"}} --}}
+
+
+{{#each model.json.metadata.resourceInfo.taxonomy as |collection index|}}
+  {{object/md-taxonomy model=collection index=index scrollTo=scrollTo record=model}}
+{{else}}
+  <h3 class="alert alert-info">No taxonomic collections found.
+    <button type="button" class="btn btn-success" {{action (route-action "addCollection")}}>
+      {{fa-icon "plus"}} Add Collection</button>
+  </h3>
+{{/each}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+  text="Add Collection"
+  icon="plus"
+  btnType="success"
+  click=(route-action "addCollection")
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy" offset=135 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

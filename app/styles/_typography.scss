@@ -18,6 +18,10 @@
   margin: 0;
 }
 
+.no-padding {
+  padding: 0;
+}
+
 .huge-text {
   font-size: 40px;
 }
@@ -32,4 +36,18 @@ a {
 
 .text-white {
   color: #fff !important;
+}
+
+.plain-link {
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
 }

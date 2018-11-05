@@ -113,6 +113,16 @@ Router.map(function () {
           this.route('dictionary');
           this.route('spatial', function () {});
           this.route('constraint', function () {});
+          this.route('taxonomy', function () {
+            this.route('collection', {
+              path: ':collection_id'
+            }, function () {
+              this.route('itis');
+              this.route('system', {
+                path: 'system/:system_id'
+              }, function () {});
+            });
+          });
         });
         this.route('translate');
       }

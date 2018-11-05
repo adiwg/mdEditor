@@ -1,0 +1,108 @@
+<div class="md-taxon-body">
+<div class="md-taxon-text">
+  {{#if collapsible}}
+    <div class="inline-block icon" onClick={{action "toggleCollapse"}} style={{padding}}>
+      {{fa-icon (if collapse "folder" "folder-open") fixedWidth=true}}
+      <strong class="text-success">{{taxonomicLevel}}</strong>
+    </div>
+  {{else}}
+    <div class="inline-block" style={{padding}}>
+      <i class="fa-fw inline-block"></i>
+      <strong class="text-info">{{taxonomicLevel}}</strong>
+    </div>
+  {{/if}}
+  <div class="inline-block text-truncate">
+    <div class="spacer"></div>
+    {{!-- <span class="text-level">{{levelText}}</span>  --}}
+     <em>{{if taxonomicName taxonomicName "Not Defined"}}</em>
+      {{#if taxonomicSystemId}}
+        {{#if model.isITIS}}
+          (<a href="https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value={{taxonomicSystemId}}"
+            target="_blank"><small class="text-muted">{{taxonomicSystemId}}</small></a>)
+        {{else}}
+          (<small>{{taxonomicSystemId}}</small>)
+        {{/if}}
+      {{/if}}
+      {{#if model.commonName}}
+        <div class="spacer"></div>
+        <span class="text-warning">{{join ', ' model.commonName}}</span>
+      {{/if}}
+  </div>
+
+  {{#unless preview}}
+    {{#unless isEditing}}
+    <div class="md-taxon-btn">
+      <button class="btn btn-xs btn-success" {{action "toggleEditing" elementId}}>
+      {{!-- <button class="btn btn-xs btn-success" {{action (toggle "isEditing" this)}}> --}}
+        {{fa-icon "pencil"}} Edit
+      </button>
+
+      {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(action "deleteTaxa" model)}}
+        {{fa-icon "times"}} Delete
+      {{/control/md-button-confirm}}
+    </div>
+    {{/unless}}
+  {{/unless}}
+</div>
+<div id={{concat "editor-" elementId}}>
+
+  {{#liquid-if isEditing}}
+    <div class="md-taxon-form">
+      <form class="card form" {{action 'toggleEditing' on='submit'}}>
+        <div class="card-block row form-inline">
+          {{input/md-input
+            class="col-lg-4"
+            label="Taxonomic Level"
+            model=this
+            valuePath="taxonomicLevel"
+            showValidations=true
+            placeholder=""
+          }}
+          {{input/md-input
+            class="col-lg-4"
+            label="Taxonomic Name"
+            model=this
+            valuePath="taxonomicName"
+            showValidations=true
+            placeholder=""
+          }}
+          {{input/md-input
+            class="col-lg-4"
+            label="Taxonomic ID"
+            value=this.taxonomicSystemId
+            placeholder=""
+          }}
+        </div>
+        <div class="card">
+          <div class="">
+            {{#object/md-simple-array-table
+              title="Common Name"
+              required=false
+              plain=true
+              value=model.commonName as |val|
+            }}
+              <td>
+                {{input/md-input value=val.item.value placeholder="Enter value"}}
+              </td>
+            {{/object/md-simple-array-table}}
+          </div>
+        </div>
+
+        <footer class="card-footer text-right">
+          <button type="submit" class="btn btn-xs btn-info" {{action "toggleEditing" elementId}}>
+          {{!-- <button class="btn btn-xs btn-info" {{action (toggle "isEditing" this)}}> --}}
+            {{fa-icon "check"}} OK
+          </button>
+        </footer>
+      </form>
+    </div>
+
+  {{/liquid-if}}
+</div>
+</div>
+
+  {{#if model.subClassification.length}}
+    {{#liquid-unless collapse class="list-group-item"}}
+      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview}}
+    {{/liquid-unless}}
+  {{/if}}

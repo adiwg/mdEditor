@@ -1,20 +1,24 @@
-import Ember from 'ember';
-import { once } from '@ember/runloop';
+import {
+  once
+} from '@ember/runloop';
 import {
   Validations
 } from '../md-online-resource/component';
-
-const {
-  A,
+import {
   computed
-} = Ember;
+} from '@ember/object';
+import {
+  A
+} from '@ember/array';
+import Component from '@ember/component';
+import EmberObject from '@ember/object';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if (!this.get('model')) {
+    if(!this.get('model')) {
       once(this, () => this.set('model', A()));
     }
   },
@@ -50,6 +54,15 @@ export default Ember.Component.extend({
    */
 
   /**
+   * Truncate the text
+   *
+   * @property ellipsis
+   * @type {Boolean}
+   * @default true
+   */
+  ellipsis: true,
+
+  /**
    * List of mdJSON 'onlineResource' object attributes to display in
    * md-object-table to aid in choosing the onlineResource to edit or
    * delete.
@@ -72,7 +85,6 @@ export default Ember.Component.extend({
    */
   label: 'Online Resource',
 
-
   /**
    * If true, a box shadow will be rendered around the card.
    *
@@ -92,7 +104,7 @@ export default Ember.Component.extend({
    * @category computed
    * @requires imagePicker
    */
-  previewTemplate: computed('imagePicker', function() {
+  previewTemplate: computed('imagePicker', function () {
     return this.get('imagePicker') ?
       "object/md-online-resource-array/md-image-preview" : null;
   }),
@@ -103,7 +115,7 @@ export default Ember.Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: Ember.Object.extend(Validations, {
+  templateClass: EmberObject.extend(Validations, {
     init() {
       this._super(...arguments);
       //this.set('uri', null);

@@ -43,6 +43,7 @@ $md-nav-background: lighten($gray-darker, 4);
 @import 'translator';
 @import 'spinner';
 @import 'control_sidebar';
+@import 'classification';
 
 //modals
 @import 'ember-modal-dialog/ember-modal-structure';

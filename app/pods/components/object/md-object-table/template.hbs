@@ -61,16 +61,20 @@
                                   {{/if}}
                               {{/each}}
                           {{/if}}
-                          <td class="md-row-actions {{if verticalButtons "vertical"}}">
+                          <td class="md-row-actions {{if verticalButtons "vertical"}} {{alignButtons}}">
                             <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
                               <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
-                                <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
-                                    <span class="fa fa-times"></span> Delete
-                                </button>
-
                                 <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index}}>
-                                    {{fa-icon "pencil"}} {{if editBtnText editBtnText "Edit"}}
+                                  {{fa-icon "pencil"}} {{if editBtnText editBtnText "Edit"}}
                                 </button>
+                                {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
+                                    <span class="fa fa-times"></span> Delete
+                                </button> --}}
+                                {{#control/md-button-confirm class=(concat "btn btn-" btnSize " btn-danger")
+                                  onConfirm=(action "deleteItem" items index)}}
+                                  <span class="fa fa-times"></span> Delete
+                                {{/control/md-button-confirm}}
+
                               </div>
 
                               <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
@@ -124,10 +128,22 @@
   </div>
 {{else}}
   <div class="alert alert-info">
-    <h3>No {{header}} found.
+    <h3>No <span class="{{if required "required"}}">{{header}}</span> found.
       <button type="button"  class="btn btn-success btn-lg" {{action "addItem" items}}>
         {{fa-icon "plus"}} Add {{singularize header}}
       </button>
     </h3>
   </div>
 {{/unless}}
+
+{{#if addSubbar}}
+  {{to-elsewhere
+    named=addSubbar
+    send=(component "control/subbar-link"
+    clickText=buttonText
+    clickIcon="plus"
+    clickType="success"
+    click=(action "addItem")
+    )
+  }}
+{{/if}}

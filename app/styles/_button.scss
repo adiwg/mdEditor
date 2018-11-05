@@ -1,3 +1,15 @@
 .md-btn-responsive {
   white-space: normal;
 }
+
+.btn {
+  transition: background-color .25s ease;
+}
+
+.md-button-confirm {
+  min-width: 7em;
+
+  &.btn-xs {
+    min-width: 6em;
+  }
+}
