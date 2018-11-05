@@ -5702,6 +5702,14 @@ a {
 .text-white {
   color: #fff !important; }
 
+.plain-link {
+  text-decoration: none; }
+  .plain-link:hover {
+    cursor: pointer;
+    text-decoration: none; }
+  .plain-link:active, .plain-link:focus {
+    text-decoration: none; }
+
 .required > .card-header .card-title::after,
 form .required > label::after,
 label.required::after,

@@ -869,7 +869,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-lineage/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/object/md-lineage/preview/component.js should pass ESLint\n\n3:16 - Use import Component from \'@ember/component\'; instead of using Ember.Component (ember/new-module-imports)');
+    assert.ok(true, 'pods/components/object/md-lineage/preview/component.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/components/object/md-locale-array/component.js', function (assert) {
@@ -1484,7 +1484,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/record/show/edit/main/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/record/show/edit/main/index/route.js should pass ESLint\n\n4:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n7:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
+    assert.ok(false, 'pods/record/show/edit/main/index/route.js should pass ESLint\n\n7:3 - Use import Route from \'@ember/routing/route\'; instead of using Ember destructuring (ember/new-module-imports)\n8:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n9:3 - Use import { getWithDefault } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n10:3 - Use import { set } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)');
   });
 
   QUnit.test('pods/record/show/edit/main/route.js', function (assert) {
