@@ -37,3 +37,17 @@ a {
 .text-white {
   color: #fff !important;
 }
+
+.plain-link {
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
