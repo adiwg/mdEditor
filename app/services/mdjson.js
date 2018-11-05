@@ -124,21 +124,28 @@ export default Service.extend({
     let _contacts = [];
     let conts = this.get('contacts');
 
-    const _replacer = (key, value) => {
+    const _replacer = function (key, value) {
       let check = {
         contactId: true,
         sourceId: true,
         recipientId: true
       };
-      //console.log(arguments);
+
+      if(key === 'sourceId' && !('amount' in this || 'currency' in this)) {
+        //console.log(this);
+        return value;
+      }
+
       if(check[key] && !_contacts.includes(value)) {
         let contact = conts.get('contacts').findBy('contactId', value);
 
         if(!contact) {
+
           return null;
         }
 
-        let orgs = isArray(contact.get('json.memberOfOrganization')) ? contact.get('json.memberOfOrganization').slice(0) : null;
+        let orgs = isArray(contact.get('json.memberOfOrganization')) ?
+          contact.get('json.memberOfOrganization').slice(0) : null;
         _contacts.push(value);
 
         if(orgs && orgs.length) {
