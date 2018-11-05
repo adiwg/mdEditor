@@ -1,16 +1,31 @@
 # Change Log
 
-## [v0.5.0](https://github.com/adiwg/mdEditor/tree/v0.5.0)
+## [v0.6.0](https://github.com/adiwg/mdEditor/tree/v0.6.0)
 
-[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.4.1...v0.5.0)
-
-**Implemented enhancements:**
-
-- TimePeriod element titles [\#223](https://github.com/adiwg/mdEditor/issues/223)
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.5.0...v0.6.0)
 
 **Fixed bugs:**
 
-- TimePeriod element titles [\#223](https://github.com/adiwg/mdEditor/issues/223)
+- Don't strip sourceId from lineage when formatting mdJSON [\#240](https://github.com/adiwg/mdEditor/issues/240)
+- In Distribution, cannot edit or delete online option after creation [\#239](https://github.com/adiwg/mdEditor/issues/239)
+- "Point of Contacts" vs "Points of Contact" [\#230](https://github.com/adiwg/mdEditor/issues/230)
+- Contacts inherited from associated records [\#225](https://github.com/adiwg/mdEditor/issues/225)
+- ScrollSpy highlighting wrong menu item [\#196](https://github.com/adiwg/mdEditor/issues/196)
+
+**Closed issues:**
+
+- Increase Scroll Spy top offset amount [\#241](https://github.com/adiwg/mdEditor/issues/241)
+- Point of Contacts mislabeled  [\#237](https://github.com/adiwg/mdEditor/issues/237)
+- Citation window grayed out [\#218](https://github.com/adiwg/mdEditor/issues/218)
+
+**Merged pull requests:**
+
+- Feature 101 taxonomy [\#243](https://github.com/adiwg/mdEditor/pull/243) ([jlblcc](https://github.com/jlblcc))
+- Feature 101 taxonomy [\#242](https://github.com/adiwg/mdEditor/pull/242) ([jlblcc](https://github.com/jlblcc))
+- Update CHANGELOG [\#228](https://github.com/adiwg/mdEditor/pull/228) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.5.0](https://github.com/adiwg/mdEditor/tree/v0.5.0) (2018-09-04)
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.4.1...v0.5.0)
 
 **Closed issues:**
 
