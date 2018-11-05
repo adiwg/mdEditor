@@ -5,7 +5,7 @@
     <h4 class="text-info">Allocation #{{index}}</h4>
     <div class="row">
       <div class="col-md-6">
-        <label>Start Date:</label>{{log model}}
+        <label>Start Date:</label>
         {{if model.timePeriod.startDateTime (moment-format model.timePeriod.startDateTime "MM-DD-YYYY") "Not defined"}}
       </div>
       <div class="col-md-6">

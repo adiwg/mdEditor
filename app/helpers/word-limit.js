@@ -5,11 +5,11 @@ import {
   isPresent
 } from '@ember/utils';
 
-export function wordLimit(params, hash) {
+export function wordLimit(params, {
+  limit,
+  wordLength
+}) {
   const [value] = params;
-  const {
-    limit
-  } = hash;
 
   if(isPresent(value)) {
     let arr = value.split(/(?=\s)/gi);
@@ -23,10 +23,14 @@ export function wordLimit(params, hash) {
         return true;
       }
 
+      if(wordLength && itm.length > wordLength) {
+        arr[idx] = itm.slice(0, 20) + '...';
+      }
+
       return idx < words;
     });
 
-    let text = arr.slice(0, stop).join('');
+    let text = arr.slice(0, stop + 1).join('');
 
     if(arr.length > words) {
       text += '...';
