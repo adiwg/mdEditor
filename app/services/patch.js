@@ -2,12 +2,14 @@ import Service from '@ember/service';
 import {
   get,
   getWithDefault,
-  set
+  set,
+  setProperties
 } from '@ember/object';
 import {
   isArray,
   A
 } from '@ember/array';
+import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
 
 export default Service.extend({
   applyModelPatch(record) {
@@ -66,12 +68,12 @@ export default Service.extend({
             let classification = get(itm, 'taxonomicClassification');
 
             if(classification && !isArray(classification)) {
-              let fixNames = (taxon)=>{
+              let fixNames = (taxon) => {
                 taxon.taxonomicName = taxon.taxonomicName || taxon.latinName;
                 taxon.taxonomicLevel = taxon.taxonomicLevel || taxon.taxonomicRank;
 
                 if(isArray(taxon.subClassification)) {
-                  taxon.subClassification.forEach(t=>fixNames(t));
+                  taxon.subClassification.forEach(t => fixNames(t));
                 }
               };
 
@@ -94,6 +96,71 @@ export default Service.extend({
           });
         }
 
+        //fix srs identifiers
+        let srs = record.get(
+          'json.metadata.resourceInfo.spatialReferenceSystem');
+
+        if(srs) {
+          srs.forEach(itm => {
+            let projObj = get(itm,
+              'referenceSystemParameterSet.projection');
+            let geoObj = get(itm,
+              'referenceSystemParameterSet.geodetic');
+            let vertObj = get(itm,
+              'referenceSystemParameterSet.verticalDatum');
+
+            if(projObj) {
+              let {
+                projection,
+                projectionName,
+                projectionIdentifier
+              } = projObj;
+
+              if(!projectionIdentifier || projection) {
+                set(projObj, 'projectionIdentifier', {
+                  identifier: projection,
+                  name: projectionName
+                });
+
+                setProperties(projObj, {
+                  projection: null,
+                  projectionName: null
+                });
+              }
+            }
+
+            if(geoObj && (geoObj.datumName || geoObj.ellipsoidName)) {
+              if(geoObj.datumName) {
+                set(geoObj,'datumIdentifier', {
+                  identifier: geoObj.datumName
+                });
+              }
+
+              if(geoObj.ellipsoidName) {
+                set(geoObj,'ellipsoidIdentifier', {
+                  identifier: geoObj.ellipsoidName
+                });
+              }
+
+              setProperties(geoObj, {
+                datumName: null,
+                ellipsoidName: null
+              });
+            }
+
+            if(vertObj && vertObj.datumName) {
+              if(vertObj.datumName) {
+                set(vertObj,'datumIdentifier', {
+                  identifier: vertObj.datumName
+                });
+              }
+
+              set(vertObj, 'datumName', null);
+            }
+          });
+        }
+
+        record.set('json.schema.version', Schemas.schema.version);
         record.save().then(function () {
           record.notifyPropertyChange('currentHash');
         });
