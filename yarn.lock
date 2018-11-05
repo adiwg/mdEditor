@@ -2066,7 +2066,7 @@ buffer@^4.1.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buildify@powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7:
+"buildify@github:powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7":
   version "0.4.0"
   resolved "https://codeload.github.com/powmedia/buildify/tar.gz/20458a121411f759dcc5ec1b441695eb7fc2b3b7"
   dependencies:
@@ -7280,19 +7280,19 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
-mdcodes@^2.6.3:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.7.0.tgz#20b8ff5cc886b3d3b51ee106afa20966ee903198"
-  integrity sha512-vllH1w+lar6DLe6DvswltNeI9+GCI4ES4ebkZ5VUt+feJ5x67X02Q9O0HuawN2jqtViM3EhAmM4swYH3znqC6g==
+mdcodes@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.7.2.tgz#e71a8a0553f0b549af57e8318c24b9392c56b7e0"
+  integrity sha512-yiDf7YtlcspAcDzYSbltAi3HG7ib4SuXJfKpB2RhKVQetLCpm2mcBDPOQNolygda3eFCSktwF2m1OeV+qWGhEQ==
   dependencies:
     buildify powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7
     glob "^7.1.0"
     rimraf "^2.6.2"
 
-mdjson-schemas@^2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.6.2.tgz#5a40669d58834fcdbd583f38dcdb89dd2c9226a4"
-  integrity sha512-2bg3tlA01IR9UwZmun1vrkSYK2GvEx4JQn/vg3dxPqDgqEF317O+IccgwJnpnCQXlRorw2nNAMdTnDTkFvGy0w==
+mdjson-schemas@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.6.3.tgz#e09d46b3a999d8fd9d30ee9e9b4dd1e7789ec143"
+  integrity sha512-hJCLw8+YOPy+VaFPXZuVZ324VGaeiYZQjQZ7bgm6iexpDOrv7yYmFWlYK+vaEwhBRdldByZBJBL0jGhxiXd9/g==
 
 mdkeywords@^1.0.4:
   version "1.0.4"
