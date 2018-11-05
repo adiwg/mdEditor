@@ -1,22 +1,11 @@
-/* @license
-Papa Parse
-v4.6.1
-https://github.com/mholt/PapaParse
-License: MIT
+/*!
+	Papa Parse
+	v4.3.7
+	https://github.com/mholt/PapaParse
+	License: MIT
 */
-
-// Polyfills
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray#Polyfill
-if (!Array.isArray)
-{
-	Array.isArray = function(arg) {
-		return Object.prototype.toString.call(arg) === '[object Array]';
-	};
-}
-
 (function(root, factory)
 {
-	/* globals define */
 	if (typeof define === 'function' && define.amd)
 	{
 		// AMD. Register as an anonymous module.
@@ -38,7 +27,7 @@ if (!Array.isArray)
 {
 	'use strict';
 
-	var global = (function() {
+	var global = (function () {
 		// alternative method, similar to `Function('return this')()`
 		// but without using `eval` (which is disabled when
 		// using Content Security Policy).
@@ -50,6 +39,7 @@ if (!Array.isArray)
 		// When running tests none of the above have been defined
 		return {};
 	})();
+
 
 	var IS_WORKER = !global.document && !!global.postMessage,
 		IS_PAPA_WORKER = IS_WORKER && /(\?|&)papaworker(=|&|$)/.test(global.location.search),
@@ -67,7 +57,6 @@ if (!Array.isArray)
 	Papa.BAD_DELIMITERS = ['\r', '\n', '"', Papa.BYTE_ORDER_MARK];
 	Papa.WORKERS_SUPPORTED = !IS_WORKER && !!global.Worker;
 	Papa.SCRIPT_PATH = null;	// Must be set by your code if you use workers and this lib is loaded asynchronously
-	Papa.NODE_STREAM_INPUT = 1;
 
 	// Configurable chunk sizes for local and remote files, respectively
 	Papa.LocalChunkSize = 1024 * 1024 * 10;	// 10 MB
@@ -81,7 +70,6 @@ if (!Array.isArray)
 	Papa.FileStreamer = FileStreamer;
 	Papa.StringStreamer = StringStreamer;
 	Papa.ReadableStreamStreamer = ReadableStreamStreamer;
-	Papa.DuplexStreamStreamer = DuplexStreamStreamer;
 
 	if (global.jQuery)
 	{
@@ -174,7 +162,7 @@ if (!Array.isArray)
 				queue.splice(0, 1);
 				parseNextFile();
 			}
-		};
+		}
 	}
 
 
@@ -194,7 +182,7 @@ if (!Array.isArray)
 		}
 		else
 		{
-			document.addEventListener('DOMContentLoaded', function() {
+			document.addEventListener('DOMContentLoaded', function () {
 				LOADED_SYNC = true;
 			}, true);
 		}
@@ -213,8 +201,6 @@ if (!Array.isArray)
 			dynamicTyping = {};
 		}
 		_config.dynamicTyping = dynamicTyping;
-
-		_config.transform = isFunction(_config.transform) ? _config.transform : false;
 
 		if (_config.worker && Papa.WORKERS_SUPPORTED)
 		{
@@ -241,14 +227,7 @@ if (!Array.isArray)
 		}
 
 		var streamer = null;
-		if (_input === Papa.NODE_STREAM_INPUT)
-		{
-			// create a node Duplex stream for use
-			// with .pipe
-			streamer = new DuplexStreamStreamer(_config);
-			return streamer.getStream();
-		}
-		else if (typeof _input === 'string')
+		if (typeof _input === 'string')
 		{
 			if (_config.download)
 				streamer = new NetworkStreamer(_config);
@@ -272,6 +251,9 @@ if (!Array.isArray)
 
 	function JsonToCsv(_input, _config)
 	{
+		var _output = '';
+		var _fields = [];
+
 		// Default configuration
 
 		/** whether to surround every datum with quotes */
@@ -280,7 +262,7 @@ if (!Array.isArray)
 		/** whether to write headers */
 		var _writeHeader = true;
 
-		/** delimiting character(s) */
+		/** delimiting character */
 		var _delimiter = ',';
 
 		/** newline character(s) */
@@ -289,9 +271,6 @@ if (!Array.isArray)
 		/** quote character */
 		var _quoteChar = '"';
 
-		/** whether to skip empty lines */
-		var _skipEmptyLines = false;
-
 		unpackConfig();
 
 		var quoteCharRegex = new RegExp(_quoteChar, 'g');
@@ -299,33 +278,33 @@ if (!Array.isArray)
 		if (typeof _input === 'string')
 			_input = JSON.parse(_input);
 
-		if (Array.isArray(_input))
+		if (_input instanceof Array)
 		{
-			if (!_input.length || Array.isArray(_input[0]))
-				return serialize(null, _input, _skipEmptyLines);
+			if (!_input.length || _input[0] instanceof Array)
+				return serialize(null, _input);
 			else if (typeof _input[0] === 'object')
-				return serialize(objectKeys(_input[0]), _input, _skipEmptyLines);
+				return serialize(objectKeys(_input[0]), _input);
 		}
 		else if (typeof _input === 'object')
 		{
 			if (typeof _input.data === 'string')
 				_input.data = JSON.parse(_input.data);
 
-			if (Array.isArray(_input.data))
+			if (_input.data instanceof Array)
 			{
 				if (!_input.fields)
 					_input.fields =  _input.meta && _input.meta.fields;
 
 				if (!_input.fields)
-					_input.fields =  Array.isArray(_input.data[0])
-						? _input.fields
-						: objectKeys(_input.data[0]);
+					_input.fields =  _input.data[0] instanceof Array
+									? _input.fields
+									: objectKeys(_input.data[0]);
 
-				if (!(Array.isArray(_input.data[0])) && typeof _input.data[0] !== 'object')
+				if (!(_input.data[0] instanceof Array) && typeof _input.data[0] !== 'object')
 					_input.data = [_input.data];	// handles input like [1,2,3] or ['asdf']
 			}
 
-			return serialize(_input.fields || [], _input.data || [], _skipEmptyLines);
+			return serialize(_input.fields || [], _input.data || []);
 		}
 
 		// Default (any valid paths should return before this)
@@ -338,18 +317,15 @@ if (!Array.isArray)
 				return;
 
 			if (typeof _config.delimiter === 'string'
-                && !Papa.BAD_DELIMITERS.filter(function(value) { return _config.delimiter.indexOf(value) !== -1; }).length)
+				&& _config.delimiter.length === 1
+				&& Papa.BAD_DELIMITERS.indexOf(_config.delimiter) === -1)
 			{
 				_delimiter = _config.delimiter;
 			}
 
 			if (typeof _config.quotes === 'boolean'
-				|| Array.isArray(_config.quotes))
+				|| _config.quotes instanceof Array)
 				_quotes = _config.quotes;
-
-			if (typeof _config.skipEmptyLines === 'boolean'
-				|| typeof _config.skipEmptyLines === 'string')
-				_skipEmptyLines = _config.skipEmptyLines;
 
 			if (typeof _config.newline === 'string')
 				_newline = _config.newline;
@@ -374,7 +350,7 @@ if (!Array.isArray)
 		}
 
 		/** The double for loop that iterates the data and writes out a CSV string including header row */
-		function serialize(fields, data, skipEmptyLines)
+		function serialize(fields, data)
 		{
 			var csv = '';
 
@@ -383,8 +359,8 @@ if (!Array.isArray)
 			if (typeof data === 'string')
 				data = JSON.parse(data);
 
-			var hasHeader = Array.isArray(fields) && fields.length > 0;
-			var dataKeyedByField = !(Array.isArray(data[0]));
+			var hasHeader = fields instanceof Array && fields.length > 0;
+			var dataKeyedByField = !(data[0] instanceof Array);
 
 			// If there a header row, write it first
 			if (hasHeader && _writeHeader)
@@ -403,21 +379,19 @@ if (!Array.isArray)
 			for (var row = 0; row < data.length; row++)
 			{
 				var maxCol = hasHeader ? fields.length : data[row].length;
-				var r = hasHeader ? fields : data[row];
 
-				if (skipEmptyLines !== 'greedy' || r.join('').trim() !== '')
+				for (var col = 0; col < maxCol; col++)
 				{
-					for (var col = 0; col < maxCol; col++)
-					{
-						if (col > 0)
-							csv += _delimiter;
-						var colIdx = hasHeader && dataKeyedByField ? fields[col] : col;
-						csv += safe(data[row][colIdx], col);
-					}
-					if (row < data.length - 1 && (!skipEmptyLines || maxCol > 0))
-						csv += _newline;
+					if (col > 0)
+						csv += _delimiter;
+					var colIdx = hasHeader && dataKeyedByField ? fields[col] : col;
+					csv += safe(data[row][colIdx], col);
 				}
+
+				if (row < data.length - 1)
+					csv += _newline;
 			}
+
 			return csv;
 		}
 
@@ -427,13 +401,10 @@ if (!Array.isArray)
 			if (typeof str === 'undefined' || str === null)
 				return '';
 
-			if (str.constructor === Date)
-				return JSON.stringify(str).slice(1, 25);
-
-			str = str.toString().replace(quoteCharRegex, _quoteChar + _quoteChar);
+			str = str.toString().replace(quoteCharRegex, _quoteChar+_quoteChar);
 
 			var needsQuotes = (typeof _quotes === 'boolean' && _quotes)
-							|| (Array.isArray(_quotes) && _quotes[col])
+							|| (_quotes instanceof Array && _quotes[col])
 							|| hasAny(str, Papa.BAD_DELIMITERS)
 							|| str.indexOf(_delimiter) > -1
 							|| str.charAt(0) === ' '
@@ -455,8 +426,8 @@ if (!Array.isArray)
 	function ChunkStreamer(config)
 	{
 		this._handle = null;
+		this._paused = false;
 		this._finished = false;
-		this._completed = false;
 		this._input = null;
 		this._baseIndex = 0;
 		this._partialLine = '';
@@ -471,7 +442,7 @@ if (!Array.isArray)
 		};
 		replaceConfig.call(this, config);
 
-		this.parseChunk = function(chunk, isFakeChunk)
+		this.parseChunk = function(chunk)
 		{
 			// First chunk pre-processing
 			if (this.isFirstChunk && isFunction(this._config.beforeFirstChunk))
@@ -512,10 +483,10 @@ if (!Array.isArray)
 					finished: finishedIncludingPreview
 				});
 			}
-			else if (isFunction(this._config.chunk) && !isFakeChunk)
+			else if (isFunction(this._config.chunk))
 			{
 				this._config.chunk(results, this._handle);
-				if (this._handle.paused() || this._handle.aborted())
+				if (this._paused)
 					return;
 				results = undefined;
 				this._completeResults = undefined;
@@ -527,10 +498,8 @@ if (!Array.isArray)
 				this._completeResults.meta = results.meta;
 			}
 
-			if (!this._completed && finishedIncludingPreview && isFunction(this._config.complete) && (!results || !results.meta.aborted)) {
+			if (finishedIncludingPreview && isFunction(this._config.complete) && (!results || !results.meta.aborted))
 				this._config.complete(this._completeResults, this._input);
-				this._completed = true;
-			}
 
 			if (!finishedIncludingPreview && (!results || !results.meta.paused))
 				this._nextChunk();
@@ -633,7 +602,7 @@ if (!Array.isArray)
 			if (this._config.chunkSize)
 			{
 				var end = this._start + this._config.chunkSize - 1;	// minus one because byte range is inclusive
-				xhr.setRequestHeader('Range', 'bytes=' + this._start + '-' + end);
+				xhr.setRequestHeader('Range', 'bytes='+this._start+'-'+end);
 				xhr.setRequestHeader('If-None-Match', 'webkit-no-cache'); // https://bugs.webkit.org/show_bug.cgi?id=82672
 			}
 
@@ -648,11 +617,11 @@ if (!Array.isArray)
 				this._chunkError();
 			else
 				this._start += this._config.chunkSize;
-		};
+		}
 
 		this._chunkLoaded = function()
 		{
-			if (xhr.readyState !== 4)
+			if (xhr.readyState != 4)
 				return;
 
 			if (xhr.status < 200 || xhr.status >= 400)
@@ -663,20 +632,20 @@ if (!Array.isArray)
 
 			this._finished = !this._config.chunkSize || this._start > getFileSize(xhr);
 			this.parseChunk(xhr.responseText);
-		};
+		}
 
 		this._chunkError = function(errorMessage)
 		{
 			var errorText = xhr.statusText || errorMessage;
-			this._sendError(new Error(errorText));
-		};
+			this._sendError(errorText);
+		}
 
 		function getFileSize(xhr)
 		{
 			var contentRange = xhr.getResponseHeader('Content-Range');
 			if (contentRange === null) { // no content range, then finish!
-				return -1;
-			}
+					return -1;
+					}
 			return parseInt(contentRange.substr(contentRange.lastIndexOf('/') + 1));
 		}
 	}
@@ -718,7 +687,7 @@ if (!Array.isArray)
 		{
 			if (!this._finished && (!this._config.preview || this._rowCount < this._config.preview))
 				this._readChunk();
-		};
+		}
 
 		this._readChunk = function()
 		{
@@ -731,7 +700,7 @@ if (!Array.isArray)
 			var txt = reader.readAsText(input, this._config.encoding);
 			if (!usingAsyncReader)
 				this._chunkLoaded({ target: { result: txt } });	// mimic the async signature
-		};
+		}
 
 		this._chunkLoaded = function(event)
 		{
@@ -739,12 +708,12 @@ if (!Array.isArray)
 			this._start += this._config.chunkSize;
 			this._finished = !this._config.chunkSize || this._start >= this._input.size;
 			this.parseChunk(event.target.result);
-		};
+		}
 
 		this._chunkError = function()
 		{
-			this._sendError(reader.error);
-		};
+			this._sendError(reader.error.message);
+		}
 
 	}
 	FileStreamer.prototype = Object.create(ChunkStreamer.prototype);
@@ -756,12 +725,14 @@ if (!Array.isArray)
 		config = config || {};
 		ChunkStreamer.call(this, config);
 
+		var string;
 		var remaining;
 		this.stream = function(s)
 		{
+			string = s;
 			remaining = s;
 			return this._nextChunk();
-		};
+		}
 		this._nextChunk = function()
 		{
 			if (this._finished) return;
@@ -770,7 +741,7 @@ if (!Array.isArray)
 			remaining = size ? remaining.substr(size) : '';
 			this._finished = !remaining;
 			return this.parseChunk(chunk);
-		};
+		}
 	}
 	StringStreamer.prototype = Object.create(StringStreamer.prototype);
 	StringStreamer.prototype.constructor = StringStreamer;
@@ -784,19 +755,6 @@ if (!Array.isArray)
 
 		var queue = [];
 		var parseOnData = true;
-		var streamHasEnded = false;
-
-		this.pause = function()
-		{
-			ChunkStreamer.prototype.pause.apply(this, arguments);
-			this._input.pause();
-		};
-
-		this.resume = function()
-		{
-			ChunkStreamer.prototype.resume.apply(this, arguments);
-			this._input.resume();
-		};
 
 		this.stream = function(stream)
 		{
@@ -805,18 +763,10 @@ if (!Array.isArray)
 			this._input.on('data', this._streamData);
 			this._input.on('end', this._streamEnd);
 			this._input.on('error', this._streamError);
-		};
-
-		this._checkIsFinished = function()
-		{
-			if (streamHasEnded && queue.length === 1) {
-				this._finished = true;
-			}
-		};
+		}
 
 		this._nextChunk = function()
 		{
-			this._checkIsFinished();
 			if (queue.length)
 			{
 				this.parseChunk(queue.shift());
@@ -825,7 +775,7 @@ if (!Array.isArray)
 			{
 				parseOnData = true;
 			}
-		};
+		}
 
 		this._streamData = bindFunction(function(chunk)
 		{
@@ -836,7 +786,6 @@ if (!Array.isArray)
 				if (parseOnData)
 				{
 					parseOnData = false;
-					this._checkIsFinished();
 					this.parseChunk(queue.shift());
 				}
 			}
@@ -849,13 +798,13 @@ if (!Array.isArray)
 		this._streamError = bindFunction(function(error)
 		{
 			this._streamCleanUp();
-			this._sendError(error);
+			this._sendError(error.message);
 		}, this);
 
 		this._streamEnd = bindFunction(function()
 		{
 			this._streamCleanUp();
-			streamHasEnded = true;
+			this._finished = true;
 			this._streamData('');
 		}, this);
 
@@ -870,117 +819,14 @@ if (!Array.isArray)
 	ReadableStreamStreamer.prototype.constructor = ReadableStreamStreamer;
 
 
-	function DuplexStreamStreamer(_config) {
-		var Duplex = require('stream').Duplex;
-		var config = copy(_config);
-		var parseOnWrite = true;
-		var writeStreamHasFinished = false;
-		var parseCallbackQueue = [];
-		var stream = null;
-
-		this._onCsvData = function(results)
-		{
-			var data = results.data;
-			for (var i = 0; i < data.length; i++) {
-				if (!stream.push(data[i]) && !this._handle.paused()) {
-					// the writeable consumer buffer has filled up
-					// so we need to pause until more items
-					// can be processed
-					this._handle.pause();
-				}
-			}
-		};
-
-		this._onCsvComplete = function()
-		{
-			// node will finish the read stream when
-			// null is pushed
-			stream.push(null);
-		};
-
-		config.step = bindFunction(this._onCsvData, this);
-		config.complete = bindFunction(this._onCsvComplete, this);
-		ChunkStreamer.call(this, config);
-
-		this._nextChunk = function()
-		{
-			if (writeStreamHasFinished && parseCallbackQueue.length === 1) {
-				this._finished = true;
-			}
-			if (parseCallbackQueue.length) {
-				parseCallbackQueue.shift()();
-			} else {
-				parseOnWrite = true;
-			}
-		};
-
-		this._addToParseQueue = function(chunk, callback)
-		{
-			// add to queue so that we can indicate
-			// completion via callback
-			// node will automatically pause the incoming stream
-			// when too many items have been added without their
-			// callback being invoked
-			parseCallbackQueue.push(bindFunction(function() {
-				this.parseChunk(typeof chunk === 'string' ? chunk : chunk.toString(config.encoding));
-				if (isFunction(callback)) {
-					return callback();
-				}
-			}, this));
-			if (parseOnWrite) {
-				parseOnWrite = false;
-				this._nextChunk();
-			}
-		};
-
-		this._onRead = function()
-		{
-			if (this._handle.paused()) {
-				// the writeable consumer can handle more data
-				// so resume the chunk parsing
-				this._handle.resume();
-			}
-		};
-
-		this._onWrite = function(chunk, encoding, callback)
-		{
-			this._addToParseQueue(chunk, callback);
-		};
-
-		this._onWriteComplete = function()
-		{
-			writeStreamHasFinished = true;
-			// have to write empty string
-			// so parser knows its done
-			this._addToParseQueue('');
-		};
-
-		this.getStream = function()
-		{
-			return stream;
-		};
-		stream = new Duplex({
-			readableObjectMode: true,
-			decodeStrings: false,
-			read: bindFunction(this._onRead, this),
-			write: bindFunction(this._onWrite, this)
-		});
-		stream.once('finish', bindFunction(this._onWriteComplete, this));
-	}
-	DuplexStreamStreamer.prototype = Object.create(ChunkStreamer.prototype);
-	DuplexStreamStreamer.prototype.constructor = DuplexStreamStreamer;
-
-
 	// Use one ParserHandle per entire CSV file or string
 	function ParserHandle(_config)
 	{
 		// One goal is to minimize the use of regular expressions...
 		var FLOAT = /^\s*-?(\d*\.?\d+|\d+\.?\d*)(e[-+]?\d+)?\s*$/i;
-		var ISO_DATE = /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/;
 
 		var self = this;
 		var _stepCounter = 0;	// Number of times step was called (number of rows parsed)
-		var _rowCounter = 0;	// Number of rows that have been parsed so far
 		var _input;				// The input being parsed
 		var _parser;			// The core parser being used
 		var _paused = false;	// Whether we are paused or not
@@ -1026,14 +872,13 @@ if (!Array.isArray)
 		 */
 		this.parse = function(input, baseIndex, ignoreLastRow)
 		{
-			var quoteChar = _config.quoteChar || '"';
 			if (!_config.newline)
-				_config.newline = guessLineEndings(input, quoteChar);
+				_config.newline = guessLineEndings(input);
 
 			_delimiterError = false;
 			if (!_config.delimiter)
 			{
-				var delimGuess = guessDelimiter(input, _config.newline, _config.skipEmptyLines, _config.comments);
+				var delimGuess = guessDelimiter(input, _config.newline, _config.skipEmptyLines);
 				if (delimGuess.successful)
 					_config.delimiter = delimGuess.bestDelimiter;
 				else
@@ -1075,10 +920,10 @@ if (!Array.isArray)
 		this.resume = function()
 		{
 			_paused = false;
-			self.streamer.parseChunk(_input, true);
+			self.streamer.parseChunk(_input);
 		};
 
-		this.aborted = function()
+		this.aborted = function ()
 		{
 			return _aborted;
 		};
@@ -1093,29 +938,25 @@ if (!Array.isArray)
 			_input = '';
 		};
 
-		function testEmptyLine(s) {
-			return _config.skipEmptyLines === 'greedy' ? s.join('').trim() === '' : s.length === 1 && s[0].length === 0;
-		}
-
 		function processResults()
 		{
 			if (_results && _delimiterError)
 			{
-				addError('Delimiter', 'UndetectableDelimiter', 'Unable to auto-detect delimiting character; defaulted to \'' + Papa.DefaultDelimiter + '\'');
+				addError('Delimiter', 'UndetectableDelimiter', 'Unable to auto-detect delimiting character; defaulted to \''+Papa.DefaultDelimiter+'\'');
 				_delimiterError = false;
 			}
 
 			if (_config.skipEmptyLines)
 			{
 				for (var i = 0; i < _results.data.length; i++)
-					if (testEmptyLine(_results.data[i]))
+					if (_results.data[i].length === 1 && _results.data[i][0] === '')
 						_results.data.splice(i--, 1);
 			}
 
 			if (needsHeaderRow())
 				fillHeaderFields();
 
-			return applyHeaderAndDynamicTypingAndTransformation();
+			return applyHeaderAndDynamicTyping();
 		}
 
 		function needsHeaderRow()
@@ -1129,15 +970,7 @@ if (!Array.isArray)
 				return;
 			for (var i = 0; needsHeaderRow() && i < _results.data.length; i++)
 				for (var j = 0; j < _results.data[i].length; j++)
-				{
-					var header = _results.data[i][j];
-
-					if (_config.trimHeaders) {
-						header = header.trim();
-					}
-
-					_fields.push(header);
-				}
+					_fields.push(_results.data[i][j]);
 			_results.data.splice(0, 1);
 		}
 
@@ -1146,7 +979,7 @@ if (!Array.isArray)
 			if (_config.dynamicTypingFunction && _config.dynamicTyping[field] === undefined) {
 				_config.dynamicTyping[field] = _config.dynamicTypingFunction(field);
 			}
-			return (_config.dynamicTyping[field] || _config.dynamicTyping) === true;
+			return (_config.dynamicTyping[field] || _config.dynamicTyping) === true
 		}
 
 		function parseDynamic(field, value)
@@ -1157,36 +990,28 @@ if (!Array.isArray)
 					return true;
 				else if (value === 'false' || value === 'FALSE')
 					return false;
-				else if (FLOAT.test(value))
-					return parseFloat(value);
-				else if (ISO_DATE.test(value))
-					return new Date(value);
 				else
-					return (value === '' ? null : value);
+					return tryParseFloat(value);
 			}
 			return value;
 		}
 
-		function applyHeaderAndDynamicTypingAndTransformation()
+		function applyHeaderAndDynamicTyping()
 		{
-			if (!_results || (!_config.header && !_config.dynamicTyping && !_config.transform))
+			if (!_results || (!_config.header && !_config.dynamicTyping))
 				return _results;
 
 			for (var i = 0; i < _results.data.length; i++)
 			{
 				var row = _config.header ? {} : [];
 
-				var j;
-				for (j = 0; j < _results.data[i].length; j++)
+				for (var j = 0; j < _results.data[i].length; j++)
 				{
 					var field = j;
 					var value = _results.data[i][j];
 
 					if (_config.header)
 						field = j >= _fields.length ? '__parsed_extra' : _fields[j];
-
-					if (_config.transform)
-						value = _config.transform(value,field);
 
 					value = parseDynamic(field, value);
 
@@ -1204,20 +1029,18 @@ if (!Array.isArray)
 				if (_config.header)
 				{
 					if (j > _fields.length)
-						addError('FieldMismatch', 'TooManyFields', 'Too many fields: expected ' + _fields.length + ' fields but parsed ' + j, _rowCounter + i);
+						addError('FieldMismatch', 'TooManyFields', 'Too many fields: expected ' + _fields.length + ' fields but parsed ' + j, i);
 					else if (j < _fields.length)
-						addError('FieldMismatch', 'TooFewFields', 'Too few fields: expected ' + _fields.length + ' fields but parsed ' + j, _rowCounter + i);
+						addError('FieldMismatch', 'TooFewFields', 'Too few fields: expected ' + _fields.length + ' fields but parsed ' + j, i);
 				}
 			}
 
 			if (_config.header && _results.meta)
 				_results.meta.fields = _fields;
-
-			_rowCounter += _results.data.length;
 			return _results;
 		}
 
-		function guessDelimiter(input, newline, skipEmptyLines, comments)
+		function guessDelimiter(input, newline, skipEmptyLines)
 		{
 			var delimChoices = [',', '\t', '|', ';', Papa.RECORD_SEP, Papa.UNIT_SEP];
 			var bestDelim, bestDelta, fieldCountPrevRow;
@@ -1229,7 +1052,6 @@ if (!Array.isArray)
 				fieldCountPrevRow = undefined;
 
 				var preview = new Parser({
-					comments: comments,
 					delimiter: delim,
 					newline: newline,
 					preview: 10
@@ -1237,10 +1059,9 @@ if (!Array.isArray)
 
 				for (var j = 0; j < preview.data.length; j++)
 				{
-					if (skipEmptyLines && testEmptyLine(preview.data[j]))
-					{
-						emptyLinesCount++;
-						continue;
+					if (skipEmptyLines && preview.data[j].length === 1 && preview.data[j][0].length === 0) {
+						emptyLinesCount++
+						continue
 					}
 					var fieldCount = preview.data[j].length;
 					avgFieldCount += fieldCount;
@@ -1273,15 +1094,12 @@ if (!Array.isArray)
 			return {
 				successful: !!bestDelim,
 				bestDelimiter: bestDelim
-			};
+			}
 		}
 
-		function guessLineEndings(input, quoteChar)
+		function guessLineEndings(input)
 		{
-			input = input.substr(0, 1024 * 1024);	// max length 1 MB
-			// Replace all the text inside quotes
-			var re = new RegExp(escapeRegExp(quoteChar) + '([^]*?)' + escapeRegExp(quoteChar), 'gm');
-			input = input.replace(re, '');
+			input = input.substr(0, 1024*1024);	// max length 1 MB
 
 			var r = input.split('\r');
 
@@ -1302,6 +1120,12 @@ if (!Array.isArray)
 			return numWithN >= r.length / 2 ? '\r\n' : '\r';
 		}
 
+		function tryParseFloat(val)
+		{
+			var isNumber = FLOAT.test(val);
+			return isNumber ? parseFloat(val) : val;
+		}
+
 		function addError(type, code, msg, row)
 		{
 			_results.errors.push({
@@ -1313,11 +1137,9 @@ if (!Array.isArray)
 		}
 	}
 
-	/** https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions */
-	function escapeRegExp(string)
-	{
-		return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
-	}
+
+
+
 
 	/** The core parser implements speedy and correct CSV parsing */
 	function Parser(config)
@@ -1330,16 +1152,11 @@ if (!Array.isArray)
 		var step = config.step;
 		var preview = config.preview;
 		var fastMode = config.fastMode;
-		var quoteChar;
 		/** Allows for no quoteChar by setting quoteChar to undefined in config */
-		if (config.quoteChar === undefined) {
-			quoteChar = '"';
+		if (config.quoteChar === undefined){
+			var quoteChar = '"';
 		} else {
-			quoteChar = config.quoteChar;
-		}
-		var escapeChar = quoteChar;
-		if (config.escapeChar !== undefined) {
-			escapeChar = config.escapeChar;
+			var quoteChar = config.quoteChar;
 		}
 
 		// Delimiter must be valid
@@ -1357,7 +1174,7 @@ if (!Array.isArray)
 			comments = false;
 
 		// Newline must be valid: \r, \n, or \r\n
-		if (newline !== '\n' && newline !== '\r' && newline !== '\r\n')
+		if (newline != '\n' && newline != '\r' && newline != '\r\n')
 			newline = '\n';
 
 		// We're gonna need these at the Parser scope
@@ -1390,7 +1207,7 @@ if (!Array.isArray)
 				var rows = input.split(newline);
 				for (var i = 0; i < rows.length; i++)
 				{
-					row = rows[i];
+					var row = rows[i];
 					cursor += row.length;
 					if (i !== rows.length - 1)
 						cursor += newline.length;
@@ -1419,8 +1236,7 @@ if (!Array.isArray)
 
 			var nextDelim = input.indexOf(delim, cursor);
 			var nextNewline = input.indexOf(newline, cursor);
-			var quoteCharRegex = new RegExp(escapeChar.replace(/[-[\]/{}()*+?.\\^$|]/g, '\\$&') + quoteChar, 'g');
-			var quoteSearch;
+			var quoteCharRegex = new RegExp(quoteChar+quoteChar, 'g');
 
 			// Parser loop
 			for (;;)
@@ -1429,7 +1245,7 @@ if (!Array.isArray)
 				if (input[cursor] === quoteChar)
 				{
 					// Start our search for the closing quote where the cursor is
-					quoteSearch = cursor;
+					var quoteSearch = cursor;
 
 					// Skip the opening quote
 					cursor++;
@@ -1437,7 +1253,7 @@ if (!Array.isArray)
 					for (;;)
 					{
 						// Find closing quote
-						quoteSearch = input.indexOf(quoteChar, quoteSearch + 1);
+						var quoteSearch = input.indexOf(quoteChar, quoteSearch+1);
 
 						//No other quotes are found - no other delimiters
 						if (quoteSearch === -1)
@@ -1456,47 +1272,34 @@ if (!Array.isArray)
 						}
 
 						// Closing quote at EOF
-						if (quoteSearch === inputLen - 1)
+						if (quoteSearch === inputLen-1)
 						{
 							var value = input.substring(cursor, quoteSearch).replace(quoteCharRegex, quoteChar);
 							return finish(value);
 						}
 
 						// If this quote is escaped, it's part of the data; skip it
-						// If the quote character is the escape character, then check if the next character is the escape character
-						if (quoteChar === escapeChar &&  input[quoteSearch + 1] === escapeChar)
+						if (input[quoteSearch+1] === quoteChar)
 						{
 							quoteSearch++;
 							continue;
 						}
 
-						// If the quote character is not the escape character, then check if the previous character was the escape character
-						if (quoteChar !== escapeChar && quoteSearch !== 0 && input[quoteSearch - 1] === escapeChar)
-						{
-							continue;
-						}
-
-						// Check up to nextDelim or nextNewline, whichever is closest
-						var checkUpTo = nextNewline === -1 ? nextDelim : Math.min(nextDelim, nextNewline);
-						var spacesBetweenQuoteAndDelimiter = extraSpaces(checkUpTo);
-
-						// Closing quote followed by delimiter or 'unnecessary spaces + delimiter'
-						if (input[quoteSearch + 1 + spacesBetweenQuoteAndDelimiter] === delim)
+						// Closing quote followed by delimiter
+						if (input[quoteSearch+1] === delim)
 						{
 							row.push(input.substring(cursor, quoteSearch).replace(quoteCharRegex, quoteChar));
-							cursor = quoteSearch + 1 + spacesBetweenQuoteAndDelimiter + delimLen;
+							cursor = quoteSearch + 1 + delimLen;
 							nextDelim = input.indexOf(delim, cursor);
 							nextNewline = input.indexOf(newline, cursor);
 							break;
 						}
 
-						var spacesBetweenQuoteAndNewLine = extraSpaces(nextNewline);
-
-						// Closing quote followed by newline or 'unnecessary spaces + newLine'
-						if (input.substr(quoteSearch + 1 + spacesBetweenQuoteAndNewLine, newlineLen) === newline)
+						// Closing quote followed by newline
+						if (input.substr(quoteSearch+1, newlineLen) === newline)
 						{
 							row.push(input.substring(cursor, quoteSearch).replace(quoteCharRegex, quoteChar));
-							saveRow(quoteSearch + 1 + spacesBetweenQuoteAndNewLine + newlineLen);
+							saveRow(quoteSearch + 1 + newlineLen);
 							nextDelim = input.indexOf(delim, cursor);	// because we may have skipped the nextDelim in the quoted field
 
 							if (stepIsFunction)
@@ -1583,21 +1386,6 @@ if (!Array.isArray)
 			}
 
 			/**
-             * checks if there are extra spaces after closing quote and given index without any text
-             * if Yes, returns the number of spaces
-             */
-			function extraSpaces(index) {
-				var spaceLength = 0;
-				if (index !== -1) {
-					var textBetweenClosingQuoteAndIndex = input.substring(quoteSearch + 1, index);
-					if (textBetweenClosingQuoteAndIndex && textBetweenClosingQuoteAndIndex.trim() === '') {
-						spaceLength = textBetweenClosingQuoteAndIndex.length;
-					}
-				}
-				return spaceLength;
-			}
-
-			/**
 			 * Appends the remaining input from cursor to the end into
 			 * row, saves the row, calls step, and returns the results.
 			 */
@@ -1649,8 +1437,7 @@ if (!Array.isArray)
 			function doStep()
 			{
 				step(returnable());
-				data = [];
-				errors = [];
+				data = [], errors = [];
 			}
 		};
 
@@ -1785,9 +1572,9 @@ if (!Array.isArray)
 	/** Makes a deep copy of an array or object (mostly) */
 	function copy(obj)
 	{
-		if (typeof obj !== 'object' || obj === null)
+		if (typeof obj !== 'object')
 			return obj;
-		var cpy = Array.isArray(obj) ? [] : {};
+		var cpy = obj instanceof Array ? [] : {};
 		for (var key in obj)
 			cpy[key] = copy(obj[key]);
 		return cpy;
