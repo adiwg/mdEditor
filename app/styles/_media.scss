@@ -40,11 +40,11 @@
     }
   }
 
-  #md-sidebar-wrapper {
+  .md-sidebar-wrapper {
     width: #{$sidebar-width}px;
   }
 
-  #md-wrapper.toggled #md-sidebar-wrapper {
+  #md-wrapper.toggled .md-sidebar-wrapper {
     width: 0;
   }
 
@@ -66,7 +66,7 @@
   }
 
   #md-wrapper.toggled {
-    #md-sidebar-wrapper .sidebar-brand {
+    .md-sidebar-wrapper .sidebar-brand {
       display: none;
     }
 

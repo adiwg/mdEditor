@@ -32,7 +32,7 @@ body {
   &.toggled {
     padding-left: #{$sidebar-width}px;
 
-    #md-sidebar-wrapper {
+    .md-sidebar-wrapper {
       width: #{$sidebar-width}px;
 
       .sidebar-brand {
@@ -55,7 +55,7 @@ body {
   }
 }
 
-#md-sidebar-wrapper {
+.md-sidebar-wrapper {
   @include transition(all .5s ease);
   background: $body-bg none repeat scroll 0 0;
   height: 100vh;
@@ -65,6 +65,12 @@ body {
   position: fixed;
   width: 0;
   z-index: 1000;
+
+  .liquid-container,
+  .liquid-child {
+    height: 100%;
+    background-color: lighten($brand-success, 40);
+  }
 }
 
 .md-slider {
