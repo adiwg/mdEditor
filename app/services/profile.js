@@ -534,6 +534,11 @@ export default Service.extend({
           target: 'record.show.edit.documents',
           tip: 'Other documents related to, but not defining, the product.'
 
+        }, {
+          title: 'Dictionaries',
+          target: 'record.show.edit.dictionary',
+          tip: 'Data dictionaries associated with the resource.'
+
         }],
         components: {
           record: {

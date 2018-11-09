@@ -71,6 +71,7 @@
   profilePath=profilePath
   hideIndex=false
   condensed=false
+  responsive=true
   editOnAdd=false
   scrollToId="md-attribute"
   data-spy="Attributes"
@@ -141,6 +142,7 @@
     title="Foreign Key Attributes"
     class="md-embedded"
     plain=true
+    responsive=true
     templateClass=foreignKeyTemplate
     profilePath=(concat profilePath "keys.foreignKey")
     data-spy="Foreign" as |fk|
@@ -188,6 +190,7 @@
   value=model.index
   title="Entity Index"
   class="md-embedded"
+  responsive=true
   templateClass=indexTemplate
   profilePath=(concat profilePath ".index")
   data-spy="Entity Indexes" as |itm|

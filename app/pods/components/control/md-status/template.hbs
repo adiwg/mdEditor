@@ -9,7 +9,7 @@
 
 {{#if model.hasSchemaErrors}}
 <span class="md-status-icon" onclick={{action "showSlider"}}>
-  {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-warning btn-" btnSize) "md-warning")}}
+  {{fa-icon "exclamation-triangle" class=(if isBtn (concat "btn btn-warning btn-" btnSize) "md-warning")}}
   {{tooltip-on-element text='This record has errors! Click to view.' side="right"
     class="md-tooltip warning"
   }}

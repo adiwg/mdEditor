@@ -1,13 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  get,
-  computed,
-  inject: {
-    service
-  }
-} = Ember;
+import Component from '@ember/component';
+import { get,computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
   store: service(),
@@ -28,13 +21,14 @@ export default Component.extend({
     }
 
     let store = this.get('store');
-
-    return store.peekAll('record')
+    let linked = store.peekAll('record')
       .filterBy('recordId', get(this, 'item.mdRecordId'))
       .get('firstObject.json.metadata.resourceInfo.citation');
+
+    return linked || this.get('item.resourceCitation');
   }),
 
-  metadataIdentifier: computed('item.metadataCitation.identifier', 'item.mdRecordId', function() {
+  metadataIdentifier: computed('item.{metadataCitation.identifier,mdRecordId}', function() {
     if(!this.get('item.mdRecordId')) {
       return this.get('item.metadataCitation.identifier.0');
     }

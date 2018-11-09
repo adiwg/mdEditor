@@ -16,6 +16,7 @@ export default Route.extend(ScrollTo, {
 
     let model = get(m, 'json.metadata.resourceInfo');
     set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
+    set(model, 'defaultResourceLocale', getWithDefault(model, 'defaultResourceLocale', {}));
     set(model, 'pointOfContact', getWithDefault(model, 'pointOfContact', []));
     set(model, 'status', getWithDefault(model, 'status', []));
     set(model, 'citation', getWithDefault(model, 'citation', formatCitation({})));

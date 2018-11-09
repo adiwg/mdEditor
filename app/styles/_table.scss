@@ -67,13 +67,15 @@
   }
 
   .md-row-actions {
-    min-width: 150px;
+    min-width: 155px;
+    padding: $table-cell-padding 2px;
 
     .btn-toolbar {
       text-align: right;
 
       .btn-group {
         float: none;
+        margin-left: 0;
       }
     }
 
