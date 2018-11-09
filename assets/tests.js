@@ -724,7 +724,7 @@ define('mdeditor/tests/app.lint-test', [], function () {
 
   QUnit.test('pods/components/object/md-associated/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'pods/components/object/md-associated/preview/component.js should pass ESLint\n\n4:3 - Use import Component from \'@ember/component\'; instead of using Ember destructuring (ember/new-module-imports)\n5:3 - Use import { get } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n6:3 - Use import { computed } from \'@ember/object\'; instead of using Ember destructuring (ember/new-module-imports)\n8:5 - Use import { inject as service } from \'@ember/service\'; instead of using Ember destructuring (ember/new-module-imports)\n37:23 - Use brace expansion (ember/use-brace-expansion)');
+    assert.ok(true, 'pods/components/object/md-associated/preview/component.js should pass ESLint\n\n');
   });
 
   QUnit.test('pods/components/object/md-attribute/component.js', function (assert) {

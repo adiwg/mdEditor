@@ -9221,7 +9221,7 @@ define("mdeditor/pods/components/control/md-status/template", ["exports"], funct
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "VHhV2oNN", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[20,[\"model\",\"hasDirtyHash\"]]],null,{\"statements\":[[6,\"span\"],[9,\"class\",\"md-status-icon\"],[10,\"onclick\",[25,\"action\",[[19,0,[]],\"saveRecord\"],null],null],[7],[0,\"\\n  \"],[1,[25,\"fa-icon\",[\"exclamation-circle\"],[[\"class\"],[[25,\"if\",[[20,[\"isBtn\"]],[25,\"concat\",[\"btn btn-danger btn-\",[20,[\"btnSize\"]]],null],\"md-error\"],null]]]],false],[0,\"\\n  \"],[1,[25,\"tooltip-on-element\",null,[[\"text\",\"side\",\"class\"],[\"This record has been modified! Cick to save.\",\"top\",\"md-tooltip danger\"]]],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"model\",\"hasSchemaErrors\"]]],null,{\"statements\":[[6,\"span\"],[9,\"class\",\"md-status-icon\"],[10,\"onclick\",[25,\"action\",[[19,0,[]],\"showSlider\"],null],null],[7],[0,\"\\n  \"],[1,[25,\"fa-icon\",[\"exclamation-circle\"],[[\"class\"],[[25,\"if\",[[20,[\"isBtn\"]],[25,\"concat\",[\"btn btn-warning btn-\",[20,[\"btnSize\"]]],null],\"md-warning\"],null]]]],false],[0,\"\\n  \"],[1,[25,\"tooltip-on-element\",null,[[\"text\",\"side\",\"class\"],[\"This record has errors! Click to view.\",\"right\",\"md-tooltip warning\"]]],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"unless\",[[20,[\"hideSlider\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-slider-error\",[25,\"hash\",null,[[\"title\",\"body\"],[[25,\"concat\",[\"Viewing errors for: \",[20,[\"model\",\"title\"]]],null],[25,\"component\",[\"control/md-errors\"],[[\"errors\"],[[20,[\"model\",\"hasSchemaErrors\"]]]]]]]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/control/md-status/template.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "kAxaLghR", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[20,[\"model\",\"hasDirtyHash\"]]],null,{\"statements\":[[6,\"span\"],[9,\"class\",\"md-status-icon\"],[10,\"onclick\",[25,\"action\",[[19,0,[]],\"saveRecord\"],null],null],[7],[0,\"\\n  \"],[1,[25,\"fa-icon\",[\"exclamation-circle\"],[[\"class\"],[[25,\"if\",[[20,[\"isBtn\"]],[25,\"concat\",[\"btn btn-danger btn-\",[20,[\"btnSize\"]]],null],\"md-error\"],null]]]],false],[0,\"\\n  \"],[1,[25,\"tooltip-on-element\",null,[[\"text\",\"side\",\"class\"],[\"This record has been modified! Cick to save.\",\"top\",\"md-tooltip danger\"]]],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"model\",\"hasSchemaErrors\"]]],null,{\"statements\":[[6,\"span\"],[9,\"class\",\"md-status-icon\"],[10,\"onclick\",[25,\"action\",[[19,0,[]],\"showSlider\"],null],null],[7],[0,\"\\n  \"],[1,[25,\"fa-icon\",[\"exclamation-triangle\"],[[\"class\"],[[25,\"if\",[[20,[\"isBtn\"]],[25,\"concat\",[\"btn btn-warning btn-\",[20,[\"btnSize\"]]],null],\"md-warning\"],null]]]],false],[0,\"\\n  \"],[1,[25,\"tooltip-on-element\",null,[[\"text\",\"side\",\"class\"],[\"This record has errors! Click to view.\",\"right\",\"md-tooltip warning\"]]],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"unless\",[[20,[\"hideSlider\"]]],null,{\"statements\":[[0,\"  \"],[1,[25,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"md-slider-error\",[25,\"hash\",null,[[\"title\",\"body\"],[[25,\"concat\",[\"Viewing errors for: \",[20,[\"model\",\"title\"]]],null],[25,\"component\",[\"control/md-errors\"],[[\"errors\"],[[20,[\"model\",\"hasSchemaErrors\"]]]]]]]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "mdeditor/pods/components/control/md-status/template.hbs" } });
 });
 define('mdeditor/pods/components/control/subbar-citation/component', ['exports'], function (exports) {
   'use strict';
@@ -13163,12 +13163,8 @@ define('mdeditor/pods/components/object/md-associated/preview/component', ['expo
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  const Component = Ember.Component,
-        get = Ember.get,
-        computed = Ember.computed,
-        service = Ember.inject.service;
-  exports.default = Component.extend({
-    store: service(),
+  exports.default = Ember.Component.extend({
+    store: Ember.inject.service(),
     classNameBindings: ['muted:text-muted'],
 
     /**
@@ -13180,24 +13176,25 @@ define('mdeditor/pods/components/object/md-associated/preview/component', ['expo
      */
     muted: true,
 
-    citation: computed('item', 'item.mdRecordId', function () {
+    citation: Ember.computed('item', 'item.mdRecordId', function () {
       if (!this.get('item.mdRecordId')) {
         return this.get('item.resourceCitation');
       }
 
       let store = this.get('store');
+      let linked = store.peekAll('record').filterBy('recordId', Ember.get(this, 'item.mdRecordId')).get('firstObject.json.metadata.resourceInfo.citation');
 
-      return store.peekAll('record').filterBy('recordId', get(this, 'item.mdRecordId')).get('firstObject.json.metadata.resourceInfo.citation');
+      return linked || this.get('item.resourceCitation');
     }),
 
-    metadataIdentifier: computed('item.metadataCitation.identifier', 'item.mdRecordId', function () {
+    metadataIdentifier: Ember.computed('item.{metadataCitation.identifier,mdRecordId}', function () {
       if (!this.get('item.mdRecordId')) {
         return this.get('item.metadataCitation.identifier.0');
       }
 
       let store = this.get('store');
 
-      return store.peekAll('record').filterBy('recordId', get(this, 'item.mdRecordId')).get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
+      return store.peekAll('record').filterBy('recordId', Ember.get(this, 'item.mdRecordId')).get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
     })
   });
 });
@@ -24918,7 +24915,12 @@ define('mdeditor/services/mdjson', ['exports', 'npm:ajv', 'npm:mdjson-schemas/re
             set(ref, 'resourceCitation', EmObject.create((0, _component.formatCitation)(citation)));
             set(ref, 'metadataCitation', EmObject.create((0, _component.formatCitation)(metadata)));
             set(ref, 'resourceType', resourceType);
+            set(ref, 'mdRecordId', null);
+
+            return;
           }
+
+          set(ref, 'mdRecordId', null);
         });
       }
     },
@@ -25809,6 +25811,11 @@ define('mdeditor/services/profile', ['exports'], function (exports) {
             title: 'Documents',
             target: 'record.show.edit.documents',
             tip: 'Other documents related to, but not defining, the product.'
+
+          }, {
+            title: 'Dictionaries',
+            target: 'record.show.edit.dictionary',
+            tip: 'Data dictionaries associated with the resource.'
 
           }],
           components: {
@@ -27179,6 +27186,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0+56adc64e"});
+  require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","name":"mdeditor","version":"0.6.0+e438d7a8"});
 }
 //# sourceMappingURL=mdeditor.map
