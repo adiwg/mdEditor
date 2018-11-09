@@ -94,7 +94,12 @@ export default Service.extend({
           set(ref, 'metadataCitation', EmObject.create(formatCitation(
             metadata)));
           set(ref, 'resourceType', resourceType);
+          set(ref, 'mdRecordId', null);
+
+          return;
         }
+
+        set(ref, 'mdRecordId', null);
       });
     }
   },
