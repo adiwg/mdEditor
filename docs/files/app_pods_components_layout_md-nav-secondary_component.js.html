@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app/pods/components/layout/md-nav-secondary/component.js - mdeditor</title>
+    <meta name="description" content="Small description for mdeditor goes here">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
+    
+</head>
+<body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">
+            <img src="../assets/img/mdeditor-logo.png" alt="">
+            <span>API Docs</span>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/adiwg/mdEditor" class="fa fa-github github"></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="main-wrapper" class="row">
+        <div id="content-wrapper">
+            <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-search-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-search" aria-expanded="true" aria-controls="collapseOne">
+                        Search
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-search" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-search-heading">
+                        <div class="panel-body">
+                            <div id="api-tabview-filter">
+                                <input type="search" id="api-filter" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="sidebar-version-heading">
+                            <h4 class="panel-title">
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3f04da6d" target="_blank">
+                                  Tag: 0.6.1.3f04da6d
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-modules-heading">
+                        <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" href="#sidebar-modules" aria-expanded="true" aria-controls="collapseOne">
+                      Modules
+                    </a>
+                  </h4>
+                    </div>
+                    <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
+                        <div class="panel-body">
+                                <ol>
+                                        <li>
+                                            <a href="../modules/ember-json-tree.html">ember-json-tree</a>
+                                                    <li class="sub"><a href="../modules/tree-view.html">tree-view</a></li>
+                                                    <li class="sub"><a href="../modules/tree-search.html">tree-search</a></li>
+                                                    <li class="sub"><a href="../modules/helpers.html">helpers</a></li>
+                                        </li>
+                                        <li>
+                                            <a href="../modules/mdeditor.html">mdeditor</a>
+                                                    <li class="sub"><a href="../modules/mixins.html">mixins</a></li>
+                                                    <li class="sub"><a href="../modules/data-models.html">data-models</a></li>
+                                                    <li class="sub"><a href="../modules/components-control.html">components-control</a></li>
+                                                    <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
+                                                    <li class="sub"><a href="../modules/components-layout.html">components-layout</a></li>
+                                                    <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
+                                        </li>
+                                </ol>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-classes-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-classes" aria-expanded="true" aria-controls="collapseOne">
+                        Classes
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
+                        <div class="panel-body">
+                            <ol>
+                                    <li>
+                                        <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/make-range.html">make-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-address.html">md-address</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-array-table.html">md-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-boolean.html">md-boolean</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-button-modal.html">md-button-modal</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-card.html">md-card</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-citation.html">md-citation</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-citation-array.html">md-citation-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist.html">md-codelist</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist-multi.html">md-codelist-multi</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-link.html">md-contact-link</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-title.html">md-contact-title</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-date-range.html">md-date-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-datetime.html">md-datetime</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-definition.html">md-definition</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-graphic-array.html">md-graphic-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-object-table.html">md-identifier-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-import-csv.html">md-import-csv</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input.html">md-input</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input-confirm.html">md-input-confirm</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-inputs.html">md-inputs</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-object-table.html">md-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-online-resource-array.html">md-online-resource-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select.html">md-select</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-contacts.html">md-select-contacts</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-table.html">md-select-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-thesaurus.html">md-select-thesaurus</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-spotlight.html">md-spotlight</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-textarea.html">md-textarea</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-toggle.html">md-toggle</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-wrap.html">md-wrap</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/object-template.html">object-template</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-branch.html">tree-branch</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-label.html">tree-label</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-leaf.html">tree-leaf</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-search.html">tree-search</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-view.html">tree-view</a>
+                                    </li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <div class="content-container">
+                <div class="apidocs">
+                    <div id="docs-main">
+                        <div class="content">
+<div class="page-header">
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+import Ember from &#x27;ember&#x27;;
+import ResizeAware from &#x27;ember-resize/mixins/resize-aware&#x27;;
+
+export default Ember.Component.extend(ResizeAware, {
+  profile: Ember.inject.service(&#x27;profile&#x27;),
+  resizeService: Ember.inject.service(&#x27;resize&#x27;),
+  links: Ember.computed(&#x27;profile.active&#x27;, function () {
+    const profile = this.get(&#x27;profile&#x27;)
+      .getActiveProfile();
+    this.debouncedDidResize();
+
+    return profile.secondaryNav;
+  }),
+
+  resizeWidthSensitive: true,
+  resizeHeightSensitive: true,
+
+  /**
+   * translated &quot;more&quot; text
+   *
+   * @name more
+   * @type {String}
+   */
+  more: &#x27;More&#x27;,
+
+  /**
+   * selector for the navbar container
+   *
+   * @name parent
+   * @type {String}
+   */
+  parent: &#x27;#md-navbars&#x27;,
+
+  /**
+   * width that needs to be subtracted from the parent div width
+   *
+   * @name offset
+   * @type {Number}
+   */
+  offset: 0,
+
+  init() {
+    this._super(...arguments);
+
+    // jQuery plugin adapted from https://github.com/tomiford/bootstrap-overflow-navs
+    Ember.$.fn.overflowNavs = function (options) {
+      // Create a handle to our ul menu
+      // @TODO Implement some kind of check to make sure there is only one?  If we accidentally get more than one
+      // then strange things happen
+      let ul = Ember.$(this);
+
+      // This should work with all navs, not just the navbar, so you should be able to pass a parent in
+      let parent = options.parent ? options.parent : ul.parents(
+        &#x27;.navbar&#x27;);
+
+      // Get width of the navbar parent so we know how much room we have to work with
+      let parent_width = Ember.$(parent)
+        .width() - (options.offset ? parseInt(Ember.$(options.offset)
+          .width()) : 0);
+
+      // Find an already existing .overflow-nav dropdown
+      let dropdown = Ember.$(&#x27;li.overflow-nav&#x27;, ul);
+
+      // Create one if none exists
+      if (!dropdown.length) {
+        dropdown = Ember.$(&#x27;&lt;li class=&quot;overflow-nav dropdown&quot;&gt;&lt;/li&gt;&#x27;);
+        dropdown.append(Ember.$(
+          &#x27;&lt;a class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot; href=&quot;#&quot;&gt;&#x27; +
+          options.more + &#x27;&lt;b class=&quot;caret&quot;&gt;&lt;/b&gt;&lt;/a&gt;&#x27;));
+        dropdown.append(Ember.$(&#x27;&lt;ul class=&quot;dropdown-menu&quot;&gt;&lt;/ul&gt;&#x27;));
+      }
+
+      // Get the width of the navbar, need to add together &lt;li&gt;s as the ul wraps in bootstrap
+      let width = 100;
+      // Allow for padding
+      ul.children(&#x27;li&#x27;)
+        .each(function () {
+          let $this = Ember.$(this);
+          width += $this.outerWidth();
+        });
+
+      // Window is shrinking
+      if (width &gt;= parent_width) {
+        // Loop through each non-dropdown li in the ul menu from right to left (using .get().reverse())
+        Ember.$(Ember.$(&#x27;li&#x27;, ul)
+            .not(&#x27;.dropdown&#x27;)
+            .not(&#x27;.dropdown li&#x27;)
+            .get()
+            .reverse())
+          .each(function () {
+            let $this = Ember.$(this);
+            // Get the width of the navbar
+            let width = 100;
+            // Allow for padding
+            ul.children(&#x27;li&#x27;)
+              .each(function () {
+                let $this = Ember.$(this);
+                width += $this.outerWidth();
+              });
+            if (width &gt;= parent_width) {
+              // Remember the original width so that we can restore as the window grows
+              $this
+                .attr(&#x27;data-original-width&#x27;, $this
+                  .outerWidth());
+              // Move the rightmost item to top of dropdown menu if we are running out of space
+              dropdown.children(&#x27;ul.dropdown-menu&#x27;)
+                .prepend(this);
+            }
+            // @todo on shrinking resize some menu items are still in drop down when bootstrap mobile navigation is displaying
+          });
+      }
+      // Window is growing
+      else {
+        // We used to just look at the first one, but this doesn&#x27;t work when the window is maximized
+        //let dropdownFirstItem = dropdown.children(&#x27;ul.dropdown-menu&#x27;).children().first();
+        dropdown.children(&#x27;ul.dropdown-menu&#x27;)
+          .children()
+          .each(function () {
+            if ((width += parseInt(Ember.$(this)
+                .attr(&#x27;data-original-width&#x27;))) &lt; parent_width) {
+              // Restore the topmost dropdown item to the main menu
+              dropdown.before(this);
+            } else {
+              // If the topmost item can&#x27;t be restored, don&#x27;t look any further
+              return false;
+            }
+          });
+      }
+
+      // Remove or add dropdown depending on whether or not it contains menu items
+      if (!dropdown.children(&#x27;ul.dropdown-menu&#x27;)
+        .children()
+        .length) {
+        dropdown.remove();
+      } else {
+        // Append new dropdown menu to main menu iff it doesn&#x27;t already exist
+        if (!ul.children(&#x27;li.overflow-nav&#x27;)
+          .length) {
+          ul.append(dropdown);
+        }
+      }
+    };
+  },
+
+  didInsertElement: function () {
+    this._super.apply(this, arguments);
+    this.debouncedDidResize();
+  },
+
+  debouncedDidResize() {
+    let options = {
+      more: this.get(&#x27;more&#x27;),
+      parent: this.get(&#x27;parent&#x27;),
+      offset: this.get(&#x27;offset&#x27;)
+    };
+
+    Ember.$(&#x27;#md-navbar-secondary&#x27;)
+      .overflowNavs(options);
+  }
+});
+
+    </pre>
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>

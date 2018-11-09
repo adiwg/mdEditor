@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>app/pods/components/layout/md-card/component.js - mdeditor</title>
+    <meta name="description" content="Small description for mdeditor goes here">
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+    <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet" type="text/css">
+    <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
+    
+</head>
+<body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">
+            <img src="../assets/img/mdeditor-logo.png" alt="">
+            <span>API Docs</span>
+          </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/adiwg/mdEditor" class="fa fa-github github"></a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div id="main-wrapper" class="row">
+        <div id="content-wrapper">
+            <ol class="panel-group" id="sidebar" role="tablist" aria-multiselectable="true">
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-search-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-search" aria-expanded="true" aria-controls="collapseOne">
+                        Search
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-search" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-search-heading">
+                        <div class="panel-body">
+                            <div id="api-tabview-filter">
+                                <input type="search" id="api-filter" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                    <li class="panel panel-default">
+                        <div class="panel-heading" role="tab" id="sidebar-version-heading">
+                            <h4 class="panel-title">
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/3f04da6d" target="_blank">
+                                  Tag: 0.6.1.3f04da6d
+                                </a>
+                            </h4>
+                        </div>
+                    </li>
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-modules-heading">
+                        <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" href="#sidebar-modules" aria-expanded="true" aria-controls="collapseOne">
+                      Modules
+                    </a>
+                  </h4>
+                    </div>
+                    <div id="sidebar-modules" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-modules-heading">
+                        <div class="panel-body">
+                                <ol>
+                                        <li>
+                                            <a href="../modules/ember-json-tree.html">ember-json-tree</a>
+                                                    <li class="sub"><a href="../modules/tree-view.html">tree-view</a></li>
+                                                    <li class="sub"><a href="../modules/tree-search.html">tree-search</a></li>
+                                                    <li class="sub"><a href="../modules/helpers.html">helpers</a></li>
+                                        </li>
+                                        <li>
+                                            <a href="../modules/mdeditor.html">mdeditor</a>
+                                                    <li class="sub"><a href="../modules/mixins.html">mixins</a></li>
+                                                    <li class="sub"><a href="../modules/data-models.html">data-models</a></li>
+                                                    <li class="sub"><a href="../modules/components-control.html">components-control</a></li>
+                                                    <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
+                                                    <li class="sub"><a href="../modules/components-layout.html">components-layout</a></li>
+                                                    <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
+                                        </li>
+                                </ol>
+                        </div>
+                    </div>
+                </li>
+            
+                <li class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="sidebar-classes-heading">
+                        <h4 class="panel-title">
+                      <a role="button" data-toggle="collapse" href="#sidebar-classes" aria-expanded="true" aria-controls="collapseOne">
+                        Classes
+                      </a>
+                    </h4>
+                    </div>
+                    <div id="sidebar-classes" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sidebar-classes-heading">
+                        <div class="panel-body">
+                            <ol>
+                                    <li>
+                                        <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/make-range.html">make-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-address.html">md-address</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-array-table.html">md-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-boolean.html">md-boolean</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-button-modal.html">md-button-modal</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-card.html">md-card</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-citation.html">md-citation</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-citation-array.html">md-citation-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist.html">md-codelist</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-codelist-multi.html">md-codelist-multi</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-link.html">md-contact-link</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-contact-title.html">md-contact-title</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-date-range.html">md-date-range</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-datetime.html">md-datetime</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-definition.html">md-definition</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-graphic-array.html">md-graphic-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-array.html">md-identifier-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-identifier-object-table.html">md-identifier-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-import-csv.html">md-import-csv</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input.html">md-input</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-input-confirm.html">md-input-confirm</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-inputs.html">md-inputs</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-maintenance.html">md-maintenance</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-object-table.html">md-object-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-online-resource-array.html">md-online-resource-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-phone-array.html">md-phone-array</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-scroll-spy.html">md-scroll-spy</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select.html">md-select</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-contacts.html">md-select-contacts</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-table.html">md-select-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-select-thesaurus.html">md-select-thesaurus</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-simple-array-table.html">md-simple-array-table</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-spotlight.html">md-spotlight</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-textarea.html">md-textarea</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-toggle.html">md-toggle</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-wrap.html">md-wrap</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/object-template.html">object-template</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-branch.html">tree-branch</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-label.html">tree-label</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-leaf.html">tree-leaf</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-search.html">tree-search</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/tree-view.html">tree-view</a>
+                                    </li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+            </ol>
+            <div class="content-container">
+                <div class="apidocs">
+                    <div id="docs-main">
+                        <div class="content">
+<div class="page-header">
+    <h1><i class="fa fa-file-code-o" aria-hidden="true"></i>  File</h1>
+</div>
+
+<div class="file">
+    <pre class="prettyprint linenums">
+import Component from &#x27;@ember/component&#x27;;
+import {
+  computed,
+  get
+} from &#x27;@ember/object&#x27;;
+import {
+  inject as service
+} from &#x27;@ember/service&#x27;;
+import $ from &#x27;jquery&#x27;;
+
+export default Component.extend({
+  /**
+   * Component that renders a Bootstrap card.
+   *
+   * &#x60;&#x60;&#x60;handlebars
+   * \{{#layout/md-card
+   *   title=&quot;title&quot;
+   *   collapsible=true
+   *   collapsed=false
+   *   profilePath=&quot;card&quot;
+   *   data-spy=&quot;Card&quot;
+   *   shadow=true
+   * }}
+   *   Content
+   * {{/layout/md-card}}
+   * &#x60;&#x60;&#x60;
+   * @module mdeditor
+   * @submodule components-layout
+   * @class md-card
+   * @constructor
+   */
+
+  // init() {
+  //   this._super(...arguments);
+  //
+  //   let content = this.get(&#x27;content&#x27;);
+  //
+  //   if(content !== null) {
+  //     let empty = content ? Object.keys(this.get(&#x27;cleaner&#x27;).clean(content, {
+  //         preserveArrays: false
+  //       })).length ===
+  //       0 : true;
+  //
+  //     this.set(&#x27;collapsed&#x27;, empty);
+  //   }
+  // },
+
+  spotlight: service(),
+  cleaner: service(),
+
+  classNames: [&#x27;md-card&#x27;, &#x27;card&#x27;],
+  classNameBindings: [&#x27;shadow:box-shadow--4dp&#x27;, &#x27;scroll:scroll-card&#x27;,
+    &#x27;maximizable&#x27;, &#x27;fullScreen&#x27;, &#x27;required&#x27;, &#x27;muted&#x27;
+  ],
+  attributeBindings: [&#x27;data-spy&#x27;],
+
+  content: null,
+  /**
+   * The card element id.
+   *
+   * @property cardId
+   * @type {String}
+   * @readOnly
+   * @category computed
+   * @requires elementId
+   */
+  cardId: computed(&#x27;elementId&#x27;, function () {
+      return &#x27;card-&#x27; + this.get(&#x27;elementId&#x27;);
+    })
+    .readOnly(),
+
+  /**
+   * The card title.
+   *
+   * @property title
+   * @type {String}
+   * @required
+   */
+
+  /**
+   * The card title icon.
+   *
+   * @property titleIcon
+   * @type {String}
+   * @required
+   */
+
+  /**
+   * If true, the &quot;row&quot; the card body will be initally collapsed.
+   *
+   * @property collapsed
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, the spotlight button will be inserted into the toolbar.
+   *
+   * @property spotlightEnabled
+   * @type {Boolean}
+   * @default true
+   */
+  spotlightEnabled: true,
+
+  /**
+   * If true, the scroll-card class will be applied to the card.
+   *
+   * @property scroll
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, the maximize control will be avialable on the card.
+   *
+   * @property maximizable
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, a box shadow will be rendered around the card.
+   *
+   * @property shadow
+   * @type {Boolean}
+   * @default true
+   */
+  shadow: true,
+
+  /**
+   * If true, the card-block class will be added.
+   *
+   * @property block
+   * @type {Boolean}
+   * @default true
+   */
+  block: true,
+
+  /**
+   * If true, the card-block text color will be muted.
+   *
+   * @property muted
+   * @type {Boolean}
+   * @default false
+   */
+  muted: false,
+
+  /**
+   * If true, the collapse control will be added to the card header.
+   *
+   * @property collapsible
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * If true, the &quot;row&quot; class will be added to the card body.
+   *
+   * @property bodyIsRow
+   * @type {Boolean}
+   * @default undefined
+   */
+
+  /**
+   * Bootstrap button class to apply to header buttton
+   *
+   * @property btnClass
+   * @type {String}
+   * @default &#x27;primary&#x27;
+   */
+  btnClass: &#x27;primary&#x27;,
+
+  /**
+   * Icon to display in heder button
+   *
+   * @property btnIcon
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * The text to display in the header button.
+   * @property btnText
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * The action to perform whrn the header button is clicked.
+   * @property btnAction
+   * @type {Function}
+   * @default undefined
+   */
+
+  /**
+   * The height to offset from top of container when scrolling.
+   *
+   * @property offset
+   * @type {Number}
+   * @default 130
+   */
+  offset: 130,
+
+  /**
+   * The data-spy text. Defaults to the title.
+   *
+   * @property data-spy
+   * @type {String}
+   * @default &quot;this.title&quot;
+   * @category computed
+   */
+  &#x27;data-spy&#x27;: computed.oneWay(&#x27;title&#x27;),
+
+  windowIcon: computed(&#x27;fullScreen&#x27;, function () {
+    return this.get(&#x27;fullScreen&#x27;) ? &#x27;compress&#x27; : &#x27;expand&#x27;;
+  }),
+
+  isCollapsible: computed(&#x27;fullScreen&#x27;, &#x27;collapsible&#x27;, function () {
+    return !this.get(&#x27;fullScreen&#x27;) &amp;&amp; this.get(&#x27;collapsible&#x27;);
+  }),
+
+  didInsertElement() {
+    this._super(...arguments);
+
+    if(this.get(&#x27;collapsible&#x27;)) {
+      let card = this.$();
+      let body = this.$(&#x27; &gt; .card-collapse&#x27;);
+      let offset = this.get(&#x27;offset&#x27;) || 0;
+
+      body.on(&#x27;shown.bs.collapse&#x27;, function (e) {
+        e.stopPropagation();
+        // card.get(0).scrollIntoView({
+        //   block: &quot;end&quot;,
+        //   behavior: &quot;smooth&quot;
+        // });
+        //
+        // let scrolledY = window.scrollY;
+        //
+        // if(scrolledY) {
+        //   window.scroll(0, scrolledY - offset);
+        // }
+        $(&#x27;html,body&#x27;).animate({
+          scrollTop: card.offset().top - offset
+        }, &#x27;slow&#x27;);
+      });
+    }
+
+    let content = this.get(&#x27;content&#x27;);
+
+    if(content !== null) {
+      let empty = content ? Object.keys(this.get(&#x27;cleaner&#x27;).clean(content, {
+          preserveArrays: false
+        })).length ===
+        0 : true;
+
+      this.set(&#x27;collapsed&#x27;, empty);
+    }
+  },
+
+  actions: {
+    toggleFullScreen() {
+      let val = this.toggleProperty(&#x27;fullScreen&#x27;);
+
+      $(this.element).parents(&#x27;.liquid-child,.liquid-container, .md-card&#x27;).toggleClass(
+        &#x27;full-screen&#x27;,val);
+      $(&#x27;body&#x27;).toggleClass(&#x27;slider&#x27;, val);
+    },
+    spotlight(id) {
+      get(this, &#x27;spotlight&#x27;).setTarget(id);
+    }
+  }
+});
+
+    </pre>
+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../assets/vendor/prettify/prettify-min.js"></script>
+    <script>prettyPrint();</script>
+    <script src="../assets/vendor/jquery/jquery.min.js"></script>
+    <script src="../assets/vendor/jquery-ui/jquery-ui.min.js"></script>
+    <script src="../assets/vendor/bootstrap/js/bootstrap.js"></script>
+    <script src="../assets/vendor/github-slugger/slugger.js"></script>
+    <script src="../assets/js/yuidoc-bootstrap.js"></script>
+</body>
+</html>
