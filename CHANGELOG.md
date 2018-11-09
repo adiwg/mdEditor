@@ -1,7 +1,29 @@
 # Change Log
 
-## [v0.6.0](https://github.com/adiwg/mdEditor/tree/v0.6.0)
+## [v0.6.1](https://github.com/adiwg/mdEditor/tree/v0.6.1)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.6.0...v0.6.1)
+
+**Implemented enhancements:**
+
+- Change icon when help is active in the sidebar [\#234](https://github.com/adiwg/mdEditor/issues/234)
+- Import Metadata home page [\#232](https://github.com/adiwg/mdEditor/issues/232)
+
+**Fixed bugs:**
+
+- Remove mdRecordId when generating mdJSON [\#244](https://github.com/adiwg/mdEditor/issues/244)
+- Locale required elements [\#233](https://github.com/adiwg/mdEditor/issues/233)
+- Attribute.allowMany is deprecated in mdJSON [\#229](https://github.com/adiwg/mdEditor/issues/229)
+
+**Closed issues:**
+
+- Add Dictionary to product profile [\#245](https://github.com/adiwg/mdEditor/issues/245)
+
+**Merged pull requests:**
+
+- 0.6.1 [\#247](https://github.com/adiwg/mdEditor/pull/247) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.6.0](https://github.com/adiwg/mdEditor/tree/v0.6.0) (2018-11-05)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.5.0...v0.6.0)
 
 **Fixed bugs:**
