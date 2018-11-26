@@ -3,15 +3,12 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { alias, not, notEmpty, and, or } from '@ember/object/computed';
 
-const {
-  Component,
-  defineProperty,
-  computed,
-  isBlank,
-  assert
-} = Ember;
+import Component from '@ember/component';
+import { computed, defineProperty } from '@ember/object';
+import { isBlank } from '@ember/utils';
+import { assert, debug } from '@ember/debug';
 
 export default Component.extend({
   /**
@@ -46,7 +43,7 @@ export default Component.extend({
 
     if(!isBlank(model)) {
       if(this.get(`model.${valuePath}`) === undefined) {
-        Ember.debug(
+        debug(
           `model.${valuePath} is undefined in ${this.toString()}.`
         );
 
@@ -72,10 +69,10 @@ export default Component.extend({
           }
         }));
       } else {
-        defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+        defineProperty(this, 'value', alias(`model.${valuePath}`));
       }
 
-      defineProperty(this, 'validation', computed.alias(
+      defineProperty(this, 'validation', alias(
           `model.validations.attrs.${valuePath}`)
         .readOnly());
 
@@ -90,37 +87,37 @@ export default Component.extend({
           })
         .readOnly());
 
-      defineProperty(this, 'notValidating', computed.not(
+      defineProperty(this, 'notValidating', not(
           'validation.isValidating')
         .readOnly());
 
-      defineProperty(this, 'hasContent', computed.notEmpty('value')
+      defineProperty(this, 'hasContent', notEmpty('value')
         .readOnly());
 
-      defineProperty(this, 'hasWarnings', computed.notEmpty(
+      defineProperty(this, 'hasWarnings', notEmpty(
           'validation.warnings')
         .readOnly());
 
-      defineProperty(this, 'isValid', computed.and('hasContent',
+      defineProperty(this, 'isValid', and('hasContent',
           'validation.isTruelyValid')
         .readOnly());
 
-      defineProperty(this, 'shouldDisplayValidations', computed.or(
+      defineProperty(this, 'shouldDisplayValidations', or(
           'showValidations', 'didValidate',
           'hasContent')
         .readOnly());
 
-      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+      defineProperty(this, 'showErrorClass', and('notValidating',
           'showErrorMessage',
           'hasContent', 'validation')
         .readOnly());
 
-      defineProperty(this, 'showErrorMessage', computed.and(
+      defineProperty(this, 'showErrorMessage', and(
           'shouldDisplayValidations',
           'validation.isInvalid')
         .readOnly());
 
-      defineProperty(this, 'showWarningMessage', computed.and(
+      defineProperty(this, 'showWarningMessage', and(
           'shouldDisplayValidations',
           'hasWarnings', 'isValid')
         .readOnly());

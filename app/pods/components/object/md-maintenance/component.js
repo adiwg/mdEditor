@@ -3,19 +3,16 @@
  * @submodule components-object
  */
 
-import Ember from 'ember';
+import Component from '@ember/component';
 
-const {
-  Component,
-  set,
-  get,
-  getWithDefault,
-  setProperties,
+import {
   computed,
-  run: {
-    once
-  }
-} = Ember;
+  setProperties,
+  getWithDefault,
+  get,
+  set
+} from '@ember/object';
+import { once } from '@ember/runloop';
 
 const formatMaint = function(model) {
   setProperties(model, {

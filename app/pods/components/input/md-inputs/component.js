@@ -3,9 +3,11 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { computed, observer } from '@ember/object';
 
-export default Ember.Component.extend({
+import Component from '@ember/component';
+
+export default Component.extend({
 
   /**
    * Input, edit, display an array of strings
@@ -90,7 +92,7 @@ export default Ember.Component.extend({
   placeholder: null,
 
   // convert the input 'primitive' array to an 'ember' array
-  items: Ember.computed('model.[]', {
+  items: computed('model.[]', {
     get() {
       let items = this.get('model');
 
@@ -115,7 +117,7 @@ export default Ember.Component.extend({
     }
   }),
 
-  itemsObserver: Ember.observer('items.@each.val', function() {
+  itemsObserver: observer('items.@each.val', function() {
     this.set('items', this.get('items'));
   }),
 

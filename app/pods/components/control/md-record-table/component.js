@@ -1,16 +1,9 @@
-import Ember from 'ember';
+import { computed, get } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
 import {
   warn
 } from '@ember/debug';
-import {
-  isArray
-} from '@ember/array';
-const {
-  get,
-  computed,
-  A
-} = Ember;
+import { isArray, A } from '@ember/array';
 
 export default Table.extend({
   /**

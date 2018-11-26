@@ -1,11 +1,7 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { get } from '@ember/object';
+import Route from '@ember/routing/route';
 import DS from 'ember-data';
-
-const {
-  inject,
-  get,
-  Route
-} = Ember;
 
 const {
   AdapterError
@@ -29,7 +25,7 @@ export default Route.extend({
    *
    * @return {Ember.Service} profile
    */
-  profile: inject.service(),
+  profile: service(),
 
   deactivate() {
     // We grab the model loaded in this route

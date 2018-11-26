@@ -5,23 +5,22 @@
  * @category docs
  */
 
-import Ember from 'ember';
+import LinkComponent from '@ember/routing/link-component';
+
+import Route from '@ember/routing/route';
+import Component from '@ember/component';
+import Application from '@ember/application';
+import {
+  computed,
+  defineProperty,
+  getWithDefault,
+  get
+} from '@ember/object';
+import { isNone } from '@ember/utils';
+import { assert } from '@ember/debug';
 import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
-
-const {
-  LinkComponent,
-  Route,
-  Component,
-  Application,
-  get,
-  getWithDefault,
-  defineProperty,
-  computed,
-  isNone,
-  assert
-} = Ember;
 
 let App;
 

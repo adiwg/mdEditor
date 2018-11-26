@@ -1,24 +1,12 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isEmpty } from '@ember/utils';
+import { or, alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { set, getWithDefault, get, computed } from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  isEmpty,
-  computed: {
-    alias,
-    or
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   'scaleFactor': {

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 export default function createDictionary(total) {
 
@@ -6,7 +6,7 @@ export default function createDictionary(total) {
 
   for(let i = 0; i < total; i++) {
 
-    const dictionary = Ember.Object.create({
+    const dictionary = EmberObject.create({
 
       json:  {
         "dictionaryInfo": {

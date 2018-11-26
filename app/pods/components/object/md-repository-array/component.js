@@ -1,14 +1,10 @@
-import Ember from 'ember';
-const {
-  Component,
-  get,
-  set,
-  inject
-} = Ember;
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import EmberObject, { set, get } from '@ember/object';
 
 export default Component.extend({
-  settings: inject.service(),
-  repositoryTemplate: Ember.Object.extend({
+  settings: service(),
+  repositoryTemplate: EmberObject.extend({
     init() {
       this._super(...arguments);
 

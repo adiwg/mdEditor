@@ -1,8 +1,8 @@
+import Route from '@ember/routing/route';
 import {
   moduleForComponent,
   test
 } from 'ember-qunit';
-import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 
 moduleForComponent('control/subbar-thesaurus',
@@ -39,7 +39,7 @@ test('fire actions', function (assert) {
 
   assert.expect(1);
 
-  var FakeRoute = Ember.Route.extend({
+  var FakeRoute = Route.extend({
     actions: {
       toList: function () {
         assert.ok(true, 'calls toList action');

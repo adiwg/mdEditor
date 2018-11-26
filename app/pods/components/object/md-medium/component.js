@@ -1,17 +1,7 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  set,
-  get,
-  getWithDefault,
-  run: {
-    once
-  },
-  computed: {
-    alias
-  }
-} = Ember;
+import Component from '@ember/component';
+import { getWithDefault, get, set } from '@ember/object';
+import { once } from '@ember/runloop';
+import { alias } from '@ember/object/computed';
 
 export default Component.extend({
   didReceiveAttrs() {

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Service from '@ember/service';
 import Ajv from 'npm:ajv';
 import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
 
@@ -370,6 +370,6 @@ validator.addSchema({
   }
 }, 'jsonapi');
 
-export default Ember.Service.extend({
+export default Service.extend({
   validator: validator
 });

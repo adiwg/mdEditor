@@ -1,15 +1,11 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Route from '@ember/routing/route';
+import EmberObject, { get, set } from '@ember/object';
+import { isArray } from '@ember/array';
+import { isEmpty } from '@ember/utils';
+import { A } from '@ember/array';
 
-const {
-  Object: EmberObject,
-  NativeArray,
-  set,
-  get,
-  isArray,
-  isEmpty
-} = Ember;
-
-export default Ember.Route.extend({
+export default Route.extend({
   model(params) {
     this.set('extentId', params.extent_id);
 
@@ -57,7 +53,7 @@ export default Ember.Route.extend({
 
     //make sure the extent still exists
     if(isEmpty(extent)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No extent found! Re-directing to list...');
       this.replaceWith('record.show.edit.extent');
 
@@ -65,7 +61,7 @@ export default Ember.Route.extend({
     }
 
     if(!isArray(extent.geographicExtent[0].geographicElement)) {
-      set(extent, 'geographicExtent.0.geographicElement', NativeArray.apply([]));
+      set(extent, 'geographicExtent.0.geographicElement', A([]));
     }
 
     let layers = extent.geographicExtent[0].geographicElement;
@@ -89,13 +85,13 @@ export default Ember.Route.extend({
 
     },
     handleResize() {
-      Ember.$('.map-file-picker .leaflet-container')
-        .height((Ember.$(window)
-          .height() - Ember.$('#md-navbars')
+      $('.map-file-picker .leaflet-container')
+        .height(($(window)
+          .height() - $('#md-navbars')
           .outerHeight() - 15) / 2);
     },
     uploadData() {
-      Ember.$('.map-file-picker .file-picker__input')
+      $('.map-file-picker .file-picker__input')
         .click();
     },
     deleteAllFeatures() {
@@ -172,7 +168,7 @@ export default Ember.Route.extend({
         // }, 'MD: ExportSpatialData');
 
       } else {
-        Ember.get(this, 'flashMessages')
+        get(this, 'flashMessages')
           .warning('Found no features to export.');
       }
     }

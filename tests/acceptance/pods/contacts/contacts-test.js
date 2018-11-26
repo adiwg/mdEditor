@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import {
   test
 } from 'qunit';
@@ -20,7 +20,7 @@ test('delete should display a confirm', function (assert) {
   var store = this.application.__container__.lookup('service:store');
 
   //make sure there's at least one record visible
-  Ember.run(function () {
+  run(function () {
     store.createRecord('contact');
   });
 

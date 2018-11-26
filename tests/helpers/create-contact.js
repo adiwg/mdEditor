@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 export default function createContact(total) {
 
@@ -6,7 +6,7 @@ export default function createContact(total) {
 
   for(let i = 0; i < total; i++) {
 
-    const contact = Ember.Object.create({
+    const contact = EmberObject.create({
 
       json: {
         "contactId": i,

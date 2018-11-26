@@ -1,3 +1,4 @@
+import { equal, or } from '@ember/object/computed';
 import Component from '@ember/component';
 import {
   computed,
@@ -109,9 +110,9 @@ export default Component.extend({
     return obj ? obj.type.split('/')[1] : null;
   }),
 
-  isJson: computed.equal('writerType', 'json'),
+  isJson: equal('writerType', 'json'),
   defaultAPI: defaultValues.mdTranslatorAPI,
-  apiURL: computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+  apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
   isHtml: computed('writerType', function () {
     //IE does not supoprt srcdoc, so default to non-html display
     return get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement(

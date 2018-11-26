@@ -1,3 +1,4 @@
+import { oneWay } from '@ember/object/computed';
 import Component from '@ember/component';
 import {
   computed,
@@ -209,7 +210,7 @@ export default Component.extend({
    * @default "this.title"
    * @category computed
    */
-  'data-spy': computed.oneWay('title'),
+  'data-spy': oneWay('title'),
 
   windowIcon: computed('fullScreen', function () {
     return this.get('fullScreen') ? 'compress' : 'expand';

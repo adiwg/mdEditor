@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
 import BaseValidator from 'ember-cp-validations/validators/base';
-
-const {
-  get
-} = Ember;
 
 const ArrayValid = BaseValidator.extend({
   validate(value /*, options, model, attribute*/ ) {

@@ -1,7 +1,8 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
-  actionContext: Ember.computed('context', function () {
+export default Component.extend({
+  actionContext: computed('context', function () {
     return this.get('context')();
   })  
 });

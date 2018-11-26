@@ -1,20 +1,12 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { getWithDefault, get, set } from '@ember/object';
+import { once } from '@ember/runloop';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  set,
-  get,
-  getWithDefault,
-  run: {
-    once
-  },
-  NativeArray
-} = Ember;
+import { A } from '@ember/array';
 
 const Validations = buildValidations({
   'resourceType': [
@@ -32,7 +24,7 @@ export default Component.extend(Validations, {
 
     once(this, function() {
       set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'citation', NativeArray.apply(getWithDefault(model, 'citation', [{}])));
+      set(model, 'citation', A(getWithDefault(model, 'citation', [{}])));
     });
   },
 
@@ -55,6 +47,6 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  citation: computed.alias('model.citation'),
-  resourceType: computed.alias('model.resourceType')
+  citation: alias('model.citation'),
+  resourceType: alias('model.resourceType')
 });

@@ -1,14 +1,10 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  set,
-  get,
+import Component from '@ember/component';
+import EmberObject, {
   getWithDefault,
-  run: {
-    once
-  }
-} = Ember;
+  get,
+  set
+} from '@ember/object';
+import { once } from '@ember/runloop';
 
 export default Component.extend({
   init() {
@@ -56,5 +52,5 @@ export default Component.extend({
    * @required
    */
 
-  sourceTemplate: Ember.Object.extend()
+  sourceTemplate: EmberObject.extend()
 });

@@ -3,16 +3,12 @@
  * @submodule mixins
  */
 
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 
-const {
-  Mixin,
-  isArray,
-  getOwner,
-  A,
-  merge,
-  run
-} = Ember;
+import { getOwner } from '@ember/application';
+import { A, isArray } from '@ember/array';
+import { merge } from '@ember/polyfills';
+import { run } from '@ember/runloop';
 
 export default Mixin.create({
   /**

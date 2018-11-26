@@ -3,18 +3,16 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
-import DS from 'ember-data';
+import { A } from '@ember/array';
 
-const {
-  Component,
-  defineProperty,
-  get,
-  computed,
-  isNone,
-  isBlank,
-  assert
-} = Ember;
+import { Promise } from 'rsvp';
+import { inject as service } from '@ember/service';
+import { notEmpty, alias, not, and, or } from '@ember/object/computed';
+import Component from '@ember/component';
+import { computed, get, defineProperty } from '@ember/object';
+import { isBlank, isNone } from '@ember/utils';
+import { assert, debug } from '@ember/debug';
+import DS from 'ember-data';
 
 export default Component.extend({
   /**
@@ -57,16 +55,16 @@ export default Component.extend({
 
     if(!isBlank(model)) {
       if(this.get(`model.${path}`) === undefined) {
-        Ember.debug(
+        debug(
           `model.${path} is undefined in ${this.toString()}.`
         );
 
         //Ember.run.once(()=>model.set(path, ""));
       }
 
-      defineProperty(this, 'value', computed.alias(`model.${path}`));
+      defineProperty(this, 'value', alias(`model.${path}`));
 
-      defineProperty(this, 'validation', computed.alias(
+      defineProperty(this, 'validation', alias(
         `model.validations.attrs.${path}`).readOnly());
 
       defineProperty(this, 'required', computed(
@@ -79,30 +77,30 @@ export default Component.extend({
             !this.get('validation.options.presence.disabled');
         }).readOnly());
 
-      defineProperty(this, 'notValidating', computed.not(
+      defineProperty(this, 'notValidating', not(
         'validation.isValidating').readOnly());
 
-      defineProperty(this, 'hasContent', computed.notEmpty('value').readOnly());
+      defineProperty(this, 'hasContent', notEmpty('value').readOnly());
 
-      defineProperty(this, 'hasWarnings', computed.notEmpty(
+      defineProperty(this, 'hasWarnings', notEmpty(
         'validation.warnings').readOnly());
 
-      defineProperty(this, 'isValid', computed.and('hasContent',
+      defineProperty(this, 'isValid', and('hasContent',
         'validation.isTruelyValid').readOnly());
 
-      defineProperty(this, 'shouldDisplayValidations', computed.or(
+      defineProperty(this, 'shouldDisplayValidations', or(
         'showValidations', 'didValidate',
         'hasContent').readOnly());
 
-      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+      defineProperty(this, 'showErrorClass', and('notValidating',
         'showErrorMessage',
         'hasContent', 'validation').readOnly());
 
-      defineProperty(this, 'showErrorMessage', computed.and(
+      defineProperty(this, 'showErrorMessage', and(
         'shouldDisplayValidations',
         'validation.isInvalid').readOnly());
 
-      defineProperty(this, 'showWarningMessage', computed.and(
+      defineProperty(this, 'showWarningMessage', and(
         'shouldDisplayValidations',
         'hasWarnings', 'isValid').readOnly());
     }
@@ -111,8 +109,8 @@ export default Component.extend({
   classNames: ['md-select'],
   classNameBindings: ['formGroup', 'required'],
   attributeBindings: ['data-spy'],
-  formGroup: Ember.computed.notEmpty('label'),
-  icons: Ember.inject.service('icon'),
+  formGroup: notEmpty('label'),
+  icons: service('icon'),
 
   /**
    * An array or promise array containing the options for the
@@ -282,7 +280,7 @@ export default Component.extend({
    */
   label: null,
 
-  ariaLabel: Ember.computed('label', function() {
+  ariaLabel: computed('label', function() {
     return this.get('label');
   }),
 
@@ -314,7 +312,7 @@ export default Component.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed('create', function() {
+  theComponent: computed('create', function() {
     return this.get('create') ? 'power-select-with-create' :
       'power-select';
   }),
@@ -333,7 +331,7 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function() {
+  selectedItem: computed('value', function() {
     let value = this.get('value');
 
     return DS.PromiseObject.create({
@@ -355,9 +353,9 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseArray
    */
-  codelist: Ember.computed('objectArray', function() {
+  codelist: computed('objectArray', function() {
     const objArray = this.get('objectArray');
-    let inList = new Ember.RSVP.Promise(function(resolve, reject) {
+    let inList = new Promise(function(resolve, reject) {
       // succeed
       resolve(objArray);
       // or reject
@@ -368,7 +366,7 @@ export default Component.extend({
     let tooltip = this.get('tooltipPath');
     let icons = this.get('icons');
     let defaultIcon = this.get('defaultIcon');
-    let outList = Ember.A();
+    let outList = A();
 
     return DS.PromiseArray.create({
       promise: inList.then(function(arr) {

@@ -1,12 +1,9 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import { A } from '@ember/array';
+import Component from '@ember/component';
 import {
   Validations
 } from '../md-identifier/component';
-
-const {
-  A,
-  Component
-} = Ember;
 
 export default Component.extend({
 
@@ -70,7 +67,7 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: Ember.Object.extend(Validations, {
+  templateClass: EmberObject.extend(Validations, {
     init() {
       this._super(...arguments);
       this.set('authority', {});

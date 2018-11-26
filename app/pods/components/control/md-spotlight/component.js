@@ -1,11 +1,5 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
-
-const {
-  inject: {
-    service
-  }
-} = Ember;
 
 export default ModalDialog.extend({
   /**

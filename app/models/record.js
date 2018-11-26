@@ -1,4 +1,7 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { getOwner } from '@ember/application';
+import EmberObject, { computed } from '@ember/object';
+import { Copyable } from 'ember-copy'
 import DS from 'ember-data';
 import uuidV4 from "npm:uuid/v4";
 import Model from 'mdeditor/models/base';
@@ -6,11 +9,6 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Copyable,
-  computed
-} = Ember;
 
 const Validations = buildValidations({
   'recordId': validator(
@@ -56,7 +54,7 @@ export default Model.extend(Validations, Copyable, {
   }),
   json: DS.attr('json', {
     defaultValue() {
-      const obj = Ember.Object.create({
+      const obj = EmberObject.create({
         schema: {
           name: 'mdJson',
           version: '2.6.0'
@@ -106,25 +104,25 @@ export default Model.extend(Validations, Copyable, {
     }
   }),
 
-  title: computed.alias('json.metadata.resourceInfo.citation.title'),
+  title: alias('json.metadata.resourceInfo.citation.title'),
 
   icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
     function () {
       const type = this.get(
           'json.metadata.resourceInfo.resourceType.firstObject.type') ||
         '';
-      const list = Ember.getOwner(this).lookup('service:icon');
+      const list = getOwner(this).lookup('service:icon');
 
       return type ? list.get(type) || list.get('default') : list.get(
         'defaultFile');
     }),
 
-  recordId: computed.alias(
+  recordId: alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
-  recordIdNamespace: computed.alias(
+  recordIdNamespace: alias(
     'json.metadata.metadataInfo.metadataIdentifier.namespace'),
 
-  parentIds: computed.alias(
+  parentIds: alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
   hasParent: computed('parentIds.[]', function () {
@@ -151,7 +149,7 @@ export default Model.extend(Validations, Copyable, {
     return this.get('allRecords').findBy('recordId', id);
   }),
 
-  defaultType: computed.alias(
+  defaultType: alias(
     'json.metadata.resourceInfo.resourceType.firstObject.type'),
 
   /**
@@ -163,7 +161,7 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed('recordId', function () {
+  shortId: computed('recordId', function () {
     const recordId = this.get('recordId');
     if(recordId) {
       let index = recordId.indexOf('-');
@@ -212,7 +210,7 @@ export default Model.extend(Validations, Copyable, {
 
   copy() {
     let current = this.get('cleanJson');
-    let json = Ember.Object.create(current);
+    let json = EmberObject.create(current);
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);

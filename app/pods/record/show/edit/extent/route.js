@@ -1,14 +1,7 @@
-import Ember from 'ember';
-
-const {
-  A,
-  Route,
-  computed,
-  set,
-  getWithDefault,
-  get,
-  $
-} = Ember;
+import { A } from '@ember/array';
+import Route from '@ember/routing/route';
+import { get, getWithDefault, set, computed } from '@ember/object';
+import $ from 'jquery';
 
 export default Route.extend({
   model() {

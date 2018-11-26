@@ -1,14 +1,10 @@
-import Ember from 'ember';
-
-const {
-  inject,
-  Route,
-  get,
-  copy
-} = Ember;
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { copy } from '@ember/object/internals';
 
 export default Route.extend({
-  flashMessages: inject.service(),
+  flashMessages: service(),
 
   model: function(params) {
     let rec= this.store.peekRecord('dictionary', params.dictionary_id);

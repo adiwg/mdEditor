@@ -1,10 +1,12 @@
-import Ember from 'ember';
+import Service from '@ember/service';
+import { A } from '@ember/array';
+import EmberObject from '@ember/object';
 import GCMD from 'npm:gcmd-keywords';
 import Keywords from 'npm:mdkeywords';
 import ISO from 'npm:mdcodes/resources/js/iso_topicCategory';
 
-let service = Ember.Object.create({
-  thesaurus: Ember.A(),
+let service = EmberObject.create({
+  thesaurus: A(),
   findById(id) {
     return this.get('thesaurus')
       .find(function(t) {
@@ -76,4 +78,4 @@ service.get('thesaurus')
 
 service.get('thesaurus').pushObjects(Keywords);
 
-export default Ember.Service.extend(service);
+export default Service.extend(service);

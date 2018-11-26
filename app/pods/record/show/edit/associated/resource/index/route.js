@@ -1,15 +1,10 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { set, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-const {
-  Route,
-  get,
-  set,
-  inject
-} = Ember;
-
 export default Route.extend(ScrollTo, {
-  slider: inject.service(),
+  slider: service(),
 
   sliderColumns: [{
     propertyName: 'recordId',

@@ -1,9 +1,5 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  $
-} = Ember;
+import Route from '@ember/routing/route';
+import $ from 'jquery';
 
 export default Route.extend({
   setupController: function() {

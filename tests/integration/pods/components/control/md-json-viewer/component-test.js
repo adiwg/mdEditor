@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -15,7 +15,7 @@ test('render json modal', function (assert) {
 
   this.render(hbs `{{control/md-json-viewer json=json}}`);
 
-  assert.equal(Ember.$('.md-jsmodal-container')
+  assert.equal($('.md-jsmodal-container')
     .text()
     .trim(), '{"foo": "bar"}');
 });

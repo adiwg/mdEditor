@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import NativeArray from '@ember/array';
+import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import {
   set,
@@ -194,7 +194,7 @@ if(attr){
 
   actions: {
     getEntityAttributes(id) {
-      let entity = NativeArray.apply(this.get('dictionary.entity'))
+      let entity = A(this.get('dictionary.entity'))
         .findBy('entityId', id);
 
       if(entity) {

@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import HashPoll from 'mdeditor/mixins/hash-poll';
-
-const {
-  Route
-} = Ember;
 
 export default Route.extend(HashPoll, {
 

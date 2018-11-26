@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
 import {
   moduleForComponent,
   test
@@ -57,7 +57,7 @@ test('shows and cancels confirm', function (assert) {
     .trim(), 'Confirm', 'renders confirm');
 
   var $btn = this.$('button');
-  Ember.run(function () {
+  run(function () {
     $btn
       .blur();
   });

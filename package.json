@@ -58,6 +58,7 @@
     "ember-cli-uglify": "^2.0.0",
     "ember-cli-yuidoc": "^0.8.8",
     "ember-composable-helpers": "^2.0.0",
+    "ember-copy": "^1.0.0",
     "ember-cp-validations": "3.5.0",
     "ember-crumbly": "^1.0.2",
     "ember-data": "~2.16.2",

@@ -3,16 +3,11 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import Component from '@ember/component';
 
-const {
-  Component,
-  computed,
-  get,
-  set,
-  isNone,
-  run
-} = Ember;
+import { set, get, computed } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { run } from '@ember/runloop';
 
 export default Component.extend({
   /**

@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { getWithDefault, set } from '@ember/object';
 import {
   once
 } from '@ember/runloop';
@@ -6,16 +8,6 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-// import {
-//   formatCitation
-// } from '../md-citation/component';
-
-const {
-  Component,
-  computed,
-  set,
-  getWithDefault
-} = Ember;
 
 const Validations = buildValidations({
   'identifier': [
@@ -63,7 +55,7 @@ const theComp = Component.extend(Validations, {
    * @type {Boolean}
    */
 
-  identifier: computed.alias('model.identifier')
+  identifier: alias('model.identifier')
 });
 
 export {

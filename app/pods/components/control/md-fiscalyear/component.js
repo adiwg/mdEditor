@@ -1,14 +1,10 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import Select from 'mdeditor/pods/components/input/md-select/component';
 import layout from 'mdeditor/pods/components/input/md-select/template';
 import moment from 'moment';
 import {
   inject as service
 } from '@ember/service';
-
-const {
-  computed
-} = Ember;
 
 export default Select.extend({
   layout,

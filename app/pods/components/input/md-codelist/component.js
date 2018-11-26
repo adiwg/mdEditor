@@ -3,7 +3,9 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { computed } from '@ember/object';
+
+import { inject as service } from '@ember/service';
 import Select from '../md-select/component';
 
 export default Select.extend({
@@ -114,7 +116,7 @@ export default Select.extend({
    */
   label: null,
 
-  mdCodes: Ember.inject.service('codelist'),
+  mdCodes: service('codelist'),
 
   /*
    * The currently selected item in the codelist
@@ -123,7 +125,7 @@ export default Select.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function () {
+  selectedItem: computed('value', function () {
     let value = this.get('value');
 
     return this.get('codelist')
@@ -141,7 +143,7 @@ export default Select.extend({
    * @category computed
    * @requires mdCodeName
    */
-  mapped: Ember.computed('mdCodeName', function () {
+  mapped: computed('mdCodeName', function () {
     let codeId = this.get('valuePath');
     let codeName = this.get('namePath');
     let tooltip = this.get('tooltipPath');
@@ -177,7 +179,7 @@ export default Select.extend({
    * @category computed
    * @requires value
    */
-  codelist: Ember.computed('value', 'filterId', 'mapped', function () {
+  codelist: computed('value', 'filterId', 'mapped', function () {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');

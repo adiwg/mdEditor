@@ -1,22 +1,12 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { getWithDefault, get, set, computed } from '@ember/object';
+import { once } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  set,
-  get,
-  getWithDefault,
-  run: {
-    once
-  },
-  inject: {
-    service
-  }
-} = Ember;
 
 const Validations = buildValidations({
   'associationType': [
@@ -64,7 +54,7 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  associationType: computed.alias('model.associationType'),
+  associationType: alias('model.associationType'),
 
   linkedRecord: computed('model.mdRecordId', function() {
     let store = this.get('store');

@@ -1,23 +1,11 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { equal, alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { set, getWithDefault, get } from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed: {
-    alias,
-    equal//,
-    //not
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   'classification': [

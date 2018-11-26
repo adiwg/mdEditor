@@ -1,21 +1,19 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import EmObject, {
+  computed,
+  defineProperty,
+  get
+} from '@ember/object';
 import moment from 'moment';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { singularize } from 'ember-inflector';
 
-const {
-  get,
-  Object: EmObject,
-  defineProperty,
-  computed,
-  inject
-} = Ember;
-
 const modelTypes = ['records', 'contacts', 'dictionaries', 'settings'];
 
-export default Ember.Route.extend(ScrollTo, {
-  mdjson: inject.service(),
-  settings: inject.service(),
+export default Route.extend(ScrollTo, {
+  mdjson: service(),
+  settings: service(),
   model() {
     //const store = this.get('store');
 

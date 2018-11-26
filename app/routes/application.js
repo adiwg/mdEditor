@@ -1,17 +1,10 @@
-import Ember from 'ember';
-
-const {
-  $,
-  A,
-  Route,
-  Object: EmberObject,
-  guidFor,
-  RSVP,
-  Logger,
-  inject: {
-    service
-  }
-} = Ember;
+import $ from 'jquery';
+import { A } from '@ember/array';
+import Route from '@ember/routing/route';
+import EmberObject from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import RSVP from 'rsvp';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
   init() {
@@ -97,7 +90,7 @@ export default Route.extend({
 
   actions: {
     error(error) {
-      Logger.error(error);
+      console.error(error);
 
       if(error.status === 404) {
         return this.transitionTo('not-found');

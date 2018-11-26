@@ -1,9 +1,6 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 import marked from 'npm:marked';
-
-const {
-  String: EmString
-} = Ember;
+import { htmlSafe } from '@ember/string';
 
 export function mdMarkdown(params /*, hash*/ ) {
   marked.setOptions({
@@ -18,10 +15,10 @@ export function mdMarkdown(params /*, hash*/ ) {
   });
 
   if(params[0]) {
-    return EmString.htmlSafe(marked(params[0]));
+    return htmlSafe(marked(params[0]));
   }
 
   return params[1] || 'No text supplied.';
 }
 
-export default Ember.Helper.helper(mdMarkdown);
+export default buildHelper(mdMarkdown);

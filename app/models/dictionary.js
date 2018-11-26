@@ -1,22 +1,13 @@
-import Ember from 'ember';
+import { Copyable } from 'ember-copy'
 import DS from 'ember-data';
 import uuidV4 from "npm:uuid/v4";
 import { alias } from '@ember/object/computed';
-//import uuidV4 from 'npm:uuid/v4';
-//import Validator from 'npm:validator';
 import Model from 'mdeditor/models/base';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Copyable,
-  computed,
-  //isEmpty,
-  //get,
-  Object: EmObject
-} = Ember;
+import EmberObject, { computed } from '@ember/object';
 
 const Validations = buildValidations({
   'json.dataDictionary.citation.title': validator('presence', {
@@ -33,7 +24,7 @@ const Validations = buildValidations({
   ]
 });
 
-const JsonDefault = Ember.Object.extend({
+const JsonDefault = EmberObject.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
@@ -106,7 +97,7 @@ export default Model.extend(Validations, Copyable, {
 
   copy() {
     let current = this.get('cleanJson');
-    let json = EmObject.create(current);
+    let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
 
     json.set('dataDictionary.citation.title', `Copy of ${name}`);

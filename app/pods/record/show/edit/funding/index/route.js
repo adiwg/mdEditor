@@ -1,19 +1,13 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  set,
-  getWithDefault,
-  get,
-  NativeArray
-} = Ember;
+import Route from '@ember/routing/route';
+import { get, getWithDefault, set } from '@ember/object';
+import { A } from '@ember/array';
 
 export default Route.extend({
   afterModel(m) {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'funding', NativeArray.apply(getWithDefault(model, 'funding', [])));
+    set(model, 'funding', A(getWithDefault(model, 'funding', [])));
   },
 
   setupController: function() {

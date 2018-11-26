@@ -1,13 +1,9 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  computed,
-  Component
-} = Ember;
 
 const Validations = buildValidations({
   date: validator('presence', {
@@ -30,7 +26,7 @@ export default Component.extend(Validations, {
   },
 
   tagName:'',
-  date: computed.alias('model.date'),
-  dateType: computed.alias('model.dateType')
+  date: alias('model.date'),
+  dateType: alias('model.dateType')
 
 });

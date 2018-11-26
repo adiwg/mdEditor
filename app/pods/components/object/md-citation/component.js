@@ -1,13 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  set,
-  getWithDefault,
-  run: {
-    once
-  }
-} = Ember;
+import Component from '@ember/component';
+import { getWithDefault, set } from '@ember/object';
+import { once } from '@ember/runloop';
 
 const formatCitation = function(model) {
   set(model, 'responsibleParty', getWithDefault(model,

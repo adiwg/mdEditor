@@ -3,13 +3,10 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
-import Select from '../md-codelist/component';
+import { inject as service } from '@ember/service';
 
-const {
-  inject,
-  computed
-} = Ember;
+import { computed } from '@ember/object';
+import Select from '../md-codelist/component';
 
 export default Select.extend({
   /**
@@ -28,7 +25,7 @@ export default Select.extend({
    * @type {Ember.Service}
    * @readOnly
    */
-  contacts: inject.service(),
+  contacts: service(),
 
   /**
    * The default CSS classnames

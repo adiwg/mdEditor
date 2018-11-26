@@ -2,7 +2,6 @@ import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 import { get } from '@ember/object';
-import Ember from 'ember';
 
 export default Route.extend({
   model(params, transition) {
@@ -36,7 +35,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(source)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No source found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject');
 

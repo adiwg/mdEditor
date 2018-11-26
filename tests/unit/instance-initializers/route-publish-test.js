@@ -1,17 +1,18 @@
-import Ember from 'ember';
+import Application from '@ember/application';
+import { run } from '@ember/runloop';
 import { initialize } from 'mdeditor/instance-initializers/route-publish';
 import { module, test } from 'qunit';
 import destroyApp from '../../helpers/destroy-app';
 
 module('Unit | Instance Initializer | route publish', {
   beforeEach() {
-    Ember.run(() => {
-      this.application = Ember.Application.create();
+    run(() => {
+      this.application = Application.create();
       this.appInstance = this.application.buildInstance();
     });
   },
   afterEach() {
-    Ember.run(this.appInstance, 'destroy');
+    run(this.appInstance, 'destroy');
     destroyApp(this.application);
   }
 });

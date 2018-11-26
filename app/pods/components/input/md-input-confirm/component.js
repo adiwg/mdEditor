@@ -3,7 +3,9 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { once } from '@ember/runloop';
+
+import { computed } from '@ember/object';
 import Input from '../md-input/component';
 
 export default Input.extend({
@@ -19,7 +21,7 @@ export default Input.extend({
 
   disabled: true,
 
-  isDisabled: Ember.computed('disabled', function(){
+  isDisabled: computed('disabled', function(){
     return this.get('disabled');
   }),
 
@@ -34,7 +36,7 @@ export default Input.extend({
   actions: {
     allowEdit() {
       this.set('disabled', false);
-      Ember.run.once(() => {
+      once(() => {
         this.$('input').focus();
       });
     }

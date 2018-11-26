@@ -1,3 +1,6 @@
+import Service, { inject as service } from '@ember/service';
+import { isArray } from '@ember/array';
+import EmberObject, { getWithDefault, get, set } from '@ember/object';
 import Ember from 'ember';
 import Ajv from 'npm:ajv';
 import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
@@ -5,6 +8,7 @@ import {
   formatCitation
 } from 'mdeditor/pods/components/object/md-citation/component';
 import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
+
 
 Ember.libraries.register('mdJson-schemas', Schemas.schema.version);
 
@@ -25,17 +29,6 @@ Object.keys(Schemas)
     validator.addSchema(val, key);
   });
 
-const {
-  Service,
-  inject,
-  isArray,
-  set,
-  get,
-  getWithDefault,
-  Object: EmObject
-
-} = Ember;
-
 const unImplemented = [
   'metadata.metadataInfo.otherMetadataLocale',
   'metadata.resourceInfo.spatialRepresentation', [
@@ -52,9 +45,9 @@ const unImplemented = [
 ];
 
 export default Service.extend({
-  cleaner: inject.service(),
-  contacts: inject.service(),
-  store: inject.service(),
+  cleaner: service(),
+  contacts: service(),
+  store: service(),
 
   injectCitations(json) {
     let assoc = json.metadata.associatedResource;
@@ -89,9 +82,9 @@ export default Service.extend({
           let resourceType = get(record,
             'json.metadata.resourceInfo.resourceType') || [];
 
-          set(ref, 'resourceCitation', EmObject.create(formatCitation(
+          set(ref, 'resourceCitation', EmberObject.create(formatCitation(
             citation)));
-          set(ref, 'metadataCitation', EmObject.create(formatCitation(
+          set(ref, 'metadataCitation', EmberObject.create(formatCitation(
             metadata)));
           set(ref, 'resourceType', resourceType);
           set(ref, 'mdRecordId', null);

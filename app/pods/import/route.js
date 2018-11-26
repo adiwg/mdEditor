@@ -1,38 +1,25 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { or } from '@ember/object/computed';
+import Route from '@ember/routing/route';
+import $ from 'jquery';
+import { A, isArray } from '@ember/array';
+import { merge, assign } from '@ember/polyfills';
+import EmObject, { computed, set, get } from '@ember/object';
 import Base from 'ember-local-storage/adapters/base';
 import uuidV4 from "npm:uuid/v4";
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   JsonDefault as Contact
 } from 'mdeditor/models/contact';
-import {
-  allSettled
-} from 'rsvp';
+import { allSettled, Promise } from 'rsvp';
 
 const generateIdForRecord = Base.create()
   .generateIdForRecord;
 
-const {
-  Route,
-  get,
-  set,
-  RSVP: {
-    Promise
-  },
-  inject,
-  Object: EmObject,
-  assign,
-  isArray,
-  $,
-  A,
-  merge,
-  computed
-} = Ember;
-
 export default Route.extend(ScrollTo, {
-  flashMessages: inject.service(),
-  jsonvalidator: inject.service(),
-  settings: inject.service(),
+  flashMessages: service(),
+  jsonvalidator: service(),
+  settings: service(),
 
   setupController(controller, model) {
     // Call _super for default behavior
@@ -49,7 +36,7 @@ export default Route.extend(ScrollTo, {
     });
   },
 
-  apiURL: computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+  apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
 
   getTitle(record) {
     let raw = record.attributes.json;

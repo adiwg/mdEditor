@@ -3,10 +3,12 @@
  * @submodule components-object
  */
 
-import Ember from 'ember';
+import { computed } from '@ember/object';
 
-export default Ember.Component.extend({
-  readOnly: Ember.computed('model.thesaurus.identifier.0.identifier',
+import Component from '@ember/component';
+
+export default Component.extend({
+  readOnly: computed('model.thesaurus.identifier.0.identifier',
     function () {
       return this.get('model.thesaurus.identifier.0.identifier') !==
         'custom';

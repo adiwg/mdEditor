@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
 import HashPoll from 'mdeditor/mixins/hash-poll';
 import {
   once
@@ -6,12 +8,6 @@ import {
 import {
   getOwner
 } from '@ember/application';
-
-const {
-  inject,
-  Route,
-  get
-} = Ember;
 
 export default Route.extend(HashPoll, {
   breadCrumb: {
@@ -24,7 +20,7 @@ export default Route.extend(HashPoll, {
    *
    * @return {Ember.Service} profile
    */
-  profile: inject.service(),
+  profile: service(),
 
   /**
    * The route activate hook, sets the profile.

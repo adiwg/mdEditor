@@ -1,12 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import EmObject from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Object: EmObject
-} = Ember;
 
 const Validations = buildValidations({
   'type': [
@@ -17,7 +14,7 @@ const Validations = buildValidations({
   ]
 });
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   /**
    * mdEditor class for input and edit of mdJSON 'phone' object.

@@ -133,7 +133,7 @@ export default Component.extend({
 
       this.get('flashMessages')
         .success(
-          `Successfully imported ${allTaxa.length} taxa from ITIS.`
+          `Successfully imported ${ allTaxa.length } taxa from ITIS.`
         );
     }
   }

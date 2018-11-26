@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Service, { inject as service } from '@ember/service';
+import EmberObject, { set, getWithDefault } from '@ember/object';
 import config from 'mdeditor/config/environment';
 import { defaultValues } from 'mdeditor/models/setting';
 import { isEmpty } from '@ember/utils';
@@ -10,15 +11,8 @@ const {
   environment
 } = config;
 
-const {
-  Service,
-  getWithDefault,
-  inject,
-  set
-} = Ember;
-
 export default Service.extend({
-  store: inject.service(),
+  store: service(),
   data: 'null',
 
   init() {
@@ -62,7 +56,7 @@ export default Service.extend({
 
       });
   },
-  repositoryTemplate: Ember.Object.extend({
+  repositoryTemplate: EmberObject.extend({
     init() {
       this._super(...arguments);
     }

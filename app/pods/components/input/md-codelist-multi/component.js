@@ -3,7 +3,9 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { isArray } from '@ember/array';
+
+import { computed } from '@ember/object';
 import MdCodelist from '../md-codelist/component';
 
 export default MdCodelist.extend({
@@ -59,7 +61,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed('create', function() {
+  theComponent: computed('create', function() {
     return this.get('create') ? 'power-select-multiple-with-create' :
       'power-select-multiple';
   }),
@@ -89,7 +91,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function() {
+  selectedItem: computed('value', function() {
     let value = this.get('value');
     let codelist = this.get('codelist');
 
@@ -109,7 +111,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: Ember.computed('value', 'filterId', 'mapped', function() {
+  codelist: computed('value', 'filterId', 'mapped', function() {
     let codelist = this.get('mapped');
     let value = this.get('value');
     let create = this.get('create');
@@ -142,7 +144,7 @@ export default MdCodelist.extend({
 
     //power-select-with-create always sends a single object oncreate
     //we need to add that object to the selectedItem array
-    if (this.get('create') && !Ember.isArray(selected)) {
+    if (this.get('create') && !isArray(selected)) {
       sel = this.get('selectedItem')
         .compact();
       sel.pushObject(selected);

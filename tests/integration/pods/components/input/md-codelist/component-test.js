@@ -1,14 +1,14 @@
+import Service from '@ember/service';
 import {
   moduleForComponent, test
 }
 from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
 import { triggerEvent } from 'ember-native-dom-helpers';
 import wait from 'ember-test-helpers/wait';
 
-const codelist = Ember.Service.extend({
+const codelist = Service.extend({
   foobar: {
     codelist: [{
       code: '001',

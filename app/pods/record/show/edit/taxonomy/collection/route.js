@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import { computed } from '@ember/object';
 import { isArray } from '@ember/array';
 import { get } from '@ember/object';
-import NativeArray from '@ember/array';
+import { A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
 export default Route.extend({
@@ -38,7 +38,7 @@ export default Route.extend({
     let collectionId = get(this, 'collectionId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.resourceInfo.taxonomy');
-    let resource = collectionId && isArray(objects) ? NativeArray.apply(objects).objectAt(collectionId) :
+    let resource = collectionId && isArray(objects) ? A(objects).objectAt(collectionId) :
       undefined;
 
     //make sure the identifier exists

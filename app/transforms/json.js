@@ -1,13 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import EmberObject from '@ember/object';
+import { A, isArray } from '@ember/array';
 import DS from 'ember-data';
-
-const {
-  inject,isArray,A
-} = Ember;
 
 
 export default DS.Transform.extend({
-  clean: inject.service('cleaner'),
+  clean: service('cleaner'),
 
   deserialize(serialized) {
     let json = JSON.parse(serialized);
@@ -16,7 +14,7 @@ export default DS.Transform.extend({
       return A(json);
     }
 
-    return Ember.Object.create(json);
+    return EmberObject.create(json);
   },
 
   serialize(deserialized) {

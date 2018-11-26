@@ -3,7 +3,11 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { notEmpty, alias } from '@ember/object/computed';
+
+import Component from '@ember/component';
+import { set, get, computed } from '@ember/object';
+import { once } from '@ember/runloop';
 //import moment from 'moment';
 
 import {
@@ -11,32 +15,22 @@ import {
   buildValidations
 } from 'ember-cp-validations';
 
-const {
-  Component,
-  computed,
-  get,
-  set,
-  run: {
-    once
-  }
-} = Ember;
-
 const Validations = buildValidations({
   'start': [
     validator('presence', {
       presence: true,
-      disabled: computed.notEmpty('model.end'),
+      disabled: notEmpty('model.end'),
       ignoreBlank: true
     })
   ],
   'end': [
     validator('date', {
-      onOrAfter: computed.alias('model.start'),
+      onOrAfter: alias('model.start'),
       isWarning: true
     }),
     validator('presence', {
       presence: true,
-      disabled: computed.notEmpty('model.start'),
+      disabled: notEmpty('model.start'),
       ignoreBlank: true
     })
   ]

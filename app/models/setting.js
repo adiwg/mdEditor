@@ -1,16 +1,8 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { run } from '@ember/runloop';
+import { inject as service } from '@ember/service';
 import DS from 'ember-data';
-import EmberObject from "@ember/object";
-
-const {
-  //inject,
-  run,
-  computed,
-  observer,
-  inject: {
-    service
-  }
-} = Ember;
+import EmberObject, { observer } from "@ember/object";
 
 const defaultValues = {
   mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v3/translator',
@@ -70,7 +62,7 @@ const theModel = DS.Model.extend({
       return EmberObject.create();
     }
   }),
-  locale: computed.alias('defaultLocale'),
+  locale: alias('defaultLocale'),
 
   wasLoaded() {
     this.get('settings')

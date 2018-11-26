@@ -3,12 +3,10 @@
  * @submodule components-object
  */
 
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
-const {
-  Component,
-  A
-} = Ember;
+import Component from '@ember/component';
+import { A } from '@ember/array';
 
 export default Component.extend({
   /**
@@ -74,7 +72,7 @@ export default Component.extend({
 
   previewTemplate: 'object/md-graphic-array/md-graphic-preview',
 
-  templateClass: Ember.Object.extend({
+  templateClass: EmberObject.extend({
     init() {
       this._super(...arguments);
       

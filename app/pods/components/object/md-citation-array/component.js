@@ -1,9 +1,6 @@
-import Ember from 'ember';
-
-const {
-  A,
-  Component
-} = Ember;
+import EmberObject from '@ember/object';
+import { A } from '@ember/array';
+import Component from '@ember/component';
 
 export default Component.extend({
 
@@ -66,7 +63,7 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: Ember.Object.extend({
+  templateClass: EmberObject.extend({
     init() {
       this._super(...arguments);
       //this.set('authority', {});

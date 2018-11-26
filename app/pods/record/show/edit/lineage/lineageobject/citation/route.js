@@ -1,11 +1,7 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray
-} = Ember;
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
 
 export default Route.extend({
   model(params, transition) {
@@ -39,7 +35,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(citation)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No citation found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject');
 

@@ -1,9 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  typeOf
-} = Ember;
+import $ from 'jquery';
+import Component from '@ember/component';
+import { typeOf } from '@ember/utils';
 
 export default Component.extend({
   classNames: 'md-json-viewer',
@@ -47,7 +44,7 @@ export default Component.extend({
     let json = this.get('json');
     let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 
-    Ember.$('.md-viewer-body')
+    $('.md-viewer-body')
       .JSONView(out);
   },
 

@@ -1,13 +1,9 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  inject
-} = Ember;
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
 export default Component.extend({
   tagName: 'footer',
   classNames: ['md-footer'],
 
-  settings: inject.service()
+  settings: service()
 });

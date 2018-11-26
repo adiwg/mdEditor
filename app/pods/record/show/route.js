@@ -1,11 +1,8 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { copy } from '@ember/object/internals';
 
-const {
-  get,
-  copy
-} = Ember;
-
-export default Ember.Route.extend({
+export default Route.extend({
   breadCrumb: {},
   afterModel(model) {
     const name = model.get('title');

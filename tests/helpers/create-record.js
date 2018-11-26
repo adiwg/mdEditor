@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 export default function createRecord(total) {
 
@@ -6,7 +6,7 @@ export default function createRecord(total) {
 
   for(let i = 0; i < total; i++) {
 
-    const record = Ember.Object.create({
+    const record = EmberObject.create({
 
       json: {
         "version": {

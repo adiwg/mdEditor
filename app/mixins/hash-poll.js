@@ -3,19 +3,16 @@
  * @submodule mixins
  */
 
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+
+import { Promise } from 'rsvp';
+import Mixin from '@ember/object/mixin';
+import { on } from '@ember/object/evented';
 
 export const pollInterval = 750; // time in milliseconds
 
-const {
-  Mixin,
-  //computed,
-  inject,
-  on
-} = Ember;
-
 export default Mixin.create({
-  settings: inject.service(),
+  settings: service(),
 
   // autoSave: computed('settings.data.autoSave', function () {
   //   return this.get('settings')
@@ -56,7 +53,7 @@ export default Mixin.create({
   onPoll() {
     const model = this.currentRouteModel();
 
-    return new Ember.RSVP.Promise(function(resolve) {
+    return new Promise(function(resolve) {
       if (model) {
         model.notifyPropertyChange('currentHash');
       }

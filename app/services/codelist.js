@@ -1,11 +1,8 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import Service from '@ember/service';
 import codes from 'npm:mdcodes/resources/js/mdcodes.js';
 import Profile from './profile';
 
-const {
-  get,
-  Service
-} = Ember;
 /**
  * Codelist Service
  *

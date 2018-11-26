@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import QUnit from 'qunit';
 
 export default function registerAssertHelpers() {
@@ -8,17 +8,17 @@ export default function registerAssertHelpers() {
 
   assert.isPresentOnce = function(selector, message) {
     message = message || `${selector} is present in DOM once`;
-    return this.equal(Ember.$(selector).length, 1, message);
+    return this.equal($(selector).length, 1, message);
   };
 
   assert.isAbsent = function(selector, message) {
     message = message || `${selector} is absent from DOM`;
-    return this.equal(Ember.$(selector).length, 0, message);
+    return this.equal($(selector).length, 0, message);
   };
 
   assert.isVisible = function(selector, message) {
     message = message || `${selector} is not visible`;
-    return this.ok(Ember.$(selector).is(':visible'), message);
+    return this.ok($(selector).is(':visible'), message);
   };
 
   assert.dialogOpensAndCloses = function(options/*, message*/) {

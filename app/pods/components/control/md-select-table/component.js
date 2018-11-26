@@ -1,9 +1,5 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
-
-const {
-  get
-} = Ember;
 
 export default Table.extend({
   /**

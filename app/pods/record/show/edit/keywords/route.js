@@ -1,28 +1,20 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { A } from '@ember/array';
+import { getWithDefault, set } from '@ember/object';
+import { copy } from '@ember/object/internals';
+import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-const {
-  Route,
-  A,
-  set,
-  //Object: EmObject,
-  NativeArray,
-  getWithDefault,
-  //assign,
-  copy,
-  inject,
-  $
-} = Ember;
-
 export default Route.extend(ScrollTo, {
-  keyword: inject.service(),
+  keyword: service(),
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
     set(info, 'keyword', !info.hasOwnProperty('keyword') ? A() :
-      NativeArray.apply(
+      A(
         info.keyword));
 
     //check to see if custom list

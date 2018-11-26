@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { getOwner } from '@ember/application';
 import {
   moduleForModel, test
 }
@@ -25,7 +25,7 @@ test('should correctly compute title', function(assert) {
 
 test('should correctly compute icon', function(assert) {
   const me = this.subject();
-  const list = Ember.getOwner(this)
+  const list = getOwner(this)
     .lookup('service:icon');
 
   assert.expect(1);

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import {
   moduleForComponent,
   test
@@ -46,7 +46,7 @@ test('render json modal', function (assert) {
 
 this.$('button').click();
 
-  assert.equal(Ember.$('.md-jsmodal-container')
+  assert.equal($('.md-jsmodal-container')
     .text()
     .trim(), '{"foo": "bar"}');
 });

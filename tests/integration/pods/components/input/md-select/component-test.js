@@ -1,8 +1,8 @@
+import EmberObject from '@ember/object';
 import {
   moduleForComponent, test
 }
 from 'ember-qunit';
-import Ember from 'ember';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
 import { triggerEvent } from 'ember-native-dom-helpers';
@@ -17,7 +17,7 @@ test('it renders', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('objArray', [Ember.Object.create({
+  this.set('objArray', [EmberObject.create({
     id: 1,
     name: 'foo',
     tip: 'bar'
@@ -43,11 +43,11 @@ test('set value', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('objArray', [Ember.Object.create({
+  this.set('objArray', [EmberObject.create({
     id: 1,
     name: 'foo',
     tip: 'bar'
-  }), Ember.Object.create({
+  }), EmberObject.create({
     id: 2,
     name: 'baz',
     tip: 'biz'
@@ -83,11 +83,11 @@ test('create option', function(assert) {
 
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('objArray', [Ember.Object.create({
+  this.set('objArray', [EmberObject.create({
     id: 1,
     name: 'foo',
     tip: 'bar'
-  }), Ember.Object.create({
+  }), EmberObject.create({
     id: 2,
     name: 'baz',
     tip: 'biz'

@@ -1,12 +1,13 @@
-import Ember from 'ember';
+import Application from '@ember/application';
+import { run } from '@ember/runloop';
 import { initialize } from 'mdeditor/initializers/local-storage-export';
 import { module, test } from 'qunit';
 import destroyApp from '../../helpers/destroy-app';
 
 module('Unit | Initializer | local storage export', {
   beforeEach() {
-    Ember.run(() => {
-      this.application = Ember.Application.create();
+    run(() => {
+      this.application = Application.create();
       this.application.deferReadiness();
     });
   },

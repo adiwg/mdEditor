@@ -1,20 +1,11 @@
-import Ember from 'ember';
-
-// import {
-//   validator,
-//   buildValidations
-// } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  set,
-  get,
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import EmberObject, {
   getWithDefault,
-  run: {
-    once
-  }
-} = Ember;
+  get,
+  set
+} from '@ember/object';
+import { once } from '@ember/runloop';
 
 // const Validations = buildValidations({
 //   // 'intervalAmount': [
@@ -96,7 +87,7 @@ export default Component.extend({
   //     });
   //   }
   // }),
-  formatUri: computed.alias(
+  formatUri: alias(
     'model.distributionFormat.firstObject.formatSpecification.title'),
   timeUnit: [{
       name: 'year',
@@ -124,7 +115,7 @@ export default Component.extend({
     }
   ],
 
-  formatTemplate:Ember.Object.extend(/*Validations, */{
+  formatTemplate:EmberObject.extend(/*Validations, */{
     init() {
       this._super(...arguments);
       this.set('formatSpecification', {});

@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import { get } from '@ember/object';
+import Route from '@ember/routing/route';
 import HashPoll from 'mdeditor/mixins/hash-poll';
 import {
   once
@@ -7,19 +9,13 @@ import {
   getOwner
 } from '@ember/application';
 
-const {
-  inject,
-  get,
-  Route
-} = Ember;
-
 export default Route.extend(HashPoll, {
   /**
    * The profile service
    *
    * @return {Ember.Service} profile
    */
-  profile: inject.service(),
+  profile: service(),
 
   /**
    * The route activate hook, sets the profile to 'dictionary'.

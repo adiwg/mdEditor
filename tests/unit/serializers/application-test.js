@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { getOwner } from '@ember/application';
 import DS from 'ember-data';
 import {
   moduleFor, test
@@ -13,7 +14,6 @@ moduleFor('serializer:application', 'Unit | Serializer | application', {
 test('it serializes records', function (assert) {
   assert.expect(2);
 
-  const { getOwner } = Ember;
   let serializer = this.subject();
   let store = getOwner(this).lookup('service:store');
   let record;
@@ -41,7 +41,7 @@ test('it serializes records', function (assert) {
 
   this.register('model:test', model);
 
-  Ember.run(function () {
+  run(function () {
     record = store.createRecord('test', data);
   });
 

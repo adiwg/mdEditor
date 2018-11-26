@@ -1,15 +1,11 @@
-import Ember from 'ember';
+import { assert } from '@ember/debug';
+import { get } from '@ember/object';
+import { isArray } from '@ember/array';
 import BaseValidator from 'ember-cp-validations/validators/base';
-
-const {
-  assert,
-  get,
-  isArray
-} = Ember;
 
 const ArrayRequired = BaseValidator.extend({
   validate(value) {
-    if(Ember.isArray(value)) {
+    if(isArray(value)) {
       if(value.length) {
         return true;
       }

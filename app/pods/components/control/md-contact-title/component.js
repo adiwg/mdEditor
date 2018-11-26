@@ -1,15 +1,11 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  computed,
-  inject
-} = Ember;
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   tagName: '',
 
-  store: inject.service(),
+  store: service(),
 
   /**
    * mdEditor Component that accepts a contact identifier and returns the

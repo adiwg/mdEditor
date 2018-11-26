@@ -1,21 +1,17 @@
-import Ember from 'ember';
+import { gt } from '@ember/object/computed';
+import Component from '@ember/component';
+import EmberObject, {
+  get,
+  observer,
+  computed
+} from '@ember/object';
+import { typeOf, isEmpty } from '@ember/utils';
+import { getOwner } from '@ember/application';
+import { A } from '@ember/array';
+import $ from 'jquery';
+import { inject as service } from '@ember/service';
 import Template from 'mdeditor/mixins/object-template';
 import InViewportMixin from 'ember-in-viewport';
-
-const {
-  computed,
-  Component,
-  observer,
-  get,
-  isEmpty,
-  typeOf,
-  getOwner,
-  A,
-  $,
-  inject: {
-    service
-  }
-} = Ember;
 
 export default Component.extend(InViewportMixin, Template, {
 
@@ -278,7 +274,7 @@ export default Component.extend(InViewportMixin, Template, {
    * @category computed
    * @requires items.length
    */
-  showFooter: computed.gt('items.length', 5),
+  showFooter: gt('items.length', 5),
 
   /*citems: computed('items.@each.val', function () {
     let i = this.get('items')
@@ -388,7 +384,7 @@ export default Component.extend(InViewportMixin, Template, {
       const spotlight = this.get('spotlight');
 
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
-        Ember.Object.create({});
+        EmberObject.create({});
 
       this.set('saveItem', itm);
       this.set('editing', 'adding');

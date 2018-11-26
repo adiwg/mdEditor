@@ -1,20 +1,12 @@
-import Ember from 'ember';
+import { notEmpty, alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { getWithDefault, get, set, computed } from '@ember/object';
+import { once } from '@ember/runloop';
 
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  set,
-  get,
-  getWithDefault,
-  run: {
-    once
-  }
-} = Ember;
 
 const Validations = buildValidations({
   'intervalAmount': [
@@ -27,18 +19,18 @@ const Validations = buildValidations({
   'startDateTime': [
     validator('presence', {
       presence: true,
-      disabled: computed.notEmpty('model.endDateTime'),
+      disabled: notEmpty('model.endDateTime'),
       ignoreBlank: true
     })
   ],
   'endDateTime': [
     validator('date', {
-      onOrAfter: computed.alias('model.startDateTime'),
+      onOrAfter: alias('model.startDateTime'),
       isWarning: true
     }),
     validator('presence', {
       presence: true,
-      disabled: computed.notEmpty('model.startDateTime'),
+      disabled: notEmpty('model.startDateTime'),
       ignoreBlank: true
     })
   ]
@@ -94,7 +86,7 @@ export default Component.extend(Validations, {
       });
     }
   }),
-  intervalAmount: computed.alias('model.timeInterval.interval'),
+  intervalAmount: alias('model.timeInterval.interval'),
   timeUnit: [{
       name: 'year',
       value: 'year'

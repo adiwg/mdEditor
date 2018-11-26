@@ -1,10 +1,5 @@
-import Ember from 'ember';
+import { observer, computed } from '@ember/object';
 import ArrayTable from '../md-array-table/component';
-
-const {
-  computed,
-  observer
-} = Ember;
 
 export default ArrayTable.extend({
   /**

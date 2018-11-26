@@ -1,11 +1,5 @@
-import Ember from 'ember';
+import { once } from '@ember/runloop';
 import Picker from 'ember-bootstrap-datetimepicker/components/bs-datetimepicker';
-
-const {
-  run: {
-    once
-  }
-} = Ember;
 
 export default Picker.extend({
   didReceiveAttrs() {

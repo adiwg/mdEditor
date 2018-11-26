@@ -1,11 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Service,
-  inject,
-  A,
-  computed
-} = Ember;
+import Service, { inject as service } from '@ember/service';
+import { A } from '@ember/array';
+import EmberObject, { computed } from '@ember/object';
 
 export default Service.extend({
   init() {
@@ -16,7 +11,7 @@ export default Service.extend({
     this.set('contacts', store.peekAll('contact'));
   },
 
-  store: inject.service(),
+  store: service(),
 
   contacts: A(),
 
@@ -52,7 +47,7 @@ export default Service.extend({
    * @category computed
    * @requires mdCodeName
    */
-  contactsCodes: Ember.computed('contacts.@each.name', function() {
+  contactsCodes: computed('contacts.@each.name', function() {
     //let codeId = this.get('valuePath');
     //let codeName = this.get('namePath');
     //let tooltip = this.get('tooltipPath');
@@ -62,7 +57,7 @@ export default Service.extend({
     let mdCodelist = this.get('contacts').sortBy('title');
 
     mdCodelist.forEach(function(item) {
-      let newObject = Ember.Object.create({
+      let newObject = EmberObject.create({
         codeId: item.get('contactId'),
         codeName: item.get('title'),
         tooltip: item.get('combinedName'),

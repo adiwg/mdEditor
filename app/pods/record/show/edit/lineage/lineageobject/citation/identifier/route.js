@@ -1,12 +1,8 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { get } from '@ember/object';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray
-} = Ember;
 
 export default Route.extend(ScrollTo, {
   model(params) {
@@ -37,7 +33,7 @@ export default Route.extend(ScrollTo, {
 
     //make sure the identifier exists
     if(isEmpty(identifier)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No identifier found! Re-directing to Citation...');
       this.replaceWith('record.show.edit.lineage.lineageobject.citation');
 

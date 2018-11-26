@@ -3,19 +3,15 @@
  * @module mdeditor
  */
 
-import Ember from 'ember';
-import Template from 'mdeditor/mixins/object-template';
+import { oneWay, alias } from '@ember/object/computed';
 
-const {
-  computed,
-  Component,
-  A,
-  getOwner,
-  isArray,
-  run,
-  typeOf,
-  get
-} = Ember;
+import Component from '@ember/component';
+import { getOwner } from '@ember/application';
+import { isArray, A } from '@ember/array';
+import { run } from '@ember/runloop';
+import { typeOf } from '@ember/utils';
+import { get, computed } from '@ember/object';
+import Template from 'mdeditor/mixins/object-template';
 
 export default Component.extend(Template, {
   /**
@@ -126,7 +122,7 @@ export default Component.extend(Template, {
    * @default "this.title"
    * @category computed
    */
-  'data-spy': computed.oneWay('title'),
+  'data-spy': oneWay('title'),
 
   /**
    * Array of column headers
@@ -174,7 +170,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires value
    */
-  arrayValues: computed.alias('value'),
+  arrayValues: alias('value'),
 
   /**
    * The panel id selector

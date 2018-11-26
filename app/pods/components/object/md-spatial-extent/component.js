@@ -1,17 +1,7 @@
-import Ember from 'ember';
-/* global L */
-
-const {
-  Component,
-  computed,
-  observer,
-  computed: {
-    alias,
-    or
-  },
-  setProperties,
-  isNone,
-} = Ember;
+import Component from '@ember/component';
+import { or, alias } from '@ember/object/computed';
+import { setProperties, observer, computed } from '@ember/object';
+import { isNone } from '@ember/utils';
 
 const {
   isNaN:isNan

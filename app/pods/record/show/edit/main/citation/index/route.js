@@ -1,12 +1,5 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-
-const {
-  Route //,
-  // get,
-  // getWithDefault,
-  // set
-} = Ember;
 
 export default Route.extend(ScrollTo, {
   // afterModel() {

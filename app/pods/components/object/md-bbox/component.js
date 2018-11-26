@@ -1,15 +1,9 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { readOnly, alias } from '@ember/object/computed';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed: {
-    alias,readOnly
-  }
-} = Ember;
 
 const Validations = buildValidations({
   'north': [

@@ -1,13 +1,13 @@
+import Service from '@ember/service';
 import {
   moduleForComponent,
   test
 }
 from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 //Stub profile service
-const profileStub = Ember.Service.extend({
+const profileStub = Service.extend({
   getActiveProfile() {
     const active = this.get('active');
     const profile = active && typeof active === 'string' ? active :
