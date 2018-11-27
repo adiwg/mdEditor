@@ -1,59 +1,59 @@
+import { click, find, render } from '@ember/test-helpers';
 import Route from '@ember/routing/route';
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/subbar-keywords',
-  'Integration | Component | control/subbar keywords', {
-    integration: true
+module('Integration | Component | control/subbar keywords', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-test('it renders', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs `{{control/subbar-keywords}}`);
+    await render(hbs `{{control/subbar-keywords}}`);
 
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|')
-    .trim(), '|Add|Keywords|');
+    assert.equal(find('*').textContent
+      .replace(/[ \n]+/g, '|')
+      .trim(), '|Add|Keywords|');
 
-  // Template block usage:
-  this.render(hbs `
-    {{#control/subbar-keywords}}
-      template block text
-    {{/control/subbar-keywords}}
-  `);
+    // Template block usage:
+    await render(hbs `
+      {{#control/subbar-keywords}}
+        template block text
+      {{/control/subbar-keywords}}
+    `);
 
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|')
-    .trim(), '|Add|Keywords|template|block|text|');
-});
+    assert.equal(find('*').textContent
+      .replace(/[ \n]+/g, '|')
+      .trim(), '|Add|Keywords|template|block|text|');
+  });
 
-test('fire actions', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('fire actions', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  assert.expect(1);
+    assert.expect(1);
 
-  var FakeRoute = Route.extend({
-    actions: {
-      addThesaurus: function () {
-        assert.ok(true, 'calls addThesaurus action');
+    var FakeRoute = Route.extend({
+      actions: {
+        addThesaurus: function () {
+          assert.ok(true, 'calls addThesaurus action');
+        }
       }
-    }
+    });
+
+    this.actions.getContext = function () {
+      return new FakeRoute();
+    };
+
+    await render(hbs `{{control/subbar-keywords context=(action "getContext")}}`);
+
+    await click('button');
   });
-
-  this.on('getContext', function () {
-    return new FakeRoute();
-  });
-
-  this.render(hbs `{{control/subbar-keywords context=(action "getContext")}}`);
-
-  this.$('button')
-    .click();
 });

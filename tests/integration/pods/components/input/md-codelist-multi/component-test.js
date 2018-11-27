@@ -1,114 +1,115 @@
+import { find, getRootElement, render, settled } from '@ember/test-helpers';
 import Service from '@ember/service';
-import {
-  moduleForComponent, test
-}
-from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
 import { triggerEvent } from 'ember-native-dom-helpers';
-import wait from 'ember-test-helpers/wait';
+
+const foobar = {
+  codelist: [{
+    code: '001',
+    codeName: 'foo',
+    description: 'This is foo.'
+  }, {
+    code: '002',
+    codeName: 'bar',
+    description: 'This is bar.'
+  }]
+};
 
 const codelist = Service.extend({
-  foobar: {
-    codelist: [{
-      code: '001',
-      codeName: 'foo',
-      description: 'This is foo.'
-    }, {
-      code: '002',
-      codeName: 'bar',
-      description: 'This is bar.'
-    }]
-  }
+  foobar: foobar
 });
 
-moduleForComponent('input/md-codelist-multi',
-  'Integration | Component | input/md codelist multi', {
-    integration: true,
-    beforeEach: function() {
-      this.register('service:codelist', codelist);
-      this.inject.service('codelist', {
-        as: 'codelist'
-      });
-    }
+
+
+module('Integration | Component | input/md codelist multi', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-test('it renders', function(assert) {
+  hooks.beforeEach(function() {
+    this.owner.register('service:codelist', codelist);
+    this.codelist = this.owner.lookup('service:codelist');
+  });
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('fooVal', ['foo', 'bar']);
+  test('it renders', async function(assert) {
 
-  // Template block usage:" + EOL +
-  this.render(hbs `
-    {{#input/md-codelist-multi
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    this.set('fooVal', ['foo', 'bar']);
+
+    // Template block usage:" + EOL +
+    await render(hbs `
+      {{#input/md-codelist-multi
+        mdCodeName="foobar"
+        value=fooVal
+      }}
+        <p>template block text</p>
+      {{/input/md-codelist-multi}}
+    `);
+
+    assert.equal(find('*').textContent
+      .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|',
+      'renders block with array value');
+  });
+
+  test('set value action', async function(assert) {
+    assert.expect(2);
+
+    //this.set('fooVal', ['foo']);
+    this.set('value', ['foo']);
+    this.actions.update = (actual) => {
+      assert.equal(actual, this.get('value'),
+        'submitted value is passed to external action');
+    };
+
+    await render(hbs `{{input/md-codelist-multi
+      create=false
+      value=value
       mdCodeName="foobar"
-      value=fooVal
-    }}
-      <p>template block text</p>
-    {{/input/md-codelist-multi}}
-  `);
+      change=(action "update" value)}}`);
 
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|',
-    'renders block with array value');
-});
+      clickTrigger();
+      triggerEvent(find('.ember-power-select-option'),'mouseup');
 
-test('set value action', function(assert) {
-  var $this = this.$();
-
-  assert.expect(2);
-
-  //this.set('fooVal', ['foo']);
-  this.set('value', ['foo']);
-  this.on('update', (actual) => {
-    assert.equal(actual, this.get('value'),
-      'submitted value is passed to external action');
+      return settled().then(() => {
+          assert.equal(getRootElement()
+          .textContent
+          .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|bar|foo|',
+          'value updated');
+      });
   });
 
-  this.render(hbs `{{input/md-codelist-multi
-    create=false
-    value=value
-    mdCodeName="foobar"
-    change=(action "update" value)}}`);
+  test('create option', async function(assert) {
 
-    clickTrigger();
-    triggerEvent($('.ember-power-select-option:contains("bar")').get(0),'mouseup');
+    assert.expect(3);
 
-    return wait().then(() => {
-        assert.equal($this
-        .text()
-        .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|bar|foo|',
-        'value updated');
-    });
-});
+    this.set('value', ['foo']);
+    this.actions.update = (actual) => {
+      assert.equal(actual, this.get('value'),
+        'submitted value is passed to external action');
+    };
 
-test('create option', function(assert) {
-  var $this = this.$();
+    await render(hbs `{{input/md-codelist-multi
+      create=true
+      value=value
+      mdCodeName="foobar"
+      change=(action "update" value)}}`);
 
-  assert.expect(3);
+      clickTrigger();
+      typeInSearch('biz');
+      triggerEvent(find('.ember-power-select-option'),'mouseup');
 
-  this.set('value', ['foo']);
-  this.on('update', (actual) => {
-    assert.equal(actual, this.get('value'),
-      'submitted value is passed to external action');
+      return settled().then(() => {
+          assert.equal(getRootElement()
+          .textContent
+          .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|bar|foo|biz|',
+          'value updated');
+      });
   });
-
-  this.render(hbs `{{input/md-codelist-multi
-    create=true
-    value=value
-    mdCodeName="foobar"
-    change=(action "update" value)}}`);
-
-    clickTrigger();
-    typeInSearch('biz');
-    triggerEvent($('.ember-power-select-option:contains("biz")').get(0),'mouseup');
-
-    return wait().then(() => {
-        assert.equal($this
-        .text()
-        .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|bar|foo|biz|',
-        'value updated');
-    });
 });

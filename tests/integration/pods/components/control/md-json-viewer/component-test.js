@@ -1,35 +1,36 @@
+import { find, render } from '@ember/test-helpers';
 import $ from 'jquery';
-import { moduleForComponent, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-json-viewer', 'Integration | Component | control/md json viewer', {
-  integration: true
-});
+module('Integration | Component | control/md json viewer', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('render json modal', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('json', {
-    foo: 'bar'
+  test('render json modal', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
+
+    await render(hbs `{{control/md-json-viewer json=json}}`);
+
+    assert.equal($('.md-jsmodal-container')
+      .text()
+      .trim(), '{"foo": "bar"}');
   });
 
-  this.render(hbs `{{control/md-json-viewer json=json}}`);
+  test('render json viewer', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
 
-  assert.equal($('.md-jsmodal-container')
-    .text()
-    .trim(), '{"foo": "bar"}');
-});
+    await render(hbs `{{control/md-json-viewer json=json modal=false}}`);
 
-test('render json viewer', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('json', {
-    foo: 'bar'
+    assert.equal(find('*').textContent
+      .trim(), '{"foo": "bar"}');
   });
-
-  this.render(hbs `{{control/md-json-viewer json=json modal=false}}`);
-
-  assert.equal(this.$()
-    .text()
-    .trim(), '{"foo": "bar"}');
 });

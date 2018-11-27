@@ -1,61 +1,61 @@
+import { click, find, render } from '@ember/test-helpers';
 import Route from '@ember/routing/route';
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/subbar-extent',
-  'Integration | Component | control/subbar extent', {
-    integration: true
+module('Integration | Component | control/subbar extent', function(hooks) {
+  setupRenderingTest(hooks);
+
+  hooks.beforeEach(function() {
+    this.actions = {};
+    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
   });
 
-test('it renders', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs `{{control/subbar-extent}}`);
+    await render(hbs `{{control/subbar-extent}}`);
 
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|')
-    .trim(), '|Add|Spatial|Extent|');
+    assert.equal(find('*').textContent
+      .replace(/[ \n]+/g, '|')
+      .trim(), '|Add|Spatial|Extent|');
 
-  // Template block usage:
-  this.render(hbs `
-    {{#control/subbar-extent}}
-      template block text
-    {{/control/subbar-extent}}
-  `);
+    // Template block usage:
+    await render(hbs `
+      {{#control/subbar-extent}}
+        template block text
+      {{/control/subbar-extent}}
+    `);
 
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|')
-    .trim(),
-    '|Add|Spatial|Extent|template|block|text|'
-  );
-});
+    assert.equal(find('*').textContent
+      .replace(/[ \n]+/g, '|')
+      .trim(),
+      '|Add|Spatial|Extent|template|block|text|'
+    );
+  });
 
-test('fire actions', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('fire actions', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  assert.expect(1);
+    assert.expect(1);
 
-  var FakeRoute = Route.extend({
-    actions: {
-      addExtent: function () {
-        assert.ok(true, 'calls addExtent action');
+    var FakeRoute = Route.extend({
+      actions: {
+        addExtent: function () {
+          assert.ok(true, 'calls addExtent action');
+        }
       }
-    }
+    });
+
+    this.actions.getContext = function () {
+      return new FakeRoute();
+    };
+
+    await render(hbs `{{control/subbar-extent context=(action "getContext")}}`);
+
+    await click('button');
   });
-
-  this.on('getContext', function () {
-    return new FakeRoute();
-  });
-
-  this.render(hbs `{{control/subbar-extent context=(action "getContext")}}`);
-
-  this.$('button')
-    .click();
 });

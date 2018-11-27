@@ -1,52 +1,48 @@
+import { click, find, render } from '@ember/test-helpers';
 import $ from 'jquery';
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-json-button',
-  'Integration | Component | control/md json button', {
-    integration: true
+module('Integration | Component | control/md json button', function(hooks) {
+  setupRenderingTest(hooks);
+
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
+
+    await render(hbs `{{control/md-json-button}}`);
+
+    assert.equal(find('*').textContent
+      .trim(), 'Preview JSON');
+
+    // Template block usage:
+    await render(hbs `
+      {{#control/md-json-button}}
+        template block text
+      {{/control/md-json-button}}
+    `);
+
+    assert.equal(find('*').textContent
+      .trim(), 'template block text');
   });
 
-test('it renders', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('json', {
-    foo: 'bar'
+  test('render json modal', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
+
+    await render(hbs `{{control/md-json-button json=json}}`);
+
+  await click('button');
+
+    assert.equal($('.md-jsmodal-container')
+      .text()
+      .trim(), '{"foo": "bar"}');
   });
-
-  this.render(hbs `{{control/md-json-button}}`);
-
-  assert.equal(this.$()
-    .text()
-    .trim(), 'Preview JSON');
-
-  // Template block usage:
-  this.render(hbs `
-    {{#control/md-json-button}}
-      template block text
-    {{/control/md-json-button}}
-  `);
-
-  assert.equal(this.$()
-    .text()
-    .trim(), 'template block text');
-});
-
-test('render json modal', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('json', {
-    foo: 'bar'
-  });
-
-  this.render(hbs `{{control/md-json-button json=json}}`);
-
-this.$('button').click();
-
-  assert.equal($('.md-jsmodal-container')
-    .text()
-    .trim(), '{"foo": "bar"}');
 });
