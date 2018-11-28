@@ -28,10 +28,7 @@ export default Route.extend(ScrollTo, {
     this._super(controller, model);
     // Implement your custom setup after
     defineProperty(this.controller, 'hasSelected', computed(
-      'model.records.0.@each._selected',
-      'model.records.1.@each._selected',
-      'model.records.2.@each._selected',
-      'model.settings._selected',
+      'model.{records.0.@each._selected,records.1.@each._selected,records.2.@each._selected,settings._selected}',
       function() {
         return(this.store.peekAll('record').filterBy('_selected').get(
             'length') +

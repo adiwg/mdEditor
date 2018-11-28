@@ -1,4 +1,5 @@
 import {
+  alias,
   equal,
   or
 } from '@ember/object/computed';
@@ -103,6 +104,15 @@ export default Component.extend({
     return type[get(this, 'errorLevel')];
   }),
 
+errorSubTitle: computed('subTitle', function() {
+  let err = get(this, 'errors');
+
+  if(err.length) {
+    return get(this, 'errorTitle') + ' ocurred during translation.';
+  }
+
+  return null;
+}),
   writeObj: computed('writer', function () {
     return get(this, 'writerOptions')
       .findBy('value', get(this,
@@ -124,32 +134,7 @@ export default Component.extend({
       'iframe');
   }),
 
-  messages: computed('errors', function () {
-    let err = get(this, 'errors');
-
-    if(!err) {
-      return null;
-    }
-
-    if(err.length) {
-      set(this, 'subtitle', get(this, 'errorTitle') +
-        ' ocurred during translation.');
-      return err;
-    }
-
-    // if(!err.readerValidationPass) {
-    //   set(this, 'subtitle', 'mdJSON Schema validation failed');
-    //   return JSON.parse(err.readerValidationMessages[1]);
-    // }
-    //
-    // if(!err.readerExecutionPass) {
-    //   return err.readerExecutionMessages;
-    // }
-    //
-    // if(!err.writerPass) {
-    //   return err.writerMessages;
-    // }
-  }),
+  messages: alias('errors'),
 
   _clearResult() {
     set(this, 'result', null);

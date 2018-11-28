@@ -41,7 +41,7 @@ export default Route.extend({
    * @readOnly
    */
   columnObject: EmberObject.extend({
-    domain: [],
+    domain: null,
     import: true,
     range: false,
     importName: null,

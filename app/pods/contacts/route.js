@@ -1,6 +1,25 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
+const columns = [{
+  propertyName: 'title',
+  title: 'Title'
+}, {
+  propertyName: 'defaultOrganizationName',
+  title: 'Organization'
+}, {
+  propertyName: 'json.electronicMailAddress.firstObject',
+  title: 'E-mail'
+}, {
+  propertyName: 'contactId',
+  title: 'ID',
+  isHidden: true
+}, {
+  propertyName: 'type',
+  title: 'Contact Type',
+  filterWithSelect: true
+}];
+
 export default Route.extend({
   slider: service(),
   model() {
@@ -8,24 +27,7 @@ export default Route.extend({
     return this.modelFor('application').findBy('modelName','contact');
   },
 
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'defaultOrganizationName',
-    title: 'Organization'
-  }, {
-    propertyName: 'json.electronicMailAddress.firstObject',
-    title: 'E-mail'
-  }, {
-    propertyName: 'contactId',
-    title: 'ID',
-    isHidden: true
-  }, {
-    propertyName: 'type',
-    title: 'Contact Type',
-    filterWithSelect: true
-  }],
+  columns: columns,
 
   actions: {
     getColumns(){

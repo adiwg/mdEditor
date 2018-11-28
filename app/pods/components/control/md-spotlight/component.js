@@ -1,6 +1,9 @@
 import { inject as service } from '@ember/service';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 
+const containerClassNames = ['md-spotlight-modal'];
+const overlayClassNames = ['md-modal-overlay'];
+
 export default ModalDialog.extend({
   /**
    * Component that highlights a DOM element
@@ -21,8 +24,8 @@ export default ModalDialog.extend({
    */
   spotlight: service(),
 
-  containerClassNames: ['md-spotlight-modal'], // eslint-disable-line ember/avoid-leaking-state-in-ember-objects
-  overlayClassNames: ['md-modal-overlay'], // eslint-disable-line ember/avoid-leaking-state-in-ember-objects
+  containerClassNames: containerClassNames,
+  overlayClassNames: overlayClassNames,
   targetAttachment: 'none',
   translucentOverlay: true,
   clickOutsideToClose: false,

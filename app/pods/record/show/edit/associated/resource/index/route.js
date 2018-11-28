@@ -3,19 +3,21 @@ import Route from '@ember/routing/route';
 import { set, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
+const sliderColumns = [{
+  propertyName: 'recordId',
+  title: 'ID'
+}, {
+  propertyName: 'title',
+  title: 'Title'
+}, {
+  propertyName: 'defaultType',
+  title: 'Type'
+}];
+
 export default Route.extend(ScrollTo, {
   slider: service(),
 
-  sliderColumns: [{
-    propertyName: 'recordId',
-    title: 'ID'
-  }, {
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'defaultType',
-    title: 'Type'
-  }],
+  sliderColumns: sliderColumns,
   setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);

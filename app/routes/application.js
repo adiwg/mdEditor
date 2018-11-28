@@ -6,6 +6,8 @@ import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
 
+const console = window.console;
+
 export default Route.extend({
   init() {
     this._super(...arguments);

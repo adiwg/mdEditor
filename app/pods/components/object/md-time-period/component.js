@@ -1,7 +1,17 @@
-import { notEmpty, alias } from '@ember/object/computed';
+import {
+  notEmpty,
+  alias
+} from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, get, set, computed } from '@ember/object';
-import { once } from '@ember/runloop';
+import {
+  getWithDefault,
+  get,
+  set,
+  computed
+} from '@ember/object';
+import {
+  once
+} from '@ember/runloop';
 
 import {
   validator,
@@ -42,7 +52,7 @@ export default Component.extend(Validations, {
 
     let model = get(this, 'model');
 
-    once(function() {
+    once(function () {
       set(model, 'periodName', getWithDefault(model,
         'periodName', []));
       set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
@@ -65,52 +75,55 @@ export default Component.extend(Validations, {
    */
 
   startDateTime: computed('model.startDateTime', {
-    get(){
+    get() {
       return get(this, 'model.startDateTime');
     },
     set(key, value) {
-      once(this,function() {
+      once(this, function () {
         set(this, 'model.startDateTime', value);
         return value;
       });
     }
   }),
   endDateTime: computed('model.endDateTime', {
-    get(){
+    get() {
       return get(this, 'model.endDateTime');
     },
     set(key, value) {
-      once(this,function() {
+      once(this, function () {
         set(this, 'model.endDateTime', value);
         return value;
       });
     }
   }),
   intervalAmount: alias('model.timeInterval.interval'),
-  timeUnit: [{
-      name: 'year',
-      value: 'year'
-    },
-    {
-      name: 'month',
-      value: 'month'
-    },
-    {
-      name: 'day',
-      value: 'day'
-    },
-    {
-      name: 'hour',
-      value: 'hour'
-    },
-    {
-      name: 'minute',
-      value: 'minute'
-    },
-    {
-      name: 'second',
-      value: 'second'
-    }
-  ]
+
+  timeUnit: computed(function () {
+    return [{
+        name: 'year',
+        value: 'year'
+      },
+      {
+        name: 'month',
+        value: 'month'
+      },
+      {
+        name: 'day',
+        value: 'day'
+      },
+      {
+        name: 'hour',
+        value: 'hour'
+      },
+      {
+        name: 'minute',
+        value: 'minute'
+      },
+      {
+        name: 'second',
+        value: 'second'
+      }
+    ]
+  })
 
 });

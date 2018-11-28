@@ -58,7 +58,6 @@ export default Component.extend({
         debug(
           `model.${path} is undefined in ${this.toString()}.`
         );
-
         //Ember.run.once(()=>model.set(path, ""));
       }
 
@@ -68,8 +67,7 @@ export default Component.extend({
         `model.validations.attrs.${path}`).readOnly());
 
       defineProperty(this, 'required', computed(
-        'validation.options.presence.presence',
-        'validation.options.presence.disabled',
+        'validation.options.presence.{presence,disabled}',
         'disabled',
         function() {
           return !this.get('disabled') &&

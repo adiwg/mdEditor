@@ -1,6 +1,14 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
+const columns = [{
+  propertyName: 'title',
+  title: 'Title'
+}, {
+  propertyName: 'json.dataDictionary.subject',
+  title: 'Subject'
+}];
+
 export default Route.extend({
   slider: service(),
   model() {
@@ -8,13 +16,7 @@ export default Route.extend({
     return this.modelFor('application').findBy('modelName','dictionary');
   },
 
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'json.dataDictionary.subject',
-    title: 'Subject'
-  }],
+  columns: columns,
 
   actions: {
     getColumns(){

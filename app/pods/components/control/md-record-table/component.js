@@ -81,13 +81,17 @@ export default Table.extend({
    * @type {Object}
    * @required
    */
-  checkColumn: {
-    component: 'components/md-models-table/components/check',
-    disableFiltering: true,
-    mayBeHidden: false,
-    componentForSortCell: 'components/md-models-table/components/check-all',
-    className: 'text-center'
-  },
+  checkColumn: computed(function () {
+
+    return {
+      component: 'components/md-models-table/components/check',
+      disableFiltering: true,
+      mayBeHidden: false,
+      componentForSortCell: 'components/md-models-table/components/check-all',
+      className: 'text-center'
+    };
+  }),
+
 
   /**
    * Column configs for the action column.

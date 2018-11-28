@@ -24,7 +24,7 @@ export default Component.extend({
    *
    * @type {ObjectString}
    */
-  json: {},
+  json: 'No json supplied',
 
   close() {
     this.set('modal', false);

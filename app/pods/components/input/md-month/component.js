@@ -3,13 +3,16 @@ import {
   isBlank
 } from '@ember/utils';
 import {
-  set
+  set,
+  computed
 } from '@ember/object';
 import moment from 'moment';
 
 export default DateTimePicker.extend({
   layoutName: 'components/input/md-datetime',
-  extraFormats: ['MM','M','MMM'],
+  extraFormats: computed(function() {
+    return ['MM','M','MMM'];
+  }),
   actions: {
     updateDate(date) {
       if(isBlank(date)) {
