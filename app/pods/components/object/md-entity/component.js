@@ -1,5 +1,7 @@
 import Component from '@ember/component';
-import { A } from '@ember/array';
+import {
+  A
+} from '@ember/array';
 import EmberObject from '@ember/object';
 import {
   set,
@@ -164,10 +166,10 @@ export default Component.extend(Validations, {
   entities: alias('dictionary.entity'),
   attributes: alias('model.attribute'),
 
-  attributeList: computed('attributes.@each.codeName','attributes.[]', function () {
-let attr = get(this, 'model.attribute');
-if(attr){
-    return attr.map((attr) => {
+  attributeList: computed('attributes.{@each.codeName,[]}', function () {
+    let attr = get(this, 'model.attribute');
+    if(attr) {
+      return attr.map((attr) => {
         return {
           codeId: get(attr, 'codeName'),
           codeName: get(attr, 'codeName'),
@@ -178,7 +180,7 @@ if(attr){
     return [];
   }),
 
-  entityList: computed('entities.@each.entityId', 'entities.@each.codeName',
+  entityList: computed('entities.{@each.entityId,@each.codeName}',
     function () {
       return get(this, 'entities')
         .map((attr) => {

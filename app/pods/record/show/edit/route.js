@@ -10,9 +10,13 @@ import {
 } from '@ember/application';
 
 export default Route.extend(HashPoll, {
-  breadCrumb: {
-    title: 'Edit',
-    linkable: false
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Edit',
+      linkable: false
+    };
   },
 
   /**

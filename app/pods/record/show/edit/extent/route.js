@@ -2,6 +2,7 @@ import { A } from '@ember/array';
 import Route from '@ember/routing/route';
 import { get, getWithDefault, set, computed } from '@ember/object';
 import $ from 'jquery';
+import { on } from '@ember/object/evented';
 
 export default Route.extend({
   model() {
@@ -26,10 +27,10 @@ export default Route.extend({
       .get('json.metadata.resourceInfo.extent');
   }),
 
-  clearSubbar: function() {
+  clearSubbar: on('deactivate', function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
-  }.on('deactivate'),
+  }),
 
   setupController: function() {
     // Call _super for default behavior

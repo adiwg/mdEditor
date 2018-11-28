@@ -3,7 +3,7 @@ import { get } from '@ember/object';
 import { copy } from '@ember/object/internals';
 
 export default Route.extend({
-  breadCrumb: {},
+  //breadCrumb: {},
   afterModel(model) {
     const name = model.get('title');
 

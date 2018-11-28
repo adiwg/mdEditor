@@ -1,3 +1,4 @@
+/* global L */
 import Component from '@ember/component';
 import { or, alias } from '@ember/object/computed';
 import { setProperties, observer, computed } from '@ember/object';
@@ -12,8 +13,8 @@ export default Component.extend({
     return isNone(val) || isNan(val);
   },
 
-  bboxPoly: computed('bbox', 'bbox.northLatitude',
-    'bbox.southLatitude', 'bbox.eastLongitude', 'bbox.westLongitude',
+  bboxPoly: computed('bbox',
+    'bbox.{northLatitude,southLatitude,eastLongitude,westLongitude}',
     function() {
       let bbox = this.get('bbox');
 

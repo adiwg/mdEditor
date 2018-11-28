@@ -1,11 +1,21 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
-import { isArray } from '@ember/array';
-import { isEmpty } from '@ember/utils';
+import {
+  get
+} from '@ember/object';
+import {
+  isArray
+} from '@ember/array';
+import {
+  isEmpty
+} from '@ember/utils';
 
 export default Route.extend({
-  breadCrumb: {
-    title: 'Reference'
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Reference'
+    };
   },
 
   beforeModel(transition) {
@@ -23,7 +33,8 @@ export default Route.extend({
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
+    this.controller.set('parentModel', this.modelFor(
+      'dictionary.show.edit'));
     this.controllerFor('dictionary.show.edit')
       .setProperties({
         onCancel: this.setupModel,

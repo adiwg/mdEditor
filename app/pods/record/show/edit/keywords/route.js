@@ -5,6 +5,7 @@ import { getWithDefault, set } from '@ember/object';
 import { copy } from '@ember/object/internals';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { on } from '@ember/object/evented';
 
 export default Route.extend(ScrollTo, {
   keyword: service(),
@@ -52,10 +53,10 @@ export default Route.extend(ScrollTo, {
 
   subbar: 'control/subbar-keywords',
 
-  clearSubbar: function() {
+  clearSubbar: on('deactivate', function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
-  }.on('deactivate'),
+  }),
 
   setupController: function() {
     // Call _super for default behavior

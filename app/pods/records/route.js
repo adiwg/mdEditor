@@ -1,24 +1,28 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import {
+  inject as service
+} from '@ember/service';
+
+const columns = [{
+  propertyName: 'title',
+  title: 'Title'
+}, {
+  propertyName: 'defaultType',
+  title: 'Resource Type',
+  filterWithSelect: true
+}, {
+  propertyName: 'recordId',
+  title: 'ID'
+}]
 
 export default Route.extend({
   slider: service(),
   model() {
     //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName','record');
+    return this.modelFor('application').findBy('modelName', 'record');
   },
 
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'defaultType',
-    title: 'Resource Type',
-    filterWithSelect: true
-  }, {
-    propertyName: 'recordId',
-    title: 'ID'
-  }],
+  columns: columns,
 
   renderTemplate() {
     this.render('records.nav', {
@@ -31,7 +35,7 @@ export default Route.extend({
   },
 
   actions: {
-    getColumns(){
+    getColumns() {
       return this.get('columns');
     },
 

@@ -1,8 +1,12 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  breadCrumb: {
-    title: 'Record',
-    linkable: false
-  }
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Record',
+      linkable: false
+    }
+  },
 });

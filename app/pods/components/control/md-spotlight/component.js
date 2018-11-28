@@ -21,8 +21,8 @@ export default ModalDialog.extend({
    */
   spotlight: service(),
 
-  containerClassNames: ['md-spotlight-modal'],
-  overlayClassNames: ['md-modal-overlay'],
+  containerClassNames: ['md-spotlight-modal'], // eslint-disable-line ember/avoid-leaking-state-in-ember-objects
+  overlayClassNames: ['md-modal-overlay'], // eslint-disable-line ember/avoid-leaking-state-in-ember-objects
   targetAttachment: 'none',
   translucentOverlay: true,
   clickOutsideToClose: false,

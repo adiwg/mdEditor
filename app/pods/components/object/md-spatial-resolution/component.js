@@ -107,7 +107,7 @@ export default Component.extend(Validations, {
   ),
   measure: alias('model.measure'),
   measureDisabled: computed(
-    'model.scaleFactor', 'model.levelOfDetail',
+    'model.{scaleFactor,levelOfDetail}',
     function () {
       let scaleFactor = this.get('model.scaleFactor');
       return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
@@ -119,7 +119,8 @@ export default Component.extend(Validations, {
   measureUnit: alias('model.measure.unitOfMeasure'),
   measurePresent: or('measureType', 'measureUnit', 'measureValue'),
 
-  typeOptions: [{
+  typeOptions: computed(function() {
+  return [{
       name: 'distance',
       value: 'distance'
     },
@@ -139,5 +140,5 @@ export default Component.extend(Validations, {
       name: 'scale',
       value: 'scale'
     }
-  ]
+  ]})
 });

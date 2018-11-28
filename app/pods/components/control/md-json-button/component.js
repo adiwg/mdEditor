@@ -1,5 +1,10 @@
 import Component from '@ember/component';
-import { inject } from '@ember/service';
+import {
+  inject
+} from '@ember/service';
+import {
+  computed
+} from '@ember/object';
 
 export default Component.extend({
   slider: inject(),
@@ -11,9 +16,11 @@ export default Component.extend({
 
   text: 'Preview JSON',
   icon: 'binoculars',
-  json: {},
+  json: computed(function () {
+    return {};
+  }),
   hideSlider: true,
-  propagateClick:false,
+  propagateClick: false,
 
   click(evt) {
     //this.set('preview', true);

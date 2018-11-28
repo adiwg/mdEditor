@@ -8,9 +8,13 @@ export default Route.extend({
     });
   },
 
-  breadCrumb: {
-    title: 'Page Not Found',
-    linkable: false
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Page Not Found',
+      linkable: false
+    };
   },
 
   redirect() {
