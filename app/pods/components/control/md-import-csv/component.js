@@ -41,6 +41,7 @@ export default Component.extend({
    */
 
   router: service(),
+  ajax: service(),
 
   /**
    * True if processing CSV file
@@ -176,7 +177,7 @@ export default Component.extend({
 
       set(comp, 'isLoading', true);
 
-      $.ajax(this.get('importUri'), {
+      this.get('ajax').request(this.get('importUri'), {
           type: 'GET',
           context: this,
           dataType: 'text',

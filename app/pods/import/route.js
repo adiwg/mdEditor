@@ -1,17 +1,34 @@
-import { inject as service } from '@ember/service';
-import { or } from '@ember/object/computed';
+import {
+  inject as service
+} from '@ember/service';
+import {
+  or
+} from '@ember/object/computed';
 import Route from '@ember/routing/route';
 import $ from 'jquery';
-import { A, isArray } from '@ember/array';
-import { merge, assign } from '@ember/polyfills';
-import EmObject, { computed, set, get } from '@ember/object';
+import {
+  A,
+  isArray
+} from '@ember/array';
+import {
+  merge,
+  assign
+} from '@ember/polyfills';
+import EmObject, {
+  computed,
+  set,
+  get
+} from '@ember/object';
 import Base from 'ember-local-storage/adapters/base';
 import uuidV4 from "npm:uuid/v4";
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   JsonDefault as Contact
 } from 'mdeditor/models/contact';
-import { allSettled, Promise } from 'rsvp';
+import {
+  allSettled,
+  Promise
+} from 'rsvp';
 
 const generateIdForRecord = Base.create()
   .generateIdForRecord;
@@ -20,7 +37,18 @@ export default Route.extend(ScrollTo, {
   flashMessages: service(),
   jsonvalidator: service(),
   settings: service(),
+  ajax: service(),
 
+  init() {
+    this._super(...arguments);
+
+    this.icons = {
+      records: 'file',
+      dictionaries: 'book',
+      contacts: 'users',
+      settings: 'gear'
+    };
+  },
   setupController(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
@@ -54,13 +82,6 @@ export default Route.extend(ScrollTo, {
     }
   },
 
-  icons: {
-    records: 'file',
-    dictionaries: 'book',
-    contacts: 'users',
-    settings: 'gear'
-  },
-
   formatMdJSON(json) {
     let {
       contact,
@@ -73,10 +94,12 @@ export default Route.extend(ScrollTo, {
 
         set(this, 'id', generateIdForRecord());
       },
-      attributes: {
-        json: null,
-        //date-updated: '2017-05-18T21:21:34.446Z'
-      },
+      attributes: computed(function () {
+        return {
+          json: null //,
+          //date-updated: '2017-05-18T21:21:34.446Z'
+        }
+      }),
       type: null
     });
 
@@ -241,6 +264,7 @@ export default Route.extend(ScrollTo, {
       let json;
       let url = this.get('apiURL');
       let controller = this.controller;
+      let cmp = this;
 
       new Promise((resolve, reject) => {
           if(file.type.match(/.*\/xml$/)) {
@@ -248,7 +272,7 @@ export default Route.extend(ScrollTo, {
             get(this, 'flashMessages')
               .info(`Translation service provided by ${url}.`);
 
-            $.ajax(url, {
+            this.get('ajax').request(url, {
                 type: 'POST',
                 data: {
                   //file: JSON.stringify(cleaner.clean(json)),
@@ -258,7 +282,7 @@ export default Route.extend(ScrollTo, {
                   validate: 'normal',
                   format: 'json'
                 },
-                context: this
+                context: cmp
               })
               .then(function (response) {
                 set(controller, 'isTranslating', false);
@@ -267,7 +291,7 @@ export default Route.extend(ScrollTo, {
                   resolve({
                     json: JSON.parse(response.writerOutput),
                     file: file,
-                    route: this
+                    route: cmp
                   });
 
                   return;
@@ -296,18 +320,18 @@ export default Route.extend(ScrollTo, {
             resolve({
               json: json,
               file: file,
-              route: this
+              route: cmp
             });
           }
         })
         .then((data) => {
           //determine file type and map
-          this.mapJSON(data);
+          cmp.mapJSON(data);
 
         })
         .catch((reason) => {
           //catch any errors
-          get(this, 'flashMessages')
+          get(cmp, 'flashMessages')
             .danger(reason);
           return false;
         })
@@ -323,7 +347,7 @@ export default Route.extend(ScrollTo, {
 
       set(this.controller, 'isLoading', true);
 
-      $.ajax(uri, {
+      this.get('ajax').request(uri, {
           type: 'GET',
           context: this,
           dataType: 'text',
