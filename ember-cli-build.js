@@ -8,11 +8,11 @@ module.exports = function(defaults) {
     // Add options here
     sassOptions: {
       includePaths: [
-        'bower_components/bootstrap-sass/assets/stylesheets',
-        'bower_components/bootstrap-3-card/sass',
-        // 'bower_components/select2/src/scss',
-        // 'bower_components/select2-bootstrap-theme/src',
-        'bower_components/jquery-jsonview/src'
+        'node_modules/bootstrap-sass/assets/stylesheets',
+        'node_modules/bootstrap-3-card/sass',
+        // 'node_modules/select2/src/scss',
+        // 'node_modules/select2-bootstrap-theme/src',
+        'node_modules/jquery-jsonview/src'
       ]
     },
     'ember-math-helpers': {
@@ -46,27 +46,13 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   //bootstrap js
-  app.import(app.bowerDirectory +
-    '/bootstrap-sass/assets/javascripts/bootstrap/transition.js');
-  app.import(app.bowerDirectory +
-    '/bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
-  // app.import(app.bowerDirectory +
-  //   '/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js');
-  app.import(app.bowerDirectory +
-    '/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
-  app.import(app.bowerDirectory +
-    '/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
-  app.import(app.bowerDirectory +
-    '/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js');
-
-  //select2
-  // app.import(app.bowerDirectory +
-  //   '/select2/dist/js/select2.js');
-
+  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js');
+  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
+  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
+  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
+  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js');
   //jquery-jsonview
-  app.import(app.bowerDirectory +
-    '/jquery-jsonview/dist/jquery.jsonview.js');
-
+  app.import('node_modules/jquery-jsonview/dist/jquery.jsonview.js');
   //papaparse for worker
   app.import('node_modules/papaparse/papaparse.js',{outputFile:'assets/workers/worker_papaparse.js'});
 
