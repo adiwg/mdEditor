@@ -6,19 +6,19 @@ export default Component.extend({
 
   actions: {
     save: function () {
-      this.sendAction('doSave');
+      this.get('doSave')();
     },
 
     cancel: function () {
-      this.sendAction('doCancel');
+      this.get('doCancel')();
     },
 
     delete: function () {
-      this.sendAction('doDelete');
+      this.get('doDelete')();
     },
 
     copy: function () {
-      this.sendAction('doCopy');
+      this.get('doCopy')();
 
     }
   }

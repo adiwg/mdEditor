@@ -163,7 +163,11 @@
   </div>
   <div class="col-sm-2">
     <div class="md-control-sidebar">
-      {{#control/md-crud-buttons model=model doDelete="destroyContact" doCopy="copyContact" }}
+      {{#control/md-crud-buttons
+        model=model
+        doDelete=(route-action "destroyContact")
+        doCopy=(route-action "copyContact")
+      }}
         {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
           {{fa-icon "pencil"}} Edit{{/link-to}}
       {{/control/md-crud-buttons}}

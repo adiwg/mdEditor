@@ -11,10 +11,10 @@
     <div class="md-control-sidebar hidden-print">
       {{control/md-crud-buttons
           model=model
-          doSave="saveDictionary"
-          doCancel="cancelDictionary"
-          doDelete="destroyDictionary"
-          doCopy="copyDictionary"
+          doSave=(route-action "saveDictionary")
+          doCancel=(route-action "cancelDictionary")
+          doDelete=(route-action "destroyDictionary")
+          doCopy=(route-action "copyDictionary")
       }}
       {{component subbar context=(route-action "getContext")}}
       <hr>

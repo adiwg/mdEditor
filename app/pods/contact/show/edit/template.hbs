@@ -94,10 +94,10 @@
         <div class="md-control-sidebar">
             {{control/md-crud-buttons
                 model=model
-                doSave="saveContact"
-                doCancel="cancelContact"
-                doDelete="destroyContact"
-                doCopy="copyContact"
+                doSave=(route-action "saveContact")
+                doCancel=(route-action "cancelContact")
+                doDelete=(route-action "destroyContact")
+                doCopy=(route-action "copyContact")
             }}
             {{control/md-scroll-spy}}
 

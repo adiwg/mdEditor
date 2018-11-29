@@ -156,7 +156,11 @@
 
   <div class="col-sm-2">
     <div class="md-control-sidebar">
-      {{#control/md-crud-buttons model=model doDelete="destroyDictionary" doCopy="copyDictionary" }}
+      {{#control/md-crud-buttons
+        model=model
+        doDelete=(route-action "destroyDictionary")
+        doCopy=(route-action "copyDictionary")
+       }}
         {{#link-to "dictionary.show.edit" model.id class="btn btn-lg btn-success" }}
           {{fa-icon "pencil"}} Edit{{/link-to}}
       {{/control/md-crud-buttons}}
