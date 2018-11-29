@@ -19,6 +19,7 @@ export default DS.Model.extend({
     this.on('didUpdate', this, this.wasUpdated);
     this.on('didCreate', this, this.wasUpdated);
     this.on('didLoad', this, this.applyPatch);
+    this.on('ready', this, this.isReady);
     this.get('hasDirtyAttributes');
     //this.on('didLoad', this, this.wasLoaded);
   },
@@ -71,6 +72,18 @@ export default DS.Model.extend({
 
       patch.applyModelPatch(this);
     });
+  },
+
+  isReady() {
+    let newHash = this.hashObject(JSON.parse(this.serialize()
+      .data.attributes
+      .json), true);
+
+    // if the currentHash is undefined, the record is either new or hasn't had the
+    // hash calculated yet
+    if(this.get('currentHash') === undefined) {
+      this.set('currentHash', newHash);
+    }
   },
 
   wasUpdated() {
@@ -139,9 +152,9 @@ export default DS.Model.extend({
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet
-    if(this.get('currentHash') === undefined) {
-      this.set('currentHash', newHash);
-    }
+    // if(this.get('currentHash') === undefined) {
+    //   this.set('currentHash', newHash);
+    // }
 
     if(this.get('currentHash') !== newHash || this.get(
         'hasDirtyAttributes')) {
