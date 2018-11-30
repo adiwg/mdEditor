@@ -3,13 +3,31 @@
  * @submodule components-input
  */
 
-import { alias, not, notEmpty, and, or } from '@ember/object/computed';
+import {
+  alias,
+  not,
+  notEmpty,
+  and,
+  or
+} from '@ember/object/computed';
 
 import Component from '@ember/component';
-import { isBlank } from '@ember/utils';
-import { get, set, computed, defineProperty } from '@ember/object';
-import { once } from '@ember/runloop';
-import { assert, debug } from '@ember/debug';
+import {
+  isBlank
+} from '@ember/utils';
+import {
+  get,
+  set,
+  computed,
+  defineProperty
+} from '@ember/object';
+import {
+  once
+} from '@ember/runloop';
+import {
+  assert,
+  debug
+} from '@ember/debug';
 import moment from 'moment';
 
 export default Component.extend({
@@ -59,7 +77,7 @@ export default Component.extend({
 
       defineProperty(this, 'required', computed(
           'validation.options.presence.{presence,disabled}',
-          function() {
+          function () {
             return this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
           })
@@ -151,6 +169,15 @@ export default Component.extend({
   useCurrent: false,
 
   /**
+   * Show the Today button in the icon toolbar.
+   *
+   * @property showTodayButton
+   * @type Boolean
+   * @default true
+   */
+  showTodayButton: true,
+
+  /**
    * Icons to be used by the datetime picker and calendar.
    * Icons can be set for time, date, up, down, previous, next, clear,
    * and close.
@@ -160,7 +187,7 @@ export default Component.extend({
    * @type Object
    * @default 'calendarIcons'
    */
-  calendarIcons: computed(function() {
+  calendarIcons: computed(function () {
     return {
       time: "fa fa-clock-o",
       date: "fa fa-calendar",
@@ -174,9 +201,11 @@ export default Component.extend({
   }),
 
   actions: {
-    updateDate(date) {
-      if(isBlank(date)){
-        set(this, 'date', null);
+    change(date) {
+      if(isBlank(date)) {
+        once(this, function () {
+          set(this, 'date', null);
+        });
 
         return;
       }
@@ -187,9 +216,9 @@ export default Component.extend({
 
       if(utc && utc.toISOString() !== this.get('date')) {
 
-        //once(this, function() {
+        once(this, function () {
           set(this, 'date', utc.toISOString());
-        //});
+        });
       }
     }
   }

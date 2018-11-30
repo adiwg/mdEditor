@@ -7,22 +7,28 @@ import {
   computed
 } from '@ember/object';
 import moment from 'moment';
+import {
+  once
+} from '@ember/runloop';
 
 export default DateTimePicker.extend({
   layoutName: 'components/input/md-datetime',
-  extraFormats: computed(function() {
-    return ['MM','M','MMM'];
+  extraFormats: computed(function () {
+    return ['MM', 'M', 'MMM'];
   }),
   actions: {
-    updateDate(date) {
+    change(date) {
       if(isBlank(date)) {
         set(this, 'date', null);
 
         return;
       }
+      once(this, function () {
 
-      set(this, 'date', moment(date).format(this.get('altFormat') || this.get(
-        'format')));
+        set(this, 'date', moment(date).format(this.get('altFormat') ||
+          this.get(
+            'format')));
+      });
     }
   }
 });

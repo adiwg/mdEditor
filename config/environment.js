@@ -46,6 +46,19 @@ module.exports = function(environment) {
       timeout: 5000,
       extendedTimeout: 1500,
       //sticky: true
+    },
+    'ember-cli-bootstrap-datetimepicker': {
+      icons: {
+        time: 'fa fa-clock-o',
+        date: 'fa fa-calendar',
+        up: 'fa fa-chevron-up',
+        down: 'fa fa-chevron-down',
+        previous: 'fa fa-angle-double-left',
+        next: 'fa fa-angle-double-right',
+        close: 'fa fa-times',
+        clear: 'fa fa-trash',
+        today: 'fa fa-home'
+      }
     }
   };
 
