@@ -1,14 +1,21 @@
-import Service, { inject as service } from '@ember/service';
-import { isArray } from '@ember/array';
-import EmberObject, { getWithDefault, get, set } from '@ember/object';
+import Service, {
+  inject as service
+} from '@ember/service';
+import {
+  isArray
+} from '@ember/array';
+import EmberObject, {
+  getWithDefault,
+  get,
+  set
+} from '@ember/object';
 import Ember from 'ember';
-import Ajv from 'npm:ajv';
-import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
+import Ajv from 'ajv';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 import {
   formatCitation
 } from 'mdeditor/pods/components/object/md-citation/component';
-import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
-
+import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 
 Ember.libraries.register('mdJson-schemas', Schemas.schema.version);
 
@@ -16,7 +23,9 @@ const validator = new Ajv({
   verbose: true,
   allErrors: true,
   jsonPointers: true,
-  removeAdditional: false
+  removeAdditional: false,
+  meta: false,
+  schemaId: 'id'
 });
 
 //support draft-04
@@ -24,6 +33,9 @@ validator.addMetaSchema(draft4);
 
 Object.keys(Schemas)
   .forEach(function (key) {
+    if(key === 'default') {
+      return;
+    }
     let val = Schemas[key];
 
     validator.addSchema(val, key);
@@ -82,10 +94,12 @@ export default Service.extend({
           let resourceType = get(record,
             'json.metadata.resourceInfo.resourceType') || [];
 
-          set(ref, 'resourceCitation', EmberObject.create(formatCitation(
-            citation)));
-          set(ref, 'metadataCitation', EmberObject.create(formatCitation(
-            metadata)));
+          set(ref, 'resourceCitation', EmberObject.create(
+            formatCitation(
+              citation)));
+          set(ref, 'metadataCitation', EmberObject.create(
+            formatCitation(
+              metadata)));
           set(ref, 'resourceType', resourceType);
           set(ref, 'mdRecordId', null);
 

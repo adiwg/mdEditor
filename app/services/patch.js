@@ -9,7 +9,7 @@ import {
   isArray,
   A
 } from '@ember/array';
-import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 
 export default Service.extend({
   applyModelPatch(record) {

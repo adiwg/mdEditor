@@ -1,11 +1,13 @@
 import Service from '@ember/service';
-import Ajv from 'npm:ajv';
-import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
+import Ajv from 'ajv';
+import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 
 let validator = new Ajv({
   verbose: true,
   allErrors: true,
-  removeAdditional: false
+  removeAdditional: false,
+  meta: false,
+  schemaId: 'id'
 });
 
 //support draft-04
