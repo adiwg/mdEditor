@@ -59,15 +59,18 @@ export default Component.extend({
         );
       }
 
-      defineProperty(this, 'date', computed(`model.${valuePath}`, {
+      defineProperty(this, '_date', computed(`model.${valuePath}`, {
         get() {
-          return moment(get(this, `model.${valuePath}`));
+          let val = get(this, `model.${valuePath}`);
+
+          return val ? moment(val, this.get('altFormat' || null)) :
+            null;
         },
         set(key, value) {
-          once(this, () => {
-            this.set(`model.${valuePath}`, value);
-          });
-          return value;
+          let formatted = this.formatValue(value,
+            `model.${valuePath}`);
+
+          return formatted;
         }
       }));
 
@@ -117,6 +120,20 @@ export default Component.extend({
           'shouldDisplayValidations',
           'hasWarnings', 'isValid')
         .readOnly());
+    } else {
+      defineProperty(this, '_date', computed('date', {
+        get() {
+          let val = get(this, 'date');
+
+          return val ? moment(val, this.get('altFormat' || null)) :
+            null;
+        },
+        set(key, value) {
+          let formatted = this.formatValue(value, 'date');
+
+          return formatted;
+        }
+      }));
     }
   },
   classNames: ['md-datetime', 'md-input-input'],
@@ -164,9 +181,9 @@ export default Component.extend({
    *
    * @property useCurrent
    * @type Boolean
-   * @default false
+   * @default 'day'
    */
-  useCurrent: false,
+  useCurrent: 'day',
 
   /**
    * Show the Today button in the icon toolbar.
@@ -176,6 +193,46 @@ export default Component.extend({
    * @default true
    */
   showTodayButton: true,
+
+  /**
+   * Show the clear button in the icon toolbar.
+   *
+   * @property showClear
+   * @type Boolean
+   * @default true
+   */
+  showClear: true,
+
+  formatValue(value, target) {
+    if(isBlank(value)) {
+      once(this, function () {
+        set(this, target, null);
+      });
+
+      return value;
+    }
+
+    let mom = moment(value);
+
+    if(this.get('altFormat')) {
+      let alt = mom.format(this.get('altFormat'));
+
+      once(this, function () {
+        set(this, target, alt);
+      });
+      return alt;
+    }
+    //utc.add(utc.utcOffset(), 'minutes');
+
+    if(mom && mom.toISOString() !== this.get(target)) {
+
+      once(this, function () {
+        set(this, target, mom.toISOString());
+      });
+    }
+
+    return mom;
+  },
 
   /**
    * Icons to be used by the datetime picker and calendar.
@@ -198,28 +255,5 @@ export default Component.extend({
       close: "fa fa-times",
       clear: "fa fa-trash"
     };
-  }),
-
-  actions: {
-    change(date) {
-      if(isBlank(date)) {
-        once(this, function () {
-          set(this, 'date', null);
-        });
-
-        return;
-      }
-
-      let utc = moment(date);
-
-      //utc.add(utc.utcOffset(), 'minutes');
-
-      if(utc && utc.toISOString() !== this.get('date')) {
-
-        once(this, function () {
-          set(this, 'date', utc.toISOString());
-        });
-      }
-    }
-  }
+  })
 });

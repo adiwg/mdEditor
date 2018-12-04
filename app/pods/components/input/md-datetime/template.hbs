@@ -3,7 +3,7 @@
 {{/if}}
 <div class="md-input-input">
   {{bs-datetimepicker
-      date=date
+      date=_date
       format=format
       extraFormats=extraFormats
       dateIcon="fa fa-calendar"
@@ -13,7 +13,7 @@
       useCurrent=useCurrent
       textFieldRequired=required
       showTodayButton=showTodayButton
-      change=(action "change")
+      change=change
   }}
   <span class='md-inputgroup-error'>
     {{#if showErrorMessage}}
