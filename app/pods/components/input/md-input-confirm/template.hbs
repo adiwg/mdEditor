@@ -18,9 +18,9 @@
         }}
             {{fa-icon "pencil"}} Edit
             {{#if confirmTip}}
-              {{#tooltip-on-component enableLazyRendering=true}}
+              {{#ember-tooltip}}
                 {{confirmTip}}
-              {{/tooltip-on-component}}
+              {{/ember-tooltip}}
             {{/if}}
         {{/control/md-button-confirm}}
     </span>

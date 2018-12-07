@@ -11,8 +11,8 @@
           {{!-- <span class="text-danger">
             {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
-              {{tooltip-on-element text='This record has been modified!' side="right"
-                class="md-tooltip danger"
+              {{ember-tooltip text='This record has been modified!' side="right"
+                tooltipClassName="ember-tooltip md-tooltip danger"
               }}
             {{/if}}
           </span> --}}
@@ -63,7 +63,7 @@
                 <td>
                   {{#if ph.phoneNumber}}
                     <a href="tel:{{ph.phoneNumber}}">{{ph.phoneNumber}}
-                      {{tooltip-on-element text="Click to call."}}
+                      {{ember-tooltip text="Click to call."}}
                     </a>
                   {{else}}
                     --
@@ -87,7 +87,7 @@
       <ul class="list-unstyled">
         {{#each model.json.electronicMailAddress as |email|}}
           <li><a href="mailto:{{email}}" target="_blank">{{email}}
-            {{tooltip-on-element text="Click to send e-mail."}}
+            {{ember-tooltip text="Click to send e-mail."}}
           </a></li>
         {{else}}
           <li><em class="text-muted">No e-mails assigned.</em></li>
@@ -143,7 +143,7 @@
                   <td>
                     {{#if ol.uri}}
                       <a href="{{ol.uri}}" target="_blank">{{ol.uri}}
-                        {{!-- {{tooltip-on-element text="Click to visit."}} --}}
+                        {{!-- {{ember-tooltip text="Click to visit."}} --}}
                       </a>
                     {{else}}
                       --

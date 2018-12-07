@@ -3,14 +3,14 @@
     <li>
       {{#link-to link.target class="link.class" }}{{link.title}}
         {{#if link.tip}}
-          {{#tooltip-on-component
+          {{#ember-tooltip
             effect="slide"
             side="bottom"
             delay=500 
-            class="md-tooltip info"
+            tooltipClassName="ember-tooltip md-tooltip info"
           }}
             {{link.tip}}
-          {{/tooltip-on-component}}
+          {{/ember-tooltip}}
         {{/if}}
       {{/link-to}}
     </li>

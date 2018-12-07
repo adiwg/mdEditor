@@ -81,9 +81,9 @@
                                 {{#if item.validations.isInvalid}}
                                 <span class="md-error">
                                   {{fa-icon "exclamation-circle" fixedWidth=true}}
-                                  {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+                                  {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
                                   This item has errors.
-                                  {{/tooltip-on-element}}
+                                  {{/ember-tooltip}}
                                 </span>
                                 {{else}}
                                 <span class="md-error">

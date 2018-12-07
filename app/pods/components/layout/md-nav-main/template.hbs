@@ -19,28 +19,28 @@
           {{#link-to "dashboard"}}
             <span class="fa fa-dashboard"></span>
             <span class="md-nav-text">Dashboard</span>
-            {{tooltip-on-element text="Dashboard" side="bottom" class="md-nav-tip"}}
+            {{ember-tooltip text="Dashboard" side="bottom" tooltipClassName="ember-tooltip md-nav-tip"}}
           {{/link-to}}
         </li>
         <li>
           {{#link-to "export"}}
             <span class="fa fa-sign-out"></span>
             <span class="md-nav-text">Export</span>
-            {{tooltip-on-element text="Export" side="bottom" class="md-nav-tip"}}
+            {{ember-tooltip text="Export" side="bottom" tooltipClassName="ember-tooltip md-nav-tip"}}
           {{/link-to}}
         </li>
         <li>
           {{#link-to "import"}}
             <span class="fa fa-sign-in"></span>
             <span class="md-nav-text">Import</span>
-            {{tooltip-on-element text="Import" side="bottom" class="md-nav-tip"}}
+            {{ember-tooltip text="Import" side="bottom" tooltipClassName="ember-tooltip md-nav-tip"}}
           {{/link-to}}
         </li>
         <li>
           {{#link-to "publish"}}
             <span class="fa fa-share-square-o"></span>
             <span class="md-nav-text">Publish</span>
-            {{tooltip-on-element text="Publish" side="bottom" class="md-nav-tip"}}
+            {{ember-tooltip text="Publish" side="bottom" tooltipClassName="ember-tooltip md-nav-tip"}}
           {{/link-to}}
         </li>
         {{yield}}
@@ -50,7 +50,7 @@
           {{#link-to "settings"}}
             <span class="fa fa-gear"></span>
             <span class="md-nav-text nav-settings">Settings</span>
-            {{tooltip-on-element text="Settings" side="bottom" class="md-nav-tip"}}
+            {{ember-tooltip text="Settings" side="bottom" tooltipClassName="ember-tooltip md-nav-tip"}}
           {{/link-to}}
         </li>
       </ul>

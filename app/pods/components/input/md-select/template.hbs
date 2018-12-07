@@ -29,10 +29,9 @@
             {{#if code.tooltip}}
             <span class="select-tip">
               <span class="badge tooltip">?
-                {{tooltip-on-element
+                {{ember-tooltip
                   text=code.tooltip
                   side="right"
-                  enableLazyRendering=true
                 }}
               </span>
             </span>
@@ -45,18 +44,18 @@
         {{#if showErrorMessage}}
           <span class='md-error'>
             {{fa-icon "exclamation-circle"}}
-            {{#tooltip-on-element side="right" class="md-tooltip danger"}}
+            {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
                 {{v-get model path 'message'}}
-            {{/tooltip-on-element}}
+            {{/ember-tooltip}}
           </span>
         {{/if}}
 
         {{#if showWarningMessage}}
           <span class='md-warning'>
             {{fa-icon "exclamation-triangle"}}
-            {{#tooltip-on-element side="right" class="md-tooltip warning"}}
+            {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip warning"}}
             {{v-get model path 'warningMessage'}}
-            {{/tooltip-on-element}}
+            {{/ember-tooltip}}
           </span>
         {{/if}}
       </span>
