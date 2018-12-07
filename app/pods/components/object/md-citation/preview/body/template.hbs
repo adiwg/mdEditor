@@ -16,7 +16,7 @@
   <dl class="dl-horizontal col-lg-12">
       {{#control/md-definition title="Dates" }}
           {{#each citation.date as |date|}}
-              {{format-date date.date format="MMMM Do YYYY"}}
+              {{moment-format date.date "MMMM Do YYYY"}}
               ({{date.dateType}})
               <br>
               {{else}}
