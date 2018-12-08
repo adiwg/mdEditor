@@ -1,38 +1,41 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let originalConfirm;
 
-moduleFor('route:records', 'Unit | Route | records', {
-  beforeEach() {
+module('Unit | Route | records', function(hooks) {
+  setupTest(hooks);
+
+  hooks.beforeEach(function() {
     originalConfirm = window.confirm;
-  },
-  
-  afterEach() {
+  });
+
+  hooks.afterEach(function() {
     window.confirm = originalConfirm;
-  }
-});
+  });
 
-test('it exists', function(assert) {
-  var route = this.subject();
-  assert.ok(route);
-});
+  test('it exists', function(assert) {
+    var route = this.owner.lookup('route:records');
+    assert.ok(route);
+  });
 
-test('should display a confirm', function(assert) {
-  assert.expect(2);
-  
-  let route = this.subject();
-  
-  // test _deleteItem to displays the expected window.confirm message
-  const expectedTextFoo = 'foo';
-  window.confirm = (message) => {
-    assert.equal(message, expectedTextFoo, 'expect confirm to display ${expectedTextFoo}');
-  };
-  route._deleteItem(0, expectedTextFoo);
-  
-  // test action deleteItem calls _deleteItem and displays a window.confirm
-  window.confirm = (message) => {
-    assert.ok(message, 'expect confirm to display a message');
-  };
-  route.send('deleteItem', 0);
-  
+  test('should display a confirm', function(assert) {
+    assert.expect(2);
+    
+    let route = this.owner.lookup('route:records');
+    
+    // test _deleteItem to displays the expected window.confirm message
+    const expectedTextFoo = 'foo';
+    window.confirm = (message) => {
+      assert.equal(message, expectedTextFoo, 'expect confirm to display ${expectedTextFoo}');
+    };
+    route._deleteItem(0, expectedTextFoo);
+    
+    // test action deleteItem calls _deleteItem and displays a window.confirm
+    window.confirm = (message) => {
+      assert.ok(message, 'expect confirm to display a message');
+    };
+    route.send('deleteItem', 0);
+    
+  });
 });

@@ -1,27 +1,14 @@
-import {
-  test
-}
-from 'qunit';
-import moduleForAcceptance from 'mdeditor/tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 
-//let componentInstance;
+module('Acceptance | pods/components/md breadcrumb', function(hooks) {
+  setupApplicationTest(hooks);
 
-moduleForAcceptance('Acceptance | pods/components/md breadcrumb', {
-  // beforeEach() {
-  //     componentInstance = this.application.__container__.lookup(
-  //       'component:layout/md-breadcrumb');
-  //   },
-  //   afterEach() {
-  //     componentInstance = null;
-  //   }
-});
+  test('visiting /record/new', async function(assert) {
+    assert.expect(5);
 
-test('visiting /record/new', function(assert) {
-  assert.expect(5);
+    await visit('/record/new');
 
-  visit('/record/new');
-
-  andThen(function() {
     assert.ok(currentURL().match(/record\/new\/[a-z0-9]+/));
 
     const listItems = find('ol.breadcrumb li').text();
@@ -37,6 +24,5 @@ test('visiting /record/new', function(assert) {
     assert.ok(hasNewTextInallList, 'renders the right inferred name');
     assert.ok(doesNotHaveRecordInLinkList, 'renders the right inferred name');
     assert.ok(doesNotHaveNewInLinkList, 'renders the right inferred name');
-
   });
 });

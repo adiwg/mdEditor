@@ -1,10 +1,9 @@
-import { find, findAll, render, settled } from '@ember/test-helpers';
+import { find, findAll, render, settled, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
-import { triggerEvent } from 'ember-native-dom-helpers';
 
 module('Integration | Component | input/md select', function(hooks) {
   setupRenderingTest(hooks);

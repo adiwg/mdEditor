@@ -19,7 +19,7 @@ module('Integration | Component | feature form', function(hooks) {
 
     await render(hbs `{{feature-form model=model}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.ember-view').textContent
       .replace(/[ \n]+/g, '|')
       .trim(),
       '|Feature|ID|Name|Description|Other|Properties|read-only|Name|Value|None|found.|'
@@ -32,7 +32,7 @@ module('Integration | Component | feature form', function(hooks) {
       {{/feature-form}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.ember-view').textContent
       .replace(/[ \n]+/g, '|')
       .trim(),
       '|Feature|ID|Name|Description|Other|Properties|read-only|Name|Value|None|found.|template|block|text|'

@@ -1,18 +1,21 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
 let originalConfirm;
 
-moduleFor('route:contacts', 'Unit | Route | contacts', {
-  beforeEach() {
+module('Unit | Route | contacts', function(hooks) {
+  setupTest(hooks);
+
+  hooks.beforeEach(function() {
     originalConfirm = window.confirm;
-  },
+  });
 
-  afterEach() {
+  hooks.afterEach(function() {
     window.confirm = originalConfirm;
-  }
-});
+  });
 
-test('it exists', function(assert) {
-  var route = this.subject();
-  assert.ok(route);
+  test('it exists', function(assert) {
+    var route = this.owner.lookup('route:contacts');
+    assert.ok(route);
+  });
 });

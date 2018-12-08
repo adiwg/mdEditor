@@ -140,7 +140,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.name, json.positionName
    */
-  title: computed('json.{name,positionName}',
+  title: computed('json.{name,positionName,isOrganization}',
     function () {
       const json = this.get('json');
 

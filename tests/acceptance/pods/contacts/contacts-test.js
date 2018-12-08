@@ -1,32 +1,28 @@
 import { run } from '@ember/runloop';
-import {
-  test
-} from 'qunit';
-import moduleForAcceptance from 'mdeditor/tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { setupApplicationTest } from 'ember-qunit';
 
-moduleForAcceptance('Acceptance | pods/contacts');
+module('Acceptance | pods/contacts', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('visiting /contacts', function (assert) {
-  visit('/contacts');
+  test('visiting /contacts', async function(assert) {
+    await visit('/contacts');
 
-  andThen(function () {
     assert.equal(currentURL(), '/contacts');
   });
-});
 
-test('delete should display a confirm', function (assert) {
-  assert.expect(4);
+  test('delete should display a confirm', async function(assert) {
+    assert.expect(4);
 
-  var store = this.application.__container__.lookup('service:store');
+    var store = this.application.__container__.lookup('service:store');
 
-  //make sure there's at least one record visible
-  run(function () {
-    store.createRecord('contact');
-  });
+    //make sure there's at least one record visible
+    run(function () {
+      store.createRecord('contact');
+    });
 
-  visit('/contacts');
+    await visit('/contacts');
 
-  andThen(function () {
     assert.dialogOpensAndCloses({
       openSelector: 'button.md-button-modal.btn-danger:first',
       closeSelector: '.ember-modal-overlay',
@@ -34,6 +30,6 @@ test('delete should display a confirm', function (assert) {
       hasOverlay: true,
       context: 'html'
     });
-  });
 
+  });
 });

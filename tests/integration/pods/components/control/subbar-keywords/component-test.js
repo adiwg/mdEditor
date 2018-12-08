@@ -18,9 +18,9 @@ module('Integration | Component | control/subbar keywords', function(hooks) {
 
     await render(hbs `{{control/subbar-keywords}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').textContent
       .replace(/[ \n]+/g, '|')
-      .trim(), '|Add|Keywords|');
+      .trim(), '|Add|Thesaurus');
 
     // Template block usage:
     await render(hbs `
@@ -29,9 +29,9 @@ module('Integration | Component | control/subbar keywords', function(hooks) {
       {{/control/subbar-keywords}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.ember-view').textContent
       .replace(/[ \n]+/g, '|')
-      .trim(), '|Add|Keywords|template|block|text|');
+      .trim(), '|Add|Thesaurus|template|block|text|');
   });
 
   test('fire actions', async function(assert) {
@@ -44,6 +44,7 @@ module('Integration | Component | control/subbar keywords', function(hooks) {
       actions: {
         addThesaurus: function () {
           assert.ok(true, 'calls addThesaurus action');
+          return false;
         }
       }
     });
