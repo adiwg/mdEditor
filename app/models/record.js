@@ -106,10 +106,10 @@ export default Model.extend(Validations, Copyable, {
 
   title: alias('json.metadata.resourceInfo.citation.title'),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
+  icon: computed('json.metadata.resourceInfo.resourceType.0.type',
     function () {
       const type = this.get(
-          'json.metadata.resourceInfo.resourceType.firstObject.type') ||
+          'json.metadata.resourceInfo.resourceType.0.type') ||
         '';
       const list = getOwner(this).lookup('service:icon');
 

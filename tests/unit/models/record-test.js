@@ -26,7 +26,7 @@ module('Unit | Model | record', function(hooks) {
       .lookup('service:icon');
 
     assert.expect(1);
-    me.set('json.metadata.resourceInfo.resourceType', 'project');
+    me.set('json.metadata.resourceInfo.resourceType.firstObject.type', 'project');
     assert.equal(me.get('icon'), list.get('project'));
   });
 });
