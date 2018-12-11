@@ -10,7 +10,6 @@ import {
 } from '@ember/string';
 import Papa from 'papaparse';
 import {
-  get,
   set,
   computed
 } from '@ember/object';

@@ -5,9 +5,6 @@ import {
 import {
   isArray
 } from '@ember/array';
-import {
-  get
-} from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {

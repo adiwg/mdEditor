@@ -2,7 +2,6 @@ import {
   inject as service
 } from '@ember/service';
 import {
-  get,
   set,
   computed
 } from '@ember/object';

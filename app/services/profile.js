@@ -2,9 +2,6 @@ import Service from '@ember/service';
 import {
   inject as service
 } from '@ember/service';
-import {
-  get
-} from '@ember/object';
 
 /**
  * Profile service

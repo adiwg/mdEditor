@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import {
-  get,
   computed
 } from '@ember/object';
 import {

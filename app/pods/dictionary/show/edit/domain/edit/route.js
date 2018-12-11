@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { get, computed } from '@ember/object';
+import { computed } from '@ember/object';
 import { isArray } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 

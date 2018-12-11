@@ -1,4 +1,3 @@
-import { get } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
 
 export default Table.extend({
