@@ -63,7 +63,7 @@ const theComp = Component.extend({
 
     once(this, function() {
       this.set('model', getWithDefault(this, 'model', {}));
-      formatMaint(this.get('model'));
+      formatMaint(this.model);
     });
   },
 

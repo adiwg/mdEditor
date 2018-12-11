@@ -8,7 +8,7 @@ export default Service.extend({
   elementId: undefined,
 
   setTarget(id, onClose, scope) {
-    let el = this.get('elementId');
+    let el = this.elementId;
 
     if(id === el) {
       this.close();
@@ -32,8 +32,8 @@ export default Service.extend({
   },
 
   close() {
-    let id = this.get('elementId');
-    let onClose = this.get('onClose');
+    let id = this.elementId;
+    let onClose = this.onClose;
 
     if(isPresent(id)) {
       $('body').removeClass('md-no-liquid');
@@ -41,7 +41,7 @@ export default Service.extend({
     }
 
     if(onClose) {
-      onClose.call(this.get('scope') || this);
+      onClose.call(this.scope || this);
     }
 
     setProperties(this, {

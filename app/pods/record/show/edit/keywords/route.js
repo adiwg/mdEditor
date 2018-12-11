@@ -63,8 +63,8 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
-      .set('subbar', this.get('subbar'));
-    this.controller.set('subbar', this.get('subbar'));
+      .set('subbar', this.subbar);
+    this.controller.set('subbar', this.subbar);
   },
 
   actions: {

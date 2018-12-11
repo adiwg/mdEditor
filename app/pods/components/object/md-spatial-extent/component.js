@@ -16,7 +16,7 @@ export default Component.extend({
   bboxPoly: computed('bbox',
     'bbox.{northLatitude,southLatitude,eastLongitude,westLongitude}',
     function() {
-      let bbox = this.get('bbox');
+      let bbox = this.bbox;
 
       if(this.isTrulyNone(bbox.southLatitude) || this.isTrulyNone(bbox.westLongitude) ||
         this.isTrulyNone(bbox.northLatitude) || this.isTrulyNone(bbox.eastLongitude)
@@ -33,8 +33,8 @@ export default Component.extend({
     }),
 
   bboxPolyObserver: observer('bboxPoly', function() {
-    let map = this.get('map');
-    let bbox = this.get('bboxPoly');
+    let map = this.map;
+    let bbox = this.bboxPoly;
 
     if(map && bbox) {
       this.setupMap({
@@ -48,8 +48,8 @@ export default Component.extend({
   showMap: or('bboxPoly', 'geographicElement'),
   setupMap(m) {
     let map = m.target;
-    let geo = this.get('geographicElement') || [];
-    let bbox = this.get('bboxPoly');
+    let geo = this.geographicElement || [];
+    let bbox = this.bboxPoly;
     let features;
 
     features = bbox ? geo.concat([L.rectangle(bbox).toGeoJSON()]) : [].concat(
@@ -63,14 +63,14 @@ export default Component.extend({
   },
   actions: {
     calculateBox() {
-      let geo = this.get('geographicElement');
+      let geo = this.geographicElement;
 
       if(!(geo && geo.length)) {
         return null;
       }
 
       let bounds = L.geoJson(geo).getBounds();
-      let bbox = this.get('bbox');
+      let bbox = this.bbox;
 
       setProperties(bbox, {
         northLatitude: bounds.getNorth(),

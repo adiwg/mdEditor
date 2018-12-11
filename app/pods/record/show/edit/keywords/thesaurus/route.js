@@ -36,7 +36,7 @@ export default Route.extend({
       keywords: thesaurus,
       model: model,
       path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
-      thesaurus: this.get('keyword')
+      thesaurus: this.keyword
         .findById(thesaurus.thesaurus.identifier[0].identifier)
     });
   },
@@ -60,10 +60,10 @@ export default Route.extend({
 
     this.controllerFor('record.show.edit')
       .setProperties({
-        subbar: this.get('subbar'),
+        subbar: this.subbar,
         onCancel: this.setupModel,
         cancelScope: this,
-        thesaurusId: this.get('thesaurusId')
+        thesaurusId: this.thesaurusId
       });
   },
 

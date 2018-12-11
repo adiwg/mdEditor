@@ -39,7 +39,7 @@ export default ArrayTable.extend({
    */
   arrayValues: computed('value.[]', {
     get() {
-      let items = this.get('value');
+      let items = this.value;
 
       if (items === undefined) {
         items = [];
@@ -71,6 +71,6 @@ export default ArrayTable.extend({
    * @requires arrayValues.@each.value
    */
   valuesObserver: observer('arrayValues.@each.value', function() {
-    this.set('arrayValues', this.get('arrayValues'));
+    this.set('arrayValues', this.arrayValues);
   })
 });

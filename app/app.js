@@ -16,8 +16,12 @@ import {
   getWithDefault,
   get
 } from '@ember/object';
-import { isNone } from '@ember/utils';
-import { assert } from '@ember/debug';
+import {
+  isNone
+} from '@ember/utils';
+import {
+  assert
+} from '@ember/debug';
 import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';

@@ -86,7 +86,7 @@ export default Route.extend(ScrollTo, {
   }),
   actions: {
     exportData() {
-      this.get('store').exportData(
+      this.store.exportData(
         modelTypes, {
           download: true,
           filename: `mdeditor-${moment().format('YYYYMMDD-HHMMSS')}.json`
@@ -94,7 +94,7 @@ export default Route.extend(ScrollTo, {
       );
     },
     exportSelectedData(asMdjson) {
-      let store = this.get('store');
+      let store = this.store;
 
       if(asMdjson) {
         let records = store.peekAll('record').filterBy('_selected').map((

@@ -31,7 +31,7 @@ export default Component.extend({
   selectThesaurus() {},
 
   thesaurusList: computed('keyword.thesaurus.[]', function () {
-    let list = this.get('keyword')
+    let list = this.keyword
       .thesaurus
       .map((k) => {
         return EmberObject.create({
@@ -48,10 +48,10 @@ export default Component.extend({
   }),
   actions: {
     update(id, thesaurus) {
-      let selected = this.get('keyword')
+      let selected = this.keyword
         .findById(id);
 
-      this.get('selectThesaurus')(selected, thesaurus);
+      this.selectThesaurus(selected, thesaurus);
     }
   }
 });

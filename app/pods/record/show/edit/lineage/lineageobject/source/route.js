@@ -25,8 +25,8 @@ export default Route.extend({
   },
 
   setupModel() {
-    let sourceId = get(this, 'sourceId');
-    let lineageId = get(this, 'lineageId');
+    let sourceId = this.sourceId;
+    let lineageId = this.lineageId;
     let model = this.modelFor('record.show.edit');
     let sources = model.get(
       'json.metadata.resourceLineage.' + lineageId + '.source');
@@ -35,7 +35,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(source)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No source found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject');
 

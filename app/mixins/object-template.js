@@ -30,7 +30,7 @@ export default Mixin.create({
    */
   applyTemplate(object, defaults) {
     let value = object || {};
-    let Template = this.get('templateClass');
+    let Template = this.templateClass;
 
     if(Template) {
       let owner = getOwner(this);
@@ -54,7 +54,7 @@ export default Mixin.create({
     let property = this.get(propertyName);
 
     if(isArray(property)) {
-      let Template = this.get('templateClass');
+      let Template = this.templateClass;
       if(Template) {
         let owner = getOwner(this);
 

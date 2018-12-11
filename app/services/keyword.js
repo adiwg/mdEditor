@@ -8,7 +8,7 @@ import ISO from 'mdcodes/resources/js/iso_topicCategory';
 let service = EmberObject.create({
   thesaurus: A(),
   findById(id) {
-    return this.get('thesaurus')
+    return this.thesaurus
       .find(function(t) {
         return t.citation.identifier[0].identifier === id;
       });

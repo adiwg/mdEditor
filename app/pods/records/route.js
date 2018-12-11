@@ -36,11 +36,11 @@ export default Route.extend({
 
   actions: {
     getColumns() {
-      return this.get('columns');
+      return this.columns;
     },
 
     showSlider(rec, evt) {
-      let slider = this.get('slider');
+      let slider = this.slider;
 
       evt.stopPropagation();
       this.controller.set('errorTarget', rec);

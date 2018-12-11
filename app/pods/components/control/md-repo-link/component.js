@@ -46,7 +46,7 @@ export default Component.extend({
    * @return string
    */
   hash: computed('version', function () {
-    let idx = this.get('version')
+    let idx = this.version
       .indexOf('+') + 1;
 
     return version.substring(idx);
@@ -60,8 +60,8 @@ export default Component.extend({
    * @return string
    */
   href: computed('repository', 'hash', function () {
-    let repo = this.get('repository');
-    let hash = this.get('hash');
+    let repo = this.repository;
+    let hash = this.hash;
 
     return `${repo}/tree/${hash}`;
   }),

@@ -103,7 +103,7 @@ export default Table.extend({
    * @required
    */
   actionsColumn: computed('allActions', function () {
-    let all = this.get('allActions');
+    let all = this.allActions;
 
     return {
       title: 'Actions',
@@ -137,9 +137,9 @@ export default Table.extend({
   multipleSelect: true,
   selectedItems: computed({
     get() {
-      let prop = this.get('selectProperty');
+      let prop = this.selectProperty;
 
-      return this.get('data')
+      return this.data
         .filterBy(prop)
         .toArray();
 
@@ -171,11 +171,11 @@ export default Table.extend({
     clickOnRow(idx, rec) {
       this._super(...arguments);
 
-      let prop = this.get('selectProperty');
+      let prop = this.selectProperty;
       let sel = get(this, 'selectedItems');
 
       rec.toggleProperty(prop);
-      this.get('select')(rec, idx, sel);
+      this.select(rec, idx, sel);
     },
 
     toggleAllSelection() {
@@ -194,7 +194,7 @@ export default Table.extend({
       this.userInteractionObserver();
 
       let selected = get(this, 'selectedItems');
-      let prop = this.get('selectProperty');
+      let prop = this.selectProperty;
       //let data = get(this, 'data');
 
       if(get(selected, 'length')) {
@@ -202,7 +202,7 @@ export default Table.extend({
       } else {
         data.setEach(prop, false);
       }
-      this.get('select')(null, null, selected);
+      this.select(null, null, selected);
     }
   }
 });

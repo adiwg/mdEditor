@@ -66,10 +66,10 @@ export default Model.extend(Validations, Copyable, {
   icon: 'book',
 
   status: computed('hasDirtyHash', function () {
-    let dirty = this.get('hasDirtyHash');
-    let errors = this.get('hasSchemaErrors');
+    let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
-    if(this.get('currentHash')) {
+    if(this.currentHash) {
       return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
@@ -86,7 +86,7 @@ export default Model.extend(Validations, Copyable, {
    * @requires status
    */
   hasSchemaErrors: computed('status', function () {
-    let mdjson = this.get('mdjson');
+    let mdjson = this.mdjson;
     let errors = mdjson.validateDictionary(this)
       .errors;
 
@@ -96,7 +96,7 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   copy() {
-    let current = this.get('cleanJson');
+    let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
 

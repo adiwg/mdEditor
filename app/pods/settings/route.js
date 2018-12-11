@@ -10,7 +10,7 @@ export default Route.extend({
     // this.get('store').findAll('settings').then(function(settings) {
     //   return settings.get("firstObject");
     // });
-    return this.get('settings').get('data');
+    return this.settings.get('data');
   },
   actions:{
     clearLocalStorage(){

@@ -32,23 +32,23 @@ export default Route.extend({
 
     this.controllerFor('record.show.edit')
       .setProperties({
-        subbar: this.get('subbar'),
+        subbar: this.subbar,
         onCancel: this.setupModel,
         cancelScope: this,
-        extentId: this.get('extentId')
+        extentId: this.extentId
       });
 
     controller
       .setProperties({
         featureGroup: null,
-        extentId: this.get('extentId')
+        extentId: this.extentId
       });
   },
 
   setupModel() {
     let model = this.modelFor('record.show.edit.extent');
     let extents = model.get('json.metadata.resourceInfo.extent');
-    let extent = get(extents, this.get('extentId') || this.controller.get(
+    let extent = get(extents, this.extentId || this.controller.get(
       'extentId'));
 
     //make sure the extent still exists
@@ -81,7 +81,7 @@ export default Route.extend({
     },
     didTransition() {
       this.controllerFor('record.show.edit')
-        .set('subbar', this.get('subbar'));
+        .set('subbar', this.subbar);
 
     },
     handleResize() {
@@ -95,7 +95,7 @@ export default Route.extend({
         .click();
     },
     deleteAllFeatures() {
-      let features = this.get('layers');
+      let features = this.layers;
       let group = this.controller
         .get('featureGroup');
 

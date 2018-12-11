@@ -24,7 +24,7 @@ export default Route.extend(ScrollTo, {
   },
 
   setupModel() {
-    let identifierId = get(this, 'identifierId');
+    let identifierId = this.identifierId;
     let model = this.modelFor(
       'record.show.edit.lineage.lineageobject.citation');
     let identifiers = get(model, 'identifier');
@@ -33,7 +33,7 @@ export default Route.extend(ScrollTo, {
 
     //make sure the identifier exists
     if(isEmpty(identifier)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No identifier found! Re-directing to Citation...');
       this.replaceWith('record.show.edit.lineage.lineageobject.citation');
 

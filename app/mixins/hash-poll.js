@@ -26,11 +26,11 @@ export default Mixin.create({
       model.set('jsonRevert', model.serialize().data.attributes.json);
     }
 
-    let hashPoller = this.get('hashPoller');
+    let hashPoller = this.hashPoller;
 
     // Make sure we only create one poller instance.
     if (!hashPoller) {
-      hashPoller = this.get('pollboy')
+      hashPoller = this.pollboy
         .add(this, this.onPoll, pollInterval);
       this.set('hashPoller', hashPoller);
     }
@@ -43,9 +43,9 @@ export default Mixin.create({
     //   return;
     // }
 
-    const hashPoller = this.get('hashPoller');
+    const hashPoller = this.hashPoller;
 
-    this.get('pollboy')
+    this.pollboy
       .remove(hashPoller);
     this.set('hashPoller', null);
   }),

@@ -44,8 +44,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = this.get('model');
-    let path = this.get('path');
+    let model = this.model;
+    let path = this.path;
 
     if(isNone(model) !== isNone(path)) {
       assert(
@@ -70,7 +70,7 @@ export default Component.extend({
         'validation.options.presence.{presence,disabled}',
         'disabled',
         function() {
-          return !this.get('disabled') &&
+          return !this.disabled &&
             this.get('validation.options.presence.presence') &&
             !this.get('validation.options.presence.disabled');
         }).readOnly());
@@ -279,7 +279,7 @@ export default Component.extend({
   label: null,
 
   ariaLabel: computed('label', function() {
-    return this.get('label');
+    return this.label;
   }),
 
   /**
@@ -311,7 +311,7 @@ export default Component.extend({
    * @return String
    */
   theComponent: computed('create', function() {
-    return this.get('create') ? 'power-select-with-create' :
+    return this.create ? 'power-select-with-create' :
       'power-select';
   }),
 
@@ -330,10 +330,10 @@ export default Component.extend({
    * @return PromiseObject
    */
   selectedItem: computed('value', function() {
-    let value = this.get('value');
+    let value = this.value;
 
     return DS.PromiseObject.create({
-      promise: this.get('codelist')
+      promise: this.codelist
         .then(function(arr) {
           return arr.find((item) => {
             return item['codeId'] === value;
@@ -352,18 +352,18 @@ export default Component.extend({
    * @return PromiseArray
    */
   codelist: computed('objectArray', function() {
-    const objArray = this.get('objectArray');
+    const objArray = this.objectArray;
     let inList = new Promise(function(resolve, reject) {
       // succeed
       resolve(objArray);
       // or reject
       reject(new Error('Couldn\'t create a promise.'));
     });
-    let codeId = this.get('valuePath');
-    let codeName = this.get('namePath');
-    let tooltip = this.get('tooltipPath');
-    let icons = this.get('icons');
-    let defaultIcon = this.get('defaultIcon');
+    let codeId = this.valuePath;
+    let codeName = this.namePath;
+    let tooltip = this.tooltipPath;
+    let icons = this.icons;
+    let defaultIcon = this.defaultIcon;
     let outList = A();
 
     return DS.PromiseArray.create({
@@ -422,7 +422,7 @@ export default Component.extend({
     create(selected) {
       let code = this.createCode(selected);
 
-      this.get('codelist')
+      this.codelist
         .pushObject(code);
       this.setValue(code);
     }

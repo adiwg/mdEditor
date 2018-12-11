@@ -25,8 +25,8 @@ export default Route.extend({
   },
 
   setupModel() {
-    let systemId = get(this, 'systemId');
-    let collectionId = get(this, 'collectionId');
+    let systemId = this.systemId;
+    let collectionId = this.collectionId;
     let model = this.modelFor('record.show.edit');
     let systems = model.get(
       'json.metadata.resourceInfo.taxonomy.' + collectionId + '.taxonomicSystem');
@@ -35,7 +35,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(system)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Taxonomic System found! Re-directing...');
       this.replaceWith('record.show.edit.taxonomy.collection');
 

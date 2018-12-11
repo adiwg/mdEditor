@@ -12,6 +12,6 @@ export default Route.extend(ScrollTo, {
   },
   backToEntity() {
     this.transitionTo('dictionary.show.edit.entity.edit',
-      this.get('entityId'));
+      this.entityId);
   }
 });

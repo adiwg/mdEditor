@@ -39,7 +39,7 @@ export default Route.extend(ScrollTo, {
   actions: {
     backToDomain() {
       this.transitionTo('dictionary.show.edit.domain.edit',
-        this.get('domainId'));
+        this.domainId);
     },
     editIdentifier(index) {
       this.transitionTo(

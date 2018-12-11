@@ -31,14 +31,14 @@ export default Route.extend({
       model
         .destroyRecord()
         .then(() => {
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(`Deleted Record: ${model.get('title')}`);
           this.replaceWith('records');
         });
     },
     copyRecord: function () {
 
-      get(this, 'flashMessages')
+      this.flashMessages
         .success(
           `Copied Record: ${this.currentRouteModel().get('title')}`);
       this.transitionTo('record.new.id', copy(this.currentRouteModel()));

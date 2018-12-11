@@ -28,7 +28,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    let editor = this.get('editor');
+    let editor = this.editor;
     let $el = this.$();
 
     const oldEditorSetOption = editor.codemirror.setOption;

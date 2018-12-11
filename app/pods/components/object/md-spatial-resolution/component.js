@@ -90,19 +90,15 @@ export default Component.extend(Validations, {
   scaleDisabled: computed(
     'model.levelOfDetail', 'measurePresent',
     function () {
-      return !isEmpty(this.get('model.levelOfDetail')) || this.get(
-        'measurePresent'
-      );
+      return !isEmpty(this.get('model.levelOfDetail')) || this.measurePresent;
     }),
   levelOfDetail: alias('model.levelOfDetail'),
   levelDisabled: computed(
     'model.scaleFactor', 'measurePresent',
     function () {
       let scaleFactor = this.get('model.scaleFactor');
-      return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
-        this.get(
-          'measurePresent'
-        );
+      return (!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
+        this.measurePresent;
     }
   ),
   measure: alias('model.measure'),

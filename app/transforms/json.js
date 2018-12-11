@@ -19,7 +19,7 @@ export default DS.Transform.extend({
 
   serialize(deserialized) {
     let target = isArray(deserialized) ? [] :{};
-    return JSON.stringify(this.get('clean').clean(deserialized, {target:target}));
+    return JSON.stringify(this.clean.clean(deserialized, {target:target}));
   }
 
 });

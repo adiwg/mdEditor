@@ -29,7 +29,7 @@ export default Route.extend(ScrollTo, {
   },
   actions: {
     insertResource(selected) {
-      let slider = this.get('slider');
+      let slider = this.slider;
       let rec = selected.get('firstObject');
 
       if(rec) {
@@ -43,7 +43,7 @@ export default Route.extend(ScrollTo, {
       selected.clear();
     },
     selectResource() {
-      let slider = this.get('slider');
+      let slider = this.slider;
 
       //this.controller.set('slider', true);
       slider.toggleSlider(true);
@@ -52,7 +52,7 @@ export default Route.extend(ScrollTo, {
       return this.store.peekAll('record').filterBy('recordId');
     },
     sliderColumns() {
-      return this.get('sliderColumns');
+      return this.sliderColumns;
     },
     editLinked(rec) {
       this.transitionTo('record.show.edit', rec.get('id'));

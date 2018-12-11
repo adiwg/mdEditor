@@ -57,7 +57,7 @@ export default Component.extend(Validations, {
   associationType: alias('model.associationType'),
 
   linkedRecord: computed('model.mdRecordId', function() {
-    let store = this.get('store');
+    let store = this.store;
 
     return store.peekAll('record')
       .filterBy('recordId', get(this, 'model.mdRecordId'))
@@ -74,7 +74,7 @@ export default Component.extend(Validations, {
       }
 
       return ar.findBy(
-        'mdRecordId', this.get('recordId'));
+        'mdRecordId', this.recordId);
     }),
 
   linkedAssociationType: computed('linkedAssociation.associationType', {
@@ -82,8 +82,8 @@ export default Component.extend(Validations, {
       return this.get('linkedAssociation.associationType');
     },
     set(key, value) {
-      let assoc = this.get('linkedAssociation');
-      let model = this.get('linkedRecord');
+      let assoc = this.linkedAssociation;
+      let model = this.linkedRecord;
 
       if(!assoc) {
         set(model, 'json.metadata.associatedResource', getWithDefault(model,

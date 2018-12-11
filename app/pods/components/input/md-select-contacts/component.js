@@ -91,13 +91,13 @@ export default Select.extend({
    * @requires contacts.[]
    */
   mapped: computed('contacts.mapped.[]','contactType', function () {
-    let type = this.get('contactType');
+    let type = this.contactType;
 
     if(!['individuals','organizations'].includes(type)){
-      return this.get('contacts').get('contactsCodes');
+      return this.contacts.get('contactsCodes');
     }
 
-    return this.get('contacts')
+    return this.contacts
       .get(type + 'Codes');
   })
 });

@@ -22,7 +22,7 @@ export default Input.extend({
   disabled: true,
 
   isDisabled: computed('disabled', function(){
-    return this.get('disabled');
+    return this.disabled;
   }),
 
   didInsertElement() {

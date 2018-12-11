@@ -39,7 +39,7 @@ export default Route.extend({
         return model.get('json.dataDictionary.resourceType') ? false : true;
       });
     controller.allowSave = computed('noType', 'noName', function () {
-      return (this.get('noName') || this.get('noType'));
+      return this.noName || this.noType;
     });
 
   },

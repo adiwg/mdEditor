@@ -145,14 +145,14 @@ errorSubTitle: computed('subTitle', function() {
 
   actions: {
     translate() {
-      let mdjson = this.get('mdjson');
-      let url = this.get('apiURL');
+      let mdjson = this.mdjson;
+      let url = this.apiURL;
       let cmp = this;
 
       this._clearResult();
       set(this, 'isLoading', true);
 
-      this.get('ajax').request(url, {
+      this.ajax.request(url, {
           type: 'POST',
           data: {
             //file: JSON.stringify(cleaner.clean(json)),

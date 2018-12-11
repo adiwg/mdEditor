@@ -843,14 +843,14 @@ export default Service.extend({
    * @returns {Object}
    */
   getActiveProfile() {
-    const active = this.get('active');
+    const active = this.active;
     const profile = active && typeof active === 'string' ? active : 'full';
-    const profiles = this.get('profiles');
+    const profiles = this.profiles;
 
     if(profiles[profile]) {
       return profiles[profile];
     } else {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning(`Profile "${active}" not found. Using "full" profile.`);
       return 'full';
     }

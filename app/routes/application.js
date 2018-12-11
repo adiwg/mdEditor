@@ -80,8 +80,8 @@ export default Route.extend({
     // Call _super for default behavior
     this._super(controller, model);
     // Implement your custom setup after
-    controller.set('spotlight', this.get('spotlight'));
-    controller.set('slider', this.get('slider'));
+    controller.set('spotlight', this.spotlight);
+    controller.set('slider', this.slider);
   },
 
   /**

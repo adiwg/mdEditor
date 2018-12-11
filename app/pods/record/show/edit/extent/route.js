@@ -37,13 +37,13 @@ export default Route.extend({
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
-      .set('subbar', this.get('subbar'));
+      .set('subbar', this.subbar);
   },
 
   actions: {
     didTransition() {
       this.controllerFor('record.show.edit')
-        .set('subbar', this.get('subbar'));
+        .set('subbar', this.subbar);
 
     },
     addExtent() {
@@ -64,7 +64,7 @@ export default Route.extend({
 
     },
     deleteExtent(id) {
-      let extents = this.get('extents');
+      let extents = this.extents;
 
       extents.removeAt(id);
     },

@@ -6,7 +6,7 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    let store = this.get('store');
+    let store = this.store;
 
     this.set('contacts', store.peekAll('contact'));
   },
@@ -16,25 +16,25 @@ export default Service.extend({
   contacts: A(),
 
   organizations: computed('contacts.[]', function() {
-    let orgs = this.get('contacts').filterBy('json.isOrganization');
+    let orgs = this.contacts.filterBy('json.isOrganization');
 
     return orgs;
   }),
 
   individuals: computed('contacts.[]', function() {
-    let ind = this.get('contacts').rejectBy('json.isOrganization');
+    let ind = this.contacts.rejectBy('json.isOrganization');
 
     return ind;
   }),
 
   organizationsCodes: computed('contactsCodes.[]', function() {
-    let orgs = this.get('contactsCodes').filterBy('icon','users');
+    let orgs = this.contactsCodes.filterBy('icon','users');
 
     return orgs;
   }),
 
   individualsCodes: computed('contactsCodes.[]', function() {
-    let ind = this.get('contactsCodes').rejectBy('icon','users');
+    let ind = this.contactsCodes.rejectBy('icon','users');
 
     return ind;
   }),
@@ -52,9 +52,9 @@ export default Service.extend({
     //let codeName = this.get('namePath');
     //let tooltip = this.get('tooltipPath');
     let codelist = [];
-    let icons = this.get('icons');
-    let defaultIcon = this.get('defaultIcon');
-    let mdCodelist = this.get('contacts').sortBy('title');
+    let icons = this.icons;
+    let defaultIcon = this.defaultIcon;
+    let mdCodelist = this.contacts.sortBy('title');
 
     mdCodelist.forEach(function(item) {
       let newObject = EmberObject.create({

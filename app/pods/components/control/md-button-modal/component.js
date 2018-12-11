@@ -61,11 +61,11 @@ export default Component.extend({
       this.toggleProperty('isShowingModal');
     },
     cancel() {
-      this.get('onCancel')();
+      this.onCancel();
       this.toggleProperty('isShowingModal');
     },
     confirm() {
-      this.get('onConfirm')();
+      this.onConfirm();
       this.toggleProperty('isShowingModal');
     }
   }

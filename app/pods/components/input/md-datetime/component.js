@@ -43,8 +43,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = this.get('model');
-    let valuePath = this.get('valuePath');
+    let model = this.model;
+    let valuePath = this.valuePath;
 
     if(isBlank(model) !== isBlank(valuePath)) {
       assert(
@@ -123,7 +123,7 @@ export default Component.extend({
     } else {
       defineProperty(this, '_date', computed('date', {
         get() {
-          let val = get(this, 'date');
+          let val = this.date;
 
           return val ? moment(val, this.get('altFormat' || null)) :
             null;
@@ -214,8 +214,8 @@ export default Component.extend({
 
     let mom = moment(value);
 
-    if(this.get('altFormat')) {
-      let alt = mom.format(this.get('altFormat'));
+    if(this.altFormat) {
+      let alt = mom.format(this.altFormat);
 
       once(this, function () {
         set(this, target, alt);

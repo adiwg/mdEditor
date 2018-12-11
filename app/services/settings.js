@@ -23,7 +23,7 @@ export default Service.extend({
   setup() {
     let me = this;
     let settings;
-    let store = this.get('store');
+    let store = this.store;
 
     store
       .findAll('setting')

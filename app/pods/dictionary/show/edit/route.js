@@ -21,7 +21,7 @@ export default Route.extend(HashPoll, {
    * The route activate hook, sets the profile to 'dictionary'.
    */
   activate() {
-    this.get('profile')
+    this.profile
       .set('active', 'dictionary');
   },
 
@@ -43,7 +43,7 @@ export default Route.extend(HashPoll, {
         .then(() => {
           //this.refresh();
           //this.setModelHash();
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(`Saved Dictionary: ${model.get('title')}`);
 
           //this.transitionTo('contacts');
@@ -76,7 +76,7 @@ export default Route.extend(HashPoll, {
             });
           }
 
-          get(this, 'flashMessages')
+          this.flashMessages
             .warning(message);
         }
 
@@ -97,7 +97,7 @@ export default Route.extend(HashPoll, {
               controller.set('cancelScope', null);
             });
           }
-          get(this, 'flashMessages')
+          this.flashMessages
             .warning(message);
         });
     },

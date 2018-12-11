@@ -54,7 +54,7 @@ export default Route.extend(ScrollTo, {
     this._super(controller, model);
     // Implement your custom setup after
     controller.set('importUri', this.get('settings.data.importUriBase'));
-    controller.set('apiURL', this.get('apiURL'));
+    controller.set('apiURL', this.apiURL);
   },
 
   model() {
@@ -258,11 +258,11 @@ export default Route.extend(ScrollTo, {
       return get(this, 'columns');
     },
     getIcon(type) {
-      return this.get('icons')[type];
+      return this.icons[type];
     },
     readData(file) {
       let json;
-      let url = this.get('apiURL');
+      let url = this.apiURL;
       let controller = this.controller;
       let cmp = this;
 
@@ -272,7 +272,7 @@ export default Route.extend(ScrollTo, {
             get(this, 'flashMessages')
               .info(`Translation service provided by ${url}.`);
 
-            this.get('ajax').request(url, {
+            this.ajax.request(url, {
                 type: 'POST',
                 data: {
                   //file: JSON.stringify(cleaner.clean(json)),
@@ -347,7 +347,7 @@ export default Route.extend(ScrollTo, {
 
       set(this.controller, 'isLoading', true);
 
-      this.get('ajax').request(uri, {
+      this.ajax.request(uri, {
           type: 'GET',
           context: this,
           dataType: 'text',
@@ -427,7 +427,7 @@ export default Route.extend(ScrollTo, {
           //this.transitionTo('dashboard');
         });
 
-      let settingService = this.get('settings');
+      let settingService = this.settings;
       let newSettings = this.currentRouteModel().get('data').filterBy(
         'meta.export').findBy('type', 'settings');
 

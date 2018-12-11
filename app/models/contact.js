@@ -142,7 +142,7 @@ const Contact = Model.extend(Validations, Copyable, {
    */
   title: computed('json.{name,positionName,isOrganization}',
     function () {
-      const json = this.get('json');
+      const json = this.json;
 
       return json.name || (json.isOrganization ? null : json.positionName);
     }),
@@ -253,7 +253,7 @@ const Contact = Model.extend(Validations, Copyable, {
    */
   defaultOrganization: computed('json.memberOfOrganization.[]',
     function () {
-      const json = this.get('json');
+      const json = this.json;
 
       let {
         memberOfOrganization
@@ -286,7 +286,7 @@ const Contact = Model.extend(Validations, Copyable, {
   combinedName: computed('name',
     'json{isOrganization,positionName,memberOfOrganization[]}',
     function () {
-      const json = this.get('json');
+      const json = this.json;
 
       let {
         name,
@@ -338,10 +338,10 @@ const Contact = Model.extend(Validations, Copyable, {
   }),
 
   status: computed('hasDirtyHash', function () {
-    let dirty = this.get('hasDirtyHash');
-    let errors = this.get('hasSchemaErrors');
+    let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
-    if(this.get('currentHash')) {
+    if(this.currentHash) {
       return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
@@ -358,7 +358,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires status
    */
   hasSchemaErrors: computed('status', function () {
-    let mdjson = this.get('mdjson');
+    let mdjson = this.mdjson;
     let errors = mdjson.validateContact(this)
       .errors;
 
@@ -375,7 +375,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @return {DS.Model}
    */
   copy() {
-    let current = this.get('cleanJson');
+    let current = this.cleanJson;
     let json = EmberObject.create(current);
     let {
       name,

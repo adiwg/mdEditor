@@ -25,14 +25,14 @@ export default Route.extend(ScrollTo, {
   },
 
   setupModel() {
-    let identifierId = get(this, 'identifierId');
+    let identifierId = this.identifierId;
     let model = this.modelFor('record.show.edit.main');
     let identifiers = model.get('json.metadata.resourceInfo.citation.identifier');
     let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
     //make sure the identifier exists
     if (isEmpty(identifier)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No identifier found! Re-directing to citation...');
       this.replaceWith('record.show.edit.main.citation');
 

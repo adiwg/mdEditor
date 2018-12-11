@@ -15,7 +15,7 @@ export default LinkComponent.extend({
 
   didReceiveAttrs() {
     //Inline link title comes first, if present.
-    let block = !this.get('block') ? [this.get('contact.title')] : [];
+    let block = !this.block ? [this.get('contact.title')] : [];
     let params = get(this, 'params');
     let add = block.concat(['contact.show', this.get('contact.id')]);
 
@@ -61,9 +61,9 @@ export default LinkComponent.extend({
    * @requires contactId
    */
   contact: computed('contactId', function () {
-      let rec = this.get('store')
+      let rec = this.store
         .peekAll('contact')
-        .findBy('json.contactId', this.get('contactId'));
+        .findBy('json.contactId', this.contactId);
 
       return rec;
     })

@@ -77,7 +77,7 @@ const theComp = Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = this.get('model');
+    let model = this.model;
 
     once(this, function () {
       set(model, 'party', getWithDefault(model, 'party', []));

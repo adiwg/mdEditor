@@ -16,10 +16,10 @@ export default Component.extend({
 
   actions: {
     addKeyword(model) {
-      this.get('addKeyword')(model);
+      this.addKeyword(model);
     },
     deleteKeyword(model, object) {
-      this.get('deleteKeyword')(model, object);
+      this.deleteKeyword(model, object);
     }
   }
 });

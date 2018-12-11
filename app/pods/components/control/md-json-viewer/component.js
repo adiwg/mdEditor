@@ -41,7 +41,7 @@ export default Component.extend({
   },
 
   didInsertElement() {
-    let json = this.get('json');
+    let json = this.json;
     let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 
     $('.md-viewer-body')

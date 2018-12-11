@@ -132,7 +132,7 @@ export default Route.extend({
 
     error(error) {
       if (error instanceof AdapterError) {
-        get(this, 'flashMessages')
+        this.flashMessages
           .warning('No contact found! Re-directing to new contact...');
         // redirect to new
         this.replaceWith('contact.new');

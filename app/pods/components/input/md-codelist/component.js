@@ -126,9 +126,9 @@ export default Select.extend({
    * @return PromiseObject
    */
   selectedItem: computed('value', function () {
-    let value = this.get('value');
+    let value = this.value;
 
-    return this.get('codelist')
+    return this.codelist
       .find((item) => {
         return item['codeId'] === value;
       });
@@ -144,14 +144,14 @@ export default Select.extend({
    * @requires mdCodeName
    */
   mapped: computed('mdCodeName', function () {
-    let codeId = this.get('valuePath');
-    let codeName = this.get('namePath');
-    let tooltip = this.get('tooltipPath');
+    let codeId = this.valuePath;
+    let codeName = this.namePath;
+    let tooltip = this.tooltipPath;
     let codelist = [];
-    let icons = this.get('icons');
-    let defaultIcon = this.get('defaultIcon');
-    let codelistName = this.get('mdCodeName');
-    let mdCodelist = this.get('mdCodes')
+    let icons = this.icons;
+    let defaultIcon = this.defaultIcon;
+    let codelistName = this.mdCodeName;
+    let mdCodelist = this.mdCodes
       .get(codelistName)
       .codelist
       //.uniqBy(codeName)
@@ -180,10 +180,10 @@ export default Select.extend({
    * @requires value
    */
   codelist: computed('value', 'filterId', 'mapped', function () {
-    let codelist = this.get('mapped');
-    let value = this.get('value');
-    let create = this.get('create');
-    let filter = this.get('filterId');
+    let codelist = this.mapped;
+    let value = this.value;
+    let create = this.create;
+    let filter = this.filterId;
 
     if(value) {
       if(create) {

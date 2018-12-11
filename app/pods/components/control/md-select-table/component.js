@@ -71,9 +71,9 @@ export default Table.extend({
     clickOnRow() {
       this._super(...arguments);
 
-      let sel = get(this, 'selectedItems');
+      let sel = this.selectedItems;
 
-      this.get('select')(sel);
+      this.select(sel);
     }
   }
 });

@@ -32,7 +32,7 @@ export default Route.extend(HashPoll, {
   afterModel(model) {
     this._super(...arguments);
 
-    this.get('profile')
+    this.profile
       .set('active', model.get('profile'));
   },
 
@@ -64,7 +64,7 @@ export default Route.extend(HashPoll, {
      * @param  {String} profile The new profile.
      */
     updateProfile(profile) {
-      this.get('profile')
+      this.profile
         .set('active', profile);
       this.modelFor('record.show.edit')
         .save();
@@ -75,7 +75,7 @@ export default Route.extend(HashPoll, {
       model
         .save()
         .then(() => {
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(`Saved Record: ${model.get('title')}`);
         });
     },
@@ -117,7 +117,7 @@ export default Route.extend(HashPoll, {
             });
           }
 
-          get(this, 'flashMessages')
+          this.flashMessages
             .warning(message);
         }
 
@@ -138,7 +138,7 @@ export default Route.extend(HashPoll, {
               controller.set('cancelScope', null);
             });
           }
-          get(this, 'flashMessages')
+          this.flashMessages
             .warning(message);
         });
     },

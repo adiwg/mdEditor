@@ -8,7 +8,7 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     if(isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Parent Citation found! Re-directing to Metadata...');
       this.replaceWith('record.show.edit.metadata', {
         queryParams: {

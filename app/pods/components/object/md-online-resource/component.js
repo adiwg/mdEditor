@@ -29,7 +29,7 @@ const theComp = Component.extend({
     this._super(...arguments);
 
     once(this, ()=>{
-        let plain = this.get('model');
+        let plain = this.model;
 
         if (plain && !get(plain,'validations')) {
           const Model = EmObject.extend(Validations, plain);
@@ -62,7 +62,7 @@ const theComp = Component.extend({
             Please use an online URL to load the image.`
           );
       } else {
-        let model = this.get('model');
+        let model = this.model;
 
         set(model, 'name', file.name);
         set(model, 'uri', file.data);

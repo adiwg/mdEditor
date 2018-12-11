@@ -21,7 +21,7 @@ export default Route.extend(ScrollTo, {
         .then(() => {
           //this.refresh();
           //this.setModelHash();
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(`Saved Contact: ${model.get('title')}`);
 
           //this.transitionTo('contacts');
@@ -33,7 +33,7 @@ export default Route.extend(ScrollTo, {
       model
         .destroyRecord()
         .then(() => {
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(`Deleted Contact: ${model.get('title')}`);
           this.replaceWith('contacts');
         });
@@ -48,7 +48,7 @@ export default Route.extend(ScrollTo, {
 
         if (json) {
           model.set('json', JSON.parse(json));
-          get(this, 'flashMessages').warning(message);
+          this.flashMessages.warning(message);
         }
 
         return;
@@ -57,13 +57,13 @@ export default Route.extend(ScrollTo, {
       model
         .reload()
         .then(() => {
-          get(this, 'flashMessages').warning(message);
+          this.flashMessages.warning(message);
         });
     },
 
     copyContact: function() {
 
-      get(this, 'flashMessages')
+      this.flashMessages
         .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);
       this.transitionTo('contact.new.id', copy(this.currentRouteModel()));
     }

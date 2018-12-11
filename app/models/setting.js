@@ -18,7 +18,7 @@ const theModel = DS.Model.extend({
     //this.on('didUpdate', this, this.wasUpdated);
     this.on('didLoad', this, this.wasLoaded);
     //this.on('didUpdate', this, this.wasLoaded);
-    this.get('updateSettings');
+    this.updateSettings;
   },
   //cleaner: inject.service(),
   compressOnSave: DS.attr('boolean', {
@@ -65,12 +65,12 @@ const theModel = DS.Model.extend({
   locale: alias('defaultLocale'),
 
   wasLoaded() {
-    this.get('settings')
+    this.settings
       .setup();
   },
   updateSettings: observer('hasDirtyAttributes',
     function () {
-      if(this.get('hasDirtyAttributes')) {
+      if(this.hasDirtyAttributes) {
         run.once(this, function () {
           this.save();
         });

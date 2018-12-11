@@ -47,7 +47,7 @@ const theComp = Component.extend({
 
     once(this, function() {
       this.set('model', getWithDefault(this, 'model', {}));
-      formatCitation(this.get('model'));
+      formatCitation(this.model);
     });
   },
   tagName: 'form',

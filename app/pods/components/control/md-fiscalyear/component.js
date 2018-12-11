@@ -28,14 +28,14 @@ export default Select.extend({
     return !this.get('settings.data.fiscalStartMonth');
   }),
   change() {
-    let val = this.get('value');
+    let val = this.value;
     let month = parseInt(this.get(
       'settings.data.fiscalStartMonth'), 10) - 1;
     let dt = month <= 6 ? moment(val, 'YYYY') : moment(val, 'YYYY').subtract(1, 'year');
     let start = dt.month(month).startOf('month');
     //let end = moment(val, 'YYYY').month('September').endOf('month');
     let end = start.clone().add(11, 'months').endOf('month');
-    let context = this.get('context');
+    let context = this.context;
 
     this.setProperties({
       end: end,

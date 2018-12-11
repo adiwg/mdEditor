@@ -6,7 +6,7 @@ import {
 export default Component.extend({
   actions: {
     toggleAllSelection() {
-      get(this, 'toggleAllSelection')();
+      this.toggleAllSelection();
     }
   }
 });

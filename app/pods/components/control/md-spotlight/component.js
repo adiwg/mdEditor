@@ -62,12 +62,12 @@ export default ModalDialog.extend({
   actions: {
     onClose() {
       this._super(...arguments);
-      this.get('spotlight').close();
+      this.spotlight.close();
     },
 
     onClickOverlay() {
       this._super(...arguments);
-      this.get('spotlight').close();
+      this.spotlight.close();
     }
   }
 });

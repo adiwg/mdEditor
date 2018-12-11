@@ -8,7 +8,7 @@ export default Component.extend(ResizeAware, {
   profile: service('profile'),
   resizeService: service('resize'),
   links: computed('profile.active', function () {
-    const profile = this.get('profile')
+    const profile = this.profile
       .getActiveProfile();
     this.debouncedDidResize();
 
@@ -152,9 +152,9 @@ export default Component.extend(ResizeAware, {
 
   debouncedDidResize() {
     let options = {
-      more: this.get('more'),
-      parent: this.get('parent'),
-      offset: this.get('offset')
+      more: this.more,
+      parent: this.parent,
+      offset: this.offset
     };
 
     $('#md-navbar-secondary')

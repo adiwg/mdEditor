@@ -16,7 +16,7 @@ export default Component.extend({
             rec.unloadRecord();
             once(() => {
               records.removeObject(rec);
-              this.get('flashMessages')
+              this.flashMessages
                 .danger(
                   `Deleted ${rec.constructor.modelName} "${rec.get('title')}".`
                 );

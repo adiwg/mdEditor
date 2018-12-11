@@ -23,7 +23,7 @@ export default Route.extend({
   },
 
   setupModel() {
-    let citationId = get(this, 'citationId');
+    let citationId = this.citationId;
     let model = this.modelFor('record.show.edit');
     let citations = model.get(
       'json.metadata.metadataInfo.alternateMetadataReference');
@@ -32,7 +32,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(citation)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No citation found! Re-directing...');
       this.replaceWith('record.show.edit.metadata');
 

@@ -47,7 +47,7 @@ export default Model.extend(Validations, Copyable, {
   init() {
     this._super(...arguments);
 
-    this.set('allRecords', this.get('store').peekAll('record'));
+    this.set('allRecords', this.store.peekAll('record'));
   },
   profile: DS.attr('string', {
     defaultValue: 'full'
@@ -126,8 +126,8 @@ export default Model.extend(Validations, Copyable, {
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
   hasParent: computed('parentIds.[]', function () {
-    let ids = this.get('parentIds');
-    let records = this.get('allRecords').rejectBy('hasSchemaErrors');
+    let ids = this.parentIds;
+    let records = this.allRecords.rejectBy('hasSchemaErrors');
 
     if(!ids) {
       return false;
@@ -146,7 +146,7 @@ export default Model.extend(Validations, Copyable, {
       return undefined;
     }
 
-    return this.get('allRecords').findBy('recordId', id);
+    return this.allRecords.findBy('recordId', id);
   }),
 
   defaultType: alias(
@@ -162,7 +162,7 @@ export default Model.extend(Validations, Copyable, {
    * @requires recordId
    */
   shortId: computed('recordId', function () {
-    const recordId = this.get('recordId');
+    const recordId = this.recordId;
     if(recordId) {
       let index = recordId.indexOf('-');
 
@@ -182,7 +182,7 @@ export default Model.extend(Validations, Copyable, {
    * @requires status
    */
   hasSchemaErrors: computed('status', function () {
-    let mdjson = this.get('mdjson');
+    let mdjson = this.mdjson;
     let errors = mdjson.validateRecord(this).errors;
 
     //console.log(errors);
@@ -191,17 +191,17 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   formatted: computed(function () {
-      let mdjson = this.get('mdjson');
+      let mdjson = this.mdjson;
 
       return mdjson.formatRecord(this);
     })
     .volatile(),
 
   status: computed('hasDirtyHash', function () {
-    let dirty = this.get('hasDirtyHash');
-    let errors = this.get('hasSchemaErrors');
+    let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
-    if(this.get('currentHash')) {
+    if(this.currentHash) {
       return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
@@ -209,7 +209,7 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   copy() {
-    let current = this.get('cleanJson');
+    let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.metadata.resourceInfo.citation.title;
 

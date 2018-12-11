@@ -43,16 +43,15 @@ export default Route.extend({
   },
 
   setupModel() {
-    let citationId = get(this, 'citationId');
+    let citationId = this.citationId;
     let model = this.modelFor('dictionary.show.edit');
-    let citations = model.get('json.dataDictionary.entity.' + get(this,
-      'entityId') + '.entityReference');
+    let citations = model.get('json.dataDictionary.entity.' + this.entityId + '.entityReference');
     let citation = citationId && isArray(citations) ? citations.get(
       citationId) : undefined;
 
     //make sure the citation exists
     if(isEmpty(citation)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Entity Reference found! Re-directing...');
       this.replaceWith('dictionary.show.edit.entity.edit');
 
@@ -64,7 +63,7 @@ export default Route.extend({
   actions: {
     backToEntity() {
       this.transitionTo('dictionary.show.edit.entity.edit',
-        this.get('entityId'));
+        this.entityId);
     }
   }
 });

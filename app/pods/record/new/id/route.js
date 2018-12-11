@@ -103,7 +103,7 @@ export default Route.extend({
 
     error(error) {
       if(error instanceof AdapterError) {
-        get(this, 'flashMessages')
+        this.flashMessages
           .warning('No record found! Re-directing to new record...');
         // redirect to new
         this.replaceWith('record.new');
@@ -119,7 +119,7 @@ export default Route.extend({
      * @param  {String} profile The new profile.
      */
     updateProfile(profile) {
-      this.get('profile')
+      this.profile
         .set('active', profile);
     }
   }

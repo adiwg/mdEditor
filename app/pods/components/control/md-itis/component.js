@@ -31,7 +31,7 @@ export default Component.extend({
     this._super(...arguments);
 
     this.selected = [];
-    assert('No taxonomy object supplied', this.get('taxonomy'));
+    assert('No taxonomy object supplied', this.taxonomy);
   },
   tagName: 'form',
   // classNames: ['form-horizontal'],
@@ -43,26 +43,25 @@ export default Component.extend({
   isLoading: false,
   limit: 25,
   resultTitle: computed('limit', 'total', 'searchResult.[]', function () {
-    let total = this.get('total');
+    let total = this.total;
     let result = this.get('searchResult.length');
-    let limit = this.get('limit');
+    let limit = this.limit;
 
     return total <= limit ? result : `${result} of ${total}`;
   }),
   notFound: computed('searchResult', function () {
-    let result = this.get('searchResult');
+    let result = this.searchResult;
 
     return isArray(result) && result.length === 0;
   }),
   found: or('selected.length', 'searchResult.length'),
   submit() {
-    let itis = this.get('itis');
+    let itis = this.itis;
 
     this.set('isLoading', true);
     this.set('searchResult', null);
 
-    itis.sendQuery(this.get('searchString'), this.get(
-      'kingdom'), this.get('limit')).then(response => {
+    itis.sendQuery(this.searchString, this.kingdom, this.limit).then(response => {
 
       if(!response) {
         return;
@@ -78,25 +77,25 @@ export default Component.extend({
   },
   actions: {
     search() {
-      this.get('submit').call(this);
+      this.submit.call(this);
     },
     selectItem(item) {
       item.set('animate', true);
       item.set('selected', true);
       later(this, function () {
-        this.get('searchResult').removeObject(item);
-        this.get('selected').pushObject(item);
+        this.searchResult.removeObject(item);
+        this.selected.pushObject(item);
       }, 250);
     },
     deselectItem(item) {
       item.set('selected', false);
       later(this, function () {
-        this.get('selected').removeObject(item);
-        this.get('searchResult').pushObject(item);
+        this.selected.removeObject(item);
+        this.searchResult.pushObject(item);
       }, 250);
     },
     importTaxa(taxa) {
-      let taxonomy = this.get('taxonomy');
+      let taxonomy = this.taxonomy;
       let itisCitation = this.get('itis.citation');
 
       let classification = set(taxonomy, 'taxonomicClassification', getWithDefault(taxonomy,
@@ -113,7 +112,7 @@ export default Component.extend({
         description: 'Taxa imported from ITIS'
       };
 
-      allTaxa.forEach(itm => this.get('itis').mergeTaxa(itm, classification));
+      allTaxa.forEach(itm => this.itis.mergeTaxa(itm, classification));
 
       if(!system) {
         itisCitation.get('date').pushObject(dateObj);
@@ -131,7 +130,7 @@ export default Component.extend({
         }
       }
 
-      this.get('flashMessages')
+      this.flashMessages
         .success(
           `Successfully imported ${ allTaxa.length } taxa from ITIS.`
         );

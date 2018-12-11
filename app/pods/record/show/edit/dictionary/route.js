@@ -92,7 +92,7 @@ export default Route.extend({
 
   actions: {
     getColumns() {
-      return this.get('columns');
+      return this.columns;
     },
 
     select(obj) {

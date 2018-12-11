@@ -72,7 +72,7 @@ export default Service.extend({
         return acc;
       }, []);
 
-      let records = this.get('store').peekAll('record').filterBy('recordId');
+      let records = this.store.peekAll('record').filterBy('recordId');
 
       refs.forEach((ref) => {
         let record = records.findBy('recordId', ref.mdRecordId);
@@ -117,7 +117,7 @@ export default Service.extend({
 
     if(ids.length) {
 
-      let dicts = this.get('store').peekAll('dictionary').filterBy(
+      let dicts = this.store.peekAll('dictionary').filterBy(
         'dictionaryId');
 
       ids.forEach((id) => {
@@ -134,7 +134,7 @@ export default Service.extend({
 
   formatRecord(rec, asText) {
     let _contacts = [];
-    let conts = this.get('contacts');
+    let conts = this.contacts;
 
     const _replacer = function (key, value) {
       let check = {
@@ -188,14 +188,14 @@ export default Service.extend({
       return value;
     };
 
-    let cleaner = this.get('cleaner');
+    let cleaner = this.cleaner;
     let clean = cleaner.clean(get(rec, 'json'));
 
     this.injectCitations(clean);
     this.injectDictionaries(rec, clean);
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
-    let contacts = this.get('store')
+    let contacts = this.store
       .peekAll('contact')
       .mapBy('json');
 

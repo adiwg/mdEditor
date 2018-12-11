@@ -16,7 +16,7 @@ export default Component.extend({
 
     editItem(item, evt) {
       evt.stopPropagation();
-      this.get('router').transitionTo(`${item.constructor.modelName}.show.edit`, item);
+      this.router.transitionTo(`${item.constructor.modelName}.show.edit`, item);
 
       return false;
     }

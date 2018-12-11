@@ -62,7 +62,7 @@ export default MdCodelist.extend({
    * @return String
    */
   theComponent: computed('create', function() {
-    return this.get('create') ? 'power-select-multiple-with-create' :
+    return this.create ? 'power-select-multiple-with-create' :
       'power-select-multiple';
   }),
 
@@ -92,8 +92,8 @@ export default MdCodelist.extend({
    * @return PromiseObject
    */
   selectedItem: computed('value', function() {
-    let value = this.get('value');
-    let codelist = this.get('codelist');
+    let value = this.value;
+    let codelist = this.codelist;
 
     if (value) {
       return codelist.filter((item) => {
@@ -112,10 +112,10 @@ export default MdCodelist.extend({
    * @return Array
    */
   codelist: computed('value', 'filterId', 'mapped', function() {
-    let codelist = this.get('mapped');
-    let value = this.get('value');
-    let create = this.get('create');
-    let filter = this.get('filterId');
+    let codelist = this.mapped;
+    let value = this.value;
+    let create = this.create;
+    let filter = this.filterId;
 
     if (value) {
       if (create) {
@@ -144,8 +144,8 @@ export default MdCodelist.extend({
 
     //power-select-with-create always sends a single object oncreate
     //we need to add that object to the selectedItem array
-    if (this.get('create') && !isArray(selected)) {
-      sel = this.get('selectedItem')
+    if (this.create && !isArray(selected)) {
+      sel = this.selectedItem
         .compact();
       sel.pushObject(selected);
     } else {

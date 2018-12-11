@@ -32,8 +32,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = this.get('model');
-    let valuePath = this.get('valuePath');
+    let model = this.model;
+    let valuePath = this.valuePath;
 
     if(isBlank(model) !== isBlank(valuePath)) {
       assert(
@@ -50,7 +50,7 @@ export default Component.extend({
         //Ember.run.once(()=>model.set(valuePath, ""));
       }
 
-      if(this.get('type') === 'number') {
+      if(this.type === 'number') {
         let attribute = `model.${valuePath}`;
 
         defineProperty(this, 'value', computed(attribute, {
@@ -61,7 +61,7 @@ export default Component.extend({
           },
 
           set(key, value) {
-            let parse = this.get('step') ? parseFloat : parseInt;
+            let parse = this.step ? parseFloat : parseInt;
 
             this.set(attribute, parse(value, 10));
 
@@ -80,7 +80,7 @@ export default Component.extend({
           'validation.options.presence{presence,disabled}',
           'disabled',
           function() {
-            return !this.get('disabled') &&
+            return !this.disabled &&
               this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
           })

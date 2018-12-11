@@ -38,11 +38,11 @@ export default Table.extend({
 
   actions: {
     addItem: function () {
-      const Template = this.get('templateClass');
+      const Template = this.templateClass;
       const owner = getOwner(this);
 
-      let editItem = this.get('editItem');
-      let items = this.get('items');
+      let editItem = this.editItem;
+      let items = this.items;
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
         EmberObject.create({});
 
@@ -54,13 +54,13 @@ export default Table.extend({
 
       items.pushObject(itm);
 
-      if(this.get('editOnAdd')) {
+      if(this.editOnAdd) {
         editItem(items.indexOf(itm));
       }
     },
 
     editItem: function (items, index) {
-      this.get('editItem')(index);
+      this.editItem(index);
     }
   }
 });

@@ -10,7 +10,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if(!this.get('model')) {
+    if(!this.model) {
       this.set('model', A());
     }
   },
