@@ -54,6 +54,8 @@ module.exports = function(defaults) {
   app.import('node_modules/jquery-jsonview/dist/jquery.jsonview.js');
   //papaparse for worker
   app.import('node_modules/papaparse/papaparse.js',{outputFile:'assets/workers/worker_papaparse.js'});
+  //marked
+  app.import('node_modules/marked/lib/marked.js');
 
   return app.toTree();
 };

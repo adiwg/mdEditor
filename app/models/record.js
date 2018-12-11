@@ -3,7 +3,7 @@ import { getOwner } from '@ember/application';
 import EmberObject, { computed } from '@ember/object';
 import { Copyable } from 'ember-copy';
 import DS from 'ember-data';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import Model from 'mdeditor/models/base';
 import {
   validator,

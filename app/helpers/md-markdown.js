@@ -1,6 +1,8 @@
 import { helper as buildHelper } from '@ember/component/helper';
-import marked from 'npm:marked';
+//import marked from 'marked';
 import { htmlSafe } from '@ember/string';
+
+const marked = window.marked;
 
 export function mdMarkdown(params /*, hash*/ ) {
   marked.setOptions({

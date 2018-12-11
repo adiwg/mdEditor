@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import EmberObject from '@ember/object';
 
 import {

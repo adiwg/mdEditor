@@ -1,6 +1,6 @@
 import { get } from '@ember/object';
 import Service from '@ember/service';
-import codes from 'npm:mdcodes/resources/js/mdcodes.js';
+import codes from 'mdcodes/resources/js/mdcodes.js';
 import Profile from './profile';
 
 /**
@@ -21,6 +21,10 @@ const codelist = {};
 //remap codelist names to be more generic
 Object.keys(codes)
   .forEach(function(key) {
+    if(key === 'default') {
+      return;
+    }
+
     const list = codes[key];
     const name = key.replace(/^iso_|adiwg_/, '');
 

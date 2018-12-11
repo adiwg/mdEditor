@@ -3,7 +3,7 @@ import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import GCMD from 'npm:gcmd-keywords';
 import Keywords from 'npm:mdkeywords';
-import ISO from 'npm:mdcodes/resources/js/iso_topicCategory';
+import ISO from 'mdcodes/resources/js/iso_topicCategory';
 
 let service = EmberObject.create({
   thesaurus: A(),

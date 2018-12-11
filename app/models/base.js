@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import hash from 'npm:object-hash';
+import hash from 'object-hash';
 import {
   inject as service
 } from '@ember/service';

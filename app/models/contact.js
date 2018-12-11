@@ -13,8 +13,8 @@ import {
   Copyable
 } from 'ember-copy'
 import DS from 'ember-data';
-import uuidV4 from 'npm:uuid/v4';
-import Validator from 'npm:validator';
+import uuidV4 from 'uuid/v4';
+import Validator from 'validator';
 import Model from 'mdeditor/models/base';
 import {
   validator,

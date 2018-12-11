@@ -12,7 +12,7 @@ import {
   isBlank
 } from '@ember/utils';
 import EmberObject from '@ember/object';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 
 import {
   get,

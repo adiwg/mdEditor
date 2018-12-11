@@ -27,7 +27,7 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 
 const Validations = buildValidations({
   'codeName': [

@@ -20,7 +20,7 @@ import EmObject, {
   get
 } from '@ember/object';
 import Base from 'ember-local-storage/adapters/base';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   JsonDefault as Contact

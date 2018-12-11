@@ -1,6 +1,6 @@
 import { Copyable } from 'ember-copy'
 import DS from 'ember-data';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import { alias } from '@ember/object/computed';
 import Model from 'mdeditor/models/base';
 import {

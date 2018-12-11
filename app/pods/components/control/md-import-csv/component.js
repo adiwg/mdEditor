@@ -8,7 +8,7 @@ import {
 import {
   htmlSafe
 } from '@ember/string';
-import Papa from 'npm:papaparse';
+import Papa from 'papaparse';
 import {
   get,
   set,
