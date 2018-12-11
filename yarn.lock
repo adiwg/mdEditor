@@ -5188,7 +5188,7 @@ ember-cli-app-version@^3.2.0:
     ember-cli-babel "^6.12.0"
     git-repo-version "^1.0.2"
 
-ember-cli-babel@^5.1.3, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6, ember-cli-babel@^5.1.7:
+ember-cli-babel@^5.1.3, ember-cli-babel@^5.1.5, ember-cli-babel@^5.1.6:
   version "5.2.8"
   resolved "http://registry.npmjs.org/ember-cli-babel/-/ember-cli-babel-5.2.8.tgz#0356b03cc3fdff5d0f2ecaa46a0e1cfaebffd876"
   integrity sha512-Mt9OOB5RaZwjde+LYef8EgwNVCAzsYDv4ktshblaXxr4m/Xm5/7/rxEu42RNrYkoy/qWpT9uhaD+JKK4riMf+w==
@@ -5751,6 +5751,15 @@ ember-concurrency@^0.8.19:
     ember-cli-babel "^6.8.2"
     ember-maybe-import-regenerator "^0.1.5"
 
+ember-concurrency@^0.8.25:
+  version "0.8.25"
+  resolved "https://registry.yarnpkg.com/ember-concurrency/-/ember-concurrency-0.8.25.tgz#f8550852fb8e0ea29d722d4e17b08b065e6caa68"
+  integrity sha512-sbQRJMcaMvJIx5eWtOAejMDt5w2htKu8xpEp+DvXsa77vqCs/mloH4we9f7gr5uUXYPOfFOYnYpnl+I639Bc0g==
+  dependencies:
+    babel-core "^6.24.1"
+    ember-cli-babel "^6.8.2"
+    ember-maybe-import-regenerator "^0.1.5"
+
 ember-copy@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-copy/-/ember-copy-1.0.0.tgz#426554ba6cf65920f31d24d0a3ca2cb1be16e4aa"
@@ -6108,13 +6117,6 @@ ember-page-title@^5.0.0:
     ember-cli-head "^0.4.0"
     ember-cli-htmlbars "^2.0.1"
     ember-copy "^1.0.0"
-
-ember-pollboy@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/ember-pollboy/-/ember-pollboy-1.0.2.tgz#189697fef0374d5767ea45e50079d4d70b310149"
-  integrity sha512-oA84UxXzMD8WXH5UnYxROIHvpjpp+N43G6Lgxn36nLlM7I4rUFtM7cpXnnGaoCSPdYzGgmXAKxKGOosqZ2slUg==
-  dependencies:
-    ember-cli-babel "^5.1.7"
 
 ember-power-select-with-create@~0.6.1:
   version "0.6.1"
