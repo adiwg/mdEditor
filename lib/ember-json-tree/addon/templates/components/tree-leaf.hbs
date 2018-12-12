@@ -7,7 +7,7 @@
   </span>
 {{/unless}}
 
-<span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
+<span class="tree-cell tree-icon" role="button" {{action "toggleCheck" bubbles=false}}>
   {{#if model.draggable}}
   {{fa-icon "ellipsis-v" fixedWidth=false}}
   {{/if}}
@@ -15,7 +15,7 @@
 
 {{#unless disableCheck}}
   {{#unless model.hideCheck}}
-  <span class="tree-cell tree-icon" {{action "toggleCheck" bubbles=false}}>
+  <span class="tree-cell tree-icon" role="button" {{action "toggleCheck" bubbles=false}}>
       {{#if model.checkable}}
         {{fa-icon (if model.isChecked "check-square-o" "square-o") fixedWidth=true}}
       {{else}}
@@ -27,7 +27,7 @@
 
 {{#unless model.hideToggle}}
 <span class="tree-cell tree-icon">
-  <span class="toggle-icon" {{action 'toggleExpand' bubbles=false}}>
+  <span class="toggle-icon" role="button" {{action "toggleExpand" bubbles=false}}>
     {{#if model.children.length}}
       {{fa-icon (if model.isExpanded "minus" "plus") fixedWidth=true class="icon expand-icon"}}
     {{else}}

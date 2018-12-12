@@ -108,21 +108,21 @@
       value=model.series.seriesName
       placeholder="Enter the name for the series."
       label="Name"
-      profilePath=(concat profilePath '.series.name')
+      profilePath=(concat profilePath ".series.name")
     }}
 
     {{input/md-input
       value=model.series.seriesIssue
       placeholder="Enter the issue for the series."
       label="Issue"
-      profilePath=(concat profilePath '.series.issue')
+      profilePath=(concat profilePath ".series.issue")
     }}
 
     {{input/md-input
       value=model.series.issuePage
       placeholder="Enter the page(s) for the issue."
       label="Page"
-      profilePath=(concat profilePath '.series.page')
+      profilePath=(concat profilePath ".series.page")
     }}
   {{/layout/md-card}}
 
@@ -131,7 +131,7 @@
     required=false
     plain=false
     data-spy=(if data-spy "Other Details")
-    profilePath=(concat profilePath '.otherCitationDetails')
+    profilePath=(concat profilePath ".otherCitationDetails")
     value=model.otherCitationDetails as |val|
   }}
     <td>
@@ -145,7 +145,7 @@
     data-spy=(if data-spy "Graphic")
     button-text="Add Graphic"
     label="Graphic"
-    profilePath=(concat profilePath '.graphicOverview')
+    profilePath=(concat profilePath ".graphicOverview")
   }}
 {{/unless}}
 

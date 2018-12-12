@@ -25,7 +25,7 @@ label="URI" placeholder="Online Resource URI"}}
     <div class="col-md-6">
       <div class="md-preview-image text-center">
         {{#if model.uri}}
-            <img src="{{model.uri}}" class="img-responsive img-thumbnail" alt="Image Preview">
+            <img src={{model.uri}} class="img-responsive img-thumbnail" alt="Image Preview">
         {{else}}
             Enter URI or select file to preview.
         {{/if}}

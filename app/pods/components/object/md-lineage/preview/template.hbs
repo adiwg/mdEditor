@@ -20,11 +20,11 @@
     {{#if item.processStep.length}}
       {{#if showMore}}
       <p class="text-right">
-        <a type="button" class="plain-link" {{action (toggle "showMore" this)}}> {{fa-icon "caret-up"}} Less</a>
+        <a type="button" role="button" class="plain-link" {{action (toggle "showMore" this)}}> {{fa-icon "caret-up"}} Less</a>
       </p>
       {{else}}
       <p class="text-right">
-        <a type="button" class="plain-link" {{action (toggle "showMore" this)}}>{{fa-icon "caret-down"}} More</a>
+        <a type="button" role="button" class="plain-link" {{action (toggle "showMore" this)}}>{{fa-icon "caret-down"}} More</a>
       </p>
       {{/if}}
     {{/if}}

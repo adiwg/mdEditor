@@ -29,6 +29,7 @@ export default ModalDialog.extend({
   targetAttachment: 'none',
   translucentOverlay: true,
   clickOutsideToClose: false,
+  attachment: 'middle center',
   tetherTarget: 'viewport',
 
   // /**

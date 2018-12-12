@@ -23,7 +23,7 @@
         <dl class="dl-horizontal col-xxl-6">
           {{#control/md-definition title="Responsible Party" }}
               {{#with dictionary.responsibleParty as |party|}}
-                  {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+                  {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
                   (
                   {{#each party.party as |contact index|}}
                       {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
@@ -38,7 +38,7 @@
           {{/control/md-definition}}
         </dl>
         <div class="col-xs-12">
-          {{#layout/md-card shadow=false muted=true plain=true shadow=false}}
+          {{#layout/md-card shadow=false muted=true plain=true}}
             <div class="row">
               <div class="text-info col-xs-6 col-sm-3">Locale</div>
               <div class="col-xs-6 col-sm-3">

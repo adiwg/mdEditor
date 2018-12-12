@@ -40,21 +40,21 @@
         </span>
         {{/unless}}
       {{/component}}
-      <span class='md-input-error'>
+      <span class="md-input-error">
         {{#if showErrorMessage}}
-          <span class='md-error'>
+          <span class="md-error">
             {{fa-icon "exclamation-circle"}}
             {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
-                {{v-get model path 'message'}}
+                {{v-get model path "message"}}
             {{/ember-tooltip}}
           </span>
         {{/if}}
 
         {{#if showWarningMessage}}
-          <span class='md-warning'>
+          <span class="md-warning">
             {{fa-icon "exclamation-triangle"}}
             {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip warning"}}
-            {{v-get model path 'warningMessage'}}
+            {{v-get model path "warningMessage"}}
             {{/ember-tooltip}}
           </span>
         {{/if}}

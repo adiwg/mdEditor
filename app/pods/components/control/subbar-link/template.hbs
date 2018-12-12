@@ -1,6 +1,6 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="Action Button Controls">
   {{#if click}}
-  <button type="button" name="button" class="btn btn-lg {{concat "btn-" clickButtonType}} btn-block md-btn-responsive" click=click>{{fa-icon clickButtonIcon}} {{clickTxt}}</button>
+  <button type="button" name="button" class="btn btn-lg {{concat "btn-" clickButtonType}} btn-block md-btn-responsive" click={{click}}>{{fa-icon clickButtonIcon}} {{clickTxt}}</button>
   {{/if}}
 
   {{#if route}}

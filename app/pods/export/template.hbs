@@ -6,22 +6,22 @@
       {{#if index}}
         <hr>
       {{/if}}
-      <section >
-        {{#layout/md-card
-          title=section.meta.title
-          titleIcon=section.meta.icon
-          collapsible=true
-          collapsed=false
-          data-spy=section.meta.title
-          shadow=true
-        }}
-        {{!-- <h3>{{section.meta.title}}</h3> --}}
-        {{control/md-record-table
-          data=section
-          dataColumns=(compute (route-action "getColumns") section.meta.type)
-        }}
-        {{/layout/md-card}}
-      </section>
+
+      {{#layout/md-card
+        title=section.meta.title
+        titleIcon=section.meta.icon
+        collapsible=true
+        collapsed=false
+        data-spy=section.meta.title
+        shadow=true
+      }}
+      {{!-- <h3>{{section.meta.title}}</h3> --}}
+      {{control/md-record-table
+        data=section
+        dataColumns=(compute (route-action "getColumns") section.meta.type)
+      }}
+
+      {{/layout/md-card}}
     {{else}}
      <div class="alert alert-info">
        <h3>{{fa-icon section.meta.icon}} No <em>{{section.meta.title}}</em> found.</h3>

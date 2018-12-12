@@ -1,13 +1,17 @@
 {{head-layout}}
 
-<div class=md-message-container>
-  <div class=md-message-wrapper>
+<div class="md-message-container">
+  <div class="md-message-wrapper">
     {{#each flashMessages.queue as |flash|}}
     {{#flash-message flash=flash as |component flash|}}
     {{flash.message}}
     {{#if flash.showProgress}}
     <div class="progress">
-      <div class="progress-bar" role="progressbar" aria-valuenow="{{flash.progressValue}}" aria-valuemin="0" aria-valuemax="100" style="width: {{html-safe flash.progressValue}}%;">
+      {{! template-lint-disable no-inline-styles }}
+      <div class="progress-bar" role="progressbar"
+        aria-valuenow={{flash.progressValue}}
+        aria-valuemin="0" aria-valuemax="100"
+        style={{concat "width:" (html-safe flash.progressValue) "%;"}}>
         {{flash.progressValue}}%
       </div>
     </div>
@@ -23,24 +27,21 @@
 
 <div id="md-wrapper" class="">
 
-  <!-- Slider -->
+  {{!-- Slider --}}
     {{#layout/md-slider
       visible=slider.showSlider
       fromName=slider.fromName
       onClose=slider.onClose
       context=slider.context
     }}
-      {{!-- <section class="md-slider-body">
-        {{from-elsewhere name="md-slider-content"}}
-      </section> --}}
     {{/layout/md-slider}}
-  <!-- /#slider -->
+  {{!-- /#slider --}}
 
-  <!-- Sidebar -->
+  {{!-- Sidebar --}}
     {{layout/md-nav-sidebar items=model}}
-  <!-- /#sidebar-wrapper -->
+  {{!-- /#sidebar-wrapper --}}
 
-  <!-- Page Content -->
+  {{!-- Page Content --}}
   <div id="md-page-content-wrapper">
     <div id="md-navbars">
       {{#layout/md-nav-main}}
@@ -52,7 +53,7 @@
       {{outlet}}
     </div>
   </div>
-  <!-- /#page-content-wrapper -->
+  {{!-- /#page-content-wrapper --}}
   {{layout/md-footer class="hidden-print"}}
 </div>
 {{ember-load-remover}}
@@ -62,7 +63,7 @@
     <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
         This application is in beta testing,  <a
         href="https://github.com/adiwg/mdEditor/issues"
-        target="_blank">please let us know</a> if you find any bugs.
+        target="_blank" rel="noopener noreferrer">please let us know</a> if you find any bugs.
         Thank-you!
     </div>
     <p>

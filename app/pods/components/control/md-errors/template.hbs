@@ -1,5 +1,5 @@
 <ul class="list-group">
-  {{#each (unbound errors) as |err idx|}}
+  {{#each errors as |err idx|}}
     <li class="list-group-item {{if (mod idx 2) "list-group-item-warning"}}">
       <div class="media">
         <div class="media-left media-middle">

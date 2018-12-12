@@ -35,7 +35,7 @@
 {{#layout/md-card
   title="Source Citation"
   collapsible=true
-  profilePath=(concat profilePath '.sourceCitation')
+  profilePath=(concat profilePath ".sourceCitation")
   data-spy="Source Citation"
   shadow=true
   content=model.sourceCitation
@@ -43,7 +43,7 @@
   {{object/md-citation
     model=model.sourceCitation
     simpleIdentifier=true
-    profilePath=(concat profilePath '.sourceCitation')
+    profilePath=(concat profilePath ".sourceCitation")
     embedded=true
     data-spy=false
   }}
@@ -55,7 +55,7 @@
   data-spy="Metadata Citation"
   buttonText="Add Citation"
   previewTemplate=""
-  profilePath=(concat profilePath '.metadataCitation')
+  profilePath=(concat profilePath ".metadataCitation")
   attributes="title" as |editing|
 }}
   {{object/md-citation
@@ -63,7 +63,7 @@
     simpleIdentifier=true
     data-spy=false
     embedded=true
-    profilePath=(concat profilePath '.metadataCitation')
+    profilePath=(concat profilePath ".metadataCitation")
   }}
 {{/object/md-object-table}}
 
@@ -71,7 +71,7 @@
 {{#layout/md-card
   title="Spatial Reference System"
   collapsible=true
-  profilePath=(concat profilePath '.referenceSystem')
+  profilePath=(concat profilePath ".referenceSystem")
   data-spy="Spatial Reference System"
   shadow=true
   content=model.referenceSystem

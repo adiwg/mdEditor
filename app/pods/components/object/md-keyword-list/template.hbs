@@ -8,7 +8,7 @@
       </tr>
     </thead>
     <tbody>
-      {{#each model.keyword as |keyword index|}}
+      {{#each model.keyword as |keyword|}}
         <tr>
           <td>
             {{input/md-input value=keyword.keyword placeholder="Keyword"}}
@@ -46,7 +46,7 @@
 {{else}}
 
   <ul class="list-group">
-    {{#each model.keyword as |keyword index|}}
+    {{#each model.keyword as |keyword|}}
       <li class="list-group-item">
         <button class="btn btn-xs btn-danger pull-right" {{action "deleteKeyword" model.keyword keyword}}>
           <span class="fa fa-times"></span> Delete

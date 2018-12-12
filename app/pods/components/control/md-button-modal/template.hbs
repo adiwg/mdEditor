@@ -1,13 +1,13 @@
 {{yield}}
   {{#control/md-modal
     isShowing = isShowingModal
-    closeModal=(action 'cancel')
+    closeModal=(action "cancel")
     target=target
     renderInPlace=renderInPlace
   }}
-    {{{message}}}
+    {{html-safe message}}
     <div class="md-modal-buttons pull-right">
-      <button type="button" class="btn btn-danger" {{action 'confirm'}}>Confirm</button>
-      <button type="button" class="btn btn-primary" {{action 'cancel'}}>Cancel</button>
+      <button type="button" class="btn btn-danger" {{action "confirm"}}>Confirm</button>
+      <button type="button" class="btn btn-primary" {{action "cancel"}}>Cancel</button>
     </div>
   {{/control/md-modal}}

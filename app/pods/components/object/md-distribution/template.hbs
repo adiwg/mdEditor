@@ -26,7 +26,7 @@
           {{#each dist.distributor as |dist|}}
           <div>
             {{#with dist.contact as |party|}}
-              {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+              {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
               (
               {{#each party.party as |contact index|}}
                   {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}

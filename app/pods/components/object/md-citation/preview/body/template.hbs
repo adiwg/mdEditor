@@ -38,7 +38,7 @@
   <dl class="dl-horizontal col-lg-12">
       {{#control/md-definition title="Responsible Party" }}
           {{#each citation.responsibleParty as |party|}}
-              {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+              {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
               (
               {{#each party.party as |contact index|}}
                   {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}

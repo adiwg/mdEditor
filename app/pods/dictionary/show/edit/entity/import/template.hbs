@@ -79,7 +79,7 @@
                   </td>
                   <td>
                     {{input type="checkbox" name="hasDomain" checked=row.hasDomain}}
-                    <span class="{{if row.domainWarn "text-danger"}}">({{row.domain.length}})</span>
+                    <span class={{if row.domainWarn "text-danger"}}>({{row.domain.length}})</span>
                   </td>
                   <td>
                     {{input type="checkbox" name="allowNull" checked=row.allowNull}}
@@ -97,7 +97,7 @@
 
                         {{#ember-popover
                           showOn="mouseenter"
-                          showOn="mouseleave"
+                          hideOn="mouseleave"
                           side="left"
                         }}
                           {{#each row.example as |ex|}}

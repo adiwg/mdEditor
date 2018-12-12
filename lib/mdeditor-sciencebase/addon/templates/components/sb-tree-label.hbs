@@ -5,7 +5,10 @@
 
   {{!-- <span class="tree-cell"> SB Id: --}}
     {{#if model.sbId}}
-        : <a href="{{model.config.rootItemURL}}{{model.sbId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
+        : <a href="{{model.config.rootItemURL}}{{model.sbId}}"
+        target="_blank" class="md-fa-link"
+        onclick={{action "clicked" preventDefault=false}}
+        rel="noopener noreferrer">
           {{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
         </a>
     {{else}}
@@ -15,7 +18,10 @@
   {{#unless model.isRoot}}
   <span class="tree-cell sb-parent-cell"> Parent Id:
     {{#if model.sbParentId}}
-        <a href="{{model.config.rootItemURL}}{{model.sbParentId}}" target="_blank" class="md-fa-link" onclick={{action "clicked" preventDefault=false}}>
+        <a href="{{model.config.rootItemURL}}{{model.sbParentId}}"
+        target="_blank" class="md-fa-link"
+        onclick={{action "clicked" preventDefault=false}}
+        rel="noopener noreferrer">
           {{model.sbParentId}}<sup>{{fa-icon "external-link"}}</sup>
         </a>
     {{else}}
