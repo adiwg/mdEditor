@@ -1,9 +1,0 @@
-{
-  "name": "mdeditor",
-  "dependencies": {
-    "leaflet": "~1.2.0"
-  },
-  "resolutions": {
-    "leaflet": "~1.2.0"
-  }
-}
