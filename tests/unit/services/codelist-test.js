@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import codes from 'npm:mdcodes/resources/js/mdcodes.js';
+import codes from 'mdcodes/resources/js/mdcodes.js';
 
 module('Unit | Service | codelist', function(hooks) {
   setupTest(hooks);

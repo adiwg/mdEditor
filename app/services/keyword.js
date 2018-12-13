@@ -1,8 +1,8 @@
 import Service from '@ember/service';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
-import GCMD from 'npm:gcmd-keywords';
-import Keywords from 'npm:mdkeywords';
+import { GCMD } from 'gcmd-keywords';
+import Keywords from 'mdkeywords';
 import ISO from 'mdcodes/resources/js/iso_topicCategory';
 
 let service = EmberObject.create({
@@ -76,6 +76,6 @@ service.get('thesaurus')
     label: 'ISO Topic Category'
   });
 
-service.get('thesaurus').pushObjects(Keywords);
+service.get('thesaurus').pushObjects(Keywords.asArray());
 
 export default Service.extend(service);
