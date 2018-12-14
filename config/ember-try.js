@@ -24,59 +24,31 @@ module.exports = function () {
       automatically generate scenarios that will deep merge with any in this configuration file.
     */
     useVersionCompatibility: false,
-
+    /*
+      If set to true, all npm scenarios will use `yarn` for install with the `--no-lockfile` option. At cleanup, your
+      dependencies will be restored to their prior state.
+    */
+    useYarn: true,
     scenarios: [{
-        name: "default",
-        bower: {
-          dependencies: {}
-        },
-        npm: {
-          devDependencies: {
-            bower: "^1.8.2"
-          }
-        }
+        name: "default"
       },
       {
         name: "ember-release",
         allowedToFail: true,
-        bower: {
-          dependencies: {
-            ember: "release"
-          }
-        },
-        npm: {
-          devDependencies: {
-            bower: "^1.8.2"
-          }
-        }
+        npm: {},
+        bower: {}
       },
       {
         name: "ember-beta",
         allowedToFail: true,
-        bower: {
-          dependencies: {
-            ember: "beta"
-          }
-        },
-        npm: {
-          devDependencies: {
-            bower: "^1.8.2"
-          }
-        }
+        npm: {},
+        bower: {}
       },
       {
         name: "ember-canary",
         allowedToFail: true,
-        bower: {
-          dependencies: {
-            ember: "canary"
-          }
-        },
-        npm: {
-          devDependencies: {
-            bower: "^1.8.2"
-          }
-        }
+        npm: {},
+        bower: {}
       }
     ]
   };
