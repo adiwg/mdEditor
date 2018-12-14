@@ -67,7 +67,7 @@ export default Route.extend({
     let layers = extent.geographicExtent[0].geographicElement;
 
     layers.forEach(function(l, idx, arr) {
-      arr.replace(idx, 1, EmberObject.create(l));
+      arr.replace(idx, 1, [EmberObject.create(l)]);
     });
 
     this.set('layers', layers);
