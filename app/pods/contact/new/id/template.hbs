@@ -11,10 +11,10 @@
             <div class="col-sm-9 col-sm-offset-">
               {{input/md-toggle
                 value=model.json.isOrganization
-                onToggle=(mut model.json.isOrganization)
+                onToggle=(action (mut model.json.isOrganization))
                 showLabels=true
-                onLabel="Organization::true"
-                offLabel="Individual::false"
+                onLabel="Organization"
+                offLabel="Individual"
                 size="large"
                 theme="form"
               }}

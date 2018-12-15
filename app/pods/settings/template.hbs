@@ -11,10 +11,10 @@
       <div class="col-sm-1">
         {{x-toggle
           value=model.autoSave
-          onToggle=(mut model.autoSave)
+          onToggle=(action (mut model.autoSave))
           showLabels=true
-          onLabel="On::true"
-          offLabel="Off::false"
+          onLabel="On"
+          offLabel="Off"
           size="medium"
           theme="default"
         }}

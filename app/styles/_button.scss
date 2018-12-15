@@ -13,3 +13,13 @@
     min-width: 6em;
   }
 }
+
+.btn-fake {
+  @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+  border: 1px solid transparent;
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  margin-bottom: 0; // For input.btn
+  text-align: center;
+  vertical-align: middle;
+}

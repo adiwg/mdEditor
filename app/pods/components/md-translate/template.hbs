@@ -24,10 +24,10 @@
                         <div class="inline-block">
                             {{input/md-toggle
                               value=forceValid
-                              onToggle=(mut forceValid)
+                              onToggle=(action (mut forceValid))
                               showLabels=true
-                              onLabel="Yes::true"
-                              offLabel="No::false"
+                              onLabel="Yes"
+                              offLabel="No"
                               size="medium"
                               theme="form"
                             }}
@@ -40,10 +40,10 @@
                         <div class="inline-block">
                             {{input/md-toggle
                               value=showAllTags
-                              onToggle=(mut showAllTags)
+                              onToggle=(action (mut showAllTags))
                               showLabels=true
-                              onLabel="Yes::true"
-                              offLabel="No::false"
+                              onLabel="Yes"
+                              offLabel="No"
                               size="medium"
                               theme="form"
                             }}

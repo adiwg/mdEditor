@@ -43,10 +43,10 @@
       <label class="center-block text-center">Include Settings?</label>
       {{x-toggle
         value=model.settings._selected
-        onToggle=(mut model.settings._selected)
+        onToggle=(action (mut model.settings._selected))
         showLabels=true
-        onLabel="Yes::true"
-        offLabel="No::false"
+        onLabel="Yes"
+        offLabel="No"
         size="medium"
         theme="form"
       }}

@@ -32,7 +32,7 @@ module.exports = function(environment) {
     'ember-local-storage': {
       fileExport: true
     },
-    'ember-cli-toggle': {
+    'ember-toggle': {
       includedThemes: [],
       //excludedThemes: ['flip'],
       defaultShowLabels: true, // defaults to false

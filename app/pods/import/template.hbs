@@ -118,13 +118,13 @@
           {{else if model.files}}
           <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
           <button type="button" class="btn btn-lg btn-danger btn-block md-btn-responsive" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
-          <div class="btn btn-block">
+          <div class="btn-fake btn-block">
             {{x-toggle
               value=model.merge
-              onToggle=(mut model.merge)
+              onToggle=(action (mut model.merge))
               showLabels=true
-              onLabel="Merge::true"
-              offLabel="Replace::false"
+              onLabel="Merge"
+              offLabel="Replace"
               size="medium"
               theme="default"
             }}
