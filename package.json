@@ -1,8 +1,8 @@
 {
   "name": "mdeditor",
-  "version": "0.6.1",
+  "version": "0.7.0-rc.1",
   "private": true,
-  "description": "Small description for mdeditor goes here",
+  "description": "A web application for authoring and editing metadata.",
   "repository": {
     "type": "git",
     "url": "https://github.com/adiwg/mdEditor.git"
