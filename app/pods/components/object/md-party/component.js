@@ -27,7 +27,7 @@ const Validations = buildValidations({
       ignoreBlank: true
     })
   ],
-  'contacts': validator('length', {
+  '_contacts': validator('length', {
     min: 1,
     message: 'At least one contact is required.'
   })
@@ -39,7 +39,7 @@ const Template = EmberObject.extend(Validations, {
     this.set('party', A());
     this.set('role', null);
   },
-  contacts: computed('party', {
+  _contacts: computed('party', {
     get() {
       let party = get(this, 'party');
       return party.mapBy('contactId');
@@ -57,7 +57,7 @@ const Template = EmberObject.extend(Validations, {
 });
 
 const theComp = Component.extend(Validations, {
-  contacts: computed('model', {
+  _contacts: computed('model', {
     get() {
       let party = get(this, 'model.party');
       return party ? party.mapBy('contactId') : [];
