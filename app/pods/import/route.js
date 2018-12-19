@@ -17,7 +17,8 @@ import {
 import EmObject, {
   computed,
   set,
-  get
+  get,
+  getWithDefault
 } from '@ember/object';
 import Base from 'ember-local-storage/adapters/base';
 import uuidV4 from "uuid/v4";
@@ -72,11 +73,11 @@ export default Route.extend(ScrollTo, {
 
     switch(record.type) {
     case 'records':
-      return json.metadata.resourceInfo.citation.title;
+      return getWithDefault(json, 'metadata.resourceInfo.citation.title', 'NO TITLE');
     case 'dictionaries':
-      return json.dataDictionary.citation.title;
+      return getWithDefault(json, 'dataDictionary.citation.title', 'NO TITLE');
     case 'contacts':
-      return json.name;
+      return json.name || 'NO NAME';
     default:
       return 'N/A';
     }
