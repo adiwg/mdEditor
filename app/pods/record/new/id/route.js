@@ -32,9 +32,10 @@ export default Route.extend({
 
     // If we are leaving the Route we verify if the model is in
     // 'isNew' state, which means it wasn't saved to the metadata.
-    if(model && model.get('isNew')) {
+    if(model && model.isNew) {
       // We call DS#destroyRecord() which removes it from the store
-      model.destroyRecord();
+      // model.destroyRecord();
+      this.store.unloadRecord(model);
     }
   },
 
@@ -70,9 +71,10 @@ export default Route.extend({
       // If we are leaving the Route we verify if the model is in
       // 'isNew' state, which means it wasn't saved to the backend.
       if(model && model.get('isNew')) {
+        transition.abort();
         //let contexts = transition.intent.contexts;
         // We call DS#destroyRecord() which removes it from the store
-        model.destroyRecord();
+        model.destroyRecord().then(()=>  transition.retry());
         //transition.abort();
 
         // if(contexts && contexts.length > 0) {
