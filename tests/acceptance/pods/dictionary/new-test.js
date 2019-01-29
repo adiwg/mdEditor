@@ -17,8 +17,8 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
   test('test new dictionary initial page conditions', async function(assert) {
     assert.expect(4);
     await visit('/dictionary/new');
-    assert.equal(find('.md-input-input input').value, "");
-    assert.equal(find('.md-select').innerText, "");
+    assert.equal(find('.md-input-input input').value, '');
+    assert.equal(find('.md-select').innerText, '');
     assert.equal(find('button.md-form-save').disabled, true);
     assert.equal(findAll('.md-error.ember-tooltip-target').length, 2);
     //change route to prevent error during teardown
@@ -30,8 +30,8 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
     await visit('/dictionary/new');
     await fillIn('.md-input-input input', 'Dictionary Name');
     await selectChoose('div.md-select', 'aggregate');
-    assert.equal(find('.md-input-input input').value, "Dictionary Name");
-    assert.equal(find('div.md-select .select-value').innerText, "aggregate");
+    assert.equal(find('.md-input-input input').value, 'Dictionary Name');
+    assert.equal(find('div.md-select .select-value').innerText, 'aggregate');
     assert.equal(find('button.md-form-save').disabled, false);
     assert.equal(findAll('.md-error.ember-tooltip-target').length, 0);
     //change route to prevent error during teardown

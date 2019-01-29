@@ -1,6 +1,6 @@
 import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
+import { find, visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 module('Acceptance | pods/contacts', function(hooks) {
@@ -13,9 +13,9 @@ module('Acceptance | pods/contacts', function(hooks) {
   });
 
   test('delete should display a confirm', async function(assert) {
-    assert.expect(4);
+    assert.expect(1);
 
-    var store = this.application.__container__.lookup('service:store');
+    var store = this.owner.lookup('service:store');
 
     //make sure there's at least one record visible
     run(function () {
@@ -23,14 +23,7 @@ module('Acceptance | pods/contacts', function(hooks) {
     });
 
     await visit('/contacts');
-
-    assert.dialogOpensAndCloses({
-      openSelector: 'button.md-button-modal.btn-danger:first',
-      closeSelector: '.ember-modal-overlay',
-      //closeSelector: '.md-modal-container button.btn-primary',
-      hasOverlay: true,
-      context: 'html'
-    });
-
+    await click('button.md-button-confirm.btn-danger');
+    assert.equal(find('button.md-button-confirm.btn-danger').innerText.trim(), 'Confirm');
   });
 });
