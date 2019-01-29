@@ -1,5 +1,5 @@
 import { module, test } from 'qunit';
-import { visit, currentURL } from '@ember/test-helpers';
+import { visit, currentURL, find, findAll, fillIn, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 
 module('Acceptance | pods/contact/new', function(hooks) {
@@ -8,44 +8,53 @@ module('Acceptance | pods/contact/new', function(hooks) {
   test('visiting /pods/contact/new', async function(assert) {
     await visit('/contact/new');
     assert.ok(currentURL().match(/contact\/new\/[a-z0-9]+/));
+    //change route to prevent error during teardown
+    await visit('/');
   });
 
   test('test new contact initial page conditions', async function(assert) {
     assert.expect(5);
     await visit('/contact/new');
-    assert.equal(find('input:eq(0)').val(), 'on');
-    assert.equal(find('input:eq(1)').val().length, 36);
-    assert.equal(find('input:eq(2)').val(), "");
-    assert.equal(find('input:eq(3)').val(), "");
-    assert.equal(find('button.md-form-save').prop('disabled'), true);
+    assert.ok(find('.x-toggle-component.toggle-off'));
+    assert.equal(findAll('.md-input-input input')[0].value.length, 36);
+    assert.equal(findAll('.md-input-input input')[1].value, '');
+    assert.equal(findAll('.md-input-input input')[2].value, '');
+    assert.equal(find('button.md-form-save').disabled, true);
+    //change route to prevent error during teardown
+    await visit('/');
   });
 
   test('test new contact individual', async function(assert) {
     assert.expect(2);
     await visit('/contact/new');
-    await fillIn('input:eq(2)', 'Individual Name');
-    await fillIn('input:eq(3)', '');
-    assert.equal(find('input:eq(2)').val(), 'Individual Name');
-    assert.equal(find('button.md-form-save').prop('disabled'), false);
+    await fillIn(findAll('.md-input-input input')[1], 'Individual Name');
+    await fillIn(findAll('.md-input-input input')[2], '');
+    assert.equal(findAll('.md-input-input input')[1].value, 'Individual Name');
+    assert.equal(find('button.md-form-save').disabled, false);
+    //change route to prevent error during teardown
+    await visit('/');
   });
 
   test('test new contact organization', async function(assert) {
-    assert.expect(2);
+    assert.expect(4);
     await visit('/contact/new');
-    click('input:eq(0)').then(async function() {
-      await fillIn('input:eq(2)', 'Organization Name');
-      await fillIn('input:eq(1)', '1234');
-      await fillIn('input:eq(3)', '');
-      assert.equal(find('input:eq(2)').val(), "Organization Name");
-      assert.equal(find('button.md-form-save').prop('disabled'), false);
-    });
+    await click('.x-toggle-btn');
+    await fillIn(findAll('.md-input-input input')[1], 'Organization Name');
+    assert.ok(find('.x-toggle-component.toggle-on'));
+    assert.equal(findAll('.md-input-input input')[0].value.length, 36);
+    assert.equal(findAll('.md-input-input input')[1].value, "Organization Name");
+    assert.equal(find('button.md-form-save').disabled, false);
+    //change route to prevent error during teardown
+    await visit('/');
   });
 
   test('test new contact missing contact ID', async function(assert) {
     assert.expect(1);
     await visit('/contact/new');
-    await fillIn('input:eq(1)', '');
-    await fillIn('input:eq(2)', 'Individual Name');
-    assert.equal(find('button.md-form-save').prop('disabled'), true);
+    await fillIn(findAll('.md-input-input input')[0], '');
+    await fillIn(findAll('.md-input-input input')[1], 'Individual Name');
+    assert.equal(find('button.md-form-save').disabled, true);
+    //change route to prevent error during teardown
+    await visit('/');
   });
 });
