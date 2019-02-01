@@ -27,13 +27,18 @@ import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
 let App;
+let events =  {
+  // add support for the blur event
+  blur: 'blur'
+}
 
 //Ember.MODEL_FACTORY_INJECTIONS = true;
 
 App = Application.extend({
   modulePrefix: config.modulePrefix,
   podModulePrefix: config.podModulePrefix,
-  Resolver
+  Resolver,
+  customEvents: events
 });
 
 loadInitializers(App, config.modulePrefix);

@@ -3,8 +3,6 @@
  * @submodule components-input
  */
 
-import { once } from '@ember/runloop';
-
 import { computed } from '@ember/object';
 import Input from '../md-input/component';
 
@@ -25,20 +23,13 @@ export default Input.extend({
     return this.disabled;
   }),
 
-  didInsertElement() {
-    this._super(...arguments);
-    this.$('input')
-      .on('blur', () => {
-        this.set('disabled', true);
-      });
-  },
-
   actions: {
     allowEdit() {
       this.set('disabled', false);
-      once(() => {
-        this.$('input').focus();
-      });
+      this.element.querySelector('input').focus();
+    },
+    inputBlur(){
+      this.set('disabled', true);
     }
   }
 });

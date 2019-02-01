@@ -1,5 +1,4 @@
-import { click, find, render } from '@ember/test-helpers';
-import { run } from '@ember/runloop';
+import { click, find, render, triggerEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -14,7 +13,7 @@ module('Integration | Component | control/md button confirm', function(hooks) {
 
     await render(hbs `{{control/md-button-confirm}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').innerText
       .trim(), '');
 
     // Template block usage:" + EOL +
@@ -24,7 +23,7 @@ module('Integration | Component | control/md button confirm', function(hooks) {
       {{/control/md-button-confirm}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').innerText
       .trim(), 'template block text');
   });
 
@@ -35,26 +34,22 @@ module('Integration | Component | control/md button confirm', function(hooks) {
 
     // Template block usage:" + EOL +
     await render(hbs `
+      <a href="#">Test</a>
       {{#control/md-button-confirm}}
         Test
       {{/control/md-button-confirm}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').innerText
       .trim(), 'Test', 'renders button');
 
     await click('button');
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').innerText
       .trim(), 'Confirm', 'renders confirm');
 
-    var $btn = this.$('button');
-    run(function () {
-      $btn
-        .blur();
-    });
-
-    assert.equal(find('*').textContent
+    await triggerEvent('button','blur');
+    assert.equal(find('button').innerText
       .trim(), 'Test', 'cancels confirm');
   });
 
@@ -73,7 +68,7 @@ module('Integration | Component | control/md button confirm', function(hooks) {
       {{/control/md-button-confirm}}
     `);
 
-    await click('button')
-      .click();
+    await click('button');
+    await click('button');
   });
 });

@@ -31,12 +31,7 @@ export default Component.extend({
     }
   },
 
-  //cancel confirm state on button blur
-  didInsertElement() {
-    this._super(...arguments);
-    this.$()
-      .on('blur', () => {
-        this.set('isShowingConfirm', false);
-      });
+  blur() {
+    this.set('isShowingConfirm', false);
   }
 });
