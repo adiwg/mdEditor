@@ -1,4 +1,4 @@
-import { find, findAll, render } from '@ember/test-helpers';
+import { find, findAll, render, click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -37,17 +37,16 @@ module('Integration | Component | tree view', function(hooks) {
 
     await render(hbs `{{tree-view model=model selected=selected}}`);
 
-    assert.equal(find('*').textContent
-      .replace(/[ \n]+/g, '|'), '|bar1label|foo1label|');
+    assert.equal(find('.tree-trunk').innerText
+      .replace(/[ \n]+/g, '|'), 'bar1label|foo1label|');
 
-    assert.ok(this.$('.tree-leaf:first')
-      .hasClass('tree-highlight'), 'selected leaf highlighted');
+    assert.ok(find('.tree-leaf')
+      .classList.contains('tree-highlight'), 'selected leaf highlighted');
 
-    assert.equal(this.$('.tree-leaf:last .expand-icon')
+    assert.equal(findAll('.tree-leaf .expand-icon')
       .length, 1, 'node expand icon rendered');
 
-    this.$('.tree-leaf:last .expand-icon')
-      .click();
+    await click(find('.expand-icon'));
 
     assert.equal(findAll('.tree-leaf').length, 3, 'node expanded');
 
@@ -58,11 +57,10 @@ module('Integration | Component | tree view', function(hooks) {
       {{/tree-view}}
     `);
 
-    assert.equal(find('*').textContent
-      .replace(/[ \n]+/g, '|'), '|bar1label|foo1label|foo2label|');
+    assert.equal(find('.tree-trunk').innerText
+      .replace(/[ \n]+/g, '|'), 'bar1label|foo1label|foo2label|');
 
-    this.$('.tree-leaf:last')
-      .click();
+    await click(findAll('.tree-leaf')[1]);
 
     assert.equal(findAll('.tree-leaf.tree-highlight').length, 2, 'node selected');
   });

@@ -44,16 +44,17 @@ module('Integration | Component | tree search', function(hooks) {
         exactMatch=exactMatch
       }}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.tree-search').innerText
       .replace(/[ \n]+/g, '|'),
-      '|Search|Tree:|Exact|Match|3|matches|found.|>|barfoo1label|foo1label|foo1label|>|foo2label|'
+      'Search|Tree:|Exact|Match|3|matches|found.|barfoo1label|foo1label|foo2label',
+      'search OK'
     );
 
     this.set('exactMatch', true);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.tree-search').innerText
       .replace(/[ \n]+/g, '|'),
-      '|Search|Tree:|Exact|Match|2|matches|found.|foo1label|foo1label|>|foo2label|',
+      'Search|Tree:|Exact|Match|2|matches|found.|foo1label|foo2label',
       'exact match'
     );
 
@@ -68,7 +69,9 @@ module('Integration | Component | tree search', function(hooks) {
       {{/tree-search}}
     `);
 
-    assert.equal(find('*').textContent
-      .replace(/[ \n]+/g, '|'), '|Search|Tree:|Exact|Match|template|block|text|');
+    assert.equal(find('.tree-search').innerText
+      .replace(/[ \n]+/g, '|'), 'Search|Tree:|Exact|Match|template|block|text',
+      'block'
+    );
   });
 });

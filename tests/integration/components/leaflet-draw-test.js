@@ -25,6 +25,7 @@ module('Integration | Component | leaflet draw', function(hooks) {
       {{/leaflet-draw}}
     `);
 
-    assert.equal(find('*').textContent.trim(), '+- Terrain3000 km2000 miLeaflet');
+    assert.equal(find('.leaflet-container').innerText.trim().replace(/\n/g,'|'),
+     '+|−|Draw a polyline|Draw a polygon|Draw a rectangle|Draw a marker|Draw a circlemarker|3000 km|2000 mi|Leaflet');
   });
 });

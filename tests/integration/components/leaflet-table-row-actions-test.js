@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { findAll, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -11,16 +11,6 @@ module('Integration | Component | leaflet table row actions', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     await render(hbs`{{leaflet-table-row-actions}}`);
-
-    assert.equal(find('*').textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#leaflet-table-row-actions}}
-        template block text
-      {{/leaflet-table-row-actions}}
-    `);
-
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(findAll('button').length, 3);
   });
 });

@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { findAll, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -12,15 +12,6 @@ module('Integration | Component | sb settings', function(hooks) {
 
     await render(hbs`{{sb-settings}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#sb-settings}}
-        template block text
-      {{/sb-settings}}
-    `);
-
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(findAll('input').length, 3);
   });
 });

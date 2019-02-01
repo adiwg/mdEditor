@@ -1,4 +1,4 @@
-import { click, find, render } from '@ember/test-helpers';
+import { click, find, findAll, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -46,7 +46,7 @@ module('Integration | Component | tree branch', function(hooks) {
 
     assert.expect(3);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.tree-branch').innerText
       .trim(), 'foo1label');
 
     // Template block usage:
@@ -63,11 +63,11 @@ module('Integration | Component | tree branch', function(hooks) {
 
     await click('.tree-leaf .toggle-icon');
 
-    assert.equal(find('*').textContent
-      .replace(/[ \n]+/g, '|'), '|foo1label|foo2label|');
+    assert.equal(find('.tree-branch').innerText
+      .replace(/[ \n]+/g, '|'), 'foo1label|foo2label|');
 
-    assert.equal(this.$('.tree-leaf:last .tree-indent')
-      .length, 3, 'proper indentation');
+    assert.equal(findAll('.tree-leaf')[1].querySelectorAll('.tree-indent').length,
+      3, 'proper indentation');
 
   });
 });

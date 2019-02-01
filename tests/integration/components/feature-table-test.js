@@ -17,12 +17,12 @@ module('Integration | Component | feature table', function(hooks) {
 
     await render(hbs `{{feature-table data=data.features showForm=showForm}}`);
 
-    assert.equal(find('*')
-      .textContent
+    assert.equal(find('.feature-table')
+      .innerText
       .replace(/[\s, \t]/g, '\n')
       .trim()
       .replace(/[ +\n]+/g, '|'),
-      'Search:|Columns|Show|All|Hide|All|Restore|Defaults|ID|Name|Description|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50|500'
+      'Search:|Columns|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2'
     );
 
   });

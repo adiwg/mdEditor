@@ -11,7 +11,7 @@ export default function createRecord(total) {
       json: {
         "version": {
           "name": "mdJson",
-          "version": "1.0.0"
+          "version": "2.0.0"
         },
         "record": [],
         "metadata": {
@@ -32,8 +32,8 @@ export default function createRecord(total) {
               }]
             },
             "pointOfrecord": [],
-            "abstract": null,
-            "status": null,
+            "abstract": "An abstract.",
+            "status": "completed",
             "language": ["eng; USA"]
           }
         }

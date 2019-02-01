@@ -46,7 +46,7 @@ module('Integration | Component | tree leaf', function(hooks) {
 
     await click('.toggle-icon');
 
-    assert.equal(find('*').textContent.trim(), 'foo1label');
+    assert.equal(find('.tree-leaf').innerText.trim(), 'foo1label');
 
     // Template block usage:
     await render(hbs`
@@ -59,7 +59,7 @@ module('Integration | Component | tree leaf', function(hooks) {
       {{/tree-leaf}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'foo1label');
+    assert.equal(find('.tree-leaf').innerText.trim(), 'foo1label');
 
     assert.equal(findAll('.tree-indent').length, 0, 'not in tree');
   });

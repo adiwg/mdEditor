@@ -23,7 +23,7 @@ module('Integration | Component | tree label', function(hooks) {
 
     await render(hbs `{{tree-label model=model}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.tree-label-text').innerText
       .trim(), 'foo1label');
 
     // Template block usage:
@@ -33,7 +33,7 @@ module('Integration | Component | tree label', function(hooks) {
       {{/tree-label}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.tree-label-text').innerText
       .trim(), 'foo1label');
   });
 });

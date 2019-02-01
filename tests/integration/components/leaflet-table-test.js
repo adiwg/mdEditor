@@ -15,13 +15,12 @@ module('Integration | Component | leaflet table', function(hooks) {
     await render(hbs `{{leaflet-table layers=layers.features
       resizeDebouncedEventsEnabled=true}}`);
 
-      assert.equal(find('*')
-        .textContent
+      assert.equal(find('.feature-table')
+        .innerText
         .replace(/[\s\t]/g, '\n')
         .trim()
-        .replace(/[ \n]+/g, '|')
-        .replace(/Extents.+Leaflet/g, 'Extents|Leaflet'),
-      'Drop|Here!|+−|Terrain|Extents|Leaflet|||Map|tiles|by|Stamen|Design,|under|CC|BY|3.0.|Data|by|OpenStreetMap,|under|CC|BY|SA.|Feature|Properties|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50|500'
+        .replace(/[ \n]+/g, '|'),
+        'ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2'
     );
   });
 });
