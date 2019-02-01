@@ -1,4 +1,3 @@
-import { run } from '@ember/runloop';
 import { module, test } from 'qunit';
 import { find, visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
@@ -18,10 +17,7 @@ module('Acceptance | pods/contacts', function(hooks) {
     var store = this.owner.lookup('service:store');
 
     //make sure there's at least one record visible
-    run(function () {
-      store.createRecord('contact');
-    });
-
+    store.createRecord('contact');
     await visit('/contacts');
     await click('button.md-button-confirm.btn-danger');
     assert.equal(find('button.md-button-confirm.btn-danger').innerText.trim(), 'Confirm');

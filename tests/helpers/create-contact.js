@@ -10,8 +10,8 @@ export default function createContact(total) {
 
       json: {
         "contactId": i,
-        "organizationName": null,
-        "individualName": "Contact" + i,
+        "isOrganization": false,
+        "name": "Contact" + i,
         "positionName": null,
         "phoneBook": [],
         "address": {},
