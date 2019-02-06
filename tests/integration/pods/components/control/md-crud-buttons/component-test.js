@@ -7,7 +7,7 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    assert.expect();
+    assert.expect(3);
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +

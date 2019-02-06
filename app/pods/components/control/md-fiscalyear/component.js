@@ -42,13 +42,15 @@ export default Select.extend({
       start: start
     });
 
-    //have to set values using datetimepicker
-    context.$('.start .date')
-      .data("DateTimePicker")
-      .date(start);
-    context.$('.end .date')
-      .data("DateTimePicker")
-      .date(end);
+    if(context) {
+      //have to set values using datetimepicker
+      context.$('.start .date')
+        .data("DateTimePicker")
+        .date(start);
+      context.$('.end .date')
+        .data("DateTimePicker")
+        .date(end);
+    }
 
     this.set('value', null);
   }

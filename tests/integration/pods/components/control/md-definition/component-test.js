@@ -11,17 +11,24 @@ module('Integration | Component | control/md definition', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/md-definition}}`);
+    await render(hbs`{{control/md-definition title="foobar" text="bizbaz"}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+      'foobar|bizbaz|');
+
+    await render(hbs`{{control/md-definition title="foobar"}}`);
+
+    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+     'foobar|Not|Defined|', 'no text');
 
     // Template block usage:
     await render(hbs`
-      {{#control/md-definition}}
+      {{#control/md-definition title="foobar"}}
         template block text
       {{/control/md-definition}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+     '|foobar|template|block|text|');
   });
 });
