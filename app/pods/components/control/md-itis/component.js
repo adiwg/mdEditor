@@ -34,7 +34,7 @@ export default Component.extend({
     assert('No taxonomy object supplied', this.taxonomy);
   },
   tagName: 'form',
-  // classNames: ['form-horizontal'],
+  classNames: ['md-itis'],
   itis: service(),
   flashMessages: service(),
   searchString: null,

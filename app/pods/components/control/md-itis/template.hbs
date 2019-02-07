@@ -56,7 +56,7 @@
         </h4>
       </div>
       <div class="card-block no-padding">
-        <div class="list-group no-margin">
+        <div class="list-group no-margin md-itis-taxalist">
           {{#each searchResult as |result|}}
           {{#liquid-unless result.selected class=(concat "list-group-item " (if result.animate "md-itis-unselected")) enableGrowth=true shrinkDelay=500}}
               <div class="media">
@@ -110,7 +110,7 @@
         </h4>
       </div>
       <div class="card-block no-padding">
-        <div class="list-group no-margin">
+        <div class="list-group no-margin md-itis-selectedlist">
           {{#liquid-if selected.length use="fade"}}
           <div class="list-group-item">
             <p class="list-group-item-text">

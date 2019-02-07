@@ -1,5 +1,4 @@
 import { click, find, render } from '@ember/test-helpers';
-import $ from 'jquery';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -16,7 +15,7 @@ module('Integration | Component | control/md json button', function(hooks) {
 
     await render(hbs `{{control/md-json-button}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').textContent
       .trim(), 'Preview JSON');
 
     // Template block usage:
@@ -26,7 +25,7 @@ module('Integration | Component | control/md json button', function(hooks) {
       {{/control/md-json-button}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').textContent
       .trim(), 'template block text');
   });
 
@@ -37,12 +36,34 @@ module('Integration | Component | control/md json button', function(hooks) {
       foo: 'bar'
     });
 
-    await render(hbs `{{control/md-json-button json=json}}`);
+    await render(hbs `{{control/md-json-button json=json preview=true}}`);
 
-  await click('button');
+    await click('button.btn');
 
-    assert.equal($('.md-jsmodal-container')
-      .text()
+    assert.equal(document.querySelector('.md-jsmodal-container')
+      .textContent
       .trim(), '{"foo": "bar"}');
+  });
+
+  test('render json slider', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
+
+    await render(hbs `{{control/md-json-button json=json title="foobar"}}
+      <div class="slider">
+        {{#from-elsewhere name="md-slider-json" as |slider|}}
+          <h3 class="text-info">{{slider.title}}</h3>
+          <hr>
+          {{component slider.body}}
+        {{/from-elsewhere}}
+      </div>`);
+
+    await click('button.btn');
+
+    assert.equal(find('.slider').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Viewing|JSON|for:|foobar|{"foo":|"bar"}|');
   });
 });
