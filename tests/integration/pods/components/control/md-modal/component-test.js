@@ -12,7 +12,7 @@ module('Integration | Component | control/md modal', function(hooks) {
 
     await render(hbs`{{control/md-modal isShowing=true}}`);
 
-    assert.ok(find('.md-modal-container'));
+    assert.ok(document.querySelector('.md-modal-container'));
 
     // Template block usage:
     await render(hbs`
@@ -21,7 +21,7 @@ module('Integration | Component | control/md modal', function(hooks) {
       {{/control/md-modal}}
     `);
 
-    assert.equal(find('.md-modal-container').textContent.trim(),
+    assert.equal(document.querySelector('.md-modal-container').textContent.trim(),
       'template block text');
   });
 });
