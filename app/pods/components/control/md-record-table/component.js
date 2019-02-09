@@ -111,7 +111,8 @@ export default Table.extend({
         'control/md-record-table/buttons' : 'control/md-record-table/buttons/show',
       disableFiltering: !all,
       componentForFilterCell: all ?
-        'control/md-record-table/buttons/filter' : null
+        'control/md-record-table/buttons/filter' : null,
+      showSlider: this.showSlider
     };
   }),
 

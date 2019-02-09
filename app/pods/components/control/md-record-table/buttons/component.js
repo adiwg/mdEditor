@@ -19,6 +19,10 @@ export default Component.extend({
       this.router.transitionTo(`${item.constructor.modelName}.show.edit`, item);
 
       return false;
+    },
+
+    showSlider(rec, evt) {
+      this.column.showSlider(rec, evt);
     }
   },
 
