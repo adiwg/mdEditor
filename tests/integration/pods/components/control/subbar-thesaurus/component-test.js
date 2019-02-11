@@ -7,30 +7,25 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | control/subbar thesaurus', function(hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     await render(hbs `{{control/subbar-thesaurus}}`);
 
-    assert.equal(find('*').textContent
-      .replace(/[ \n]+/g, '|'), '|Back|to|List|');
+    assert.equal(find('button').textContent
+      .replace(/[ \n]+/g, '|'), '|Back|to|List');
 
     // Template block usage:
     await render(hbs `
-      {{#control/subbar-thesaurus}}
+      {{#control/subbar-thesaurus class="testme"}}
         template block text
       {{/control/subbar-thesaurus}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.testme').textContent
       .replace(/[ \n]+/g, '|'),
-      '|Back|to|List|template|block|text|template|block|text|');
+      '|Back|to|List|template|block|text|', 'block');
   });
 
   test('fire actions', async function(assert) {
@@ -47,11 +42,11 @@ module('Integration | Component | control/subbar thesaurus', function(hooks) {
       }
     });
 
-    this.actions.getContext = function () {
+    this.set('context', function () {
       return new FakeRoute();
-    };
+    });
 
-    await render(hbs `{{control/subbar-thesaurus context=(action "getContext")}}`);
+    await render(hbs `{{control/subbar-thesaurus context=context}}`);
 
     await click('button');
   });

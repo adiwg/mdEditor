@@ -8,21 +8,26 @@ export default Component.extend({
   showButton: computed('selectedItems.[]', function() {
     return this.get('selectedItems.length') > 1;
   }),
+
+  deleteSelected(records) {
+    records.forEach(rec => {
+      rec.destroyRecord()
+        .then((rec) => {
+          rec.unloadRecord();
+          once(() => {
+            records.removeObject(rec);
+            this.flashMessages
+              .danger(
+                `Deleted ${rec.constructor.modelName} "${rec.get('title')}".`
+              );
+          });
+        });
+    });
+  },
+
   actions: {
     deleteSelected(records) {
-      records.forEach(rec => {
-        rec.destroyRecord()
-          .then((rec) => {
-            rec.unloadRecord();
-            once(() => {
-              records.removeObject(rec);
-              this.flashMessages
-                .danger(
-                  `Deleted ${rec.constructor.modelName} "${rec.get('title')}".`
-                );
-            });
-          });
-      });
+      this.deleteSelected(records);
     }
   }
 });

@@ -4,13 +4,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | control/subbar extent', function(hooks) {
+module('Integration | Component | control/subbar spatial', function(hooks) {
   setupRenderingTest(hooks);
-
-  hooks.beforeEach(function() {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
@@ -18,21 +13,21 @@ module('Integration | Component | control/subbar extent', function(hooks) {
 
     await render(hbs `{{control/subbar-extent}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('button').textContent
       .replace(/[ \n]+/g, '|')
-      .trim(), '|Add|Spatial|Extent|');
+      .trim(), '|Add|Geographic|Extent');
 
     // Template block usage:
     await render(hbs `
-      {{#control/subbar-extent}}
+      {{#control/subbar-extent class="testme"}}
         template block text
       {{/control/subbar-extent}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.testme').textContent
       .replace(/[ \n]+/g, '|')
       .trim(),
-      '|Add|Spatial|Extent|template|block|text|'
+      '|Add|Geographic|Extent|template|block|text|'
     );
   });
 
@@ -50,11 +45,11 @@ module('Integration | Component | control/subbar extent', function(hooks) {
       }
     });
 
-    this.actions.getContext = function () {
+    this.set('context', function () {
       return new FakeRoute();
-    };
+    });
 
-    await render(hbs `{{control/subbar-extent context=(action "getContext")}}`);
+    await render(hbs `{{control/subbar-extent context=context}}`);
 
     await click('button');
   });

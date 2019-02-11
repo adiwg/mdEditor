@@ -12,15 +12,6 @@ module('Integration | Component | control/md record table/buttons/show', functio
 
     await render(hbs`{{control/md-record-table/buttons/show}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#control/md-record-table/buttons/show}}
-        template block text
-      {{/control/md-record-table/buttons/show}}
-    `);
-
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.btn-info').textContent.trim(), 'Show');
   });
 });

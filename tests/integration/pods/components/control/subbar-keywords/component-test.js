@@ -7,11 +7,6 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | control/subbar keywords', function(hooks) {
   setupRenderingTest(hooks);
 
-  hooks.beforeEach(function() {
-    this.actions = {};
-    this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
-  });
-
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
@@ -49,11 +44,11 @@ module('Integration | Component | control/subbar keywords', function(hooks) {
       }
     });
 
-    this.actions.getContext = function () {
+    this.set('context', function () {
       return new FakeRoute();
-    };
+    });
 
-    await render(hbs `{{control/subbar-keywords context=(action "getContext")}}`);
+    await render(hbs `{{control/subbar-keywords context=context}}`);
 
     await click('button');
   });
