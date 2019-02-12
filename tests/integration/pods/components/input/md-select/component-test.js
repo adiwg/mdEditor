@@ -3,7 +3,7 @@ import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
+import { clickTrigger, typeInSearch } from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | input/md select', function(hooks) {
   setupRenderingTest(hooks);

@@ -2,7 +2,7 @@ import { find, render, triggerEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger } from '../../../../../helpers/ember-power-select';
+import { clickTrigger } from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | input/md select profile', function(hooks) {
   setupRenderingTest(hooks);

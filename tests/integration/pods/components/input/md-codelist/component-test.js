@@ -1,9 +1,10 @@
-import { find, render, settled, triggerEvent } from '@ember/test-helpers';
+import { find, render, triggerEvent } from '@ember/test-helpers';
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
+import { selectChoose } from 'ember-power-select/test-support';
+import { clickTrigger, typeInSearch } from 'ember-power-select/test-support/helpers';
 
 const foobar = {
   codelist: [{
@@ -42,7 +43,7 @@ module('Integration | Component | input/md-codelist', function(hooks) {
     await render(hbs `{{input/md-codelist
       value='foo' mdCodeName="foobar"}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|foo|×|');
   });
 
@@ -59,15 +60,14 @@ module('Integration | Component | input/md-codelist', function(hooks) {
       value=value mdCodeName="foobar"
       change=(action "update" value)}}`);
 
-      clickTrigger();
-      triggerEvent(find('.ember-power-select-option'),'mouseup');
+      await selectChoose('.md-select','bar');
 
-      return settled().then(() => {
-          assert.equal(find('*')
+      // return settled().then(() => {
+          assert.equal(find('.md-select')
           .textContent
           .replace(/[ \n]+/g, '|'), '|bar|×|',
           'value updated');
-      });
+      // });
   });
 
   test('create option', async function(assert) {
@@ -85,15 +85,15 @@ module('Integration | Component | input/md-codelist', function(hooks) {
       mdCodeName="foobar"
       change=(action "update" value)}}`);
 
-      clickTrigger();
-      typeInSearch('biz');
-      triggerEvent(find('.ember-power-select-option'),'mouseup');
+      await clickTrigger();
+      await typeInSearch('biz');
+      await triggerEvent(find('.ember-power-select-option'),'mouseup');
 
-      return settled().then(() => {
-          assert.equal(find('*')
+      //return settled().then(() => {
+          assert.equal(find('.md-select')
           .textContent
           .replace(/[ \n]+/g, '|'), '|biz|×|',
           'value updated');
-      });
+      //});
   });
 });

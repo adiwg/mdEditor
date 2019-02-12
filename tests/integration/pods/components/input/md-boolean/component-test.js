@@ -13,7 +13,7 @@ module('Integration | Component | input/md boolean', function(hooks) {
 
     await render(hbs `{{input/md-boolean value=false text="Foo Bar" label="Baz" }}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.form-group').textContent
       .replace(/[ \n]+/g, '|'), '|Baz|Foo|Bar|');
 
     // Template block usage:" + EOL +
@@ -23,7 +23,7 @@ module('Integration | Component | input/md boolean', function(hooks) {
       {{/input/md-boolean}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.form-group').textContent
       .replace(/[ \n]+/g, '|'), '|Baz|Foo|Bar|template|block|text|');
 
     assert.ok(find('input').checked);

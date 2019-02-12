@@ -4,7 +4,7 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import {
   clickTrigger
-} from '../../../../../helpers/ember-power-select';
+} from 'ember-power-select/test-support/helpers';
 
 module('Integration | Component | input/md select thesaurus', function(hooks) {
   setupRenderingTest(hooks);

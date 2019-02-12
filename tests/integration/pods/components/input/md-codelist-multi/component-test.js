@@ -3,7 +3,7 @@ import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import { clickTrigger, typeInSearch } from '../../../../../helpers/ember-power-select';
+import { clickTrigger, typeInSearch } from 'ember-power-select/test-support/helpers';
 
 const foobar = {
   codelist: [{
