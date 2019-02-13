@@ -25,12 +25,12 @@ module('Integration | Component | input/md textarea', function(hooks) {
 
     // Template block usage:" + EOL +
     await render(hbs `
-      {{#input/md-textarea}}
+      {{#input/md-textarea class="testme"}}
         template block text
       {{/input/md-textarea}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.testme').textContent
       .trim(), 'template block text', 'block renders');
   });
 });

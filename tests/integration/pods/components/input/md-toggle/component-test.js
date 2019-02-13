@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { find, render, click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -11,17 +11,20 @@ module('Integration | Component | input/md toggle', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{input/md-toggle}}`);
+    await render(hbs`{{input/md-toggle value=this.value onToggle=(action (mut this.value))}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.x-toggle-component').textContent.replace(/[ \n]+/g, '|').trim(), '|Off|On|');
 
+    await click('.x-toggle-btn');
+
+    assert.ok(find('.toggle-on'), 'toggle on')
     // Template block usage:
     await render(hbs`
-      {{#input/md-toggle}}
+      {{#input/md-toggle class="testme"}}
         template block text
       {{/input/md-toggle}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.testme').textContent.trim(), 'template block text');
   });
 });

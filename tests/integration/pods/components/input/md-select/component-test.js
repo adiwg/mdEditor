@@ -1,4 +1,4 @@
-import { find, findAll, render, settled, triggerEvent } from '@ember/test-helpers';
+import { find, findAll, render, triggerEvent } from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -28,7 +28,7 @@ module('Integration | Component | input/md select', function(hooks) {
         placeholder="Select one"}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|foo|', 'renders ok');
   });
 
@@ -57,17 +57,16 @@ module('Integration | Component | input/md select', function(hooks) {
         namePath="name"}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|foo|', 'value set');
 
-      clickTrigger();
-      triggerEvent(findAll('.ember-power-select-option')[1],'mouseup');
-      return settled().then(() => {
-        assert.equal(find('*').textContent
-          .replace(/[ \n]+/g, '|'), '|baz|', 'display value updates');
+      await clickTrigger();
+      await triggerEvent(findAll('.ember-power-select-option')[1],'mouseup');
 
-        assert.equal(this.get('value'), 2, 'value is updated');
-      });
+      assert.equal(find('.md-select').textContent
+        .replace(/[ \n]+/g, '|'), '|baz|', 'display value updates');
+
+      assert.equal(this.get('value'), 2, 'value is updated');
   });
 
   test('create option', async function(assert) {
@@ -96,17 +95,16 @@ module('Integration | Component | input/md select', function(hooks) {
         namePath="name"}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|foo|', 'value set');
 
-      clickTrigger();
-      typeInSearch('biz');
-      triggerEvent(find('.ember-power-select-option'),'mouseup');
-      return settled().then(() => {
-        assert.equal(find('*').textContent
-          .replace(/[ \n]+/g, '|'), '|biz|', 'display value updates');
+      await clickTrigger();
+      await typeInSearch('biz');
+      await triggerEvent(find('.ember-power-select-option'),'mouseup');
 
-        assert.equal(this.get('value'), 'biz', 'value is updated');
-      });
+      assert.equal(find('.md-select').textContent
+        .replace(/[ \n]+/g, '|'), '|biz|', 'display value updates');
+
+      assert.equal(this.get('value'), 'biz', 'value is updated');
   });
 });

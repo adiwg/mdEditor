@@ -15,7 +15,7 @@ module('Integration | Component | input/md select thesaurus', function(hooks) {
 
     await render(hbs `{{input/md-select-thesaurus}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|Pick|a|thesaurus|');
 
     // Template block usage:
@@ -25,7 +25,7 @@ module('Integration | Component | input/md select thesaurus', function(hooks) {
       {{/input/md-select-thesaurus}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|Pick|a|thesaurus|');
   });
 
@@ -43,7 +43,7 @@ module('Integration | Component | input/md select thesaurus', function(hooks) {
     await render(hbs `{{input/md-select-thesaurus selectThesaurus=selectThesaurus}}`);
 
     // select a value and force an onchange
-    clickTrigger();
+    await clickTrigger();
     triggerEvent(findAll('.ember-power-select-option')[1], 'mouseup');
   });
 });
