@@ -11,17 +11,17 @@ module('Integration | Component | layout/md wrap', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{layout/md-wrap}}`);
+    await render(hbs`{{layout/md-wrap class="testme"}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.testme').textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
-      {{#layout/md-wrap}}
+      {{#layout/md-wrap class="testme"}}
         template block text
       {{/layout/md-wrap}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.testme').textContent.trim(), 'template block text');
   });
 });

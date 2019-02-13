@@ -10,18 +10,25 @@ module('Integration | Component | layout/md footer', function(hooks) {
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('settings', {
+      data: {
+        autoSave: true
+      }
+    })
 
     await render(hbs`{{layout/md-footer}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Report|Issue|Report|bugs,|Request|features|-|GitHub|account|required.|AutoSave:|Off|');
 
     // Template block usage:
     await render(hbs`
-      {{#layout/md-footer}}
+      {{#layout/md-footer settings=settings}}
         template block text
       {{/layout/md-footer}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Report|Issue|Report|bugs,|Request|features|-|GitHub|account|required.|AutoSave:|On|template|block|text|');
   });
 });

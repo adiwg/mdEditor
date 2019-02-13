@@ -13,15 +13,21 @@ module('Integration | Component | layout/md slider', function(hooks) {
 
     await render(hbs`{{layout/md-slider}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.md-slider').textContent.trim(), 'Close');
 
     // Template block usage:
     await render(hbs`
-      {{#layout/md-slider}}
+      {{#layout/md-slider fromName="slider"}}
         template block text
       {{/layout/md-slider}}
+      {{to-elsewhere named="slider"
+        send=(hash
+          title="biz"
+          body=(component "layout/md-card" title="foobar"))
+      }}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.md-slider').textContent.replace(/[ \n]+/g, '|').trim(), '|Close|biz|foobar|template|block|text|');
+    assert.ok(find('.md-card'),'rendered slider content');
   });
 });
