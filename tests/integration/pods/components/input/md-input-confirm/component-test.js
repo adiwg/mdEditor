@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { find, render, click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -13,7 +13,16 @@ module('Integration | Component | input/md input confirm', function(hooks) {
 
     await render(hbs`{{input/md-input-confirm}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.md-input').textContent.trim(), 'Edit');
+    assert.ok(find('.md-input input[disabled]'), 'input disabled');
+
+    await click('.btn-warning');
+
+    assert.equal(find('.md-input').textContent.trim(), 'Confirm', 'confirm ok');
+
+    await click('.btn-warning');
+
+    assert.ok(find('.md-input input:not([disabled])'), 'input enabled');
 
     // Template block usage:
     await render(hbs`
@@ -22,6 +31,7 @@ module('Integration | Component | input/md input confirm', function(hooks) {
       {{/input/md-input-confirm}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.md-input').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Edit|template|block|text|', 'block');
   });
 });

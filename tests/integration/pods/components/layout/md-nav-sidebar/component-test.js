@@ -2,7 +2,7 @@ import { click, find, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import createContact from '../../../../../helpers/create-contact';
+import createContact from 'mdeditor/tests/helpers/create-contact';
 import createRecord from '../../../../../helpers/create-record';
 import createDictionary from '../../../../../helpers/create-dictionary';
 

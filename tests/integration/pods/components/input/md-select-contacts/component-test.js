@@ -1,8 +1,8 @@
-import { find, render, findAll } from '@ember/test-helpers';
+import { find, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import createContact from '../../../../../helpers/create-contact';
+import createContact from 'mdeditor/tests/helpers/create-contact';
 import { selectChoose} from 'ember-power-select/test-support';
 
 module('Integration | Component | input/md select contacts', function(hooks) {
@@ -14,7 +14,7 @@ module('Integration | Component | input/md select contacts', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
     await render(hbs`{{input/md-select-contacts}}`);
 
-    assert.equal(findAll('.md-select-contact').length, 1);
+    assert.ok(find('.md-select-contact'));
   });
 
   test('contact selected', async function(assert) {
@@ -22,15 +22,18 @@ module('Integration | Component | input/md select contacts', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
     //make sure there's at least one record visible
-    var store = this.owner.lookup('service:store');
+    //var store = this.owner.lookup('service:store');
+    var contacts = createContact(2);
+    var cs = this.owner.lookup('service:contacts');
 
-    this.set('contacts', this.owner.lookup('service:contacts'));
+    cs.set('contacts', contacts);
+    //store.createRecord('contact', contacts[0]);
+    //store.createRecord('contact', contacts[1]);
 
-    store.createRecord('contact', createContact(1)[0]);
-
-    await render(hbs`{{input/md-select-contacts contacts=contacts}}`);
+    await render(hbs`{{input/md-select-contacts}}`);
     await selectChoose('.md-select-contact', 'Contact0');
+    await selectChoose('.md-select-contact', 'Contact1');
 
-    assert.equal(find('.md-select-contact .select-value').innerText.trim(), 'Contact0');
+    assert.equal(find('.md-select-contact').innerText.trim(), '× Contact0 × Contact1', 'select multiple contacts');
   });
 });

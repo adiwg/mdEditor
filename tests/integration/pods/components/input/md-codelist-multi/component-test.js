@@ -1,4 +1,4 @@
-import { find, getRootElement, render, settled, triggerEvent } from '@ember/test-helpers';
+import { find, getRootElement, render, triggerEvent } from '@ember/test-helpers';
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
@@ -52,7 +52,7 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
       {{/input/md-codelist-multi}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.md-select').textContent
       .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|',
       'renders block with array value');
   });
@@ -73,15 +73,13 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
       mdCodeName="foobar"
       change=(action "update" value)}}`);
 
-      clickTrigger();
-      triggerEvent(find('.ember-power-select-option'),'mouseup');
+      await clickTrigger();
+      await triggerEvent(find('.ember-power-select-option'),'mouseup');
 
-      return settled().then(() => {
-          assert.equal(getRootElement()
-          .textContent
-          .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|bar|foo|',
-          'value updated');
-      });
+      assert.equal(getRootElement()
+        .textContent
+        .replace(/[ \n]+/g, '|'), '|×|bar|×|foo|bar|foo|',
+        'value updated');
   });
 
   test('create option', async function(assert) {
@@ -100,15 +98,13 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
       mdCodeName="foobar"
       change=(action "update" value)}}`);
 
-      clickTrigger();
-      typeInSearch('biz');
-      triggerEvent(find('.ember-power-select-option'),'mouseup');
+      await clickTrigger();
+      await typeInSearch('biz');
+      await triggerEvent(find('.ember-power-select-option'),'mouseup');
 
-      return settled().then(() => {
-          assert.equal(getRootElement()
-          .textContent
-          .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|bar|foo|biz|',
-          'value updated');
-      });
+      assert.equal(getRootElement()
+        .textContent
+        .replace(/[ \n]+/g, '|'), '|×|foo|×|biz|bar|foo|biz|',
+        'value updated');
   });
 });

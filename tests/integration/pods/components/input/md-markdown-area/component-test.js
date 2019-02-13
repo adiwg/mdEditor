@@ -11,9 +11,17 @@ module('Integration | Component | input/md markdown area', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{input/md-markdown-area}}`);
+    await render(hbs`{{input/md-markdown-area required=true}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.md-markdown-editor').innerText.replace(/[ \n\s]+/g, '').trim(),
+      '||||Entertext,Markdownissupported.​length:0100:0');
+    assert.ok(find('.md-markdown-editor .length.md-error'), 'required ok');
+
+    this.set('markdownValue', 'This is foobar.');
+
+    await render(hbs`{{input/md-markdown-area value=markdownValue maxlength=10 required=false}}`);
+
+    assert.equal(find('.md-markdown-editor .length.md-error').textContent, 'length: 15', 'maxlength ok');
 
     // Template block usage:
     await render(hbs`
@@ -22,6 +30,7 @@ module('Integration | Component | input/md markdown area', function(hooks) {
       {{/input/md-markdown-area}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.md-markdown-editor').innerText.replace(/[ \n\s]+/g, '').trim(),
+     '||||Entertext,Markdownissupported.​length:0100:0templateblocktext', 'block');
   });
 });

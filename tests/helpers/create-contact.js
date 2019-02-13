@@ -19,7 +19,8 @@ export default function createContact(total) {
         "contactInstructions": null
       },
       title: 'Contact' + i,
-      icon: 'user'
+      icon: 'user',
+      contactId: i
     });
 
     contacts.push(contact);
