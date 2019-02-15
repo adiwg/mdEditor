@@ -9,19 +9,35 @@ module('Integration | Component | object/md address/md address block', function(
   test('it renders', async function(assert) {
 
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('address', {
+      "addressType": [
+        "mailing",
+        "physical"
+      ],
+      "description": "description",
+      "deliveryPoint": [
+        "deliveryPoint0",
+        "deliveryPoint1"
+      ],
+      "city": "city",
+      "administrativeArea": "administrativeArea",
+      "postalCode": "postalCode",
+      "country": "country"
+    });
 
-    await render(hbs`{{object/md-address/md-address-block}}`);
+    await render(hbs`{{object/md-address/md-address-block item=address}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('address').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|deliveryPoint0|deliveryPoint1|city,|administrativeArea|postalCode|country|mailing,|physical|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-address/md-address-block}}
+      {{#object/md-address/md-address-block item=address}}
         template block text
       {{/object/md-address/md-address-block}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('address').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|deliveryPoint0|deliveryPoint1|city,|administrativeArea|postalCode|country|mailing,|physical|');
   });
 });

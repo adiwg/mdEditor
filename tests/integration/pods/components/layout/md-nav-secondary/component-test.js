@@ -64,7 +64,7 @@ module('Integration | Component | md nav secondary', function(hooks) {
 
     var more = findAll('.overflow-nav').length ? '|More' : '';
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.nav').textContent
       .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|');
 
     // Template block usage:
@@ -76,7 +76,7 @@ module('Integration | Component | md nav secondary', function(hooks) {
 
     more = findAll('.overflow-nav').length ? '|More' : '';
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.nav').textContent
       .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|template|block|text|');
   });
 
@@ -92,7 +92,7 @@ module('Integration | Component | md nav secondary', function(hooks) {
 
     var more = findAll('.overflow-nav').length ? '|More' : '';
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.nav').textContent
       .replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|');
   });
 });

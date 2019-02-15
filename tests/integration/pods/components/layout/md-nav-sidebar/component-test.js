@@ -40,20 +40,20 @@ module('Integration | Component | md nav sidebar', function(hooks) {
 
     await render(hbs `{{layout/md-nav-sidebar items=model version="test"}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('.sidebar-nav').textContent
       .replace(/[ \n]+/g, '|'),
       '|mdditorvtest|Records|(2)|My|Record0|My|Record1|Contacts|(2)|Contact0|Contact1|Dictionaries|(2)|My|Dictionary0|My|Dictionary1|'
     );
   });
 
   test('toggle help action', async function(assert) {
-    await render(hbs `<div id="md-sidebar-wrapper">{{layout/md-nav-sidebar}}</div>`);
-    await click('#md-btn-help');
-    assert.ok(find('#md-sidebar-wrapper').classList.contains('help'));
+    await render(hbs `{{layout/md-nav-sidebar}}`);
+    await click('.md-btn-help');
+    assert.ok(find('.md-sidebar-wrapper').classList.contains('help'));
   });
 
   test('toggle sidebar action', async function(assert) {
-    await render(hbs `<div id="md-wrapper"><div id="md-sidebar-wrapper">{{layout/md-nav-sidebar}}</div></div>`);
+    await render(hbs `<div id="md-wrapper">{{layout/md-nav-sidebar}}</div>`);
     await click('.sidebar-brand-link');
     assert.ok(find('#md-wrapper').classList.contains('toggled'));
   });

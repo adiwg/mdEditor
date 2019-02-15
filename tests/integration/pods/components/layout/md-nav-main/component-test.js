@@ -14,20 +14,20 @@ module('Integration | Component | md nav main', function(hooks) {
 
     await render(hbs `{{layout/md-nav-main}}`);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('nav').innerText
       .replace(/[ \n]+/g, '|'),
-      '|Toggle|navigation|Dashboard|Export|Import|Settings|');
+      '|Dashboard|Export|Import|Publish|Settings');
 
     // Template block usage:
     await render(hbs `
       {{#layout/md-nav-main}}
-        template block text {{record/show/edit/nav}}
+        template block text
       {{/layout/md-nav-main}}
     `);
 
-    assert.equal(find('*').textContent
+    assert.equal(find('nav').innerText
       .replace(/[ \n]+/g, '|'),
-      '|Toggle|navigation|Dashboard|Export|Import|template|block|text|Settings|'
+      '|Dashboard|Export|Import|Publish|template|block|text|Settings'
     );
   });
 });
