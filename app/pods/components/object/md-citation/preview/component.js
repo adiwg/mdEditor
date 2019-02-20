@@ -27,5 +27,20 @@ export default Component.extend({
    * @type {Boolean}
    * @default "true"
    */
-  muted: true
+  muted: true,
+
+  /**
+   * Passed in action.
+   *
+   * @method editCitation
+   * @param {String} scrollTo Identifier to scrollTo
+   * @required
+   * @return {undefined}
+   */
+
+  actions: {
+    editCitation(scrollTo) {
+      this.editCitation(scrollTo);
+    }
+  }
 });
