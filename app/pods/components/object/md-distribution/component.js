@@ -31,6 +31,40 @@ export default Component.extend({
    * @required
    */
 
+  /**
+   * The passed down addDistribution method.
+   *
+   * @method addDistribution
+   * @required
+   */
+
+  /**
+   * The passed down editDistribution method.
+   *
+   * @method editDistribution
+   * @param {Number} index
+   * @required
+   */
+
+  /**
+   * The passed down deleteDistribution method.
+   *
+   * @method deleteDistribution
+   * @param {Number} index
+   * @required
+   */
+
   attributeBindings: ['data-spy'],
-  tagName: 'section'
+  tagName: 'section',
+  actions: {
+    editDistribution(index){
+      this.editDistribution(index);
+    },
+    deleteDistribution(index){
+      this.deleteDistribution(index);
+    },
+    addDistribution(){
+      this.addDistribution();
+    },
+  }
 });

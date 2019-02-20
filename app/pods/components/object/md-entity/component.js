@@ -194,6 +194,22 @@ export default Component.extend(Validations, {
         });
     }),
 
+   /**
+    * The passed down editCitation method.
+    *
+    * @method editCitation
+    * @param {Number} id
+    * @required
+    */
+
+   /**
+    * The passed down editAttribute method.
+    *
+    * @method editAttribute
+    * @param {Number} id
+    * @required
+    */
+
   actions: {
     getEntityAttributes(id) {
       let entity = A(this.get('dictionary.entity'))
@@ -213,6 +229,14 @@ export default Component.extend(Validations, {
       }
 
       return [];
+    },
+
+    editCitation(id){
+      this.editCitation(id);
+    },
+
+    editAttribute(id){
+      this.editAttribute(id);
     }
   }
 });

@@ -3,7 +3,13 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{object/md-distribution model=model profilePath="record.distribution"}}
+{{object/md-distribution
+  model=model
+  profilePath="record.distribution"
+  addDistribution=(route-action "addDistribution")
+  deleteDistribution=(route-action "deleteDistribution")
+  editDistribution=(route-action "editDistribution")
+}}
 
 {{to-elsewhere
   named="md-subbar-extra"

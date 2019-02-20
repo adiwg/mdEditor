@@ -69,8 +69,32 @@ export default Component.extend(Validations, {
    * @required
    */
 
+   /**
+    * The passed down editDomainItem method.
+    *
+    * @method editDomainItem
+    * @param {Number} index
+    * @required
+    */
+
+   /**
+    * The passed down editCitation method.
+    *
+    * @method editCitation
+    * @param {String} scrollTo
+    * @required
+    */
+
   tagName: 'form',
   domainId: alias('model.domainId'),
   codeName: alias('model.codeName'),
-  description: alias('model.description')
+  description: alias('model.description'),
+  actions: {
+    editDomainItem(id){
+      this.editDomainItem(id);
+    },
+    editCitation(scrollTo){
+      this.editCitation(scrollTo);
+    }
+  }
 });
