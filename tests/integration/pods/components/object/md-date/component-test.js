@@ -9,19 +9,27 @@ module('Integration | Component | object/md date', function(hooks) {
   test('it renders', async function(assert) {
 
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-date}}`);
+    await render(hbs`<table><tr>{{object/md-date model=model}}</tr></table>`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|This|field|can't|be|blank|Choose|date|type|This|field|can't|be|blank|");
+
+    this.set('model', {
+      "date": "2016-10-12",
+      "dateType": "dateType",
+      description: 'description'
+    })
+
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|dateType|×|");
 
     // Template block usage:
-    await render(hbs`
+    await render(hbs`<table><tr>
       {{#object/md-date}}
         template block text
       {{/object/md-date}}
-    `);
+    </tr></table>`);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(),
+      "|This|field|can't|be|blank|Choose|date|type|This|field|can't|be|blank|template|block|text|");
   });
 });

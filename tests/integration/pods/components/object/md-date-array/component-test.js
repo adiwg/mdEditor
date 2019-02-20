@@ -11,17 +11,30 @@ module('Integration | Component | object/md date array', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-date-array}}`);
+    await render(hbs`{{object/md-date-array value=model}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Dates|0|Add|#|Date|Date|Type|Description|Add|Date|');
+
+    this.set('model', [{
+      "date": "2016-10-12",
+      "dateType": "dateType",
+      description: 'description'
+    }]);
+
+    assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Dates|1|Add|#|Date|Date|Type|Description|0|dateType|×|Delete|',
+      'item');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-date-array}}
+      {{#object/md-date-array value=model}}
         template block text
       {{/object/md-date-array}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Dates|1|Add|#|Date|Date|Type|Description|0|dateType|×|template|block|text|Delete|',
+      'block');
   });
 });

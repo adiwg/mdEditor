@@ -9,19 +9,22 @@ module('Integration | Component | object/md constraint', function(hooks) {
   test('it renders', async function(assert) {
 
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('model',{});
 
-    await render(hbs`{{object/md-constraint}}`);
+    await render(hbs`{{object/md-constraint profilePath="foobar" model=model}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('form').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Constraint|Type|The|type|of|constraint.|This|field|can\'t|be|blank|Use|Limitations|0|Add|Add|Use|Limitations|Legal|Access|Constraints|Use|Constraints|Other|Constraints|0|Add|Other|Constraint|Add|Other|Constraint|Security|Classification|Name|of|the|handling|restrictions|on|the|resource|or|metadata.|This|field|can\'t|be|blank|Classification|System|Name|Note|Handling|Description|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Graphic|or|Logo|0|Add|OK|Add|Graphic|OK|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-constraint}}
+      {{#object/md-constraint profilePath="foobar" model=model}}
         template block text
       {{/object/md-constraint}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('form').textContent.replace(/[ \n]+/g, '|').trim(),
+      "|Constraint|Type|The|type|of|constraint.|This|field|can't|be|blank|Use|Limitations|0|Add|Add|Use|Limitations|Legal|Access|Constraints|Use|Constraints|Other|Constraints|0|Add|Other|Constraint|Add|Other|Constraint|Security|Classification|Name|of|the|handling|restrictions|on|the|resource|or|metadata.|This|field|can't|be|blank|Classification|System|Name|Note|Handling|Description|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Graphic|or|Logo|0|Add|OK|Add|Graphic|OK|template|block|text|",
+      'block');
   });
 });
