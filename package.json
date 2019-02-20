@@ -90,7 +90,7 @@
     "ember-power-select": "^2.2.1",
     "ember-power-select-with-create": "~0.6.1",
     "ember-qunit": "^3.4.1",
-    "ember-resize": "^0.3.0",
+    "ember-resize": "^0.3.4",
     "ember-resolver": "^5.0.1",
     "ember-route-action-helper": "^2.0.6",
     "ember-simplemde": "^1.2.0",
