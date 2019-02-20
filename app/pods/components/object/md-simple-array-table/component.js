@@ -43,7 +43,7 @@ export default ArrayTable.extend({
 
       if (items === undefined) {
         items = [];
-        items[0] = '';
+        //items[0] = '';
       }
 
       return items.reduce(function(acc, value) {
