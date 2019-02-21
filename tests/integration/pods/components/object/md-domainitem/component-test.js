@@ -8,19 +8,28 @@ module('Integration | Component | object/md domainitem', function(hooks) {
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('item', {
+      "name": "name0",
+      "value": "value0",
+      "definition": "definition0",
+      "reference": {
+        "title": "domainReference"
+      }
+    });
 
-    await render(hbs`{{object/md-domainitem}}`);
+    await render(hbs`{{object/md-domainitem profilePath="foobar" model=item}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Name|Value|Definition|Item|Reference|Content|Basic|Information|Title|Alternate|Titles|0|Add|Alternate|Title|Add|Alternate|Title|Dates|0|Add|Date|#|Date|Date|Type|Description|Add|Date|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|No|Identifier|found.|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-domainitem}}
+      {{#object/md-domainitem profilePath="foobar" model=(hash)}}
         template block text
       {{/object/md-domainitem}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
+    "|Name|This|field|can't|be|blank|Value|This|field|can't|be|blank|Definition|This|field|can't|be|blank|Item|Reference|Content|Basic|Information|Title|Alternate|Titles|0|Add|Alternate|Title|Add|Alternate|Title|Dates|0|Add|Date|#|Date|Date|Type|Description|Add|Date|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|No|Identifier|found.|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|",
+    'block');
   });
 });

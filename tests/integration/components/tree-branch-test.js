@@ -64,7 +64,7 @@ module('Integration | Component | tree branch', function(hooks) {
     await click('.tree-leaf .toggle-icon');
 
     assert.equal(find('.tree-branch').innerText
-      .replace(/[ \n]+/g, '|'), 'foo1label|foo2label|');
+      .replace(/[\s\n]+/g, '|'), '|foo1label|foo2label');
 
     assert.equal(findAll('.tree-leaf')[1].querySelectorAll('.tree-indent').length,
       3, 'proper indentation');

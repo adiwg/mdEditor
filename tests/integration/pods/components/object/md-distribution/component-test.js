@@ -1,7 +1,8 @@
 import { find, render } from '@ember/test-helpers';
-import { module, test } from 'qunit';
+import { module, test, todo } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createRecord from 'mdeditor/tests/helpers/create-record';
 
 module('Integration | Component | object/md distribution', function(hooks) {
   setupRenderingTest(hooks);
@@ -9,19 +10,52 @@ module('Integration | Component | object/md distribution', function(hooks) {
   test('it renders', async function(assert) {
 
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('record', createRecord(1)[0]);
 
-    await render(hbs`{{object/md-distribution}}`);
+    await render(hbs`{{object/md-distribution model=record profilePath="foobar"}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|No|distribution|sections|found.|Add|Distribution|Section|');
+
+    this.record.json.metadata.resourceDistribution.push({
+      "description": "description",
+      "liabilityStatement": "liabilityStatement",
+      "distributor": [{
+        "contact": {
+          "role": "role",
+          "roleExtent": [{
+            "temporalExtent": [{
+              "timePeriod": {
+                "startDateTime": "2016-10-24T11:10:15.2-10:00"
+              }
+            }]
+          }],
+          "party": [{
+            "contactId": "individualId0"
+          }]
+        }
+      }, {
+        "contact": {
+          "role": "role",
+          "party": [{
+            "contactId": "individualId0"
+          }]
+        }
+      }]
+    });
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-distribution}}
+      {{#object/md-distribution model=record profilePath="foobar"}}
         template block text
       {{/object/md-distribution}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Distribution|Section|#0|Edit|Distributors|Delete|Section|Distributors|role|(|)|role|(|)|Description|',
+      'block and list');
+  });
+
+  todo('call actions', async function(assert) {
+    assert.expect(1);
   });
 });

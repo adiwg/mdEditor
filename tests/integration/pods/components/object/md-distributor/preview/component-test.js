@@ -17,11 +17,11 @@ module('Integration | Component | object/md distributor/preview', function(hooks
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-distributor/preview}}
+      {{#object/md-distributor/preview class="testme"}}
         template block text
       {{/object/md-distributor/preview}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.testme').textContent.trim(), 'template block text');
   });
 });

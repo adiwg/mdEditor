@@ -17,7 +17,7 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
     await render(hbs`{{control/md-fiscalyear context=this}}`);
 
     assert.equal(find('.md-select.md-fiscalyear').innerText.replace(/[\n]+/g,
-      '|').trim(), 'Pick Fiscal Year|Pick a Fiscal Year|');
+      '|').trim(), 'Pick Fiscal Year|Pick a Fiscal Year');
   });
 
   test('select a year', async function(assert) {

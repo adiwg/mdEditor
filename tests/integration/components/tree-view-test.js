@@ -38,7 +38,7 @@ module('Integration | Component | tree view', function(hooks) {
     await render(hbs `{{tree-view model=model selected=selected}}`);
 
     assert.equal(find('.tree-trunk').innerText
-      .replace(/[ \n]+/g, '|'), 'bar1label|foo1label|');
+      .replace(/[\s\n]+/g, '|'), '|bar1label|foo1label');
 
     assert.ok(find('.tree-leaf')
       .classList.contains('tree-highlight'), 'selected leaf highlighted');
@@ -58,7 +58,7 @@ module('Integration | Component | tree view', function(hooks) {
     `);
 
     assert.equal(find('.tree-trunk').innerText
-      .replace(/[ \n]+/g, '|'), 'bar1label|foo1label|foo2label|');
+      .replace(/[\s\n]+/g, '|'), '|bar1label|foo1label|foo2label');
 
     await click(findAll('.tree-leaf')[1]);
 
