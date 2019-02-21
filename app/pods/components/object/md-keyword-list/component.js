@@ -1,11 +1,11 @@
+import Component from '@ember/component';
+import { computed } from '@ember/object';
+import $ from 'jquery';
+
 /**
  * @module mdeditor
  * @submodule components-object
  */
-
-import { computed } from '@ember/object';
-
-import Component from '@ember/component';
 
 export default Component.extend({
   readOnly: computed('model.thesaurus.identifier.0.identifier',
@@ -20,6 +20,9 @@ export default Component.extend({
     },
     deleteKeyword(model, object) {
       this.deleteKeyword(model, object);
-    }
+    },
+    hideThesaurus(el) {
+      $(el).closest('.md-keywords-container').toggleClass('hide-thesaurus');
+    },
   }
 });

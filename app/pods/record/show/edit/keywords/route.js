@@ -123,9 +123,9 @@ export default Route.extend(ScrollTo, {
         model.removeObject(obj);
       }
     },
-    hideThesaurus(el) {
-      $(el).closest('.md-keywords-container').toggleClass('hide-thesaurus');
-    },
+    // hideThesaurus(el) {
+    //   $(el).closest('.md-keywords-container').toggleClass('hide-thesaurus');
+    // },
     toList() {
       let me = this;
 
