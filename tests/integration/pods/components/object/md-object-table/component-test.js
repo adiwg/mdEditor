@@ -1,15 +1,14 @@
-import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | object/md objectroute table', function(hooks) {
+module('Integration | Component | object/md-object-table', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    // Handle any actions with this.set('myAction', function(val) { ... });
     this.model=[{
       biz: 'biz0',
       baz: 'baz0'
@@ -18,13 +17,13 @@ module('Integration | Component | object/md objectroute table', function(hooks) 
       baz: 'baz1'
     }];
 
-    await render(hbs`{{object/md-objectroute-table attributes="biz,baz" header="FooBar"}}`);
+    await render(hbs`{{object/md-object-table attributes="biz,baz"}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|No|FooBar|found.|Add|FooBar|');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|0|Add|OK|#|Biz|Baz|Add|OK|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-objectroute-table
+      {{#object/md-object-table
        items=model
        header="FooBar"
        buttonText="Add FooBar"
@@ -34,11 +33,11 @@ module('Integration | Component | object/md objectroute table', function(hooks) 
       }}
         <span>Biz:{{foo.biz}}</span>
         <span>Baz:{{foo.baz}}</span>
-      {{/object/md-objectroute-table}}
+      {{/object/md-object-table}}
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|FooBar|2|Add|OK|#|Biz|Baz|0|biz0|baz0|More...|Delete|1|biz1|baz1|More...|Delete|OK|',
+      '|FooBar|2|Add|OK|#|Biz|Baz|0|biz0|baz0|Edit|Delete|1|biz1|baz1|Edit|Delete|OK|',
       'block');
   });
 });

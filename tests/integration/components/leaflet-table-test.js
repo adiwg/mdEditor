@@ -16,11 +16,11 @@ module('Integration | Component | leaflet table', function(hooks) {
       resizeDebouncedEventsEnabled=true}}`);
 
       assert.equal(find('.feature-table')
-        .innerText
+        .textContent
         .replace(/[\s\t]/g, '\n')
         .trim()
         .replace(/[ \n]+/g, '|'),
-        'ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2'
+        'ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50|500'
     );
   });
 });

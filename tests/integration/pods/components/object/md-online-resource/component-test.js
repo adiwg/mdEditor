@@ -10,18 +10,28 @@ module('Integration | Component | object/md online resource', function(hooks) {
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
+    this.model = {
+      "uri": "http://URI.example.com",
+      "protocol": "protocol",
+      "name": "name",
+      "description": "description",
+      "function": "download"
+    };
 
-    await render(hbs`{{object/md-online-resource}}`);
+    await render(hbs`{{object/md-online-resource model=model profilePath="foobar"}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      'Name|URI|Protocol|Description|Function|download|?|online|instructions|for|transferring|data|from|one|storage|device|or|system|to|another|×|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-online-resource}}
+      {{#object/md-online-resource profilePath="foobar" model=model}}
         template block text
       {{/object/md-online-resource}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Name|URI|Protocol|Description|Function|download|?|online|instructions|for|transferring|data|from|one|storage|device|or|system|to|another|×|template|block|text|',
+      'block');
   });
 });

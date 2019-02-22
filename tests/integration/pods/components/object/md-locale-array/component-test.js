@@ -8,11 +8,20 @@ module('Integration | Component | object/md locale array', function(hooks) {
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('locales', [{
+      language: "eng",
+      characterSet: "UTF-8",
+      country: "USA"
+    }, {
+      language: "spa",
+      characterSet: "UTF-32",
+      country: "BDI"
+    }]);
 
-    await render(hbs`{{object/md-locale-array}}`);
+    await render(hbs`{{object/md-locale-array value=locales}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|2|Add|#|Language|Character|Set|Country|0|eng|?|English|×|UTF-8|?|[RFC3629]|×|USA|?|United|States|of|America|×|Delete|1|spa|?|Spanish;|Castilian|×|UTF-32|?|[http://www.unicode.org/unicode/reports/tr19/]|×|BDI|?|Burundi|×|Delete|');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +30,8 @@ module('Integration | Component | object/md locale array', function(hooks) {
       {{/object/md-locale-array}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Add|#|Language|Character|Set|Country|Add|',
+      'block');
   });
 });

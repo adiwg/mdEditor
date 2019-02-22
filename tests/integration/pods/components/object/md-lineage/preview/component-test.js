@@ -10,18 +10,48 @@ module('Integration | Component | object/md lineage/preview', function(hooks) {
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('lineage', {
+      "statement": "statement",
+      "scope": {
+        "scopeCode": "scopeCode"
+      },
+      "citation": [{
+          "title": "title"
+        },
+        {
+          "title": "title"
+        }
+      ],
+      "source": [{
+          "description": "description"
+        },
+        {
+          "description": "description"
+        }
+      ],
+      "sourceProcessStep": [{
+          "description": "description"
+        },
+        {
+          "description": "description"
+        }
+      ]
+    });
 
-    await render(hbs`{{object/md-lineage/preview}}`);
+    await render(hbs`<section>{{object/md-lineage/preview item=lineage}}</section>`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Lineage|#|Statement|statement|Process|Step|No|proces|steps|assigned.|');
 
     // Template block usage:
-    await render(hbs`
+    await render(hbs`<section>
       {{#object/md-lineage/preview}}
         template block text
-      {{/object/md-lineage/preview}}
+      {{/object/md-lineage/preview}}</section>
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Lineage|#|Statement|Not|Defined|Process|Step|No|proces|steps|assigned.|',
+      'template block');
   });
 });
