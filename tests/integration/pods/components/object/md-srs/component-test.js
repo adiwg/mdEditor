@@ -13,7 +13,7 @@ module('Integration | Component | object/md srs', function(hooks) {
 
     await render(hbs`{{object/md-srs}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -22,6 +22,6 @@ module('Integration | Component | object/md srs', function(hooks) {
       {{/object/md-srs}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });

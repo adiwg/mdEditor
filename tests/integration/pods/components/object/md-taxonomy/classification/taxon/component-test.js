@@ -12,7 +12,7 @@ module('Integration | Component | object/md taxonomy/classification/taxon', func
 
     await render(hbs`{{object/md-taxonomy/classification/taxon}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | object/md taxonomy/classification/taxon', func
       {{/object/md-taxonomy/classification/taxon}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });

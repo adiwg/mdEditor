@@ -13,7 +13,7 @@ module('Integration | Component | object/md distributor/preview', function(hooks
 
     await render(hbs`{{object/md-distributor/preview}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`

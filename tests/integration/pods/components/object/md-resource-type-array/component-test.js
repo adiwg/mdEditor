@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -10,10 +10,17 @@ module('Integration | Component | object/md resource type array', function(hooks
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
+    this.rt = [{
+      "type": "project",
+      "name": "foobar"
+    }, {
+      "type": "map"
+    }];
 
-    await render(hbs`{{object/md-resource-type-array}}`);
+    await render(hbs`{{object/md-resource-type-array value=rt}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Resource|Types|2|Add|#|Type|Name|0|project|?|high|level|information|that|applies|to|research|activity|such|as|project|title,|location,|contacts,|timeframe,|abstract,|etc.|×|Delete|1|map|?|information|applies|to|a|printed|or|electronic|map|×|Delete|');
 
     // Template block usage:
     await render(hbs`
@@ -22,6 +29,8 @@ module('Integration | Component | object/md resource type array', function(hooks
       {{/object/md-resource-type-array}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Resource|Types|Add|#|Type|Name|Add|Resource|Type|',
+      'block');
   });
 });

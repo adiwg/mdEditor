@@ -12,7 +12,7 @@ module('Integration | Component | object/md taxonomy/classification', function(h
 
     await render(hbs`{{object/md-taxonomy/classification}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | object/md taxonomy/classification', function(h
       {{/object/md-taxonomy/classification}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });

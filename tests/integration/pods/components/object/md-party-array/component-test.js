@@ -1,27 +1,54 @@
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createContact from 'mdeditor/tests/helpers/create-contact';
 
-module('Integration | Component | object/md party', function(hooks) {
+module('Integration | Component | object/md party array', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
+    this.party = [{
+      "role": "author",
+      "roleExtent": [{
+        "temporalExtent": [{
+          "timePeriod": {
+            "startDateTime": "2016-10-24T11:10:15.2-10:00"
+          }
+        }]
+      }],
+      "party": [{
+        "contactId": 0
+      }]
+    }, {
+      "role": "publisher",
+      "party": [{
+        "contactId": 1
+      }]
+    }];
 
-    await render(hbs`{{object/md-party-array}}`);
+    var contacts = createContact(2);
+    var cs = this.owner.lookup('service:contacts');
 
-    assert.equal(find('*').textContent.trim(), '');
+    cs.set('contacts', contacts);
+
+    await render(hbs`{{object/md-party-array value=party}}`);
+
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|2|Add|#|Role|Contacts|0|author|?|party|who|authored|the|resource|×|×|Contact0|Delete|1|publisher|?|party|who|published|the|resource|×|×|Contact1|Delete|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-party-array}}
+      {{#object/md-party-array model=(hash)}}
         template block text
       {{/object/md-party-array}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Add|#|Role|Contacts|Add|',
+      'block');
   });
 });
