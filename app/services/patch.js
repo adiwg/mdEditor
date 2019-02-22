@@ -53,6 +53,25 @@ export default Service.extend({
                 record.notifyPropertyChange('currentHash');
               });
             }
+
+            let step = get(itm, 'processStep');
+
+            if(isArray(step)) {
+              step.forEach(step => {
+                let source = get(step, 'stepSource');
+
+                if(isArray(source)) {
+                  source.forEach(src => {
+                    set(src, 'description', getWithDefault(src,
+                      'description', get(src, 'value')));
+                    set(src, 'value', null);
+                  });
+                  record.save().then(function () {
+                    record.notifyPropertyChange('currentHash');
+                  });
+                }
+              });
+            }
           });
         }
         //fix taxonomy
