@@ -1,14 +1,25 @@
 /* global L */
 import Component from '@ember/component';
 import { or, alias } from '@ember/object/computed';
-import { setProperties, observer, computed } from '@ember/object';
+import { set, get, getWithDefault, setProperties, observer, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
+import { once } from '@ember/runloop';
 
 const {
   isNaN:isNan
 } = Number;
 
 export default Component.extend({
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    let geo = get(this, 'extent.geographicExtent.0');
+
+    once(function() {
+      set(geo, 'boundingBox', getWithDefault(geo, 'boundingBox', {}));
+    });
+  },
+
   isTrulyNone(val) {
     return isNone(val) || isNan(val);
   },
@@ -17,6 +28,10 @@ export default Component.extend({
     'bbox.{northLatitude,southLatitude,eastLongitude,westLongitude}',
     function() {
       let bbox = this.bbox;
+
+      if(!bbox) {
+        return null;
+      }
 
       if(this.isTrulyNone(bbox.southLatitude) || this.isTrulyNone(bbox.westLongitude) ||
         this.isTrulyNone(bbox.northLatitude) || this.isTrulyNone(bbox.eastLongitude)
@@ -78,6 +93,14 @@ export default Component.extend({
         eastLongitude: bounds.getEast(),
         westLongitude: bounds.getWest()
       });
+    },
+
+    editExtent(index){
+      this.editExtent(index);
+    },
+
+    deleteExtent(index){
+      this.deleteExtent(index);
     }
   }
 });

@@ -22,11 +22,6 @@ export default Route.extend({
 
   subbar: 'control/subbar-extent',
 
-  extents: computed('model.json.metadata.resourceInfo.extent.[]', function() {
-    return this.currentRouteModel()
-      .get('json.metadata.resourceInfo.extent');
-  }),
-
   clearSubbar: on('deactivate', function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
@@ -64,7 +59,8 @@ export default Route.extend({
 
     },
     deleteExtent(id) {
-      let extents = this.extents;
+      let extents = this.currentRouteModel()
+        .get('json.metadata.resourceInfo.extent');
 
       extents.removeAt(id);
     },
