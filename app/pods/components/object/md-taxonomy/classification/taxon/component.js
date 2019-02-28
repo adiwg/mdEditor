@@ -83,16 +83,20 @@ export default Component.extend(Validations, {
       this.set('isEditing', false);
   },
 
+  deleteTaxa(taxa) {
+    let parent = this.top || this.get(
+      'parentItem.model.subClassification');
+
+    parent.removeObject(taxa);
+  },
+
   actions: {
     toggleCollapse(event) {
       event.stopPropagation();
       this.toggleProperty('collapse');
     },
     deleteTaxa(taxa) {
-      let parent = this.top || this.get(
-        'parentItem.model.subClassification');
-
-      parent.removeObject(taxa);
+      this.deleteTaxa(taxa);
     },
     toggleEditing() {
       if(this.isEditing){
