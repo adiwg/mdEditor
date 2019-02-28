@@ -34,6 +34,7 @@ module('Integration | Component | input/md select contacts', function(hooks) {
     await selectChoose('.md-select-contact', 'Contact0');
     await selectChoose('.md-select-contact', 'Contact1');
 
-    assert.equal(find('.md-select-contact').innerText.trim(), '× Contact0 × Contact1', 'select multiple contacts');
+    assert.equal(find('.md-select-contact').innerText.replace(/[\s\n]+/g, '|').trim(),
+      '×|Contact0|×|Contact1', 'select multiple contacts');
   });
 });
