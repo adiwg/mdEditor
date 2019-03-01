@@ -10,7 +10,7 @@ module.exports = function () {
       Keep in mind that this config file is JavaScript, so you can code in here to determine the command.
     */
     command: semver.lt(semver.coerce(pkg.version), '1.0.0') ?
-      'ember build' : 'ember test',
+      'ember test' : 'ember test',
     /*
       `bowerOptions` - options to be passed to `bower`.
     */
@@ -34,7 +34,7 @@ module.exports = function () {
       },
       {
         name: "ember-release",
-        allowedToFail: true,
+        allowedToFail: false,
         npm: {},
         bower: {}
       },
