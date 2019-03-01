@@ -10,7 +10,9 @@ module('Unit | Service | codelist', function(hooks) {
 
     Object.keys(codes)
       .forEach(function (key) {
-        const name = key.replace(/^iso_/, '');
+        if(key === 'default') return;
+
+        const name = key.replace(/^(iso_|adiwg_)/, '');
 
         assert.ok(service.get(name), name + ' is present.');
       });

@@ -1,6 +1,6 @@
 import { A } from '@ember/array';
 import Route from '@ember/routing/route';
-import { get, getWithDefault, set, computed } from '@ember/object';
+import { get, getWithDefault, set } from '@ember/object';
 import $ from 'jquery';
 import { on } from '@ember/object/evented';
 

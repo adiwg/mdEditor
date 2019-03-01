@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import {  render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -12,7 +12,7 @@ module('Integration | Component | md title', function(hooks) {
 
     await render(hbs`{{md-title}}`);
 
-    assert.equal(find('*').textContent.trim(), '');
+    assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | md title', function(hooks) {
       {{/md-title}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });

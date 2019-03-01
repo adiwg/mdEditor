@@ -3,10 +3,14 @@ import { getDash } from 'mdeditor/helpers/get-dash';
 import { module, test } from 'qunit';
 
 module('Unit | Helper | get dash', function() {
-  // Replace this with your real tests.
   test('it works', function(assert) {
-    let result = getDash([42]);
-    assert.ok(result);
+    let obj={foo:'bar'};
+    let result = getDash([obj, 'foo']);
+
+    assert.equal(result, 'bar', 'value');
+
+    result = getDash([obj, 'biz']);
+
+    assert.equal(result, '--', 'dash');
   });
 });
-

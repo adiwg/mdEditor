@@ -5,8 +5,7 @@ import { module, test } from 'qunit';
 module('Unit | Helper | md markdown', function() {
   // Replace this with your real tests.
   test('it works', function(assert) {
-    let result = mdMarkdown([42]);
-    assert.ok(result);
+    let result = mdMarkdown('# Test');
+    assert.equal(result.string.trim(), '<p>#</p>');
   });
 });
-

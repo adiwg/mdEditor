@@ -113,7 +113,8 @@ export default function createTaxonomy() {
               "uri": "https://itis.gov/Static/images/itis_logo.jpg"
             }]
           }]
-        }
+        },
+        modifications: "modifications"
       }],
       "observer": [{
         "party": [{

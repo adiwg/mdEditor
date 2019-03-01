@@ -6,9 +6,11 @@ module('Unit | Transform | json', function(hooks) {
 
   test('it deserialized', function (assert) {
     let transform = this.owner.lookup('transform:json');
-    assert.deepEqual(transform.deserialize('{"foo":"bar"}'), {
-      foo: "bar"
-    });
+    let obj = transform.deserialize('{"foo":"bar"}');
+
+    assert.equal(obj.get('foo'),"bar");
+    assert.equal(Object.keys(obj)[0], 'foo');
+    assert.equal(Object.keys(obj).length, 1);
   });
 
   test('it serialized', function (assert) {

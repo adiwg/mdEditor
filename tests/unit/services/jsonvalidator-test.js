@@ -33,6 +33,6 @@ module('Unit | Service | jsonvalidator', function(hooks) {
       }]
     };
 
-    assert.ok(service.validate('jsonapi', obj));
+    assert.ok(service.validator.validate('jsonapi', obj));
   });
 });

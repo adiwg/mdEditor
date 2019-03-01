@@ -1,4 +1,4 @@
-import { find, render } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -9,10 +9,26 @@ module('Integration | Component | md models table', function(hooks) {
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('data', [{
+      title: 'foo',
+      type: 'bar'
+    }, {
+      title: 'biz',
+      type: 'baz'
+    }]);
 
-    await render(hbs`{{md-models-table}}`);
+    this.set('columns', [{
+      propertyName: 'title',
+      title: 'Title'
+    }, {
+      propertyName: 'type',
+      title: 'Type'
+    }]);
 
-    assert.equal(find('*').textContent.trim(), '');
+    await render(hbs`{{md-models-table data=data columns=columns}}`);
+
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|foo|bar|biz|baz|Show|1|-|2|of|2|10|25|50|500|');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +37,6 @@ module('Integration | Component | md models table', function(hooks) {
       {{/md-models-table}}
     `);
 
-    assert.equal(find('*').textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|template|block|text|');
   });
 });
