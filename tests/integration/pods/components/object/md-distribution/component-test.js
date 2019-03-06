@@ -1,5 +1,5 @@
 import { find, render } from '@ember/test-helpers';
-import { module, test, todo } from 'qunit';
+import { module, test, skip } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createRecord from 'mdeditor/tests/helpers/create-record';
@@ -55,7 +55,7 @@ module('Integration | Component | object/md distribution', function(hooks) {
       'block and list');
   });
 
-  todo('call actions', async function(assert) {
+  skip('call actions', async function(assert) {
     assert.expect(1);
   });
 });

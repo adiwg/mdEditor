@@ -1,5 +1,5 @@
 import { find, render } from '@ember/test-helpers';
-import { module, test, todo} from 'qunit';
+import { module, test, skip} from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -28,7 +28,7 @@ module('Integration | Component | control/md import csv', function(hooks) {
     '|Processing...|Stop|57%|Complete|', 'updates progressbar');
   });
 
-  todo('upload csv', async function(assert) {
+  skip('upload csv', async function(assert) {
       assert.ok();
   });
 });

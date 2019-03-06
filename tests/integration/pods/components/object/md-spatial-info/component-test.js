@@ -1,5 +1,5 @@
 import { render } from '@ember/test-helpers';
-import { module, test, todo } from 'qunit';
+import { module, test, skip } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
@@ -116,7 +116,7 @@ module('Integration | Component | object/md spatial info', function(hooks) {
       'block');
   });
 
-  todo('test actions', async function (assert) {
+  skip('test actions', async function (assert) {
     assert.expect(1);
   });
 });
