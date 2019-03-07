@@ -11,7 +11,7 @@
       <div class="progress-bar" role="progressbar"
         aria-valuenow={{flash.progressValue}}
         aria-valuemin="0" aria-valuemax="100"
-        style={{concat "width:" (html-safe flash.progressValue) "%;"}}>
+        style={{html-safe (concat "width:" flash.progressValue "%;")}}>
         {{flash.progressValue}}%
       </div>
     </div>
