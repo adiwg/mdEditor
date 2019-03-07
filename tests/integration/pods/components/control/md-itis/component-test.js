@@ -56,7 +56,7 @@ module('Integration | Component | control/md itis', function(hooks) {
     await render(hbs`{{control/md-itis taxonomy=taxonomy}}`);
 
     assert.equal(find('.md-itis').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Search|Value|Kingdom|(optional)|Select|a|kingdom.|'
+      '|Search|Value|Kingdom|(optional)|Select|a|kingdom.|Search|'
     );
 
     // await fillIn('.md-input-input input.ember-text-field', 'shark');
