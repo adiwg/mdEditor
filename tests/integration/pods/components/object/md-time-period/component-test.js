@@ -75,7 +75,7 @@ module('Integration | Component | object/md time period', function(hooks) {
     assert.equal(input1, "||id|description|periodName0|periodName1|||||||", 'geologic input values');
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Time|Period|Dates|Start|Date|This|field|can't|be|blank|End|Date|This|field|can't|be|blank|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|This|field|can't|be|blank|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|",
+      "|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|",
       'geologic age');
     // Template block usage:
     await render(hbs`
@@ -85,7 +85,7 @@ module('Integration | Component | object/md time period', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Time|Period|Dates|Start|Date|This|field|can't|be|blank|End|Date|This|field|can't|be|blank|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|This|field|can't|be|blank|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|template|block|text|",
+      "|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|template|block|text|",
       'block');
   });
 });

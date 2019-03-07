@@ -21,7 +21,7 @@ module('Integration | Component | object/md locale array', function(hooks) {
     await render(hbs`{{object/md-locale-array value=locales}}`);
 
     assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|2|Add|#|Language|Character|Set|Country|0|eng|?|English|×|UTF-8|?|[RFC3629]|×|USA|?|United|States|of|America|×|Delete|1|spa|?|Spanish;|Castilian|×|UTF-32|?|[http://www.unicode.org/unicode/reports/tr19/]|×|BDI|?|Burundi|×|Delete|');
+      '|2|Add|#|Language|Character|Set|Country|0|eng|?|×|UTF-8|?|×|USA|?|×|Delete|1|spa|?|×|UTF-32|?|×|BDI|?|×|Delete|');
 
     // Template block usage:
     await render(hbs`

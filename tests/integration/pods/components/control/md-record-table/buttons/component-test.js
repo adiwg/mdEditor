@@ -8,7 +8,7 @@ module('Integration | Component | control/md record table/buttons', function (
       setupRenderingTest(hooks);
 
       test('it renders', async function (assert) {
-        assert.expect(2);
+        assert.expect(4);
         // Set any properties with this.set('myProperty', 'value');
         this.set('model', {
           hasDirtyHash: true,
@@ -19,8 +19,9 @@ module('Integration | Component | control/md record table/buttons', function (
         await render(hbs `{{control/md-record-table/buttons record=model}}`);
 
         assert.equal(find('.md-dashboard-buttons').textContent.replace(
-          /[ \n]+/g, '|').trim(), '|Show|Edit|Delete|Preview|JSON|This|record|has|been|modified!|Cick|to|save.|This|record|has|errors!|Click|to|view.|');
-
+          /[ \n]+/g, '|').trim(), '|Show|Edit|Delete|Preview|JSON|');
+        assert.dom('.md-status-icon .btn-danger').isVisible();
+        assert.dom('.md-status-icon .btn-warning').isVisible();
         // Template block usage:
       await render(hbs`{{#control/md-record-table/buttons}}
           template block text

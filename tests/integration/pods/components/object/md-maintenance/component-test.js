@@ -63,7 +63,7 @@ module('Integration | Component | object/md maintenance', function(hooks) {
     await render(hbs`{{object/md-maintenance profilePath="foobar" model=model}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Frequency|frequency|×|Dates|2|Add|Date|#|Date|Date|Type|Description|0|creation|?|date|identifies|when|the|resource|was|brought|into|existence|×|Delete|1|publication|?|date|identifies|when|the|resource|was|issued|×|Delete|Contacts|2|Add|Contact|#|Role|Contacts|0|author|?|party|who|authored|the|resource|×|Delete|1|publisher|?|party|who|published|the|resource|×|Delete|Notes|2|Add|Notes|0|Delete|1|Delete|Scope|×|scopeCode0|×|scopeCode1|');
+      '|Frequency|frequency|×|Dates|2|Add|Date|#|Date|Date|Type|Description|0|creation|?|×|Delete|1|publication|?|×|Delete|Contacts|2|Add|Contact|#|Role|Contacts|0|author|?|×|Delete|1|publisher|?|×|Delete|Notes|2|Add|Notes|0|Delete|1|Delete|Scope|×|scopeCode0|×|scopeCode1|');
 
     // Template block usage:
     await render(hbs`

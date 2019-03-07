@@ -19,7 +19,7 @@ module('Integration | Component | layout/md footer', function(hooks) {
     await render(hbs`{{layout/md-footer}}`);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Report|Issue|Report|bugs,|Request|features|-|GitHub|account|required.|AutoSave:|Off|');
+      '|Report|Issue|AutoSave:|Off|');
 
     // Template block usage:
     await render(hbs`
@@ -29,6 +29,6 @@ module('Integration | Component | layout/md footer', function(hooks) {
     `);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Report|Issue|Report|bugs,|Request|features|-|GitHub|account|required.|AutoSave:|On|template|block|text|');
+      '|Report|Issue|AutoSave:|On|template|block|text|');
   });
 });

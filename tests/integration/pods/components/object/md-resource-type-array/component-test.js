@@ -20,7 +20,7 @@ module('Integration | Component | object/md resource type array', function(hooks
     await render(hbs`{{object/md-resource-type-array value=rt}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Resource|Types|2|Add|#|Type|Name|0|project|?|high|level|information|that|applies|to|research|activity|such|as|project|title,|location,|contacts,|timeframe,|abstract,|etc.|×|Delete|1|map|?|information|applies|to|a|printed|or|electronic|map|×|Delete|');
+      '|Resource|Types|2|Add|#|Type|Name|0|project|?|×|Delete|1|map|?|×|Delete|');
 
     // Template block usage:
     await render(hbs`

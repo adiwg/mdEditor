@@ -31,7 +31,7 @@ module('Integration | Component | object/md party', function(hooks) {
     await render(hbs`{{object/md-party model=party}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Role|author|?|party|who|authored|the|resource|×|Contacts|×|Contact0|');
+      '|Role|author|?|×|Contacts|×|Contact0|');
 
     // Template block usage:
     await render(hbs`
@@ -41,7 +41,7 @@ module('Integration | Component | object/md party', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Role|Select|or|enter|a|role|This|field|can't|be|blank|Contacts|At|least|one|contact|is|required.|",
+      "|Role|Select|or|enter|a|role|Contacts|",
       'block');
 
   });

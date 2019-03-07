@@ -14,7 +14,7 @@ module('Integration | Component | control/subbar citation', function(hooks) {
     await render(hbs`{{control/subbar-citation text="foobar"}}`);
 
     assert.equal(find('.btn-group-vertical').textContent.replace(/[ \n\t\s]+/g, '|').trim(),
-      '|Select|a|Record|Select|a|record|to|copy|into|the|association.|Note:|This|will|only|copy|information.|foobar|');
+      '|Select|a|Record|foobar|');
 
     // Template block usage:
     await render(hbs`
@@ -24,6 +24,6 @@ module('Integration | Component | control/subbar citation', function(hooks) {
     `);
 
     assert.equal(find('.btn-group-vertical').textContent.replace(/[ \n\t\s]+/g, '|').trim(),
-      '|Select|a|Record|Select|a|record|to|copy|into|the|association.|Note:|This|will|only|copy|information.|template|block|text|');
+      '|Select|a|Record|template|block|text|');
   });
 });

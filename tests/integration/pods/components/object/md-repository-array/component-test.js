@@ -25,7 +25,7 @@ module('Integration | Component | object/md repository array', function(hooks) {
     await render(hbs`{{object/md-repository-array value=repo}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Metadata|Repositories|2|Add|#|Repository|Collection|Title|0|data.gov|?|U.S.|Government|repository|of|open|data|×|Delete|1|data.gov|?|U.S.|Government|repository|of|open|data|×|Delete|');
+      '|Metadata|Repositories|2|Add|#|Repository|Collection|Title|0|data.gov|?|×|Delete|1|data.gov|?|×|Delete|');
 
     // Template block usage:
     await render(hbs`

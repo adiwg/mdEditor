@@ -21,7 +21,7 @@ module('Integration | Component | object/md online resource', function(hooks) {
     await render(hbs`{{object/md-online-resource model=model profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      'Name|URI|Protocol|Description|Function|download|?|online|instructions|for|transferring|data|from|one|storage|device|or|system|to|another|×|');
+      'Name|URI|Protocol|Description|Function|download|?|×|');
 
     // Template block usage:
     await render(hbs`
@@ -31,7 +31,7 @@ module('Integration | Component | object/md online resource', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Name|URI|Protocol|Description|Function|download|?|online|instructions|for|transferring|data|from|one|storage|device|or|system|to|another|×|template|block|text|',
+      '|Name|URI|Protocol|Description|Function|download|?|×|template|block|text|',
       'block');
   });
 });

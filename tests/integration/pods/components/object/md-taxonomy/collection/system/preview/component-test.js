@@ -25,6 +25,6 @@ module('Integration | Component | object/md taxonomy/collection/system/preview',
       {{/object/md-taxonomy/collection/system/preview}}
     `);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), "|This|field|can't|be|blank|");
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), "|");
   });
 });

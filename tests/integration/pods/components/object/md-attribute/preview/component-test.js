@@ -30,7 +30,7 @@ module('Integration | Component | object/md attribute/preview', function(hooks) 
 
     await render(hbs`<div class="testme">{{object/md-attribute/preview model=model profilePath="foobar"}}</div>`);
 
-    assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(), '|float|?|floating|point|numbers|×|');
+    assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(), '|float|?|×|');
     assert.equal(findAll('.testme input').length, 3, 'render inputs');
     assert.ok(find('.testme .md-select'), 'render select');
   });

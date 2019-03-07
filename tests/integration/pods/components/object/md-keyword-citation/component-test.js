@@ -17,7 +17,7 @@ module('Integration | Component | object/md keyword citation', function(hooks) {
     await render(hbs`{{object/md-keyword-citation model=keyword}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Title|Date|Date|Type|Choose|date|type|Type|theme|?|keyword|identifies|a|particular|subject|or|topic|Edition|URL|');
+      '|Title|Date|Date|Type|Choose|date|type|Type|theme|?|Edition|URL|');
 
     var input = findAll('form input').mapBy('value').join('|');
 
@@ -31,7 +31,7 @@ module('Integration | Component | object/md keyword citation', function(hooks) {
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Title|This|field|can't|be|blank|Date|Date|Type|Choose|date|type|Type|Choose|keyword|type|Edition|URL|",
+      "|Title|Date|Date|Type|Choose|date|type|Type|Choose|keyword|type|Edition|URL|",
       'block');
   });
 });

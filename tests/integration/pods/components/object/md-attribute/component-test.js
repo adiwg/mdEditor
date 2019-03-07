@@ -31,7 +31,7 @@ module('Integration | Component | object/md attribute', function(hooks) {
     await render(hbs`{{object/md-attribute model=model profilePath="foobar"}}`);
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Attribute|Information|Code|Name|Definition|Data|Type|float|?|floating|point|numbers|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|0|Add|Alias|Add|Alias|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|');
+      '|Attribute|Information|Code|Name|Definition|Data|Type|float|?|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|0|Add|Alias|Add|Alias|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|');
 
     // Template block usage:
     await render(hbs`
@@ -41,7 +41,7 @@ module('Integration | Component | object/md attribute', function(hooks) {
     `);
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Attribute|Information|Code|Name|Definition|Data|Type|float|?|floating|point|numbers|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|0|Add|Alias|Add|Alias|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|',
+      '|Attribute|Information|Code|Name|Definition|Data|Type|float|?|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|0|Add|Alias|Add|Alias|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|',
       'block'
     );
   });

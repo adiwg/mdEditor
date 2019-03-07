@@ -20,7 +20,7 @@ module('Integration | Component | input/md select profile', function(hooks) {
     }}`);
 
     assert.equal(find('.testme').textContent
-      .replace(/[ \n]+/g, '|'), '|Profile|full|?|The|kitchen|sink|');
+      .replace(/[ \n]+/g, '|'), '|Profile|full|?|');
   });
 
   test('should trigger external action on change', async function(assert) {

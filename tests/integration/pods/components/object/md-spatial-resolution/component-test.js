@@ -50,7 +50,7 @@ module('Integration | Component | object/md spatial resolution', function(hooks)
       }
     };
 
-    var empty = "Scale|Factor|This|field|can't|be|blank|Level|Of|Detail|This|field|can't|be|blank|Measure|Measure|Type|The|type|of|measurement.|This|field|can't|be|blank|Value|This|field|can't|be|blank|Units|This|field|can't|be|blank|";
+    var empty = "Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|";
 
     await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.scaleFactor}}`);
 

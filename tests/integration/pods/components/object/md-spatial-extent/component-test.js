@@ -68,7 +68,7 @@ module('Integration | Component | object/md spatial extent', function(hooks) {
     }}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Geographic|Extent|#9|Edit|Extent|Features|Delete|Extent|Bounding|Box|North|This|field|must|be|a|number|East|This|field|must|be|a|number|South|This|field|must|be|a|number|West|This|field|must|be|a|number|Calculate|Description|+−|Terrain|FeaturesLeaflet|');
+      '|Geographic|Extent|#9|Edit|Extent|Features|Delete|Extent|Bounding|Box|North|East|South|West|Calculate|Description|+−|Terrain|FeaturesLeaflet|');
 
     await click('.btn-primary');
 
@@ -92,7 +92,7 @@ module('Integration | Component | object/md spatial extent', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Geographic|Extent|#|Edit|Extent|Features|Delete|Extent|Bounding|Box|North|This|field|must|be|a|number|East|This|field|must|be|a|number|South|This|field|must|be|a|number|West|This|field|must|be|a|number|Description|No|Features|to|display.|',
+      '|Geographic|Extent|#|Edit|Extent|Features|Delete|Extent|Bounding|Box|North|East|South|West|Description|No|Features|to|display.|',
       'block');
   });
 });

@@ -38,7 +38,7 @@ module('Integration | Component | object/md party array', function(hooks) {
     await render(hbs`{{object/md-party-array value=party}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|2|Add|#|Role|Contacts|0|author|?|party|who|authored|the|resource|×|×|Contact0|Delete|1|publisher|?|party|who|published|the|resource|×|×|Contact1|Delete|');
+      '|2|Add|#|Role|Contacts|0|author|?|×|×|Contact0|Delete|1|publisher|?|×|×|Contact1|Delete|');
 
     // Template block usage:
     await render(hbs`

@@ -2,6 +2,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { assertTooltipContent } from 'ember-tooltips/test-support';
+
 
 module('Integration | Component | ember-tooltip', function(hooks) {
   setupRenderingTest(hooks);
@@ -16,11 +18,13 @@ module('Integration | Component | ember-tooltip', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#ember-tooltip}}
+      {{#ember-tooltip isShown="true"}}
         template block text
       {{/ember-tooltip}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assertTooltipContent(assert, {
+      contentString: 'template block text',
+    });
   });
 });

@@ -12,7 +12,7 @@ module('Integration | Component | object/md date', function(hooks) {
 
     await render(hbs`<table><tr>{{object/md-date model=model}}</tr></table>`);
 
-    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|This|field|can't|be|blank|Choose|date|type|This|field|can't|be|blank|");
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Choose|date|type|");
 
     this.set('model', {
       "date": "2016-10-12",
@@ -30,6 +30,6 @@ module('Integration | Component | object/md date', function(hooks) {
     </tr></table>`);
 
     assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(),
-      "|This|field|can't|be|blank|Choose|date|type|This|field|can't|be|blank|template|block|text|");
+      "|Choose|date|type|template|block|text|");
   });
 });

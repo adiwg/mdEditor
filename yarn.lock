@@ -5088,10 +5088,10 @@ ember-toggle@^5.3.1:
     ember-hammertime "^1.4.1"
     ember-runtime-enumerable-includes-polyfill "^2.0.0"
 
-ember-tooltips@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/ember-tooltips/-/ember-tooltips-3.1.0.tgz#99c6b9d96eaf907a6f7a2285a7a43239ae62698d"
-  integrity sha512-5GNsi+Lwr/svVm9WsO4DNNxtdsRIKY7M5eyuyKIG0CDd0ZZUScuTKRZmtx+XozDrJN6TYj/12jFAG8EZ9Myq8w==
+ember-tooltips@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/ember-tooltips/-/ember-tooltips-3.2.0.tgz#c98cdabaf2e11fe295159ff693829587afc10448"
+  integrity sha512-mpECpVjfpVOhNsfgRV7gTYM9lBC5z82RoxTSXPLJ/Ub7pg+uDd6XNJap0fcu+yHT5V5Ulnia0EUUAe9dz5aLZw==
   dependencies:
     broccoli-funnel "^2.0.1"
     broccoli-merge-trees "^2.0.0"

@@ -39,7 +39,7 @@ module('Integration | Component | object/md medium', function(hooks) {
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      "Medium|Title|Storage|Density|Density|Units|Number|Of|Volumes|Storage|Format|Identifier|This|field|can't|be|blank|Namespace|Select|or|type|a|namespace|for|the|identifier.|Version|Description|Note|template|block|text|",
+      "Medium|Title|Storage|Density|Density|Units|Number|Of|Volumes|Storage|Format|Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|Version|Description|Note|template|block|text|",
       'block');
   });
 });

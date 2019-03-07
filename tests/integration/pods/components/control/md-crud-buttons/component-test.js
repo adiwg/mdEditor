@@ -1,4 +1,4 @@
-import { click, find, render } from '@ember/test-helpers';
+import { click, find, render, triggerEvent } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -13,9 +13,10 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
     await render(hbs `{{control/md-crud-buttons}}`);
+    await triggerEvent('.md-crud-buttons', 'mouseenter');
 
     assert.equal(find('.md-crud-buttons').textContent
-      .replace(/[ \n]+/g, '|'), '|Copy|Delete|Manage|the|record|');
+      .replace(/[ \n]+/g, '|'), '|Copy|Delete|');
 
     // Template block usage:" + EOL +
     await render(hbs `
@@ -26,7 +27,7 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
 
     assert.equal(find('.md-crud-buttons').textContent
       .replace(/[ \n]+/g, '|'),
-      '|Save|Cancel|Copy|Delete|template|block|text|Manage|the|record|', 'block, doSave');
+      '|Save|Cancel|Copy|Delete|template|block|text|', 'block, doSave');
 
     assert.equal(find('.md-crud-buttons .btn-success').disabled, true, 'save disabled');
   });

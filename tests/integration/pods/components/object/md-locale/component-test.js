@@ -20,7 +20,7 @@ module('Integration | Component | object/md locale', function(hooks) {
     await render(hbs`<section>{{object/md-locale settings=settings model=(hash)}}</section>`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Language|eng|?|English|×|Character|Set|UTF-8|?|[RFC3629]|×|Country|USA|?|United|States|of|America|×|');
+      '|Language|eng|?|×|Character|Set|UTF-8|?|×|Country|USA|?|×|');
 
     // Template block usage:
     await render(hbs`<section>
@@ -30,7 +30,7 @@ module('Integration | Component | object/md locale', function(hooks) {
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Language|eng|?|English|×|Character|Set|UTF-8|?|[RFC3629]|×|Country|USA|?|United|States|of|America|×|template|block|text|',
+      '|Language|eng|?|×|Character|Set|UTF-8|?|×|Country|USA|?|×|template|block|text|',
       'template block');
   });
 });

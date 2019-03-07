@@ -14,7 +14,7 @@ module('Integration | Component | object/md taxonomy/collection/voucher', functi
 
     await render(hbs`{{object/md-taxonomy/collection/voucher profilePath="foobar" model=model}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Specimen|Repository|Role|custodian|?|party|that|accepts|accountability|and|responsibility|for|the|data|and|ensures|appropriate|care|and|maintenance|of|the|resource|×|Contacts|');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Specimen|Repository|Role|custodian|?|×|Contacts|');
 
     var input = findAll('input, textarea').mapBy('value').join('|');
 
@@ -28,7 +28,7 @@ module('Integration | Component | object/md taxonomy/collection/voucher', functi
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Specimen|Repository|Role|Select|or|enter|a|role|This|field|can't|be|blank|Contacts|At|least|one|contact|is|required.|",
+      "|Specimen|Repository|Role|Select|or|enter|a|role|Contacts|",
       'block');
   });
 });
