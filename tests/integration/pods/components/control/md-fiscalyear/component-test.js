@@ -3,7 +3,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import { selectChoose } from 'ember-power-select/test-support';
-import { clickTrigger } from 'ember-power-select/test-support/helpers'
+import { clickTrigger } from 'ember-power-select/test-support/helpers';
+import moment from'moment';
 
 
 
@@ -53,8 +54,10 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
     await clickTrigger('.md-fiscalyear');
     await selectChoose('.md-fiscalyear', year);
 
-    assert.equal('2020-01-01T07:59:59.999Z', this.end, 'end set');
-    assert.equal('2019-01-01T08:00:00.000Z', this.start, 'end start');
+    assert.equal(this.end, moment(year, 'YYYY').month(this.settings.data.fiscalStartMonth +
+      10).endOf('month').toISOString(), 'end set');
+    assert.equal(this.start, moment(year, 'YYYY').month(this.settings.data.fiscalStartMonth -
+      1).startOf('month').toISOString(), 'start set');
 
     this.set('settings.data.fiscalStartMonth', null);
 

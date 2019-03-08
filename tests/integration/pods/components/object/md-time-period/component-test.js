@@ -2,6 +2,7 @@ import { findAll, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import moment from 'moment';
 
 module('Integration | Component | object/md time period', function(hooks) {
   setupRenderingTest(hooks);
@@ -10,6 +11,8 @@ module('Integration | Component | object/md time period', function(hooks) {
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
+    var date = new Date("2016-10-14T13:10:15-0800");
+
     this.model = [{
         "id": "id",
         "description": "description",
@@ -21,7 +24,7 @@ module('Integration | Component | object/md time period', function(hooks) {
           "periodName0",
           "periodName1"
         ],
-        "startDateTime": "2016-10-14T11:10:15.2-10:00",
+        "startDateTime": date,
         "endDateTime": "2016-12-31",
         "timeInterval": {
           "interval": 9,
@@ -66,7 +69,7 @@ module('Integration | Component | object/md time period', function(hooks) {
 
     var input = findAll('form input, form textarea').mapBy('value').join('|');
 
-    assert.equal(input, '2016-10-14 14:10:15|2016-12-31 00:00:00|id|description|periodName0|periodName1|9|1|1|1|1|1|1', 'input values');
+    assert.equal(input, moment(date).format('YYYY-MM-DD HH:mm:ss') + '|2016-12-31 00:00:00|id|description|periodName0|periodName1|9|1|1|1|1|1|1', 'input values');
 
     await render(hbs`{{object/md-time-period profilePath="foobar" model=model.lastObject}}`);
 
