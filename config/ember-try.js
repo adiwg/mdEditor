@@ -61,6 +61,7 @@ module.exports = function() {
         },
         {
           name: 'ember-beta',
+          command: 'ember test --silent',
           allowedToFail: true,
           npm: {
             devDependencies: {
@@ -70,6 +71,7 @@ module.exports = function() {
         },
         {
           name: 'ember-canary',
+          command: 'ember test --silent',
           allowedToFail: true,
           npm: {
             devDependencies: {
