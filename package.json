@@ -34,7 +34,7 @@
     "Leaflet.vector-markers": "^0.0.6",
     "ajv": "^6.0.0",
     "bootstrap-3-card": "^0.2.0",
-    "bootstrap-sass": "~3.3.7",
+    "bootstrap-sass": "~3.4.1",
     "brfs": "^1.4.3",
     "broccoli-asset-rev": "^2.7.0",
     "csv2geojson": "^5.0.2",
