@@ -1,7 +1,34 @@
 # Change Log
 
-## [v0.6.1](https://github.com/adiwg/mdEditor/tree/v0.6.1)
+## [v0.7.0](https://github.com/adiwg/mdEditor/tree/v0.7.0)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.6.1...v0.7.0)
+
+**Implemented enhancements:**
+
+- Update GCMD keywords to v8.6 [\#265](https://github.com/adiwg/mdEditor/issues/265)
+- Metadata Identifier lacking "Delete" function [\#261](https://github.com/adiwg/mdEditor/issues/261)
+- Use ember-ajax instead of jQuery.ajax [\#238](https://github.com/adiwg/mdEditor/issues/238)
+- Replace ember-pollboy with ember-concurrency  [\#187](https://github.com/adiwg/mdEditor/issues/187)
+
+**Fixed bugs:**
+
+- In process-step template stepSource.value should be stepSource.description [\#291](https://github.com/adiwg/mdEditor/issues/291)
+- Changing 'resourceType' icon [\#252](https://github.com/adiwg/mdEditor/issues/252)
+
+**Closed issues:**
+
+- Upgrade to Ember 3 [\#255](https://github.com/adiwg/mdEditor/issues/255)
+- Migrate bower dependencies to npm or yarn [\#111](https://github.com/adiwg/mdEditor/issues/111)
+- Upgrade to latest ember-leaflet [\#71](https://github.com/adiwg/mdEditor/issues/71)
+- Update to Ember 2.11.1 [\#46](https://github.com/adiwg/mdEditor/issues/46)
+
+**Merged pull requests:**
+
+- Update bootstrap-sass [\#297](https://github.com/adiwg/mdEditor/pull/297) ([jlblcc](https://github.com/jlblcc))
+- maintenance-255-ember3 [\#266](https://github.com/adiwg/mdEditor/pull/266) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.6.1](https://github.com/adiwg/mdEditor/tree/v0.6.1) (2018-11-09)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.6.0...v0.6.1)
 
 **Implemented enhancements:**
@@ -21,6 +48,7 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG [\#248](https://github.com/adiwg/mdEditor/pull/248) ([jlblcc](https://github.com/jlblcc))
 - 0.6.1 [\#247](https://github.com/adiwg/mdEditor/pull/247) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.6.0](https://github.com/adiwg/mdEditor/tree/v0.6.0) (2018-11-05)
