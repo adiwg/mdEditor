@@ -1,5 +1,5 @@
 {{#if label}}<label>{{label}}</label>{{/if}}
-<div class="{{if disabled "input-group"}}">
+<div class={{if disabled "input-group"}}>
 
 {{input
   value=value
@@ -9,6 +9,7 @@
   maxlength=maxlength
   class=inputClass
   disabled=isDisabled
+  blur=(action "inputBlur")
 }}
   {{#if disabled}}
     <span class="input-group-btn">
@@ -18,9 +19,9 @@
         }}
             {{fa-icon "pencil"}} Edit
             {{#if confirmTip}}
-              {{#tooltip-on-component enableLazyRendering=true}}
+              {{#ember-tooltip}}
                 {{confirmTip}}
-              {{/tooltip-on-component}}
+              {{/ember-tooltip}}
             {{/if}}
         {{/control/md-button-confirm}}
     </span>

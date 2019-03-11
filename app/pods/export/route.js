@@ -1,21 +1,19 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import EmObject, {
+  computed,
+  defineProperty,
+  get
+} from '@ember/object';
 import moment from 'moment';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { singularize } from 'ember-inflector';
 
-const {
-  get,
-  Object: EmObject,
-  defineProperty,
-  computed,
-  inject
-} = Ember;
-
 const modelTypes = ['records', 'contacts', 'dictionaries', 'settings'];
 
-export default Ember.Route.extend(ScrollTo, {
-  mdjson: inject.service(),
-  settings: inject.service(),
+export default Route.extend(ScrollTo, {
+  mdjson: service(),
+  settings: service(),
   model() {
     //const store = this.get('store');
 
@@ -30,10 +28,7 @@ export default Ember.Route.extend(ScrollTo, {
     this._super(controller, model);
     // Implement your custom setup after
     defineProperty(this.controller, 'hasSelected', computed(
-      'model.records.0.@each._selected',
-      'model.records.1.@each._selected',
-      'model.records.2.@each._selected',
-      'model.settings._selected',
+      'model.{records.0.@each._selected,records.1.@each._selected,records.2.@each._selected,settings._selected}',
       function() {
         return(this.store.peekAll('record').filterBy('_selected').get(
             'length') +
@@ -91,7 +86,7 @@ export default Ember.Route.extend(ScrollTo, {
   }),
   actions: {
     exportData() {
-      this.get('store').exportData(
+      this.store.exportData(
         modelTypes, {
           download: true,
           filename: `mdeditor-${moment().format('YYYYMMDD-HHMMSS')}.json`
@@ -99,7 +94,7 @@ export default Ember.Route.extend(ScrollTo, {
       );
     },
     exportSelectedData(asMdjson) {
-      let store = this.get('store');
+      let store = this.store;
 
       if(asMdjson) {
         let records = store.peekAll('record').filterBy('_selected').map((

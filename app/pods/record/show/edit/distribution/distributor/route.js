@@ -1,13 +1,8 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray,
-  NativeArray,
-  computed
-} = Ember;
+import Route from '@ember/routing/route';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
+import { computed, get } from '@ember/object';
+import { A } from '@ember/array';
 
 export default Route.extend({
   model(params) {
@@ -40,13 +35,13 @@ export default Route.extend({
     let distributionId = get(this, 'distributionId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.resourceDistribution');
-    let resource = distributionId && isArray(objects) ? NativeArray.apply(
+    let resource = distributionId && isArray(objects) ? A(
         objects).objectAt(distributionId) :
       undefined;
 
     //make sure the identifier exists
     if(isEmpty(resource)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No Distribution object found! Re-directing to list...');
       this.replaceWith('record.show.edit.distribution');
 

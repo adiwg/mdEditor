@@ -6,10 +6,11 @@
     <div class="md-control-sidebar hidden-print">
       {{control/md-crud-buttons
           model=model
-          doSave="saveRecord"
-          doCancel="cancelRecord"
-          doDelete="destroyRecord"
-          doCopy="copyRecord" }}
+          doSave=(route-action "saveRecord")
+          doCancel=(route-action "cancelRecord")
+          doDelete=(route-action "destroyRecord")
+          doCopy=(route-action "copyRecord")
+      }}
       {{component subbar context=(route-action "getContext")}}
       <hr>
       {{from-elsewhere name="md-subbar-extra"}}

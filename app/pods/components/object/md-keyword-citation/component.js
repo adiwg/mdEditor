@@ -2,7 +2,11 @@
  * @module mdeditor
  * @submodule components-object
  */
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+
+import { isArray } from '@ember/array';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import {
   regex
 } from '../md-online-resource/component';
@@ -10,12 +14,6 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  isArray,
-  computed,
-  Component
-} = Ember;
 
 const Validations = buildValidations({
   'onlineResource': [
@@ -38,7 +36,7 @@ export default Component.extend(Validations, {
       return this.get('model.thesaurus.identifier.0.identifier') !==
         'custom';
     }),
-  title: computed.alias('model.thesaurus.title'),
+  title: alias('model.thesaurus.title'),
   onlineResource: computed('model.thesaurus.onlineResource.0.uri', {
     get() {
       return this.get('model.thesaurus.onlineResource.0.uri');

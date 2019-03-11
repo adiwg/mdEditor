@@ -1,7 +1,7 @@
   <ul class="sidebar-nav">
     <li class="sidebar-brand">
       <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>md<span class="md-icon-mdeditor"></span>ditor</a><span class="md-app-version {{prerelease}}">v{{version}}</span>
-      <a class="md-btn-help" class="pull-right" href="#" {{action "toggleHelp"}}>{{fa-icon (if showHelp "list" "question-circle")}}</a>
+      <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}>{{fa-icon (if showHelp "list" "question-circle")}}</a>
     </li>
     {{#liquid-if showHelp use="fade" enableGrowth=false}}
       {{md-help}}
@@ -20,12 +20,12 @@
                 </div>
                 <h4 class="panel-title bg-primary">
               <a class="" data-toggle="collapse" aria-expanded="true"
-                href="#{{meta.listId}}" aria-controls="{{meta.listId}}">
+                href="#{{meta.listId}}" aria-controls={{meta.listId}}>
                 <span class="fa"></span> {{meta.title}} ({{class.length}})
               </a>
             </h4>
               </div>
-              <div class="panel-collapse collapse in" role="tabpanel" aria-expanded="true" id="{{meta.listId}}" aria-labelledby="{{meta.listId}}-heading">
+              <div class="panel-collapse collapse in" role="tabpanel" aria-expanded="true" id={{meta.listId}} aria-labelledby="{{meta.listId}}-heading">
                 <div class="list-group">
                 {{#each class as |record|}}
                     <div class="list-group-item" draggable="true">
@@ -38,7 +38,7 @@
                           {{fa-icon "pencil"}}
                         {{/link-to}}
                       </div>
-                      <!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> -->
+                      {{!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> --}}
                       {{#link-to (concat meta.type ".show")
                         record class="sidebar-row"
                         disabledWhen=record.isNew
@@ -46,7 +46,7 @@
                         draggable="false"
                       }}
                           {{#if record.defaultLogo}}
-                            <img src="{{record.defaultLogo}}" class="fa-fw">
+                            <img src={{record.defaultLogo}} alt="logo" class="fa-fw">
                           {{else}}
                             <span class="fa fa-{{record.icon}} fa-fw"></span>
                           {{/if}}
@@ -55,9 +55,6 @@
                     </div>
                 {{/each}}
                 </div>
-                <!-- <div class="panel-footer">
-                      <button>More</button>
-                      </div> -->
               </div>
             </div>
           {{/with}}

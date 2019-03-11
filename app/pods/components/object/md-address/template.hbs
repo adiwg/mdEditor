@@ -45,12 +45,12 @@
     {{!-- {{input/md-input value=address.country
     placeholder="Country Name" label="Country"}} --}}
 
-    <div class="form-group" class="col-md-6">
+    <div class="form-group col-md-6">
         <label>Country</label>
         {{input/md-codelist
         value=address.country
-        namePath='description'
-        tooltipPath='codeName'
+        namePath="description"
+        tooltipPath="codeName"
         width="175px"
         create=false tooltip=true icon=false mdCodeName="countries"
         placeholder="Enter a country code"}}

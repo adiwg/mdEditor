@@ -1,34 +1,32 @@
-import Ember from 'ember';
-import {
-  moduleForModel, test
-}
-from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('record', 'Unit | Model | record', {
-  // Specify the other units that are required for this test.
-  needs: ['service:icon']
-});
+import { run } from '@ember/runloop';
 
-test('it exists', function(assert) {
-  var model = this.subject();
-  // var store = this.store();
-  assert.ok(!!model);
-});
+module('Unit | Model | record', function(hooks) {
+  setupTest(hooks);
 
-test('should correctly compute title', function(assert) {
-  const me = this.subject();
+  test('it exists', function(assert) {
+    var model = run(() => this.owner.lookup('service:store').createRecord('record'));
+    // var store = this.store();
+    assert.ok(!!model);
+  });
 
-  assert.expect(1);
-  me.set('json.metadata.resourceInfo.citation.title', 'foo');
-  assert.equal(me.get('title'), 'foo');
-});
+  test('should correctly compute title', function(assert) {
+    const me = run(() => this.owner.lookup('service:store').createRecord('record'));
 
-test('should correctly compute icon', function(assert) {
-  const me = this.subject();
-  const list = Ember.getOwner(this)
-    .lookup('service:icon');
+    assert.expect(1);
+    me.set('json.metadata.resourceInfo.citation.title', 'foo');
+    assert.equal(me.get('title'), 'foo');
+  });
 
-  assert.expect(1);
-  me.set('json.metadata.resourceInfo.resourceType', 'project');
-  assert.equal(me.get('icon'), list.get('project'));
+  test('should correctly compute icon', function(assert) {
+    const me = run(() => this.owner.lookup('service:store').createRecord('record'));
+    const list = this.owner
+      .lookup('service:icon');
+
+    assert.expect(1);
+    me.set('json.metadata.resourceInfo.resourceType.firstObject.type', 'project');
+    assert.equal(me.get('icon'), list.get('project'));
+  });
 });

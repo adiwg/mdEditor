@@ -1,25 +1,36 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('input/md-markdown-area', 'Integration | Component | input/md markdown area', {
-  integration: true
-});
+module('Integration | Component | input/md markdown area', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{input/md-markdown-area}}`);
+    await render(hbs`{{input/md-markdown-area required=true}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.md-markdown-editor').innerText.replace(/[ \n\s]+/g, '').trim(),
+      '||||Entertext,Markdownissupported.​length:0100:0');
+    assert.ok(find('.md-markdown-editor .length.md-error'), 'required ok');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#input/md-markdown-area}}
-      template block text
-    {{/input/md-markdown-area}}
-  `);
+    this.set('markdownValue', 'This is foobar.');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    await render(hbs`{{input/md-markdown-area value=markdownValue maxlength=10 required=false}}`);
+
+    assert.equal(find('.md-markdown-editor .length.md-error').textContent, 'length: 15', 'maxlength ok');
+
+    // Template block usage:
+    await render(hbs`
+      {{#input/md-markdown-area}}
+        template block text
+      {{/input/md-markdown-area}}
+    `);
+
+    assert.equal(find('.md-markdown-editor').innerText.replace(/[ \n\s]+/g, '').trim(),
+     '||||Entertext,Markdownissupported.​length:0100:0templateblocktext', 'block');
+  });
 });

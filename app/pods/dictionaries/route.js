@@ -1,11 +1,13 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
-const {
-  Route,
-  inject: {
-    service
-  }
-} = Ember;
+const columns = [{
+  propertyName: 'title',
+  title: 'Title'
+}, {
+  propertyName: 'json.dataDictionary.subject',
+  title: 'Subject'
+}];
 
 export default Route.extend({
   slider: service(),
@@ -14,21 +16,15 @@ export default Route.extend({
     return this.modelFor('application').findBy('modelName','dictionary');
   },
 
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'json.dataDictionary.subject',
-    title: 'Subject'
-  }],
+  columns: columns,
 
   actions: {
     getColumns(){
-      return this.get('columns');
+      return this.columns;
     },
 
     showSlider(rec, evt) {
-      let slider = this.get('slider');
+      let slider = this.slider;
 
       evt.stopPropagation();
       this.controller.set('errorTarget', rec);

@@ -1,14 +1,10 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  set,
-  get,
+import Component from '@ember/component';
+import EmberObject, {
   getWithDefault,
-  run: {
-    once
-  }
-} = Ember;
+  get,
+  set
+} from '@ember/object';
+import { once } from '@ember/runloop';
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -49,12 +45,12 @@ export default Component.extend({
    * @property stepTemplateClass
    * @type Ember.Object
    */
-  stepTemplateClass: Ember.Object.extend({
+  stepTemplateClass: EmberObject.extend({
     init() {
       this._super(...arguments);
       this.set('timePeriod', {});
     }
   }),
 
-  sourceTemplate: Ember.Object.extend()
+  sourceTemplate: EmberObject.extend()
 });

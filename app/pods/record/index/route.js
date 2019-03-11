@@ -1,8 +1,12 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
-  breadCrumb: {
-    title: 'Record',
-    linkable: false
-  }
+export default Route.extend({
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Record',
+      linkable: false
+    }
+  },
 });

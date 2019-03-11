@@ -3,15 +3,12 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { alias, not, notEmpty, and, or } from '@ember/object/computed';
 
-const {
-  Component,
-  defineProperty,
-  computed,
-  isBlank,
-  assert
-} = Ember;
+import Component from '@ember/component';
+import { computed, defineProperty } from '@ember/object';
+import { isBlank } from '@ember/utils';
+import { assert, debug } from '@ember/debug';
 
 export default Component.extend({
   /**
@@ -35,8 +32,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = this.get('model');
-    let valuePath = this.get('valuePath');
+    let model = this.model;
+    let valuePath = this.valuePath;
 
     if(isBlank(model) !== isBlank(valuePath)) {
       assert(
@@ -46,14 +43,14 @@ export default Component.extend({
 
     if(!isBlank(model)) {
       if(this.get(`model.${valuePath}`) === undefined) {
-        Ember.debug(
+        debug(
           `model.${valuePath} is undefined in ${this.toString()}.`
         );
 
         //Ember.run.once(()=>model.set(valuePath, ""));
       }
 
-      if(this.get('type') === 'number') {
+      if(this.type === 'number') {
         let attribute = `model.${valuePath}`;
 
         defineProperty(this, 'value', computed(attribute, {
@@ -64,7 +61,7 @@ export default Component.extend({
           },
 
           set(key, value) {
-            let parse = this.get('step') ? parseFloat : parseInt;
+            let parse = this.step ? parseFloat : parseInt;
 
             this.set(attribute, parse(value, 10));
 
@@ -72,55 +69,54 @@ export default Component.extend({
           }
         }));
       } else {
-        defineProperty(this, 'value', computed.alias(`model.${valuePath}`));
+        defineProperty(this, 'value', alias(`model.${valuePath}`));
       }
 
-      defineProperty(this, 'validation', computed.alias(
+      defineProperty(this, 'validation', alias(
           `model.validations.attrs.${valuePath}`)
         .readOnly());
 
       defineProperty(this, 'required', computed(
-          'validation.options.presence.presence',
-          'validation.options.presence.disabled',
+          'validation.options.presence{presence,disabled}',
           'disabled',
           function() {
-            return !this.get('disabled') &&
+            return !this.disabled &&
               this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
           })
         .readOnly());
 
-      defineProperty(this, 'notValidating', computed.not(
+      defineProperty(this, 'notValidating', not(
           'validation.isValidating')
         .readOnly());
 
-      defineProperty(this, 'hasContent', computed.notEmpty('value')
+      defineProperty(this, 'hasContent', notEmpty('value')
         .readOnly());
 
-      defineProperty(this, 'hasWarnings', computed.notEmpty(
+      defineProperty(this, 'hasWarnings', notEmpty(
           'validation.warnings')
         .readOnly());
 
-      defineProperty(this, 'isValid', computed.and('hasContent',
+      defineProperty(this, 'isValid', and('hasContent',
           'validation.isTruelyValid')
         .readOnly());
 
-      defineProperty(this, 'shouldDisplayValidations', computed.or(
+      defineProperty(this, 'shouldDisplayValidations', or(
           'showValidations', 'didValidate',
           'hasContent')
         .readOnly());
 
-      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+      defineProperty(this, 'showErrorClass', and('notValidating',
           'showErrorMessage',
           'hasContent', 'validation')
         .readOnly());
 
-      defineProperty(this, 'showErrorMessage', computed.and(
+      defineProperty(this, 'showErrorMessage', and(
           'shouldDisplayValidations',
           'validation.isInvalid')
         .readOnly());
 
-      defineProperty(this, 'showWarningMessage', computed.and(
+      defineProperty(this, 'showWarningMessage', and(
           'shouldDisplayValidations',
           'hasWarnings', 'isValid')
         .readOnly());

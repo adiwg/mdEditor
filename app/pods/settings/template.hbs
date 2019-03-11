@@ -11,10 +11,10 @@
       <div class="col-sm-1">
         {{x-toggle
           value=model.autoSave
-          onToggle=(mut model.autoSave)
+          onToggle=(action (mut model.autoSave))
           showLabels=true
-          onLabel="On::true"
-          offLabel="Off::false"
+          onLabel="On"
+          offLabel="Off"
           size="medium"
           theme="default"
         }}
@@ -98,7 +98,7 @@
         }}
         <span class="input-group-btn">
           <button class="btn btn-warning" type="button" {{action "resetMdTranslatorAPI"}}>Default
-            {{tooltip-on-element class="md-tooltip info" text='Reset to default'}}
+            {{ember-tooltip tooltipClassName="ember-tooltip md-tooltip info" text="Reset to default"}}
           </button>
         </span>
       </div>
@@ -159,7 +159,7 @@
       collapsed=true
       shadow=false
     }}
-    {{component catalog.settingsComponent model=model.publishOptions}}
+    {{component catalog.settingsComponent model=model.publishOptions save=(route-action "save")}}
     {{/layout/md-card}}
   {{/each}}
 {{/layout/md-card}}

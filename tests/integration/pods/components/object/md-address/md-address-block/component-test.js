@@ -1,25 +1,43 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-address/md-address-block', 'Integration | Component | object/md address/md address block', {
-  integration: true
-});
+module('Integration | Component | object/md address/md address block', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('address', {
+      "addressType": [
+        "mailing",
+        "physical"
+      ],
+      "description": "description",
+      "deliveryPoint": [
+        "deliveryPoint0",
+        "deliveryPoint1"
+      ],
+      "city": "city",
+      "administrativeArea": "administrativeArea",
+      "postalCode": "postalCode",
+      "country": "country"
+    });
 
-  this.render(hbs`{{object/md-address/md-address-block}}`);
+    await render(hbs`{{object/md-address/md-address-block item=address}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('address').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|deliveryPoint0|deliveryPoint1|city,|administrativeArea|postalCode|country|mailing,|physical|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-address/md-address-block}}
-      template block text
-    {{/object/md-address/md-address-block}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-address/md-address-block item=address}}
+        template block text
+      {{/object/md-address/md-address-block}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('address').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|deliveryPoint0|deliveryPoint1|city,|administrativeArea|postalCode|country|mailing,|physical|');
+  });
 });

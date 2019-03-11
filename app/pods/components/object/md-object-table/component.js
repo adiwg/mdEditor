@@ -1,21 +1,17 @@
-import Ember from 'ember';
+import { gt } from '@ember/object/computed';
+import Component from '@ember/component';
+import EmberObject, {
+  get,
+  observer,
+  computed
+} from '@ember/object';
+import { typeOf, isEmpty } from '@ember/utils';
+import { getOwner } from '@ember/application';
+import { A } from '@ember/array';
+import $ from 'jquery';
+import { inject as service } from '@ember/service';
 import Template from 'mdeditor/mixins/object-template';
 import InViewportMixin from 'ember-in-viewport';
-
-const {
-  computed,
-  Component,
-  observer,
-  get,
-  isEmpty,
-  typeOf,
-  getOwner,
-  A,
-  $,
-  inject: {
-    service
-  }
-} = Ember;
 
 export default Component.extend(InViewportMixin, Template, {
 
@@ -235,8 +231,8 @@ export default Component.extend(InViewportMixin, Template, {
    * @requires isCollapsed
    */
   collapsed: computed('isCollapsed', 'items.[]', function () {
-    let isCollapsed = this.get('isCollapsed');
-    let value = this.get('items');
+    let isCollapsed = this.isCollapsed;
+    let value = this.items;
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
@@ -262,11 +258,11 @@ export default Component.extend(InViewportMixin, Template, {
   }),
 
   panelId: computed('items.@each.val', 'editing', function () {
-    return 'panel-' + this.get('elementId');
+    return 'panel-' + this.elementId;
   }),
 
   btnSize: computed('verticalButtons', function () {
-    return this.get('verticalButtons') ? 'md' : 'xs';
+    return this.verticalButtons ? 'md' : 'xs';
   }),
 
   /**
@@ -278,7 +274,7 @@ export default Component.extend(InViewportMixin, Template, {
    * @category computed
    * @requires items.length
    */
-  showFooter: computed.gt('items.length', 5),
+  showFooter: gt('items.length', 5),
 
   /*citems: computed('items.@each.val', function () {
     let i = this.get('items')
@@ -289,13 +285,13 @@ export default Component.extend(InViewportMixin, Template, {
   }),*/
 
   attrArray: computed('attributes', function () {
-    let attr = this.get('attributes');
+    let attr = this.attributes;
 
     return attr ? attr.split(',') : null;
   }),
 
   attrTitleArray: computed('attrArray', function () {
-    return this.get('attrArray')
+    return this.attrArray
       .map(function (item) {
         return item.trim()
           .split('.')
@@ -308,9 +304,9 @@ export default Component.extend(InViewportMixin, Template, {
   editing: false,
 
   scrollTo(el) {
-    let offset = this.get('offset');
+    let offset = this.offset;
 
-    if(this.get('viewportEntered')) {
+    if(this.viewportEntered) {
       // el.scrollIntoView({
       //   block: "end",
       //   behavior: "smooth"
@@ -331,13 +327,13 @@ export default Component.extend(InViewportMixin, Template, {
     let panel = this.$('> .md-object-table > .panel-collapse');
     let table = panel.find(
       '> .panel-body > table, > .panel-body > .object-editor');
-    let items = this.get('items');
-    let editing = this.get('editing');
-    let el = this.get('element');
+    let items = this.items;
+    let editing = this.editing;
+    let el = this.element;
     let comp = this;
 
     if(editing === 'adding') {
-      items.pushObject(this.get('saveItem'));
+      items.pushObject(this.saveItem);
     }
 
     if(editing === false && items.length) {
@@ -383,28 +379,28 @@ export default Component.extend(InViewportMixin, Template, {
     },
 
     addItem: function () {
-      const Template = this.get('templateClass');
+      const Template = this.templateClass;
       const owner = getOwner(this);
-      const spotlight = this.get('spotlight');
+      const spotlight = this.spotlight;
 
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
-        Ember.Object.create({});
+        EmberObject.create({});
 
       this.set('saveItem', itm);
       this.set('editing', 'adding');
-      spotlight.setTarget(this.get('elementId'));
+      spotlight.setTarget(this.elementId);
     },
 
     editItem: function (items, index) {
-      const spotlight = this.get('spotlight');
+      const spotlight = this.spotlight;
 
       this.set('saveItem', items.objectAt(index));
       this.set('editing', 'editing');
-      spotlight.setTarget(this.get('elementId'));
+      spotlight.setTarget(this.elementId);
     },
 
     cancelEdit: function () {
-      const spotlight = this.get('spotlight');
+      const spotlight = this.spotlight;
 
       this.set('editing', false);
       spotlight.close();

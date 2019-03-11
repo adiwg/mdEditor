@@ -1,4 +1,4 @@
-{{#nestable-draggable-object content=this isDraggable=model.draggable dragStartAction="dragStart"}}
+{{#nestable-draggable-object content=this isDraggable=model.draggable dragStartAction=(action "dragStart")}}
   {{#draggable-object-target
     action=handleDrop
     model=model

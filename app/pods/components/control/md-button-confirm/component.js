@@ -19,24 +19,19 @@ export default Component.extend({
 
   //click handler, sets button state
   click(evt) {
-    if(!this.get('propagateClick')) {
+    if(!this.propagateClick) {
       evt.stopPropagation();
     }
 
-    if(this.get('isShowingConfirm')) {
-      this.get('onConfirm')();
+    if(this.isShowingConfirm) {
+      this.onConfirm();
       this.set('isShowingConfirm', false);
     } else {
       this.set('isShowingConfirm', true);
     }
   },
 
-  //cancel confirm state on button blur
-  didInsertElement() {
-    this._super(...arguments);
-    this.$()
-      .on('blur', () => {
-        this.set('isShowingConfirm', false);
-      });
+  blur() {
+    this.set('isShowingConfirm', false);
   }
 });

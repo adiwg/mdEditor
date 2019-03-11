@@ -1,5 +1,10 @@
 import Component from '@ember/component';
-import { inject } from '@ember/service';
+import {
+  inject
+} from '@ember/service';
+import {
+  computed
+} from '@ember/object';
 
 export default Component.extend({
   slider: inject(),
@@ -11,13 +16,15 @@ export default Component.extend({
 
   text: 'Preview JSON',
   icon: 'binoculars',
-  json: {},
+  json: computed(function () {
+    return {};
+  }),
   hideSlider: true,
-  propagateClick:false,
+  propagateClick: false,
 
   click(evt) {
     //this.set('preview', true);
-    if(!this.get('propagateClick')) {
+    if(!this.propagateClick) {
       evt.stopPropagation();
     }
     this.showSlider();
@@ -29,10 +36,10 @@ export default Component.extend({
   },
 
   showSlider() {
-    let slider = this.get('slider');
+    let slider = this.slider;
 
     slider.set('fromName', 'md-slider-json');
-    slider.set('onClose', this.get('_close'));
+    slider.set('onClose', this._close);
     slider.set('context', this);
     slider.toggleSlider(true);
     this.set('hideSlider', false);
@@ -40,7 +47,7 @@ export default Component.extend({
 
   actions: {
     close() {
-      this.get('_close');
+      this._close;
     },
     showSlider() {
       this.showSlider();

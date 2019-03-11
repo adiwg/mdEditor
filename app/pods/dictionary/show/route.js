@@ -1,14 +1,9 @@
-import Ember from 'ember';
-
-const {
-  inject,
-  Route,
-  get,
-  copy
-} = Ember;
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { copy } from '@ember/object/internals';
 
 export default Route.extend({
-  flashMessages: inject.service(),
+  flashMessages: service(),
 
   model: function(params) {
     let rec= this.store.peekRecord('dictionary', params.dictionary_id);
@@ -31,7 +26,7 @@ export default Route.extend({
       model
         .destroyRecord()
         .then(() => {
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(`Deleted Dictionary: ${model.get('title')}`);
           this.replaceWith('dictionaries');
         });
@@ -39,7 +34,7 @@ export default Route.extend({
 
     copyDictionary: function() {
 
-      get(this, 'flashMessages')
+      this.flashMessages
         .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
       this.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
     }

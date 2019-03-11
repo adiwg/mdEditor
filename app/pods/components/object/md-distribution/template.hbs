@@ -11,11 +11,11 @@
       <div class="card-buttons">
         <div class="row">
           <div class="col-sm-6">
-            <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action (route-action "editDistribution" index)}}>
+            <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editDistribution" index}}>
               {{fa-icon "pencil"}} Edit Distributors</button>
           </div>
           <div class="col-sm-6">
-            <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteDistribution" index)}}>
+            <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteDistribution" index}}>
                 {{fa-icon "times"}} Delete Section</button>
           </div>
         </div>
@@ -26,7 +26,7 @@
           {{#each dist.distributor as |dist|}}
           <div>
             {{#with dist.contact as |party|}}
-              {{{if party.role party.role "<em>No Roles assigned.</em>"}}}
+              {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
               (
               {{#each party.party as |contact index|}}
                   {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
@@ -58,7 +58,7 @@
   {{/layout/md-card}}
 {{else}}
   <h3 class="alert alert-info">No distribution sections found.
-    <button type="button" class="btn btn-success" {{action (route-action "addDistribution")}}>
+    <button type="button" class="btn btn-success" {{action "addDistribution"}}>
       {{fa-icon "plus"}} Add Distribution Section</button>
   </h3>
 {{/each}}

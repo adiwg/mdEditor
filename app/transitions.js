@@ -119,6 +119,13 @@ export default function () {
     this.reverse('toRight')
   );
   this.transition(
+    this.toRoute('dictionary.show.edit'),
+    this.fromRoute('dictionary.show.index'),
+    this.use('toLeft'),
+    this.reverse('toRight'),
+    //this.debug()
+  );
+  this.transition(
     this.toRoute('dictionary.show.edit.citation.identifier'),
     this.fromRoute('dictionary.show.edit.citation.index'),
     this.use('toLeft'),
@@ -175,6 +182,12 @@ export default function () {
   this.transition(
     this.toRoute('dictionary.show.edit.entity.edit.attribute'),
     this.fromRoute('dictionary.show.edit.entity.edit.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('dictionary.show.edit.entity.import'),
+    this.fromRoute('dictionary.show.edit.entity.index'),
     this.use('toLeft'),
     this.reverse('toRight')
   );

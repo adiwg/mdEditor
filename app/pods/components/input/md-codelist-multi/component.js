@@ -3,7 +3,9 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { isArray } from '@ember/array';
+
+import { computed } from '@ember/object';
 import MdCodelist from '../md-codelist/component';
 
 export default MdCodelist.extend({
@@ -59,8 +61,8 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed('create', function() {
-    return this.get('create') ? 'power-select-multiple-with-create' :
+  theComponent: computed('create', function() {
+    return this.create ? 'power-select-multiple-with-create' :
       'power-select-multiple';
   }),
 
@@ -89,9 +91,9 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function() {
-    let value = this.get('value');
-    let codelist = this.get('codelist');
+  selectedItem: computed('value', function() {
+    let value = this.value;
+    let codelist = this.codelist;
 
     if (value) {
       return codelist.filter((item) => {
@@ -109,11 +111,11 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: Ember.computed('value', 'filterId', 'mapped', function() {
-    let codelist = this.get('mapped');
-    let value = this.get('value');
-    let create = this.get('create');
-    let filter = this.get('filterId');
+  codelist: computed('value', 'filterId', 'mapped', function() {
+    let codelist = this.mapped;
+    let value = this.value;
+    let create = this.create;
+    let filter = this.filterId;
 
     if (value) {
       if (create) {
@@ -142,8 +144,8 @@ export default MdCodelist.extend({
 
     //power-select-with-create always sends a single object oncreate
     //we need to add that object to the selectedItem array
-    if (this.get('create') && !Ember.isArray(selected)) {
-      sel = this.get('selectedItem')
+    if (this.create && !isArray(selected)) {
+      sel = this.selectedItem
         .compact();
       sel.pushObject(selected);
     } else {

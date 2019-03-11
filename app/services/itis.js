@@ -26,7 +26,7 @@ const proxy =
 
 const Taxa = EmberObject.extend({
   style: computed('status', function () {
-    let status = this.get('status');
+    let status = this.status;
     return status === 'valid' || status === 'accepted' ? 'success' :
       'danger';
   })
@@ -130,14 +130,14 @@ export default Service.extend({
       `%20OR%20tsn:${formatted})` +
       (kingdom ? `%20AND%20kingdom:${kingdom}&` : '');
 
-    return this.get('ajax').request(
+    return this.ajax.request(
       url, {
         method: 'GET'
       }).catch(error => {
       if(isNotFoundError(error)) {
         // handle 404 errors here
         console.log(error);
-        get(this, 'flashMessages')
+        this.flashMessages
           .warning('No taxa object found.');
         return;
       }
@@ -145,7 +145,7 @@ export default Service.extend({
       if(isForbiddenError(error)) {
         // handle 403 errors here
         console.log(error);
-        get(this, 'flashMessages')
+        this.flashMessages
           .danger('Access to ITIS web service was denied.');
         return;
       }
@@ -153,7 +153,7 @@ export default Service.extend({
       if(isAjaxError(error)) {
         // handle all other AjaxErrors here
         console.log(error);
-        get(this, 'flashMessages')
+        this.flashMessages
           .danger('An error occured during the ITIS query request.');
         return;
       }
@@ -161,7 +161,7 @@ export default Service.extend({
       // other errors are handled elsewhere
       //throw error;
       console.log(error);
-      get(this, 'flashMessages')
+      this.flashMessages
         .danger('An error occured during the ITIS query request.');
     });
   },

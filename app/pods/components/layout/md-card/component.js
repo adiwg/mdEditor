@@ -1,3 +1,4 @@
+import { oneWay } from '@ember/object/computed';
 import Component from '@ember/component';
 import {
   computed,
@@ -65,7 +66,7 @@ export default Component.extend({
    * @requires elementId
    */
   cardId: computed('elementId', function () {
-      return 'card-' + this.get('elementId');
+      return 'card-' + this.elementId;
     })
     .readOnly(),
 
@@ -209,23 +210,23 @@ export default Component.extend({
    * @default "this.title"
    * @category computed
    */
-  'data-spy': computed.oneWay('title'),
+  'data-spy': oneWay('title'),
 
   windowIcon: computed('fullScreen', function () {
-    return this.get('fullScreen') ? 'compress' : 'expand';
+    return this.fullScreen ? 'compress' : 'expand';
   }),
 
   isCollapsible: computed('fullScreen', 'collapsible', function () {
-    return !this.get('fullScreen') && this.get('collapsible');
+    return !this.fullScreen && this.collapsible;
   }),
 
   didInsertElement() {
     this._super(...arguments);
 
-    if(this.get('collapsible')) {
+    if(this.collapsible) {
       let card = this.$();
       let body = this.$(' > .card-collapse');
-      let offset = this.get('offset') || 0;
+      let offset = this.offset || 0;
 
       body.on('shown.bs.collapse', function (e) {
         e.stopPropagation();
@@ -245,10 +246,10 @@ export default Component.extend({
       });
     }
 
-    let content = this.get('content');
+    let content = this.content;
 
     if(content !== null) {
-      let empty = content ? Object.keys(this.get('cleaner').clean(content, {
+      let empty = content ? Object.keys(this.cleaner.clean(content, {
           preserveArrays: false
         })).length ===
         0 : true;

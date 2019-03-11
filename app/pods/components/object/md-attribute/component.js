@@ -96,7 +96,7 @@ const theComp = Component.extend(Validations, {
   allowNull: alias('model.allowNull'),
   domains: alias('dictionary.domain'),
 
-  domainList: computed('domains.@each.domainId', 'domains.@each.codeName',
+  domainList: computed('domains.{@each.domainId,@each.codeName}',
     function () {
       let domains = get(this, 'domains') || [];
 

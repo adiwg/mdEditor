@@ -1,24 +1,36 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-domainitem/preview', 'Integration | Component | object/md domainitem/preview', {
-  integration: true
-});
+module('Integration | Component | object/md domainitem/preview', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('item', {
+      "name": "name0",
+      "value": "value0",
+      "definition": "definition0",
+      "reference": {
+        "title": "domainReference"
+      }
+    });
 
-  this.render(hbs`{{object/md-domainitem/preview}}`);
+    await render(hbs`{{object/md-domainitem/preview profilePath="foobar" model=item tagName="table"}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(findAll('input').length, 3);
+    assert.equal(findAll('input')[0].value, 'name0', 'name');
+    assert.equal(findAll('input')[1].value, 'value0', 'value');
+    assert.equal(findAll('input')[2].value, 'definition0', 'definition');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-domainitem/preview}}
-      template block text
-    {{/object/md-domainitem/preview}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-domainitem/preview profilePath="foobar" model=item tagName="table"}}
+        template block text
+      {{/object/md-domainitem/preview}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('table').textContent.replace(/[\s\n]+/g, '|').trim(), '|', 'block');
+  });
 });

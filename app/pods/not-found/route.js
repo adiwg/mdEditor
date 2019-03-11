@@ -1,15 +1,20 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   model(params) {
-    return Ember.Object.create({
+    return EmberObject.create({
       path: params.path
     });
   },
 
-  breadCrumb: {
-    title: 'Page Not Found',
-    linkable: false
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Page Not Found',
+      linkable: false
+    };
   },
 
   redirect() {

@@ -1,17 +1,18 @@
 
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('present', 'helper:present', {
-  integration: true
+module('helper:present', function(hooks) {
+  setupRenderingTest(hooks);
+
+  // Replace this with your real tests.
+  test('it renders', async function(assert) {
+    this.set('inputValue', '1234');
+
+    await render(hbs`<section>{{present inputValue}}</section>`);
+
+    assert.equal(find('section').textContent.trim(), 'true');
+  });
 });
-
-// Replace this with your real tests.
-test('it renders', function(assert) {
-  this.set('inputValue', '1234');
-
-  this.render(hbs`{{present inputValue}}`);
-
-  assert.equal(this.$().text().trim(), '1234');
-});
-

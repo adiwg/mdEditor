@@ -2,7 +2,6 @@ import {
   inject as service
 } from '@ember/service';
 import {
-  get,
   set,
   computed
 } from '@ember/object';
@@ -91,7 +90,7 @@ export default Component.extend({
    * @param {Event} e The click event.
    */
   clickLink(e) {
-    let setScrollTo = this.get('setScrollTo');
+    let setScrollTo = this.setScrollTo;
     let $target = $(e.currentTarget);
     let targetId = $target.attr('href');
 
@@ -112,7 +111,7 @@ export default Component.extend({
     $('body')
       .scrollspy({
         target: '.md-scroll-spy',
-        offset: get(this, 'offset')
+        offset: this.offset
       });
   },
 
@@ -127,16 +126,16 @@ export default Component.extend({
     let data = $('body').data('bs.scrollspy');
 
     if(data) {
-      set(data, 'options.offset', get(this, 'offset'));
+      set(data, 'options.offset', this.offset);
     }
     this.setupSpy();
 
-    let init = this.get('scrollInit');
+    let init = this.scrollInit;
 
     if(!init || init === 'top') {
       this.scroll();
     } else {
-      let link = this.get('links').find((link) => {
+      let link = this.links.find((link) => {
         return init === link.text.dasherize();
       });
 
@@ -171,10 +170,10 @@ export default Component.extend({
     let $anchor = $(id);
 
     if($anchor.length === 0) {
-      $('html, body').scrollTop(0 - get(this, 'offset'));
+      $('html, body').scrollTop(0 - this.offset);
       return;
     }
-    $('html, body').scrollTop($anchor.offset().top - get(this, 'offset'));
+    $('html, body').scrollTop($anchor.offset().top - this.offset);
 
     if(hilite) {
       $('[href="' + id + '"]')

@@ -3,21 +3,32 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
-import moment from 'moment';
+import {
+  alias,
+  not,
+  notEmpty,
+  and,
+  or
+} from '@ember/object/computed';
 
-const {
-  Component,
-  defineProperty,
-  computed,
-  isBlank,
-  set,
+import Component from '@ember/component';
+import {
+  isBlank
+} from '@ember/utils';
+import {
   get,
-  run: {
-    once
-  },
-  assert
-} = Ember;
+  set,
+  computed,
+  defineProperty
+} from '@ember/object';
+import {
+  once
+} from '@ember/runloop';
+import {
+  assert,
+  debug
+} from '@ember/debug';
+import moment from 'moment';
 
 export default Component.extend({
 
@@ -32,8 +43,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = this.get('model');
-    let valuePath = this.get('valuePath');
+    let model = this.model;
+    let valuePath = this.valuePath;
 
     if(isBlank(model) !== isBlank(valuePath)) {
       assert(
@@ -43,70 +54,86 @@ export default Component.extend({
 
     if(!isBlank(model)) {
       if(this.get(`model.${valuePath}`) === undefined) {
-        Ember.debug(
+        debug(
           `model.${valuePath} is undefined in ${this.toString()}.`
         );
       }
 
-      defineProperty(this, 'date', computed(`model.${valuePath}`, {
+      defineProperty(this, '_date', computed(`model.${valuePath}`, {
         get() {
-          return moment(get(this, `model.${valuePath}`));
+          let val = get(this, `model.${valuePath}`);
+
+          return val ? moment(val, this.get('altFormat' || null)) :
+            null;
         },
         set(key, value) {
-          once(this, () => {
-            this.set(`model.${valuePath}`, value);
-          });
-          return value;
+          let formatted = this.formatValue(value,
+            `model.${valuePath}`);
+
+          return formatted;
         }
       }));
 
-      defineProperty(this, 'validation', computed.alias(
+      defineProperty(this, 'validation', alias(
           `model.validations.attrs.${valuePath}`)
         .readOnly());
 
       defineProperty(this, 'required', computed(
-          'validation.options.presence.presence',
-          'validation.options.presence.disabled',
-          function() {
+          'validation.options.presence.{presence,disabled}',
+          function () {
             return this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
           })
         .readOnly());
 
-      defineProperty(this, 'notValidating', computed.not(
+      defineProperty(this, 'notValidating', not(
           'validation.isValidating')
         .readOnly());
 
-      defineProperty(this, 'hasContent', computed.notEmpty('date')
+      defineProperty(this, 'hasContent', notEmpty('date')
         .readOnly());
 
-      defineProperty(this, 'hasWarnings', computed.notEmpty(
+      defineProperty(this, 'hasWarnings', notEmpty(
           'validation.warnings')
         .readOnly());
 
-      defineProperty(this, 'isValid', computed.and('hasContent',
+      defineProperty(this, 'isValid', and('hasContent',
           'validation.isTruelyValid')
         .readOnly());
 
-      defineProperty(this, 'shouldDisplayValidations', computed.or(
+      defineProperty(this, 'shouldDisplayValidations', or(
           'showValidations', 'didValidate',
           'hasContent')
         .readOnly());
 
-      defineProperty(this, 'showErrorClass', computed.and('notValidating',
+      defineProperty(this, 'showErrorClass', and('notValidating',
           'showErrorMessage',
           'hasContent', 'validation')
         .readOnly());
 
-      defineProperty(this, 'showErrorMessage', computed.and(
+      defineProperty(this, 'showErrorMessage', and(
           'shouldDisplayValidations',
           'validation.isInvalid')
         .readOnly());
 
-      defineProperty(this, 'showWarningMessage', computed.and(
+      defineProperty(this, 'showWarningMessage', and(
           'shouldDisplayValidations',
           'hasWarnings', 'isValid')
         .readOnly());
+    } else {
+      defineProperty(this, '_date', computed('date', {
+        get() {
+          let val = this.date;
+
+          return val ? moment(val, this.get('altFormat' || null)) :
+            null;
+        },
+        set(key, value) {
+          let formatted = this.formatValue(value, 'date');
+
+          return formatted;
+        }
+      }));
     }
   },
   classNames: ['md-datetime', 'md-input-input'],
@@ -154,9 +181,58 @@ export default Component.extend({
    *
    * @property useCurrent
    * @type Boolean
-   * @default false
+   * @default 'day'
    */
-  useCurrent: false,
+  useCurrent: 'day',
+
+  /**
+   * Show the Today button in the icon toolbar.
+   *
+   * @property showTodayButton
+   * @type Boolean
+   * @default true
+   */
+  showTodayButton: true,
+
+  /**
+   * Show the clear button in the icon toolbar.
+   *
+   * @property showClear
+   * @type Boolean
+   * @default true
+   */
+  showClear: true,
+
+  formatValue(value, target) {
+    if(isBlank(value)) {
+      once(this, function () {
+        set(this, target, null);
+      });
+
+      return value;
+    }
+
+    let mom = moment(value);
+
+    if(this.altFormat) {
+      let alt = mom.format(this.altFormat);
+
+      once(this, function () {
+        set(this, target, alt);
+      });
+      return alt;
+    }
+    //utc.add(utc.utcOffset(), 'minutes');
+
+    if(mom && mom.toISOString() !== this.get(target)) {
+
+      once(this, function () {
+        set(this, target, mom.toISOString());
+      });
+    }
+
+    return mom;
+  },
 
   /**
    * Icons to be used by the datetime picker and calendar.
@@ -168,35 +244,16 @@ export default Component.extend({
    * @type Object
    * @default 'calendarIcons'
    */
-  calendarIcons: {
-    time: "fa fa-clock-o",
-    date: "fa fa-calendar",
-    up: "fa fa-chevron-up",
-    down: "fa fa-chevron-down",
-    previous: "fa fa-angle-double-left",
-    next: "fa fa-angle-double-right",
-    close: "fa fa-times",
-    clear: "fa fa-trash"
-  },
-
-  actions: {
-    updateDate(date) {
-      if(isBlank(date)){
-        set(this, 'date', null);
-
-        return;
-      }
-
-      let utc = moment(date);
-
-      //utc.add(utc.utcOffset(), 'minutes');
-
-      if(utc && utc.toISOString() !== this.get('date')) {
-
-        //once(this, function() {
-          set(this, 'date', utc.toISOString());
-        //});
-      }
-    }
-  }
+  calendarIcons: computed(function () {
+    return {
+      time: "fa fa-clock-o",
+      date: "fa fa-calendar",
+      up: "fa fa-chevron-up",
+      down: "fa fa-chevron-down",
+      previous: "fa fa-angle-double-left",
+      next: "fa fa-angle-double-right",
+      close: "fa fa-times",
+      clear: "fa fa-trash"
+    };
+  })
 });

@@ -20,8 +20,8 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));
-    this.controller.set('entityId', get(this, 'entityId'));
-    this.controller.set('attributeId', get(this, 'attributeId'));
+    this.controller.set('entityId', this.entityId);
+    this.controller.set('attributeId', this.attributeId);
     this.controllerFor('dictionary.show.edit')
       .setProperties({
         onCancel: get(parent, 'setupModel'),
@@ -32,7 +32,7 @@ export default Route.extend(ScrollTo, {
   actions: {
     backToEntity() {
       this.transitionTo('dictionary.show.edit.entity.edit',
-        this.get('entityId'));
+        this.entityId);
     },
     editCitation(scrollTo) {
       this.transitionTo('dictionary.show.edit.domain.edit.citation')

@@ -79,7 +79,7 @@
                   </td>
                   <td>
                     {{input type="checkbox" name="hasDomain" checked=row.hasDomain}}
-                    <span class="{{if row.domainWarn "text-danger"}}">({{row.domain.length}})</span>
+                    <span class={{if row.domainWarn "text-danger"}}>({{row.domain.length}})</span>
                   </td>
                   <td>
                     {{input type="checkbox" name="allowNull" checked=row.allowNull}}
@@ -95,11 +95,10 @@
                       <button type="button" class="btn btn-xs btn-info">
                         <span class="fa fa-eye"></span> Example
 
-                        {{#popover-on-element
+                        {{#ember-popover
                           showOn="mouseenter"
-                          showOn="mouseleave"
+                          hideOn="mouseleave"
                           side="left"
-                          enableLazyRendering=true
                         }}
                           {{#each row.example as |ex|}}
                             {{#if (present ex)}}
@@ -109,7 +108,7 @@
                             {{/if}}
                             <hr>
                           {{/each}}
-                        {{/popover-on-element}}
+                        {{/ember-popover}}
                       </button>
                     </div>
                   </td>

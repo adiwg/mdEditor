@@ -1,5 +1,7 @@
 import Component from '@ember/component';
-import NativeArray from '@ember/array';
+import {
+  A
+} from '@ember/array';
 import EmberObject from '@ember/object';
 import {
   set,
@@ -25,7 +27,7 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 
 const Validations = buildValidations({
   'codeName': [
@@ -164,10 +166,10 @@ export default Component.extend(Validations, {
   entities: alias('dictionary.entity'),
   attributes: alias('model.attribute'),
 
-  attributeList: computed('attributes.@each.codeName','attributes.[]', function () {
-let attr = get(this, 'model.attribute');
-if(attr){
-    return attr.map((attr) => {
+  attributeList: computed('attributes.{@each.codeName,[]}', function () {
+    let attr = get(this, 'model.attribute');
+    if(attr) {
+      return attr.map((attr) => {
         return {
           codeId: get(attr, 'codeName'),
           codeName: get(attr, 'codeName'),
@@ -178,7 +180,7 @@ if(attr){
     return [];
   }),
 
-  entityList: computed('entities.@each.entityId', 'entities.@each.codeName',
+  entityList: computed('entities.{@each.entityId,@each.codeName}',
     function () {
       return get(this, 'entities')
         .map((attr) => {
@@ -192,9 +194,25 @@ if(attr){
         });
     }),
 
+   /**
+    * The passed down editCitation method.
+    *
+    * @method editCitation
+    * @param {Number} id
+    * @required
+    */
+
+   /**
+    * The passed down editAttribute method.
+    *
+    * @method editAttribute
+    * @param {Number} id
+    * @required
+    */
+
   actions: {
     getEntityAttributes(id) {
-      let entity = NativeArray.apply(this.get('dictionary.entity'))
+      let entity = A(this.get('dictionary.entity'))
         .findBy('entityId', id);
 
       if(entity) {
@@ -211,6 +229,14 @@ if(attr){
       }
 
       return [];
+    },
+
+    editCitation(id){
+      this.editCitation(id);
+    },
+
+    editAttribute(id){
+      this.editAttribute(id);
     }
   }
 });

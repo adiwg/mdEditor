@@ -12,7 +12,7 @@ import {
   isBlank
 } from '@ember/utils';
 import EmberObject from '@ember/object';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 
 import {
   get,
@@ -41,7 +41,7 @@ export default Route.extend({
    * @readOnly
    */
   columnObject: EmberObject.extend({
-    domain: [],
+    domain: null,
     import: true,
     range: false,
     importName: null,
@@ -52,7 +52,7 @@ export default Route.extend({
     isNumber: equal('dataType', 'number'),
     disableRange: not('isNumber'),
     example: computed('domain', function () {
-      return get(this, 'domain').slice(0, 10);
+      return this.domain.slice(0, 10);
     })
   }),
 
@@ -153,12 +153,12 @@ export default Route.extend({
       this.transitionTo('dictionary.show.edit.entity.edit', get(
         dataDictionary, 'entity.length') - 1);
 
-        get(this, 'flashMessages')
+        this.flashMessages
           .success('Entity imported from CSV!');
     },
     processData(data) {
-      let template = this.get('columnObject');
-      let typer = this.get('columnType');
+      let template = this.columnObject;
+      let typer = this.columnType;
 
       set(this, 'controller.processed', false);
 

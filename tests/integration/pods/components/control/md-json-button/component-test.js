@@ -1,52 +1,69 @@
-import Ember from 'ember';
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { click, find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-json-button',
-  'Integration | Component | control/md json button', {
-    integration: true
+module('Integration | Component | control/md json button', function(hooks) {
+  setupRenderingTest(hooks);
+
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
+
+    await render(hbs `{{control/md-json-button}}`);
+
+    assert.equal(find('button').textContent
+      .trim(), 'Preview JSON');
+
+    // Template block usage:
+    await render(hbs `
+      {{#control/md-json-button}}
+        template block text
+      {{/control/md-json-button}}
+    `);
+
+    assert.equal(find('button').textContent
+      .trim(), 'template block text');
   });
 
-test('it renders', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('json', {
-    foo: 'bar'
+  test('render json modal', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
+
+    await render(hbs `{{control/md-json-button json=json preview=true}}`);
+
+    await click('button.btn');
+
+    assert.equal(document.querySelector('.md-jsmodal-container')
+      .textContent
+      .trim(), '{"foo": "bar"}');
   });
 
-  this.render(hbs `{{control/md-json-button}}`);
+  test('render json slider', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('json', {
+      foo: 'bar'
+    });
 
-  assert.equal(this.$()
-    .text()
-    .trim(), 'Preview JSON');
+    await render(hbs `{{control/md-json-button json=json title="foobar"}}
+      <div class="slider">
+        {{#from-elsewhere name="md-slider-json" as |slider|}}
+          <h3 class="text-info">{{slider.title}}</h3>
+          <hr>
+          {{component slider.body}}
+        {{/from-elsewhere}}
+      </div>`);
 
-  // Template block usage:
-  this.render(hbs `
-    {{#control/md-json-button}}
-      template block text
-    {{/control/md-json-button}}
-  `);
+    await click('button.btn');
 
-  assert.equal(this.$()
-    .text()
-    .trim(), 'template block text');
-});
-
-test('render json modal', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-  this.set('json', {
-    foo: 'bar'
+    assert.equal(find('.slider').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Viewing|JSON|for:|foobar|{"foo":|"bar"}|');
   });
-
-  this.render(hbs `{{control/md-json-button json=json}}`);
-
-this.$('button').click();
-
-  assert.equal(Ember.$('.md-jsmodal-container')
-    .text()
-    .trim(), '{"foo": "bar"}');
 });

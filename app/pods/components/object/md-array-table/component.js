@@ -3,19 +3,15 @@
  * @module mdeditor
  */
 
-import Ember from 'ember';
-import Template from 'mdeditor/mixins/object-template';
+import { oneWay, alias } from '@ember/object/computed';
 
-const {
-  computed,
-  Component,
-  A,
-  getOwner,
-  isArray,
-  run,
-  typeOf,
-  get
-} = Ember;
+import Component from '@ember/component';
+import { getOwner } from '@ember/application';
+import { isArray, A } from '@ember/array';
+import { run } from '@ember/runloop';
+import { typeOf } from '@ember/utils';
+import { get, computed } from '@ember/object';
+import Template from 'mdeditor/mixins/object-template';
 
 export default Component.extend(Template, {
   /**
@@ -30,7 +26,7 @@ export default Component.extend(Template, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if (this.get('value')) {
+    if (this.value) {
       this.applyTemplateArray('value');
     }
 
@@ -126,7 +122,7 @@ export default Component.extend(Template, {
    * @default "this.title"
    * @category computed
    */
-  'data-spy': computed.oneWay('title'),
+  'data-spy': oneWay('title'),
 
   /**
    * Array of column headers
@@ -138,7 +134,7 @@ export default Component.extend(Template, {
    * @requires columns
    */
   columnArray: computed('columns', function () {
-    let columns = this.get('columns');
+    let columns = this.columns;
 
     return(typeof columns === 'string') ? columns.split(',') : null;
   }),
@@ -153,8 +149,8 @@ export default Component.extend(Template, {
    * @requires isCollapsed
    */
   collapsed: computed('isCollapsed', 'value.[]', function () {
-    let isCollapsed = this.get('isCollapsed');
-    let value = this.get('value');
+    let isCollapsed = this.isCollapsed;
+    let value = this.value;
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
@@ -174,7 +170,7 @@ export default Component.extend(Template, {
    * @category computed
    * @requires value
    */
-  arrayValues: computed.alias('value'),
+  arrayValues: alias('value'),
 
   /**
    * The panel id selector
@@ -187,7 +183,7 @@ export default Component.extend(Template, {
    * @requires elementId
    */
   panelId: computed('elementId', function () {
-    return 'panel-' + this.get('elementId');
+    return 'panel-' + this.elementId;
   }),
 
   /**
@@ -201,7 +197,7 @@ export default Component.extend(Template, {
    */
   pillColor: computed('value.[]', 'required', function () {
     let count = this.get('value.length') || 0;
-    let required = this.get('required');
+    let required = this.required;
     return(count === 0) ? required ? 'label-danger' : 'label-warning' :
       'label-info';
   }),
@@ -234,13 +230,13 @@ export default Component.extend(Template, {
 
   actions: {
     addItem: function (value) {
-      const Template = this.get('templateClass');
+      const Template = this.templateClass;
       const owner = getOwner(this);
 
       value.pushObject(typeOf(Template) === 'class' ? Template.create(
           owner.ownerInjection()
         ) :
-        get(this, 'templateAsObject') ? {} : null);
+        this.templateAsObject ? {} : null);
       this.valueChanged();
     },
 

@@ -9,7 +9,7 @@ import {
   isArray,
   A
 } from '@ember/array';
-import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 
 export default Service.extend({
   applyModelPatch(record) {
@@ -51,6 +51,25 @@ export default Service.extend({
               });
               record.save().then(function () {
                 record.notifyPropertyChange('currentHash');
+              });
+            }
+
+            let step = get(itm, 'processStep');
+
+            if(isArray(step)) {
+              step.forEach(step => {
+                let source = get(step, 'stepSource');
+
+                if(isArray(source)) {
+                  source.forEach(src => {
+                    set(src, 'description', getWithDefault(src,
+                      'description', get(src, 'value')));
+                    set(src, 'value', null);
+                  });
+                  record.save().then(function () {
+                    record.notifyPropertyChange('currentHash');
+                  });
+                }
               });
             }
           });

@@ -1,25 +1,40 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createContact from 'mdeditor/tests/helpers/create-contact';
+import { selectChoose} from 'ember-power-select/test-support';
 
-moduleForComponent('input/md-select-contacts', 'Integration | Component | input/md select contacts', {
-  integration: true
-});
+module('Integration | Component | input/md select contacts', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    await render(hbs`{{input/md-select-contacts}}`);
 
-  this.render(hbs`{{input/md-select-contacts}}`);
+    assert.ok(find('.md-select-contact'));
+  });
 
-  assert.equal(this.$().text().trim(), '');
+  test('contact selected', async function(assert) {
 
-  // Template block usage:
-  this.render(hbs`
-    {{#input/md-select-contacts}}
-      template block text
-    {{/input/md-select-contacts}}
-  `);
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    //make sure there's at least one record visible
+    //var store = this.owner.lookup('service:store');
+    var contacts = createContact(2);
+    var cs = this.owner.lookup('service:contacts');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    cs.set('contacts', contacts);
+    //store.createRecord('contact', contacts[0]);
+    //store.createRecord('contact', contacts[1]);
+
+    await render(hbs`{{input/md-select-contacts}}`);
+    await selectChoose('.md-select-contact', 'Contact0');
+    await selectChoose('.md-select-contact', 'Contact1');
+
+    assert.equal(find('.md-select-contact').innerText.replace(/[\s\n]+/g, '|').trim(),
+      '×|Contact0|×|Contact1', 'select multiple contacts');
+  });
 });

@@ -4,7 +4,7 @@
 </h4>
   <section>
     {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
-      <div class="md-keywords-container" data-spy="{{concat "Thesaurus " index}}" id={{concat "thesaurus-container-" index}}>
+      <div class="md-keywords-container" data-spy={{concat "Thesaurus " index}} id={{concat "thesaurus-container-" index}}>
         <div class="md-keywords-header">
           <h4 class="inline-block text-primary" code="">
             <strong>{{concat "Thesaurus #" index}}</strong>
@@ -27,7 +27,7 @@
         </div>
         <div id="thesaurus-{{index}}" class="md-keywords-body collapse in">
 
-        {{#with thesaurus.thesaurus.identifier.0.identifier as |identifier|}}
+        {{#with thesaurus.thesaurus.identifier.0.identifier}}
           <hr>
           <div class="row">
             <div class="md-keywords-thesaurus col-md-6 col-lg-7">
@@ -38,7 +38,6 @@
                 addKeyword=(route-action "addKeyword")
                 deleteKeyword=(route-action "deleteKeyword")
                 editThesaurus=(route-action "editThesaurus")
-                hideThesaurus=(route-action "hideThesaurus")
               }}
             </div>
           </div>

@@ -1,17 +1,17 @@
 {{#if model.hasDirtyHash}}
-<span class="md-status-icon" onclick={{action "saveRecord"}}>
+<span role="button" class="md-status-icon" onclick={{action "saveRecord"}}>
   {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-danger btn-" btnSize) "md-error")}}
-  {{tooltip-on-element text='This record has been modified! Cick to save.' side="top"
-    class="md-tooltip danger"
+  {{ember-tooltip text="This record has been modified! Cick to save." side="top"
+    tooltipClassName="ember-tooltip md-tooltip danger"
   }}
 </span>
 {{/if}}
 
 {{#if model.hasSchemaErrors}}
-<span class="md-status-icon" onclick={{action "showSlider"}}>
+<span role="button" class="md-status-icon" onclick={{action "showSlider"}}>
   {{fa-icon "exclamation-triangle" class=(if isBtn (concat "btn btn-warning btn-" btnSize) "md-warning")}}
-  {{tooltip-on-element text='This record has errors! Click to view.' side="right"
-    class="md-tooltip warning"
+  {{ember-tooltip text="This record has errors! Click to view." side="right"
+    tooltipClassName="ember-tooltip md-tooltip warning"
   }}
 </span>
 {{/if}}

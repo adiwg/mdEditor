@@ -1,24 +1,12 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { isEmpty } from '@ember/utils';
+import { or, alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { set, getWithDefault, get, computed } from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  isEmpty,
-  computed: {
-    alias,
-    or
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   'scaleFactor': {
@@ -102,24 +90,20 @@ export default Component.extend(Validations, {
   scaleDisabled: computed(
     'model.levelOfDetail', 'measurePresent',
     function () {
-      return !isEmpty(this.get('model.levelOfDetail')) || this.get(
-        'measurePresent'
-      );
+      return !isEmpty(this.get('model.levelOfDetail')) || this.measurePresent;
     }),
   levelOfDetail: alias('model.levelOfDetail'),
   levelDisabled: computed(
     'model.scaleFactor', 'measurePresent',
     function () {
       let scaleFactor = this.get('model.scaleFactor');
-      return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
-        this.get(
-          'measurePresent'
-        );
+      return (!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
+        this.measurePresent;
     }
   ),
   measure: alias('model.measure'),
   measureDisabled: computed(
-    'model.scaleFactor', 'model.levelOfDetail',
+    'model.{scaleFactor,levelOfDetail}',
     function () {
       let scaleFactor = this.get('model.scaleFactor');
       return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
@@ -131,7 +115,8 @@ export default Component.extend(Validations, {
   measureUnit: alias('model.measure.unitOfMeasure'),
   measurePresent: or('measureType', 'measureUnit', 'measureValue'),
 
-  typeOptions: [{
+  typeOptions: computed(function() {
+  return [{
       name: 'distance',
       value: 'distance'
     },
@@ -151,5 +136,5 @@ export default Component.extend(Validations, {
       name: 'scale',
       value: 'scale'
     }
-  ]
+  ]})
 });

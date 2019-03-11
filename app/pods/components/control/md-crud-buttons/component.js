@@ -1,23 +1,24 @@
-import Ember from 'ember';
+/* eslint-disable ember/closure-actions */
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   classNames: 'md-crud-buttons',
 
   actions: {
     save: function () {
-      this.sendAction('doSave');
+      this.doSave();
     },
 
     cancel: function () {
-      this.sendAction('doCancel');
+      this.doCancel();
     },
 
     delete: function () {
-      this.sendAction('doDelete');
+      this.doDelete();
     },
 
     copy: function () {
-      this.sendAction('doCopy');
+      this.doCopy();
 
     }
   }

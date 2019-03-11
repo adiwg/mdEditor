@@ -1,24 +1,34 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createTaxonomy from 'mdeditor/tests/helpers/create-taxonomy';
 
-moduleForComponent('object/md-taxonomy/collection/voucher', 'Integration | Component | object/md taxonomy/collection/voucher', {
-  integration: true
-});
+module('Integration | Component | object/md taxonomy/collection/voucher', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.model = createTaxonomy()[0].voucher[0];
 
-  this.render(hbs`{{object/md-taxonomy/collection/voucher}}`);
+    await render(hbs`{{object/md-taxonomy/collection/voucher profilePath="foobar" model=model}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Specimen|Repository|Role|custodian|?|×|Contacts|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-taxonomy/collection/voucher}}
-      template block text
-    {{/object/md-taxonomy/collection/voucher}}
-  `);
+    var input = findAll('input, textarea').mapBy('value').join('|');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(input, "Specimen|", 'input values');
+
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-taxonomy/collection/voucher profilePath="foobar" model=(hash repository=(hash))}}
+        template block text
+      {{/object/md-taxonomy/collection/voucher}}
+    `);
+
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      "|Specimen|Repository|Role|Select|or|enter|a|role|Contacts|",
+      'block');
+  });
 });

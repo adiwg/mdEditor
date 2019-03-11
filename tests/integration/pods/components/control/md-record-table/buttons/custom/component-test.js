@@ -1,24 +1,34 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render, click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-record-table/buttons/custom', 'Integration | Component | control/md record table/buttons/custom', {
-  integration: true
-});
+module('Integration | Component | control/md record table/buttons/custom', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    assert.expect(2);
 
-  this.render(hbs`{{control/md-record-table/buttons/custom}}`);
+    this.set('rec', {
+      biz: 'baz'
+    });
 
-  assert.equal(this.$().text().trim(), '');
+    this.set('column', {
+      buttonConfig: {
+        title: 'foobar',
+        style: 'warning',
+        action: function(rec){
+          assert.equal(rec.biz, 'baz', 'action fired');
+        }
+      }
+    });
 
-  // Template block usage:
-  this.render(hbs`
-    {{#control/md-record-table/buttons/custom}}
-      template block text
-    {{/control/md-record-table/buttons/custom}}
-  `);
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    await render(hbs`{{control/md-record-table/buttons/custom column=column record=rec}}`);
+
+    assert.equal(find('button.btn-warning').textContent.trim(), 'foobar');
+
+    click('button.btn-warning');
+  });
 });

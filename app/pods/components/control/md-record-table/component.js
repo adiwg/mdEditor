@@ -1,16 +1,9 @@
-import Ember from 'ember';
+import { computed, get } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
 import {
   warn
 } from '@ember/debug';
-import {
-  isArray
-} from '@ember/array';
-const {
-  get,
-  computed,
-  A
-} = Ember;
+import { isArray, A } from '@ember/array';
 
 export default Table.extend({
   /**
@@ -88,13 +81,17 @@ export default Table.extend({
    * @type {Object}
    * @required
    */
-  checkColumn: {
-    component: 'components/md-models-table/components/check',
-    disableFiltering: true,
-    mayBeHidden: false,
-    componentForSortCell: 'components/md-models-table/components/check-all',
-    className: 'text-center'
-  },
+  checkColumn: computed(function () {
+
+    return {
+      component: 'components/md-models-table/components/check',
+      disableFiltering: true,
+      mayBeHidden: false,
+      componentForSortCell: 'components/md-models-table/components/check-all',
+      className: 'text-center'
+    };
+  }),
+
 
   /**
    * Column configs for the action column.
@@ -106,7 +103,7 @@ export default Table.extend({
    * @required
    */
   actionsColumn: computed('allActions', function () {
-    let all = this.get('allActions');
+    let all = this.allActions;
 
     return {
       title: 'Actions',
@@ -114,7 +111,8 @@ export default Table.extend({
         'control/md-record-table/buttons' : 'control/md-record-table/buttons/show',
       disableFiltering: !all,
       componentForFilterCell: all ?
-        'control/md-record-table/buttons/filter' : null
+        'control/md-record-table/buttons/filter' : null,
+      showSlider: this.showSlider
     };
   }),
 
@@ -140,9 +138,9 @@ export default Table.extend({
   multipleSelect: true,
   selectedItems: computed({
     get() {
-      let prop = this.get('selectProperty');
+      let prop = this.selectProperty;
 
-      return this.get('data')
+      return this.data
         .filterBy(prop)
         .toArray();
 
@@ -174,11 +172,11 @@ export default Table.extend({
     clickOnRow(idx, rec) {
       this._super(...arguments);
 
-      let prop = this.get('selectProperty');
+      let prop = this.selectProperty;
       let sel = get(this, 'selectedItems');
 
       rec.toggleProperty(prop);
-      this.get('select')(rec, idx, sel);
+      this.select(rec, idx, sel);
     },
 
     toggleAllSelection() {
@@ -197,7 +195,7 @@ export default Table.extend({
       this.userInteractionObserver();
 
       let selected = get(this, 'selectedItems');
-      let prop = this.get('selectProperty');
+      let prop = this.selectProperty;
       //let data = get(this, 'data');
 
       if(get(selected, 'length')) {
@@ -205,7 +203,7 @@ export default Table.extend({
       } else {
         data.setEach(prop, false);
       }
-      this.get('select')(null, null, selected);
+      this.select(null, null, selected);
     }
   }
 });

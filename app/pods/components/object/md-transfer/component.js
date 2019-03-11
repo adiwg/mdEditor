@@ -1,20 +1,16 @@
-import Ember from 'ember';
-
-// import {
-//   validator,
-//   buildValidations
-// } from 'ember-cp-validations';
-
-const {
-  Component,
+import {
+  alias
+} from '@ember/object/computed';
+import Component from '@ember/component';
+import EmberObject, {
   computed,
-  set,
-  get,
   getWithDefault,
-  run: {
-    once
-  }
-} = Ember;
+  get,
+  set
+} from '@ember/object';
+import {
+  once
+} from '@ember/runloop';
 
 // const Validations = buildValidations({
 //   // 'intervalAmount': [
@@ -50,7 +46,7 @@ export default Component.extend({
 
     let model = get(this, 'model');
 
-    once(function() {
+    once(function () {
       set(model, 'onlineOption', getWithDefault(model, 'onlineOption', []));
       set(model, 'offlineOption', getWithDefault(model, 'offlineOption', []));
       set(model, 'transferFrequency', getWithDefault(model,
@@ -96,35 +92,37 @@ export default Component.extend({
   //     });
   //   }
   // }),
-  formatUri: computed.alias(
+  formatUri: alias(
     'model.distributionFormat.firstObject.formatSpecification.title'),
-  timeUnit: [{
-      name: 'year',
-      value: 'year'
-    },
-    {
-      name: 'month',
-      value: 'month'
-    },
-    {
-      name: 'day',
-      value: 'day'
-    },
-    {
-      name: 'hour',
-      value: 'hour'
-    },
-    {
-      name: 'minute',
-      value: 'minute'
-    },
-    {
-      name: 'second',
-      value: 'second'
-    }
-  ],
+  timeUnit: computed(function () {
+    return [{
+        name: 'year',
+        value: 'year'
+      },
+      {
+        name: 'month',
+        value: 'month'
+      },
+      {
+        name: 'day',
+        value: 'day'
+      },
+      {
+        name: 'hour',
+        value: 'hour'
+      },
+      {
+        name: 'minute',
+        value: 'minute'
+      },
+      {
+        name: 'second',
+        value: 'second'
+      }
+    ]
+  }),
 
-  formatTemplate:Ember.Object.extend(/*Validations, */{
+  formatTemplate: EmberObject.extend( /*Validations, */ {
     init() {
       this._super(...arguments);
       this.set('formatSpecification', {});

@@ -1,19 +1,13 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  Object: EmObject,
-  get,
-  set,
-  isNone
-} = Ember;
+import Component from '@ember/component';
+import EmObject, { set, get } from '@ember/object';
+import { isNone } from '@ember/utils';
 
 export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if(isNone(get(this, 'model'))) {
-      set(this, 'model', []);
+    if(isNone(get(this, 'value'))) {
+      set(this, 'value', []);
     }
   },
 

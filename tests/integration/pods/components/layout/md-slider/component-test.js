@@ -1,25 +1,33 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('layout/md-slider', 'Integration | Component | layout/md slider', {
-  integration: true
-});
+module('Integration | Component | layout/md slider', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{layout/md-slider}}`);
+    await render(hbs`{{layout/md-slider}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.md-slider').textContent.trim(), 'Close');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#layout/md-slider}}
-      template block text
-    {{/layout/md-slider}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#layout/md-slider fromName="slider"}}
+        template block text
+      {{/layout/md-slider}}
+      {{to-elsewhere named="slider"
+        send=(hash
+          title="biz"
+          body=(component "layout/md-card" title="foobar"))
+      }}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.md-slider').textContent.replace(/[ \n]+/g, '|').trim(), '|Close|biz|foobar|template|block|text|');
+    assert.ok(find('.md-card'),'rendered slider content');
+  });
 });

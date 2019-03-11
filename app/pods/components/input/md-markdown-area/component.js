@@ -3,16 +3,11 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import Component from '@ember/component';
 
-const {
-  Component,
-  computed,
-  get,
-  set,
-  isNone,
-  run
-} = Ember;
+import { set, get, computed } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { run } from '@ember/runloop';
 
 export default Component.extend({
   /**
@@ -33,7 +28,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    let editor = this.get('editor');
+    let editor = this.editor;
     let $el = this.$();
 
     const oldEditorSetOption = editor.codemirror.setOption;

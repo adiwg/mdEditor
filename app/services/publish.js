@@ -1,9 +1,5 @@
-import Ember from 'ember';
-
-const {
-  A,
-  Service
-} = Ember;
+import { A } from '@ember/array';
+import Service from '@ember/service';
 
 export default Service.extend({
   catalogs: A()

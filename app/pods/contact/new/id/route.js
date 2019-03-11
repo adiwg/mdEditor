@@ -1,11 +1,11 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import DS from 'ember-data';
 
 const {
   AdapterError
 } = DS;
 
-export default Ember.Route.extend({
+export default Route.extend({
   /**
    * The route model
    *
@@ -131,7 +131,7 @@ export default Ember.Route.extend({
 
     error(error) {
       if (error instanceof AdapterError) {
-        Ember.get(this, 'flashMessages')
+        this.flashMessages
           .warning('No contact found! Re-directing to new contact...');
         // redirect to new
         this.replaceWith('contact.new');

@@ -1,25 +1,32 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createContact from 'mdeditor/tests/helpers/create-contact';
 
-moduleForComponent('control/md-contact-title', 'Integration | Component | control/md contact title', {
-  integration: true
-});
+module('Integration | Component | control/md contact title', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    var store = this.owner.lookup('service:store');
 
-  this.render(hbs`{{control/md-contact-title}}`);
+    store.createRecord('contact', createContact(1)[0]);
 
-  assert.equal(this.$().text().trim(), '');
+    await render(hbs`<span>{{control/md-contact-title contactId=0}}</span>`);
 
-  // Template block usage:
-  this.render(hbs`
-    {{#control/md-contact-title}}
-      template block text
-    {{/control/md-contact-title}}
-  `);
+    assert.equal(find('span').textContent.trim(), 'Contact0');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    // Template block usage:
+    await render(hbs`<div class="test1">
+      {{#control/md-contact-title contactId=0 as |c|}}
+        template block text {{c.title}}
+      {{/control/md-contact-title}}
+      </div>
+    `);
+
+    assert.equal(find('.test1').textContent.trim(), 'template block text Contact0');
+  });
 });

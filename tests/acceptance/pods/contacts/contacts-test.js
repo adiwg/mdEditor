@@ -1,39 +1,25 @@
-import Ember from 'ember';
-import {
-  test
-} from 'qunit';
-import moduleForAcceptance from 'mdeditor/tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { find, visit, currentURL, click } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
 
-moduleForAcceptance('Acceptance | pods/contacts');
+module('Acceptance | pods/contacts', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('visiting /contacts', function (assert) {
-  visit('/contacts');
+  test('visiting /contacts', async function(assert) {
+    await visit('/contacts');
 
-  andThen(function () {
     assert.equal(currentURL(), '/contacts');
   });
-});
 
-test('delete should display a confirm', function (assert) {
-  assert.expect(4);
+  test('delete should display a confirm', async function(assert) {
+    assert.expect(1);
 
-  var store = this.application.__container__.lookup('service:store');
+    var store = this.owner.lookup('service:store');
 
-  //make sure there's at least one record visible
-  Ember.run(function () {
+    //make sure there's at least one record visible
     store.createRecord('contact');
+    await visit('/contacts');
+    await click('button.md-button-confirm.btn-danger');
+    assert.equal(find('button.md-button-confirm.btn-danger').innerText.trim(), 'Confirm');
   });
-
-  visit('/contacts');
-
-  andThen(function () {
-    assert.dialogOpensAndCloses({
-      openSelector: 'button.md-button-modal.btn-danger:first',
-      closeSelector: '.ember-modal-overlay',
-      //closeSelector: '.md-modal-container button.btn-primary',
-      hasOverlay: true,
-      context: 'html'
-    });
-  });
-
 });

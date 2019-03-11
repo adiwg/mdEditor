@@ -1,16 +1,14 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import { getOwner } from '@ember/application';
+import EmberObject, { computed } from '@ember/object';
+import { Copyable } from 'ember-copy';
 import DS from 'ember-data';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import Model from 'mdeditor/models/base';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Copyable,
-  computed
-} = Ember;
 
 const Validations = buildValidations({
   'recordId': validator(
@@ -49,14 +47,14 @@ export default Model.extend(Validations, Copyable, {
   init() {
     this._super(...arguments);
 
-    this.set('allRecords', this.get('store').peekAll('record'));
+    this.set('allRecords', this.store.peekAll('record'));
   },
   profile: DS.attr('string', {
     defaultValue: 'full'
   }),
   json: DS.attr('json', {
     defaultValue() {
-      const obj = Ember.Object.create({
+      const obj = EmberObject.create({
         schema: {
           name: 'mdJson',
           version: '2.6.0'
@@ -106,30 +104,30 @@ export default Model.extend(Validations, Copyable, {
     }
   }),
 
-  title: computed.alias('json.metadata.resourceInfo.citation.title'),
+  title: alias('json.metadata.resourceInfo.citation.title'),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
+  icon: computed('json.metadata.resourceInfo.resourceType.0.type',
     function () {
       const type = this.get(
-          'json.metadata.resourceInfo.resourceType.firstObject.type') ||
+          'json.metadata.resourceInfo.resourceType.0.type') ||
         '';
-      const list = Ember.getOwner(this).lookup('service:icon');
+      const list = getOwner(this).lookup('service:icon');
 
       return type ? list.get(type) || list.get('default') : list.get(
         'defaultFile');
     }),
 
-  recordId: computed.alias(
+  recordId: alias(
     'json.metadata.metadataInfo.metadataIdentifier.identifier'),
-  recordIdNamespace: computed.alias(
+  recordIdNamespace: alias(
     'json.metadata.metadataInfo.metadataIdentifier.namespace'),
 
-  parentIds: computed.alias(
+  parentIds: alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
   hasParent: computed('parentIds.[]', function () {
-    let ids = this.get('parentIds');
-    let records = this.get('allRecords').rejectBy('hasSchemaErrors');
+    let ids = this.parentIds;
+    let records = this.allRecords.rejectBy('hasSchemaErrors');
 
     if(!ids) {
       return false;
@@ -148,10 +146,10 @@ export default Model.extend(Validations, Copyable, {
       return undefined;
     }
 
-    return this.get('allRecords').findBy('recordId', id);
+    return this.allRecords.findBy('recordId', id);
   }),
 
-  defaultType: computed.alias(
+  defaultType: alias(
     'json.metadata.resourceInfo.resourceType.firstObject.type'),
 
   /**
@@ -163,8 +161,8 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: Ember.computed('recordId', function () {
-    const recordId = this.get('recordId');
+  shortId: computed('recordId', function () {
+    const recordId = this.recordId;
     if(recordId) {
       let index = recordId.indexOf('-');
 
@@ -184,7 +182,7 @@ export default Model.extend(Validations, Copyable, {
    * @requires status
    */
   hasSchemaErrors: computed('status', function () {
-    let mdjson = this.get('mdjson');
+    let mdjson = this.mdjson;
     let errors = mdjson.validateRecord(this).errors;
 
     //console.log(errors);
@@ -193,17 +191,17 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   formatted: computed(function () {
-      let mdjson = this.get('mdjson');
+      let mdjson = this.mdjson;
 
       return mdjson.formatRecord(this);
     })
     .volatile(),
 
   status: computed('hasDirtyHash', function () {
-    let dirty = this.get('hasDirtyHash');
-    let errors = this.get('hasSchemaErrors');
+    let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
-    if(this.get('currentHash')) {
+    if(this.currentHash) {
       return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
@@ -211,8 +209,8 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   copy() {
-    let current = this.get('cleanJson');
-    let json = Ember.Object.create(current);
+    let current = this.cleanJson;
+    let json = EmberObject.create(current);
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);

@@ -1,11 +1,6 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray
-} = Ember;
+import Route from '@ember/routing/route';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
 
 export default Route.extend({
   model(params) {
@@ -27,7 +22,7 @@ export default Route.extend({
   },
 
   setupModel() {
-    let citationId = get(this, 'citationId');
+    let citationId = this.citationId;
     let model = this.modelFor('record.show.edit');
     let citations = model.get(
       'json.metadata.metadataInfo.alternateMetadataReference');
@@ -36,7 +31,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(citation)) {
-      Ember.get(this, 'flashMessages')
+      this.flashMessages
         .warning('No citation found! Re-directing...');
       this.replaceWith('record.show.edit.metadata');
 

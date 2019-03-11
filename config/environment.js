@@ -1,4 +1,4 @@
-/* jshint node: true */
+'use strict';
 
 module.exports = function(environment) {
   var ENV = {
@@ -32,7 +32,7 @@ module.exports = function(environment) {
     'ember-local-storage': {
       fileExport: true
     },
-    'ember-cli-toggle': {
+    'ember-toggle': {
       includedThemes: [],
       //excludedThemes: ['flip'],
       defaultShowLabels: true, // defaults to false
@@ -46,6 +46,19 @@ module.exports = function(environment) {
       timeout: 5000,
       extendedTimeout: 1500,
       //sticky: true
+    },
+    'ember-cli-bootstrap-datetimepicker': {
+      icons: {
+        time: 'fa fa-clock-o',
+        date: 'fa fa-calendar',
+        up: 'fa fa-chevron-up',
+        down: 'fa fa-chevron-down',
+        previous: 'fa fa-angle-double-left',
+        next: 'fa fa-angle-double-right',
+        close: 'fa fa-times',
+        clear: 'fa fa-trash',
+        today: 'fa fa-home'
+      }
     }
   };
 
@@ -67,6 +80,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
     ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.autoboot = false;
   }
 
   if (environment === 'staging') {

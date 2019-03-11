@@ -3,7 +3,9 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { computed } from '@ember/object';
+
+import { inject as service } from '@ember/service';
 import Select from '../md-select/component';
 
 export default Select.extend({
@@ -114,7 +116,7 @@ export default Select.extend({
    */
   label: null,
 
-  mdCodes: Ember.inject.service('codelist'),
+  mdCodes: service('codelist'),
 
   /*
    * The currently selected item in the codelist
@@ -123,10 +125,10 @@ export default Select.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed('value', function () {
-    let value = this.get('value');
+  selectedItem: computed('value', function () {
+    let value = this.value;
 
-    return this.get('codelist')
+    return this.codelist
       .find((item) => {
         return item['codeId'] === value;
       });
@@ -141,15 +143,15 @@ export default Select.extend({
    * @category computed
    * @requires mdCodeName
    */
-  mapped: Ember.computed('mdCodeName', function () {
-    let codeId = this.get('valuePath');
-    let codeName = this.get('namePath');
-    let tooltip = this.get('tooltipPath');
+  mapped: computed('mdCodeName', function () {
+    let codeId = this.valuePath;
+    let codeName = this.namePath;
+    let tooltip = this.tooltipPath;
     let codelist = [];
-    let icons = this.get('icons');
-    let defaultIcon = this.get('defaultIcon');
-    let codelistName = this.get('mdCodeName');
-    let mdCodelist = this.get('mdCodes')
+    let icons = this.icons;
+    let defaultIcon = this.defaultIcon;
+    let codelistName = this.mdCodeName;
+    let mdCodelist = this.mdCodes
       .get(codelistName)
       .codelist
       //.uniqBy(codeName)
@@ -177,11 +179,11 @@ export default Select.extend({
    * @category computed
    * @requires value
    */
-  codelist: Ember.computed('value', 'filterId', 'mapped', function () {
-    let codelist = this.get('mapped');
-    let value = this.get('value');
-    let create = this.get('create');
-    let filter = this.get('filterId');
+  codelist: computed('value', 'filterId', 'mapped', function () {
+    let codelist = this.mapped;
+    let value = this.value;
+    let create = this.create;
+    let filter = this.filterId;
 
     if(value) {
       if(create) {

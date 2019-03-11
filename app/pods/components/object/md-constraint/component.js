@@ -1,23 +1,21 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import {
+  equal,
+  alias
+} from '@ember/object/computed';
+import {
+  once
+} from '@ember/runloop';
+import {
+  computed,
+  set,
+  getWithDefault,
+  get
+} from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed: {
-    alias,
-    equal//,
-    //not
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   'classification': [
@@ -40,7 +38,7 @@ export default Component.extend(Validations, {
 
     let model = get(this, 'model');
 
-    once(this, function() {
+    once(this, function () {
       set(model, 'useLimitation', getWithDefault(model, 'useLimitation', []));
       set(model, 'graphic', getWithDefault(model, 'graphic', []));
       set(model, 'responsibleParty', getWithDefault(model,
@@ -80,17 +78,19 @@ export default Component.extend(Validations, {
   // measureUnit: alias('model.measure.unitOfMeasure'),
   // measurePresent: or('measureType','measureUnit','measureValue'),
 
-  typeOptions: [{
-      name: 'use',
-      value: 'use'
-    },
-    {
-      name: 'legal',
-      value: 'legal'
-    },
-    {
-      name: 'security',
-      value: 'security'
-    }
-  ]
+  typeOptions: computed(function () {
+    return [{
+        name: 'use',
+        value: 'use'
+      },
+      {
+        name: 'legal',
+        value: 'legal'
+      },
+      {
+        name: 'security',
+        value: 'security'
+      }
+    ]
+  })
 });

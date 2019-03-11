@@ -1,21 +1,20 @@
-import {
-  moduleFor, test
-}
-from 'ember-qunit';
-import codes from 'npm:mdcodes/resources/js/mdcodes.js';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
+import codes from 'mdcodes/resources/js/mdcodes.js';
 
-moduleFor('service:codelist', 'Unit | Service | codelist', {
-  // Specify the other units that are required for this test.
-  // needs: ['service:foo']
-});
+module('Unit | Service | codelist', function(hooks) {
+  setupTest(hooks);
 
-test('all codelists are present', function (assert) {
-  var service = this.subject();
+  test('all codelists are present', function (assert) {
+    var service = this.owner.lookup('service:codelist');
 
-  Object.keys(codes)
-    .forEach(function (key) {
-      const name = key.replace(/^iso_/, '');
+    Object.keys(codes)
+      .forEach(function (key) {
+        if(key === 'default') return;
 
-      assert.ok(service.get(name), name + ' is present.');
-    });
+        const name = key.replace(/^(iso_|adiwg_)/, '');
+
+        assert.ok(service.get(name), name + ' is present.');
+      });
+  });
 });

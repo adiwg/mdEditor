@@ -1,25 +1,34 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createCitation from 'mdeditor/tests/helpers/create-citation';
 
-moduleForComponent('object/md-citation-array', 'Integration | Component | object/md citation array', {
-  integration: true
-});
+module('Integration | Component | object/md citation array', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('citation', createCitation(3));
 
-  this.render(hbs`{{object/md-citation-array}}`);
+    await render(hbs`{{object/md-citation-array}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-citation-array}}
-      template block text
-    {{/object/md-citation-array}}
-  `);
+    await render(hbs`{{object/md-citation-array model=citation}}`);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Citation|3|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|2|title2|More...|Delete|OK|',
+      'renders rows');
+
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-citation-array}}
+        template block text
+      {{/object/md-citation-array}}
+    `);
+
+    assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');
+  });
 });

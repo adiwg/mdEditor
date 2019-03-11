@@ -1,25 +1,34 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-definition', 'Integration | Component | control/md definition', {
-  integration: true
-});
+module('Integration | Component | control/md definition', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{control/md-definition}}`);
+    await render(hbs`{{control/md-definition title="foobar" text="bizbaz"}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+      'foobar|bizbaz|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#control/md-definition}}
-      template block text
-    {{/control/md-definition}}
-  `);
+    await render(hbs`{{control/md-definition title="foobar"}}`);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+     'foobar|Not|Defined|', 'no text');
+
+    // Template block usage:
+    await render(hbs`
+      {{#control/md-definition title="foobar"}}
+        template block text
+      {{/control/md-definition}}
+    `);
+
+    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
+     '|foobar|template|block|text|');
+  });
 });

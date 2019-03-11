@@ -17,7 +17,7 @@
           <label class="required">Record ID</label>
           <div class="input-group input-group-md">
             {{input/md-input
-              valuePath='recordId'
+              valuePath="recordId"
               model=model
               placeholder="Assigned Record ID"
               disabled=true
@@ -26,7 +26,7 @@
                 <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
                   {{fa-icon "pencil"}}
                   Edit</button>
-                  {{tooltip-on-element text="Edit the metadata id" class="md-tooltip warning"}}
+                  {{ember-tooltip text="Edit the metadata id" tooltipClassName="ember-tooltip md-tooltip warning"}}
             </span>
           </div>
         </div>
@@ -101,7 +101,7 @@
           citation=resource.citation
           muted=true
           required=true
-          editCitation="editCitation"
+          editCitation=(route-action "editCitation")
         }}
 
         {{#layout/md-card title="Description" collapsible=true collapsed=false

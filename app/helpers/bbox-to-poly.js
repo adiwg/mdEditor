@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import { helper as buildHelper } from '@ember/component/helper';
 
 export function bboxToPoly(params/*, hash*/) {
   let bbox  = params[0];
@@ -16,4 +16,4 @@ export function bboxToPoly(params/*, hash*/) {
   ];  
 }
 
-export default Ember.Helper.helper(bboxToPoly);
+export default buildHelper(bboxToPoly);

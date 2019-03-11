@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import config from 'mdeditor/config/environment';
 
 const {
@@ -8,7 +9,7 @@ const {
   }
 } = config;
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: 'a',
   attributeBindings: ['href', 'target'],
   classNames: ['md-fa-link'],
@@ -44,8 +45,8 @@ export default Ember.Component.extend({
    * @type {Ember.computed}
    * @return string
    */
-  hash: Ember.computed('version', function () {
-    let idx = this.get('version')
+  hash: computed('version', function () {
+    let idx = this.version
       .indexOf('+') + 1;
 
     return version.substring(idx);
@@ -58,9 +59,9 @@ export default Ember.Component.extend({
    * @type {Ember.computed}
    * @return string
    */
-  href: Ember.computed('repository', 'hash', function () {
-    let repo = this.get('repository');
-    let hash = this.get('hash');
+  href: computed('repository', 'hash', function () {
+    let repo = this.repository;
+    let hash = this.hash;
 
     return `${repo}/tree/${hash}`;
   }),

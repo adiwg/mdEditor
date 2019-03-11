@@ -5,27 +5,27 @@
 </div>
 
 <div class="row">
-    <form {{action 'saveRecord' on='submit'}}
+    <form {{action "saveRecord" on="submit"}}
     class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3">
       <div class="form-group">
           <label class="control-label">Record ID</label>
           <div class="text-muted">{{model.recordId}}</div>
           {{!-- <div class="">
               {{input/md-input
-              valuePath='recordId'
+              valuePath="recordId"
               model=model
               placeholder="Enter an ID for this record"}}
           </div> --}}
       </div>
         <div class="form-group">
             <label class="control-label
-            {{if (v-get model 'json.metadata.resourceInfo.citation.title'
-             'options.presence.presence') "required"}}">Record Title</label>
+            {{if (v-get model "json.metadata.resourceInfo.citation.title"
+             "options.presence.presence") "required"}}">Record Title</label>
             <div class="">
                 {{input/md-input
                 valuePath="json.metadata.resourceInfo.citation.title"
                 model=model
-                placeholder='Enter a title for the record'}}
+                placeholder="Enter a title for the record"}}
             </div>
         </div>
         <div class="form-group clear">
@@ -45,7 +45,7 @@
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">
                       <button type="submit" class="btn btn-success md-form-save"
-                                                      disabled={{v-get model 'isInvalid'}}>Save</button>
+                                                      disabled={{v-get model "isInvalid"}}>Save</button>
                       <button type="button" {{action "cancelRecord"}} class="btn btn-warning ">Cancel</button>
                  </span>
             </div>

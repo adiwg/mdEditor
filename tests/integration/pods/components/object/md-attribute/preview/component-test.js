@@ -1,24 +1,37 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render, findAll } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-attribute/preview', 'Integration | Component | object/md attribute/preview', {
-  integration: true
-});
+module('Integration | Component | object/md attribute/preview', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('model', {
+      "allowNull": false,
+      "attributeReference": {
+        "title": "Producer defined"
+      },
+      "valueRange": [{
+        "minRangeValue": "0",
+        "maxRangeValue": "0.XXXXXX"
+      }],
+      "commonName": "20XX_pyes.tif",
+      "codeName": "20XX_pyes.tif",
+      "definition": "The predicted annual probability that beach mice presence is Yes in 20XX.",
+      "mustBeUnique": true,
+      "units": "annual probability that beach mice presence is Yes",
+      "isCaseSensitive": false,
+      "minValue": "0",
+      "maxValue": "0.XXXXXX",
+      "dataType": "float"
+    });
 
-  this.render(hbs`{{object/md-attribute/preview}}`);
+    await render(hbs`<div class="testme">{{object/md-attribute/preview model=model profilePath="foobar"}}</div>`);
 
-  assert.equal(this.$().text().trim(), '');
-
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-attribute/preview}}
-      template block text
-    {{/object/md-attribute/preview}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(), '|float|?|×|');
+    assert.equal(findAll('.testme input').length, 3, 'render inputs');
+    assert.ok(find('.testme .md-select'), 'render select');
+  });
 });

@@ -43,7 +43,7 @@ const theComp = Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = this.get('model');
+    let model = this.model || {};
     let settings = get(this, 'settings.data');
 
     assert('Model passed to md-locale must be an object', !isNone(model));

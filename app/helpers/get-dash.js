@@ -1,9 +1,5 @@
-import Ember from 'ember';
-
-const {
-  Helper,
-  get
-} = Ember;
+import Helper from '@ember/component/helper';
+import { get } from '@ember/object';
 
 export function getDash(params /*, hash*/ ) {
   let obj = params[0];

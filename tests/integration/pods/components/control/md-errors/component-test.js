@@ -1,25 +1,40 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-errors', 'Integration | Component | control/md errors', {
-  integration: true
-});
+module('Integration | Component | control/md errors', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
+    assert.expect(3);
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.set('errors', [{
+      dataPath: '/foo/biz',
+      message: 'message1'
+    }, {
+      message: 'message2'
+    }]);
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{control/md-errors}}`);
+    await render(hbs`{{control/md-errors errors=errors}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.md-error-list').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|0|message1|/foo/biz|1|message2|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#control/md-errors}}
-      template block text
-    {{/control/md-errors}}
-  `);
+    assert.ok(findAll('.md-error-list .label')[1].classList.contains('label-danger'),
+      'class applied');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    // Template block usage:
+    await render(hbs`
+      {{#control/md-errors  errors=errors}}
+        template block text
+      {{/control/md-errors}}
+    `);
+
+    assert.equal(find('.md-error-list').textContent.replace(/[ \n]+/g, '|').trim(),
+  '|0|message1|/foo/biz|1|message2|template|block|text|', 'block');
+
+  });
 });

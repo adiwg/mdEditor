@@ -1,59 +1,54 @@
-/* global selectChoose*/
-import { test } from 'qunit';
-import moduleForAcceptance from 'mdeditor/tests/helpers/module-for-acceptance';
+import { module, test } from 'qunit';
+import { visit, currentURL, find, findAll, fillIn } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
+import { selectChoose} from 'ember-power-select/test-support';
 
-moduleForAcceptance('Acceptance | pods/record/new');
+module('Acceptance | pods/record/new', function(hooks) {
+  setupApplicationTest(hooks);
 
-test('visiting /pods/record/new', function(assert) {
-  visit('/record/new');
-  andThen(function() {
+  test('visiting /pods/record/new', async function(assert) {
+    await visit('/record/new');
     assert.ok(currentURL().match(/record\/new\/[a-z0-9]+/));
   });
-});
 
-test('test new mdJSON record initial page conditions', function(assert) {
-  assert.expect(4);
-  visit('/record/new');
-  andThen(function() {
-    assert.ok(find('input:eq(0)').val());
-    assert.equal(find('input:eq(1)').val(), '');
-    assert.equal(find('ember-power-select-selected-item .select-value')
-      .text(), "");
-    assert.equal(find('button.md-form-save').prop('disabled'), true);
+  test('test new metadata record initial page conditions', async function(assert) {
+    assert.expect(3);
+    await visit('/record/new');
+    assert.equal(findAll('.md-input-input input')[0].value, '');
+    assert.equal(find('.md-select').innerText.trim(), 'Choose type of resource');
+    assert.equal(find('button.md-form-save').disabled, true);
+    //change route to prevent error during teardown
+    await visit('/');
   });
-});
 
-test('test new mdJSON record completed form', function (assert) {
-  assert.expect(3);
-  visit('/record/new');
-  fillIn('input:eq(1)', 'Record Title');
-  selectChoose('.md-select', 'attribute');
-  andThen(function() {
-    assert.equal(find('input:eq(1)').val(), "Record Title");
-    assert.equal(find(
-        'div.md-select .ember-power-select-selected-item .select-value'
-      )
-      .text()
-      .trim(), "attribute");
-    assert.equal(find('button.md-form-save').prop('disabled'), false);
+  test('test new metadata record completed form', async function(assert) {
+    assert.expect(3);
+    await visit('/record/new');
+    await fillIn(findAll('.md-input-input input')[0], 'Record Title');
+    await selectChoose('.md-select', 'attribute');
+    assert.equal(findAll('.md-input-input input')[0].value, 'Record Title');
+    assert.equal(find('div.md-select .select-value').innerText, 'attribute');
+    assert.equal(find('button.md-form-save').disabled, false);
+    //change route to prevent error during teardown
+    await visit('/');
   });
-});
 
-test('test new mdJSON record missing record title', function (assert) {
-  assert.expect(1);
-  visit('/record/new');
-  selectChoose('.md-select', 'attribute');
-  andThen(function() {
-    assert.equal(find('button.md-form-save').prop('disabled'), true);
+  test('test new metadata record missing record title', async function(assert) {
+    assert.expect(1);
+    await visit('/record/new');
+    await selectChoose('.md-select', 'attribute');
+    assert.equal(find('button.md-form-save').disabled, true);
+    //change route to prevent error during teardown
+    await visit('/');
   });
-});
 
-test('test new mdJSON record missing data record type (scope)', function (assert) {
-  assert.expect(2);
-  visit('/record/new');
-  fillIn('input:eq(1)', 'Record Title');
-  andThen(function() {
-    assert.equal(find('button.md-form-save').prop('disabled'), true);
-    assert.equal(find('.md-error').length, 1);
+  test('test new metadata record missing data record type (scope)', async function(assert) {
+    assert.expect(2);
+    await visit('/record/new');
+    await fillIn(findAll('.md-input-input input')[1], 'Record Title');
+    assert.equal(find('button.md-form-save').disabled, true);
+    assert.equal(findAll('.md-error').length, 1);
+    //change route to prevent error during teardown
+    await visit('/');
   });
 });

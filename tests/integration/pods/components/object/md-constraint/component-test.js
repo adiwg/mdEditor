@@ -1,25 +1,30 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-constraint', 'Integration | Component | object/md constraint', {
-  integration: true
-});
+module('Integration | Component | object/md constraint', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('model',{});
 
-  this.render(hbs`{{object/md-constraint}}`);
+    await render(hbs`{{object/md-constraint profilePath="foobar" model=model}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('form').textContent.replace(/[ \n]+/g, '|').trim(),
+      '|Constraint|Type|The|type|of|constraint.|Use|Limitations|0|Add|Add|Use|Limitations|Legal|Access|Constraints|Use|Constraints|Other|Constraints|0|Add|Other|Constraint|Add|Other|Constraint|Security|Classification|Name|of|the|handling|restrictions|on|the|resource|or|metadata.|Classification|System|Name|Note|Handling|Description|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Graphic|or|Logo|0|Add|OK|Add|Graphic|OK|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-constraint}}
-      template block text
-    {{/object/md-constraint}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-constraint profilePath="foobar" model=model}}
+        template block text
+      {{/object/md-constraint}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('form').textContent.replace(/[ \n]+/g, '|').trim(),
+      "|Constraint|Type|The|type|of|constraint.|Use|Limitations|0|Add|Add|Use|Limitations|Legal|Access|Constraints|Use|Constraints|Other|Constraints|0|Add|Other|Constraint|Add|Other|Constraint|Security|Classification|Name|of|the|handling|restrictions|on|the|resource|or|metadata.|Classification|System|Name|Note|Handling|Description|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Graphic|or|Logo|0|Add|OK|Add|Graphic|OK|template|block|text|",
+      'block');
+  });
 });

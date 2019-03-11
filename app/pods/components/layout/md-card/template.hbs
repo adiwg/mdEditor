@@ -3,15 +3,15 @@
       <h4 class="card-title md-card-chevron">
         {{#if isCollapsible}}
         {{#if titleIcon}}
-          <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded="{{if collapsed "false" "true"}}"
-          class="{{if collapsed "collapsed"}}" aria-controls="{{panelId}}">
+          <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded={{if collapsed "false" "true"}}
+          class={{if collapsed "collapsed"}} aria-controls={{panelId}}>
           {{fa-icon titleIcon}}
           {{title}}
           <span class="fa"></span>
           </a>
         {{else}}
-          <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded="{{if collapsed "false" "true"}}"
-          class="{{if collapsed "collapsed"}}" aria-controls="{{panelId}}">
+          <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded={{if collapsed "false" "true"}}
+          class={{if collapsed "collapsed"}} aria-controls={{panelId}}>
           <span class="fa"></span>
           {{title}}
           </a>
@@ -43,6 +43,6 @@
       </h4>
   </div>
 {{/if}}
-<div id="{{cardId}}" class="card-collapse {{if collapsed "collapse" "in"}} {{if bodyIsRow "row"}} {{if block "card-block"}}">
+<div id={{cardId}} class="card-collapse {{if collapsed "collapse" "in"}} {{if bodyIsRow "row"}} {{if block "card-block"}}">
     {{yield}}
 </div>

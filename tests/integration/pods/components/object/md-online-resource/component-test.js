@@ -1,25 +1,37 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-online-resource', 'Integration | Component | object/md online resource', {
-  integration: true
-});
+module('Integration | Component | object/md online resource', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.model = {
+      "uri": "http://URI.example.com",
+      "protocol": "protocol",
+      "name": "name",
+      "description": "description",
+      "function": "download"
+    };
 
-  this.render(hbs`{{object/md-online-resource}}`);
+    await render(hbs`{{object/md-online-resource model=model profilePath="foobar"}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      'Name|URI|Protocol|Description|Function|download|?|×|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-online-resource}}
-      template block text
-    {{/object/md-online-resource}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-online-resource profilePath="foobar" model=model}}
+        template block text
+      {{/object/md-online-resource}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Name|URI|Protocol|Description|Function|download|?|×|template|block|text|',
+      'block');
+  });
 });

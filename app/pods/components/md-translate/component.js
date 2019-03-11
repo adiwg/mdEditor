@@ -1,10 +1,14 @@
+import {
+  alias,
+  equal,
+  or
+} from '@ember/object/computed';
 import Component from '@ember/component';
 import {
   computed,
   get,
   set
 } from '@ember/object';
-import $ from 'jquery';
 import {
   inject as service
 } from '@ember/service';
@@ -32,6 +36,7 @@ export default Component.extend({
   flashMessages: service(),
   mdjson: service(),
   settings: service(),
+  ajax: service(),
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -53,32 +58,34 @@ export default Component.extend({
 
   writer: null,
 
-  writerOptions: [{
-    name: 'FGDC CSDGM',
-    value: 'fgdc',
-    type: 'application/xml',
-    tip: 'Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata'
-  }, {
-    name: 'HTML',
-    value: 'html',
-    type: 'text/html',
-    tip: 'HTML "human-readable" and printable report of the metadata content'
-  }, {
-    name: 'ISO 19115-2',
-    value: 'iso19115_2',
-    type: 'application/xml',
-    tip: 'International Standards Organization Geographic Information - Metadata 19115-2:2009'
-  }, {
-    name: 'ISO 19110',
-    value: 'iso19110',
-    type: 'application/xml',
-    tip: 'International Standards Organization Geographic Information - Feature Catalogue 19110:2005'
-  }, {
-    name: 'sbJSON',
-    value: 'sbJson',
-    type: 'application/json',
-    tip: 'USGS ScienceBase metadata format'
-  }],
+  writerOptions: computed(function () {
+    return [{
+      name: 'FGDC CSDGM',
+      value: 'fgdc',
+      type: 'application/xml',
+      tip: 'Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata'
+    }, {
+      name: 'HTML',
+      value: 'html',
+      type: 'text/html',
+      tip: 'HTML "human-readable" and printable report of the metadata content'
+    }, {
+      name: 'ISO 19115-2',
+      value: 'iso19115_2',
+      type: 'application/xml',
+      tip: 'International Standards Organization Geographic Information - Metadata 19115-2:2009'
+    }, {
+      name: 'ISO 19110',
+      value: 'iso19110',
+      type: 'application/xml',
+      tip: 'International Standards Organization Geographic Information - Feature Catalogue 19110:2005'
+    }, {
+      name: 'sbJSON',
+      value: 'sbJson',
+      type: 'application/json',
+      tip: 'USGS ScienceBase metadata format'
+    }];
+  }),
 
   result: null,
   errorLevel: null,
@@ -97,6 +104,15 @@ export default Component.extend({
     return type[get(this, 'errorLevel')];
   }),
 
+errorSubTitle: computed('subTitle', function() {
+  let err = get(this, 'errors');
+
+  if(err.length) {
+    return get(this, 'errorTitle') + ' ocurred during translation.';
+  }
+
+  return null;
+}),
   writeObj: computed('writer', function () {
     return get(this, 'writerOptions')
       .findBy('value', get(this,
@@ -109,41 +125,16 @@ export default Component.extend({
     return obj ? obj.type.split('/')[1] : null;
   }),
 
-  isJson: computed.equal('writerType', 'json'),
+  isJson: equal('writerType', 'json'),
   defaultAPI: defaultValues.mdTranslatorAPI,
-  apiURL: computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+  apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
   isHtml: computed('writerType', function () {
     //IE does not supoprt srcdoc, so default to non-html display
     return get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement(
       'iframe');
   }),
 
-  messages: computed('errors', function () {
-    let err = get(this, 'errors');
-
-    if(!err) {
-      return null;
-    }
-
-    if(err.length) {
-      set(this, 'subtitle', get(this, 'errorTitle') +
-        ' ocurred during translation.');
-      return err;
-    }
-
-    // if(!err.readerValidationPass) {
-    //   set(this, 'subtitle', 'mdJSON Schema validation failed');
-    //   return JSON.parse(err.readerValidationMessages[1]);
-    // }
-    //
-    // if(!err.readerExecutionPass) {
-    //   return err.readerExecutionMessages;
-    // }
-    //
-    // if(!err.writerPass) {
-    //   return err.writerMessages;
-    // }
-  }),
+  messages: alias('errors'),
 
   _clearResult() {
     set(this, 'result', null);
@@ -152,31 +143,16 @@ export default Component.extend({
     set(this, 'xhrError', null);
   },
 
-  // _replacer(key, value) {
-  //   //console.log(arguments);
-  //   if(key==='contactId' && !_contacts.includes(value)){
-  //     _contacts.push(value);
-  //   }
-  //   return value;
-  // },
-
   actions: {
     translate() {
-      let mdjson = this.get('mdjson');
-      let url = this.get('apiURL');
-      // let clean = cleaner.clean(get(this,'model.json'));
-      // let json = JSON.parse(JSON.stringify(clean, get(this, '_replacer')));
-      // let contacts = this.store.peekAll('contact').mapBy('json');
-      //
-      // json.contact = contacts.filter((item)=>{
-      //   return _contacts.includes(get(item, 'contactId'));
-      // });
-      //console.info(JSON.stringify(json));
+      let mdjson = this.mdjson;
+      let url = this.apiURL;
+      let cmp = this;
 
       this._clearResult();
       set(this, 'isLoading', true);
 
-      $.ajax(url, {
+      this.ajax.request(url, {
           type: 'POST',
           data: {
             //file: JSON.stringify(cleaner.clean(json)),
@@ -191,28 +167,22 @@ export default Component.extend({
           context: this
         })
         .then(function (response) {
-          //this.sendAction("select", response);
-          //console.info(response);
+          set(cmp, 'isLoading', false);
 
-          set(this, 'isLoading', false);
-
-          // if(response.success) {
-          //   set(this, 'result', response.writerOutput);
-          //   //Ember.$('.md-translator-preview textarea').val(response.data);
-          // } else {
           let level = Math.max(...[response.readerExecutionStatus,
             response.readerStructureStatus,
             response.readerValidationStatus, response.writerStatus
           ].map(itm => errorLevels[itm]));
 
-          set(this, 'errorLevel', level);
-          set(this, 'errors', response.readerExecutionMessages.concat(
+          set(cmp, 'errorLevel', level);
+          set(cmp, 'errors', response.readerExecutionMessages.concat(
             response.readerStructureMessages,
-            response.readerValidationMessages.length ? response.readerValidationMessages[0] : response.readerValidationMessages,
+            response.readerValidationMessages.length ? response.readerValidationMessages[
+              0] : response.readerValidationMessages,
             response.writerMessages).map(itm => itm.split(':')));
-          set(this, 'result', response.writerOutput);
+          set(cmp, 'result', response.writerOutput);
           if(!response.success) {
-            get(this, 'flashMessages')
+            get(cmp, 'flashMessages')
               .danger('Translation error!');
           }
         }, (response) => {
@@ -220,10 +190,10 @@ export default Component.extend({
             `mdTranslator Server error:
           ${response.status}: ${response.statusText}`;
 
-          set(this, 'errorLevel', 3);
-          set(this, 'isLoading', false);
-          set(this, 'xhrError', error);
-          get(this, 'flashMessages')
+          set(cmp, 'errorLevel', 3);
+          set(cmp, 'isLoading', false);
+          set(cmp, 'xhrError', error);
+          get(cmp, 'flashMessages')
             .danger(error);
         });
 
@@ -265,7 +235,8 @@ export default Component.extend({
       return errorClasses[errorLevels[level]] || 'primary';
     },
     formatMessage(message) {
-      return message ? message.trim().replace(/^([A-Z]{2,})/g, match => match.toLowerCase()) :
+      return message ? message.trim().replace(/^([A-Z]{2,})/g, match =>
+          match.toLowerCase()) :
         'context not provided'
     }
   }

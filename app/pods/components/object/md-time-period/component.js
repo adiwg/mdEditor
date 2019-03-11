@@ -1,20 +1,22 @@
-import Ember from 'ember';
+import {
+  notEmpty,
+  alias
+} from '@ember/object/computed';
+import Component from '@ember/component';
+import {
+  getWithDefault,
+  get,
+  set,
+  computed
+} from '@ember/object';
+import {
+  once
+} from '@ember/runloop';
 
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  set,
-  get,
-  getWithDefault,
-  run: {
-    once
-  }
-} = Ember;
 
 const Validations = buildValidations({
   'intervalAmount': [
@@ -27,18 +29,18 @@ const Validations = buildValidations({
   'startDateTime': [
     validator('presence', {
       presence: true,
-      disabled: computed.notEmpty('model.endDateTime'),
+      disabled: notEmpty('model.endDateTime'),
       ignoreBlank: true
     })
   ],
   'endDateTime': [
     validator('date', {
-      onOrAfter: computed.alias('model.startDateTime'),
+      onOrAfter: alias('model.startDateTime'),
       isWarning: true
     }),
     validator('presence', {
       presence: true,
-      disabled: computed.notEmpty('model.startDateTime'),
+      disabled: notEmpty('model.startDateTime'),
       ignoreBlank: true
     })
   ]
@@ -50,7 +52,7 @@ export default Component.extend(Validations, {
 
     let model = get(this, 'model');
 
-    once(function() {
+    once(function () {
       set(model, 'periodName', getWithDefault(model,
         'periodName', []));
       set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
@@ -73,52 +75,55 @@ export default Component.extend(Validations, {
    */
 
   startDateTime: computed('model.startDateTime', {
-    get(){
+    get() {
       return get(this, 'model.startDateTime');
     },
     set(key, value) {
-      once(this,function() {
+      once(this, function () {
         set(this, 'model.startDateTime', value);
         return value;
       });
     }
   }),
   endDateTime: computed('model.endDateTime', {
-    get(){
+    get() {
       return get(this, 'model.endDateTime');
     },
     set(key, value) {
-      once(this,function() {
+      once(this, function () {
         set(this, 'model.endDateTime', value);
         return value;
       });
     }
   }),
-  intervalAmount: computed.alias('model.timeInterval.interval'),
-  timeUnit: [{
-      name: 'year',
-      value: 'year'
-    },
-    {
-      name: 'month',
-      value: 'month'
-    },
-    {
-      name: 'day',
-      value: 'day'
-    },
-    {
-      name: 'hour',
-      value: 'hour'
-    },
-    {
-      name: 'minute',
-      value: 'minute'
-    },
-    {
-      name: 'second',
-      value: 'second'
-    }
-  ]
+  intervalAmount: alias('model.timeInterval.interval'),
+
+  timeUnit: computed(function () {
+    return [{
+        name: 'year',
+        value: 'year'
+      },
+      {
+        name: 'month',
+        value: 'month'
+      },
+      {
+        name: 'day',
+        value: 'day'
+      },
+      {
+        name: 'hour',
+        value: 'hour'
+      },
+      {
+        name: 'minute',
+        value: 'minute'
+      },
+      {
+        name: 'second',
+        value: 'second'
+      }
+    ]
+  })
 
 });

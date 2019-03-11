@@ -9,12 +9,15 @@ spotlightEnabled=false
     <div class="card-buttons">
       <div class="row">
         <div class="col-sm-6">
-          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action (route-action "editExtent" index)}}>
+          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editExtent" index}}>
             {{fa-icon "pencil"}} Edit Extent Features</button>
         </div>
         <div class="col-sm-6">
-          <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action (route-action "deleteExtent" index)}}>
-              {{fa-icon "times"}} Delete Extent</button>
+          {{!-- <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteExtent" index}}>
+              {{fa-icon "times"}} Delete Extent</button> --}}
+          {{#control/md-button-confirm class="btn btn-md btn-danger  btn-block md-btn-responsive" onConfirm=(action "deleteExtent" index)}}
+            <span class="fa fa-times"></span> Delete Extent
+          {{/control/md-button-confirm}}
         </div>
       </div>
     </div>

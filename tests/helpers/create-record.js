@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 export default function createRecord(total) {
 
@@ -6,12 +6,12 @@ export default function createRecord(total) {
 
   for(let i = 0; i < total; i++) {
 
-    const record = Ember.Object.create({
+    const record = EmberObject.create({
 
       json: {
         "version": {
           "name": "mdJson",
-          "version": "1.0.0"
+          "version": "2.0.0"
         },
         "record": [],
         "metadata": {
@@ -32,8 +32,8 @@ export default function createRecord(total) {
               }]
             },
             "pointOfrecord": [],
-            "abstract": null,
-            "status": null,
+            "abstract": "An abstract.",
+            "status": "completed",
             "language": ["eng; USA"]
           }
         }

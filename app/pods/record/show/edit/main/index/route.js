@@ -1,14 +1,9 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { set, getWithDefault, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   formatCitation
 } from 'mdeditor/pods/components/object/md-citation/component';
-const {
-  Route,
-  get,
-  getWithDefault,
-  set
-} = Ember;
 
 export default Route.extend(ScrollTo, {
   afterModel(m) {

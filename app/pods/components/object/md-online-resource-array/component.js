@@ -18,7 +18,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if(!this.get('model')) {
+    if(!this.model) {
       once(this, () => this.set('model', A()));
     }
   },
@@ -105,7 +105,7 @@ export default Component.extend({
    * @requires imagePicker
    */
   previewTemplate: computed('imagePicker', function () {
-    return this.get('imagePicker') ?
+    return this.imagePicker ?
       "object/md-online-resource-array/md-image-preview" : null;
   }),
 

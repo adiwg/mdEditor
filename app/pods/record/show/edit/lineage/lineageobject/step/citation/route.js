@@ -1,12 +1,7 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray
-} = Ember;
 
 export default Route.extend(ScrollTo, {
   model(params, transition) {
@@ -24,7 +19,7 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controller.set('stepId', get(this, 'stepId'));
+    this.controller.set('stepId', this.stepId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -33,9 +28,9 @@ export default Route.extend(ScrollTo, {
   },
 
   setupModel() {
-    let citationId = get(this, 'citationId');
-    let lineageId = get(this, 'lineageId');
-    let stepId = get(this, 'stepId');
+    let citationId = this.citationId;
+    let lineageId = this.lineageId;
+    let stepId = this.stepId;
     let model = this.modelFor('record.show.edit');
     let citations = model.get(
       `json.metadata.resourceLineage.${lineageId}.processStep.${stepId}.reference`);
@@ -44,7 +39,7 @@ export default Route.extend(ScrollTo, {
 
     //make sure the identifier exists
     if(isEmpty(citation)) {
-      Ember.get(this, 'flashMessages')
+      this.flashMessages
         .warning('No citation found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject.step');
 

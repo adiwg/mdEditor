@@ -1,10 +1,21 @@
+import Service, {
+  inject as service
+} from '@ember/service';
+import {
+  isArray
+} from '@ember/array';
+import EmberObject, {
+  getWithDefault,
+  get,
+  set
+} from '@ember/object';
 import Ember from 'ember';
-import Ajv from 'npm:ajv';
-import Schemas from 'npm:mdjson-schemas/resources/js/schemas.js';
+import Ajv from 'ajv';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 import {
   formatCitation
 } from 'mdeditor/pods/components/object/md-citation/component';
-import draft4 from 'npm:ajv/lib/refs/json-schema-draft-04.json';
+import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 
 Ember.libraries.register('mdJson-schemas', Schemas.schema.version);
 
@@ -12,7 +23,9 @@ const validator = new Ajv({
   verbose: true,
   allErrors: true,
   jsonPointers: true,
-  removeAdditional: false
+  removeAdditional: false,
+  meta: false,
+  schemaId: 'id'
 });
 
 //support draft-04
@@ -20,21 +33,13 @@ validator.addMetaSchema(draft4);
 
 Object.keys(Schemas)
   .forEach(function (key) {
+    if(key === 'default') {
+      return;
+    }
     let val = Schemas[key];
 
     validator.addSchema(val, key);
   });
-
-const {
-  Service,
-  inject,
-  isArray,
-  set,
-  get,
-  getWithDefault,
-  Object: EmObject
-
-} = Ember;
 
 const unImplemented = [
   'metadata.metadataInfo.otherMetadataLocale',
@@ -52,9 +57,9 @@ const unImplemented = [
 ];
 
 export default Service.extend({
-  cleaner: inject.service(),
-  contacts: inject.service(),
-  store: inject.service(),
+  cleaner: service(),
+  contacts: service(),
+  store: service(),
 
   injectCitations(json) {
     let assoc = json.metadata.associatedResource;
@@ -67,7 +72,7 @@ export default Service.extend({
         return acc;
       }, []);
 
-      let records = this.get('store').peekAll('record').filterBy('recordId');
+      let records = this.store.peekAll('record').filterBy('recordId');
 
       refs.forEach((ref) => {
         let record = records.findBy('recordId', ref.mdRecordId);
@@ -89,10 +94,12 @@ export default Service.extend({
           let resourceType = get(record,
             'json.metadata.resourceInfo.resourceType') || [];
 
-          set(ref, 'resourceCitation', EmObject.create(formatCitation(
-            citation)));
-          set(ref, 'metadataCitation', EmObject.create(formatCitation(
-            metadata)));
+          set(ref, 'resourceCitation', EmberObject.create(
+            formatCitation(
+              citation)));
+          set(ref, 'metadataCitation', EmberObject.create(
+            formatCitation(
+              metadata)));
           set(ref, 'resourceType', resourceType);
           set(ref, 'mdRecordId', null);
 
@@ -110,7 +117,7 @@ export default Service.extend({
 
     if(ids.length) {
 
-      let dicts = this.get('store').peekAll('dictionary').filterBy(
+      let dicts = this.store.peekAll('dictionary').filterBy(
         'dictionaryId');
 
       ids.forEach((id) => {
@@ -127,7 +134,7 @@ export default Service.extend({
 
   formatRecord(rec, asText) {
     let _contacts = [];
-    let conts = this.get('contacts');
+    let conts = this.contacts;
 
     const _replacer = function (key, value) {
       let check = {
@@ -181,14 +188,14 @@ export default Service.extend({
       return value;
     };
 
-    let cleaner = this.get('cleaner');
+    let cleaner = this.cleaner;
     let clean = cleaner.clean(get(rec, 'json'));
 
     this.injectCitations(clean);
     this.injectDictionaries(rec, clean);
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
-    let contacts = this.get('store')
+    let contacts = this.store
       .peekAll('contact')
       .mapBy('json');
 

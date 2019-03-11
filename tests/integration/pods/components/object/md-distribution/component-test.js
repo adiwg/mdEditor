@@ -1,25 +1,61 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test, skip } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createRecord from 'mdeditor/tests/helpers/create-record';
 
-moduleForComponent('object/md-distribution', 'Integration | Component | object/md distribution', {
-  integration: true
-});
+module('Integration | Component | object/md distribution', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('record', createRecord(1)[0]);
 
-  this.render(hbs`{{object/md-distribution}}`);
+    await render(hbs`{{object/md-distribution model=record profilePath="foobar"}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|No|distribution|sections|found.|Add|Distribution|Section|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-distribution}}
-      template block text
-    {{/object/md-distribution}}
-  `);
+    this.record.json.metadata.resourceDistribution.push({
+      "description": "description",
+      "liabilityStatement": "liabilityStatement",
+      "distributor": [{
+        "contact": {
+          "role": "role",
+          "roleExtent": [{
+            "temporalExtent": [{
+              "timePeriod": {
+                "startDateTime": "2016-10-24T11:10:15.2-10:00"
+              }
+            }]
+          }],
+          "party": [{
+            "contactId": "individualId0"
+          }]
+        }
+      }, {
+        "contact": {
+          "role": "role",
+          "party": [{
+            "contactId": "individualId0"
+          }]
+        }
+      }]
+    });
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-distribution model=record profilePath="foobar"}}
+        template block text
+      {{/object/md-distribution}}
+    `);
+
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Distribution|Section|#0|Edit|Distributors|Delete|Section|Distributors|role|(|)|role|(|)|Description|',
+      'block and list');
+  });
+
+  skip('call actions', async function(assert) {
+    assert.expect(1);
+  });
 });

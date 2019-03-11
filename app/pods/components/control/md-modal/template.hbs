@@ -16,14 +16,14 @@
         </span>
     </button>
     <div class="md-modal-body">
-      {{yield}} {{{message}}}
+      {{yield}} {{html-safe message}}
     </div>
     <div class="md-modal-buttons pull-right">
       {{#if showConfirm}}
-        <button type="button" class="btn btn-success" {{action 'confirm'}}>{{confirmLabel}}</button>
+        <button type="button" class="btn btn-success" {{action "confirm"}}>{{confirmLabel}}</button>
       {{/if}}
       {{#if showCancel}}
-        <button type="button" class="btn btn-warning" {{action 'cancel'}}>Cancel</button>
+        <button type="button" class="btn btn-warning" {{action "cancel"}}>Cancel</button>
       {{/if}}
     </div>
   {{/modal-dialog}}

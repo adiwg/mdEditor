@@ -1,9 +1,4 @@
-import Ember from 'ember';
 import Table from 'mdeditor/pods/components/md-models-table/component';
-
-const {
-  get
-} = Ember;
 
 export default Table.extend({
   /**
@@ -75,9 +70,9 @@ export default Table.extend({
     clickOnRow() {
       this._super(...arguments);
 
-      let sel = get(this, 'selectedItems');
+      let sel = this.selectedItems;
 
-      this.get('select')(sel);
+      this.select(sel);
     }
   }
 });

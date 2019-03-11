@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 
 export default function createMapLayer(total) {
 
@@ -9,7 +9,7 @@ export default function createMapLayer(total) {
 
   for(let i = 1; i < (total + 1); i++) {
 
-    const layer = Ember.Object.create({
+    const layer = EmberObject.create({
       type: 'Feature',
       id: i,
       geometry: {

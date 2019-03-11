@@ -1,15 +1,11 @@
-import Ember from 'ember';
-
-const {
-  Component,
-  computed,
-  inject
-} = Ember;
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   tagName: '',
 
-  store: inject.service(),
+  store: service(),
 
   /**
    * mdEditor Component that accepts a contact identifier and returns the
@@ -38,9 +34,9 @@ export default Component.extend({
    * @requires contactId
    */
   contact: computed('contactId', function () {
-      let rec = this.get('store')
+      let rec = this.store
         .peekAll('contact')
-        .findBy('json.contactId', this.get('contactId'));
+        .findBy('json.contactId', this.contactId);
 
       return rec;
     })

@@ -1,25 +1,40 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-funding', 'Integration | Component | object/md funding', {
-  integration: true
-});
+module('Integration | Component | object/md funding', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('funding', {
+      "allocation": [{
+        "amount": 9.9,
+        "currency": "currency"
+      }]
+    }, {
+      "timePeriod": {
+        "endDateTime": "2016-12-31"
+      }
+    });
 
-  this.render(hbs`{{object/md-funding}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    await render(hbs`{{object/md-funding model=funding}}`);
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-funding}}
-      template block text
-    {{/object/md-funding}}
-  `);
+    assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
+      "|Allocation|1|Add|OK|#|Amount|Currency|Matching|0|9.9|currency|Not|Defined|Edit|Delete|OK|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|");
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-funding model=(hash)}}
+        template block text
+      {{/object/md-funding}}
+    `);
+
+    assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
+      "|Allocation|0|Add|OK|#|Amount|Currency|Matching|Add|Allocation|OK|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|",
+      'block');
+  });
 });

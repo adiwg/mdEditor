@@ -54,13 +54,13 @@ export default Component.extend(Validations, {
   preview: false,
 
   level: computed('parent.level', function () {
-    let parent = this.get('parentItem');
+    let parent = this.parentItem;
 
     return parent ? parent.get('level') + 1 : 0;
   }),
 
   padding: computed('level', function () {
-    let pad = this.get('level') + 0;
+    let pad = this.level + 0;
 
     return htmlSafe('padding-left: ' + pad + 'rem;');
   }),
@@ -76,11 +76,18 @@ export default Component.extend(Validations, {
 
   startEditing() {
     this.set('isEditing', true);
-    this.get('spotlight').setTarget('editor-' + this.get('elementId'), this.get('stopEditing'),this);
+    this.spotlight.setTarget('editor-' + this.elementId, this.stopEditing,this);
   },
 
   stopEditing() {
       this.set('isEditing', false);
+  },
+
+  deleteTaxa(taxa) {
+    let parent = this.top || this.get(
+      'parentItem.model.subClassification');
+
+    parent.removeObject(taxa);
   },
 
   actions: {
@@ -89,14 +96,11 @@ export default Component.extend(Validations, {
       this.toggleProperty('collapse');
     },
     deleteTaxa(taxa) {
-      let parent = this.get('top') || this.get(
-        'parentItem.model.subClassification');
-
-      parent.removeObject(taxa);
+      this.deleteTaxa(taxa);
     },
     toggleEditing() {
-      if(this.get('isEditing')){
-        this.get('spotlight').close();
+      if(this.isEditing){
+        this.spotlight.close();
         this.set('isEditing', false);
         return;
       }

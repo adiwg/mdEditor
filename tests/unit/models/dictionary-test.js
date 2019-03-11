@@ -1,23 +1,22 @@
-import {
-  moduleForModel, test
-}
-from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleForModel('dictionary', 'Unit | Model | dictionary', {
-  // Specify the other units that are required for this test.
-  needs: []
-});
+import { run } from '@ember/runloop';
 
-test('it exists', function(assert) {
-  var model = this.subject();
-  // var store = this.store();
-  assert.ok(!!model);
-});
+module('Unit | Model | dictionary', function(hooks) {
+  setupTest(hooks);
 
-test('should correctly compute title', function(assert) {
-  const me = this.subject();
+  test('it exists', function(assert) {
+    var model = run(() => this.owner.lookup('service:store').createRecord('dictionary'));
+    // var store = this.store();
+    assert.ok(!!model);
+  });
 
-  assert.expect(1);
-  me.set('json.dictionaryInfo.citation.title', 'bar');
-  assert.equal(me.get('title'), 'bar');
+  test('should correctly compute title', function(assert) {
+    const me = run(() => this.owner.lookup('service:store').createRecord('dictionary'));
+
+    assert.expect(1);
+    me.set('json.dataDictionary.citation.title', 'bar');
+    assert.equal(me.get('title'), 'bar');
+  });
 });

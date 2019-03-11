@@ -1,11 +1,9 @@
-import Ember from 'ember';
+import { Promise } from 'rsvp';
+import { assign } from '@ember/polyfills';
+import { run } from '@ember/runloop';
 import DS from 'ember-data';
 import { singularize } from 'ember-inflector';
 
-const {
-  run
-} = Ember;
-const assign = Ember.assign || Ember.merge;
 const exportSelected = function(store, types, options) {
   // merge defaults
   options = assign({
@@ -49,7 +47,7 @@ const exportSelected = function(store, types, options) {
     );
   }
 
-  return new Ember.RSVP.Promise((resolve) => {
+  return new Promise((resolve) => {
     run(null, resolve, data);
   }, 'DS: LocalStorageAdapter#exportData');
 };

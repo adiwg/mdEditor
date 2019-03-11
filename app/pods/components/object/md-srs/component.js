@@ -1,36 +1,25 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { alias, notEmpty } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { set, getWithDefault, get } from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  computed: {
-    alias
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   'refType': [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: computed.notEmpty('model.model.referenceSystemIdentifier.identifier').volatile()
+      disabled: notEmpty('model.model.referenceSystemIdentifier.identifier').volatile()
     })
   ],
   'refSystem': [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: computed.notEmpty('model.model.referenceSystemType').volatile()
+      disabled: notEmpty('model.model.referenceSystemType').volatile()
     })
   ]
 });

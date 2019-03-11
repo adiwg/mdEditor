@@ -1,36 +1,25 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { alias, notEmpty } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { set, getWithDefault, get } from '@ember/object';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  computed: {
-    alias
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   'allocation': [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: computed.notEmpty('model.timePeriod')
+      disabled: notEmpty('model.timePeriod')
     })
   ],
   'timePeriod': [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: computed.notEmpty('model.allocation')
+      disabled: notEmpty('model.allocation')
     })
   ]
 });

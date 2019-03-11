@@ -1,7 +1,4 @@
-import Ember from 'ember';
-const {
-  Helper
-} = Ember;
+import Helper from '@ember/component/helper';
 
 export function mod(params) {
   return params.reduce((a, b) => Number(a) % Number(b));

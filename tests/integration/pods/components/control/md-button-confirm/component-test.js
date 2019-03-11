@@ -1,88 +1,74 @@
-import Ember from 'ember';
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
+import { click, find, render, triggerEvent } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-button-confirm',
-  'Integration | Component | control/md button confirm', {
-    integration: true
+module('Integration | Component | control/md button confirm', function(hooks) {
+  setupRenderingTest(hooks);
+
+  test('it renders', async function(assert) {
+
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+
+    await render(hbs `{{control/md-button-confirm}}`);
+
+    assert.equal(find('button').innerText
+      .trim(), '');
+
+    // Template block usage:" + EOL +
+    await render(hbs `
+      {{#control/md-button-confirm}}
+        template block text
+      {{/control/md-button-confirm}}
+    `);
+
+    assert.equal(find('button').innerText
+      .trim(), 'template block text');
   });
 
-test('it renders', function (assert) {
+  test('shows and cancels confirm', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-  this.render(hbs `{{control/md-button-confirm}}`);
+    // Template block usage:" + EOL +
+    await render(hbs `
+      <a href="#">Test</a>
+      {{#control/md-button-confirm}}
+        Test
+      {{/control/md-button-confirm}}
+    `);
 
-  assert.equal(this.$()
-    .text()
-    .trim(), '');
+    assert.equal(find('button').innerText
+      .trim(), 'Test', 'renders button');
 
-  // Template block usage:" + EOL +
-  this.render(hbs `
-    {{#control/md-button-confirm}}
-      template block text
-    {{/control/md-button-confirm}}
-  `);
+    await click('button');
 
-  assert.equal(this.$()
-    .text()
-    .trim(), 'template block text');
-});
+    assert.equal(find('button').innerText
+      .trim(), 'Confirm', 'renders confirm');
 
-test('shows and cancels confirm', function (assert) {
-
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-
-  // Template block usage:" + EOL +
-  this.render(hbs `
-    {{#control/md-button-confirm}}
-      Test
-    {{/control/md-button-confirm}}
-  `);
-
-  assert.equal(this.$()
-    .text()
-    .trim(), 'Test', 'renders button');
-
-  this.$('button')
-    .click();
-
-  assert.equal(this.$()
-    .text()
-    .trim(), 'Confirm', 'renders confirm');
-
-  var $btn = this.$('button');
-  Ember.run(function () {
-    $btn
-      .blur();
+    await triggerEvent('button','blur');
+    assert.equal(find('button').innerText
+      .trim(), 'Test', 'cancels confirm');
   });
 
-  assert.equal(this.$()
-    .text()
-    .trim(), 'Test', 'cancels confirm');
-});
+  test('performs confirm action', async function(assert) {
 
-test('performs confirm action', function (assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    this.set('externalAction', (type) => {
+      assert.ok(type, `${type} called`);
+    });
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
-  this.set('externalAction', (type) => {
-    assert.ok(type, `${type} called`);
+    // Template block usage:" + EOL +
+    await render(hbs `
+      {{#control/md-button-confirm onConfirm=(action externalAction "onConfirm")}}
+        Test
+      {{/control/md-button-confirm}}
+    `);
+
+    await click('button');
+    await click('button');
   });
-
-  // Template block usage:" + EOL +
-  this.render(hbs `
-    {{#control/md-button-confirm onConfirm=(action externalAction "onConfirm")}}
-      Test
-    {{/control/md-button-confirm}}
-  `);
-
-  this.$('button')
-    .click()
-    .click();
 });

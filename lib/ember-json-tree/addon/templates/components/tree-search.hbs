@@ -1,5 +1,4 @@
   <div class="search-form form-inline">
-    <!-- <form> -->
     <div class="form-group search-grp">
       <label for="input-search" class="sr-only">Search Tree:</label>
       {{input type="text" class="form-control input-search" placeholder="Type to search..." value=searchString}}
@@ -31,7 +30,7 @@
       {{/if}}
     </div>
   </div>
-  <!-- </form> -->
+  {{! template-lint-disable no-inline-styles }}
   <div class="search-output" style="opacity: 1;">
     <ul class="list-group">
       {{#each (sort-by "label" searchResult) as |child|}}

@@ -6,7 +6,6 @@
   placeholder="Enter the geographic(map) scale for the resource."
   profilePath=(concat profilePath ".scaleFactor")
   showValidations=true
-  label="Scale Factor"
   disabled=scaleDisabled
   class=(if (v-get model "scaleFactor" "isInvalid") "required")
 }}
@@ -26,7 +25,6 @@
 {{#layout/md-card
    collapsible=false
    collapsed=false
-   profilePath="card"
    data-spy=false
    shadow=false
    profilePath=(concat profilePath ".measure")
@@ -57,7 +55,6 @@
     placeholder="Enter the number of units in the measurement."
     profilePath=(concat profilePath ".measure.value")
     showValidations=true
-    label="Value"
     disabled=measureDisabled
   }}
   {{input/md-input

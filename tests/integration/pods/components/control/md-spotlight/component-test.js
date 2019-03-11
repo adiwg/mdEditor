@@ -1,25 +1,32 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-spotlight', 'Integration | Component | control/md spotlight', {
-  integration: true
-});
+module('Integration | Component | control/md spotlight', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
+    assert.expect(4);
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    var spotlight = this.owner.lookup('service:spotlight');
+    var scope = {
+      foo: 'bar'
+    };
+    var close = function () {
+      assert.equal(this.foo, 'bar', 'calls close action');
+    };
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    await render(hbs`<div id="foo">foobar</div>
+      {{control/md-spotlight}}`);
 
-  this.render(hbs`{{control/md-spotlight}}`);
+    spotlight.setTarget('foo', close, scope);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.ok(document.querySelector('.md-modal-overlay'), 'render overlay');
+    assert.equal(find('#foo').textContent.trim(), 'foobar', 'render target');
+    assert.ok(find('#foo').classList.contains('md-spotlight-target'), 'adds class');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#control/md-spotlight}}
-      template block text
-    {{/control/md-spotlight}}
-  `);
-
-  assert.equal(this.$().text().trim(), 'template block text');
+    spotlight.setTarget('foo');
+  });
 });

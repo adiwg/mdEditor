@@ -11,26 +11,26 @@ export default Component.extend({
 
   didReceiveAttrs() {
     $('body')
-      .toggleClass('slider', this.get('visible') === true);
+      .toggleClass('slider', this.visible === true);
   },
 
   fromName: null,
 
   name: computed('fromName', function () {
-    return this.get('fromName') || 'md-slider-content';
+    return this.fromName || 'md-slider-content';
   }),
 
   actions: {
     toggleVisibility() {
       this.toggleProperty('visible');
 
-      if(!this.get('visible')) {
+      if(!this.visible) {
         let context = this.get('context.isDestroying');
 
         this.set('fromName', null);
 
         if(!context) {
-          this.get('onClose')
+          this.onClose
             .call(this);
         }
       }

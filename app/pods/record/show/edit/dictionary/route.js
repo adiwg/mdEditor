@@ -1,17 +1,30 @@
 import Route from '@ember/routing/route';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import EmberObject from '@ember/object';
 
 import {
   get,
-  computed,defineProperty,
+  computed,
+  defineProperty,
   getWithDefault,
   set
 } from '@ember/object';
 
 export default Route.extend({
-  breadCrumb: {
-    title: 'Dictionaries'
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Dictionaries'
+    };
+
+    this.columns = [{
+      propertyName: 'title',
+      title: 'Title'
+    }, {
+      propertyName: 'subject',
+      title: 'Subject'
+    }]
   },
   model() {
     //return this.store.peekAll('contact');
@@ -49,9 +62,10 @@ export default Route.extend({
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
 
-    defineProperty(this.controller, 'selected', computed('model',function() {
-      return this.model.filterBy('selected');
-    }));
+    defineProperty(this.controller, 'selected', computed('model',
+      function () {
+        return this.model.filterBy('selected');
+      }));
 
     this.controllerFor('record.show.edit')
       .setProperties({
@@ -59,14 +73,6 @@ export default Route.extend({
         cancelScope: this
       });
   },
-
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'subject',
-    title: 'Subject'
-  }],
 
   _select(obj) {
     let rec = this.modelFor('record.show.edit');
@@ -86,7 +92,7 @@ export default Route.extend({
 
   actions: {
     getColumns() {
-      return this.get('columns');
+      return this.columns;
     },
 
     select(obj) {
@@ -94,7 +100,7 @@ export default Route.extend({
     },
 
     remove(obj) {
-      set(obj,'selected', false);
+      set(obj, 'selected', false);
       this._select(obj);
     }
   }

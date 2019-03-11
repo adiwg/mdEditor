@@ -13,18 +13,82 @@
 
   &.danger {
     background-color: darken($brand-danger, 15);
+
+    &.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow {
+      border-top-color: darken($brand-danger, 15);
+    }
+
+    &.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow {
+      border-left-color: darken($brand-danger, 15);
+    }
+
+    &.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow {
+      border-right-color: darken($brand-danger, 15);
+    }
+
+    &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
+      border-bottom-color: darken($brand-danger, 15);
+    }
   }
 
   &.warning {
     background-color: darken($brand-warning, 1);
+
+    &.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow {
+      border-top-color: darken($brand-warning, 15);
+    }
+
+    &.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow {
+      border-left-color: darken($brand-warning, 15);
+    }
+
+    &.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow {
+      border-right-color: darken($brand-warning, 15);
+    }
+
+    &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
+      border-bottom-color: darken($brand-warning, 15);
+    }
   }
 
   &.info {
     background-color: darken($brand-info, 10);
+
+    &.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow {
+      border-top-color: darken($brand-info, 15);
+    }
+
+    &.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow {
+      border-left-color: darken($brand-info, 15);
+    }
+
+    &.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow {
+      border-right-color: darken($brand-info, 15);
+    }
+
+    &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
+      border-bottom-color: darken($brand-info, 15);
+    }
   }
 
   &.primary {
     background-color: $brand-primary;
+
+    &.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow {
+      border-top-color: $brand-primary;
+    }
+
+    &.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow {
+      border-left-color: $brand-primary;
+    }
+
+    &.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow {
+      border-right-color: $brand-primary;
+    }
+
+    &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
+      border-bottom-color: $brand-primary;
+    }
   }
 }
 

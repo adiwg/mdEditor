@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import {
-  get,
   computed
 } from '@ember/object';
 import {
@@ -24,7 +23,7 @@ export default Route.extend(ScrollTo, {
 
   breadCrumb: computed('itemId', function () {
     return {
-      title: 'Item ' + get(this, 'itemId')
+      title: 'Item ' + this.itemId
     };
   }),
 
@@ -36,8 +35,8 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));
-    this.controller.set('domainId', get(this, 'domainId'));
-    this.controller.set('itemId', get(this, 'itemId'));
+    this.controller.set('domainId', this.domainId);
+    this.controller.set('itemId', this.itemId);
     this.controllerFor('dictionary.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -46,16 +45,15 @@ export default Route.extend(ScrollTo, {
   },
 
   setupModel() {
-    let itemId = get(this, 'itemId');
+    let itemId = this.itemId;
     let model = this.modelFor('dictionary.show.edit');
-    let objects = model.get('json.dataDictionary.domain.' + get(this,
-      'domainId') + '.domainItem');
+    let objects = model.get('json.dataDictionary.domain.' + this.domainId + '.domainItem');
     let resource = itemId && isArray(objects) ? objects.objectAt(itemId) :
       undefined;
 
     //make sure the domain item exists
     if(isEmpty(resource)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Domain Item found! Re-directing to list...');
       this.replaceWith('dictionary.show.edit.domain');
 
@@ -68,7 +66,7 @@ export default Route.extend(ScrollTo, {
   actions: {
     backToDomain() {
       this.transitionTo('dictionary.show.edit.domain.edit',
-        this.get('domainId'));
+        this.domainId);
     }
   }
 });

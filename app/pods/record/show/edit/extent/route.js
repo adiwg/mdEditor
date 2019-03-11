@@ -1,14 +1,8 @@
-import Ember from 'ember';
-
-const {
-  A,
-  Route,
-  computed,
-  set,
-  getWithDefault,
-  get,
-  $
-} = Ember;
+import { A } from '@ember/array';
+import Route from '@ember/routing/route';
+import { get, getWithDefault, set } from '@ember/object';
+import $ from 'jquery';
+import { on } from '@ember/object/evented';
 
 export default Route.extend({
   model() {
@@ -28,28 +22,23 @@ export default Route.extend({
 
   subbar: 'control/subbar-extent',
 
-  extents: computed('model.json.metadata.resourceInfo.extent.[]', function() {
-    return this.currentRouteModel()
-      .get('json.metadata.resourceInfo.extent');
-  }),
-
-  clearSubbar: function() {
+  clearSubbar: on('deactivate', function() {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
-  }.on('deactivate'),
+  }),
 
   setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
-      .set('subbar', this.get('subbar'));
+      .set('subbar', this.subbar);
   },
 
   actions: {
     didTransition() {
       this.controllerFor('record.show.edit')
-        .set('subbar', this.get('subbar'));
+        .set('subbar', this.subbar);
 
     },
     addExtent() {
@@ -70,7 +59,8 @@ export default Route.extend({
 
     },
     deleteExtent(id) {
-      let extents = this.get('extents');
+      let extents = this.currentRouteModel()
+        .get('json.metadata.resourceInfo.extent');
 
       extents.removeAt(id);
     },

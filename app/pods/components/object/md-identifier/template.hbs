@@ -6,7 +6,7 @@
   label="Identifier"
   required=true
   showValidations=true
-  profilePath=(concat profilePath '.identifier')
+  profilePath=(concat profilePath ".identifier")
   data-spy=(if data-spy "Identifier")
   class="md-embedded"
 }}
@@ -25,7 +25,7 @@
   mdCodeName="namespace"
   valuePath="code"
   value=model.namespace
-  profilePath=(concat profilePath '.namespace')
+  profilePath=(concat profilePath ".namespace")
 }}
 
 
@@ -33,12 +33,12 @@
   value=model.version
   placeholder="Enter the version for the identifier."
   label="Version"
-  profilePath=(concat profilePath '.version')
+  profilePath=(concat profilePath ".version")
 }}
 
 {{input/md-textarea
   value=model.description
-  profilePath=(concat profilePath '.description')
+  profilePath=(concat profilePath ".description")
   label="Description"
   placeholder="Enter a description of the identifier."
 }}
@@ -46,7 +46,7 @@
 {{#unless short}}
   {{#layout/md-card
     title="Authority"
-    profilePath=(concat profilePath '.authority')
+    profilePath=(concat profilePath ".authority")
     shadow=true
     collapsible=true
     data-spy=(if data-spy "Authority")
@@ -54,7 +54,7 @@
   }}
     {{object/md-citation
       model=model.authority
-      profilePath=(concat profilePath '.authority')
+      profilePath=(concat profilePath ".authority")
       embedded=true
       data-spy=data-spy
       simpleIdentifier=true

@@ -31,7 +31,7 @@ export default Route.extend(ScrollTo, {
           this.setScrollTo(scrollTo);
         }.bind(this));
     },
-    editItem(id) {
+    editDomainItem(id) {
       this.transitionTo('dictionary.show.edit.domain.edit.item', id)
         .then(function () {
           this.setScrollTo('md-domainitem-' + id);

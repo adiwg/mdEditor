@@ -1,20 +1,12 @@
-import Ember from 'ember';
+import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
+import { getWithDefault, get, set, computed } from '@ember/object';
+import { once } from '@ember/runloop';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Component,
-  computed,
-  set,
-  get,
-  getWithDefault,
-  run: {
-    once
-  },
-  NativeArray
-} = Ember;
+import { A } from '@ember/array';
 
 const Validations = buildValidations({
   'role': [
@@ -40,9 +32,9 @@ export default Component.extend(Validations, {
         role: null,
         party: []
       }));
-      set(model, 'orderProcess', NativeArray.apply(getWithDefault(model,
+      set(model, 'orderProcess', A(getWithDefault(model,
         'orderProcess', [{}])));
-      set(model, 'transferOption', NativeArray.apply(getWithDefault(
+      set(model, 'transferOption', A(getWithDefault(
         model, 'transferOption', [{}])));
     });
   },
@@ -66,7 +58,7 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  role: computed.alias('model.contact.role'),
+  role: alias('model.contact.role'),
   contacts: computed('model.contact.party', {
     get() {
       let party = get(this, 'model.contact.party');

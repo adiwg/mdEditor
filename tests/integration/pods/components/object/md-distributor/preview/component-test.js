@@ -1,25 +1,27 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-distributor/preview', 'Integration | Component | object/md distributor/preview', {
-  integration: true
-});
+module('Integration | Component | object/md distributor/preview', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{object/md-distributor/preview}}`);
+    await render(hbs`{{object/md-distributor/preview}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(this.element.textContent.trim(), '');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-distributor/preview}}
-      template block text
-    {{/object/md-distributor/preview}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-distributor/preview class="testme"}}
+        template block text
+      {{/object/md-distributor/preview}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.testme').textContent.trim(), 'template block text');
+  });
 });

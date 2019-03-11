@@ -23,7 +23,7 @@
   shadow=false
   profilePath=(concat profilePath ".referenceSystemIdentifier")
 }}
-  <label  class="{{concat "text-info" (if (v-get this "isInvalid") " required")}}">Reference System Identifier</label>
+  <label  class={{concat "text-info" (if (v-get this "isInvalid") " required")}}>Reference System Identifier</label>
 
   {{object/md-identifier
     model=model.referenceSystemIdentifier

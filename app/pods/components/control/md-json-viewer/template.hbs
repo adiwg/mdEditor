@@ -1,12 +1,12 @@
 {{#if modal}}
   {{#modal-dialog
-      close="closeModal"
+      onClose="closeModal"
       translucentOverlay=true
-      container-class="md-jsmodal-container"
-      overlay-class="md-modal-overlay"
+      containerClass="md-jsmodal-container"
+      overlayClass="md-modal-overlay"
       attachment="top center"
       targetAttachment="top center"
-      tetherTarget='html'
+      tetherTarget="html"
   }}
     <button type="button" {{action "closeModal"}} class="md-modal-close" aria-label="Close">
       <span class="fa-stack">

@@ -6,7 +6,7 @@
     <div class="media">
       <div class="media-left media-middle">
           {{#if catalog.image}}
-            <img class="media-object fa-fw fa-5x" src="{{catalog.image}}" alt="{{catalog.title}} icon">
+            <img class="media-object fa-fw fa-5x" src={{catalog.image}} alt="{{catalog.title}} icon">
           {{else}}
             {{fa-icon (if catalog.icon catalog.icon "list-alt") size="5" fixedWidth=true class="text-info"}}
           {{/if}}

@@ -1,7 +1,11 @@
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  breadCrumb: {
-    title: 'Domains'
-  }
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: 'Domains'
+    }
+  },
 });

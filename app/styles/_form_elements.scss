@@ -129,6 +129,10 @@ form {
   .ember-power-select-trigger {
     background-color: $brand-primary;
 
+    &[aria-disabled=true] {
+      background-color: $gray-lighter;
+    }
+
     .ember-power-select-placeholder {
       color: $body-bg;
     }

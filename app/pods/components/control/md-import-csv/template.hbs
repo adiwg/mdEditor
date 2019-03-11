@@ -6,8 +6,9 @@
   </h3>
   <div class="progress">
     <div class="progress-bar" role="progressbar"
-    aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" style={{barWidth}}>
-      <span class="sr-onl">{{progress}}% Complete</span>
+    {{! template-lint-disable no-inline-styles }}
+    aria-valuenow={{progress}} aria-valuemin="0" aria-valuemax="100" style={{barWidth}}>
+      <span class="sr-only">{{progress}}% Complete</span>
     </div>
   </div>
 {{else}}

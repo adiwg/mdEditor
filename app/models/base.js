@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-import hash from 'npm:object-hash';
+import hash from 'object-hash';
 import {
   inject as service
 } from '@ember/service';
@@ -19,7 +19,8 @@ export default DS.Model.extend({
     this.on('didUpdate', this, this.wasUpdated);
     this.on('didCreate', this, this.wasUpdated);
     this.on('didLoad', this, this.applyPatch);
-    this.get('hasDirtyAttributes');
+    this.on('ready', this, this.isReady);
+    this.hasDirtyAttributes;
     //this.on('didLoad', this, this.wasLoaded);
   },
 
@@ -43,7 +44,7 @@ export default DS.Model.extend({
    */
 
   observeReload: observer('isReloading', function () {
-    let reloading = this.get('isReloading');
+    let reloading = this.isReloading;
 
     if(!reloading) {
       this.wasUpdated(this);
@@ -52,12 +53,12 @@ export default DS.Model.extend({
 
   observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
     function () {
-      if(this.get('isNew')) {
+      if(this.isNew) {
         return;
       }
 
-      if(this.get('settings.data.autoSave') && (this.get('hasDirtyHash') ||
-          this.get('hasDirtyAttributes'))) {
+      if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
+          this.hasDirtyAttributes)) {
         once(this, function () {
           this.save();
         });
@@ -67,10 +68,22 @@ export default DS.Model.extend({
   applyPatch() {
     once(this, function () {
 
-      let patch = this.get('patch');
+      let patch = this.patch;
 
       patch.applyModelPatch(this);
     });
+  },
+
+  isReady() {
+    let newHash = this.hashObject(JSON.parse(this.serialize()
+      .data.attributes
+      .json), true);
+
+    // if the currentHash is undefined, the record is either new or hasn't had the
+    // hash calculated yet
+    if(this.currentHash === undefined) {
+      this.set('currentHash', newHash);
+    }
   },
 
   wasUpdated() {
@@ -107,7 +120,7 @@ export default DS.Model.extend({
    * @param {Object} model Optional model with json property to target
    */
   setCurrentHash(json) {
-    let target = json || this.get('json');
+    let target = json || this.json;
 
     set(this, 'currentHash', this.hashObject(target), true);
   },
@@ -139,12 +152,11 @@ export default DS.Model.extend({
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet
-    if(this.get('currentHash') === undefined) {
-      this.set('currentHash', newHash);
-    }
+    // if(this.get('currentHash') === undefined) {
+    //   this.set('currentHash', newHash);
+    // }
 
-    if(this.get('currentHash') !== newHash || this.get(
-        'hasDirtyAttributes')) {
+    if(this.currentHash !== newHash || this.hasDirtyAttributes) {
       return true;
     }
 
@@ -152,7 +164,7 @@ export default DS.Model.extend({
   }),
 
   canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
-    let dirty = this.get('hasDirtyHash');
+    let dirty = this.hasDirtyHash;
     let autoSave = this.get('settings.data.autoSave');
 
     //no autoSave so just check if dirty
@@ -160,12 +172,11 @@ export default DS.Model.extend({
       return true;
     }
 
-    let revert = this.get('jsonRevert');
+    let revert = this.jsonRevert;
 
     //if we have set revert object with autoSave on
     if(revert && autoSave) {
-      let hash = this.hashObject(JSON.parse(revert), true) !== this.get(
-        'currentHash');
+      let hash = this.hashObject(JSON.parse(revert), true) !== this.currentHash;
 
       //check if changes have been made
       if(hash) {
@@ -177,15 +188,15 @@ export default DS.Model.extend({
   }),
 
   cleanJson: computed('json', function () {
-      return this.get('clean')
-        .clean(this.get('json'));
+      return this.clean
+        .clean(this.json);
     })
     .volatile(),
 
   status: computed('hasDirtyHash', function () {
-    let dirty = this.get('hasDirtyHash');
+    let dirty = this.hasDirtyHash;
 
-    if(this.get('currentHash')) {
+    if(this.currentHash) {
       return dirty ? 'danger' : 'success';
     }
 

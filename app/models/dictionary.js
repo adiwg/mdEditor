@@ -1,22 +1,13 @@
-import Ember from 'ember';
+import { Copyable } from 'ember-copy'
 import DS from 'ember-data';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import { alias } from '@ember/object/computed';
-//import uuidV4 from 'npm:uuid/v4';
-//import Validator from 'npm:validator';
 import Model from 'mdeditor/models/base';
 import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
-
-const {
-  Copyable,
-  computed,
-  //isEmpty,
-  //get,
-  Object: EmObject
-} = Ember;
+import EmberObject, { computed } from '@ember/object';
 
 const Validations = buildValidations({
   'json.dataDictionary.citation.title': validator('presence', {
@@ -33,7 +24,7 @@ const Validations = buildValidations({
   ]
 });
 
-const JsonDefault = Ember.Object.extend({
+const JsonDefault = EmberObject.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
@@ -75,10 +66,10 @@ export default Model.extend(Validations, Copyable, {
   icon: 'book',
 
   status: computed('hasDirtyHash', function () {
-    let dirty = this.get('hasDirtyHash');
-    let errors = this.get('hasSchemaErrors');
+    let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
-    if(this.get('currentHash')) {
+    if(this.currentHash) {
       return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
@@ -95,7 +86,7 @@ export default Model.extend(Validations, Copyable, {
    * @requires status
    */
   hasSchemaErrors: computed('status', function () {
-    let mdjson = this.get('mdjson');
+    let mdjson = this.mdjson;
     let errors = mdjson.validateDictionary(this)
       .errors;
 
@@ -105,8 +96,8 @@ export default Model.extend(Validations, Copyable, {
   }),
 
   copy() {
-    let current = this.get('cleanJson');
-    let json = EmObject.create(current);
+    let current = this.cleanJson;
+    let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
 
     json.set('dataDictionary.citation.title', `Copy of ${name}`);

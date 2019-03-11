@@ -1,24 +1,37 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createCitation from 'mdeditor/tests/helpers/create-citation';
 
-moduleForComponent('object/md-keyword-citation', 'Integration | Component | object/md keyword citation', {
-  integration: true
-});
+module('Integration | Component | object/md keyword citation', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('keyword', {
+      keywordType: 'theme',
+      thesaurus: createCitation(1)[0]
+    });
 
-  this.render(hbs`{{object/md-keyword-citation}}`);
+    await render(hbs`{{object/md-keyword-citation model=keyword}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Title|Date|Date|Type|Choose|date|type|Type|theme|?|Edition|URL|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-keyword-citation}}
-      template block text
-    {{/object/md-keyword-citation}}
-  `);
+    var input = findAll('form input').mapBy('value').join('|');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(input, "title0|2016-10-13|edition|http://adiwg.org", 'input values');
+
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-keyword-citation model=(hash thesaurus=(hash))}}
+        template block text
+      {{/object/md-keyword-citation}}
+    `);
+
+    assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
+      "|Title|Date|Date|Type|Choose|date|type|Type|Choose|keyword|type|Edition|URL|",
+      'block');
+  });
 });

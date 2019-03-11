@@ -1,10 +1,11 @@
-import { moduleFor, test } from 'ember-qunit';
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
 
-moduleFor('validator:array-required', 'Unit | Validator | array-required', {
-  needs: ['validator:messages']
-});
+module('Unit | Validator | array-required', function(hooks) {
+  setupTest(hooks);
 
-test('it works', function(assert) {
-  var validator = this.subject();
-  assert.ok(validator);
+  test('it works', function(assert) {
+    var validator = this.owner.lookup('validator:array-required');
+    assert.ok(validator);
+  });
 });

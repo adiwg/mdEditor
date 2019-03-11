@@ -3,7 +3,7 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import { computed } from '@ember/object';
 import Input from '../md-input/component';
 
 export default Input.extend({
@@ -19,24 +19,17 @@ export default Input.extend({
 
   disabled: true,
 
-  isDisabled: Ember.computed('disabled', function(){
-    return this.get('disabled');
+  isDisabled: computed('disabled', function(){
+    return this.disabled;
   }),
-
-  didInsertElement() {
-    this._super(...arguments);
-    this.$('input')
-      .on('blur', () => {
-        this.set('disabled', true);
-      });
-  },
 
   actions: {
     allowEdit() {
       this.set('disabled', false);
-      Ember.run.once(() => {
-        this.$('input').focus();
-      });
+      this.element.querySelector('input').focus();
+    },
+    inputBlur(){
+      this.set('disabled', true);
     }
   }
 });

@@ -1,25 +1,29 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/subbar-citation', 'Integration | Component | control/subbar citation', {
-  integration: true
-});
+module('Integration | Component | control/subbar citation', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{control/subbar-citation}}`);
+    await render(hbs`{{control/subbar-citation text="foobar"}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.btn-group-vertical').textContent.replace(/[ \n\t\s]+/g, '|').trim(),
+      '|Select|a|Record|foobar|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#control/subbar-citation}}
-      template block text
-    {{/control/subbar-citation}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#control/subbar-citation}}
+        template block text
+      {{/control/subbar-citation}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.btn-group-vertical').textContent.replace(/[ \n\t\s]+/g, '|').trim(),
+      '|Select|a|Record|template|block|text|');
+  });
 });

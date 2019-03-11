@@ -1,16 +1,17 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   /*didInsertElement: function () {
     this.$('[data-toggle="tooltip"]')
       .tooltip();
   },*/
   actions: {
     toggleSidebar() {
-      Ember.$('#md-wrapper')
+      $('#md-wrapper')
         .toggleClass('toggled');
       //hack to force reflow
-      Ember.$('#md-navbar-main-collapse ul')
+      $('#md-navbar-main-collapse ul')
         .hide()
         .show(0);
     }

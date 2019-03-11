@@ -1,10 +1,10 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="Citation Button Controls">
   <button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action selectResource}}>
     {{fa-icon "check"}} Select a Record
-    {{tooltip-on-element
+    {{ember-tooltip
       text="Select a record to copy into the association.
         Note: This will only copy information."
-      class="md-tooltip primary"
+      tooltipClassName="ember-tooltip md-tooltip primary"
       side="left"
     }}
   </button>

@@ -1,11 +1,8 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 
-const {
-  inject: {
-    service
-  }
-} = Ember;
+const containerClassNames = ['md-spotlight-modal'];
+const overlayClassNames = ['md-modal-overlay'];
 
 export default ModalDialog.extend({
   /**
@@ -27,11 +24,12 @@ export default ModalDialog.extend({
    */
   spotlight: service(),
 
-  containerClassNames: ['md-spotlight-modal'],
-  overlayClassNames: ['md-modal-overlay'],
+  containerClassNames: containerClassNames,
+  overlayClassNames: overlayClassNames,
   targetAttachment: 'none',
   translucentOverlay: true,
   clickOutsideToClose: false,
+  attachment: 'middle center',
   tetherTarget: 'viewport',
 
   // /**
@@ -65,12 +63,12 @@ export default ModalDialog.extend({
   actions: {
     onClose() {
       this._super(...arguments);
-      this.get('spotlight').close();
+      this.spotlight.close();
     },
 
     onClickOverlay() {
       this._super(...arguments);
-      this.get('spotlight').close();
+      this.spotlight.close();
     }
   }
 });

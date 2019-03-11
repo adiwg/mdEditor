@@ -1,48 +1,46 @@
-import {
-  moduleForComponent, test
-}
-from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('input/md-input', 'Integration | Component | input/md input', {
-  integration: true
-});
+module('Integration | Component | input/md input', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-  this.render(hbs `
-    {{input/md-input
-      label="Foo"
-      value="Bar"
-      maxlength=100
-      required="true"
-      inputClass="test"
-      placeholder="Enter FooBar"}}
-  `);
+    await render(hbs `
+      {{input/md-input
+        label="Foo"
+        value="Bar"
+        maxlength=100
+        required="true"
+        inputClass="test"
+        placeholder="Enter FooBar"}}
+    `);
 
-  assert.equal(this.$('label')
-    .text(), 'Foo', 'labeled OK');
+    assert.equal(find('label').textContent, 'Foo', 'labeled OK');
 
-  const input = this.$('input');
-  const props = [
-    input.prop('required'),
-    input.prop('maxlength'),
-    input.val(),
-    input.prop('placeholder'),
-    input.hasClass('test')
-  ];
-  assert.deepEqual(props, [true, 100, 'Bar', 'Enter FooBar', true],
-    'properties set OK');
+    const input = this.$('input');
+    const props = [
+      input.prop('required'),
+      input.prop('maxlength'),
+      input.val(),
+      input.prop('placeholder'),
+      input.hasClass('test')
+    ];
+    assert.deepEqual(props, [true, 100, 'Bar', 'Enter FooBar', true],
+      'properties set OK');
 
-  // Template block usage:" + EOL +
-  this.render(hbs `
-    {{#input/md-input}}
-      <p class="help-block">help text</p>
-    {{/input/md-input}}
-  `);
+    // Template block usage:" + EOL +
+    await render(hbs `
+      {{#input/md-input}}
+        <p class="help-block">help text</p>
+      {{/input/md-input}}
+    `);
 
-  assert.equal(this.$('.help-block').text(), 'help text', 'block renders');
+    assert.equal(find('.help-block').textContent, 'help text', 'block renders');
+  });
 });

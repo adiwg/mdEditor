@@ -5,16 +5,16 @@
 </div>
 
 <div class="row">
-    <form {{action 'saveContact' on='submit'}} class="form-horizontal col-md-6 col-md-offset-3" >
+    <form {{action "saveContact" on="submit"}} class="form-horizontal col-md-6 col-md-offset-3" >
       <div class="form-group">
             <label class="col-sm-3 control-label">Contact Type</label>
             <div class="col-sm-9 col-sm-offset-">
               {{input/md-toggle
                 value=model.json.isOrganization
-                onToggle=(mut model.json.isOrganization)
+                onToggle=(action (mut model.json.isOrganization))
                 showLabels=true
-                onLabel="Organization::true"
-                offLabel="Individual::false"
+                onLabel="Organization"
+                offLabel="Individual"
                 size="large"
                 theme="form"
               }}
@@ -22,23 +22,23 @@
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label
-              {{if (v-get model 'json.contactId' 'options.presence.presence')
+              {{if (v-get model "json.contactId" "options.presence.presence")
               "required"}}">Contact ID</label>
 
             <div class="col-sm-9">
                 {{input/md-input
-                valuePath='json.contactId'
+                valuePath="json.contactId"
                 model=model
                 placeholder="Enter an ID for this contact"}}
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label
-            {{unless (v-get model 'json.name' 'options.presence.disabled')
+            {{unless (v-get model "json.name" "options.presence.disabled")
             "required"}}">Name</label>
             <div class="col-sm-9">
                 {{input/md-input
-                valuePath='json.name'
+                valuePath="json.name"
                 model=model
                 placeholder="Enter a name for this contact"}}
             </div>
@@ -46,7 +46,7 @@
         {{#unless model.json.isOrganization}}
         <div class="form-group">
             <label class="col-sm-3 control-label
-            {{unless (v-get model 'json.positionName' 'options.presence.disabled')
+            {{unless (v-get model "json.positionName" "options.presence.disabled")
             "required"}}">Position Name</label>
             <div class="col-sm-9">
                 {{input/md-input
@@ -60,7 +60,7 @@
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">
                       <button type="submit" class="btn btn-success md-form-save"
-                                                       disabled={{v-get model 'isInvalid'}}>Save</button>
+                                                       disabled={{v-get model "isInvalid"}}>Save</button>
                       <button type="button" {{action "cancelContact"}} class="btn btn-warning ">Cancel</button>
                  </span>
             </div>

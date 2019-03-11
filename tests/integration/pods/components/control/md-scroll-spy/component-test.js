@@ -1,25 +1,36 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render, click } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/md-scroll-spy', 'Integration | Component | control/md scroll spy', {
-  integration: true
-});
+module('Integration | Component | control/md scroll spy', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
+    assert.expect(3);
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('setScrollTo', function(target){
+      assert.equal(target, 'foo', 'calls action');
+    });
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // this.set('clickLink', function(){
+    // });
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{control/md-scroll-spy}}`);
+    await render(hbs`<div data-spy="Foo" id="foo1">Foo</div>
+      <div data-spy="Bar" id="bar1">Bar</div>
+      {{control/md-scroll-spy setScrollTo=setScrollTo}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('ul').textContent.replace(/[ \n\t\s]+/g,'|').trim(), '|Foo|Bar|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#control/md-scroll-spy}}
-      template block text
-    {{/control/md-scroll-spy}}
-  `);
+    await click('ul a');
+    // Template block usage:
+    await render(hbs`
+      {{#control/md-scroll-spy setScrollTo=setScrollTo}}
+        template block text
+      {{/control/md-scroll-spy}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('ul').textContent.trim(), 'template block text');
+  });
 });

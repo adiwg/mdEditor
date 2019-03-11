@@ -1,12 +1,14 @@
-import Ember from 'ember';
-import GCMD from 'npm:gcmd-keywords';
-import Keywords from 'npm:mdkeywords';
-import ISO from 'npm:mdcodes/resources/js/iso_topicCategory';
+import Service from '@ember/service';
+import { A } from '@ember/array';
+import EmberObject from '@ember/object';
+import { GCMD } from 'gcmd-keywords';
+import Keywords from 'mdkeywords';
+import ISO from 'mdcodes/resources/js/iso_topicCategory';
 
-let service = Ember.Object.create({
-  thesaurus: Ember.A(),
+let service = EmberObject.create({
+  thesaurus: A(),
   findById(id) {
-    return this.get('thesaurus')
+    return this.thesaurus
       .find(function(t) {
         return t.citation.identifier[0].identifier === id;
       });
@@ -74,6 +76,6 @@ service.get('thesaurus')
     label: 'ISO Topic Category'
   });
 
-service.get('thesaurus').pushObjects(Keywords);
+service.get('thesaurus').pushObjects(Keywords.asArray());
 
-export default Ember.Service.extend(service);
+export default Service.extend(service);

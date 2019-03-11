@@ -1,45 +1,61 @@
-import Ember from 'ember';
+import {
+  inject as service
+} from '@ember/service';
+import {
+  or
+} from '@ember/object/computed';
+import Route from '@ember/routing/route';
+import $ from 'jquery';
+import {
+  A,
+  isArray
+} from '@ember/array';
+import {
+  merge,
+  assign
+} from '@ember/polyfills';
+import EmObject, {
+  computed,
+  set,
+  get,
+  getWithDefault
+} from '@ember/object';
 import Base from 'ember-local-storage/adapters/base';
-import uuidV4 from "npm:uuid/v4";
+import uuidV4 from "uuid/v4";
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   JsonDefault as Contact
 } from 'mdeditor/models/contact';
 import {
-  allSettled
+  allSettled,
+  Promise
 } from 'rsvp';
 
 const generateIdForRecord = Base.create()
   .generateIdForRecord;
 
-const {
-  Route,
-  get,
-  set,
-  RSVP: {
-    Promise
-  },
-  inject,
-  Object: EmObject,
-  assign,
-  isArray,
-  $,
-  A,
-  merge,
-  computed
-} = Ember;
-
 export default Route.extend(ScrollTo, {
-  flashMessages: inject.service(),
-  jsonvalidator: inject.service(),
-  settings: inject.service(),
+  flashMessages: service(),
+  jsonvalidator: service(),
+  settings: service(),
+  ajax: service(),
 
+  init() {
+    this._super(...arguments);
+
+    this.icons = {
+      records: 'file',
+      dictionaries: 'book',
+      contacts: 'users',
+      settings: 'gear'
+    };
+  },
   setupController(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
     // Implement your custom setup after
     controller.set('importUri', this.get('settings.data.importUriBase'));
-    controller.set('apiURL', this.get('apiURL'));
+    controller.set('apiURL', this.apiURL);
   },
 
   model() {
@@ -49,7 +65,7 @@ export default Route.extend(ScrollTo, {
     });
   },
 
-  apiURL: computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+  apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
 
   getTitle(record) {
     let raw = record.attributes.json;
@@ -57,21 +73,14 @@ export default Route.extend(ScrollTo, {
 
     switch(record.type) {
     case 'records':
-      return json.metadata.resourceInfo.citation.title;
+      return getWithDefault(json, 'metadata.resourceInfo.citation.title', 'NO TITLE');
     case 'dictionaries':
-      return json.dataDictionary.citation.title;
+      return getWithDefault(json, 'dataDictionary.citation.title', 'NO TITLE');
     case 'contacts':
-      return json.name;
+      return json.name || 'NO NAME';
     default:
       return 'N/A';
     }
-  },
-
-  icons: {
-    records: 'file',
-    dictionaries: 'book',
-    contacts: 'users',
-    settings: 'gear'
   },
 
   formatMdJSON(json) {
@@ -86,10 +95,12 @@ export default Route.extend(ScrollTo, {
 
         set(this, 'id', generateIdForRecord());
       },
-      attributes: {
-        json: null,
-        //date-updated: '2017-05-18T21:21:34.446Z'
-      },
+      attributes: computed(function () {
+        return {
+          json: null //,
+          //date-updated: '2017-05-18T21:21:34.446Z'
+        }
+      }),
       type: null
     });
 
@@ -248,12 +259,13 @@ export default Route.extend(ScrollTo, {
       return get(this, 'columns');
     },
     getIcon(type) {
-      return this.get('icons')[type];
+      return this.icons[type];
     },
     readData(file) {
       let json;
-      let url = this.get('apiURL');
+      let url = this.apiURL;
       let controller = this.controller;
+      let cmp = this;
 
       new Promise((resolve, reject) => {
           if(file.type.match(/.*\/xml$/)) {
@@ -261,7 +273,7 @@ export default Route.extend(ScrollTo, {
             get(this, 'flashMessages')
               .info(`Translation service provided by ${url}.`);
 
-            $.ajax(url, {
+            this.ajax.request(url, {
                 type: 'POST',
                 data: {
                   //file: JSON.stringify(cleaner.clean(json)),
@@ -271,7 +283,7 @@ export default Route.extend(ScrollTo, {
                   validate: 'normal',
                   format: 'json'
                 },
-                context: this
+                context: cmp
               })
               .then(function (response) {
                 set(controller, 'isTranslating', false);
@@ -280,7 +292,7 @@ export default Route.extend(ScrollTo, {
                   resolve({
                     json: JSON.parse(response.writerOutput),
                     file: file,
-                    route: this
+                    route: cmp
                   });
 
                   return;
@@ -309,18 +321,18 @@ export default Route.extend(ScrollTo, {
             resolve({
               json: json,
               file: file,
-              route: this
+              route: cmp
             });
           }
         })
         .then((data) => {
           //determine file type and map
-          this.mapJSON(data);
+          cmp.mapJSON(data);
 
         })
         .catch((reason) => {
           //catch any errors
-          get(this, 'flashMessages')
+          get(cmp, 'flashMessages')
             .danger(reason);
           return false;
         })
@@ -336,7 +348,7 @@ export default Route.extend(ScrollTo, {
 
       set(this.controller, 'isLoading', true);
 
-      $.ajax(uri, {
+      this.ajax.request(uri, {
           type: 'GET',
           context: this,
           dataType: 'text',
@@ -416,7 +428,7 @@ export default Route.extend(ScrollTo, {
           //this.transitionTo('dashboard');
         });
 
-      let settingService = this.get('settings');
+      let settingService = this.settings;
       let newSettings = this.currentRouteModel().get('data').filterBy(
         'meta.export').findBy('type', 'settings');
 

@@ -3,9 +3,9 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
 
   /**
    * Input, edit, display a multi-line, expandable, text area.

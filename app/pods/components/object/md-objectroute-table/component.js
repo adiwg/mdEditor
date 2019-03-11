@@ -1,12 +1,8 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
+import { getOwner } from '@ember/application';
+import { isBlank, typeOf } from '@ember/utils';
+import { assert } from '@ember/debug';
 import Table from '../md-object-table/component';
-
-const {
-  typeOf,
-  getOwner,
-  isBlank,
-  assert
-} = Ember;
 
 export default Table.extend({
   /**
@@ -42,13 +38,13 @@ export default Table.extend({
 
   actions: {
     addItem: function () {
-      const Template = this.get('templateClass');
+      const Template = this.templateClass;
       const owner = getOwner(this);
 
-      let editItem = this.get('editItem');
-      let items = this.get('items');
+      let editItem = this.editItem;
+      let items = this.items;
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
-        Ember.Object.create({});
+        EmberObject.create({});
 
       if(isBlank(editItem)) {
         assert(
@@ -58,13 +54,13 @@ export default Table.extend({
 
       items.pushObject(itm);
 
-      if(this.get('editOnAdd')) {
+      if(this.editOnAdd) {
         editItem(items.indexOf(itm));
       }
     },
 
     editItem: function (items, index) {
-      this.get('editItem')(index);
+      this.editItem(index);
     }
   }
 });

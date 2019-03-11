@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
-import { getWithDefault,set } from '@ember/object';
+import { getWithDefault, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import {
   validator,
@@ -38,7 +38,7 @@ const theComp = Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = this.get('model');
+    let model = this.model;
 
     once(this, function () {
       set(model, 'repository', getWithDefault(model, 'repository', {}));

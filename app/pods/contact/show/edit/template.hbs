@@ -4,8 +4,8 @@
           <span class="text-danger">
             {{!-- {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
-              {{tooltip-on-element text='This record has been modified!' side="right"
-                class="md-tooltip danger"
+              {{ember-tooltip text="This record has been modified!" side="right"
+                tooltipClassName="ember-tooltip md-tooltip danger"
               }}
             {{/if}} --}}
             {{control/md-status model=model}}
@@ -13,21 +13,21 @@
         </h3>
         <form>
             {{input/md-input-confirm
-              valuePath='json.contactId'
+              valuePath="json.contactId"
               model=model
               data-spy="Contact ID"
               confirmTip="Note! Editing the Contact ID may break links. Be aware."
               placeholder="User assigned Contact ID" label="Contact ID"}}
 
             {{input/md-input
-              valuePath='json.name'
+              valuePath="json.name"
               model=model
               placeholder=(concat model.type " Name")
               label=(concat model.type " Name")}}
 
             {{#unless model.json.isOrganization}}
                 {{input/md-input
-                  valuePath='json.positionName'
+                  valuePath="json.positionName"
                   model=model
                   placeholder="Position Name" label="Position Name"}}
             {{/unless}}
@@ -94,10 +94,10 @@
         <div class="md-control-sidebar">
             {{control/md-crud-buttons
                 model=model
-                doSave="saveContact"
-                doCancel="cancelContact"
-                doDelete="destroyContact"
-                doCopy="copyContact"
+                doSave=(route-action "saveContact")
+                doCancel=(route-action "cancelContact")
+                doDelete=(route-action "destroyContact")
+                doCopy=(route-action "copyContact")
             }}
             {{control/md-scroll-spy}}
 

@@ -15,12 +15,16 @@ module.exports = {
     browser: true
   },
   rules: {
-    //'ember/new-module-imports': 'off'
+    //'ember/new-module-imports': 'off',
+    'no-console': 1,
+    'ember/no-observers': 1
   },
   overrides: [
     // node files
     {
       files: [
+        '.eslintrc.js',
+        '.template-lintrc.js',
         'ember-cli-build.js',
         'testem.js',
         'blueprints/*/index.js',

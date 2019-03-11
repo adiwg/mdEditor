@@ -1,11 +1,7 @@
-import Ember from 'ember';
-const {
-  typeOf,
-  isArray,
-  isBlank,
-  Service,
-  assign
-} = Ember;
+import { isArray } from '@ember/array';
+import { isBlank, typeOf } from '@ember/utils';
+import Service from '@ember/service';
+import { assign } from '@ember/polyfills';
 
 export default Service.extend({
   clean(obj, options) {

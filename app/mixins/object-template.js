@@ -3,16 +3,12 @@
  * @submodule mixins
  */
 
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
 
-const {
-  Mixin,
-  isArray,
-  getOwner,
-  A,
-  merge,
-  run
-} = Ember;
+import { getOwner } from '@ember/application';
+import { A, isArray } from '@ember/array';
+import { merge } from '@ember/polyfills';
+import { run } from '@ember/runloop';
 
 export default Mixin.create({
   /**
@@ -34,7 +30,7 @@ export default Mixin.create({
    */
   applyTemplate(object, defaults) {
     let value = object || {};
-    let Template = this.get('templateClass');
+    let Template = this.templateClass;
 
     if(Template) {
       let owner = getOwner(this);
@@ -58,7 +54,7 @@ export default Mixin.create({
     let property = this.get(propertyName);
 
     if(isArray(property)) {
-      let Template = this.get('templateClass');
+      let Template = this.templateClass;
       if(Template) {
         let owner = getOwner(this);
 

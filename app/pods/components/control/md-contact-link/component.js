@@ -1,12 +1,6 @@
-import Ember from 'ember';
-
-const {
-  computed,
-  inject,
-  LinkComponent,
-  get,
-  set
-} = Ember;
+import { inject as service } from '@ember/service';
+import LinkComponent from '@ember/routing/link-component';
+import { set, get, computed } from '@ember/object';
 
 export default LinkComponent.extend({
   /**
@@ -21,7 +15,7 @@ export default LinkComponent.extend({
 
   didReceiveAttrs() {
     //Inline link title comes first, if present.
-    let block = !this.get('block') ? [this.get('contact.title')] : [];
+    let block = !this.block ? [this.get('contact.title')] : [];
     let params = get(this, 'params');
     let add = block.concat(['contact.show', this.get('contact.id')]);
 
@@ -30,7 +24,7 @@ export default LinkComponent.extend({
     this._super(...arguments);
   },
 
-  store: inject.service(),
+  store: service(),
 
   /**
    * The contacts service
@@ -39,7 +33,7 @@ export default LinkComponent.extend({
    * @type {Ember.Service}
    * @readOnly
    */
-  contacts: inject.service(),
+  contacts: service(),
 
   /**
    * The contact identifier
@@ -67,9 +61,9 @@ export default LinkComponent.extend({
    * @requires contactId
    */
   contact: computed('contactId', function () {
-      let rec = this.get('store')
+      let rec = this.store
         .peekAll('contact')
-        .findBy('json.contactId', this.get('contactId'));
+        .findBy('json.contactId', this.contactId);
 
       return rec;
     })

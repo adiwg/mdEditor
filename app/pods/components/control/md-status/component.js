@@ -1,12 +1,8 @@
-import Ember from 'ember';
-const {
-  Component,
-  get,
-  inject
-} = Ember;
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
 
 export default Component.extend({
-  slider: inject.service(),
+  slider: service(),
   tagName: 'span',
   classNames: ['md-status'],
 
@@ -24,7 +20,7 @@ export default Component.extend({
   btnSize: 'sm',
 
   showSlider() {
-    let slider = this.get('slider');
+    let slider = this.slider;
 
     slider.set('fromName', 'md-slider-error');
     slider.toggleSlider(true);
@@ -36,12 +32,12 @@ export default Component.extend({
     },
 
     saveRecord(evt) {
-      let model = this.get('model');
+      let model = this.model;
 
       evt.stopPropagation();
       model.save()
         .then(() => {
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(`Saved Record: ${model.get('title')}`);
         });
     }

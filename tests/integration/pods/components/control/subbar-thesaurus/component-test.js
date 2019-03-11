@@ -1,58 +1,53 @@
-import {
-  moduleForComponent,
-  test
-} from 'ember-qunit';
-import Ember from 'ember';
+import { click, find, render } from '@ember/test-helpers';
+import Route from '@ember/routing/route';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('control/subbar-thesaurus',
-  'Integration | Component | control/subbar thesaurus', {
-    integration: true
+module('Integration | Component | control/subbar thesaurus', function(hooks) {
+  setupRenderingTest(hooks);
+
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+
+    await render(hbs `{{control/subbar-thesaurus}}`);
+
+    assert.equal(find('button').textContent
+      .replace(/[ \n]+/g, '|'), '|Back|to|List');
+
+    // Template block usage:
+    await render(hbs `
+      {{#control/subbar-thesaurus class="testme"}}
+        template block text
+      {{/control/subbar-thesaurus}}
+    `);
+
+    assert.equal(find('.testme').textContent
+      .replace(/[ \n]+/g, '|'),
+      '|Back|to|List|template|block|text|', 'block');
   });
 
-test('it renders', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('fire actions', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs `{{control/subbar-thesaurus}}`);
+    assert.expect(1);
 
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|'), '|Back|to|List|');
-
-  // Template block usage:
-  this.render(hbs `
-    {{#control/subbar-thesaurus}}
-      template block text
-    {{/control/subbar-thesaurus}}
-  `);
-
-  assert.equal(this.$()
-    .text()
-    .replace(/[ \n]+/g, '|'),
-    '|Back|to|List|template|block|text|template|block|text|');
-});
-
-test('fire actions', function (assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
-
-  assert.expect(1);
-
-  var FakeRoute = Ember.Route.extend({
-    actions: {
-      toList: function () {
-        assert.ok(true, 'calls toList action');
+    var FakeRoute = Route.extend({
+      actions: {
+        toList: function () {
+          assert.ok(true, 'calls toList action');
+        }
       }
-    }
+    });
+
+    this.set('context', function () {
+      return new FakeRoute();
+    });
+
+    await render(hbs `{{control/subbar-thesaurus context=context}}`);
+
+    await click('button');
   });
-
-  this.on('getContext', function () {
-    return new FakeRoute();
-  });
-
-  this.render(hbs `{{control/subbar-thesaurus context=(action "getContext")}}`);
-
-  this.$('button')
-    .click();
 });

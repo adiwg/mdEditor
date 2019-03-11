@@ -1,12 +1,7 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray
-} = Ember;
 
 export default Route.extend(ScrollTo, {
   model(params) {
@@ -29,14 +24,14 @@ export default Route.extend(ScrollTo, {
   },
 
   setupModel() {
-    let identifierId = get(this, 'identifierId');
+    let identifierId = this.identifierId;
     let model = this.modelFor('record.show.edit');
     let identifiers = model.get('json.metadata.metadataInfo.parentMetadata.identifier');
     let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
     //make sure the identifier exists
     if (isEmpty(identifier)) {
-      Ember.get(this, 'flashMessages')
+      this.flashMessages
         .warning('No identifier found! Re-directing to Parent Metadata...');
       this.replaceWith('record.show.edit.metadata.parent.index');
 

@@ -3,9 +3,12 @@
  * @submodule components-input
  */
 
-import Ember from 'ember';
+import EmberObject, { computed } from '@ember/object';
 
-export default Ember.Component.extend({
+import { inject as service } from '@ember/service';
+import Component from '@ember/component';
+
+export default Component.extend({
 
   /**
    * A select list control for displaying and selecting thesaurus entries from
@@ -15,7 +18,7 @@ export default Ember.Component.extend({
    * @constructor
    */
 
-  keyword: Ember.inject.service(),
+  keyword: service(),
 
   /**
    * This method is called after the thesaurus selection is updated. It should be
@@ -27,17 +30,17 @@ export default Ember.Component.extend({
    */
   selectThesaurus() {},
 
-  thesaurusList: Ember.computed('keyword.thesaurus.[]', function () {
-    let list = this.get('keyword')
+  thesaurusList: computed('keyword.thesaurus.[]', function () {
+    let list = this.keyword
       .thesaurus
       .map((k) => {
-        return Ember.Object.create({
+        return EmberObject.create({
           id: k.citation.identifier[0].identifier,
           label: k.label || k.citation.title || 'Keywords'
         });
       });
 
-    list.unshift(Ember.Object.create({
+    list.unshift(EmberObject.create({
       id: 'custom',
       label: 'Custom Thesaurus'
     }));
@@ -45,10 +48,10 @@ export default Ember.Component.extend({
   }),
   actions: {
     update(id, thesaurus) {
-      let selected = this.get('keyword')
+      let selected = this.keyword
         .findById(id);
 
-      this.get('selectThesaurus')(selected, thesaurus);
+      this.selectThesaurus(selected, thesaurus);
     }
   }
 });

@@ -1,13 +1,8 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray,
-  computed,
-  NativeArray
-} = Ember;
+import Route from '@ember/routing/route';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
+import { computed, get } from '@ember/object';
+import { A } from '@ember/array';
 
 export default Route.extend({
   breadCrumb: computed('citationId', function () {
@@ -40,14 +35,14 @@ export default Route.extend({
     let citationId = get(this, 'citationId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.additionalDocumentation');
-    let resource = citationId && isArray(objects) ? NativeArray.apply(
+    let resource = citationId && isArray(objects) ? A(
         objects)
       .objectAt(citationId) :
       undefined;
 
     //make sure the identifier exists
     if(isEmpty(resource)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No Document object found! Re-directing to list...');
       this.replaceWith('record.show.edit.documents');
 

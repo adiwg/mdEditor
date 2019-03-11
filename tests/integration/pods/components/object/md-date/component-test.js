@@ -1,25 +1,35 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-date', 'Integration | Component | object/md date', {
-  integration: true
-});
+module('Integration | Component | object/md date', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
 
-  this.render(hbs`{{object/md-date}}`);
+    await render(hbs`<table><tr>{{object/md-date model=model}}</tr></table>`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|Choose|date|type|");
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-date}}
-      template block text
-    {{/object/md-date}}
-  `);
+    this.set('model', {
+      "date": "2016-10-12",
+      "dateType": "dateType",
+      description: 'description'
+    })
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(), "|dateType|×|");
+
+    // Template block usage:
+    await render(hbs`<table><tr>
+      {{#object/md-date}}
+        template block text
+      {{/object/md-date}}
+    </tr></table>`);
+
+    assert.equal(find('table').textContent.replace(/[ \n]+/g, '|').trim(),
+      "|Choose|date|type|template|block|text|");
+  });
 });

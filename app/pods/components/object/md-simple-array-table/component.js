@@ -1,10 +1,5 @@
-import Ember from 'ember';
+import { observer, computed } from '@ember/object';
 import ArrayTable from '../md-array-table/component';
-
-const {
-  computed,
-  observer
-} = Ember;
 
 export default ArrayTable.extend({
   /**
@@ -44,11 +39,11 @@ export default ArrayTable.extend({
    */
   arrayValues: computed('value.[]', {
     get() {
-      let items = this.get('value');
+      let items = this.value;
 
       if (items === undefined) {
         items = [];
-        items[0] = '';
+        //items[0] = '';
       }
 
       return items.reduce(function(acc, value) {
@@ -76,6 +71,6 @@ export default ArrayTable.extend({
    * @requires arrayValues.@each.value
    */
   valuesObserver: observer('arrayValues.@each.value', function() {
-    this.set('arrayValues', this.get('arrayValues'));
+    this.set('arrayValues', this.arrayValues);
   })
 });

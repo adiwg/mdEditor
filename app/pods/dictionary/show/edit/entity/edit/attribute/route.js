@@ -32,22 +32,21 @@ export default Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
 
-    this.controller.set('setupModel', get(this, 'setupModel'));
+    this.controller.set('setupModel', this.setupModel);
 
   },
 
   setupModel() {
-    let attributeId = get(this, 'attributeId');
+    let attributeId = this.attributeId;
     let model = this.modelFor('dictionary.show.edit');
-    let objects = model.get('json.dataDictionary.entity.' + get(this,
-      'entityId') + '.attribute');
+    let objects = model.get('json.dataDictionary.entity.' + this.entityId + '.attribute');
     let resource = attributeId && isArray(objects) ? objects.objectAt(
         attributeId) :
       undefined;
 
     //make sure the entity item exists
     if(isEmpty(resource)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Attribute found! Re-directing to Entity...');
       this.replaceWith('dictionary.show.edit.entity.edit');
 
@@ -60,10 +59,10 @@ export default Route.extend({
   actions: {
     backToEntity() {
       this.transitionTo('dictionary.show.edit.entity.edit',
-        this.get('entityId'));
+        this.entityId);
     },
     editIdentifier(index) {
-      let model = this.get('currentRouteModel')();
+      let model = this.currentRouteModel();
 
       this.transitionTo(
           'dictionary.show.edit.entity.edit.attribute.identifier',

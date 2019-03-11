@@ -1,12 +1,7 @@
-import Ember from 'ember';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray,
-  computed
-} = Ember;
+import Route from '@ember/routing/route';
+import { isEmpty } from '@ember/utils';
+import { isArray } from '@ember/array';
+import { computed, get } from '@ember/object';
 
 export default Route.extend({
   model(params, transition) {
@@ -48,7 +43,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(step)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No Process Step found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject');
 

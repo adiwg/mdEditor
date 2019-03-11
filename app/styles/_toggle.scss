@@ -1,42 +1,27 @@
-.x-toggle-default.x-toggle-btn,
-.x-toggle-form.x-toggle-btn {
-  background-color: $btn-danger-bg;
-  border-radius: .2em;
-  padding: .16em .1em;
-  transition: background-color .2s;
+label {
+  .x-toggle-default.x-toggle-btn,
+  .x-toggle-form.x-toggle-btn {
+    background-color: $btn-danger-bg;
+    transition: background-color .2s;
+  }
+
+  .x-toggle-form.x-toggle-btn {
+    background-color: $btn-primary-bg;
+    border-radius: .2em;
+    padding: .2em;
+  }
+
+  // .x-toggle-default.x-toggle-btn::after,
+  .x-toggle-form.x-toggle-btn::after {
+    background-color: $body-bg;
+    border-radius: .2em;
+    transition: left .2s;
+  }
 }
 
-.x-toggle-form.x-toggle-btn {
-  background-color: $btn-primary-bg;
-}
-
-.x-toggle:checked + .x-toggle-default.x-toggle-btn,
-.x-toggle:checked + .x-toggle-form.x-toggle-btn {
+.x-toggle:checked + label > .x-toggle-default.x-toggle-btn,
+.x-toggle:checked + label > .x-toggle-form.x-toggle-btn {
   background-color: $btn-success-bg;
-}
-
-.x-toggle-default.x-toggle-btn::after,
-.x-toggle-form.x-toggle-btn::after {
-  background-color: $body-bg;
-  border-radius: .2em;
-  transition: left .2s;
-}
-
-.x-toggle-btn.small {
-  height: 1.6em;
-  width: 3em;
-}
-
-.x-toggle-btn.medium {
-  height: 2.1em;
-  padding: 3px;
-  width: 4em;
-}
-
-.x-toggle-btn.large {
-  height: 2.1em;
-  padding: 4px;
-  width: 4.7em;
 }
 
 .form-group {
@@ -59,16 +44,42 @@
         text-decoration: underline;
       }
     }
-
   }
 }
 
 .x-toggle-component {
-  .on-label,
-  .off-label {
+  .off-label,
+  .on-label {
     margin-bottom: 0;
+  }
+
+  label.on-label {
+    padding-left: .25em;
+  }
+
+  .x-toggle-container {
+    label {
+      display: flex;
     }
- }
+
+    &.small {
+      height: 1.6em;
+      width: 3em;
+    }
+
+    &.medium {
+      height: 2.1em;
+      // padding: 3px;
+      width: 4em;
+    }
+
+    .large {
+      height: 2.1em;
+      // padding: 4px;
+      width: 4.7em;
+    }
+  }
+}
 
 .form-horizontal {
   .form-group {

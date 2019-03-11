@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { get,computed } from '@ember/object';
+import { get, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default Component.extend({
@@ -20,7 +20,7 @@ export default Component.extend({
       return this.get('item.resourceCitation');
     }
 
-    let store = this.get('store');
+    let store = this.store;
     let linked = store.peekAll('record')
       .filterBy('recordId', get(this, 'item.mdRecordId'))
       .get('firstObject.json.metadata.resourceInfo.citation');
@@ -33,7 +33,7 @@ export default Component.extend({
       return this.get('item.metadataCitation.identifier.0');
     }
 
-    let store = this.get('store');
+    let store = this.store;
 
     return store.peekAll('record')
       .filterBy('recordId', get(this, 'item.mdRecordId'))

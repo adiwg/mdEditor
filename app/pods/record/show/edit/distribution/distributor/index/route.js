@@ -1,12 +1,7 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
+import { set, get } from '@ember/object';
+import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-
-const {
-  Route,
-  get,
-  set,
-  $
-} = Ember;
 
 export default Route.extend(ScrollTo, {
   setupController: function() {

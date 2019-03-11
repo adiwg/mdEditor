@@ -1,8 +1,7 @@
 import Route from '@ember/routing/route';
 import { computed } from '@ember/object';
 import { isArray } from '@ember/array';
-import { get } from '@ember/object';
-import NativeArray from '@ember/array';
+import { A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
 export default Route.extend({
@@ -13,7 +12,7 @@ export default Route.extend({
   },
 
   breadCrumb: computed('collectionId', function () {
-    let index = get(this, 'collectionId');
+    let index = this.collectionId;
 
     return {
       title: `Collection ${index > 0 ? index : ''}`
@@ -26,7 +25,7 @@ export default Route.extend({
     this._super(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-    this.controller.set('collectionId', get(this, 'collectionId'));
+    this.controller.set('collectionId', this.collectionId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -35,15 +34,15 @@ export default Route.extend({
   },
 
   setupModel() {
-    let collectionId = get(this, 'collectionId');
+    let collectionId = this.collectionId;
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.resourceInfo.taxonomy');
-    let resource = collectionId && isArray(objects) ? NativeArray.apply(objects).objectAt(collectionId) :
+    let resource = collectionId && isArray(objects) ? A(objects).objectAt(collectionId) :
       undefined;
 
     //make sure the identifier exists
     if(isEmpty(resource)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Collection object found! Re-directing to list...');
       this.replaceWith('record.show.edit.taxonomy');
 

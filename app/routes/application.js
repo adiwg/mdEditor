@@ -1,17 +1,12 @@
-import Ember from 'ember';
+import $ from 'jquery';
+import { A } from '@ember/array';
+import Route from '@ember/routing/route';
+import EmberObject from '@ember/object';
+import { guidFor } from '@ember/object/internals';
+import RSVP from 'rsvp';
+import { inject as service } from '@ember/service';
 
-const {
-  $,
-  A,
-  Route,
-  Object: EmberObject,
-  guidFor,
-  RSVP,
-  Logger,
-  inject: {
-    service
-  }
-} = Ember;
+const console = window.console;
 
 export default Route.extend({
   init() {
@@ -85,8 +80,8 @@ export default Route.extend({
     // Call _super for default behavior
     this._super(controller, model);
     // Implement your custom setup after
-    controller.set('spotlight', this.get('spotlight'));
-    controller.set('slider', this.get('slider'));
+    controller.set('spotlight', this.spotlight);
+    controller.set('slider', this.slider);
   },
 
   /**
@@ -97,7 +92,7 @@ export default Route.extend({
 
   actions: {
     error(error) {
-      Logger.error(error);
+      console.error(error);
 
       if(error.status === 404) {
         return this.transitionTo('not-found');

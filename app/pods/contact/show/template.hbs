@@ -2,7 +2,7 @@
   <div class="col-sm-9 col-md-offset-1">
     <h3>
       {{#if model.defaultLogo}}
-        <img src="{{model.defaultLogo}}" class="img-responsive inline-block md-logo-preview" alt="Responsive image">
+        <img src={{model.defaultLogo}} class="img-responsive inline-block md-logo-preview" alt="Responsive image">
       {{else}}
         {{fa-icon model.icon class="text-muted"}}
       {{/if}}
@@ -11,8 +11,8 @@
           {{!-- <span class="text-danger">
             {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
-              {{tooltip-on-element text='This record has been modified!' side="right"
-                class="md-tooltip danger"
+              {{ember-tooltip text='This record has been modified!' side="right"
+                tooltipClassName="ember-tooltip md-tooltip danger"
               }}
             {{/if}}
           </span> --}}
@@ -63,7 +63,7 @@
                 <td>
                   {{#if ph.phoneNumber}}
                     <a href="tel:{{ph.phoneNumber}}">{{ph.phoneNumber}}
-                      {{tooltip-on-element text="Click to call."}}
+                      {{ember-tooltip text="Click to call."}}
                     </a>
                   {{else}}
                     --
@@ -86,8 +86,8 @@
       {{#layout/md-card shadow=false muted=true title="E-mail" class=""}}
       <ul class="list-unstyled">
         {{#each model.json.electronicMailAddress as |email|}}
-          <li><a href="mailto:{{email}}" target="_blank">{{email}}
-            {{tooltip-on-element text="Click to send e-mail."}}
+          <li><a href="mailto:{{email}}" target="_blank" rel="noopener noreferrer">{{email}}
+            {{ember-tooltip text="Click to send e-mail."}}
           </a></li>
         {{else}}
           <li><em class="text-muted">No e-mails assigned.</em></li>
@@ -142,8 +142,8 @@
                   <td>{{get-dash ol "name"}}</td>
                   <td>
                     {{#if ol.uri}}
-                      <a href="{{ol.uri}}" target="_blank">{{ol.uri}}
-                        {{!-- {{tooltip-on-element text="Click to visit."}} --}}
+                      <a href={{ol.uri}} target="_blank" rel="noopener noreferrer">{{ol.uri}}
+                        {{!-- {{ember-tooltip text="Click to visit."}} --}}
                       </a>
                     {{else}}
                       --
@@ -163,7 +163,11 @@
   </div>
   <div class="col-sm-2">
     <div class="md-control-sidebar">
-      {{#control/md-crud-buttons model=model doDelete="destroyContact" doCopy="copyContact" }}
+      {{#control/md-crud-buttons
+        model=model
+        doDelete=(route-action "destroyContact")
+        doCopy=(route-action "copyContact")
+      }}
         {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
           {{fa-icon "pencil"}} Edit{{/link-to}}
       {{/control/md-crud-buttons}}

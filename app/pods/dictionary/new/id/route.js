@@ -1,6 +1,7 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Route from '@ember/routing/route';
 
-export default Ember.Route.extend({
+export default Route.extend({
   model: function (params) {
     // if(!params.dictionary_id) {
     //   return this.store.createRecord('dictionary');
@@ -29,16 +30,16 @@ export default Ember.Route.extend({
     this._super(controller, model);
 
     // setup tests for required attributes
-    controller.noName = Ember.computed(
+    controller.noName = computed(
       'model.json.dataDictionary.citation.title', function() {
         return model.get('json.dataDictionary.citation.title') ? false : true;
       });
-    controller.noType = Ember.computed(
+    controller.noType = computed(
       'model.json.dataDictionary.resourceType', function() {
         return model.get('json.dataDictionary.resourceType') ? false : true;
       });
-    controller.allowSave = Ember.computed('noType', 'noName', function () {
-      return (this.get('noName') || this.get('noType'));
+    controller.allowSave = computed('noType', 'noName', function () {
+      return this.noName || this.noType;
     });
 
   },

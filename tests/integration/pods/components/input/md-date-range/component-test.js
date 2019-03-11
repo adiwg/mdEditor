@@ -1,25 +1,33 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('input/md-date-range', 'Integration | Component | input/md date range', {
-  integration: true
-});
+module('Integration | Component | input/md date range', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('start', new Date('2016-01-01'));
+    this.set('end', new Date('2017-01-01'));
+    // Handle any actions with this.on('myAction', function(val) { ... });
 
-  this.render(hbs`{{input/md-date-range}}`);
+    await render(hbs`{{input/md-date-range class="testme" startDateTime=start endDateTime=end}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
+      'Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#input/md-date-range}}
-      template block text
-    {{/input/md-date-range}}
-  `);
+    assert.equal(new Date(findAll('.date input')[0].value).toISOString(), this.start.toISOString(), 'set start');
+    assert.equal(new Date(findAll('.date input')[1].value).toISOString(), this.end.toISOString(), 'set end');
+    // Template block usage:
+    await render(hbs`
+      {{#input/md-date-range class="testme" startDateTime=start endDateTime=end}}
+        template block text
+      {{/input/md-date-range}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
+      'Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|template|block|text|', 'block');
+  });
 });

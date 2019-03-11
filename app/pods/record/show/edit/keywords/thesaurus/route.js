@@ -1,15 +1,11 @@
-import Ember from 'ember';
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { A, isArray } from '@ember/array';
+import EmberObject, { get, set } from '@ember/object';
+import { isEmpty } from '@ember/utils';
 
-const {
-  isArray,
-  A,
-  set,
-  get,
-  isEmpty
-} = Ember;
-
-export default Ember.Route.extend({
-  keyword: Ember.inject.service(),
+export default Route.extend({
+  keyword: service(),
   model(params) {
     this.set('thesaurusId', params.thesaurus_id);
 
@@ -24,7 +20,7 @@ export default Ember.Route.extend({
 
     //make sure the thesaurus still exists
     if(isEmpty(thesaurus)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No thesaurus found! Re-directing to list...');
       this.replaceWith('record.show.edit.keywords');
 
@@ -35,12 +31,12 @@ export default Ember.Route.extend({
       set(thesaurus, 'keyword', A());
     }
 
-    return Ember.Object.create({
+    return EmberObject.create({
       id: thesaurusId,
       keywords: thesaurus,
       model: model,
       path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
-      thesaurus: this.get('keyword')
+      thesaurus: this.keyword
         .findById(thesaurus.thesaurus.identifier[0].identifier)
     });
   },
@@ -64,10 +60,10 @@ export default Ember.Route.extend({
 
     this.controllerFor('record.show.edit')
       .setProperties({
-        subbar: this.get('subbar'),
+        subbar: this.subbar,
         onCancel: this.setupModel,
         cancelScope: this,
-        thesaurusId: this.get('thesaurusId')
+        thesaurusId: this.thesaurusId
       });
   },
 
@@ -93,7 +89,7 @@ export default Ember.Route.extend({
       if(node.isSelected && target === undefined) {
         let pathStr = '';
 
-        if(Ember.isArray(path)) {
+        if(isArray(path)) {
           pathStr = path.reduce(function (prev, item) {
             prev = prev ? `${prev} > ${item.label}` : item.label;
 
@@ -126,10 +122,10 @@ export default Ember.Route.extend({
 
       kw.forEach(function (curr) {
         if(val) {
-          Ember.set(curr, 'keyword', curr.path.join(' > '));
+          set(curr, 'keyword', curr.path.join(' > '));
         } else {
           let words = curr.keyword.split(' > ');
-          Ember.set(curr, 'keyword', words[words.length - 1]);
+          set(curr, 'keyword', words[words.length - 1]);
         }
       });
     }

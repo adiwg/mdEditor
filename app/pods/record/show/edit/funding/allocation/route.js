@@ -1,14 +1,18 @@
-import Ember from 'ember';
-import ScrollTo from 'mdeditor/mixins/scroll-to';
-
-const {
-  Route,
-  get,
-  isEmpty,
-  isArray,
+import Route from '@ember/routing/route';
+import {
+  isEmpty
+} from '@ember/utils';
+import {
+  isArray
+} from '@ember/array';
+import {
   computed,
-  NativeArray
-} = Ember;
+  get
+} from '@ember/object';
+import {
+  A
+} from '@ember/array';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
   breadCrumb: computed('allocationId', function () {
@@ -42,14 +46,12 @@ export default Route.extend(ScrollTo, {
     let allocationId = get(this, 'allocationId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.funding');
-    let resource = allocationId && isArray(objects) ? NativeArray.apply(
-        objects)
-      .objectAt(allocationId) :
-      undefined;
+    let resource = allocationId && isArray(objects) ? A(objects).objectAt(
+      allocationId) : undefined;
 
     //make sure the allocation exists
     if(isEmpty(resource)) {
-      Ember.get(this, 'flashMessages')
+      get(this, 'flashMessages')
         .warning('No Funding object found! Re-directing to list...');
       this.replaceWith('record.show.edit.funding');
 

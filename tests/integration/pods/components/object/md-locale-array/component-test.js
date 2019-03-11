@@ -1,24 +1,37 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-moduleForComponent('object/md-locale-array', 'Integration | Component | object/md locale array', {
-  integration: true
-});
+module('Integration | Component | object/md locale array', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('locales', [{
+      language: "eng",
+      characterSet: "UTF-8",
+      country: "USA"
+    }, {
+      language: "spa",
+      characterSet: "UTF-32",
+      country: "BDI"
+    }]);
 
-  this.render(hbs`{{object/md-locale-array}}`);
+    await render(hbs`{{object/md-locale-array value=locales}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|2|Add|#|Language|Character|Set|Country|0|eng|?|×|UTF-8|?|×|USA|?|×|Delete|1|spa|?|×|UTF-32|?|×|BDI|?|×|Delete|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-locale-array}}
-      template block text
-    {{/object/md-locale-array}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-locale-array}}
+        template block text
+      {{/object/md-locale-array}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.panel').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Add|#|Language|Character|Set|Country|Add|',
+      'block');
+  });
 });

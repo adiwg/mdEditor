@@ -1,24 +1,30 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { findAll, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createTaxonomy from 'mdeditor/tests/helpers/create-taxonomy';
 
-moduleForComponent('object/md-taxonomy/collection/system/preview', 'Integration | Component | object/md taxonomy/collection/system/preview', {
-  integration: true
-});
+module('Integration | Component | object/md taxonomy/collection/system/preview', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    // Set any properties with this.set('myProperty', 'value');
+    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.model = createTaxonomy()[0].taxonomicSystem[0];
 
-  this.render(hbs`{{object/md-taxonomy/collection/system/preview}}`);
+    await render(hbs`{{object/md-taxonomy/collection/system/preview model=model profilePath="foobar"}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    var input = findAll('input, textarea').mapBy('value').join('|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-taxonomy/collection/system/preview}}
-      template block text
-    {{/object/md-taxonomy/collection/system/preview}}
-  `);
+    assert.equal(input, "Integrated Taxonomic Information System (ITIS)|modifications", 'input values');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-taxonomy/collection/system/preview model=(hash) profilePath="foobar"}}
+        template block text
+      {{/object/md-taxonomy/collection/system/preview}}
+    `);
+
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), "|");
+  });
 });

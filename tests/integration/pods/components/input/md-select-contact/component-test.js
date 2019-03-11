@@ -1,25 +1,32 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createContact from 'mdeditor/tests/helpers/create-contact';
 
-moduleForComponent('input/md-select-contact', 'Integration | Component | input/md select contact', {
-  integration: true
-});
 
-test('it renders', function(assert) {
+module('Integration | Component | input/md select contact', function(hooks) {
+  setupRenderingTest(hooks);
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+  test('it renders', async function(assert) {
+    var contacts = createContact(3);
+    var cs = this.owner.lookup('service:contacts');
 
-  this.render(hbs`{{input/md-select-contact}}`);
+    cs.set('contacts', contacts);
 
-  assert.equal(this.$().text().trim(), '');
+    this.set('contacts', contacts);
 
-  // Template block usage:
-  this.render(hbs`
-    {{#input/md-select-contact}}
-      template block text
-    {{/input/md-select-contact}}
-  `);
+    await render(hbs`{{input/md-select-contact value=1}}`);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.md-select-contact').textContent.replace(/[ \n]+/g, '|').trim(), '|Contact1|×|');
+
+    // Template block usage:
+    await render(hbs`
+      {{#input/md-select-contact}}
+        template block text
+      {{/input/md-select-contact}}
+    `);
+
+    assert.equal(find('.md-select-contact').textContent.trim(), 'Select one option');
+  });
 });

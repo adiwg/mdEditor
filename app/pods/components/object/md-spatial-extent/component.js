@@ -1,31 +1,37 @@
-import Ember from 'ember';
 /* global L */
-
-const {
-  Component,
-  computed,
-  observer,
-  computed: {
-    alias,
-    or
-  },
-  setProperties,
-  isNone,
-} = Ember;
+import Component from '@ember/component';
+import { or, alias } from '@ember/object/computed';
+import { set, get, getWithDefault, setProperties, observer, computed } from '@ember/object';
+import { isNone } from '@ember/utils';
+import { once } from '@ember/runloop';
 
 const {
   isNaN:isNan
 } = Number;
 
 export default Component.extend({
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    let geo = get(this, 'extent.geographicExtent.0');
+
+    once(function() {
+      set(geo, 'boundingBox', getWithDefault(geo, 'boundingBox', {}));
+    });
+  },
+
   isTrulyNone(val) {
     return isNone(val) || isNan(val);
   },
 
-  bboxPoly: computed('bbox', 'bbox.northLatitude',
-    'bbox.southLatitude', 'bbox.eastLongitude', 'bbox.westLongitude',
+  bboxPoly: computed('bbox',
+    'bbox.{northLatitude,southLatitude,eastLongitude,westLongitude}',
     function() {
-      let bbox = this.get('bbox');
+      let bbox = this.bbox;
+
+      if(!bbox) {
+        return null;
+      }
 
       if(this.isTrulyNone(bbox.southLatitude) || this.isTrulyNone(bbox.westLongitude) ||
         this.isTrulyNone(bbox.northLatitude) || this.isTrulyNone(bbox.eastLongitude)
@@ -42,8 +48,8 @@ export default Component.extend({
     }),
 
   bboxPolyObserver: observer('bboxPoly', function() {
-    let map = this.get('map');
-    let bbox = this.get('bboxPoly');
+    let map = this.map;
+    let bbox = this.bboxPoly;
 
     if(map && bbox) {
       this.setupMap({
@@ -57,8 +63,8 @@ export default Component.extend({
   showMap: or('bboxPoly', 'geographicElement'),
   setupMap(m) {
     let map = m.target;
-    let geo = this.get('geographicElement') || [];
-    let bbox = this.get('bboxPoly');
+    let geo = this.geographicElement || [];
+    let bbox = this.bboxPoly;
     let features;
 
     features = bbox ? geo.concat([L.rectangle(bbox).toGeoJSON()]) : [].concat(
@@ -72,14 +78,14 @@ export default Component.extend({
   },
   actions: {
     calculateBox() {
-      let geo = this.get('geographicElement');
+      let geo = this.geographicElement;
 
       if(!(geo && geo.length)) {
         return null;
       }
 
       let bounds = L.geoJson(geo).getBounds();
-      let bbox = this.get('bbox');
+      let bbox = this.bbox;
 
       setProperties(bbox, {
         northLatitude: bounds.getNorth(),
@@ -87,6 +93,14 @@ export default Component.extend({
         eastLongitude: bounds.getEast(),
         westLongitude: bounds.getWest()
       });
+    },
+
+    editExtent(index){
+      this.editExtent(index);
+    },
+
+    deleteExtent(index){
+      this.deleteExtent(index);
     }
   }
 });

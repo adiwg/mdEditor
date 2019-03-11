@@ -8,9 +8,8 @@ import {
 import {
   htmlSafe
 } from '@ember/string';
-import Papa from 'npm:papaparse';
+import Papa from 'papaparse';
 import {
-  get,
   set,
   computed
 } from '@ember/object';
@@ -41,6 +40,7 @@ export default Component.extend({
    */
 
   router: service(),
+  ajax: service(),
 
   /**
    * True if processing CSV file
@@ -71,7 +71,7 @@ export default Component.extend({
    * @requires progress
    */
   barWidth: computed('progress', function () {
-    return htmlSafe(`min-width: 10em;width:${this.get('progress')}%;`);
+    return htmlSafe(`min-width: 10em;width:${this.progress}%;`);
   }),
 
   /**
@@ -102,7 +102,7 @@ export default Component.extend({
 
   actions: {
     stopParsing() {
-      this.get('parser').abort();
+      this.parser.abort();
       this.set('isProcessing', false);
     },
     readData(file) {
@@ -131,7 +131,7 @@ export default Component.extend({
                 },
                 chunk: (results, parser) => {
                   if(processed === 1) {
-                    this.get('beforeFirstChunk')(results);
+                    this.beforeFirstChunk(results);
                   }
 
                   this.set('progress', Math.trunc(((
@@ -140,7 +140,7 @@ export default Component.extend({
 
                   this.set('parser', parser);
 
-                  this.get('processChunk')(results.data);
+                  this.processChunk(results.data);
 
                   processed++;
                 }
@@ -153,12 +153,12 @@ export default Component.extend({
           })
           .then(() => {
             //fire callback
-            this.get('processComplete')();
+            this.processComplete();
 
           })
           .catch((reason) => {
             //catch any errors
-            get(this, 'flashMessages')
+            this.flashMessages
               .danger(reason);
             return false;
           })
@@ -176,7 +176,7 @@ export default Component.extend({
 
       set(comp, 'isLoading', true);
 
-      $.ajax(this.get('importUri'), {
+      this.ajax.request(this.importUri, {
           type: 'GET',
           context: this,
           dataType: 'text',
@@ -208,7 +208,7 @@ export default Component.extend({
               })
               .catch((reason) => {
                 //catch any errors
-                get(this, 'flashMessages')
+                this.flashMessages
                   .danger(reason);
                 return false;
               })
@@ -219,7 +219,7 @@ export default Component.extend({
               });
           } else {
             set(comp, 'errors', response.messages);
-            get(this, 'flashMessages')
+            this.flashMessages
               .danger('Import error!');
           }
         }, (response) => {
@@ -228,7 +228,7 @@ export default Component.extend({
 
           set(comp, 'xhrError', error);
           set(comp, 'isLoading', false);
-          get(this, 'flashMessages')
+          this.flashMessages
             .danger(error);
         });
 

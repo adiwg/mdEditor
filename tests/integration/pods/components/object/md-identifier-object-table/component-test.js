@@ -1,25 +1,31 @@
-import { moduleForComponent, test } from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import createIdentifier from 'mdeditor/tests/helpers/create-identifier';
 
-moduleForComponent('object/md-identifier-object-table', 'Integration | Component | object/md identifier object table', {
-  integration: true
-});
+module('Integration | Component | object/md identifier object table', function(hooks) {
+  setupRenderingTest(hooks);
 
-test('it renders', function(assert) {
+  test('it renders', async function(assert) {
 
-  // Set any properties with this.set('myProperty', 'value');
-  // Handle any actions with this.on('myAction', function(val) { ... });
+    // Set any properties with this.set('myProperty', 'value');
+    this.set('id', createIdentifier(2));
 
-  this.render(hbs`{{object/md-identifier-object-table}}`);
+    await render(hbs`{{object/md-identifier-object-table model=id}}`);
 
-  assert.equal(this.$().text().trim(), '');
+    assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Identifier|2|Add|OK|#|Identifier|Namespace|0|identifier0|namespace0|Edit|Delete|1|identifier1|namespace1|Edit|Delete|OK|');
 
-  // Template block usage:
-  this.render(hbs`
-    {{#object/md-identifier-object-table}}
-      template block text
-    {{/object/md-identifier-object-table}}
-  `);
+    // Template block usage:
+    await render(hbs`
+      {{#object/md-identifier-object-table}}
+        template block text
+      {{/object/md-identifier-object-table}}
+    `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+    assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|',
+      'block');
+  });
 });

@@ -21,7 +21,7 @@ export default Breadcrumbs.extend({
   layout,
   tagName: '',
   title: computed('routeHierarchy', function () {
-    return this.get('routeHierarchy').reduce((val, itm) => {
+    return this.routeHierarchy.reduce((val, itm) => {
       return val + truncate([itm.title, 28, true]) + (itm.isTail ? '' :
         ' | ');
     }, '');
