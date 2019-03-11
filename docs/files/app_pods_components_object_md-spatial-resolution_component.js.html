@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,27 +246,15 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import Component from &#x27;@ember/component&#x27;;
+import { isEmpty } from &#x27;@ember/utils&#x27;;
+import { or, alias } from &#x27;@ember/object/computed&#x27;;
+import { once } from &#x27;@ember/runloop&#x27;;
+import { set, getWithDefault, get, computed } from &#x27;@ember/object&#x27;;
 import {
   validator,
   buildValidations
 } from &#x27;ember-cp-validations&#x27;;
-
-const {
-  Component,
-  computed,
-  isEmpty,
-  computed: {
-    alias,
-    or
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   &#x27;scaleFactor&#x27;: {
@@ -353,24 +338,20 @@ export default Component.extend(Validations, {
   scaleDisabled: computed(
     &#x27;model.levelOfDetail&#x27;, &#x27;measurePresent&#x27;,
     function () {
-      return !isEmpty(this.get(&#x27;model.levelOfDetail&#x27;)) || this.get(
-        &#x27;measurePresent&#x27;
-      );
+      return !isEmpty(this.get(&#x27;model.levelOfDetail&#x27;)) || this.measurePresent;
     }),
   levelOfDetail: alias(&#x27;model.levelOfDetail&#x27;),
   levelDisabled: computed(
     &#x27;model.scaleFactor&#x27;, &#x27;measurePresent&#x27;,
     function () {
       let scaleFactor = this.get(&#x27;model.scaleFactor&#x27;);
-      return(!isEmpty(scaleFactor) &amp;&amp; !Number.isNaN(scaleFactor)) ||
-        this.get(
-          &#x27;measurePresent&#x27;
-        );
+      return (!isEmpty(scaleFactor) &amp;&amp; !Number.isNaN(scaleFactor)) ||
+        this.measurePresent;
     }
   ),
   measure: alias(&#x27;model.measure&#x27;),
   measureDisabled: computed(
-    &#x27;model.scaleFactor&#x27;, &#x27;model.levelOfDetail&#x27;,
+    &#x27;model.{scaleFactor,levelOfDetail}&#x27;,
     function () {
       let scaleFactor = this.get(&#x27;model.scaleFactor&#x27;);
       return(!isEmpty(scaleFactor) &amp;&amp; !Number.isNaN(scaleFactor)) ||
@@ -382,7 +363,8 @@ export default Component.extend(Validations, {
   measureUnit: alias(&#x27;model.measure.unitOfMeasure&#x27;),
   measurePresent: or(&#x27;measureType&#x27;, &#x27;measureUnit&#x27;, &#x27;measureValue&#x27;),
 
-  typeOptions: [{
+  typeOptions: computed(function() {
+  return [{
       name: &#x27;distance&#x27;,
       value: &#x27;distance&#x27;
     },
@@ -402,7 +384,7 @@ export default Component.extend(Validations, {
       name: &#x27;scale&#x27;,
       value: &#x27;scale&#x27;
     }
-  ]
+  ]})
 });
 
     </pre>

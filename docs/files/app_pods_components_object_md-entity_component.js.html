@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -250,7 +247,9 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Component from &#x27;@ember/component&#x27;;
-import NativeArray from &#x27;@ember/array&#x27;;
+import {
+  A
+} from &#x27;@ember/array&#x27;;
 import EmberObject from &#x27;@ember/object&#x27;;
 import {
   set,
@@ -276,7 +275,7 @@ import {
   validator,
   buildValidations
 } from &#x27;ember-cp-validations&#x27;;
-import uuidV4 from &quot;npm:uuid/v4&quot;;
+import uuidV4 from &quot;uuid/v4&quot;;
 
 const Validations = buildValidations({
   &#x27;codeName&#x27;: [
@@ -415,10 +414,10 @@ export default Component.extend(Validations, {
   entities: alias(&#x27;dictionary.entity&#x27;),
   attributes: alias(&#x27;model.attribute&#x27;),
 
-  attributeList: computed(&#x27;attributes.@each.codeName&#x27;,&#x27;attributes.[]&#x27;, function () {
-let attr = get(this, &#x27;model.attribute&#x27;);
-if(attr){
-    return attr.map((attr) =&gt; {
+  attributeList: computed(&#x27;attributes.{@each.codeName,[]}&#x27;, function () {
+    let attr = get(this, &#x27;model.attribute&#x27;);
+    if(attr) {
+      return attr.map((attr) =&gt; {
         return {
           codeId: get(attr, &#x27;codeName&#x27;),
           codeName: get(attr, &#x27;codeName&#x27;),
@@ -429,7 +428,7 @@ if(attr){
     return [];
   }),
 
-  entityList: computed(&#x27;entities.@each.entityId&#x27;, &#x27;entities.@each.codeName&#x27;,
+  entityList: computed(&#x27;entities.{@each.entityId,@each.codeName}&#x27;,
     function () {
       return get(this, &#x27;entities&#x27;)
         .map((attr) =&gt; {
@@ -443,9 +442,25 @@ if(attr){
         });
     }),
 
+   /**
+    * The passed down editCitation method.
+    *
+    * @method editCitation
+    * @param {Number} id
+    * @required
+    */
+
+   /**
+    * The passed down editAttribute method.
+    *
+    * @method editAttribute
+    * @param {Number} id
+    * @required
+    */
+
   actions: {
     getEntityAttributes(id) {
-      let entity = NativeArray.apply(this.get(&#x27;dictionary.entity&#x27;))
+      let entity = A(this.get(&#x27;dictionary.entity&#x27;))
         .findBy(&#x27;entityId&#x27;, id);
 
       if(entity) {
@@ -462,6 +477,14 @@ if(attr){
       }
 
       return [];
+    },
+
+    editCitation(id){
+      this.editCitation(id);
+    },
+
+    editAttribute(id){
+      this.editAttribute(id);
     }
   }
 });

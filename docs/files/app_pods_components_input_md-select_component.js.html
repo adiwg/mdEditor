@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -254,18 +251,16 @@
  * @submodule components-input
  */
 
-import Ember from &#x27;ember&#x27;;
-import DS from &#x27;ember-data&#x27;;
+import { A } from &#x27;@ember/array&#x27;;
 
-const {
-  Component,
-  defineProperty,
-  get,
-  computed,
-  isNone,
-  isBlank,
-  assert
-} = Ember;
+import { Promise } from &#x27;rsvp&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
+import { notEmpty, alias, not, and, or } from &#x27;@ember/object/computed&#x27;;
+import Component from &#x27;@ember/component&#x27;;
+import { computed, get, defineProperty } from &#x27;@ember/object&#x27;;
+import { isBlank, isNone } from &#x27;@ember/utils&#x27;;
+import { assert, debug } from &#x27;@ember/debug&#x27;;
+import DS from &#x27;ember-data&#x27;;
 
 export default Component.extend({
   /**
@@ -297,8 +292,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = this.get(&#x27;model&#x27;);
-    let path = this.get(&#x27;path&#x27;);
+    let model = this.model;
+    let path = this.path;
 
     if(isNone(model) !== isNone(path)) {
       assert(
@@ -308,52 +303,50 @@ export default Component.extend({
 
     if(!isBlank(model)) {
       if(this.get(&#x60;model.${path}&#x60;) === undefined) {
-        Ember.debug(
+        debug(
           &#x60;model.${path} is undefined in ${this.toString()}.&#x60;
         );
-
         //Ember.run.once(()=&gt;model.set(path, &quot;&quot;));
       }
 
-      defineProperty(this, &#x27;value&#x27;, computed.alias(&#x60;model.${path}&#x60;));
+      defineProperty(this, &#x27;value&#x27;, alias(&#x60;model.${path}&#x60;));
 
-      defineProperty(this, &#x27;validation&#x27;, computed.alias(
+      defineProperty(this, &#x27;validation&#x27;, alias(
         &#x60;model.validations.attrs.${path}&#x60;).readOnly());
 
       defineProperty(this, &#x27;required&#x27;, computed(
-        &#x27;validation.options.presence.presence&#x27;,
-        &#x27;validation.options.presence.disabled&#x27;,
+        &#x27;validation.options.presence.{presence,disabled}&#x27;,
         &#x27;disabled&#x27;,
         function() {
-          return !this.get(&#x27;disabled&#x27;) &amp;&amp;
+          return !this.disabled &amp;&amp;
             this.get(&#x27;validation.options.presence.presence&#x27;) &amp;&amp;
             !this.get(&#x27;validation.options.presence.disabled&#x27;);
         }).readOnly());
 
-      defineProperty(this, &#x27;notValidating&#x27;, computed.not(
+      defineProperty(this, &#x27;notValidating&#x27;, not(
         &#x27;validation.isValidating&#x27;).readOnly());
 
-      defineProperty(this, &#x27;hasContent&#x27;, computed.notEmpty(&#x27;value&#x27;).readOnly());
+      defineProperty(this, &#x27;hasContent&#x27;, notEmpty(&#x27;value&#x27;).readOnly());
 
-      defineProperty(this, &#x27;hasWarnings&#x27;, computed.notEmpty(
+      defineProperty(this, &#x27;hasWarnings&#x27;, notEmpty(
         &#x27;validation.warnings&#x27;).readOnly());
 
-      defineProperty(this, &#x27;isValid&#x27;, computed.and(&#x27;hasContent&#x27;,
+      defineProperty(this, &#x27;isValid&#x27;, and(&#x27;hasContent&#x27;,
         &#x27;validation.isTruelyValid&#x27;).readOnly());
 
-      defineProperty(this, &#x27;shouldDisplayValidations&#x27;, computed.or(
+      defineProperty(this, &#x27;shouldDisplayValidations&#x27;, or(
         &#x27;showValidations&#x27;, &#x27;didValidate&#x27;,
         &#x27;hasContent&#x27;).readOnly());
 
-      defineProperty(this, &#x27;showErrorClass&#x27;, computed.and(&#x27;notValidating&#x27;,
+      defineProperty(this, &#x27;showErrorClass&#x27;, and(&#x27;notValidating&#x27;,
         &#x27;showErrorMessage&#x27;,
         &#x27;hasContent&#x27;, &#x27;validation&#x27;).readOnly());
 
-      defineProperty(this, &#x27;showErrorMessage&#x27;, computed.and(
+      defineProperty(this, &#x27;showErrorMessage&#x27;, and(
         &#x27;shouldDisplayValidations&#x27;,
         &#x27;validation.isInvalid&#x27;).readOnly());
 
-      defineProperty(this, &#x27;showWarningMessage&#x27;, computed.and(
+      defineProperty(this, &#x27;showWarningMessage&#x27;, and(
         &#x27;shouldDisplayValidations&#x27;,
         &#x27;hasWarnings&#x27;, &#x27;isValid&#x27;).readOnly());
     }
@@ -362,8 +355,8 @@ export default Component.extend({
   classNames: [&#x27;md-select&#x27;],
   classNameBindings: [&#x27;formGroup&#x27;, &#x27;required&#x27;],
   attributeBindings: [&#x27;data-spy&#x27;],
-  formGroup: Ember.computed.notEmpty(&#x27;label&#x27;),
-  icons: Ember.inject.service(&#x27;icon&#x27;),
+  formGroup: notEmpty(&#x27;label&#x27;),
+  icons: service(&#x27;icon&#x27;),
 
   /**
    * An array or promise array containing the options for the
@@ -533,8 +526,8 @@ export default Component.extend({
    */
   label: null,
 
-  ariaLabel: Ember.computed(&#x27;label&#x27;, function() {
-    return this.get(&#x27;label&#x27;);
+  ariaLabel: computed(&#x27;label&#x27;, function() {
+    return this.label;
   }),
 
   /**
@@ -565,8 +558,8 @@ export default Component.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: Ember.computed(&#x27;create&#x27;, function() {
-    return this.get(&#x27;create&#x27;) ? &#x27;power-select-with-create&#x27; :
+  theComponent: computed(&#x27;create&#x27;, function() {
+    return this.create ? &#x27;power-select-with-create&#x27; :
       &#x27;power-select&#x27;;
   }),
 
@@ -584,11 +577,11 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: Ember.computed(&#x27;value&#x27;, function() {
-    let value = this.get(&#x27;value&#x27;);
+  selectedItem: computed(&#x27;value&#x27;, function() {
+    let value = this.value;
 
     return DS.PromiseObject.create({
-      promise: this.get(&#x27;codelist&#x27;)
+      promise: this.codelist
         .then(function(arr) {
           return arr.find((item) =&gt; {
             return item[&#x27;codeId&#x27;] === value;
@@ -606,20 +599,20 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseArray
    */
-  codelist: Ember.computed(&#x27;objectArray&#x27;, function() {
-    const objArray = this.get(&#x27;objectArray&#x27;);
-    let inList = new Ember.RSVP.Promise(function(resolve, reject) {
+  codelist: computed(&#x27;objectArray&#x27;, function() {
+    const objArray = this.objectArray;
+    let inList = new Promise(function(resolve, reject) {
       // succeed
       resolve(objArray);
       // or reject
       reject(new Error(&#x27;Couldn\&#x27;t create a promise.&#x27;));
     });
-    let codeId = this.get(&#x27;valuePath&#x27;);
-    let codeName = this.get(&#x27;namePath&#x27;);
-    let tooltip = this.get(&#x27;tooltipPath&#x27;);
-    let icons = this.get(&#x27;icons&#x27;);
-    let defaultIcon = this.get(&#x27;defaultIcon&#x27;);
-    let outList = Ember.A();
+    let codeId = this.valuePath;
+    let codeName = this.namePath;
+    let tooltip = this.tooltipPath;
+    let icons = this.icons;
+    let defaultIcon = this.defaultIcon;
+    let outList = A();
 
     return DS.PromiseArray.create({
       promise: inList.then(function(arr) {
@@ -677,7 +670,7 @@ export default Component.extend({
     create(selected) {
       let code = this.createCode(selected);
 
-      this.get(&#x27;codelist&#x27;)
+      this.codelist
         .pushObject(code);
       this.setValue(code);
     }

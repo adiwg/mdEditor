@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -259,9 +256,8 @@ import {
 import {
   htmlSafe
 } from &#x27;@ember/string&#x27;;
-import Papa from &#x27;npm:papaparse&#x27;;
+import Papa from &#x27;papaparse&#x27;;
 import {
-  get,
   set,
   computed
 } from &#x27;@ember/object&#x27;;
@@ -292,6 +288,7 @@ export default Component.extend({
    */
 
   router: service(),
+  ajax: service(),
 
   /**
    * True if processing CSV file
@@ -322,7 +319,7 @@ export default Component.extend({
    * @requires progress
    */
   barWidth: computed(&#x27;progress&#x27;, function () {
-    return htmlSafe(&#x60;min-width: 10em;width:${this.get(&#x27;progress&#x27;)}%;&#x60;);
+    return htmlSafe(&#x60;min-width: 10em;width:${this.progress}%;&#x60;);
   }),
 
   /**
@@ -353,7 +350,7 @@ export default Component.extend({
 
   actions: {
     stopParsing() {
-      this.get(&#x27;parser&#x27;).abort();
+      this.parser.abort();
       this.set(&#x27;isProcessing&#x27;, false);
     },
     readData(file) {
@@ -382,7 +379,7 @@ export default Component.extend({
                 },
                 chunk: (results, parser) =&gt; {
                   if(processed === 1) {
-                    this.get(&#x27;beforeFirstChunk&#x27;)(results);
+                    this.beforeFirstChunk(results);
                   }
 
                   this.set(&#x27;progress&#x27;, Math.trunc(((
@@ -391,7 +388,7 @@ export default Component.extend({
 
                   this.set(&#x27;parser&#x27;, parser);
 
-                  this.get(&#x27;processChunk&#x27;)(results.data);
+                  this.processChunk(results.data);
 
                   processed++;
                 }
@@ -404,12 +401,12 @@ export default Component.extend({
           })
           .then(() =&gt; {
             //fire callback
-            this.get(&#x27;processComplete&#x27;)();
+            this.processComplete();
 
           })
           .catch((reason) =&gt; {
             //catch any errors
-            get(this, &#x27;flashMessages&#x27;)
+            this.flashMessages
               .danger(reason);
             return false;
           })
@@ -427,7 +424,7 @@ export default Component.extend({
 
       set(comp, &#x27;isLoading&#x27;, true);
 
-      $.ajax(this.get(&#x27;importUri&#x27;), {
+      this.ajax.request(this.importUri, {
           type: &#x27;GET&#x27;,
           context: this,
           dataType: &#x27;text&#x27;,
@@ -459,7 +456,7 @@ export default Component.extend({
               })
               .catch((reason) =&gt; {
                 //catch any errors
-                get(this, &#x27;flashMessages&#x27;)
+                this.flashMessages
                   .danger(reason);
                 return false;
               })
@@ -470,7 +467,7 @@ export default Component.extend({
               });
           } else {
             set(comp, &#x27;errors&#x27;, response.messages);
-            get(this, &#x27;flashMessages&#x27;)
+            this.flashMessages
               .danger(&#x27;Import error!&#x27;);
           }
         }, (response) =&gt; {
@@ -479,7 +476,7 @@ export default Component.extend({
 
           set(comp, &#x27;xhrError&#x27;, error);
           set(comp, &#x27;isLoading&#x27;, false);
-          get(this, &#x27;flashMessages&#x27;)
+          this.flashMessages
             .danger(error);
         });
 

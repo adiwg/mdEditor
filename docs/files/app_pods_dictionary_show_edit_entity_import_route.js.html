@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -263,7 +260,7 @@ import {
   isBlank
 } from &#x27;@ember/utils&#x27;;
 import EmberObject from &#x27;@ember/object&#x27;;
-import uuidV4 from &quot;npm:uuid/v4&quot;;
+import uuidV4 from &quot;uuid/v4&quot;;
 
 import {
   get,
@@ -292,7 +289,7 @@ export default Route.extend({
    * @readOnly
    */
   columnObject: EmberObject.extend({
-    domain: [],
+    domain: null,
     import: true,
     range: false,
     importName: null,
@@ -303,7 +300,7 @@ export default Route.extend({
     isNumber: equal(&#x27;dataType&#x27;, &#x27;number&#x27;),
     disableRange: not(&#x27;isNumber&#x27;),
     example: computed(&#x27;domain&#x27;, function () {
-      return get(this, &#x27;domain&#x27;).slice(0, 10);
+      return this.domain.slice(0, 10);
     })
   }),
 
@@ -404,12 +401,12 @@ export default Route.extend({
       this.transitionTo(&#x27;dictionary.show.edit.entity.edit&#x27;, get(
         dataDictionary, &#x27;entity.length&#x27;) - 1);
 
-        get(this, &#x27;flashMessages&#x27;)
+        this.flashMessages
           .success(&#x27;Entity imported from CSV!&#x27;);
     },
     processData(data) {
-      let template = this.get(&#x27;columnObject&#x27;);
-      let typer = this.get(&#x27;columnType&#x27;);
+      let template = this.columnObject;
+      let typer = this.columnType;
 
       set(this, &#x27;controller.processed&#x27;, false);
 

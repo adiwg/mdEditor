@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,26 +246,24 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import Component from &#x27;@ember/component&#x27;;
+import {
+  equal,
+  alias
+} from &#x27;@ember/object/computed&#x27;;
+import {
+  once
+} from &#x27;@ember/runloop&#x27;;
+import {
+  computed,
+  set,
+  getWithDefault,
+  get
+} from &#x27;@ember/object&#x27;;
 import {
   validator,
   buildValidations
 } from &#x27;ember-cp-validations&#x27;;
-
-const {
-  Component,
-  computed: {
-    alias,
-    equal//,
-    //not
-  },
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set
-} = Ember;
 
 const Validations = buildValidations({
   &#x27;classification&#x27;: [
@@ -291,7 +286,7 @@ export default Component.extend(Validations, {
 
     let model = get(this, &#x27;model&#x27;);
 
-    once(this, function() {
+    once(this, function () {
       set(model, &#x27;useLimitation&#x27;, getWithDefault(model, &#x27;useLimitation&#x27;, []));
       set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
       set(model, &#x27;responsibleParty&#x27;, getWithDefault(model,
@@ -331,19 +326,21 @@ export default Component.extend(Validations, {
   // measureUnit: alias(&#x27;model.measure.unitOfMeasure&#x27;),
   // measurePresent: or(&#x27;measureType&#x27;,&#x27;measureUnit&#x27;,&#x27;measureValue&#x27;),
 
-  typeOptions: [{
-      name: &#x27;use&#x27;,
-      value: &#x27;use&#x27;
-    },
-    {
-      name: &#x27;legal&#x27;,
-      value: &#x27;legal&#x27;
-    },
-    {
-      name: &#x27;security&#x27;,
-      value: &#x27;security&#x27;
-    }
-  ]
+  typeOptions: computed(function () {
+    return [{
+        name: &#x27;use&#x27;,
+        value: &#x27;use&#x27;
+      },
+      {
+        name: &#x27;legal&#x27;,
+        value: &#x27;legal&#x27;
+      },
+      {
+        name: &#x27;security&#x27;,
+        value: &#x27;security&#x27;
+      }
+    ]
+  })
 });
 
     </pre>

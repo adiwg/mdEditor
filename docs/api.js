@@ -23,7 +23,6 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-import-csv",
         "md-input",
         "md-input-confirm",
-        "md-inputs",
         "md-maintenance",
         "md-markdown-editor",
         "md-object-table",

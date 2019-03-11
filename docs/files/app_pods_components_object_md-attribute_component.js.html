@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -167,9 +167,6 @@
                                     </li>
                                     <li>
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
-                                    </li>
-                                    <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
@@ -347,7 +344,7 @@ const theComp = Component.extend(Validations, {
   allowNull: alias(&#x27;model.allowNull&#x27;),
   domains: alias(&#x27;dictionary.domain&#x27;),
 
-  domainList: computed(&#x27;domains.@each.domainId&#x27;, &#x27;domains.@each.codeName&#x27;,
+  domainList: computed(&#x27;domains.{@each.domainId,@each.codeName}&#x27;,
     function () {
       let domains = get(this, &#x27;domains&#x27;) || [];
 

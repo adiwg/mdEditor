@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,18 +246,10 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
-
-const {
-  Component,
-  get,
-  run: {
-    once
-  },
-  getWithDefault,
-  set,
-  NativeArray
-} = Ember;
+import Component from &#x27;@ember/component&#x27;;
+import { once } from &#x27;@ember/runloop&#x27;;
+import { set, getWithDefault, get } from &#x27;@ember/object&#x27;;
+import { A } from &#x27;@ember/array&#x27;;
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -269,7 +258,7 @@ export default Component.extend({
     let model = get(this, &#x27;model.json.metadata&#x27;);
 
     once(this, function() {
-      set(model, &#x27;resourceDistribution&#x27;, NativeArray.apply(
+      set(model, &#x27;resourceDistribution&#x27;, A(
         getWithDefault(model, &#x27;resourceDistribution&#x27;, [])));
     });
   },
@@ -290,8 +279,42 @@ export default Component.extend({
    * @required
    */
 
+  /**
+   * The passed down addDistribution method.
+   *
+   * @method addDistribution
+   * @required
+   */
+
+  /**
+   * The passed down editDistribution method.
+   *
+   * @method editDistribution
+   * @param {Number} index
+   * @required
+   */
+
+  /**
+   * The passed down deleteDistribution method.
+   *
+   * @method deleteDistribution
+   * @param {Number} index
+   * @required
+   */
+
   attributeBindings: [&#x27;data-spy&#x27;],
-  tagName: &#x27;section&#x27;
+  tagName: &#x27;section&#x27;,
+  actions: {
+    editDistribution(index){
+      this.editDistribution(index);
+    },
+    deleteDistribution(index){
+      this.deleteDistribution(index);
+    },
+    addDistribution(){
+      this.addDistribution();
+    },
+  }
 });
 
     </pre>

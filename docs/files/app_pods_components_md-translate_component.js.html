@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,13 +246,17 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
+import {
+  alias,
+  equal,
+  or
+} from &#x27;@ember/object/computed&#x27;;
 import Component from &#x27;@ember/component&#x27;;
 import {
   computed,
   get,
   set
 } from &#x27;@ember/object&#x27;;
-import $ from &#x27;jquery&#x27;;
 import {
   inject as service
 } from &#x27;@ember/service&#x27;;
@@ -283,6 +284,7 @@ export default Component.extend({
   flashMessages: service(),
   mdjson: service(),
   settings: service(),
+  ajax: service(),
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -304,32 +306,34 @@ export default Component.extend({
 
   writer: null,
 
-  writerOptions: [{
-    name: &#x27;FGDC CSDGM&#x27;,
-    value: &#x27;fgdc&#x27;,
-    type: &#x27;application/xml&#x27;,
-    tip: &#x27;Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata&#x27;
-  }, {
-    name: &#x27;HTML&#x27;,
-    value: &#x27;html&#x27;,
-    type: &#x27;text/html&#x27;,
-    tip: &#x27;HTML &quot;human-readable&quot; and printable report of the metadata content&#x27;
-  }, {
-    name: &#x27;ISO 19115-2&#x27;,
-    value: &#x27;iso19115_2&#x27;,
-    type: &#x27;application/xml&#x27;,
-    tip: &#x27;International Standards Organization Geographic Information - Metadata 19115-2:2009&#x27;
-  }, {
-    name: &#x27;ISO 19110&#x27;,
-    value: &#x27;iso19110&#x27;,
-    type: &#x27;application/xml&#x27;,
-    tip: &#x27;International Standards Organization Geographic Information - Feature Catalogue 19110:2005&#x27;
-  }, {
-    name: &#x27;sbJSON&#x27;,
-    value: &#x27;sbJson&#x27;,
-    type: &#x27;application/json&#x27;,
-    tip: &#x27;USGS ScienceBase metadata format&#x27;
-  }],
+  writerOptions: computed(function () {
+    return [{
+      name: &#x27;FGDC CSDGM&#x27;,
+      value: &#x27;fgdc&#x27;,
+      type: &#x27;application/xml&#x27;,
+      tip: &#x27;Federal Geographic Data Committee Content Standard for Digital Geospatial Metadata&#x27;
+    }, {
+      name: &#x27;HTML&#x27;,
+      value: &#x27;html&#x27;,
+      type: &#x27;text/html&#x27;,
+      tip: &#x27;HTML &quot;human-readable&quot; and printable report of the metadata content&#x27;
+    }, {
+      name: &#x27;ISO 19115-2&#x27;,
+      value: &#x27;iso19115_2&#x27;,
+      type: &#x27;application/xml&#x27;,
+      tip: &#x27;International Standards Organization Geographic Information - Metadata 19115-2:2009&#x27;
+    }, {
+      name: &#x27;ISO 19110&#x27;,
+      value: &#x27;iso19110&#x27;,
+      type: &#x27;application/xml&#x27;,
+      tip: &#x27;International Standards Organization Geographic Information - Feature Catalogue 19110:2005&#x27;
+    }, {
+      name: &#x27;sbJSON&#x27;,
+      value: &#x27;sbJson&#x27;,
+      type: &#x27;application/json&#x27;,
+      tip: &#x27;USGS ScienceBase metadata format&#x27;
+    }];
+  }),
 
   result: null,
   errorLevel: null,
@@ -348,6 +352,15 @@ export default Component.extend({
     return type[get(this, &#x27;errorLevel&#x27;)];
   }),
 
+errorSubTitle: computed(&#x27;subTitle&#x27;, function() {
+  let err = get(this, &#x27;errors&#x27;);
+
+  if(err.length) {
+    return get(this, &#x27;errorTitle&#x27;) + &#x27; ocurred during translation.&#x27;;
+  }
+
+  return null;
+}),
   writeObj: computed(&#x27;writer&#x27;, function () {
     return get(this, &#x27;writerOptions&#x27;)
       .findBy(&#x27;value&#x27;, get(this,
@@ -360,41 +373,16 @@ export default Component.extend({
     return obj ? obj.type.split(&#x27;/&#x27;)[1] : null;
   }),
 
-  isJson: computed.equal(&#x27;writerType&#x27;, &#x27;json&#x27;),
+  isJson: equal(&#x27;writerType&#x27;, &#x27;json&#x27;),
   defaultAPI: defaultValues.mdTranslatorAPI,
-  apiURL: computed.or(&#x27;settings.data.mdTranslatorAPI&#x27;, &#x27;defaultAPI&#x27;),
+  apiURL: or(&#x27;settings.data.mdTranslatorAPI&#x27;, &#x27;defaultAPI&#x27;),
   isHtml: computed(&#x27;writerType&#x27;, function () {
     //IE does not supoprt srcdoc, so default to non-html display
     return get(this, &#x27;writerType&#x27;) === &#x27;html&#x27; &amp;&amp; &#x27;srcdoc&#x27; in document.createElement(
       &#x27;iframe&#x27;);
   }),
 
-  messages: computed(&#x27;errors&#x27;, function () {
-    let err = get(this, &#x27;errors&#x27;);
-
-    if(!err) {
-      return null;
-    }
-
-    if(err.length) {
-      set(this, &#x27;subtitle&#x27;, get(this, &#x27;errorTitle&#x27;) +
-        &#x27; ocurred during translation.&#x27;);
-      return err;
-    }
-
-    // if(!err.readerValidationPass) {
-    //   set(this, &#x27;subtitle&#x27;, &#x27;mdJSON Schema validation failed&#x27;);
-    //   return JSON.parse(err.readerValidationMessages[1]);
-    // }
-    //
-    // if(!err.readerExecutionPass) {
-    //   return err.readerExecutionMessages;
-    // }
-    //
-    // if(!err.writerPass) {
-    //   return err.writerMessages;
-    // }
-  }),
+  messages: alias(&#x27;errors&#x27;),
 
   _clearResult() {
     set(this, &#x27;result&#x27;, null);
@@ -403,31 +391,16 @@ export default Component.extend({
     set(this, &#x27;xhrError&#x27;, null);
   },
 
-  // _replacer(key, value) {
-  //   //console.log(arguments);
-  //   if(key===&#x27;contactId&#x27; &amp;&amp; !_contacts.includes(value)){
-  //     _contacts.push(value);
-  //   }
-  //   return value;
-  // },
-
   actions: {
     translate() {
-      let mdjson = this.get(&#x27;mdjson&#x27;);
-      let url = this.get(&#x27;apiURL&#x27;);
-      // let clean = cleaner.clean(get(this,&#x27;model.json&#x27;));
-      // let json = JSON.parse(JSON.stringify(clean, get(this, &#x27;_replacer&#x27;)));
-      // let contacts = this.store.peekAll(&#x27;contact&#x27;).mapBy(&#x27;json&#x27;);
-      //
-      // json.contact = contacts.filter((item)=&gt;{
-      //   return _contacts.includes(get(item, &#x27;contactId&#x27;));
-      // });
-      //console.info(JSON.stringify(json));
+      let mdjson = this.mdjson;
+      let url = this.apiURL;
+      let cmp = this;
 
       this._clearResult();
       set(this, &#x27;isLoading&#x27;, true);
 
-      $.ajax(url, {
+      this.ajax.request(url, {
           type: &#x27;POST&#x27;,
           data: {
             //file: JSON.stringify(cleaner.clean(json)),
@@ -442,28 +415,22 @@ export default Component.extend({
           context: this
         })
         .then(function (response) {
-          //this.sendAction(&quot;select&quot;, response);
-          //console.info(response);
+          set(cmp, &#x27;isLoading&#x27;, false);
 
-          set(this, &#x27;isLoading&#x27;, false);
-
-          // if(response.success) {
-          //   set(this, &#x27;result&#x27;, response.writerOutput);
-          //   //Ember.$(&#x27;.md-translator-preview textarea&#x27;).val(response.data);
-          // } else {
           let level = Math.max(...[response.readerExecutionStatus,
             response.readerStructureStatus,
             response.readerValidationStatus, response.writerStatus
           ].map(itm =&gt; errorLevels[itm]));
 
-          set(this, &#x27;errorLevel&#x27;, level);
-          set(this, &#x27;errors&#x27;, response.readerExecutionMessages.concat(
+          set(cmp, &#x27;errorLevel&#x27;, level);
+          set(cmp, &#x27;errors&#x27;, response.readerExecutionMessages.concat(
             response.readerStructureMessages,
-            response.readerValidationMessages.length ? response.readerValidationMessages[0] : response.readerValidationMessages,
+            response.readerValidationMessages.length ? response.readerValidationMessages[
+              0] : response.readerValidationMessages,
             response.writerMessages).map(itm =&gt; itm.split(&#x27;:&#x27;)));
-          set(this, &#x27;result&#x27;, response.writerOutput);
+          set(cmp, &#x27;result&#x27;, response.writerOutput);
           if(!response.success) {
-            get(this, &#x27;flashMessages&#x27;)
+            get(cmp, &#x27;flashMessages&#x27;)
               .danger(&#x27;Translation error!&#x27;);
           }
         }, (response) =&gt; {
@@ -471,10 +438,10 @@ export default Component.extend({
             &#x60;mdTranslator Server error:
           ${response.status}: ${response.statusText}&#x60;;
 
-          set(this, &#x27;errorLevel&#x27;, 3);
-          set(this, &#x27;isLoading&#x27;, false);
-          set(this, &#x27;xhrError&#x27;, error);
-          get(this, &#x27;flashMessages&#x27;)
+          set(cmp, &#x27;errorLevel&#x27;, 3);
+          set(cmp, &#x27;isLoading&#x27;, false);
+          set(cmp, &#x27;xhrError&#x27;, error);
+          get(cmp, &#x27;flashMessages&#x27;)
             .danger(error);
         });
 
@@ -516,7 +483,8 @@ export default Component.extend({
       return errorClasses[errorLevels[level]] || &#x27;primary&#x27;;
     },
     formatMessage(message) {
-      return message ? message.trim().replace(/^([A-Z]{2,})/g, match =&gt; match.toLowerCase()) :
+      return message ? message.trim().replace(/^([A-Z]{2,})/g, match =&gt;
+          match.toLowerCase()) :
         &#x27;context not provided&#x27;
     }
   }

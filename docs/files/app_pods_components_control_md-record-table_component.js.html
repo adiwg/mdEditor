@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,19 +246,12 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import { computed, get } from &#x27;@ember/object&#x27;;
 import Table from &#x27;mdeditor/pods/components/md-models-table/component&#x27;;
 import {
   warn
 } from &#x27;@ember/debug&#x27;;
-import {
-  isArray
-} from &#x27;@ember/array&#x27;;
-const {
-  get,
-  computed,
-  A
-} = Ember;
+import { isArray, A } from &#x27;@ember/array&#x27;;
 
 export default Table.extend({
   /**
@@ -339,13 +329,17 @@ export default Table.extend({
    * @type {Object}
    * @required
    */
-  checkColumn: {
-    component: &#x27;components/md-models-table/components/check&#x27;,
-    disableFiltering: true,
-    mayBeHidden: false,
-    componentForSortCell: &#x27;components/md-models-table/components/check-all&#x27;,
-    className: &#x27;text-center&#x27;
-  },
+  checkColumn: computed(function () {
+
+    return {
+      component: &#x27;components/md-models-table/components/check&#x27;,
+      disableFiltering: true,
+      mayBeHidden: false,
+      componentForSortCell: &#x27;components/md-models-table/components/check-all&#x27;,
+      className: &#x27;text-center&#x27;
+    };
+  }),
+
 
   /**
    * Column configs for the action column.
@@ -357,7 +351,7 @@ export default Table.extend({
    * @required
    */
   actionsColumn: computed(&#x27;allActions&#x27;, function () {
-    let all = this.get(&#x27;allActions&#x27;);
+    let all = this.allActions;
 
     return {
       title: &#x27;Actions&#x27;,
@@ -365,7 +359,8 @@ export default Table.extend({
         &#x27;control/md-record-table/buttons&#x27; : &#x27;control/md-record-table/buttons/show&#x27;,
       disableFiltering: !all,
       componentForFilterCell: all ?
-        &#x27;control/md-record-table/buttons/filter&#x27; : null
+        &#x27;control/md-record-table/buttons/filter&#x27; : null,
+      showSlider: this.showSlider
     };
   }),
 
@@ -391,9 +386,9 @@ export default Table.extend({
   multipleSelect: true,
   selectedItems: computed({
     get() {
-      let prop = this.get(&#x27;selectProperty&#x27;);
+      let prop = this.selectProperty;
 
-      return this.get(&#x27;data&#x27;)
+      return this.data
         .filterBy(prop)
         .toArray();
 
@@ -425,11 +420,11 @@ export default Table.extend({
     clickOnRow(idx, rec) {
       this._super(...arguments);
 
-      let prop = this.get(&#x27;selectProperty&#x27;);
+      let prop = this.selectProperty;
       let sel = get(this, &#x27;selectedItems&#x27;);
 
       rec.toggleProperty(prop);
-      this.get(&#x27;select&#x27;)(rec, idx, sel);
+      this.select(rec, idx, sel);
     },
 
     toggleAllSelection() {
@@ -448,7 +443,7 @@ export default Table.extend({
       this.userInteractionObserver();
 
       let selected = get(this, &#x27;selectedItems&#x27;);
-      let prop = this.get(&#x27;selectProperty&#x27;);
+      let prop = this.selectProperty;
       //let data = get(this, &#x27;data&#x27;);
 
       if(get(selected, &#x27;length&#x27;)) {
@@ -456,7 +451,7 @@ export default Table.extend({
       } else {
         data.setEach(prop, false);
       }
-      this.get(&#x27;select&#x27;)(null, null, selected);
+      this.select(null, null, selected);
     }
   }
 });

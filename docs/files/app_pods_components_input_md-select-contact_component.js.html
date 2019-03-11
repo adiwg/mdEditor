@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -254,13 +251,10 @@
  * @submodule components-input
  */
 
-import Ember from &#x27;ember&#x27;;
-import Select from &#x27;../md-codelist/component&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
 
-const {
-  inject,
-  computed
-} = Ember;
+import { computed } from &#x27;@ember/object&#x27;;
+import Select from &#x27;../md-codelist/component&#x27;;
 
 export default Select.extend({
   /**
@@ -279,7 +273,7 @@ export default Select.extend({
    * @type {Ember.Service}
    * @readOnly
    */
-  contacts: inject.service(),
+  contacts: service(),
 
   /**
    * The default CSS classnames
@@ -345,13 +339,13 @@ export default Select.extend({
    * @requires contacts.[]
    */
   mapped: computed(&#x27;contacts.mapped.[]&#x27;,&#x27;contactType&#x27;, function () {
-    let type = this.get(&#x27;contactType&#x27;);
+    let type = this.contactType;
 
     if(![&#x27;individuals&#x27;,&#x27;organizations&#x27;].includes(type)){
-      return this.get(&#x27;contacts&#x27;).get(&#x27;contactsCodes&#x27;);
+      return this.contacts.get(&#x27;contactsCodes&#x27;);
     }
 
-    return this.get(&#x27;contacts&#x27;)
+    return this.contacts
       .get(type + &#x27;Codes&#x27;);
   })
 });

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -254,9 +251,12 @@
  * @submodule components-input
  */
 
-import Ember from &#x27;ember&#x27;;
+import EmberObject, { computed } from &#x27;@ember/object&#x27;;
 
-export default Ember.Component.extend({
+import { inject as service } from &#x27;@ember/service&#x27;;
+import Component from &#x27;@ember/component&#x27;;
+
+export default Component.extend({
 
   /**
    * A select list control for displaying and selecting thesaurus entries from
@@ -266,7 +266,7 @@ export default Ember.Component.extend({
    * @constructor
    */
 
-  keyword: Ember.inject.service(),
+  keyword: service(),
 
   /**
    * This method is called after the thesaurus selection is updated. It should be
@@ -278,17 +278,17 @@ export default Ember.Component.extend({
    */
   selectThesaurus() {},
 
-  thesaurusList: Ember.computed(&#x27;keyword.thesaurus.[]&#x27;, function () {
-    let list = this.get(&#x27;keyword&#x27;)
+  thesaurusList: computed(&#x27;keyword.thesaurus.[]&#x27;, function () {
+    let list = this.keyword
       .thesaurus
       .map((k) =&gt; {
-        return Ember.Object.create({
+        return EmberObject.create({
           id: k.citation.identifier[0].identifier,
           label: k.label || k.citation.title || &#x27;Keywords&#x27;
         });
       });
 
-    list.unshift(Ember.Object.create({
+    list.unshift(EmberObject.create({
       id: &#x27;custom&#x27;,
       label: &#x27;Custom Thesaurus&#x27;
     }));
@@ -296,10 +296,10 @@ export default Ember.Component.extend({
   }),
   actions: {
     update(id, thesaurus) {
-      let selected = this.get(&#x27;keyword&#x27;)
+      let selected = this.keyword
         .findById(id);
 
-      this.get(&#x27;selectThesaurus&#x27;)(selected, thesaurus);
+      this.selectThesaurus(selected, thesaurus);
     }
   }
 });

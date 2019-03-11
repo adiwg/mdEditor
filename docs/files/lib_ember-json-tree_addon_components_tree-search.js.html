@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,15 +246,11 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import Component from &#x27;@ember/component&#x27;;
+import { isArray } from &#x27;@ember/array&#x27;;
+import { set, computed } from &#x27;@ember/object&#x27;;
+import { run } from &#x27;@ember/runloop&#x27;;
 import layout from &#x27;../templates/components/tree-search&#x27;;
-
-const {
-  Component,
-  isArray,
-  set,
-  run
-} = Ember;
 
 export default Component.extend({
   /**
@@ -276,10 +269,10 @@ export default Component.extend({
   select(model) {
     return model;
   },
-  overLimit: Ember.computed(&#x27;actualTotal&#x27;, &#x27;limit&#x27;, function () {
+  overLimit: computed(&#x27;actualTotal&#x27;, &#x27;limit&#x27;, function () {
     return this.get(&#x27;actualTotal&#x27;) &gt; this.get(&#x27;limit&#x27;);
   }),
-  searchResult: Ember.computed(&#x27;searchString&#x27;, &#x27;exactMatch&#x27;, function () {
+  searchResult: computed(&#x27;searchString&#x27;, &#x27;exactMatch&#x27;, function () {
     let pattern = this.get(&#x27;searchString&#x27;);
     let result = [];
     let limit = this.get(&#x27;limit&#x27;);
@@ -338,7 +331,7 @@ export default Component.extend({
       }
 
       if(!cur.path || cur.path.indexOf(cur) === -1) {
-        set(cur, &#x27;path&#x27;, Ember.isArray(cur.path) ? cur.path.concat([cur]) :
+        set(cur, &#x27;path&#x27;, isArray(cur.path) ? cur.path.concat([cur]) :
           [cur]);
       }
     }

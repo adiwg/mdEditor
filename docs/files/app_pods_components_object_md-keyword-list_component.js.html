@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,15 +246,17 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
+import Component from &#x27;@ember/component&#x27;;
+import { computed } from &#x27;@ember/object&#x27;;
+import $ from &#x27;jquery&#x27;;
+
 /**
  * @module mdeditor
  * @submodule components-object
  */
 
-import Ember from &#x27;ember&#x27;;
-
-export default Ember.Component.extend({
-  readOnly: Ember.computed(&#x27;model.thesaurus.identifier.0.identifier&#x27;,
+export default Component.extend({
+  readOnly: computed(&#x27;model.thesaurus.identifier.0.identifier&#x27;,
     function () {
       return this.get(&#x27;model.thesaurus.identifier.0.identifier&#x27;) !==
         &#x27;custom&#x27;;
@@ -265,11 +264,14 @@ export default Ember.Component.extend({
 
   actions: {
     addKeyword(model) {
-      this.get(&#x27;addKeyword&#x27;)(model);
+      this.addKeyword(model);
     },
     deleteKeyword(model, object) {
-      this.get(&#x27;deleteKeyword&#x27;)(model, object);
-    }
+      this.deleteKeyword(model, object);
+    },
+    hideThesaurus(el) {
+      $(el).closest(&#x27;.md-keywords-container&#x27;).toggleClass(&#x27;hide-thesaurus&#x27;);
+    },
   }
 });
 

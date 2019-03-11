@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,15 +246,9 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
-
-const {
-  computed,
-  inject,
-  LinkComponent,
-  get,
-  set
-} = Ember;
+import { inject as service } from &#x27;@ember/service&#x27;;
+import LinkComponent from &#x27;@ember/routing/link-component&#x27;;
+import { set, get, computed } from &#x27;@ember/object&#x27;;
 
 export default LinkComponent.extend({
   /**
@@ -272,7 +263,7 @@ export default LinkComponent.extend({
 
   didReceiveAttrs() {
     //Inline link title comes first, if present.
-    let block = !this.get(&#x27;block&#x27;) ? [this.get(&#x27;contact.title&#x27;)] : [];
+    let block = !this.block ? [this.get(&#x27;contact.title&#x27;)] : [];
     let params = get(this, &#x27;params&#x27;);
     let add = block.concat([&#x27;contact.show&#x27;, this.get(&#x27;contact.id&#x27;)]);
 
@@ -281,7 +272,7 @@ export default LinkComponent.extend({
     this._super(...arguments);
   },
 
-  store: inject.service(),
+  store: service(),
 
   /**
    * The contacts service
@@ -290,7 +281,7 @@ export default LinkComponent.extend({
    * @type {Ember.Service}
    * @readOnly
    */
-  contacts: inject.service(),
+  contacts: service(),
 
   /**
    * The contact identifier
@@ -318,9 +309,9 @@ export default LinkComponent.extend({
    * @requires contactId
    */
   contact: computed(&#x27;contactId&#x27;, function () {
-      let rec = this.get(&#x27;store&#x27;)
+      let rec = this.store
         .peekAll(&#x27;contact&#x27;)
-        .findBy(&#x27;json.contactId&#x27;, this.get(&#x27;contactId&#x27;));
+        .findBy(&#x27;json.contactId&#x27;, this.contactId);
 
       return rec;
     })

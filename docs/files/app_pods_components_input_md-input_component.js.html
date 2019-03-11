@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -254,15 +251,12 @@
  * @submodule components-input
  */
 
-import Ember from &#x27;ember&#x27;;
+import { alias, not, notEmpty, and, or } from &#x27;@ember/object/computed&#x27;;
 
-const {
-  Component,
-  defineProperty,
-  computed,
-  isBlank,
-  assert
-} = Ember;
+import Component from &#x27;@ember/component&#x27;;
+import { computed, defineProperty } from &#x27;@ember/object&#x27;;
+import { isBlank } from &#x27;@ember/utils&#x27;;
+import { assert, debug } from &#x27;@ember/debug&#x27;;
 
 export default Component.extend({
   /**
@@ -286,8 +280,8 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = this.get(&#x27;model&#x27;);
-    let valuePath = this.get(&#x27;valuePath&#x27;);
+    let model = this.model;
+    let valuePath = this.valuePath;
 
     if(isBlank(model) !== isBlank(valuePath)) {
       assert(
@@ -297,14 +291,14 @@ export default Component.extend({
 
     if(!isBlank(model)) {
       if(this.get(&#x60;model.${valuePath}&#x60;) === undefined) {
-        Ember.debug(
+        debug(
           &#x60;model.${valuePath} is undefined in ${this.toString()}.&#x60;
         );
 
         //Ember.run.once(()=&gt;model.set(valuePath, &quot;&quot;));
       }
 
-      if(this.get(&#x27;type&#x27;) === &#x27;number&#x27;) {
+      if(this.type === &#x27;number&#x27;) {
         let attribute = &#x60;model.${valuePath}&#x60;;
 
         defineProperty(this, &#x27;value&#x27;, computed(attribute, {
@@ -315,7 +309,7 @@ export default Component.extend({
           },
 
           set(key, value) {
-            let parse = this.get(&#x27;step&#x27;) ? parseFloat : parseInt;
+            let parse = this.step ? parseFloat : parseInt;
 
             this.set(attribute, parse(value, 10));
 
@@ -323,55 +317,54 @@ export default Component.extend({
           }
         }));
       } else {
-        defineProperty(this, &#x27;value&#x27;, computed.alias(&#x60;model.${valuePath}&#x60;));
+        defineProperty(this, &#x27;value&#x27;, alias(&#x60;model.${valuePath}&#x60;));
       }
 
-      defineProperty(this, &#x27;validation&#x27;, computed.alias(
+      defineProperty(this, &#x27;validation&#x27;, alias(
           &#x60;model.validations.attrs.${valuePath}&#x60;)
         .readOnly());
 
       defineProperty(this, &#x27;required&#x27;, computed(
-          &#x27;validation.options.presence.presence&#x27;,
-          &#x27;validation.options.presence.disabled&#x27;,
+          &#x27;validation.options.presence{presence,disabled}&#x27;,
           &#x27;disabled&#x27;,
           function() {
-            return !this.get(&#x27;disabled&#x27;) &amp;&amp;
+            return !this.disabled &amp;&amp;
               this.get(&#x27;validation.options.presence.presence&#x27;) &amp;&amp;
               !this.get(&#x27;validation.options.presence.disabled&#x27;);
           })
         .readOnly());
 
-      defineProperty(this, &#x27;notValidating&#x27;, computed.not(
+      defineProperty(this, &#x27;notValidating&#x27;, not(
           &#x27;validation.isValidating&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;hasContent&#x27;, computed.notEmpty(&#x27;value&#x27;)
+      defineProperty(this, &#x27;hasContent&#x27;, notEmpty(&#x27;value&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;hasWarnings&#x27;, computed.notEmpty(
+      defineProperty(this, &#x27;hasWarnings&#x27;, notEmpty(
           &#x27;validation.warnings&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;isValid&#x27;, computed.and(&#x27;hasContent&#x27;,
+      defineProperty(this, &#x27;isValid&#x27;, and(&#x27;hasContent&#x27;,
           &#x27;validation.isTruelyValid&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;shouldDisplayValidations&#x27;, computed.or(
+      defineProperty(this, &#x27;shouldDisplayValidations&#x27;, or(
           &#x27;showValidations&#x27;, &#x27;didValidate&#x27;,
           &#x27;hasContent&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;showErrorClass&#x27;, computed.and(&#x27;notValidating&#x27;,
+      defineProperty(this, &#x27;showErrorClass&#x27;, and(&#x27;notValidating&#x27;,
           &#x27;showErrorMessage&#x27;,
           &#x27;hasContent&#x27;, &#x27;validation&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;showErrorMessage&#x27;, computed.and(
+      defineProperty(this, &#x27;showErrorMessage&#x27;, and(
           &#x27;shouldDisplayValidations&#x27;,
           &#x27;validation.isInvalid&#x27;)
         .readOnly());
 
-      defineProperty(this, &#x27;showWarningMessage&#x27;, computed.and(
+      defineProperty(this, &#x27;showWarningMessage&#x27;, and(
           &#x27;shouldDisplayValidations&#x27;,
           &#x27;hasWarnings&#x27;, &#x27;isValid&#x27;)
         .readOnly());

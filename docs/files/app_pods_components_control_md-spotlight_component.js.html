@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,14 +246,11 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
 import ModalDialog from &#x27;ember-modal-dialog/components/modal-dialog&#x27;;
 
-const {
-  inject: {
-    service
-  }
-} = Ember;
+const containerClassNames = [&#x27;md-spotlight-modal&#x27;];
+const overlayClassNames = [&#x27;md-modal-overlay&#x27;];
 
 export default ModalDialog.extend({
   /**
@@ -278,11 +272,12 @@ export default ModalDialog.extend({
    */
   spotlight: service(),
 
-  containerClassNames: [&#x27;md-spotlight-modal&#x27;],
-  overlayClassNames: [&#x27;md-modal-overlay&#x27;],
+  containerClassNames: containerClassNames,
+  overlayClassNames: overlayClassNames,
   targetAttachment: &#x27;none&#x27;,
   translucentOverlay: true,
   clickOutsideToClose: false,
+  attachment: &#x27;middle center&#x27;,
   tetherTarget: &#x27;viewport&#x27;,
 
   // /**
@@ -316,12 +311,12 @@ export default ModalDialog.extend({
   actions: {
     onClose() {
       this._super(...arguments);
-      this.get(&#x27;spotlight&#x27;).close();
+      this.spotlight.close();
     },
 
     onClickOverlay() {
       this._super(...arguments);
-      this.get(&#x27;spotlight&#x27;).close();
+      this.spotlight.close();
     }
   }
 });

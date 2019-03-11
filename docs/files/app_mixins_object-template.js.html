@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -254,16 +251,12 @@
  * @submodule mixins
  */
 
-import Ember from &#x27;ember&#x27;;
+import Mixin from &#x27;@ember/object/mixin&#x27;;
 
-const {
-  Mixin,
-  isArray,
-  getOwner,
-  A,
-  merge,
-  run
-} = Ember;
+import { getOwner } from &#x27;@ember/application&#x27;;
+import { A, isArray } from &#x27;@ember/array&#x27;;
+import { merge } from &#x27;@ember/polyfills&#x27;;
+import { run } from &#x27;@ember/runloop&#x27;;
 
 export default Mixin.create({
   /**
@@ -285,7 +278,7 @@ export default Mixin.create({
    */
   applyTemplate(object, defaults) {
     let value = object || {};
-    let Template = this.get(&#x27;templateClass&#x27;);
+    let Template = this.templateClass;
 
     if(Template) {
       let owner = getOwner(this);
@@ -309,7 +302,7 @@ export default Mixin.create({
     let property = this.get(propertyName);
 
     if(isArray(property)) {
-      let Template = this.get(&#x27;templateClass&#x27;);
+      let Template = this.templateClass;
       if(Template) {
         let owner = getOwner(this);
 

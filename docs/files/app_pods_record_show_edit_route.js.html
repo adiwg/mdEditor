@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,7 +246,9 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
+import Route from &#x27;@ember/routing/route&#x27;;
+import { get } from &#x27;@ember/object&#x27;;
 import HashPoll from &#x27;mdeditor/mixins/hash-poll&#x27;;
 import {
   once
@@ -258,16 +257,14 @@ import {
   getOwner
 } from &#x27;@ember/application&#x27;;
 
-const {
-  inject,
-  Route,
-  get
-} = Ember;
-
 export default Route.extend(HashPoll, {
-  breadCrumb: {
-    title: &#x27;Edit&#x27;,
-    linkable: false
+  init() {
+    this._super(...arguments);
+
+    this.breadCrumb = {
+      title: &#x27;Edit&#x27;,
+      linkable: false
+    };
   },
 
   /**
@@ -275,7 +272,7 @@ export default Route.extend(HashPoll, {
    *
    * @return {Ember.Service} profile
    */
-  profile: inject.service(),
+  profile: service(),
 
   /**
    * The route activate hook, sets the profile.
@@ -283,7 +280,7 @@ export default Route.extend(HashPoll, {
   afterModel(model) {
     this._super(...arguments);
 
-    this.get(&#x27;profile&#x27;)
+    this.profile
       .set(&#x27;active&#x27;, model.get(&#x27;profile&#x27;));
   },
 
@@ -315,7 +312,7 @@ export default Route.extend(HashPoll, {
      * @param  {String} profile The new profile.
      */
     updateProfile(profile) {
-      this.get(&#x27;profile&#x27;)
+      this.profile
         .set(&#x27;active&#x27;, profile);
       this.modelFor(&#x27;record.show.edit&#x27;)
         .save();
@@ -326,7 +323,7 @@ export default Route.extend(HashPoll, {
       model
         .save()
         .then(() =&gt; {
-          get(this, &#x27;flashMessages&#x27;)
+          this.flashMessages
             .success(&#x60;Saved Record: ${model.get(&#x27;title&#x27;)}&#x60;);
         });
     },
@@ -368,7 +365,7 @@ export default Route.extend(HashPoll, {
             });
           }
 
-          get(this, &#x27;flashMessages&#x27;)
+          this.flashMessages
             .warning(message);
         }
 
@@ -389,7 +386,7 @@ export default Route.extend(HashPoll, {
               controller.set(&#x27;cancelScope&#x27;, null);
             });
           }
-          get(this, &#x27;flashMessages&#x27;)
+          this.flashMessages
             .warning(message);
         });
     },

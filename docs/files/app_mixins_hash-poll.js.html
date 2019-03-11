@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -254,131 +251,60 @@
  * @submodule mixins
  */
 
-import Ember from &#x27;ember&#x27;;
+import {
+  inject as service
+} from &#x27;@ember/service&#x27;;
+
+import {
+  Promise
+} from &#x27;rsvp&#x27;;
+import Mixin from &#x27;@ember/object/mixin&#x27;;
+import {
+  on
+} from &#x27;@ember/object/evented&#x27;;
+import {
+  task,
+  timeout
+} from &#x27;ember-concurrency&#x27;;
 
 export const pollInterval = 750; // time in milliseconds
 
-const {
-  Mixin,
-  //computed,
-  inject,
-  on
-} = Ember;
-
 export default Mixin.create({
-  settings: inject.service(),
-
-  // autoSave: computed(&#x27;settings.data.autoSave&#x27;, function () {
-  //   return this.get(&#x27;settings&#x27;)
-  //     .get(&#x27;data.autoSave&#x27;);
-  // }),
+  settings: service(),
 
   afterModel(model) {
     this._super(...arguments);
 
-    if (this.get(&#x27;settings.data.autoSave&#x27;)) {
+    if(this.get(&#x27;settings.data.autoSave&#x27;)) {
       model.set(&#x27;jsonRevert&#x27;, model.serialize().data.attributes.json);
     }
 
-    let hashPoller = this.get(&#x27;hashPoller&#x27;);
-
-    // Make sure we only create one poller instance.
-    if (!hashPoller) {
-      hashPoller = this.get(&#x27;pollboy&#x27;)
-        .add(this, this.onPoll, pollInterval);
-      this.set(&#x27;hashPoller&#x27;, hashPoller);
-    }
+    this.pollTask.perform();
 
     return model;
   },
 
-  deactivatePoll: on(&#x27;deactivate&#x27;, function() {
-    // if(this.get(&#x27;autoSave&#x27;)) {
-    //   return;
-    // }
-
-    const hashPoller = this.get(&#x27;hashPoller&#x27;);
-
-    this.get(&#x27;pollboy&#x27;)
-      .remove(hashPoller);
-    this.set(&#x27;hashPoller&#x27;, null);
+  deactivatePoll: on(&#x27;deactivate&#x27;, function () {
+    this.pollTask.cancelAll();
   }),
 
-  onPoll() {
+  poll() {
     const model = this.currentRouteModel();
 
-    return new Ember.RSVP.Promise(function(resolve) {
-      if (model) {
+    return new Promise(function (resolve) {
+      if(model) {
         model.notifyPropertyChange(&#x27;currentHash&#x27;);
       }
       resolve(true);
     });
-  }
+  },
 
-  // /**
-  //  * Whether to compare the model hash on transition.
-  //  *
-  //  * @property checkHash
-  //  * @type {Boolean}
-  //  * @default true
-  //  */
-  // checkHash: true,
-  //
-  //
-  //
-  //
-  //
-  // /**
-  //  * Compare thw current hash with the cached one.
-  //  *
-  //  * @method compareHash
-  //  * @returns {Boolean} Boolean value indicating if hashes are equivalent
-  //  */
-  // compareHash: function() {
-  //   let model = this.currentRouteModel();
-  //
-  //   let oldHash = this.get(&#x27;modelHash&#x27;);
-  //   let newHash = this.hashObject(model.get(
-  //     &#x27;json&#x27;));
-  //
-  //   if (oldHash === newHash &amp;&amp; !model.get(&#x27;hasDirtyAttributes&#x27;)) {
-  //     return true;
-  //   }
-  //
-  //   return false;
-  // },
-  //
-  // actions: {
-  //   confirmTransition() {
-  //     let me = this;
-  //
-  //     me.currentRouteModel().reload();
-  //
-  //     this.set(&#x27;checkHash&#x27;, false);
-  //     this.controller.get(&#x27;pausedTransition&#x27;)
-  //       .retry().then(() =&gt; {
-  //         me.set(&#x27;checkHash&#x27;, true);
-  //       });
-  //   },
-  //   cancelTransition() {
-  //     this.controller
-  //       .set(&#x27;pausedTransition&#x27;, null);
-  //   },
-  //   willTransition(transition) {
-  //     if (this.get(&#x27;settings&#x27;).get(&#x27;data.autoSave&#x27;)) {
-  //       this.currentRouteModel().save();
-  //       return true;
-  //     }
-  //     if (!this.get(&#x27;checkHash&#x27;) || this.compareHash()) {
-  //       this.controller
-  //         .set(&#x27;pausedTransition&#x27;, null);
-  //       return true;
-  //     } else {
-  //       transition.abort();
-  //       this.controller.set(&#x27;pausedTransition&#x27;, transition);
-  //     }
-  //   }
-  // }
+  pollTask: task(function* () {
+    while(true) {
+      yield this.poll();
+      yield timeout(pollInterval);
+    }
+  }).restartable()
 });
 
     </pre>

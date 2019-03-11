@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/da81ab74" target="_blank">
-                                  Tag: 0.6.1.da81ab74
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/55944267" target="_blank">
+                                  Tag: 0.7.0.55944267
                                 </a>
                             </h4>
                         </div>
@@ -169,9 +169,6 @@
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
-                                        <a href="../classes/md-inputs.html">md-inputs</a>
-                                    </li>
-                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
@@ -249,24 +246,20 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import Ember from &#x27;ember&#x27;;
+import { gt } from &#x27;@ember/object/computed&#x27;;
+import Component from &#x27;@ember/component&#x27;;
+import EmberObject, {
+  get,
+  observer,
+  computed
+} from &#x27;@ember/object&#x27;;
+import { typeOf, isEmpty } from &#x27;@ember/utils&#x27;;
+import { getOwner } from &#x27;@ember/application&#x27;;
+import { A } from &#x27;@ember/array&#x27;;
+import $ from &#x27;jquery&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
 import Template from &#x27;mdeditor/mixins/object-template&#x27;;
 import InViewportMixin from &#x27;ember-in-viewport&#x27;;
-
-const {
-  computed,
-  Component,
-  observer,
-  get,
-  isEmpty,
-  typeOf,
-  getOwner,
-  A,
-  $,
-  inject: {
-    service
-  }
-} = Ember;
 
 export default Component.extend(InViewportMixin, Template, {
 
@@ -486,8 +479,8 @@ export default Component.extend(InViewportMixin, Template, {
    * @requires isCollapsed
    */
   collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;items.[]&#x27;, function () {
-    let isCollapsed = this.get(&#x27;isCollapsed&#x27;);
-    let value = this.get(&#x27;items&#x27;);
+    let isCollapsed = this.isCollapsed;
+    let value = this.items;
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
@@ -513,11 +506,11 @@ export default Component.extend(InViewportMixin, Template, {
   }),
 
   panelId: computed(&#x27;items.@each.val&#x27;, &#x27;editing&#x27;, function () {
-    return &#x27;panel-&#x27; + this.get(&#x27;elementId&#x27;);
+    return &#x27;panel-&#x27; + this.elementId;
   }),
 
   btnSize: computed(&#x27;verticalButtons&#x27;, function () {
-    return this.get(&#x27;verticalButtons&#x27;) ? &#x27;md&#x27; : &#x27;xs&#x27;;
+    return this.verticalButtons ? &#x27;md&#x27; : &#x27;xs&#x27;;
   }),
 
   /**
@@ -529,7 +522,7 @@ export default Component.extend(InViewportMixin, Template, {
    * @category computed
    * @requires items.length
    */
-  showFooter: computed.gt(&#x27;items.length&#x27;, 5),
+  showFooter: gt(&#x27;items.length&#x27;, 5),
 
   /*citems: computed(&#x27;items.@each.val&#x27;, function () {
     let i = this.get(&#x27;items&#x27;)
@@ -540,13 +533,13 @@ export default Component.extend(InViewportMixin, Template, {
   }),*/
 
   attrArray: computed(&#x27;attributes&#x27;, function () {
-    let attr = this.get(&#x27;attributes&#x27;);
+    let attr = this.attributes;
 
     return attr ? attr.split(&#x27;,&#x27;) : null;
   }),
 
   attrTitleArray: computed(&#x27;attrArray&#x27;, function () {
-    return this.get(&#x27;attrArray&#x27;)
+    return this.attrArray
       .map(function (item) {
         return item.trim()
           .split(&#x27;.&#x27;)
@@ -559,9 +552,9 @@ export default Component.extend(InViewportMixin, Template, {
   editing: false,
 
   scrollTo(el) {
-    let offset = this.get(&#x27;offset&#x27;);
+    let offset = this.offset;
 
-    if(this.get(&#x27;viewportEntered&#x27;)) {
+    if(this.viewportEntered) {
       // el.scrollIntoView({
       //   block: &quot;end&quot;,
       //   behavior: &quot;smooth&quot;
@@ -582,13 +575,13 @@ export default Component.extend(InViewportMixin, Template, {
     let panel = this.$(&#x27;&gt; .md-object-table &gt; .panel-collapse&#x27;);
     let table = panel.find(
       &#x27;&gt; .panel-body &gt; table, &gt; .panel-body &gt; .object-editor&#x27;);
-    let items = this.get(&#x27;items&#x27;);
-    let editing = this.get(&#x27;editing&#x27;);
-    let el = this.get(&#x27;element&#x27;);
+    let items = this.items;
+    let editing = this.editing;
+    let el = this.element;
     let comp = this;
 
     if(editing === &#x27;adding&#x27;) {
-      items.pushObject(this.get(&#x27;saveItem&#x27;));
+      items.pushObject(this.saveItem);
     }
 
     if(editing === false &amp;&amp; items.length) {
@@ -634,28 +627,28 @@ export default Component.extend(InViewportMixin, Template, {
     },
 
     addItem: function () {
-      const Template = this.get(&#x27;templateClass&#x27;);
+      const Template = this.templateClass;
       const owner = getOwner(this);
-      const spotlight = this.get(&#x27;spotlight&#x27;);
+      const spotlight = this.spotlight;
 
       let itm = typeOf(Template) === &#x27;class&#x27; ? Template.create(owner.ownerInjection()) :
-        Ember.Object.create({});
+        EmberObject.create({});
 
       this.set(&#x27;saveItem&#x27;, itm);
       this.set(&#x27;editing&#x27;, &#x27;adding&#x27;);
-      spotlight.setTarget(this.get(&#x27;elementId&#x27;));
+      spotlight.setTarget(this.elementId);
     },
 
     editItem: function (items, index) {
-      const spotlight = this.get(&#x27;spotlight&#x27;);
+      const spotlight = this.spotlight;
 
       this.set(&#x27;saveItem&#x27;, items.objectAt(index));
       this.set(&#x27;editing&#x27;, &#x27;editing&#x27;);
-      spotlight.setTarget(this.get(&#x27;elementId&#x27;));
+      spotlight.setTarget(this.elementId);
     },
 
     cancelEdit: function () {
-      const spotlight = this.get(&#x27;spotlight&#x27;);
+      const spotlight = this.spotlight;
 
       this.set(&#x27;editing&#x27;, false);
       spotlight.close();
