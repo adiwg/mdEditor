@@ -2785,7 +2785,7 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-"buildify@github:powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7":
+buildify@powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7:
   version "0.4.0"
   resolved "https://codeload.github.com/powmedia/buildify/tar.gz/20458a121411f759dcc5ec1b441695eb7fc2b3b7"
   dependencies:
@@ -4765,13 +4765,13 @@ ember-modal-dialog@^2.3.0:
     ember-ignore-children-helper "^1.0.0"
     ember-wormhole "^0.5.1"
 
-ember-models-table@~2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/ember-models-table/-/ember-models-table-2.8.0.tgz#59655df73ceb9edced4b6c814fc4f0454bc8ea83"
-  integrity sha512-7nieZBhmFTJam70cKnxe139h+ektV4EcTvxVE7+hQMF84FB2c/7n67yVCmQCoD7VI69HS4dnbacVOAOzwnjdlg==
+ember-models-table@~2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/ember-models-table/-/ember-models-table-2.9.0.tgz#e34a800f217de28d63769b7f9a6efa19beea2a24"
+  integrity sha512-coPg2PLq3B2LtZyBtOjfVbjPfv+SW8+TQEzsiW5JuWbBzuQj9+h1wV5Of4yOiT+EgpcWvzin8C39ausJ0FZ0MQ==
   dependencies:
-    ember-cli-babel "^6.17.2"
-    ember-cli-htmlbars "^2.0.1"
+    ember-cli-babel "^7.1.2"
+    ember-cli-htmlbars "^3.0.0"
     ember-composable-helpers "^2.0.3"
 
 ember-moment@^7.8.0:
@@ -5147,7 +5147,7 @@ entities@~1.1.1:
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.2.tgz#bdfa735299664dfafd34529ed4f8522a275fea56"
   integrity sha512-f2LZMYl1Fzu7YSBKg+RoROelpOaNrcGmE9AZubeDfrCEia483oW4MI4VyFd5VNHIgQ/7qm1I0wUHK1eJnn2y2w==
 
-"eonasdan-bootstrap-datetimepicker@github:btecu/bootstrap-datetimepicker":
+eonasdan-bootstrap-datetimepicker@btecu/bootstrap-datetimepicker:
   version "4.17.47"
   resolved "https://codeload.github.com/btecu/bootstrap-datetimepicker/tar.gz/b949af947aa32490e548bab089893c86cef3d8f1"
 

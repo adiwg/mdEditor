@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { copy } from '@ember/object/internals';
+import { copy } from 'ember-copy';
 
 export default Route.extend({
   //breadCrumb: {},

@@ -345,8 +345,9 @@ export default Route.extend(ScrollTo, {
 
     readFromUri() {
       let uri = this.controller.get('importUri');
+      let controller = this.controller;
 
-      set(this.controller, 'isLoading', true);
+      set(controller, 'isLoading', true);
 
       this.ajax.request(uri, {
           type: 'GET',
@@ -385,22 +386,22 @@ export default Route.extend(ScrollTo, {
                 return false;
               })
               .finally(() => {
-                set(this.controller, 'isLoading', false);
+                set(controller, 'isLoading', false);
                 $('.md-import-picker input:file')
                   .val('');
               });
           } else {
-            set(this.controller, 'errors', response.messages);
-            get(this, 'flashMessages')
+            set(controller, 'errors', response.messages);
+            get(controller, 'flashMessages')
               .danger('Import error!');
           }
         }, (response) => {
           let error =
             ` Error retrieving the mdJSON: ${response.status}: ${response.statusText}`;
 
-          set(this.controller, 'xhrError', error);
-          set(this.controller, 'isLoading', false);
-          get(this, 'flashMessages')
+          set(controller, 'xhrError', error);
+          set(controller, 'isLoading', false);
+          get(controller, 'flashMessages')
             .danger(error);
         });
 

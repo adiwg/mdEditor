@@ -9,7 +9,7 @@ export default function createDictionary(total) {
     const dictionary = EmberObject.create({
 
       json:  {
-        "dictionaryInfo": {
+        "dataDictionary": {
           "citation": {
             "title": "My Dictionary",
             "date": [{
@@ -19,10 +19,11 @@ export default function createDictionary(total) {
             }]
           },
           "description": "Data dictionary.",
-          "resourceType": null
+          subject: [],
+          responsibleParty: {},
+          domain: [],
+          entity: []
         },
-        "domain": [],
-        "entity": []
       },
       title: 'My Dictionary' + i,
       icon: 'book'

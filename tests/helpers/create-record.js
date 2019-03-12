@@ -9,11 +9,11 @@ export default function createRecord(total) {
     const record = EmberObject.create({
 
       json: {
-        "version": {
-          "name": "mdJson",
-          "version": "2.0.0"
+        schema: {
+          name: 'mdJson',
+          version: '2.6.0'
         },
-        "record": [],
+        contact: [],
         "metadata": {
           "metadataInfo": {
             "metadataIdentifier": {
@@ -22,7 +22,9 @@ export default function createRecord(total) {
             }
           },
           "resourceInfo": {
-            "resourceType": null,
+            "resourceType": [{
+              "type": "project"
+            }],
             "citation": {
               "title": "My Record"+ i,
               "date": [{
@@ -33,7 +35,7 @@ export default function createRecord(total) {
             },
             "pointOfrecord": [],
             "abstract": "An abstract.",
-            "status": "completed",
+            "status": ["completed"],
             "language": ["eng; USA"]
           }
         }

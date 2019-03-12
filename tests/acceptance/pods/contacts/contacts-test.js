@@ -1,17 +1,27 @@
-import { module, test } from 'qunit';
-import { find, visit, currentURL, click } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
+import {
+  module,
+  test
+} from 'qunit';
+import {
+  find,
+  visit,
+  currentURL,
+  click
+} from '@ember/test-helpers';
+import {
+  setupApplicationTest
+} from 'ember-qunit';
 
-module('Acceptance | pods/contacts', function(hooks) {
+module('Acceptance | pods/contacts', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('visiting /contacts', async function(assert) {
+  test('visiting /contacts', async function (assert) {
     await visit('/contacts');
 
     assert.equal(currentURL(), '/contacts');
   });
 
-  test('delete should display a confirm', async function(assert) {
+  test('delete should display a confirm', async function (assert) {
     assert.expect(1);
 
     var store = this.owner.lookup('service:store');
@@ -20,6 +30,7 @@ module('Acceptance | pods/contacts', function(hooks) {
     store.createRecord('contact');
     await visit('/contacts');
     await click('button.md-button-confirm.btn-danger');
-    assert.equal(find('button.md-button-confirm.btn-danger').innerText.trim(), 'Confirm');
+    assert.equal(find('button.md-button-confirm.btn-danger').innerText
+      .trim(), 'Confirm');
   });
 });
