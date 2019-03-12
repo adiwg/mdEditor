@@ -1,7 +1,19 @@
 # Change Log
 
-## [v0.7.0](https://github.com/adiwg/mdEditor/tree/v0.7.0)
+## [v0.7.1](https://github.com/adiwg/mdEditor/tree/v0.7.1)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.7.0...v0.7.1)
+
+**Fixed bugs:**
+
+- Copy function is broken [\#301](https://github.com/adiwg/mdEditor/issues/301)
+
+**Merged pull requests:**
+
+- Fix copy, et. al [\#302](https://github.com/adiwg/mdEditor/pull/302) ([jlblcc](https://github.com/jlblcc))
+- Fix production build [\#300](https://github.com/adiwg/mdEditor/pull/300) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.7.0](https://github.com/adiwg/mdEditor/tree/v0.7.0) (2019-03-11)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.6.1...v0.7.0)
 
 **Implemented enhancements:**
@@ -25,6 +37,7 @@
 
 **Merged pull requests:**
 
+- Maintenance 255 ember3 [\#298](https://github.com/adiwg/mdEditor/pull/298) ([jlblcc](https://github.com/jlblcc))
 - Update bootstrap-sass [\#297](https://github.com/adiwg/mdEditor/pull/297) ([jlblcc](https://github.com/jlblcc))
 - maintenance-255-ember3 [\#266](https://github.com/adiwg/mdEditor/pull/266) ([jlblcc](https://github.com/jlblcc))
 
