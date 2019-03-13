@@ -346,6 +346,7 @@ export default Route.extend(ScrollTo, {
     readFromUri() {
       let uri = this.controller.get('importUri');
       let controller = this.controller;
+      let route = this;
 
       set(controller, 'isLoading', true);
 
@@ -355,9 +356,9 @@ export default Route.extend(ScrollTo, {
           dataType: 'text',
           crossDomain: true
         })
-        .then(function (response, textStatus) {
+        .then(function (response) {
 
-          if(response && textStatus === 'success') {
+          if(response) {
             let json;
 
             new Promise((resolve, reject) => {
@@ -371,17 +372,17 @@ export default Route.extend(ScrollTo, {
                 resolve({
                   json: json,
                   file: null,
-                  route: this
+                  route: route
                 });
               })
               .then((data) => {
                 //determine file type and map
-                this.mapJSON(data);
+                route.mapJSON(data);
 
               })
               .catch((reason) => {
                 //catch any errors
-                get(this, 'flashMessages')
+                get(controller, 'flashMessages')
                   .danger(reason);
                 return false;
               })
@@ -395,7 +396,7 @@ export default Route.extend(ScrollTo, {
             get(controller, 'flashMessages')
               .danger('Import error!');
           }
-        }, (response) => {
+        }).catch((response) => {
           let error =
             ` Error retrieving the mdJSON: ${response.status}: ${response.statusText}`;
 
