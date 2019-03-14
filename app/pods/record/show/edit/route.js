@@ -36,26 +36,6 @@ export default Route.extend(HashPoll, {
       .set('active', model.get('profile'));
   },
 
-  /**
-   * [renderTemplate description]
-   * @param  {[type]} controller [description]
-   * @param  {[type]} model      [description]
-   * @return {[type]}            [description]
-   */
-  renderTemplate(controller, model) {
-    this.render('record.show.edit.nav', {
-      into: 'record.nav'
-    });
-    this.render('nav-secondary', {
-      into: 'application',
-      outlet: 'nav-secondary'
-    });
-    this.render('record.show.edit', {
-      into: 'record',
-      model: model
-    });
-  },
-
   actions: {
     /**
      * Update the record profile

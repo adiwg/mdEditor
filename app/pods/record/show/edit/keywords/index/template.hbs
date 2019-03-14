@@ -1,0 +1,58 @@
+<h4 class="section-header">
+  Editing Keywords
+  {{control/md-status model=model}}
+</h4>
+  <section>
+    {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
+      <div class="md-keywords-container" data-spy={{concat "Thesaurus " index}} id={{concat "thesaurus-container-" index}}>
+        <div class="md-keywords-header">
+          <h4 class="inline-block text-primary" code="">
+            <strong>{{concat "Thesaurus #" index}}</strong>
+          </h4>
+          {{input/md-select-thesaurus class="md-keywords-select"
+          thesaurus=thesaurus
+          selectThesaurus=(route-action "selectThesaurus")
+          value=thesaurus.thesaurus.identifier.0.identifier
+          disabled=thesaurus.keyword.length }}
+          {{#control/md-button-confirm class="btn btn-sm btn-danger"
+            onConfirm=(route-action "deleteThesaurus" index)}}
+            {{fa-icon "times"}} Delete
+          {{/control/md-button-confirm}}
+          {{#if thesaurus.thesaurus.identifier.0.identifier}}
+          <a class="md-keywords-collapse pull-right" data-toggle="collapse" aria-expanded="true"
+            href="#thesaurus-{{index}}" aria-controls="thesaurus-{{index}}">
+            <span class="fa"></span>
+          </a>
+          {{/if}}
+        </div>
+        <div id="thesaurus-{{index}}" class="md-keywords-body collapse in">
+
+        {{#with thesaurus.thesaurus.identifier.0.identifier}}
+          <hr>
+          <div class="row">
+            <div class="md-keywords-thesaurus col-md-6 col-lg-7">
+              {{object/md-keyword-citation model=thesaurus }}
+            </div>
+            <div class="md-keywords-list col-md-6 col-lg-5">
+              {{object/md-keyword-list model=thesaurus listId=index
+                addKeyword=(route-action "addKeyword")
+                deleteKeyword=(route-action "deleteKeyword")
+                editThesaurus=(route-action "editThesaurus")
+              }}
+            </div>
+          </div>
+        {{/with}}
+        </div>
+      </div>
+        {{else}}
+          <h3 class="alert alert-info">No keywords found.
+            <button type="button" class="btn btn-success" {{action (route-action "addThesaurus")}}>
+              {{fa-icon "plus"}} Add Thesaurus</button>
+          </h3>
+    {{/each}}
+  </section>
+
+  {{outlet}}
+
+  {{to-elsewhere named="md-scroll-spy-record-edit"
+    send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

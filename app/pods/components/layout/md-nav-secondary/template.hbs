@@ -1,12 +1,12 @@
 <ul id="md-navbar-secondary" class="nav nav-pills" role="navigation">
   {{#each links as |link|}}
     <li>
-      {{#link-to link.target class="link.class" }}{{link.title}}
+      {{#link-to link.target model class="link.class" }}{{link.title}}
         {{#if link.tip}}
           {{#ember-tooltip
             effect="slide"
             side="bottom"
-            delay=500 
+            delay=500
             tooltipClassName="ember-tooltip md-tooltip info"
           }}
             {{link.tip}}

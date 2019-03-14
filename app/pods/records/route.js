@@ -24,16 +24,6 @@ export default Route.extend({
 
   columns: columns,
 
-  renderTemplate() {
-    this.render('records.nav', {
-      into: 'application',
-      outlet: 'nav'
-    });
-    this.render('records', {
-      into: 'application'
-    });
-  },
-
   actions: {
     getColumns() {
       return this.columns;

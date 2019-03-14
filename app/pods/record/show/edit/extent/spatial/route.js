@@ -13,12 +13,6 @@ export default Route.extend({
 
   },
 
-  renderTemplate() {
-    this.render('record.show.edit.extent.spatial', {
-      into: 'record.show.edit'
-    });
-  },
-
   subbar: 'control/subbar-spatial',
 
   // clearSubbar: function() {

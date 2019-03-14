@@ -28,3 +28,7 @@
     </div>
   </div>
 </div>
+
+{{#if model}}
+  {{to-elsewhere named="nav-secondary" send=(component "layout/md-nav-secondary" model=model)}}
+{{/if}}
