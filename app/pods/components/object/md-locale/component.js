@@ -11,7 +11,7 @@ import {
 } from '@ember/object';
 import {
   copy
-} from '@ember/object/internals';
+} from 'ember-copy';
 import {
   isNone
 } from '@ember/utils';
