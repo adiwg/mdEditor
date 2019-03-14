@@ -10,12 +10,38 @@ export default Component.extend({
   disabled: null,
 
   /**
+   * Tooltip text shown when isShowingConfirm is true
+   *
+   * @property tooltip
+   * @type {String}
+   * @default "undefined"
+   */
+
+  /**
+   * Side to show tooltip
+   *
+   * @property tipSide
+   * @type {String}
+   * @default "left"
+   */
+   tipSide: 'left',
+
+  /**
+   * Class to add to tooltip
+   *
+   * @property tipClass
+   * @type {String}
+   * @default ""
+   */
+   tipClass: '',
+
+  /**
    * The function to call when action is confirmed.
    *
    * @method onConfirm
    * @return {[type]} [description]
    */
-  onConfirm(){},
+  onConfirm() {},
 
   //click handler, sets button state
   click(evt) {
