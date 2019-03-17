@@ -32,7 +32,7 @@
     "@ember/optional-features": "^0.6.3",
     "@mapbox/togeojson": "^0.16.0",
     "Leaflet.vector-markers": "^0.0.6",
-    "ajv": "^6.0.0",
+    "ajv": "^6.10.0",
     "bootstrap-3-card": "^0.2.0",
     "bootstrap-sass": "~3.4.1",
     "brfs": "^1.4.3",

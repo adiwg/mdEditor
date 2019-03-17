@@ -6,6 +6,19 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   settings: service(),
   publish: service(),
+  /**
+   * The profile service
+   *
+   * @return {Ember.Service} profile
+   */
+  profile: service(),
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    controller.set('links', this.profile.profiles.settings.secondaryNav)
+  },
+
   model() {
     // this.get('store').findAll('settings').then(function(settings) {
     //   return settings.get("firstObject");

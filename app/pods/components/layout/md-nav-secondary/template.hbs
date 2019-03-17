@@ -1,18 +1,33 @@
 <ul id="md-navbar-secondary" class="nav nav-pills" role="navigation">
   {{#each links as |link|}}
     <li>
-      {{#link-to link.target model class="link.class" }}{{link.title}}
-        {{#if link.tip}}
-          {{#ember-tooltip
-            effect="slide"
-            side="bottom"
-            delay=500
-            tooltipClassName="ember-tooltip md-tooltip info"
-          }}
-            {{link.tip}}
-          {{/ember-tooltip}}
-        {{/if}}
-      {{/link-to}}
+      {{#if isStaticLinks}}
+        {{#link-to link.target class="link.class" }}{{link.title}}
+          {{#if link.tip}}
+            {{#ember-tooltip
+              effect="slide"
+              side="bottom"
+              delay=500
+              tooltipClassName="ember-tooltip md-tooltip info"
+            }}
+              {{link.tip}}
+            {{/ember-tooltip}}
+          {{/if}}
+        {{/link-to}}
+      {{else}}
+        {{#link-to link.target model class="link.class" }}{{link.title}}
+          {{#if link.tip}}
+            {{#ember-tooltip
+              effect="slide"
+              side="bottom"
+              delay=500
+              tooltipClassName="ember-tooltip md-tooltip info"
+            }}
+              {{link.tip}}
+            {{/ember-tooltip}}
+          {{/if}}
+        {{/link-to}}
+      {{/if}}
     </li>
   {{/each}}
 
