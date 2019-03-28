@@ -1,0 +1,12 @@
+{{log this}}
+{{#each column.buttons as |btn|}}
+  {{#if btn.confirm}}
+    {{#control/md-button-confirm class=(concat "btn btn-sm btn-" btn.type) onConfirm=(action btn.action btn column index record)}}
+      <span class="fa fa-{{btn.icon}}"></span> {{btn.title}}
+    {{/control/md-button-confirm}}
+  {{else}}
+    <button type="button" class="btn btn-sm btn-{{btn.type}}" onclick={{action btn.action column index record}}>
+      {{fa-icon btn.icon}} {{btn.title}}
+    </button>
+  {{/if}}
+{{/each}}
