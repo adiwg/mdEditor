@@ -2,7 +2,7 @@ import Route from '@ember/routing/route';
 import DS from 'ember-data';
 
 const {
-  AdapterError
+  NotFoundError
 } = DS;
 
 export default Route.extend({
@@ -44,10 +44,10 @@ export default Route.extend({
     let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
-    // 'isNew' state, which means it wasn't saved to the backend.
-    if (model && model.get('isNew')) {
-      // We call DS#destroyRecord() which removes it from the store
-      model.destroyRecord();
+    // 'isDeleted' state, which means it wasn't saved to the metadata.
+    if(model && model.isDeleted) {
+      // We call DS#unloadRecord() which removes it from the store
+      this.store.unloadRecord(model);
     }
   },
 
@@ -100,7 +100,7 @@ export default Route.extend({
       if (model && model.get('isNew')) {
         //let contexts = transition.intent.contexts;
         // We call DS#destroyRecord() which removes it from the store
-        model.destroyRecord();
+        model.destroyRecord().then(() => transition.retry());
         //transition.abort();
 
         // if (contexts && contexts.length > 0) {
@@ -130,7 +130,7 @@ export default Route.extend({
     },
 
     error(error) {
-      if (error instanceof AdapterError) {
+      if (error instanceof NotFoundError) {
         this.flashMessages
           .warning('No contact found! Re-directing to new contact...');
         // redirect to new

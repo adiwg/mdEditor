@@ -53,7 +53,7 @@ export default DS.Model.extend({
 
   observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
     function () {
-      if(this.isNew) {
+      if(this.isNew || this.isEmpty) {
         return;
       }
 
