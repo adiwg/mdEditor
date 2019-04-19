@@ -29,6 +29,6 @@ module('Integration | Component | models-table/cell-content-display', function(h
     });
 
     await render(hbs`{{models-table/cell-content-display column=column1 record=data}}`);
-    assert.equal(this.element.textContent.trim(), 'foo biz...');
+    assert.equal(this.element.textContent.trim(), 'foo biz ...');
   });
 });
