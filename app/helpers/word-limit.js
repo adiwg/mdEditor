@@ -12,7 +12,7 @@ export function wordLimit(params, {
   const [value] = params;
 
   if(isPresent(value)) {
-    let arr = value.split(/(?=\s)/gi);
+    let arr = value.replace(/[ \s\n]+/g, ' |').split('|');
     let words = limit || 50;
     let stop;
 
@@ -30,7 +30,7 @@ export function wordLimit(params, {
       return idx < words;
     });
 
-    let text = arr.slice(0, stop + 1).join('');
+    let text = arr.slice(0, stop).join('');
 
     if(arr.length > words) {
       text += '...';
