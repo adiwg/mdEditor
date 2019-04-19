@@ -24,7 +24,7 @@ export function wordLimit(params, {
       }
 
       if(wordLength && itm.length > wordLength) {
-        arr[idx] = itm.slice(0, 20) + '...';
+        arr[idx] = ' ' + itm.trim().slice(0, wordLength) + '...';
       }
 
       return idx < words;
