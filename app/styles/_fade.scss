@@ -69,14 +69,24 @@ $prefix: '-moz-', '-webkit-', '-o-', '-ms-', '';
   $duration: $arg;
   @each $p in $prefix {
     #{$p}animation: $keyframe-name $duration;
-    display: none;
+    //display: none;
+    visibility: hidden;
   }
 }
 
 // e.g. @include fadeOut( 2s );
 .fadeIn {
-  @include fadeIn( 1s );
+  @include fadeIn(1s);
 }
+
 .fadeOut {
-  @include fadeOut( 1s );
+  @include fadeOut(1s);
+}
+
+.fade-in-fast {
+  @include fadeIn(.25s);
+}
+
+.fade-out-fast {
+  @include fadeOut(.25s);
 }

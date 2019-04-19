@@ -26,6 +26,7 @@ export default ModalDialog.extend({
 
   containerClassNames: containerClassNames,
   overlayClassNames: overlayClassNames,
+  overlayClass: 'md-spotlight-overlay fade-in-fast',
   targetAttachment: 'none',
   translucentOverlay: true,
   clickOutsideToClose: false,

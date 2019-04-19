@@ -2,6 +2,7 @@ import Service from '@ember/service';
 import $ from 'jquery';
 import { isPresent } from '@ember/utils';
 import { setProperties } from '@ember/object';
+import { task, timeout } from 'ember-concurrency';
 
 export default Service.extend({
   show: false,
@@ -31,18 +32,23 @@ export default Service.extend({
     $('#' + id).addClass('md-spotlight-target');
   },
 
-  close() {
+  closeTask: task(function * () {
     let id = this.elementId;
     let onClose = this.onClose;
+
+    $('.md-spotlight-overlay').addClass('fade-out-fast');
+
+    if(onClose) {
+      onClose.call(this.scope || this);
+    }
+
+    yield timeout(250);
 
     if(isPresent(id)) {
       $('body').removeClass('md-no-liquid');
       $('#' + id).removeClass('md-spotlight-target');
     }
 
-    if(onClose) {
-      onClose.call(this.scope || this);
-    }
 
     setProperties(this, {
       show: false,
@@ -50,5 +56,9 @@ export default Service.extend({
       onClose: undefined,
       scope: undefined
     });
+  }).drop(),
+
+  close(){
+    this.closeTask.perform();
   }
 });
