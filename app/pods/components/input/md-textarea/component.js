@@ -4,6 +4,10 @@
  */
 
 import Component from '@ember/component';
+import { computed, defineProperty } from '@ember/object';
+import { alias, not, notEmpty, and, or } from '@ember/object/computed';
+import { isBlank } from '@ember/utils';
+import { assert, debug } from '@ember/debug';
 
 export default Component.extend({
 
@@ -13,6 +17,80 @@ export default Component.extend({
    * @class md-textarea
    * @constructor
    */
+
+   init() {
+     this._super(...arguments);
+
+     let model = this.model;
+     let valuePath = this.valuePath;
+
+     if(isBlank(model) !== isBlank(valuePath)) {
+       assert(
+         `You must supply both model and valuePath to ${this.toString()} or neither.`
+       );
+     }
+
+     if(!isBlank(model)) {
+       if(this.get(`model.${valuePath}`) === undefined) {
+         debug(
+           `model.${valuePath} is undefined in ${this.toString()}.`
+         );
+
+         //Ember.run.once(()=>model.set(valuePath, ""));
+       }
+
+       defineProperty(this, 'value', alias(`model.${valuePath}`));
+
+       defineProperty(this, 'validation', alias(
+           `model.validations.attrs.${valuePath}`)
+         .readOnly());
+
+       defineProperty(this, 'required', computed(
+           'validation.options.presence{presence,disabled}',
+           'disabled',
+           function() {
+             return !this.disabled &&
+               this.get('validation.options.presence.presence') &&
+               !this.get('validation.options.presence.disabled');
+           })
+         .readOnly());
+
+       defineProperty(this, 'notValidating', not(
+           'validation.isValidating')
+         .readOnly());
+
+       defineProperty(this, 'hasContent', notEmpty('value')
+         .readOnly());
+
+       defineProperty(this, 'hasWarnings', notEmpty(
+           'validation.warnings')
+         .readOnly());
+
+       defineProperty(this, 'isValid', and('hasContent',
+           'validation.isTruelyValid')
+         .readOnly());
+
+       defineProperty(this, 'shouldDisplayValidations', or(
+           'showValidations', 'didValidate',
+           'hasContent')
+         .readOnly());
+
+       defineProperty(this, 'showErrorClass', and('notValidating',
+           'showErrorMessage',
+           'hasContent', 'validation')
+         .readOnly());
+
+       defineProperty(this, 'showErrorMessage', and(
+           'shouldDisplayValidations',
+           'validation.isInvalid')
+         .readOnly());
+
+       defineProperty(this, 'showWarningMessage', and(
+           'shouldDisplayValidations',
+           'hasWarnings', 'isValid')
+         .readOnly());
+     }
+   },
 
   attributeBindings: ['data-spy'],
   classNames: ['md-textarea'],
