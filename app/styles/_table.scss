@@ -221,19 +221,22 @@
   }
 }
 
-.md-dashboard-buttons {
+.md-dashboard-buttons,
+.md-row-buttons {
   @media screen and (min-width: $screen-md-min) {
     display: table;
     white-space: nowrap;
 
-    .btn {
+    .btn,
+    .btn-group {
       margin-left: 1px;
       margin-right: 1px;
     }
   }
 
   @media screen and (max-width: $screen-sm-max) {
-    .btn {
+    .btn,
+    .btn-group {
       display: block;
       margin: 1px auto;
       width: 100%;

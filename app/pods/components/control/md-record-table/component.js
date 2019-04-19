@@ -98,7 +98,7 @@ export default Table.extend({
    * See http://onechiporenko.github.io/ember-models-table
    *
    *
-   * @property checkColumns
+   * @property actionsColumn
    * @type {Object}
    * @required
    */
@@ -107,6 +107,7 @@ export default Table.extend({
 
     return {
       title: 'Actions',
+      className: 'md-actions-column',
       component: all ?
         'control/md-record-table/buttons' : 'control/md-record-table/buttons/show',
       disableFiltering: !all,

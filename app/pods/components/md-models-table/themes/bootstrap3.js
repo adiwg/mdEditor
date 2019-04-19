@@ -23,6 +23,8 @@ export default Theme.extend({
   sortGroupedPropertyBtn: 'btn',
   input: 'form-control',
   inputGroup: 'input-group',
-
-  table: 'table table-striped table-bordered table-condensed table-hover'
+  expandedRow: 'expanded-row',
+  expandRow: 'expand-row md-collapsible-content',
+  table: 'table table-striped table-bordered table-condensed table-hover',
+  selectRowOnExpandClick: false
 });

@@ -7,20 +7,13 @@ module('Integration | Component | md-models-table/components/row-body', function
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
+    assert.expect(1);
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
+    this.set('myAction', function() {
+      assert.ok(true, 'call collapseRow');
+    });
 
-    await render(hbs`{{md-models-table/components/row-body}}`);
-
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#md-models-table/components/row-body}}
-        template block text
-      {{/md-models-table/components/row-body}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    await render(hbs`{{md-models-table/components/row-body collapseRow=myAction}}`);
   });
 });

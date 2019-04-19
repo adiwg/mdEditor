@@ -1,1 +1,12 @@
-{{yield}}
+{{!-- {{#liquid-if record class="md-row-body-liquid"}} --}}
+  {{component rowBodyComponent
+    record=record
+    visibleProcessedColumns=visibleProcessedColumns
+    index=index
+    clickOnRow=clickOnRow
+    sendAction=sendAction
+    themeInstance=themeInstance
+    expandRow=expandRow
+    collapseRow=collapseRow
+  }}
+{{!-- {{/liquid-if}} --}}
