@@ -30,7 +30,7 @@ export function wordLimit(params, {
       return idx < words;
     });
 
-    let text = arr.slice(0, stop).join('');
+    let text = arr.slice(0, stop > 0 ? stop : stop + 1).join('');
 
     if(arr.length > words) {
       text += '...';
