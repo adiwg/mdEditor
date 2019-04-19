@@ -12,15 +12,16 @@ module('Integration | Component | layout/md footer', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('settings', {
       data: {
-        autoSave: true
+        autoSave: false
       }
     })
 
-    await render(hbs`{{layout/md-footer}}`);
+    await render(hbs`{{layout/md-footer settings=settings}}`);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
       '|Report|Issue|AutoSave:|Off|');
 
+      this.set('settings.data.autoSave', true);
     // Template block usage:
     await render(hbs`
       {{#layout/md-footer settings=settings}}
