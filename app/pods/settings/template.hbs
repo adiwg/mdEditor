@@ -4,6 +4,9 @@
   </div>
   <div class="col-sm-2">
     <div class="md-control-sidebar hidden-print">
+      <div class="btn-group-vertical center-block" role="group" aria-label="Action Button Controls">
+        {{multiple-from-elsewhere name="md-subbar-settings"}}
+      </div>
       {{#from-elsewhere name="md-scroll-spy-settings" as |spy|}}
           {{component spy offset=145}}
       {{/from-elsewhere}}

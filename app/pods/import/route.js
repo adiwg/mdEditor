@@ -78,6 +78,8 @@ export default Route.extend(ScrollTo, {
       return getWithDefault(json, 'dataDictionary.citation.title', 'NO TITLE');
     case 'contacts':
       return json.name || 'NO NAME';
+    case 'schemas':
+      return record.attributes.title || 'NO TITLE';
     default:
       return 'N/A';
     }

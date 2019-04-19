@@ -19,12 +19,6 @@ export default Route.extend({
     controller.set('links', this.profile.profiles.settings.secondaryNav)
   },
 
-  model() {
-    // this.get('store').findAll('settings').then(function(settings) {
-    //   return settings.get("firstObject");
-    // });
-    return this.settings.get('data');
-  },
   actions:{
     clearLocalStorage(){
       window.localStorage.clear();

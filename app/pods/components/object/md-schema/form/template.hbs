@@ -1,0 +1,53 @@
+{{input/md-input
+ model=this.record
+ valuePath="title"
+ label="Title"
+ placeholder="Enter title for schema."
+ showValidations=true
+}}
+
+{{input/md-input
+ model=this.record
+ valuePath="uri"
+ label="URL"
+ placeholder="Enter URL of root schema."
+ showValidations=true
+}}
+
+{{input/md-textarea
+ model=this.record
+ valuePath="description"
+ label="Description"
+ placeholder="Enter a description of the schema."
+ showValidations=true
+}}
+
+{{input/md-select
+ model=this.record
+ path="schemaType"
+ label="Type"
+ valuePath="value"
+ namePath="name"
+ placeholder="Select the record type for schema."
+ objectArray=typeOptions
+ searchEnabled=false
+ showValidations=true
+}}
+
+<div class="form-group">
+    <label>Apply Globally?</label>
+    <div class="form-control">
+        <div class="inline-block">
+            {{input/md-toggle
+              value=record.isGlobal
+              onToggle=(action (mut record.isGlobal))
+              showLabels=true
+              onLabel="Yes"
+              offLabel="No"
+              size="medium"
+              theme="form"
+            }}
+        </div>
+    </div>
+</div>
+{{yield}}
