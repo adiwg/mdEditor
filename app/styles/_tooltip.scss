@@ -35,19 +35,19 @@
     background-color: darken($brand-warning, 1);
 
     &.ember-tooltip[x-placement^="top"] .ember-tooltip-arrow {
-      border-top-color: darken($brand-warning, 15);
+      border-top-color: darken($brand-warning, 5);
     }
 
     &.ember-tooltip[x-placement^="left"] .ember-tooltip-arrow {
-      border-left-color: darken($brand-warning, 15);
+      border-left-color: darken($brand-warning, 5);
     }
 
     &.ember-tooltip[x-placement^="right"] .ember-tooltip-arrow {
-      border-right-color: darken($brand-warning, 15);
+      border-right-color: darken($brand-warning, 5);
     }
 
     &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
-      border-bottom-color: darken($brand-warning, 15);
+      border-bottom-color: darken($brand-warning, 5);
     }
   }
 

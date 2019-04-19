@@ -144,6 +144,11 @@
         cursor: pointer;
       }
     }
+
+    td {
+      vertical-align: middle;
+    }
+
   }
 
   .table-hover > tbody > tr {

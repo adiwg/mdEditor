@@ -17,6 +17,10 @@ body {
   vertical-align: middle;
 }
 
+.display-table {
+  display: table;
+}
+
 #md-wrapper {
   @include transition(all .5s ease);
   padding-left: 0;

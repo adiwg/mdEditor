@@ -44,6 +44,7 @@ $md-nav-background: lighten($gray-darker, 4);
 @import 'spinner';
 @import 'control_sidebar';
 @import 'classification';
+@import 'collapse';
 
 //modals
 @import 'ember-modal-dialog/ember-modal-structure';
