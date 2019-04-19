@@ -179,6 +179,39 @@ export default Service.extend({
           });
         }
 
+        //fix transfer format edition
+        let distribution = record.get(
+          'json.metadata.resourceDistribution');
+
+        if(distribution) {
+          distribution.forEach(itm => {
+            if(itm.distributor) {
+              itm.distributor.forEach(itm => {
+                if(itm.transferOption) {
+                  itm.transferOption.forEach(itm => {
+                    if(itm.distributionFormat) {
+                      itm.distributionFormat.forEach(format => {
+                        if(format.amendmentNumber && format.formatSpecification &&
+                          !format.formatSpecification.edition) {
+                          set(format, 'formatSpecification.edition',
+                            format.amendmentNumber);
+                          return;
+                        }
+                        if(format.amendmentNumber && !format.formatSpecification) {
+                          set(format, 'formatSpecification', {
+                            edition: format.amendmentNumber
+                          });
+                          return;
+                        }
+                      });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+
         record.set('json.schema.version', Schemas.schema.version);
         record.save().then(function () {
           record.notifyPropertyChange('currentHash');
