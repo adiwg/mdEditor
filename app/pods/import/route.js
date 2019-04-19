@@ -104,14 +104,16 @@ export default Route.extend(ScrollTo, {
       type: null
     });
 
-    contact.forEach((item) => {
-      data.pushObject(template.create({
-        attributes: {
-          json: JSON.stringify(merge(Contact.create(), item))
-        },
-        type: 'contacts'
-      }));
-    });
+    if(contact){
+      contact.forEach((item) => {
+        data.pushObject(template.create({
+          attributes: {
+            json: JSON.stringify(merge(Contact.create(), item))
+          },
+          type: 'contacts'
+        }));
+      });
+    }
 
     if(get(json, 'metadata.metadataInfo.metadataIdentifier') === undefined) {
       json.metadata.metadataInfo.metadataIdentifier = {
