@@ -1,0 +1,12 @@
+{{#if (has-block)}}
+  {{yield}}
+{{else}}
+  {{#if icon}}
+    {{fa-icon icon spin=iconSpin}})
+  {{/if}}
+  {{text}}
+{{/if}}
+
+{{#if tooltip}}
+  {{ember-tooltip tooltipClassName=(concat "ember-tooltip md-tooltip " tipClass) text=tooltip side=tipSide}}
+{{/if}}
