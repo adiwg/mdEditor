@@ -5,7 +5,7 @@ window.deprecationWorkflow.config = {
     { handler: "log", matchId: "ember-routing.route-router" },
     { handler: "silence", matchId: "ember-data:method-calls-on-destroyed-store" },
     { handler: "silence", matchId: "ember-component.send-action" },
-    { handler: "silence", matchId: "ember-runtime.using-array-copy" },
+    { handler: "log", matchId: "ember-runtime.using-array-copy" },
     { handler: "log", matchId: "ember-runtime.deprecate-copy-copyable" },
     { handler: "silence", matchId: "ember-name-key-usage" },
     { handler: "silence", matchId: "events.remove-all-listeners" },

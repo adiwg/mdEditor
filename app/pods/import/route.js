@@ -11,7 +11,6 @@ import {
   isArray
 } from '@ember/array';
 import {
-  merge,
   assign
 } from '@ember/polyfills';
 import EmObject, {
@@ -110,7 +109,7 @@ export default Route.extend(ScrollTo, {
       contact.forEach((item) => {
         data.pushObject(template.create({
           attributes: {
-            json: JSON.stringify(merge(Contact.create(), item))
+            json: JSON.stringify(assign(Contact.create(), item))
           },
           type: 'contacts'
         }));

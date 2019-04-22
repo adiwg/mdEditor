@@ -7,7 +7,7 @@ import Mixin from '@ember/object/mixin';
 
 import { getOwner } from '@ember/application';
 import { A, isArray } from '@ember/array';
-import { merge } from '@ember/polyfills';
+import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 
 export default Mixin.create({
@@ -35,7 +35,7 @@ export default Mixin.create({
     if(Template) {
       let owner = getOwner(this);
 
-      return merge(Template.create(owner.ownerInjection(), defaults || {}),
+      return assign(Template.create(owner.ownerInjection(), defaults || {}),
         value);
 
     }
@@ -62,7 +62,7 @@ export default Mixin.create({
           property.forEach((item, idx, items) => {
             //items.removeAt(idx);
 
-            let newItem = merge(Template.create(owner.ownerInjection(),
+            let newItem = assign(Template.create(owner.ownerInjection(),
                 defaults || {}),
               item);
 

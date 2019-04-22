@@ -12,14 +12,14 @@ const Validations = buildValidations({
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemIdentifier.identifier').volatile()
+      disabled: notEmpty('model.model.referenceSystemIdentifier.identifier')
     })
   ],
   'refSystem': [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemType').volatile()
+      disabled: notEmpty('model.model.referenceSystemType')
     })
   ]
 });
