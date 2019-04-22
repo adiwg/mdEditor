@@ -134,6 +134,7 @@
     ]
   },
   "dependencies": {
-    "json-schema-ref-parser": "^6.1.0"
+    "json-schema-ref-parser": "^6.1.0",
+    "scroll-into-view-if-needed": "^2.2.20"
   }
 }

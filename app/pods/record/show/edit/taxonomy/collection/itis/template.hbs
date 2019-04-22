@@ -17,10 +17,10 @@
 
 {{to-elsewhere
   named="md-subbar-extra"
-  send=(component "control/subbar-link"
-  clickText="Back to Collection"
-  clickIcon="arrow-left"
-  clickType="primary"
+  send=(component "control.md-button"
+  text="Back to Collection"
+  icon="arrow-left"
+  class="btn-primary btn-lg"
   click=(route-action "toCollection")
   )
 }}

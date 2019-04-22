@@ -15,6 +15,14 @@ export default Route.extend(ScrollTo, {
       'collectionId'));
   },
   actions: {
+    toList(){
+      this.transitionTo('record.show.edit.taxonomy');
+    },
+    addTaxa(){
+      this.controller.model.taxonomicClassification.pushObject({
+        _edit: true
+      });
+    },
     addITIS(){
       this.transitionTo('record.show.edit.taxonomy.collection.itis');
     },

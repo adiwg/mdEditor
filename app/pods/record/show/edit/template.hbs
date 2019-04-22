@@ -1,24 +1,29 @@
 <div class="row md-section-secondary">
   <div class="md-record-content col-sm-10">
-    {{outlet}}
+    {{liquid-outlet}}
   </div>
   <div class="col-sm-2">
     <div class="md-control-sidebar hidden-print">
-      {{control/md-crud-buttons
-          model=model
-          doSave=(route-action "saveRecord")
-          doCancel=(route-action "cancelRecord")
-          doDelete=(route-action "destroyRecord")
-          doCopy=(route-action "copyRecord")
-      }}
-      {{component subbar context=(route-action "getContext")}}
-      <hr>
-      {{from-elsewhere name="md-subbar-extra"}}
+        {{control/md-crud-buttons
+            model=model
+            doSave=(route-action "saveRecord")
+            doCancel=(route-action "cancelRecord")
+            doDelete=(route-action "destroyRecord")
+            doCopy=(route-action "copyRecord")
+        }}
+      {{#liquid-bind currentModel use="fade" duration="1000"}}
+        {{component subbar context=(route-action "getContext")}}
+        <hr>
+        {{from-elsewhere name="md-subbar-extra"}}
 
-      {{#from-elsewhere name="md-scroll-spy-record-edit" as |spy|}}
-          {{component spy offset=145}}
-      {{/from-elsewhere}}
-      {{!-- {{control/md-scroll-spy offset=145 scrollInit=scrollTo}} --}}
+        <div class="btn-group-vertical center-block" role="group" aria-label="Action Button Controls">
+          {{multiple-from-elsewhere name="md-subbar-buttons"}}
+        </div>
+
+        {{#from-elsewhere name="md-scroll-spy-record-edit" as |spy|}}
+            {{component spy offset=145}}
+        {{/from-elsewhere}}
+      {{/liquid-bind}}
     </div>
   </div>
 </div>

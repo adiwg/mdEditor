@@ -15,7 +15,7 @@ module('Integration | Component | object/md taxonomy/classification', function(h
     await render(hbs`{{object/md-taxonomy/classification model=model}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Subkingdom|Dikarya|(936287)|Edit|Delete|Division|Basidiomycota|(623881)|Edit|Delete|Kingdom|Animalia|(202423)|Edit|Delete|Subkingdom|Radiata|(914153)|Edit|Delete|Phylum|Cnidaria|(48738)|Edit|Delete|Subphylum|Medusozoa|(718920)|Edit|Delete|Class|Scyphozoa|(51483)|Edit|Delete|Subclass|Discomedusae|(718923)|Edit|Delete|Order|Rhizostomeae|(51756)|Edit|Delete|Family|Rhizostomatidae|(51911)|Edit|Delete|Genus|Rhopilema|(51919)|Edit|Delete|Species|Rhopilema|verrilli|(51920)|mushroom|jellyfish|Edit|Delete|');
+      '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|Kingdom|Animalia|(202423)|Edit|Delete|Add|Child|Subkingdom|Radiata|(914153)|Edit|Delete|Add|Child|Phylum|Cnidaria|(48738)|Edit|Delete|Add|Child|Subphylum|Medusozoa|(718920)|Edit|Delete|Add|Child|Class|Scyphozoa|(51483)|Edit|Delete|Add|Child|Subclass|Discomedusae|(718923)|Edit|Delete|Add|Child|Order|Rhizostomeae|(51756)|Edit|Delete|Add|Child|Family|Rhizostomatidae|(51911)|Edit|Delete|Add|Child|Genus|Rhopilema|(51919)|Edit|Delete|Add|Child|Species|Rhopilema|verrilli|(51920)|mushroom|jellyfish|Edit|Delete|Add|Child|');
 
     await render(hbs`{{object/md-taxonomy/classification model=model preview=true}}`);
 

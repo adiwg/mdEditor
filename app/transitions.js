@@ -59,6 +59,12 @@ export default function () {
     this.reverse('toRight')
   );
   this.transition(
+    this.toRoute('record.show.edit.taxonomy.collection.system'),
+    this.fromRoute('record.show.edit.taxonomy.collection.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
     this.toRoute('record.show.edit.lineage.lineageobject'),
     this.fromRoute('record.show.edit.lineage.index'),
     this.use('toLeft'),
