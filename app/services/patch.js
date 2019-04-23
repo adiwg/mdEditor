@@ -212,6 +212,23 @@ export default Service.extend({
           });
         }
 
+        //fix allocation comment
+        let funding = record.get(
+          'json.metadata.funding');
+
+        if(funding) {
+          funding.forEach(itm => {
+            if(itm.allocation) {
+              itm.allocation.forEach(itm => {
+                if(itm.description && !itm.comment) {
+                  set(itm, 'comment', itm.description);
+                  set(itm, 'description', null);
+                }
+              });
+            }
+          });
+        }
+
         record.set('json.schema.version', Schemas.schema.version);
         record.save().then(function () {
           record.notifyPropertyChange('currentHash');
