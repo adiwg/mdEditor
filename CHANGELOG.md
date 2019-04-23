@@ -1,7 +1,32 @@
 # Change Log
 
-## [v0.7.1](https://github.com/adiwg/mdEditor/tree/v0.7.1)
+## [v0.8.0](https://github.com/adiwg/mdEditor/tree/v0.8.0)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.7.1...v0.8.0)
+
+**Implemented enhancements:**
+
+- Rename Allocation Description to Comment [\#283](https://github.com/adiwg/mdEditor/issues/283)
+
+**Fixed bugs:**
+
+- Content is lost or not being saved [\#306](https://github.com/adiwg/mdEditor/issues/306)
+- Version bound to incorrect property in md-transfer template  [\#305](https://github.com/adiwg/mdEditor/issues/305)
+- Once Date Type is set it cannot be blanked out; mismatch between date and date type [\#304](https://github.com/adiwg/mdEditor/issues/304)
+- Incorrect title on Import Data section [\#295](https://github.com/adiwg/mdEditor/issues/295)
+- Incorrect field mapping in allocation [\#279](https://github.com/adiwg/mdEditor/issues/279)
+
+**Closed issues:**
+
+- Taxonomy [\#101](https://github.com/adiwg/mdEditor/issues/101)
+- Replace render with ember-elsewhere [\#96](https://github.com/adiwg/mdEditor/issues/96)
+
+**Merged pull requests:**
+
+- More Bug fixes for v0.8.0 [\#310](https://github.com/adiwg/mdEditor/pull/310) ([jlblcc](https://github.com/jlblcc))
+- v0.8.0 [\#309](https://github.com/adiwg/mdEditor/pull/309) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.7.1](https://github.com/adiwg/mdEditor/tree/v0.7.1) (2019-03-12)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.7.0...v0.7.1)
 
 **Fixed bugs:**
@@ -10,6 +35,7 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG [\#303](https://github.com/adiwg/mdEditor/pull/303) ([jlblcc](https://github.com/jlblcc))
 - Fix copy, et. al [\#302](https://github.com/adiwg/mdEditor/pull/302) ([jlblcc](https://github.com/jlblcc))
 - Fix production build [\#300](https://github.com/adiwg/mdEditor/pull/300) ([jlblcc](https://github.com/jlblcc))
 
