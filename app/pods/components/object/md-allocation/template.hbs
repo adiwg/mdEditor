@@ -75,10 +75,10 @@
   }}
 
  {{input/md-textarea
-     value=model.description
+     value=model.comment
      profilePath=(concat profilePath ".description")
-     label="Description"
-     placeholder="Enter text describing the allocation."
+     label="Comment"
+     placeholder="Enter any comments about the allocation."
    }}
 
   {{#if (is-array model.onlineResource)}}

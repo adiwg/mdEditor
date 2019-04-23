@@ -22,7 +22,7 @@ module('Integration | Component | object/md allocation', function(hooks) {
     await render(hbs`{{object/md-allocation profilePath="test" model=allocation}}`);
 
     assert.equal(find('.md-card').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Amount|Amount|Currency|Choose|unit|of|currency|Award|ID|Source|Pick|contact|that|supplied|funds|Recipient|Pick|contact|that|received|funds|Other|Contacts|0|Add|#|Role|Contacts|Add|Other|Contacts|Matching|Matching|funds|or|in-kind|services|Description|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|');
+      '|Amount|Amount|Currency|Choose|unit|of|currency|Award|ID|Source|Pick|contact|that|supplied|funds|Recipient|Pick|contact|that|received|funds|Other|Contacts|0|Add|#|Role|Contacts|Add|Other|Contacts|Matching|Matching|funds|or|in-kind|services|Comment|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|');
 
     // Template block usage:
     await render(hbs`
@@ -32,6 +32,6 @@ module('Integration | Component | object/md allocation', function(hooks) {
     `);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Amount|Amount|Currency|Choose|unit|of|currency|Award|ID|Source|Pick|contact|that|supplied|funds|Recipient|Pick|contact|that|received|funds|Other|Contacts|0|Add|#|Role|Contacts|Add|Other|Contacts|Matching|Matching|funds|or|in-kind|services|Description|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|template|block|text|');
+      '|Amount|Amount|Currency|Choose|unit|of|currency|Award|ID|Source|Pick|contact|that|supplied|funds|Recipient|Pick|contact|that|received|funds|Other|Contacts|0|Add|#|Role|Contacts|Add|Other|Contacts|Matching|Matching|funds|or|in-kind|services|Comment|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|template|block|text|');
   });
 });
