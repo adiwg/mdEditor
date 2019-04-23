@@ -12,7 +12,7 @@ export function wordLimit(params, {
   const [value] = params;
 
   if(isPresent(value)) {
-    let arr = value.split(/(?=\s)/gi);
+    let arr = value.replace(/[ \s\n]+/g, ' |').split('|');
     let words = limit || 50;
     let stop;
 
@@ -24,13 +24,13 @@ export function wordLimit(params, {
       }
 
       if(wordLength && itm.length > wordLength) {
-        arr[idx] = itm.slice(0, 20) + '...';
+        arr[idx] = ' ' + itm.trim().slice(0, wordLength) + '...';
       }
 
       return idx < words;
     });
 
-    let text = arr.slice(0, stop + 1).join('');
+    let text = arr.slice(0, stop > 0 ? stop : stop + 1).join('');
 
     if(arr.length > words) {
       text += '...';

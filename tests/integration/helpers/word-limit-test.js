@@ -18,8 +18,7 @@ module('helper:word-limit', function(hooks) {
     await render(hbs`<section>{{word-limit inputValue limit=20 wordLength=10}}</section>`);
 
     assert.equal(find('section').textContent.trim(),
-      `Lorem ipsum dolor sit amet, consectetur... adipiscing... elit. Etiam rutrum, neque
-      nec sagittis maximus, lacus...`
+      `Lorem ipsum dolor sit amet,  consectetu... adipiscing...elit. Etiam rutrum, neque nec sagittis maximus, lacus lectus placerat libero, finibus varius ...`
     );
 
   });

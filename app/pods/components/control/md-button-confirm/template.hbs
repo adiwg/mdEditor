@@ -3,3 +3,9 @@
 {{else}}
   {{yield}}
 {{/liquid-if}}
+
+{{#if isShowingConfirm}}
+  {{#if tooltip}}
+    {{ember-tooltip tooltipClassName=(concat "ember-tooltip md-tooltip " tipClass) text=tooltip side=tipSide}}
+  {{/if}}
+{{/if}}

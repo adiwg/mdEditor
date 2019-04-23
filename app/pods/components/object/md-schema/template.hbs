@@ -1,0 +1,48 @@
+{{#layout/md-card
+  collapsible=false
+  collapsed=false
+  shadow=true
+  block=false
+}}
+
+{{!-- <form {{action collapseRow index record on="submit"}}> --}}
+<form>
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href={{concat "#" elementId "-form"}} aria-controls="form" role="tab" data-toggle="tab">Info</a></li>
+    <li role="presentation">
+      <a href={{concat "#" elementId "-schema"}} aria-controls="schemas" role="tab" data-toggle="tab">
+        Schemas
+        <div class={{concat "inline-block label label-pill label-" (unless record.customSchemas.length "warning" "info")}}>
+          {{record.customSchemas.length}}
+        </div>
+      </a>
+    </li>
+  </ul>
+  <div class="card-block">
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane fade in active" id={{concat elementId "-form"}}>
+        {{object/md-schema/form record=record}}
+      </div>
+      <div role="tabpanel" class="tab-pane fade" id={{concat elementId "-schema"}}>
+        <ul class="list-group">
+          {{#each record.customSchemas as |s|}}
+            <li class="list-group-item">{{s.id}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+  </div>
+{{!--
+    <div class="card-footer">
+      <button class={{concat "btn btn-" (if record.validations.isValid (if record.validations.hasWarnings "warning" "info") "danger") " pull-right"}} type="submit" disabled={{record.validations.isInvalid}}>
+        {{#if isLoading}}
+        {{fa-icon "spinner" spin=true}}
+        {{else}}
+        {{fa-icon "check"}}
+        {{ember-tooltip text="Click to send search request" tooltipClassName="ember-tooltip md-tooltip info" side="left"}}
+        {{/if}}
+        OK
+      </button>
+</div> --}}
+</form>
+{{/layout/md-card}}

@@ -1,11 +1,18 @@
 import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
+import DS from 'ember-data';
+
+const {
+  NotFoundError
+} = DS;
 
 export default Route.extend({
   model: function (params) {
-    // if(!params.dictionary_id) {
-    //   return this.store.createRecord('dictionary');
-    // }
+    let record = this.store.peekRecord('dictionary', params.dictionary_id);
+
+    if (record) {
+      return record;
+    }
 
     return this.store.findRecord('dictionary', params.dictionary_id);
   },
@@ -17,10 +24,10 @@ export default Route.extend({
     let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
-    // 'isNew' state, which means it wasn't saved to the backend.
-    if (model && model.get('isNew')) {
-      // We call DS#destroyRecord() which removes it from the store
-      model.destroyRecord();
+    // 'isDeleted' state, which means it wasn't saved to the metadata.
+    if(model && model.isDeleted) {
+      // We call DS#unloadRecord() which removes it from the store
+      this.store.unloadRecord(model);
     }
   },
 
@@ -60,8 +67,19 @@ export default Route.extend({
   actions: {
     willTransition: function (transition) {
       if (transition.targetName === 'dictionary.new.index') {
-          this.currentRouteModel().destroyRecord();
+          transition.abort();
           return true;
+      }
+
+      // We grab the model loaded in this route
+      var model = this.currentRouteModel();
+      // If we are leaving the Route we verify if the model is in
+      // 'isNew' state, which means it wasn't saved to the backend.
+      if (model && model.get('isNew')) {
+        // We call DS#destroyRecord() which removes it from the store
+        model.destroyRecord().then(() => transition.retry());
+
+        return true;
       }
     },
 
@@ -77,7 +95,19 @@ export default Route.extend({
       this.replaceWith('dictionaries');
 
       return false;
-    }
+    },
+
+    error(error) {
+      if(error instanceof NotFoundError) {
+        this.flashMessages
+          .warning('No dictionary found! Re-directing to new record...');
+        // redirect to new
+        this.replaceWith('dictionary.new');
+      } else {
+        // otherwise let the error bubble
+        return true;
+      }
+    },
   }
 
 });

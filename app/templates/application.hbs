@@ -45,9 +45,10 @@
   <div id="md-page-content-wrapper">
     <div id="md-navbars">
       {{#layout/md-nav-main}}
-        {{outlet "nav"}}
+        {{from-elsewhere name="nav-main"}}
       {{/layout/md-nav-main}}
-      {{layout/md-breadcrumb}} {{outlet "nav-secondary"}}
+      {{layout/md-breadcrumb}}
+      {{from-elsewhere name="nav-secondary"}}
     </div>
     <div id="md-page-content" class="container-fluid">
       {{outlet}}

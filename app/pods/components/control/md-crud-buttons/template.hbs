@@ -12,7 +12,7 @@
   <button type="button" {{action "copy"}} class="btn btn-lg btn-info">
     <i class="fa fa-clone"></i> Copy
   </button>
-  {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete")}}
+  {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete") tooltip="Permanently delete this record?" tipClass="danger"}}
     <span class="fa fa-times"></span> Delete
   {{/control/md-button-confirm}}
   {{yield}}

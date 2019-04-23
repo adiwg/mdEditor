@@ -1,0 +1,33 @@
+{{#each column.buttons as |btn|}}
+  {{#if btn.confirm}}
+    {{#control/md-button-confirm class=(concat "btn btn-sm btn-" btn.type) onConfirm=(action btn.action column index record target=btn.target)}}
+      <span class="fa fa-{{btn.icon}}"></span> {{btn.title}}
+    {{/control/md-button-confirm}}
+  {{else}}
+    <button type="button" class="btn btn-sm btn-{{btn.type}}" onclick={{action btn.action column index record target=btn.target}}>
+      {{fa-icon btn.icon}} {{btn.title}}
+    </button>
+  {{/if}}
+{{/each}}
+
+<div class="btn-group text-center" role="group" aria-label="Row Error">
+  {{#if record.validations.isInvalid}}
+  <span class="md-error">
+    {{fa-icon "exclamation-circle" fixedWidth=true}}
+    {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
+    This item has errors.
+    {{/ember-tooltip}}
+  </span>
+  {{else if record.validations.hasWarnings}}
+  <span class="md-warning">
+    {{fa-icon "exclamation-triangle" fixedWidth=true}}
+    {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip warning"}}
+    This item has warnings.
+    {{/ember-tooltip}}
+  </span>
+  {{else}}
+  <span class="md-error">
+    <span class="fa fa-fw"></span>
+  </span>
+  {{/if}}
+</div>

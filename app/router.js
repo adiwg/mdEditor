@@ -13,7 +13,11 @@ Router.map(function () {
   this.route('translate');
   //this.route('publish', function() {});
   this.route('help');
-  this.route('settings');
+  this.route('settings', function() {
+    this.route('validation');
+    this.route('profile');
+    this.route('main');
+  });
 
   //records
   this.route('records');

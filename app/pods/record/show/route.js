@@ -15,15 +15,7 @@ export default Route.extend({
   model(params) {
     return this.store.peekRecord('record', params.record_id);
   },
-  renderTemplate() {
-    this.render('record.nav', {
-      into: 'application',
-      outlet: 'nav'
-    });
-    this.render('record.show', {
-      into: 'record'
-    });
-  },
+
   actions: {
     destroyRecord: function () {
       let model = this.currentRouteModel();

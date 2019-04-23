@@ -41,12 +41,6 @@ export default Route.extend({
     });
   },
 
-  renderTemplate() {
-    this.render('record.show.edit.keywords.thesaurus', {
-      into: 'record.show.edit'
-    });
-  },
-
   subbar: 'control/subbar-thesaurus',
 
   // clearSubbar: function() {

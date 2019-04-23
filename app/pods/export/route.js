@@ -9,7 +9,7 @@ import moment from 'moment';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { singularize } from 'ember-inflector';
 
-const modelTypes = ['records', 'contacts', 'dictionaries', 'settings'];
+const modelTypes = ['records', 'contacts', 'dictionaries', 'settings', 'schemas'];
 
 export default Route.extend(ScrollTo, {
   mdjson: service(),
@@ -115,9 +115,13 @@ export default Route.extend(ScrollTo, {
         modelTypes.forEach((type) => {
           let t = singularize(type);
 
-          filterIds[t] = store.peekAll(t).filterBy('_selected').mapBy(
-            'id');
+          filterIds[t] = store.peekAll(t).filterBy('_selected').mapBy('id');
         });
+
+        //export schemas with settings
+        if(filterIds.setting.length) {
+          filterIds['schema'] = store.peekAll('schema').mapBy('id');
+        }
 
         store.exportSelectedData(
           modelTypes, {

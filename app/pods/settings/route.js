@@ -6,12 +6,19 @@ import { inject as service } from '@ember/service';
 export default Route.extend({
   settings: service(),
   publish: service(),
-  model() {
-    // this.get('store').findAll('settings').then(function(settings) {
-    //   return settings.get("firstObject");
-    // });
-    return this.settings.get('data');
+  /**
+   * The profile service
+   *
+   * @return {Ember.Service} profile
+   */
+  profile: service(),
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    controller.set('links', this.profile.profiles.settings.secondaryNav)
   },
+
   actions:{
     clearLocalStorage(){
       window.localStorage.clear();

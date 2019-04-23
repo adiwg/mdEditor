@@ -12,6 +12,10 @@
   margin-bottom: 20px;
   margin-top: 0;
   padding: 0;
+
+  hr {
+    margin: 0;
+  }
 }
 
 .no-margin {
@@ -50,4 +54,10 @@ a {
   &:focus {
     text-decoration: none;
   }
+}
+
+.word-break-all {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
 }

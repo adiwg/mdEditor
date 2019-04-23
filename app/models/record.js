@@ -44,11 +44,11 @@ const Validations = buildValidations({
   // })
 });
 export default Model.extend(Validations, Copyable, {
-  init() {
-    this._super(...arguments);
-
-    this.set('allRecords', this.store.peekAll('record'));
-  },
+  // init() {
+  //   this._super(...arguments);
+  //
+  //   this.set('allRecords', this.store.peekAll('record'));
+  // },
   profile: DS.attr('string', {
     defaultValue: 'full'
   }),
@@ -125,9 +125,11 @@ export default Model.extend(Validations, Copyable, {
   parentIds: alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
+
   hasParent: computed('parentIds.[]', function () {
     let ids = this.parentIds;
-    let records = this.allRecords.rejectBy('hasSchemaErrors');
+    let allRecords = this.store.peekAll('record');
+    let records = allRecords.rejectBy('hasSchemaErrors');
 
     if(!ids) {
       return false;
@@ -141,12 +143,13 @@ export default Model.extend(Validations, Copyable, {
 
   defaultParent: computed('hasParent', function () {
     let id = this.get('hasParent.identifier');
+    let allRecords = this.store.peekAll('record');
 
     if(!id) {
       return undefined;
     }
 
-    return this.allRecords.findBy('recordId', id);
+    return allRecords.findBy('recordId', id);
   }),
 
   defaultType: alias(

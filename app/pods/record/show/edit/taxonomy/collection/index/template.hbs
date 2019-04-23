@@ -11,16 +11,30 @@
 }}
 
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
-  clickText="Add Taxa from ITIS"
-  clickIcon="plus"
-  clickType="success"
-  text="Back to List"
-  icon="arrow-left"
-  type="primary"
-  route="record.show.edit.taxonomy"
-  click=(route-action "addITIS")
+  named="md-subbar-buttons"
+  send=(component "control/md-button"
+    text="Add New Taxa"
+    icon="plus"
+    class="btn-info btn-lg"
+    click=(route-action "addTaxa")
+  )
+}}
+{{to-elsewhere
+  named="md-subbar-buttons"
+  send=(component "control/md-button"
+    text="Add Taxa from ITIS"
+    icon="plus"
+    class="btn-success btn-lg"
+    click=(route-action "addITIS")
+  )
+}}
+{{to-elsewhere
+  named="md-subbar-buttons"
+  send=(component "control/md-button"
+    text="Back to List"
+    icon="arrow-left"
+    class="btn-primary btn-lg"
+    click=(route-action "toList")
   )
 }}
 

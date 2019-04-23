@@ -14,6 +14,14 @@
 
     &:hover {
       background-color: lighten($brand-info, 44);
+
+      .md-taxon-btn {
+        opacity: 1;
+      }
+    }
+
+    &.md-spotlight-target {
+      background-color: $body-bg;
     }
 
     .icon:hover {
@@ -45,6 +53,11 @@
         }
 
       }
+    }
+
+    .md-taxon-btn {
+      opacity: .1;
+      transition: opacity .25s ease;
     }
   }
 

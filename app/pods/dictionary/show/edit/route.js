@@ -25,15 +25,6 @@ export default Route.extend(HashPoll, {
       .set('active', 'dictionary');
   },
 
-  renderTemplate() {
-    this.render('nav-secondary', {
-      into: 'application',
-      outlet: 'nav-secondary'
-    });
-    this.render('dictionary.show.edit', {
-      into: 'dictionary.show'
-    });
-  },
   actions: {
     saveDictionary: function () {
       let model = this.currentRouteModel();

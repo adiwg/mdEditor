@@ -17,6 +17,7 @@ import {
 } from 'ember-cp-validations';
 import { once } from '@ember/runloop';
 import { getWithDefault } from '@ember/object';
+import scrollIntoView from 'scroll-into-view-if-needed';
 
 const Validations = buildValidations({
   'taxonomicName': [
@@ -44,7 +45,16 @@ export default Component.extend(Validations, {
 
     once(this, function() {
       this.set('model.commonName', getWithDefault(this, 'model.commonName', []));
+      this.set('model.subClassification', getWithDefault(this, 'model.subClassification', []));
     });
+  },
+  didInsertElement() {
+    this._super(...arguments);
+
+    if(this.model._edit) {
+      this.startEditing();
+      this.set('model._edit', false);
+    }
   },
   spotlight: service(),
   tagName: 'li',
@@ -75,8 +85,18 @@ export default Component.extend(Validations, {
   taxonomicSystemId: alias('model.taxonomicSystemId'),
 
   startEditing() {
+    let id = 'body-' + this.elementId;
+    let editor = 'editor-' + this.elementId;
+
     this.set('isEditing', true);
-    this.spotlight.setTarget('editor-' + this.elementId, this.stopEditing,this);
+
+    // this.spotlight.setTarget('editor-' + this.elementId, this.stopEditing,this);
+    this.spotlight.setTarget(id, this.stopEditing,this);
+
+    scrollIntoView(document.getElementById(editor), {
+      behavior: 'smooth',
+      //scrollMode: 'if-needed',
+    });
   },
 
   stopEditing() {
@@ -105,6 +125,13 @@ export default Component.extend(Validations, {
         return;
       }
       this.startEditing();
+    },
+    addChild(){
+      this.model.subClassification.pushObject({
+        commonName:[],
+        subClassification: [],
+        _edit: true
+      });
     }
   }
 });

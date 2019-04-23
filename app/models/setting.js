@@ -62,6 +62,11 @@ const theModel = DS.Model.extend({
       return EmberObject.create();
     }
   }),
+  customSchemas: DS.attr('json', {
+    defaultValue: function () {
+      return [];
+    }
+  }),
   locale: alias('defaultLocale'),
 
   wasLoaded() {

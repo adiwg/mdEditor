@@ -822,6 +822,21 @@ export default Service.extend({
           target: 'dictionary.show.edit.entity',
           tip: 'Information about entities(tables) and attributes(columns or fields).'
         }]
+      },
+      settings: {
+        secondaryNav: [{
+          title: 'Main',
+          target: 'settings.main',
+          tip: 'Main application settings'
+        }, {
+          title: 'Profiles',
+          target: 'settings.profile',
+          tip: 'Custom profile settings'
+        }, {
+          title: 'Validation',
+          target: 'settings.validation',
+          tip: 'Custom validation settings'
+        }]
       }
     };
   },

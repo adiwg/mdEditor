@@ -11,7 +11,6 @@ import {
   isArray
 } from '@ember/array';
 import {
-  merge,
   assign
 } from '@ember/polyfills';
 import EmObject, {
@@ -78,6 +77,8 @@ export default Route.extend(ScrollTo, {
       return getWithDefault(json, 'dataDictionary.citation.title', 'NO TITLE');
     case 'contacts':
       return json.name || 'NO NAME';
+    case 'schemas':
+      return record.attributes.title || 'NO TITLE';
     default:
       return 'N/A';
     }
@@ -104,14 +105,16 @@ export default Route.extend(ScrollTo, {
       type: null
     });
 
-    contact.forEach((item) => {
-      data.pushObject(template.create({
-        attributes: {
-          json: JSON.stringify(merge(Contact.create(), item))
-        },
-        type: 'contacts'
-      }));
-    });
+    if(contact){
+      contact.forEach((item) => {
+        data.pushObject(template.create({
+          attributes: {
+            json: JSON.stringify(assign(Contact.create(), item))
+          },
+          type: 'contacts'
+        }));
+      });
+    }
 
     if(get(json, 'metadata.metadataInfo.metadataIdentifier') === undefined) {
       json.metadata.metadataInfo.metadataIdentifier = {
@@ -346,6 +349,7 @@ export default Route.extend(ScrollTo, {
     readFromUri() {
       let uri = this.controller.get('importUri');
       let controller = this.controller;
+      let route = this;
 
       set(controller, 'isLoading', true);
 
@@ -355,9 +359,9 @@ export default Route.extend(ScrollTo, {
           dataType: 'text',
           crossDomain: true
         })
-        .then(function (response, textStatus) {
+        .then(function (response) {
 
-          if(response && textStatus === 'success') {
+          if(response) {
             let json;
 
             new Promise((resolve, reject) => {
@@ -371,17 +375,17 @@ export default Route.extend(ScrollTo, {
                 resolve({
                   json: json,
                   file: null,
-                  route: this
+                  route: route
                 });
               })
               .then((data) => {
                 //determine file type and map
-                this.mapJSON(data);
+                route.mapJSON(data);
 
               })
               .catch((reason) => {
                 //catch any errors
-                get(this, 'flashMessages')
+                get(controller, 'flashMessages')
                   .danger(reason);
                 return false;
               })
@@ -395,7 +399,7 @@ export default Route.extend(ScrollTo, {
             get(controller, 'flashMessages')
               .danger('Import error!');
           }
-        }, (response) => {
+        }).catch((response) => {
           let error =
             ` Error retrieving the mdJSON: ${response.status}: ${response.statusText}`;
 
