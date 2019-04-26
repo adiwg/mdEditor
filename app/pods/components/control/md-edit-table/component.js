@@ -30,6 +30,21 @@ export default Component.extend({
   // classNames: ['md-edit-table'],
   tagName: '',
   spotlightRow: true,
+
+  /**
+  * Array of button configs to add to action column
+  *
+  * @property actionButtons
+  * @type {[Object]}
+  */
+
+  /**
+  * Array of badge configs to add to action column
+  *
+  * @property actionBadges
+  * @type {[Object]}
+  */
+
   /**
    * Column configs for the action column.
    * See http://onechiporenko.github.io/ember-models-table
@@ -68,7 +83,8 @@ export default Component.extend({
       disableFiltering: true,
       disableSorting: true,
       mayBeHidden: false,
-      buttons: btns
+      buttons: btns,
+      badges: this.actionBadges
     };
   }),
 
@@ -83,7 +99,6 @@ actions: {
     this.editRow(index, record);
   },
   deleteRow(col, index, record){
-    console.log('delete');
     record.destroyRecord();
   }
 }

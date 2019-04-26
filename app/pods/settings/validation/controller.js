@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
+import { task } from 'ember-concurrency';
 
 export default Controller.extend({
   schemas: service(),
@@ -33,13 +34,24 @@ export default Controller.extend({
     showColumns: ['title', 'uri']
   }],
 
+  badges: [{
+    type: 'info',
+    icon: 'info-circle',
+    tip: 'Update available.',
+    isVisible: 'hasUpdate'
+  }],
+
   schema: null,
 
+  checkForUpdates: task(function* () {
+    yield this.schemas.checkForUpdates.perform(this.model);
+  }),
+
   actions: {
-    addSchema(){
+    addSchema() {
       this.set('schema', this.store.createRecord('schema'));
     },
-    editSchema(index, record){
+    editSchema(index, record) {
       this.set('schema', record);
     },
     saveSchema() {
@@ -52,7 +64,10 @@ export default Controller.extend({
 
         return fetched.then(val => {
           schema.set('customSchemas', val);
-          this.flashMessages.success(`Downloaded ${val.length} schemas.`);
+          schema.set('version', val[0].schema.version);
+          schema.set('remoteVersion', schema.version);
+          this.flashMessages.success(
+            `Downloaded ${val.length} schemas.`);
         });
       }).catch(e => {
         this.flashMessages.warning(e.message);
@@ -60,15 +75,13 @@ export default Controller.extend({
 
     },
 
-    cancelEdit(){
-      let record=this.schema;
+    cancelEdit() {
+      let record = this.schema;
 
       this.set('schema', null);
       record.rollbackAttributes();
     },
-    checkUpdate(){
-    },
-    fetchSchemas(url){
+    fetchSchemas(url) {
       this.schemas.fetchSchemas(url);
     }
   }
