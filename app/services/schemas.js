@@ -1,11 +1,17 @@
 import Service from '@ember/service';
 import RefParser from 'json-schema-ref-parser';
 import Ajv from 'ajv';
-// import Cache from 'ajv/lib/cache';
-// import request from 'ember-ajax/request';
+import request from 'ember-ajax/request';
 // import regex from 'mdeditor/models/schema';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
-import { task, timeout } from 'ember-concurrency';
+import { task, all, timeout } from 'ember-concurrency';
+import { inject as service } from '@ember/service';
+import {
+  // isAjaxError,
+  isNotFoundError,
+  // isForbiddenError
+} from 'ember-ajax/errors';
+import semver from 'semver';
 
 const parser = new RefParser();
 const options = {
@@ -36,8 +42,8 @@ export default Service.extend({
     // });
     // this.ajv.addMetaSchema(draft4);
   },
-
-fetchSchemas: task(function * (url) {
+  flashMessages: service(),
+  fetchSchemas: task(function* (url) {
     yield timeout(1000);
 
     return yield this.parser.resolve(url).then($refs => {
@@ -60,7 +66,45 @@ fetchSchemas: task(function * (url) {
     ajv.addSchema(schemas);
 
     return ajv;
-  }
+  },
+
+  checkForUpdates: task(function* (records) {
+    yield timeout(1000);
+
+    yield all(records.map(itm => {
+      if(itm.validations.attrs.uri.isInvalid) {
+        this.flashMessages
+          .warning(
+            `Did not load schema for "${itm.title}". URL is Invalid.`
+          );
+        return;
+      }
+
+      return request(itm.uri).then(response => {
+        // `response` is the data from the server
+        if(semver.valid(response.version)) {
+          itm.set('remoteVersion', response.version);
+        } else {
+          throw new Error("Invalid version");
+        }
+
+        return response;
+      }).catch(error => {
+        if(isNotFoundError(error)) {
+          this.flashMessages
+            .danger(
+              `Could not load schema for "${itm.title}". Schema not found.`
+            );
+        } else {
+          this.flashMessages
+            .danger(
+              `Could not load schema for "${itm.title}". Error: ${error.message}`
+            );
+        }
+      });
+    }));
+  }).drop(),
+
   // baseURL: null,
 
   // loadSchema(url) {
@@ -69,10 +113,6 @@ fetchSchemas: task(function * (url) {
   //   };
   //   let _url = url.match(regex)? url : this.baseURL + url;
   //
-  //   return request(_url, options).then(response => {
-  //     // `response` is the data from the server
-  //     return response;
-  //   });
   // },
 
   // compileSchemas(url) {

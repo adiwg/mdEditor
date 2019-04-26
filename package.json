@@ -124,7 +124,10 @@
     "text-encoding": "^0.6.4",
     "uuid": "^3.0.1",
     "validator": "^10.9.0",
-    "yuidoc-mdeditor-theme": "^1.4.0"
+    "yuidoc-mdeditor-theme": "^1.4.0",
+    "json-schema-ref-parser": "^6.1.0",
+    "scroll-into-view-if-needed": "^2.2.20",
+    "semver": "^6.0.0"
   },
   "ember-addon": {
     "paths": [
@@ -132,9 +135,5 @@
       "lib/ember-leaflet-table",
       "lib/mdeditor-sciencebase"
     ]
-  },
-  "dependencies": {
-    "json-schema-ref-parser": "^6.1.0",
-    "scroll-into-view-if-needed": "^2.2.20"
   }
 }
