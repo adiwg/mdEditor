@@ -85,15 +85,20 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  hasSchemaErrors: computed('status', function () {
-    let mdjson = this.mdjson;
-    let errors = mdjson.validateDictionary(this)
-      .errors;
+   hasSchemaErrors: computed('status', function () {
+     let mdjson = this.mdjson;
+     let errors = [];
+     let result = mdjson.validateDictionary(this).errors;
 
-    //console.log(errors);
+     if(result) {
+       errors.pushObject({
+         title: 'Default Dictionary Validation',
+         errors: result
+       });
+     }
 
-    return errors;
-  }),
+     return errors.length ? errors : false;
+   }),
 
   copy() {
     let current = this.cleanJson;

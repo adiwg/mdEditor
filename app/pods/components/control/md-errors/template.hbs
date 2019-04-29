@@ -1,16 +1,21 @@
-<ul class="list-group">
-  {{#each errors as |err idx|}}
-    <li class="list-group-item {{if (mod idx 2) "list-group-item-warning"}}">
-      <div class="media">
-        <div class="media-left media-middle">
-            <span class="label label-{{if err.dataPath "warning" "danger"}}">{{idx}}</span>
-        </div>
-        <div class="media-body">
-          <h4 class="media-heading">{{err.message}}</h4> {{err.dataPath}}
-        </div>
-      </div>
-    </li>
-  {{/each}}
-</ul>
+{{#each errors as |error|}}
+  <section>
+    <h3>{{error.title}}</h3>
+    <ul class="list-group">
+      {{#each error.errors as |err idx|}}
+        <li class="list-group-item {{if (mod idx 2) "list-group-item-warning"}}">
+          <div class="media">
+            <div class="media-left media-middle">
+                <span class="label label-{{if err.dataPath "warning" "danger"}}">{{idx}}</span>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">{{err.message}}</h4> {{err.dataPath}}
+            </div>
+          </div>
+        </li>
+      {{/each}}
+  </ul>
+</section>
+{{/each}}
 
 {{yield}}

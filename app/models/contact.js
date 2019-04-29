@@ -359,12 +359,17 @@ const Contact = Model.extend(Validations, Copyable, {
    */
   hasSchemaErrors: computed('status', function () {
     let mdjson = this.mdjson;
-    let errors = mdjson.validateContact(this)
-      .errors;
+    let errors = [];
+    let result = mdjson.validateContact(this).errors;
 
-    //console.log(errors);
+    if(result) {
+      errors.pushObject({
+        title: 'Default Contact Validation',
+        errors: result
+      });
+    }
 
-    return errors;
+    return errors.length ? errors : false;
   }),
 
   /**
