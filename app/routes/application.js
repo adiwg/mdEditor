@@ -75,7 +75,13 @@ export default Route.extend({
       return item;
     };
 
-    return RSVP.map(promises, mapFn);
+    return RSVP.map(promises, mapFn).then(result => {
+      this.store.findAll('schema', {
+        reload: true
+      });
+
+      return result;
+    });
   },
 
   setupController(controller, model) {
