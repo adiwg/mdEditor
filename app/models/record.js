@@ -186,12 +186,36 @@ export default Model.extend(Validations, Copyable, {
    */
   hasSchemaErrors: computed('status', function () {
     let mdjson = this.mdjson;
-    let errors = mdjson.validateRecord(this).errors;
+    let errors = [];
+    let result = mdjson.validateRecord(this).errors;
 
-    //console.log(errors);
+    if(result) {
+      errors.pushObject({
+        title: 'Default Record Validation',
+        errors: result
+      });
+    }
+
+    let customSchemas = this.store.peekAll('schema').filterBy('isGlobal').filterBy(
+      'schemaType', 'record');
+    //let customErrors = [];
+
+    customSchemas.forEach(schema => {
+      const validator = schema.validator;
+
+      if(validator.validate(schema.rootSchema, mdjson.formatRecord(this))){
+        return;
+      }
+
+      errors.pushObject({
+        title: schema.title,
+        errors: validator.errors
+      });
+    });
 
     return errors;
   }),
+
 
   formatted: computed(function () {
       let mdjson = this.mdjson;
