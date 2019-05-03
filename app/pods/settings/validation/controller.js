@@ -66,6 +66,7 @@ export default Controller.extend({
           schema.set('customSchemas', val);
           schema.set('version', val[0].schema.version);
           schema.set('remoteVersion', schema.version);
+
           this.flashMessages.success(
             `Downloaded ${val.length} schemas.`);
         });
