@@ -1,9 +1,6 @@
 import Service from '@ember/service';
 import RefParser from 'json-schema-ref-parser';
-import Ajv from 'ajv';
 import request from 'ember-ajax/request';
-// import regex from 'mdeditor/models/schema';
-import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 import { task, all, timeout } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
 import {
@@ -14,12 +11,6 @@ import {
 import semver from 'semver';
 
 const parser = new RefParser();
-const options = {
-  verbose: true,
-  allErrors: true,
-  removeAdditional: false,
-  schemaId: 'auto'
-};
 
 export default Service.extend({
   init() {
@@ -33,14 +24,6 @@ export default Service.extend({
      * @return {Object}
      */
     this.parser = parser;
-
-    // this.cache = new Cache();
-    // this.ajv = new Ajv({
-    //   loadSchema: this.loadSchema,
-    //   cache:this.cache,
-    //   schemaId: 'auto'
-    // });
-    // this.ajv.addMetaSchema(draft4);
   },
   flashMessages: service(),
   fetchSchemas: task(function* (url) {
@@ -59,14 +42,15 @@ export default Service.extend({
     })
   }).drop(),
 
-  compileSchemas(schemas) {
-    let ajv = new Ajv(options);
-
-    ajv.addMetaSchema(draft4);
-    ajv.addSchema(schemas);
-
-    return ajv;
-  },
+  // compileSchemas(schemas) {
+  //   let ajv = ajvErrors(new Ajv(options));
+  //
+  //
+  //   ajv.addMetaSchema(draft4);
+  //   ajv.addSchema(schemas);
+  //
+  //   return ajv;
+  // },
 
   checkForUpdates: task(function* (records) {
     yield timeout(1000);
@@ -104,33 +88,5 @@ export default Service.extend({
       });
     }));
   }).drop(),
-
-  // baseURL: null,
-
-  // loadSchema(url) {
-  //   let options = {
-  //     // request options
-  //   };
-  //   let _url = url.match(regex)? url : this.baseURL + url;
-  //
-  // },
-
-  // compileSchemas(url) {
-  //   //set baseURL for relative refs
-  //   this.baseURL = url.substring(0,url.lastIndexOf('/')+1);
-  //
-  //   request(url).then(response => {
-  //     console.log(response);
-  //
-  //     this.ajv.removeSchema();
-  //     this.ajv.compileAsync(response).then(() => {
-  //       return this.cache;
-  //     }).catch(error => {
-  //       console.log(error);
-  //     });
-  //   }).catch(error => {
-  //     console.log(error);
-  //   });
-  // }
 
 });
