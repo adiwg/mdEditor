@@ -2,7 +2,7 @@ import DS from 'ember-data';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';
-import { bool, alias } from '@ember/object/computed';
+import { bool, alias, filter } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
 const Base = DS.Model.extend({
@@ -18,6 +18,7 @@ const Base = DS.Model.extend({
   },
 
   settings: service(),
+  schemas: service(),
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
@@ -214,17 +215,14 @@ const Base = DS.Model.extend({
    * @category computed
    * @requires
    */
-  customSchemas: alias('_customSchemas')
+  customSchemas: filter('schemas.globalSchemas', function (schema) {
+    return schema.schemaType === this.constructor.modelName;
+  })
+  //customSchemas: []
 });
 
 //Modify the prototype instead of using computed.volatile()
 //see https://github.com/emberjs/ember.js/issues/17709#issuecomment-469941364
-Object.defineProperty(Base.prototype, '_customSchemas', {
-  get() {
-    return this.store.peekAll('schema').filterBy('isGlobal').filterBy(
-      'schemaType', this.constructor.modelName);
-  }
-});
 
 Object.defineProperty(Base.prototype, '_cleanJson', {
   get() {

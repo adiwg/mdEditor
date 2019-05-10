@@ -3,6 +3,7 @@ import RefParser from 'json-schema-ref-parser';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
 import { inject as service } from '@ember/service';
+import { filterBy } from '@ember/object/computed';
 import {
   // isAjaxError,
   isNotFoundError,
@@ -24,8 +25,12 @@ export default Service.extend({
      * @return {Object}
      */
     this.parser = parser;
+
+    this.schemas = this.store.peekAll('schema');
   },
+  store: service(),
   flashMessages: service(),
+  globalSchemas: filterBy('schemas','isGlobal'),
   fetchSchemas: task(function* (url) {
     yield timeout(1000);
 
