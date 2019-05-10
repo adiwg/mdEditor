@@ -337,27 +337,16 @@ const Contact = Model.extend(Validations, Copyable, {
     return contactId;
   }),
 
-  status: computed('hasDirtyHash', function () {
-    let dirty = this.hasDirtyHash;
-    let errors = this.hasSchemaErrors;
-
-    if(this.currentHash) {
-      return dirty ? 'danger' : errors ? 'warning' : 'success';
-    }
-
-    return 'success';
-  }),
-
   /**
    * A list of schema errors return by the validator.
    *
-   * @property hasSchemaErrors
+   * @property schemaErrors
    * @type {Array}
    * @readOnly
    * @category computed
    * @requires status
    */
-  hasSchemaErrors: computed('status', function () {
+  schemaErrors: computed('hasDirtyHash', function () {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateContact(this).errors;
@@ -369,7 +358,20 @@ const Contact = Model.extend(Validations, Copyable, {
       });
     }
 
-    return errors.length ? errors : false;
+    this.customSchemas.forEach(schema => {
+      const validator = schema.validator;
+
+      if(validator.validate(schema.rootSchema, this.cleanJson)){
+        return;
+      }
+
+      errors.pushObject({
+        title: schema.title,
+        errors: validator.errors
+      });
+    });
+
+    return errors;
   }),
 
   /**
