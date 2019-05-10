@@ -22,7 +22,7 @@
     send=(hash
       title=(concat "Viewing errors for: " model.title)
       body=(component "control/md-errors"
-        errors=model.hasSchemaErrors
+        errors=model.schemaErrors
       )
     )
   }}

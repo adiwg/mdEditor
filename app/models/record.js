@@ -43,12 +43,8 @@ const Validations = buildValidations({
   //   min: 1
   // })
 });
-export default Model.extend(Validations, Copyable, {
-  // init() {
-  //   this._super(...arguments);
-  //
-  //   this.set('allRecords', this.store.peekAll('record'));
-  // },
+
+const Record = Model.extend(Validations, Copyable, {
   profile: DS.attr('string', {
     defaultValue: 'full'
   }),
@@ -184,7 +180,7 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  hasSchemaErrors: computed('status', function () {
+  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateRecord(this).errors;
@@ -196,11 +192,7 @@ export default Model.extend(Validations, Copyable, {
       });
     }
 
-    let customSchemas = this.store.peekAll('schema').filterBy('isGlobal').filterBy(
-      'schemaType', 'record');
-    //let customErrors = [];
-
-    customSchemas.forEach(schema => {
+    this.customSchemas.forEach(schema => {
       const validator = schema.validator;
 
       if(validator.validate(schema.rootSchema, mdjson.formatRecord(this))){
@@ -217,23 +209,7 @@ export default Model.extend(Validations, Copyable, {
   }),
 
 
-  formatted: computed(function () {
-      let mdjson = this.mdjson;
-
-      return mdjson.formatRecord(this);
-    })
-    .volatile(),
-
-  status: computed('hasDirtyHash', function () {
-    let dirty = this.hasDirtyHash;
-    let errors = this.hasSchemaErrors;
-
-    if(this.currentHash) {
-      return dirty ? 'danger' : errors ? 'warning' : 'success';
-    }
-
-    return 'success';
-  }),
+  formatted: alias('_formatted'),
 
   copy() {
     let current = this.cleanJson;
@@ -251,3 +227,11 @@ export default Model.extend(Validations, Copyable, {
     });
   }
 });
+
+Object.defineProperty(Record.prototype, '_formatted', {
+  get() {
+    return this.mdjson.formatRecord(this);
+  }
+});
+
+export default Record;
