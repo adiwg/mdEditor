@@ -346,7 +346,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed('hasDirtyHash', function () {
+  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateContact(this).errors;
@@ -361,7 +361,7 @@ const Contact = Model.extend(Validations, Copyable, {
     this.customSchemas.forEach(schema => {
       const validator = schema.validator;
 
-      if(validator.validate(schema.rootSchema, this.cleanJson)){
+      if(validator.validate(schema.rootSchema, this.cleanJson)) {
         return;
       }
 
