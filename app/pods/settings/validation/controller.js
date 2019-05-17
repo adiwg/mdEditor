@@ -1,6 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { task } from 'ember-concurrency';
+import { or } from '@ember/object/computed';
 
 export default Controller.extend({
   schemas: service(),
@@ -42,6 +43,17 @@ export default Controller.extend({
   }],
 
   schema: null,
+
+/**
+* Indicates whether the save button should be disabled
+*
+* @property disableSave
+* @type {Boolean}
+* @readOnly
+* @category computed
+* @requires schema.validations.isInvalid,task.isRunning
+*/
+  disableSave: or('schema.validations.isInvalid', 'task.isRunning'),
 
   checkForUpdates: task(function* () {
     yield this.schemas.checkForUpdates.perform(this.model);
