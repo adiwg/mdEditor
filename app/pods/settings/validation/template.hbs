@@ -53,10 +53,9 @@
     text=(if task.isRunning "Loading..." (if schema.isNew "Save Schema" "Update Schema"))
     icon=(if task.isRunning "spinner" "floppy-o")
     iconSpin=task.isRunning
-    disabled=task.isRunning
+    disabled=disableSave
     class="btn-success btn-lg"
     click=(action "saveSchema")
-    disabled=schema.validations.isInvalid
     )
   }}
     {{to-elsewhere
