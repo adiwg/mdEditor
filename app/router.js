@@ -15,7 +15,9 @@ Router.map(function () {
   this.route('help');
   this.route('settings', function() {
     this.route('validation');
-    this.route('profile');
+    this.route('profile', function() {
+      this.route('manage');
+    });
     this.route('main');
   });
 
