@@ -1,0 +1,17 @@
+{{#layout/md-card
+  collapsible=false
+  collapsed=false
+  shadow=true
+  block=false
+}}
+{{yield}}
+<form>
+  {{input/md-input
+   model=record
+   valuePath="uri"
+   label="URL"
+   placeholder="Enter URL of the profile."
+   showValidations=true
+  }}
+</form>
+{{/layout/md-card}}

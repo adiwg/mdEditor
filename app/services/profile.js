@@ -2,6 +2,14 @@ import Service from '@ember/service';
 import {
   inject as service
 } from '@ember/service';
+import request from 'ember-ajax/request';
+import { task, timeout } from 'ember-concurrency';
+import {
+  // isAjaxError,
+  isNotFoundError,
+  // isForbiddenError
+} from 'ember-ajax/errors';
+import semver from 'semver';
 
 /**
  * Profile service
@@ -15,7 +23,9 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.profiles = {
+    this.profiles= this.get('store').peekAll('profile');
+
+    this.oldprofiles = {
       full: {
         profile: null,
         description: 'The kitchen sink',
@@ -873,4 +883,29 @@ export default Service.extend({
    *
    * @type {Object} profiles
    */
+
+   getProfile: task(function* (uri) {
+     yield timeout(1000);
+
+     yield request(uri).then(response => {
+         // `response` is the data from the server
+         if(!semver.valid(response.version)) {
+           throw new Error("Invalid version");
+         }
+
+         return response;
+       }).catch(error => {
+         if(isNotFoundError(error)) {
+           this.flashMessages
+             .danger(
+               `Could not load profile from ${uri}. Profile not found.`
+             );
+         } else {
+           this.flashMessages
+             .danger(
+               `Could not load profile from "${uri}". Error: ${error.message}`
+             );
+         }
+       });
+   }).drop(),
 });

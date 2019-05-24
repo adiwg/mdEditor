@@ -1,1 +1,44 @@
-{{outlet}}
+<div class="section-header">
+  <h3>
+    Custom Profiles
+  </h3>
+</div>
+
+<section>
+  <div class="section-header">
+    <h4 class="md-table-title">
+      {{#liquid-if profileRecord use="fade" growDuration=100 class="inline-block"}}
+        {{#if profileRecord.isNew}}
+          Add Profile
+        {{else if profileRecord}}
+          {{concat "Edit " profileRecord.title}}
+        {{/if}}
+        {{#if task.isRunning}}
+          <small>...downloading profiles</small>
+          {{fa-icon "spinner" spin=true}}
+        {{/if}}
+      {{else}}
+        Manage Profiles
+      {{/liquid-if}}
+    </h4>
+    <hr>
+  </div>
+
+  {{#liquid-if profileRecord use="fade"}}
+    {{#if profileRecord.isNew}}
+      {{object/md-profile/form record=profileRecord}}
+    {{else if profileRecord}}
+      {{object/md-profile record=profileRecord}}
+    {{/if}}
+  {{else}}
+    {{control/md-edit-table
+      data=model
+      columns=columns
+      columnSets=columnSets
+      rowBodyComponent="object/md-profile"
+      pageSize=25
+      editRow=(action "editProfile")
+      actionBadges=badges
+    }}
+  {{/liquid-if}}
+</section>

@@ -16,25 +16,38 @@ export default Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
 
-    controller.set('links', this.profile.profiles.settings.secondaryNav)
+    const links = [{
+      title: 'Main',
+      target: 'settings.main',
+      tip: 'Main application settings'
+    }, {
+      title: 'Profiles',
+      target: 'settings.profile',
+      tip: 'Custom profile settings'
+    }, {
+      title: 'Validation',
+      target: 'settings.validation',
+      tip: 'Custom validation settings'
+    }]
+    controller.set('links', links);
   },
 
-  actions:{
-    clearLocalStorage(){
+  actions: {
+    clearLocalStorage() {
       window.localStorage.clear();
       this.transitionTo('application');
       window.location.reload();
     },
-    save(){
+    save() {
       this.currentRouteModel().save();
     },
 
-    catalogs(){
+    catalogs() {
       return this.get('publish.catalogs');
     },
 
-    resetMdTranslatorAPI(){
-      let url = get(Setting,'attributes').get('mdTranslatorAPI').options.defaultValue;
+    resetMdTranslatorAPI() {
+      let url = get(Setting, 'attributes').get('mdTranslatorAPI').options.defaultValue;
       let model = get(this.controller, 'model');
 
       model.set('mdTranslatorAPI', url);
