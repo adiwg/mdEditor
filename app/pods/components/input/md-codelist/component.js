@@ -3,8 +3,7 @@
  * @submodule components-input
  */
 
-import { computed } from '@ember/object';
-
+import { computed, defineProperty } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Select from '../md-select/component';
 
@@ -37,6 +36,20 @@ export default Select.extend({
    * @constructor
    */
 
+  init() {
+    this._super(...arguments);
+
+    //define cp using a dynamic dependent property
+    defineProperty(this, 'mdCodelist',
+      computed(`mdCodes.${this.mdCodeName}.codelist.[]`, function () {
+        return this.mdCodes
+          .get(this.mdCodeName)
+          .codelist
+          //.uniqBy(codeName)
+          .sortBy(this.namePath);
+      })
+    );
+  },
   classNames: ['md-codelist'],
   layoutName: 'components/input/md-select',
 
@@ -134,6 +147,14 @@ export default Select.extend({
       });
   }),
 
+  // mdCodelist: computed('mdCodeName', function() {
+  //   return this.mdCodes
+  //     .get(this.mdCodeName)
+  //     .codelist
+  //     //.uniqBy(codeName)
+  //     .sortBy(this.namePath);
+  // }),
+
   /**
    * mapped is a re-mapped array of code objects.
    * The initial codelist for 'mdCodeName' is provided by the 'codelist' service.
@@ -143,21 +164,15 @@ export default Select.extend({
    * @category computed
    * @requires mdCodeName
    */
-  mapped: computed('mdCodeName', function () {
+  mapped: computed('mdCodelist.[]', function () {
     let codeId = this.valuePath;
     let codeName = this.namePath;
     let tooltip = this.tooltipPath;
     let codelist = [];
     let icons = this.icons;
     let defaultIcon = this.defaultIcon;
-    let codelistName = this.mdCodeName;
-    let mdCodelist = this.mdCodes
-      .get(codelistName)
-      .codelist
-      //.uniqBy(codeName)
-      .sortBy(codeName);
 
-    mdCodelist.forEach(function (item) {
+    this.mdCodelist.forEach(function (item) {
       let newObject = {
         codeId: item[codeId],
         codeName: item[codeName],
