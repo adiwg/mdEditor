@@ -4,12 +4,95 @@ import {
 } from '@ember/service';
 import request from 'ember-ajax/request';
 import { task, timeout } from 'ember-concurrency';
+import { computed } from '@ember/object';
+import { union } from '@ember/object/computed';
 import {
   // isAjaxError,
   isNotFoundError,
   // isForbiddenError
 } from 'ember-ajax/errors';
 import semver from 'semver';
+
+const coreProfiles = [{
+  "identifier": "full",
+  "namespace": "org.adiwg.profile",
+  //"alternateId": [""],
+  "title": "Full",
+  "description": "Evey supported component",
+  "version": "0.0.0",
+  "components": {
+    "record": {},
+    "contact": {},
+    "dictionary": {}
+  },
+  "nav": {
+    "record": [{
+      title: 'Main',
+      target: 'record.show.edit.main',
+      tip: 'Basic information about the resource.'
+
+    }, {
+      title: 'Metadata',
+      target: 'record.show.edit.metadata',
+      tip: 'Information about the metadata for the resource.'
+
+    }, {
+      title: 'Keywords',
+      target: 'record.show.edit.keywords',
+      tip: 'Terms used to describe the resource.'
+
+    }, {
+      title: 'Extent',
+      target: 'record.show.edit.extent',
+      tip: 'Information describing the bounds of the resource.'
+
+    }, {
+      title: 'Spatial',
+      target: 'record.show.edit.spatial',
+      tip: 'Information concerning the spatial attributes of the resource.'
+
+    }, {
+      title: 'Lineage',
+      target: 'record.show.edit.lineage',
+      tip: 'Information on the history of the resource.'
+    }, {
+      title: 'Taxonomy',
+      target: 'record.show.edit.taxonomy',
+      tip: 'Information on the taxa associated with the resource.'
+
+    }, {
+      title: 'Distribution',
+      target: 'record.show.edit.distribution',
+      tip: 'Information about obtaining the resource.'
+
+    }, {
+      title: 'Constraints',
+      target: 'record.show.edit.constraint',
+      tip: 'Information about constraints applied to the resource.'
+
+    }, {
+      title: 'Associated',
+      target: 'record.show.edit.associated',
+      tip: 'Other resources with a defined relationship to the resource.'
+
+    }, {
+      title: 'Documents',
+      target: 'record.show.edit.documents',
+      tip: 'Other documents related to, but not defining, the resource.'
+
+    }, {
+      title: 'Funding',
+      target: 'record.show.edit.funding',
+      tip: 'Information about funding allocated to development of the resource.'
+
+    }, {
+      title: 'Dictionaries',
+      target: 'record.show.edit.dictionary',
+      tip: 'Data dictionaries associated with the resource.'
+
+    }]
+  }
+}];
 
 /**
  * Profile service
@@ -20,80 +103,21 @@ import semver from 'semver';
  * @augments ember/Service
  */
 export default Service.extend({
+  // profiles: computed('profileRecords.[]', function () {
+  //   return this.profileRecords;
+  // }),
+  profiles: union('profileRecords', 'coreProfiles'),
   init() {
     this._super(...arguments);
 
-    this.profiles= this.get('store').peekAll('profile');
+    this.profileRecords = this.get('store').peekAll('profile');
+    this.coreProfiles = coreProfiles;
 
     this.oldprofiles = {
       full: {
         profile: null,
         description: 'The kitchen sink',
-        secondaryNav: [{
-            title: 'Main',
-            target: 'record.show.edit.main',
-            tip: 'Basic information about the resource.'
-
-          }, {
-            title: 'Metadata',
-            target: 'record.show.edit.metadata',
-            tip: 'Information about the metadata for the resource.'
-
-          }, {
-            title: 'Keywords',
-            target: 'record.show.edit.keywords',
-            tip: 'Terms used to describe the resource.'
-
-          }, {
-            title: 'Extent',
-            target: 'record.show.edit.extent',
-            tip: 'Information describing the bounds of the resource.'
-
-          }, {
-            title: 'Spatial',
-            target: 'record.show.edit.spatial',
-            tip: 'Information concerning the spatial attributes of the resource.'
-
-          }, {
-            title: 'Lineage',
-            target: 'record.show.edit.lineage',
-            tip: 'Information on the history of the resource.'
-          }, {
-            title: 'Taxonomy',
-            target: 'record.show.edit.taxonomy',
-            tip: 'Information on the taxa associated with the resource.'
-
-          }, {
-            title: 'Distribution',
-            target: 'record.show.edit.distribution',
-            tip: 'Information about obtaining the resource.'
-
-          }, {
-            title: 'Constraints',
-            target: 'record.show.edit.constraint',
-            tip: 'Information about constraints applied to the resource.'
-
-          }, {
-            title: 'Associated',
-            target: 'record.show.edit.associated',
-            tip: 'Other resources with a defined relationship to the resource.'
-
-          }, {
-            title: 'Documents',
-            target: 'record.show.edit.documents',
-            tip: 'Other documents related to, but not defining, the resource.'
-
-          }, {
-            title: 'Funding',
-            target: 'record.show.edit.funding',
-            tip: 'Information about funding allocated to development of the resource.'
-
-          }, {
-            title: 'Dictionaries',
-            target: 'record.show.edit.dictionary',
-            tip: 'Data dictionaries associated with the resource.'
-
-          }
+        secondaryNav: [
           /*, {
                   title: 'Coverage',
                   target: 'record.show.edit.coverages'
@@ -851,6 +875,7 @@ export default Service.extend({
     };
   },
   flashMessages: service(),
+  store: service(),
   /**
    * String identifying the active profile
    *
@@ -867,15 +892,16 @@ export default Service.extend({
   getActiveProfile() {
     const active = this.active;
     const profile = active && typeof active === 'string' ? active : 'full';
-    const profiles = this.profiles;
+    const selected = this.profiles.findBy('identifier', profile);
 
-    if(profiles[profile]) {
-      return profiles[profile];
-    } else {
-      this.flashMessages
-        .warning(`Profile "${active}" not found. Using "full" profile.`);
-      return 'full';
+    if(selected) {
+      return selected;
     }
+
+    this.flashMessages
+      .warning(`Profile "${active}" not found. Using "full" profile.`);
+    return 'full';
+
   },
 
   /**
@@ -884,28 +910,28 @@ export default Service.extend({
    * @type {Object} profiles
    */
 
-   getProfile: task(function* (uri) {
-     yield timeout(1000);
+  getProfile: task(function* (uri) {
+    yield timeout(1000);
 
-     yield request(uri).then(response => {
-         // `response` is the data from the server
-         if(!semver.valid(response.version)) {
-           throw new Error("Invalid version");
-         }
+    yield request(uri).then(response => {
+      // `response` is the data from the server
+      if(!semver.valid(response.version)) {
+        throw new Error("Invalid version");
+      }
 
-         return response;
-       }).catch(error => {
-         if(isNotFoundError(error)) {
-           this.flashMessages
-             .danger(
-               `Could not load profile from ${uri}. Profile not found.`
-             );
-         } else {
-           this.flashMessages
-             .danger(
-               `Could not load profile from "${uri}". Error: ${error.message}`
-             );
-         }
-       });
-   }).drop(),
+      return response;
+    }).catch(error => {
+      if(isNotFoundError(error)) {
+        this.flashMessages
+          .danger(
+            `Could not load profile from ${uri}. Profile not found.`
+          );
+      } else {
+        this.flashMessages
+          .danger(
+            `Could not load profile from "${uri}". Error: ${error.message}`
+          );
+      }
+    });
+  }).drop(),
 });
