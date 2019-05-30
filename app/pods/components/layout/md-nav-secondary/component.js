@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { computed } from '@ember/object';
+import { computed,get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import ResizeAware from 'ember-resize/mixins/resize-aware';
@@ -7,12 +7,13 @@ import ResizeAware from 'ember-resize/mixins/resize-aware';
 export default Component.extend(ResizeAware, {
   profile: service('profile'),
   resizeService: service('resize'),
-  links: computed('profile.active', function () {
-    const profile = this.profile
-      .getActiveProfile();
+  links: computed('profile.active', 'model', function () {
+    const profile = this.profile.getActiveProfile();
+    const modelName = this.model.constructor.modelName;
+
     this.debouncedDidResize();
 
-    return profile.secondaryNav;
+    return get(profile, 'nav.' + modelName) || this.profile.mapById.full.nav[modelName];
   }),
 
   resizeWidthSensitive: true,

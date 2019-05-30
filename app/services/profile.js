@@ -107,6 +107,13 @@ export default Service.extend({
   //   return this.profileRecords;
   // }),
   profiles: union('profileRecords', 'coreProfiles'),
+  mapById: computed('profiles.[]', function(){
+    return this.profiles.reduce(function(map, profile){
+      map[profile.identifier] = profile;
+
+      return map;
+    }, {});
+  }),
   init() {
     this._super(...arguments);
 
@@ -892,7 +899,7 @@ export default Service.extend({
   getActiveProfile() {
     const active = this.active;
     const profile = active && typeof active === 'string' ? active : 'full';
-    const selected = this.profiles.findBy('identifier', profile);
+    const selected = this.mapById[profile];
 
     if(selected) {
       return selected;
@@ -900,8 +907,8 @@ export default Service.extend({
 
     this.flashMessages
       .warning(`Profile "${active}" not found. Using "full" profile.`);
-    return 'full';
 
+    return this.mapById.full;
   },
 
   /**
