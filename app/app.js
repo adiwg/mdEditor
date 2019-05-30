@@ -69,12 +69,8 @@ Component.reopen({
       defineProperty(this, 'isVisible', computed(
         'profile.active',
         function () {
-          let fullPath = 'profiles.' + get(profile, 'active') +
-            '.components.' +
-            path;
-
-          //console.log(fullPath);
-          return getWithDefault(profile, fullPath, isVisible);
+          // console.log(path);
+          return getWithDefault(profile.activeComponents, path, isVisible);
         }));
     }
   }

@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import { computed,get } from '@ember/object';
+import { computed, get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import ResizeAware from 'ember-resize/mixins/resize-aware';
@@ -13,7 +13,8 @@ export default Component.extend(ResizeAware, {
 
     this.debouncedDidResize();
 
-    return get(profile, 'nav.' + modelName) || this.profile.mapById.full.nav[modelName];
+    return get(profile, 'nav.' + modelName) || this.profile.mapById.full
+      .nav[modelName];
   }),
 
   resizeWidthSensitive: true,
@@ -66,7 +67,7 @@ export default Component.extend(ResizeAware, {
       let dropdown = $('li.overflow-nav', ul);
 
       // Create one if none exists
-      if (!dropdown.length) {
+      if(!dropdown.length) {
         dropdown = $('<li class="overflow-nav dropdown"></li>');
         dropdown.append($(
           '<a class="dropdown-toggle" data-toggle="dropdown" href="#">' +
@@ -84,7 +85,7 @@ export default Component.extend(ResizeAware, {
         });
 
       // Window is shrinking
-      if (width >= parent_width) {
+      if(width >= parent_width) {
         // Loop through each non-dropdown li in the ul menu from right to left (using .get().reverse())
         $($('li', ul)
             .not('.dropdown')
@@ -101,7 +102,7 @@ export default Component.extend(ResizeAware, {
                 let $this = $(this);
                 width += $this.outerWidth();
               });
-            if (width >= parent_width) {
+            if(width >= parent_width) {
               // Remember the original width so that we can restore as the window grows
               $this
                 .attr('data-original-width', $this
@@ -120,7 +121,7 @@ export default Component.extend(ResizeAware, {
         dropdown.children('ul.dropdown-menu')
           .children()
           .each(function () {
-            if ((width += parseInt($(this)
+            if((width += parseInt($(this)
                 .attr('data-original-width'))) < parent_width) {
               // Restore the topmost dropdown item to the main menu
               dropdown.before(this);
@@ -132,13 +133,13 @@ export default Component.extend(ResizeAware, {
       }
 
       // Remove or add dropdown depending on whether or not it contains menu items
-      if (!dropdown.children('ul.dropdown-menu')
+      if(!dropdown.children('ul.dropdown-menu')
         .children()
         .length) {
         dropdown.remove();
       } else {
         // Append new dropdown menu to main menu iff it doesn't already exist
-        if (!ul.children('li.overflow-nav')
+        if(!ul.children('li.overflow-nav')
           .length) {
           ul.append(dropdown);
         }

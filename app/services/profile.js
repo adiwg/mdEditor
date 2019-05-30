@@ -21,7 +21,9 @@ const coreProfiles = [{
   "description": "Evey supported component",
   "version": "0.0.0",
   "components": {
-    "record": {},
+    "record": {
+      //"main": { "recordId": true }
+    },
     "contact": {},
     "dictionary": {}
   },
@@ -91,7 +93,7 @@ const coreProfiles = [{
       tip: 'Data dictionaries associated with the resource.'
 
     }],
-    "dictionary":[{
+    "dictionary": [{
       title: 'Main',
       target: 'dictionary.show.edit.index',
       tip: 'Basic information about the dictionary.'
@@ -125,8 +127,8 @@ export default Service.extend({
   //   return this.profileRecords;
   // }),
   profiles: union('profileRecords', 'coreProfiles'),
-  mapById: computed('profiles.[]', function(){
-    return this.profiles.reduce(function(map, profile){
+  mapById: computed('profiles.[]', function () {
+    return this.profiles.reduce(function (map, profile) {
       map[profile.identifier] = profile;
 
       return map;
@@ -891,6 +893,9 @@ export default Service.extend({
    */
   active: null,
 
+  activeComponents: computed('active', function () {
+    return this.getActiveProfile().components;
+  }),
   /**
    * Get the active profile.
    *
