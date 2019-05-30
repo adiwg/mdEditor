@@ -26,6 +26,18 @@ export default Route.extend(HashPoll, {
   },
 
   actions: {
+    /**
+     * Update the dictionary profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
+     */
+    updateProfile(profile) {
+      this.profile
+        .set('active', profile);
+      this.modelFor('dictionary.show.edit')
+        .save();
+    },
     saveDictionary: function () {
       let model = this.currentRouteModel();
 

@@ -90,6 +90,24 @@ const coreProfiles = [{
       target: 'record.show.edit.dictionary',
       tip: 'Data dictionaries associated with the resource.'
 
+    }],
+    "dictionary":[{
+      title: 'Main',
+      target: 'dictionary.show.edit.index',
+      tip: 'Basic information about the dictionary.'
+    }, {
+      title: 'Citation',
+      target: 'dictionary.show.edit.citation',
+      tip: 'The citation for the dictionary.'
+    }, {
+      title: 'Domains',
+      target: 'dictionary.show.edit.domain',
+      tip: 'Information about defined value lists.'
+
+    }, {
+      title: 'Entities',
+      target: 'dictionary.show.edit.entity',
+      tip: 'Information about entities(tables) and attributes(columns or fields).'
     }]
   }
 }];
@@ -844,41 +862,24 @@ export default Service.extend({
           }
         }
       },
-      dictionary: {
-        secondaryNav: [{
-          title: 'Main',
-          target: 'dictionary.show.edit.index',
-          tip: 'Basic information about the dictionary.'
-        }, {
-          title: 'Citation',
-          target: 'dictionary.show.edit.citation',
-          tip: 'The citation for the dictionary.'
-        }, {
-          title: 'Domains',
-          target: 'dictionary.show.edit.domain',
-          tip: 'Information about defined value lists.'
-
-        }, {
-          title: 'Entities',
-          target: 'dictionary.show.edit.entity',
-          tip: 'Information about entities(tables) and attributes(columns or fields).'
-        }]
-      },
-      settings: {
-        secondaryNav: [{
-          title: 'Main',
-          target: 'settings.main',
-          tip: 'Main application settings'
-        }, {
-          title: 'Profiles',
-          target: 'settings.profile',
-          tip: 'Custom profile settings'
-        }, {
-          title: 'Validation',
-          target: 'settings.validation',
-          tip: 'Custom validation settings'
-        }]
-      }
+      // dictionary: {
+      //   secondaryNav: []
+      // },
+      // settings: {
+      //   secondaryNav: [{
+      //     title: 'Main',
+      //     target: 'settings.main',
+      //     tip: 'Main application settings'
+      //   }, {
+      //     title: 'Profiles',
+      //     target: 'settings.profile',
+      //     tip: 'Custom profile settings'
+      //   }, {
+      //     title: 'Validation',
+      //     target: 'settings.validation',
+      //     tip: 'Custom validation settings'
+      //   }]
+      // }
     };
   },
   flashMessages: service(),

@@ -49,6 +49,9 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
+  profile: DS.attr('string', {
+    defaultValue: 'full'
+  }),
   json: DS.attr('json', {
     defaultValue() {
       return JsonDefault.create();
