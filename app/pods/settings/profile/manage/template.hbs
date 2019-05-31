@@ -1,24 +1,37 @@
 <div class="section-header">
   <h3>
-    Custom Profiles
+    Manage Definitions
   </h3>
 </div>
 
 <section>
   <div class="section-header">
     <h4 class="md-table-title">
+      Core Definitions
+    </h4>
+  </div>
+  <hr>
+  {{#each profile.coreProfiles as |core|}}
+    <div class="">
+      {{core.title}}
+    </div>
+  {{/each}}
+</section>
+<section>
+  <div class="section-header">
+    <h4 class="md-table-title">
       {{#liquid-if profileRecord use="fade" growDuration=100 class="inline-block"}}
         {{#if profileRecord.isNew}}
-          Add Profile
+          Add Profile Definition
         {{else if profileRecord}}
           {{concat "Edit " profileRecord.title}}
         {{/if}}
         {{#if task.isRunning}}
-          <small>...downloading profiles</small>
+          <small>...downloading definition</small>
           {{fa-icon "spinner" spin=true}}
         {{/if}}
       {{else}}
-        Manage Profiles
+        External Definitions
       {{/liquid-if}}
     </h4>
     <hr>

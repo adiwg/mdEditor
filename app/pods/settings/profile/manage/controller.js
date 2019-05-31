@@ -53,7 +53,7 @@ export default Controller.extend({
 
   actions: {
     addProfile() {
-      this.set('profileRecord', this.store.createRecord('profileRecord'));
+      this.set('profileRecord', this.store.createRecord('profile'));
     },
     editProfile(index, record) {
       this.set('profileRecord', record);
