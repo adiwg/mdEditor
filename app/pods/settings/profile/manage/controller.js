@@ -34,60 +34,59 @@ export default Controller.extend({
     isVisible: 'hasUpdate'
   }],
 
-  profileRecord: null,
+  definition: null,
 
-/**
-* Indicates whether the save button should be disabled
-*
-* @property disableSave
-* @type {Boolean}
-* @readOnly
-* @category computed
-* @requires profileRecord.validations.isInvalid,task.isRunning
-*/
-  disableSave: or('profileRecord.validations.isInvalid', 'task.isRunning'),
+  /**
+   * Indicates whether the save button should be disabled
+   *
+   * @property disableSave
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires definition.validations.isInvalid,task.isRunning
+   */
+  disableSave: or('definition.validations.attrs.uri.isInvalid',
+    'task.isRunning'),
 
   checkForUpdates: task(function* () {
     yield this.profile.checkForUpdates.perform(this.model);
   }),
 
   actions: {
-    addProfile() {
-      this.set('profileRecord', this.store.createRecord('profile'));
+    addDefinition() {
+      this.set('definition', this.store.createRecord('profile'));
     },
-    editProfile(index, record) {
-      this.set('profileRecord', record);
+    editDefinition(index, record) {
+      this.set('definition', record);
     },
-    saveProfile() {
-      let profileRecord = this.profileRecord;
+    saveDefinition() {
+      let definition = this.definition;
 
-      return profileRecord.save().then(/*rec => {
-        let fetched = this.schemas.fetchProfiles.perform(rec.uri);
+      return definition.save().then(rec => {
+        let fetched = this.profile.fetchDefinition.perform(rec.uri);
 
         this.set('task', fetched);
 
-        return fetched.then(val => {
-          profileRecord.set('customProfiles', val);
-          profileRecord.set('version', val[0].profileRecord.version);
-          profileRecord.set('remoteVersion', profileRecord.version);
+        fetched.then(val => {
+          if(val) {
+            definition.set('config', val);
+            definition.set('remoteVersion', val.version);
 
-          this.flashMessages.success(
-            `Downloaded ${val.length} schemas.`);
+            this.flashMessages.success(
+              `Downloaded profile definition: ${val.title}.`);
+          }
         });
-      }*/).catch(e => {
+      }).catch(e => {
         this.flashMessages.warning(e.message);
       });
 
     },
 
     cancelEdit() {
-      let record = this.profileRecord;
+      let record = this.definition;
 
-      this.set('profileRecord', null);
+      this.set('definition', null);
       record.rollbackAttributes();
-    },
-    fetchProfiles(url) {
-      this.schemas.fetchProfiles(url);
     }
   }
 });

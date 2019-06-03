@@ -4,54 +4,116 @@
   </h3>
 </div>
 
-<section>
-  <div class="section-header">
-    <h4 class="md-table-title">
-      Core Definitions
-    </h4>
-  </div>
-  <hr>
-  {{#each profile.coreProfiles as |core|}}
-    <div class="">
-      {{core.title}}
-    </div>
-  {{/each}}
-</section>
-<section>
-  <div class="section-header">
-    <h4 class="md-table-title">
-      {{#liquid-if profileRecord use="fade" growDuration=100 class="inline-block"}}
-        {{#if profileRecord.isNew}}
-          Add Profile Definition
-        {{else if profileRecord}}
-          {{concat "Edit " profileRecord.title}}
-        {{/if}}
-        {{#if task.isRunning}}
-          <small>...downloading definition</small>
-          {{fa-icon "spinner" spin=true}}
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href={{concat "#" elementId "-imported"}} aria-controls="imported" role="tab" data-toggle="tab">Imported</a></li>
+  <li role="presentation">
+    <a href={{concat "#" elementId "-core"}} aria-controls="core" role="tab" data-toggle="tab">Core</a>
+  </li>
+</ul>
+<div class="card-block">
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade" id={{concat elementId "-core"}}>
+      {{!-- <div class="section-header">
+        <h4 class="md-table-title">
+          Core
+        </h4>
+      </div> --}}
+      <hr>
+      {{#each profile.coreProfiles as |core|}}
+        <div class="">
+          {{core.title}}
+        </div>
+      {{/each}}
+      </div>
+    <div role="tabpanel" class="tab-pane fade in active" id={{concat elementId "-imported"}}>
+      {{#if definition}}
+        <h4 class="tab-header">
+          {{#liquid-if definition use="fade" growDuration=100 class="inline-block"}}
+            {{#if definition.isNew}}
+              Add Profile Definition
+            {{else}}
+              {{concat "Edit " definition.title}}
+            {{/if}}
+            {{#if task.isRunning}}
+              <small>...downloading definition</small>
+              {{fa-icon "spinner" spin=true}}
+            {{/if}}
+          {{/liquid-if}}
+          <hr>
+        </h4>
+      {{/if}}
+
+      {{#liquid-if definition use="fade"}}
+        {{#if definition.isNew}}
+          {{object/md-profile/form record=definition}}
+        {{else if definition}}
+          {{object/md-profile record=definition}}
         {{/if}}
       {{else}}
-        External Definitions
+        {{control/md-edit-table
+          data=model
+          columns=columns
+          columnSets=columnSets
+          rowBodyComponent="object/md-profile/form"
+          pageSize=25
+          editRow=(action "editDefinition")
+          actionBadges=badges
+        }}
       {{/liquid-if}}
-    </h4>
-    <hr>
+    </div>
   </div>
+</div>
 
-  {{#liquid-if profileRecord use="fade"}}
-    {{#if profileRecord.isNew}}
-      {{object/md-profile/form record=profileRecord}}
-    {{else if profileRecord}}
-      {{object/md-profile record=profileRecord}}
-    {{/if}}
-  {{else}}
-    {{control/md-edit-table
-      data=model
-      columns=columns
-      columnSets=columnSets
-      rowBodyComponent="object/md-profile"
-      pageSize=25
-      editRow=(action "editProfile")
-      actionBadges=badges
-    }}
-  {{/liquid-if}}
-</section>
+{{!-- {{to-elsewhere
+  named="md-subbar-settings"
+  send=(component "control/subbar-link"
+  text= "Back to Profiles"
+  icon="arrow-left"
+  route="settings.profile"
+  )
+}} --}}
+
+{{#if definition}}
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text=(if task.isRunning "Loading..." (if definition.isNew "Save Definition" "Update Definition"))
+    icon=(if task.isRunning "spinner" "floppy-o")
+    iconSpin=task.isRunning
+    disabled=disableSave
+    class="btn-success btn-lg"
+    click=(action "saveDefinition")
+    )
+  }}
+    {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text=(if definition.isNew "Cancel" "Back")
+    icon=(if definition.isNew "undo" "arrow-left")
+    class=(if definition.isNew "btn-warning btn-lg" "btn-primary btn-lg")
+    click=(action "cancelEdit")
+    )
+  }}
+{{else}}
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text="Add Definition"
+    icon="plus"
+    class="btn-success btn-lg"
+    click=(action "addDefinition")
+    disabled=(if definition true)
+    )
+  }}
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text=(if checkForUpdates.isRunning "Checking..." "Check for Updates")
+    iconSpin=checkForUpdates.isRunning
+    disabled=checkForUpdates.isRunning
+    icon=(if checkForUpdates.isRunning "spinner" "check")
+    class="btn-info btn-lg"
+    click=(perform checkForUpdates)
+    )
+  }}
+{{/if}}

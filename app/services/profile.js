@@ -18,7 +18,7 @@ const coreProfiles = [{
   "namespace": "org.adiwg.profile",
   //"alternateId": [""],
   "title": "Full",
-  "description": "Evey supported component",
+  "description": "Every supported component",
   "version": "0.0.0",
   "components": {
     "record": {
@@ -917,34 +917,35 @@ export default Service.extend({
     return this.mapById.full;
   },
 
-  /**
-   * An object defining the available profiles
-   *
-   * @type {Object} profiles
-   */
+  // /**
+  //  * An object defining the available profiles
+  //  *
+  //  * @type {Object} profiles
+  //  */
 
-  getProfile: task(function* (uri) {
-    yield timeout(1000);
+  fetchDefinition: task(function* (uri) {
+    try {
+      yield timeout(1000);
 
-    yield request(uri).then(response => {
-      // `response` is the data from the server
-      if(!semver.valid(response.version)) {
+      let response = yield request(uri);
+
+      if(response && !semver.valid(response.version)) {
         throw new Error("Invalid version");
       }
 
       return response;
-    }).catch(error => {
+    } catch (error) {
       if(isNotFoundError(error)) {
         this.flashMessages
           .danger(
-            `Could not load profile from ${uri}. Profile not found.`
+            `Could not load profile definition from ${uri}. Definition not found.`
           );
       } else {
         this.flashMessages
           .danger(
-            `Could not load profile from "${uri}". Error: ${error.message}`
+            `Could not load profile definition from "${uri}". Error: ${error.message}`
           );
       }
-    });
+    }
   }).drop(),
 });

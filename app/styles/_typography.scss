@@ -7,7 +7,8 @@
   margin: 20px 0;
 }
 
-.section-header {
+.section-header,
+.tab-header {
   color: darken($brand-info, 5);
   margin-bottom: 20px;
   margin-top: 0;
@@ -16,6 +17,10 @@
   hr {
     margin: 0;
   }
+}
+
+.tab-header {
+  margin: 15px 0;
 }
 
 .no-margin {

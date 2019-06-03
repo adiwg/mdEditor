@@ -9,7 +9,7 @@ import {
 } from 'ember-cp-validations';
 import semver from 'semver';
 import Ajv from 'ajv';
-import * as ajvErrors from  'ajv-errors';
+import * as ajvErrors from 'ajv-errors';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 
 const ajvOptions = {
@@ -20,8 +20,16 @@ const ajvOptions = {
   schemaId: 'auto'
 };
 
-const regex =
-  /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+const regex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+
+const checkVersion = function () {
+  if(!this.localVersion && this.remoteVersion) {
+    return true;
+  }
+
+  return this.remoteVersion ? semver.gt(this.remoteVersion, this.localVersion) :
+    false;
+};
 
 const Validations = buildValidations({
   'title': validator(
@@ -112,14 +120,8 @@ const theComp = DS.Model.extend(Validations, {
   localVersion: or('version', 'rootSchema.version'),
 
   hasUpdate: computed('version', 'remoteVersion', 'customSchemas.0.version',
-    function () {
-      if(!this.localVersion && this.remoteVersion) {
-        return true;
-      }
-
-      return this.remoteVersion ? semver.gt(this.remoteVersion, this.localVersion) :
-        false;
-    }),
+    checkVersion
+  ),
 
   rootSchema: computed('customSchemas.firstObject.schema', function () {
     return this.customSchemas.get('firstObject.schema');
@@ -132,7 +134,8 @@ const theComp = DS.Model.extend(Validations, {
 
     this.schemaValidator.removeSchema();
 
-    return this.schemaValidator.addSchema(this.customSchemas.mapBy('schema'));
+    return this.schemaValidator.addSchema(this.customSchemas.mapBy(
+      'schema'));
   }),
 
   /* eslint-disable ember/no-observers */
@@ -157,6 +160,7 @@ const theComp = DS.Model.extend(Validations, {
 
 export {
   regex,
+  checkVersion,
   theComp as
   default
 };
