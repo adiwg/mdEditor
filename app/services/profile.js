@@ -3,7 +3,7 @@ import {
   inject as service
 } from '@ember/service';
 import request from 'ember-ajax/request';
-import { task, timeout } from 'ember-concurrency';
+import { task, all, timeout } from 'ember-concurrency';
 import { computed } from '@ember/object';
 import { union } from '@ember/object/computed';
 import {
@@ -126,7 +126,7 @@ export default Service.extend({
   // profiles: computed('profileRecords.[]', function () {
   //   return this.profileRecords;
   // }),
-  profiles: union('profileRecords', 'coreProfiles'),
+  profiles: union('customProfiles', 'coreProfiles'),
   mapById: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.identifier] = profile;
@@ -138,6 +138,7 @@ export default Service.extend({
     this._super(...arguments);
 
     this.profileRecords = this.get('store').peekAll('profile');
+    this.customProfiles = this.get('store').peekAll('custom-profile');
     this.coreProfiles = coreProfiles;
 
     this.oldprofiles = {
@@ -947,5 +948,42 @@ export default Service.extend({
           );
       }
     }
+  }).drop(),
+
+  checkForUpdates: task(function* (records) {
+    yield timeout(1000);
+
+    yield all(records.map(itm => {
+      if(itm.validations.attrs.uri.isInvalid) {
+        this.flashMessages
+          .warning(
+            `Did not load definition for "${itm.title}". URL is Invalid.`
+          );
+        return;
+      }
+
+      return request(itm.uri).then(response => {
+        // `response` is the data from the server
+        if(semver.valid(response.version)) {
+          itm.set('remoteVersion', response.version);
+        } else {
+          throw new Error("Invalid version");
+        }
+
+        return response;
+      }).catch(error => {
+        if(isNotFoundError(error)) {
+          this.flashMessages
+            .danger(
+              `Could not load definition for "${itm.title}". Definition not found.`
+            );
+        } else {
+          this.flashMessages
+            .danger(
+              `Could not load definition for "${itm.title}". Error: ${error.message}`
+            );
+        }
+      });
+    }));
   }).drop(),
 });

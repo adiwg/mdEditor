@@ -9,7 +9,7 @@
 
 .section-header,
 .tab-header {
-  color: darken($brand-info, 5);
+  color: $md-text-info-dark;
   margin-bottom: 20px;
   margin-top: 0;
   padding: 0;
@@ -35,6 +35,13 @@
   font-size: 40px;
 }
 
+.list-group-item-heading {
+  hr {
+    margin-bottom: .5em;
+    margin-top: .5em;
+  }
+}
+
 a {
   transition: all 0.3s ease-out;
 }
@@ -44,7 +51,11 @@ a {
 }
 
 .text-white {
-  color: #fff !important;
+  color: $white !important;
+}
+
+.text-info-dark {
+  color: $md-text-info-dark !important;
 }
 
 .plain-link {

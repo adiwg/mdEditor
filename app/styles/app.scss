@@ -5,6 +5,8 @@ $sidebar-width: 300;
 @import 'bootstrap_custom';
 
 $md-nav-background: lighten($gray-darker, 4);
+$md-text-info-dark: darken($brand-info, 5);
+$white: #fff;
 
 @import 'col_xxl';
 @import 'col_xxxl';

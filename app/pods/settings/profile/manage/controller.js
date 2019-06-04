@@ -87,6 +87,10 @@ export default Controller.extend({
 
       this.set('definition', null);
       record.rollbackAttributes();
+    },
+
+    toProfile(){
+      this.transitionToRoute('settings.profile');
     }
   }
 });

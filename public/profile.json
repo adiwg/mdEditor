@@ -4,7 +4,7 @@
   "alternateId": [],
   "title": "Test",
   "description": "Every supported component",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "components": {
     "record": {
       "main": { "recordId": false }

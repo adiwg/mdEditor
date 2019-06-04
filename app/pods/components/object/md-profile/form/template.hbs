@@ -25,22 +25,5 @@
 
 <hr>
 
-<div class="text-muted">
-  <div class="form-group">
-    <label class="">Title</label>
-    <div class="">{{record.config.title}}</div>
-  </div>
-  <div class="form-group">
-    <label class="">Description</label>
-    <div class="">{{record.config.description}}</div>
-  </div>
-  <div class="form-group">
-    <label class="">Identifier</label>
-    <div class="">{{record.config.identifier}}</div>
-  </div>
-  <div class="form-group">
-    <label class="">Namespace</label>
-    <div class="">{{record.config.namespace}}</div>
-  </div>
-</div>
+{{object/md-profile/preview record=record}}
 {{yield}}
