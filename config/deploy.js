@@ -16,6 +16,11 @@ module.exports = function(deployTarget) {
     // configure other plugins for staging deploy target here
   }
 
+  if (deployTarget === 'beta') {
+    ENV.build.environment = 'beta';
+    // configure other plugins for staging deploy target here
+  }
+
   if (deployTarget === 'production') {
     ENV.build.environment = 'production';
     // configure other plugins for production deploy target here

@@ -88,6 +88,10 @@ module.exports = function(environment) {
     ENV.locationType = 'hash';
   }
 
+  if (environment === 'beta') {
+    ENV.locationType = 'hash';
+  }
+
   if (environment === 'production') {
     //ENV.rootURL = '/mdEditor';
     ENV.locationType = 'hash';
