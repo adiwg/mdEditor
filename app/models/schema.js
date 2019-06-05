@@ -11,6 +11,7 @@ import semver from 'semver';
 import Ajv from 'ajv';
 import * as ajvErrors from 'ajv-errors';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
+import { inject as service } from '@ember/service';
 
 const ajvOptions = {
   verbose: true,
@@ -76,6 +77,8 @@ const theComp = DS.Model.extend(Validations, {
     this.schemaValidator.addMetaSchema(draft4);
     this.updateSettings;
   },
+  flashMessages: service(),
+
   title: DS.attr('string'),
   uri: DS.attr('string'),
   description: DS.attr('string'),
@@ -135,8 +138,18 @@ const theComp = DS.Model.extend(Validations, {
 
     this.schemaValidator.removeSchema();
 
-    return this.schemaValidator.addSchema(this.customSchemas.mapBy(
-      'schema'));
+    let valid = this.customSchemas.every((schema) => {
+      return this.schemaValidator.validateSchema(schema.schema);
+    });
+
+    if(valid) {
+      return this.schemaValidator.addSchema(this.customSchemas.mapBy(
+        'schema'));
+    }
+
+    this.flashMessages.danger(
+      `Could not load schemas for ${this.title}. Schemas provided did not validate.`
+    );
   }),
 
   /* eslint-disable ember/no-observers */
