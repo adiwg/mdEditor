@@ -50,6 +50,12 @@ const Validations = buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
+  init() {
+    this._super(...arguments);
+
+    this.updateSettings;
+  },
+
   uri: DS.attr('string'),
   alias: DS.attr('string'),
   altDescription: DS.attr('string'),

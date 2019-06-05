@@ -71,12 +71,12 @@ export default Service.extend({
       //let recordProfiles = Object.keys(this.profiles.profiles).without('dictionary');
       //let recordProfiles = Object.keys(this.profiles.profiles).without('dictionary');
   },
-  profiles: service('profile'),
-  profile: computed('profiles.profiles.[]', function() {
+  customProfiles: service('custom-profile'),
+  profile: computed('customProfiles.profiles.[]', function() {
     return {
-      codelist: this.profiles.profiles.map((itm) => {
+      codelist: this.customProfiles.profiles.map((itm) => {
         return {
-          code: itm.identifier,
+          code: itm.id,
           codeName: itm.title,
           description: itm.description
         };

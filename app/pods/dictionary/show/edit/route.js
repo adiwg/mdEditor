@@ -15,15 +15,16 @@ export default Route.extend(HashPoll, {
    *
    * @return {Ember.Service} profile
    */
-  profile: service(),
+   profile: service('custom-profile'),
 
-  /**
-   * The route activate hook, sets the profile to 'dictionary'.
-   */
-  activate() {
-    this.profile
-      .set('active', 'dictionary');
-  },
+   /**
+    * The route activate hook, sets the profile.
+    */
+   afterModel(model) {
+     this._super(...arguments);
+
+     this.profile.set('active', model.get('profile'));
+   },
 
   actions: {
     /**
@@ -32,12 +33,12 @@ export default Route.extend(HashPoll, {
      * @name   updateProfile
      * @param  {String} profile The new profile.
      */
-    updateProfile(profile) {
-      this.profile
-        .set('active', profile);
-      this.modelFor('dictionary.show.edit')
-        .save();
-    },
+    // updateProfile(profile) {
+    //   this.profile
+    //     .set('active', profile);
+    //   this.modelFor('dictionary.show.edit')
+    //     .save();
+    // },
     saveDictionary: function () {
       let model = this.currentRouteModel();
 

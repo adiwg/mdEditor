@@ -2,7 +2,7 @@ import DS from 'ember-data';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';
-import { bool, alias, filter } from '@ember/object/computed';
+import { bool, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
 const Base = DS.Model.extend({
@@ -19,6 +19,7 @@ const Base = DS.Model.extend({
 
   settings: service(),
   schemas: service(),
+  customProfiles: service('custom-profile'),
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
@@ -215,10 +216,26 @@ const Base = DS.Model.extend({
    * @category computed
    * @requires
    */
-  customSchemas: filter('schemas.globalSchemas', function (schema) {
-    return schema.schemaType === this.constructor.modelName;
+  customSchemas: computed('schemas.schemas.@each.isGlobal', 'profile', function () {
+    return this.schemas.schemas.filter((schema) => {
+      if(schema.schemaType !== this.constructor.modelName) {
+        return false;
+      }
+
+      if(schema.isGlobal) {
+        return true;
+      }
+
+      let profile=this.customProfiles.mapById[this.profile];
+
+      if(!profile || !profile.schemas){
+        return false;
+      }
+
+      return profile.schemas.indexOf(
+        schema) > -1;
+    }, this);
   })
-  //customSchemas: []
 });
 
 //Modify the prototype instead of using computed.volatile()

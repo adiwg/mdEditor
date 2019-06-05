@@ -113,6 +113,14 @@ const coreProfiles = [{
     }]
   }
 }];
+// .map(function(itm){
+//   return {
+//     id: itm.namespace + '.' + itm.identifier,
+//     title: itm.title,
+//     definition: itm.definition,
+//     profile: itm
+//   }
+// });
 
 /**
  * Profile service
@@ -126,7 +134,7 @@ export default Service.extend({
   // profiles: computed('profileRecords.[]', function () {
   //   return this.profileRecords;
   // }),
-  profiles: union('customProfiles', 'coreProfiles'),
+  profiles: union('profileRecords', 'coreProfiles'),
   mapById: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.identifier] = profile;
@@ -137,8 +145,8 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.profileRecords = this.get('store').peekAll('profile');
-    this.customProfiles = this.get('store').peekAll('custom-profile');
+    this.profileRecords = this.store.peekAll('profile');
+    //this.customProfiles = this.get('store').peekAll('custom-profile');
     this.coreProfiles = coreProfiles;
 
     this.oldprofiles = {
@@ -892,31 +900,31 @@ export default Service.extend({
    *
    * @type {?String}
    */
-  active: null,
+  // active: null,
 
-  activeComponents: computed('active', function () {
-    return this.getActiveProfile().components;
-  }),
-  /**
-   * Get the active profile.
-   *
-   * @function
-   * @returns {Object}
-   */
-  getActiveProfile() {
-    const active = this.active;
-    const profile = active && typeof active === 'string' ? active : 'full';
-    const selected = this.mapById[profile];
-
-    if(selected) {
-      return selected;
-    }
-
-    this.flashMessages
-      .warning(`Profile "${active}" not found. Using "full" profile.`);
-
-    return this.mapById.full;
-  },
+  // activeComponents: computed('active', function () {
+  //   return this.getActiveProfile().components;
+  // }),
+  // /**
+  //  * Get the active profile.
+  //  *
+  //  * @function
+  //  * @returns {Object}
+  //  */
+  // getActiveProfile() {
+  //   const active = this.active;
+  //   const profile = active && typeof active === 'string' ? active : 'full';
+  //   const selected = this.mapById[profile];
+  //
+  //   if(selected) {
+  //     return selected;
+  //   }
+  //
+  //   this.flashMessages
+  //     .warning(`Profile "${active}" not found. Using "full" profile.`);
+  //
+  //   return this.mapById.full;
+  // },
 
   // /**
   //  * An object defining the available profiles

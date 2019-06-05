@@ -1,16 +1,62 @@
 {
-  "identifier": "test",
+  "identifier": "basicExample",
   "namespace": "org.adiwg.profile",
   "alternateId": [],
-  "title": "Test",
-  "description": "Hide recordid in main",
-  "version": "0.0.1",
+  "title": "Test Profile",
+  "description": "A basic example of a profile.",
+  "version": "0.0.2",
   "components": {
     "record": {
-      "main": { "recordId": false }
+      "main": {
+        "recordId": false,
+        "purpose": false,
+        "environmentDescription": false,
+        "supplementalInfo": false,
+        "credit": false,
+        "timePeriod": {
+          "id": false,
+          "description": false,
+          "periodName": false,
+          "duration": false,
+          "interval": false
+        },
+        "citation": {
+          "edition": false,
+          "onlineResource": {
+            "protocol": false
+          },
+          "presentationForm": false,
+          "otherCitationDetails": false,
+          "graphic": false,
+          "series": false,
+          "identifier": false,
+          "graphicOverview": false
+        },
+        "graphicOverview": false
+      },
+      "metadata": {
+        "identifier": {
+          "identifier": true,
+          "namespace": true,
+          "version": false,
+          "description": false,
+          "authority": false
+        },
+        "parentMetadata": false,
+        "alternateMetadataReference": false,
+        "defaultLocale": false,
+        "maintenance": false
+      }
     },
     "contact": {},
-    "dictionary": {}
+    "dictionary": {
+      "main": {
+        "included": false,
+        "functionalLanguage": false,
+        "included": "locale",
+        "recommendedUse": false
+      }
+    }
   },
   "nav": {
     "record": [{
@@ -19,7 +65,7 @@
       "tip": "Basic information about the resource."
 
     }, {
-      "title": "Metadata",
+      "title": "MetadataInfo",
       "target": "record.show.edit.metadata",
       "tip": "Information about the metadata for the resource."
 
@@ -63,16 +109,6 @@
       "tip": "Other resources with a defined relationship to the resource."
 
     }, {
-      "title": "Documents",
-      "target": "record.show.edit.documents",
-      "tip": "Other documents related to, but not defining, the resource."
-
-    }, {
-      "title": "Funding",
-      "target": "record.show.edit.funding",
-      "tip": "Information about funding allocated to development of the resource."
-
-    }, {
       "title": "Dictionaries",
       "target": "record.show.edit.dictionary",
       "tip": "Data dictionaries associated with the resource."
@@ -82,10 +118,6 @@
       "title": "Main",
       "target": "dictionary.show.edit.index",
       "tip": "Basic information about the dictionary."
-    }, {
-      "title": "Citation",
-      "target": "dictionary.show.edit.citation",
-      "tip": "The citation for the dictionary."
     }, {
       "title": "Domains",
       "target": "dictionary.show.edit.domain",

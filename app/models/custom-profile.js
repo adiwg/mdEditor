@@ -1,8 +1,10 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 import { or, alias, notEmpty } from '@ember/object/computed';
 import { observer } from '@ember/object';
 import { once } from '@ember/runloop';
-import { regex } from 'mdeditor/models/schema'
+import { inject as service } from '@ember/service';
+// import { regex } from 'mdeditor/models/schema';
 import {
   validator,
   buildValidations
@@ -44,24 +46,46 @@ const Validations = buildValidations({
       disabled: notEmpty('model.Alias'),
       message: 'A title must be provided.'
     }),
-  'uri': [
+  'profileId': validator(
+    'presence', {
+      presence: true,
+      ignoreBlank: true,
+      isWarning: true,
+      message: 'No profile definition is assigned.'
+    }),
+  'schemas': validator(
+    'presence', {
+      presence: true,
+      ignoreBlank: true,
+      isWarning: true,
+      message: 'No schemas have been assigned.'
+    }),
+  // 'uri': [
     // validator('presence', {
     //   presence: true,
     //   ignoreBlank: true
     // }),
-    validator('format', {
-      regex: regex,
-      isWarning: false,
-      message: 'This field should be a valid, resolvable URL.'
-    })
-  ]
+    // validator('format', {
+    //   regex: regex,
+    //   isWarning: false,
+    //   message: 'This field should be a valid, resolvable URL.'
+    // })
+  // ]
 });
 
 export default DS.Model.extend(Validations, {
+  init() {
+    this._super(...arguments);
+
+    this.updateSettings;
+  },
+
+  definitions: service('profile'),
   uri: DS.attr('string'),
   alias: DS.attr('string'),
   title: DS.attr('string'),
   description: DS.attr('string'),
+  profileId: DS.attr('string'),
   //remoteVersion: DS.attr('string'),
 
   profileTitle: or('alias', 'title'),
@@ -69,12 +93,15 @@ export default DS.Model.extend(Validations, {
   components: alias('profile.components').readOnly(),
   //localVersion: alias('version'),
   //hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
-  profile: DS.belongsTo('profile'),
   schemas: DS.hasMany('schemas'),
+  definition: computed('profileId', function() {
+    return this.definitions.profiles.findBy('identifier', this.profileId);
+  }),
 
   /* eslint-disable ember/no-observers */
-  updateSettings: observer('hasDirtyAttributes', 'name', 'uri',
-    'description', 'hasUpdate', 'schemas.[]', 'profiles.[]',
+  updateSettings: observer('hasDirtyAttributes', 'title', 'uri', 'alias',
+    'description',
+    'hasUpdate', 'schemas.[]', 'profileId',
     function () {
       if(this.isNew || this.isEmpty || this.isDeleted) {
         return;

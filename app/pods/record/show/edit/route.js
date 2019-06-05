@@ -24,7 +24,7 @@ export default Route.extend(HashPoll, {
    *
    * @return {Ember.Service} profile
    */
-  profile: service(),
+  profile: service('custom-profile'),
 
   /**
    * The route activate hook, sets the profile.
@@ -32,8 +32,7 @@ export default Route.extend(HashPoll, {
   afterModel(model) {
     this._super(...arguments);
 
-    this.profile
-      .set('active', model.get('profile'));
+    this.profile.set('active', model.get('profile'));
   },
 
   actions: {
@@ -43,12 +42,12 @@ export default Route.extend(HashPoll, {
      * @name   updateProfile
      * @param  {String} profile The new profile.
      */
-    updateProfile(profile) {
-      this.profile
-        .set('active', profile);
-      this.modelFor('record.show.edit')
-        .save();
-    },
+    // updateProfile(profile) {
+    //   this.profile
+    //     .set('active', profile);
+    //   this.modelFor('record.show.edit')
+    //     .save();
+    // },
 
     saveRecord: function () {
       let model = this.currentRouteModel();

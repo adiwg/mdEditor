@@ -27,7 +27,7 @@ import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
 let App;
-let events =  {
+let events = {
   // add support for the blur event
   blur: 'blur'
 }
@@ -69,8 +69,13 @@ Component.reopen({
       defineProperty(this, 'isVisible', computed(
         'profile.active',
         function () {
-          // console.log(path);
-          return getWithDefault(profile.activeComponents, path, isVisible);
+          console.log(path);
+          if(!profile.activeComponents) {
+            return isVisible;
+          }
+
+          return getWithDefault(profile.activeComponents, path,
+            isVisible);
         }));
     }
   }

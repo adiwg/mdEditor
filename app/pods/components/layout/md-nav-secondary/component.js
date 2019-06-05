@@ -5,15 +5,15 @@ import Component from '@ember/component';
 import ResizeAware from 'ember-resize/mixins/resize-aware';
 
 export default Component.extend(ResizeAware, {
-  profile: service('profile'),
+  customProfile: service('custom-profile'),
   resizeService: service('resize'),
-  links: computed('profile.active', 'model', function () {
-    const profile = this.profile.getActiveProfile();
+  links: computed('customProfile.active', 'model', function () {
+    const active = this.customProfile.getActiveProfile();
     const modelName = this.model.constructor.modelName;
 
     this.debouncedDidResize();
 
-    return get(profile, 'nav.' + modelName) || this.profile.mapById.full
+    return get(active, 'definition.nav.' + modelName) || this.customProfile.defaultProfile.definition
       .nav[modelName];
   }),
 

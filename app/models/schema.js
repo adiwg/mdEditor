@@ -74,6 +74,7 @@ const theComp = DS.Model.extend(Validations, {
 
     this.schemaValidator = ajvErrors(new Ajv(ajvOptions));
     this.schemaValidator.addMetaSchema(draft4);
+    this.updateSettings;
   },
   title: DS.attr('string'),
   uri: DS.attr('string'),
@@ -128,7 +129,7 @@ const theComp = DS.Model.extend(Validations, {
   }),
 
   validator: computed('isGlobal', 'customSchemas', function () {
-    if(!this.isGlobal || !this.get('customSchemas.length')) {
+    if(!this.isGlobal && !this.get('customSchemas.length')) {
       return;
     }
 

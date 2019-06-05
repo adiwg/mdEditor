@@ -89,7 +89,7 @@ export default Controller.extend({
       record.rollbackAttributes();
     },
 
-    toProfile(){
+    toProfile() {
       this.transitionToRoute('settings.profile');
     }
   }

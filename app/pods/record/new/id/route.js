@@ -24,7 +24,7 @@ export default Route.extend({
    *
    * @return {Ember.Service} profile
    */
-  profile: service(),
+  //profile: service(),
 
   deactivate() {
     // We grab the model loaded in this route
@@ -112,16 +112,16 @@ export default Route.extend({
         return true;
       }
     },
-    /**
-     * Update the record profile
-     *
-     * @name   updateProfile
-     * @param  {String} profile The new profile.
-     */
-    updateProfile(profile) {
-      this.profile
-        .set('active', profile);
-    }
+    // /**
+    //  * Update the record profile
+    //  *
+    //  * @name   updateProfile
+    //  * @param  {String} profile The new profile.
+    //  */
+    // updateProfile(profile) {
+    //   this.profile
+    //     .set('active', profile);
+    // }
   }
 
 });

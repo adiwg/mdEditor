@@ -28,7 +28,7 @@
   </div>
 </div>
 
-{{to-elsewhere named="record-nav" send=(component "input/md-select-profile" value=model.profile updateProfile=(route-action "updateProfile"))}}
+{{to-elsewhere named="record-nav" send=(component "input/md-select-profile" value=model.profile record=model)}}
 
 {{#if model}}
   {{to-elsewhere named="nav-secondary" send=(component "layout/md-nav-secondary" model=model)}}

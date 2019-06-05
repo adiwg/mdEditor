@@ -195,6 +195,10 @@ const Record = Model.extend(Validations, Copyable, {
     this.customSchemas.forEach(schema => {
       const validator = schema.validator;
 
+      if(!validator) {
+        return;
+      }
+
       if(validator.validate(schema.rootSchema, mdjson.formatRecord(this))){
         return;
       }
