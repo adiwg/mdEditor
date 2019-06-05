@@ -42,20 +42,23 @@
  showValidations=true
 }}
 
-<div class="form-group from-group-inlne">
-    <label>Apply Globally?</label>
-    <div class="form-control">
-        <div class="inline-block">
-            {{input/md-toggle
-              value=record.isGlobal
-              onToggle=(action (mut record.isGlobal))
-              showLabels=true
-              onLabel="Yes"
-              offLabel="No"
-              size="medium"
-              theme="form"
-            }}
-        </div>
-    </div>
-</div>
+{{#liquid-unless record.isNew use="toDown"}}
+  <div class="form-group from-group-inlne">
+      <label>Apply Globally?</label>
+      <div class="form-control">
+          <div class="inline-block">
+              {{input/md-toggle
+                value=record.isGlobal
+                onToggle=(action (mut record.isGlobal))
+                showLabels=true
+                onLabel="Yes"
+                offLabel="No"
+                size="medium"
+                theme="form"
+              }}
+          </div>
+      </div>
+  </div>
+{{/liquid-unless}}
+
 {{yield}}
