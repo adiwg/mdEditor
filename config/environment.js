@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = function(environment) {
+  var deployTarget = process.env.DEPLOY_TARGET;
   var ENV = {
     contentSecurityPolicy: {
       'style-src': "'self' 'unsafe-inline'"
@@ -88,14 +89,14 @@ module.exports = function(environment) {
     ENV.locationType = 'hash';
   }
 
-  if (environment === 'beta') {
-    ENV.locationType = 'hash';
-  }
-
   if (environment === 'production') {
     //ENV.rootURL = '/mdEditor';
     ENV.locationType = 'hash';
   }
 
+  if (deployTarget === 'dev') {
+    ENV.rootURL = '/';
+    ENV.locationType = 'hash';
+  }
   return ENV;
 };
