@@ -14,7 +14,8 @@ import {
   computed,
   defineProperty,
   getWithDefault,
-  get
+  get,
+  set
 } from '@ember/object';
 import {
   isNone
@@ -41,6 +42,10 @@ App = Application.extend({
   customEvents: events
 });
 
+// window.mdProfile = {
+//   // record:{},contact:{},dictionary:{}
+// };
+
 loadInitializers(App, config.modulePrefix);
 
 //for bootstrap
@@ -66,10 +71,22 @@ Component.reopen({
 
     if(path !== undefined) {
       assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
+
+      // generate profile definition
+      // path.split('.').reduce((acc, curr, idx) => {
+      //   let pp = idx ? `${acc}.${curr}` : curr;
+      //   window.console.log(pp);
+      //   if(!get(window.mdProfile, pp)) {
+      //     set(window.mdProfile, pp, {
+      //       //visible: true
+      //     });
+      //   }
+      //   return pp;
+      // }, '');
+
       defineProperty(this, 'isVisible', computed(
         'profile.active',
         function () {
-          console.log(path);
           if(!profile.activeComponents) {
             return isVisible;
           }
