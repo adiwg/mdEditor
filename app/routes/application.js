@@ -5,6 +5,13 @@ import EmberObject from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
+import config from 'mdeditor/config/environment';
+
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
 
 const console = window.console;
 
@@ -90,6 +97,17 @@ export default Route.extend({
 
       // return result;
     });
+  },
+
+  beforeModel() {
+    if(!defaultProfileId) {
+      this.router.replaceWith('error')
+        .then(function (route) {
+          route.controller.set('lastError', new Error(
+            'A default profile ID is not set in "config/environment/APP"'
+          ));
+        });
+    }
   },
 
   setupController(controller, model) {

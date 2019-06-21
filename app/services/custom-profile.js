@@ -12,8 +12,15 @@ import { union } from '@ember/object/computed';
 //   // isForbiddenError
 // } from 'ember-ajax/errors';
 // import semver from 'semver';
+import config from 'mdeditor/config/environment';
 
-const fullId = 'org.adiwg.profile.full';
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
+
+//const fullId = 'org.adiwg.profile.full';
 
 /**
  * Custom Profile service
@@ -59,7 +66,7 @@ export default Service.extend({
     }, {});
   }),
   defaultProfile: computed('mapById', function () {
-    return this.mapById[fullId];
+    return this.mapById[defaultProfileId];
   }),
   activeComponents: computed('active', function () {
     let comp = get(this.getActiveProfile(),'definition.components');
@@ -76,7 +83,7 @@ export default Service.extend({
    */
   getActiveProfile() {
     const active = this.active;
-    const profile = active && typeof active === 'string' ? active : fullId;
+    const profile = active && typeof active === 'string' ? active : defaultProfileId;
     const selected = this.mapById[profile];
 
     if(selected) {
@@ -84,7 +91,7 @@ export default Service.extend({
     }
 
     this.flashMessages
-      .warning(`Profile "${active}" not found. Using "full" profile.`);
+      .warning(`Profile "${active}" not found. Using default profile.`);
 
     return this.defaultProfile;
   },

@@ -25,7 +25,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      repository: 'https://github.com/adiwg/mdEditor'
+      repository: 'https://github.com/adiwg/mdEditor',
+      defaultProfileId: 'org.adiwg.profile.full'
     },
     'ember-load': {
       loadingIndicatorClass: 'md-load-indicator'
