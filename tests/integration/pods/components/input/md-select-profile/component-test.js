@@ -22,7 +22,7 @@ module('Integration | Component | input/md select profile', function (hooks) {
     }}`);
 
     assert.equal(find('.testme').textContent
-      .replace(/[ \n]+/g, '|'), '|Profile|full|?|');
+      .replace(/[ \n]+/g, '|'), '|Profile|Full|?|');
   });
 
   test('should trigger external action on change', async function (assert) {
