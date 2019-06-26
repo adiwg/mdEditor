@@ -5,7 +5,7 @@ import {
 //import request from 'ember-ajax/request';
 //import { task, all, timeout } from 'ember-concurrency';
 import { computed, get } from '@ember/object';
-import { union } from '@ember/object/computed';
+import { union, map } from '@ember/object/computed';
 // import {
 //   // isAjaxError,
 //   isNotFoundError,
@@ -36,14 +36,14 @@ export default Service.extend({
 
     this.customProfiles = this.get('store').peekAll('custom-profile');
     //this.customProfiles = this.get('store').peekAll('custom-profile');
-    this.coreProfiles = this.definitions.coreProfiles.map(function (itm) {
-      return {
-        id: itm.namespace + '.' + itm.identifier,
-        title: itm.title,
-        description: itm.description,
-        definition: itm
-      }
-    });
+    // this.coreProfiles = this.definitions.coreProfiles.map(function (itm) {
+    //   return {
+    //     id: itm.namespace + '.' + itm.identifier,
+    //     title: itm.title,
+    //     description: itm.description,
+    //     definition: itm
+    //   }
+    // });
 
   },
   flashMessages: service(),
@@ -58,6 +58,14 @@ export default Service.extend({
   active: null,
 
   profiles: union('customProfiles', 'coreProfiles'),
+  coreProfiles: map('definitions.coreProfiles',function (itm) {
+    return {
+      id: itm.namespace + '.' + itm.identifier,
+      title: itm.title,
+      description: itm.description,
+      definition: itm
+    }
+  }),
   mapById: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;

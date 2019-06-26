@@ -1,4 +1,3 @@
-import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import DS from 'ember-data';
 
