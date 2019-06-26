@@ -39,7 +39,7 @@
     "broccoli-asset-rev": "^2.7.0",
     "csv2geojson": "^5.0.2",
     "ember-ajax": "^4.0.1",
-    "ember-auto-import": "^1.2.16",
+    "ember-auto-import": "^1.4.1",
     "ember-autoresize": "jlblcc/ember-autoresize#latest",
     "ember-cli": "~3.5.1",
     "ember-cli-app-version": "^3.2.0",
