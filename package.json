@@ -33,6 +33,7 @@
     "@mapbox/togeojson": "^0.16.0",
     "Leaflet.vector-markers": "^0.0.6",
     "ajv": "^6.10.0",
+    "ajv-errors": "^1.0.1",
     "bootstrap-3-card": "^0.2.0",
     "bootstrap-sass": "~3.4.1",
     "brfs": "^1.4.3",
@@ -115,6 +116,7 @@
     "mdcodes": "^2.7.2",
     "mdjson-schemas": "^2.6.3",
     "mdkeywords": "^2.0.1",
+    "mdprofiles": "^0.1.5",
     "moment-timezone": "^0.5.13",
     "object-hash": "^1.1.7",
     "papaparse": "^4.3.7",
@@ -127,8 +129,7 @@
     "text-encoding": "^0.6.4",
     "uuid": "^3.0.1",
     "validator": "^10.9.0",
-    "yuidoc-mdeditor-theme": "^1.4.0",
-    "ajv-errors": "^1.0.1"
+    "yuidoc-mdeditor-theme": "^1.4.0"
   },
   "ember-addon": {
     "paths": [
