@@ -109,12 +109,12 @@
               </table>
               <div class="object-editor fadeOut">
                   {{#if editing}}
-                      {{yield saveItem}}
+                    {{yield saveItem}}
+                    <hr>
+                    <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
+                        <span class="fa fa-check"></span> OK
+                    </button>
                   {{/if}}
-                  <hr>
-                  <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
-                      <span class="fa fa-check"></span> OK
-                  </button>
               </div>
           </div>
           {{#if showFooter}}

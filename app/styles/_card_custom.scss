@@ -1,4 +1,21 @@
 .md-card {
+  .card-flex {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    &.card-block::before,
+    &.card-block::after {
+      content: none;
+      // display: table;
+    }
+
+    .btn-group-vertical {
+      margin-left: 1em;
+      min-width: 150px;
+    }
+  }
+
   .card-title {
     font-size: 1.2em;
     margin-bottom: 0;

@@ -138,6 +138,15 @@ export default Component.extend({
   block: true,
 
   /**
+   * If true, the card-flex class will be added.
+   *
+   * @property flex
+   * @type {Boolean}
+   * @default false
+   */
+  flex: false,
+
+  /**
    * If true, the card-block text color will be muted.
    *
    * @property muted
@@ -172,7 +181,7 @@ export default Component.extend({
   btnClass: 'primary',
 
   /**
-   * Icon to display in heder button
+   * Icon to display in header button
    *
    * @property btnIcon
    * @type {String}
