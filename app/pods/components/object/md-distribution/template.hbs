@@ -8,21 +8,35 @@
   shadow=true
   spotlightEnabled=false
   }}
-      <div class="card-buttons">
-        <div class="row">
-          <div class="col-sm-6">
-            <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editDistribution" index}}>
-              {{fa-icon "pencil"}} Edit Distributors</button>
-          </div>
-          <div class="col-sm-6">
-            <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteDistribution" index}}>
-                {{fa-icon "times"}} Delete Section</button>
-          </div>
-        </div>
+    <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive card-buttons" {{action "deleteDistribution" index}}>
+          {{fa-icon "times"}} Delete Section</button>
+    <div class="row">
+      <div class="col-sm-6">
+        {{input/md-textarea
+          value=dist.description
+          rows=5
+          maxHeight=300
+          placeholder="Describe the distribution of the resource"
+          label="Description"
+          profilePath=(concat profilePath ".description")
+        }}
       </div>
       <div class="col-sm-6">
-        <label>Distributors</label>
+        {{input/md-textarea
+          value=dist.liablityStatement
+          rows=5
+          maxHeight=300
+          placeholder="Statement of the liability assumed by the provider of the resource"
+          label="Liablity Statement"
+          profilePath=(concat profilePath ".liablityStatement")
+        }}
+      </div>
+    </div>
+    <hr>
+      <label>Distributors</label>
         {{#if dist.distributor.length}}
+      <div class="row">
+        <div class="col-sm-9">
           {{#each dist.distributor as |dist|}}
           <div>
             {{#with dist.contact as |party|}}
@@ -39,22 +53,17 @@
             {{/with}}
           </div>
           {{/each}}
-        {{else}}
-          <div class="alert alert-info">
-            No Distributors to display.
-          </div>
-        {{/if}}
+        </div>
+        <div class="col-sm-3">
+          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editDistribution" index}}>
+            {{fa-icon "pencil"}} Edit Distributors</button>
+        </div>
       </div>
-      <div class="col-sm-6">
-        {{input/md-textarea
-          value=dist.description
-          rows=5
-          maxHeight=300
-          placeholder="Describe the distribution of the resource"
-          label="Description"
-          profilePath=(concat profilePath ".description")
-        }}
-      </div>
+      {{else}}
+        <div class="alert alert-info">
+          No Distributors to display.
+        </div>
+      {{/if}}
   {{/layout/md-card}}
 {{else}}
   <h3 class="alert alert-info">No distribution sections found.

@@ -1,7 +1,8 @@
 import Route from '@ember/routing/route';
 import $ from 'jquery';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend({
+export default Route.extend(ScrollTo, {
   setupController: function() {
     // Call _super for default behavior
     this._super(...arguments);
