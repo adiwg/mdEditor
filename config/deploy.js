@@ -19,6 +19,7 @@ module.exports = function(deployTarget) {
   if (deployTarget === 'dev') {
     ENV.build.environment = 'staging';
     // configure other plugins for beta deploy target here
+    ENV.rootURL = '/';
   }
 
   if (deployTarget === 'production') {

@@ -18,19 +18,22 @@
     data-spy=(concat "Allocation " index)
     shadow=true
     spotlightEnabled=false
-    flex=true
+    flex=false
   }}
-      <div class="flex-grow">
-        {{object/md-funding/preview item=allocation}}
+      <div class="row card-buttons">
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editAllocation" index}}>
+            {{fa-icon "pencil"}} Edit Allocation</button>
+          </div>
+          <div class="col-sm-6">
+          {{#control/md-button-confirm class="btn btn-md btn-danger btn-block md-btn-responsive"
+            onConfirm=(route-action "deleteAllocation" index)}}
+            {{fa-icon "times"}} Delete Allocation
+          {{/control/md-button-confirm}}
+        </div>
       </div>
-      <div class="btn-group-vertical" role="group" aria-label="CRUD buttons">
-        <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editAllocation" index}}>
-          {{fa-icon "pencil"}} Edit Allocation</button>
-        {{#control/md-button-confirm class="btn btn-md btn-danger btn-block md-btn-responsive"
-          onConfirm=(route-action "deleteAllocation" index)}}
-          {{fa-icon "times"}} Delete Allocation
-        {{/control/md-button-confirm}}
-      </div>
+      {{object/md-funding/preview item=allocation}}
+
   {{/layout/md-card}}
 
 {{/each}}
