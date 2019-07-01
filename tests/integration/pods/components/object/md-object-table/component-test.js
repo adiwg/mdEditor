@@ -19,7 +19,7 @@ module('Integration | Component | object/md-object-table', function(hooks) {
 
     await render(hbs`{{object/md-object-table attributes="biz,baz"}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|0|Add|OK|#|Biz|Baz|Add|OK|');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|0|Add|OK|#|Biz|Baz|Add|');
 
     // Template block usage:
     await render(hbs`
@@ -37,7 +37,7 @@ module('Integration | Component | object/md-object-table', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|FooBar|2|Add|OK|#|Biz|Baz|0|biz0|baz0|Edit|Delete|1|biz1|baz1|Edit|Delete|OK|',
+      '|FooBar|2|Add|OK|#|Biz|Baz|0|biz0|baz0|Edit|Delete|1|biz1|baz1|Edit|Delete|',
       'block');
   });
 });

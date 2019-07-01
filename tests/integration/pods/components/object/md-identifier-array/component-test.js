@@ -28,7 +28,7 @@ module('Integration | Component | object/md identifier array', function(hooks) {
 
     await render(hbs`{{object/md-identifier-array model=id editItem=edit}}`);
 
-    assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(), '|Identifier|2|Add|OK|#|Identifier|Namespace|Description|0|identifier|Not|Defined|Not|Defined|More...|Delete|1|identifier1|Not|Defined|Not|Defined|More...|Delete|OK|');
+    assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(), '|Identifier|2|Add|OK|#|Identifier|Namespace|Description|0|identifier|Not|Defined|Not|Defined|More...|Delete|1|identifier1|Not|Defined|Not|Defined|More...|Delete|');
 
     await click('.btn-info');
 

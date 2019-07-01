@@ -14,7 +14,7 @@ module('Integration | Component | object/md identifier', function(hooks) {
 
     await render(hbs`{{object/md-identifier model=id profilePath="foobar"}}`);
 
-    assert.equal(find('.md-identifier').textContent.replace(/[\s\n]+/g, '|').trim(), 'Identifier|Namespace|namespace0|×|Version|Description|Authority|Basic|Information|Title|Alternate|Titles|0|Add|Alternate|Title|Add|Alternate|Title|Dates|0|Add|Date|#|Date|Date|Type|Description|Add|Date|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|No|Identifier|found.|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|');
+    assert.equal(find('.md-identifier').textContent.replace(/[\s\n]+/g, '|').trim(), 'Identifier|Namespace|namespace0|×|Version|Description|Authority|Basic|Information|Title|Alternate|Titles|0|Add|Alternate|Title|Add|Alternate|Title|Dates|0|Add|Date|#|Date|Date|Type|Description|Add|Date|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|No|Identifier|found.|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|');
 
     assert.equal(find('input').value, 'identifier0', 'assign value');
     // Template block usage:
@@ -25,7 +25,7 @@ module('Integration | Component | object/md identifier', function(hooks) {
     `);
 
     assert.equal(find('.md-identifier').textContent.replace(/[\s\n]+/g, '|').trim(),
-      "Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|Version|Description|Authority|Basic|Information|Title|Alternate|Titles|0|Add|Alternate|Title|Add|Alternate|Title|Dates|0|Add|Date|#|Date|Date|Type|Description|Add|Date|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|OK|No|Identifier|found.|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|OK|template|block|text|",
+      "Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|Version|Description|Authority|Basic|Information|Title|Alternate|Titles|0|Add|Alternate|Title|Add|Alternate|Title|Dates|0|Add|Date|#|Date|Date|Type|Description|Add|Date|Responsible|Parties|0|Add|#|Role|Contacts|Add|Responsible|Party|Online|Resource|0|Add|OK|#|Name|Uri|Add|Resource|No|Identifier|found.|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|template|block|text|",
       'block');
   });
 });

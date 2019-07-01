@@ -28,7 +28,7 @@ module('Integration | Component | object/md graphic array', function(hooks) {
 
     await render(hbs`{{object/md-graphic-array model=graphic}}`);
 
-    assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(), '|Graphic|2|Add|OK|0|fileName:|Edit|Delete|1|fileName1:|Edit|Delete|OK|');
+    assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(), '|Graphic|2|Add|OK|0|fileName:|Edit|Delete|1|fileName1:|Edit|Delete|');
     assert.ok(find('.md-logo-preview').complete, 'loaded image');
 
     // Template block usage:
@@ -39,7 +39,7 @@ module('Integration | Component | object/md graphic array', function(hooks) {
     `);
 
     assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Graphic|2|Add|OK|0|fileName:|Edit|Delete|1|fileName1:|Edit|Delete|OK|',
+      '|Graphic|2|Add|OK|0|fileName:|Edit|Delete|1|fileName1:|Edit|Delete|',
       'block');
   });
 });

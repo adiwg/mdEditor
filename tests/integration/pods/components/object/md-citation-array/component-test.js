@@ -19,7 +19,7 @@ module('Integration | Component | object/md citation array', function(hooks) {
     await render(hbs`{{object/md-citation-array model=citation}}`);
 
     assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Citation|3|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|2|title2|More...|Delete|OK|',
+      '|Citation|3|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|2|title2|More...|Delete|',
       'renders rows');
 
     // Template block usage:

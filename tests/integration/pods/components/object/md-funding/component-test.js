@@ -24,7 +24,7 @@ module('Integration | Component | object/md funding', function(hooks) {
     await render(hbs`{{object/md-funding model=funding}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Allocation|1|Add|OK|#|Amount|Currency|Matching|0|9.9|currency|Not|Defined|Edit|Delete|OK|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|");
+      "|Disbursement|1|Add|OK|#|Amount|Currency|Matching|0|9.9|currency|Not|Defined|Edit|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|");
 
     // Template block usage:
     await render(hbs`
@@ -34,7 +34,7 @@ module('Integration | Component | object/md funding', function(hooks) {
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Allocation|0|Add|OK|#|Amount|Currency|Matching|Add|Allocation|OK|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|",
+      "|Disbursement|0|Add|OK|#|Amount|Currency|Matching|Add|Disbursement|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|",
       'block');
   });
 });
