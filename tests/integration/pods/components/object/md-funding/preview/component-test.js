@@ -22,7 +22,7 @@ module('Integration | Component | object/md funding/preview', function(hooks) {
     await render(hbs`<section>{{object/md-funding/preview item=funding}}</section>`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Start|Date:|Not|defined|End|Date:|12-31-2016|Amount|Currency|Source|Recipient|Match?|9.9|currency|--|--|--|');
+      '|Start|Date:|Not|defined|End|Date:|12-31-2016|Allocations|Amount|Currency|Source|Recipient|Match?|9.9|currency|--|--|--|');
 
     // Template block usage:
     await render(hbs`<section>
@@ -32,7 +32,7 @@ module('Integration | Component | object/md funding/preview', function(hooks) {
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Start|Date:|Not|defined|End|Date:|Not|defined|Amount|Currency|Source|Recipient|Match?|No|allocations|found.|',
+      '|Start|Date:|Not|defined|End|Date:|Not|defined|Allocations|Amount|Currency|Source|Recipient|Match?|No|allocations|found.|',
       'block');
   });
 });

@@ -3,19 +3,19 @@
   {{control/md-status model=parentModel}}
 </h4>
 {{#unless model.json.metadata.funding}}
-  <h3 class="alert alert-info">No funding allocations found.
+  <h3 class="alert alert-info">No Funding Periods found.
     <button type="button" class="btn btn-success" {{action "addAllocation"}}>
-      {{fa-icon "plus"}} Add Funding Allocation</button>
+      {{fa-icon "plus"}} Add Funding Period</button>
   </h3>
 {{/unless}}
 
 {{#each model.json.metadata.funding as |allocation index|}}
   {{#layout/md-card
-    title=(concat "Allocation #" index)
+    title=(concat "Funding Period #" index)
     collapsible=true
     collapsed=false
     profilePath="funding.allocation"
-    data-spy=(concat "Allocation " index)
+    data-spy=(concat "Funding Period " index)
     shadow=true
     spotlightEnabled=false
     flex=false
@@ -23,12 +23,12 @@
       <div class="row card-buttons">
         <div class="col-sm-6">
           <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editAllocation" index}}>
-            {{fa-icon "pencil"}} Edit Allocation</button>
+            {{fa-icon "pencil"}} Edit Funding Period</button>
           </div>
           <div class="col-sm-6">
           {{#control/md-button-confirm class="btn btn-md btn-danger btn-block md-btn-responsive"
             onConfirm=(route-action "deleteAllocation" index)}}
-            {{fa-icon "times"}} Delete Allocation
+            {{fa-icon "times"}} Delete Funding Period
           {{/control/md-button-confirm}}
         </div>
       </div>
@@ -41,7 +41,7 @@
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link"
-  clickText="Add Funding Allocation"
+  clickText="Add Funding Period"
   clickIcon="plus"
   clickType="success"
   click=(route-action "addAllocation")
