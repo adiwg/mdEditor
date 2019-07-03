@@ -161,20 +161,18 @@
     </div>
 
   </div>
-  <div class="col-sm-2">
-    <div class="md-control-sidebar">
-      {{#control/md-crud-buttons
-        model=model
-        doDelete=(route-action "destroyContact")
-        doCopy=(route-action "copyContact")
-      }}
-        {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
-          {{fa-icon "pencil"}} Edit{{/link-to}}
-      {{/control/md-crud-buttons}}
-      <hr>
-      {{#link-to "contacts" class="btn btn-lg btn-primary btn-block" }}
-      {{fa-icon "list"}} Show List{{/link-to}}
-      {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
-    </div>
+  <div class="md-control-sidebar col-sm-2 no-nav">
+    {{#control/md-crud-buttons
+      model=model
+      doDelete=(route-action "destroyContact")
+      doCopy=(route-action "copyContact")
+    }}
+      {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
+        {{fa-icon "pencil"}} Edit{{/link-to}}
+    {{/control/md-crud-buttons}}
+    <hr>
+    {{#link-to "contacts" class="btn btn-lg btn-primary btn-block" }}
+    {{fa-icon "list"}} Show List{{/link-to}}
+    {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
   </div>
 </div>

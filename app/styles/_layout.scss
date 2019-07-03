@@ -149,14 +149,22 @@ body {
   .md-scroll-spy {
     margin-top: 1em;
   }
+
   @media(min-width: $screen-sm-min) {
-    padding: 10px 10px 10px 0;;
-    position: fixed;
+    padding: 15px;
+    position: sticky;
+    top: 135px;
+
+    &.no-nav {
+      top: 95px;
+    }
 
     .btn {
       display: inline-block;
+      min-width: 7em;
     }
   }
+
   @media(max-width: $screen-lg-min) {
     margin-left: -10px;
   }
