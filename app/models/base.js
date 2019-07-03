@@ -1,18 +1,11 @@
 import DS from 'ember-data';
 import hash from 'object-hash';
-import {
-  inject as service
-} from '@ember/service';
-import {
-  computed,
-  set,
-  observer
-} from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
+import { inject as service } from '@ember/service';
+import { computed, set, observer } from '@ember/object';
+import { bool, alias, filter } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 
-export default DS.Model.extend({
+const Base = DS.Model.extend({
   init() {
     this._super(...arguments);
 
@@ -25,6 +18,7 @@ export default DS.Model.extend({
   },
 
   settings: service(),
+  schemas: service(),
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
@@ -187,19 +181,53 @@ export default DS.Model.extend({
     return false;
   }),
 
-  cleanJson: computed('json', function () {
-      return this.clean
-        .clean(this.json);
-    })
-    .volatile(),
+  cleanJson: alias('_cleanJson'),
 
-  status: computed('hasDirtyHash', function () {
+  status: computed('hasDirtyHash', 'hasSchemaErrors', function () {
     let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
     if(this.currentHash) {
-      return dirty ? 'danger' : 'success';
+      return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
     return 'success';
+  }),
+
+  /**
+   * Indicates whether errors are present.
+   *
+   * @property hasSchemaErrors
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires schemaErrors
+   */
+  hasSchemaErrors: bool('schemaErrors.length'),
+
+  /**
+   * Array of custom schemas that are associated with this model
+   *
+   * @property customSchemas
+   * @type {Array}
+   * @default "[]"
+   * @readOnly
+   * @category computed
+   * @requires
+   */
+  customSchemas: filter('schemas.globalSchemas', function (schema) {
+    return schema.schemaType === this.constructor.modelName;
   })
+  //customSchemas: []
 });
+
+//Modify the prototype instead of using computed.volatile()
+//see https://github.com/emberjs/ember.js/issues/17709#issuecomment-469941364
+
+Object.defineProperty(Base.prototype, '_cleanJson', {
+  get() {
+    return this.clean.clean(this.json);
+  }
+});
+
+export default Base;
