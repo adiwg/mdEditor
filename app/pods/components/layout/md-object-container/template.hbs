@@ -1,0 +1,29 @@
+<div class="md-object-container-header">
+  {{#if isCollapsible}}
+  <a class="btn-collapse" data-toggle="collapse" aria-expanded="true"
+    href={{concat "#" elementId "-collapse"}} aria-controls={{concat elementId "-collapse"}}>
+    <span class="fa"></span>
+  </a>
+  {{/if}}
+  <h4 class="title inline-block text-primary" code="">
+    <strong>{{concat title " #" index}}</strong>
+  </h4>
+
+  <div class="btn-group btn-group-sm">
+    {{#if editItem}}
+      <button type="button" class="btn btn-success" {{action editItem index}}>
+        {{fa-icon "pencil"}} Edit</button>
+    {{/if}}
+
+    {{#if deleteItem}}
+      {{#control/md-button-confirm class="btn btn-danger"
+        onConfirm=(action deleteItem index)}}
+        {{fa-icon "times"}} Delete
+      {{/control/md-button-confirm}}
+    {{/if}}
+  </div>
+</div>
+<hr>
+<div id={{concat elementId "-collapse"}} class="md-object-container-body collapse in">
+  {{yield}}
+</div>
