@@ -9,7 +9,7 @@
   </h3>
 {{/unless}}
 
-{{#each model.json.metadata.funding as |allocation index|}}
+{{!-- {{#each model.json.metadata.funding as |allocation index|}}
   {{#layout/md-card
     title=(concat "Funding Period #" index)
     collapsible=true
@@ -36,6 +36,17 @@
 
   {{/layout/md-card}}
 
+{{/each}} --}}
+
+{{#each model.json.metadata.funding as |allocation index|}}
+  {{#layout/md-object-container
+    title="Funding Period"
+    index=index
+    editItem=(route-action "editAllocation")
+    deleteItem=(route-action "deleteAllocation")
+  }}
+    {{object/md-funding/preview item=allocation}}
+  {{/layout/md-object-container}}
 {{/each}}
 
 {{to-elsewhere
@@ -49,4 +60,4 @@
 }}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

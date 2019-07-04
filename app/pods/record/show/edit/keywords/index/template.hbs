@@ -6,6 +6,12 @@
     {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
       <div class="md-keywords-container" data-spy={{concat "Thesaurus " index}} id={{concat "thesaurus-container-" index}}>
         <div class="md-keywords-header">
+          {{#if thesaurus.thesaurus.identifier.0.identifier}}
+          <a class="md-keywords-collapse inline-block" data-toggle="collapse" aria-expanded="true"
+            href="#thesaurus-{{index}}" aria-controls="thesaurus-{{index}}">
+            <span class="fa"></span>
+          </a>
+          {{/if}}
           <h4 class="inline-block text-primary" code="">
             <strong>{{concat "Thesaurus #" index}}</strong>
           </h4>
@@ -18,12 +24,6 @@
             onConfirm=(route-action "deleteThesaurus" index)}}
             {{fa-icon "times"}} Delete
           {{/control/md-button-confirm}}
-          {{#if thesaurus.thesaurus.identifier.0.identifier}}
-          <a class="md-keywords-collapse pull-right" data-toggle="collapse" aria-expanded="true"
-            href="#thesaurus-{{index}}" aria-controls="thesaurus-{{index}}">
-            <span class="fa"></span>
-          </a>
-          {{/if}}
         </div>
         <div id="thesaurus-{{index}}" class="md-keywords-body collapse in">
 

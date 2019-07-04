@@ -32,7 +32,7 @@ export default Route.extend(ScrollTo, {
       // once(this, () => {
 
         funding.pushObject(allocation);
-        this.setScrollTo(`allocation-${funding.length-1}`);
+        this.setScrollTo(`funding-period-${funding.length-1}`);
         this.transitionTo('record.show.edit.funding.allocation',
           funding.length - 1);
 
@@ -47,6 +47,7 @@ export default Route.extend(ScrollTo, {
         'json.metadata.funding');
 
       all.removeAt(id);
+      this.controller.set('refresh', all.get('length'));
     }
   }
 });
