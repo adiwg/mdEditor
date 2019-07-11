@@ -1,5 +1,4 @@
-{{#each model.json.metadata.resourceDistribution as |dist index|}}
-  {{#layout/md-card
+  {{!-- {{#layout/md-card
   title=(concat "Distribution Section #" index)
   collapsible=true
   collapsed=false
@@ -7,14 +6,20 @@
   data-spy=(concat "Distribution #" index)
   shadow=true
   spotlightEnabled=false
+  }} --}}
+  {{#layout/md-object-container
+    title="Distribution"
+    index=index
+    profilePath=profilePath
+    deleteItem=(action "deleteDistribution")
   }}
-    <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive card-buttons" {{action "deleteDistribution" index}}>
-          {{fa-icon "times"}} Delete Section</button>
+    {{!-- <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive card-buttons" {{action "deleteDistribution" index}}>
+          {{fa-icon "times"}} Delete Section</button> --}}
     <div class="row">
       <div class="col-sm-6">
         {{input/md-textarea
-          value=dist.description
-          rows=5
+          value=model.description
+          rows=2
           maxHeight=300
           placeholder="Describe the distribution of the resource"
           label="Description"
@@ -23,8 +28,8 @@
       </div>
       <div class="col-sm-6">
         {{input/md-textarea
-          value=dist.liablityStatement
-          rows=5
+          value=model.liablityStatement
+          rows=2
           maxHeight=300
           placeholder="Statement of the liability assumed by the provider of the resource"
           label="Liablity Statement"
@@ -32,14 +37,14 @@
         }}
       </div>
     </div>
-    <hr>
-      <label>Distributors</label>
-        {{#if dist.distributor.length}}
+    {{!-- <hr>
+      <h4 class="text-info">Distributors</h4>
+        {{#if model.distributor.length}}
       <div class="row">
         <div class="col-sm-9">
-          {{#each dist.distributor as |dist|}}
+          {{#each model.distributor as |dist|}}
           <div>
-            {{#with dist.contact as |party|}}
+            {{#with model.contact as |party|}}
               {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
               (
               {{#each party.party as |contact index|}}
@@ -58,16 +63,31 @@
           <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editDistribution" index}}>
             {{fa-icon "pencil"}} Edit Distributors</button>
         </div>
-      </div>
-      {{else}}
+      </div> --}}
+      {{object/md-objectroute-table
+        attributes="Contacts"
+        items=model.distributor
+        header="Distributors"
+        shadow=false
+        buttonText="Add Distributor"
+        ellipsis=true
+        previewTemplateTable="object/md-distributor/preview"
+        editItem=editDistributor
+        profilePath=(concat profilePath ".distributor")
+        verticalButtons=false
+        hideIndex=false
+        condensed=false
+        editOnAdd=true
+        scrollToId=(concat "md-distributor-" index)
+        data-spy=false
+        routeParams=index
+      }}
+      {{!-- {{else}}
         <div class="alert alert-info">
           No Distributors to display.
         </div>
-      {{/if}}
-  {{/layout/md-card}}
-{{else}}
-  <h3 class="alert alert-info">No distribution sections found.
-    <button type="button" class="btn btn-success" {{action "addDistribution"}}>
-      {{fa-icon "plus"}} Add Distribution Section</button>
-  </h3>
-{{/each}}
+      {{/if}} --}}
+
+
+
+  {{/layout/md-object-container}}

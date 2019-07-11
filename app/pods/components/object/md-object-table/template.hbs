@@ -50,7 +50,7 @@
                           </td>
                         {{/unless}}
                           {{#if previewTemplateTable}}
-                              {{component previewTemplateTable item=item index=index profilePath=profilePath}}
+                              {{component previewTemplateTable item=item index=index profilePath=profilePath isTable=true}}
                           {{else if previewTemplate}}
                               <td class="property">{{component previewTemplate item=item index=index profilePath=profilePath}}</td>
                           {{else}}
@@ -65,7 +65,7 @@
                           <td class="md-row-actions {{if verticalButtons "vertical"}} {{alignButtons}}">
                             <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
                               <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
-                                <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index}}>
+                                <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index (if scrollToId (concat scrollToId "-" index) null) }}>
                                   {{fa-icon "pencil"}} {{if editBtnText editBtnText "Edit"}}
                                 </button>
                                 {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>

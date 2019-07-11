@@ -1,9 +1,18 @@
 <h4 class="section-header">
-  Editing Distributors for Distribution #{{distributionId}}
+  Editing Distributor #{{distributorId}} in <span class="text-success">Distribution #{{distributionId}}</span>
+  {{#control/md-button-confirm
+    class="btn btn-xs btn-danger"
+    onConfirm=(route-action "deleteDistributor")
+    tooltip="Delete Distributor?"
+    tipClass="danger"
+    tipSide="bottom"
+  }}
+    {{fa-icon "times"}} Delete
+  {{/control/md-button-confirm}}
   {{control/md-status model=parentModel}}
 </h4>
 
-{{#each model.distributor as |dist index|}}
+{{!-- {{#each model.distributor as |dist index|}}
   {{#if index}}
     <hr>
   {{/if}}
@@ -27,26 +36,27 @@
               {{fa-icon "times"}} Delete Distributor</button>
         </div>
       </div>
-    </div>
-    {{object/md-distributor model=dist profilePath="record.distribution.distributor"}}
-  {{/layout/md-card}}
+    </div> --}}
+    {{object/md-distributor
+      model=model
+      distributorId=distributorId
+      profilePath="record.distribution.distributor"
+      editTransferOption=(route-action "editTransferOption")
+    }}
+  {{!-- {{/layout/md-card}}
 {{else}}
   <h3 class="alert alert-info">No distributors found.
     <button type="button" class="btn btn-success" {{action (route-action "addDistributor")}}>
       {{fa-icon "plus"}} Add Distributor</button>
   </h3>
-{{/each}}
+{{/each}} --}}
 
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link"
-    clickText="Add Distributor Section"
-    clickIcon="plus"
-    clickType="success"
     text="Back to Distribution List"
     icon="arrow-left"
     type="primary"
-    click=(route-action "addDistributor")
     route="record.show.edit.distribution"
   )
 }}
