@@ -217,7 +217,7 @@ body {
 .md-object-container {
   border: 1px solid $gray-lighter;
   padding: 15px;
-  transition: background-color .25s ease;
+  transition: border-color .25s ease;
 
   &.odd {
     background-color: inherit;
@@ -228,7 +228,8 @@ body {
   }
 
   &:hover {
-    background-color: lighten($brand-info, 46);
+    //background-color: lighten($brand-info, 46);
+    border-color: lighten($brand-success, 5);
   }
 
   .btn-collapse {
