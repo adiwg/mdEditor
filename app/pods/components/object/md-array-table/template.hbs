@@ -1,130 +1,139 @@
-{{#if plain}}
-  <label class="show">
-      <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
-      <div class="label label-pill {{pillColor}}"> {{value.length}} </div>
-      <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
-          {{action "addItem" value}}>
-          {{fa-icon "plus"}} Add {{title}}
-      </button>
-  </label>
-  <div class={{if responsive "table-responsive"}}>
-  {{! template-lint-disable table-groups }}
-  <table class="table table-striped table-hover">
-      {{#if columnArray}}
-          <thead>
-            <tr>
-              {{#unless hideIndex}}
-              <th>#</th>
-              {{/unless}}
-              {{#each columnArray as |prop|}}
-              <th>{{uc-words prop}}</th>
-              {{/each}}
-              <th></th>
-            </tr>
-          </thead>
-      {{/if}}
-      <tbody>
-          {{#each arrayValues as |item index|}}
+{{#unless showAlert}}
+  {{#if plain}}
+    <label class="show">
+        <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
+        <div class="label label-pill {{pillColor}}"> {{value.length}} </div>
+        <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
+            {{action "addItem" value}}>
+            {{fa-icon "plus"}} Add {{title}}
+        </button>
+    </label>
+    <div class={{if responsive "table-responsive"}}>
+    {{! template-lint-disable table-groups }}
+    <table class="table table-striped table-hover">
+        {{#if columnArray}}
+            <thead>
               <tr>
-                  {{#unless hideIndex}}
-                  <td>{{index}}</td>
-                  {{/unless}}
-                  {{yield (hash item=item index=index)}}
-                  <td>
-                      <div class="md-button-column">
-                          {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
-                              <span class="fa fa-times"></span> Delete
-                          </button> --}}
-                          {{#control/md-button-confirm class="btn btn-xs btn-danger"
-                            disabled=(if simple (if item.value null "disabled"))
-                            onConfirm=(action "deleteItem" value index)}}
-                            <span class="fa fa-times"></span> Delete
-                          {{/control/md-button-confirm}}
-                      </div>
-                  </td>
+                {{#unless hideIndex}}
+                <th>#</th>
+                {{/unless}}
+                {{#each columnArray as |prop|}}
+                <th>{{uc-words prop}}</th>
+                {{/each}}
+                <th></th>
               </tr>
-          {{else}}
-          <tr>
-              <td colspan={{add-em (if hideIndex 1 2) columnArray.length}}>
-                  <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
-                      {{action "addItem" value}}>
-                      {{fa-icon "plus"}} Add {{title}}
-                  </button>
-              </td>
-          </tr>
-          {{/each}}
-      </tbody>
-  </table>
-  </div>
-{{else}}
-    <div class="panel panel-default box-shadow--4dp">
-
-        <div class="panel-heading">
-            <h3 class="panel-title md-panel-chevron">
-                <a data-toggle="collapse" aria-expanded={{if collapsed "false" "true"}}
-                   class={{if collapsed "collapsed"}}
-                   href="#{{panelId}}" aria-controls="#{{panelId}}">
-                    <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
-                    <div class="label label-pill {{pillColor}}"> {{value.length}} </div>
-                </a>
-                <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
-                    {{action "addItem" value}}>
-                    {{fa-icon "plus"}} Add
-                </button>
-            </h3>
-        </div>
-
-        <div id={{panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
-            <div class="panel-body {{if responsive "table-responsive"}}">
-                {{! template-lint-disable table-groups }}
-                <table class="table table-striped table-hover fadeIn">
-                    {{#if columnArray}}
-                        <thead>
-                          <tr>
-                            {{#unless hideIndex}}
-                            <th>#</th>
-                            {{/unless}}
-                            {{#each columnArray as |prop|}}
-                            <th>{{uc-words prop}}</th>
-                            {{/each}}
-                            <th></th>
-                          </tr>
-                        </thead>
-                    {{/if}}
-                    <tbody>
-                        {{#each arrayValues as |item index|}}
-                            <tr>
-                                {{#unless hideIndex}}
-                                <td>{{index}}</td>
-                                {{/unless}}
-                                {{yield (hash item=item index=index)}}
-                                <td>
-                                    <div class="md-button-column">
-                                        {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
-                                            <span class="fa fa-times"></span> Delete
-                                        </button> --}}
-                                        {{#control/md-button-confirm class="btn btn-xs btn-danger"
-                                          disabled=(if simple (if item.value null "disabled"))
-                                          onConfirm=(action "deleteItem" value index)}}
-                                          <span class="fa fa-times"></span> Delete
-                                        {{/control/md-button-confirm}}
-                                    </div>
-                                </td>
-                            </tr>
-                        {{else}}
-                        <tr>
-                            <td colspan={{add-em (if hideIndex 1 2) columnArray.length}}>
-                                <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
-                                    {{action "addItem" value}}>
-                                    {{fa-icon "plus"}} Add {{title}}
-                                </button>
-                            </td>
-                        </tr>
-                        {{/each}}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
+            </thead>
+        {{/if}}
+        <tbody>
+            {{#each arrayValues as |item index|}}
+                <tr>
+                    {{#unless hideIndex}}
+                    <td>{{index}}</td>
+                    {{/unless}}
+                    {{yield (hash item=item index=index)}}
+                    <td>
+                        <div class="md-button-column">
+                            {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
+                                <span class="fa fa-times"></span> Delete
+                            </button> --}}
+                            {{#control/md-button-confirm class="btn btn-xs btn-danger"
+                              disabled=(if simple (if item.value null "disabled"))
+                              onConfirm=(action "deleteItem" value index)}}
+                              <span class="fa fa-times"></span> Delete
+                            {{/control/md-button-confirm}}
+                        </div>
+                    </td>
+                </tr>
+            {{else}}
+            <tr>
+                <td colspan={{add-em (if hideIndex 1 2) columnArray.length}}>
+                    <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
+                        {{action "addItem" value}}>
+                        {{fa-icon "plus"}} Add {{title}}
+                    </button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
     </div>
-{{/if}}
+  {{else}}
+      <div class="panel panel-default box-shadow--4dp">
+
+          <div class="panel-heading">
+              <h3 class="panel-title md-panel-chevron">
+                  <a data-toggle="collapse" aria-expanded={{if collapsed "false" "true"}}
+                     class={{if collapsed "collapsed"}}
+                     href="#{{panelId}}" aria-controls="#{{panelId}}">
+                      <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
+                      <div class="label label-pill {{pillColor}}"> {{value.length}} </div>
+                  </a>
+                  <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
+                      {{action "addItem"}}>
+                      {{fa-icon "plus"}} Add
+                  </button>
+              </h3>
+          </div>
+
+          <div id={{panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
+              <div class="panel-body {{if responsive "table-responsive"}}">
+                  {{! template-lint-disable table-groups }}
+                  <table class="table table-striped table-hover fadeIn">
+                      {{#if columnArray}}
+                          <thead>
+                            <tr>
+                              {{#unless hideIndex}}
+                              <th>#</th>
+                              {{/unless}}
+                              {{#each columnArray as |prop|}}
+                              <th>{{uc-words prop}}</th>
+                              {{/each}}
+                              <th></th>
+                            </tr>
+                          </thead>
+                      {{/if}}
+                      <tbody>
+                          {{#each arrayValues as |item index|}}
+                              <tr>
+                                  {{#unless hideIndex}}
+                                  <td>{{index}}</td>
+                                  {{/unless}}
+                                  {{yield (hash item=item index=index)}}
+                                  <td>
+                                      <div class="md-button-column">
+                                          {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
+                                              <span class="fa fa-times"></span> Delete
+                                          </button> --}}
+                                          {{#control/md-button-confirm class="btn btn-xs btn-danger"
+                                            disabled=(if simple (if item.value null "disabled"))
+                                            onConfirm=(action "deleteItem" item index)}}
+                                            <span class="fa fa-times"></span> Delete
+                                          {{/control/md-button-confirm}}
+                                      </div>
+                                  </td>
+                              </tr>
+                          {{else}}
+                          <tr>
+                              <td colspan={{add-em (if hideIndex 1 2) columnArray.length}}>
+                                  <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
+                                      {{action "addItem"}}>
+                                      {{fa-icon "plus"}} Add {{title}}
+                                  </button>
+                              </td>
+                          </tr>
+                          {{/each}}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+      </div>
+  {{/if}}
+{{else}}
+  {{control/md-alert-table
+    title=title
+    required=required
+    addItem=(action "addItem")
+    target=arrayValues
+  }}
+{{/unless}}

@@ -1,140 +1,142 @@
 {{#unless showAlert}}
   <div class="md-object-table panel panel-default {{if editing "editing"}}">
+    <div class="panel-heading">
+      <h3 class="panel-title md-panel-chevron">
+        {{#if collapsible}}
+          <a role="button" data-toggle="collapse" href="#{{unless editing panelId}}" aria-expanded={{if collapsed "false" "true"}}
+            class={{if collapsed "collapsed"}} aria-controls={{panelId}}>
+              <span class="fa"></span> {{header}}
+              <div class="label label-pill {{pillColor}}"> {{items.length}} </div>
+          </a>
+        {{else}}
+          {{header}}
+          <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
+        {{/if}}
 
-      <div class="panel-heading">
-          <h3 class="panel-title md-panel-chevron">
-            {{#if collapsible}}
-              <a role="button" data-toggle="collapse" href="#{{unless editing panelId}}" aria-expanded={{if collapsed "false" "true"}}
-                 class={{if collapsed "collapsed"}} aria-controls={{panelId}}>
-                  <span class="fa"></span> {{header}}
-                  <div class="label label-pill {{pillColor}}"> {{items.length}} </div>
-              </a>
-            {{else}}
-              {{header}}
-              <label class="label label-pill {{pillColor}}"> {{items.length}} </label>
-            {{/if}}
+          <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right {{if editing "hidden"}}"
+              {{action "addItem" items}}>
+              {{fa-icon "plus"}} Add
+          </button>
+          <button type="button" class="btn btn-xs btn-info pull-right {{unless editing "hidden"}}" {{action "cancelEdit"}}>
+              <span class="fa fa-check"></span> OK
+          </button>
+      </h3>
+    </div>
 
-              <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right {{if editing "hidden"}}"
-                  {{action "addItem" items}}>
-                  {{fa-icon "plus"}} Add
-              </button>
-              <button type="button" class="btn btn-xs btn-info pull-right {{unless editing "hidden"}}" {{action "cancelEdit"}}>
-                  <span class="fa fa-check"></span> OK
-              </button>
-          </h3>
-      </div>
-
-      <div id={{panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
-          <div class="panel-body {{if condensed "condensed"}} {{if responsive "table-responsive"}}">
-              {{! template-lint-disable table-groups }}
-              <table class="table table-striped table-hover fadeIn {{if ellipsis "ellipsis"}}">
-                {{#unless previewTemplate}}
-                  <thead>
-                    <tr>
-                      {{#unless hideIndex}}
-                      <th>#</th>
-                      {{/unless}}
-                      {{#each attrTitleArray as |prop|}}
-                      <th>{{uc-words prop}}</th>
-                      {{/each}}
-                      <th></th>
-                    </tr>
-                  </thead>
-                {{/unless}}
-                <tbody>
-                  {{#each items as |item index|}}
-                      <tr id={{if scrollToId (concat scrollToId "-" index) ""}}>
-                        {{#unless hideIndex}}
-                          <td class="md-table-index">
-                            {{index}}
-                          </td>
-                        {{/unless}}
-                          {{#if previewTemplateTable}}
-                              {{component previewTemplateTable item=item index=index profilePath=profilePath isTable=true}}
-                          {{else if previewTemplate}}
-                              <td class="property">{{component previewTemplate item=item index=index profilePath=profilePath}}</td>
-                          {{else}}
-                              {{#each attrArray as |prop|}}
-                                  {{#if (get item prop)}}
-                                  <td class="property"><div class="wrap">{{get item prop}}</div></td>
-                                  {{else}}
-                                  <td><em>Not Defined</em></td>
-                                  {{/if}}
-                              {{/each}}
-                          {{/if}}
-                          <td class="md-row-actions {{if verticalButtons "vertical"}} {{alignButtons}}">
-                            <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
-                              <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
-                                <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index (if scrollToId (concat scrollToId "-" index) null) }}>
-                                  {{fa-icon "pencil"}} {{if editBtnText editBtnText "Edit"}}
-                                </button>
-                                {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
-                                    <span class="fa fa-times"></span> Delete
-                                </button> --}}
-                                {{#control/md-button-confirm class=(concat "btn btn-" btnSize " btn-danger")
-                                  onConfirm=(action "deleteItem" items index)}}
-                                  <span class="fa fa-times"></span> Delete
-                                {{/control/md-button-confirm}}
-
-                              </div>
-
-                              <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
-                                {{#if item.validations.isInvalid}}
-                                <span class="md-error">
-                                  {{fa-icon "exclamation-circle" fixedWidth=true}}
-                                  {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
-                                  This item has errors.
-                                  {{/ember-tooltip}}
-                                </span>
-                                {{else}}
-                                <span class="md-error">
-                                  <span class="fa fa-fw"></span>
-                                </span>
-                                {{/if}}
-                              </div>
-                            </div>
-                          </td>
-                      </tr>
-                  {{else}}
-                      <tr>
-                          <td colspan={{add-em attrArray.length (if hideIndex 1 2)}}>
-                            <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
-                                {{action "addItem" items}}>
-                                {{fa-icon "plus"}} {{buttonText}}
-                            </button>
-                          </td>
-                      </tr>
-                  {{/each}}
-                  </tbody>
-              </table>
-              <div class="object-editor fadeOut">
-                  {{#if editing}}
-                    {{yield saveItem}}
-                    <hr>
-                    <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
-                        <span class="fa fa-check"></span> OK
-                    </button>
-                  {{/if}}
-              </div>
+    <div id={{panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
+      {{#if editing}}
+        {{#control/md-scroll-into-view}}
+          <div class="panel-body object-editor">
+                {{yield saveItem}}
+                <hr>
+                <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
+                    <span class="fa fa-check"></span> OK
+                </button>
           </div>
-          {{#if showFooter}}
-            <div class="panel-footer text-right">
-              <button type="button" id="{{panelId}}-btn" class="btn btn-sm btn-info {{if editing "hidden"}}"
-                  {{action "addItem" items}}>
-                  {{fa-icon "plus"}} Add {{header}}
-              </button>
-            </div>
-          {{/if}}
-      </div>
+        {{/control/md-scroll-into-view}}
+      {{else}}
+        <div class="panel-body {{if condensed "condensed"}} {{if responsive "table-responsive"}}">
+            {{! template-lint-disable table-groups }}
+            <table class="table table-striped table-hover fadeIn {{if ellipsis "ellipsis"}}">
+              {{#unless previewTemplate}}
+                <thead>
+                  <tr>
+                    {{#unless hideIndex}}
+                    <th>#</th>
+                    {{/unless}}
+                    {{#each attrTitleArray as |prop|}}
+                    <th>{{uc-words prop}}</th>
+                    {{/each}}
+                    <th></th>
+                  </tr>
+                </thead>
+              {{/unless}}
+              <tbody>
+                {{#each items as |item index|}}
+                    <tr id={{if scrollToId (concat scrollToId "-" index) ""}}>
+                      {{#unless hideIndex}}
+                        <td class="md-table-index">
+                          {{index}}
+                        </td>
+                      {{/unless}}
+                        {{#if previewTemplateTable}}
+                            {{component previewTemplateTable item=item index=index profilePath=profilePath isTable=true}}
+                        {{else if previewTemplate}}
+                            <td class="property">{{component previewTemplate item=item index=index profilePath=profilePath}}</td>
+                        {{else}}
+                            {{#each attrArray as |prop|}}
+                                {{#if (get item prop)}}
+                                <td class="property"><div class="wrap">{{get item prop}}</div></td>
+                                {{else}}
+                                <td><em>Not Defined</em></td>
+                                {{/if}}
+                            {{/each}}
+                        {{/if}}
+                        <td class="md-row-actions {{if verticalButtons "vertical"}} {{alignButtons}}">
+                          <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
+                            <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
+                              <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index (if scrollToId (concat scrollToId "-" index) null) }}>
+                                {{fa-icon "pencil"}} {{if editBtnText editBtnText "Edit"}}
+                              </button>
+                              {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
+                                  <span class="fa fa-times"></span> Delete
+                              </button> --}}
+                              {{#control/md-button-confirm class=(concat "btn btn-" btnSize " btn-danger")
+                                onConfirm=(action "deleteItem" items index)}}
+                                <span class="fa fa-times"></span> Delete
+                              {{/control/md-button-confirm}}
+
+                            </div>
+
+                            <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
+                              {{#if item.validations.isInvalid}}
+                              <span class="md-error">
+                                {{fa-icon "exclamation-circle" fixedWidth=true}}
+                                {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
+                                This item has errors.
+                                {{/ember-tooltip}}
+                              </span>
+                              {{else}}
+                              <span class="md-error">
+                                <span class="fa fa-fw"></span>
+                              </span>
+                              {{/if}}
+                            </div>
+                          </div>
+                        </td>
+                    </tr>
+                {{else}}
+                    <tr>
+                        <td colspan={{add-em attrArray.length (if hideIndex 1 2)}}>
+                          <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
+                              {{action "addItem" items}}>
+                              {{fa-icon "plus"}} {{buttonText}}
+                          </button>
+                        </td>
+                    </tr>
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        {{#if showFooter}}
+          <div class="panel-footer text-right">
+            <button type="button" id="{{panelId}}-btn" class="btn btn-sm btn-info {{if editing "hidden"}}"
+                {{action "addItem" items}}>
+                {{fa-icon "plus"}} Add {{header}}
+            </button>
+          </div>
+        {{/if}}
+
+      {{/if}}
+    </div>
   </div>
 {{else}}
-  <div class="alert alert-info">
-    <h3>No <span class={{if required "required"}}>{{header}}</span> found.
-      <button type="button"  class="btn btn-success btn-lg" {{action "addItem" items}}>
-        {{fa-icon "plus"}} Add {{singularize header}}
-      </button>
-    </h3>
-  </div>
+  {{control/md-alert-table
+    title=header
+    required=required
+    addItem=(action "addItem")
+    target=items
+  }}
 {{/unless}}
 
 {{#if addSubbar}}

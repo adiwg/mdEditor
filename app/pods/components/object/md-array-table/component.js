@@ -26,7 +26,7 @@ export default Component.extend(Template, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if (this.value) {
+    if(this.value) {
       this.applyTemplateArray('value');
     }
 
@@ -125,6 +125,16 @@ export default Component.extend(Template, {
   'data-spy': oneWay('title'),
 
   /**
+   * If true, an alert will be rendered with an "add" button when no items are
+   * present.
+   *
+   * @property alertIfEmpty
+   * @type {Boolean}
+   * @default true
+   */
+  alertIfEmpty: true,
+
+  /**
    * Array of column headers
    *
    * @property columnArray
@@ -136,7 +146,21 @@ export default Component.extend(Template, {
   columnArray: computed('columns', function () {
     let columns = this.columns;
 
-    return(typeof columns === 'string') ? columns.split(',') : null;
+    return (typeof columns === 'string') ? columns.split(',') : null;
+  }),
+
+  /**
+   * Render an alert if the items array is empty and alertIfEmpty is true.
+   *
+   * @property showAlert
+   * @type {Boolean}
+   * @default "false"
+   * @readOnly
+   * @category computed
+   * @requires items.length,alertIfEmpty
+   */
+  showAlert: computed('arrayValues.[]', 'alertIfEmpty', function () {
+    return this.get('arrayValues.length') === 0 && this.alertIfEmpty;
   }),
 
   /**
@@ -148,9 +172,9 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', 'value.[]', function () {
+  collapsed: computed('isCollapsed', 'arrayValues.[]', function () {
     let isCollapsed = this.isCollapsed;
-    let value = this.value;
+    let value = this.arrayValues;
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
@@ -198,7 +222,7 @@ export default Component.extend(Template, {
   pillColor: computed('value.[]', 'required', function () {
     let count = this.get('value.length') || 0;
     let required = this.required;
-    return(count === 0) ? required ? 'label-danger' : 'label-warning' :
+    return (count === 0) ? required ? 'label-danger' : 'label-warning' :
       'label-info';
   }),
 
@@ -229,20 +253,19 @@ export default Component.extend(Template, {
   },
 
   actions: {
-    addItem: function (value) {
+    addItem: function () {
       const Template = this.templateClass;
       const owner = getOwner(this);
 
-      value.pushObject(typeOf(Template) === 'class' ? Template.create(
-          owner.ownerInjection()
-        ) :
-        this.templateAsObject ? {} : null);
+      this.arrayValues.pushObject(typeOf(Template) === 'class' ? Template
+        .create(owner.ownerInjection()) : { value: null });
+      //this.templateAsObject ? {} : null);
       this.valueChanged();
     },
 
-    deleteItem: function (value, idx) {
-      if(value.length > idx) {
-        value.removeAt(idx);
+    deleteItem: function (item, idx) {
+      if(this.arrayValues.length > idx) {
+        this.arrayValues.removeAt(idx);
       }
       this.valueChanged();
     }

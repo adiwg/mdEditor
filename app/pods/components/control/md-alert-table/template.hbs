@@ -1,0 +1,6 @@
+  <h4>No <span class={{if required "required"}}>{{title}}</span> found.
+    <button type="button"  class="btn btn-success btn-md" {{action "addItem" target}}>
+      {{fa-icon "plus"}} Add {{singularize title}}
+    </button>
+    {{yield}}
+  </h4>
