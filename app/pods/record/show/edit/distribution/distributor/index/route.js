@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { get } from '@ember/object';
-// import { computed } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
@@ -26,25 +25,6 @@ export default Route.extend(ScrollTo, {
   },
 
   actions: {
-    // addDistributor() {
-    //   let model = this.currentRouteModel();
-    //   let dists = get(model, 'distributor');
-    //
-    //   if(dists) {
-    //     dists.pushObject({});
-    //   } else {
-    //     set(model, 'distributor', [{}]);
-    //   }
-    //
-    //   this.controller.set('refresh', get(model, 'distributor.length'));
-    //
-    //   $("html, body").animate({
-    //     scrollTop: $(document).height()
-    //   }, "slow");
-    // },
-    // editDistributor(id) {
-    //   return id;
-    // },
     deleteDistributor(id) {
       let model = this.controller.parentModel.get(
           'json.metadata.resourceDistribution')[this.controller.distributionId]
@@ -61,7 +41,7 @@ export default Route.extend(ScrollTo, {
       this.setScrollTo(scrollToId);
       this.transitionTo(
         'record.show.edit.distribution.distributor.transfer',
-        this.controller.distributorId, this.controller.distributionId, id
+        this.controller.distributionId, this.controller.distributorId, id
       );
     },
   }

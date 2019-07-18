@@ -50,6 +50,14 @@ export default Route.extend(ScrollTo, {
         distributor.transferOption).objectAt(transferId) :
       undefined;
 
+    if(isEmpty(distributor)) {
+      get(this, 'flashMessages')
+        .warning('No Transfer Option object found! Re-directing to Distribution...');
+      this.replaceWith('record.show.edit.distribution');
+
+      return;
+    }
+
     if(isEmpty(transfer)) {
       get(this, 'flashMessages')
         .warning('No Transfer Option object found! Re-directing to Distributor...');

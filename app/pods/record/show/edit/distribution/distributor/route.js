@@ -49,7 +49,7 @@ export default Route.extend({
     //make sure the identifier exists
     if(isEmpty(distributor)) {
       get(this, 'flashMessages')
-        .warning('No Distributor object found! Re-directing to list...');
+        .warning('No Distributor object found! Re-directing to Distribution List...');
       this.replaceWith('record.show.edit.distribution');
 
       return;
