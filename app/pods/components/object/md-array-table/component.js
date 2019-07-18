@@ -115,6 +115,15 @@ export default Component.extend(Template, {
   title: 'Item',
 
   /**
+   * The error message to display, if required = true. Overrides the validation
+   * message.
+   *
+   * @property errorMessage
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
    * The data-spy text. Defaults to the title.
    *
    * @property data-spy
@@ -224,6 +233,15 @@ export default Component.extend(Template, {
     let required = this.required;
     return (count === 0) ? required ? 'label-danger' : 'label-warning' :
       'label-info';
+  }),
+
+  alertTipMessage: computed('tipModel', 'tipPath', 'errorMessage', function () {
+    if(this.errorMessage) {
+      return this.errorMessage;
+    }
+
+    return this.tipModel ? this.tipModel.get(
+      `validations.attrs.${this.tipPath}.message`) : null;
   }),
 
   onChange() {},

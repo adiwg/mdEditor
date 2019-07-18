@@ -78,6 +78,7 @@
               plain=false
               value=resource.resourceType
               required=true
+              errorMessage="At least one Resource Type is required."
               data-spy="Resource Types"
               profilePath="record.main.resourceType"
             }}
@@ -93,6 +94,8 @@
           required=true
           value=resource.pointOfContact
           profilePath="record.main.pointOfContact"
+          tipPath='json.metadata.resourceInfo.pointOfContact'
+          tipModel=model
         }}
         {{/if}}
 

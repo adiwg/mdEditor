@@ -212,6 +212,15 @@ export default Component.extend(Template, {
   alertIfEmpty: true,
 
   /**
+   * The error message to display, if required = true. Overrides the validation
+   * message.
+   *
+   * @property errorMessage
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
    * The height to offset from top of container when scrolling.
    *
    * @property offset
@@ -306,6 +315,15 @@ export default Component.extend(Template, {
     let count = this.get('items.length') || 0;
 
     return (count > 0) ? 'label-info' : 'label-warning';
+  }),
+
+  alertTipMessage: computed('tipModel', 'tipPath', 'errorMessage', function () {
+    if(this.errorMessage) {
+      return this.errorMessage;
+    }
+
+    return this.tipModel ? this.tipModel.get(
+      `validations.attrs.${this.tipPath}.message`) : null;
   }),
 
   actions: {

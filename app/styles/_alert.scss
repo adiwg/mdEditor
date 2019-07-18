@@ -1,4 +1,8 @@
 .alert.md-alert-table {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+
   h3,
   h4 {
     margin-bottom: 0;

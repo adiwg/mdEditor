@@ -22,6 +22,15 @@ const Validations = buildValidations({
       track: ['type']
     })
   ],
+  'json.metadata.resourceInfo.pointOfContact': {
+    disabled: alias('model.isNew'),
+    validators: [
+      validator('array-valid'),
+      validator('array-required', {
+        track: ['type']
+      })
+    ]
+  },
   // 'json.resourceInfo.abstract': validator('presence', {
   //   presence: true,
   //   ignoreBlank: true
@@ -121,7 +130,6 @@ const Record = Model.extend(Validations, Copyable, {
   parentIds: alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
-
   hasParent: computed('parentIds.[]', function () {
     let ids = this.parentIds;
     let allRecords = this.store.peekAll('record');
@@ -199,7 +207,8 @@ const Record = Model.extend(Validations, Copyable, {
         return;
       }
 
-      if(validator.validate(schema.rootSchema, mdjson.formatRecord(this))){
+      if(validator.validate(schema.rootSchema, mdjson.formatRecord(
+          this))) {
         return;
       }
 
@@ -211,7 +220,6 @@ const Record = Model.extend(Validations, Copyable, {
 
     return errors;
   }),
-
 
   formatted: alias('_formatted'),
 

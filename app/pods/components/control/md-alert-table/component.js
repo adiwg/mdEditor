@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { computed } from '@ember/object';
 
 export default Component.extend({
-  classNames: ['alert','md-alert-table'],
+  classNames: ['alert', 'md-alert-table'],
   classNameBindings: ['alertType'],
   required: false,
   title: '',
@@ -11,9 +11,14 @@ export default Component.extend({
   alertType: computed('required', function () {
     return 'alert-' + (this.required ? 'danger' : 'info');
   }),
-
+  tipType: computed('required', function () {
+    return this.required ? 'danger' : 'info';
+  }),
+  tipIcon: computed('required', function () {
+    return this.required ? 'exclamation-circle' : 'info-circle';
+  }),
   actions: {
-    addItem(target){
+    addItem(target) {
       this.addItem(target);
     }
   }
