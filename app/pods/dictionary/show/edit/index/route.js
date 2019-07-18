@@ -15,6 +15,17 @@ export default Route.extend(ScrollTo, {
     set(model, 'domain', getWithDefault(model, 'domain', []));
     set(model, 'entity', getWithDefault(model, 'entity', []));
   },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    this.controllerFor('dictionary.show.edit')
+      .setProperties({
+        onCancel: () => this,
+        cancelScope: this
+      });
+  },
+
   actions: {
     editCitation(scrollTo) {
       this.transitionTo('dictionary.show.edit.citation')

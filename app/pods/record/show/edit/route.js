@@ -1,15 +1,9 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
 import HashPoll from 'mdeditor/mixins/hash-poll';
-import {
-  once
-} from '@ember/runloop';
-import {
-  getOwner
-} from '@ember/application';
+import DoCancel from 'mdeditor/mixins/cancel';
 
-export default Route.extend(HashPoll, {
+export default Route.extend(HashPoll, DoCancel, {
   init() {
     this._super(...arguments);
 
@@ -54,8 +48,8 @@ export default Route.extend(HashPoll, {
       model
         .save()
         .then(() => {
-          this.flashMessages
-            .success(`Saved Record: ${model.get('title')}`);
+          this.flashMessages.success(
+            `Saved Record: ${model.get('title')}`);
         });
     },
 
@@ -73,10 +67,6 @@ export default Route.extend(HashPoll, {
     cancelRecord: function () {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
-      let controller = this.controller;
-      let same = !controller.cancelScope || getOwner(this)
-        .lookup('controller:application')
-        .currentPath === get(controller,'cancelScope.routeName');
 
       if(this.get('settings.data.autoSave')) {
         let json = model.get('jsonRevert');
@@ -84,17 +74,7 @@ export default Route.extend(HashPoll, {
         if(json) {
           model.set('json', JSON.parse(json));
 
-          if(controller.onCancel) {
-            once(() => {
-              if(same) {
-                controller.onCancel.call(controller.cancelScope ||
-                  this);
-              }
-              this.refresh();
-              controller.set('onCancel', null);
-              controller.set('cancelScope', null);
-            });
-          }
+          this.doCancel();
 
           this.flashMessages
             .warning(message);
@@ -106,19 +86,8 @@ export default Route.extend(HashPoll, {
       model
         .reload()
         .then(() => {
-          if(controller.onCancel) {
-            once(() => {
-              if(same) {
-                controller.onCancel.call(controller.cancelScope ||
-                  this);
-              }
-              this.refresh();
-              controller.set('onCancel', null);
-              controller.set('cancelScope', null);
-            });
-          }
-          this.flashMessages
-            .warning(message);
+          this.doCancel();
+          this.flashMessages.warning(message);
         });
     },
 

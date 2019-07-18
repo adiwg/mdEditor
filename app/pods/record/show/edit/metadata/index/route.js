@@ -14,7 +14,8 @@ export default Route.extend(ScrollTo, {
     once(this, () => {
       set(model, 'metadataContact', getWithDefault(model,
         'metadataContact', []));
-      set(model, 'metadataDate', getWithDefault(model, 'metadataDate', []));
+      set(model, 'metadataDate', getWithDefault(model, 'metadataDate',
+        []));
       set(model, 'metadataMaintenance', getWithDefault(model,
         'metadataMaintenance', {}));
       set(model, 'metadataOnlineResource', getWithDefault(model,
@@ -30,6 +31,16 @@ export default Route.extend(ScrollTo, {
       set(m, 'json.metadataRepository', getWithDefault(m,
         'json.metadataRepository', []));
     });
+  },
+
+  setupController(controller, model) {
+    this._super(controller, model);
+
+    this.controllerFor('record.show.edit')
+      .setProperties({
+        onCancel: () => this,
+        cancelScope: this
+      });
   },
 
   actions: {
