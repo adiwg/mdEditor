@@ -12,13 +12,13 @@ spotlightEnabled=false
           <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editExtent" index}}>
             {{fa-icon "pencil"}} Edit Extent Features</button>
         </div>
-        <div class="col-sm-6">
+        {{!-- <div class="col-sm-6"> --}}
           {{!-- <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteExtent" index}}>
               {{fa-icon "times"}} Delete Extent</button> --}}
-          {{#control/md-button-confirm class="btn btn-md btn-danger  btn-block md-btn-responsive" onConfirm=(action "deleteExtent" index)}}
+          {{!-- {{#control/md-button-confirm class="btn btn-md btn-danger  btn-block md-btn-responsive" onConfirm=(action "deleteExtent" index)}}
             <span class="fa fa-times"></span> Delete Extent
-          {{/control/md-button-confirm}}
-        </div>
+          {{/control/md-button-confirm}} --}}
+        {{!-- </div> --}}
       </div>
     </div>
     <div class="col-sm-6">
@@ -34,7 +34,13 @@ spotlightEnabled=false
           {{/object/md-bbox}}
         </div>
         <div class="col-xxxl-6 md-extent-description">
-          {{input/md-textarea value=extent.description rows=5 maxHeight=300 placeholder="Description of extent" label="Description"}}
+          {{input/md-textarea
+            value=geographicElement.description
+            rows=5
+            maxHeight=300
+            placeholder="Description of geographic element"
+            label="Description"
+          }}
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ $md-nav-background: lighten($gray-darker, 4);
 $md-text-info-dark: darken($brand-info, 5);
 $white: #fff;
 
+@import 'background';
 @import 'col_xxl';
 @import 'col_xxxl';
 @import 'power_select_custom';
@@ -48,6 +49,7 @@ $white: #fff;
 @import 'classification';
 @import 'collapse';
 @import 'alert';
+@import 'borders';
 
 //modals
 @import 'ember-modal-dialog/ember-modal-structure';

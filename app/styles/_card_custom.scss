@@ -141,3 +141,7 @@
 .md-card-even {
   background-color: lighten($brand-info, 45);
 }
+
+.card-lighter {
+  @include card-variant(lighten($gray-lighter,3), $panel-default-border);
+}

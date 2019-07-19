@@ -10,7 +10,7 @@
           doDelete=(route-action "destroyRecord")
           doCopy=(route-action "copyRecord")
       }}
-    {{#liquid-bind currentModel use="fade" duration="1000"}}
+    {{!-- {{#liquid-bind currentModel use="fade" duration="1000"}} --}}
       {{component subbar context=(route-action "getContext")}}
       <hr>
       {{from-elsewhere name="md-subbar-extra"}}
@@ -22,7 +22,7 @@
       {{#from-elsewhere name="md-scroll-spy-record-edit" as |spy|}}
           {{component spy offset=145}}
       {{/from-elsewhere}}
-    {{/liquid-bind}}
+    {{!-- {{/liquid-bind}} --}}
   </div>
 </div>
 

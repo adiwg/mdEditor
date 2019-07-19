@@ -13,21 +13,30 @@ export default Route.extend({
     set(info, 'extent', getWithDefault(info, 'extent', A()));
 
     get(info, 'extent').forEach((itm) => {
-      set(itm, 'geographicExtent', getWithDefault(itm, 'geographicExtent', A()));
-      set(itm, 'geographicExtent.0', getWithDefault(itm, 'geographicExtent.0', {}));
-      set(itm, 'geographicExtent.0.boundingBox', getWithDefault(itm, 'geographicExtent.0.boundingBox', {}));
+      set(itm, 'geographicExtent', getWithDefault(itm,
+        'geographicExtent', A()));
+      set(itm, 'geographicExtent.0', getWithDefault(itm,
+        'geographicExtent.0', {}));
+      set(itm, 'geographicExtent.0.boundingBox', getWithDefault(itm,
+        'geographicExtent.0.boundingBox', {}));
+      set(itm, 'geographicExtent.0.identifier', getWithDefault(itm,
+        'geographicExtent.0.identifier', {}));
+      set(itm, 'verticalExtent', getWithDefault(itm, 'verticalExtent',
+        A()));
+      set(itm, 'temporalExtent', getWithDefault(itm, 'temporalExtent',
+        A()));
     });
     return model;
   },
 
   subbar: 'control/subbar-extent',
 
-  clearSubbar: on('deactivate', function() {
+  clearSubbar: on('deactivate', function () {
     this.controllerFor('record.show.edit')
       .set('subbar', null);
   }),
 
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -46,11 +55,16 @@ export default Route.extend({
         .get('json.metadata.resourceInfo.extent');
 
       extents.pushObject({
-        description: '',
+        description: null,
         geographicExtent: [{
+          description: null,
+          containsData: true,
           boundingBox: {},
-          geographicElement: A()
-        }]
+          geographicElement: A(),
+          identifier: {}
+        }],
+        verticalExtent: A(),
+        temporalExtent: A()
       });
 
       $("html, body").animate({
@@ -61,17 +75,19 @@ export default Route.extend({
     deleteExtent(id) {
       let extents = this.currentRouteModel()
         .get('json.metadata.resourceInfo.extent');
+      let extent = extents[id];
 
-      extents.removeAt(id);
+      extents.removeObject(extent);
     },
-    editExtent(id) {
+    editFeatures(id) {
+      this.transitionTo({ queryParams: { scrollTo: 'extent-' + id } });
       this.transitionTo('record.show.edit.extent.spatial', id);
     },
     toList() {
       let me = this;
 
       me.transitionTo(me.get('routeName'))
-        .then(function() {
+        .then(function () {
           me.setupController();
         });
     }

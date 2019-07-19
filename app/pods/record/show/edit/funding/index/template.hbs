@@ -2,41 +2,6 @@
   Editing Funding
   {{control/md-status model=parentModel}}
 </h4>
-{{#unless model.json.metadata.funding}}
-  <h3 class="alert alert-info">No Funding Periods found.
-    <button type="button" class="btn btn-success" {{action "addAllocation"}}>
-      {{fa-icon "plus"}} Add Funding Period</button>
-  </h3>
-{{/unless}}
-
-{{!-- {{#each model.json.metadata.funding as |allocation index|}}
-  {{#layout/md-card
-    title=(concat "Funding Period #" index)
-    collapsible=true
-    collapsed=false
-    profilePath="funding.allocation"
-    data-spy=(concat "Funding Period " index)
-    shadow=true
-    spotlightEnabled=false
-    flex=false
-  }}
-      <div class="row card-buttons">
-        <div class="col-sm-6">
-          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editAllocation" index}}>
-            {{fa-icon "pencil"}} Edit Funding Period</button>
-          </div>
-          <div class="col-sm-6">
-          {{#control/md-button-confirm class="btn btn-md btn-danger btn-block md-btn-responsive"
-            onConfirm=(route-action "deleteAllocation" index)}}
-            {{fa-icon "times"}} Delete Funding Period
-          {{/control/md-button-confirm}}
-        </div>
-      </div>
-      {{object/md-funding/preview item=allocation}}
-
-  {{/layout/md-card}}
-
-{{/each}} --}}
 
 {{#each model.json.metadata.funding as |allocation index|}}
   {{#layout/md-object-container
@@ -47,6 +12,11 @@
   }}
     {{object/md-funding/preview item=allocation}}
   {{/layout/md-object-container}}
+{{else}}
+  <h3 class="alert alert-info">No Funding Periods found.
+    <button type="button" class="btn btn-lg btn-success" {{action "addAllocation"}}>
+      {{fa-icon "plus"}} Add Funding Period</button>
+  </h3>
 {{/each}}
 
 {{to-elsewhere

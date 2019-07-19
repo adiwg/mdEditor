@@ -1,21 +1,21 @@
 {{#if title}}
-  <div class="card-header text-info">
+  <div class="card-header text-info {{if plain "bg-white border-bottom-0 rounded-sm"}} {{if collapsed "border-0"}} {{borderColor}}">
       <h4 class="card-title md-card-chevron">
         {{#if isCollapsible}}
-        {{#if titleIcon}}
-          <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded={{if collapsed "false" "true"}}
-          class={{if collapsed "collapsed"}} aria-controls={{panelId}}>
-          {{fa-icon titleIcon}}
-          {{title}}
-          <span class="fa"></span>
-          </a>
-        {{else}}
-          <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded={{if collapsed "false" "true"}}
-          class={{if collapsed "collapsed"}} aria-controls={{panelId}}>
-          <span class="fa"></span>
-          {{title}}
-          </a>
-        {{/if}}
+          {{#if titleIcon}}
+            <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded={{if collapsed "false" "true"}}
+            class="text-info {{if collapsed "collapsed"}}" aria-controls={{panelId}}>
+            {{fa-icon titleIcon}}
+            {{title}}
+            <span class="fa"></span>
+            </a>
+          {{else}}
+            <a role="button" data-toggle="collapse" href="#{{cardId}}" aria-expanded={{if collapsed "false" "true"}}
+            class="text-info {{if collapsed "collapsed"}}" aria-controls={{panelId}}>
+            <span class="fa"></span>
+            {{title}}
+            </a>
+          {{/if}}
         {{else}}
           {{#if titleIcon}}
             {{fa-icon titleIcon}}
@@ -43,6 +43,6 @@
       </h4>
   </div>
 {{/if}}
-<div id={{cardId}} class="card-collapse {{if collapsed "collapse" "in"}} {{if bodyIsRow "row"}} {{if block "card-block"}} {{if flex "card-flex"}}">
+<div id={{cardId}} class="card-collapse {{if collapsed "collapse" "in"}} {{if bodyIsRow "row"}} {{if block "card-block"}} {{if flex "card-flex"}} {{if plain "border-top"}}">
     {{yield}}
 </div>

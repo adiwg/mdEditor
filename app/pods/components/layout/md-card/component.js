@@ -51,7 +51,7 @@ export default Component.extend({
 
   classNames: ['md-card', 'card'],
   classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card',
-    'maximizable', 'fullScreen', 'required', 'muted'
+    'maximizable', 'fullScreen', 'required', 'muted', 'borderColor'
   ],
   attributeBindings: ['data-spy'],
 
@@ -83,7 +83,6 @@ export default Component.extend({
    *
    * @property titleIcon
    * @type {String}
-   * @required
    */
 
   /**
@@ -127,6 +126,15 @@ export default Component.extend({
    * @default true
    */
   shadow: true,
+
+  /**
+   * If true, the card header will have a white background.
+   *
+   * @property plain
+   * @type {Boolean}
+   * @default false
+   */
+  plain: false,
 
   /**
    * If true, the card-block class will be added.
@@ -189,6 +197,14 @@ export default Component.extend({
    */
 
   /**
+   * Border color
+   *
+   * @property border
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
    * The text to display in the header button.
    * @property btnText
    * @type {String}
@@ -220,6 +236,10 @@ export default Component.extend({
    * @category computed
    */
   'data-spy': oneWay('title'),
+
+  borderColor: computed('border', function () {
+    return this.border ? 'border-' + this.border : null;
+  }),
 
   windowIcon: computed('fullScreen', function () {
     return this.fullScreen ? 'compress' : 'expand';
@@ -272,7 +292,7 @@ export default Component.extend({
       let val = this.toggleProperty('fullScreen');
 
       $(this.element).parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-        'full-screen',val);
+        'full-screen', val);
       $('body').toggleClass('slider', val);
     },
     spotlight(id) {
