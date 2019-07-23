@@ -18,83 +18,85 @@ export default Component.extend({
    * @constructor
    */
 
-   init() {
-     this._super(...arguments);
+  init() {
+    this._super(...arguments);
 
-     let model = this.model;
-     let valuePath = this.valuePath;
+    let model = this.model;
+    let valuePath = this.valuePath;
 
-     if(isBlank(model) !== isBlank(valuePath)) {
-       assert(
-         `You must supply both model and valuePath to ${this.toString()} or neither.`
-       );
-     }
+    if(isBlank(model) !== isBlank(valuePath)) {
+      assert(
+        `You must supply both model and valuePath to ${this.toString()} or neither.`
+      );
+    }
 
-     if(!isBlank(model)) {
-       if(this.get(`model.${valuePath}`) === undefined) {
-         debug(
-           `model.${valuePath} is undefined in ${this.toString()}.`
-         );
+    if(!isBlank(model)) {
+      if(this.get(`model.${valuePath}`) === undefined) {
+        debug(
+          `model.${valuePath} is undefined in ${this.toString()}.`
+        );
 
-         //Ember.run.once(()=>model.set(valuePath, ""));
-       }
+        //Ember.run.once(()=>model.set(valuePath, ""));
+      }
 
-       defineProperty(this, 'value', alias(`model.${valuePath}`));
+      defineProperty(this, 'value', alias(`model.${valuePath}`));
 
-       defineProperty(this, 'validation', alias(
-           `model.validations.attrs.${valuePath}`)
-         .readOnly());
+      defineProperty(this, 'validation', alias(
+          `model.validations.attrs.${valuePath}`)
+        .readOnly());
 
-       defineProperty(this, 'required', computed(
-           'validation.options.presence{presence,disabled}',
-           'disabled',
-           function() {
-             return !this.disabled &&
-               this.get('validation.options.presence.presence') &&
-               !this.get('validation.options.presence.disabled');
-           })
-         .readOnly());
+      defineProperty(this, 'required', computed(
+          'validation.options.presence{presence,disabled}',
+          'disabled',
+          function () {
+            return !this.disabled &&
+              this.get('validation.options.presence.presence') &&
+              !this.get('validation.options.presence.disabled');
+          })
+        .readOnly());
 
-       defineProperty(this, 'notValidating', not(
-           'validation.isValidating')
-         .readOnly());
+      defineProperty(this, 'notValidating', not(
+          'validation.isValidating')
+        .readOnly());
 
-       defineProperty(this, 'hasContent', notEmpty('value')
-         .readOnly());
+      defineProperty(this, 'hasContent', notEmpty('value')
+        .readOnly());
 
-       defineProperty(this, 'hasWarnings', notEmpty(
-           'validation.warnings')
-         .readOnly());
+      defineProperty(this, 'hasWarnings', notEmpty(
+          'validation.warnings')
+        .readOnly());
 
-       defineProperty(this, 'isValid', and('hasContent',
-           'validation.isTruelyValid')
-         .readOnly());
+      defineProperty(this, 'isValid', and('hasContent',
+          'validation.isTruelyValid')
+        .readOnly());
 
-       defineProperty(this, 'shouldDisplayValidations', or(
-           'showValidations', 'didValidate',
-           'hasContent')
-         .readOnly());
+      defineProperty(this, 'shouldDisplayValidations', or(
+          'showValidations', 'didValidate',
+          'hasContent')
+        .readOnly());
 
-       defineProperty(this, 'showErrorClass', and('notValidating',
-           'showErrorMessage',
-           'hasContent', 'validation')
-         .readOnly());
+      defineProperty(this, 'showErrorClass', and('notValidating',
+          'showErrorMessage',
+          'hasContent', 'validation')
+        .readOnly());
 
-       defineProperty(this, 'showErrorMessage', and(
-           'shouldDisplayValidations',
-           'validation.isInvalid')
-         .readOnly());
+      defineProperty(this, 'showErrorMessage', and(
+          'shouldDisplayValidations',
+          'validation.isInvalid')
+        .readOnly());
 
-       defineProperty(this, 'showWarningMessage', and(
-           'shouldDisplayValidations',
-           'hasWarnings', 'isValid')
-         .readOnly());
-     }
-   },
+      defineProperty(this, 'showWarningMessage', and(
+          'shouldDisplayValidations',
+          'hasWarnings', 'isValid')
+        .readOnly());
+    }
+  },
 
   attributeBindings: ['data-spy'],
   classNames: ['md-textarea'],
-  classNameBindings: ['label:form-group', 'required','embedded:md-embedded'],
+  classNameBindings: ['label:form-group', 'required',
+    'embedded:md-embedded'
+  ],
 
   /**
    * Initial value, returned value.
@@ -153,6 +155,23 @@ export default Component.extend({
   autoresize: true,
 
   /**
+   * Toggle expand state
+   *
+   * @property isExpanded
+   * @type Boolean
+   * @default true
+   */
+  isExpanded: true,
+
+  /**
+   * Enable collapse of the textarea
+   *
+   * @property isCollapsible
+   * @type Boolean
+   * @default false
+   */
+  isCollapsible: false,
+  /**
    * Set the maximum width of the resizeable element in pixels.
    * If maxwidth is not provided width will not be restricted.
    *
@@ -201,7 +220,7 @@ export default Component.extend({
    */
   class: 'form-control',
 
-  _didInsertArea(){
+  _didInsertArea() {
     this.scheduleMeasurement();
   },
 
