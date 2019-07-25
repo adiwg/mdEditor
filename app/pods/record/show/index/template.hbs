@@ -130,6 +130,8 @@
     <div class="md-control-sidebar col-sm-2 hidden-print no-nav">
       {{#control/md-crud-buttons
         model=model
+        allowCopy=true
+        allowDelete=true
         doDelete=(route-action "destroyRecord")
         doCopy=(route-action "copyRecord")
       }}

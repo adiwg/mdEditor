@@ -157,6 +157,8 @@
   <div class="md-control-sidebar col-sm-2 no-nav">
     {{#control/md-crud-buttons
       model=model
+      allowCopy=true
+      allowDelete=true
       doDelete=(route-action "destroyDictionary")
       doCopy=(route-action "copyDictionary")
      }}
