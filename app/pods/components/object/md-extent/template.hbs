@@ -1,0 +1,24 @@
+{{#layout/md-object-container
+  title=title
+  index=index
+  deleteItem=deleteExtent
+  profilePath=profilePath
+}}
+
+  {{input/md-textarea
+    value=extent.description
+    rows=3
+    maxHeight=300
+    placeholder="Description of extent"
+    label="Extent Description"
+    isCollapsible=true
+    profilePath=(concat profilePath ".description")
+  }}
+
+  {{object/md-extent/spatial
+    extent=extent
+    index=index
+    editFeatures=editFeatures
+    profilePath=(concat profilePath ".geographic")
+  }}
+{{/layout/md-object-container}}

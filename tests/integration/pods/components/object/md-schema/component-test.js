@@ -12,13 +12,16 @@ module('Integration | Component | object/md-schema', function(hooks) {
     // Handle any actions with this.set('myAction', function(val) { ... });
     this.set('data', EmberObject.create({
       title: 'foo',
-      uri: 'bar'
+      uri: 'bar',
+      remoteVersion: '1.1',
+      localVersion: '1.0',
+      hasUpdate: true
     }));
 
     await render(hbs`{{object/md-schema record=data}}`);
 
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),
-    '|Info|Schemas|Title|URL|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
+    '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
 
     assert.equal(find('.md-schema input').value, 'foo', 'render form');
     // Template block usage:
@@ -29,6 +32,6 @@ module('Integration | Component | object/md-schema', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),
-    '|Info|Schemas|Title|URL|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
+    '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
   });
 });

@@ -22,6 +22,15 @@ const Validations = buildValidations({
       track: ['type']
     })
   ],
+  'json.metadata.resourceInfo.pointOfContact': {
+    disabled: alias('model.isNew'),
+    validators: [
+      validator('array-valid'),
+      validator('array-required', {
+        track: ['type']
+      })
+    ]
+  },
   // 'json.resourceInfo.abstract': validator('presence', {
   //   presence: true,
   //   ignoreBlank: true
@@ -43,12 +52,8 @@ const Validations = buildValidations({
   //   min: 1
   // })
 });
-export default Model.extend(Validations, Copyable, {
-  // init() {
-  //   this._super(...arguments);
-  //
-  //   this.set('allRecords', this.store.peekAll('record'));
-  // },
+
+const Record = Model.extend(Validations, Copyable, {
   profile: DS.attr('string', {
     defaultValue: 'full'
   }),
@@ -106,7 +111,7 @@ export default Model.extend(Validations, Copyable, {
 
   title: alias('json.metadata.resourceInfo.citation.title'),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.0.type',
+  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
     function () {
       const type = this.get(
           'json.metadata.resourceInfo.resourceType.0.type') ||
@@ -124,7 +129,6 @@ export default Model.extend(Validations, Copyable, {
 
   parentIds: alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
-
 
   hasParent: computed('parentIds.[]', function () {
     let ids = this.parentIds;
@@ -184,32 +188,40 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  hasSchemaErrors: computed('status', function () {
+  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
     let mdjson = this.mdjson;
-    let errors = mdjson.validateRecord(this).errors;
+    let errors = [];
+    let result = mdjson.validateRecord(this).errors;
 
-    //console.log(errors);
+    if(result) {
+      errors.pushObject({
+        title: 'Default Record Validation',
+        errors: result
+      });
+    }
+
+    this.customSchemas.forEach(schema => {
+      const validator = schema.validator;
+
+      if(!validator) {
+        return;
+      }
+
+      if(validator.validate(schema.rootSchema, mdjson.formatRecord(
+          this))) {
+        return;
+      }
+
+      errors.pushObject({
+        title: schema.title,
+        errors: validator.errors
+      });
+    });
 
     return errors;
   }),
 
-  formatted: computed(function () {
-      let mdjson = this.mdjson;
-
-      return mdjson.formatRecord(this);
-    })
-    .volatile(),
-
-  status: computed('hasDirtyHash', function () {
-    let dirty = this.hasDirtyHash;
-    let errors = this.hasSchemaErrors;
-
-    if(this.currentHash) {
-      return dirty ? 'danger' : errors ? 'warning' : 'success';
-    }
-
-    return 'success';
-  }),
+  formatted: alias('_formatted'),
 
   copy() {
     let current = this.cleanJson;
@@ -227,3 +239,11 @@ export default Model.extend(Validations, Copyable, {
     });
   }
 });
+
+Object.defineProperty(Record.prototype, '_formatted', {
+  get() {
+    return this.mdjson.formatRecord(this);
+  }
+});
+
+export default Record;

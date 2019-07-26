@@ -1,6 +1,6 @@
-<div class="alert alert-warning" role="alert">{{fa-icon "exclamation"}}
+{{!-- <div class="alert alert-warning" role="alert">{{fa-icon "exclamation"}}
     This section is under development.
-</div>
+</div> --}}
 <div class="section-header">
   <h3>
     Custom Validation Schemas
@@ -41,6 +41,7 @@
       rowBodyComponent="object/md-schema"
       pageSize=25
       editRow=(action "editSchema")
+      actionBadges=badges
     }}
   {{/liquid-if}}
 </section>
@@ -49,20 +50,20 @@
   {{to-elsewhere
     named="md-subbar-settings"
     send=(component "control/md-button"
-    text=(if task.isRunning "Loading..." "Save Schema")
+    text=(if task.isRunning "Loading..." (if schema.isNew "Save Schema" "Update Schema"))
     icon=(if task.isRunning "spinner" "floppy-o")
     iconSpin=task.isRunning
+    disabled=disableSave
     class="btn-success btn-lg"
     click=(action "saveSchema")
-    disabled=schema.validations.isInvalid
     )
   }}
-  {{to-elsewhere
+    {{to-elsewhere
     named="md-subbar-settings"
     send=(component "control/md-button"
-    text="Cancel"
-    icon="undo"
-    class="btn-warning btn-lg"
+    text=(if schema.isNew "Cancel" "Back")
+    icon=(if schema.isNew "undo" "arrow-left")
+    class=(if schema.isNew "btn-warning btn-lg" "btn-primary btn-lg")
     click=(action "cancelEdit")
     )
   }}
@@ -80,10 +81,12 @@
   {{to-elsewhere
     named="md-subbar-settings"
     send=(component "control/md-button"
-    text="Check for Updates"
-    icon="check"
+    text=(if checkForUpdates.isRunning "Checking..." "Check for Updates")
+    iconSpin=checkForUpdates.isRunning
+    disabled=checkForUpdates.isRunning
+    icon=(if checkForUpdates.isRunning "spinner" "check")
     class="btn-info btn-lg"
-    click=(action "checkUpdate")
+    click=(perform checkForUpdates)
     )
   }}
 {{/if}}

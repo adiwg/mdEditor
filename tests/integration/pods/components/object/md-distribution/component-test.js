@@ -51,7 +51,7 @@ module('Integration | Component | object/md distribution', function(hooks) {
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Distribution|Section|#0|Edit|Distributors|Delete|Section|Distributors|role|(|)|role|(|)|Description|',
+      '|Distribution|Section|#0|Delete|Section|Description|Liablity|Statement|Distributors|role|(|)|role|(|)|Edit|Distributors|',
       'block and list');
   });
 

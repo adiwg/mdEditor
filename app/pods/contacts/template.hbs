@@ -30,7 +30,7 @@
     send=(hash
       title=(concat "Viewing errors for: " errorTarget.title)
       body=(component "control/md-errors"
-        errors=errorTarget.hasSchemaErrors
+        errors=errorTarget.schemaErrors
       )
     )
   }}

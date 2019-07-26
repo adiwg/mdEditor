@@ -2,7 +2,7 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
     sassOptions: {
@@ -28,6 +28,14 @@ module.exports = function(defaults) {
         'images/spritesheet.png',
         'worker'
       ]
+    },
+    autoImport: {
+      webpack: {
+        node: {
+          http: true,
+          //https: true
+        }
+      }
     }
   });
 
@@ -45,15 +53,22 @@ module.exports = function(defaults) {
   // along with the exports of each module as its value.
 
   //bootstrap js
-  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js');
-  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
-  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
-  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
-  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js');
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js'
+  );
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js'
+  );
   //jquery-jsonview
   app.import('node_modules/jquery-jsonview/dist/jquery.jsonview.js');
   //papaparse for worker
-  app.import('node_modules/papaparse/papaparse.js',{outputFile:'assets/workers/worker_papaparse.js'});
+  app.import('node_modules/papaparse/papaparse.js', { outputFile: 'assets/workers/worker_papaparse.js' });
   //marked
   app.import('node_modules/marked/lib/marked.js');
 

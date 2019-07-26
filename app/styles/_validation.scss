@@ -33,6 +33,14 @@ input[disabled] + .md-input-error {
   z-index: 2;
 }
 
+.md-info {
+  color: $brand-info;
+}
+
+.md-success {
+  color: $brand-success;
+}
+
 .md-error {
   color: $brand-danger;
 }

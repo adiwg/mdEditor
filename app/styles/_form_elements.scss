@@ -89,6 +89,13 @@ form {
   tfoot {
     background-color: lighten($gray-lighter, 5);
   }
+
+  &.no-gutter {
+    .form-group > * {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
 //borrowed from Bootstrap v4
@@ -140,5 +147,15 @@ form {
     .ember-power-select-status-icon {
       border-top-color: $body-bg;
     }
+  }
+}
+
+.form-group-inline {
+  align-items: center;
+  display: flex;
+  margin-bottom: 5px;
+
+  > * {
+    margin-right: 1em;
   }
 }

@@ -17,30 +17,33 @@
   {{object/md-online-resource-array model=model.onlineOption
     label="Online Option"
     profilePath=(concat profilePath ".onlineOption")
+    data-spy="Online"
     class="md-embedded"
     shadow=false
-    data-spy=fales}}
+  }}
 
-    {{#object/md-object-table
-     items=model.offlineOption
-     header="Offline Option"
-     buttonText="Add Offline Option"
-     templateClass=templateClass
-     ellipsis=false
-     shadow=false
-     attributes="title" as |editing|
+  {{#object/md-object-table
+   items=model.offlineOption
+   header="Offline Option"
+   class="md-embedded"
+   data-spy="Offline"
+   buttonText="Add Offline Option"
+   templateClass=templateClass
+   ellipsis=false
+   shadow=false
+   attributes="mediumSpecification.title" as |editing|
+  }}
+    {{object/md-medium model=editing
+      profilePath=(concat profilePath ".offlineOption")
     }}
-      {{object/md-medium model=editing
-        profilePath=(concat profilePath ".offlineOption")
-      }}
-    {{/object/md-object-table}}
+  {{/object/md-object-table}}
 
   {{#object/md-array-table
     columns="Format Name,Version,Compression Method,URL"
     plain=false
     responsive=true
     title="Distribution Format"
-    data-spy=false
+    class="md-embedded"
     value=model.distributionFormat
     validation=formatValidation
     templateClass=formatTemplate
@@ -78,6 +81,8 @@
 
   {{#layout/md-card shadow=false
     profilePath=(concat profilePath ".transferFrequency")
+    class="md-embedded"
+    data-spy="Transfer Frequency"
     muted=false
     plain=true
     bodyIsRow=true}}

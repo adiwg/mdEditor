@@ -2,6 +2,19 @@ import Service from '@ember/service';
 import {
   inject as service
 } from '@ember/service';
+import request from 'ember-ajax/request';
+import { task, all, timeout } from 'ember-concurrency';
+import { computed } from '@ember/object';
+import { union } from '@ember/object/computed';
+import {
+  // isAjaxError,
+  isNotFoundError,
+  // isForbiddenError
+} from 'ember-ajax/errors';
+import semver from 'semver';
+import mdprofiles from 'mdprofiles';
+
+const coreProfiles = mdprofiles.asArray();
 
 /**
  * Profile service
@@ -12,78 +25,29 @@ import {
  * @augments ember/Service
  */
 export default Service.extend({
+  // profiles: computed('profileRecords.[]', function () {
+  //   return this.profileRecords;
+  // }),
+  profiles: union('profileRecords', 'coreProfiles'),
+  mapById: computed('profiles.[]', function () {
+    return this.profiles.reduce(function (map, profile) {
+      map[profile.identifier] = profile;
+
+      return map;
+    }, {});
+  }),
   init() {
     this._super(...arguments);
 
-    this.profiles = {
+    this.profileRecords = this.store.peekAll('profile');
+    //this.customProfiles = this.get('store').peekAll('custom-profile');
+    this.coreProfiles = coreProfiles;
+
+    this.oldprofiles = {
       full: {
         profile: null,
         description: 'The kitchen sink',
-        secondaryNav: [{
-            title: 'Main',
-            target: 'record.show.edit.main',
-            tip: 'Basic information about the resource.'
-
-          }, {
-            title: 'Metadata',
-            target: 'record.show.edit.metadata',
-            tip: 'Information about the metadata for the resource.'
-
-          }, {
-            title: 'Keywords',
-            target: 'record.show.edit.keywords',
-            tip: 'Terms used to describe the resource.'
-
-          }, {
-            title: 'Extent',
-            target: 'record.show.edit.extent',
-            tip: 'Information describing the bounds of the resource.'
-
-          }, {
-            title: 'Spatial',
-            target: 'record.show.edit.spatial',
-            tip: 'Information concerning the spatial attributes of the resource.'
-
-          }, {
-            title: 'Lineage',
-            target: 'record.show.edit.lineage',
-            tip: 'Information on the history of the resource.'
-          }, {
-            title: 'Taxonomy',
-            target: 'record.show.edit.taxonomy',
-            tip: 'Information on the taxa associated with the resource.'
-
-          }, {
-            title: 'Distribution',
-            target: 'record.show.edit.distribution',
-            tip: 'Information about obtaining the resource.'
-
-          }, {
-            title: 'Constraints',
-            target: 'record.show.edit.constraint',
-            tip: 'Information about constraints applied to the resource.'
-
-          }, {
-            title: 'Associated',
-            target: 'record.show.edit.associated',
-            tip: 'Other resources with a defined relationship to the resource.'
-
-          }, {
-            title: 'Documents',
-            target: 'record.show.edit.documents',
-            tip: 'Other documents related to, but not defining, the resource.'
-
-          }, {
-            title: 'Funding',
-            target: 'record.show.edit.funding',
-            tip: 'Information about funding allocated to development of the resource.'
-
-          }, {
-            title: 'Dictionaries',
-            target: 'record.show.edit.dictionary',
-            tip: 'Data dictionaries associated with the resource.'
-
-          }
+        secondaryNav: [
           /*, {
                   title: 'Coverage',
                   target: 'record.show.edit.coverages'
@@ -803,74 +767,125 @@ export default Service.extend({
           }
         }
       },
-      dictionary: {
-        secondaryNav: [{
-          title: 'Main',
-          target: 'dictionary.show.edit.index',
-          tip: 'Basic information about the dictionary.'
-        }, {
-          title: 'Citation',
-          target: 'dictionary.show.edit.citation',
-          tip: 'The citation for the dictionary.'
-        }, {
-          title: 'Domains',
-          target: 'dictionary.show.edit.domain',
-          tip: 'Information about defined value lists.'
-
-        }, {
-          title: 'Entities',
-          target: 'dictionary.show.edit.entity',
-          tip: 'Information about entities(tables) and attributes(columns or fields).'
-        }]
-      },
-      settings: {
-        secondaryNav: [{
-          title: 'Main',
-          target: 'settings.main',
-          tip: 'Main application settings'
-        }, {
-          title: 'Profiles',
-          target: 'settings.profile',
-          tip: 'Custom profile settings'
-        }, {
-          title: 'Validation',
-          target: 'settings.validation',
-          tip: 'Custom validation settings'
-        }]
-      }
+      // dictionary: {
+      //   secondaryNav: []
+      // },
+      // settings: {
+      //   secondaryNav: [{
+      //     title: 'Main',
+      //     target: 'settings.main',
+      //     tip: 'Main application settings'
+      //   }, {
+      //     title: 'Profiles',
+      //     target: 'settings.profile',
+      //     tip: 'Custom profile settings'
+      //   }, {
+      //     title: 'Validation',
+      //     target: 'settings.validation',
+      //     tip: 'Custom validation settings'
+      //   }]
+      // }
     };
   },
   flashMessages: service(),
+  store: service(),
   /**
    * String identifying the active profile
    *
    * @type {?String}
    */
-  active: null,
+  // active: null,
 
-  /**
-   * Get the active profile.
-   *
-   * @function
-   * @returns {Object}
-   */
-  getActiveProfile() {
-    const active = this.active;
-    const profile = active && typeof active === 'string' ? active : 'full';
-    const profiles = this.profiles;
+  // activeComponents: computed('active', function () {
+  //   return this.getActiveProfile().components;
+  // }),
+  // /**
+  //  * Get the active profile.
+  //  *
+  //  * @function
+  //  * @returns {Object}
+  //  */
+  // getActiveProfile() {
+  //   const active = this.active;
+  //   const profile = active && typeof active === 'string' ? active : 'full';
+  //   const selected = this.mapById[profile];
+  //
+  //   if(selected) {
+  //     return selected;
+  //   }
+  //
+  //   this.flashMessages
+  //     .warning(`Profile "${active}" not found. Using "full" profile.`);
+  //
+  //   return this.mapById.full;
+  // },
 
-    if(profiles[profile]) {
-      return profiles[profile];
-    } else {
-      this.flashMessages
-        .warning(`Profile "${active}" not found. Using "full" profile.`);
-      return 'full';
+  // /**
+  //  * An object defining the available profiles
+  //  *
+  //  * @type {Object} profiles
+  //  */
+
+  fetchDefinition: task(function* (uri) {
+    try {
+      yield timeout(1000);
+
+      let response = yield request(uri);
+
+      if(response && !semver.valid(response.version)) {
+        throw new Error("Invalid version");
+      }
+
+      return response;
+    } catch (error) {
+      if(isNotFoundError(error)) {
+        this.flashMessages
+          .danger(
+            `Could not load profile definition from ${uri}. Definition not found.`
+          );
+      } else {
+        this.flashMessages
+          .danger(
+            `Could not load profile definition from "${uri}". Error: ${error.message}`
+          );
+      }
     }
-  },
+  }).drop(),
 
-  /**
-   * An object defining the available profiles
-   *
-   * @type {Object} profiles
-   */
+  checkForUpdates: task(function* (records) {
+    yield timeout(1000);
+
+    yield all(records.map(itm => {
+      if(itm.validations.attrs.uri.isInvalid) {
+        this.flashMessages
+          .warning(
+            `Did not load definition for "${itm.title}". URL is Invalid.`
+          );
+        return;
+      }
+
+      return request(itm.uri).then(response => {
+        // `response` is the data from the server
+        if(semver.valid(response.version)) {
+          itm.set('remoteVersion', response.version);
+        } else {
+          throw new Error("Invalid version");
+        }
+
+        return response;
+      }).catch(error => {
+        if(isNotFoundError(error)) {
+          this.flashMessages
+            .danger(
+              `Could not load definition for "${itm.title}". Definition not found.`
+            );
+        } else {
+          this.flashMessages
+            .danger(
+              `Could not load definition for "${itm.title}". Error: ${error.message}`
+            );
+        }
+      });
+    }));
+  }).drop(),
 });

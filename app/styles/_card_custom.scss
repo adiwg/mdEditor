@@ -1,4 +1,21 @@
 .md-card {
+  .card-flex {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    &.card-block::before,
+    &.card-block::after {
+      content: none;
+      // display: table;
+    }
+
+    .btn-group-vertical {
+      margin-left: 1em;
+      min-width: 150px;
+    }
+  }
+
   .card-title {
     font-size: 1.2em;
     margin-bottom: 0;
@@ -123,4 +140,8 @@
 
 .md-card-even {
   background-color: lighten($brand-info, 45);
+}
+
+.card-lighter {
+  @include card-variant(lighten($gray-lighter,3), $panel-default-border);
 }

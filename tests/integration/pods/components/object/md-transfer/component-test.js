@@ -50,7 +50,7 @@ module('Integration | Component | object/md transfer', function(hooks) {
     await render(hbs`{{object/md-transfer profilePath="foobar" model=model}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Transfer|Size|(MB)|Distribution|units|Online|Option|2|Add|OK|#|Name|Uri|0|Not|Defined|http://adiwg.org|Edit|Delete|1|Not|Defined|http://adiwg.org/|Edit|Delete|OK|Offline|Option|2|Add|OK|#|Title|0|Not|Defined|Edit|Delete|1|Not|Defined|Edit|Delete|OK|Distribution|Formats|2|Add|#|Format|Name|Version|Compression|Method|URL|0|Delete|1|Delete|Transfer|Frequency|Years|Months|Days|Hours|Minutes|Seconds|');
+      '|Transfer|Size|(MB)|Distribution|units|Online|Option|2|Add|OK|#|Name|Uri|0|Not|Defined|http://adiwg.org|Edit|Delete|1|Not|Defined|http://adiwg.org/|Edit|Delete|Offline|Option|2|Add|OK|#|Title|0|Not|Defined|Edit|Delete|1|Not|Defined|Edit|Delete|Distribution|Formats|2|Add|#|Format|Name|Version|Compression|Method|URL|0|Delete|1|Delete|Transfer|Frequency|Years|Months|Days|Hours|Minutes|Seconds|');
 
     var input = findAll('form input').mapBy('value').join('|');
 
@@ -64,7 +64,7 @@ module('Integration | Component | object/md transfer', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Transfer|Size|(MB)|Distribution|units|Online|Option|0|Add|OK|#|Name|Uri|Add|Resource|OK|Offline|Option|0|Add|OK|#|Title|Add|Offline|Option|OK|Distribution|Formats|0|Add|#|Format|Name|Version|Compression|Method|URL|Add|Distribution|Format|Transfer|Frequency|Years|Months|Days|Hours|Minutes|Seconds|template|block|text|',
+      '|Transfer|Size|(MB)|Distribution|units|Online|Option|0|Add|OK|#|Name|Uri|Add|Resource|Offline|Option|0|Add|OK|#|Title|Add|Offline|Option|Distribution|Formats|0|Add|#|Format|Name|Version|Compression|Method|URL|Add|Distribution|Format|Transfer|Frequency|Years|Months|Days|Hours|Minutes|Seconds|template|block|text|',
       'block');
   });
 });

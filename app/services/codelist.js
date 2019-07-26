@@ -1,48 +1,49 @@
-import { get } from '@ember/object';
+import { computed } from '@ember/object';
 import Service from '@ember/service';
 import codes from 'mdcodes/resources/js/mdcodes.js';
-import Profile from './profile';
-
+import { inject as service } from '@ember/service';
 /**
  * Codelist Service
  *
  * This service provides controlled value lists for use in the editor. The
- * service may be customized by modifing the object passed to
- * Ember.Service.extend. The existing property names should be maintained.
+ * service may be customized by modifing the object in init. The existing
+ * property names should be maintained.
  *
  * @module
  */
 
-const profile = Profile.create();
+// export default Service.extend(codelist);
+export default Service.extend({
+  init() {
+    this._super(...arguments);
 
-//create a new object
-const codelist = {};
+    let codelist = this;
 
-//remap codelist names to be more generic
-Object.keys(codes)
-  .forEach(function(key) {
-    if(key === 'default') {
-      return;
-    }
+    //remap codelist names to be more generic
+    Object.keys(codes)
+      .forEach(function(key) {
+        if(key === 'default') {
+          return;
+        }
 
-    const list = codes[key];
-    const name = key.replace(/^iso_|adiwg_/, '');
+        const list = codes[key];
+        const name = key.replace(/^iso_|adiwg_/, '');
 
-    codelist[name] = list;
-    //remove deprecated codes
-    codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
-  });
-
-let recordProfiles = Object.keys(profile.profiles).without('dictionary');
-
-codelist.profile = {
-  codelist: recordProfiles.map((itm) => {
+        codelist[name] = list;
+        //remove deprecated codes
+        codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
+      });
+  },
+  customProfiles: service('custom-profile'),
+  profile: computed('customProfiles.profiles.[]', function() {
     return {
-      code: itm,
-      codeName: itm,
-      description: get(profile, 'profiles.' + itm + '.description')
+      codelist: this.customProfiles.profiles.map((itm) => {
+        return {
+          code: itm.id,
+          codeName: itm.title,
+          description: itm.description
+        };
+      })
     };
-  })
-};
-
-export default Service.extend(codelist);
+})
+});

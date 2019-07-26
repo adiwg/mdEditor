@@ -49,6 +49,9 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
+  profile: DS.attr('string', {
+    defaultValue: 'full'
+  }),
   json: DS.attr('json', {
     defaultValue() {
       return JsonDefault.create();
@@ -65,32 +68,39 @@ export default Model.extend(Validations, Copyable, {
 
   icon: 'book',
 
-  status: computed('hasDirtyHash', function () {
-    let dirty = this.hasDirtyHash;
-    let errors = this.hasSchemaErrors;
-
-    if(this.currentHash) {
-      return dirty ? 'danger' : errors ? 'warning' : 'success';
-    }
-
-    return 'success';
-  }),
-
   /**
    * A list of schema errors return by the validator.
    *
-   * @property hasSchemaErrors
+   * @property schemaErrors
    * @type {Array}
    * @readOnly
    * @category computed
    * @requires status
    */
-  hasSchemaErrors: computed('status', function () {
+  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
     let mdjson = this.mdjson;
-    let errors = mdjson.validateDictionary(this)
-      .errors;
+    let errors = [];
+    let result = mdjson.validateDictionary(this).errors;
 
-    //console.log(errors);
+    if(result) {
+      errors.pushObject({
+        title: 'Default Dictionary Validation',
+        errors: result
+      });
+    }
+
+    this.customSchemas.forEach(schema => {
+      const validator = schema.validator;
+
+      if(validator.validate(schema.rootSchema, this.cleanJson)) {
+        return;
+      }
+
+      errors.pushObject({
+        title: schema.title,
+        errors: validator.errors
+      });
+    });
 
     return errors;
   }),

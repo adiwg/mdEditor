@@ -17,7 +17,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 export default Route.extend(ScrollTo, {
   breadCrumb: computed('allocationId', function () {
     return {
-      title: get(this, 'allocationId'),
+      title: 'Allocation ' + get(this, 'allocationId'),
       linkable: true
     };
   }),
@@ -32,7 +32,7 @@ export default Route.extend(ScrollTo, {
     // Call _super for default behavior
     this._super(...arguments);
 
-    //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('allocationId', get(this, 'allocationId'));
 
     this.controllerFor('record.show.edit')

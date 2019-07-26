@@ -24,6 +24,18 @@
     > a {
       padding-bottom: 2.5px;
       padding-top: 2.5px;
+
+    }
+  }
+
+  //disable hilighting
+  .nav li.active a{
+    background-color: inherit;
+    color: $link-color;
+
+    &:hover,
+    &:focus {
+      background-color: $nav-link-hover-bg;
     }
   }
 }

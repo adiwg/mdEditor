@@ -30,6 +30,12 @@ const theModel = DS.Model.extend({
   autoSave: DS.attr('boolean', {
     defaultValue: false
   }),
+  showDelete: DS.attr('boolean', {
+    defaultValue: false
+  }),
+  showCopy: DS.attr('boolean', {
+    defaultValue: false
+  }),
   lastVersion: DS.attr('string', {
     defaultValue: ''
   }),

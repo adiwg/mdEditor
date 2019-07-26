@@ -7,8 +7,9 @@
   margin: 20px 0;
 }
 
-.section-header {
-  color: darken($brand-info, 5);
+.section-header,
+.tab-header {
+  color: $md-text-info-dark;
   margin-bottom: 20px;
   margin-top: 0;
   padding: 0;
@@ -16,6 +17,10 @@
   hr {
     margin: 0;
   }
+}
+
+.tab-header {
+  margin: 15px 0;
 }
 
 .no-margin {
@@ -30,6 +35,13 @@
   font-size: 40px;
 }
 
+.list-group-item-heading {
+  hr {
+    margin-bottom: .5em;
+    margin-top: .5em;
+  }
+}
+
 a {
   transition: all 0.3s ease-out;
 }
@@ -38,8 +50,16 @@ a {
   white-space: normal !important;
 }
 
+.nowrap {
+  white-space: nowrap !important;
+}
+
 .text-white {
-  color: #fff !important;
+  color: $white !important;
+}
+
+.text-info-dark {
+  color: $md-text-info-dark !important;
 }
 
 .plain-link {

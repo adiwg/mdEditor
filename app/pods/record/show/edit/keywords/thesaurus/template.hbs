@@ -45,3 +45,13 @@
       deleteKeyword=(route-action "removeKeyword") editThesaurus=false}}
   </div>
 </div>
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to List"
+    icon="list"
+    type="primary"
+    route="record.show.edit.keywords"
+  )
+}}
