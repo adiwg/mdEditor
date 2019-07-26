@@ -7,6 +7,10 @@
     border: 0;
     margin: 0;
     padding: 0;
+
+    &:last-of-type .tree-leaf {
+      margin-bottom: 0;
+    }
   }
 
   .is-dragging-object {
