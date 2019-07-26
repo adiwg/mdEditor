@@ -2,7 +2,6 @@ import { A } from '@ember/array';
 import Route from '@ember/routing/route';
 import { get, getWithDefault, set } from '@ember/object';
 import $ from 'jquery';
-import { on } from '@ember/object/evented';
 
 export default Route.extend({
   model() {
@@ -29,27 +28,7 @@ export default Route.extend({
     return model;
   },
 
-  subbar: 'control/subbar-extent',
-
-  clearSubbar: on('deactivate', function () {
-    this.controllerFor('record.show.edit')
-      .set('subbar', null);
-  }),
-
-  setupController: function () {
-    // Call _super for default behavior
-    this._super(...arguments);
-
-    this.controllerFor('record.show.edit')
-      .set('subbar', this.subbar);
-  },
-
   actions: {
-    didTransition() {
-      this.controllerFor('record.show.edit')
-        .set('subbar', this.subbar);
-
-    },
     addExtent() {
       let extents = this.currentRouteModel()
         .get('json.metadata.resourceInfo.extent');
@@ -84,12 +63,7 @@ export default Route.extend({
       this.transitionTo('record.show.edit.extent.spatial', id);
     },
     toList() {
-      let me = this;
-
-      me.transitionTo(me.get('routeName'))
-        .then(function () {
-          me.setupController();
-        });
+      this.transitionTo(this.get('routeName'));
     }
   }
 });

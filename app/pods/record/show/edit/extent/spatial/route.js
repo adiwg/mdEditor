@@ -13,20 +13,12 @@ export default Route.extend({
 
   },
 
-  subbar: 'control/subbar-spatial',
-
-  // clearSubbar: function() {
-  //   this.controllerFor('record.show.edit')
-  //     .set('subbar', null);
-  // }.on('deactivate'),
-
-  setupController: function(controller) {
+  setupController: function (controller) {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
       .setProperties({
-        subbar: this.subbar,
         onCancel: this.setupModel,
         cancelScope: this,
         extentId: this.extentId
@@ -60,7 +52,7 @@ export default Route.extend({
 
     let layers = extent.geographicExtent[0].geographicElement;
 
-    layers.forEach(function(l, idx, arr) {
+    layers.forEach(function (l, idx, arr) {
       arr.replace(idx, 1, [EmberObject.create(l)]);
     });
 
@@ -72,11 +64,6 @@ export default Route.extend({
   actions: {
     getContext() {
       return this;
-    },
-    didTransition() {
-      this.controllerFor('record.show.edit')
-        .set('subbar', this.subbar);
-
     },
     handleResize() {
       $('.map-file-picker .leaflet-container')

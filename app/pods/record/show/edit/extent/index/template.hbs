@@ -12,6 +12,7 @@
       profilePath="record.extent"
       deleteExtent=(route-action "deleteExtent")
       editFeatures=(route-action "editFeatures")
+      addExtent=(route-action "addExtent")
     }}
     {{!-- deleteExtent=(route-action "deleteExtent")
     editExtent=(route-action "editExtent") --}}
@@ -22,6 +23,16 @@
     </h3>
   {{/each}}
 </section>
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/md-button"
+  text="Add Extent"
+  icon="plus"
+  class="btn-lg btn-success"
+  click=(route-action "addExtent")
+  )
+}}
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
   send=(component "control/md-scroll-spy"  refresh=refreshSpy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
