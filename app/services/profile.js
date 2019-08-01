@@ -4,7 +4,7 @@ import {
 } from '@ember/service';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
-import { computed } from '@ember/object';
+// import { computed } from '@ember/object';
 import { union } from '@ember/object/computed';
 import {
   // isAjaxError,
@@ -29,13 +29,13 @@ export default Service.extend({
   //   return this.profileRecords;
   // }),
   profiles: union('profileRecords', 'coreProfiles'),
-  mapById: computed('profiles.[]', function () {
-    return this.profiles.reduce(function (map, profile) {
-      map[profile.identifier] = profile;
-
-      return map;
-    }, {});
-  }),
+  // mapById: computed('profiles.[]', function () {
+  //   return this.profiles.reduce(function (map, profile) {
+  //     map[profile.identifier] = profile;
+  //
+  //     return map;
+  //   }, {});
+  // }),
   init() {
     this._super(...arguments);
 

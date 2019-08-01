@@ -6,6 +6,7 @@ import {
 //import { task, all, timeout } from 'ember-concurrency';
 import { computed, get } from '@ember/object';
 import { union, map } from '@ember/object/computed';
+import { isEmpty } from '@ember/utils';
 // import {
 //   // isAjaxError,
 //   isNotFoundError,
@@ -58,7 +59,7 @@ export default Service.extend({
   active: null,
 
   profiles: union('customProfiles', 'coreProfiles'),
-  coreProfiles: map('definitions.coreProfiles',function (itm) {
+  coreProfiles: map('definitions.coreProfiles', function (itm) {
     return {
       id: itm.namespace + '.' + itm.identifier,
       title: itm.title,
@@ -73,11 +74,24 @@ export default Service.extend({
       return map;
     }, {});
   }),
+  mapByAltId: computed('profiles.[]', function () {
+    return this.profiles.reduce(function (map, profile) {
+      let alt = get(profile, 'definition.alternateId');
+
+      if(isEmpty(alt)) {
+        return map;
+      }
+
+      alt.forEach(a => map[a] = profile.id);
+
+      return map;
+    }, {});
+  }),
   defaultProfile: computed('mapById', function () {
     return this.mapById[defaultProfileId];
   }),
   activeComponents: computed('active', function () {
-    let comp = get(this.getActiveProfile(),'definition.components');
+    let comp = get(this.getActiveProfile(), 'definition.components');
     return comp || this.defaultProfile.definition.components;
   }),
   activeSchemas: computed('active', function () {
@@ -91,11 +105,25 @@ export default Service.extend({
    */
   getActiveProfile() {
     const active = this.active;
-    const profile = active && typeof active === 'string' ? active : defaultProfileId;
+    const profile = active && typeof active === 'string' ? active :
+      defaultProfileId;
     const selected = this.mapById[profile];
 
     if(selected) {
       return selected;
+    }
+
+    const alternate = this.mapById[this.mapByAltId[profile]];
+
+    if(alternate) {
+      this.flashMessages
+        .info(
+          `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`, {
+            timeout: 7000
+          }
+        );
+
+      return alternate;
     }
 
     this.flashMessages
