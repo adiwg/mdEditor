@@ -3,15 +3,16 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | object/md simple array table', function(hooks) {
+module('Integration | Component | object/md simple array table', function (
+  hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    this.model=['biz','baz'];
+    this.model = ['biz', 'baz'];
     // this.on('addItem', function(val) {
     //   this.model.pushObject(val);
     // });
@@ -19,12 +20,13 @@ module('Integration | Component | object/md simple array table', function(hooks)
     //   this.model.pushObject(val);
     // });
 
-    await render(hbs`{{object/md-simple-array-table}}`);
+    await render(hbs `{{object/md-simple-array-table}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Items|0|Add|Add|Item|');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|No|Item|found.|Add|Item|');
 
     // Template block usage:
-    await render(hbs`
+    await render(hbs `
       {{#object/md-simple-array-table
         title="FooBar"
         required=false
@@ -37,7 +39,8 @@ module('Integration | Component | object/md simple array table', function(hooks)
       {{/object/md-simple-array-table}}
     `);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|FooBars|2|Add|FooBar|0|biz|Delete|1|baz|Delete|');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|FooBars|2|Add|FooBar|0|biz|Delete|1|baz|Delete|');
 
     await click('.btn-info');
 

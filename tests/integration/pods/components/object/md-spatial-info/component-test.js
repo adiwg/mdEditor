@@ -112,7 +112,7 @@ module('Integration | Component | object/md spatial info', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Spatial|Representation|Type|Spatial|Reference|System|0|Add|OK|#|Reference|System|Type|Identifier|Add|Reference|System|Spatial|Resolution|0|Add|OK|#|Scale|Factor|Level|Of|Detail|Type|Add|Spatial|Resolution|template|block|text|',
+      '|Spatial|Representation|Type|No|Spatial|Reference|System|found.|Add|Spatial|Reference|System|No|Spatial|Resolution|found.|Add|Spatial|Resolution|template|block|text|',
       'block');
   });
 

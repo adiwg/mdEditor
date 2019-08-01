@@ -37,7 +37,8 @@ export default function createRecord(total) {
             "abstract": "An abstract.",
             "status": ["completed"],
             "language": ["eng; USA"]
-          }
+          },
+          "resourceDistribution":[]
         }
       },
       title: 'My Record' + i,

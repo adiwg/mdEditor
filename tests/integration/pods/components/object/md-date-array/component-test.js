@@ -13,8 +13,8 @@ module('Integration | Component | object/md date array', function(hooks) {
 
     await render(hbs`{{object/md-date-array value=model}}`);
 
-    assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Dates|0|Add|#|Date|Date|Type|Description|Add|Date|');
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
+      '|No|Date|found.|Add|Date|');
 
     this.set('model', [{
       "date": "2016-10-12",
