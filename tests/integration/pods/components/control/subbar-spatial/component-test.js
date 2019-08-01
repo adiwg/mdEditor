@@ -1,4 +1,4 @@
-import { click, find, findAll, render } from '@ember/test-helpers';
+import { click, doubleClick, find, findAll, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
@@ -58,6 +58,6 @@ module('Integration | Component | control/subbar spatial', function (hooks) {
     }}`);
 
     findAll('button').forEach(async btn => await click(btn));
-    await click('.btn-danger');
+    await doubleClick('.btn-danger');
   });
 });
