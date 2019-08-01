@@ -30,7 +30,7 @@ module('Integration | Component | object/md taxonomy/collection', function(hooks
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|No|Taxonomic|System|found.|Add|Taxonomic|System|Classification|No|Classification|found.|Observers|0|Add|#|Role|Contacts|Add|Observer|General|Scope|Identification|Procedure|Identification|Completeness|Voucher|0|Add|OK|#|Specimen|Add|Voucher|',
+      '|No|Taxonomic|System|found.|Add|Taxonomic|System|Classification|No|Classification|found.|No|Observer|found.|Add|Observer|General|Scope|Identification|Procedure|Identification|Completeness|No|Voucher|found.|Add|Voucher|',
       'block');
   });
 });

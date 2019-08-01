@@ -25,7 +25,7 @@ module('Integration | Component | object/md identifier object table', function(h
     `);
 
     assert.equal(find('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Identifier|0|Add|OK|#|Identifier|Namespace|Add|Identifier|',
+      '|No|Identifier|found.|Add|Identifier|',
       'block');
   });
 });

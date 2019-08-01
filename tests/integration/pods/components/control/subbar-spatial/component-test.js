@@ -1,5 +1,4 @@
 import { click, find, findAll, render } from '@ember/test-helpers';
-import Route from '@ember/routing/route';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';

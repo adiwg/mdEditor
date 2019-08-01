@@ -73,7 +73,7 @@ module('Integration | Component | object/md maintenance', function(hooks) {
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Frequency|Choose|a|value.|Dates|0|Add|Date|#|Date|Date|Type|Description|Add|Date|Contacts|0|Add|Contact|#|Role|Contacts|Add|Contact|Notes|0|Add|Notes|Add|Notes|Scope|template|block|text|',
+      '|Frequency|Choose|a|value.|No|Date|found.|Add|Date|No|Contact|found.|Add|Contact|No|Notes|found.|Add|Note|Scope|template|block|text|',
       'block');
   });
 });
