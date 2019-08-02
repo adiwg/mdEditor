@@ -6,7 +6,7 @@
   buttonText="Add Allocation"
   ellipsis=true
   attributes="amount,currency,matching"
-  profilePath="record.funding.allocation"
+  profilePath= (concat profilePath ".allocation")
   collapsible=false
   isCollapsed=false
   verticalButtons=true as |editing|
@@ -14,7 +14,7 @@
 
   {{object/md-allocation
     model=editing
-    profilePath="record.funding.allocation"
+    profilePath= (concat profilePath ".allocation")
   }}
 
 {{/object/md-object-table}}
@@ -24,7 +24,7 @@
 
 {{object/md-timePeriod
   model=model.timePeriod
-  profilePath="record.funding.timePeriod"
+  profilePath=(concat profilePath ".timePeriod")
 }}
 
 {{input/md-textarea
@@ -33,6 +33,6 @@
   label="Description"
   data-spy="Description"
   placeholder="Description: Less than 500 characters"
-  profilePath="record.funding.timePeriod"
+  profilePath=(concat profilePath ".timePeriod")
 }}
 {{/if}}

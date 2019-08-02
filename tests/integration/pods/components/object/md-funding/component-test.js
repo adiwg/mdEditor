@@ -12,7 +12,9 @@ module('Integration | Component | object/md funding', function (hooks) {
     this.set('funding', {
       "allocation": [{
         "amount": 9.9,
-        "currency": "currency"
+        "currency": "currency",
+        "onlineResource":[],
+        "responsibleParty":[]
       }]
     }, {
       "timePeriod": {
@@ -20,7 +22,7 @@ module('Integration | Component | object/md funding', function (hooks) {
       }
     });
 
-    await render(hbs `{{object/md-funding model=funding}}`);
+    await render(hbs `{{object/md-funding model=funding profilePath="foobar"}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
       "|Allocation|1|Add|OK|#|Amount|Currency|Matching|0|9.9|currency|Not|Defined|Edit|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|No|Time|Period|Name|found.|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|"
@@ -28,7 +30,7 @@ module('Integration | Component | object/md funding', function (hooks) {
 
     // Template block usage:
     await render(hbs `
-      {{#object/md-funding model=(hash)}}
+      {{#object/md-funding model=(hash) profilePath="foobar"}}
         template block text
       {{/object/md-funding}}
     `);
