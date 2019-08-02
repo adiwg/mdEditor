@@ -12,7 +12,7 @@ module('Integration | Component | object/md taxonomy', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.model = createTaxonomy()[0];
 
-    await render(hbs`{{object/md-taxonomy model=model index=0}}`);
+    await render(hbs`{{object/md-taxonomy model=model index=0 profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Collection|#0:|Integrated|Taxonomic|Information|System|(ITIS)|Edit|Collection|Delete|Collection|Kingdom|Fungi|(555705)|Kingdom|Kingdom|Animalia|(202423)|');

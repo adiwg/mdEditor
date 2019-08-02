@@ -110,6 +110,6 @@
 
   {{#if model.subClassification.length}}
     {{#liquid-unless collapse class="list-group-item"}}
-      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview}}
+      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview profilePath=profilePath}}
     {{/liquid-unless}}
   {{/if}}
