@@ -328,13 +328,13 @@ export default Component.extend(Template, {
 
   actions: {
     deleteItem: function (items, index) {
-      // if(editing === false && items.length) {
       let last = Object.keys(items.get('lastObject'));
 
       if(isEmpty(last)) {
         items.popObject();
       }
-      // }
+
+      if(items.length === 0) return;
 
       items.removeAt(index);
     },

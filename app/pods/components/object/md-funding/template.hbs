@@ -9,6 +9,9 @@
   profilePath= (concat profilePath ".allocation")
   collapsible=false
   isCollapsed=false
+  tipPath="allocation"
+  tipModel=this
+  required=(v-get this "allocation" "isInvalid")
   verticalButtons=true as |editing|
 }}
 
@@ -24,6 +27,7 @@
 
 {{object/md-timePeriod
   model=model.timePeriod
+  required=(v-get this "timePeriod" "isInvalid")
   profilePath=(concat profilePath ".timePeriod")
 }}
 

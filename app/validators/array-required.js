@@ -4,13 +4,16 @@ import { isArray } from '@ember/array';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
 const ArrayRequired = BaseValidator.extend({
-  validate(value) {
+  validate(value, options) {
     if(isArray(value)) {
       if(value.length) {
         return true;
       }
     }
-    return 'At least one item is required.';
+
+    options.item = this.options.description || this.options.attribute;
+
+    return this.createErrorMessage('arrayRequired', value, options);
   }
 });
 
