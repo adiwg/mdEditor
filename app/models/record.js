@@ -10,6 +10,13 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
+import config from 'mdeditor/config/environment';
+
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
 
 const Validations = buildValidations({
   'recordId': validator(
@@ -56,7 +63,7 @@ const Validations = buildValidations({
 
 const Record = Model.extend(Validations, Copyable, {
   profile: DS.attr('string', {
-    defaultValue: 'full'
+    defaultValue: defaultProfileId
   }),
   json: DS.attr('json', {
     defaultValue() {
