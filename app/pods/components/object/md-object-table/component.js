@@ -55,7 +55,8 @@ export default Component.extend(Template, {
   //reset the 'editing' flag
   didUpdateAttrs() {
     this._super(...arguments);
-    this.set('editing', false);
+
+    if(this.editing !== 'adding') this.set('editing', false);
   },
 
   /**
