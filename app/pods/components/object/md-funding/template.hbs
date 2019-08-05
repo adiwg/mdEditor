@@ -17,19 +17,19 @@
 
   {{object/md-allocation
     model=editing
-    profilePath= (concat profilePath ".allocation")
+    profilePath=(concat profilePath ".allocation")
   }}
 
 {{/object/md-object-table}}
 
 
 {{#if model.timePeriod}}
-
-{{object/md-timePeriod
-  model=model.timePeriod
-  required=(v-get this "timePeriod" "isInvalid")
-  profilePath=(concat profilePath ".timePeriod")
-}}
+  {{object/md-time-period
+    model=model.timePeriod
+    required=(v-get this "timePeriod" "isInvalid")
+    profilePath=(concat profilePath ".timePeriod")
+  }}
+{{/if}}
 
 {{input/md-textarea
   maxlength=500
@@ -37,6 +37,5 @@
   label="Description"
   data-spy="Description"
   placeholder="Description: Less than 500 characters"
-  profilePath=(concat profilePath ".timePeriod")
+  profilePath=(concat profilePath ".description")
 }}
-{{/if}}

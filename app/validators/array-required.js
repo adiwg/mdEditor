@@ -39,6 +39,8 @@ ArrayRequired.reopenClass({
       `[validator:array-valid] [${attribute}] option 'track' must be an array`,
       isArray(opts));
 
+    if(!isArray(opts)) return track;
+
     opts.forEach((itm) => {
       track.push(`model.${attribute}.@each.${itm}`);
     });
