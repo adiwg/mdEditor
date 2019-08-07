@@ -10,6 +10,7 @@
      tipPath=tipPath
      tipModel=tipModel
      data-spy=false
+     profilePath=profilePath
      templateClass=templateClass as |party|
    }}
    {{#with party.item as |item|}}
@@ -24,11 +25,13 @@
          mdCodeName="role"
          showValidations=true
          placeholder="Select or enter a role"
+         profilePath=(concat party.profilePath ".role")
        }}
      </td>
      <td>
        {{input/md-select-contacts
            placeholder="Select one or more contacts"
+           profilePath=(concat party.profilePath ".contacts")
            model=item
            path="_contacts"
            icon=true
