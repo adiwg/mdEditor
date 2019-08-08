@@ -6,8 +6,9 @@
   plain=plain
   validation=validation
   data-spy=data-spy
+  profilePath=profilePath
   templateClass=templateClass as |date|
 }}
-  {{object/md-date model=date.item}}
+  {{object/md-date model=date.item profilePath=(concat profilePath ".dateItem")}}
   {{yield}}
 {{/object/md-array-table}}

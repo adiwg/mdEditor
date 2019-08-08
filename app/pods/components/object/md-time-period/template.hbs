@@ -7,17 +7,18 @@
   }}
 
   {{#layout/md-card shadow=false
-    profilePath=(concat profilePath ".date")
+    profilePath=(concat profilePath ".dateRange")
     muted=false
     plain=true}}
     {{input/md-date-range
       startDateTime=startDateTime
       endDateTime=endDateTime
+      profilePath=(concat profilePath ".dateRange")
     }}
   {{/layout/md-card}}
 
   {{input/md-input
-   value=model.id
+   value=model.identifier
    label="Identifier"
    placeholder="Enter a unique identifier for the time period."
    required=false
@@ -61,7 +62,7 @@
         step="0.01"
         label="Interval Amount"
         placeholder="Enter amount of time for the interval."
-        profilePath=(concat profilePath ".timeInterval.interval")
+        profilePath=(concat profilePath ".interval.intervalAmount")
         showValidations=true
       }}
       {{input/md-select
@@ -75,7 +76,7 @@
         icon=false
         allowClear=true
         value=model.timeInterval.units
-        profilePath=(concat profilePath ".timeInterval.units")
+        profilePath=(concat profilePath ".interval.units")
         placeholder="Choose unit of time"
       }}
     </div>

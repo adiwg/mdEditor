@@ -8,16 +8,20 @@
   showValidations=true
   mdCodeName="maintenanceFrequency"
   value=model.frequency
-
   placeholder="Choose a value."
   profilePath=(concat profilePath ".frequency")
 }}
 
-{{#layout/md-card shadow=false profilePath=(concat profilePath ".date")
+{{#layout/md-card shadow=false profilePath=(concat profilePath ".dateArray")
   data-spy="Dates"
   class="md-embedded"
 }}
-  {{object/md-date-array value=model.date plain=true data-spy=false}}
+  {{object/md-date-array
+    value=model.date
+    plain=true
+    data-spy=false
+    profilePath=(concat profilePath ".dateArray")
+  }}
 {{/layout/md-card}}
 
 {{#layout/md-card shadow=false profilePath=(concat profilePath ".contact")}}
@@ -29,6 +33,7 @@
     value=model.contact
     class="md-embedded"
     plain=true
+    profilePath=(concat profilePath ".contact")
   }}
 {{/layout/md-card}}
 
