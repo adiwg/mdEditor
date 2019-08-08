@@ -18,6 +18,41 @@ import {
   buildValidations
 } from 'ember-cp-validations';
 
+const timeUnit = [{
+    name: 'year',
+    value: 'year'
+  },
+  {
+    name: 'month',
+    value: 'month'
+  },
+  {
+    name: 'day',
+    value: 'day'
+  },
+  {
+    name: 'hour',
+    value: 'hour'
+  },
+  {
+    name: 'minute',
+    value: 'minute'
+  },
+  {
+    name: 'second',
+    value: 'second'
+  }
+];
+
+const durationUnit = [
+  'years',
+  'months',
+  'days',
+  'hours',
+  'minutes',
+  'seconds'
+];
+
 const Validations = buildValidations({
   'intervalAmount': [
     validator('presence', {
@@ -47,12 +82,19 @@ const Validations = buildValidations({
 });
 
 export default Component.extend(Validations, {
+  init() {
+    this._super(...arguments);
+
+    this.timeUnit = timeUnit;
+    this.durationUnit = durationUnit;
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
 
     let model = get(this, 'model');
 
-    once(function () {
+    once(this, function () {
       set(model, 'periodName', getWithDefault(model,
         'periodName', []));
       set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
@@ -98,32 +140,7 @@ export default Component.extend(Validations, {
   }),
   intervalAmount: alias('model.timeInterval.interval'),
 
-  timeUnit: computed(function () {
-    return [{
-        name: 'year',
-        value: 'year'
-      },
-      {
-        name: 'month',
-        value: 'month'
-      },
-      {
-        name: 'day',
-        value: 'day'
-      },
-      {
-        name: 'hour',
-        value: 'hour'
-      },
-      {
-        name: 'minute',
-        value: 'minute'
-      },
-      {
-        name: 'second',
-        value: 'second'
-      }
-    ]
-  })
+  timeUnit: timeUnit,
+  durationUnit: durationUnit
 
 });

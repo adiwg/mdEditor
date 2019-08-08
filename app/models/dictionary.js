@@ -8,6 +8,13 @@ import {
   buildValidations
 } from 'ember-cp-validations';
 import EmberObject, { computed } from '@ember/object';
+import config from 'mdeditor/config/environment';
+
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
 
 const Validations = buildValidations({
   'json.dataDictionary.citation.title': validator('presence', {
@@ -50,7 +57,7 @@ const JsonDefault = EmberObject.extend({
 
 export default Model.extend(Validations, Copyable, {
   profile: DS.attr('string', {
-    defaultValue: 'full'
+    defaultValue: defaultProfileId
   }),
   json: DS.attr('json', {
     defaultValue() {

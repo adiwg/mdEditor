@@ -18,6 +18,7 @@
     allowClear=true
     showValidations=true
     mdCodeName="dateType"
+    profilePath=(concat profilePath ".dateType")
     path="dateType"
     model=this
     placeholder="Choose date type"
@@ -25,10 +26,10 @@
   }}
 </td>
 <td>
-    {{input/md-input
-      value=model.description
-      placeholder="Describe the date."
-      profilePath=(concat profilePath ".description")
-    }}
+  {{input/md-input
+    value=model.description
+    profilePath=(concat profilePath ".description")
+    placeholder="Describe the date."
+  }}
 </td>
 {{yield}}

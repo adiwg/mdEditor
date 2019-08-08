@@ -55,7 +55,8 @@ export default Component.extend(Template, {
   //reset the 'editing' flag
   didUpdateAttrs() {
     this._super(...arguments);
-    this.set('editing', false);
+
+    if(this.editing !== 'adding') this.set('editing', false);
   },
 
   /**
@@ -328,13 +329,13 @@ export default Component.extend(Template, {
 
   actions: {
     deleteItem: function (items, index) {
-      // if(editing === false && items.length) {
       let last = Object.keys(items.get('lastObject'));
 
       if(isEmpty(last)) {
         items.popObject();
       }
-      // }
+
+      if(items.length === 0) return;
 
       items.removeAt(index);
     },
