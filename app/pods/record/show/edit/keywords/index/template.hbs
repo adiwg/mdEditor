@@ -31,10 +31,14 @@
           <hr>
           <div class="row">
             <div class="md-keywords-thesaurus col-md-6 col-lg-7">
-              {{object/md-keyword-citation model=thesaurus }}
+              {{object/md-keyword-citation
+                model=thesaurus
+                profilePath="record.keywords.citation"
+              }}
             </div>
             <div class="md-keywords-list col-md-6 col-lg-5">
               {{object/md-keyword-list model=thesaurus listId=index
+                profilePath="record.keywords"
                 addKeyword=(route-action "addKeyword")
                 deleteKeyword=(route-action "deleteKeyword")
                 editThesaurus=(route-action "editThesaurus")
