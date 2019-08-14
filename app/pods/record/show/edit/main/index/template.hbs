@@ -67,7 +67,10 @@
           required=true
           profilePath="record.main.basicInformation.defaultLocale"
         }}
-          {{object/md-locale model=resource.defaultResourceLocale}}
+          {{object/md-locale
+            model=resource.defaultResourceLocale
+            profilePath="record.main.basicInformation.defaultLocale"
+          }}
         {{/layout/md-card}}
 
       {{/layout/md-card}}
