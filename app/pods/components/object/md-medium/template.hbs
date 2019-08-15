@@ -2,6 +2,7 @@
   label="Medium Title"
   value=model.mediumSpecification.title
   placeholder="Name of the medium"
+  profilePath=(concat profilePath ".mediumTitle")
 }}
 
 {{#layout/md-card shadow=false
@@ -16,14 +17,14 @@
     step="0.01"
     label="Density"
     placeholder="Density at which the data are recorded."
-    profilePath=(concat profilePath ".density")
+    profilePath=(concat profilePath ".storage.density")
     class="col-md-3"
   }}
 
   {{input/md-input
     value=model.units
     label="Density Units"
-    profilePath=(concat profilePath ".units")
+    profilePath=(concat profilePath ".storage.units")
     placeholder="Units of measure for the recording density."
     class="col-md-3"
 
@@ -35,23 +36,23 @@
     step="1"
     label="Number Of Volumes"
     placeholder="The number of volumes in the media resource."
-    profilePath=(concat profilePath ".numberOfVolumes")
+    profilePath=(concat profilePath ".storage.numberOfVolumes")
     class="col-md-3"
   }}
 </div>
 <div class="row">
   {{input/md-codelist-multi
     label="Storage Format"
-  value=model.mediumFormat
-  create=true
-  tooltip=true
-  icon=false
-  mdCodeName="mediumFormat"
-  closeOnSelect=false
-  placeholder="Method used to write to the medium."
-  class="col-sm-10 col-sm-offset-2"
-  profilePath=(concat profilePath ".mediumFormat")
-}}
+    value=model.mediumFormat
+    create=true
+    tooltip=true
+    icon=false
+    mdCodeName="mediumFormat"
+    closeOnSelect=false
+    placeholder="Method used to write to the medium."
+    class="col-md-10 col-md-offset-2"
+    profilePath=(concat profilePath ".storage.format")
+  }}
 </div>
 {{/layout/md-card}}
 
