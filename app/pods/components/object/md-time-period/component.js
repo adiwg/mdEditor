@@ -103,7 +103,7 @@ export default Component.extend(Validations, {
       //   'presentationForm', []));
       // set(model, 'onlineResource', getWithDefault(model,
       //   'onlineResource', []));
-      // set(model, 'identifier', getWithDefault(model, 'identifier', []));
+      set(model, 'identifier', getWithDefault(model, 'identifier', {}));
       // set(model, 'graphic', getWithDefault(model, 'graphic', []));
     });
   },
@@ -139,6 +139,7 @@ export default Component.extend(Validations, {
     }
   }),
   intervalAmount: alias('model.timeInterval.interval'),
+  identifier: alias('model.identifier.identifier'),
 
   timeUnit: timeUnit,
   durationUnit: durationUnit

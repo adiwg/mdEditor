@@ -41,7 +41,7 @@ module('Integration | Component | object/md lineage/preview', function(hooks) {
     await render(hbs`<section>{{object/md-lineage/preview item=lineage}}</section>`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Lineage|#|Statement|statement|Process|Step|No|proces|steps|assigned.|');
+      '|Lineage|#|Statement|statement|Process|Step|No|process|steps|assigned.|');
 
     // Template block usage:
     await render(hbs`<section>
@@ -51,7 +51,7 @@ module('Integration | Component | object/md lineage/preview', function(hooks) {
     `);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Lineage|#|Statement|Not|Defined|Process|Step|No|proces|steps|assigned.|',
+      '|Lineage|#|Statement|Not|Defined|Process|Step|No|process|steps|assigned.|',
       'template block');
   });
 });

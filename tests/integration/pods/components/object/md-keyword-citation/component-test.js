@@ -14,7 +14,7 @@ module('Integration | Component | object/md keyword citation', function(hooks) {
       thesaurus: createCitation(1)[0]
     });
 
-    await render(hbs`{{object/md-keyword-citation model=keyword}}`);
+    await render(hbs`{{object/md-keyword-citation model=keyword profilePath="foobar"}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Title|Date|Date|Type|Choose|date|type|Type|theme|?|Edition|URL|');
@@ -25,7 +25,7 @@ module('Integration | Component | object/md keyword citation', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-keyword-citation model=(hash thesaurus=(hash))}}
+      {{#object/md-keyword-citation model=(hash thesaurus=(hash)) profilePath="foobar"}}
         template block text
       {{/object/md-keyword-citation}}
     `);
