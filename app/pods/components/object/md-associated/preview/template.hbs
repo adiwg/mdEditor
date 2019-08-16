@@ -6,7 +6,7 @@
     <dd></dd>
     <div class="row">
       <div class="col-xxl-6">
-        {{#control/md-definition title="Association Type"}}
+        {{#control/md-definition title="Association Type" profilePath=(concat profilePath ".associationType")}}
           {{model.associationType}}
           {{#if model.mdRecordId}}
             (<em>linked</em>)
@@ -14,12 +14,14 @@
         {{/control/md-definition}}
       </div>
       <div class="col-xxl-6">
-        {{control/md-definition title="Initiative Type" text=model.initiativeType}}
+        {{control/md-definition title="Initiative Type" text=model.initiativeType
+          profilePath=(concat profilePath ".initiativeType")
+        }}
       </div>
     </div>
   </dl>
 
-  {{object/md-citation/preview/body citation=citation}}
+  {{object/md-citation/preview/body citation=citation profilePath=(concat profilePath ".resourceCitation")}}
 
   <dl class="dl-horizontal col-lg-12">
   {{#control/md-definition title="Metadata Identifier"}}

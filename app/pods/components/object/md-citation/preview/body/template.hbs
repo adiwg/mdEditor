@@ -1,9 +1,13 @@
 <div class="row">
   <dl class="dl-horizontal col-lg-12">
-      {{control/md-definition title="Title" text=citation.title}}
+      {{control/md-definition title="Title" text=citation.title
+        profilePath=(concat profilePath ".basicInformation.title")
+      }}
   </dl>
   <dl class="dl-horizontal col-lg-12">
-      {{#control/md-definition title="Alternate Titles" }}
+      {{#control/md-definition title="Alternate Titles"
+        profilePath=(concat profilePath ".basicInformation.alternateTitle")
+      }}
           {{#each citation.alternateTitle as |title|}}
               {{title}}
               <br>
@@ -14,7 +18,7 @@
   </dl>
   <div class="clearfix"></div>
   <dl class="dl-horizontal col-lg-12">
-      {{#control/md-definition title="Dates" }}
+      {{#control/md-definition title="Dates" profilePath=(concat profilePath ".basicInformation.dates")}}
           {{#each citation.date as |date|}}
               {{moment-format date.date "MMMM Do YYYY"}}
               ({{date.dateType}})
@@ -25,7 +29,7 @@
       {{/control/md-definition}}
   </dl>
   <dl class="dl-horizontal col-lg-12">
-      {{#control/md-definition title="Identifier" }}
+      {{#control/md-definition title="Identifier" profilePath=(concat profilePath ".identifier")}}
           {{#each citation.identifier as |id|}}
               {{id.identifier}} {{if id.namespace (concat "(" id.namespace ")")}}
               <br>
@@ -36,7 +40,7 @@
   </dl>
   <div class="clearfix"></div>
   <dl class="dl-horizontal col-lg-12">
-      {{#control/md-definition title="Responsible Party" }}
+      {{#control/md-definition title="Responsible Party" profilePath=(concat profilePath ".responsibleParty")}}
           {{#each citation.responsibleParty as |party|}}
               {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
               (
