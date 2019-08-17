@@ -21,7 +21,7 @@ export default Service.extend({
 
     //remap codelist names to be more generic
     Object.keys(codes)
-      .forEach(function(key) {
+      .forEach(function (key) {
         if(key === 'default') {
           return;
         }
@@ -35,7 +35,7 @@ export default Service.extend({
       });
   },
   customProfiles: service('custom-profile'),
-  profile: computed('customProfiles.profiles.[]', function() {
+  profile: computed('customProfiles.profiles.[]', function () {
     return {
       codelist: this.customProfiles.profiles.map((itm) => {
         return {
@@ -45,5 +45,12 @@ export default Service.extend({
         };
       })
     };
-})
+  }),
+  codeOverrides: computed('profile', function () {
+    return {
+      scope: {
+        dataset: "geographicDataset"
+      }
+    }
+  })
 });
