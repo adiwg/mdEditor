@@ -1,4 +1,5 @@
 import Service from '@ember/service';
+import Ember from 'ember';
 import {
   inject as service
 } from '@ember/service';
@@ -13,6 +14,8 @@ import {
 } from 'ember-ajax/errors';
 import semver from 'semver';
 import mdprofiles from 'mdprofiles';
+
+Ember.libraries.register('mdProfiles', mdprofiles.version);
 
 const coreProfiles = mdprofiles.asArray();
 

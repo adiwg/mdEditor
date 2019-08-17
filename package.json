@@ -116,7 +116,7 @@
     "mdcodes": "^2.7.2",
     "mdjson-schemas": "^2.6.3",
     "mdkeywords": "^2.0.1",
-    "mdprofiles": "^0.1.5",
+    "mdprofiles": "^0.1.16",
     "moment-timezone": "^0.5.13",
     "object-hash": "^1.1.7",
     "papaparse": "^4.3.7",
