@@ -11,8 +11,20 @@ export default Component.extend(ResizeAware, {
 
   resizeWidthSensitive: true,
   resizeHeightSensitive: true,
+
   navPadding: 5,
   navWidth: 0,
+
+  /**
+  * Array of nav links. If not supplied, the links will be pulled from the
+  * active profile.
+  *
+  * @property navLinks
+  * @type {Array}
+  * @default "undefined"
+  * @optional
+  */
+
   /**
    * translated "more" text
    *
@@ -23,10 +35,11 @@ export default Component.extend(ResizeAware, {
 
   links: computed('customProfile.active', 'model', 'navWidth', function () {
     const active = this.customProfile.getActiveProfile();
-    const modelName = this.model.constructor.modelName;
+    const modelName = this.get('model.constructor.modelName');
     const nav = this;
 
-    let links = get(active, 'definition.nav.' + modelName) || this
+    let links = this.navLinks || get(active, 'definition.nav.' +
+        modelName) || this
       .customProfile.defaultProfile.definition.nav[modelName];
 
     return links.map((lnk, index) => {
@@ -58,7 +71,8 @@ export default Component.extend(ResizeAware, {
   }),
 
   /**
-   * width that needs to be a from the parent div width
+   * Width to be added to linkWidth to make sure the last link will fit.
+   * Calcuated as the smaller of the maximum link width or 150.
    *
    * @name offset
    * @type {Number}
