@@ -32,17 +32,24 @@ const profiles = [{
         title: 'BarFoo',
         target: 'record.show.edit.metadata'
 
+      }, {
+        title: 'FooBar1',
+        target: 'record.show.edit.index'
+
+      }, {
+        title: 'BarFoo2',
+        target: 'record.show.edit.metadata'
+
       }]
     }
   }
 ];
 
-
 const profileStub = Service.extend({
   coreProfiles: profiles
 });
 
-module('Integration | Component | md nav secondary', function(hooks) {
+module('Integration | Component | md nav secondary', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -52,13 +59,13 @@ module('Integration | Component | md nav secondary', function(hooks) {
     this.profileService = this.owner.lookup('service:profile');
     this.customService = this.owner.lookup('service:custom-profile');
     this.model = {
-      constructor:{
+      constructor: {
         modelName: 'record'
       }
     }
   });
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     assert.expect(2);
 
     // Set any properties with this.set('myProperty', 'value');
@@ -81,11 +88,11 @@ module('Integration | Component | md nav secondary', function(hooks) {
     more = findAll('.overflow-nav').length ? '|More' : '';
 
     assert.equal(find('.nav').textContent
-      .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|template|block|text|');
+      .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|');
   });
 
-  test('render after setting profile', async function(assert) {
-    assert.expect(1);
+  test('render after setting profile', async function (assert) {
+    assert.expect(2);
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
@@ -97,6 +104,10 @@ module('Integration | Component | md nav secondary', function(hooks) {
     var more = findAll('.overflow-nav').length ? '|More' : '';
 
     assert.equal(find('.nav').textContent
-      .replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|');
+      .replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|FooBar1|BarFoo2|');
+
+    await render(hbs `<div style="width:100px;">{{layout/md-nav-secondary model=model}}</div>`);
+
+    assert.ok(findAll('.dropdown .dropdown-menu').length, 'render more dropdown');
   });
 });
