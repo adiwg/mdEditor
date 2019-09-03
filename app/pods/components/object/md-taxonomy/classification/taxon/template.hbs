@@ -79,20 +79,18 @@
             profilePath=(concat profilePath ".taxonomicSystemId")
           }}
         </div>
-        <div class="card">
-          <div class="">
-            {{#object/md-simple-array-table
-              title="Common Name"
-              required=false
-              plain=true
-              profilePath=(concat profilePath ".commonName")
-              value=model.commonName as |val|
-            }}
-              <td>
-                {{input/md-input value=val.item.value placeholder="Enter value"}}
-              </td>
-            {{/object/md-simple-array-table}}
-          </div>
+        <div class="card-block">
+          {{#object/md-simple-array-table
+            title="Common Name"
+            required=false
+            plain=true
+            profilePath=(concat profilePath ".commonName")
+            value=model.commonName as |val|
+          }}
+            <td>
+              {{input/md-input value=val.item.value placeholder="Enter value"}}
+            </td>
+          {{/object/md-simple-array-table}}
         </div>
 
         <footer class="card-footer text-right">
