@@ -66,7 +66,11 @@
       editCitation=(route-action "editParent")
     }}
 
-    {{object/md-repository-array value=model.json.metadataRepository data-spy="Metadata Repository"}}
+    {{object/md-repository-array
+      value=model.json.metadataRepository
+      data-spy="Metadata Repository"
+      profilePath="record.metadata.repositories"
+    }}
 
     {{object/md-online-resource-array
       model=metadata.metadataOnlineResource

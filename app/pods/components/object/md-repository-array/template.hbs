@@ -4,6 +4,7 @@
   plain=plain
   data-spy=data-spy
   title="Metadata Repository"
+  profile=profile
   templateClass=repositoryTemplate as |meta|
 }}
   <td>
@@ -15,13 +16,15 @@
       mdCodeName="metadataRepository"
       closeOnSelect=true
       placeholder="Select or enter a repository."
+      profilePath=(concat profilePath ".repository")
       change=(action "lookupTitle" meta.item)
     }}
   </td>
   <td>
     {{input/md-input
       type="text"
-      value=meta.item.citation.title
+      value=meta.item.citation.titles
+      profilePath=(concat profilePath ".collectionTitle")
       placeholder="Text string used to identify a set of resources in the repository."
     }}
   </td>
