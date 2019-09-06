@@ -30,6 +30,7 @@
   <td>
     {{input/md-textarea
       value=source.item.description
+      profilePath=(concat profilePath ".stepSource.description")
       placeholder="Information about the source data used in the process step."
     }}
   </td>
@@ -45,7 +46,8 @@
 }}
   <td>
     {{input/md-textarea
-      value=source.item.value
+      value=source.item.description
+      profilePath=(concat profilePath ".stepProduct.description")
       placeholder="Information about an intermediate data set that (1) is significant in the opinion of the data producer, (2) is generated in the processing step, and (3) is used in later processing steps."
     }}
   </td>
@@ -62,7 +64,7 @@
 }}
 
 {{object/md-citation-array model=model.reference
-  profilePath=(concat profilePath ".reference") data-spy="Step Reference"
+  profilePath=(concat profilePath ".stepReference") data-spy="Step Reference"
   editItem=editCitation label="Step Reference"
 }}
 

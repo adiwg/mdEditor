@@ -12,7 +12,6 @@ export default Component.extend({
   // profileOptions: alias('profile.profiles'),
   actions: {
     setValue(selected) {
-      console.log(selected);
       this.record.set('profileId', selected ? selected.codeId : null);
     },
     selectItem(item) {

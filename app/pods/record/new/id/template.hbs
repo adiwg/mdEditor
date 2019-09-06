@@ -22,10 +22,12 @@
             {{if (v-get model "json.metadata.resourceInfo.citation.title"
              "options.presence.presence") "required"}}">Record Title</label>
             <div class="">
-                {{input/md-input
+              {{input/md-input
                 valuePath="json.metadata.resourceInfo.citation.title"
                 model=model
-                placeholder="Enter a title for the record"}}
+                profilePath="record.new.title"
+                placeholder="Enter a title for the record"
+              }}
             </div>
         </div>
         <div class="form-group clear">
@@ -37,6 +39,7 @@
               plain=true
               value=model.json.metadata.resourceInfo.resourceType
               required=true
+              profilePath="record.new"
             }}
           </div>
           </div>

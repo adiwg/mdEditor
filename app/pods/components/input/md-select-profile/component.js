@@ -5,6 +5,7 @@
 
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import calculatePosition from 'ember-basic-dropdown/utils/calculate-position'
 
 export default Component.extend({
   profile: service('custom-profile'),
@@ -13,6 +14,15 @@ export default Component.extend({
     this.profile.set('active', profile);
     this.record.save();
   },
+
+  calculatePosition() {
+    let originalValue = calculatePosition(...arguments);
+    originalValue.style['min-width'] =   originalValue.style.width + 'px';
+    originalValue.style.width = 'auto';
+    originalValue.style['max-width'] = '250px';
+    return originalValue;
+  },
+
   actions: {
     /**
      * Update the record profile

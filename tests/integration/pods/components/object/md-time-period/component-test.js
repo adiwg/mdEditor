@@ -69,13 +69,13 @@ module('Integration | Component | object/md time period', function(hooks) {
 
     var input = findAll('form input, form textarea').mapBy('value').join('|');
 
-    assert.equal(input, moment(date).format('YYYY-MM-DD HH:mm:ss') + '|2016-12-31 00:00:00|id|description|periodName0|periodName1|9|1|1|1|1|1|1', 'input values');
+    assert.equal(input, moment(date).format('YYYY-MM-DD HH:mm:ss') + '|2016-12-31 00:00:00|identifier|description|periodName0|periodName1|9|1|1|1|1|1|1', 'input values');
 
     await render(hbs`{{object/md-time-period profilePath="foobar" model=model.lastObject}}`);
 
     var input1 = findAll('form input, form textarea').mapBy('value').join('|');
 
-    assert.equal(input1, "||id|description|periodName0|periodName1|||||||", 'geologic input values');
+    assert.equal(input1, "||identifier|description|periodName0|periodName1|||||||", 'geologic input values');
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       "|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|",
@@ -88,7 +88,7 @@ module('Integration | Component | object/md time period', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|0|Add|Time|Period|Name|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|template|block|text|",
+      '|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|No|Time|Period|Name|found.|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|template|block|text|',
       'block');
   });
 });

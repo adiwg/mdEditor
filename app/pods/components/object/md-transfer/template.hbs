@@ -31,6 +31,7 @@
    templateClass=templateClass
    ellipsis=false
    shadow=false
+   profilePath=(concat profilePath ".offlineOption")
    attributes="mediumSpecification.title" as |editing|
   }}
     {{object/md-medium model=editing
@@ -42,6 +43,7 @@
     columns="Format Name,Version,Compression Method,URL"
     plain=false
     responsive=true
+    shadow=false
     title="Distribution Format"
     class="md-embedded"
     value=model.distributionFormat
@@ -54,27 +56,28 @@
         {{input/md-input
           value=format.item.formatSpecification.title
           placeholder="Name of the format"
-
+          profilePath=(concat profilePath ".distributionFormat.name")
         }}
     </td>
     <td>
         {{input/md-input
           value=format.item.formatSpecification.edition
           placeholder="Format version"
-
+          profilePath=(concat profilePath ".distributionFormat.version")
         }}
     </td>
     <td>
         {{input/md-input
           value=format.item.compressionMethod
           placeholder="Compression Method"
-
+          profilePath=(concat profilePath ".distributionFormat.compressionMethod")
         }}
     </td>
     <td>
       {{input/md-input
         value=format.item.formatSpecification.onlineResource.firstObject.uri
         placeholder="On-line information about the format"
+        profilePath=(concat profilePath ".distributionFormat.url")
       }}
     </td>
   {{/object/md-array-table}}

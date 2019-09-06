@@ -46,7 +46,7 @@
       contactType="contacts"
       icon=true
       tooltip=false
-      profilePath=(concat profilePath ".sourceId")
+      profilePath=(concat profilePath ".source")
    }}
 
   {{input/md-select-contact
@@ -56,7 +56,7 @@
       contactType="contacts"
       icon=true
       tooltip=false
-      profilePath=(concat profilePath ".recipientId")
+      profilePath=(concat profilePath ".recipient")
   }}
 
   {{object/md-party-array
@@ -64,7 +64,7 @@
     plain=false
     required=false
     value=model.responsibleParty
-    profilePath=(concat profilePath ".responsibleParty")
+    profilePath=(concat profilePath ".otherContacts")
   }}
 
   {{input/md-boolean
@@ -76,7 +76,7 @@
 
  {{input/md-textarea
      value=model.comment
-     profilePath=(concat profilePath ".description")
+     profilePath=(concat profilePath ".comment")
      label="Comment"
      placeholder="Enter any comments about the allocation."
    }}

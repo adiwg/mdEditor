@@ -3,17 +3,17 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | object/md spatial extent', function(hooks) {
+module('Integration | Component | object/md extent/spatial', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-    assert.expect(5);
+  test('it renders', async function (assert) {
+    assert.expect(6);
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
-    this.deleteExtent = function (val) {
-      assert.equal(val, 9, 'call delete');
+    this.deleteFeatures = function () {
+      assert.ok(true, 'call delete');
     };
-    this.editExtent = function (val) {
+    this.editFeatures = function (val) {
       assert.equal(val, 9, 'call edit');
     };
 
@@ -60,15 +60,17 @@ module('Integration | Component | object/md spatial extent', function(hooks) {
       }]
     };
 
-    await render(hbs`{{object/md-extent/spatial
+    await render(hbs `{{object/md-extent/spatial
       extent=extent
       index=9
-      deleteExtent=deleteExtent
-      editExtent=editExtent
+      deleteFeatures=deleteFeatures
+      editFeatures=editFeatures
+      profilePath="foobar"
     }}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Geographic|Extent|#9|Edit|Extent|Features|Delete|Extent|Bounding|Box|North|East|South|West|Calculate|Description|+−|Terrain|FeaturesLeaflet|');
+      '|Geographic|Extent|Bounding|Box|North|East|South|West|Calculate|Clear|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|Edit|Features|Clear|Features|+−|Terrain|FeaturesLeaflet|'
+    );
 
     await click('.btn-primary');
 
@@ -80,19 +82,30 @@ module('Integration | Component | object/md spatial extent', function(hooks) {
         "westLongitude": -117.729264
       }), 'calculateBox');
 
-      await click('.btn-success');
-      await doubleClick('.btn-danger');
+    await doubleClick('.btn-danger');
 
-    this.empty = {geographicExtent:[{}]};
+    assert.equal(JSON.stringify(this.extent.geographicExtent[0].boundingBox),
+      JSON.stringify({
+        "northLatitude": null,
+        "southLatitude": null,
+        "eastLongitude": null,
+        "westLongitude": null
+      }), 'clearBox');
+
+    await click('.btn-toolbar .btn-success');
+    await doubleClick('.btn-toolbar .btn-danger');
+
+    this.empty = { geographicExtent: [{}] };
     // Template block usage:
-    await render(hbs`
-      {{#object/md-extent/spatial extent=empty}}
+    await render(hbs `
+      {{#object/md-extent/spatial extent=empty profilePath="foobar"
+}}
         template block text
       {{/object/md-extent/spatial}}
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Geographic|Extent|#|Edit|Extent|Features|Delete|Extent|Bounding|Box|North|East|South|West|Description|No|Features|to|display.|',
+      '|Geographic|Extent|Bounding|Box|North|East|South|West|Calculate|Clear|Description|Contains|Data|The|geographic|extent|contains|some|or|all|of|the|data|No|Features|to|display.|Add|Features|',
       'block');
   });
 });

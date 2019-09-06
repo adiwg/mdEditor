@@ -11,7 +11,7 @@
       }}
 
       {{#layout/md-wrap data-spy="Record ID" class="md-embedded"
-        profilePath="record.main.recordId"
+        profilePath="record.main.basicInformation.recordId"
       }}
         <div class="form-group">
           <label class="required">Record ID</label>
@@ -37,7 +37,7 @@
           placeholder="Enter the title for the resource."
           label="Title"
           required=true
-          profilePath="record.main.title"
+          profilePath="record.main.basicInformation.title"
           data-spy="Title"
           class="md-embedded"
         }}
@@ -47,7 +47,7 @@
           value=resource.status label="Status" required=true
           create=true tooltip=true icon=false mdCodeName="progress"
           placeholder="Select the current status"
-          profilePath="record.main.status"
+          profilePath="record.main.basicInformation.status"
           data-spy="Status"
           class="md-embedded"
         }}
@@ -65,9 +65,12 @@
           shadow=false
           data-spy=false
           required=true
-          profilePath="record.main.defaultLocale"
+          profilePath="record.main.basicInformation.defaultLocale"
         }}
-          {{object/md-locale model=resource.defaultResourceLocale}}
+          {{object/md-locale
+            model=resource.defaultResourceLocale
+            profilePath="record.main.basicInformation.defaultLocale"
+          }}
         {{/layout/md-card}}
 
       {{/layout/md-card}}
@@ -113,7 +116,7 @@
         }}
           {{input/md-markdown-area
             value=resource.abstract
-            profilePath="record.main.abstract"
+            profilePath="record.main.description.abstract"
             label="Abstract"
             placeholder="Enter an Abstract describing the resource."
             required=true
@@ -121,7 +124,7 @@
 
           {{input/md-markdown-area
             value=resource.shortAbstract
-            profilePath="record.main.shortAbstract"
+            profilePath="record.main.description.shortAbstract"
             label="Short Abstract"
             placeholder="A short description of the resource. Max of 300 characters."
             maxlength=300

@@ -96,6 +96,15 @@ export default Component.extend(Template, {
   plain: false,
 
   /**
+   * Whether to render a panel drop-shadow.
+   *
+   * @property plain
+   * @type {Boolean}
+   * @default false
+   */
+  shadow:true,
+
+  /**
    * Indicates whether at least one item is required is required in the value
    * array.
    *

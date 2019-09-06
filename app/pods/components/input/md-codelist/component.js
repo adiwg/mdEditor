@@ -171,11 +171,14 @@ export default Select.extend({
     let codelist = [];
     let icons = this.icons;
     let defaultIcon = this.defaultIcon;
+    // const mdCodes = this.mdCodes;
 
-    this.mdCodelist.forEach(function (item) {
+    this.mdCodelist.forEach((item) => {
       let newObject = {
         codeId: item[codeId],
-        codeName: item[codeName],
+        codeName: this.mdCodes.get(
+            `codeOverrides.${this.mdCodeName}.${item[codeName]}`) ||
+          item[codeName],
         tooltip: item[tooltip],
         icon: icons.get(item[codeName]) || icons.get(defaultIcon)
       };

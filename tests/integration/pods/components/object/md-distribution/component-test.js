@@ -2,21 +2,14 @@ import { find, render } from '@ember/test-helpers';
 import { module, test, skip } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import createRecord from 'mdeditor/tests/helpers/create-record';
 
-module('Integration | Component | object/md distribution', function(hooks) {
+module('Integration | Component | object/md distribution', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
 
     // Set any properties with this.set('myProperty', 'value');
-    this.set('record', createRecord(1)[0]);
-
-    await render(hbs`{{object/md-distribution model=record profilePath="foobar"}}`);
-
-    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|No|distribution|sections|found.|Add|Distribution|Section|');
-
-    this.record.json.metadata.resourceDistribution.push({
+    this.set('model', {
       "description": "description",
       "liabilityStatement": "liabilityStatement",
       "distributor": [{
@@ -43,19 +36,29 @@ module('Integration | Component | object/md distribution', function(hooks) {
       }]
     });
 
+    await render(hbs `{{object/md-distribution model=model profilePath="foobar"}}`);
+
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g,
+        '|')
+      .trim(),
+      '|Distribution|#|Delete|Description|Liablity|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|'
+    );
+
     // Template block usage:
-    await render(hbs`
-      {{#object/md-distribution model=record profilePath="foobar"}}
+    await render(hbs `
+      {{#object/md-distribution model=model profilePath="foobar"}}
         template block text
       {{/object/md-distribution}}
     `);
 
-    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Distribution|Section|#0|Delete|Section|Description|Liablity|Statement|Distributors|role|(|)|role|(|)|Edit|Distributors|',
+    assert.equal(find('section').textContent.replace(/[\s\n]+/g,
+        '|')
+      .trim(),
+      '|Distribution|#|Delete|Description|Liablity|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|',
       'block and list');
   });
 
-  skip('call actions', async function(assert) {
+  skip('call actions', async function (assert) {
     assert.expect(1);
   });
 });

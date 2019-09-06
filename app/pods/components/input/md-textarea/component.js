@@ -214,11 +214,11 @@ export default Component.extend({
   /**
    * Class to set on the textarea
    *
-   * @property class
+   * @property inputClass
    * @type {string}
    * @default 'form-control'
    */
-  class: 'form-control',
+  inputClass: 'form-control',
 
   _didInsertArea() {
     this.scheduleMeasurement();

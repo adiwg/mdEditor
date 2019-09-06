@@ -1,10 +1,11 @@
 import Service from '@ember/service';
+import Ember from 'ember';
 import {
   inject as service
 } from '@ember/service';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
-import { computed } from '@ember/object';
+// import { computed } from '@ember/object';
 import { union } from '@ember/object/computed';
 import {
   // isAjaxError,
@@ -13,6 +14,8 @@ import {
 } from 'ember-ajax/errors';
 import semver from 'semver';
 import mdprofiles from 'mdprofiles';
+
+Ember.libraries.register('mdProfiles', mdprofiles.version);
 
 const coreProfiles = mdprofiles.asArray();
 
@@ -29,13 +32,13 @@ export default Service.extend({
   //   return this.profileRecords;
   // }),
   profiles: union('profileRecords', 'coreProfiles'),
-  mapById: computed('profiles.[]', function () {
-    return this.profiles.reduce(function (map, profile) {
-      map[profile.identifier] = profile;
-
-      return map;
-    }, {});
-  }),
+  // mapById: computed('profiles.[]', function () {
+  //   return this.profiles.reduce(function (map, profile) {
+  //     map[profile.identifier] = profile;
+  //
+  //     return map;
+  //   }, {});
+  // }),
   init() {
     this._super(...arguments);
 

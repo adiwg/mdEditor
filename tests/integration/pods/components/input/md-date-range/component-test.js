@@ -13,7 +13,7 @@ module('Integration | Component | input/md date range', function(hooks) {
     this.set('end', new Date('2017-01-01'));
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{input/md-date-range class="testme" startDateTime=start endDateTime=end}}`);
+    await render(hbs`{{input/md-date-range class="testme" startDateTime=start endDateTime=end profilePath="foobar"}}`);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
       'Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|');
@@ -22,7 +22,7 @@ module('Integration | Component | input/md date range', function(hooks) {
     assert.equal(new Date(findAll('.date input')[1].value).toISOString(), this.end.toISOString(), 'set end');
     // Template block usage:
     await render(hbs`
-      {{#input/md-date-range class="testme" startDateTime=start endDateTime=end}}
+      {{#input/md-date-range class="testme" startDateTime=start endDateTime=end profilePath="foobar"}}
         template block text
       {{/input/md-date-range}}
     `);

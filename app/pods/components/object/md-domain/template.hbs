@@ -8,7 +8,7 @@
     valuePath="domainId"
     placeholder="Enter the identifier for the domain."
     label="Domain Identifier"
-    profilePath=(concat profilePath ".identifier")
+    profilePath=(concat profilePath ".information.identifier")
     data-spy="Identifier"
     class="md-embedded"
   }}
@@ -19,7 +19,7 @@
     placeholder="Enter the name used to refer to the domain in schema definitions."
     label="Code Name"
     data-spy="Code Name"
-    profilePath=(concat profilePath ".codeName")
+    profilePath=(concat profilePath ".information.codeName")
     class="md-embedded"
   }}
 
@@ -27,7 +27,7 @@
     value=model.commonName
     placeholder="Enter a short common name for the domain."
     label="Common Name"
-    profilePath=(concat profilePath ".commonName")
+    profilePath=(concat profilePath ".information.commonName")
     data-spy="Common Name"
     class="md-embedded"
   }}
@@ -40,7 +40,7 @@
     label="Description"
     data-spy="Description"
     embedded=true
-    profilePath=(concat profilePath ".description")
+    profilePath=(concat profilePath ".information.description")
   }}
 
 {{/layout/md-card}}

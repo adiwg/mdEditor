@@ -6,19 +6,17 @@
   required=true
 }}
 
-{{!-- {{log profilePath}} --}}
-
   {{input/md-input
     value=model.title
     placeholder="Enter the title for the resource."
     label="Title"
     required=true
-    profilePath=(concat profilePath ".title")
+    profilePath=(concat profilePath ".basicInformation.title")
     data-spy=(if data-spy "Title")
     class="md-embedded"
   }}
 
-  {{#layout/md-card shadow=false profilePath=(concat profilePath ".alternateTitle")}}
+  {{#layout/md-card shadow=false profilePath=(concat profilePath ".basicInformation.alternateTitle")}}
     {{#object/md-simple-array-table
       data-spy=false
       title="Alternate Title"
@@ -30,11 +28,15 @@
     {{/object/md-simple-array-table}}
   {{/layout/md-card}}
 
-  {{#layout/md-card shadow=false profilePath=(concat profilePath ".date")
+  {{#layout/md-card shadow=false profilePath=(concat profilePath ".basicInformation.dates")
     data-spy=(if data-spy "Dates")
     class="md-embedded"
   }}
-    {{object/md-date-array value=model.date plain=true data-spy=false}}
+    {{object/md-date-array
+      value=model.date
+      plain=true
+      data-spy=false
+      profilePath=(concat profilePath ".basicInformation.dates")}}
   {{/layout/md-card}}
 
 
@@ -43,7 +45,7 @@
       value=model.edition
       placeholder="Enter the edition."
       label="Edition"
-      profilePath=(concat profilePath ".edition")
+      profilePath=(concat profilePath ".basicInformation.edition")
     }}
 
     {{input/md-codelist-multi
@@ -55,7 +57,7 @@
       mdCodeName="presentationForm"
       closeOnSelect=false
       placeholder="Select or enter one or more forms."
-      profilePath=(concat profilePath ".presentationForm")
+      profilePath=(concat profilePath ".basicInformation.presentationForm")
     }}
   {{/unless}}
 
@@ -145,7 +147,7 @@
     data-spy=(if data-spy "Graphic")
     button-text="Add Graphic"
     label="Graphic"
-    profilePath=(concat profilePath ".graphicOverview")
+    profilePath=(concat profilePath ".graphic")
   }}
 {{/unless}}
 

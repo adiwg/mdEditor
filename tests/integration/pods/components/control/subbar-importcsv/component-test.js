@@ -18,7 +18,7 @@ module('Integration | Component | control/subbar importcsv', function(hooks) {
       }
     });
 
-    this.set('foo', new Target());
+    this.set('foo', Target.create({}));
 
     // Handle any actions with this.on('myAction', function(val) { ... });
 

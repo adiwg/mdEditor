@@ -5,9 +5,11 @@
     <span class="fa"></span>
   </a>
   {{/if}}
-  <h4 class="title inline-block text-primary" code="">
-    <strong>{{concat title " #" index}}</strong>
-  </h4>
+  {{#if title}}
+    <h4 class="title inline-block text-primary" code="">
+      <strong>{{concat title " #" index}}</strong>
+    </h4>
+  {{/if}}
 
   <div class="btn-group btn-group-sm">
     {{#if editItem}}

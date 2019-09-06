@@ -32,7 +32,7 @@
   title="Classification"
   collapsible=true
   collapsed=false
-  profilePath="card"
+  profilePath=(concat profilePath ".classification")
   data-spy="Classification"
   required=true
   shadow=true
@@ -40,7 +40,10 @@
   spotlightEnabled=false
   block=(if model.taxonomicClassification.length false true)
 }}
-  {{object/md-taxonomy/classification model=model.taxonomicClassification}}
+  {{object/md-taxonomy/classification
+    model=model.taxonomicClassification
+    profilePath=(concat profilePath ".classification")
+  }}
 {{/layout/md-card}}
 
 {{object/md-party-array

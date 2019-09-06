@@ -35,14 +35,14 @@ module('Integration | Component | object/md party array', function(hooks) {
 
     cs.set('contacts', contacts);
 
-    await render(hbs`{{object/md-party-array value=party}}`);
+    await render(hbs`{{object/md-party-array value=party profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|2|Add|#|Role|Contacts|0|author|?|×|×|Contact0|Delete|1|publisher|?|×|×|Contact1|Delete|');
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-party-array model=(hash)}}
+      {{#object/md-party-array model=(hash) profilePath="foobar"}}
         template block text
       {{/object/md-party-array}}
     `);

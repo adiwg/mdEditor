@@ -9,6 +9,7 @@
       tooltip=true
       showValidations=true
       class="required"
+      profilePath=(concat profilePath ".contacts")
     }}
     {{input/md-codelist
       label="Role"
@@ -21,6 +22,7 @@
       mdCodeName="role"
       showValidations=true
       placeholder="Select or enter a role"
+      profilePath=(concat profilePath ".role")
     }}
   {{/if}}
 </div>
@@ -76,7 +78,7 @@
       label="Fees"
       autoresize=false
       profilePath=(concat profilePath ".orderProcess.fees")
-      class="md-embedded"
+      embedded=true
       data-spy="Fees"
     }}
     {{input/md-datetime
