@@ -5,6 +5,15 @@
     processChunk=(route-action "reduceData")
     processComplete=(route-action "processComplete")
   }}
+  {{to-elsewhere
+    named="md-subbar-extra"
+    send=(component "control/md-button"
+      text="Back to Entity"
+      icon="arrow-left"
+      class="btn-primary btn-lg btn-block md-button-responsive"
+      click=(route-action "goToEntity")
+    )
+  }}
   {{else}}
     <form class="form">
       {{input/md-input

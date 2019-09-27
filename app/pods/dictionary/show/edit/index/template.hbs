@@ -101,13 +101,5 @@
   </form>
 {{/with}}
 
-{{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
-    text="Back to Overview"
-    icon="home"
-    route="dictionary.show.index"
-  )
-}}
 {{to-elsewhere named="md-scroll-spy-dict-edit"
   send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
