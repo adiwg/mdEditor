@@ -7,7 +7,7 @@ import {
 export default Component.extend(Validations, {
   tagName: '',
   model: alias('item'),
-  name: alias('model.codeName'),
+  codeName: alias('model.codeName'),
   dataType: alias('model.dataType'),
   definition: alias('model.definition'),
   allowNull: alias('model.allowNull')
