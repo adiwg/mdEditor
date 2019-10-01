@@ -15,13 +15,15 @@ module('Integration | Component | object/md online resource', function(hooks) {
       "protocol": "protocol",
       "name": "name",
       "description": "description",
-      "function": "download"
+      "function": "download",
+      "applicationProfile": "applicationProfile",
+      "protocolRequest": "protocolRequest"
     };
 
     await render(hbs`{{object/md-online-resource model=model profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      'Name|URI|Protocol|Description|Function|download|?|×|');
+      'Name|URI|Protocol|Description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|');
 
     // Template block usage:
     await render(hbs`
@@ -31,7 +33,7 @@ module('Integration | Component | object/md online resource', function(hooks) {
     `);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Name|URI|Protocol|Description|Function|download|?|×|template|block|text|',
+      '|Name|URI|Protocol|Description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|template|block|text|',
       'block');
   });
 });
