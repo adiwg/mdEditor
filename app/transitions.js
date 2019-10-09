@@ -125,6 +125,12 @@ export default function () {
     this.reverse('toRight')
   );
   this.transition(
+    this.toRoute('record.show.edit.distribution.distributor.transfer'),
+    this.fromRoute('record.show.edit.distribution.distributor.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
     this.toRoute('dictionary.show.edit'),
     this.fromRoute('dictionary.show.index'),
     this.use('toLeft'),

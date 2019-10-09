@@ -12,7 +12,8 @@ export default Route.extend(ScrollTo, {
   //   };
   // }),
   model(params, transition) {
-    let tparams= transition.params['record.show.edit.distribution.distributor'];
+    let tparams = transition.params[
+      'record.show.edit.distribution.distributor'];
 
     this.set('transferId', params.transfer_id);
     this.set('distributionId', tparams.distribution_id);
@@ -52,7 +53,9 @@ export default Route.extend(ScrollTo, {
 
     if(isEmpty(distributor)) {
       get(this, 'flashMessages')
-        .warning('No Transfer Option object found! Re-directing to Distribution...');
+        .warning(
+          'No Transfer Option object found! Re-directing to Distribution...'
+          );
       this.replaceWith('record.show.edit.distribution');
 
       return;
@@ -60,7 +63,9 @@ export default Route.extend(ScrollTo, {
 
     if(isEmpty(transfer)) {
       get(this, 'flashMessages')
-        .warning('No Transfer Option object found! Re-directing to Distributor...');
+        .warning(
+          'No Transfer Option object found! Re-directing to Distributor...'
+          );
       this.replaceWith('record.show.edit.distribution.distributor');
 
       return;
@@ -72,7 +77,8 @@ export default Route.extend(ScrollTo, {
   actions: {
     deleteTransfer(id) {
       let model = this.controller.parentModel.get(
-          'json.metadata.resourceDistribution')[this.controller.distributionId]
+          'json.metadata.resourceDistribution')[this.controller
+          .distributionId]
         .distributor[this.controller.distributorId].transferOption;
 
       model.removeAt(id || parseInt(this.transferId, 0));
@@ -81,6 +87,9 @@ export default Route.extend(ScrollTo, {
           scrollTo: 'transfer-options'
         }
       });
+    },
+    backToDistributor() {
+      this.transitionTo('record.show.edit.distribution.distributor');
     }
   }
 });
