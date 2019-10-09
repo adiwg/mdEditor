@@ -16,7 +16,7 @@
     profilePath=(concat profilePath ".domainItem.value")
     showValidations=true
   }}
-  {{input/md-input
+  {{input/md-textarea
     label="Definition"
     data-spy="Definition"
     model=this
@@ -24,6 +24,7 @@
     placeholder="A brief definition for the domain item."
     profilePath=(concat profilePath ".domainItem.definition")
     showValidations=true
+    autoresize=true
   }}
 
 {{#with model.reference as |citation|}}
