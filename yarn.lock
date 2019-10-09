@@ -8321,10 +8321,10 @@ mdn-links@^0.1.0:
   resolved "https://registry.yarnpkg.com/mdn-links/-/mdn-links-0.1.0.tgz#e24c83b97cb4c5886cc39f2f780705fbfe273aa5"
   integrity sha1-4kyDuXy0xYhsw58veAcF+/4nOqU=
 
-mdprofiles@^0.1.18:
-  version "0.1.18"
-  resolved "https://registry.yarnpkg.com/mdprofiles/-/mdprofiles-0.1.18.tgz#5238d8e4e1d036f2e4c42691695fdc1d01320ab6"
-  integrity sha512-p1zgIZE3j3Zkz46bu3yfFMm9tP7N+90ZOsey+IXwnpnUZwYMjlYD6Q5cY0wjmAWuLmUlbZ22/VRUUz13iot0nw==
+mdprofiles@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/mdprofiles/-/mdprofiles-0.2.3.tgz#9708215cf85648a17936f24324b5f811525f4ca1"
+  integrity sha512-HMOZuO6s0+/epK7HBt5DSI8n1ie/TRT6TImZ7SVFZK0uVsdrgRVMLHAYWh9/mXWsoS0hcztRfy+u98qo82ZRVA==
   dependencies:
     ajv "^6.10.0"
 
