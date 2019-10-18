@@ -108,6 +108,10 @@ form {
 //to display error icons
 .md-input-input {
   position: relative;
+  > input[placeholder] {
+    text-overflow: ellipsis;
+    padding-right: 30px;
+  }
 }
 
 .md-datetime {
