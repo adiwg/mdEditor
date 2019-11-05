@@ -4,13 +4,16 @@ import { isArray } from '@ember/array';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
 const ArrayRequired = BaseValidator.extend({
-  validate(value) {
+  validate(value, options) {
     if(isArray(value)) {
       if(value.length) {
         return true;
       }
     }
-    return 'At least one item is required.';
+
+    options.item = this.options.description || this.options.attribute;
+
+    return this.createErrorMessage('arrayRequired', value, options);
   }
 });
 
@@ -35,6 +38,8 @@ ArrayRequired.reopenClass({
     assert(
       `[validator:array-valid] [${attribute}] option 'track' must be an array`,
       isArray(opts));
+
+    if(!isArray(opts)) return track;
 
     opts.forEach((itm) => {
       track.push(`model.${attribute}.@each.${itm}`);

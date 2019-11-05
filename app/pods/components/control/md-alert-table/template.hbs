@@ -1,0 +1,19 @@
+<h4>No <span class={{if required "required"}}>{{title}}</span> found.
+  <button type="button"  class="btn btn-success btn-md" {{action "addItem" target}}>
+    {{fa-icon "plus"}} Add {{singularize title}}
+  </button>
+  {{yield}}
+</h4>
+<h4>
+{{#if tipMessage}}
+  <span class="md-{{tipType}}">
+    {{fa-icon tipIcon}}
+    {{#ember-tooltip
+      side="right"
+      tooltipClass=(concat "ember-tooltip md-tooltip " tipType)
+    }}
+    {{tipMessage}}
+    {{/ember-tooltip}}
+  </span>
+{{/if}}
+</h4>

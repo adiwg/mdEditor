@@ -17,14 +17,14 @@ module('Integration | Component | object/md locale', function(hooks) {
       })
     }));
 
-    await render(hbs`<section>{{object/md-locale settings=settings model=(hash)}}</section>`);
+    await render(hbs`<section>{{object/md-locale settings=settings model=(hash) profilePath="foobar"}}</section>`);
 
     assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Language|eng|?|×|Character|Set|UTF-8|?|×|Country|USA|?|×|');
 
     // Template block usage:
     await render(hbs`<section>
-      {{#object/md-locale settings=settings model=(hash)}}
+      {{#object/md-locale settings=settings model=(hash) profilePath="foobar"}}
         template block text
       {{/object/md-locale}}</section>
     `);

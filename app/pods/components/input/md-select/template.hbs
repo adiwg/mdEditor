@@ -10,6 +10,8 @@
         placeholder=placeholder
         searchField="codeName"
         searchEnabled=searchEnabled
+        matchTriggerWidth=matchTriggerWidth
+        calculatePosition=calculatePosition
         allowClear=allowClear
         closeOnSelect=closeOnSelect
         onchange=(action "setValue")
@@ -44,7 +46,7 @@
         {{#if showErrorMessage}}
           <span class="md-error">
             {{fa-icon "exclamation-circle"}}
-            {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
+            {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
                 {{v-get model path "message"}}
             {{/ember-tooltip}}
           </span>
@@ -53,7 +55,7 @@
         {{#if showWarningMessage}}
           <span class="md-warning">
             {{fa-icon "exclamation-triangle"}}
-            {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip warning"}}
+            {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip warning"}}
             {{v-get model path "warningMessage"}}
             {{/ember-tooltip}}
           </span>

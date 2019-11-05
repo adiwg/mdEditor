@@ -1,35 +1,34 @@
 <ul id="md-navbar-secondary" class="nav nav-pills" role="navigation">
-  {{#each links as |link|}}
-    <li>
-      {{#if isStaticLinks}}
-        {{#link-to link.target class="link.class" }}{{link.title}}
-          {{#if link.tip}}
-            {{#ember-tooltip
-              effect="slide"
-              side="bottom"
-              delay=500
-              tooltipClassName="ember-tooltip md-tooltip info"
-            }}
-              {{link.tip}}
-            {{/ember-tooltip}}
-          {{/if}}
-        {{/link-to}}
-      {{else}}
-        {{#link-to link.target model class="link.class" }}{{link.title}}
-          {{#if link.tip}}
-            {{#ember-tooltip
-              effect="slide"
-              side="bottom"
-              delay=500
-              tooltipClassName="ember-tooltip md-tooltip info"
-            }}
-              {{link.tip}}
-            {{/ember-tooltip}}
-          {{/if}}
-        {{/link-to}}
-      {{/if}}
-    </li>
+  {{#each sortedLinks as |link index|}}
+    {{#if (and hasOverflow link.isOverflow)}}
+      {{to-elsewhere named="secondary-nav-menu"
+        send=(component "layout/md-nav-secondary/link"
+          isStaticLinks=isStaticLinks
+          link=link
+          index=index
+          model=model
+          nav=this
+          navWidth=navWidth
+        )
+      }}
+    {{else}}
+      {{layout/md-nav-secondary/link
+        isStaticLinks=isStaticLinks
+        link=link
+        index=index
+        model=model
+        nav=this
+        navWidth=navWidth
+      }}
+    {{/if}}
   {{/each}}
 
-  {{yield}}
+  {{#if hasOverflow}}
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+        {{multiple-from-elsewhere name="secondary-nav-menu"}}
+      </ul>
+    </li>
+  {{/if}}
 </ul>

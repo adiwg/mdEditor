@@ -73,5 +73,11 @@ export default Component.extend(Validations, {
       set(this, 'model.contact.party', map);
       return value;
     }
-  })
+  }),
+
+  actions: {
+    editTransferOption(index){
+      this.editTransferOption(index);
+    }
+  }
 });

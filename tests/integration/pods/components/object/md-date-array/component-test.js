@@ -11,10 +11,10 @@ module('Integration | Component | object/md date array', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-date-array value=model}}`);
+    await render(hbs`{{object/md-date-array value=model profilePath="foobar"}}`);
 
-    assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Dates|0|Add|#|Date|Date|Type|Description|Add|Date|');
+    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
+      '|No|Date|found.|Add|Date|');
 
     this.set('model', [{
       "date": "2016-10-12",
@@ -28,7 +28,7 @@ module('Integration | Component | object/md date array', function(hooks) {
 
     // Template block usage:
     await render(hbs`
-      {{#object/md-date-array value=model}}
+      {{#object/md-date-array value=model profilePath="foobar"}}
         template block text
       {{/object/md-date-array}}
     `);

@@ -2,18 +2,20 @@
   as
   |model|}}
   <dl class="dl-horizontal">
-    <h4 class="text-info">Allocation #{{index}}</h4>
+    {{!-- <h4 class="text-info">Allocation #{{index}}</h4> --}}
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <label>Start Date:</label>
         {{if model.timePeriod.startDateTime (moment-format model.timePeriod.startDateTime "MM-DD-YYYY") "Not defined"}}
       </div>
-      <div class="col-md-6">
+      <div class="col-sm-6">
         <label>End Date:</label>
         {{if model.timePeriod.endDateTime (moment-format model.timePeriod.endDateTime "MM-DD-YYYY") "Not defined"}}
       </div>
     </div>
   </dl>
+
+  <h5 class="text-info"><strong>Allocations</strong></h5>
   <div class="table-responsive">
     <table class="table table-condensed table-bordered">
       <thead>

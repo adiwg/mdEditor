@@ -2,8 +2,6 @@
   profilePath=(concat profilePath ".name")
 }}
 
-{{!-- {{log profilePath}} --}}
-
 {{input/md-input type="url" valuePath="uri" model=model
 profilePath=(concat profilePath ".url")
 label="URI" placeholder="Online Resource URI"}}
@@ -34,17 +32,48 @@ label="URI" placeholder="Online Resource URI"}}
   </div>
 {{/if}}
 
-{{input/md-input value=model.protocol
-profilePath=(concat profilePath ".protocol")
-label="Protocol" placeholder="Protocol for accessing the Online Resource"}}
+{{input/md-input
+  value=model.protocol
+  profilePath=(concat profilePath ".protocol")
+  label="Protocol"
+  placeholder="Protocol for accessing the Online Resource"
+}}
 
-{{input/md-textarea maxlength=500 value=model.description label="Description"
-profilePath=(concat profilePath ".description")
-placeholder="Description of the Online Resource: Less than 500 characters"}}
+{{input/md-textarea
+  maxlength=500
+  value=model.description
+  label="Description"
+  profilePath=(concat profilePath ".description")
+  placeholder="Description of the Online Resource: Less than 500 characters"
+}}
 
-{{input/md-codelist value=model.function mdCodeName="onlineFunction"
-label="Function" placeholder="Select function of the Online Resource"
-profilePath=(concat profilePath ".onlineFunction")
-tooltip=true allowClear=true width="70%"}}
+{{input/md-codelist
+  value=model.function
+  mdCodeName="onlineFunction"
+  label="Function"
+  placeholder="Select function of the Online Resource"
+  profilePath=(concat profilePath ".onlineFunction")
+  tooltip=true
+  allowClear=true
+  width="70%"
+}}
 
+{{input/md-codelist
+  value=model.applicationProfile
+  mdCodeName="applicationProfile"
+  label="Application Profile"
+  placeholder="Name of an application profile for the Online Resource"
+  profilePath=(concat profilePath ".applicationProfile")
+  tooltip=true
+  allowClear=true
+  width="70%"
+  create=true
+}}
+
+{{input/md-textarea
+  value=model.protocolRequest
+  label="Protocol Request"
+  profilePath=(concat profilePath ".protocolRequest")
+  placeholder="Request used to access the resource depending on the protocol, e.g. body of POST(http)_ request."
+}}
 {{yield}}

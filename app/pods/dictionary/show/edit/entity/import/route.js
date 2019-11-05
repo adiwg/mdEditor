@@ -134,6 +134,9 @@ export default Route.extend({
       set(this, 'controller.columns', null);
       set(this, 'controller.processed', false);
     },
+    goToEntity(){
+      this.transitionTo('dictionary.show.edit.entity');
+    },
     doImport() {
       let data = this.generateData();
       let entity = this.get('controller.entity');

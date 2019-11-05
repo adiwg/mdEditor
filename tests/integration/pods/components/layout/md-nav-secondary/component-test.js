@@ -5,46 +5,51 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 //Stub profile service
-const profiles = {
-  full: {
-    profile: null,
-    secondaryNav: [{
-      title: 'Foo',
-      target: 'record.show.edit.index'
+const profiles = [{
+    identifier: "full",
+    namespace: "org.adiwg.profile",
+    nav: {
+      record: [{
+        title: 'Foo',
+        target: 'record.show.edit.index'
 
-    }, {
-      title: 'Bar',
-      target: 'record.show.edit.metadata'
+      }, {
+        title: 'Bar',
+        target: 'record.show.edit.metadata'
 
-    }]
+      }]
+    }
   },
-  basic: {
-    profile: null,
-    secondaryNav: [{
-      title: 'FooBar',
-      target: 'record.show.edit.index'
+  {
+    identifier: 'basic',
+    namespace: "org.adiwg.profile",
+    nav: {
+      record: [{
+        title: 'FooBar',
+        target: 'record.show.edit.index'
 
-    }, {
-      title: 'BarFoo',
-      target: 'record.show.edit.metadata'
+      }, {
+        title: 'BarFoo',
+        target: 'record.show.edit.metadata'
 
-    }]
+      }, {
+        title: 'FooBar1',
+        target: 'record.show.edit.index'
+
+      }, {
+        title: 'BarFoo2',
+        target: 'record.show.edit.metadata'
+
+      }]
+    }
   }
-};
+];
 
 const profileStub = Service.extend({
-  getActiveProfile() {
-    const active = this.get('active');
-    const profile = active && typeof active === 'string' ? active :
-      'full';
-    const profiles = this.get('profiles');
-
-    return profiles[profile];
-  },
-  profiles: profiles
+  coreProfiles: profiles
 });
 
-module('Integration | Component | md nav secondary', function(hooks) {
+module('Integration | Component | md nav secondary', function (hooks) {
   setupRenderingTest(hooks);
 
   hooks.beforeEach(function () {
@@ -52,15 +57,21 @@ module('Integration | Component | md nav secondary', function(hooks) {
     // Calling inject puts the service instance in the test's context,
     // making it accessible as "profileService" within each test
     this.profileService = this.owner.lookup('service:profile');
+    this.customService = this.owner.lookup('service:custom-profile');
+    this.model = {
+      constructor: {
+        modelName: 'record'
+      }
+    }
   });
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     assert.expect(2);
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs `{{layout/md-nav-secondary}}`);
+    await render(hbs `{{layout/md-nav-secondary model=model}}`);
 
     var more = findAll('.overflow-nav').length ? '|More' : '';
 
@@ -69,7 +80,7 @@ module('Integration | Component | md nav secondary', function(hooks) {
 
     // Template block usage:
     await render(hbs `
-      {{#layout/md-nav-secondary}}
+      {{#layout/md-nav-secondary model=model}}
         <li>template block text</li>
       {{/layout/md-nav-secondary}}
     `);
@@ -77,22 +88,26 @@ module('Integration | Component | md nav secondary', function(hooks) {
     more = findAll('.overflow-nav').length ? '|More' : '';
 
     assert.equal(find('.nav').textContent
-      .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|template|block|text|');
+      .replace(/[ \n]+/g, '|'), more + '|Foo|Bar|');
   });
 
-  test('render after setting profile', async function(assert) {
-    assert.expect(1);
+  test('render after setting profile', async function (assert) {
+    assert.expect(2);
 
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    this.set('profileService.active', 'basic');
+    this.set('customService.active', 'org.adiwg.profile.basic');
 
-    await render(hbs `{{layout/md-nav-secondary}}`);
+    await render(hbs `{{layout/md-nav-secondary model=model}}`);
 
     var more = findAll('.overflow-nav').length ? '|More' : '';
 
     assert.equal(find('.nav').textContent
-      .replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|');
+      .replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|FooBar1|BarFoo2|');
+
+    await render(hbs `<div style="width:100px;">{{layout/md-nav-secondary model=model}}</div>`);
+
+    assert.ok(findAll('.dropdown .dropdown-menu').length, 'render more dropdown');
   });
 });

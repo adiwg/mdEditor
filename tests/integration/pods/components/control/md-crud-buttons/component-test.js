@@ -12,7 +12,7 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-    await render(hbs `{{control/md-crud-buttons}}`);
+    await render(hbs `{{control/md-crud-buttons allowCopy=true allowDelete=true}}`);
     await triggerEvent('.md-crud-buttons', 'mouseenter');
 
     assert.equal(find('.md-crud-buttons').textContent
@@ -20,14 +20,14 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
 
     // Template block usage:" + EOL +
     await render(hbs `
-      {{#control/md-crud-buttons doSave=true}}
+      {{#control/md-crud-buttons doSave=true allowCopy=true}}
         template block text
       {{/control/md-crud-buttons}}
     `);
 
     assert.equal(find('.md-crud-buttons').textContent
       .replace(/[ \n]+/g, '|'),
-      '|Save|Cancel|Copy|Delete|template|block|text|', 'block, doSave');
+      '|Save|Cancel|Copy|template|block|text|', 'block, doSave');
 
     assert.equal(find('.md-crud-buttons .btn-success').disabled, true, 'save disabled');
   });
@@ -40,7 +40,7 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
       assert.ok(type, `${type} called`);
     });
 
-    //enable save and delet
+    //enable save and delete
     this.set('model', {
       hasDirtyHash: true,
       canRevert: true
@@ -48,7 +48,7 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
 
     await render(hbs `{{control/md-crud-buttons model=model doSave=(action externalAction
   'doSave') doCancel=(action externalAction 'doCancel') doCopy=(action
-  externalAction 'doCopy') doDelete=(action externalAction 'doDelete')}}`);
+  externalAction 'doCopy') doDelete=(action externalAction 'doDelete') allowCopy=true allowDelete=true}}`);
 
     // click the buttons
     await click('.md-crud-buttons .btn-success');

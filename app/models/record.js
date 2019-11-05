@@ -1,6 +1,7 @@
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
 import EmberObject, { computed } from '@ember/object';
+import { getWithDefault } from '@ember/object';
 import { Copyable } from 'ember-copy';
 import DS from 'ember-data';
 import uuidV4 from "uuid/v4";
@@ -9,6 +10,13 @@ import {
   validator,
   buildValidations
 } from 'ember-cp-validations';
+import config from 'mdeditor/config/environment';
+
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
 
 const Validations = buildValidations({
   'recordId': validator(
@@ -22,6 +30,15 @@ const Validations = buildValidations({
       track: ['type']
     })
   ],
+  'json.metadata.resourceInfo.pointOfContact': {
+    disabled: alias('model.isNew'),
+    validators: [
+      validator('array-valid'),
+      validator('array-required', {
+        track: ['type']
+      })
+    ]
+  },
   // 'json.resourceInfo.abstract': validator('presence', {
   //   presence: true,
   //   ignoreBlank: true
@@ -46,7 +63,7 @@ const Validations = buildValidations({
 
 const Record = Model.extend(Validations, Copyable, {
   profile: DS.attr('string', {
-    defaultValue: 'full'
+    defaultValue: defaultProfileId
   }),
   json: DS.attr('json', {
     defaultValue() {
@@ -121,7 +138,6 @@ const Record = Model.extend(Validations, Copyable, {
   parentIds: alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
-
   hasParent: computed('parentIds.[]', function () {
     let ids = this.parentIds;
     let allRecords = this.store.peekAll('record');
@@ -195,7 +211,12 @@ const Record = Model.extend(Validations, Copyable, {
     this.customSchemas.forEach(schema => {
       const validator = schema.validator;
 
-      if(validator.validate(schema.rootSchema, mdjson.formatRecord(this))){
+      if(!validator) {
+        return;
+      }
+
+      if(validator.validate(schema.rootSchema, mdjson.formatRecord(
+          this))) {
         return;
       }
 
@@ -208,7 +229,6 @@ const Record = Model.extend(Validations, Copyable, {
     return errors;
   }),
 
-
   formatted: alias('_formatted'),
 
   copy() {
@@ -217,6 +237,8 @@ const Record = Model.extend(Validations, Copyable, {
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
+    json.set('metadata.resourceInfo.resourceType', getWithDefault(json,
+      'metadata.resourceInfo.resourceType', [{}]));
     json.set('metadata.metadataInfo.metadataIdentifier', {
       identifier: uuidV4(),
       namespace: 'urn:uuid'

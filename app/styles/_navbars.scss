@@ -87,9 +87,11 @@
   .select-profile {
     display: inline-block;
     min-width: 125px;
+    white-space: nowrap;
+    width: 125px;
   }
 
-  .ember-power-select-trigger{
+  .ember-power-select-trigger {
     line-height: 2em;
     min-height: 2em;
   }

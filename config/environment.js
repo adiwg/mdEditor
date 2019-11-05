@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = function(environment) {
+  var deployTarget = process.env.DEPLOY_TARGET;
   var ENV = {
     contentSecurityPolicy: {
       'style-src': "'self' 'unsafe-inline'"
@@ -24,7 +25,8 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      repository: 'https://github.com/adiwg/mdEditor'
+      repository: 'https://github.com/adiwg/mdEditor',
+      defaultProfileId: 'org.adiwg.profile.full'
     },
     'ember-load': {
       loadingIndicatorClass: 'md-load-indicator'
@@ -45,6 +47,7 @@ module.exports = function(environment) {
       // flash message defaults
       timeout: 5000,
       extendedTimeout: 1500,
+      preventDuplicates: true
       //sticky: true
     },
     'ember-cli-bootstrap-datetimepicker': {
@@ -93,5 +96,9 @@ module.exports = function(environment) {
     ENV.locationType = 'hash';
   }
 
+  if (deployTarget === 'dev') {
+    ENV.rootURL = '/';
+    ENV.locationType = 'hash';
+  }
   return ENV;
 };

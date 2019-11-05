@@ -1,22 +1,23 @@
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
 import { A } from '@ember/array';
 
 export default Route.extend({
   model(params) {
     this.set('distributionId', params.distribution_id);
+    this.set('distributorId', params.distributor_id);
 
     return this.setupModel();
   },
 
-  breadCrumb: computed('distributionId', function () {
-    return {
-      title: 'Distributors'
-      //title: `${get(this, 'distributionId')}: Distributors`
-    };
-  }),
+  // breadCrumb: computed('distributionId', function () {
+  //   return {
+  //     title: this.distributionId
+  //     //title: `${get(this, 'distributionId')}: Distributors`
+  //   };
+  // }),
 
   setupController: function () {
     // Call _super for default behavior
@@ -24,6 +25,7 @@ export default Route.extend({
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set('distributionId', get(this, 'distributionId'));
+    this.controller.set('distributorId', get(this, 'distributorId'));
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -32,22 +34,27 @@ export default Route.extend({
   },
 
   setupModel() {
-    let distributionId = get(this, 'distributionId');
+    let distributionId = this.distributionId;
+    let distributorId = this.distributorId;
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.resourceDistribution');
-    let resource = distributionId && isArray(objects) ? A(
+    let distribution = distributionId && isArray(objects) ? A(
         objects).objectAt(distributionId) :
+      undefined;
+    let distributor = distribution && distributorId && isArray(distribution
+        .distributor) ? A(
+        distribution.distributor).objectAt(distributorId) :
       undefined;
 
     //make sure the identifier exists
-    if(isEmpty(resource)) {
+    if(isEmpty(distributor)) {
       get(this, 'flashMessages')
-        .warning('No Distribution object found! Re-directing to list...');
+        .warning('No Distributor object found! Re-directing to Distribution List...');
       this.replaceWith('record.show.edit.distribution');
 
       return;
     }
 
-    return resource;
+    return distributor;
   }
 });

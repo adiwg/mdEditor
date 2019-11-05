@@ -28,33 +28,29 @@
      </div>
     {{/if}}
     {{/each}}
-</div>
-  <div class="col-sm-2">
-    <div class="md-control-sidebar">
-      <div class="btn-group-vertical center-block" role="group" aria-label="Export Button Controls">
-        <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{action "exportData"}}>
-          {{fa-icon "sign-out"}} Export All</button>
-        <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{action "exportSelectedData"}} disabled={{if hasSelected false true}}>
-          {{fa-icon "check-square-o"}} Export Selected</button>
-        <button type="button" class="btn btn-lg btn-success md-btn-responsive" {{action "exportSelectedData" true}} disabled={{if hasSelectedRecords false true}}>
-          {{fa-icon "check-square-o"}} Export mdJSON</button>
-      </div>
-      <hr>
-      <label class="center-block text-center">Include Settings?</label>
-      {{x-toggle
-        value=model.settings._selected
-        onToggle=(action (mut model.settings._selected))
-        showLabels=true
-        onLabel="Yes"
-        offLabel="No"
-        size="medium"
-        theme="form"
-      }}
-      <hr>
-      {{control/md-scroll-spy offset=130 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
-
-    </div>
   </div>
-
+  <div class="md-control-sidebar col-sm-2 no-nav">
+        <div class="btn-group-vertical center-block" role="group" aria-label="Export Button Controls">
+          <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{action "exportData"}}>
+            {{fa-icon "sign-out"}} Export All</button>
+          <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{action "exportSelectedData"}} disabled={{if hasSelected false true}}>
+            {{fa-icon "check-square-o"}} Export Selected</button>
+          <button type="button" class="btn btn-lg btn-success md-btn-responsive" {{action "exportSelectedData" true}} disabled={{if hasSelectedRecords false true}}>
+            {{fa-icon "check-square-o"}} Export mdJSON</button>
+        </div>
+        <hr>
+        <label class="center-block text-center">Include Settings?</label>
+        {{x-toggle
+          value=model.settings._selected
+          onToggle=(action (mut model.settings._selected))
+          showLabels=true
+          onLabel="Yes"
+          offLabel="No"
+          size="medium"
+          theme="form"
+        }}
+        <hr>
+        {{control/md-scroll-spy offset=130 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+  </div>
 </div>
 {{outlet}}

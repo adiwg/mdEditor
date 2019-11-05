@@ -26,6 +26,6 @@ module('Integration | Component | leaflet draw', function(hooks) {
     `);
 
     assert.equal(find('.leaflet-container').innerText.trim().replace(/\n/g,'|'),
-     '+|−|Draw a polyline|Draw a polygon|Draw a rectangle|Draw a marker|Draw a circlemarker|3000 km|2000 mi|Leaflet');
+     '+|−|Draw a polyline|Draw a polygon|Draw a rectangle|Draw a marker|3000 km|2000 mi|Leaflet');
   });
 });

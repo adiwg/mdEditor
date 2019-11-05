@@ -9,13 +9,17 @@
         <i class="fa fa-undo"></i> Cancel
       </button>
   {{/if}}
-  <button type="button" {{action "copy"}} class="btn btn-lg btn-info">
-    <i class="fa fa-clone"></i> Copy
-  </button>
-  {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete") tooltip="Permanently delete this record?" tipClass="danger"}}
-    <span class="fa fa-times"></span> Delete
-  {{/control/md-button-confirm}}
+  {{#if showCopy}}
+    <button type="button" {{action "copy"}} class="btn btn-lg btn-info">
+      <i class="fa fa-clone"></i> Copy
+    </button>
+  {{/if}}
+  {{#if showDelete}}
+    {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete") tooltip="Permanently delete this record?" tipClass="danger"}}
+      <span class="fa fa-times"></span> Delete
+    {{/control/md-button-confirm}}
+  {{/if}}
   {{yield}}
-  {{ember-tooltip tooltipClassName="ember-tooltip md-tooltip primary"
+  {{ember-tooltip tooltipClass="ember-tooltip md-tooltip primary"
     text="Manage the record" side="top"}}
 </div>

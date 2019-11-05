@@ -59,7 +59,8 @@
             model=this
             valuePath="taxonomicLevel"
             showValidations=true
-            placeholder=""
+            placeholder="Enter the rank of the taxon"
+            profilePath=(concat profilePath ".taxonomicLevel")
           }}
           {{input/md-input
             class="col-lg-4"
@@ -67,28 +68,29 @@
             model=this
             valuePath="taxonomicName"
             showValidations=true
-            placeholder=""
+            placeholder="Enter the name of the taxon"
+            profilePath=(concat profilePath ".taxonomicName")
           }}
           {{input/md-input
             class="col-lg-4"
             label="Taxonomic ID"
             value=this.taxonomicSystemId
-            placeholder=""
+            placeholder="Enter the id assigned to the taxon"
+            profilePath=(concat profilePath ".taxonomicSystemId")
           }}
         </div>
-        <div class="card">
-          <div class="">
-            {{#object/md-simple-array-table
-              title="Common Name"
-              required=false
-              plain=true
-              value=model.commonName as |val|
-            }}
-              <td>
-                {{input/md-input value=val.item.value placeholder="Enter value"}}
-              </td>
-            {{/object/md-simple-array-table}}
-          </div>
+        <div class="card-block">
+          {{#object/md-simple-array-table
+            title="Common Name"
+            required=false
+            plain=true
+            profilePath=(concat profilePath ".commonName")
+            value=model.commonName as |val|
+          }}
+            <td>
+              {{input/md-input value=val.item.value placeholder="Enter value"}}
+            </td>
+          {{/object/md-simple-array-table}}
         </div>
 
         <footer class="card-footer text-right">
@@ -106,6 +108,6 @@
 
   {{#if model.subClassification.length}}
     {{#liquid-unless collapse class="list-group-item"}}
-      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview}}
+      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview profilePath=profilePath}}
     {{/liquid-unless}}
   {{/if}}

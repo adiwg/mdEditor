@@ -6,7 +6,11 @@
      plain=plain
      value=value
      validation=validation
+     errorMessage=errorMessage
+     tipPath=tipPath
+     tipModel=tipModel
      data-spy=false
+     profilePath=profilePath
      templateClass=templateClass as |party|
    }}
    {{#with party.item as |item|}}
@@ -21,6 +25,7 @@
          mdCodeName="role"
          showValidations=true
          placeholder="Select or enter a role"
+         profilePath=(concat profilePath ".role")
        }}
      </td>
      <td>
@@ -31,6 +36,7 @@
            icon=true
            tooltip=true
            showValidations=true
+           profilePath=(concat profilePath ".contacts")
          }}
      </td>
     {{/with}}

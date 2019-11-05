@@ -4,3 +4,16 @@
         setFeatureGroup=(route-action "setFeatureGroup")
         handleResize=(route-action "handleResize")}}
 </section>
+
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-spatial"
+    actionContext=this
+    zoomAll=(route-action "zoomAll")
+    deleteAllFeatures=(route-action "deleteAllFeatures")
+    exportGeoJSON=(route-action "exportGeoJSON")
+    uploadData=(route-action "uploadData")
+    toList=(route-action "toList")
+  )
+}}

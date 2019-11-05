@@ -13,7 +13,8 @@ export default Route.extend({
   },
 
   setupModel() {
-    let thesaurusId = get(this, 'thesaurusId') || this.controller.get('thesaurusId');
+    let thesaurusId = get(this, 'thesaurusId') || this.controller.get(
+      'thesaurusId');
     let model = this.modelFor('record.show.edit.keywords');
     let thesaurus = model.get('json.metadata.resourceInfo.keyword')
       .get(thesaurusId);
@@ -41,20 +42,12 @@ export default Route.extend({
     });
   },
 
-  subbar: 'control/subbar-thesaurus',
-
-  // clearSubbar: function() {
-  //   this.controllerFor('record.show.edit')
-  //     .set('subbar', null);
-  // }.on('deactivate'),
-
   setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controllerFor('record.show.edit')
       .setProperties({
-        subbar: this.subbar,
         onCancel: this.setupModel,
         cancelScope: this,
         thesaurusId: this.thesaurusId
@@ -62,17 +55,6 @@ export default Route.extend({
   },
 
   actions: {
-    willTransition: function (transition) {
-      let parent = this.routeName.substring(0, this.routeName.lastIndexOf(
-        '.'));
-
-      let subbar = transition.targetName === parent + '.index' ? this.controllerFor(
-          parent)
-        .get('subbar') : null;
-
-      this.controllerFor('record.show.edit')
-        .set('subbar', subbar);
-    },
     selectKeyword(node, path) {
       let model = this.currentRouteModel();
       let keywords = model.get('model')

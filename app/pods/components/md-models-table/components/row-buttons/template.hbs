@@ -14,14 +14,14 @@
   {{#if record.validations.isInvalid}}
   <span class="md-error">
     {{fa-icon "exclamation-circle" fixedWidth=true}}
-    {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip danger"}}
+    {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
       This item has errors.
     {{/ember-tooltip}}
   </span>
   {{else if record.validations.hasWarnings}}
   <span class="md-warning">
     {{fa-icon "exclamation-triangle" fixedWidth=true}}
-    {{#ember-tooltip side="right" tooltipClassName="ember-tooltip md-tooltip warning"}}
+    {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip warning"}}
       This item has warnings.
     {{/ember-tooltip}}
   </span>
@@ -30,7 +30,7 @@
     {{#if (get record badge.isVisible)}}
       <span class="md-{{badge.type}}">
         {{fa-icon badge.icon fixedWidth=true}}
-        {{ember-tooltip side="right" tooltipClassName=(concat "ember-tooltip md-tooltip " badge.type) text=badge.tip}}
+        {{ember-tooltip side="right" tooltipClass=(concat "ember-tooltip md-tooltip " badge.type) text=badge.tip}}
       </span>
     {{/if}}
   {{/each}}

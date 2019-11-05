@@ -15,7 +15,9 @@ Router.map(function () {
   this.route('help');
   this.route('settings', function() {
     this.route('validation');
-    this.route('profile');
+    this.route('profile', function() {
+      this.route('manage');
+    });
     this.route('main');
   });
 
@@ -87,8 +89,12 @@ Router.map(function () {
           });
           this.route('distribution', function () {
             this.route('distributor', {
-              path: ':distribution_id/distributor'
-            }, function () {});
+              path: ':distribution_id/distributor/:distributor_id'
+            }, function () {
+              this.route('transfer', {
+                path: 'transfer/:transfer_id'
+              });
+            });
           });
           this.route('associated', function () {
             this.route('resource', {

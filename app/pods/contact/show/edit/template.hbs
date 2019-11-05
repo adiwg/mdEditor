@@ -5,7 +5,7 @@
             {{!-- {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
               {{ember-tooltip text="This record has been modified!" side="right"
-                tooltipClassName="ember-tooltip md-tooltip danger"
+                tooltipClass="ember-tooltip md-tooltip danger"
               }}
             {{/if}} --}}
             {{control/md-status model=model}}
@@ -90,19 +90,17 @@
             placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
         </form>
     </div>
-    <div class="col-sm-2">
-        <div class="md-control-sidebar">
-            {{control/md-crud-buttons
-                model=model
-                doSave=(route-action "saveContact")
-                doCancel=(route-action "cancelContact")
-                doDelete=(route-action "destroyContact")
-                doCopy=(route-action "copyContact")
-            }}
-            {{control/md-scroll-spy}}
+      <div class="md-control-sidebar col-sm-2 no-nav">
+          {{control/md-crud-buttons
+              model=model
+              doSave=(route-action "saveContact")
+              doCancel=(route-action "cancelContact")
+              doDelete=(route-action "destroyContact")
+              doCopy=(route-action "copyContact")
+          }}
+          {{control/md-scroll-spy}}
 
-        </div>
-    </div>
+      </div>
 </div>
 
 {{!-- {{#control/md-modal

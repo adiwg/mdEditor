@@ -1,19 +1,40 @@
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
-import { A } from '@ember/array';
+import { set, getWithDefault } from '@ember/object';
+import { alias, notEmpty, not } from '@ember/object/computed';
+import {
+  validator,
+  buildValidations
+} from 'ember-cp-validations';
 
-export default Component.extend({
+const Validations = buildValidations({
+  'distributor': [
+    validator('array-required', {
+      track: ['distributor'],
+      disabled: notEmpty('model.description'),
+      message: 'At least one distributor is required if description is empty.'
+    })
+  ],
+  'description': [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true,
+      disabled: notEmpty('model.distributor'),
+      message: 'A description is required if a distributor is not entered.'
+    })
+  ]
+});
+
+export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model.json.metadata');
-
     once(this, function() {
-      set(model, 'resourceDistribution', A(
-        getWithDefault(model, 'resourceDistribution', [])));
+      set(this.model, 'distributor',
+        getWithDefault(this.model, 'distributor', []));
     });
   },
+
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -56,9 +77,13 @@ export default Component.extend({
 
   attributeBindings: ['data-spy'],
   tagName: 'section',
+  distributor: alias('model.distributor'),
+  description: alias('model.description'),
+  distributorRequired: not('validations.attrs.distributor.options.array-required.disabled'),
+
   actions: {
-    editDistribution(index){
-      this.editDistribution(index);
+    editDistributor(index){
+      this.editDistributor(index);
     },
     deleteDistribution(index){
       this.deleteDistribution(index);

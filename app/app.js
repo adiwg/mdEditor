@@ -14,7 +14,8 @@ import {
   computed,
   defineProperty,
   getWithDefault,
-  get
+  get,
+  //set
 } from '@ember/object';
 import {
   isNone
@@ -27,7 +28,7 @@ import loadInitializers from 'ember-load-initializers';
 import config from './config/environment';
 
 let App;
-let events =  {
+let events = {
   // add support for the blur event
   blur: 'blur'
 }
@@ -40,6 +41,10 @@ App = Application.extend({
   Resolver,
   customEvents: events
 });
+
+// window.mdProfile = {
+//   // record:{},contact:{},dictionary:{}
+// };
 
 loadInitializers(App, config.modulePrefix);
 
@@ -66,15 +71,28 @@ Component.reopen({
 
     if(path !== undefined) {
       assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
+
+      // generate profile definition
+      // path.split('.').reduce((acc, curr, idx) => {
+      //   let pp = idx ? `${acc}.${curr}` : curr;
+      //   window.console.log(pp);
+      //   if(!get(window.mdProfile, pp)) {
+      //     set(window.mdProfile, pp, {
+      //       //visible: true
+      //     });
+      //   }
+      //   return pp;
+      // }, '');
+
       defineProperty(this, 'isVisible', computed(
         'profile.active',
         function () {
-          let fullPath = 'profiles.' + get(profile, 'active') +
-            '.components.' +
-            path;
+          if(!profile.activeComponents) {
+            return isVisible;
+          }
 
-          //console.log(fullPath);
-          return getWithDefault(profile, fullPath, isVisible);
+          return getWithDefault(profile.activeComponents, path,
+            isVisible);
         }));
     }
   }

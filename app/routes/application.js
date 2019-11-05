@@ -5,6 +5,13 @@ import EmberObject from '@ember/object';
 import { guidFor } from '@ember/object/internals';
 import RSVP from 'rsvp';
 import { inject as service } from '@ember/service';
+import config from 'mdeditor/config/environment';
+
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
 
 const console = window.console;
 
@@ -13,7 +20,7 @@ export default Route.extend({
     this._super(...arguments);
 
     $(window).bind('beforeunload', (evt) => {
-      let dirty = this.currentRouteModel().filter(function(itm) {
+      let dirty = this.currentRouteModel().filter(function (itm) {
         return itm.filterBy('hasDirtyHash').length;
       }).length;
 
@@ -28,7 +35,6 @@ export default Route.extend({
   spotlight: service(),
   slider: service(),
   router: service(),
-
 
   /**
    * Models for sidebar navigation
@@ -66,7 +72,7 @@ export default Route.extend({
 
     let idx = 0;
 
-    let mapFn = function(item) {
+    let mapFn = function (item) {
 
       meta[idx].set('listId', guidFor(item));
       item.set('meta', meta[idx]);
@@ -76,12 +82,32 @@ export default Route.extend({
     };
 
     return RSVP.map(promises, mapFn).then(result => {
-      this.store.findAll('schema', {
-        reload: true
-      });
+      let profiles = [this.store.findAll('profile', {
+          reload: true
+        }),
+        this.store.findAll('schema', {
+          reload: true
+        }),
+        this.store.findAll('custom-profile', {
+          reload: true
+        })
+      ];
 
-      return result;
+      return RSVP.all(profiles).then(() => result);
+
+      // return result;
     });
+  },
+
+  beforeModel() {
+    if(!defaultProfileId) {
+      this.router.replaceWith('error')
+        .then(function (route) {
+          route.controller.set('lastError', new Error(
+            'A default profile ID is not set in "config/environment/APP"'
+          ));
+        });
+    }
   },
 
   setupController(controller, model) {
@@ -107,12 +133,13 @@ export default Route.extend({
       }
 
       return this.replaceWith('error')
-        .then(function(route) {
+        .then(function (route) {
           route.controller.set('lastError', error);
         });
     },
     didTransition() {
-      this.controller.set('currentRoute', this.router.get('currentRouteName'));
+      this.controller.set('currentRoute', this.router.get(
+        'currentRouteName'));
     }
   }
 });

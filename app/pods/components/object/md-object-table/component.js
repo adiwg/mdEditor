@@ -2,18 +2,17 @@ import { gt } from '@ember/object/computed';
 import Component from '@ember/component';
 import EmberObject, {
   get,
-  observer,
   computed
 } from '@ember/object';
 import { typeOf, isEmpty } from '@ember/utils';
 import { getOwner } from '@ember/application';
 import { A } from '@ember/array';
-import $ from 'jquery';
+//import $ from 'jquery';
 import { inject as service } from '@ember/service';
 import Template from 'mdeditor/mixins/object-template';
-import InViewportMixin from 'ember-in-viewport';
+//import InViewportMixin from 'ember-in-viewport';
 
-export default Component.extend(InViewportMixin, Template, {
+export default Component.extend(Template, {
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -56,7 +55,8 @@ export default Component.extend(InViewportMixin, Template, {
   //reset the 'editing' flag
   didUpdateAttrs() {
     this._super(...arguments);
-    this.set('editing', false);
+
+    if(this.editing !== 'adding') this.set('editing', false);
   },
 
   /**
@@ -208,9 +208,18 @@ export default Component.extend(InViewportMixin, Template, {
    *
    * @property alertIfEmpty
    * @type {Boolean}
-   * @default false
+   * @default true
    */
-  alertIfEmpty: false,
+  alertIfEmpty: true,
+
+  /**
+   * The error message to display, if required = true. Overrides the validation
+   * message.
+   *
+   * @property errorMessage
+   * @type {String}
+   * @default undefined
+   */
 
   /**
    * The height to offset from top of container when scrolling.
@@ -303,78 +312,31 @@ export default Component.extend(InViewportMixin, Template, {
 
   editing: false,
 
-  scrollTo(el) {
-    let offset = this.offset;
+  pillColor: computed('items.[]', function () {
+    let count = this.get('items.length') || 0;
 
-    if(this.viewportEntered) {
-      // el.scrollIntoView({
-      //   block: "end",
-      //   behavior: "smooth"
-      // });
+    return (count > 0) ? 'label-info' : 'label-warning';
+  }),
 
-      $('html,body')
-        .animate({
-          scrollTop: $(el)
-            .offset()
-            .top - offset
-        }, 'slow');
-    }
-  },
-
-  editingChanged: observer('editing', function () {
-    // deal with the change
-    //Ember.run.schedule('afterRender', this, function () {
-    let panel = this.$('> .md-object-table > .panel-collapse');
-    let table = panel.find(
-      '> .panel-body > table, > .panel-body > .object-editor');
-    let items = this.items;
-    let editing = this.editing;
-    let el = this.element;
-    let comp = this;
-
-    if(editing === 'adding') {
-      items.pushObject(this.saveItem);
+  alertTipMessage: computed('tipModel', 'tipPath', 'errorMessage', function () {
+    if(this.errorMessage) {
+      return this.errorMessage;
     }
 
-    if(editing === false && items.length) {
+    return this.tipModel ? this.tipModel.get(
+      `validations.attrs.${this.tipPath}.message`) : null;
+  }),
+
+  actions: {
+    deleteItem: function (items, index) {
       let last = Object.keys(items.get('lastObject'));
 
       if(isEmpty(last)) {
         items.popObject();
       }
-    }
 
-    if(panel.hasClass('in')) {
-      let out = editing ? table[0] : table[1];
-      let inn = editing ? table[1] : table[0];
+      if(items.length === 0) return;
 
-      $(out)
-        .fadeOut(100, function () {
-          $(inn)
-            .fadeIn(100, function () {
-              comp.scrollTo(el);
-            });
-        });
-
-      table.toggleClass('fadeOut fadeIn');
-    } else { //add a one-time listener to wait until panel is open
-      panel.one('shown.bs.collapse', function () {
-        table.toggleClass('fadeOut fadeIn');
-        comp.scrollTo(el);
-      });
-      panel.collapse('show');
-    }
-    //});
-  }),
-
-  pillColor: computed('items.[]', function () {
-    let count = this.get('items.length') || 0;
-
-    return(count > 0) ? 'label-info' : 'label-warning';
-  }),
-
-  actions: {
-    deleteItem: function (items, index) {
       items.removeAt(index);
     },
 
@@ -385,10 +347,13 @@ export default Component.extend(InViewportMixin, Template, {
 
       let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
         EmberObject.create({});
+      let items = this.items;
 
       this.set('saveItem', itm);
       this.set('editing', 'adding');
+      items.pushObject(this.saveItem);
       spotlight.setTarget(this.elementId);
+      //this.scrollTo(this.elementId);
     },
 
     editItem: function (items, index) {
@@ -406,5 +371,4 @@ export default Component.extend(InViewportMixin, Template, {
       spotlight.close();
     }
   }
-
 });

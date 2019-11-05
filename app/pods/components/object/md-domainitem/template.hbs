@@ -4,7 +4,7 @@
     model=this
     valuePath="name"
     placeholder="Descriptive name for the domain value."
-    profilePath=(concat profilePath ".domainItem.name")
+    profilePath=(concat profilePath ".name")
     showValidations=true
   }}
   {{input/md-input
@@ -13,7 +13,7 @@
     model=this
     valuePath="value"
     placeholder="Value of the domain item."
-    profilePath=(concat profilePath ".domainItem.value")
+    profilePath=(concat profilePath ".value")
     showValidations=true
   }}
   {{input/md-input
@@ -22,7 +22,7 @@
     model=this
     valuePath="definition"
     placeholder="A brief definition for the domain item."
-    profilePath=(concat profilePath ".domainItem.definition")
+    profilePath=(concat profilePath ".definition")
     showValidations=true
   }}
 
@@ -35,7 +35,6 @@
     data-spy="Item Reference"
     shadow=true
   }}
-      Content
       {{object/md-citation
         model=citation
         profilePath=(concat profilePath ".reference")

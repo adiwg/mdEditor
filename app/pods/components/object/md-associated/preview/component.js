@@ -3,6 +3,11 @@ import { get, computed } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default Component.extend({
+  init() {
+    this._super(...arguments);
+
+    this.profilePath = this.profilePath || 'preview';
+  },
   store: service(),
   classNameBindings: ['muted:text-muted'],
 

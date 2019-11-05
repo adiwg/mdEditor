@@ -126,7 +126,7 @@ export default Route.extend(ScrollTo, {
     data.pushObject(template.create({
       attributes: {
         json: JSON.stringify(json),
-        profile: 'full'
+        //profile: 'full'
       },
       type: 'records'
     }));

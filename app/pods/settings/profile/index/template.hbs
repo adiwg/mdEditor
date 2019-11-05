@@ -1,0 +1,88 @@
+<div class="section-header">
+  <h3>
+    Manage Profiles
+  </h3>
+</div>
+<div class="card-block">
+  {{#if profile}}
+    <h4 class="tab-header">
+      {{#liquid-if profile use="fade" growDuration=100 class="inline-block"}}
+        {{#if profile.isNew}}
+          Add Profile
+        {{else}}
+          {{concat "Edit " profile.title}}
+        {{/if}}
+      {{/liquid-if}}
+      <hr>
+    </h4>
+  {{/if}}
+
+  {{#liquid-if profile use="fade"}}
+    {{#if profile.isNew}}
+      {{object/md-profile/custom record=profile}}
+    {{else if profile}}
+    {{#if profile.validations.hasWarnings}}
+      <div class="alert alert-warning" role="alert">{{fa-icon "exclamation-triangle"}}
+        {{#each profile.validations.warningMessages as |message|}}
+          <span>{{message}} </span>
+        {{/each}}
+      </div>
+    {{/if}}
+      {{object/md-profile/custom record=profile}}
+    {{/if}}
+  {{else}}
+    {{control/md-edit-table
+      data=model
+      columns=columns
+      columnSets=columnSets
+      rowBodyComponent="object/md-profile/form"
+      pageSize=25
+      editRow=(action "editProfile")
+      actionBadges=badges
+    }}
+  {{/liquid-if}}
+</div>
+
+{{#if profile}}
+  {{#if profile.isNew}}
+    {{to-elsewhere
+      named="md-subbar-settings"
+      send=(component "control/md-button"
+      text=(if profile.isNew "Save Profile" "Update Profile")
+      icon="floppy-o"
+      disabled=disableSave
+      class="btn-success btn-lg"
+      click=(action "saveProfile")
+      )
+    }}
+  {{/if}}
+    {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text=(if profile.isNew "Cancel" "Back to List")
+    icon=(if profile.isNew "undo" "arrow-left")
+    class=(if profile.isNew "btn-warning btn-lg" "btn-primary btn-lg")
+    click=(action "cancelEdit")
+    )
+  }}
+{{else}}
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text="Add Profile"
+    icon="plus"
+    class="btn-success btn-lg"
+    click=(action "addProfile")
+    disabled=(if profile true)
+    )
+  }}
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text= "Manage Definitions"
+    icon="gear"
+    class="btn-primary btn-lg"
+    click=(action "manageDefinitions")
+    )
+  }}
+{{/if}}

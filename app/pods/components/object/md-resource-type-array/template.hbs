@@ -6,6 +6,10 @@
   validation=validation
   plain=plain
   required=required
+  errorMessage=errorMessage
+  tipPath=tipPath
+  tipModel=tipModel
+  profilePath=profilePath
   templateClass=templateClass as |type|
 }}
   <td>
@@ -18,12 +22,13 @@
       allowClear=true
       mdCodeName="scope"
       showValidations=true
+      profilePath=(concat profilePath ".resourceType")
       model=item
       path="type" placeholder="Choose type of resource" }}
       {{/with}}
   </td>
   <td>
-    {{input/md-input value=type.item.name
+    {{input/md-input value=type.item.name profilePath=(concat profilePath ".name")
       placeholder="Name of resource"}}
   </td>
 {{/object/md-array-table}}

@@ -3,18 +3,31 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{object/md-objectroute-table
-  items=model.json.metadata.funding
-  collapsible=false
-  isCollapsed=false
-  header="Funding Allocations"
-  shadow=true
-  buttonText="Add Allocation"
-  ellipsis=ellipsis
-  previewTemplate="object/md-funding/preview"
-  editItem=(route-action "editAllocation")
-  verticalButtons=true
-  hideIndex=true
-  condensed=true
-  addSubbar="md-subbar-extra"
+{{#each model.json.metadata.funding as |allocation index|}}
+  {{#layout/md-object-container
+    title="Funding Period"
+    index=index
+    editItem=(route-action "editAllocation")
+    deleteItem=(route-action "deleteAllocation")
+  }}
+    {{object/md-funding/preview item=allocation profilePath="record.funding"}}
+  {{/layout/md-object-container}}
+{{else}}
+  <h3 class="alert alert-info">No Funding Periods found.
+    <button type="button" class="btn btn-lg btn-success" {{action "addAllocation"}}>
+      {{fa-icon "plus"}} Add Funding Period</button>
+  </h3>
+{{/each}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+  clickText="Add Funding Period"
+  clickIcon="plus"
+  clickType="success"
+  click=(route-action "addAllocation")
+  )
 }}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

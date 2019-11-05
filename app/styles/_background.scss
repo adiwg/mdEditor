@@ -1,0 +1,20 @@
+// stylelint-disable declaration-no-important
+// From BootStrap 4.3.1, https://github.com/twbs/bootstrap/blob/8fa0d3010112dca5dd6dd501173415856001ba8b/scss/utilities/_background.scss
+//
+// @each $color, $value in $theme-colors {
+//   @include bg-variant(".bg-#{$color}", $value);
+// }
+//
+// @if $enable-gradients {
+//   @each $color, $value in $theme-colors {
+//     @include bg-gradient-variant(".bg-gradient-#{$color}", $value);
+//   }
+// }
+
+.bg-white {
+  background-color: $white !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}

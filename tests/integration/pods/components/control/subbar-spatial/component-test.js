@@ -1,56 +1,63 @@
-import { click, find, render } from '@ember/test-helpers';
-import Route from '@ember/routing/route';
+import { click, doubleClick, find, findAll, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | control/subbar spatial', function(hooks) {
+module('Integration | Component | control/subbar spatial', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs `{{control/subbar-extent}}`);
+    await render(hbs `{{control/subbar-spatial class="testme"}}`);
 
-    assert.equal(find('button').textContent
+    assert.equal(find('.testme').textContent
       .replace(/[ \n]+/g, '|')
-      .trim(), '|Add|Geographic|Extent');
+      .trim(),
+      '|Zoom|All|Import|Features|Export|Features|Delete|All|Back|to|List|'
+    );
 
     // Template block usage:
     await render(hbs `
-      {{#control/subbar-extent class="testme"}}
+      {{#control/subbar-spatial class="testme"}}
         template block text
-      {{/control/subbar-extent}}
+      {{/control/subbar-spatial}}
     `);
 
     assert.equal(find('.testme').textContent
       .replace(/[ \n]+/g, '|')
       .trim(),
-      '|Add|Geographic|Extent|template|block|text|'
+      '|Zoom|All|Import|Features|Export|Features|Delete|All|Back|to|List|template|block|text|'
     );
   });
 
-  test('fire actions', async function(assert) {
+  test('fire actions', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    assert.expect(1);
+    assert.expect(5);
 
-    var FakeRoute = Route.extend({
-      actions: {
-        addExtent: function () {
-          assert.ok(true, 'calls addExtent action');
-        }
-      }
+    this.setProperties({
+      test1: function () { assert.ok(true, 'called zoomAll'); },
+      test2: function () { assert.ok(true, 'called uploadData'); },
+      test3: function () { assert.ok(true, 'called exportGeoJSON'); },
+      test4: function () {
+        assert.ok(true,
+          'called deleteAllFeatures');
+      },
+      test5: function () { assert.ok(true, 'called toList'); }
     });
 
-    this.set('context', function () {
-      return new FakeRoute();
-    });
+    await render(hbs `{{control/subbar-spatial
+      zoomAll=test1
+      uploadData=test2
+      exportGeoJSON=test3
+      deleteAllFeatures=test4
+      toList=test5
+    }}`);
 
-    await render(hbs `{{control/subbar-extent context=context}}`);
-
-    await click('button');
+    findAll('button').forEach(async btn => await click(btn));
+    await doubleClick('.btn-danger');
   });
 });

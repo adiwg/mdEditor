@@ -13,15 +13,31 @@ export default Table.extend({
    * @required
    */
 
+  /**
+   * Comma separated string of addtional route parameters
+   *
+   * @property routeParams
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * Indicates whether to show alert if no items are present
+   *
+   * @property alertIfEmpty
+   * @type {Boolean}
+   * @default "true"
+   */
+
   alertIfEmpty: true,
 
   /**
-  * Indicates whether to immediately navigate to the edit route on add
-  *
-  * @property editOnAdd
-  * @type {Boolean}
-  * @default "true"
-  */
+   * Indicates whether to immediately navigate to the edit route on add
+   *
+   * @property editOnAdd
+   * @type {Boolean}
+   * @default "true"
+   */
   editOnAdd: true,
 
   /**
@@ -55,12 +71,13 @@ export default Table.extend({
       items.pushObject(itm);
 
       if(this.editOnAdd) {
-        editItem(items.indexOf(itm));
+        editItem(items.indexOf(itm), this.routeParams,
+          `${this.scrollToId}-${this.items.length - 1}`);
       }
     },
 
-    editItem: function (items, index) {
-      this.editItem(index);
+    editItem: function (items, index, scrollTo) {
+      this.editItem(index, this.routeParams, scrollTo);
     }
   }
 });

@@ -1,0 +1,15 @@
+{{!-- {{#layout/md-card
+  collapsible=false
+  collapsed=false
+  shadow=true
+  block=false
+}}
+{{yield}} --}}
+{{#if (v-get record "config" "isInvalid")}}
+  <div class="alert alert-danger" role="alert">{{fa-icon "exclamation"}}
+    {{v-get record "config" "message"}}
+  </div>
+{{/if}}
+
+{{object/md-profile/form record=record}}
+{{!-- {{/layout/md-card}} --}}
