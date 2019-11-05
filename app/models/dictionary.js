@@ -17,6 +17,11 @@ const {
 } = config;
 
 const Validations = buildValidations({
+  'json.dictionaryId': validator(
+    'presence', {
+      presence: true,
+      ignoreBlank: true,
+    }),
   'json.dataDictionary.citation.title': validator('presence', {
     presence: true,
     ignoreBlank: true
@@ -56,6 +61,12 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
+  init() {
+    this._super(...arguments);
+
+    this.on('didLoad', this, this.assignId);
+  },
+
   profile: DS.attr('string', {
     defaultValue: defaultProfileId
   }),
@@ -112,12 +123,19 @@ export default Model.extend(Validations, Copyable, {
     return errors;
   }),
 
+  assignId(force) {
+    if(force || !this.dictionaryId) {
+      this.set('json.dictionaryId', uuidV4());
+    }
+  },
+
   copy() {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
 
     json.set('dataDictionary.citation.title', `Copy of ${name}`);
+    this.assignId(true);
 
     return this.store.createRecord('dictionary', {
       json: json

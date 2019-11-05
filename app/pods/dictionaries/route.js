@@ -4,6 +4,10 @@ import { inject as service } from '@ember/service';
 const columns = [{
   propertyName: 'title',
   title: 'Title'
+},{
+  propertyName: 'dictionaryId',
+  title: 'ID',
+  isHidden: true
 }, {
   propertyName: 'json.dataDictionary.subject',
   title: 'Subject'

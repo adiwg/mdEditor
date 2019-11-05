@@ -2,17 +2,9 @@ import Service from '@ember/service';
 import {
   inject as service
 } from '@ember/service';
-//import request from 'ember-ajax/request';
-//import { task, all, timeout } from 'ember-concurrency';
 import { computed, get } from '@ember/object';
 import { union, map } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
-// import {
-//   // isAjaxError,
-//   isNotFoundError,
-//   // isForbiddenError
-// } from 'ember-ajax/errors';
-// import semver from 'semver';
 import config from 'mdeditor/config/environment';
 
 const {
@@ -20,8 +12,6 @@ const {
     defaultProfileId
   }
 } = config;
-
-//const fullId = 'org.adiwg.profile.full';
 
 /**
  * Custom Profile service
@@ -36,16 +26,6 @@ export default Service.extend({
     this._super(...arguments);
 
     this.customProfiles = this.get('store').peekAll('custom-profile');
-    //this.customProfiles = this.get('store').peekAll('custom-profile');
-    // this.coreProfiles = this.definitions.coreProfiles.map(function (itm) {
-    //   return {
-    //     id: itm.namespace + '.' + itm.identifier,
-    //     title: itm.title,
-    //     description: itm.description,
-    //     definition: itm
-    //   }
-    // });
-
   },
   flashMessages: service(),
   store: service(),
@@ -97,6 +77,7 @@ export default Service.extend({
   activeSchemas: computed('active', function () {
     return this.getActiveProfile().schemas;
   }),
+
   /**
    * Get the active profile.
    *
@@ -119,7 +100,7 @@ export default Service.extend({
       this.flashMessages
         .info(
           `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`, {
-            timeout: 7000
+            sticky: true
           }
         );
 
@@ -127,77 +108,10 @@ export default Service.extend({
     }
 
     this.flashMessages
-      .warning(`Profile "${active}" not found. Using default profile.`);
+      .warning(`Profile "${active}" not found. Using default profile.`, {
+        sticky: true
+      });
 
     return this.defaultProfile;
-  },
-
-  // /**
-  //  * An object defining the available profiles
-  //  *
-  //  * @type {Object} profiles
-  //  */
-
-  // fetchDefinition: task(function* (uri) {
-  //   try {
-  //     yield timeout(1000);
-  //
-  //     let response = yield request(uri);
-  //
-  //     if(response && !semver.valid(response.version)) {
-  //       throw new Error("Invalid version");
-  //     }
-  //
-  //     return response;
-  //   } catch (error) {
-  //     if(isNotFoundError(error)) {
-  //       this.flashMessages
-  //         .danger(
-  //           `Could not load profile definition from ${uri}. Definition not found.`
-  //         );
-  //     } else {
-  //       this.flashMessages
-  //         .danger(
-  //           `Could not load profile definition from "${uri}". Error: ${error.message}`
-  //         );
-  //     }
-  //   }
-  // }).drop(),
-
-  // checkForUpdates: task(function* (records) {
-  //   yield timeout(1000);
-  //
-  //   yield all(records.map(itm => {
-  //     if(itm.validations.attrs.uri.isInvalid) {
-  //       this.flashMessages
-  //         .warning(
-  //           `Did not load definition for "${itm.title}". URL is Invalid.`
-  //         );
-  //       return;
-  //     }
-  //
-  //     return request(itm.uri).then(response => {
-  //       // `response` is the data from the server
-  //       if(semver.valid(response.version)) {
-  //         itm.set('remoteVersion', response.version);
-  //       } else {
-  //         throw new Error("Invalid version");
-  //       }
-  //
-  //       return response;
-  //     }).catch(error => {
-  //       if(isNotFoundError(error)) {
-  //         this.flashMessages
-  //           .danger(
-  //             `Could not load definition for "${itm.title}". Definition not found.`
-  //           );
-  //       } else {
-  //         this.flashMessages
-  //           .danger(
-  //             `Could not load definition for "${itm.title}". Error: ${error.message}`
-  //           );
-  //       }
-  //     });
-  //   }));
-  // }).drop(),
+  }
 });

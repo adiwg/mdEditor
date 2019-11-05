@@ -47,6 +47,7 @@ module.exports = function(environment) {
       // flash message defaults
       timeout: 5000,
       extendedTimeout: 1500,
+      preventDuplicates: true
       //sticky: true
     },
     'ember-cli-bootstrap-datetimepicker': {

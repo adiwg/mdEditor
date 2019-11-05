@@ -21,11 +21,11 @@
 
 {{to-elsewhere
   named="md-subbar-buttons"
-  send=(component "control/subbar-link"
-    text="Back to Distributor"
-    icon="arrow-left"
-    type="primary"
-    route="record.show.edit.distribution.distributor"
+  send=(component "control/md-button"
+  text="Back to Distributor"
+  icon="arrow-left"
+  class="btn-primary btn-lg"
+  click=(route-action "backToDistributor")
   )
 }}
 
