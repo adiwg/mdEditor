@@ -1,7 +1,54 @@
 # Change Log
 
-## [v0.8.0](https://github.com/adiwg/mdEditor/tree/v0.8.0)
+## [v0.9.0](https://github.com/adiwg/mdEditor/tree/v0.9.0)
 
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.8.0...v0.9.0)
+
+**Implemented enhancements:**
+
+- Support longer profile names [\#333](https://github.com/adiwg/mdEditor/issues/333)
+- Add applicationProfile and protocolRequest to onlineResource [\#332](https://github.com/adiwg/mdEditor/issues/332)
+- Check for properties.id when importing features [\#330](https://github.com/adiwg/mdEditor/issues/330)
+- Support collapsible text-area [\#329](https://github.com/adiwg/mdEditor/issues/329)
+- Show alerts when tables are empty [\#327](https://github.com/adiwg/mdEditor/issues/327)
+- Transfer Option in distributor should be an array [\#324](https://github.com/adiwg/mdEditor/issues/324)
+- Re-factor Extent section [\#320](https://github.com/adiwg/mdEditor/issues/320)
+- Add 19115-1 to translation options [\#316](https://github.com/adiwg/mdEditor/issues/316)
+- Distribution page layout [\#290](https://github.com/adiwg/mdEditor/issues/290)
+- Duplicate Allocation buttons [\#282](https://github.com/adiwg/mdEditor/issues/282)
+- Change empty array view [\#253](https://github.com/adiwg/mdEditor/issues/253)
+- Copy and delete actions for models [\#53](https://github.com/adiwg/mdEditor/issues/53)
+- Add version\(dev\) badge? [\#50](https://github.com/adiwg/mdEditor/issues/50)
+- Add not found route [\#40](https://github.com/adiwg/mdEditor/issues/40)
+
+**Fixed bugs:**
+
+- The back button in ...distributor.transfer is broken [\#343](https://github.com/adiwg/mdEditor/issues/343)
+- Add navigation button to dictionary.show.edit.entity.import [\#337](https://github.com/adiwg/mdEditor/issues/337)
+- Fix rendering of secondary navigation bar [\#334](https://github.com/adiwg/mdEditor/issues/334)
+- Route model setup is not run after cancel [\#326](https://github.com/adiwg/mdEditor/issues/326)
+- Typo in bbox west longitude placeholder text [\#325](https://github.com/adiwg/mdEditor/issues/325)
+- Scroll spy length limited by displayed page length [\#312](https://github.com/adiwg/mdEditor/issues/312)
+- Content is lost or not being saved [\#306](https://github.com/adiwg/mdEditor/issues/306)
+- Secondary Navigation Bar does not adjust with page resize [\#280](https://github.com/adiwg/mdEditor/issues/280)
+- ScrollSpy highlighting wrong menu item [\#196](https://github.com/adiwg/mdEditor/issues/196)
+
+**Closed issues:**
+
+- Add support for validating with custom schema [\#299](https://github.com/adiwg/mdEditor/issues/299)
+- Lineage Process Step description [\#292](https://github.com/adiwg/mdEditor/issues/292)
+- Attributes array panel "Code Name" not indicated 'required' [\#277](https://github.com/adiwg/mdEditor/issues/277)
+- Metadata Record Distribution starts with view [\#271](https://github.com/adiwg/mdEditor/issues/271)
+- Remove "Back to Overview" button from Dictionary windows [\#268](https://github.com/adiwg/mdEditor/issues/268)
+- Fast Scrolling list doesn't completely display on a small monitor [\#236](https://github.com/adiwg/mdEditor/issues/236)
+- Spatial extent component [\#49](https://github.com/adiwg/mdEditor/issues/49)
+
+**Merged pull requests:**
+
+- Feature 176 custom profile [\#323](https://github.com/adiwg/mdEditor/pull/323) ([jlblcc](https://github.com/jlblcc))
+- Feature 299 custom schema [\#318](https://github.com/adiwg/mdEditor/pull/318) ([jlblcc](https://github.com/jlblcc))
+
+## [v0.8.0](https://github.com/adiwg/mdEditor/tree/v0.8.0) (2019-04-23)
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.7.1...v0.8.0)
 
 **Implemented enhancements:**
@@ -10,7 +57,6 @@
 
 **Fixed bugs:**
 
-- Content is lost or not being saved [\#306](https://github.com/adiwg/mdEditor/issues/306)
 - Version bound to incorrect property in md-transfer template  [\#305](https://github.com/adiwg/mdEditor/issues/305)
 - Once Date Type is set it cannot be blanked out; mismatch between date and date type [\#304](https://github.com/adiwg/mdEditor/issues/304)
 - Incorrect title on Import Data section [\#295](https://github.com/adiwg/mdEditor/issues/295)
@@ -23,6 +69,7 @@
 
 **Merged pull requests:**
 
+- Update CHANGELOG [\#311](https://github.com/adiwg/mdEditor/pull/311) ([jlblcc](https://github.com/jlblcc))
 - More Bug fixes for v0.8.0 [\#310](https://github.com/adiwg/mdEditor/pull/310) ([jlblcc](https://github.com/jlblcc))
 - v0.8.0 [\#309](https://github.com/adiwg/mdEditor/pull/309) ([jlblcc](https://github.com/jlblcc))
 
@@ -99,7 +146,6 @@
 - In Distribution, cannot edit or delete online option after creation [\#239](https://github.com/adiwg/mdEditor/issues/239)
 - "Point of Contacts" vs "Points of Contact" [\#230](https://github.com/adiwg/mdEditor/issues/230)
 - Contacts inherited from associated records [\#225](https://github.com/adiwg/mdEditor/issues/225)
-- ScrollSpy highlighting wrong menu item [\#196](https://github.com/adiwg/mdEditor/issues/196)
 
 **Closed issues:**
 
