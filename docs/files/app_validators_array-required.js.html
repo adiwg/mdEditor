@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -258,13 +258,16 @@ import { isArray } from &#x27;@ember/array&#x27;;
 import BaseValidator from &#x27;ember-cp-validations/validators/base&#x27;;
 
 const ArrayRequired = BaseValidator.extend({
-  validate(value) {
+  validate(value, options) {
     if(isArray(value)) {
       if(value.length) {
         return true;
       }
     }
-    return &#x27;At least one item is required.&#x27;;
+
+    options.item = this.options.description || this.options.attribute;
+
+    return this.createErrorMessage(&#x27;arrayRequired&#x27;, value, options);
   }
 });
 
@@ -289,6 +292,8 @@ ArrayRequired.reopenClass({
     assert(
       &#x60;[validator:array-valid] [${attribute}] option &#x27;track&#x27; must be an array&#x60;,
       isArray(opts));
+
+    if(!isArray(opts)) return track;
 
     opts.forEach((itm) =&gt; {
       track.push(&#x60;model.${attribute}.@each.${itm}&#x60;);

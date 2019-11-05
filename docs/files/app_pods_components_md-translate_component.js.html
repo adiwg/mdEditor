@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -324,6 +324,11 @@ export default Component.extend({
       type: &#x27;text/html&#x27;,
       tip: &#x27;HTML &quot;human-readable&quot; and printable report of the metadata content&#x27;
     }, {
+      name: &#x27;ISO 19115-1&#x27;,
+      value: &#x27;iso19115_1&#x27;,
+      type: &#x27;application/xml&#x27;,
+      tip: &#x27;International Standards Organization Geographic Information - Metadata 19115-1:2014&#x27;
+    }, {
       name: &#x27;ISO 19115-2&#x27;,
       value: &#x27;iso19115_2&#x27;,
       type: &#x27;application/xml&#x27;,
@@ -358,15 +363,15 @@ export default Component.extend({
     return type[get(this, &#x27;errorLevel&#x27;)];
   }),
 
-errorSubTitle: computed(&#x27;subTitle&#x27;, function() {
-  let err = get(this, &#x27;errors&#x27;);
+  errorSubTitle: computed(&#x27;subTitle&#x27;, function () {
+    let err = get(this, &#x27;errors&#x27;);
 
-  if(err.length) {
-    return get(this, &#x27;errorTitle&#x27;) + &#x27; ocurred during translation.&#x27;;
-  }
+    if(err.length) {
+      return get(this, &#x27;errorTitle&#x27;) + &#x27; ocurred during translation.&#x27;;
+    }
 
-  return null;
-}),
+    return null;
+  }),
   writeObj: computed(&#x27;writer&#x27;, function () {
     return get(this, &#x27;writerOptions&#x27;)
       .findBy(&#x27;value&#x27;, get(this,

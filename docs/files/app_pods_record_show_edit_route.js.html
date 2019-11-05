@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -254,16 +254,10 @@
     <pre class="prettyprint linenums">
 import { inject as service } from &#x27;@ember/service&#x27;;
 import Route from &#x27;@ember/routing/route&#x27;;
-import { get } from &#x27;@ember/object&#x27;;
 import HashPoll from &#x27;mdeditor/mixins/hash-poll&#x27;;
-import {
-  once
-} from &#x27;@ember/runloop&#x27;;
-import {
-  getOwner
-} from &#x27;@ember/application&#x27;;
+import DoCancel from &#x27;mdeditor/mixins/cancel&#x27;;
 
-export default Route.extend(HashPoll, {
+export default Route.extend(HashPoll, DoCancel, {
   init() {
     this._super(...arguments);
 
@@ -278,7 +272,7 @@ export default Route.extend(HashPoll, {
    *
    * @return {Ember.Service} profile
    */
-  profile: service(),
+  profile: service(&#x27;custom-profile&#x27;),
 
   /**
    * The route activate hook, sets the profile.
@@ -286,8 +280,7 @@ export default Route.extend(HashPoll, {
   afterModel(model) {
     this._super(...arguments);
 
-    this.profile
-      .set(&#x27;active&#x27;, model.get(&#x27;profile&#x27;));
+    this.profile.set(&#x27;active&#x27;, model.get(&#x27;profile&#x27;));
   },
 
   actions: {
@@ -297,20 +290,20 @@ export default Route.extend(HashPoll, {
      * @name   updateProfile
      * @param  {String} profile The new profile.
      */
-    updateProfile(profile) {
-      this.profile
-        .set(&#x27;active&#x27;, profile);
-      this.modelFor(&#x27;record.show.edit&#x27;)
-        .save();
-    },
+    // updateProfile(profile) {
+    //   this.profile
+    //     .set(&#x27;active&#x27;, profile);
+    //   this.modelFor(&#x27;record.show.edit&#x27;)
+    //     .save();
+    // },
 
     saveRecord: function () {
       let model = this.currentRouteModel();
       model
         .save()
         .then(() =&gt; {
-          this.flashMessages
-            .success(&#x60;Saved Record: ${model.get(&#x27;title&#x27;)}&#x60;);
+          this.flashMessages.success(
+            &#x60;Saved Record: ${model.get(&#x27;title&#x27;)}&#x60;);
         });
     },
 
@@ -328,10 +321,6 @@ export default Route.extend(HashPoll, {
     cancelRecord: function () {
       let model = this.currentRouteModel();
       let message = &#x60;Cancelled changes to Record: ${model.get(&#x27;title&#x27;)}&#x60;;
-      let controller = this.controller;
-      let same = !controller.cancelScope || getOwner(this)
-        .lookup(&#x27;controller:application&#x27;)
-        .currentPath === get(controller,&#x27;cancelScope.routeName&#x27;);
 
       if(this.get(&#x27;settings.data.autoSave&#x27;)) {
         let json = model.get(&#x27;jsonRevert&#x27;);
@@ -339,17 +328,7 @@ export default Route.extend(HashPoll, {
         if(json) {
           model.set(&#x27;json&#x27;, JSON.parse(json));
 
-          if(controller.onCancel) {
-            once(() =&gt; {
-              if(same) {
-                controller.onCancel.call(controller.cancelScope ||
-                  this);
-              }
-              this.refresh();
-              controller.set(&#x27;onCancel&#x27;, null);
-              controller.set(&#x27;cancelScope&#x27;, null);
-            });
-          }
+          this.doCancel();
 
           this.flashMessages
             .warning(message);
@@ -361,19 +340,8 @@ export default Route.extend(HashPoll, {
       model
         .reload()
         .then(() =&gt; {
-          if(controller.onCancel) {
-            once(() =&gt; {
-              if(same) {
-                controller.onCancel.call(controller.cancelScope ||
-                  this);
-              }
-              this.refresh();
-              controller.set(&#x27;onCancel&#x27;, null);
-              controller.set(&#x27;cancelScope&#x27;, null);
-            });
-          }
-          this.flashMessages
-            .warning(message);
+          this.doCancel();
+          this.flashMessages.warning(message);
         });
     },
 

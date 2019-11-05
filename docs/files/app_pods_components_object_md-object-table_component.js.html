@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -256,18 +256,17 @@ import { gt } from &#x27;@ember/object/computed&#x27;;
 import Component from &#x27;@ember/component&#x27;;
 import EmberObject, {
   get,
-  observer,
   computed
 } from &#x27;@ember/object&#x27;;
 import { typeOf, isEmpty } from &#x27;@ember/utils&#x27;;
 import { getOwner } from &#x27;@ember/application&#x27;;
 import { A } from &#x27;@ember/array&#x27;;
-import $ from &#x27;jquery&#x27;;
+//import $ from &#x27;jquery&#x27;;
 import { inject as service } from &#x27;@ember/service&#x27;;
 import Template from &#x27;mdeditor/mixins/object-template&#x27;;
-import InViewportMixin from &#x27;ember-in-viewport&#x27;;
+//import InViewportMixin from &#x27;ember-in-viewport&#x27;;
 
-export default Component.extend(InViewportMixin, Template, {
+export default Component.extend(Template, {
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -310,7 +309,8 @@ export default Component.extend(InViewportMixin, Template, {
   //reset the &#x27;editing&#x27; flag
   didUpdateAttrs() {
     this._super(...arguments);
-    this.set(&#x27;editing&#x27;, false);
+
+    if(this.editing !== &#x27;adding&#x27;) this.set(&#x27;editing&#x27;, false);
   },
 
   /**
@@ -462,9 +462,18 @@ export default Component.extend(InViewportMixin, Template, {
    *
    * @property alertIfEmpty
    * @type {Boolean}
-   * @default false
+   * @default true
    */
-  alertIfEmpty: false,
+  alertIfEmpty: true,
+
+  /**
+   * The error message to display, if required = true. Overrides the validation
+   * message.
+   *
+   * @property errorMessage
+   * @type {String}
+   * @default undefined
+   */
 
   /**
    * The height to offset from top of container when scrolling.
@@ -557,78 +566,31 @@ export default Component.extend(InViewportMixin, Template, {
 
   editing: false,
 
-  scrollTo(el) {
-    let offset = this.offset;
+  pillColor: computed(&#x27;items.[]&#x27;, function () {
+    let count = this.get(&#x27;items.length&#x27;) || 0;
 
-    if(this.viewportEntered) {
-      // el.scrollIntoView({
-      //   block: &quot;end&quot;,
-      //   behavior: &quot;smooth&quot;
-      // });
+    return (count &gt; 0) ? &#x27;label-info&#x27; : &#x27;label-warning&#x27;;
+  }),
 
-      $(&#x27;html,body&#x27;)
-        .animate({
-          scrollTop: $(el)
-            .offset()
-            .top - offset
-        }, &#x27;slow&#x27;);
-    }
-  },
-
-  editingChanged: observer(&#x27;editing&#x27;, function () {
-    // deal with the change
-    //Ember.run.schedule(&#x27;afterRender&#x27;, this, function () {
-    let panel = this.$(&#x27;&gt; .md-object-table &gt; .panel-collapse&#x27;);
-    let table = panel.find(
-      &#x27;&gt; .panel-body &gt; table, &gt; .panel-body &gt; .object-editor&#x27;);
-    let items = this.items;
-    let editing = this.editing;
-    let el = this.element;
-    let comp = this;
-
-    if(editing === &#x27;adding&#x27;) {
-      items.pushObject(this.saveItem);
+  alertTipMessage: computed(&#x27;tipModel&#x27;, &#x27;tipPath&#x27;, &#x27;errorMessage&#x27;, function () {
+    if(this.errorMessage) {
+      return this.errorMessage;
     }
 
-    if(editing === false &amp;&amp; items.length) {
+    return this.tipModel ? this.tipModel.get(
+      &#x60;validations.attrs.${this.tipPath}.message&#x60;) : null;
+  }),
+
+  actions: {
+    deleteItem: function (items, index) {
       let last = Object.keys(items.get(&#x27;lastObject&#x27;));
 
       if(isEmpty(last)) {
         items.popObject();
       }
-    }
 
-    if(panel.hasClass(&#x27;in&#x27;)) {
-      let out = editing ? table[0] : table[1];
-      let inn = editing ? table[1] : table[0];
+      if(items.length === 0) return;
 
-      $(out)
-        .fadeOut(100, function () {
-          $(inn)
-            .fadeIn(100, function () {
-              comp.scrollTo(el);
-            });
-        });
-
-      table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
-    } else { //add a one-time listener to wait until panel is open
-      panel.one(&#x27;shown.bs.collapse&#x27;, function () {
-        table.toggleClass(&#x27;fadeOut fadeIn&#x27;);
-        comp.scrollTo(el);
-      });
-      panel.collapse(&#x27;show&#x27;);
-    }
-    //});
-  }),
-
-  pillColor: computed(&#x27;items.[]&#x27;, function () {
-    let count = this.get(&#x27;items.length&#x27;) || 0;
-
-    return(count &gt; 0) ? &#x27;label-info&#x27; : &#x27;label-warning&#x27;;
-  }),
-
-  actions: {
-    deleteItem: function (items, index) {
       items.removeAt(index);
     },
 
@@ -639,10 +601,13 @@ export default Component.extend(InViewportMixin, Template, {
 
       let itm = typeOf(Template) === &#x27;class&#x27; ? Template.create(owner.ownerInjection()) :
         EmberObject.create({});
+      let items = this.items;
 
       this.set(&#x27;saveItem&#x27;, itm);
       this.set(&#x27;editing&#x27;, &#x27;adding&#x27;);
+      items.pushObject(this.saveItem);
       spotlight.setTarget(this.elementId);
+      //this.scrollTo(this.elementId);
     },
 
     editItem: function (items, index) {
@@ -660,7 +625,6 @@ export default Component.extend(InViewportMixin, Template, {
       spotlight.close();
     }
   }
-
 });
 
     </pre>

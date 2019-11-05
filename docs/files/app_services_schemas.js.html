@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -254,20 +254,18 @@
     <pre class="prettyprint linenums">
 import Service from &#x27;@ember/service&#x27;;
 import RefParser from &#x27;json-schema-ref-parser&#x27;;
-import Ajv from &#x27;ajv&#x27;;
-// import Cache from &#x27;ajv/lib/cache&#x27;;
-// import request from &#x27;ember-ajax/request&#x27;;
-// import regex from &#x27;mdeditor/models/schema&#x27;;
-import * as draft4 from &#x27;ajv/lib/refs/json-schema-draft-04&#x27;;
-import { task, timeout } from &#x27;ember-concurrency&#x27;;
+import request from &#x27;ember-ajax/request&#x27;;
+import { task, all, timeout } from &#x27;ember-concurrency&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
+import { filterBy } from &#x27;@ember/object/computed&#x27;;
+import {
+  // isAjaxError,
+  isNotFoundError,
+  // isForbiddenError
+} from &#x27;ember-ajax/errors&#x27;;
+import semver from &#x27;semver&#x27;;
 
 const parser = new RefParser();
-const options = {
-  verbose: true,
-  allErrors: true,
-  removeAdditional: false,
-  schemaId: &#x27;auto&#x27;
-};
 
 export default Service.extend({
   init() {
@@ -282,16 +280,12 @@ export default Service.extend({
      */
     this.parser = parser;
 
-    // this.cache = new Cache();
-    // this.ajv = new Ajv({
-    //   loadSchema: this.loadSchema,
-    //   cache:this.cache,
-    //   schemaId: &#x27;auto&#x27;
-    // });
-    // this.ajv.addMetaSchema(draft4);
+    this.schemas = this.store.peekAll(&#x27;schema&#x27;);
   },
-
-fetchSchemas: task(function * (url) {
+  store: service(),
+  flashMessages: service(),
+  globalSchemas: filterBy(&#x27;schemas&#x27;,&#x27;isGlobal&#x27;),
+  fetchSchemas: task(function* (url) {
     yield timeout(1000);
 
     return yield this.parser.resolve(url).then($refs =&gt; {
@@ -307,45 +301,52 @@ fetchSchemas: task(function * (url) {
     })
   }).drop(),
 
-  compileSchemas(schemas) {
-    let ajv = new Ajv(options);
-
-    ajv.addMetaSchema(draft4);
-    ajv.addSchema(schemas);
-
-    return ajv;
-  }
-  // baseURL: null,
-
-  // loadSchema(url) {
-  //   let options = {
-  //     // request options
-  //   };
-  //   let _url = url.match(regex)? url : this.baseURL + url;
+  // compileSchemas(schemas) {
+  //   let ajv = ajvErrors(new Ajv(options));
   //
-  //   return request(_url, options).then(response =&gt; {
-  //     // &#x60;response&#x60; is the data from the server
-  //     return response;
-  //   });
+  //
+  //   ajv.addMetaSchema(draft4);
+  //   ajv.addSchema(schemas);
+  //
+  //   return ajv;
   // },
 
-  // compileSchemas(url) {
-  //   //set baseURL for relative refs
-  //   this.baseURL = url.substring(0,url.lastIndexOf(&#x27;/&#x27;)+1);
-  //
-  //   request(url).then(response =&gt; {
-  //     console.log(response);
-  //
-  //     this.ajv.removeSchema();
-  //     this.ajv.compileAsync(response).then(() =&gt; {
-  //       return this.cache;
-  //     }).catch(error =&gt; {
-  //       console.log(error);
-  //     });
-  //   }).catch(error =&gt; {
-  //     console.log(error);
-  //   });
-  // }
+  checkForUpdates: task(function* (records) {
+    yield timeout(1000);
+
+    yield all(records.map(itm =&gt; {
+      if(itm.validations.attrs.uri.isInvalid) {
+        this.flashMessages
+          .warning(
+            &#x60;Did not load schema for &quot;${itm.title}&quot;. URL is Invalid.&#x60;
+          );
+        return;
+      }
+
+      return request(itm.uri).then(response =&gt; {
+        // &#x60;response&#x60; is the data from the server
+        if(semver.valid(response.version)) {
+          itm.set(&#x27;remoteVersion&#x27;, response.version);
+        } else {
+          throw new Error(&quot;Invalid version&quot;);
+        }
+
+        return response;
+      }).catch(error =&gt; {
+        if(isNotFoundError(error)) {
+          this.flashMessages
+            .danger(
+              &#x60;Could not load schema for &quot;${itm.title}&quot;. Schema not found.&#x60;
+            );
+        } else {
+          this.flashMessages
+            .danger(
+              &#x60;Could not load schema for &quot;${itm.title}&quot;. Error: ${error.message}&#x60;
+            );
+        }
+      });
+    }));
+  }).drop(),
 
 });
 

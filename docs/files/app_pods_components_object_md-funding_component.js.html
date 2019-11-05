@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -253,7 +253,9 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import Component from &#x27;@ember/component&#x27;;
+import { computed } from &#x27;@ember/object&#x27;;
 import { alias, notEmpty } from &#x27;@ember/object/computed&#x27;;
+import { isPresent } from &#x27;@ember/utils&#x27;;
 import { once } from &#x27;@ember/runloop&#x27;;
 import { set, getWithDefault, get } from &#x27;@ember/object&#x27;;
 import {
@@ -263,19 +265,36 @@ import {
 
 const Validations = buildValidations({
   &#x27;allocation&#x27;: [
-    validator(&#x27;presence&#x27;, {
-      presence: true,
-      ignoreBlank: true,
-      disabled: notEmpty(&#x27;model.timePeriod&#x27;)
+    validator(&#x27;array-required&#x27;, {
+      track: [&#x27;allocation&#x27;],
+      disabled: computed(
+        &#x27;model.timePeriod.{startDateTime,endDateTime}&#x27;,
+        function () {
+          let tp = this.model.timePeriod;
+
+          return isPresent(tp) &amp;&amp; (tp.startDateTime || tp.endDateTime);
+        })
     })
   ],
-  &#x27;timePeriod&#x27;: [
-    validator(&#x27;presence&#x27;, {
-      presence: true,
-      ignoreBlank: true,
-      disabled: notEmpty(&#x27;model.allocation&#x27;)
-    })
-  ]
+  &#x27;timePeriod&#x27;: {
+    disabled: notEmpty(&#x27;model.allocation&#x27;),
+    validators: [
+      validator(&#x27;presence&#x27;, {
+        presence: true,
+        ignoreBlank: true,
+      }),
+      validator(&#x27;inline&#x27;, {
+        dependentKeys:[&#x27;model.timePeriod.startDateTime&#x27;, &#x27;model.timePeriod.endDateTime&#x27;],
+        validate(value, options, model) {
+          return model.get(&#x27;timePeriod.startDateTime&#x27;) || model.get(
+              &#x27;timePeriod.endDateTime&#x27;) ? true :
+            &#x27;Time Period should have one of Start Date or End Date.&#x27;;
+        }
+      })
+    ]
+  }
+}, {
+  message: &#x27;Either an Allocation or valid Time Period is required.&#x27;
 });
 
 export default Component.extend(Validations, {
@@ -284,7 +303,7 @@ export default Component.extend(Validations, {
 
     let model = get(this, &#x27;model&#x27;);
 
-    once(this, function() {
+    once(this, function () {
       set(model, &#x27;allocation&#x27;, getWithDefault(model, &#x27;allocation&#x27;, []));
       set(model, &#x27;timePeriod&#x27;, getWithDefault(model, &#x27;timePeriod&#x27;, {}));
     });

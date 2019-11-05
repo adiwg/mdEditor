@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -252,25 +252,32 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import $ from &#x27;jquery&#x27;;
-import { computed } from &#x27;@ember/object&#x27;;
-import { inject as service } from &#x27;@ember/service&#x27;;
 import Component from &#x27;@ember/component&#x27;;
+import EmberObject from &#x27;@ember/object&#x27;;
+import { computed, get, defineProperty } from &#x27;@ember/object&#x27;;
+import { alias } from &#x27;@ember/object/computed&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
 import ResizeAware from &#x27;ember-resize/mixins/resize-aware&#x27;;
 
 export default Component.extend(ResizeAware, {
-  profile: service(&#x27;profile&#x27;),
+  customProfile: service(&#x27;custom-profile&#x27;),
   resizeService: service(&#x27;resize&#x27;),
-  links: computed(&#x27;profile.active&#x27;, function () {
-    const profile = this.profile
-      .getActiveProfile();
-    this.debouncedDidResize();
-
-    return profile.secondaryNav;
-  }),
 
   resizeWidthSensitive: true,
   resizeHeightSensitive: true,
+
+  navPadding: 5,
+  navWidth: 0,
+
+  /**
+  * Array of nav links. If not supplied, the links will be pulled from the
+  * active profile.
+  *
+  * @property navLinks
+  * @type {Array}
+  * @default &quot;undefined&quot;
+  * @optional
+  */
 
   /**
    * translated &quot;more&quot; text
@@ -280,139 +287,61 @@ export default Component.extend(ResizeAware, {
    */
   more: &#x27;More&#x27;,
 
-  /**
-   * selector for the navbar container
-   *
-   * @name parent
-   * @type {String}
-   */
-  parent: &#x27;#md-navbars&#x27;,
+  links: computed(&#x27;customProfile.active&#x27;, &#x27;model&#x27;, &#x27;navWidth&#x27;, function () {
+    const active = this.customProfile.getActiveProfile();
+    const modelName = this.get(&#x27;model.constructor.modelName&#x27;);
+    const nav = this;
+
+    let links = this.navLinks || get(active, &#x27;definition.nav.&#x27; +
+        modelName) || this
+      .customProfile.defaultProfile.definition.nav[modelName];
+
+    return links.map((lnk, index) =&gt; {
+      let link = EmberObject.create(lnk);
+
+      link.setProperties({ nav: nav, index: index });
+      defineProperty(link, &#x27;navWidth&#x27;, alias(&#x27;nav.navWidth&#x27;));
+      defineProperty(link, &#x27;isOverflow&#x27;, computed(&#x27;navWidth&#x27;,
+        &#x27;width&#x27;,
+        function () {
+          return this.navWidth &lt; this.linkWidth + this.nav
+            .offset;
+        }));
+
+      return link
+    });
+  }),
+
+  sortedLinks: computed(&#x27;links&#x27;, function () {
+    let sorted = this.links.sortBy(&#x27;index&#x27;);
+    return sorted;
+  }),
+
+  hasOverflow: computed(&#x27;navWidth&#x27;, &#x27;linkWidth&#x27;, function () {
+    return this.navWidth &lt; this.linkWidth;
+  }),
+  linkWidth: computed(&#x27;links.@each.width&#x27;, function () {
+    return this.links.reduce((a, b) =&gt; a + b.width, this.navPadding);
+  }),
 
   /**
-   * width that needs to be subtracted from the parent div width
+   * Width to be added to linkWidth to make sure the last link will fit.
+   * Calcuated as the smaller of the maximum link width or 150.
    *
    * @name offset
    * @type {Number}
    */
-  offset: 0,
-
-  init() {
-    this._super(...arguments);
-
-    // jQuery plugin adapted from https://github.com/tomiford/bootstrap-overflow-navs
-    $.fn.overflowNavs = function (options) {
-      // Create a handle to our ul menu
-      // @TODO Implement some kind of check to make sure there is only one?  If we accidentally get more than one
-      // then strange things happen
-      let ul = $(this);
-
-      // This should work with all navs, not just the navbar, so you should be able to pass a parent in
-      let parent = options.parent ? options.parent : ul.parents(
-        &#x27;.navbar&#x27;);
-
-      // Get width of the navbar parent so we know how much room we have to work with
-      let parent_width = $(parent)
-        .width() - (options.offset ? parseInt($(options.offset)
-          .width()) : 0);
-
-      // Find an already existing .overflow-nav dropdown
-      let dropdown = $(&#x27;li.overflow-nav&#x27;, ul);
-
-      // Create one if none exists
-      if (!dropdown.length) {
-        dropdown = $(&#x27;&lt;li class=&quot;overflow-nav dropdown&quot;&gt;&lt;/li&gt;&#x27;);
-        dropdown.append($(
-          &#x27;&lt;a class=&quot;dropdown-toggle&quot; data-toggle=&quot;dropdown&quot; href=&quot;#&quot;&gt;&#x27; +
-          options.more + &#x27;&lt;b class=&quot;caret&quot;&gt;&lt;/b&gt;&lt;/a&gt;&#x27;));
-        dropdown.append($(&#x27;&lt;ul class=&quot;dropdown-menu&quot;&gt;&lt;/ul&gt;&#x27;));
-      }
-
-      // Get the width of the navbar, need to add together &lt;li&gt;s as the ul wraps in bootstrap
-      let width = 100;
-      // Allow for padding
-      ul.children(&#x27;li&#x27;)
-        .each(function () {
-          let $this = $(this);
-          width += $this.outerWidth();
-        });
-
-      // Window is shrinking
-      if (width &gt;= parent_width) {
-        // Loop through each non-dropdown li in the ul menu from right to left (using .get().reverse())
-        $($(&#x27;li&#x27;, ul)
-            .not(&#x27;.dropdown&#x27;)
-            .not(&#x27;.dropdown li&#x27;)
-            .get()
-            .reverse())
-          .each(function () {
-            let $this = $(this);
-            // Get the width of the navbar
-            let width = 100;
-            // Allow for padding
-            ul.children(&#x27;li&#x27;)
-              .each(function () {
-                let $this = $(this);
-                width += $this.outerWidth();
-              });
-            if (width &gt;= parent_width) {
-              // Remember the original width so that we can restore as the window grows
-              $this
-                .attr(&#x27;data-original-width&#x27;, $this
-                  .outerWidth());
-              // Move the rightmost item to top of dropdown menu if we are running out of space
-              dropdown.children(&#x27;ul.dropdown-menu&#x27;)
-                .prepend(this);
-            }
-            // @todo on shrinking resize some menu items are still in drop down when bootstrap mobile navigation is displaying
-          });
-      }
-      // Window is growing
-      else {
-        // We used to just look at the first one, but this doesn&#x27;t work when the window is maximized
-        //let dropdownFirstItem = dropdown.children(&#x27;ul.dropdown-menu&#x27;).children().first();
-        dropdown.children(&#x27;ul.dropdown-menu&#x27;)
-          .children()
-          .each(function () {
-            if ((width += parseInt($(this)
-                .attr(&#x27;data-original-width&#x27;))) &lt; parent_width) {
-              // Restore the topmost dropdown item to the main menu
-              dropdown.before(this);
-            } else {
-              // If the topmost item can&#x27;t be restored, don&#x27;t look any further
-              return false;
-            }
-          });
-      }
-
-      // Remove or add dropdown depending on whether or not it contains menu items
-      if (!dropdown.children(&#x27;ul.dropdown-menu&#x27;)
-        .children()
-        .length) {
-        dropdown.remove();
-      } else {
-        // Append new dropdown menu to main menu iff it doesn&#x27;t already exist
-        if (!ul.children(&#x27;li.overflow-nav&#x27;)
-          .length) {
-          ul.append(dropdown);
-        }
-      }
-    };
-  },
+  offset: computed(&#x27;links.@each.width&#x27;, function () {
+    return Math.min(Math.max(...this.links.mapBy(&#x27;width&#x27;), 1), 150);
+  }),
 
   didInsertElement: function () {
     this._super.apply(this, arguments);
-    this.debouncedDidResize();
+    this._handleDebouncedResizeEvent()
   },
 
-  debouncedDidResize() {
-    let options = {
-      more: this.more,
-      parent: this.parent,
-      offset: this.offset
-    };
-
-    $(&#x27;#md-navbar-secondary&#x27;)
-      .overflowNavs(options);
+  debouncedDidResize(width) {
+    this.set(&#x27;navWidth&#x27;, width || this.navWidth);
   }
 });
 

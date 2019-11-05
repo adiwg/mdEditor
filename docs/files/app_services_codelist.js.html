@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -252,54 +252,62 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import { get } from &#x27;@ember/object&#x27;;
+import { computed } from &#x27;@ember/object&#x27;;
 import Service from &#x27;@ember/service&#x27;;
 import codes from &#x27;mdcodes/resources/js/mdcodes.js&#x27;;
-import Profile from &#x27;./profile&#x27;;
-
+import { inject as service } from &#x27;@ember/service&#x27;;
 /**
  * Codelist Service
  *
  * This service provides controlled value lists for use in the editor. The
- * service may be customized by modifing the object passed to
- * Ember.Service.extend. The existing property names should be maintained.
+ * service may be customized by modifing the object in init. The existing
+ * property names should be maintained.
  *
  * @module
  */
 
-const profile = Profile.create();
+// export default Service.extend(codelist);
+export default Service.extend({
+  init() {
+    this._super(...arguments);
 
-//create a new object
-const codelist = {};
+    let codelist = this;
 
-//remap codelist names to be more generic
-Object.keys(codes)
-  .forEach(function(key) {
-    if(key === &#x27;default&#x27;) {
-      return;
-    }
+    //remap codelist names to be more generic
+    Object.keys(codes)
+      .forEach(function (key) {
+        if(key === &#x27;default&#x27;) {
+          return;
+        }
 
-    const list = codes[key];
-    const name = key.replace(/^iso_|adiwg_/, &#x27;&#x27;);
+        const list = codes[key];
+        const name = key.replace(/^iso_|adiwg_/, &#x27;&#x27;);
 
-    codelist[name] = list;
-    //remove deprecated codes
-    codelist[name][&#x27;codelist&#x27;] = list.codelist.rejectBy(&#x27;deprecated&#x27;);
-  });
-
-let recordProfiles = Object.keys(profile.profiles).without(&#x27;dictionary&#x27;);
-
-codelist.profile = {
-  codelist: recordProfiles.map((itm) =&gt; {
+        codelist[name] = list;
+        //remove deprecated codes
+        codelist[name][&#x27;codelist&#x27;] = list.codelist.rejectBy(&#x27;deprecated&#x27;);
+      });
+  },
+  customProfiles: service(&#x27;custom-profile&#x27;),
+  profile: computed(&#x27;customProfiles.profiles.[]&#x27;, function () {
     return {
-      code: itm,
-      codeName: itm,
-      description: get(profile, &#x27;profiles.&#x27; + itm + &#x27;.description&#x27;)
+      codelist: this.customProfiles.profiles.map((itm) =&gt; {
+        return {
+          code: itm.id,
+          codeName: itm.title,
+          description: itm.description
+        };
+      })
     };
+  }),
+  codeOverrides: computed(&#x27;profile&#x27;, function () {
+    return {
+      scope: {
+        dataset: &quot;geographicDataset&quot;
+      }
+    }
   })
-};
-
-export default Service.extend(codelist);
+});
 
     </pre>
 </div>

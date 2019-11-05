@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -254,19 +254,12 @@
     <pre class="prettyprint linenums">
 import DS from &#x27;ember-data&#x27;;
 import hash from &#x27;object-hash&#x27;;
-import {
-  inject as service
-} from &#x27;@ember/service&#x27;;
-import {
-  computed,
-  set,
-  observer
-} from &#x27;@ember/object&#x27;;
-import {
-  once
-} from &#x27;@ember/runloop&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
+import { computed, set, observer } from &#x27;@ember/object&#x27;;
+import { bool, alias } from &#x27;@ember/object/computed&#x27;;
+import { once } from &#x27;@ember/runloop&#x27;;
 
-export default DS.Model.extend({
+const Base = DS.Model.extend({
   init() {
     this._super(...arguments);
 
@@ -279,6 +272,8 @@ export default DS.Model.extend({
   },
 
   settings: service(),
+  schemas: service(),
+  customProfiles: service(&#x27;custom-profile&#x27;),
   patch: service(),
   clean: service(&#x27;cleaner&#x27;),
   mdjson: service(&#x27;mdjson&#x27;),
@@ -441,22 +436,72 @@ export default DS.Model.extend({
     return false;
   }),
 
-  cleanJson: computed(&#x27;json&#x27;, function () {
-      return this.clean
-        .clean(this.json);
-    })
-    .volatile(),
+  cleanJson: alias(&#x27;_cleanJson&#x27;),
 
-  status: computed(&#x27;hasDirtyHash&#x27;, function () {
+  status: computed(&#x27;hasDirtyHash&#x27;, &#x27;hasSchemaErrors&#x27;, function () {
     let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
     if(this.currentHash) {
-      return dirty ? &#x27;danger&#x27; : &#x27;success&#x27;;
+      return dirty ? &#x27;danger&#x27; : errors ? &#x27;warning&#x27; : &#x27;success&#x27;;
     }
 
     return &#x27;success&#x27;;
+  }),
+
+  /**
+   * Indicates whether errors are present.
+   *
+   * @property hasSchemaErrors
+   * @type {Boolean}
+   * @readOnly
+   * @category computed
+   * @requires schemaErrors
+   */
+  hasSchemaErrors: bool(&#x27;schemaErrors.length&#x27;),
+
+  /**
+   * Array of custom schemas that are associated with this model
+   *
+   * @property customSchemas
+   * @type {Array}
+   * @default &quot;[]&quot;
+   * @readOnly
+   * @category computed
+   * @requires
+   */
+  customSchemas: computed(&#x27;schemas.schemas.@each.isGlobal&#x27;, &#x27;profile&#x27;, function () {
+    return this.schemas.schemas.filter((schema) =&gt; {
+      if(schema.schemaType !== this.constructor.modelName) {
+        return false;
+      }
+
+      if(schema.isGlobal) {
+        return true;
+      }
+
+      let profile=this.customProfiles.mapById[this.profile];
+
+      if(!profile || !profile.schemas){
+        return false;
+      }
+
+      return profile.schemas.indexOf(
+        schema) &gt; -1;
+    }, this);
   })
 });
+
+//Modify the prototype instead of using computed.volatile()
+//see https://github.com/emberjs/ember.js/issues/17709#issuecomment-469941364
+
+Object.defineProperty(Base.prototype, &#x27;_cleanJson&#x27;, {
+  get() {
+    return this.clean.clean(this.json);
+  }
+});
+
+export default Base;
 
     </pre>
 </div>

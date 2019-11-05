@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -257,8 +257,7 @@
  * @submodule components-input
  */
 
-import { computed } from &#x27;@ember/object&#x27;;
-
+import { computed, defineProperty } from &#x27;@ember/object&#x27;;
 import { inject as service } from &#x27;@ember/service&#x27;;
 import Select from &#x27;../md-select/component&#x27;;
 
@@ -291,6 +290,20 @@ export default Select.extend({
    * @constructor
    */
 
+  init() {
+    this._super(...arguments);
+
+    //define cp using a dynamic dependent property
+    defineProperty(this, &#x27;mdCodelist&#x27;,
+      computed(&#x60;mdCodes.${this.mdCodeName}.codelist.[]&#x60;, function () {
+        return this.mdCodes
+          .get(this.mdCodeName)
+          .codelist
+          //.uniqBy(codeName)
+          .sortBy(this.namePath);
+      })
+    );
+  },
   classNames: [&#x27;md-codelist&#x27;],
   layoutName: &#x27;components/input/md-select&#x27;,
 
@@ -388,6 +401,14 @@ export default Select.extend({
       });
   }),
 
+  // mdCodelist: computed(&#x27;mdCodeName&#x27;, function() {
+  //   return this.mdCodes
+  //     .get(this.mdCodeName)
+  //     .codelist
+  //     //.uniqBy(codeName)
+  //     .sortBy(this.namePath);
+  // }),
+
   /**
    * mapped is a re-mapped array of code objects.
    * The initial codelist for &#x27;mdCodeName&#x27; is provided by the &#x27;codelist&#x27; service.
@@ -397,24 +418,21 @@ export default Select.extend({
    * @category computed
    * @requires mdCodeName
    */
-  mapped: computed(&#x27;mdCodeName&#x27;, function () {
+  mapped: computed(&#x27;mdCodelist.[]&#x27;, function () {
     let codeId = this.valuePath;
     let codeName = this.namePath;
     let tooltip = this.tooltipPath;
     let codelist = [];
     let icons = this.icons;
     let defaultIcon = this.defaultIcon;
-    let codelistName = this.mdCodeName;
-    let mdCodelist = this.mdCodes
-      .get(codelistName)
-      .codelist
-      //.uniqBy(codeName)
-      .sortBy(codeName);
+    // const mdCodes = this.mdCodes;
 
-    mdCodelist.forEach(function (item) {
+    this.mdCodelist.forEach((item) =&gt; {
       let newObject = {
         codeId: item[codeId],
-        codeName: item[codeName],
+        codeName: this.mdCodes.get(
+            &#x60;codeOverrides.${this.mdCodeName}.${item[codeName]}&#x60;) ||
+          item[codeName],
         tooltip: item[tooltip],
         icon: icons.get(item[codeName]) || icons.get(defaultIcon)
       };

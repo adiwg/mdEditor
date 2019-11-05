@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -258,8 +258,36 @@
  */
 
 import Component from &#x27;@ember/component&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
+import calculatePosition from &#x27;ember-basic-dropdown/utils/calculate-position&#x27;
 
 export default Component.extend({
+  profile: service(&#x27;custom-profile&#x27;),
+
+  updateProfile(profile){
+    this.profile.set(&#x27;active&#x27;, profile);
+    this.record.save();
+  },
+
+  calculatePosition() {
+    let originalValue = calculatePosition(...arguments);
+    originalValue.style[&#x27;min-width&#x27;] =   originalValue.style.width + &#x27;px&#x27;;
+    originalValue.style.width = &#x27;auto&#x27;;
+    originalValue.style[&#x27;max-width&#x27;] = &#x27;250px&#x27;;
+    return originalValue;
+  },
+
+  actions: {
+    /**
+     * Update the record profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
+     */
+    updateProfile(profile) {
+      this.updateProfile(profile);
+    }
+  }
 });
 
     </pre>

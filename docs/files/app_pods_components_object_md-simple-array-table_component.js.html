@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -295,12 +295,12 @@ export default ArrayTable.extend({
     get() {
       let items = this.value;
 
-      if (items === undefined) {
+      if(items === undefined) {
         items = [];
         //items[0] = &#x27;&#x27;;
       }
 
-      return items.reduce(function(acc, value) {
+      return items.reduce(function (acc, value) {
         acc.pushObject({
           value: value
         });
@@ -309,9 +309,10 @@ export default ArrayTable.extend({
     },
 
     set(key, value) {
-      this.set(&#x27;value&#x27;, value
+      let newValue = value
         .filterBy(&#x27;value&#x27;)
-        .mapBy(&#x27;value&#x27;));
+        .mapBy(&#x27;value&#x27;);
+      this.set(&#x27;value&#x27;, newValue);
       return value;
     }
   }),
@@ -324,7 +325,7 @@ export default ArrayTable.extend({
    * @category computed
    * @requires arrayValues.@each.value
    */
-  valuesObserver: observer(&#x27;arrayValues.@each.value&#x27;, function() {
+  valuesObserver: observer(&#x27;arrayValues.@each.value&#x27;, function () {
     this.set(&#x27;arrayValues&#x27;, this.arrayValues);
   })
 });

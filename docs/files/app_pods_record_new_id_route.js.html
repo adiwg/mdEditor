@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -252,7 +252,6 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-import { inject as service } from &#x27;@ember/service&#x27;;
 import Route from &#x27;@ember/routing/route&#x27;;
 import DS from &#x27;ember-data&#x27;;
 
@@ -278,7 +277,7 @@ export default Route.extend({
    *
    * @return {Ember.Service} profile
    */
-  profile: service(),
+  //profile: service(),
 
   deactivate() {
     // We grab the model loaded in this route
@@ -366,16 +365,16 @@ export default Route.extend({
         return true;
       }
     },
-    /**
-     * Update the record profile
-     *
-     * @name   updateProfile
-     * @param  {String} profile The new profile.
-     */
-    updateProfile(profile) {
-      this.profile
-        .set(&#x27;active&#x27;, profile);
-    }
+    // /**
+    //  * Update the record profile
+    //  *
+    //  * @name   updateProfile
+    //  * @param  {String} profile The new profile.
+    //  */
+    // updateProfile(profile) {
+    //   this.profile
+    //     .set(&#x27;active&#x27;, profile);
+    // }
   }
 
 });

@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -267,15 +267,31 @@ export default Table.extend({
    * @required
    */
 
+  /**
+   * Comma separated string of addtional route parameters
+   *
+   * @property routeParams
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * Indicates whether to show alert if no items are present
+   *
+   * @property alertIfEmpty
+   * @type {Boolean}
+   * @default &quot;true&quot;
+   */
+
   alertIfEmpty: true,
 
   /**
-  * Indicates whether to immediately navigate to the edit route on add
-  *
-  * @property editOnAdd
-  * @type {Boolean}
-  * @default &quot;true&quot;
-  */
+   * Indicates whether to immediately navigate to the edit route on add
+   *
+   * @property editOnAdd
+   * @type {Boolean}
+   * @default &quot;true&quot;
+   */
   editOnAdd: true,
 
   /**
@@ -309,12 +325,13 @@ export default Table.extend({
       items.pushObject(itm);
 
       if(this.editOnAdd) {
-        editItem(items.indexOf(itm));
+        editItem(items.indexOf(itm), this.routeParams,
+          &#x60;${this.scrollToId}-${this.items.length - 1}&#x60;);
       }
     },
 
-    editItem: function (items, index) {
-      this.editItem(index);
+    editItem: function (items, index, scrollTo) {
+      this.editItem(index, this.routeParams, scrollTo);
     }
   }
 });

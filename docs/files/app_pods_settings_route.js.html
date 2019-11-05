@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -270,25 +270,38 @@ export default Route.extend({
   setupController(controller, model) {
     this._super(controller, model);
 
-    controller.set(&#x27;links&#x27;, this.profile.profiles.settings.secondaryNav)
+    const links = [{
+      title: &#x27;Main&#x27;,
+      target: &#x27;settings.main&#x27;,
+      tip: &#x27;Main application settings&#x27;
+    }, {
+      title: &#x27;Profiles&#x27;,
+      target: &#x27;settings.profile&#x27;,
+      tip: &#x27;Custom profile settings&#x27;
+    }, {
+      title: &#x27;Validation&#x27;,
+      target: &#x27;settings.validation&#x27;,
+      tip: &#x27;Custom validation settings&#x27;
+    }]
+    controller.set(&#x27;links&#x27;, links);
   },
 
-  actions:{
-    clearLocalStorage(){
+  actions: {
+    clearLocalStorage() {
       window.localStorage.clear();
       this.transitionTo(&#x27;application&#x27;);
       window.location.reload();
     },
-    save(){
+    save() {
       this.currentRouteModel().save();
     },
 
-    catalogs(){
+    catalogs() {
       return this.get(&#x27;publish.catalogs&#x27;);
     },
 
-    resetMdTranslatorAPI(){
-      let url = get(Setting,&#x27;attributes&#x27;).get(&#x27;mdTranslatorAPI&#x27;).options.defaultValue;
+    resetMdTranslatorAPI() {
+      let url = get(Setting, &#x27;attributes&#x27;).get(&#x27;mdTranslatorAPI&#x27;).options.defaultValue;
       let model = get(this.controller, &#x27;model&#x27;);
 
       model.set(&#x27;mdTranslatorAPI&#x27;, url);

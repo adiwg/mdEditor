@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -259,6 +259,13 @@ import EmberObject from &#x27;@ember/object&#x27;;
 import { guidFor } from &#x27;@ember/object/internals&#x27;;
 import RSVP from &#x27;rsvp&#x27;;
 import { inject as service } from &#x27;@ember/service&#x27;;
+import config from &#x27;mdeditor/config/environment&#x27;;
+
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
 
 const console = window.console;
 
@@ -267,7 +274,7 @@ export default Route.extend({
     this._super(...arguments);
 
     $(window).bind(&#x27;beforeunload&#x27;, (evt) =&gt; {
-      let dirty = this.currentRouteModel().filter(function(itm) {
+      let dirty = this.currentRouteModel().filter(function (itm) {
         return itm.filterBy(&#x27;hasDirtyHash&#x27;).length;
       }).length;
 
@@ -282,7 +289,6 @@ export default Route.extend({
   spotlight: service(),
   slider: service(),
   router: service(),
-
 
   /**
    * Models for sidebar navigation
@@ -320,7 +326,7 @@ export default Route.extend({
 
     let idx = 0;
 
-    let mapFn = function(item) {
+    let mapFn = function (item) {
 
       meta[idx].set(&#x27;listId&#x27;, guidFor(item));
       item.set(&#x27;meta&#x27;, meta[idx]);
@@ -329,7 +335,33 @@ export default Route.extend({
       return item;
     };
 
-    return RSVP.map(promises, mapFn);
+    return RSVP.map(promises, mapFn).then(result =&gt; {
+      let profiles = [this.store.findAll(&#x27;profile&#x27;, {
+          reload: true
+        }),
+        this.store.findAll(&#x27;schema&#x27;, {
+          reload: true
+        }),
+        this.store.findAll(&#x27;custom-profile&#x27;, {
+          reload: true
+        })
+      ];
+
+      return RSVP.all(profiles).then(() =&gt; result);
+
+      // return result;
+    });
+  },
+
+  beforeModel() {
+    if(!defaultProfileId) {
+      this.router.replaceWith(&#x27;error&#x27;)
+        .then(function (route) {
+          route.controller.set(&#x27;lastError&#x27;, new Error(
+            &#x27;A default profile ID is not set in &quot;config/environment/APP&quot;&#x27;
+          ));
+        });
+    }
   },
 
   setupController(controller, model) {
@@ -355,12 +387,13 @@ export default Route.extend({
       }
 
       return this.replaceWith(&#x27;error&#x27;)
-        .then(function(route) {
+        .then(function (route) {
           route.controller.set(&#x27;lastError&#x27;, error);
         });
     },
     didTransition() {
-      this.controller.set(&#x27;currentRoute&#x27;, this.router.get(&#x27;currentRouteName&#x27;));
+      this.controller.set(&#x27;currentRoute&#x27;, this.router.get(
+        &#x27;currentRouteName&#x27;));
     }
   }
 });

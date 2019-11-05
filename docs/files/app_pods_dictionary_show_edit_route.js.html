@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -253,76 +253,58 @@
 <div class="file">
     <pre class="prettyprint linenums">
 import { inject as service } from &#x27;@ember/service&#x27;;
-import { get } from &#x27;@ember/object&#x27;;
 import Route from &#x27;@ember/routing/route&#x27;;
 import HashPoll from &#x27;mdeditor/mixins/hash-poll&#x27;;
-import {
-  once
-} from &#x27;@ember/runloop&#x27;;
-import {
-  getOwner
-} from &#x27;@ember/application&#x27;;
+import DoCancel from &#x27;mdeditor/mixins/cancel&#x27;;
 
-export default Route.extend(HashPoll, {
+export default Route.extend(HashPoll, DoCancel, {
   /**
    * The profile service
    *
    * @return {Ember.Service} profile
    */
-  profile: service(),
+  profile: service(&#x27;custom-profile&#x27;),
 
   /**
-   * The route activate hook, sets the profile to &#x27;dictionary&#x27;.
+   * The route activate hook, sets the profile.
    */
-  activate() {
-    this.profile
-      .set(&#x27;active&#x27;, &#x27;dictionary&#x27;);
+  afterModel(model) {
+    this._super(...arguments);
+
+    this.profile.set(&#x27;active&#x27;, model.get(&#x27;profile&#x27;));
   },
 
   actions: {
+    /**
+     * Update the dictionary profile
+     *
+     * @name   updateProfile
+     * @param  {String} profile The new profile.
+     */
     saveDictionary: function () {
       let model = this.currentRouteModel();
 
       model
         .save()
         .then(() =&gt; {
-          //this.refresh();
-          //this.setModelHash();
           this.flashMessages
             .success(&#x60;Saved Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;);
 
-          //this.transitionTo(&#x27;contacts&#x27;);
         });
     },
     cancelDictionary: function () {
       let model = this.currentRouteModel();
       let message =
         &#x60;Cancelled changes to Dictionary: ${model.get(&#x27;title&#x27;)}&#x60;;
-      let controller = this.controller;
-      let same = !controller.cancelScope || getOwner(this)
-        .lookup(&#x27;controller:application&#x27;)
-        .currentPath === get(controller,&#x27;cancelScope.routeName&#x27;);
 
       if(this.get(&#x27;settings.data.autoSave&#x27;)) {
         let json = model.get(&#x27;jsonRevert&#x27;);
 
         if(json) {
           model.set(&#x27;json&#x27;, JSON.parse(json));
+          this.doCancel();
 
-          if(controller.onCancel) {
-            once(() =&gt; {
-              if(same) {
-                controller.onCancel.call(controller.cancelScope ||
-                  this);
-              }
-              this.refresh();
-              controller.set(&#x27;onCancel&#x27;, null);
-              controller.set(&#x27;cancelScope&#x27;, null);
-            });
-          }
-
-          this.flashMessages
-            .warning(message);
+          this.flashMessages.warning(message);
         }
 
         return;
@@ -331,17 +313,7 @@ export default Route.extend(HashPoll, {
       model
         .reload()
         .then(() =&gt; {
-          if(controller.onCancel) {
-            once(() =&gt; {
-              if(same) {
-                controller.onCancel.call(controller.cancelScope ||
-                  this);
-              }
-              this.refresh();
-              controller.set(&#x27;onCancel&#x27;, null);
-              controller.set(&#x27;cancelScope&#x27;, null);
-            });
-          }
+          this.doCancel();
           this.flashMessages
             .warning(message);
         });

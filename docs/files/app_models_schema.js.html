@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -255,13 +255,36 @@
 import DS from &#x27;ember-data&#x27;;
 import { once } from &#x27;@ember/runloop&#x27;;
 import { computed, observer } from &#x27;@ember/object&#x27;;
+import { or } from &#x27;@ember/object/computed&#x27;;
 import { capitalize } from &#x27;@ember/string&#x27;;
 import {
   validator,
   buildValidations
 } from &#x27;ember-cp-validations&#x27;;
+import semver from &#x27;semver&#x27;;
+import Ajv from &#x27;ajv&#x27;;
+import * as ajvErrors from &#x27;ajv-errors&#x27;;
+import * as draft4 from &#x27;ajv/lib/refs/json-schema-draft-04&#x27;;
+import { inject as service } from &#x27;@ember/service&#x27;;
 
-const regex = /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/i;
+const ajvOptions = {
+  verbose: true,
+  allErrors: true,
+  jsonPointers: true,
+  removeAdditional: false,
+  schemaId: &#x27;auto&#x27;
+};
+
+const regex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+
+const checkVersion = function () {
+  if(!this.localVersion &amp;&amp; this.remoteVersion) {
+    return true;
+  }
+
+  return this.remoteVersion ? semver.gt(this.remoteVersion, this.localVersion) :
+    false;
+};
 
 const Validations = buildValidations({
   &#x27;title&#x27;: validator(
@@ -301,14 +324,22 @@ const Validations = buildValidations({
 });
 
 const theComp = DS.Model.extend(Validations, {
+  init() {
+    this._super(...arguments);
+
+    this.schemaValidator = ajvErrors(new Ajv(ajvOptions));
+    this.schemaValidator.addMetaSchema(draft4);
+    this.updateSettings;
+  },
+  flashMessages: service(),
+
   title: DS.attr(&#x27;string&#x27;),
   uri: DS.attr(&#x27;string&#x27;),
   description: DS.attr(&#x27;string&#x27;),
   schemaType: DS.attr(&#x27;string&#x27;),
+  version: DS.attr(&#x27;string&#x27;),
+  remoteVersion: DS.attr(&#x27;string&#x27;),
   isGlobal: DS.attr(&#x27;boolean&#x27;, {
-    defaultValue: false
-  }),
-  hasUpdate: DS.attr(&#x27;boolean&#x27;, {
     defaultValue: false
   }),
   customSchemas: DS.attr(&#x27;json&#x27;, {
@@ -317,15 +348,16 @@ const theComp = DS.Model.extend(Validations, {
     }
   }),
 
-  status: computed(&#x27;validations.isInvalid&#x27;, function() {
+  status: computed(&#x27;validations.isInvalid&#x27;, function () {
     return this.validations.isInvalid ? &#x27;warning&#x27; : &#x27;success&#x27;;
   }),
 
-  formattedType: computed(&#x27;schemaType&#x27;, function() {
-    return this.schemaType === &#x27;record&#x27; ? &#x27;Metadata&#x27; : capitalize(this.schemaType || &#x27;Unknown&#x27;);
+  formattedType: computed(&#x27;schemaType&#x27;, function () {
+    return this.schemaType === &#x27;record&#x27; ? &#x27;Metadata&#x27; : capitalize(this.schemaType ||
+      &#x27;Unknown&#x27;);
   }),
 
-  formattedGlobal: computed(&#x27;isGlobal&#x27;, function() {
+  formattedGlobal: computed(&#x27;isGlobal&#x27;, function () {
     return this.isGlobal ? &#x27;Yes&#x27; : &#x27;No&#x27;;
   }),
 
@@ -343,8 +375,41 @@ const theComp = DS.Model.extend(Validations, {
     }
   }),
 
+  localVersion: or(&#x27;version&#x27;, &#x27;rootSchema.version&#x27;),
+
+  hasUpdate: computed(&#x27;version&#x27;, &#x27;remoteVersion&#x27;, &#x27;customSchemas.0.version&#x27;,
+    checkVersion
+  ),
+
+  rootSchema: computed(&#x27;customSchemas.firstObject.schema&#x27;, function () {
+    return this.customSchemas.get(&#x27;firstObject.schema&#x27;);
+  }),
+
+  validator: computed(&#x27;isGlobal&#x27;, &#x27;customSchemas&#x27;, function () {
+    if(!this.isGlobal &amp;&amp; !this.get(&#x27;customSchemas.length&#x27;)) {
+      return;
+    }
+
+    this.schemaValidator.removeSchema();
+
+    let valid = this.customSchemas.every((schema) =&gt; {
+      return this.schemaValidator.validateSchema(schema.schema);
+    });
+
+    if(valid) {
+      return this.schemaValidator.addSchema(this.customSchemas.mapBy(
+        &#x27;schema&#x27;));
+    }
+
+    this.flashMessages.danger(
+      &#x60;Could not load schemas for ${this.title}. Schemas provided did not validate.&#x60;
+    );
+  }),
+
   /* eslint-disable ember/no-observers */
-  updateSettings: observer(&#x27;hasDirtyAttributes&#x27;,
+  updateSettings: observer(&#x27;hasDirtyAttributes&#x27;, &#x27;title&#x27;, &#x27;uri&#x27;,
+    &#x27;description&#x27;, &#x27;schemaType&#x27;, &#x27;remoteVersion&#x27;, &#x27;schemaType&#x27;,
+    &#x27;isGlobal&#x27;, &#x27;customSchemas.[]&#x27;,
     function () {
       if(this.isNew || this.isEmpty || this.isDeleted) {
         return;
@@ -363,6 +428,7 @@ const theComp = DS.Model.extend(Validations, {
 
 export {
   regex,
+  checkVersion,
   theComp as
   default
 };

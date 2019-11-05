@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -257,6 +257,11 @@ import { get, computed } from &#x27;@ember/object&#x27;;
 import { inject as service } from &#x27;@ember/service&#x27;;
 
 export default Component.extend({
+  init() {
+    this._super(...arguments);
+
+    this.profilePath = this.profilePath || &#x27;preview&#x27;;
+  },
   store: service(),
   classNameBindings: [&#x27;muted:text-muted&#x27;],
 

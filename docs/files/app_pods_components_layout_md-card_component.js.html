@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -305,7 +305,7 @@ export default Component.extend({
 
   classNames: [&#x27;md-card&#x27;, &#x27;card&#x27;],
   classNameBindings: [&#x27;shadow:box-shadow--4dp&#x27;, &#x27;scroll:scroll-card&#x27;,
-    &#x27;maximizable&#x27;, &#x27;fullScreen&#x27;, &#x27;required&#x27;, &#x27;muted&#x27;
+    &#x27;maximizable&#x27;, &#x27;fullScreen&#x27;, &#x27;required&#x27;, &#x27;muted&#x27;, &#x27;borderColor&#x27;
   ],
   attributeBindings: [&#x27;data-spy&#x27;],
 
@@ -337,7 +337,6 @@ export default Component.extend({
    *
    * @property titleIcon
    * @type {String}
-   * @required
    */
 
   /**
@@ -383,6 +382,15 @@ export default Component.extend({
   shadow: true,
 
   /**
+   * If true, the card header will have a white background.
+   *
+   * @property plain
+   * @type {Boolean}
+   * @default false
+   */
+  plain: false,
+
+  /**
    * If true, the card-block class will be added.
    *
    * @property block
@@ -390,6 +398,15 @@ export default Component.extend({
    * @default true
    */
   block: true,
+
+  /**
+   * If true, the card-flex class will be added.
+   *
+   * @property flex
+   * @type {Boolean}
+   * @default false
+   */
+  flex: false,
 
   /**
    * If true, the card-block text color will be muted.
@@ -426,9 +443,17 @@ export default Component.extend({
   btnClass: &#x27;primary&#x27;,
 
   /**
-   * Icon to display in heder button
+   * Icon to display in header button
    *
    * @property btnIcon
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
+   * Border color
+   *
+   * @property border
    * @type {String}
    * @default undefined
    */
@@ -465,6 +490,10 @@ export default Component.extend({
    * @category computed
    */
   &#x27;data-spy&#x27;: oneWay(&#x27;title&#x27;),
+
+  borderColor: computed(&#x27;border&#x27;, function () {
+    return this.border ? &#x27;border-&#x27; + this.border : null;
+  }),
 
   windowIcon: computed(&#x27;fullScreen&#x27;, function () {
     return this.fullScreen ? &#x27;compress&#x27; : &#x27;expand&#x27;;
@@ -517,7 +546,7 @@ export default Component.extend({
       let val = this.toggleProperty(&#x27;fullScreen&#x27;);
 
       $(this.element).parents(&#x27;.liquid-child,.liquid-container, .md-card&#x27;).toggleClass(
-        &#x27;full-screen&#x27;,val);
+        &#x27;full-screen&#x27;, val);
       $(&#x27;body&#x27;).toggleClass(&#x27;slider&#x27;, val);
     },
     spotlight(id) {

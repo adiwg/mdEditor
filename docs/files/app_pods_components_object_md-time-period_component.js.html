@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -272,6 +272,41 @@ import {
   buildValidations
 } from &#x27;ember-cp-validations&#x27;;
 
+const timeUnit = [{
+    name: &#x27;year&#x27;,
+    value: &#x27;year&#x27;
+  },
+  {
+    name: &#x27;month&#x27;,
+    value: &#x27;month&#x27;
+  },
+  {
+    name: &#x27;day&#x27;,
+    value: &#x27;day&#x27;
+  },
+  {
+    name: &#x27;hour&#x27;,
+    value: &#x27;hour&#x27;
+  },
+  {
+    name: &#x27;minute&#x27;,
+    value: &#x27;minute&#x27;
+  },
+  {
+    name: &#x27;second&#x27;,
+    value: &#x27;second&#x27;
+  }
+];
+
+const durationUnit = [
+  &#x27;years&#x27;,
+  &#x27;months&#x27;,
+  &#x27;days&#x27;,
+  &#x27;hours&#x27;,
+  &#x27;minutes&#x27;,
+  &#x27;seconds&#x27;
+];
+
 const Validations = buildValidations({
   &#x27;intervalAmount&#x27;: [
     validator(&#x27;presence&#x27;, {
@@ -301,12 +336,19 @@ const Validations = buildValidations({
 });
 
 export default Component.extend(Validations, {
+  init() {
+    this._super(...arguments);
+
+    this.timeUnit = timeUnit;
+    this.durationUnit = durationUnit;
+  },
+
   didReceiveAttrs() {
     this._super(...arguments);
 
     let model = get(this, &#x27;model&#x27;);
 
-    once(function () {
+    once(this, function () {
       set(model, &#x27;periodName&#x27;, getWithDefault(model,
         &#x27;periodName&#x27;, []));
       set(model, &#x27;timeInterval&#x27;, getWithDefault(model, &#x27;timeInterval&#x27;, {}));
@@ -315,7 +357,7 @@ export default Component.extend(Validations, {
       //   &#x27;presentationForm&#x27;, []));
       // set(model, &#x27;onlineResource&#x27;, getWithDefault(model,
       //   &#x27;onlineResource&#x27;, []));
-      // set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, []));
+      set(model, &#x27;identifier&#x27;, getWithDefault(model, &#x27;identifier&#x27;, {}));
       // set(model, &#x27;graphic&#x27;, getWithDefault(model, &#x27;graphic&#x27;, []));
     });
   },
@@ -351,34 +393,10 @@ export default Component.extend(Validations, {
     }
   }),
   intervalAmount: alias(&#x27;model.timeInterval.interval&#x27;),
+  identifier: alias(&#x27;model.identifier.identifier&#x27;),
 
-  timeUnit: computed(function () {
-    return [{
-        name: &#x27;year&#x27;,
-        value: &#x27;year&#x27;
-      },
-      {
-        name: &#x27;month&#x27;,
-        value: &#x27;month&#x27;
-      },
-      {
-        name: &#x27;day&#x27;,
-        value: &#x27;day&#x27;
-      },
-      {
-        name: &#x27;hour&#x27;,
-        value: &#x27;hour&#x27;
-      },
-      {
-        name: &#x27;minute&#x27;,
-        value: &#x27;minute&#x27;
-      },
-      {
-        name: &#x27;second&#x27;,
-        value: &#x27;second&#x27;
-      }
-    ]
-  })
+  timeUnit: timeUnit,
+  durationUnit: durationUnit
 
 });
 

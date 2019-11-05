@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -591,32 +591,39 @@ const Contact = Model.extend(Validations, Copyable, {
     return contactId;
   }),
 
-  status: computed(&#x27;hasDirtyHash&#x27;, function () {
-    let dirty = this.hasDirtyHash;
-    let errors = this.hasSchemaErrors;
-
-    if(this.currentHash) {
-      return dirty ? &#x27;danger&#x27; : errors ? &#x27;warning&#x27; : &#x27;success&#x27;;
-    }
-
-    return &#x27;success&#x27;;
-  }),
-
   /**
    * A list of schema errors return by the validator.
    *
-   * @property hasSchemaErrors
+   * @property schemaErrors
    * @type {Array}
    * @readOnly
    * @category computed
    * @requires status
    */
-  hasSchemaErrors: computed(&#x27;status&#x27;, function () {
+  schemaErrors: computed(&#x27;hasDirtyHash&#x27;, &#x27;customSchemas.[]&#x27;, function () {
     let mdjson = this.mdjson;
-    let errors = mdjson.validateContact(this)
-      .errors;
+    let errors = [];
+    let result = mdjson.validateContact(this).errors;
 
-    //console.log(errors);
+    if(result) {
+      errors.pushObject({
+        title: &#x27;Default Contact Validation&#x27;,
+        errors: result
+      });
+    }
+
+    this.customSchemas.forEach(schema =&gt; {
+      const validator = schema.validator;
+
+      if(validator.validate(schema.rootSchema, this.cleanJson)) {
+        return;
+      }
+
+      errors.pushObject({
+        title: schema.title,
+        errors: validator.errors
+      });
+    });
 
     return errors;
   }),

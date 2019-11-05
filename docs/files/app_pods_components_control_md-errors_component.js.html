@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -258,8 +258,9 @@ export default Component.extend({
   classNames: [&#x27;md-error-list&#x27;],
 
   /**
-  *  Array of error objects to render. Errror objects must have a &#x60;message&#x60;
-  *  property. &#x60;dataPath&#x60; is optional.
+  *  Error objects to render grouped by validation schema or profile. The group
+  *  object must have a &#x60;title&#x60; and &#x60;errors&#x60; property. Error objects iwthin the
+  *  group must have a &#x60;message&#x60; property. &#x60;dataPath&#x60; is optional.
   *
   * @property errors
   * @type {Array}

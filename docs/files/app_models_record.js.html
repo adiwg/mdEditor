@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -255,6 +255,7 @@
 import { alias } from &#x27;@ember/object/computed&#x27;;
 import { getOwner } from &#x27;@ember/application&#x27;;
 import EmberObject, { computed } from &#x27;@ember/object&#x27;;
+import { getWithDefault } from &#x27;@ember/object&#x27;;
 import { Copyable } from &#x27;ember-copy&#x27;;
 import DS from &#x27;ember-data&#x27;;
 import uuidV4 from &quot;uuid/v4&quot;;
@@ -263,6 +264,13 @@ import {
   validator,
   buildValidations
 } from &#x27;ember-cp-validations&#x27;;
+import config from &#x27;mdeditor/config/environment&#x27;;
+
+const {
+  APP: {
+    defaultProfileId
+  }
+} = config;
 
 const Validations = buildValidations({
   &#x27;recordId&#x27;: validator(
@@ -276,6 +284,15 @@ const Validations = buildValidations({
       track: [&#x27;type&#x27;]
     })
   ],
+  &#x27;json.metadata.resourceInfo.pointOfContact&#x27;: {
+    disabled: alias(&#x27;model.isNew&#x27;),
+    validators: [
+      validator(&#x27;array-valid&#x27;),
+      validator(&#x27;array-required&#x27;, {
+        track: [&#x27;type&#x27;]
+      })
+    ]
+  },
   // &#x27;json.resourceInfo.abstract&#x27;: validator(&#x27;presence&#x27;, {
   //   presence: true,
   //   ignoreBlank: true
@@ -297,14 +314,10 @@ const Validations = buildValidations({
   //   min: 1
   // })
 });
-export default Model.extend(Validations, Copyable, {
-  // init() {
-  //   this._super(...arguments);
-  //
-  //   this.set(&#x27;allRecords&#x27;, this.store.peekAll(&#x27;record&#x27;));
-  // },
+
+const Record = Model.extend(Validations, Copyable, {
   profile: DS.attr(&#x27;string&#x27;, {
-    defaultValue: &#x27;full&#x27;
+    defaultValue: defaultProfileId
   }),
   json: DS.attr(&#x27;json&#x27;, {
     defaultValue() {
@@ -360,7 +373,7 @@ export default Model.extend(Validations, Copyable, {
 
   title: alias(&#x27;json.metadata.resourceInfo.citation.title&#x27;),
 
-  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.0.type&#x27;,
+  icon: computed(&#x27;json.metadata.resourceInfo.resourceType.firstObject.type&#x27;,
     function () {
       const type = this.get(
           &#x27;json.metadata.resourceInfo.resourceType.0.type&#x27;) ||
@@ -378,7 +391,6 @@ export default Model.extend(Validations, Copyable, {
 
   parentIds: alias(
     &#x27;json.metadata.metadataInfo.parentMetadata.identifier&#x27;),
-
 
   hasParent: computed(&#x27;parentIds.[]&#x27;, function () {
     let ids = this.parentIds;
@@ -438,32 +450,40 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  hasSchemaErrors: computed(&#x27;status&#x27;, function () {
+  schemaErrors: computed(&#x27;hasDirtyHash&#x27;, &#x27;customSchemas.[]&#x27;, function () {
     let mdjson = this.mdjson;
-    let errors = mdjson.validateRecord(this).errors;
+    let errors = [];
+    let result = mdjson.validateRecord(this).errors;
 
-    //console.log(errors);
+    if(result) {
+      errors.pushObject({
+        title: &#x27;Default Record Validation&#x27;,
+        errors: result
+      });
+    }
+
+    this.customSchemas.forEach(schema =&gt; {
+      const validator = schema.validator;
+
+      if(!validator) {
+        return;
+      }
+
+      if(validator.validate(schema.rootSchema, mdjson.formatRecord(
+          this))) {
+        return;
+      }
+
+      errors.pushObject({
+        title: schema.title,
+        errors: validator.errors
+      });
+    });
 
     return errors;
   }),
 
-  formatted: computed(function () {
-      let mdjson = this.mdjson;
-
-      return mdjson.formatRecord(this);
-    })
-    .volatile(),
-
-  status: computed(&#x27;hasDirtyHash&#x27;, function () {
-    let dirty = this.hasDirtyHash;
-    let errors = this.hasSchemaErrors;
-
-    if(this.currentHash) {
-      return dirty ? &#x27;danger&#x27; : errors ? &#x27;warning&#x27; : &#x27;success&#x27;;
-    }
-
-    return &#x27;success&#x27;;
-  }),
+  formatted: alias(&#x27;_formatted&#x27;),
 
   copy() {
     let current = this.cleanJson;
@@ -471,6 +491,8 @@ export default Model.extend(Validations, Copyable, {
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set(&#x27;metadata.resourceInfo.citation.title&#x27;, &#x60;Copy of ${name}&#x60;);
+    json.set(&#x27;metadata.resourceInfo.resourceType&#x27;, getWithDefault(json,
+      &#x27;metadata.resourceInfo.resourceType&#x27;, [{}]));
     json.set(&#x27;metadata.metadataInfo.metadataIdentifier&#x27;, {
       identifier: uuidV4(),
       namespace: &#x27;urn:uuid&#x27;
@@ -481,6 +503,14 @@ export default Model.extend(Validations, Copyable, {
     });
   }
 });
+
+Object.defineProperty(Record.prototype, &#x27;_formatted&#x27;, {
+  get() {
+    return this.mdjson.formatRecord(this);
+  }
+});
+
+export default Record;
 
     </pre>
 </div>

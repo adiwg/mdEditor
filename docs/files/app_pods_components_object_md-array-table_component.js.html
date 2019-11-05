@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -280,7 +280,7 @@ export default Component.extend(Template, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if (this.value) {
+    if(this.value) {
       this.applyTemplateArray(&#x27;value&#x27;);
     }
 
@@ -350,6 +350,15 @@ export default Component.extend(Template, {
   plain: false,
 
   /**
+   * Whether to render a panel drop-shadow.
+   *
+   * @property plain
+   * @type {Boolean}
+   * @default false
+   */
+  shadow:true,
+
+  /**
    * Indicates whether at least one item is required is required in the value
    * array.
    *
@@ -369,6 +378,15 @@ export default Component.extend(Template, {
   title: &#x27;Item&#x27;,
 
   /**
+   * The error message to display, if required = true. Overrides the validation
+   * message.
+   *
+   * @property errorMessage
+   * @type {String}
+   * @default undefined
+   */
+
+  /**
    * The data-spy text. Defaults to the title.
    *
    * @property data-spy
@@ -377,6 +395,16 @@ export default Component.extend(Template, {
    * @category computed
    */
   &#x27;data-spy&#x27;: oneWay(&#x27;title&#x27;),
+
+  /**
+   * If true, an alert will be rendered with an &quot;add&quot; button when no items are
+   * present.
+   *
+   * @property alertIfEmpty
+   * @type {Boolean}
+   * @default true
+   */
+  alertIfEmpty: true,
 
   /**
    * Array of column headers
@@ -390,7 +418,21 @@ export default Component.extend(Template, {
   columnArray: computed(&#x27;columns&#x27;, function () {
     let columns = this.columns;
 
-    return(typeof columns === &#x27;string&#x27;) ? columns.split(&#x27;,&#x27;) : null;
+    return (typeof columns === &#x27;string&#x27;) ? columns.split(&#x27;,&#x27;) : null;
+  }),
+
+  /**
+   * Render an alert if the items array is empty and alertIfEmpty is true.
+   *
+   * @property showAlert
+   * @type {Boolean}
+   * @default &quot;false&quot;
+   * @readOnly
+   * @category computed
+   * @requires items.length,alertIfEmpty
+   */
+  showAlert: computed(&#x27;arrayValues.[]&#x27;, &#x27;alertIfEmpty&#x27;, function () {
+    return this.get(&#x27;arrayValues.length&#x27;) === 0 &amp;&amp; this.alertIfEmpty;
   }),
 
   /**
@@ -402,9 +444,9 @@ export default Component.extend(Template, {
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;value.[]&#x27;, function () {
+  collapsed: computed(&#x27;isCollapsed&#x27;, &#x27;arrayValues.[]&#x27;, function () {
     let isCollapsed = this.isCollapsed;
-    let value = this.value;
+    let value = this.arrayValues;
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
@@ -452,8 +494,17 @@ export default Component.extend(Template, {
   pillColor: computed(&#x27;value.[]&#x27;, &#x27;required&#x27;, function () {
     let count = this.get(&#x27;value.length&#x27;) || 0;
     let required = this.required;
-    return(count === 0) ? required ? &#x27;label-danger&#x27; : &#x27;label-warning&#x27; :
+    return (count === 0) ? required ? &#x27;label-danger&#x27; : &#x27;label-warning&#x27; :
       &#x27;label-info&#x27;;
+  }),
+
+  alertTipMessage: computed(&#x27;tipModel&#x27;, &#x27;tipPath&#x27;, &#x27;errorMessage&#x27;, function () {
+    if(this.errorMessage) {
+      return this.errorMessage;
+    }
+
+    return this.tipModel ? this.tipModel.get(
+      &#x60;validations.attrs.${this.tipPath}.message&#x60;) : null;
   }),
 
   onChange() {},
@@ -483,20 +534,19 @@ export default Component.extend(Template, {
   },
 
   actions: {
-    addItem: function (value) {
+    addItem: function () {
       const Template = this.templateClass;
       const owner = getOwner(this);
 
-      value.pushObject(typeOf(Template) === &#x27;class&#x27; ? Template.create(
-          owner.ownerInjection()
-        ) :
-        this.templateAsObject ? {} : null);
+      this.arrayValues.pushObject(typeOf(Template) === &#x27;class&#x27; ? Template
+        .create(owner.ownerInjection()) : { value: null });
+      //this.templateAsObject ? {} : null);
       this.valueChanged();
     },
 
-    deleteItem: function (value, idx) {
-      if(value.length &gt; idx) {
-        value.removeAt(idx);
+    deleteItem: function (item, idx) {
+      if(this.arrayValues.length &gt; idx) {
+        this.arrayValues.removeAt(idx);
       }
       this.valueChanged();
     }

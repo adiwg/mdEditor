@@ -54,8 +54,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/0d135413" target="_blank">
-                                  Tag: 0.8.0.0d135413
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
+                                  Tag: 0.9.0.6749337e
                                 </a>
                             </h4>
                         </div>
@@ -284,6 +284,21 @@ export default Component.extend({
   // classNames: [&#x27;md-edit-table&#x27;],
   tagName: &#x27;&#x27;,
   spotlightRow: true,
+
+  /**
+  * Array of button configs to add to action column
+  *
+  * @property actionButtons
+  * @type {[Object]}
+  */
+
+  /**
+  * Array of badge configs to add to action column
+  *
+  * @property actionBadges
+  * @type {[Object]}
+  */
+
   /**
    * Column configs for the action column.
    * See http://onechiporenko.github.io/ember-models-table
@@ -322,7 +337,8 @@ export default Component.extend({
       disableFiltering: true,
       disableSorting: true,
       mayBeHidden: false,
-      buttons: btns
+      buttons: btns,
+      badges: this.actionBadges
     };
   }),
 
@@ -337,7 +353,6 @@ actions: {
     this.editRow(index, record);
   },
   deleteRow(col, index, record){
-    console.log(&#x27;delete&#x27;);
     record.destroyRecord();
   }
 }
