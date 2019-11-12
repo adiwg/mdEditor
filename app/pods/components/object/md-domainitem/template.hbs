@@ -1,4 +1,4 @@
-  {{input/md-input
+{{input/md-input
     label="Name"
     data-spy="Name"
     model=this
@@ -7,7 +7,7 @@
     profilePath=(concat profilePath ".name")
     showValidations=true
   }}
-  {{input/md-input
+{{input/md-input
     label="Value"
     data-spy="Value"
     model=this
@@ -16,7 +16,7 @@
     profilePath=(concat profilePath ".value")
     showValidations=true
   }}
-  {{input/md-input
+{{input/md-textarea
     label="Definition"
     data-spy="Definition"
     model=this
@@ -27,7 +27,7 @@
   }}
 
 {{#with model.reference as |citation|}}
-  {{#layout/md-card
+{{#layout/md-card
     title="Item Reference"
     collapsible=true
     collapsed=false
@@ -35,11 +35,11 @@
     data-spy="Item Reference"
     shadow=true
   }}
-      {{object/md-citation
+{{object/md-citation
         model=citation
         profilePath=(concat profilePath ".reference")
         simpleIdentifier=true
         embedded=true
       }}
-  {{/layout/md-card}}
+{{/layout/md-card}}
 {{/with}}
