@@ -6,7 +6,7 @@
     placeholder="Descriptive name for the domain value."
     profilePath=(concat profilePath ".name")
     showValidations=true
-  }}
+ }}
 {{input/md-input
     label="Value"
     data-spy="Value"
@@ -15,7 +15,7 @@
     placeholder="Value of the domain item."
     profilePath=(concat profilePath ".value")
     showValidations=true
-  }}
+ }}
 {{input/md-textarea
     label="Definition"
     data-spy="Definition"
@@ -24,22 +24,21 @@
     placeholder="A brief definition for the domain item."
     profilePath=(concat profilePath ".definition")
     showValidations=true
-  }}
-
+ }}
 {{#with model.reference as |citation|}}
 {{#layout/md-card
-    title="Item Reference"
-    collapsible=true
-    collapsed=false
-    profilePath=(concat profilePath ".reference")
-    data-spy="Item Reference"
-    shadow=true
-  }}
+      title="Item Reference"
+      collapsible=true
+      collapsed=false
+      profilePath=(concat profilePath ".reference")
+      data-spy="Item Reference"
+      shadow=true
+ }}
 {{object/md-citation
-        model=citation
-        profilePath=(concat profilePath ".reference")
-        simpleIdentifier=true
-        embedded=true
-      }}
+          model=citation
+          profilePath=(concat profilePath ".reference")
+          simpleIdentifier=true
+          embedded=true
+ }}
 {{/layout/md-card}}
 {{/with}}
