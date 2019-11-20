@@ -50,7 +50,7 @@
   }
 }
 
-.ember-power-select-option > .md-select-option.with-tip{
+.ember-power-select-option>.md-select-option.with-tip {
   @include text-overflow();
   display: list-item;
   padding-right: 1.5em;
@@ -72,16 +72,17 @@
     cursor: default;
   }
 }
+
 // Zebra-striping
 form {
   .table-striped {
-    > tbody > tr:nth-of-type(odd) {
+    >tbody>tr:nth-of-type(odd) {
       background-color: lighten($brand-info, 45);
     }
   }
 
   .table-hover {
-    > tbody > tr:hover {
+    >tbody>tr:hover {
       background-color: lighten($brand-info, 42);
     }
   }
@@ -91,7 +92,7 @@ form {
   }
 
   &.no-gutter {
-    .form-group > * {
+    .form-group>* {
       padding-left: 0;
       padding-right: 0;
     }
@@ -115,6 +116,11 @@ form {
 //to display error icons
 .md-input-input {
   position: relative;
+
+  >input[placeholder] {
+    text-overflow: ellipsis;
+    padding-right: 30px;
+  }
 }
 
 .md-datetime {
@@ -155,7 +161,7 @@ form {
   display: flex;
   margin-bottom: 5px;
 
-  > * {
+  >* {
     margin-right: 1em;
   }
 }
