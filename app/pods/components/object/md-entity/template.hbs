@@ -10,7 +10,6 @@
     data-spy="Identifier"
     class="md-embedded"
   }}
-
   {{input/md-input
     model=this
     valuePath="codeName"
@@ -20,7 +19,6 @@
     profilePath=(concat profilePath ".codeName")
     class="md-embedded"
   }}
-
   {{input/md-textarea
     value=model.definition
     required=true
@@ -31,7 +29,6 @@
     embedded=true
     profilePath=(concat profilePath ".definition")
   }}
-
   {{input/md-input
     value=model.commonName
     placeholder="Enter a short common name for the entity."
@@ -40,7 +37,6 @@
     data-spy="Common Name"
     class="md-embedded"
   }}
-
   {{#object/md-simple-array-table
     title="Alias"
     required=false
@@ -51,13 +47,11 @@
     value=model.alias as |val|
   }}
     <td>
-        {{input/md-input value=val.item.value
+      {{input/md-input value=val.item.value
         placeholder="Alternate names used to identify this entity."}}
     </td>
   {{/object/md-simple-array-table}}
-
 {{/layout/md-card}}
-
 {{object/md-objectroute-table
   attributes="Name,Data Type, Definition, Allow Null?"
   items=model.attribute
@@ -77,7 +71,6 @@
   data-spy="Attributes"
   templateClass=attributeTemplate
 }}
-
 {{#layout/md-card
   title="Entity Structure"
   collapsible=true
@@ -85,7 +78,6 @@
   profilePath=(concat profilePath ".structure")
   data-spy="Entity Structure"
 }}
-
   {{input/md-input
     value=model.fieldSeparatorCharacter
     placeholder="The character which indicates the end of data field contents."
@@ -93,9 +85,7 @@
     profilePath=(concat profilePath ".structure.fieldSeparatorCharacter")
     class="md-embedded"
   }}
-
-
-    {{input/md-input
+  {{input/md-input
       type="number"
       step=1
       model=model
@@ -105,7 +95,6 @@
       profilePath=(concat profilePath ".structure.numberOfHeaderLines")
       class="md-embedded"
     }}
-
   {{input/md-input
     value=model.quoteCharacter
     placeholder="Character used to quote fields in the data representation."
@@ -113,9 +102,7 @@
     profilePath=(concat profilePath ".structure.quoteCharacter")
     class="md-embedded"
   }}
-
 {{/layout/md-card}}
-
 {{#layout/md-card
   title="Entity Keys"
   collapsible=true
@@ -123,7 +110,6 @@
   profilePath=(concat profilePath ".keys")
   data-spy="Entity Keys"
 }}
-
   {{input/md-codelist-multi
    label="Primary Key Attributes"
    value=model.primaryKeyAttributeCodeName
@@ -135,11 +121,10 @@
    data-spy="Primary"
    class="md-embedded"
   }}
-
   {{#object/md-array-table
     columns="Local Attributes,Referenced Entity,Referenced Attributes"
     value=model.foreignKey
-    title="Foreign Key Attributes"
+    title="Foreign Key"
     class="md-embedded"
     plain=true
     responsive=true
@@ -182,9 +167,7 @@
       }}
     </td>
   {{/object/md-array-table}}
-
 {{/layout/md-card}}
-
 {{#object/md-array-table
   columns="Name,Attributes,Duplicates?"
   value=model.index
@@ -224,8 +207,6 @@
     }}
   </td>
 {{/object/md-array-table}}
-
-
 {{object/md-citation-array
   model=model.entityReference
   profilePath=(concat profilePath ".entityReference")
@@ -233,7 +214,6 @@
   editItem=(action "editCitation")
   label="Entity Reference"
 }}
-
 {{!-- {{object/md-objectroute-table
   attributes="Name,Value,Definition"
   items=model.entityItem

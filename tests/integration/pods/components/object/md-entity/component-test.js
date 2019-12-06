@@ -79,7 +79,7 @@ module('Integration | Component | object/md entity', function(hooks) {
     await render(hbs`{{object/md-entity dictionary=dictionary profilePath="foobar" model=entity}}`);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Entity|Information|Entity|Identifier|Code|Name|Definition|Common|Name|Aliases|2|Add|Alias|0|Delete|1|Delete|No|Attributes|found.|Add|Attribute|Entity|Structure|Field|Separator|Character|#|Header|Lines|Quote|Character|Entity|Keys|Primary|Key|Attributes|×|primaryKeyAttributeCodeName0|×|primaryKeyAttributeCodeName1|No|Foreign|Key|Attributes|found.|Add|Foreign|Key|Attribute|No|Entity|Index|found.|Add|Entity|Index|No|Entity|Reference|found.|Add|Entity|Reference|');
+      '|Entity|Information|Entity|Identifier|Code|Name|Definition|Common|Name|Aliases|2|Add|Alias|0|Delete|1|Delete|No|Attributes|found.|Add|Attribute|Entity|Structure|Field|Separator|Character|#|Header|Lines|Quote|Character|Entity|Keys|Primary|Key|Attributes|×|primaryKeyAttributeCodeName0|×|primaryKeyAttributeCodeName1|No|Foreign|Key|found.|Add|Foreign|Key|No|Entity|Index|found.|Add|Entity|Index|No|Entity|Reference|found.|Add|Entity|Reference|');
 
     // Template block usage:
     await render(hbs`
@@ -89,7 +89,7 @@ module('Integration | Component | object/md entity', function(hooks) {
     `);
 
     assert.equal(find('form').textContent.replace(/[\s\n]+/g, '|').trim(),
-    '|Entity|Information|Entity|Identifier|Code|Name|Definition|Common|Name|No|Alias|found.|Add|Alias|No|Attributes|found.|Add|Attribute|Entity|Structure|Field|Separator|Character|#|Header|Lines|Quote|Character|Entity|Keys|Primary|Key|Attributes|No|Foreign|Key|Attributes|found.|Add|Foreign|Key|Attribute|No|Entity|Index|found.|Add|Entity|Index|No|Entity|Reference|found.|Add|Entity|Reference|',
+    '|Entity|Information|Entity|Identifier|Code|Name|Definition|Common|Name|No|Alias|found.|Add|Alias|No|Attributes|found.|Add|Attribute|Entity|Structure|Field|Separator|Character|#|Header|Lines|Quote|Character|Entity|Keys|Primary|Key|Attributes|No|Foreign|Key|found.|Add|Foreign|Key|No|Entity|Index|found.|Add|Entity|Index|No|Entity|Reference|found.|Add|Entity|Reference|',
     'block');
   });
 });
