@@ -127,7 +127,7 @@ export default Component.extend(Validations, {
       this.startEditing();
     },
     addChild(){
-      this.model.subClassification.pushObject({
+      this.get('model.subClassification').pushObject({
         commonName:[],
         subClassification: [],
         _edit: true
