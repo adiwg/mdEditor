@@ -20,7 +20,7 @@ module('Integration | Component | leaflet table', function(hooks) {
         .replace(/[\s\t]/g, '\n')
         .trim()
         .replace(/[ \n]+/g, '|'),
-        'ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50|500'
+        'ID|Name|Description|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1'
     );
   });
 });

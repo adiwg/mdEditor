@@ -30,7 +30,7 @@ module('Integration | Component | control/md-edit-table', function(hooks) {
     await render(hbs`{{control/md-edit-table data=data dataColumns=columns rowBodyComponent="object/md-schema"}}`);
 
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),
-      '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|foo|bar|Edit|Delete|biz|baz|Edit|Delete|Show|1|-|2|of|2|10|25|50|500|');
+      '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|Title|Type|foo|bar|Edit|Delete|biz|baz|Edit|Delete|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1|');
 
     await click('.md-row-buttons .btn-success');
 
