@@ -2,7 +2,7 @@
   <div class="map-dropzone-target">
     <span><i class="fa fa-bullseye"></i> Drop Here!</span>
   </div>
-  {{#leaflet-draw lat=lat lng=lng zoom=zoom onLoad="setup" editLayers=layers closeForm=(action "closeForm") showForm=(action "showForm")}}
+  {{#leaflet-draw lat=lat lng=lng zoom=zoom onLoad=(action "setup") editLayers=layers closeForm=(action "closeForm") showForm=(action "showForm")}}
     {{!-- Specify child layer components here --}}
     {{#layer-group name="Terrain" baselayer=true default=true}}
       {{!-- {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}} --}}
@@ -22,40 +22,49 @@
   {{#unless formData}}
   <h4 class="table-title">Feature Properties</h4>
   {{#feature-table data=layers
-    showForm=(action "showForm")
-    zoomTo=(action "zoomTo")
-    deleteFeature=(action "deleteFeature")
+    columnComponents=(hash
+      leaflet-table-row-actions=(component "leaflet-table-row-actions"
+      showForm=(action "showForm")
+      zoomTo=(action "zoomTo")
+      deleteFeature=(action "deleteFeature")
+    ))
     showGlobalFilter=false
     showColumnsDropdown=false
-    sendAction=sendAction
     pageSize=10 as |ft|
   }}
     {{!-- {{ft.global-filter}}
     {{ft.columns-dropdown}} --}}
-      {{#ft.table as |table|}}
-        {{table.header}}
-        {{#table.body as |body|}}
+      {{#ft.Table as |table|}}
+        {{table.Header}}
+        {{#table.Body as |body|}}
           {{#if body.allColumnsAreHidden}}
-            {{body.columns-hidden}}
+            {{body.ColumnsHidden}}
           {{else}}
             {{#if body.visibleContent.length}}
+            {{!-- {{debugger}} --}}
               {{#each body.visibleContent as |record index|}}
-              {{!-- {{debugger}} --}}
                 {{body.row record=record
                   index=index
-              }}
+                  showForm=(action "showForm")
+                  zoomTo=(action "zoomTo")
+                  deleteFeature=(action "deleteFeature")
+                }}
                 {{#if (exists-in body.expandedItems record)}}
-                  {{body.row-expand record=record index=index}}
+                  {{body.RowExpand
+                    expandedRowComponent=expandedRowComponent
+                    record=record
+                    index=index
+                  }}
                 {{/if}}
               {{/each}}
             {{else}}
               {{body.no-data}}
             {{/if}}
           {{/if}}
-        {{/table.body}}
-        {{table.footer}}
-      {{/ft.table}}
-    {{ft.footer}}
+        {{/table.Body}}
+        {{table.Tooter}}
+      {{/ft.Table}}
+    {{ft.Footer}}
   {{/feature-table}}
   {{else}}
   <h4 class="table-title">Edit Feature Properties

@@ -1,29 +1,48 @@
-import { find, render } from '@ember/test-helpers';
+import { find, render, click } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createMapLayer from 'mdeditor/tests/helpers/create-map-layer';
 
-module('Integration | Component | feature table', function(hooks) {
+module('Integration | Component | feature table', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
+    this.zoomTo = function () {
+      assert.ok(true, 'called zoomTo');
+    };
+    this.showForm = function () {
+      assert.ok(true, 'clicked showForm');
+    };
+    this.deleteFeature = function () {
+      assert.ok(true, 'clicked deleteFeature');
+    };
     this.set('data', createMapLayer(2));
-    this.set('showForm', function () {
-      return false;
-    });
 
-    await render(hbs `{{feature-table data=data.features showForm=showForm}}`);
+    assert.expect(4);
+
+    await render(hbs `{{feature-table
+      data=data.features
+      columnComponents=(hash
+        leaflet-table-row-actions=(component "leaflet-table-row-actions"
+        showForm=showForm
+        zoomTo=zoomTo
+        deleteFeature=deleteFeature
+      ))
+    }}`);
 
     assert.equal(find('.feature-table')
       .textContent
       .replace(/[\s, \t]/g, '\n')
       .trim()
       .replace(/[ +\n]+/g, '|'),
-      'Search:|Columns|Show|All|Hide|All|Restore|Defaults|ID|Name|Description|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|10|25|50|500'
+      'Search:|Columns|Show|All|Hide|All|Restore|Defaults|ID|Name|Description|ID|Name|Description|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1'
     );
+
+    await click(find('td .btn-success'));
+    await click(find('td .btn-info'));
+    await click(find('td .btn-danger'));
 
   });
 });

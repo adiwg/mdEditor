@@ -33,7 +33,7 @@ module('Integration | Component | control/md select table', function(hooks) {
     await render(hbs`{{control/md-select-table columns=columns data=data select=select}}`);
 
     assert.equal(find('.md-select-table').textContent.replace(/[ \n\t\s]+/g, '|').trim(),
-      '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|foo|bar|biz|baz|Show|1|-|2|of|2|10|25|50|500|');
+      '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|Title|Type|foo|bar|biz|baz|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1|');
 
     click('.md-select-table tbody tr');
 
