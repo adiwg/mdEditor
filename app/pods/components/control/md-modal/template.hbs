@@ -1,6 +1,6 @@
 {{#if isShowing}}
   {{#modal-dialog
-      onClose="closeModal"
+      onClose=(action "closeModal")
       targetAttachment="middle center"
       attachment="middle center"
       translucentOverlay=true
