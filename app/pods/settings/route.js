@@ -4,6 +4,7 @@ import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
 
 export default Route.extend({
+
   settings: service(),
   publish: service(),
   /**
@@ -39,7 +40,7 @@ export default Route.extend({
       window.location.reload();
     },
     save() {
-      this.currentRouteModel().save();
+      this.settings.data.save();
     },
 
     catalogs() {
