@@ -4,10 +4,10 @@ import { isArray } from '@ember/array';
 import { computed, get } from '@ember/object';
 
 export default Route.extend({
-  model(params, transition) {
+  model(params) {
     this.set('stepId', params.step_id);
-    this.set('lineageId', transition.params[
-      'record.show.edit.lineage.lineageobject'].lineage_id);
+    this.set('lineageId', this.paramsFor(
+      'record.show.edit.lineage.lineageobject').lineage_id);
 
     return this.setupModel();
   },

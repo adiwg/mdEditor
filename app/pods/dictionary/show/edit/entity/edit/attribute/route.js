@@ -11,9 +11,9 @@ import {
 } from '@ember/utils';
 
 export default Route.extend({
-  beforeModel(transition) {
-    this.set('entityId', transition.params[
-      'dictionary.show.edit.entity.edit'].entity_id);
+  beforeModel() {
+    this.set('entityId', this.paramsFor(
+      'dictionary.show.edit.entity.edit').entity_id);
   },
   model(params) {
     this.set('attributeId', params.attribute_id);
