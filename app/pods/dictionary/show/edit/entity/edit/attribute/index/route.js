@@ -5,11 +5,11 @@ import {
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
-  beforeModel(transition) {
-    this.set('entityId', transition.params[
-      'dictionary.show.edit.entity.edit'].entity_id);
-    this.set('attributeId', transition.params[
-      'dictionary.show.edit.entity.edit.attribute'].attribute_id);
+  beforeModel() {
+    this.set('entityId', this.paramsFor(
+      'dictionary.show.edit.entity.edit').entity_id);
+    this.set('attributeId', this.paramsFor(
+      'dictionary.show.edit.entity.edit.attribute').attribute_id);
   },
 
   setupController: function () {
