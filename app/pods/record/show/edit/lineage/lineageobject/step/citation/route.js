@@ -4,12 +4,12 @@ import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
-  model(params, transition) {
+  model(params) {
     this.set('citationId', params.citation_id);
-    this.set('stepId', transition.params[
-      'record.show.edit.lineage.lineageobject.step'].step_id);
-    this.set('lineageId', transition.params[
-      'record.show.edit.lineage.lineageobject'].lineage_id);
+    this.set('stepId', this.paramsFor(
+      'record.show.edit.lineage.lineageobject.step').step_id);
+    this.set('lineageId', this.paramsFor(
+      'record.show.edit.lineage.lineageobject').lineage_id);
 
     return this.setupModel();
   },

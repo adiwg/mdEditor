@@ -11,9 +11,9 @@ export default Route.extend(ScrollTo, {
   //     //title: `${get(this, 'distributionId')}: Distributors`
   //   };
   // }),
-  model(params, transition) {
-    let tparams = transition.params[
-      'record.show.edit.distribution.distributor'];
+  model(params) {
+    let tparams = this.paramsFor(
+      'record.show.edit.distribution.distributor');
 
     this.set('transferId', params.transfer_id);
     this.set('distributionId', tparams.distribution_id);
