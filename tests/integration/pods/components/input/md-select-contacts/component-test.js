@@ -3,7 +3,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createContact from 'mdeditor/tests/helpers/create-contact';
-import { selectChoose} from 'ember-power-select/test-support';
+import { selectChoose } from 'ember-power-select/test-support';
 
 module('Integration | Component | input/md select contacts', function(hooks) {
   setupRenderingTest(hooks);
