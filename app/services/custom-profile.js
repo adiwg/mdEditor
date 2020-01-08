@@ -25,7 +25,7 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.customProfiles = this.get('store').peekAll('custom-profile');
+    this.customProfiles = this.store.peekAll('custom-profile');
   },
   flashMessages: service(),
   store: service(),
