@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import { A, isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
@@ -52,7 +51,7 @@ export default Route.extend(ScrollTo, {
       undefined;
 
     if(isEmpty(distributor)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning(
           'No Transfer Option object found! Re-directing to Distribution...'
           );
@@ -62,7 +61,7 @@ export default Route.extend(ScrollTo, {
     }
 
     if(isEmpty(transfer)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning(
           'No Transfer Option object found! Re-directing to Distributor...'
           );

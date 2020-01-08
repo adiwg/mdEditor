@@ -63,7 +63,7 @@ export default Route.extend({
       this.transitionTo('record.show.edit.extent.spatial', id);
     },
     toList() {
-      this.transitionTo(this.get('routeName'));
+      this.transitionTo(this.routeName);
     }
   }
 });

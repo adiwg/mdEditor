@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend({
   model() {
-    return this.get('store').findAll('schema');
+    return this.store.findAll('schema');
   },
 
   schemas: service(),
