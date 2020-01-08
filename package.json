@@ -85,7 +85,6 @@
     "ember-modal-dialog": "^3.0.0-beta.4",
     "ember-models-table": "3.0.0-beta.3",
     "ember-moment": "^8.0",
-    "ember-multiselect-checkboxes": "^0.11.1",
     "ember-page-title": "^5.1.0",
     "ember-power-select": "^3.0.4",
     "ember-power-select-with-create": "~0.7.0",
