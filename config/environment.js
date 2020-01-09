@@ -37,11 +37,11 @@ module.exports = function(environment) {
     'ember-toggle': {
       includedThemes: [],
       //excludedThemes: ['flip'],
-      defaultShowLabels: true, // defaults to false
+      // defaultShowLabels: true, // defaults to false
       defaultTheme: 'light', // defaults to 'default'
       //defaultSize: 'small', // defaults to 'medium'
-      defaultOffLabel: 'False', // defaults to 'Off'
-      defaultOnLabel: 'True' // defaults to 'On'
+      // defaultOffLabel: 'False', // defaults to 'Off'
+      // defaultOnLabel: 'True' // defaults to 'On'
     },
     flashMessageDefaults: {
       // flash message defaults

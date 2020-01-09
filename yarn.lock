@@ -6086,15 +6086,6 @@ ember-moment@^8.0:
     ember-getowner-polyfill "^2.2.0"
     ember-macro-helpers "^4.2.2"
 
-ember-multiselect-checkboxes@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/ember-multiselect-checkboxes/-/ember-multiselect-checkboxes-0.11.1.tgz#cf560e40e431959c00b13b702aa5d15751349f6e"
-  integrity sha1-z1YOQOQxlZwAsTtwKqXRV1E0n24=
-  dependencies:
-    ember-cli-babel "^6.6.0"
-    ember-cli-htmlbars "^2.0.3"
-    ember-runtime-enumerable-includes-polyfill "^2.1.0"
-
 ember-page-title@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/ember-page-title/-/ember-page-title-5.1.0.tgz#baf9fc00f95faf638f8493740a1f80daaa5007e9"
@@ -6193,7 +6184,7 @@ ember-router-generator@^1.2.3:
   dependencies:
     recast "^0.11.3"
 
-ember-runtime-enumerable-includes-polyfill@^2.0.0, ember-runtime-enumerable-includes-polyfill@^2.1.0:
+ember-runtime-enumerable-includes-polyfill@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/ember-runtime-enumerable-includes-polyfill/-/ember-runtime-enumerable-includes-polyfill-2.1.0.tgz#dc6d4a028471e4acc350dfd2a149874fb20913f5"
   integrity sha512-au18iI8VbEDYn3jLFZzETnKN5ciPgCUxMRucEP3jkq7qZ6sE0FVKpWMPY/h9tTND3VOBJt6fgPpEBJoJVCUudg==
@@ -6281,10 +6272,10 @@ ember-text-measurer@^0.5.0:
   dependencies:
     ember-cli-babel "^7.1.0"
 
-ember-toggle@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/ember-toggle/-/ember-toggle-6.0.0.tgz#17042a3880fb092cad7797d941f36ade25505932"
-  integrity sha512-czSdkt3X+dCzc3KFt3jr2GUJj2yUivFXLn+JmUcNeZjmHAyVGekdBzu8TvaNUC5dpfBWB0q/qrQDnqNW0K5P0A==
+ember-toggle@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/ember-toggle/-/ember-toggle-6.0.1.tgz#e27e2746c0802de4712798ed75b7aa103c3e7009"
+  integrity sha512-8Tixs/wwfYHoZ13ElNDQpXVzusXv+Rs8NxlcN3KuKDsn1/ZZtqEDdDm59Thsz97BYXwI6uAOnFM/Fdbqilj/Mw==
   dependencies:
     ember-cli-babel "^7.7.3"
     ember-cli-htmlbars "^3.0.1"

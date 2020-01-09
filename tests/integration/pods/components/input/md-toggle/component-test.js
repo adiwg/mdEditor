@@ -9,11 +9,17 @@ module('Integration | Component | input/md toggle', function(hooks) {
   test('it renders', async function(assert) {
 
     // Set any properties with this.set('myProperty', 'value');
+    this.set('value', false);
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{input/md-toggle value=this.value onToggle=(action (mut this.value))}}`);
-
-    assert.equal(find('.x-toggle-component').textContent.replace(/[ \n]+/g, '|').trim(), '|Off|On|');
+    await render(hbs`{{input/md-toggle
+      value=this.value
+      showLabels=true
+      onToggle=(action (mut this.value))
+      offLabel="No"
+      onLabel="Yes"
+    }}`);
+    assert.equal(find('.x-toggle-component').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Yes|');
 
     await click('.x-toggle-btn');
 
