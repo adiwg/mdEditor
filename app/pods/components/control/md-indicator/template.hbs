@@ -1,0 +1,18 @@
+{{#if (has-block)}}
+  {{yield}}
+{{else}}
+  {{#if entityRoute}}
+    <div>
+      <span class="md-info">
+        {{fa-icon "sticky-note" fixedWidth=true}}
+        {{#ember-tooltip event="click" side="bottom" tooltipClass="ember-tooltip md-tooltip ember-popover info text-center"}}
+          <span class="text-white">This attribute has an associated domain:</span>
+          <hr>
+          {{#link-to "dictionary" class="text-dark"}}
+            {{domainName}}
+          {{/link-to}}
+        {{/ember-tooltip}}
+      </span>
+    </div>
+  {{/if}}
+{{/if}}
