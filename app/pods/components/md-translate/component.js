@@ -242,7 +242,7 @@ export default Component.extend({
     formatMessage(message) {
       return message ? message.trim().replace(/^([A-Z]{2,})/g, match =>
           match.toLowerCase()) :
-        'context not provided'
+        'context not provided';
     }
   }
 });

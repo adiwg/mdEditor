@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import { get } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import { A, isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
@@ -11,9 +10,9 @@ export default Route.extend(ScrollTo, {
   //     //title: `${get(this, 'distributionId')}: Distributors`
   //   };
   // }),
-  model(params, transition) {
-    let tparams = transition.params[
-      'record.show.edit.distribution.distributor'];
+  model(params) {
+    let tparams = this.paramsFor(
+      'record.show.edit.distribution.distributor');
 
     this.set('transferId', params.transfer_id);
     this.set('distributionId', tparams.distribution_id);
@@ -52,7 +51,7 @@ export default Route.extend(ScrollTo, {
       undefined;
 
     if(isEmpty(distributor)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning(
           'No Transfer Option object found! Re-directing to Distribution...'
           );
@@ -62,7 +61,7 @@ export default Route.extend(ScrollTo, {
     }
 
     if(isEmpty(transfer)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning(
           'No Transfer Option object found! Re-directing to Distributor...'
           );

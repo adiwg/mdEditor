@@ -4,6 +4,7 @@ import {
   warn
 } from '@ember/debug';
 import { isArray, A } from '@ember/array';
+import { defineProperty } from '@ember/object';
 
 export default Table.extend({
   /**
@@ -26,7 +27,31 @@ export default Table.extend({
    * @class md-select-table
    * @extends models-table
    */
+  init() {
 
+    this.dataColumns = this.dataColumns || [];
+    this.filteringIgnoreCase = this.filteringIgnoreCase || true;
+    this.multipleSelect = this.multipleSelect || true;
+
+    defineProperty(this, 'columns', computed('dataColumns', 'checkColumn',
+      function () {
+        let chk = this.checkColumn;
+        let action = this.actionsColumn;
+        let cols = A().concat(this.dataColumns);
+
+        if(chk) {
+          cols = [chk].concat(cols);
+        }
+
+        if(action) {
+          cols.push(action);
+        }
+
+        return cols;
+      }));
+
+    this._super(...arguments);
+  },
   classNames: ['md-record-table'],
 
   /**
@@ -70,7 +95,6 @@ export default Table.extend({
    * @required
    * @default []
    */
-  dataColumns: A(),
 
   /**
    * Column configs for the checkbox column.
@@ -92,7 +116,6 @@ export default Table.extend({
     };
   }),
 
-
   /**
    * Column configs for the action column.
    * See http://onechiporenko.github.io/ember-models-table
@@ -109,7 +132,8 @@ export default Table.extend({
       title: 'Actions',
       className: 'md-actions-column',
       component: all ?
-        'control/md-record-table/buttons' : 'control/md-record-table/buttons/show',
+        'control/md-record-table/buttons' :
+        'control/md-record-table/buttons/show',
       disableFiltering: !all,
       componentForFilterCell: all ?
         'control/md-record-table/buttons/filter' : null,
@@ -117,26 +141,6 @@ export default Table.extend({
     };
   }),
 
-  columns: computed('dataColumns', 'checkColumn', function () {
-    let chk = get(this, 'checkColumn');
-    let action = get(this, 'actionsColumn');
-    let cols = get(this, 'dataColumns');
-
-    if(chk) {
-      cols = [chk].concat(cols);
-    }
-
-    if(action) {
-      cols.push(action);
-    }
-
-    return cols;
-  }),
-
-  filteringIgnoreCase: true,
-  //rowTemplate: 'components/control/md-select-table/row',
-
-  multipleSelect: true,
   selectedItems: computed({
     get() {
       let prop = this.selectProperty;

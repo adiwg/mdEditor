@@ -106,8 +106,8 @@
 </div>
 </div>
 
-  {{#if model.subClassification.length}}
+  {{#with collapsible}}
     {{#liquid-unless collapse class="list-group-item"}}
       {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview profilePath=profilePath}}
     {{/liquid-unless}}
-  {{/if}}
+  {{/with}}

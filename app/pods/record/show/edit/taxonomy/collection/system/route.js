@@ -3,10 +3,10 @@ import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 
 export default Route.extend({
-  model(params, transition) {
+  model(params) {
     this.set('systemId', params.system_id);
-    this.set('collectionId', transition.params[
-      'record.show.edit.taxonomy.collection'].collection_id);
+    this.set('collectionId', this.paramsFor(
+      'record.show.edit.taxonomy.collection').collection_id);
 
     return this.setupModel();
   },

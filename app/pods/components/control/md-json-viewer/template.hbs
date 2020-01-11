@@ -1,6 +1,6 @@
 {{#if modal}}
   {{#modal-dialog
-      onClose="closeModal"
+      onClose=(action "closeModal")
       translucentOverlay=true
       containerClass="md-jsmodal-container"
       overlayClass="md-modal-overlay"

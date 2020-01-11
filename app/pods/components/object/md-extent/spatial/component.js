@@ -1,7 +1,14 @@
 /* global L */
 import Component from '@ember/component';
 import { or, alias } from '@ember/object/computed';
-import { set, get, getWithDefault, setProperties, observer, computed } from '@ember/object';
+import {
+  set,
+  get,
+  getWithDefault,
+  setProperties,
+  observer,
+  computed
+} from '@ember/object';
 import { isNone } from '@ember/utils';
 import { once } from '@ember/runloop';
 
