@@ -14,7 +14,7 @@ module('Integration | Component | object/md associated/preview', function(hooks)
       "resourceCitation": {
         "title": "Pacific Connectivity Website",
         "date": [{
-          "date": "2015-09-30T04:00:00.000Z",
+          "date": "2015-09-29T04:00:00.000Z",
           "dateType": "publication"
         }],
         "identifier": [{
@@ -57,7 +57,7 @@ module('Integration | Component | object/md associated/preview', function(hooks)
     await render(hbs`{{object/md-associated/preview item=model class="testme"}}`);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Resource|#|Association|Type|product|Initiative|Type|Not|Defined|Title|Pacific|Connectivity|Website|Alternate|Titles|No|alternate|titles|assigned.|Dates|September|30th|2015|(publication)|Identifier|5a70c2dee4b0a9a2e9dafbe7|(gov.sciencebase.catalog)|Responsible|Party|No|responsibility|assigned.|Metadata|Identifier|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|(urn:uuid)|');
+      '|Resource|#|Association|Type|product|Initiative|Type|Not|Defined|Title|Pacific|Connectivity|Website|Alternate|Titles|No|alternate|titles|assigned.|Dates|September|29th|2015|(publication)|Identifier|5a70c2dee4b0a9a2e9dafbe7|(gov.sciencebase.catalog)|Responsible|Party|No|responsibility|assigned.|Metadata|Identifier|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|(urn:uuid)|');
 
     // Template block usage:
     await render(hbs`
@@ -67,6 +67,6 @@ module('Integration | Component | object/md associated/preview', function(hooks)
     `);
 
     assert.equal(find('.testme').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Resource|#|Association|Type|product|Initiative|Type|Not|Defined|Title|Pacific|Connectivity|Website|Alternate|Titles|No|alternate|titles|assigned.|Dates|September|30th|2015|(publication)|Identifier|5a70c2dee4b0a9a2e9dafbe7|(gov.sciencebase.catalog)|Responsible|Party|No|responsibility|assigned.|Metadata|Identifier|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|(urn:uuid)|');
+      '|Resource|#|Association|Type|product|Initiative|Type|Not|Defined|Title|Pacific|Connectivity|Website|Alternate|Titles|No|alternate|titles|assigned.|Dates|September|29th|2015|(publication)|Identifier|5a70c2dee4b0a9a2e9dafbe7|(gov.sciencebase.catalog)|Responsible|Party|No|responsibility|assigned.|Metadata|Identifier|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|(urn:uuid)|');
   });
 });
