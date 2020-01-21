@@ -104,7 +104,7 @@
                             </div>
                             <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
                               {{#if item.domainId}}
-                                {{control/md-indicator domainName=item.codeName}}
+                                {{control/md-indicator indicatorDomainName=item.domainId}}
                               {{else}}
                                 <span class="md-error">
                                   <span class="fa fa-fw"></span>
