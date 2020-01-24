@@ -37,11 +37,16 @@ input[disabled] + .md-input-error {
   color: $brand-info;
 }
 
+.md-primary {
+  color: $brand-primary;
+}
+
 .md-success {
   color: $brand-success;
 }
 
-.md-error {
+.md-error,
+.md-danger {
   color: $brand-danger;
 }
 
