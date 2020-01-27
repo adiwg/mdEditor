@@ -229,6 +229,24 @@ export default Service.extend({
           });
         }
 
+        //fix metadataRepository title
+        let repo = record.get('json.metadataRepository');
+
+        if(isArray(repo)) {
+          repo.forEach(itm => {
+            let titles = get(itm, 'citation.titles');
+
+            if(titles) {
+              set(itm, 'citation.title', getWithDefault(itm,
+                'citation.titles', get(itm, 'title')));
+              set(itm, 'citation.titles', null);
+              record.save().then(function () {
+                record.notifyPropertyChange('currentHash');
+              });
+            }
+          });
+        }
+
         record.set('json.schema.version', Schemas.schema.version);
         record.save().then(function () {
           record.notifyPropertyChange('currentHash');

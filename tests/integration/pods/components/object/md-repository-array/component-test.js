@@ -27,6 +27,8 @@ module('Integration | Component | object/md repository array', function(hooks) {
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|Metadata|Repositories|2|Add|#|Repository|Collection|Title|0|data.gov|?|×|Delete|1|data.gov|?|×|Delete|');
 
+    assert.dom('.md-input input').hasValue('Arctic LCC data.gov');
+    assert.dom('.select-value').hasText('data.gov');
     // Template block usage:
     await render(hbs`
       {{#object/md-repository-array profilePath="foo"}}

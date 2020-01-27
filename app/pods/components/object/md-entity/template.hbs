@@ -2,6 +2,7 @@
   profilePath=(concat profilePath ".information") data-spy="Entity Information"
   required=true
 }}
+
   {{input/md-input
     value=model.entityId
     placeholder="Enter the identifier for the entity."
@@ -10,6 +11,7 @@
     data-spy="Identifier"
     class="md-embedded"
   }}
+
   {{input/md-input
     model=this
     valuePath="codeName"
@@ -19,6 +21,7 @@
     profilePath=(concat profilePath ".codeName")
     class="md-embedded"
   }}
+
   {{input/md-textarea
     value=model.definition
     required=true
@@ -29,6 +32,7 @@
     embedded=true
     profilePath=(concat profilePath ".definition")
   }}
+
   {{input/md-input
     value=model.commonName
     placeholder="Enter a short common name for the entity."
@@ -37,6 +41,7 @@
     data-spy="Common Name"
     class="md-embedded"
   }}
+
   {{#object/md-simple-array-table
     title="Alias"
     required=false
@@ -51,7 +56,9 @@
         placeholder="Alternate names used to identify this entity."}}
     </td>
   {{/object/md-simple-array-table}}
+
 {{/layout/md-card}}
+
 {{object/md-objectroute-table
   attributes="Attribute Name,Data Type, Definition, Allow Null?"
   items=model.attribute
@@ -60,6 +67,51 @@
   buttonText="Add Attribute"
   ellipsis=fallse
   previewTemplateTable="object/md-attribute/preview"
+  noteComponents=(array (hash
+    component="control/md-indicator/related"
+    options=(hash
+      icon="list"
+      title="Domain"
+      note="The attribute <em>${model.codeName}</em> has an associated domain: <strong>${related.codeName}</strong>."
+      parent=dictionary
+      path="domain"
+      relatedId="domainId"
+      route="dictionary.show.edit.domain.edit"
+      routeIdPaths=(array "relatedIndex")
+      linkText="Go to Domain")
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        title="Whoa!!!"
+        note="This is a <strong>Warning</strong> example."
+        icon="exclamation"
+        type= "warning"
+      )
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        type="primary"
+        icon="cog"
+        note="This is a <strong>plain</strong> example with type=primary."
+      )
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        note="This is a <strong>plain</strong> example."
+      )
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        type="danger"
+        title="Danger"
+        note="This is a <strong>plain</strong> example with type=danger."
+      )
+    )
+  )
   editItem=(action "editAttribute")
   verticalButtons=false
   profilePath=profilePath
@@ -71,6 +123,7 @@
   data-spy="Attributes"
   templateClass=attributeTemplate
 }}
+
 {{#layout/md-card
   title="Entity Structure"
   collapsible=true
@@ -78,6 +131,7 @@
   profilePath=(concat profilePath ".structure")
   data-spy="Entity Structure"
 }}
+
   {{input/md-input
     value=model.fieldSeparatorCharacter
     placeholder="The character which indicates the end of data field contents."
@@ -85,6 +139,7 @@
     profilePath=(concat profilePath ".structure.fieldSeparatorCharacter")
     class="md-embedded"
   }}
+
   {{input/md-input
       type="number"
       step=1
@@ -94,7 +149,8 @@
       label="# Header Lines"
       profilePath=(concat profilePath ".structure.numberOfHeaderLines")
       class="md-embedded"
-    }}
+  }}
+
   {{input/md-input
     value=model.quoteCharacter
     placeholder="Character used to quote fields in the data representation."
@@ -102,7 +158,9 @@
     profilePath=(concat profilePath ".structure.quoteCharacter")
     class="md-embedded"
   }}
+
 {{/layout/md-card}}
+
 {{#layout/md-card
   title="Entity Keys"
   collapsible=true
@@ -110,6 +168,7 @@
   profilePath=(concat profilePath ".keys")
   data-spy="Entity Keys"
 }}
+
   {{input/md-codelist-multi
    label="Primary Key Attributes"
    value=model.primaryKeyAttributeCodeName
@@ -121,6 +180,7 @@
    data-spy="Primary"
    class="md-embedded"
   }}
+
   {{#object/md-array-table
     columns="Local Attributes,Referenced Entity,Referenced Attributes"
     value=model.foreignKey
@@ -167,7 +227,9 @@
       }}
     </td>
   {{/object/md-array-table}}
+
 {{/layout/md-card}}
+
 {{#object/md-array-table
   columns="Name,Attributes,Duplicates?"
   value=model.index
@@ -207,6 +269,7 @@
     }}
   </td>
 {{/object/md-array-table}}
+
 {{object/md-citation-array
   model=model.entityReference
   profilePath=(concat profilePath ".entityReference")
@@ -214,28 +277,3 @@
   editItem=(action "editCitation")
   label="Entity Reference"
 }}
-{{!-- {{object/md-objectroute-table
-  attributes="Name,Value,Definition"
-  items=model.entityItem
-  header="Entity Items"
-  shadow=true
-  buttonText="Add Item"
-  ellipsis=fallse
-  previewTemplateTable="object/md-entityitem/preview"
-  editItem=(route-action "editItem")
-  verticalButtons=false
-  profilePath=profilePath
-  hideIndex=false
-  condensed=false
-  editOnAdd=false
-  scrollToId="md-entityitem"
-}}
-
-{{object/md-citation/preview
-  title="Entity Reference"
-  profilePath=(concat profilePath ".entityReference")
-  citation=model.entityReference
-  muted=true
-  required=false
-  editCitation=(route-action "editCitation")
-}} --}}

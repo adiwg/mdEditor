@@ -1,0 +1,36 @@
+{{#if (has-block)}}
+  {{yield}}
+{{else}}
+  {{fa-icon icon fixedWidth=true}}
+  {{#ember-popover
+    popoverHideDelay=popoverHideDelay
+    popperContainer="body"
+    tooltipClass=(concat "md-tooltip " type)
+  }}
+    {{#if title}}
+      <h4 class="title">
+        {{#if icon}}
+          {{fa-icon icon}}
+        {{/if}}
+        {{title}}
+
+      </h4>
+    {{/if}}
+    <span>{{interpolated}}</span>
+    {{!-- <span>This attribute has an associated domain</span>
+    {{#link-to "dictionary.show.edit.domain"}} --}}
+    <h4>
+    {{#if route}}
+      {{#if models.length}}
+        {{#link-to route=route models=models class=(concat "btn btn-sm btn-" type)}}
+          {{linkText}}
+        {{/link-to}}
+      {{else}}
+        {{#link-to route class=(concat "btn btn-sm btn-" type)}}
+          {{linkText}}
+        {{/link-to}}
+      {{/if}}
+    {{/if}}
+  </h4>
+  {{/ember-popover}}
+{{/if}}
