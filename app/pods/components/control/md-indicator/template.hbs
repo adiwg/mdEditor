@@ -1,18 +1,19 @@
-{{#if (has-block)}}
-  {{yield}}
-{{else}}
-  {{#if userCurrentRoute}}
-    <div>
-      <span class="md-info">
-        {{fa-icon "sticky-note" fixedWidth=true}}
-        {{#ember-tooltip event="click" side="bottom" tooltipClass="ember-tooltip md-tooltip ember-popover info text-center"}}
-          <span class="text-white">This attribute has an associated domain:</span>
-          <hr>
-          {{#link-to "dictionary.show.edit.domain" class="text-dark"}}
-            {{indicatorDomainName}}
-          {{/link-to}}
-        {{/ember-tooltip}}
-      </span>
-    </div>
+{{fa-icon icon fixedWidth=true}}
+
+{{#ember-popover
+  popoverHideDelay=popoverHideDelay
+  popperContainer="body"
+  tooltipClass=(concat "md-tooltip " type)
+}}
+  {{#if title}}
+    <h4 class="title">
+      {{#if icon}}
+        {{fa-icon icon}}
+      {{/if}}
+      {{title}}
+
+    </h4>
   {{/if}}
-{{/if}}
+  <span>{{interpolated}}</span>
+  {{yield}}
+{{/ember-popover}}

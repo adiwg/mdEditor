@@ -1,7 +1,13 @@
 import { module, test } from 'qunit';
-import { visit, currentURL, find, findAll, fillIn } from '@ember/test-helpers';
+import {
+  visit,
+  currentURL,
+  find,
+  findAll,
+  fillIn
+} from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { selectChoose} from 'ember-power-select/test-support';
+import { selectChoose } from 'ember-power-select/test-support';
 
 module('Acceptance | pods/record/new', function(hooks) {
   setupApplicationTest(hooks);

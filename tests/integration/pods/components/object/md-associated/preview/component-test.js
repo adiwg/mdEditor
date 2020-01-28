@@ -14,7 +14,7 @@ module('Integration | Component | object/md associated/preview', function(hooks)
       "resourceCitation": {
         "title": "Pacific Connectivity Website",
         "date": [{
-          "date": "2015-09-30T04:00:00.000Z",
+          "date": "2015-09-30T12:00:00.000Z",
           "dateType": "publication"
         }],
         "identifier": [{

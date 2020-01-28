@@ -71,7 +71,7 @@
     padding: $table-cell-padding 2px;
 
     .btn-toolbar {
-      text-align: right;
+      // text-align: right;
 
       .btn-group {
         float: none;
@@ -138,18 +138,24 @@
       color: $state-info-text;
     }
 
-    > thead > tr:first-of-type > .table-header {
-      color: $gray-darker;
-      transition: color .5s linear;
+    > thead {
+      & > tr:first-of-type > .table-header {
+        color: $gray-darker;
+        transition: color 0.5s linear;
 
-      &:hover {
-        color: $brand-info;
-        cursor: pointer;
+        &:hover {
+          color: $brand-info;
+          cursor: pointer;
+        }
       }
-    }
 
-    td {
-      vertical-align: middle;
+      .has-feedback .form-control-feedback {
+        top: 0;
+      }
+
+      td {
+        vertical-align: middle;
+      }
     }
 
   }

@@ -142,7 +142,7 @@ export default MdCodelist.extend({
   setValue(selected) {
     let sel;
 
-    //power-select-with-create always sends a single object oncreate
+    //power-select-with-create always sends a single object onCreate
     //we need to add that object to the selectedItem array
     if (this.create && !isArray(selected)) {
       sel = this.selectedItem

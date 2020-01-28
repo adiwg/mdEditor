@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { get } from '@ember/object';
 import { A } from '@ember/array';
 
 export default Route.extend({
@@ -24,8 +23,8 @@ export default Route.extend({
     this._super(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-    this.controller.set('distributionId', get(this, 'distributionId'));
-    this.controller.set('distributorId', get(this, 'distributorId'));
+    this.controller.set('distributionId', this.distributionId);
+    this.controller.set('distributorId', this.distributorId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -48,7 +47,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(distributor)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Distributor object found! Re-directing to Distribution List...');
       this.replaceWith('record.show.edit.distribution');
 

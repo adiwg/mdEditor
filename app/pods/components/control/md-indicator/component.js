@@ -1,26 +1,58 @@
 import Component from '@ember/component';
-import { computed, get}  from '@ember/object';
-import { inject as service } from '@ember/service';
-
+import { computed } from '@ember/object';
+import { htmlSafe } from '@ember/string';
+import { interpolate, parseArgs } from 'mdeditor/utils/md-interpolate';
 
 export default Component.extend({
-  router: service(),
-  /**
-   *
-   * @property indicatorDomainName
-   * @type {String}
-   * @default null
-   */
-  indicatorDomainName: null,
+  tagName: 'span',
+
+  init() {
+    const options = this.options;
+
+    this._super(...arguments);
+
+    if(options) {
+      Object.assign(this, options);
+      //this.classNames.concat(options.classNames);
+    }
+
+    this.popoverHideDelay = this.popoverHideDelay || 500;
+    this.icon = this.icon || 'sticky-note';
+    this.title = this.title || 'Note';
+    this.type = this.type || 'default';
+    this.classNames = ['md-indicator', `md-${this.type}`].concat(this
+      .classNames);
+  },
 
   /**
+   * The interpolated note string.
    *
-   * @property userCurrentRoute
+   * @property interpolated
    * @type {String}
-   * @default null
+   * @default ""
+   * @readOnly
+   * @category computed
+   * @requires note,values
    */
-  userCurrentRoute: computed('router', function () {
-    let router = get(this, 'router')
-    return router.currentRouteName === "dictionary.show.edit.entity.edit.index"
+  interpolated: computed('note', 'values', function () {
+    return htmlSafe(interpolate(this.note, this.values));
+  }),
+
+  /**
+   * The values for interpolated variables.
+   *
+   * @property variables
+   * @type {Object}
+   * @category computed
+   * @requires note
+   */
+  values: computed('note', function () {
+    let args = parseArgs(this.note);
+
+    return args.reduce((acc, a) => {
+      acc[a] = this.get(a);
+
+      return acc;
+    }, {});
   })
 });

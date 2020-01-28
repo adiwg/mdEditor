@@ -43,9 +43,11 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    once(this, function() {
-      this.set('model.commonName', getWithDefault(this, 'model.commonName', []));
-      this.set('model.subClassification', getWithDefault(this, 'model.subClassification', []));
+    once(this, function () {
+      this.set('model.commonName', getWithDefault(this,
+        'model.commonName', []));
+      this.set('model.subClassification', getWithDefault(this,
+        'model.subClassification', []));
     });
   },
   didInsertElement() {
@@ -91,7 +93,7 @@ export default Component.extend(Validations, {
     this.set('isEditing', true);
 
     // this.spotlight.setTarget('editor-' + this.elementId, this.stopEditing,this);
-    this.spotlight.setTarget(id, this.stopEditing,this);
+    this.spotlight.setTarget(id, this.stopEditing, this);
 
     scrollIntoView(document.getElementById(editor), {
       behavior: 'smooth',
@@ -100,7 +102,7 @@ export default Component.extend(Validations, {
   },
 
   stopEditing() {
-      this.set('isEditing', false);
+    this.set('isEditing', false);
   },
 
   deleteTaxa(taxa) {
@@ -108,6 +110,14 @@ export default Component.extend(Validations, {
       'parentItem.model.subClassification');
 
     parent.removeObject(taxa);
+  },
+
+  addChild() {
+    this.get('model.subClassification').pushObject({
+      commonName: [],
+      subClassification: [],
+      _edit: true
+    });
   },
 
   actions: {
@@ -119,19 +129,15 @@ export default Component.extend(Validations, {
       this.deleteTaxa(taxa);
     },
     toggleEditing() {
-      if(this.isEditing){
+      if(this.isEditing) {
         this.spotlight.close();
         this.set('isEditing', false);
         return;
       }
       this.startEditing();
     },
-    addChild(){
-      this.model.subClassification.pushObject({
-        commonName:[],
-        subClassification: [],
-        _edit: true
-      });
+    addChild() {
+      this.addChild();
     }
   }
 });

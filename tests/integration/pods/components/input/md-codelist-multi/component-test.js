@@ -1,4 +1,9 @@
-import { find, getRootElement, render, triggerEvent } from '@ember/test-helpers';
+import {
+  find,
+  getRootElement,
+  render,
+  triggerEvent
+} from '@ember/test-helpers';
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';

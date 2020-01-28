@@ -2,6 +2,7 @@
   profilePath=(concat profilePath ".information") data-spy="Entity Information"
   required=true
 }}
+
   {{input/md-input
     value=model.entityId
     placeholder="Enter the identifier for the entity."
@@ -51,7 +52,7 @@
     value=model.alias as |val|
   }}
     <td>
-        {{input/md-input value=val.item.value
+      {{input/md-input value=val.item.value
         placeholder="Alternate names used to identify this entity."}}
     </td>
   {{/object/md-simple-array-table}}
@@ -59,14 +60,58 @@
 {{/layout/md-card}}
 
 {{object/md-objectroute-table
-  attributes="Name,Data Type, Definition, Allow Null?"
+  attributes="Attribute Name,Data Type, Definition, Allow Null?"
   items=model.attribute
   header="Attributes"
   shadow=true
   buttonText="Add Attribute"
   ellipsis=fallse
   previewTemplateTable="object/md-attribute/preview"
-  showDomainIndicator="control/md-indicator"
+  noteComponents=(array (hash
+    component="control/md-indicator/related"
+    options=(hash
+      icon="list"
+      title="Domain"
+      note="The attribute <em>${model.codeName}</em> has an associated domain: <strong>${related.codeName}</strong>."
+      parent=dictionary
+      path="domain"
+      relatedId="domainId"
+      route="dictionary.show.edit.domain.edit"
+      routeIdPaths=(array "relatedIndex")
+      linkText="Go to Domain")
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        title="Whoa!!!"
+        note="This is a <strong>Warning</strong> example."
+        icon="exclamation"
+        type= "warning"
+      )
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        type="primary"
+        icon="cog"
+        note="This is a <strong>plain</strong> example with type=primary."
+      )
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        note="This is a <strong>plain</strong> example."
+      )
+    )
+    (hash
+      component="control/md-indicator"
+      options=(hash
+        type="danger"
+        title="Danger"
+        note="This is a <strong>plain</strong> example with type=danger."
+      )
+    )
+  )
   editItem=(action "editAttribute")
   verticalButtons=false
   profilePath=profilePath
@@ -95,8 +140,7 @@
     class="md-embedded"
   }}
 
-
-    {{input/md-input
+  {{input/md-input
       type="number"
       step=1
       model=model
@@ -105,7 +149,7 @@
       label="# Header Lines"
       profilePath=(concat profilePath ".structure.numberOfHeaderLines")
       class="md-embedded"
-    }}
+  }}
 
   {{input/md-input
     value=model.quoteCharacter
@@ -140,7 +184,7 @@
   {{#object/md-array-table
     columns="Local Attributes,Referenced Entity,Referenced Attributes"
     value=model.foreignKey
-    title="Foreign Key Attributes"
+    title="Foreign Key"
     class="md-embedded"
     plain=true
     responsive=true
@@ -226,7 +270,6 @@
   </td>
 {{/object/md-array-table}}
 
-
 {{object/md-citation-array
   model=model.entityReference
   profilePath=(concat profilePath ".entityReference")
@@ -234,29 +277,3 @@
   editItem=(action "editCitation")
   label="Entity Reference"
 }}
-
-{{!-- {{object/md-objectroute-table
-  attributes="Name,Value,Definition"
-  items=model.entityItem
-  header="Entity Items"
-  shadow=true
-  buttonText="Add Item"
-  ellipsis=fallse
-  previewTemplateTable="object/md-entityitem/preview"
-  editItem=(route-action "editItem")
-  verticalButtons=false
-  profilePath=profilePath
-  hideIndex=false
-  condensed=false
-  editOnAdd=false
-  scrollToId="md-entityitem"
-}}
-
-{{object/md-citation/preview
-  title="Entity Reference"
-  profilePath=(concat profilePath ".entityReference")
-  citation=model.entityReference
-  muted=true
-  required=false
-  editCitation=(route-action "editCitation")
-}} --}}

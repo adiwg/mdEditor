@@ -3,9 +3,9 @@ import { isEmpty } from '@ember/utils';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
-  beforeModel(transition) {
-    this.set('domainId', transition.params[
-      'dictionary.show.edit.domain.edit'].domain_id);
+  beforeModel() {
+    this.set('domainId', this.paramsFor(
+      'dictionary.show.edit.domain.edit').domain_id);
   },
   model(params) {
     this.set('identifierId', params.identifier_id);
