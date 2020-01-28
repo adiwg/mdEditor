@@ -92,13 +92,7 @@
                               {{#each noteComponents as |note|}}
                                 {{#if note.component}}
                                   {{component note.component model=item index=index options=note.options}}
-                                  {{!-- {{control/md-indicator indicatorDomainName=item.domainId}} --}}
-                                  {{!-- {{else}}
-                                                            <span class="md-error">
-                                                              <span class="fa fa-fw"></span>
-                                                            </span> --}}
                                 {{/if}}
-                              {{else}}
                               {{/each}}
                             </div>
                             <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
