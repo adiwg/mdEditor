@@ -3,6 +3,15 @@
   padding-right: 0.3em;
 }
 
+a.external::after {
+  @extend sup;
+
+  content: '\f08e';
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+}
+
 .page-header {
   margin: 20px 0;
 }
