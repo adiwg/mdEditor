@@ -14,8 +14,9 @@ module('Integration | Component | md help', function(hooks) {
 
     await render(hbs `{{md-help}}`);
 
-    assert.ok(find('*').textContent
-      .indexOf('Lorem ipsum' > 0));
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+    '|Help|Main|Tour|The|mdEditor|is|a|web|application|that|allows|users|to|author|and|edit|metadata|for|projects|and|datasets.|The|primary|design|goal|is|to|develop|an|editor|that|will|allow|creation|and|management|of|archival|quality|metadata|without|requiring|extensive|knowledge|of|metadata|standards.|A|comprehensive|User|Manual|is|available.|The|manual|includes|a|tutorial,|reference,|and|best|practices.|View|User|Manual|If|you|would|like|to|receive|announcements|regarding|the|mdEditor,|join|our|email|list!|Join|Email|list|'
+  );
 
     // Template block usage:
     await render(hbs `
@@ -24,8 +25,8 @@ module('Integration | Component | md help', function(hooks) {
       {{/md-help}}
     `);
 
-    assert.ok(find('*').textContent
+    assert.ok(this.element.textContent
       .trim()
-      .indexOf('template block text' > 0));
+      .indexOf('template block text') > 0);
   });
 });
