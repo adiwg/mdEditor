@@ -13,14 +13,5 @@ module('Integration | Component | control/md-indicator/related', function(hooks)
     await render(hbs`{{control/md-indicator/related}}`);
 
     assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#control/md-indicator/related}}
-        template block text
-      {{/control/md-indicator/related}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });
