@@ -12,6 +12,8 @@ module('Integration | Component | control/md-indicator/related', function(hooks)
 
     await render(hbs`{{control/md-indicator/related}}`);
 
+    //!need more viable test for md-indicator/related
+
     assert.equal(this.element.textContent.trim(), '');
   });
 });
