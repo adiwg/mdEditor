@@ -12,6 +12,8 @@ module('Integration | Component | control/md-indicator', function(hooks) {
 
     await render(hbs`{{control/md-indicator}}`);
 
+    //!need more viable test for md-indicator
+
     assert.equal(this.element.textContent.trim(), '');
 
   });
