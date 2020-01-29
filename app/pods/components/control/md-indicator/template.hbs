@@ -1,0 +1,19 @@
+{{fa-icon icon fixedWidth=true}}
+
+{{#ember-popover
+  popoverHideDelay=popoverHideDelay
+  popperContainer="body"
+  tooltipClass=(concat "md-tooltip " type)
+}}
+  {{#if title}}
+    <h4 class="title">
+      {{#if icon}}
+        {{fa-icon icon}}
+      {{/if}}
+      {{title}}
+
+    </h4>
+  {{/if}}
+  <span>{{interpolated}}</span>
+  {{yield}}
+{{/ember-popover}}

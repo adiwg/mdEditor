@@ -88,6 +88,13 @@
 
                             </div>
 
+                            <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Note">
+                              {{#each noteComponents as |note|}}
+                                {{#if note.component}}
+                                  {{component note.component model=item index=index options=note.options}}
+                                {{/if}}
+                              {{/each}}
+                            </div>
                             <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
                               {{#if item.validations.isInvalid}}
                               <span class="md-error">
