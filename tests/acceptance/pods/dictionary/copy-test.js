@@ -11,7 +11,7 @@ import {
 import {
   setupApplicationTest
 } from 'ember-qunit';
-import createDictionary from 'mdeditor/tests/helpers/create-dictionary';
+import { createDictionary } from 'mdeditor/tests/helpers/create-dictionary';
 
 module('Acceptance | pods/dictionary copy', function (hooks) {
   setupApplicationTest(hooks);
