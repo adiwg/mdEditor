@@ -71,10 +71,12 @@
     component="control/md-indicator/related"
     options=(hash
       icon="list"
+      event="hover"
       title="Domain"
       note="The attribute <em>${model.codeName}</em> has an associated domain: <strong>${related.codeName}</strong>."
       parent=dictionary
       path="domain"
+      popoverHideDelay=1000
       relatedId="domainId"
       route="dictionary.show.edit.domain.edit"
       routeIdPaths=(array "relatedIndex")
