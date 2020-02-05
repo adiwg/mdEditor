@@ -17,6 +17,7 @@ export default Component.extend({
     }
 
     this.popoverHideDelay = this.popoverHideDelay || 500;
+    this.popperContainer = this.popperContainer || "body";
     this.icon = this.icon || 'sticky-note';
     this.title = this.title || 'Note';
     this.type = this.type || 'default';

@@ -2,7 +2,7 @@
 
 {{#ember-popover
   popoverHideDelay=popoverHideDelay
-  popperContainer="body"
+  popperContainer=popperContainer
   tooltipClass=(concat "md-tooltip " type)
 }}
   {{#if title}}
@@ -11,7 +11,6 @@
         {{fa-icon icon}}
       {{/if}}
       {{title}}
-
     </h4>
   {{/if}}
   <span>{{interpolated}}</span>
