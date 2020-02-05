@@ -11,14 +11,86 @@ export default Indicator.extend({
     this._super(...arguments);
 
     this.linkText = this.linkText || 'Open Related';
+
+    this.classNames = ['md-indicator-related', `md-${this.type}`].concat(this
+      .classNames);
   },
 
   isVisible: bool('related'),
+  /**
+   * The string value of the "link-to" route argument.
+   *
+   * @property route
+   * @type {String}
+   * @required
+   */
 
+  /**
+   * The string value that provide options on how the user will interact with tooltip
+   *
+   * @property event
+   * @type {String}
+   */
+
+   /**
+    * The object to use as the data model for the entity.
+    *
+    * @property model
+    * @type {Object}
+    * @required
+    */
+
+    /**
+    * The string value used to render text to tooltip button.
+    *
+    * @property linkText
+    * @type {String}
+    * @required
+    */
+
+  /**
+   * The parent dictionary object for this attribute used to lookup references.
+   *
+   * @property parent
+   * @type {Object}
+   * @required
+   */
+
+  /**
+   * The string value property used in the related computed property.
+   *
+   * @property path
+   * @type {String}
+   * @required
+   */
+
+   /**
+   * The numeric value in milliseconds before the tooltip wil lhide after user hovers away from
+   * tooltip.
+   *
+   * @property popoverHideDelay
+   * @type {String}
+   */
+
+   /**
+   * The string value that tells the tooltip to append to a specific element. Default is set to
+   * body of page.
+   *
+   * @property popperContainer
+   * @type {String}
+   * @default "body"
+   */
+
+  /**
+   * The string value property used in the related computed property
+   * @property relatedId
+   * @type {String}
+   * @required
+   */
   /**
    * The related object.
    *
-   * @property interpolated
+   * @property related
    * @type {Object}
    * @category computed
    * @requires path,parent
