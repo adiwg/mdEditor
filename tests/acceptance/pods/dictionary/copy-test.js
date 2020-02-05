@@ -1,17 +1,7 @@
-import {
-  module,
-  test
-} from 'qunit';
-import {
-  findAll,
-  visit,
-  currentURL,
-  click
-} from '@ember/test-helpers';
-import {
-  setupApplicationTest
-} from 'ember-qunit';
-import createDictionary from 'mdeditor/tests/helpers/create-dictionary';
+import { module, test } from 'qunit';
+import { findAll, visit, currentURL, click } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
+import { createDictionary } from 'mdeditor/tests/helpers/create-dictionary';
 
 module('Acceptance | pods/dictionary copy', function (hooks) {
   setupApplicationTest(hooks);
