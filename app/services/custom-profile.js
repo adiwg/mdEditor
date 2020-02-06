@@ -7,6 +7,15 @@ import { union, map } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 import config from 'mdeditor/config/environment';
 
+/**
+ * The default profile identifier
+ *
+ * @property defaultProfileId
+ * @type {String}
+ * @default "mdeditor.config.environment.config.defaultProfileId"
+ * @static
+ * @readOnly
+ */
 const {
   APP: {
     defaultProfileId
@@ -18,8 +27,9 @@ const {
  *
  * Service that provides custom profile configurations.
  *
- * @module
- * @augments ember/Service
+ * @module mdeditor
+ * @submodule service
+ * @class custom-profile
  */
 export default Service.extend({
   init() {
@@ -34,11 +44,29 @@ export default Service.extend({
   /**
    * String identifying the active profile
    *
-   * @type {?String}
+   * @property active
+   * @type {String}
    */
   active: null,
 
+  /**
+   * Array of all available profiles
+   *
+   * @property profiles
+   * @type {Array}
+   * @category computed
+   * @required customProfiles,coreProfiles
+   */
   profiles: union('customProfiles', 'coreProfiles'),
+
+  /**
+   * Array of available coreProfile definitions
+   *
+   * @property coreProfiles
+   * @type {Array}
+   * @category computed
+   * @required definitions.coreProfiles
+   */
   coreProfiles: map('definitions.coreProfiles', function (itm) {
     return {
       id: itm.namespace + '.' + itm.identifier,
@@ -47,6 +75,15 @@ export default Service.extend({
       definition: itm
     }
   }),
+
+  /**
+   * Available profiles mapped by profile id
+   *
+   * @property mapById
+   * @type {Array}
+   * @category computed
+   * @required profiles.[]
+   */
   mapById: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;
@@ -54,6 +91,15 @@ export default Service.extend({
       return map;
     }, {});
   }),
+
+  /**
+   * Available profiles mapped by profile alternate id
+   *
+   * @property mapByAltId
+   * @type {Array}
+   * @category computed
+   * @required profiles.[]
+   */
   mapByAltId: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       let alt = get(profile, 'definition.alternateId');
@@ -67,13 +113,40 @@ export default Service.extend({
       return map;
     }, {});
   }),
+
+  /**
+   * The defaultProfile definition
+   *
+   * @property defaultProfile
+   * @type {Object}
+   * @category computed
+   * @required mapById
+   */
   defaultProfile: computed('mapById', function () {
     return this.mapById[defaultProfileId];
   }),
+
+  /**
+   * The current component profile definition
+   *
+   * @property activeComponents
+   * @type {Object}
+   * @category computed
+   * @required active
+   */
   activeComponents: computed('active', function () {
     let comp = get(this.getActiveProfile(), 'definition.components');
     return comp || this.defaultProfile.definition.components;
   }),
+
+  /**
+   * The currently active schemas
+   *
+   * @property activeSchemas
+   * @type {Array}
+   * @category computed
+   * @required active
+   */
   activeSchemas: computed('active', function () {
     return this.getActiveProfile().schemas;
   }),
@@ -81,8 +154,8 @@ export default Service.extend({
   /**
    * Get the active profile.
    *
-   * @function
-   * @returns {Object}
+   * @method getActiveProfile
+   * @return {Object} The profile definition
    */
   getActiveProfile() {
     const active = this.active;

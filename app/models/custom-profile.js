@@ -74,6 +74,16 @@ const Validations = buildValidations({
 });
 
 export default DS.Model.extend(Validations, {
+  /**
+   * Custom Profile model
+   *
+   * @class custom-profile
+   * @constructor
+   * @extends DS.Model
+   * @module mdeditor
+   * @submodule data-models
+   */
+
   init() {
     this._super(...arguments);
 

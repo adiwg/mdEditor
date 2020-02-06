@@ -28,7 +28,7 @@ export default Component.extend(ResizeAware, {
   /**
    * translated "more" text
    *
-   * @name more
+   * @property more
    * @type {String}
    */
   more: 'More',
@@ -74,7 +74,7 @@ export default Component.extend(ResizeAware, {
    * Width to be added to linkWidth to make sure the last link will fit.
    * Calcuated as the smaller of the maximum link width or 150.
    *
-   * @name offset
+   * @property offset
    * @type {Number}
    */
   offset: computed('links.@each.width', function () {

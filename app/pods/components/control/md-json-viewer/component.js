@@ -3,10 +3,20 @@ import Component from '@ember/component';
 import { typeOf } from '@ember/utils';
 
 export default Component.extend({
+  /**
+   * JSON viewer
+   *
+   * @class md-json-viewer
+   * @module mdeditor
+   * @submodule components-control
+   */
+
   classNames: 'md-json-viewer',
+
   /**
    * True to render in modal dialog
    *
+   * @property modal
    * @type {Boolean}
    */
   modal: true,
@@ -22,7 +32,8 @@ export default Component.extend({
   /**
    * Object or string to render as JSON in viewer
    *
-   * @type {ObjectString}
+   * @property json
+   * @type {Object|String}
    */
   json: 'No json supplied',
 

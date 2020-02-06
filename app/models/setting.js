@@ -10,6 +10,16 @@ const defaultValues = {
 };
 
 const theModel = DS.Model.extend({
+  /**
+   * Setting model
+   *
+   * @class setting
+   * @constructor
+   * @extends DS.Model
+   * @module mdeditor
+   * @submodule data-models
+   */
+
   settings: service(),
 
   init() {
