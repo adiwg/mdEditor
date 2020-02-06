@@ -1,7 +1,14 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
+        "array-required",
+        "array-valid",
+        "base",
+        "codelist",
         "contact",
+        "custom-profile",
+        "dictionary",
+        "input/md-select-profile",
         "make-range",
         "md-address",
         "md-array-table",
@@ -23,10 +30,14 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-identifier-array",
         "md-identifier-object-table",
         "md-import-csv",
+        "md-indicator",
+        "md-indicator--related",
         "md-input",
         "md-input-confirm",
+        "md-json-viewer",
         "md-maintenance",
         "md-markdown-editor",
+        "md-modal",
         "md-object-table",
         "md-online-resource-array",
         "md-phone-array",
@@ -41,6 +52,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "md-toggle",
         "md-wrap",
         "object-template",
+        "profile",
+        "record",
+        "schema",
+        "setting",
         "tree-branch",
         "tree-label",
         "tree-leaf",
@@ -57,8 +72,10 @@ YUI.add("yuidoc-meta", function(Y) {
         "helpers",
         "mdeditor",
         "mixins",
+        "service",
         "tree-search",
-        "tree-view"
+        "tree-view",
+        "validator"
     ],
     "allModules": [
         {
@@ -69,7 +86,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components-input",
             "name": "components-input",
-            "description": "Components used to input scalar or arrays of scalar values."
+            "description": "Input that displays available record profiles."
         },
         {
             "displayName": "components-layout",
@@ -79,7 +96,7 @@ YUI.add("yuidoc-meta", function(Y) {
         {
             "displayName": "components-object",
             "name": "components-object",
-            "description": "mdEditor class for input and edit of mdJSON 'citation' objects.\n\n```handlebars\n\\{{object/md-citation\n model=citation\n profilePath=\"path\"\n simpleIdentifier=false\n embedded=false\n}}"
+            "description": "mdEditor class for input and edit of mdJSON 'citation' objects.\n\n```handlebars\n\\{{object/md-citation\n model=citation\n profilePath=\"path\"\n simpleIdentifier=false\n embedded=false\n}}\n```"
         },
         {
             "displayName": "data-models",
@@ -107,6 +124,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "description": "Mixins."
         },
         {
+            "displayName": "service",
+            "name": "service",
+            "description": "Codelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object in init. The existing\nproperty names should be maintained."
+        },
+        {
             "displayName": "tree-search",
             "name": "tree-search",
             "description": "Renders a search form and results for JSON trees."
@@ -115,6 +137,11 @@ YUI.add("yuidoc-meta", function(Y) {
             "displayName": "tree-view",
             "name": "tree-view",
             "description": "Renders JSON tree structures."
+        },
+        {
+            "displayName": "validator",
+            "name": "validator",
+            "description": "Validation that checks array length"
         }
     ],
     "elements": []

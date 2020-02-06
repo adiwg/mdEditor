@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
     
+    
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -54,8 +55,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
-                                  Tag: 0.9.0.6749337e
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/v0.10.0" target="_blank">
+                                  Tag: v0.10.0
                                 </a>
                             </h4>
                         </div>
@@ -85,6 +86,8 @@
                                                     <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
                                                     <li class="sub"><a href="../modules/components-layout.html">components-layout</a></li>
                                                     <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
+                                                    <li class="sub"><a href="../modules/service.html">service</a></li>
+                                                    <li class="sub"><a href="../modules/validator.html">validator</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -103,7 +106,28 @@
                         <div class="panel-body">
                             <ol>
                                     <li>
+                                        <a href="../classes/array-required.html">array-required</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/array-valid.html">array-valid</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/base.html">base</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/codelist.html">codelist</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/custom-profile.html">custom-profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/dictionary.html">dictionary</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/input/md-select-profile.html">input/md-select-profile</a>
                                     </li>
                                     <li>
                                         <a href="../classes/make-range.html">make-range</a>
@@ -169,16 +193,28 @@
                                         <a href="../classes/md-import-csv.html">md-import-csv</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-indicator.html">md-indicator</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-indicator--related.html">md-indicator/related</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-input.html">md-input</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-json-viewer.html">md-json-viewer</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-modal.html">md-modal</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-object-table.html">md-object-table</a>
@@ -223,6 +259,18 @@
                                         <a href="../classes/object-template.html">object-template</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/profile.html">profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/record.html">record</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/schema.html">schema</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/setting.html">setting</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/tree-branch.html">tree-branch</a>
                                     </li>
                                     <li>
@@ -250,7 +298,7 @@
 
 <div class="page-header">
     <h1> <i class="fa fa-bookmark-o" aria-hidden="true"></i> contact Class
-            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L84" target="_blank">
+            <a class="pull-right file-edit" href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L84" target="_blank">
               <i class="fa fa-pencil" aria-hidden="true"></i>
             </a>
     </h1>
@@ -258,9 +306,16 @@
 
 
 <div class="content-meta">
+        <div class="uses">
+            Uses:
+            <ul class="inline commas">
+                    <li><a href="Validations.html">Validations</a></li>
+                    <li><a href="Copyable.html">Copyable</a></li>
+            </ul>
+        </div>
 
         <div class="extends">
-            Extends: DS.Model
+            Extends: Base
         </div>
 
             Module: <a href="../modules/data-models.html">data-models</a><br>
@@ -268,7 +323,7 @@
 
 
         <div class="foundat">
-            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L84">app/models/contact.js:84</a>
+            Defined In: <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L84">app/models/contact.js:84</a>
         </div>
 </div>
 
@@ -294,7 +349,7 @@
 	<div class="meta">
 				<p>
 				Defined in
-		<a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L84">app/models/contact.js:84</a>
+		<a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L84">app/models/contact.js:84</a>
 		</p>
 
 
@@ -360,7 +415,7 @@
                                   <a href="#method_copy">copy</a>
 
                               </li>
-                              <li class="index-item method">
+                              <li class="index-item method inherited">
                                   <a href="#method_setCurrentHash">setCurrentHash</a>
 
                               </li>
@@ -375,11 +430,11 @@
                                   <a href="#property_combinedName">combinedName</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
                                   <a href="#property_currentHash">currentHash</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
                                   <a href="#property_customSchemas">customSchemas</a>
 
                               </li>
@@ -391,11 +446,15 @@
                                   <a href="#property_defaultOrganization">defaultOrganization</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
                                   <a href="#property_hasDirtyHash">hasDirtyHash</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
+                                  <a href="#property_hashObject">hashObject</a>
+
+                              </li>
+                              <li class="index-item property inherited">
                                   <a href="#property_hasSchemaErrors">hasSchemaErrors</a>
 
                               </li>
@@ -403,7 +462,7 @@
                                   <a href="#property_icon">icon</a>
 
                               </li>
-                              <li class="index-item property">
+                              <li class="index-item property inherited">
                                   <a href="#property_jsonSnapshot">jsonSnapshot</a>
 
                               </li>
@@ -466,7 +525,7 @@
   	<div class="meta">
   				<p>
   				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L377">app/models/contact.js:377</a>
+  		<a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L378">app/models/contact.js:378</a>
   		</p>
   
   
@@ -486,7 +545,7 @@
   		</div>
   
   </div>
-  <div id="method_setCurrentHash" class="method item">
+  <div id="method_setCurrentHash" class="method item inherited">
   	<span class="method-signature">
   	<span class="name anchorable-toc">
   		<a class="fa fa-link toc-anchor" href="#method_setCurrentHash"></a>
@@ -509,10 +568,9 @@
   
   
   	<div class="meta">
-  					<p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-  				<p>
-  				Defined in
-  		<a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/base.js#L111">app/models/base.js:111</a>
+  				<p>Inherited from
+  				<a href="#method_setCurrentHash">base</a>:
+  		<a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/base.js#L121">app/models/base.js:121</a>
   		</p>
   
   
@@ -568,7 +626,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L277">app/models/contact.js:277</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L278">app/models/contact.js:278</a>
           </p>
   
   
@@ -584,7 +642,7 @@
   </div>
   
   
-  <div id="property_currentHash" class="property item">
+  <div id="property_currentHash" class="property item inherited">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_currentHash"></a>
           currentHash
@@ -597,10 +655,9 @@
   
   
       <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/base.js#L27">app/models/base.js:27</a>
+                  <p>Inherited from
+                  <a href="#property_currentHash">base</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/base.js#L37">app/models/base.js:37</a>
           </p>
   
   
@@ -616,7 +673,7 @@
   </div>
   
   
-  <div id="property_customSchemas" class="property item">
+  <div id="property_customSchemas" class="property item inherited">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_customSchemas"></a>
           customSchemas
@@ -634,10 +691,9 @@
   
   
       <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/base.js#L209">app/models/base.js:209</a>
+                  <p>Inherited from
+                  <a href="#property_customSchemas">base</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/base.js#L220">app/models/base.js:220</a>
           </p>
   
   
@@ -674,7 +730,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L212">app/models/contact.js:212</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L213">app/models/contact.js:213</a>
           </p>
   
   
@@ -710,7 +766,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L245">app/models/contact.js:245</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L246">app/models/contact.js:246</a>
           </p>
   
   
@@ -726,7 +782,7 @@
   </div>
   
   
-  <div id="property_hasDirtyHash" class="property item">
+  <div id="property_hasDirtyHash" class="property item inherited">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_hasDirtyHash"></a>
           hasDirtyHash
@@ -739,10 +795,9 @@
   
   
       <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/base.js#L137">app/models/base.js:137</a>
+                  <p>Inherited from
+                  <a href="#property_hasDirtyHash">base</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/base.js#L148">app/models/base.js:148</a>
           </p>
   
   
@@ -758,7 +813,63 @@
   </div>
   
   
-  <div id="property_hasSchemaErrors" class="property item">
+  <div id="property_hashObject" class="property item inherited">
+      <h3 class="name anchorable-toc">
+          <a class="fa fa-link toc-anchor" href="#property_hashObject"></a>
+          hashObject
+      </h3>
+      <span class="type">Unknown</span>
+  
+  
+  
+  
+  
+  
+      <div class="meta">
+                  <p>Inherited from
+                  <a href="#property_hashObject">base</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/base.js#L133">app/models/base.js:133</a>
+          </p>
+  
+  
+      </div>
+  
+      <div class="description">
+          <p>Computed a hash for the target object.</p>
+  
+      </div>
+  
+  
+  
+          <h4>Sub-properties:</h4>
+  
+          <ul class="params-list">
+              <li class="param">
+                      <code class="param-name">target</code>
+                      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+  
+                  <div class="param-description">
+                      <p>The object to hash</p>
+  
+                  </div>
+  
+              </li>
+              <li class="param">
+                      <code class="param-name">parsed</code>
+                      <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
+  
+                  <div class="param-description">
+                      <p>If true, the object will not be passed through
+  JSON.parse before being hashed</p>
+  
+                  </div>
+  
+              </li>
+          </ul>
+  </div>
+  
+  
+  <div id="property_hasSchemaErrors" class="property item inherited">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_hasSchemaErrors"></a>
           hasSchemaErrors
@@ -776,10 +887,9 @@
   
   
       <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/base.js#L198">app/models/base.js:198</a>
+                  <p>Inherited from
+                  <a href="#property_hasSchemaErrors">base</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/base.js#L209">app/models/base.js:209</a>
           </p>
   
   
@@ -815,7 +925,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L196">app/models/contact.js:196</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L197">app/models/contact.js:197</a>
           </p>
   
   
@@ -831,7 +941,7 @@
   </div>
   
   
-  <div id="property_jsonSnapshot" class="property item">
+  <div id="property_jsonSnapshot" class="property item inherited">
       <h3 class="name anchorable-toc">
           <a class="fa fa-link toc-anchor" href="#property_jsonSnapshot"></a>
           jsonSnapshot
@@ -844,10 +954,9 @@
   
   
       <div class="meta">
-                      <p>Provided by the <a href="../modules/mdeditor.html">mdeditor</a> module.</p>
-                  <p>
-                  Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/base.js#L34">app/models/base.js:34</a>
+                  <p>Inherited from
+                  <a href="#property_jsonSnapshot">base</a>:
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/base.js#L44">app/models/base.js:44</a>
           </p>
   
   
@@ -883,7 +992,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L340">app/models/contact.js:340</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L341">app/models/contact.js:341</a>
           </p>
   
   
@@ -919,7 +1028,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L320">app/models/contact.js:320</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L321">app/models/contact.js:321</a>
           </p>
   
   
@@ -956,7 +1065,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L134">app/models/contact.js:134</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L135">app/models/contact.js:135</a>
           </p>
   
   
@@ -992,7 +1101,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L181">app/models/contact.js:181</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L182">app/models/contact.js:182</a>
           </p>
   
   
@@ -1030,7 +1139,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L117">app/models/contact.js:117</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L118">app/models/contact.js:118</a>
           </p>
   
   
@@ -1064,7 +1173,7 @@
       <div class="meta">
                   <p>
                   Defined in
-          <a href="https://github.com/adiwg/mdEditor/blob/6749337e/app/models/contact.js#L103">app/models/contact.js:103</a>
+          <a href="https://github.com/adiwg/mdEditor/blob/v0.10.0/app/models/contact.js#L104">app/models/contact.js:104</a>
           </p>
   
   

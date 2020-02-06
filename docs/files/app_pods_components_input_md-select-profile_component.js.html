@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
     
+    
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -54,8 +55,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
-                                  Tag: 0.9.0.6749337e
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/v0.10.0" target="_blank">
+                                  Tag: v0.10.0
                                 </a>
                             </h4>
                         </div>
@@ -85,6 +86,8 @@
                                                     <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
                                                     <li class="sub"><a href="../modules/components-layout.html">components-layout</a></li>
                                                     <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
+                                                    <li class="sub"><a href="../modules/service.html">service</a></li>
+                                                    <li class="sub"><a href="../modules/validator.html">validator</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -103,7 +106,28 @@
                         <div class="panel-body">
                             <ol>
                                     <li>
+                                        <a href="../classes/array-required.html">array-required</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/array-valid.html">array-valid</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/base.html">base</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/codelist.html">codelist</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/custom-profile.html">custom-profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/dictionary.html">dictionary</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/input/md-select-profile.html">input/md-select-profile</a>
                                     </li>
                                     <li>
                                         <a href="../classes/make-range.html">make-range</a>
@@ -169,16 +193,28 @@
                                         <a href="../classes/md-import-csv.html">md-import-csv</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-indicator.html">md-indicator</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-indicator--related.html">md-indicator/related</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-input.html">md-input</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-json-viewer.html">md-json-viewer</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-modal.html">md-modal</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-object-table.html">md-object-table</a>
@@ -223,6 +259,18 @@
                                         <a href="../classes/object-template.html">object-template</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/profile.html">profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/record.html">record</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/schema.html">schema</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/setting.html">setting</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/tree-branch.html">tree-branch</a>
                                     </li>
                                     <li>
@@ -252,23 +300,39 @@
 
 <div class="file">
     <pre class="prettyprint linenums">
-/**
- * @module mdeditor
- * @submodule components-input
- */
-
 import Component from &#x27;@ember/component&#x27;;
 import { inject as service } from &#x27;@ember/service&#x27;;
 import calculatePosition from &#x27;ember-basic-dropdown/utils/calculate-position&#x27;
 
 export default Component.extend({
+  /**
+  * Input that displays available record profiles.
+  *
+  * @module mdeditor
+  * @submodule components-input
+  * @class input/md-select-profile
+  * @constructor
+  */
   profile: service(&#x27;custom-profile&#x27;),
 
+  /**
+   * Update the record profile
+   *
+   * @method   action.updateProfile
+   * @param  {String} profile The new profile.
+   */
   updateProfile(profile){
     this.profile.set(&#x27;active&#x27;, profile);
     this.record.save();
   },
 
+/**
+* Calculate the width of the input.
+*
+* @method calculatePosition
+* @private
+* @return {String}
+*/
   calculatePosition() {
     let originalValue = calculatePosition(...arguments);
     originalValue.style[&#x27;min-width&#x27;] =   originalValue.style.width + &#x27;px&#x27;;
@@ -281,7 +345,7 @@ export default Component.extend({
     /**
      * Update the record profile
      *
-     * @name   updateProfile
+     * @method   action.updateProfile
      * @param  {String} profile The new profile.
      */
     updateProfile(profile) {

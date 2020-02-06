@@ -14,6 +14,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
     
+    
 </head>
 <body>
     <nav class="navbar navbar-default">
@@ -54,8 +55,8 @@
                     <li class="panel panel-default">
                         <div class="panel-heading" role="tab" id="sidebar-version-heading">
                             <h4 class="panel-title">
-                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/6749337e" target="_blank">
-                                  Tag: 0.9.0.6749337e
+                                <a role="button" href="https://github.com/adiwg/mdEditor/commits/v0.10.0" target="_blank">
+                                  Tag: v0.10.0
                                 </a>
                             </h4>
                         </div>
@@ -85,6 +86,8 @@
                                                     <li class="sub"><a href="../modules/components-input.html">components-input</a></li>
                                                     <li class="sub"><a href="../modules/components-layout.html">components-layout</a></li>
                                                     <li class="sub"><a href="../modules/components-object.html">components-object</a></li>
+                                                    <li class="sub"><a href="../modules/service.html">service</a></li>
+                                                    <li class="sub"><a href="../modules/validator.html">validator</a></li>
                                         </li>
                                 </ol>
                         </div>
@@ -103,7 +106,28 @@
                         <div class="panel-body">
                             <ol>
                                     <li>
+                                        <a href="../classes/array-required.html">array-required</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/array-valid.html">array-valid</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/base.html">base</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/codelist.html">codelist</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/contact.html">contact</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/custom-profile.html">custom-profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/dictionary.html">dictionary</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/input/md-select-profile.html">input/md-select-profile</a>
                                     </li>
                                     <li>
                                         <a href="../classes/make-range.html">make-range</a>
@@ -169,16 +193,28 @@
                                         <a href="../classes/md-import-csv.html">md-import-csv</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-indicator.html">md-indicator</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-indicator--related.html">md-indicator/related</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-input.html">md-input</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-input-confirm.html">md-input-confirm</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/md-json-viewer.html">md-json-viewer</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/md-maintenance.html">md-maintenance</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-markdown-editor.html">md-markdown-editor</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/md-modal.html">md-modal</a>
                                     </li>
                                     <li>
                                         <a href="../classes/md-object-table.html">md-object-table</a>
@@ -223,6 +259,18 @@
                                         <a href="../classes/object-template.html">object-template</a>
                                     </li>
                                     <li>
+                                        <a href="../classes/profile.html">profile</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/record.html">record</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/schema.html">schema</a>
+                                    </li>
+                                    <li>
+                                        <a href="../classes/setting.html">setting</a>
+                                    </li>
+                                    <li>
                                         <a href="../classes/tree-branch.html">tree-branch</a>
                                     </li>
                                     <li>
@@ -261,6 +309,15 @@ import { union, map } from &#x27;@ember/object/computed&#x27;;
 import { isEmpty } from &#x27;@ember/utils&#x27;;
 import config from &#x27;mdeditor/config/environment&#x27;;
 
+/**
+ * The default profile identifier
+ *
+ * @property defaultProfileId
+ * @type {String}
+ * @default &quot;mdeditor.config.environment.config.defaultProfileId&quot;
+ * @static
+ * @readOnly
+ */
 const {
   APP: {
     defaultProfileId
@@ -272,14 +329,15 @@ const {
  *
  * Service that provides custom profile configurations.
  *
- * @module
- * @augments ember/Service
+ * @module mdeditor
+ * @submodule service
+ * @class custom-profile
  */
 export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.customProfiles = this.get(&#x27;store&#x27;).peekAll(&#x27;custom-profile&#x27;);
+    this.customProfiles = this.store.peekAll(&#x27;custom-profile&#x27;);
   },
   flashMessages: service(),
   store: service(),
@@ -288,11 +346,29 @@ export default Service.extend({
   /**
    * String identifying the active profile
    *
-   * @type {?String}
+   * @property active
+   * @type {String}
    */
   active: null,
 
+  /**
+   * Array of all available profiles
+   *
+   * @property profiles
+   * @type {Array}
+   * @category computed
+   * @required customProfiles,coreProfiles
+   */
   profiles: union(&#x27;customProfiles&#x27;, &#x27;coreProfiles&#x27;),
+
+  /**
+   * Array of available coreProfile definitions
+   *
+   * @property coreProfiles
+   * @type {Array}
+   * @category computed
+   * @required definitions.coreProfiles
+   */
   coreProfiles: map(&#x27;definitions.coreProfiles&#x27;, function (itm) {
     return {
       id: itm.namespace + &#x27;.&#x27; + itm.identifier,
@@ -301,6 +377,15 @@ export default Service.extend({
       definition: itm
     }
   }),
+
+  /**
+   * Available profiles mapped by profile id
+   *
+   * @property mapById
+   * @type {Array}
+   * @category computed
+   * @required profiles.[]
+   */
   mapById: computed(&#x27;profiles.[]&#x27;, function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;
@@ -308,6 +393,15 @@ export default Service.extend({
       return map;
     }, {});
   }),
+
+  /**
+   * Available profiles mapped by profile alternate id
+   *
+   * @property mapByAltId
+   * @type {Array}
+   * @category computed
+   * @required profiles.[]
+   */
   mapByAltId: computed(&#x27;profiles.[]&#x27;, function () {
     return this.profiles.reduce(function (map, profile) {
       let alt = get(profile, &#x27;definition.alternateId&#x27;);
@@ -321,13 +415,40 @@ export default Service.extend({
       return map;
     }, {});
   }),
+
+  /**
+   * The defaultProfile definition
+   *
+   * @property defaultProfile
+   * @type {Object}
+   * @category computed
+   * @required mapById
+   */
   defaultProfile: computed(&#x27;mapById&#x27;, function () {
     return this.mapById[defaultProfileId];
   }),
+
+  /**
+   * The current component profile definition
+   *
+   * @property activeComponents
+   * @type {Object}
+   * @category computed
+   * @required active
+   */
   activeComponents: computed(&#x27;active&#x27;, function () {
     let comp = get(this.getActiveProfile(), &#x27;definition.components&#x27;);
     return comp || this.defaultProfile.definition.components;
   }),
+
+  /**
+   * The currently active schemas
+   *
+   * @property activeSchemas
+   * @type {Array}
+   * @category computed
+   * @required active
+   */
   activeSchemas: computed(&#x27;active&#x27;, function () {
     return this.getActiveProfile().schemas;
   }),
@@ -335,8 +456,8 @@ export default Service.extend({
   /**
    * Get the active profile.
    *
-   * @function
-   * @returns {Object}
+   * @method getActiveProfile
+   * @return {Object} The profile definition
    */
   getActiveProfile() {
     const active = this.active;

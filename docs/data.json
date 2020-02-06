@@ -2,7 +2,7 @@
     "project": {
         "name": "mdeditor",
         "description": "Small description for mdeditor goes here",
-        "version": "0.9.0.6749337e",
+        "version": "v0.10.0",
         "logo": "https://github.com/adiwg/mdEditor/wiki/images/mdeditor-logo.png",
         "url": "https://github.com/adiwg/mdEditor"
     },
@@ -35,7 +35,9 @@
         "app/models/base.js": {
             "name": "app/models/base.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "base": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -48,8 +50,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/models/custom-profile.js": {
+            "name": "app/models/custom-profile.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "app/models/dictionary.js": {
             "name": "app/models/dictionary.js",
+            "modules": {},
+            "classes": {
+                "dictionary": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/models/profile.js": {
+            "name": "app/models/profile.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -58,14 +76,27 @@
         "app/models/record.js": {
             "name": "app/models/record.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "record": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "app/models/schema.js": {
             "name": "app/models/schema.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "schema": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/models/setting.js": {
+            "name": "app/models/setting.js",
+            "modules": {},
+            "classes": {
+                "setting": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -153,17 +184,39 @@
             "fors": {},
             "namespaces": {}
         },
+        "app/pods/components/control/md-indicator/related/component.js": {
+            "name": "app/pods/components/control/md-indicator/related/component.js",
+            "modules": {},
+            "classes": {
+                "md-indicator--related": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/pods/components/control/md-indicator/component.js": {
+            "name": "app/pods/components/control/md-indicator/component.js",
+            "modules": {},
+            "classes": {
+                "md-indicator": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app/pods/components/control/md-json-viewer/component.js": {
             "name": "app/pods/components/control/md-json-viewer/component.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "md-json-viewer": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "app/pods/components/control/md-modal/component.js": {
             "name": "app/pods/components/control/md-modal/component.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "md-modal": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -340,7 +393,9 @@
         "app/pods/components/input/md-select-profile/component.js": {
             "name": "app/pods/components/input/md-select-profile/component.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "input/md-select-profile": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -832,8 +887,12 @@
         },
         "app/services/codelist.js": {
             "name": "app/services/codelist.js",
-            "modules": {},
-            "classes": {},
+            "modules": {
+                "service": 1
+            },
+            "classes": {
+                "codelist": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -847,14 +906,18 @@
         "app/services/custom-profile.js": {
             "name": "app/services/custom-profile.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "custom-profile": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "app/services/profile.js": {
             "name": "app/services/profile.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "profile": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -867,15 +930,21 @@
         },
         "app/validators/array-required.js": {
             "name": "app/validators/array-required.js",
-            "modules": {},
-            "classes": {},
+            "modules": {
+                "validator": 1
+            },
+            "classes": {
+                "array-required": 1
+            },
             "fors": {},
             "namespaces": {}
         },
         "app/validators/array-valid.js": {
             "name": "app/validators/array-valid.js",
             "modules": {},
-            "classes": {},
+            "classes": {
+                "array-valid": 1
+            },
             "fors": {},
             "namespaces": {}
         },
@@ -966,12 +1035,21 @@
                 "components-control": 1,
                 "components-input": 1,
                 "components-layout": 1,
-                "components-object": 1
+                "components-object": 1,
+                "service": 1,
+                "validator": 1
             },
             "elements": {},
             "classes": {
                 "object-template": 1,
+                "base": 1,
                 "contact": 1,
+                "custom-profile": 1,
+                "dictionary": 1,
+                "profile": 1,
+                "record": 1,
+                "schema": 1,
+                "setting": 1,
                 "md-button": 1,
                 "md-button-modal": 1,
                 "md-contact-link": 1,
@@ -979,6 +1057,10 @@
                 "md-definition": 1,
                 "md-edit-table": 1,
                 "md-import-csv": 1,
+                "md-indicator--related": 1,
+                "md-indicator": 1,
+                "md-json-viewer": 1,
+                "md-modal": 1,
                 "md-select-table": 1,
                 "md-scroll-spy": 1,
                 "md-spotlight": 1,
@@ -992,6 +1074,7 @@
                 "md-markdown-editor": 1,
                 "md-select": 1,
                 "md-select-contacts": 1,
+                "input/md-select-profile": 1,
                 "md-select-thesaurus": 1,
                 "md-textarea": 1,
                 "md-toggle": 1,
@@ -1009,6 +1092,9 @@
                 "md-online-resource-array": 1,
                 "md-phone-array": 1,
                 "md-simple-array-table": 1,
+                "codelist": 1,
+                "array-required": 1,
+                "array-valid": 1,
                 "tree-branch": 1,
                 "tree-label": 1,
                 "tree-leaf": 1,
@@ -1051,15 +1137,20 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "contact": 1
+                "base": 1,
+                "contact": 1,
+                "dictionary": 1,
+                "record": 1,
+                "schema": 1,
+                "setting": 1
             },
             "fors": {},
             "is_submodule": 1,
             "namespaces": {},
             "module": "mdeditor",
             "namespace": "",
-            "file": "app/models/contact.js",
-            "line": 84,
+            "file": "app/models/setting.js",
+            "line": 13,
             "description": "Models for the mdEditor data store",
             "tag": "main",
             "itemtype": "main",
@@ -1079,6 +1170,10 @@
                 "md-definition": 1,
                 "md-edit-table": 1,
                 "md-import-csv": 1,
+                "md-indicator--related": 1,
+                "md-indicator": 1,
+                "md-json-viewer": 1,
+                "md-modal": 1,
                 "md-select-table": 1,
                 "md-scroll-spy": 1,
                 "md-spotlight": 1
@@ -1112,6 +1207,7 @@
                 "md-markdown-editor": 1,
                 "md-select": 1,
                 "md-select-contacts": 1,
+                "input/md-select-profile": 1,
                 "md-select-thesaurus": 1,
                 "md-textarea": 1,
                 "md-toggle": 1
@@ -1123,7 +1219,8 @@
             "namespace": "",
             "file": "app/pods/components/input/md-toggle/component.js",
             "line": 9,
-            "description": "Components used to input scalar or arrays of scalar values.",
+            "description": "Input that displays available record profiles.",
+            "is_constructor": 1,
             "tag": "main",
             "itemtype": "main",
             "category": [
@@ -1171,7 +1268,7 @@
             "namespace": "",
             "file": "app/pods/components/object/md-simple-array-table/component.js",
             "line": 5,
-            "description": "mdEditor class for input and edit of mdJSON 'citation' objects.\n\n```handlebars\n\\{{object/md-citation\n model=citation\n profilePath=\"path\"\n simpleIdentifier=false\n embedded=false\n}}",
+            "description": "mdEditor class for input and edit of mdJSON 'citation' objects.\n\n```handlebars\n\\{{object/md-citation\n model=citation\n profilePath=\"path\"\n simpleIdentifier=false\n embedded=false\n}}\n```",
             "is_constructor": 1,
             "uses": [
                 "md-objectroute-table"
@@ -1180,6 +1277,45 @@
             "itemtype": "main",
             "category": [
                 "docs"
+            ]
+        },
+        "service": {
+            "name": "service",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "custom-profile": 1,
+                "profile": 1,
+                "codelist": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/services/codelist.js",
+            "line": 7,
+            "description": "Codelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object in init. The existing\nproperty names should be maintained."
+        },
+        "validator": {
+            "name": "validator",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "array-required": 1,
+                "array-valid": 1
+            },
+            "fors": {},
+            "is_submodule": 1,
+            "namespaces": {},
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/validators/array-valid.js",
+            "line": 5,
+            "description": "Validation that checks array length",
+            "extends": "BaseValidator",
+            "example": [
+                "\n  validator('array-required', {\n       track: ['type']\n     })"
             ]
         },
         "tree-view": {
@@ -1291,6 +1427,23 @@
             "is_constructor": 1,
             "static": 1
         },
+        "base": {
+            "name": "base",
+            "shortname": "base",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/models/base.js",
+            "line": 9,
+            "description": "Base model",
+            "submodule": "data-models",
+            "is_constructor": 1,
+            "extends": "DS.Model"
+        },
         "contact": {
             "name": "contact",
             "shortname": "contact",
@@ -1306,8 +1459,114 @@
             "description": "Contact model",
             "submodule": "data-models",
             "is_constructor": 1,
-            "extends": "DS.Model",
+            "extends": "base",
+            "uses": [
+                "Validations",
+                "Copyable"
+            ],
             "mixin": "Ember.Copyable"
+        },
+        "custom-profile": {
+            "name": "custom-profile",
+            "shortname": "custom-profile",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/services/custom-profile.js",
+            "line": 25,
+            "description": "Custom Profile service\n\nService that provides custom profile configurations.",
+            "submodule": "service",
+            "is_constructor": 1,
+            "extends": "DS.Model"
+        },
+        "dictionary": {
+            "name": "dictionary",
+            "shortname": "dictionary",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/models/dictionary.js",
+            "line": 64,
+            "description": "Dictionary model",
+            "submodule": "data-models",
+            "is_constructor": 1,
+            "extends": "base"
+        },
+        "profile": {
+            "name": "profile",
+            "shortname": "profile",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/services/profile.js",
+            "line": 22,
+            "description": "Profile service\n\nService that provides profile configurations for metadata records.",
+            "submodule": "service",
+            "is_constructor": 1,
+            "extends": "DS.Model"
+        },
+        "record": {
+            "name": "record",
+            "shortname": "record",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/models/record.js",
+            "line": 65,
+            "description": "Record(metadata) model",
+            "submodule": "data-models",
+            "is_constructor": 1,
+            "extends": "base"
+        },
+        "schema": {
+            "name": "schema",
+            "shortname": "schema",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/models/schema.js",
+            "line": 73,
+            "description": "Schema model",
+            "submodule": "data-models",
+            "is_constructor": 1,
+            "extends": "DS.Model"
+        },
+        "setting": {
+            "name": "setting",
+            "shortname": "setting",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/models/setting.js",
+            "line": 13,
+            "description": "Setting model",
+            "submodule": "data-models",
+            "is_constructor": 1,
+            "extends": "DS.Model"
         },
         "md-button": {
             "name": "md-button",
@@ -1419,6 +1678,69 @@
             "file": "app/pods/components/control/md-import-csv/component.js",
             "line": 28,
             "description": "Button with drop zone used to load CSV files\n\n```handlebars\n\\{{control/md-import-csv\n  beforeFirstChunk=callback\n  processChunk=callback\n  processComplete=callback\n}}\n```"
+        },
+        "md-indicator--related": {
+            "name": "md-indicator--related",
+            "shortname": "md-indicator--related",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "components-control",
+            "namespace": "",
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 11,
+            "description": "Icon that display a popover with information on a related object.\n\n```handlebars\n\\{{control/md-indicator/related\n  model=model\n  route=true\n  icon=\"sticky-note\"\n  note=\"${foo} has an associated domain ${bar}\"\n  route=\"dictionary.show.edit.entity\"\n  values=values\n  parent=dictionary\n  relatedId=\"domainId\"\n  relatedIdLocal=\"domainId\"\n  path=\"domain\"\n  title=\"Related Indicator Test\"\n  linkText=\"Go to Domain\"\n  type=\"warning\"\n  popperContainer=\"body\"\n}}\n```",
+            "extends": "md-indicator",
+            "is_constructor": 1
+        },
+        "md-indicator": {
+            "name": "md-indicator",
+            "shortname": "md-indicator",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "components-control",
+            "namespace": "",
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 12,
+            "description": "Icon that displays a popover.\n\n```handlebars\n\\{{control/md-indicator\n  icon=\"sticky-note\"\n  title=\"Hello\"\n  note=\"${foo} is a ${bar}\"\n  values=values\n  type=\"danger\"\n}}\n```",
+            "is_constructor": 1
+        },
+        "md-json-viewer": {
+            "name": "md-json-viewer",
+            "shortname": "md-json-viewer",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "namespace": "",
+            "file": "app/pods/components/control/md-json-viewer/component.js",
+            "line": 6,
+            "description": "JSON viewer",
+            "submodule": "components-control"
+        },
+        "md-modal": {
+            "name": "md-modal",
+            "shortname": "md-modal",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "components-control",
+            "namespace": "",
+            "file": "app/pods/components/control/md-modal/component.js",
+            "line": 9,
+            "description": "Modal dialog with buttons."
         },
         "md-select-table": {
             "name": "md-select-table",
@@ -1640,6 +1962,21 @@
             "is_constructor": 1,
             "extends": "md-select"
         },
+        "input/md-select-profile": {
+            "name": "input/md-select-profile",
+            "shortname": "input/md-select-profile",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "components-input",
+            "namespace": "",
+            "file": "app/pods/components/input/md-select-profile/component.js",
+            "line": 6,
+            "description": "Input that displays available record profiles."
+        },
         "md-select-thesaurus": {
             "name": "md-select-thesaurus",
             "shortname": "md-select-thesaurus",
@@ -1768,7 +2105,7 @@
             "namespace": "",
             "file": "app/pods/components/object/md-citation/component.js",
             "line": 26,
-            "description": "mdEditor class for input and edit of mdJSON 'citation' objects.\n\n```handlebars\n\\{{object/md-citation\n model=citation\n profilePath=\"path\"\n simpleIdentifier=false\n embedded=false\n}}"
+            "description": "mdEditor class for input and edit of mdJSON 'citation' objects.\n\n```handlebars\n\\{{object/md-citation\n model=citation\n profilePath=\"path\"\n simpleIdentifier=false\n embedded=false\n}}\n```"
         },
         "md-citation-array": {
             "name": "md-citation-array",
@@ -1914,6 +2251,51 @@
             "extends": "md-array-table",
             "is_constructor": 1
         },
+        "codelist": {
+            "name": "codelist",
+            "shortname": "codelist",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "service",
+            "namespace": "",
+            "file": "app/services/codelist.js",
+            "line": 7,
+            "description": "Codelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object in init. The existing\nproperty names should be maintained."
+        },
+        "array-required": {
+            "name": "array-required",
+            "shortname": "array-required",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "validator",
+            "namespace": "",
+            "file": "app/validators/array-required.js",
+            "line": 7,
+            "description": "Validation that checks array length"
+        },
+        "array-valid": {
+            "name": "array-valid",
+            "shortname": "array-valid",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "mdeditor",
+            "submodule": "validator",
+            "namespace": "",
+            "file": "app/validators/array-valid.js",
+            "line": 5,
+            "description": "Validation that checks validity of all array members"
+        },
         "tree-branch": {
             "name": "tree-branch",
             "shortname": "tree-branch",
@@ -1925,7 +2307,7 @@
             "module": "mdeditor",
             "namespace": "",
             "file": "lib/ember-json-tree/addon/components/tree-branch.js",
-            "line": 7,
+            "line": 8,
             "submodule": "tree-view"
         },
         "tree-label": {
@@ -2046,27 +2428,29 @@
         },
         {
             "file": "app/models/base.js",
-            "line": 27,
+            "line": 37,
             "description": "The hash for the clean record.",
             "itemtype": "property",
             "name": "currentHash",
             "type": "{String}",
-            "class": "contact",
-            "module": "mdeditor"
+            "class": "base",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/base.js",
-            "line": 34,
+            "line": 44,
             "description": "The clean json object.",
             "itemtype": "property",
             "name": "jsonSnapshot",
             "type": "{String}",
-            "class": "contact",
-            "module": "mdeditor"
+            "class": "base",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/base.js",
-            "line": 111,
+            "line": 121,
             "description": "Compute and set the model hash.",
             "itemtype": "method",
             "name": "setCurrentHash",
@@ -2077,14 +2461,24 @@
                     "type": "Object"
                 }
             ],
-            "class": "contact",
-            "module": "mdeditor"
+            "class": "base",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/base.js",
-            "line": 123,
+            "line": 133,
             "description": "Computed a hash for the target object.",
-            "params": [
+            "itemtype": "property",
+            "name": "hashObject",
+            "return": {
+                "description": "The hash or undefined if an object wasn't provided.",
+                "type": "String|undefined"
+            },
+            "class": "base",
+            "module": "mdeditor",
+            "submodule": "data-models",
+            "subprops": [
                 {
                     "name": "target",
                     "description": "The object to hash",
@@ -2095,17 +2489,11 @@
                     "description": "If true, the object will not be passed through\n                           JSON.parse before being hashed",
                     "type": "Boolean"
                 }
-            ],
-            "return": {
-                "description": "The hash or undefined if an object wasn't provided.",
-                "type": "String|undefined"
-            },
-            "class": "contact",
-            "module": "mdeditor"
+            ]
         },
         {
             "file": "app/models/base.js",
-            "line": 137,
+            "line": 148,
             "description": "Compare the current hash with the cached one.",
             "itemtype": "property",
             "name": "hasDirtyHash",
@@ -2113,12 +2501,13 @@
                 "description": "Boolean value indicating if hashes are equivalent",
                 "type": "Boolean"
             },
-            "class": "contact",
-            "module": "mdeditor"
+            "class": "base",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/base.js",
-            "line": 198,
+            "line": 209,
             "description": "Indicates whether errors are present.",
             "itemtype": "property",
             "name": "hasSchemaErrors",
@@ -2130,12 +2519,13 @@
             "requires": [
                 "schemaErrors"
             ],
-            "class": "contact",
-            "module": "mdeditor"
+            "class": "base",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/base.js",
-            "line": 209,
+            "line": 220,
             "description": "Array of custom schemas that are associated with this model",
             "itemtype": "property",
             "name": "customSchemas",
@@ -2148,12 +2538,13 @@
             "requires": [
                 ""
             ],
-            "class": "contact",
-            "module": "mdeditor"
+            "class": "base",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/contact.js",
-            "line": 103,
+            "line": 104,
             "description": "The json object for the contact. The data for the contact is stored in this\nobject.",
             "itemtype": "attribute",
             "name": "json",
@@ -2165,7 +2556,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 117,
+            "line": 118,
             "description": "The timestamp for the record",
             "itemtype": "attribute",
             "name": "dateUpdated",
@@ -2178,7 +2569,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 134,
+            "line": 135,
             "description": "The formatted display string for the contact",
             "itemtype": "property",
             "name": "title",
@@ -2197,7 +2588,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 181,
+            "line": 182,
             "description": "The type of contact",
             "itemtype": "property",
             "name": "type",
@@ -2215,7 +2606,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 196,
+            "line": 197,
             "description": "The display icon for the contact",
             "itemtype": "property",
             "name": "icon",
@@ -2233,7 +2624,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 212,
+            "line": 213,
             "description": "The URI of the default logo for the contact.",
             "itemtype": "property",
             "name": "defaultLogo",
@@ -2251,7 +2642,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 245,
+            "line": 246,
             "description": "The id of the default organization for the contact.",
             "itemtype": "property",
             "name": "defaultOrganization",
@@ -2269,7 +2660,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 277,
+            "line": 278,
             "description": "The formatted (name or position) and organization(if any) of the contact.",
             "itemtype": "property",
             "name": "combinedName",
@@ -2288,7 +2679,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 320,
+            "line": 321,
             "description": "The trimmed varsion of the contactId.",
             "itemtype": "property",
             "name": "shortId",
@@ -2306,7 +2697,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 340,
+            "line": 341,
             "description": "A list of schema errors return by the validator.",
             "itemtype": "property",
             "name": "schemaErrors",
@@ -2324,7 +2715,7 @@
         },
         {
             "file": "app/models/contact.js",
-            "line": 377,
+            "line": 378,
             "description": "Create a copy of the record in the store.",
             "itemtype": "method",
             "name": "copy",
@@ -2339,7 +2730,7 @@
         },
         {
             "file": "app/models/dictionary.js",
-            "line": 89,
+            "line": 99,
             "description": "A list of schema errors return by the validator.",
             "itemtype": "property",
             "name": "schemaErrors",
@@ -2351,12 +2742,13 @@
             "requires": [
                 "status"
             ],
-            "class": "md-button",
-            "module": "mdeditor"
+            "class": "dictionary",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/record.js",
-            "line": 170,
+            "line": 180,
             "description": "The trimmed varsion of the recordId.",
             "itemtype": "property",
             "name": "shortId",
@@ -2368,12 +2760,13 @@
             "requires": [
                 "recordId"
             ],
-            "class": "md-button",
-            "module": "mdeditor"
+            "class": "record",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/record.js",
-            "line": 190,
+            "line": 200,
             "description": "A list of schema errors return by the validator.",
             "itemtype": "property",
             "name": "hasSchemaErrors",
@@ -2385,20 +2778,22 @@
             "requires": [
                 "status"
             ],
-            "class": "md-button",
-            "module": "mdeditor"
+            "class": "record",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/models/schema.js",
-            "line": 110,
+            "line": 119,
             "description": "The timestamp for the record",
             "itemtype": "attribute",
             "name": "dateUpdated",
             "type": "{date}",
             "default": "new Date()",
             "required": 1,
-            "class": "md-button",
-            "module": "mdeditor"
+            "class": "schema",
+            "module": "mdeditor",
+            "submodule": "data-models"
         },
         {
             "file": "app/pods/components/control/md-button/component.js",
@@ -2550,6 +2945,8 @@
             "file": "app/pods/components/control/md-button-modal/component.js",
             "line": 34,
             "description": "Indicates whether the modal dialog is being displayed.",
+            "itemtype": "property",
+            "name": "isShowingModal",
             "type": "{Boolean}",
             "class": "md-button-modal",
             "module": "mdeditor",
@@ -2557,7 +2954,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 40,
+            "line": 42,
             "description": "The function to call when action is cancelled.",
             "itemtype": "method",
             "name": "onCancel",
@@ -2567,7 +2964,7 @@
         },
         {
             "file": "app/pods/components/control/md-button-modal/component.js",
-            "line": 47,
+            "line": 49,
             "description": "The function to call when action is confirmed.",
             "itemtype": "method",
             "name": "onConfirm",
@@ -2875,121 +3272,453 @@
             "submodule": "components-control"
         },
         {
-            "file": "app/pods/components/control/md-json-viewer/component.js",
-            "line": 7,
-            "description": "True to render in modal dialog",
-            "type": "{Boolean}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 51,
+            "description": "The string value of the \"link-to\" route argument.",
+            "itemtype": "property",
+            "name": "route",
+            "type": "{String}",
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 58,
+            "description": "The object to use as the data model for the \"local\" object.",
+            "itemtype": "property",
+            "name": "model",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 66,
+            "description": "The string value used to render text to tooltip button.",
+            "itemtype": "property",
+            "name": "linkText",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 74,
+            "description": "The parent dictionary object for this attribute used to lookup references.",
+            "itemtype": "property",
+            "name": "parent",
+            "type": "{Object}",
+            "required": 1,
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 82,
+            "description": "The string value property used in the related computed property.",
+            "itemtype": "property",
+            "name": "path",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 90,
+            "description": "The name of the property used to lookup the related object. This property will\nbe used for both the local and related objects if relatedIdLocal is not\nspecified.",
+            "itemtype": "property",
+            "name": "relatedId",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 100,
+            "description": "The string value property used in the \"local\" object to find the related\nobject.",
+            "itemtype": "property",
+            "name": "relatedIdLocal",
+            "type": "{String}",
+            "required": 1,
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 109,
+            "description": "An array of strings passed to this.get to lookup model id values for the <a href=\"#property_route\">",
+            "itemtype": "property",
+            "name": "routeIdPaths",
+            "type": "{Array}",
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 116,
+            "description": "The related object.",
+            "itemtype": "property",
+            "name": "related",
+            "type": "{Object}",
+            "routeidpathscategory": "computed",
+            "requires": [
+                "path",
+                "parent"
+            ],
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 129,
+            "description": "The index of the related object.",
+            "itemtype": "property",
+            "name": "relatedIndex",
+            "type": "{Number}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "related"
+            ],
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/related/component.js",
+            "line": 141,
+            "description": "An array of property names that correspond to model.ids for the link-to.",
+            "itemtype": "property",
+            "name": "models",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "routeIdPaths"
+            ],
+            "class": "md-indicator--related",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 51,
+            "description": "The string to display in the indicator, interpolation optional.",
+            "itemtype": "property",
+            "name": "note",
+            "type": "{String}",
+            "default": "undefined",
+            "example": [
+                "\n  \"This ${foo} is named ${bar}.\""
+            ],
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 61,
+            "description": "An object with property/value pairs used when interpolating the <a\nhref=\"#property_note\">note</a>.",
+            "itemtype": "property",
+            "name": "values",
+            "type": "{Object}",
+            "default": "undefined",
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 70,
+            "description": "The font-awesome icon for the indicator.",
+            "itemtype": "property",
+            "name": "icon",
+            "type": "{String}",
+            "default": "\"sticky-note\"",
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 78,
+            "description": "The event that the tooltip will hide and show for. Possible options are:\n\n- 'hover'\n- 'click'\n- 'focus' (hides on blur)\n- 'none'",
+            "itemtype": "property",
+            "name": "event",
+            "type": "{String}",
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 90,
+            "description": "The title icon for the indicator.",
+            "itemtype": "property",
+            "name": "title",
+            "type": "{String}",
+            "default": "\"Note\"",
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 98,
+            "description": "The style for the indicator. One of:\n\n- default\n- primary\n- info\n- warning\n- danger",
+            "itemtype": "property",
+            "name": "type",
+            "type": "{String}",
+            "default": "\"default\"",
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 112,
+            "description": "The numeric value in milliseconds before the popover will hide after the user\nexits the popover.",
+            "itemtype": "property",
+            "name": "popoverHideDelay",
+            "type": "{Number}",
+            "default": "500",
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 122,
+            "description": "The string value that tells the tooltip to append to a specific element.\nDefault is set to the page `<body/>`.",
+            "itemtype": "property",
+            "name": "popperContainer",
+            "type": "{String}",
+            "default": "\"body\"",
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 131,
+            "description": "The interpolated note string.",
+            "itemtype": "property",
+            "name": "interpolated",
+            "type": "{String}",
+            "default": "\"\"",
+            "readonly": "",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "note",
+                "values"
+            ],
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-indicator/component.js",
+            "line": 145,
+            "description": "The values for interpolated variables.",
+            "itemtype": "property",
+            "name": "variables",
+            "type": "{Object}",
+            "category": [
+                "computed"
+            ],
+            "requires": [
+                "note"
+            ],
+            "class": "md-indicator",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
-            "line": 14,
+            "line": 16,
+            "description": "True to render in modal dialog",
+            "itemtype": "property",
+            "name": "modal",
+            "type": "{Boolean}",
+            "class": "md-json-viewer",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-json-viewer/component.js",
+            "line": 24,
             "description": "Element selector or element that serves as the reference for modal position",
             "itemtype": "property",
             "name": "target",
             "type": "{String}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-json-viewer",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-json-viewer/component.js",
-            "line": 22,
+            "line": 32,
             "description": "Object or string to render as JSON in viewer",
-            "type": "{ObjectString}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "itemtype": "property",
+            "name": "json",
+            "type": "{Object|String}",
+            "class": "md-json-viewer",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 4,
+            "line": 15,
             "description": "Whether to display the modal",
             "itemtype": "property",
             "name": "isShowing",
             "type": "{Boolean}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 12,
+            "line": 23,
             "description": "Text to display in the modal.\nNote: This string is NOT escaped in the template.",
             "itemtype": "property",
             "name": "message",
             "type": "{String}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 20,
+            "line": 31,
             "description": "Element selector or element that serves as the reference for modal position",
             "itemtype": "property",
             "name": "target",
             "type": "{String}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 28,
+            "line": 39,
             "description": "Whether to display the confirm button",
             "itemtype": "property",
             "name": "showConfirm",
             "type": "{Boolean}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 36,
+            "line": 47,
             "description": "Whether to render in place",
             "itemtype": "property",
             "name": "renderInPlace",
             "type": "{Boolean}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 44,
+            "line": 55,
             "description": "Whether to display the cancel button",
             "itemtype": "property",
             "name": "showCancel",
             "type": "{Boolean}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 52,
+            "line": 63,
             "description": "Label for the confirm button",
             "itemtype": "property",
             "name": "confirmLabel",
             "type": "{String}",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 60,
+            "line": 71,
             "description": "Close action callback",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "itemtype": "method",
+            "name": "closeModal",
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 67,
+            "line": 80,
             "description": "Confirm action callback",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "itemtype": "method",
+            "name": "confirm",
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-modal/component.js",
-            "line": 74,
+            "line": 88,
             "description": "Cancel action callback",
-            "class": "md-select-table",
-            "module": "mdeditor"
+            "itemtype": "method",
+            "name": "cancel",
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-modal/component.js",
+            "line": 98,
+            "description": "Close modal action",
+            "itemtype": "method",
+            "name": "action.closeModal",
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-modal/component.js",
+            "line": 107,
+            "description": "confirm action",
+            "itemtype": "method",
+            "name": "action.confirm",
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
+        },
+        {
+            "file": "app/pods/components/control/md-modal/component.js",
+            "line": 116,
+            "description": "Cancel action",
+            "itemtype": "method",
+            "name": "action.cancel",
+            "class": "md-modal",
+            "module": "mdeditor",
+            "submodule": "components-control"
         },
         {
             "file": "app/pods/components/control/md-record-table/buttons/custom/component.js",
@@ -3039,7 +3768,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 32,
+            "line": 57,
             "description": "Property name used to identify selected records. Should begin with underscore.",
             "itemtype": "property",
             "name": "selectProperty",
@@ -3054,7 +3783,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 44,
+            "line": 69,
             "description": "Array of table records",
             "itemtype": "property",
             "name": "data",
@@ -3067,7 +3796,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 53,
+            "line": 78,
             "description": "Array of column configs for the table.\nSee http://onechiporenko.github.io/ember-models-table\n\n```javascript\n[{\n propertyName: 'id',\n title: 'ID'\n}, {\n title: '',\n template: 'components/leaflet-table/actions',\n className: 'text-center text-nowrap'\n}]\n```",
             "itemtype": "property",
             "name": "dataColumns",
@@ -3080,7 +3809,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 75,
+            "line": 99,
             "description": "Column configs for the checkbox column.\nSee http://onechiporenko.github.io/ember-models-table",
             "itemtype": "property",
             "name": "checkColumns",
@@ -3092,7 +3821,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 96,
+            "line": 119,
             "description": "Column configs for the action column.\nSee http://onechiporenko.github.io/ember-models-table",
             "itemtype": "property",
             "name": "actionsColumn",
@@ -3104,7 +3833,7 @@
         },
         {
             "file": "app/pods/components/control/md-record-table/component.js",
-            "line": 159,
+            "line": 163,
             "description": "Callback on row selection.",
             "itemtype": "method",
             "name": "select",
@@ -4728,9 +5457,10 @@
         },
         {
             "file": "app/pods/components/input/md-select-profile/component.js",
-            "line": 27,
+            "line": 16,
             "description": "Update the record profile",
-            "name": "updateProfile",
+            "itemtype": "method",
+            "name": "action.updateProfile",
             "params": [
                 {
                     "name": "profile",
@@ -4738,7 +5468,40 @@
                     "type": "String"
                 }
             ],
-            "class": "md-select-thesaurus",
+            "class": "input/md-select-profile",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-profile/component.js",
+            "line": 27,
+            "description": "Calculate the width of the input.",
+            "itemtype": "method",
+            "name": "calculatePosition",
+            "access": "private",
+            "tagname": "",
+            "return": {
+                "description": "",
+                "type": "String"
+            },
+            "class": "input/md-select-profile",
+            "module": "mdeditor",
+            "submodule": "components-input"
+        },
+        {
+            "file": "app/pods/components/input/md-select-profile/component.js",
+            "line": 43,
+            "description": "Update the record profile",
+            "itemtype": "method",
+            "name": "action.updateProfile",
+            "params": [
+                {
+                    "name": "profile",
+                    "description": "The new profile.",
+                    "type": "String"
+                }
+            ],
+            "class": "input/md-select-profile",
             "module": "mdeditor",
             "submodule": "components-input"
         },
@@ -5210,6 +5973,7 @@
             "file": "app/pods/components/layout/md-nav-secondary/component.js",
             "line": 28,
             "description": "translated \"more\" text",
+            "itemtype": "property",
             "name": "more",
             "type": "{String}",
             "class": "md-wrap",
@@ -5219,6 +5983,7 @@
             "file": "app/pods/components/layout/md-nav-secondary/component.js",
             "line": 73,
             "description": "Width to be added to linkWidth to make sure the last link will fit.\nCalcuated as the smaller of the maximum link width or 150.",
+            "itemtype": "property",
             "name": "offset",
             "type": "{Number}",
             "class": "md-wrap",
@@ -6926,7 +7691,7 @@
             "type": "{String}",
             "default": "'false'",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -6937,7 +7702,7 @@
             "name": "model",
             "type": "{Object}",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -6949,7 +7714,7 @@
             "type": "{String}",
             "default": "'false'",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -6960,7 +7725,7 @@
             "name": "model",
             "type": "{Object}",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -6972,7 +7737,7 @@
             "type": "{String}",
             "default": "'false'",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -6983,7 +7748,7 @@
             "name": "model",
             "type": "{Object}",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -6995,7 +7760,7 @@
             "type": "{String}",
             "default": "'false'",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7006,7 +7771,7 @@
             "name": "model",
             "type": "{Object}",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7018,7 +7783,7 @@
             "type": "{String}",
             "default": "'false'",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7029,7 +7794,7 @@
             "name": "model",
             "type": "{Object}",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7041,7 +7806,7 @@
             "type": "{String}",
             "default": "'false'",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7052,7 +7817,7 @@
             "name": "model",
             "type": "{Object}",
             "required": 1,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7062,7 +7827,7 @@
             "itemtype": "property",
             "name": "profilePath",
             "type": "{String}",
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7072,7 +7837,7 @@
             "itemtype": "property",
             "name": "profilePath",
             "type": "{String}",
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7093,7 +7858,7 @@
                 "description": "",
                 "type": "Object"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7104,7 +7869,7 @@
             "name": "breadCrumb",
             "type": "{String}",
             "default": "null",
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7113,7 +7878,7 @@
             "description": "Called when route is deactivated.\nThe model is destroyed if still \"new\".",
             "itemtype": "method",
             "name": "deactivate",
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7125,7 +7890,7 @@
             "type": "{Ember.Object}",
             "static": 1,
             "readonly": "",
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7145,7 +7910,7 @@
                 "description": "",
                 "type": "String"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7156,21 +7921,20 @@
                 "description": "profile",
                 "type": "Ember.Service"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/dictionary/show/edit/route.js",
             "line": 14,
             "description": "The route activate hook, sets the profile.",
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/dictionary/show/edit/route.js",
             "line": 24,
             "description": "Update the dictionary profile",
-            "name": "updateProfile",
             "params": [
                 {
                     "name": "profile",
@@ -7178,7 +7942,7 @@
                     "type": "String"
                 }
             ],
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7189,40 +7953,27 @@
                 "description": "profile",
                 "type": "Ember.Service"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/record/show/edit/route.js",
             "line": 16,
             "description": "The profile service",
+            "itemtype": "property",
+            "name": "profile",
             "return": {
                 "description": "profile",
                 "type": "Ember.Service"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/record/show/edit/route.js",
             "line": 23,
             "description": "The route activate hook, sets the profile.",
-            "class": "tree-branch",
-            "module": "mdeditor"
-        },
-        {
-            "file": "app/pods/record/show/edit/route.js",
-            "line": 33,
-            "description": "Update the record profile",
-            "name": "updateProfile",
-            "params": [
-                {
-                    "name": "profile",
-                    "description": "The new profile.",
-                    "type": "String"
-                }
-            ],
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7240,7 +7991,7 @@
                 "definition.validations.isInvalid",
                 "task.isRunning"
             ],
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7258,18 +8009,18 @@
                 "schema.validations.isInvalid",
                 "task.isRunning"
             ],
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
             "file": "app/pods/settings/route.js",
-            "line": 9,
+            "line": 10,
             "description": "The profile service",
             "return": {
                 "description": "profile",
                 "type": "Ember.Service"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7280,7 +8031,7 @@
                 "description": "",
                 "type": "Ember.RSVP.hash"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
@@ -7293,21 +8044,54 @@
                 "description": "",
                 "type": "Object"
             },
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
             "file": "app/routes/index.js",
             "line": 4,
-            "class": "tree-branch",
+            "class": "codelist",
             "module": "mdeditor"
         },
         {
             "file": "app/services/codelist.js",
-            "line": 5,
-            "description": "Codelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object in init. The existing\nproperty names should be maintained.",
-            "class": "tree-branch",
-            "module": ""
+            "line": 39,
+            "description": "Custom Profiles service",
+            "itemtype": "property",
+            "name": "customProfiles",
+            "class": "codelist",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/codelist.js",
+            "line": 46,
+            "description": "The profiles codelist, updates when number of Custom Profiles change.",
+            "itemtype": "property",
+            "name": "profile",
+            "type": "{Object}",
+            "category": [
+                "computed"
+            ],
+            "required": "customProfiles.profiles{[],@each.title}",
+            "class": "codelist",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/codelist.js",
+            "line": 68,
+            "description": "Codelist item title overrides",
+            "itemtype": "property",
+            "name": "codeOverrides",
+            "type": "{Object}",
+            "category": [
+                "computed"
+            ],
+            "required": "profile",
+            "class": "codelist",
+            "module": "mdeditor",
+            "submodule": "service"
         },
         {
             "file": "app/services/contacts.js",
@@ -7322,57 +8106,195 @@
             "requires": [
                 "mdCodeName"
             ],
-            "class": "tree-branch",
-            "module": ""
+            "class": "custom-profile",
+            "module": "mdeditor"
         },
         {
             "file": "app/services/custom-profile.js",
-            "line": 16,
-            "description": "Custom Profile service\n\nService that provides custom profile configurations.",
-            "uses": [
-                "ember/Service"
-            ],
-            "class": "tree-branch",
-            "module": ""
+            "line": 10,
+            "description": "The default profile identifier",
+            "itemtype": "property",
+            "name": "defaultProfileId",
+            "type": "{String}",
+            "default": "\"mdeditor.config.environment.config.defaultProfileId\"",
+            "static": 1,
+            "readonly": "",
+            "class": "custom-profile",
+            "module": "mdeditor"
         },
         {
             "file": "app/services/custom-profile.js",
-            "line": 34,
+            "line": 44,
             "description": "String identifying the active profile",
-            "type": "{?String}",
-            "class": "tree-branch",
-            "module": ""
+            "itemtype": "property",
+            "name": "active",
+            "type": "{String}",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
         },
         {
             "file": "app/services/custom-profile.js",
-            "line": 81,
+            "line": 52,
+            "description": "Array of all available profiles",
+            "itemtype": "property",
+            "name": "profiles",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "required": "customProfiles,coreProfiles",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/custom-profile.js",
+            "line": 62,
+            "description": "Array of available coreProfile definitions",
+            "itemtype": "property",
+            "name": "coreProfiles",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "required": "definitions.coreProfiles",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/custom-profile.js",
+            "line": 79,
+            "description": "Available profiles mapped by profile id",
+            "itemtype": "property",
+            "name": "mapById",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "required": "profiles.[]",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/custom-profile.js",
+            "line": 95,
+            "description": "Available profiles mapped by profile alternate id",
+            "itemtype": "property",
+            "name": "mapByAltId",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "required": "profiles.[]",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/custom-profile.js",
+            "line": 117,
+            "description": "The defaultProfile definition",
+            "itemtype": "property",
+            "name": "defaultProfile",
+            "type": "{Object}",
+            "category": [
+                "computed"
+            ],
+            "required": "mapById",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/custom-profile.js",
+            "line": 129,
+            "description": "The current component profile definition",
+            "itemtype": "property",
+            "name": "activeComponents",
+            "type": "{Object}",
+            "category": [
+                "computed"
+            ],
+            "required": "active",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/custom-profile.js",
+            "line": 142,
+            "description": "The currently active schemas",
+            "itemtype": "property",
+            "name": "activeSchemas",
+            "type": "{Array}",
+            "category": [
+                "computed"
+            ],
+            "required": "active",
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
+        },
+        {
+            "file": "app/services/custom-profile.js",
+            "line": 154,
             "description": "Get the active profile.",
             "itemtype": "method",
-            "name": "",
+            "name": "getActiveProfile",
             "return": {
-                "description": "",
+                "description": "The profile definition",
                 "type": "Object"
             },
-            "class": "tree-branch",
-            "module": ""
+            "class": "custom-profile",
+            "module": "mdeditor",
+            "submodule": "service"
         },
         {
             "file": "app/services/profile.js",
-            "line": 22,
-            "description": "Profile service\n\nService that provides profile configurations for metadata records.",
-            "uses": [
-                "ember/Service"
+            "line": 44,
+            "description": "Task that fetches the definition. Returns a Promise the yields the response.",
+            "itemtype": "method",
+            "name": "fetchDefinition",
+            "params": [
+                {
+                    "name": "uri",
+                    "description": "The uri of the definition",
+                    "type": "String"
+                }
             ],
-            "class": "tree-branch",
-            "module": ""
+            "async": 1,
+            "return": {
+                "description": "The request response",
+                "type": "Promise"
+            },
+            "class": "profile",
+            "module": "mdeditor",
+            "submodule": "service"
         },
         {
             "file": "app/services/profile.js",
-            "line": 51,
-            "description": "String identifying the active profile",
-            "type": "{?String}",
-            "class": "tree-branch",
-            "module": ""
+            "line": 78,
+            "description": "Task that checks the for updates at each `record.uri`.",
+            "itemtype": "method",
+            "name": "checkForUpdates",
+            "params": [
+                {
+                    "name": "records",
+                    "description": "Array of records to check",
+                    "type": "Array"
+                }
+            ],
+            "async": 1,
+            "return": {
+                "description": "The request response",
+                "type": "Promise"
+            },
+            "class": "profile",
+            "module": "mdeditor",
+            "submodule": "service"
         },
         {
             "file": "app/services/schemas.js",
@@ -7386,14 +8308,49 @@
                 "description": "",
                 "type": "Object"
             },
-            "class": "tree-branch",
-            "module": ""
+            "class": "array-required",
+            "module": "mdeditor"
         },
         {
             "file": "app/validators/array-required.js",
-            "line": 21,
-            "description": "Define attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
+            "line": 20,
+            "description": "Validate the array",
+            "itemtype": "method",
+            "name": "validate",
             "params": [
+                {
+                    "name": "value",
+                    "description": "The array to test",
+                    "type": "Array"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "True or error message",
+                "type": "Mixed"
+            },
+            "class": "array-required",
+            "module": "mdeditor",
+            "submodule": "validator"
+        },
+        {
+            "file": "app/validators/array-required.js",
+            "line": 43,
+            "description": "Define attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
+            "itemtype": "property",
+            "name": "getDependentsFor",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "array-required",
+            "module": "mdeditor",
+            "submodule": "validator",
+            "subprops": [
                 {
                     "name": "attribute",
                     "description": "The attribute being evaluated",
@@ -7404,19 +8361,22 @@
                     "description": "Options passed into your validator",
                     "type": "Unknown"
                 }
-            ],
-            "return": {
-                "description": "",
-                "type": "Array"
-            },
-            "class": "tree-branch",
-            "module": ""
+            ]
         },
         {
             "file": "app/validators/array-valid.js",
-            "line": 14,
+            "line": 24,
             "description": "Define attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
-            "params": [
+            "itemtype": "property",
+            "name": "getDependentsFor",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "array-valid",
+            "module": "mdeditor",
+            "submodule": "validator",
+            "subprops": [
                 {
                     "name": "attribute",
                     "description": "The attribute being evaluated",
@@ -7427,13 +8387,106 @@
                     "description": "Options passed into your validator",
                     "type": "Unknown"
                 }
+            ]
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-search.js",
+            "line": 16,
+            "description": "The search string to search for.",
+            "itemtype": "property",
+            "name": "searchString",
+            "type": "{String}",
+            "default": "\"\"",
+            "required": 1,
+            "class": "tree-search",
+            "module": "mdeditor",
+            "submodule": "tree-search"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-search.js",
+            "line": 26,
+            "description": "The actual total number of nodes matching the search",
+            "itemtype": "property",
+            "name": "actualTotal",
+            "type": "{Integer}",
+            "default": "0",
+            "class": "tree-search",
+            "module": "mdeditor",
+            "submodule": "tree-search"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-search.js",
+            "line": 35,
+            "description": "If true, the searchString musst match exactly from the start",
+            "itemtype": "property",
+            "name": "exactMatch",
+            "type": "{Boolean}",
+            "default": "false",
+            "class": "tree-search",
+            "module": "mdeditor",
+            "submodule": "tree-search"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-search.js",
+            "line": 44,
+            "description": "The number of results to display",
+            "itemtype": "property",
+            "name": "limit",
+            "type": "{Integer}",
+            "default": "50",
+            "class": "tree-search",
+            "module": "mdeditor",
+            "submodule": "tree-search"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-search.js",
+            "line": 57,
+            "description": "If the actual length of the search result is > limit.",
+            "itemtype": "property",
+            "name": "overLimit",
+            "type": "{Boolean}",
+            "required": "actualTotal,limit",
+            "class": "tree-search",
+            "module": "mdeditor",
+            "submodule": "tree-search"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-search.js",
+            "line": 68,
+            "description": "The result of the search truncated to the limit",
+            "itemtype": "property",
+            "name": "searchResult",
+            "type": "{Array}",
+            "required": "searchString,exactMatch",
+            "class": "tree-search",
+            "module": "mdeditor",
+            "submodule": "tree-search"
+        },
+        {
+            "file": "lib/ember-json-tree/addon/components/tree-search.js",
+            "line": 96,
+            "description": "Search the tree",
+            "itemtype": "method",
+            "name": "searchTree",
+            "params": [
+                {
+                    "name": "node",
+                    "description": "The tree node to search",
+                    "type": "Object"
+                },
+                {
+                    "name": "pattern",
+                    "description": "The string to search for",
+                    "type": "String"
+                }
             ],
             "return": {
-                "description": "",
+                "description": "The matching nodes",
                 "type": "Array"
             },
-            "class": "tree-branch",
-            "module": ""
+            "class": "tree-search",
+            "module": "mdeditor",
+            "submodule": "tree-search"
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
@@ -7461,6 +8514,8 @@
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
             "line": 53,
             "description": "Called when a tree node is selected. Override as needed.",
+            "itemtype": "method",
+            "name": "select",
             "params": [
                 {
                     "name": "model",
@@ -7483,7 +8538,7 @@
         },
         {
             "file": "lib/ember-json-tree/addon/components/tree-view.js",
-            "line": 64,
+            "line": 65,
             "description": "Validates drag events. Override this to restrict which data types your\ncomponent accepts.\n\nExample:\n\n```js\nvalidateDragEvent: function(event) {\n  return event.dataTransfer.types.contains('text/x-foo');\n}\n```",
             "itemtype": "method",
             "name": "validateDragEvent",
@@ -7521,96 +8576,12 @@
     ],
     "warnings": [
         {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " app/models/base.js:137"
-        },
-        {
             "message": "unknown tag: mixin",
             "line": " app/models/contact.js:84"
         },
         {
-            "message": "replacing incorrect tag: prop with property",
-            "line": " app/pods/components/control/md-modal/component.js:4"
-        },
-        {
-            "message": "unknown tag: name",
-            "line": " app/pods/components/input/md-select-profile/component.js:27"
-        },
-        {
-            "message": "unknown tag: name",
-            "line": " app/pods/components/layout/md-nav-secondary/component.js:28"
-        },
-        {
-            "message": "unknown tag: name",
-            "line": " app/pods/components/layout/md-nav-secondary/component.js:73"
-        },
-        {
-            "message": "unknown tag: name",
-            "line": " app/pods/dictionary/show/edit/route.js:24"
-        },
-        {
-            "message": "unknown tag: name",
-            "line": " app/pods/record/show/edit/route.js:33"
-        },
-        {
-            "message": "replacing incorrect tag: augments with uses",
-            "line": " app/services/custom-profile.js:16"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " app/services/custom-profile.js:81"
-        },
-        {
-            "message": "replacing incorrect tag: returns with return",
-            "line": " app/services/custom-profile.js:81"
-        },
-        {
-            "message": "replacing incorrect tag: augments with uses",
-            "line": " app/services/profile.js:22"
-        },
-        {
-            "message": "replacing incorrect tag: function with method",
-            "line": " lib/ember-json-tree/addon/helpers/make-range.js:13"
-        },
-        {
-            "message": "Missing item type\nComputed a hash for the target object.",
-            "line": " app/models/base.js:123"
-        },
-        {
-            "message": "Missing item type\nIndicates whether the modal dialog is being displayed.",
-            "line": " app/pods/components/control/md-button-modal/component.js:34"
-        },
-        {
-            "message": "Missing item type\nTrue to render in modal dialog",
-            "line": " app/pods/components/control/md-json-viewer/component.js:7"
-        },
-        {
-            "message": "Missing item type\nObject or string to render as JSON in viewer",
-            "line": " app/pods/components/control/md-json-viewer/component.js:22"
-        },
-        {
-            "message": "Missing item type\nClose action callback",
-            "line": " app/pods/components/control/md-modal/component.js:60"
-        },
-        {
-            "message": "Missing item type\nConfirm action callback",
-            "line": " app/pods/components/control/md-modal/component.js:67"
-        },
-        {
-            "message": "Missing item type\nCancel action callback",
-            "line": " app/pods/components/control/md-modal/component.js:74"
-        },
-        {
-            "message": "Missing item type\nUpdate the record profile",
-            "line": " app/pods/components/input/md-select-profile/component.js:27"
-        },
-        {
-            "message": "Missing item type\ntranslated \"more\" text",
-            "line": " app/pods/components/layout/md-nav-secondary/component.js:28"
-        },
-        {
-            "message": "Missing item type\nWidth to be added to linkWidth to make sure the last link will fit.\nCalcuated as the smaller of the maximum link width or 150.",
-            "line": " app/pods/components/layout/md-nav-secondary/component.js:73"
+            "message": "unknown tag: routeidpathscategory",
+            "line": " app/pods/components/control/md-indicator/related/component.js:116"
         },
         {
             "message": "Missing item type\nThe profile service",
@@ -7629,20 +8600,12 @@
             "line": " app/pods/record/new/id/route.js:21"
         },
         {
-            "message": "Missing item type\nThe profile service",
-            "line": " app/pods/record/show/edit/route.js:16"
-        },
-        {
             "message": "Missing item type\nThe route activate hook, sets the profile.",
             "line": " app/pods/record/show/edit/route.js:23"
         },
         {
-            "message": "Missing item type\nUpdate the record profile",
-            "line": " app/pods/record/show/edit/route.js:33"
-        },
-        {
             "message": "Missing item type\nThe profile service",
-            "line": " app/pods/settings/route.js:9"
+            "line": " app/pods/settings/route.js:10"
         },
         {
             "message": "Missing item type\nModels for sidebar navigation",
@@ -7651,38 +8614,6 @@
         {
             "message": "Missing item type",
             "line": " app/routes/index.js:4"
-        },
-        {
-            "message": "Missing item type\nCodelist Service\n\nThis service provides controlled value lists for use in the editor. The\nservice may be customized by modifing the object in init. The existing\nproperty names should be maintained.",
-            "line": " app/services/codelist.js:5"
-        },
-        {
-            "message": "Missing item type\nCustom Profile service\n\nService that provides custom profile configurations.",
-            "line": " app/services/custom-profile.js:16"
-        },
-        {
-            "message": "Missing item type\nString identifying the active profile",
-            "line": " app/services/custom-profile.js:34"
-        },
-        {
-            "message": "Missing item type\nProfile service\n\nService that provides profile configurations for metadata records.",
-            "line": " app/services/profile.js:22"
-        },
-        {
-            "message": "Missing item type\nString identifying the active profile",
-            "line": " app/services/profile.js:51"
-        },
-        {
-            "message": "Missing item type\nDefine attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
-            "line": " app/validators/array-required.js:21"
-        },
-        {
-            "message": "Missing item type\nDefine attribute specific dependent keys for your validator\n\n[\n\t`model.array.@each.${attribute}` --> Dependent is created on the model's context\n\t`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context\n]",
-            "line": " app/validators/array-valid.js:14"
-        },
-        {
-            "message": "Missing item type\nCalled when a tree node is selected. Override as needed.",
-            "line": " lib/ember-json-tree/addon/components/tree-view.js:53"
         }
     ]
 }
