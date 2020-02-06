@@ -3,7 +3,37 @@ import { get, computed } from '@ember/object';
 import { bool, map } from '@ember/object/computed';
 
 export default Indicator.extend({
-  tagName: 'span',
+  /**
+   * @module mdeditor
+   * @submodule components-control
+   */
+
+  /**
+   * Icon that display a popover with information on a related object.
+   *
+   * ```handlebars
+   * \{{control/md-indicator/related
+   *   model=model
+   *   route=true
+   *   icon="sticky-note"
+   *   note="${foo} has an associated domain ${bar}"
+   *   route="dictionary.show.edit.entity"
+   *   values=values
+   *   parent=dictionary
+   *   relatedId="domainId"
+   *   relatedIdLocal="domainId"
+   *   path="domain"
+   *   title="Related Indicator Test"
+   *   linkText="Go to Domain"
+   *   type="warning"
+   *   popperContainer="body"
+   * }}
+   * ```
+   *
+   * @class md-indicator--related
+   * @extends md-indicator
+   * @constructor
+   */
 
   init() {
     this.type = this.type || 'info';
@@ -12,7 +42,8 @@ export default Indicator.extend({
 
     this.linkText = this.linkText || 'Open Related';
 
-    this.classNames = ['md-indicator-related', `md-${this.type}`].concat(this
+    this.classNames = ['md-indicator-related', `md-${this.type}`].concat(
+      this
       .classNames);
   },
 
@@ -22,31 +53,23 @@ export default Indicator.extend({
    *
    * @property route
    * @type {String}
+   */
+
+  /**
+   * The object to use as the data model for the "local" object.
+   *
+   * @property model
+   * @type {Object}
    * @required
    */
 
   /**
-   * The string value that provide options on how the user will interact with tooltip
+   * The string value used to render text to tooltip button.
    *
-   * @property event
+   * @property linkText
    * @type {String}
+   * @required
    */
-
-   /**
-    * The object to use as the data model for the entity.
-    *
-    * @property model
-    * @type {Object}
-    * @required
-    */
-
-    /**
-    * The string value used to render text to tooltip button.
-    *
-    * @property linkText
-    * @type {String}
-    * @required
-    */
 
   /**
    * The parent dictionary object for this attribute used to lookup references.
@@ -64,35 +87,38 @@ export default Indicator.extend({
    * @required
    */
 
-   /**
-   * The numeric value in milliseconds before the tooltip wil lhide after user hovers away from
-   * tooltip.
-   *
-   * @property popoverHideDelay
-   * @type {String}
-   */
-
-   /**
-   * The string value that tells the tooltip to append to a specific element. Default is set to
-   * body of page.
-   *
-   * @property popperContainer
-   * @type {String}
-   * @default "body"
-   */
-
   /**
-   * The string value property used in the related computed property
+   * The name of the property used to lookup the related object. This property will
+   * be used for both the local and related objects if relatedIdLocal is not
+   * specified.
+   *
    * @property relatedId
    * @type {String}
    * @required
    */
+
+  /**
+   * The string value property used in the "local" object to find the related
+   * object.
+   *
+   * @property relatedIdLocal
+   * @type {String}
+   * @required
+   */
+
+  /**
+   * An array of strings passed to this.get to lookup model id values for the <a href="#property_route">
+   *
+   * @property routeIdPaths
+   * @type {Array}
+   */
+
   /**
    * The related object.
    *
    * @property related
    * @type {Object}
-   * @category computed
+   * @routeIdPathscategory computed
    * @requires path,parent
    */
   related: computed('path', 'parent', function () {
@@ -113,7 +139,7 @@ export default Indicator.extend({
   }),
 
   /**
-   * The models for the link-to.
+   * An array of property names that correspond to model.ids for the link-to.
    *
    * @property models
    * @type {Array}
