@@ -2,18 +2,19 @@ import { computed } from '@ember/object';
 import Service from '@ember/service';
 import codes from 'mdcodes/resources/js/mdcodes.js';
 import { inject as service } from '@ember/service';
-/**
- * Codelist Service
- *
- * This service provides controlled value lists for use in the editor. The
- * service may be customized by modifing the object in init. The existing
- * property names should be maintained.
- *
- * @module
- */
 
-// export default Service.extend(codelist);
 export default Service.extend({
+  /**
+   * Codelist Service
+   *
+   * This service provides controlled value lists for use in the editor. The
+   * service may be customized by modifing the object in init. The existing
+   * property names should be maintained.
+   *
+   * @module mdeditor
+   * @submodule service
+   * @class codelist
+   */
   init() {
     this._super(...arguments);
 
@@ -34,18 +35,31 @@ export default Service.extend({
         codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
       });
   },
+
+  /**
+   * Custom Profiles service
+   *
+   * @property customProfiles
+   */
   customProfiles: service('custom-profile'),
-  profile: computed('customProfiles.profiles.[]', function () {
-    return {
-      codelist: this.customProfiles.profiles.map((itm) => {
-        return {
-          code: itm.id,
-          codeName: itm.title,
-          description: itm.description
-        };
-      })
-    };
-  }),
+
+  /**
+   * The profiles codelist, updates when number of Custom Profiles change.
+   *
+   * @property profile
+   * @type {Object}
+   * @category computed
+   * @required customProfiles.profiles{[],@each.title}
+   */
+
+  /**
+   * Codelist item title overrides
+   *
+   * @property codeOverrides
+   * @type {Object}
+   * @category computed
+   * @required profile
+   */
   codeOverrides: computed('profile', function () {
     return {
       scope: {

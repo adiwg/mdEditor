@@ -24,7 +24,6 @@ export default Route.extend(HashPoll, DoCancel, {
     /**
      * Update the dictionary profile
      *
-     * @name   updateProfile
      * @param  {String} profile The new profile.
      */
     saveDictionary: function () {

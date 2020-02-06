@@ -62,6 +62,16 @@ const Validations = buildValidations({
 });
 
 const Record = Model.extend(Validations, Copyable, {
+  /**
+   * Record(metadata) model
+   *
+   * @class record
+   * @constructor
+   * @extends base
+   * @module mdeditor
+   * @submodule data-models
+   */
+
   profile: DS.attr('string', {
     defaultValue: defaultProfileId
   }),

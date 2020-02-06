@@ -24,21 +24,11 @@ const coreProfiles = mdprofiles.asArray();
  *
  * Service that provides profile configurations for metadata records.
  *
- * @module
- * @augments ember/Service
+ * @module mdeditor
+ * @submodule service
+ * @class profile
  */
 export default Service.extend({
-  // profiles: computed('profileRecords.[]', function () {
-  //   return this.profileRecords;
-  // }),
-  profiles: union('profileRecords', 'coreProfiles'),
-  // mapById: computed('profiles.[]', function () {
-  //   return this.profiles.reduce(function (map, profile) {
-  //     map[profile.identifier] = profile;
-  //
-  //     return map;
-  //   }, {});
-  // }),
   init() {
     this._super(...arguments);
 
@@ -46,45 +36,19 @@ export default Service.extend({
     //this.customProfiles = this.get('store').peekAll('custom-profile');
     this.coreProfiles = coreProfiles;
   },
+
+  profiles: union('profileRecords', 'coreProfiles'),
   flashMessages: service(),
   store: service(),
+
   /**
-   * String identifying the active profile
+   * Task that fetches the definition. Returns a Promise the yields the response.
    *
-   * @type {?String}
+   * @method fetchDefinition
+   * @param {String} uri The uri of the definition
+   * @async
+   * @return {Promise} The request response
    */
-  // active: null,
-
-  // activeComponents: computed('active', function () {
-  //   return this.getActiveProfile().components;
-  // }),
-  // /**
-  //  * Get the active profile.
-  //  *
-  //  * @function
-  //  * @returns {Object}
-  //  */
-  // getActiveProfile() {
-  //   const active = this.active;
-  //   const profile = active && typeof active === 'string' ? active : 'full';
-  //   const selected = this.mapById[profile];
-  //
-  //   if(selected) {
-  //     return selected;
-  //   }
-  //
-  //   this.flashMessages
-  //     .warning(`Profile "${active}" not found. Using "full" profile.`);
-  //
-  //   return this.mapById.full;
-  // },
-
-  // /**
-  //  * An object defining the available profiles
-  //  *
-  //  * @type {Object} profiles
-  //  */
-
   fetchDefinition: task(function* (uri) {
     try {
       yield timeout(1000);
@@ -111,6 +75,14 @@ export default Service.extend({
     }
   }).drop(),
 
+  /**
+   * Task that checks the for updates at each `record.uri`.
+   *
+   * @method checkForUpdates
+   * @param {Array} records Array of records to check
+   * @async
+   * @return {Promise} The request response
+   */
   checkForUpdates: task(function* (records) {
     yield timeout(1000);
 

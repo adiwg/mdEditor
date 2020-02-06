@@ -13273,10 +13273,10 @@ yui@^3.18.1:
   dependencies:
     request "~2.40.0"
 
-yuidoc-mdeditor-theme@^1.4.0:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/yuidoc-mdeditor-theme/-/yuidoc-mdeditor-theme-1.4.1.tgz#759e61d07ff4829ef6771e1e26f290b7e979dec3"
-  integrity sha1-dZ5h0H/0gp72dx4eJvKQt+l53sM=
+yuidoc-mdeditor-theme@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/yuidoc-mdeditor-theme/-/yuidoc-mdeditor-theme-1.5.0.tgz#a57e11d914279d4f6f8e577c3f6e0f2cdf6f1f4f"
+  integrity sha512-LOTrXY/AQXZdwySgyiEaxpt96TzVBxE+NWVOLkeXNOOg6wBhplqbZNUEJ3oKOXCVjRaK0m7lrvlxhD+euKW/XA==
 
 yuidocjs@^0.10.0:
   version "0.10.2"

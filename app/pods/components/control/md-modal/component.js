@@ -2,9 +2,20 @@ import Component from '@ember/component';
 
 export default Component.extend({
   /**
+   * @module mdeditor
+   * @submodule components-control
+   */
+
+  /**
+   * Modal dialog with buttons.
+   *
+   * @class md-modal
+   */
+
+  /**
    * Whether to display the modal
    *
-   * @prop isShowing
+   * @property isShowing
    * @type {Boolean}
    */
   isShowing: false,
@@ -17,13 +28,13 @@ export default Component.extend({
    * @type {String}
    */
 
-   /**
-    * Element selector or element that serves as the reference for modal position
-    *
-    * @property target
-    * @type {String}
-    */
-   target: 'viewport',
+  /**
+   * Element selector or element that serves as the reference for modal position
+   *
+   * @property target
+   * @type {String}
+   */
+  target: 'viewport',
 
   /**
    * Whether to display the confirm button
@@ -59,6 +70,8 @@ export default Component.extend({
 
   /**
    * Close action callback
+   *
+   * @method closeModal
    */
   closeModal() {
     this.set('isShowing', false);
@@ -66,6 +79,7 @@ export default Component.extend({
 
   /**
    * Confirm action callback
+   * @method confirm
    */
   confirm() {
     this.closeModal();
@@ -73,20 +87,37 @@ export default Component.extend({
 
   /**
    * Cancel action callback
+   *
+   * @method cancel
    */
   cancel() {
     this.closeModal();
   },
 
   actions: {
+    /**
+     * Close modal action
+     *
+     * @method action.closeModal
+     */
     closeModal() {
       this.closeModal();
     },
 
+    /**
+     * confirm action
+     *
+     * @method action.confirm
+     */
     confirm() {
       this.confirm();
     },
 
+    /**
+     * Cancel action
+     *
+     * @method action.cancel
+     */
     cancel() {
       this.cancel();
     }

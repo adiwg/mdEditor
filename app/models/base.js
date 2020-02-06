@@ -6,6 +6,16 @@ import { bool, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
 const Base = DS.Model.extend({
+  /**
+   * Base model
+   *
+   * @class base
+   * @constructor
+   * @extends DS.Model
+   * @module mdeditor
+   * @submodule data-models
+   */
+
   init() {
     this._super(...arguments);
 
@@ -123,6 +133,7 @@ const Base = DS.Model.extend({
   /**
    * Computed a hash for the target object.
    *
+   * @property hashObject
    * @param  {Object} target    The object to hash
    * @param  {Boolean} parsed    If true, the object will not be passed through
    *                            JSON.parse before being hashed
@@ -138,7 +149,7 @@ const Base = DS.Model.extend({
    * Compare the current hash with the cached one.
    *
    * @property hasDirtyHash
-   * @returns {Boolean} Boolean value indicating if hashes are equivalent
+   * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
   hasDirtyHash: computed('currentHash', function () {
     let newHash = this.hashObject(JSON.parse(this.serialize()

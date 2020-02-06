@@ -61,6 +61,16 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
+  /**
+   * Dictionary model
+   *
+   * @class dictionary
+   * @constructor
+   * @extends base
+   * @module mdeditor
+   * @submodule data-models
+   */
+
   init() {
     this._super(...arguments);
 
