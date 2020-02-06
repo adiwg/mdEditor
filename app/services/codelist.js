@@ -51,6 +51,19 @@ export default Service.extend({
    * @category computed
    * @required customProfiles.profiles{[],@each.title}
    */
+  profile: computed(
+    'customProfiles.profiles.{[],@each.title}',
+    function () {
+      return {
+        codelist: this.customProfiles.profiles.map((itm) => {
+          return {
+            code: itm.id,
+            codeName: itm.title,
+            description: itm.description
+          };
+        })
+      };
+    }),
 
   /**
    * Codelist item title overrides
