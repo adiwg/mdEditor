@@ -2,6 +2,16 @@ import { get } from '@ember/object';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
 const ArrayValid = BaseValidator.extend({
+  /**
+  * Validation that checks validity of all array members
+  *
+  * @module mdeditor
+  * @submodule validator
+  * @class array-valid
+  * @extends BaseValidator
+  * @example
+  *   validator('array-valid')
+  */
   validate(value /*, options, model, attribute*/ ) {
     let check = value.some((itm) => {
       return get(itm, 'validations.isInvalid');
@@ -19,6 +29,7 @@ ArrayValid.reopenClass({
    * 	`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context
    * ]
    *
+   * @property getDependentsFor
    * @param {String}  attribute   The attribute being evaluated
    * @param {Unknown} options     Options passed into your validator
    * @return {Array}

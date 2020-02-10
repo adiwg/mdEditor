@@ -1,6 +1,46 @@
-# Change Log
+# Changelog
 
-## [v0.9.0](https://github.com/adiwg/mdEditor/tree/v0.9.0)
+## [v0.10.0](https://github.com/adiwg/mdEditor/tree/v0.10.0)
+
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.9.0...v0.10.0)
+
+**Implemented enhancements:**
+
+- Add domain indicator to attribute list [\#350](https://github.com/adiwg/mdEditor/issues/350)
+- Input validation icons should not overlap placeholders  [\#338](https://github.com/adiwg/mdEditor/issues/338)
+- Blocks of text with line breaks are not imported correctly [\#294](https://github.com/adiwg/mdEditor/issues/294)
+
+**Fixed bugs:**
+
+- Metadata Repositories potential bug [\#368](https://github.com/adiwg/mdEditor/issues/368)
+
+**Closed issues:**
+
+-  Sourceforge mdtoolkit-announcement link [\#375](https://github.com/adiwg/mdEditor/issues/375)
+- Associated Resource [\#367](https://github.com/adiwg/mdEditor/issues/367)
+- Add basic visual style guide [\#364](https://github.com/adiwg/mdEditor/issues/364)
+- "Position" misspelled in Contact metadata [\#362](https://github.com/adiwg/mdEditor/issues/362)
+- Add ID column to dictionary dashboard [\#336](https://github.com/adiwg/mdEditor/issues/336)
+- Copy dictionary does not generate new dictionaryId [\#335](https://github.com/adiwg/mdEditor/issues/335)
+- Upgrade to EmberJS 3.12 LTS [\#317](https://github.com/adiwg/mdEditor/issues/317)
+- Remove "Attribute" from "Primary" and "Foreign" element names [\#278](https://github.com/adiwg/mdEditor/issues/278)
+- Rename Attribute "Name" to "Code Name" [\#276](https://github.com/adiwg/mdEditor/issues/276)
+- Remove the word "content" from domain item reference [\#273](https://github.com/adiwg/mdEditor/issues/273)
+- Add support for custom profiles [\#176](https://github.com/adiwg/mdEditor/issues/176)
+
+**Merged pull requests:**
+
+- Feature 350 and 176 [\#377](https://github.com/adiwg/mdEditor/pull/377) ([jlblcc](https://github.com/jlblcc))
+- Feature/375 sourceforge [\#376](https://github.com/adiwg/mdEditor/pull/376) ([dvonanderson](https://github.com/dvonanderson))
+- Merge in fix-368 [\#373](https://github.com/adiwg/mdEditor/pull/373) ([jlblcc](https://github.com/jlblcc))
+- Minor spelling and label fixes [\#371](https://github.com/adiwg/mdEditor/pull/371) ([dvonanderson](https://github.com/dvonanderson))
+- Fix 368 metadata repo [\#370](https://github.com/adiwg/mdEditor/pull/370) ([jlblcc](https://github.com/jlblcc))
+- Fixed "Postion" in contact.show.index route [\#365](https://github.com/adiwg/mdEditor/pull/365) ([dvonanderson](https://github.com/dvonanderson))
+- maintenance-317-upgrade-ember-3-12-lts [\#363](https://github.com/adiwg/mdEditor/pull/363) ([jlblcc](https://github.com/jlblcc))
+- - Added css overflow to inputs to help truncate longer text. [\#357](https://github.com/adiwg/mdEditor/pull/357) ([dvonanderson](https://github.com/dvonanderson))
+- Changed domain-item from md-input over to md-textarea [\#356](https://github.com/adiwg/mdEditor/pull/356) ([dvonanderson](https://github.com/dvonanderson))
+
+## [v0.9.0](https://github.com/adiwg/mdEditor/tree/v0.9.0) (2019-11-05)
 
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.8.0...v0.9.0)
 
@@ -45,10 +85,12 @@
 
 **Merged pull requests:**
 
+- v0.9.0 [\#355](https://github.com/adiwg/mdEditor/pull/355) ([jlblcc](https://github.com/jlblcc))
 - Feature 176 custom profile [\#323](https://github.com/adiwg/mdEditor/pull/323) ([jlblcc](https://github.com/jlblcc))
 - Feature 299 custom schema [\#318](https://github.com/adiwg/mdEditor/pull/318) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.8.0](https://github.com/adiwg/mdEditor/tree/v0.8.0) (2019-04-23)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.7.1...v0.8.0)
 
 **Implemented enhancements:**
@@ -74,6 +116,7 @@
 - v0.8.0 [\#309](https://github.com/adiwg/mdEditor/pull/309) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.7.1](https://github.com/adiwg/mdEditor/tree/v0.7.1) (2019-03-12)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.7.0...v0.7.1)
 
 **Fixed bugs:**
@@ -87,6 +130,7 @@
 - Fix production build [\#300](https://github.com/adiwg/mdEditor/pull/300) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.7.0](https://github.com/adiwg/mdEditor/tree/v0.7.0) (2019-03-11)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.6.1...v0.7.0)
 
 **Implemented enhancements:**
@@ -115,6 +159,7 @@
 - maintenance-255-ember3 [\#266](https://github.com/adiwg/mdEditor/pull/266) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.6.1](https://github.com/adiwg/mdEditor/tree/v0.6.1) (2018-11-09)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.6.0...v0.6.1)
 
 **Implemented enhancements:**
@@ -138,6 +183,7 @@
 - 0.6.1 [\#247](https://github.com/adiwg/mdEditor/pull/247) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.6.0](https://github.com/adiwg/mdEditor/tree/v0.6.0) (2018-11-05)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.5.0...v0.6.0)
 
 **Fixed bugs:**
@@ -158,8 +204,14 @@
 - Feature 101 taxonomy [\#243](https://github.com/adiwg/mdEditor/pull/243) ([jlblcc](https://github.com/jlblcc))
 - Feature 101 taxonomy [\#242](https://github.com/adiwg/mdEditor/pull/242) ([jlblcc](https://github.com/jlblcc))
 - Update CHANGELOG [\#228](https://github.com/adiwg/mdEditor/pull/228) ([jlblcc](https://github.com/jlblcc))
+- FGDC import, fiscal year improvements [\#227](https://github.com/adiwg/mdEditor/pull/227) ([jlblcc](https://github.com/jlblcc))
+- Update CHANGELOG [\#214](https://github.com/adiwg/mdEditor/pull/214) ([jlblcc](https://github.com/jlblcc))
+- v0.4.1 [\#213](https://github.com/adiwg/mdEditor/pull/213) ([jlblcc](https://github.com/jlblcc))
+- Bump version to 0.4.0 [\#211](https://github.com/adiwg/mdEditor/pull/211) ([jlblcc](https://github.com/jlblcc))
+- Support mdTranslator API v3 [\#210](https://github.com/adiwg/mdEditor/pull/210) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.5.0](https://github.com/adiwg/mdEditor/tree/v0.5.0) (2018-09-04)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.4.1...v0.5.0)
 
 **Closed issues:**
@@ -168,32 +220,24 @@
 - Need to be able to add a scale denominator for a source citation [\#215](https://github.com/adiwg/mdEditor/issues/215)
 - Add cooperator to role code list [\#204](https://github.com/adiwg/mdEditor/issues/204)
 
-**Merged pull requests:**
-
-- FGDC import, fiscal year improvements [\#227](https://github.com/adiwg/mdEditor/pull/227) ([jlblcc](https://github.com/jlblcc))
-- Update CHANGELOG [\#214](https://github.com/adiwg/mdEditor/pull/214) ([jlblcc](https://github.com/jlblcc))
-
 ## [v0.4.1](https://github.com/adiwg/mdEditor/tree/v0.4.1) (2018-07-31)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.4.0...v0.4.1)
 
 **Fixed bugs:**
 
 - Typo in Award ID field [\#212](https://github.com/adiwg/mdEditor/issues/212)
 
-**Merged pull requests:**
-
-- v0.4.1 [\#213](https://github.com/adiwg/mdEditor/pull/213) ([jlblcc](https://github.com/jlblcc))
-- Bump version to 0.4.0 [\#211](https://github.com/adiwg/mdEditor/pull/211) ([jlblcc](https://github.com/jlblcc))
-
 ## [v0.4.0](https://github.com/adiwg/mdEditor/tree/v0.4.0) (2018-07-23)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.3.1...v0.4.0)
 
 **Merged pull requests:**
 
-- Support mdTranslator API v3 [\#210](https://github.com/adiwg/mdEditor/pull/210) ([jlblcc](https://github.com/jlblcc))
 - Released v0.3.1 [\#202](https://github.com/adiwg/mdEditor/pull/202) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.3.1](https://github.com/adiwg/mdEditor/tree/v0.3.1) (2018-05-23)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.3.0...v0.3.1)
 
 **Implemented enhancements:**
@@ -209,6 +253,7 @@
 - Fix Contacts in mdJSON [\#201](https://github.com/adiwg/mdEditor/pull/201) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.3.0](https://github.com/adiwg/mdEditor/tree/v0.3.0) (2018-05-21)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.2.1...v0.3.0)
 
 **Implemented enhancements:**
@@ -235,8 +280,10 @@
 - v0.3.0 [\#199](https://github.com/adiwg/mdEditor/pull/199) ([jlblcc](https://github.com/jlblcc))
 - Breadcrumb Titles and memberOfOrganization fix [\#198](https://github.com/adiwg/mdEditor/pull/198) ([jlblcc](https://github.com/jlblcc))
 - Released v0.2.1 [\#190](https://github.com/adiwg/mdEditor/pull/190) ([jlblcc](https://github.com/jlblcc))
+- Tweaks and bug fixes [\#189](https://github.com/adiwg/mdEditor/pull/189) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.2.1](https://github.com/adiwg/mdEditor/tree/v0.2.1) (2018-05-08)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.2.0...v0.2.1)
 
 **Implemented enhancements:**
@@ -250,9 +297,10 @@
 
 **Merged pull requests:**
 
-- Tweaks and bug fixes [\#189](https://github.com/adiwg/mdEditor/pull/189) ([jlblcc](https://github.com/jlblcc))
+- v0.2.0 [\#183](https://github.com/adiwg/mdEditor/pull/183) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.2.0](https://github.com/adiwg/mdEditor/tree/v0.2.0) (2018-04-24)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.1.1...v0.2.0)
 
 **Implemented enhancements:**
@@ -270,9 +318,10 @@
 
 **Merged pull requests:**
 
-- v0.2.0 [\#183](https://github.com/adiwg/mdEditor/pull/183) ([jlblcc](https://github.com/jlblcc))
+- Feature 178 import dictionary csv [\#181](https://github.com/adiwg/mdEditor/pull/181) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.1.1](https://github.com/adiwg/mdEditor/tree/v0.1.1) (2018-04-17)
+
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.1.0...v0.1.1)
 
 **Implemented enhancements:**
@@ -314,11 +363,12 @@
 
 **Merged pull requests:**
 
-- Feature 178 import dictionary csv [\#181](https://github.com/adiwg/mdEditor/pull/181) ([jlblcc](https://github.com/jlblcc))
 - Update ember-try, travis config [\#175](https://github.com/adiwg/mdEditor/pull/175) ([jlblcc](https://github.com/jlblcc))
-- Fix 172 lineage source description [\#173](https://github.com/adiwg/mdEditor/pull/173) ([jlblcc](https://github.com/jlblcc))
 
 ## [v0.1.0](https://github.com/adiwg/mdEditor/tree/v0.1.0) (2018-02-15)
+
+[Full Changelog](https://github.com/adiwg/mdEditor/compare/d2caeb32435d835929b2d7fcd1675982eba3f71d...v0.1.0)
+
 **Implemented enhancements:**
 
 - fiscal year 2011 [\#122](https://github.com/adiwg/mdEditor/issues/122)
@@ -342,9 +392,7 @@
 - Saving mdJSON from mdEditor does not include contacts referenced by other contacts [\#127](https://github.com/adiwg/mdEditor/issues/127)
 - Bug in mdEditor saving funding start/end when fiscal year drop down is used to populate start/end dates [\#126](https://github.com/adiwg/mdEditor/issues/126)
 - Do not copy metadata identifiers [\#121](https://github.com/adiwg/mdEditor/issues/121)
-- Problems with validation and unsupported mdJSON when importing [\#119](https://github.com/adiwg/mdEditor/issues/119)
 - Fix uuid generation for spatial features  [\#68](https://github.com/adiwg/mdEditor/issues/68)
-- Fix spatial uuid generation [\#69](https://github.com/adiwg/mdEditor/pull/69) ([jlblcc](https://github.com/jlblcc))
 
 **Closed issues:**
 
@@ -376,32 +424,7 @@
 **Merged pull requests:**
 
 - v0.1.0 [\#167](https://github.com/adiwg/mdEditor/pull/167) ([jlblcc](https://github.com/jlblcc))
-- Replace select2 ans BS tooltips, fix citation, upgrade docs [\#75](https://github.com/adiwg/mdEditor/pull/75) ([jlblcc](https://github.com/jlblcc))
-- Maintenance 46 ember [\#63](https://github.com/adiwg/mdEditor/pull/63) ([jlblcc](https://github.com/jlblcc))
-- Feature 59 keywords [\#62](https://github.com/adiwg/mdEditor/pull/62) ([jlblcc](https://github.com/jlblcc))
-- Feature 53 copy delete [\#57](https://github.com/adiwg/mdEditor/pull/57) ([jlblcc](https://github.com/jlblcc))
-- Feature 49 multiple extents [\#56](https://github.com/adiwg/mdEditor/pull/56) ([jlblcc](https://github.com/jlblcc))
-- Feature 40 error routes [\#55](https://github.com/adiwg/mdEditor/pull/55) ([jlblcc](https://github.com/jlblcc))
-- Feature 50 version badge [\#54](https://github.com/adiwg/mdEditor/pull/54) ([jlblcc](https://github.com/jlblcc))
-- Feature 49 spatial extent [\#52](https://github.com/adiwg/mdEditor/pull/52) ([jlblcc](https://github.com/jlblcc))
-- Feature 45 import/export support [\#48](https://github.com/adiwg/mdEditor/pull/48) ([jlblcc](https://github.com/jlblcc))
-- Update ember-cli, emberjs, ember-data [\#44](https://github.com/adiwg/mdEditor/pull/44) ([jlblcc](https://github.com/jlblcc))
-- Feature 37 contacts object [\#43](https://github.com/adiwg/mdEditor/pull/43) ([jlblcc](https://github.com/jlblcc))
-- Feature 37 contacts object [\#42](https://github.com/adiwg/mdEditor/pull/42) ([jlblcc](https://github.com/jlblcc))
-- Add ember-cli-deploy-git [\#39](https://github.com/adiwg/mdEditor/pull/39) ([stansmith907](https://github.com/stansmith907))
-- Feature 32 new record templates [\#36](https://github.com/adiwg/mdEditor/pull/36) ([stansmith907](https://github.com/stansmith907))
-- Feature 33 record dashboards [\#35](https://github.com/adiwg/mdEditor/pull/35) ([stansmith907](https://github.com/stansmith907))
-- feature-29-input-components [\#31](https://github.com/adiwg/mdEditor/pull/31) ([jlblcc](https://github.com/jlblcc))
-- Feature 24 basic layout and navigation [\#28](https://github.com/adiwg/mdEditor/pull/28) ([jlblcc](https://github.com/jlblcc))
-- Change License to GPL v3 [\#26](https://github.com/adiwg/mdEditor/pull/26) ([jlblcc](https://github.com/jlblcc))
-- Adds feature-21-localstorage [\#22](https://github.com/adiwg/mdEditor/pull/22) ([jlblcc](https://github.com/jlblcc))
-- docs-11-git-workflow [\#18](https://github.com/adiwg/mdEditor/pull/18) ([jlblcc](https://github.com/jlblcc))
-- feature-12-mdcodes-service [\#13](https://github.com/adiwg/mdEditor/pull/13) ([jlblcc](https://github.com/jlblcc))
-- making progress on feature definition. [\#7](https://github.com/adiwg/mdEditor/pull/7) ([jlblcc](https://github.com/jlblcc))
-- Revert "Backlog features" [\#6](https://github.com/adiwg/mdEditor/pull/6) ([jlblcc](https://github.com/jlblcc))
-- Backlog features [\#5](https://github.com/adiwg/mdEditor/pull/5) ([dblodgett-usgs](https://github.com/dblodgett-usgs))
-- Backlog features [\#3](https://github.com/adiwg/mdEditor/pull/3) ([dblodgett-usgs](https://github.com/dblodgett-usgs))
 
 
 
-\* *This Change Log was automatically generated by [github_changelog_generator](https://github.com/skywinder/Github-Changelog-Generator)*
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*

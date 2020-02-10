@@ -70,6 +70,15 @@ const Validations = buildValidations({
 });
 
 const theComp = DS.Model.extend(Validations, {
+  /**
+   * Schema model
+   *
+   * @class schema
+   * @constructor
+   * @extends DS.Model
+   * @module mdeditor
+   * @submodule data-models
+   */
   init() {
     this._super(...arguments);
 

@@ -1,4 +1,4 @@
-.ember-tooltip {
+.ember-tooltip, .ember-popover {
   z-index: 1102;
 }
 
@@ -10,6 +10,34 @@
 
 .md-tooltip {
   text-shadow: none;
+
+  &.ember-popover {
+    // background-color: lighten($brand-warning, 35);
+    border-color: $gray-dark;
+    color: $gray-dark;
+    overflow: visible;
+    white-space: normal;
+
+    &[x-placement^="top"] .ember-popover-arrow {
+      border-top-color: $gray-dark;
+    }
+
+    &[x-placement^="left"] .ember-popover-arrow {
+      border-left-color: $gray-dark;
+    }
+
+    &[x-placement^="right"] .ember-popover-arrow {
+      border-right-color: $gray-dark;
+    }
+
+    &[x-placement^="bottom"] .ember-popover-arrow {
+      border-bottom-color: $gray-dark;
+    }
+
+    .title {
+      border-bottom: 1px solid lighten($gray-dark, 50);
+    }
+  }
 
   &.danger {
     background-color: darken($brand-danger, 15);
@@ -28,6 +56,32 @@
 
     &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
       border-bottom-color: darken($brand-danger, 15);
+    }
+
+    &.ember-popover {
+      background-color: lighten($brand-danger, 40);
+      border-color: $brand-danger;
+
+      &[x-placement^="top"] .ember-popover-arrow {
+        border-top-color: $brand-danger;
+      }
+
+      &[x-placement^="left"] .ember-popover-arrow {
+        border-left-color: $brand-danger;
+      }
+
+      &[x-placement^="right"] .ember-popover-arrow {
+        border-right-color: $brand-danger;
+      }
+
+      &[x-placement^="bottom"] .ember-popover-arrow {
+        border-bottom-color: $brand-danger;
+      }
+
+      .title {
+        border-bottom: 1px solid lighten($brand-danger, 20);
+        color: $brand-danger;
+      }
     }
   }
 
@@ -49,6 +103,32 @@
     &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
       border-bottom-color: darken($brand-warning, 5);
     }
+
+    &.ember-popover {
+      background-color: lighten($brand-warning, 40);
+      border-color: $brand-warning;
+
+      &[x-placement^="top"] .ember-popover-arrow {
+        border-top-color: $brand-warning;
+      }
+
+      &[x-placement^="left"] .ember-popover-arrow {
+        border-left-color: $brand-warning;
+      }
+
+      &[x-placement^="right"] .ember-popover-arrow {
+        border-right-color: $brand-warning;
+      }
+
+      &[x-placement^="bottom"] .ember-popover-arrow {
+        border-bottom-color: $brand-warning;
+      }
+
+      .title {
+        border-bottom: 1px solid lighten($brand-warning, 20);
+        color: $brand-warning;
+      }
+    }
   }
 
   &.info {
@@ -68,6 +148,32 @@
 
     &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
       border-bottom-color: darken($brand-info, 15);
+    }
+
+    &.ember-popover {
+      background-color: lighten($brand-info, 45);
+      border-color: $brand-info;
+
+      &[x-placement^="top"] .ember-popover-arrow {
+        border-top-color: $brand-info;
+      }
+
+      &[x-placement^="left"] .ember-popover-arrow {
+        border-left-color: $brand-info;
+      }
+
+      &[x-placement^="right"] .ember-popover-arrow {
+        border-right-color: $brand-info;
+      }
+
+      &[x-placement^="bottom"] .ember-popover-arrow {
+        border-bottom-color: $brand-info;
+      }
+
+      .title {
+        border-bottom: 1px solid lighten($brand-info, 20);
+        color: $brand-info;
+      }
     }
   }
 
@@ -89,12 +195,38 @@
     &.ember-tooltip[x-placement^="bottom"] .ember-tooltip-arrow {
       border-bottom-color: $brand-primary;
     }
+
+    &.ember-popover {
+      background-color: $white;
+      border-color: $brand-primary;
+
+      &[x-placement^="top"] .ember-popover-arrow {
+        border-top-color: $brand-primary;
+      }
+
+      &[x-placement^="left"] .ember-popover-arrow {
+        border-left-color: $brand-primary;
+      }
+
+      &[x-placement^="right"] .ember-popover-arrow {
+        border-right-color: $brand-primary;
+      }
+
+      &[x-placement^="bottom"] .ember-popover-arrow {
+        border-bottom-color: $brand-primary;
+      }
+
+      .title {
+        border-bottom: 1px solid lighten($brand-primary, 20);
+        color: $brand-primary;
+      }
+    }
   }
 }
 
 .ember-popover {
   @include text-overflow;
-  max-width: 250px;
+  max-width: 300px;
 
   hr {
     margin-bottom: 2px;

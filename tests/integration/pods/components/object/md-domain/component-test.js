@@ -2,23 +2,14 @@ import { find, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import { createDomain } from 'mdeditor/tests/helpers/create-dictionary';
 
 module('Integration | Component | object/md domain', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
-    this.set('domain', {
-      "domainId": "domainId0",
-      "commonName": "commonName",
-      "codeName": "codeName",
-      "description": "description",
-      "domainItem": [{
-        "name": "name0",
-        "value": "value0",
-        "definition": "definition0"
-      }]
-    });
+    this.set('domain', createDomain(1)[0]);
 
 
     await render(hbs`{{object/md-domain profilePath="foobar" model=domain}}`);

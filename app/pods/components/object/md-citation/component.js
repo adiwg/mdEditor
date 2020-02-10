@@ -33,7 +33,7 @@ const theComp = Component.extend({
    *  simpleIdentifier=false
    *  embedded=false
    * }}
-   *
+   * ```
    * @module mdeditor
    * @submodule components-object
    * @class md-citation

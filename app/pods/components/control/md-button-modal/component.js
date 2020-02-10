@@ -33,6 +33,8 @@ export default Component.extend({
 
   /**
    * Indicates whether the modal dialog is being displayed.
+   *
+   * @property isShowingModal
    * @type {Boolean}
    */
   isShowingModal: false,

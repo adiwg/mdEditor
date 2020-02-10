@@ -4,6 +4,28 @@ import { isArray } from '@ember/array';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
 const ArrayRequired = BaseValidator.extend({
+  /**
+  * Validation that checks array length
+  *
+  * @module mdeditor
+  * @submodule validator
+  * @class array-required
+  * @extends BaseValidator
+  * @example
+  *   validator('array-required', {
+        track: ['type']
+      })
+  */
+
+  /**
+   * Validate the array
+   *
+   * @method validate
+   * @param {Array} value The array to test
+   * @param {Object} options
+   * @return {Mixed} True or error message
+   *
+   */
   validate(value, options) {
     if(isArray(value)) {
       if(value.length) {
@@ -26,6 +48,7 @@ ArrayRequired.reopenClass({
    * 	`${attribute}.isValid` --> Dependent is created on the `model.validations.attrs` context
    * ]
    *
+   * @property getDependentsFor
    * @param {String}  attribute   The attribute being evaluated
    * @param {Unknown} options     Options passed into your validator
    * @return {Array}

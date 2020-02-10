@@ -86,7 +86,8 @@ const Contact = Model.extend(Validations, Copyable, {
    *
    * @class contact
    * @constructor
-   * @extends DS.Model
+   * @extends base
+   * @uses Validations,Copyable
    * @mixin Ember.Copyable
    * @module mdeditor
    * @submodule data-models

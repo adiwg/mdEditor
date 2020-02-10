@@ -15,7 +15,7 @@ export default Route.extend(HashPoll, DoCancel, {
 
   /**
    * The profile service
-   *
+   * @property profile
    * @return {Ember.Service} profile
    */
   profile: service('custom-profile'),
@@ -30,18 +30,6 @@ export default Route.extend(HashPoll, DoCancel, {
   },
 
   actions: {
-    /**
-     * Update the record profile
-     *
-     * @name   updateProfile
-     * @param  {String} profile The new profile.
-     */
-    // updateProfile(profile) {
-    //   this.profile
-    //     .set('active', profile);
-    //   this.modelFor('record.show.edit')
-    //     .save();
-    // },
 
     saveRecord: function () {
       let model = this.currentRouteModel();
@@ -52,17 +40,6 @@ export default Route.extend(HashPoll, DoCancel, {
             `Saved Record: ${model.get('title')}`);
         });
     },
-
-    // destroyRecord: function () {
-    //   let model = this.currentRouteModel();
-    //   model
-    //     .destroyRecord()
-    //     .then(() => {
-    //       get(this, 'flashMessages')
-    //         .success(`Deleted Record: ${model.get('title')}`);
-    //       this.replaceWith('records');
-    //     });
-    // },
 
     cancelRecord: function () {
       let model = this.currentRouteModel();
@@ -91,13 +68,6 @@ export default Route.extend(HashPoll, DoCancel, {
         });
     },
 
-    // copyRecord: function () {
-    //
-    //   get(this, 'flashMessages')
-    //     .success(
-    //       `Copied Record: ${this.currentRouteModel().get('title')}`);
-    //   this.transitionTo('record.new.id', copy(this.currentRouteModel()));
-    // },
     getContext() {
       return this;
     }
