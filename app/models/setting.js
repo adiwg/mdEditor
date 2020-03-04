@@ -37,6 +37,9 @@ const theModel = DS.Model.extend({
   showSplash: DS.attr('boolean', {
     defaultValue: true
   }),
+  keepSettings: DS.attr('boolean', {
+    defaultValue: true
+  }),
   autoSave: DS.attr('boolean', {
     defaultValue: false
   }),
