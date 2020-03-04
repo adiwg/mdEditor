@@ -53,15 +53,30 @@
         </div>
     </div>
     <div class="form-group no-margin">
-      <label class="col-sm-3 co-xxl-2 control-label">Clear All Records</label>
-      <div class="col-sm-2">
-        {{#control/md-button-modal class="btn btn-sm btn-danger" type="button"
-          message="<h1>Are you sure?</h1> Clicking OK will delete ALL  records in
-          your browser cache. Have you made a backup?"
-          onConfirm=(route-action "clearLocalStorage")
+      <label class="col-sm-3 control-label">Clear All Records</label>
+      <div class="col-sm-9 form-group-inline">
+
+        {{control/md-button
+          class="btn btn-sm btn-danger"
+          icon="times"
+          text="Clear Storage Cache"
+          click=(action (mut showStorageModal) true)
         }}
-          <span class="fa fa-times"></span> Clear Storage Cache
-        {{/control/md-button-modal}}
+        {{control/md-modal
+          message="<h4 class=\"text-danger\"><span class=\"fa fa-exclamation-circle\"></span> <strong>Are you sure?</strong></h4> Clicking <strong class=\"text-danger\">Confirm</strong> will delete ALL  records in
+          your browser cache. Have you made a backup?"
+          confirm=(route-action "clearLocalStorage")
+          showCancel=true
+          cancelType="primary"
+          showConfirm=true
+          confirmLabel="Confirm"
+          confirmType="danger"
+          isShowing=showStorageModal
+        }}
+        <div class="form-group-inline">
+          <span>Keep Settings?</span>
+          {{input type="checkbox" checked=model.keepSettings}}
+        </div>
       </div>
     </div>
   </div>
