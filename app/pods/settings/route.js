@@ -35,9 +35,22 @@ export default Route.extend({
 
   actions: {
     clearLocalStorage() {
+      let data = this.settings.data.serialize({ includeId: true });
+
       window.localStorage.clear();
-      this.transitionTo('application');
+
+      if(this.settings.data.keepSettings) {
+
+        window.localStorage.setItem('index-settings',
+          `["settings-${data.data.id}"]`);
+        this.store.pushPayload('setting', data);
+
+        let rec = this.store.peekRecord('setting', data.data.id);
+        rec.save().then(() => window.location.reload());
+      }
+
       window.location.reload();
+      //this.transitionTo('application');
     },
     save() {
       this.settings.data.save();
@@ -48,7 +61,8 @@ export default Route.extend({
     },
 
     resetMdTranslatorAPI() {
-      let url = get(Setting, 'attributes').get('mdTranslatorAPI').options.defaultValue;
+      let url = get(Setting, 'attributes').get('mdTranslatorAPI').options
+        .defaultValue;
       let model = get(this.controller, 'model');
 
       model.set('mdTranslatorAPI', url);
