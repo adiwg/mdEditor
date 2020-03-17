@@ -39,6 +39,18 @@
       </div>
       <h3>Loading <span class="text-primary">mdEditor</span>...might take a few seconds ;)</h3>
     </div>
+    <div class="md-alert-boot hidden">
+      <div class="md-alert-icon">
+        <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+          <path fill="var(--color)" d="M10 3H14V14H10V3M10 21V17H14V21H10Z" />
+        </svg>
+      </div>
+      <p class="md-alert-message">
+        Danger! Your local storage is at 100% of your browser's local storage capacity. At this point your app may not function as accordingly and "current work in progress" may be lost. Click the "dismiss" button below and attempt to push out exports and clear local storage cache from the settings tab in <span class="text-primary">mdEditor</span> or in a new window tab type "<strong>chrome://settings/siteData</strong>", find your app version by typing "<strong>mdeditor</strong>" in the "<strong>Search cookies</strong>" text field and click the trash can next to it. You may need to reload the tab that the application was on.
+      </p>
+      <div class="spacer"></div>
+      <div class="md-alert-dismiss">dismiss</div>
+    </div>
 
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/mdeditor.js"></script>
