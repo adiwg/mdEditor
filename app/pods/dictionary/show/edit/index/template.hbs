@@ -58,6 +58,7 @@
         placeholder="Enter text describing the dictionary."
         data-spy="Description"
         class="md-embedded"
+        change=(action (mut resource.description))
       }}
 
       {{input/md-boolean
