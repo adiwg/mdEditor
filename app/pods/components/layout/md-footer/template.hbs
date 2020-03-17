@@ -1,13 +1,22 @@
 <div class="footer-container">
-  <span><a class="btn btn-xs btn-warning"
+  <span class={{if overPercent "btn btn-xs btn-danger" "btn btn-xs btn-info"}}>
+    {{fa-icon "archive"}}
+    Local Storage = {{storagePercent}}%
+  </span>
+  <span>
+    <a class="btn btn-xs btn-warning"
     href="https://github.com/adiwg/mdEditor/issues/new"
-    target="_blank" rel="noopener noreferrer">{{fa-icon "github"}} Report Issue
-
+    target="_blank" rel="noopener noreferrer">
+      {{fa-icon "github"}}
+      Report Issue
     {{ember-tooltip text="Report bugs, Request features - GitHub account required." side="top"}}
-  </a></span>
-  <span>AutoSave:
-      <span class={{if settings.data.autoSave "text-success" "text-warning"}}>
-        {{if settings.data.autoSave "On" "Off"}}</span>
+    </a>
+  </span>
+  <span>
+    AutoSave:
+    <span class={{if settings.data.autoSave "text-success" "text-warning"}}>
+      {{if settings.data.autoSave "On" "Off"}}
+    </span>
   </span>
   {{yield}}
 </div>
