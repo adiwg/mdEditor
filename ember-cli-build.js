@@ -36,6 +36,23 @@ module.exports = function (defaults) {
           //https: true
         }
       }
+    },
+    'asset-cache': {
+      // which asset files to include, glob paths are allowed!
+      // defaults to `['assets/**/*']`
+      include: [
+        'assets/**/*',
+        'fonts/*',
+        'favicon*',
+        'apple-*',
+        'mstile-*'
+      ]
+    },
+    'esw-cache-fallback': {
+      patterns: [
+        '/fonts/fontawesome-webfont(.+)',
+        '/fonts/mdeditor(.+)'
+      ],
     }
   });
 
