@@ -11,7 +11,8 @@ module.exports = function (defaults) {
         'node_modules/bootstrap-3-card/sass',
         // 'node_modules/select2/src/scss',
         // 'node_modules/select2-bootstrap-theme/src',
-        'node_modules/jquery-jsonview/src'
+        'node_modules/jquery-jsonview/src',
+        'node_modules/easymde/dist'
       ]
     },
     'ember-math-helpers': {
