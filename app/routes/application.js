@@ -35,7 +35,6 @@ export default Route.extend({
   spotlight: service(),
   slider: service(),
   router: service(),
-  settings: service(),
 
   /**
    * Models for sidebar navigation
@@ -54,7 +53,7 @@ export default Route.extend({
       })
     ];
 
-    let metadata = A([EmberObject.create({
+    let meta = A([EmberObject.create({
       type: 'record',
       list: 'records',
       title: 'Metadata Records',
@@ -71,11 +70,14 @@ export default Route.extend({
       icon: 'book'
     })]);
 
-    let mapFn = function (item) {
-      let meta = metadata.findBy('type', item.modelName);
+    let idx = 0;
 
-      meta.set('listId', guidFor(item));
-      item.set('meta', meta);
+    let mapFn = function (item) {
+
+      meta[idx].set('listId', guidFor(item));
+      item.set('meta', meta[idx]);
+      idx = ++idx;
+
       return item;
     };
 
