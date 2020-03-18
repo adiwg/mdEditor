@@ -39,10 +39,16 @@ export default Service.extend({
     let flashMessages = this.flashMessages;
 
     if(storagePercent >= 80 && storagePercent < 90) {
-      return flashMessages.warning(`Warning! Your local storage is at ${storagePercent}% of your browser's local storage capacity. Please back up records and clear storage cache`, {timeout: 5000, preventDuplicates: true})
-    } else if (storagePercent >= 90) {
+      return flashMessages.warning(`Warning! Your local storage is at ${storagePercent}% of your browser's local storage capacity. Please back up records and clear storage cache`, {timeout: 15000, preventDuplicates: true})
+    } else if (storagePercent >= 2) {
       return flashMessages.danger(`Danger! Your local storage is at ${storagePercent}% of your browser's local storage capacity. Please back up records and clear storage cache`,
-      { sticky: true, preventDuplicates: true, destroyOnClick: false})
+      { sticky: true,
+        preventDuplicates: true,
+        destroyOnClick: true,
+        onDestroy() {
+          window.location.reload()
+        }
+      })
     }
   }
 
