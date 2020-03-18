@@ -14,22 +14,24 @@ module('Integration | Component | layout/md footer', function(hooks) {
       data: {
         autoSave: false
       }
-    })
+    });
 
-    await render(hbs`{{layout/md-footer settings=settings}}`);
+    this.set('storagePercent', 9.08)
+
+    await render(hbs`{{layout/md-footer settings=settings storagePercent=storagePercent}}`);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Report|Issue|AutoSave:|Off|');
+      '|Local|Storage|=|9.08%|Report|Issue|AutoSave:|Off|');
 
       this.set('settings.data.autoSave', true);
     // Template block usage:
     await render(hbs`
-      {{#layout/md-footer settings=settings}}
+      {{#layout/md-footer settings=settings storagePercent=storagePercent}}
         template block text
       {{/layout/md-footer}}
     `);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Report|Issue|AutoSave:|On|template|block|text|');
+      '|Local|Storage|=|9.08%|Report|Issue|AutoSave:|On|template|block|text|');
   });
 });
