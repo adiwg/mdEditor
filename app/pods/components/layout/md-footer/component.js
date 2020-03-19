@@ -28,13 +28,13 @@ export default Component.extend({
    * storage percent. This will render a different color for tag in the
    * md-footer if the user is above the 90% threshold
    *
-   * @property overPercent
+   * @property isOverThreshold
    * @type {Boolean}
    * @readonly
    * @category computed
    * @requires storagePercent
    */
-  overPercent: computed('storagePercent', function () {
+  isOverThreshold: computed('storagePercent', function () {
     return this.storagePercent > 90
   })
 });

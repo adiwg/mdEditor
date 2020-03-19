@@ -1,8 +1,4 @@
 <div class="footer-container">
-  <span class={{if overPercent "btn btn-xs btn-danger" "btn btn-xs btn-info"}}>
-    {{fa-icon "archive"}}
-    Local Storage = {{storagePercent}}%
-  </span>
   <span>
     <a class="btn btn-xs btn-warning"
     href="https://github.com/adiwg/mdEditor/issues/new"
@@ -11,6 +7,10 @@
       Report Issue
     {{ember-tooltip text="Report bugs, Request features - GitHub account required." side="top"}}
     </a>
+  </span>
+    <span class={{if isOverThreshold "text-danger" "text-success"}}>
+    {{fa-icon "archive"}}: {{storagePercent}}%
+    {{ember-tooltip text="This is a percent of how much local storage has been used." side="top" event="click"}}
   </span>
   <span>
     AutoSave:
