@@ -1,26 +1,34 @@
 import Adapter from 'ember-local-storage/adapters/adapter';
+import { mdObjectSize } from 'mdeditor/utils/md-object-size';
 import { inject as service } from '@ember/service';
-import mdCalcStorage from 'mdeditor/utils/md-calc-storage';
 
 export default Adapter.extend({
 
-  storageMonitor: service(),
+  flashMessages: service(),
 
   updateRecord(store, type, snapshot) {
-    // calculate current snapshot data and local storage size
-    let snapshotData = mdCalcStorage(this.serialize(snapshot, {includeId: true}))
-    let snapshotType = mdCalcStorage(snapshot.modelName)
-    let localStorageSize = mdCalcStorage(localStorage)
+    let snapshotRecord = mdObjectSize(this.serialize(snapshot, { includeId: true }));
+    let snapshotType = mdObjectSize(snapshot.modelName);
+    let localStorageSize = mdObjectSize(window.localStorage);
+    let diff = ((snapshotRecord - snapshotType) + localStorageSize).toFixed(2);
 
-    //get difference between snapshot and local storage
-    let diff = ((snapshotData - snapshotType) + localStorageSize).toFixed(2)
+    if(diff < 5000) {
+      return this._super.apply(this, [store, type, snapshot])
+    } else {
+      let errorMessage = 'Warning! You have exceeded your local storage capacity.  Your recent activity will not be saved.'
 
-    //only save updates if calculated storage is under 5000 kb
-    if (diff < 5000) {
-      return this._super.apply(this, [store, type, snapshot]);
-      //timestamp updates
-      //let date = new Date();
-      //snapshot.record.set('dateUpdated', date.toISOString());
+      this.flashMessages.danger(`${errorMessage}`, {timeout: 15000, preventDuplicates: true, onDestroy(){} })
+
+      let error = new Error(errorMessage);
+      error.isAdapterError = true;
+      error.code = 'InvalidError';
+      error.errors = [];
+
+      throw error;
     }
   }
 });
+
+//timestamp updates
+// let date = new Date();
+//snapshot.record.set('dateUpdated', date.toISOString());
