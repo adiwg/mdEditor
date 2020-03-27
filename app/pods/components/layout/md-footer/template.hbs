@@ -9,7 +9,8 @@
     </a>
   </span>
     <span class={{if isOverThreshold "text-danger" "text-success"}}>
-    {{fa-icon "archive"}}: {{storagePercent}}%
+    {{fa-icon "archive"}}: {{localStoragePercent}}
+    %
     {{ember-tooltip text="This is a percent of how much local storage has been used." side="top"}}
   </span>
   <span>

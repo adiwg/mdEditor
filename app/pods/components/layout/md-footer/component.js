@@ -1,40 +1,30 @@
-import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { storageSize } from 'mdeditor/utils/md-object-size';
+import { inject as service }  from '@ember/service';
+import { tracked } from '@glimmer/tracking';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   tagName: 'footer',
   classNames: ['md-footer'],
 
   settings: service(),
-  storageMonitor: service(),
-
-  /**
-   * Computed property that calculates the percent of local storage
-   * against a 5000 kb capacity
-   *
-   * @property storagePercent
-   * @type {Number}
-   * @readonly
-   * @category computed
-   * @requires storageMonnitor
-   */
-  storagePercent: computed('storageMonitor', function () {
-    return ((this.storageMonitor.calcStorage / 5000) * 100).toFixed(2)
+  localStoragePercent: tracked({
+    value: storageSize().percent
   }),
 
   /**
    * Computed property that provides a boolean value based on local
-   * storage percent. This will render a different color for tag in the
-   * md-footer if the user is above the 90% threshold
+   * storage percent. This will render a different color for the
+   * tag in the md-footer if the user is above the 90% threshold
    *
    * @property isOverThreshold
    * @type {Boolean}
    * @readonly
    * @category computed
-   * @requires storagePercent
+   * @requires localStorageMonitor
    */
-  isOverThreshold: computed('storagePercent', function () {
-    return this.storagePercent > 90
+  isOverThreshold: computed('localStoragePercent', function () {
+    return this.localStoragePercent > 90
   })
 });

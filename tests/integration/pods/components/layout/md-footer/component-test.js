@@ -7,31 +7,27 @@ module('Integration | Component | layout/md footer', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('settings', {
       data: {
         autoSave: false
       }
     });
 
-    this.set('storagePercent', 9.08)
-
-    await render(hbs`{{layout/md-footer settings=settings storagePercent=storagePercent}}`);
+    this.set('localStoragePercent', 9.08)
+    await render(hbs`{{layout/md-footer settings=settings localStoragePercent=localStoragePercent}}`);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Local|Storage|=|9.08%|Report|Issue|AutoSave:|Off|');
+      '|Report|Issue|:|9.08|%|AutoSave:|Off|');
 
       this.set('settings.data.autoSave', true);
     // Template block usage:
     await render(hbs`
-      {{#layout/md-footer settings=settings storagePercent=storagePercent}}
+      {{#layout/md-footer settings=settings localStoragePercent=localStoragePercent}}
         template block text
       {{/layout/md-footer}}
     `);
 
     assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Local|Storage|=|9.08%|Report|Issue|AutoSave:|On|template|block|text|');
+      '|Report|Issue|:|9.08|%|AutoSave:|On|template|block|text|');
   });
 });
