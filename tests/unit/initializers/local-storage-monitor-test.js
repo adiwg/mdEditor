@@ -1,10 +1,10 @@
 import Application from '@ember/application';
 import { run } from '@ember/runloop';
-import { initialize } from 'mdeditor/initializers/local-storage-export';
+import { initialize } from 'mdeditor/initializers/local-storage-monitor';
 import { module, test } from 'qunit';
 import destroyApp from '../../helpers/destroy-app';
 
-module('Unit | Initializer | storage monitor', function(hooks) {
+module('Unit | Initializer | local storage monitor', function(hooks) {
   hooks.beforeEach(function() {
     run(() => {
       this.application = Application.create();

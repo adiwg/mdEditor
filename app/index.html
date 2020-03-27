@@ -39,17 +39,20 @@
       </div>
       <h3>Loading <span class="text-primary">mdEditor</span>...might take a few seconds ;)</h3>
     </div>
-    <div class="md-alert-boot hidden">
+    <!-- <div class="md-alert-boot hidden">
       <div class="md-alert-icon">
         <svg style="width:24px;height:24px" viewBox="0 0 24 24">
           <path fill="var(--color)" d="M10 3H14V14H10V3M10 21V17H14V21H10Z" />
         </svg>
       </div>
-      <div class="md-alert-message ">
-        <p><span class="text-primary">mdEditor</span> will attempt to load momentarily, but your local storage capacity has been met or supassed 100% of your browser's local storage capacity. At this point your app may not function as accordingly and "current work in progress" may be lost.</p>
-        <p>If you are unable to use the settings page in <span class="text-primary">mdEditor</span> to clear local storage, in a new browser window tab type "<strong>chrome://settings/siteData</strong>", find your app version by typing "<strong>mdeditor</strong>" in the "<strong>Search cookies</strong>" text field and click the trash can next to it. You may need to reload the tab that the application was on.</p>
+      <div class="md-alert-message">
+        <p><span class="text-danger">Warning!</span> You have exceeded your local storage limit. At this point the <span
+            class="text-primary">mdEditor</span> will no longer save any new records, and current work in progress may
+          be lost. <span class="text-primary">mdEditor</span> will attempt to start momentarily, but if the app does not
+          boot, you will need to use, "<strong>chrome://settings/siteData</strong>" in another tab, and try and remove
+          the <span class="text-primary">mdEditor</span> version's local storage cache that you are working in.</p>
       </div>
-    </div>
+    </div> -->
 
     <script src="{{rootURL}}assets/vendor.js"></script>
     <script src="{{rootURL}}assets/mdeditor.js"></script>
