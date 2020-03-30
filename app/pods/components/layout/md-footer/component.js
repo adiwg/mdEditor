@@ -9,6 +9,18 @@ export default Component.extend({
   settings: service(),
   localStorageMonitor: service(),
   /**
+   * Computed property that provides storage percentage to template via
+   * local storage monitor service
+   * @property percent
+   * @type {Number}
+   * @readonly
+   * @category computed
+   * @requires localStorageMonitor
+   */
+  percent: computed(function () {
+    return this.localStorageMonitor.storagePercentTracked
+  }),
+  /**
    * Computed property that provides a boolean value based on local
    * storage percent. This will render a different color for the
    * tag in the md-footer if the user is above the 90% threshold
@@ -17,9 +29,9 @@ export default Component.extend({
    * @type {Boolean}
    * @readonly
    * @category computed
-   * @requires localStorageMonitor
+   * @requires percent
    */
-  isOverThreshold: computed('localStorageMonitor', function () {
-    return this.localStorageMonitor.storagePercentTracked > 90
+  isOverThreshold: computed('percent', function () {
+    return this.percent > 90
   })
 });
