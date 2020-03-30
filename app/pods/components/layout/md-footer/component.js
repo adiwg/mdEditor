@@ -1,7 +1,5 @@
 import Component from '@ember/component';
-import { storageSize } from 'mdeditor/utils/md-object-size';
 import { inject as service }  from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 import { computed } from '@ember/object';
 
 export default Component.extend({
@@ -9,10 +7,7 @@ export default Component.extend({
   classNames: ['md-footer'],
 
   settings: service(),
-  localStoragePercent: tracked({
-    value: storageSize().percent
-  }),
-
+  localStorageMonitor: service(),
   /**
    * Computed property that provides a boolean value based on local
    * storage percent. This will render a different color for the
@@ -24,7 +19,7 @@ export default Component.extend({
    * @category computed
    * @requires localStorageMonitor
    */
-  isOverThreshold: computed('localStoragePercent', function () {
-    return this.localStoragePercent > 90
+  isOverThreshold: computed('localStorageMonitor', function () {
+    return this.localStorageMonitor.storagePercentTracked > 90
   })
 });
