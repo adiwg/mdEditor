@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';
 import { bool, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
+import { reject} from 'rsvp';
+import mdObjectSize from 'mdeditor/utils/md-object-size';
 
 const Base = DS.Model.extend({
   /**
@@ -33,6 +35,8 @@ const Base = DS.Model.extend({
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
+  flashMessages: service(),
+  localStorageMonitor: service(),
 
   /**
    * The hash for the clean record.
@@ -246,7 +250,31 @@ const Base = DS.Model.extend({
       return profile.schemas.indexOf(
         schema) > -1;
     }, this);
-  })
+  }),
+
+  save(options) {
+    let snapshot = this.serialize({includeId: true})
+    let snapshotSize = mdObjectSize(snapshot)
+    let localStorageSize = mdObjectSize(window.localStorage.getItem(snapshot.data.type + "-" + snapshot.data.id))
+    let currLocalStorageSize = mdObjectSize(window.localStorage);
+
+    let diff = localStorageSize ? (snapshotSize - localStorageSize) : snapshotSize;
+
+    if(currLocalStorageSize + diff > 5000) {
+      let errorMessage = 'Warning! You have exceeded your local storage capacity.  Your recent activity will not be saved. Please back up records and clear storage cache.'
+
+      this.flashMessages.danger(`${errorMessage}`, {timeout: 20000, preventDuplicates: true, onDestroy(){} })
+
+      let error = new Error(errorMessage);
+
+      return reject(error);
+    } else {
+      this.localStorageMonitor.storageSize();
+      this.localStorageMonitor.storagePercent();
+      return this._super.apply(this, [options]);
+    }
+
+  }
 });
 
 //Modify the prototype instead of using computed.volatile()
