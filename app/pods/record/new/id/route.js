@@ -91,6 +91,8 @@ export default Route.extend({
         .save()
         .then((model) => {
           this.replaceWith('record.show.edit', model);
+        }).catch((error) => {
+          throw error
         });
     },
 
