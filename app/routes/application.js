@@ -35,7 +35,7 @@ export default Route.extend({
   spotlight: service(),
   slider: service(),
   router: service(),
-
+  localStorageMonitor: service(),
   /**
    * Models for sidebar navigation
    *
@@ -100,6 +100,16 @@ export default Route.extend({
   },
 
   beforeModel() {
+    let storagePercentStatus = this.localStorageMonitor.storagePercentTracked > 2
+
+    if(storagePercentStatus) {
+      this.router.replaceWith('error')
+      .then((route) => {
+        route.controller.set('lastError', new Error(
+          'You have exceeded your local storage capacity. Your recent activity will not be saved. Please back up records and clear storage cache'
+        ))
+      })
+    }
     if(!defaultProfileId) {
       this.router.replaceWith('error')
         .then(function (route) {
