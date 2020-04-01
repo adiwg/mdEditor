@@ -20,7 +20,8 @@ const Validations = buildValidations({
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.end'),
-      ignoreBlank: true
+      ignoreBlank: true,
+      message: 'Start or end date is required',
     })
   ],
   'end': [
@@ -31,7 +32,8 @@ const Validations = buildValidations({
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.start'),
-      ignoreBlank: true
+      ignoreBlank: true,
+      message: 'Start or end date is required'
     })
   ]
 });
