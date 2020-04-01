@@ -261,7 +261,7 @@ const Base = DS.Model.extend({
     let diff = localStorageSize ? (snapshotSize - localStorageSize) : snapshotSize;
 
     if(currLocalStorageSize + diff > 5000) {
-      let errorMessage = 'Warning! You have exceeded your local storage capacity.  Your recent activity will not be saved. Please back up records and clear storage cache.'
+      let errorMessage = 'Warning! You have exceeded your local storage capacity. Your recent activity will not be saved. Please back up records and clear storage cache.'
 
       this.flashMessages.danger(`${errorMessage}`, {timeout: 20000, preventDuplicates: true, onDestroy(){} })
 
