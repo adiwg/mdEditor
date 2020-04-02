@@ -35,6 +35,7 @@ export default Route.extend({
   spotlight: service(),
   slider: service(),
   router: service(),
+  settings: service(),
   localStorageMonitor: service(),
   /**
    * Models for sidebar navigation
