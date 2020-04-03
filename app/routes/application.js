@@ -54,7 +54,7 @@ export default Route.extend({
       })
     ];
 
-    let meta = A([EmberObject.create({
+    let metadata = A([EmberObject.create({
       type: 'record',
       list: 'records',
       title: 'Metadata Records',
@@ -71,14 +71,11 @@ export default Route.extend({
       icon: 'book'
     })]);
 
-    let idx = 0;
-
     let mapFn = function (item) {
+      let meta = metadata.findBy('type', item.modelName);
 
-      meta[idx].set('listId', guidFor(item));
-      item.set('meta', meta[idx]);
-      idx = ++idx;
-
+      meta.set('listId', guidFor(item));
+      item.set('meta', meta);
       return item;
     };
 

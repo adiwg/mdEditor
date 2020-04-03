@@ -120,6 +120,7 @@
             label="Abstract"
             placeholder="Enter an Abstract describing the resource."
             required=true
+            change=(action (mut resource.abstract))
           }}
 
           {{input/md-markdown-area
@@ -127,6 +128,7 @@
             profilePath="record.main.description.shortAbstract"
             label="Short Abstract"
             placeholder="A short description of the resource. Max of 300 characters."
+            change=(action (mut resource.shortAbstract))
             maxlength=300
           }}
 
