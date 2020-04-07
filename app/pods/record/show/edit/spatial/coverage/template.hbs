@@ -1,1 +1,13 @@
+<h4 class="section-header">
+  Editing Coverage Description #{{coverageId}}
+  {{control/md-status model=parentModel}}
+</h4>
 {{outlet}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Spatial Information"
+    icon="arrow-left"
+    route="record.show.edit.spatial")
+}}
