@@ -121,7 +121,11 @@ Router.map(function () {
             });
           });
           this.route('dictionary');
-          this.route('spatial', function () {});
+          this.route('spatial', function () {
+            this.route('coverage', {
+              path: 'coveragedesc/:coverage_id'
+            }, function () {});
+          });
           this.route('constraint', function () {});
           this.route('taxonomy', function () {
             this.route('collection', {
