@@ -33,4 +33,17 @@
   {{object/md-spatial-resolution model=editing profilePath=(concat profilePath ".spatialResolution")}}
 {{/object/md-object-table}}
 
+{{#object/md-objectroute-table
+  items=model.coverageDescription
+  editItem=(action "editCoverage")
+  header="Coverage Description"
+  buttonTest="Add Description"
+  ellipsis=true
+  profilePath=(concat profilePath ".coverageDescription")
+  attributes="coverageName, coverageDescription, processingLevelCode.identifier"
+  addSubbar="md-subbar-extra"
+}}
+  {{object/md-coverage model=editing profilePath=(concat profilePath ".coverageDescription")}}
+{{/object/md-objectroute-table}}
+
 {{yield}}
