@@ -1,2 +1,11 @@
-<h4>I am here</h4>
+{{input/md-textarea
+  label="Name"
+  data-spy="Name"
+  showValidations=true
+  valuePath="covgeName"
+  model=this
+  placeholder="The name(title) of coverage"
+  profilePath=(concat profilePath ".coverageName")
+  class=(if (v-get this "isInvalid") "required")
+}}
 {{yield}}
