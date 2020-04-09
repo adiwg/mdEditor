@@ -10,9 +10,9 @@ export default Route.extend({
     return this.setupModel();
   },
 
-  breadCrumb: computed('coverage_id', function () {
+  breadCrumb: computed('coverageId', function () {
     return{
-      title: 'COVERAGE ' + this.coverage_id,
+      title: 'COVERAGE ' + this.coverageId,
       linkable: true
     };
   }),
@@ -33,9 +33,10 @@ export default Route.extend({
     let coverageId = this.coverageId
     let model = this.modelFor('record.show.edit');
     let coverageArray = model.get(
-      'json.metadata.resourseInfo.coverageDescription');
+      'json.metadata.resourceInfo.coverageDescription');
     let coverage = coverageId && isArray(coverageArray)
-      ? coverageArray.get(coverageId) : undefined;
+      ? coverageArray.get(coverageId)
+      : undefined;
 
     // making sure the coverage exists
     if(isEmpty(coverage)) {
