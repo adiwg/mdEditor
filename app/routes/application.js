@@ -98,7 +98,7 @@ export default Route.extend({
   },
 
   beforeModel() {
-    let storagePercentStatus = this.localStorageMonitor.storagePercentTracked > 2
+    let storagePercentStatus = this.localStorageMonitor.storagePercentTracked > 100
 
     if(storagePercentStatus) {
       this.router.replaceWith('error')
