@@ -21,7 +21,6 @@ const Validations = buildValidations({
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.end'),
-      ignoreBlank: true,
     })
   ],
   end: {
@@ -33,7 +32,6 @@ const Validations = buildValidations({
       validator('presence', {
         presence: true,
         disabled: notEmpty('model.start'),
-        ignoreBlank: true,
       } )
     ]
   }
