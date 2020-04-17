@@ -12,7 +12,7 @@ export default Route.extend({
 
   breadCrumb: computed('coverageId', function () {
     return{
-      title: 'COVERAGE ' + this.coverageId,
+      title: 'Coverage ' + this.coverageId,
       linkable: true
     };
   }),

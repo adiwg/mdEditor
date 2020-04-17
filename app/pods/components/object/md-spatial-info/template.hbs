@@ -33,17 +33,25 @@
   {{object/md-spatial-resolution model=editing profilePath=(concat profilePath ".spatialResolution")}}
 {{/object/md-object-table}}
 
-{{#object/md-objectroute-table
+
+{{object/md-objectroute-table
+  attributes="coverageName, coverageDescription"
   items=model.coverageDescription
-  editItem=(action "editCoverage")
+  itemRoute="recor"
   header="Coverage Description"
-  buttonText="Add Description"
+  shadow=true
+  buttonText="Add Coverage Description"
   ellipsis=true
+  previewTemplateTable="object/md-coverage/preview"
+  editItem=(action "editCoverage")
+  verticalButtons=false
   profilePath=(concat profilePath ".coverageDescription")
-  attributes="coverageName, coverageDescription, processingLevelCode.identifier"
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-coverage"
+  data-spy="Coverage Description"
   addSubbar="md-subbar-extra"
 }}
-  {{object/md-coverage model=editing profilePath=(concat profilePath ".coverageDescription")}}
-{{/object/md-objectroute-table}}
 
 {{yield}}
