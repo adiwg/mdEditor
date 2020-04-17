@@ -42,6 +42,6 @@ export default Component.extend({
   actions: {
     editCoverage(id) {
       this.router.transitionTo('record.show.edit.spatial.coverage', this.parentModel.id, id)
-    }
+  }
   }
 });

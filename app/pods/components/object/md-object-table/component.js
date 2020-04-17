@@ -332,7 +332,7 @@ export default Component.extend(Template, {
       let last = Object.keys(items.get('lastObject'));
 
       if(isEmpty(last)) {
-        items.popObject();
+        items.replace();
       }
 
       if(items.length === 0) return;
