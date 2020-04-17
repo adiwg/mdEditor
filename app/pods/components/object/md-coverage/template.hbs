@@ -7,6 +7,7 @@
   profilePath=(concat profilePath ".coverageName")
   showValidations=true
 }}
+
 {{input/md-input
   label="Description"
   data-spy="Description"
@@ -16,4 +17,22 @@
   profilePath=(concat profilePath ".coverageDescription")
   showValidations=true
 }}
+
+{{!-- {{object/md-objectroute-table
+  attributes="description"
+  items=model.source
+  header="Source"
+  shadow=true
+  buttonText="Add Source"
+  ellipsis=false
+  previewTemplateTable="object/md-source/preview"
+  editItem=editSource
+  profilePath=(concat profilePath ".source")
+  verticalButtons=true
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId="md-source"
+  data-spy="Source"
+}} --}}
 {{yield}}
