@@ -1,12 +1,19 @@
-
-{{input/md-textarea
+{{input/md-input
   label="Name"
   data-spy="Name"
-  showValidations=true
-  valuePath="covgeName"
   model=this
-  placeholder="The name(title) of coverage"
+  valuePath="name"
+  placeholder="The name(title) of the coverage."
   profilePath=(concat profilePath ".coverageName")
-  class=(if (v-get this "isInvalid") "required")
+  showValidations=true
+}}
+{{input/md-input
+  label="Description"
+  data-spy="Description"
+  model=this
+  valuePath="description"
+  placeholder="A description of the coverage"
+  profilePath=(concat profilePath ".coverageDescription")
+  showValidations=true
 }}
 {{yield}}

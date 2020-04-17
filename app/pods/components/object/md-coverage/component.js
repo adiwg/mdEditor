@@ -4,16 +4,21 @@ import { alias } from '@ember/object/computed';
 import { get, set, getWithDefault } from '@ember/object';
 import { validator, buildValidations } from "ember-cp-validations";
 
-const MESSAGE = 'Coverage name and coverage description are required';
-const OPTS = {
-  validate(value, options, model) {
-    return model.notEmpty || MESSAGE
-  }
-}
+
 const Validations = buildValidations({
-  'covgeName': validator('inline', OPTS),
-  'covgeDesc': validator('inline', OPTS)
-})
+  'name': [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true
+    })
+  ],
+  'description': [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true
+    })
+  ]
+});
 
 export default Component.extend(Validations, {
   tagName: 'form',
@@ -25,14 +30,16 @@ export default Component.extend(Validations, {
     if(model) {
       once(this, function () {
         set(model, 'processingLevelCode', getWithDefault(model, 'processingLevelCode', {}));
+        set(model, 'imageDescription', getWithDefault(model,
+        'imageDescription', {}))
       })
     }
   },
 
   classNames: ['form'],
-  covgeName: alias('model.coverageName'),
-  covgeDesc: alias('model.coverageDescription'),
-  covgeDescId: alias('model.processingLevelCode.identifier'),
-  atrrGroup: alias('model.attributeGroup'),
-  imgDesc: alias('model.imageDescription')
+  name: alias('model.coverageName'),
+  description: alias('model.coverageDescription'),
 });
+export {
+  Validations
+};
