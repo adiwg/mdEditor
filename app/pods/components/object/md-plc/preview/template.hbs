@@ -1,1 +1,9 @@
-{{yield}}
+<td class="property">
+  {{input/md-input
+    model=this
+    valuePath="identifier"
+    placeholder="A name that is used to identify the resource."
+    profilePath=(concat profilePath ".processingLevelCode.identifier")
+    showValidations=true
+  }}
+</td>

@@ -18,21 +18,15 @@
   showValidations=true
 }}
 
-{{!-- {{object/md-objectroute-table
-  attributes="description"
-  items=model.source
-  header="Source"
-  shadow=true
-  buttonText="Add Source"
-  ellipsis=false
-  previewTemplateTable="object/md-source/preview"
-  editItem=editSource
-  profilePath=(concat profilePath ".source")
-  verticalButtons=true
-  hideIndex=false
-  condensed=false
-  editOnAdd=false
-  scrollToId="md-source"
-  data-spy="Source"
-}} --}}
+{{#object/md-object-table
+ items=model.processingLevelCode
+ header="Processing Level Code"
+ buttonText="Add Processing Level Code"
+ ellipsis=true
+ profilePath=(concat profilePath ".processingLevelCode")
+ attributes="identifier"
+}}
+  {{object/md-plc model=editing profilePath=(concat profilePath ".processingLevelCode")}}
+{{/object/md-object-table}}
+
 {{yield}}

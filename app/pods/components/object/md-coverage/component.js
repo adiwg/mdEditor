@@ -17,7 +17,7 @@ const Validations = buildValidations({
       presence: true,
       ignoreBlank: true
     })
-  ]
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -39,7 +39,9 @@ export default Component.extend(Validations, {
   classNames: ['form'],
   name: alias('model.coverageName'),
   description: alias('model.coverageDescription'),
+
 });
+
 export {
   Validations
 };

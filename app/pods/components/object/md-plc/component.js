@@ -1,27 +1,12 @@
 import Component from '@ember/component';
-
-export default Component.extend({
-});
-import Component from '@ember/component';
-import {
-  getWithDefault,
-  set,
-  get
-} from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { getWithDefault, set, get } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'description': [
-    validator('precence', {
+  'identifier': [
+    validator('presence', {
       presence: true,
       ignoreBlank: true
     })
@@ -58,6 +43,4 @@ export default Component.extend(Validations, {
 
   tagname: 'form',
   identifier: alias('model.identifier'),
-  namespace: alias('model.namespace'),
-  version: alias('model.version')
 });
