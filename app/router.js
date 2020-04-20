@@ -124,11 +124,7 @@ Router.map(function () {
           this.route('spatial', function () {
             this.route('coverage', {
               path: 'coveragedesc/:coverage_id'
-            }, function () {
-              this.route('plc', {
-                path: 'processinglvlcode/:plc_id'
-              });
-            });
+            }, function () {});
           });
           this.route('constraint', function () {});
           this.route('taxonomy', function () {
