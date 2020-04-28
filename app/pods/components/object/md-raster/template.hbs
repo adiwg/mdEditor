@@ -1,0 +1,55 @@
+{{input/md-input
+  label="Name"
+  data-spy="Name"
+  model=this
+  valuePath="name"
+  placeholder="The name(title) of the raster."
+  profilePath=(concat profilePath ".coverageName")
+  showValidations=true
+}}
+{{input/md-input
+  label="Description"
+  data-spy="Description"
+  model=this
+  valuePath="description"
+  placeholder="A description of the raster"
+  profilePath=(concat profilePath ".coverageDescription")
+  showValidations=true
+}}
+{{#if processLvlCode}}
+  {{#layout/md-card
+    collapsible=true
+    title="Processing Level Code"
+    required=(v-get this "isInvalid")
+    collapsed=true
+    shadow=false
+    profilePath=(concat profilePath ".processingLevelCode")
+  }}
+    {{!-- <label  class={{concat "text-info" (if (v-get this "isInvalid") "
+    required")}}>Processing Level Code</label> --}}
+    {{object/md-identifier
+      model=model.processingLevelCode
+      profilePath=(concat profilePath ".processingLevelCode")
+    data-spy=false
+    }}
+  {{/layout/md-card}}
+{{/if}}
+{{object/md-objectroute-table
+  attributes="attributeContentType"
+  items=model.attributeGroup
+  header="Attribute Group"
+  shadow=true
+  buttonText="Add Attribute Group"
+  ellipsis=false
+  editItem=(action "editAttrGroup")
+  verticalButtons=false
+  profilePath=(concat profilePath ".attributeGroup")
+  previewTemplate="object/md-attrgroup/preview"
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  data-spy="Attribute Group"
+  scrollToId="md-attrgroup"
+  addSubbar="md-subbar-extra"
+}}
+{{yield}}

@@ -122,8 +122,8 @@ Router.map(function () {
           });
           this.route('dictionary');
           this.route('spatial', function () {
-            this.route('coverage', {
-              path: 'coveragedesc/:coverage_id'
+            this.route('raster', {
+              path: 'rasterdesc/:raster_id'
             }, function () {});
           });
           this.route('constraint', function () {});
@@ -137,6 +137,8 @@ Router.map(function () {
               }, function () {});
             });
           });
+
+          this.route('coverage', function() {});
         });
         this.route('translate');
       }

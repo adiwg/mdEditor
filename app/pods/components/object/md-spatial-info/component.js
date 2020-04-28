@@ -40,8 +40,8 @@ export default Component.extend({
   tagName: 'form',
 
   actions: {
-    editCoverage(id) {
-      this.router.transitionTo('record.show.edit.spatial.coverage', this.parentModel.id, id)
+    editRaster(id) {
+      this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel.id, id)
   }
   }
 });

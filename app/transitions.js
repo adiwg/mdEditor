@@ -47,7 +47,7 @@ export default function () {
     this.reverse('toRight')
   );
   this.transition(
-    this.toRoute('record.show.edit.spatial.coverage'),
+    this.toRoute('record.show.edit.spatial.raster'),
     this.fromRoute('record.show.edit.spatial.index'),
     this.use('toLeft'),
     this.reverse('toRight')

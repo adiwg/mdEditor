@@ -37,19 +37,17 @@
 {{object/md-objectroute-table
   attributes="coverageName, coverageDescription"
   items=model.coverageDescription
-  itemRoute="recor"
   header="Coverage Description"
   shadow=true
   buttonText="Add Coverage Description"
   ellipsis=true
-  previewTemplateTable="object/md-coverage/preview"
-  editItem=(action "editCoverage")
+  previewTemplateTable="object/md-raster/preview"
+  editItem=(action "editRaster")
   verticalButtons=false
   profilePath=(concat profilePath ".coverageDescription")
   hideIndex=false
   condensed=false
   editOnAdd=false
-  scrollToId="md-coverage"
   data-spy="Coverage Description"
   addSubbar="md-subbar-extra"
 }}

@@ -5,14 +5,14 @@ import { isEmpty } from '@ember/utils';
 
 export default Route.extend({
   model(params) {
-    this.set('coverageId', params.coverage_id)
+    this.set('rasterId', params.raster_id);
 
     return this.setupModel();
   },
 
-  breadCrumb: computed('coverageId', function () {
-    return{
-      title: 'Coverage ' + this.coverageId,
+  breadCrumb: computed('rasterId', function () {
+    return {
+      title: `Coverage ${this.rasterId}`,
       linkable: true
     };
   }),
@@ -21,7 +21,7 @@ export default Route.extend({
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controller.set('coverageId', this.coverageId);
+    this.controller.set('rasterId', this.rasterId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -30,24 +30,24 @@ export default Route.extend({
   },
 
   setupModel() {
-    let coverageId = this.coverageId
+    let rasterId = this.rasterId;
     let model = this.modelFor('record.show.edit');
-    let coverageArray = model.get(
+    let rasterArray = model.get(
       'json.metadata.resourceInfo.coverageDescription');
-    let coverage = coverageId && isArray(coverageArray)
-      ? coverageArray.get(coverageId)
+    let raster = rasterId && isArray(rasterArray)
+      ? rasterArray.get(rasterId)
       : undefined;
 
-    // making sure the coverage exists
-    if(isEmpty(coverage)) {
-      this.flashMessages
-        .warning('No Coverage Description Found! Re-directing...');
-      this.replaceWith('record.show.edit.spatial');
+      // make sure the raster exists
+      if (isEmpty(raster)) {
+        this.flashMessages
+          .warning('No Raster Descripion Found! Re-directing...');
+        this.replaceWith('record.show.edit.spatial');
 
-      return;
-    }
+        return;
+      }
 
-    return coverage;
+    return raster;
   },
 
   actions: {

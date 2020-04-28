@@ -1,0 +1,18 @@
+<td class="property">
+  {{input/md-input
+    model=this
+    valuePath="name"
+    placeholder="The name(title) of the raster."
+    profilePath=(concat profilePath ".coverageName")
+    showValidations=true
+  }}
+</td>
+<td class="property">
+  {{input/md-input
+    model=this
+    valuePath="description"
+    placeholder="A description of the raster."
+    profilePath=(concat profilePath ".coverageDescription")
+    showValidations=true
+  }}
+</td>
