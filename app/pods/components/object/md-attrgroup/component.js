@@ -1,0 +1,34 @@
+import Component from '@ember/component';
+import { once } from '@ember/runloop';
+import { alias } from '@ember/object/computed';
+import { get, set, getWithDefault } from '@ember/object';
+import { validator, buildValidations } from "ember-cp-validations";
+
+const Validations = buildValidations({
+  'attrCntType': [
+    validator('presence', {
+      presence: true,
+      ignoreBlank: true
+    })
+  ]
+});
+
+export default Component.extend({
+  didReceiveAttrs() {
+      this._super(...arguments);
+
+      let model = get(this, 'model');
+
+      if (model) {
+        once(this, function () {
+          set(model, 'attrbuteContentType', getWithDefault(model, 'attributeContentType', []));
+          set(model, 'attribute', getWithDefault(model, 'attribute', []));
+        })
+      }
+    },
+
+    tagname: 'form',
+    attrCntType: alias('model.attributeContentType')
+});
+
+export { Validations };
