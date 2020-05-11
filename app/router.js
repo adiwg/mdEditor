@@ -123,8 +123,12 @@ Router.map(function () {
           this.route('dictionary');
           this.route('spatial', function () {
             this.route('raster', {
-              path: 'rasterdesc/:raster_id'
-            }, function () {});
+              path: 'rasterdes/:raster_id'
+            }, function () {
+              this.route('attrgroup', {
+                path: 'attributegrp/:attrgrp_id'
+              }, function () {});
+            });
           });
           this.route('constraint', function () {});
           this.route('taxonomy', function () {
@@ -137,8 +141,6 @@ Router.map(function () {
               }, function () {});
             });
           });
-
-          this.route('coverage', function() {});
         });
         this.route('translate');
       }

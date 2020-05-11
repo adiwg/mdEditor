@@ -35,11 +35,11 @@
 
 
 {{object/md-objectroute-table
-  attributes="coverageName, coverageDescription"
+  attributes="rasterName, rasterDescription"
   items=model.coverageDescription
-  header="Coverage Description"
+  header="Raster Description"
   shadow=true
-  buttonText="Add Coverage Description"
+  buttonText="Add Raster Description"
   ellipsis=true
   previewTemplateTable="object/md-raster/preview"
   editItem=(action "editRaster")
@@ -48,8 +48,7 @@
   hideIndex=false
   condensed=false
   editOnAdd=false
-  data-spy="Coverage Description"
+  data-spy="Raster Description"
   addSubbar="md-subbar-extra"
 }}
-
 {{yield}}
