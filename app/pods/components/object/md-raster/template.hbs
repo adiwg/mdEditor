@@ -34,22 +34,15 @@
     }}
   {{/layout/md-card}}
 {{/if}}
-{{object/md-objectroute-table
-  attributes="attributeContentType"
-  items=model.attributeGroup
-  header="Attribute Group"
-  shadow=true
-  buttonText="Add Attribute Group"
-  ellipsis=false
-  editItem=(action "editAttrGroup")
-  verticalButtons=false
-  profilePath=(concat profilePath ".attributeGroup")
-  previewTemplateTable="object/md-attrgroup/preview"
-  hideIndex=false
-  condensed=false
-  editOnAdd=false
-  data-spy="Attribute Group"
-  scrollToId="md-attrgroup"
-  addSubbar="md-subbar-extra"
-}}
+
+
+{{#layout/md-card
+  shadow=false
+  collapsible=true
+  title="Attribute Group"
+  required=(v-get this "isInvalid")
+  collapsed=true
+  profilePath=(concat profilePath ".attributeGroup")}}
+  {{object/md-attrgroup}}
+{{/layout/md-card}}
 {{yield}}

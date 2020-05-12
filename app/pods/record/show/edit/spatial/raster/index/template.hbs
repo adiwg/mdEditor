@@ -1,12 +1,4 @@
-<h4 class="section-header">
-  Editing Raster
-</h4>
 {{object/md-raster model=model profilePath="spatial.coverageDescription"}}
-{{to-elsewhere
-  named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"
-    scrollInit=scrollTo
-    setScrollTo=(route-action "setScrollTo")
-    refresh=model.profile
-  )
-}}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=refresh)}}

@@ -124,11 +124,7 @@ Router.map(function () {
           this.route('spatial', function () {
             this.route('raster', {
               path: 'rasterdes/:raster_id'
-            }, function () {
-              this.route('attrgroup', {
-                path: 'attributegrp/:attrgrp_id'
-              }, function () {});
-            });
+            }, function () {});
           });
           this.route('constraint', function () {});
           this.route('taxonomy', function () {
