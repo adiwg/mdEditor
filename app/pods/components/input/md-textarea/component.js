@@ -224,4 +224,24 @@ export default Component.extend({
     this.scheduleMeasurement();
   },
 
+  /**
+   * Whether to show the infotip
+   *
+   * @property infotip
+   * @type Boolean
+   * @default false
+   */
+  infotip: false,
+
+    /**
+     * Determines whether infotip is rendered
+     *
+     * @property showInfotip
+     * @type {Boolean}
+     * @default "false"
+     * @readOnly
+     * @category computed
+     * @requires placeholder,infotip
+     */
+    showInfotip: and('placeholder', 'infotip')
 });

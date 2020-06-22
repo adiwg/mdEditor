@@ -1,7 +1,8 @@
 $simple-mde-z: 10001;
 
-.CodeMirror,
+// .CodeMirror,
 .CodeMirror-scroll {
+  height: auto;
   max-height: 300px;
   min-height: 80px;
 }
@@ -17,7 +18,7 @@ $simple-mde-z: 10001;
   z-index: $simple-mde-z;
 }
 
-.CodeMirror-fullscreen.CodeMirror,
+// .CodeMirror-fullscreen.CodeMirror,
 .CodeMirror-fullscreen .CodeMirror-scroll {
   max-height: none;
 }

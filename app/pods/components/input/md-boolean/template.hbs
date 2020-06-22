@@ -1,12 +1,13 @@
-<div class="form-group">
-  {{#if label}}
-    <label>{{label}}</label>
+{{#if label}}
+  <label>{{label}}</label>
+  {{#if showInfotip}}
+    {{control/md-infotip text=placeholder}}
   {{/if}}
-  <div class="checkbox md-boolean">
-    <label>
-      {{input type="checkbox" checked=value}}
-      <span class="md-boolean-text">{{text}}</span>
-    </label>
-  </div>
-  {{yield}}
+{{/if}}
+<div class="checkbox md-boolean">
+  <label>
+    {{input type="checkbox" checked=value}}
+    <span class="md-boolean-text">{{text}}</span>
+  </label>
 </div>
+{{yield}}

@@ -1,4 +1,12 @@
-{{#if label}}<label>{{label}}</label>{{/if}}
+{{#if label}}
+  <label>
+    {{label}}
+    {{!--<div class="pull-right"></div> --}}
+  </label>
+  {{#if showInfoTip}}
+    {{control/md-infotip text=placeholder}}
+  {{/if}}
+{{/if}}
 <div class="md-input-input">
   {{input
     value=value
