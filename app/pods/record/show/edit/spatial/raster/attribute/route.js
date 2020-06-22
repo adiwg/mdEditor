@@ -79,18 +79,13 @@ export default Route.extend(ScrollTo, {
       model.removeAt(id || parseInt(this.attributeId, 0));
       this.transitionTo('record.show.edit.spatial.raster', {
         queryParams: {
-          scrollTo: `raster-attrgroup-${this.controller.attrGroupId}`
+          scrollTo: this.controller.attrGroupId
         }
       });
     },
 
     backToAttrGroup() {
-      this.transitionTo('record.show.edit.spatial.raster', {
-        queryParams: {
-          scrollTo: `raster-attrgroup-${this.controller.attrGroupid}`
-        }
-      }
-      );
+      this.transitionTo('record.show.edit.spatial.raster');
     }
   }
 });

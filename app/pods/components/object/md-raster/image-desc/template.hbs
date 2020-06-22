@@ -6,6 +6,7 @@
       shadow=false
       required=(v-get this "isInvalid")
       profilePath=(concat profilePath ".imageQualityCode")
+      class="md-embedded"
     }}
     {{object/md-identifier
         model=model.imageQualityCode
@@ -25,7 +26,7 @@
       infotip=true
       data-spy=(if model param.label)
       type=param.type
-      class="col-lg-6 col-xxxl-4"
+      class="md-embedded col-lg-6 col-xxxl-4"
       placeholder=param.description
       profilePath=(concat profilePath ".imageDescription." param.property)
     }}
