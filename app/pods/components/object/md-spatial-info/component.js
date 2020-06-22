@@ -41,7 +41,7 @@ export default Component.extend({
 
   actions: {
     editRaster(id) {
-      this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel.id, id)
-  }
+      this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel.id, id);
+    }
   }
 });

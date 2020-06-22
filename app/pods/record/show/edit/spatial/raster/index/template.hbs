@@ -1,4 +1,28 @@
-{{object/md-raster model=model profilePath="spatial.coverageDescription"}}
+<h4 class="section-header">
+  Editing Raster Description #{{rasterId}}
+  {{control/md-status model=parentModel}}
+</h4>
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=refresh)}}
+{{object/md-raster
+  model=model
+  profilePath="spatial.coverageDescription"
+  editAttribute=(route-action "editAttribute")
+  deleteAttrGroup=(route-action "deleteAttrGroup")
+  addAttrGroup=(route-action "addAttrGroup")
+}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Spatial Information"
+    icon="arrow-left"
+    route="record.show.edit.spatial")
+}}
+
+{{to-elsewhere
+  named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"
+  scrollInit=scrollTo
+  setScrollTo=(route-action "setScrollTo")
+  refresh=refresh)
+}}

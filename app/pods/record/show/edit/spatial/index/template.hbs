@@ -2,6 +2,7 @@
   Editing Spatial Information
   {{control/md-status model=model}}
 </h4>
+
 {{#with model.json.metadata.resourceInfo as |resourceInfo|}}
   {{object/md-spatial-info model=resourceInfo profilePath="record.spatial" parentModel=model}}
 {{/with}}

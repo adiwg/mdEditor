@@ -18,10 +18,11 @@ export default Route.extend({
   }),
 
   setupController: function () {
+    // Call _super for default behavior
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controller.set('rasterId', this.rasterId)
+    this.controller.set('rasterId', this.rasterId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -32,20 +33,26 @@ export default Route.extend({
   setupModel() {
     let rasterId = this.rasterId;
     let model = this.modelFor('record.show.edit');
-    let rasterArray = model.get(
+    let rasters = model.get(
       'json.metadata.resourceInfo.coverageDescription');
-    let raster = rasterId && isArray(rasterArray)
-      ? rasterArray.get(rasterId)
+    let raster = rasterId && isArray(rasters)
+      ? rasters.get(rasterId)
       : undefined;
 
-    if (isEmpty(raster)) {
+    //make sure the raster exists
+    if(isEmpty(raster)) {
       this.flashMessages
         .warning('No Raster Description found! Re-directing...');
       this.replaceWith('record.show.edit.spatial');
 
-      return
+      return;
     }
 
     return raster;
+  },
+  actions: {
+    parentModel() {
+      return this.modelFor('record.show.edit');
+    }
   }
 });
