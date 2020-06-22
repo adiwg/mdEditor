@@ -1,48 +1,67 @@
-{{input/md-input
-  label="Name"
-  data-spy="Name"
-  model=this
-  valuePath="name"
-  placeholder="The name(title) of the raster."
-  profilePath=(concat profilePath ".coverageName")
-  showValidations=true
+{{#layout/md-card}}
+  {{input/md-input
+    label="Name"
+    data-spy="Name"
+    model=this
+    valuePath="name"
+    placeholder="The name(title) of the raster."
+    profilePath=(concat profilePath ".coverageName")
+    showValidations=true
+  }}
+  {{input/md-textarea
+    label="Description"
+    data-spy="Description"
+    model=this
+    valuePath="description"
+    placeholder="A description of the raster"
+    profilePath=(concat profilePath ".coverageDescription")
+    showValidations=true
+  }}
+{{/layout/md-card}}
+
+{{object/md-raster/attrgroup
+  hideIndex=true
+  value=model.attributeGroup
+  title="Attribute Groups"
+  editAttribute=editAttribute
+  deleteAttrGroup=deleteAttrGroup
+  addAttrGroup=addAttrGroup
+  collapsible=true
+  collapsed=false
+  profilePath=(concat profilePath ".attributeGroup")
 }}
-{{input/md-input
-  label="Description"
-  data-spy="Description"
-  model=this
-  valuePath="description"
-  placeholder="A description of the raster"
-  profilePath=(concat profilePath ".coverageDescription")
-  showValidations=true
-}}
+
 {{#if processLvlCode}}
   {{#layout/md-card
     collapsible=true
     title="Processing Level Code"
     required=(v-get this "isInvalid")
-    collapsed=true
-    shadow=false
+    collapsed=false
+    shadow=true
     profilePath=(concat profilePath ".processingLevelCode")
   }}
-    {{!-- <label  class={{concat "text-info" (if (v-get this "isInvalid") "
-    required")}}>Processing Level Code</label> --}}
     {{object/md-identifier
       model=model.processingLevelCode
       profilePath=(concat profilePath ".processingLevelCode")
-    data-spy=false
+      collapsed=true
+      collapsible=true
+      data-spy=false
     }}
   {{/layout/md-card}}
 {{/if}}
 
-
 {{#layout/md-card
-  shadow=false
   collapsible=true
-  title="Attribute Group"
-  required=(v-get this "isInvalid")
-  collapsed=true
-  profilePath=(concat profilePath ".attributeGroup")}}
-  {{object/md-attrgroup}}
+  title="Image Description"
+  collapsed=false
+  shadow=true
+  profilePath=(concat profilePath ".imageDescription")
+}}
+  {{object/md-raster/image-desc
+    model=model.imageDescription
+    profilePath=(concat profilePath ".imageDescription")
+    data-spy=false
+    collapsed=true
+    collapsible=true
+  }}
 {{/layout/md-card}}
-{{yield}}

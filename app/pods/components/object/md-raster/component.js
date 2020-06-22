@@ -3,7 +3,6 @@ import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 import { get, set, getWithDefault } from '@ember/object';
 import { validator, buildValidations } from "ember-cp-validations";
-import { inject as service } from '@ember/service';
 
 const Validations = buildValidations({
   'name': [
@@ -45,19 +44,10 @@ export default Component.extend(Validations, {
       }
     },
 
-    router: service(),
-
-    classNames: ['form'],
     name: alias('model.coverageName'),
     description: alias('model.coverageDescription'),
     processLvlCode: alias('model.processingLevelCode'),
-    identifier: alias('processLvlCode.identifier'),
-
-    actions: {
-      editAttrGroup(id) {
-        this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel.id, id)
-      },
-    },
+    identifier: alias('model.processLvlCode.identifier'),
 });
 
 export { Validations };
