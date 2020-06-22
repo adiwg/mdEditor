@@ -123,8 +123,12 @@ Router.map(function () {
           this.route('dictionary');
           this.route('spatial', function () {
             this.route('raster', {
-              path: 'rasterdes/:raster_id'
-            }, function () {});
+              path: 'raster/:raster_id'
+            }, function () {
+              this.route('attribute', {
+                path: ':attrgroup_id/attribute/:attribute_id'
+              });
+            })
           });
           this.route('constraint', function () {});
           this.route('taxonomy', function () {
