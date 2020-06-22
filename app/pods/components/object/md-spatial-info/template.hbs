@@ -34,20 +34,20 @@
 
 
 {{object/md-objectroute-table
-  attributes="rasterName, rasterDescription"
+  attributes=" "
   items=model.coverageDescription
   header="Raster Description"
   shadow=true
   buttonText="Add Raster Description"
   ellipsis=true
-  previewTemplateTable="object/md-raster/preview"
+  previewTemplate="object/md-raster/preview"
   editItem=(action "editRaster")
-  verticalButtons=false
+  verticalButtons=true
   profilePath=(concat profilePath ".coverageDescription")
   hideIndex=false
-  condensed=false
+  condensed=true
   editOnAdd=false
-  data-spy="Raster Description"
+  data-spy="Raster Descriptions"
   addSubbar="md-subbar-extra"
 }}
 {{yield}}
