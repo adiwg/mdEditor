@@ -53,7 +53,7 @@ export default function () {
     this.reverse('toRight')
   );
   this.transition(
-    this.toRoute('record.show.edit.spatial.raster.attrgroup'),
+    this.toRoute('record.show.edit.spatial.raster.attribute'),
     this.fromRoute('record.show.edit.spatial.raster.index'),
     this.use('toLeft'),
     this.reverse('toRight')
