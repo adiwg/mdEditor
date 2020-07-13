@@ -14,10 +14,11 @@
     label="Attribute Identifier"
     shadow=false
     model=model.attributeIdentifier
-    profilePath=(concat profilePath ".attributeIdentifier")
+    valuePath="attrIdentifier"
     data-spy="Attribute Identifier"
     class=(if embedded "md-embedded")
     visibility=true
+    profilePath=(concat profilePath ".attributeIdentifier")
   }}
 {{/layout/md-card}}
 
@@ -72,24 +73,25 @@
     data-spy="Detected Polarization"
     profilePath=(concat profilePath ".detectedPolarization")
   }}
-{{/layout/md-card}}
 
-{{#layout/md-card
-  shadow=true
-}}
-  <div class="md-flex-col-475">
+  {{#layout/md-wrap
+    shadow=true
+    class="md-flex-col-475 mt-4"
+  }}
     {{#each params as |param|}}
       {{input/md-input
-        model=model
-        valuePath=param.property
-        label=param.label
-        infotip=true
-        data-spy=param.label
-        type=param.type
-        class="col-lg-6 col-xxxl-4"
-        placeholder=param.description
-        profilePath=(concat profilePath ".gridIdentifier." param.property)
-      }}
+          model=param
+          valuePath=param.property
+          label=param.label
+          infotip=true
+          data-spy=param.label
+          type=param.type
+          class="col-lg-6 col-xxxl-4"
+          placeholder=param.description
+          profilePath=(concat profilePath "." param.property)
+        }}
     {{/each}}
-  </div>
+  {{/layout/md-wrap}}
 {{/layout/md-card}}
+
+

@@ -32,24 +32,22 @@
   profilePath=(concat profilePath ".attributeGroup")
 }}
 
-{{#if processLvlCode}}
-  {{#layout/md-card
-    collapsible=true
-    title="Processing Level Code"
-    required=(v-get this "isInvalid")
-    collapsed=false
-    shadow=true
+
+{{#layout/md-card
+  collapsible=true
+  title="Processing Level Code"
+  collapsed=false
+  shadow=true
+  profilePath=(concat profilePath ".processingLevelCode")
+}}
+  {{object/md-identifier
+    model=model.processingLevelCode
     profilePath=(concat profilePath ".processingLevelCode")
+    collapsed=true
+    collapsible=true
+    data-spy=false
   }}
-    {{object/md-identifier
-      model=model.processingLevelCode
-      profilePath=(concat profilePath ".processingLevelCode")
-      collapsed=true
-      collapsible=true
-      data-spy=false
-    }}
-  {{/layout/md-card}}
-{{/if}}
+{{/layout/md-card}}
 
 {{#layout/md-card
   collapsible=true

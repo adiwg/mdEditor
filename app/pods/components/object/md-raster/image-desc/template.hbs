@@ -17,18 +17,20 @@
       }}
   {{/layout/md-card}}
 {{/if}}
-<div class="md-flex-col-375">
+{{#layout/md-wrap
+  class="md-flex-col-375"
+}}
   {{#each params as |param|}}
     {{input/md-input
-      model=this
-      valuePath=param.property
-      label=param.label
-      infotip=true
-      data-spy=(if model param.label)
-      type=param.type
-      class="md-embedded col-lg-6 col-xxxl-4"
-      placeholder=param.description
-      profilePath=(concat profilePath ".imageDescription." param.property)
-    }}
+        model=this
+        valuePath=param.property
+        label=param.label
+        infotip=true
+        data-spy=(if model param.label)
+        type=param.type
+        class="md-embedded col-lg-6 col-xxxl-4"
+        placeholder=param.description
+        profilePath=(concat profilePath "."param.property)
+      }}
   {{/each}}
-</div>
+{{/layout/md-wrap}}

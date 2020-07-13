@@ -44,9 +44,25 @@ export default Component.extend(Validations, {
       }
     },
 
+     /**
+      * The string representing the path in the profile object for the resource.
+      *
+      * @property profilePath
+      * @type {String}
+      * @default 'false'
+      * @required
+      */
+
+     /**
+      * The object to use as the data model for the resource.
+      *
+      * @property model
+      * @type {Object}
+      * @required
+      */
+
     name: alias('model.coverageName'),
     description: alias('model.coverageDescription'),
-    processLvlCode: alias('model.processingLevelCode'),
     identifier: alias('model.processLvlCode.identifier'),
 });
 
