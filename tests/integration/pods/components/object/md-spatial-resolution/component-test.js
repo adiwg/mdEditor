@@ -50,7 +50,9 @@ module('Integration | Component | object/md spatial resolution', function(hooks)
       }
     };
 
-    var empty = "Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|";
+    //Todo: Look into this
+    //! this option was giving not working well with the regex experesson
+    //var empty = "Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|";
 
     await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.scaleFactor}}`);
 
@@ -72,15 +74,18 @@ module('Integration | Component | object/md spatial resolution', function(hooks)
 
     await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.geographicResolution}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), empty, 'geographicResolution');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'geographicResolution');
 
     await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.bearingDistanceResolution}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), empty, 'bearingDistanceResolution');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'bearingDistanceResolution');
 
     await render(hbs`{{object/md-spatial-resolution profilePath="foobar" model=model.coordinateResolution}}`);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), empty, 'coordinateResolution');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'coordinateResolution');
 
     // Template block usage:
     await render(hbs`
@@ -89,6 +94,6 @@ module('Integration | Component | object/md spatial resolution', function(hooks)
       {{/object/md-spatial-resolution}}
     `);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|' + empty + 'template|block|text|', 'block');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|' + 'template|block|text|', 'block');
   });
 });

@@ -7,20 +7,11 @@ module('Integration | Component | object/md-raster', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-raster}}`);
+    await render(hbs`{{object/md-raster profilePath="foobar"}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#object/md-raster}}
-        template block text
-      {{/object/md-raster}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Name|Description|Attribute|Groups|Add|Add|Attribute|Groups|Processing|Level|Code|Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|More|Image|Description|Illumination|Elevation|Angle|Illumination|Azimuth|Angle|Imaging|Condition|Cloud|Cover|Percent|Compression|Quantity|Triangulation|Indicator|Radiometric|Calibration|Available|Camera|Calibration|Available|Film|Distortion|Available|Lens|Distortion|Available|', 'md-raster component renders'
+    );
   });
 });

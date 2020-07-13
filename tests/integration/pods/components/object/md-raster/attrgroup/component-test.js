@@ -12,15 +12,8 @@ module('Integration | Component | object/md-raster/attrgroup', function(hooks) {
 
     await render(hbs`{{object/md-raster/attrgroup}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
-
-    // Template block usage:
-    await render(hbs`
-      {{#object/md-raster/attrgroup}}
-        template block text
-      {{/object/md-raster/attrgroup}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|No|Item|found.|Add|Item|', 'attrgroup component renders'
+    );
   });
 });

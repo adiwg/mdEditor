@@ -7,20 +7,16 @@ module('Integration | Component | object/md-raster/attrgroup/attribute', functio
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-raster/attrgroup/attribute}}`);
+    this.attribute = {
+      "sequenceIdentifier": "foo",
+      "sequenceIdentifierType": "bar",
+      "attributeDescription": "foo bar baz"
+    };
 
-    assert.equal(this.element.textContent.trim(), '');
+    await render(hbs`{{object/md-raster/attrgroup/attribute profilePath="foobar" model=attribute}}`);
 
-    // Template block usage:
-    await render(hbs`
-      {{#object/md-raster/attrgroup/attribute}}
-        template block text
-      {{/object/md-raster/attrgroup/attribute}}
-    `);
-
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+    '|Attribute|Description|No|Attribute|Identifier|found.|Add|Attribute|Identifier|Band|Boundary|Definition|Transfer|Function|Type|Transmitted|Polarization|Detected|Polarization|Sequence|Identifier|Sequence|Identifier|Type|Min|Value|Max|Value|Units|Scale|Factor|Offset|Mean|Value|Number|Of|Values|Standard|Deviation|Bits|Per|Value|Bound|Min|Bound|Max|Bound|Units|Peak|Response|Tone|Gradations|Nominal|Spatial|Resolution|', 'md-raster/attrgroup/attribute component renders');
   });
 });
