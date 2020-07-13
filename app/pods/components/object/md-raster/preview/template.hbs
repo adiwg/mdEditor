@@ -1,21 +1,19 @@
   <div class="col-lg-12">
     {{input/md-input
-      model=this
-      valuePath="name"
       label="Raster Name"
       placeholder="The name(title) of the raster."
       profilePath=(concat profilePath ".coverageName")
       showValidations=true
+      value=model.coverageName
     }}
   </div>
 
 <div class="col-lg-12">
   {{input/md-textarea
-      model=this
       label="Raster Description"
-      valuePath="description"
       placeholder="A description of the raster."
       profilePath=(concat profilePath ".coverageDescription")
       showValidations=true
+      value=model.coverageDescription
     }}
 </div>

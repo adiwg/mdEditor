@@ -42,6 +42,7 @@ export default Component.extend(Validations, {
         description: get(ImageDescription, `properties.${p}.description`)
       }
     });
+
     this._super(...arguments);
   },
 
@@ -71,7 +72,5 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  classNames: ['form'],
-  imgQualCode: alias('model.imageQualityCode'),
   imgQualCodeIdentifier: alias('model.imageQualityCode.identifier')
 });
