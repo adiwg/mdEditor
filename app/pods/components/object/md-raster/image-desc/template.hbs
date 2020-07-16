@@ -21,15 +21,15 @@
 }}
   {{#each params as |param|}}
     {{input/md-input
-        model=param
-        valuePath=param.property
-        label=param.label
-        infotip=true
-        data-spy=(if model param.label)
-        type=param.type
-        class="md-embedded col-lg-6 col-xxxl-4"
-        placeholder=param.description
-        profilePath=(concat profilePath "."param.property)
-      }}
+      model=model
+      valuePath=param.property
+      label=param.label
+      infotip=true
+      data-spy=(if model param.label)
+      type=param.type
+      class="md-embedded col-lg-6 col-xxxl-4"
+      placeholder=param.description
+      profilePath=(concat profilePath "." param.property)
+    }}
   {{/each}}
 {{/layout/md-wrap}}
