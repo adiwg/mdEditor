@@ -7,10 +7,9 @@ module('Integration | Component | object/md-raster/attrgroup', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{object/md-raster/attrgroup}}`);
+    await render(hbs`{{object/md-raster/attrgroup }}`);
+
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
       '|No|Item|found.|Add|Item|', 'attrgroup component renders'

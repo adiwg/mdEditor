@@ -2,16 +2,57 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
+import { parseInput, formatContent } from 'mdeditor/tests/helpers/md-helpers';
 
 module('Integration | Component | object/md-raster', function(hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function(assert) {
 
-    await render(hbs`{{object/md-raster profilePath="foobar" model=raster}}`);
+    this.model = {
+      "coverageName": "coverageName",
+      "coverageDescription": "coverageDescription",
+      "attributeGroup": [{
+        "attributeContentType": ["attributeContentType1", "attributeContentType2"],
+        "attribute": [{
+          "attributeDescription": "attributeDescription"
+        }],
+      }],
+      "processingLevelCode": {
+        "identifier": "identifier1",
+        "namespace": "namespace1",
+      },
+      "imageDescription": {
+        "imageQualityCode": {
+          "identifier": "identifier2",
+          "namespace": "namespace2",
+        },
+        "illuminationElevationAngle": 45,
+        "illuminationAzimuthAngle": 90,
+        "imagingCondition": "imageCondition",
+        "cloudCoverPercent": 88,
+        "compressionQuantity": 23,
+        "triangulationIndicator": "true",
+        "radiometricCalibrationAvailable": "true",
+        "cameraCalibrationAvailable": "false",
+        "filmDistortionAvailable": "false",
+        "lensDistortionAvailable": "true"
+      }
+    }
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Name|Description|Attribute|Groups|Add|Add|Attribute|Groups|Processing|Level|Code|Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|More|Image|Description|Image|Quality|Code|Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|More|Illumination|Elevation|Angle|Illumination|Azimuth|Angle|Imaging|Condition|Cloud|Cover|Percent|Compression|Quantity|Triangulation|Indicator|Radiometric|Calibration|Available|Camera|Calibration|Available|Film|Distortion|Available|Lens|Distortion|Available|', 'md-raster component renders'
-    );
+    let nestedValues = (obj) => typeof obj === 'object'
+      ? Object.values(obj).map(nestedValues).flat()
+      : [obj]
+    let input = nestedValues(this.model).join('|')
+
+
+    await render(hbs`{{object/md-raster profilePath="foobar" model=model}}`);
+
+    await this.pauseTest()
+
+    assert.equal(formatContent(this.element).trim(),
+    '|Name|Description|Attribute|Groups|1|Add|Attribute|Group|#0|Attribute|Content|Type|×|attributeContentType1|×|attributeContentType2|Attribute|1|Add|OK|#|Attribute|Description|0|More...|Delete|Processing|Level|Code|Identifier|Namespace|namespace1|×|More|Image|Description|Image|Quality|Code|Identifier|Namespace|namespace2|×|More|Illumination|Elevation|Angle|Illumination|Azimuth|Angle|Imaging|Condition|Cloud|Cover|Percent|Compression|Quantity|Triangulation|Indicator|Radiometric|Calibration|Available|Camera|Calibration|Available|Film|Distortion|Available|Lens|Distortion|Available|')
+
+    assert.equal(parseInput(this.element), input, 'input renders');
   });
 });
