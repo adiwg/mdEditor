@@ -44,7 +44,6 @@
                   profilePath=(concat profilePath ".attributeGroup")
                   deleteItem=deleteAttrGroup
                 }}
-
                   {{input/md-codelist-multi
                     value=item.attributeContentType
                     showValidations=true
@@ -52,6 +51,7 @@
                     create=true
                     tooltip=true
                     icon=false
+                    data-spy=false
                     mdCodeName="coverageContentType"
                     closeOnSelect=false
                     placeholder="Specific type of information represented in the cell"
