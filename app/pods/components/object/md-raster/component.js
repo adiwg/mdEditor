@@ -63,7 +63,7 @@ export default Component.extend(Validations, {
 
     name: alias('model.coverageName'),
     description: alias('model.coverageDescription'),
-    identifier: alias('model.processCode.identifier'),
+    identifier: alias('model.processLevelCode.identifier'),
 });
 
 export { Validations };

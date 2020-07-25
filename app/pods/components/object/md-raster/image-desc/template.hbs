@@ -1,24 +1,22 @@
 {{#layout/md-card
-    collapsible=true
-    title="Image Quality Code"
-    collapsed=false
-    shadow=false
-    required=(v-get this "isInvalid")
-    profilePath=(concat profilePath ".imageQualityCode")
-    class="md-embedded"
-  }}
+  collapsible=true
+  title="Image Quality Code"
+  collapsed=false
+  shadow=false
+  required=(v-get this "isInvalid")
+  profilePath=(concat profilePath ".imageQualityCode")
+  class="md-embedded"
+}}
   {{object/md-identifier
-      model=model.imageQualityCode
-      profilePath=(concat profilePath ".imageQualityCode")
-      collapsed=true
-      collapsible=true
-      data-spy=false
-    }}
+    model=model.imageQualityCode
+    profilePath=(concat profilePath ".imageQualityCode")
+    collapsed=true
+    collapsible=true
+    data-spy=false
+  }}
 {{/layout/md-card}}
 
-{{#layout/md-wrap
-  class="md-flex-col-375"
-}}
+{{#layout/md-wrap class="md-flex-col-275"}}
   {{#each params as |param|}}
     {{input/md-input
       model=model
