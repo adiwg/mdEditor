@@ -1,19 +1,29 @@
-  <div class="col-lg-12">
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="col-lg-3">Raster Name</label>
     {{input/md-input
-      label="Raster Name"
+      class="col-lg-9"
       placeholder="The name(title) of the raster."
       profilePath=(concat profilePath ".coverageName")
       showValidations=true
       value=model.coverageName
     }}
   </div>
-
-<div class="col-lg-12">
-  {{input/md-textarea
-      label="Raster Description"
+  <div class="form-group">
+    <label class="col-lg-3">Raster Description</label>
+    {{input/md-textarea
+      class="col-lg-9"
       placeholder="A description of the raster."
       profilePath=(concat profilePath ".coverageDescription")
       showValidations=true
       value=model.coverageDescription
     }}
-</div>
+  </div>
+</form>
+
+
+
+
+
+
+
