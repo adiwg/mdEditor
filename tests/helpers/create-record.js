@@ -1,6 +1,6 @@
 import EmberObject from '@ember/object';
 
-export default function createRecord(total) {
+let createRecord = (total) => {
 
   const records = [];
 
@@ -21,6 +21,7 @@ export default function createRecord(total) {
               "type": "uuid"
             }
           },
+          "associatedResource": [],
           "resourceInfo": {
             "resourceType": [{
               "type": "project"
@@ -52,3 +53,50 @@ export default function createRecord(total) {
   return records;
 
 }
+
+let createCoverageDescription = (total) => {
+
+  const coverageDescriptions = [];
+
+  for (let i = 0; i < total; i++) {
+
+    const coverageDescription = EmberObject.create({
+      "coverageName": "coverageName" + i,
+      "coverageDescription": "coverageDescription" + i,
+      "attributeGroup": [{
+        "attributeContentType": ["attributeContentType" + i],
+        "attribute": [{
+          "attributeDescription": "attributeDescription" + i,
+        }]
+      }],
+      "processingLevelCode": {
+        "identifier": "identifier" + i,
+        "namespace": "namespace" + i
+      },
+      "imageDescription": {
+        "imageQualityCode": {
+          "identifier": "identifier" + i,
+          "namespace": "namespace" + i
+        },
+        "illuminationElevationAngle": i,
+        "illuminationAzimuthAngle": i,
+        "imagingCondition": "imagingCondition" + i,
+        "cloudCoverPercent": i,
+        "compressionQuantity": i,
+        "triangulationIndicator": true,
+        "radiometricCalibrationAvailable": false,
+        "cameraCalibrationAvailable": true,
+        "filmDistortionAvailable": false,
+        "lensDistortionAvailable": false
+      }
+    })
+
+    coverageDescriptions.push(coverageDescription);
+  }
+
+  return coverageDescriptions;
+
+}
+
+
+export { createRecord, createCoverageDescription };
