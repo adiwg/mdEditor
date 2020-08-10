@@ -32,7 +32,8 @@ module.exports = function(environment) {
       loadingIndicatorClass: 'md-load-indicator'
     },
     'ember-local-storage': {
-      fileExport: true
+      fileExport: true,
+      namespace: environment === 'test' ? 'test' : false
     },
     'ember-toggle': {
       includedThemes: [],
