@@ -3,7 +3,7 @@ import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import createRecord from '../../helpers/create-record';
+import { createRecord } from '../../helpers/create-record';
 
 
 module('Integration | Component | sb publisher', function(hooks) {

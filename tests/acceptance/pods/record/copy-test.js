@@ -11,7 +11,7 @@ import {
 import {
   setupApplicationTest
 } from 'ember-qunit';
-import createRecord from 'mdeditor/tests/helpers/create-record';
+import { createRecord } from 'mdeditor/tests/helpers/create-record';
 
 module('Acceptance | pods/record copy', function (hooks) {
   setupApplicationTest(hooks);

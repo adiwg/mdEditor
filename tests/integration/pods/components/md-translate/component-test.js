@@ -2,7 +2,7 @@ import { find, click, render } from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
-import createRecord from 'mdeditor/tests/helpers/create-record';
+import { createRecord } from 'mdeditor/tests/helpers/create-record';
 
 module('Integration | Component | md translate', function(hooks) {
   setupRenderingTest(hooks);
