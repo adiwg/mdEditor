@@ -26,8 +26,22 @@ function formatContent(t) {
   return t.textContent.replace(/[\s\n]+/g, '|').trim();
 }
 
-let nestedValues = (obj) => typeof obj === 'object'
-  ? Object.values(obj).map(nestedValues).flat()
-  : [obj]
+let nestedValues = (obj) =>
+  typeof obj === 'object'
+    ? Object.values(obj).map(nestedValues).flat()
+    : [obj];
 
-export { parseInput, formatContent, nestedValues };
+let lsClean = () => {
+  let ls = window.localStorage;
+
+  Object.keys(ls).forEach((k) => {
+    if (k.match(/^test\:/)) {
+      ls.removeItem(k);
+      console.log('Removed record:' + k);
+    }
+  })
+}
+
+
+
+export { parseInput, formatContent, nestedValues, lsClean };
