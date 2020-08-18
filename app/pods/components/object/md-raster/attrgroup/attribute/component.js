@@ -34,7 +34,7 @@ const params = {
   peakResponse: 'number',
   toneGradations: 'number',
   nominalSpatialResolution: 'number',
-}
+};
 
 export default Component.extend(Validations, {
   init() {
@@ -47,7 +47,7 @@ export default Component.extend(Validations, {
         }),
         type: params[p],
         description: get(Attribute, `properties.${p}.description`)
-      }
+      };
     });
 
     this._super(...arguments);

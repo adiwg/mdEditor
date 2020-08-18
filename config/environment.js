@@ -21,6 +21,9 @@ module.exports = function(environment) {
         Date: false
       }
     },
+    'ember-local-storage': {
+      fileExport: true
+    },
 
     APP: {
       // Here you can pass flags/options to your application instance
@@ -31,10 +34,7 @@ module.exports = function(environment) {
     'ember-load': {
       loadingIndicatorClass: 'md-load-indicator'
     },
-    'ember-local-storage': {
-      fileExport: true,
-      namespace: environment === 'test' ? 'test' : false
-    },
+
     'ember-toggle': {
       includedThemes: [],
       //excludedThemes: ['flip'],
@@ -78,6 +78,10 @@ module.exports = function(environment) {
     // Testem prefers this...
     ENV.rootURL = '/';
     ENV.locationType = 'none';
+
+    ENV['ember-local-storage'] = {
+      namespace: 'test'
+    }
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;
