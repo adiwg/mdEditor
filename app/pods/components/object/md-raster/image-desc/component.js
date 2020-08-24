@@ -19,18 +19,18 @@ const Validations = buildValidations({
   ]
 });
 
-const params = {
-  illuminationElevationAngle: 'number',
-  illuminationAzimuthAngle: 'number',
-  imagingCondition: 'string',
-  cloudCoverPercent: 'number',
-  compressionQuantity: 'number',
-  triangulationIndicator: 'boolean',
-  radiometricCalibrationAvailable: 'boolean',
-  cameraCalibrationAvailable: 'boolean',
-  filmDistortionAvailable: 'boolean',
-  lensDistortionAvailable: 'boolean'
-}
+// const params = {
+//   illuminationElevationAngle: 'number',
+//   illuminationAzimuthAngle: 'number',
+//   imagingCondition: 'string',
+//   cloudCoverPercent: 'number',
+//   compressionQuantity: 'number',
+//   triangulationIndicator: 'boolean',
+//   radiometricCalibrationAvailable: 'boolean',
+//   cameraCalibrationAvailable: 'boolean',
+//   filmDistortionAvailable: 'boolean',
+//   lensDistortionAvailable: 'boolean'
+// }
 
 export default Component.extend(Validations, {
   //Todo: work on fix for this with Josh
