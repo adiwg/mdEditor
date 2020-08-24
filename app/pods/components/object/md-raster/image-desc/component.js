@@ -1,10 +1,10 @@
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { decamelize } from '@ember/string';
-import { ucWords } from 'mdeditor/helpers/uc-words';
+// import { decamelize } from '@ember/string';
+// import { ucWords } from 'mdeditor/helpers/uc-words';
 import { set, getWithDefault, get } from '@ember/object';
-import ImageDescription from 'mdjson-schemas/resources/js/imageDescription';
+// import ImageDescription from 'mdjson-schemas/resources/js/imageDescription';
 import {
   validator,
   buildValidations
@@ -33,27 +33,31 @@ const params = {
 }
 
 export default Component.extend(Validations, {
-  init() {
-    this.params = Object.keys(params).map(p => {
-      return {
-        property: p,
-        label: ucWords([decamelize(p).replace(/_/g,' ')], { force: false }),
-        type: params[p],
-        description: get(ImageDescription, `properties.${p}.description`)
-      }
-    });
+  //Todo: work on fix for this with Josh
+  // init() {
+  //   this.params = Object.keys(params).map(p => {
+  //     return {
+  //       property: p,
+  //       label: ucWords([decamelize(p).replace(/_/g,' ')], { force: false }),
+  //       type: params[p],
+  //       description: get(ImageDescription, `properties.${p}.description`)
+  //     }
+  //   });
 
-    this._super(...arguments);
-  },
+  //   this._super(...arguments);
+  // },
 
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = getWithDefault(this, 'model', {}) || {};
+    // let model = getWithDefault(this, 'model', {}) || {};
+    let model = get(this, 'model')
 
-    once(this, function() {
-      set(model, 'imageQualityCode', getWithDefault(model, 'imageQualityCode', {}));
-    })
+    if (model) {
+      once(this, function () {
+        set(model, 'imageQualityCode', getWithDefault(model, 'imageQualityCode', {}));
+      })
+    }
   },
   /**
    * The string representing the path in the profile object for the resource.

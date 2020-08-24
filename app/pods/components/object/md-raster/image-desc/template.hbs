@@ -17,6 +17,120 @@
 {{/layout/md-card}}
 
 {{#layout/md-wrap class="md-flex-col-275"}}
+  {{input/md-input
+    value=model.illuminationElevationAngle
+    type="number"
+    label="Imaging Condition"
+    infotip=true
+    data-spy="Imaging condition"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Illumination elevation measured in degrees clockwise from the target plane at intersection of the optical line of sight
+    with the Earth’s surface. For images from a scanning device, refer to the centre pixel of the image."
+    profilePath=(concat profilePath ".illuminationElevationAngle")
+  }}
+
+  {{input/md-input
+    value=model.illuminationAzimuthAngle
+    type="number"
+    label="Illumination Azimuth Angle"
+    infotip=true
+    data-spy="Illumination Azimuth Angle"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Illumination azimuth measured in degrees clockwise from true north at the time the image is taken. For images from a
+    scanning device, refer to the centre pixel of the image."
+    profilePath=(concat profilePath ".illuminationAzimuthAngle")
+  }}
+
+  {{input/md-input
+    value=model.imagingCondition
+    label="Imaging Condition"
+    infotip=true
+    data-spy="Imaging condition"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Code which indicates conditions which may affect the image."
+    profilePath=(concat profilePath ".imagingCondition")
+  }}
+
+  {{input/md-input
+    value=model.cloudCoverPercent
+    type="number"
+    label="Cloud Cover Percent "
+    infotip=true
+    data-spy="Cloud Cover Percent"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Area of the dataset obscured by clouds, expressed as a percentage of the spatial extent."
+    profilePath=(concat profilePath ".cloudCoverPercent")
+  }}
+
+  {{input/md-input
+    value=model.compressionQuality
+    type="number"
+    label="Compression Quality"
+    infotip=true
+    data-spy="Compression Quality"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Count of the number of lossy compression cycles performed on the image."
+    profilePath=(concat profilePath ".compressionQuality")
+  }}
+
+  {{input/md-input
+    value=model.triangulationIndicator
+    type="boolean"
+    label="Triangulation Indiciator"
+    infotip=true
+    data-spy="Triangulation Indiciator"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Indication of whether or not triangulation has been performed upon the image."
+    profilePath=(concat profilePath ".triangulationIndicator")
+  }}
+
+  {{input/md-input
+    value=model.radiometricCalibrationAvailable
+    type="boolean"
+    label="Radiometric Calibration Available"
+    infotip=true
+    data-spy="Radiometric Calibration Available"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Indication of whether or not the radiometric calibration information for generating the radiometrically calibrated standard data product is available."
+    profilePath=(concat profilePath ".radiometricCalibrationAvailable")
+  }}
+
+  {{input/md-input
+    value=model.cameraCalibrationAvailable
+    type="boolean"
+    label="Camera Calibration Available"
+    infotip=true
+    data-spy="Camera Calibration Available"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Indication of whether or not constants are available which allow for camera calibration corrections."
+    profilePath=(concat profilePath ".cameraCalibrationAvailable")
+  }}
+
+  {{input/md-input
+    value=model.filmDistortionAvailable
+    type="boolean"
+    label="Film Distortion Available"
+    infotip=true
+    data-spy="Film Distortion Available"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Indication of whether or not Calibration Reseau information is available."
+    profilePath=(concat profilePath ".filmDistortionAvailable")
+  }}
+
+  {{input/md-input
+    value=model.lensDistortionAvailable
+    type="boolean"
+    label="Lens Distortion Available"
+    infotip=true
+    data-spy="Lens Distortion Available"
+    class="md-embedded col-lg-6 col-xxxl-4"
+    placeholder="Indication of whether or not lens aberration correction information is available."
+    profilePath=(concat profilePath ".lensDistortionAvailable")
+  }}
+{{/layout/md-wrap}}
+
+{{! Need to get this to working properly. }}
+{{!-- {{#layout/md-wrap class="md-flex-col-275"}}
   {{#each params as |param|}}
     {{input/md-input
       model=model
@@ -30,4 +144,4 @@
       profilePath=(concat profilePath ".params." param.property)
     }}
   {{/each}}
-{{/layout/md-wrap}}
+{{/layout/md-wrap}} --}}
