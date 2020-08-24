@@ -13,8 +13,7 @@ export default Component.extend({
       set(model, 'spatialReferenceSystem', getWithDefault(model, 'spatialReferenceSystem', []));
       set(model, 'spatialRepresentationType', getWithDefault(model, 'spatialRepresentationType', []));
       set(model, 'spatialResolution', getWithDefault(model, 'spatialResolution', []));
-      set(model, 'coverageDescription', getWithDefault(model,
-        'coverageDescription', []));
+      set(model, 'coverageDescription', getWithDefault(model, 'coverageDescription', []));
     });
   },
 

@@ -35,9 +35,10 @@ let lsClean = () => {
   let ls = window.localStorage;
 
   Object.keys(ls).forEach((k) => {
+    // eslint-disable-next-line no-useless-escape
     if (k.match(/^test\:/)) {
       ls.removeItem(k);
-      console.log('Removed record:' + k);
+      console.info('Removed record:' + k);
     }
   })
 }

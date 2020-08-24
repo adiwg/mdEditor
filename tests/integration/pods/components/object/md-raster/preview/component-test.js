@@ -17,7 +17,6 @@ module('Integration | Component | object/md-raster/preview', function(hooks) {
     let input = Object.values(this.model).join('|')
 
     await render(hbs`{{object/md-raster/preview profilePath="foobar" model=model}}`);
-    await this.pauseTest()
 
     assert.equal(formatContent(this.element).trim(),
       '|Raster|Name|Raster|Description|', 'md-raster-preview component renders'
