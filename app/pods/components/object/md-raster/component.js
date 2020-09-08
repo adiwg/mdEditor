@@ -26,7 +26,22 @@ const Validations = buildValidations({
 });
 
 export default Component.extend(Validations, {
-  tagName: 'form',
+  /**
+    * mdEditor class for input and edit of mdJSON 'coverageDescription' object.
+    * The class manages the maintenance of an array of raster(coverageDescription) objects.
+    *
+    ```handlebars
+    * \{{object/md-raster
+    *     model=coverageDescription
+    *     profilePath="path"
+    * }}
+    * ```
+    * @module mdeditor
+    * @submodule components-object
+    * @class md-raster
+    * @constructor
+  */
+
     didReceiveAttrs() {
       this._super(...arguments);
 
@@ -44,25 +59,39 @@ export default Component.extend(Validations, {
       }
     },
 
-     /**
-      * The string representing the path in the profile object for the resource.
-      *
-      * @property profilePath
-      * @type {String}
-      * @default 'false'
-      * @required
-      */
+    tagName: 'form',
 
-     /**
-      * The object to use as the data model for the resource.
-      *
-      * @property model
-      * @type {Object}
-      * @required
-      */
-
+    /**
+    * 'name' is the alias for 'coverageName' used in the validations for the
+    * 'raster' object.
+    *
+    * @property name
+    * @type String
+    * @requires alias
+    * @default "alias('model.coverageName')"
+    */
     name: alias('model.coverageName'),
+
+    /**
+     * 'description' is the alias for 'coverageDescripiton' used in the validations for the
+     * 'raster' object.
+     *
+     * @property description
+     * @type String
+     * @requires alias
+     * @default "alias('model.coverageDescription')"
+     */
     description: alias('model.coverageDescription'),
+
+    /**
+     * 'identifier' is the alias for 'processLevelCode.identifier' used in the validations
+     * for the 'coverageDescription.processLevelCode' object.
+     *
+     * @property identifier
+     * @type String
+     * @requires alias
+     * @default "alias('model.processLevelCode.identifier')"
+     */
     identifier: alias('model.processLevelCode.identifier'),
 });
 

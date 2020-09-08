@@ -37,6 +37,23 @@ const params = {
 };
 
 export default Component.extend(Validations, {
+  /**
+   * mdEditor class for input and edit of mdJson 'coverageDescription.attributeGroup.attribute' object
+   * The class manages the maintenance of an array of 'attribute' ojbects.
+   *
+   * ```handlebars
+   * \{{object/md-raster/attrgroup/attribute
+   *    model=model.attribute
+   *    profilePath="path"
+   * }}
+   * ```
+   *
+   * @module mdeditor
+   * @submodule components-object-md-raster-attrgroup
+   * @constructor
+   * @class md-raster-attrgroup-attribute
+   */
+
   init() {
     this.params = Object.keys(params).map(p => {
       return {
@@ -71,7 +88,28 @@ export default Component.extend(Validations, {
         'detectedPolarization', []));
     });
   },
+
   tagName: 'form',
+
+  /**
+   * 'attrIdentifier' is the alias for 'attributeIdentifier.identifier' used in the validations for the
+   * 'attributeIdentifier' object.
+   *
+   * @property attrIdentifier
+   * @type String
+   * @requires alias
+   * @default "alias('model.attributeIdentifier.identifier')"
+   */
   attrIdentifier: alias('model.attributeIdentifier.identifier'),
+
+  /**
+   * 'attrDesc' is the alias for 'attributeDescription' used in the validations for the
+   * 'attribute' object.
+   *
+   * @property attrDesc
+   * @type String
+   * @requires alias
+   * @default "alias('model.attributeDescription')"
+   */
   attrDesc: alias('model.attriuteDescription'),
 });
