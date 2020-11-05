@@ -21,13 +21,13 @@ body {
   display: table;
 }
 
-.d-flex {
-  display: flex;
-}
-
-.flex-grow {
-  flex-grow: 1;
-}
+// .d-flex {
+//   display: flex;
+// }
+//
+// .flex-grow {
+//   flex-grow: 1;
+// }
 
 #md-wrapper {
   @include transition(all .5s ease);

@@ -3,8 +3,8 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createContact from 'mdeditor/tests/helpers/create-contact';
-import createRecord from '../../../../../helpers/create-record';
-import { createDictionary } from '../../../../../helpers/create-dictionary';
+import { createRecord } from 'mdeditor/tests/helpers/create-record';
+import { createDictionary } from 'mdeditor/tests/helpers/create-dictionary';
 
 module('Integration | Component | md nav sidebar', function(hooks) {
   setupRenderingTest(hooks);

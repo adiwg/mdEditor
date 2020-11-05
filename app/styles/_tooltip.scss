@@ -8,6 +8,16 @@
   }
 }
 
+.md-infotip {
+  color: $brand-info;
+  transition: color .25s ease;
+
+  &:hover {
+    color: darken($brand-info, 10);
+    cursor: help;
+  }
+}
+
 .md-tooltip {
   text-shadow: none;
 

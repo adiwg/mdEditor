@@ -21,6 +21,7 @@ export default Component.extend({
    *    valuePath=null
    *    label="Name"
    *    placeholder="Enter name."
+   *    infotip=true
    *    required=false
    *  }}
    * ```
@@ -79,7 +80,7 @@ export default Component.extend({
       defineProperty(this, 'required', computed(
           'validation.options.presence{presence,disabled}',
           'disabled',
-          function() {
+          function () {
             return !this.disabled &&
               this.get('validation.options.presence.presence') &&
               !this.get('validation.options.presence.disabled');
@@ -219,6 +220,27 @@ export default Component.extend({
    * @default ''
    * @readOnly
    */
-  valuePath: ''
+  valuePath: '',
+
+  /**
+   * Whether to show the infotip
+   *
+   * @property infotip
+   * @type {Boolean}
+   * @default false
+   */
+  infotip: false,
+
+  /**
+   * Determines whether infotip is rendered
+   *
+   * @property showInfoTip
+   * @type {Boolean}
+   * @default "false"
+   * @readOnly
+   * @category computed
+   * @requires placeholder, infotip
+   */
+  showInfoTip: and('placeholder', 'infotip')
 
 });

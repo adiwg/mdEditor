@@ -23,7 +23,7 @@ module('Integration | Component | object/md online resource', function(hooks) {
     await render(hbs`{{object/md-online-resource model=model profilePath="foobar"}}`);
 
     assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      'Name|URI|Protocol|Description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|');
+      '|Name|URI|Protocol|Description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|');
 
     // Template block usage:
     await render(hbs`

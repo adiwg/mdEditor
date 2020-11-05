@@ -28,37 +28,45 @@
   profilePath=(concat profilePath ".namespace")
 }}
 
-
-{{input/md-input
-  value=model.version
-  placeholder="Enter the version for the identifier."
-  label="Version"
-  profilePath=(concat profilePath ".version")
-}}
-
-{{input/md-textarea
-  value=model.description
-  profilePath=(concat profilePath ".description")
-  label="Description"
-  placeholder="Enter a description of the identifier."
-}}
-
-{{#unless short}}
-  {{#layout/md-card
-    title="Authority"
-    profilePath=(concat profilePath ".authority")
-    shadow=true
-    collapsible=true
-    data-spy=(if data-spy "Authority")
-    content=model.authority
+{{#liquid-unless isCollapsed}}
+  {{input/md-input
+    value=model.version
+    placeholder="Enter the version for the identifier."
+    label="Version"
+    profilePath=(concat profilePath ".version")
   }}
-    {{object/md-citation
-      model=model.authority
-      profilePath=(concat profilePath ".authority")
-      embedded=true
-      data-spy=data-spy
-      simpleIdentifier=true
+
+  {{input/md-textarea
+    value=model.description
+    profilePath=(concat profilePath ".description")
+    label="Description"
+    placeholder="Enter a description of the identifier."
+  }}
+
+  {{#unless short}}
+    {{#layout/md-card
+      title="Authority"
+      shadow=true
+      collapsible=true
+      data-spy=(if data-spy "Authority")
+      content=model.authority
     }}
-  {{/layout/md-card}}
-{{/unless}}
+      {{object/md-citation
+        model=model.authority
+        profilePath=(concat profilePath ".authority")
+        embedded=true
+        data-spy=data-spy
+        simpleIdentifier=true
+      }}
+    {{/layout/md-card}}
+  {{/unless}}
+{{/liquid-unless}}
+
+{{#if collapsible}}
+  <p class="text-right">
+    <a type="button" role="button" class="plain-link" {{action (toggle "collapse" this)}}>
+      {{fa-icon (if isCollapsed "caret-down" "caret-up")}} {{if isCollapsed "More" "Less"}}
+    </a>
+  </p>
+{{/if}}
 {{yield}}

@@ -1,0 +1,34 @@
+<h4 class="section-header">
+  Editing Attribute #{{attributeId}} in
+  <span class="text-success">Attribute Group #{{attrGroupId}}</span> in
+  <span class="text-primary">Raster Description #{{rasterId}}</span>
+
+  {{#control/md-button-confirm
+    class="btn btn-xs btn-danger"
+    onConfirm=(route-action "deleteAttribute")
+    tooltip="Delete Attribute?"
+    tipClass="danger"
+    tipSide="bottom"
+  }}
+    {{fa-icon "times"}} Delete
+  {{/control/md-button-confirm}}
+
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-raster/attrgroup/attribute
+  model=model
+  profilePath="record.spatial.coverageDescription.attributeGroup.attribute"
+}}
+
+{{to-elsewhere
+  named="md-subbar-buttons"
+  send=(component "control/md-button"
+  text="Back to Attribute Group"
+  icon="arrow-left"
+  class="btn-primary btn-lg"
+  click=(route-action "backToAttrGroup")
+  )
+}}
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

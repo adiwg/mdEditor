@@ -7,6 +7,9 @@
   {{else}}
     <label>{{label}}</label>
   {{/if}}
+  {{#if showInfotip}}
+    {{control/md-infotip text=placeholder}}
+  {{/if}}
 {{/if}}
 
 {{#liquid-if isExpanded enableGrowth=true}}
