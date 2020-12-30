@@ -1,52 +1,54 @@
-import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import uuidV4 from "uuid/v4";
+import Component from "@ember/component";
+import { set, getWithDefault, get } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { once } from "@ember/runloop";
+import { validator, buildValidations } from "ember-cp-validations";
+import { v4 as uuidV4 } from "uuid";
 
 const Validations = buildValidations({
-  'description': [
-    validator('presence', {
+  description: [
+    validator("presence", {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = get(this, "model");
 
     once(this, function () {
-      set(model, 'sourceId', getWithDefault(model, 'sourceId', uuidV4()));
-      set(model, 'sourceCitation', getWithDefault(model,
-        'sourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model,
-        'metadataCitation', []));
-      set(model, 'spatialResolution', getWithDefault(model,
-        'spatialResolution', {}));
-      set(model, 'referenceSystem', getWithDefault(model,
-        'referenceSystem', {}));
-      set(model, 'referenceSystem.referenceSystemIdentifier',
-        getWithDefault(model,
-          'referenceSystem.referenceSystemIdentifier', {}));
-      set(model, 'sourceProcessStep', getWithDefault(model,
-        'sourceProcessStep', []));
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
+      set(model, "sourceId", getWithDefault(model, "sourceId", uuidV4()));
+      set(model, "sourceCitation", getWithDefault(model, "sourceCitation", {}));
+      set(
+        model,
+        "metadataCitation",
+        getWithDefault(model, "metadataCitation", [])
+      );
+      set(
+        model,
+        "spatialResolution",
+        getWithDefault(model, "spatialResolution", {})
+      );
+      set(
+        model,
+        "referenceSystem",
+        getWithDefault(model, "referenceSystem", {})
+      );
+      set(
+        model,
+        "referenceSystem.referenceSystemIdentifier",
+        getWithDefault(model, "referenceSystem.referenceSystemIdentifier", {})
+      );
+      set(
+        model,
+        "sourceProcessStep",
+        getWithDefault(model, "sourceProcessStep", [])
+      );
+      set(model, "scope", getWithDefault(model, "scope", {}));
     });
   },
 
@@ -67,8 +69,8 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  tagName: 'form',
-  domainId: alias('model.domainId'),
-  codeName: alias('model.codeName'),
-  description: alias('model.description')
+  tagName: "form",
+  domainId: alias("model.domainId"),
+  codeName: alias("model.codeName"),
+  description: alias("model.description"),
 });
