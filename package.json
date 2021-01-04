@@ -47,6 +47,7 @@
     "broccoli-asset-rev": "^3.0.0",
     "csv2geojson": "^5.0.2",
     "easymde": "^2.13.0",
+    "ember-ajax": "^5.0.0",
     "ember-auto-import": "^1.6.0",
     "ember-autoresize": "jlblcc/ember-autoresize#latest",
     "ember-classic-decorator": "^2.0.0",
