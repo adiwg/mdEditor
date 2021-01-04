@@ -1,4 +1,4 @@
-import DS from "ember-data";
+import Model, { attr } from '@ember-data/model';
 import { once } from "@ember/runloop";
 import { computed, observer } from "@ember/object";
 import { or } from "@ember/object/computed";
@@ -66,7 +66,7 @@ const Validations = buildValidations({
   ],
 });
 
-const theComp = DS.Model.extend(Validations, {
+const theComp = Model.extend(Validations, {
   /**
    * Schema model
    *
@@ -85,16 +85,16 @@ const theComp = DS.Model.extend(Validations, {
   },
   flashMessages: service(),
 
-  title: DS.attr("string"),
-  uri: DS.attr("string"),
-  description: DS.attr("string"),
-  schemaType: DS.attr("string"),
-  version: DS.attr("string"),
-  remoteVersion: DS.attr("string"),
-  isGlobal: DS.attr("boolean", {
+  title: attr("string"),
+  uri: attr("string"),
+  description: attr("string"),
+  schemaType: attr("string"),
+  version: attr("string"),
+  remoteVersion: attr("string"),
+  isGlobal: attr("boolean", {
     defaultValue: false,
   }),
-  customSchemas: DS.attr("json", {
+  customSchemas: attr("json", {
     defaultValue: function () {
       return [];
     },
@@ -122,7 +122,7 @@ const theComp = DS.Model.extend(Validations, {
    * @default new Date()
    * @required
    */
-  dateUpdated: DS.attr("date", {
+  dateUpdated: attr("date", {
     defaultValue() {
       return new Date();
     },

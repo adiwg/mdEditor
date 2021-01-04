@@ -1,9 +1,8 @@
+import { attr } from '@ember-data/model';
 import { alias } from "@ember/object/computed";
 import { getOwner } from "@ember/application";
-import EmberObject, { computed } from "@ember/object";
-import { getWithDefault } from "@ember/object";
+import EmberObject, { computed, getWithDefault } from "@ember/object";
 import { Copyable } from "ember-copy";
-import DS from "ember-data";
 import { v4 as uuidV4 } from "uuid";
 import Model from "mdeditor/models/base";
 import { validator, buildValidations } from "ember-cp-validations";
@@ -66,10 +65,10 @@ const Record = Model.extend(Validations, Copyable, {
    * @submodule data-models
    */
 
-  profile: DS.attr("string", {
+  profile: attr("string", {
     defaultValue: defaultProfileId,
   }),
-  json: DS.attr("json", {
+  json: attr("json", {
     defaultValue() {
       const obj = EmberObject.create({
         schema: {
@@ -115,7 +114,7 @@ const Record = Model.extend(Validations, Copyable, {
       return obj;
     },
   }),
-  dateUpdated: DS.attr("date", {
+  dateUpdated: attr("date", {
     defaultValue() {
       return new Date();
     },

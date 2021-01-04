@@ -10,6 +10,8 @@
 /node_modules/
 
 # misc
+codemods.log
+MODULE_REPORT.md
 /.env*
 /.pnp*
 /.sass-cache

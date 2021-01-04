@@ -1,8 +1,5 @@
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import Ember from 'ember';
-import {
-  inject as service
-} from '@ember/service';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
 // import { computed } from '@ember/object';

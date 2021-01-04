@@ -23,10 +23,10 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
   test('test new dictionary initial page conditions', async function(assert) {
     assert.expect(4);
     await visit('/dictionary/new');
-    assert.equal(find('.md-input-input input').value, '');
+    assert.dom('.md-input-input input').hasValue('');
     assert.equal(find('.md-select').innerText, '');
-    assert.equal(find('button.md-form-save').disabled, true);
-    assert.equal(findAll('.md-error.ember-tooltip-target').length, 2);
+    assert.dom('button.md-form-save').isDisabled();
+    assert.dom('.md-error.ember-tooltip-target').exists({ count: 2 });
     //change route to prevent error during teardown
     await visit('/');
   });
@@ -36,10 +36,10 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
     await visit('/dictionary/new');
     await fillIn('.md-input-input input', 'Dictionary Name');
     await selectChoose('div.md-select', 'aggregate');
-    assert.equal(find('.md-input-input input').value, 'Dictionary Name');
+    assert.dom('.md-input-input input').hasValue('Dictionary Name');
     assert.equal(find('div.md-select .select-value').innerText, 'aggregate');
-    assert.equal(find('button.md-form-save').disabled, false);
-    assert.equal(findAll('.md-error.ember-tooltip-target').length, 0);
+    assert.dom('button.md-form-save').isNotDisabled();
+    assert.dom('.md-error.ember-tooltip-target').doesNotExist();
     //change route to prevent error during teardown
     await visit('/');
   });
@@ -48,8 +48,8 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
     assert.expect(2);
     await visit('/dictionary/new');
     await selectChoose('div.md-select', 'aggregate');
-    assert.equal(find('button.md-form-save').disabled, true);
-    assert.equal(findAll('.md-error.ember-tooltip-target').length, 1);
+    assert.dom('button.md-form-save').isDisabled();
+    assert.dom('.md-error.ember-tooltip-target').exists({ count: 1 });
     //change route to prevent error during teardown
     await visit('/');
   });
@@ -58,8 +58,8 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
     assert.expect(2);
     await visit('/dictionary/new');
     await fillIn('.md-input-input input', 'Dictionary Name');
-    assert.equal(find('button.md-form-save').disabled, true);
-    assert.equal(findAll('.md-error.ember-tooltip-target').length, 1);
+    assert.dom('button.md-form-save').isDisabled();
+    assert.dom('.md-error.ember-tooltip-target').exists({ count: 1 });
     //change route to prevent error during teardown
     await visit('/');
   });

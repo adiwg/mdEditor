@@ -1,0 +1,1 @@
+2021-01-04T21:37:45.152Z [warn] WARNING: {{html-safe}} was not converted as it has positional parameters which can't be automatically converted. Source: app/templates/application.hbs

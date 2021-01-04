@@ -15,7 +15,7 @@ module('Integration | Component | control/md import csv', function(hooks) {
 
     await render(hbs`{{control/md-import-csv}}`);
 
-    assert.equal(find('.md-import-picker').textContent.trim(), 'Click or Drop a CSV here.');
+    assert.dom('.md-import-picker').hasText('Click or Drop a CSV here.');
 
     await render(hbs`{{control/md-import-csv isProcessing=true progress=progress}}`);
 

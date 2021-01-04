@@ -29,7 +29,7 @@ module('Integration | Component | control/md crud buttons', function(hooks) {
       .replace(/[ \n]+/g, '|'),
       '|Save|Cancel|Copy|template|block|text|', 'block, doSave');
 
-    assert.equal(find('.md-crud-buttons .btn-success').disabled, true, 'save disabled');
+    assert.dom('.md-crud-buttons .btn-success').isDisabled('save disabled');
   });
 
   test('should trigger external action', async function(assert) {

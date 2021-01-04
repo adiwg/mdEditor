@@ -31,6 +31,6 @@ module('Integration | Component | control/md scroll spy', function(hooks) {
       {{/control/md-scroll-spy}}
     `);
 
-    assert.equal(find('ul').textContent.trim(), 'template block text');
+    assert.dom('ul').hasText('template block text');
   });
 });

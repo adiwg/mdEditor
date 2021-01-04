@@ -16,7 +16,7 @@ module('Integration | Component | layout/md-object-container', function (hooks) 
       index="1"
     }}`);
 
-    assert.equal(this.element.textContent.trim(), 'Foo #1');
+    assert.dom(this.element).hasText('Foo #1');
     assert.dom('.md-object-container').hasClass('even');
 
     await click('.md-object-container-header a');
@@ -30,7 +30,6 @@ module('Integration | Component | layout/md-object-container', function (hooks) 
       {{/layout/md-object-container}}
     `);
 
-    assert.equal(this.element.textContent.trim(),
-      'template block text', 'block renders');
+    assert.dom(this.element).hasText('template block text', 'block renders');
   });
 });

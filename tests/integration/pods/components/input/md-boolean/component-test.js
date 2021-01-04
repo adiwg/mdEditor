@@ -26,6 +26,6 @@ module('Integration | Component | input/md boolean', function(hooks) {
     assert.equal(find('.form-group').textContent
       .replace(/[ \n]+/g, '|'), '|Baz|Foo|Bar|template|block|text|');
 
-    assert.ok(find('input').checked);
+    assert.dom('input').isChecked();
   });
 });

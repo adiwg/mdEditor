@@ -14,7 +14,7 @@ export default Route.extend({
 
   breadCrumb: computed('stepId', function () {
     return {
-      title: 'Step ' + get(this, 'stepId'),
+      title: 'Step ' + this.stepId,
       linkable: true
     };
   }),
@@ -24,7 +24,7 @@ export default Route.extend({
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controller.set('stepId', get(this, 'stepId'));
+    this.controller.set('stepId', this.stepId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -33,8 +33,8 @@ export default Route.extend({
   },
 
   setupModel() {
-    let stepId = get(this, 'stepId');
-    let lineageId = get(this, 'lineageId');
+    let stepId = this.stepId;
+    let lineageId = this.lineageId;
     let model = this.modelFor('record.show.edit');
     let steps = model.get(
       'json.metadata.resourceLineage.' + lineageId + '.processStep');
@@ -43,7 +43,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(step)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Process Step found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject');
 

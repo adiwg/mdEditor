@@ -39,7 +39,7 @@ module('Integration | Component | md translate', function(hooks) {
 
     this.set('isLoading', true);
 
-    assert.ok(find('.md-spinner'), 'loading');
+    assert.dom('.md-spinner').exists('loading');
 
     this.set('messages', [["WARNING"," FGDC writer"," citation originator role is missing"," CONTEXT is lineage method"],["WARNING"," FGDC writer"," citation publication date is missing"," CONTEXT is lineage method"]]);
 
@@ -53,9 +53,7 @@ module('Integration | Component | md translate', function(hooks) {
       '|Result|Preview|JSON|Format|Save|Result|',
       'result');
 
-    assert.equal(find('.md-translator-preview.warning textarea').value,
-      '{"foo":"bar"}',
-      'textarea value set');
+    assert.dom('.md-translator-preview.warning textarea').hasValue('{"foo":"bar"}', 'textarea value set');
 
     click('.md-translator-preview.warning .btn-success');
 

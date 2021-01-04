@@ -4,7 +4,12 @@ import Route from "@ember/routing/route";
 import $ from "jquery";
 import { A, isArray } from "@ember/array";
 import { assign } from "@ember/polyfills";
-import EmObject, { computed, set, get, getWithDefault } from "@ember/object";
+import EmObject, {
+  computed,
+  set,
+  get,
+  getWithDefault
+} from "@ember/object";
 import Base from "ember-local-storage/adapters/base";
 import { v4 as uuidV4 } from "uuid";
 import ScrollTo from "mdeditor/mixins/scroll-to";
@@ -245,7 +250,7 @@ export default Route.extend(ScrollTo, {
 
   actions: {
     getColumns() {
-      return get(this, "columns");
+      return this.columns;
     },
     getIcon(type) {
       return this.icons[type];
@@ -259,7 +264,7 @@ export default Route.extend(ScrollTo, {
       new Promise((resolve, reject) => {
         if (file.type.match(/.*\/xml$/)) {
           set(controller, "isTranslating", true);
-          get(this, "flashMessages").info(
+          this.flashMessages.info(
             `Translation service provided by ${url}.`
           );
 
@@ -401,7 +406,7 @@ export default Route.extend(ScrollTo, {
           json: false,
         })
         .then(() => {
-          get(this, "flashMessages").success(
+          this.flashMessages.success(
             `Imported data. Records were
               ${
                 this.currentRouteModel().get("merge") ? "merged" : "replaced"
@@ -436,7 +441,7 @@ export default Route.extend(ScrollTo, {
             })
             .then(() => {
               settingService.setup();
-              get(this, "flashMessages").success(`Imported Settings.`, {
+              this.flashMessages.success(`Imported Settings.`, {
                 extendedTimeout: 1500,
               });
             });

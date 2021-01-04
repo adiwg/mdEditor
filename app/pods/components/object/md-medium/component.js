@@ -7,7 +7,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(function() {
       set(model, 'mediumSpecification', getWithDefault(model,

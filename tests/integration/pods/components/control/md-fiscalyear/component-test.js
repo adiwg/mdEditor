@@ -61,7 +61,6 @@ module('Integration | Component | control/md fiscalyear', function(hooks) {
 
     this.set('settings.data.fiscalStartMonth', null);
 
-    assert.equal(find('.md-fiscalyear .ember-power-select-trigger').getAttribute(
-      'aria-disabled'), 'true', 'disabled if fiscalStartMonth empty');
+    assert.dom('.md-fiscalyear .ember-power-select-trigger').hasAttribute('aria-disabled', 'true', 'disabled if fiscalStartMonth empty');
   });
 });

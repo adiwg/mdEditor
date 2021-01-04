@@ -19,7 +19,7 @@ module('Integration | Component | control/md record table/buttons/filter', funct
 
     await render(hbs`{{control/md-record-table/buttons/filter deleteSelected=deleteSelected selectedItems=selectedItems}}`);
 
-    assert.equal(find('button.btn-danger').textContent.trim(), 'Delete Selected');
+    assert.dom('button.btn-danger').hasText('Delete Selected');
 
     doubleClick('button.btn-danger');
   });

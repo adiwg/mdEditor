@@ -31,6 +31,6 @@ module('Integration | Component | control/md contact link', function(hooks) {
       {{/control/md-contact-link}}
     `);
 
-    assert.equal(find('a').textContent.trim(), 'template block text', 'renders as block');
+    assert.dom('a').hasText('template block text', 'renders as block');
   });
 });

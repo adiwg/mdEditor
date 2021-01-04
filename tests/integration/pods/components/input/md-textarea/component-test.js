@@ -19,9 +19,9 @@ module('Integration | Component | input/md textarea', function(hooks) {
       rows=10}}
       `);
 
-    assert.equal(find('textarea').value, 'Foo bar baz');
+    assert.dom('textarea').hasValue('Foo bar baz');
 
-    assert.equal(find('label').textContent, 'FooBar', 'label renders');
+    assert.dom('label').hasText('FooBar', 'label renders');
 
     // Template block usage:" + EOL +
     await render(hbs `
@@ -30,7 +30,6 @@ module('Integration | Component | input/md textarea', function(hooks) {
       {{/input/md-textarea}}
     `);
 
-    assert.equal(find('.testme').textContent
-      .trim(), 'template block text', 'block renders');
+    assert.dom('.testme').hasText('template block text', 'block renders');
   });
 });

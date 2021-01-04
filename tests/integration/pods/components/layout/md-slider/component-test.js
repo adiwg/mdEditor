@@ -13,7 +13,7 @@ module('Integration | Component | layout/md slider', function(hooks) {
 
     await render(hbs`{{layout/md-slider}}`);
 
-    assert.equal(find('.md-slider').textContent.trim(), 'Close');
+    assert.dom('.md-slider').hasText('Close');
 
     // Template block usage:
     await render(hbs`
@@ -28,6 +28,6 @@ module('Integration | Component | layout/md slider', function(hooks) {
     `);
 
     assert.equal(find('.md-slider').textContent.replace(/[ \n]+/g, '|').trim(), '|Close|biz|foobar|template|block|text|');
-    assert.ok(find('.md-card'),'rendered slider content');
+    assert.dom('.md-card').exists('rendered slider content');
   });
 });

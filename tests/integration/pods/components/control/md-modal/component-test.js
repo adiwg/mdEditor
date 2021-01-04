@@ -21,9 +21,7 @@ module('Integration | Component | control/md modal', function (hooks) {
 
     assert.ok(document.querySelector('.md-modal-container'));
 
-    assert.equal(document.querySelector('.md-modal-container')
-      .textContent.trim(),
-      'The message.');
+    assert.dom(document.querySelector('.md-modal-container')).hasText('The message.');
     // Template block usage:
     await render(hbs `
       {{#control/md-modal isShowing=true}}
@@ -33,9 +31,7 @@ module('Integration | Component | control/md modal', function (hooks) {
 
     assert.isPresentOnce('.md-modal-overlay');
 
-    assert.equal(document.querySelector('.md-modal-container')
-      .textContent.trim(),
-      'template block text');
+    assert.dom(document.querySelector('.md-modal-container')).hasText('template block text');
   });
 
   test('shows modal and performs actions', async function (assert) {

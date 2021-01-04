@@ -13,6 +13,6 @@ module('helper:present', function(hooks) {
 
     await render(hbs`<section>{{present inputValue}}</section>`);
 
-    assert.equal(find('section').textContent.trim(), 'true');
+    assert.dom('section').hasText('true');
   });
 });

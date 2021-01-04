@@ -15,7 +15,7 @@ module('Integration | Component | control/md-button', function(hooks) {
 
     await render(hbs`{{control/md-button text="Click me" click=(action myAction true)}}`);
 
-    assert.equal(this.element.textContent.trim(), 'Click me');
+    assert.dom(this.element).hasText('Click me');
     click('.md-button');
 
     // Template block usage:
@@ -25,6 +25,6 @@ module('Integration | Component | control/md-button', function(hooks) {
       {{/control/md-button}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.dom(this.element).hasText('template block text');
   });
 });

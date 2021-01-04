@@ -65,10 +65,10 @@ module('Integration | Component | control/md itis', function(hooks) {
 
     await render(hbs`{{control/md-itis taxonomy=taxonomy searchResult=taxa found=true}}`);
 
-    assert.ok(find('.md-itis-taxalist'), 'renders search result');
+    assert.dom('.md-itis-taxalist').exists('renders search result');
 
     await click('.md-itis-taxalist .list-group-item .btn-success');
 
-    assert.ok(find('.md-itis-selectedlist .list-group-item'), 'renders selected item');
+    assert.dom('.md-itis-selectedlist .list-group-item').exists('renders selected item');
   });
 });

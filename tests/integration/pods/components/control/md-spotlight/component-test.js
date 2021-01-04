@@ -24,8 +24,8 @@ module('Integration | Component | control/md spotlight', function(hooks) {
     spotlight.setTarget('foo', close, scope);
 
     assert.ok(document.querySelector('.md-modal-overlay'), 'render overlay');
-    assert.equal(find('#foo').textContent.trim(), 'foobar', 'render target');
-    assert.ok(find('#foo').classList.contains('md-spotlight-target'), 'adds class');
+    assert.dom('#foo').hasText('foobar', 'render target');
+    assert.dom('#foo').hasClass('md-spotlight-target', 'adds class');
 
     spotlight.setTarget('foo');
   });

@@ -1,7 +1,6 @@
 import Component from "@ember/component";
 import { A } from "@ember/array";
-import EmberObject from "@ember/object";
-import { set, computed, getWithDefault, get } from "@ember/object";
+import EmberObject, { set, computed, getWithDefault, get } from "@ember/object";
 import { alias } from "@ember/object/computed";
 import { once } from "@ember/runloop";
 import { assert } from "@ember/debug";
@@ -31,14 +30,14 @@ export default Component.extend(Validations, {
     this._super(...arguments);
     assert(
       `You must supply a dictionary for ${this.toString()}.`,
-      get(this, "dictionary")
+      this.dictionary
     );
   },
 
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, "model");
+    let model = this.model;
 
     once(this, function () {
       set(model, "entityId", getWithDefault(model, "entityId", uuidV4()));
@@ -177,7 +176,7 @@ export default Component.extend(Validations, {
   }),
 
   entityList: computed("entities.{@each.entityId,@each.codeName}", function () {
-    return get(this, "entities").map((attr) => {
+    return this.entities.map((attr) => {
       if (get(attr, "entityId")) {
         return {
           codeId: get(attr, "entityId"),

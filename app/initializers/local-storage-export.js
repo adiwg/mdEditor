@@ -1,7 +1,7 @@
+import Store from '@ember-data/store';
 import { Promise } from 'rsvp';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
-import DS from 'ember-data';
 import { singularize } from 'ember-inflector';
 
 const exportSelected = function(store, types, options) {
@@ -53,7 +53,7 @@ const exportSelected = function(store, types, options) {
 };
 
 export function initialize() {
-  DS.Store.reopen({
+  Store.reopen({
     exportSelectedData(types, options) {
       return exportSelected(this, types, options);
     }

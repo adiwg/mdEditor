@@ -22,7 +22,7 @@ module('Acceptance | pods/record/new', function(hooks) {
     await visit('/record/new');
     assert.equal(findAll('.md-input-input input')[0].value, '');
     assert.equal(find('.md-select').innerText.trim(), 'Choose type of resource');
-    assert.equal(find('button.md-form-save').disabled, true);
+    assert.dom('button.md-form-save').isDisabled();
     //change route to prevent error during teardown
     await visit('/');
   });
@@ -34,7 +34,7 @@ module('Acceptance | pods/record/new', function(hooks) {
     await selectChoose('.md-select', 'attribute');
     assert.equal(findAll('.md-input-input input')[0].value, 'Record Title');
     assert.equal(find('div.md-select .select-value').innerText, 'attribute');
-    assert.equal(find('button.md-form-save').disabled, false);
+    assert.dom('button.md-form-save').isNotDisabled();
     //change route to prevent error during teardown
     await visit('/');
   });
@@ -43,7 +43,7 @@ module('Acceptance | pods/record/new', function(hooks) {
     assert.expect(1);
     await visit('/record/new');
     await selectChoose('.md-select', 'attribute');
-    assert.equal(find('button.md-form-save').disabled, true);
+    assert.dom('button.md-form-save').isDisabled();
     //change route to prevent error during teardown
     await visit('/');
   });
@@ -52,8 +52,8 @@ module('Acceptance | pods/record/new', function(hooks) {
     assert.expect(2);
     await visit('/record/new');
     await fillIn(findAll('.md-input-input input')[1], 'Record Title');
-    assert.equal(find('button.md-form-save').disabled, true);
-    assert.equal(findAll('.md-error').length, 1);
+    assert.dom('button.md-form-save').isDisabled();
+    assert.dom('.md-error').exists({ count: 1 });
     //change route to prevent error during teardown
     await visit('/');
   });

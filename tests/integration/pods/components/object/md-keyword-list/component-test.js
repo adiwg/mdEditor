@@ -28,8 +28,8 @@ module('Integration | Component | object/md keyword list', function(hooks) {
 
     await render(hbs `{{object/md-keyword-list model=model readOnly=false profilePath="foobar"}}`);
 
-    assert.equal(findAll('tr').length, 4, 'Check number of rows.');
-    assert.equal(findAll('input').length, 4, 'Check number of input el.');
+    assert.dom('tr').exists({ count: 4 }, 'Check number of rows.');
+    assert.dom('input').exists({ count: 4 }, 'Check number of input el.');
     assert.equal(this.$('input')[2].value, 'bar1', 'Correct value for keyword input.');
     assert.equal(this.$('input')[3].value, 'id2', 'Correct value for id input.');
     assert.equal(find('table').textContent

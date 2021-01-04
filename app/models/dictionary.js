@@ -1,5 +1,5 @@
+import { attr } from '@ember-data/model';
 import { Copyable } from "ember-copy";
-import DS from "ember-data";
 import { v4 as uuidV4 } from "uuid";
 import { alias } from "@ember/object/computed";
 import Model from "mdeditor/models/base";
@@ -73,15 +73,15 @@ export default Model.extend(Validations, Copyable, {
     this.on("didLoad", this, this.assignId);
   },
 
-  profile: DS.attr("string", {
+  profile: attr("string", {
     defaultValue: defaultProfileId,
   }),
-  json: DS.attr("json", {
+  json: attr("json", {
     defaultValue() {
       return JsonDefault.create();
     },
   }),
-  dateUpdated: DS.attr("date", {
+  dateUpdated: attr("date", {
     defaultValue() {
       return new Date();
     },

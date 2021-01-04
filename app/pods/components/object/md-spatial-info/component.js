@@ -6,7 +6,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(this, function() {
       set(model, 'spatialReferenceSystem', getWithDefault(model, 'spatialReferenceSystem', []));

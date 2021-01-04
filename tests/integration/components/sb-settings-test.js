@@ -12,6 +12,6 @@ module('Integration | Component | sb settings', function(hooks) {
 
     await render(hbs`{{sb-settings}}`);
 
-    assert.equal(findAll('input').length, 1);
+    assert.dom('input').exists({ count: 1 });
   });
 });

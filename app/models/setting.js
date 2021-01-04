@@ -1,7 +1,7 @@
+import Model, { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import DS from 'ember-data';
 import EmberObject, { observer } from "@ember/object";
 
 const defaultValues = {
@@ -9,7 +9,7 @@ const defaultValues = {
   fiscalStartMonth: '10'
 };
 
-const theModel = DS.Model.extend({
+const theModel = Model.extend({
   /**
    * Setting model
    *
@@ -31,57 +31,57 @@ const theModel = DS.Model.extend({
     this.updateSettings;
   },
   //cleaner: inject.service(),
-  compressOnSave: DS.attr('boolean', {
+  compressOnSave: attr('boolean', {
     defaultValue: true
   }),
-  showSplash: DS.attr('boolean', {
+  showSplash: attr('boolean', {
     defaultValue: true
   }),
-  keepSettings: DS.attr('boolean', {
+  keepSettings: attr('boolean', {
     defaultValue: true
   }),
-  autoSave: DS.attr('boolean', {
+  autoSave: attr('boolean', {
     defaultValue: false
   }),
-  showDelete: DS.attr('boolean', {
+  showDelete: attr('boolean', {
     defaultValue: false
   }),
-  showCopy: DS.attr('boolean', {
+  showCopy: attr('boolean', {
     defaultValue: false
   }),
-  lastVersion: DS.attr('string', {
+  lastVersion: attr('string', {
     defaultValue: ''
   }),
-  dateUpdated: DS.attr('date', {
+  dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
     }
   }),
-  characterSet: DS.attr('string', {
+  characterSet: attr('string', {
     defaultValue: 'UTF-8'
   }),
-  country: DS.attr('string', {
+  country: attr('string', {
     defaultValue: 'USA'
   }),
-  language: DS.attr('string', {
+  language: attr('string', {
     defaultValue: 'eng'
   }),
-  importUriBase: DS.attr('string', {
+  importUriBase: attr('string', {
     defaultValue: ''
   }),
-  mdTranslatorAPI: DS.attr('string', {
+  mdTranslatorAPI: attr('string', {
     defaultValue: defaultValues.mdTranslatorAPI
   }),
-  fiscalStartMonth: DS.attr('string', {
+  fiscalStartMonth: attr('string', {
     defaultValue: defaultValues.fiscalStartMonth
   }),
-  repositoryDefaults: DS.attr('json'),
-  publishOptions: DS.attr('json', {
+  repositoryDefaults: attr('json'),
+  publishOptions: attr('json', {
     defaultValue: function () {
       return EmberObject.create();
     }
   }),
-  customSchemas: DS.attr('json', {
+  customSchemas: attr('json', {
     defaultValue: function () {
       return [];
     }

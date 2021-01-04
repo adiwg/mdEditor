@@ -4,14 +4,11 @@ import {
 import {
   Validations
 } from '../md-online-resource/component';
-import {
-  computed
-} from '@ember/object';
+import EmberObject, { computed } from '@ember/object';
 import {
   A
 } from '@ember/array';
 import Component from '@ember/component';
-import EmberObject from '@ember/object';
 
 export default Component.extend({
 

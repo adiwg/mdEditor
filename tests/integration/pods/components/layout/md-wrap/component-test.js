@@ -13,7 +13,7 @@ module('Integration | Component | layout/md wrap', function(hooks) {
 
     await render(hbs`{{layout/md-wrap class="testme"}}`);
 
-    assert.equal(find('.testme').textContent.trim(), '');
+    assert.dom('.testme').hasText('');
 
     // Template block usage:
     await render(hbs`
@@ -22,6 +22,6 @@ module('Integration | Component | layout/md wrap', function(hooks) {
       {{/layout/md-wrap}}
     `);
 
-    assert.equal(find('.testme').textContent.trim(), 'template block text');
+    assert.dom('.testme').hasText('template block text');
   });
 });
