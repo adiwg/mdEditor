@@ -1,1 +1,5 @@
 2021-01-04T21:37:45.152Z [warn] WARNING: {{html-safe}} was not converted as it has positional parameters which can't be automatically converted. Source: app/templates/application.hbs
+2021-01-25T17:50:29.872Z [info] [app/routes/index.js]: SUCCESS
+2021-01-25T17:50:29.982Z [warn] [app/routes/application.js]: FAILURE 
+Validation errors: 
+	[error]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
