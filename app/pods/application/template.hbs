@@ -2,7 +2,7 @@
 
 <div class="md-message-container">
   <div class="md-message-wrapper">
-    {{#each flashMessages.queue as |flash|}}
+    {{#each this.flashMessages.queue as |flash|}}
     <FlashMessage @flash={{flash}} as |component flash|>
     {{flash.message}}
     {{#if flash.showProgress}}
@@ -28,12 +28,12 @@
 <div id="md-wrapper" class="">
 
   {{!-- Slider --}}
-    <Layout::MdSlider @visible={{slider.showSlider}} @fromName={{slider.fromName}} @onClose={{slider.onClose}} @context={{slider.context}}>
+    <Layout::MdSlider @visible={{this.slider.showSlider}} @fromName={{this.slider.fromName}} @onClose={{this.slider.onClose}} @context={{this.slider.context}}>
     </Layout::MdSlider>
   {{!-- /#slider --}}
 
   {{!-- Sidebar --}}
-    <Layout::MdNavSidebar @items={{model}} />
+    <Layout::MdNavSidebar @items={{this.model}} />
   {{!-- /#sidebar-wrapper --}}
 
   {{!-- Page Content --}}
@@ -54,7 +54,7 @@
 </div>
 <EmberLoadRemover />
 
-<Control::MdModal @isShowing={{settings.data.showSplash}} @showConfirm={{true}} @confirmLabel="OK">
+<Control::MdModal @isShowing={{this.settings.data.showSplash}} @showConfirm={{true}} @confirmLabel="OK">
     <div class="alert alert-info" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
     <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
         This application is in beta testing,  <a
@@ -76,8 +76,8 @@
     </p>
 </Control::MdModal>
 
-{{#if spotlight.show}}
+{{#if this.spotlight.show}}
   <Control::MdSpotlight />
 {{/if}}
 
-<Control::MdScrollSpy @scrollInit="top" @routeName={{currentRoute}} />
+<Control::MdScrollSpy @scrollInit="top" @routeName={{this.currentRoute}} />
