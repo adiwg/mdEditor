@@ -15,7 +15,11 @@ module.exports = {
   env: {
     browser: true,
   },
-  rules: { "no-console": 1 },
+  rules: {
+    "no-console": 1,
+    "ember/classic-decorator-hooks": "error",
+    "ember/classic-decorator-no-classic-methods": "error",
+  },
   overrides: [
     // node files
     {
