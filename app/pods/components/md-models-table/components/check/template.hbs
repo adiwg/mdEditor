@@ -1,1 +1,7 @@
-<span class={{if isSelected themeInstance.select-row themeInstance.deselect-row}} onclick={{action "clickOnRow" index record}} role="checkbox"></span>
+
+<div
+  class={{if this.isSelected this.themeInstance.select-row this.themeInstance.deselect-row}}
+  aria-checked={{this.isSelected}}
+  role="checkbox"
+  onclick={{action "clickOnRow" this.index this.record}}
+></div>
