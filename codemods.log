@@ -3,3 +3,9 @@
 2021-01-25T17:50:29.982Z [warn] [app/routes/application.js]: FAILURE 
 Validation errors: 
 	[error]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-01T15:29:54.624Z [warn] [app/pods/components/control/md-alert-table/component.js]: FAILURE 
+Validation errors: 
+	[addItem]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-01T15:31:25.622Z [warn] [app/pods/components/control/md-alert-table/component.js]: FAILURE 
+Validation errors: 
+	[addItem]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details

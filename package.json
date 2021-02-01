@@ -93,7 +93,7 @@
     "ember-math-helpers": "^2.15.0",
     "ember-maybe-import-regenerator": "^0.1.6",
     "ember-modal-dialog": "^3.0.1",
-    "ember-models-table": "3.4.0",
+    "ember-models-table": "3.0.0-beta.3",
     "ember-moment": "^8.0.1",
     "ember-page-title": "^6.0.3",
     "ember-power-select": "^4.1.0",
