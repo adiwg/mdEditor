@@ -1,6 +1,3 @@
-import Component from '@ember/component';
+import Component from '@glimmer/component';
 
-export default Component.extend({
-  classNames: ['md-help-sidebar'],
-  tagName: 'section'
-});
+export default class MdHelp extends Component {}
