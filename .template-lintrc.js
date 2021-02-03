@@ -8,5 +8,6 @@ module.exports = {
     "attribute-indentation": false,
     "block-indentation": false,
     "simple-unless": false,
-  },
+    "no-implicit-this": true
+  }
 };

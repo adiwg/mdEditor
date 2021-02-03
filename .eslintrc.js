@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 "use strict";
 
 module.exports = {
   root: true,
-  parser: "babel-eslint",
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: "module",
@@ -10,8 +11,13 @@ module.exports = {
       legacyDecorators: true
     }
   },
-  plugins: ["ember"],
-  extends: ["eslint:recommended", "plugin:ember/recommended"],
+  plugins: ["ember", "prettier"],
+  extends: [
+    "eslint:recommended",
+    "plugin:ember/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
   env: {
     browser: true
   },
@@ -34,7 +40,8 @@ module.exports = {
         "server/**/*.js"
       ],
       parserOptions: {
-        sourceType: "script"
+        sourceType: "script",
+        ecmaVersion: 2015
       },
       env: {
         browser: false,
@@ -43,11 +50,13 @@ module.exports = {
       },
       plugins: ["node"],
       extends: ["plugin:node/recommended"],
-      rules: {
+      rules: Object.assign({}, require("eslint-plugin-node").configs.recommended.rules, {
+        // add your custom rules and overrides for node files here
+
         // this can be removed once the following is fixed
         // https://github.com/mysticatea/eslint-plugin-node/issues/77
         "node/no-unpublished-require": "off"
-      }
+      })
     }
   ]
 };

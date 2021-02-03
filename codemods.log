@@ -9,3 +9,167 @@ Validation errors:
 2021-02-01T15:31:25.622Z [warn] [app/pods/components/control/md-alert-table/component.js]: FAILURE 
 Validation errors: 
 	[addItem]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:38.826Z [info] [app/pods/components/object/md-attribute/preview/component.js]: SUCCESS
+2021-02-03T17:36:39.204Z [info] [app/pods/components/object/md-medium/component.js]: SUCCESS
+2021-02-03T17:36:39.205Z [warn] [app/pods/components/object/md-identifier-array/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:39.100Z [info] [app/pods/components/object/md-associated/preview/component.js]: SUCCESS
+2021-02-03T17:36:39.146Z [info] [app/pods/components/object/md-address/md-address-block/component.js]: SUCCESS
+2021-02-03T17:36:39.195Z [warn] [app/pods/components/object/md-citation/preview/component.js]: FAILURE 
+Validation errors: 
+	[editCitation]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:39.224Z [info] [app/pods/components/object/md-distributor/preview/component.js]: SUCCESS
+2021-02-03T17:36:39.271Z [info] [app/pods/components/object/md-documentation/preview/component.js]: SUCCESS
+2021-02-03T17:36:39.350Z [warn] [app/pods/components/object/md-domain/component.js]: FAILURE 
+Validation errors: 
+	[editDomainItem]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+	[editCitation]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:39.391Z [warn] [app/pods/components/object/md-transfer/component.js]: FAILURE 
+Validation errors: 
+	[formatTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[formatTemplate]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:39.441Z [info] [app/pods/components/object/md-transfer/component.js]: SUCCESS
+2021-02-03T17:36:39.489Z [info] [app/pods/components/object/md-constraint/component.js]: SUCCESS
+2021-02-03T17:36:39.513Z [warn] [app/pods/components/object/md-address/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:39.510Z [info] [app/pods/components/object/md-party-array/component.js]: SUCCESS
+2021-02-03T17:36:39.698Z [info] [app/pods/components/object/md-domainitem/preview/component.js]: SUCCESS
+2021-02-03T17:36:39.747Z [info] [app/pods/components/object/md-profile/preview/component.js]: SUCCESS
+2021-02-03T17:36:39.946Z [info] [app/pods/components/object/md-simple-array-table/component.js]: SUCCESS
+2021-02-03T17:36:40.007Z [warn] [app/pods/components/object/md-taxonomy/classification/taxon/component.js]: FAILURE 
+Validation errors: 
+	[deleteTaxa]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+	[addChild]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:39.263Z [info] [app/pods/components/object/md-identifier-array/component.js]: SUCCESS
+2021-02-03T17:36:39.337Z [info] [app/pods/components/object/md-identifier-object-table/component.js]: SUCCESS
+2021-02-03T17:36:39.425Z [warn] [app/pods/components/object/md-keyword-list/component.js]: FAILURE 
+Validation errors: 
+	[addKeyword]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+	[deleteKeyword]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:39.581Z [info] [app/pods/components/object/md-keyword-citation/component.js]: SUCCESS
+2021-02-03T17:36:39.698Z [warn] [app/pods/components/object/md-lineage/component.js]: FAILURE 
+Validation errors: 
+	[stepTemplateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[stepTemplateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+	[sourceTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2021-02-03T17:36:39.744Z [info] [app/pods/components/object/md-lineage/component.js]: SUCCESS
+2021-02-03T17:36:39.763Z [info] [app/pods/components/object/md-locale-array/component.js]: SUCCESS
+2021-02-03T17:36:39.982Z [info] [app/pods/components/object/md-locale/component.js]: SUCCESS
+2021-02-03T17:36:39.788Z [warn] [app/pods/components/object/md-process-step/component.js]: FAILURE 
+Validation errors: 
+	[sourceTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2021-02-03T17:36:39.793Z [info] [app/pods/components/object/md-process-step/component.js]: SUCCESS
+2021-02-03T17:36:39.924Z [warn] [app/pods/components/object/md-phone-array/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:39.972Z [info] [app/pods/components/object/md-phone-array/component.js]: SUCCESS
+2021-02-03T17:36:40.083Z [warn] [app/pods/components/object/md-repository-array/component.js]: FAILURE 
+Validation errors: 
+	[repositoryTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[repositoryTemplate]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:40.111Z [info] [app/pods/components/object/md-repository-array/component.js]: SUCCESS
+2021-02-03T17:36:40.147Z [info] [app/pods/components/object/md-schema/component.js]: SUCCESS
+2021-02-03T17:36:39.382Z [info] [app/pods/components/object/md-maintenance/component.js]: SUCCESS
+2021-02-03T17:36:39.564Z [warn] [app/pods/components/object/md-objectroute-table/component.js]: FAILURE 
+Validation errors: 
+	[editItem]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:39.723Z [info] [app/pods/components/object/md-online-resource/component.js]: SUCCESS
+2021-02-03T17:36:40.087Z [warn] [app/pods/components/object/md-object-table/component.js]: FAILURE 
+Validation errors: 
+	[items]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2021-02-03T17:36:40.139Z [warn] [app/pods/components/object/md-online-resource-array/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:40.143Z [info] [app/pods/components/object/md-online-resource-array/component.js]: SUCCESS
+2021-02-03T17:36:39.613Z [warn] [app/pods/components/object/md-citation-array/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:39.616Z [info] [app/pods/components/object/md-citation-array/component.js]: SUCCESS
+2021-02-03T17:36:39.749Z [info] [app/pods/components/object/md-date/component.js]: SUCCESS
+2021-02-03T17:36:39.798Z [warn] [app/pods/components/object/md-date-array/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:39.801Z [info] [app/pods/components/object/md-date-array/component.js]: SUCCESS
+2021-02-03T17:36:39.909Z [warn] [app/pods/components/object/md-distribution/component.js]: FAILURE 
+Validation errors: 
+	[editDistributor]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+	[deleteDistribution]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+	[addDistribution]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:40.095Z [warn] [app/pods/components/object/md-distributor/component.js]: FAILURE 
+Validation errors: 
+	[editTransferOption]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:40.231Z [info] [app/pods/components/object/md-documentation/component.js]: SUCCESS
+2021-02-03T17:36:40.215Z [info] [app/pods/components/object/md-profile/component.js]: SUCCESS
+2021-02-03T17:36:40.270Z [warn] [app/pods/components/object/md-resource-type-array/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:40.316Z [info] [app/pods/components/object/md-resource-type-array/component.js]: SUCCESS
+2021-02-03T17:36:40.329Z [info] [app/pods/components/object/md-party/component.js]: SUCCESS
+2021-02-03T17:36:40.161Z [info] [app/pods/components/object/md-taxonomy/collection/system/component.js]: SUCCESS
+2021-02-03T17:36:40.338Z [info] [app/pods/components/object/md-taxonomy/collection/voucher/component.js]: SUCCESS
+2021-02-03T17:36:40.392Z [info] [app/pods/components/object/md-taxonomy/collection/system/preview/component.js]: SUCCESS
+2021-02-03T17:36:39.941Z [info] [app/pods/components/object/md-source/preview/component.js]: SUCCESS
+2021-02-03T17:36:40.056Z [info] [app/pods/components/object/md-schema/form/component.js]: SUCCESS
+2021-02-03T17:36:40.110Z [info] [app/pods/components/object/md-taxonomy/classification/component.js]: SUCCESS
+2021-02-03T17:36:40.219Z [info] [app/pods/components/object/md-transfer/preview/component.js]: SUCCESS
+2021-02-03T17:36:40.452Z [warn] [app/pods/components/object/md-taxonomy/collection/component.js]: FAILURE 
+Validation errors: 
+	[systemTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[systemTemplate]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:40.463Z [info] [app/pods/components/object/md-taxonomy/collection/component.js]: SUCCESS
+2021-02-03T17:36:40.572Z [info] [app/pods/components/object/md-citation/preview/body/component.js]: SUCCESS
+2021-02-03T17:36:39.572Z [info] [app/pods/components/object/md-domainitem/component.js]: SUCCESS
+2021-02-03T17:36:39.992Z [warn] [app/pods/components/object/md-entity/component.js]: FAILURE 
+Validation errors: 
+	[foreignKeyTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[foreignKeyTemplate]: Transform not supported - value has modifiers like 'property' or 'meta'
+	[indexTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[indexTemplate]: Transform not supported - value has modifiers like 'property' or 'meta'
+	[editCitation]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+	[editAttribute]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:40.098Z [info] [app/pods/components/object/md-entity/component.js]: SUCCESS
+2021-02-03T17:36:40.245Z [info] [app/pods/components/object/md-extent/component.js]: SUCCESS
+2021-02-03T17:36:40.349Z [info] [app/pods/components/object/md-funding/component.js]: SUCCESS
+2021-02-03T17:36:40.411Z [warn] [app/pods/components/object/md-graphic-array/component.js]: FAILURE 
+Validation errors: 
+	[templateClass]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[templateClass]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:40.414Z [info] [app/pods/components/object/md-graphic-array/component.js]: SUCCESS
+2021-02-03T17:36:40.575Z [info] [app/pods/components/object/md-identifier/component.js]: SUCCESS
+2021-02-03T17:36:39.880Z [info] [app/pods/components/object/md-lineage/preview/component.js]: SUCCESS
+2021-02-03T17:36:40.299Z [warn] [app/pods/components/object/md-extent/spatial/component.js]: FAILURE 
+Validation errors: 
+	[editFeatures]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+	[deleteFeatures]: Transform not supported - calling the passed action would cause an infinite loop. See https://github.com/scalvert/eslint-plugin-ember-es6-class/pull/2 for more details
+2021-02-03T17:36:40.335Z [info] [app/pods/components/object/md-funding/preview/component.js]: SUCCESS
+2021-02-03T17:36:40.457Z [info] [app/pods/components/object/md-profile/custom/component.js]: SUCCESS
+2021-02-03T17:36:40.539Z [info] [app/pods/components/object/md-process-step/preview/component.js]: SUCCESS
+2021-02-03T17:36:40.564Z [info] [app/pods/components/object/md-profile/form/component.js]: SUCCESS
+2021-02-03T17:36:39.538Z [info] [app/pods/components/object/md-address/component.js]: SUCCESS
+2021-02-03T17:36:39.740Z [info] [app/pods/components/object/md-allocation/component.js]: SUCCESS
+2021-02-03T17:36:40.062Z [info] [app/pods/components/object/md-associated/component.js]: SUCCESS
+2021-02-03T17:36:40.411Z [warn] [app/pods/components/object/md-array-table/component.js]: FAILURE 
+Validation errors: 
+	[value]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2021-02-03T17:36:40.598Z [warn] [app/pods/components/object/md-attribute/component.js]: FAILURE 
+Validation errors: 
+	[rangeTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[rangeTemplate]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-03T17:36:40.621Z [info] [app/pods/components/object/md-attribute/component.js]: SUCCESS
+2021-02-03T17:36:40.766Z [info] [app/pods/components/object/md-bbox/component.js]: SUCCESS
+2021-02-03T17:36:40.847Z [info] [app/pods/components/object/md-citation/component.js]: SUCCESS
+2021-02-03T17:36:40.250Z [info] [app/pods/components/object/md-source/component.js]: SUCCESS
+2021-02-03T17:36:40.362Z [info] [app/pods/components/object/md-spatial-info/component.js]: SUCCESS
+2021-02-03T17:36:40.695Z [info] [app/pods/components/object/md-spatial-resolution/component.js]: SUCCESS
+2021-02-03T17:36:40.838Z [info] [app/pods/components/object/md-srs/component.js]: SUCCESS
+2021-02-03T17:36:40.875Z [info] [app/pods/components/object/md-taxonomy/component.js]: SUCCESS
+2021-02-03T17:36:40.947Z [info] [app/pods/components/object/md-time-period/component.js]: SUCCESS
