@@ -1,31 +1,31 @@
 import { attr } from '@ember-data/model';
-import { Copyable } from "ember-copy";
-import { v4 as uuidV4 } from "uuid";
-import { alias } from "@ember/object/computed";
-import Model from "mdeditor/models/base";
-import { validator, buildValidations } from "ember-cp-validations";
-import EmberObject, { computed } from "@ember/object";
-import config from "mdeditor/config/environment";
+import { Copyable } from 'ember-copy';
+import { v4 as uuidV4 } from 'uuid';
+import { alias } from '@ember/object/computed';
+import Model from 'mdeditor/models/base';
+import { validator, buildValidations } from 'ember-cp-validations';
+import EmberObject, { computed } from '@ember/object';
+import config from 'mdeditor/config/environment';
 
 const {
   APP: { defaultProfileId },
 } = config;
 
 const Validations = buildValidations({
-  "json.dictionaryId": validator("presence", {
+  'json.dictionaryId': validator('presence', {
     presence: true,
     ignoreBlank: true,
   }),
-  "json.dataDictionary.citation.title": validator("presence", {
+  'json.dataDictionary.citation.title': validator('presence', {
     presence: true,
     ignoreBlank: true,
   }),
-  "json.dataDictionary.subject": [
-    validator("presence", {
+  'json.dataDictionary.subject': [
+    validator('presence', {
       presence: true,
       ignoreBlank: true,
     }),
-    validator("array-required", {
+    validator('array-required', {
       track: [],
     }),
   ],
@@ -42,11 +42,11 @@ const JsonDefault = EmberObject.extend({
           date: [
             {
               date: new Date().toISOString(),
-              dateType: "creation",
+              dateType: 'creation',
             },
           ],
         },
-        description: "",
+        description: '',
         subject: [],
         responsibleParty: {},
         domain: [],
@@ -70,27 +70,27 @@ export default Model.extend(Validations, Copyable, {
   init() {
     this._super(...arguments);
 
-    this.on("didLoad", this, this.assignId);
+    this.on('didLoad', this, this.assignId);
   },
 
-  profile: attr("string", {
+  profile: attr('string', {
     defaultValue: defaultProfileId,
   }),
-  json: attr("json", {
+  json: attr('json', {
     defaultValue() {
       return JsonDefault.create();
     },
   }),
-  dateUpdated: attr("date", {
+  dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
     },
   }),
 
-  title: alias("json.dataDictionary.citation.title"),
-  dictionaryId: alias("json.dictionaryId"),
+  title: alias('json.dataDictionary.citation.title'),
+  dictionaryId: alias('json.dictionaryId'),
 
-  icon: "book",
+  icon: 'book',
 
   /**
    * A list of schema errors return by the validator.
@@ -101,37 +101,43 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed("hasDirtyHash", "customSchemas.[]", function () {
-    let mdjson = this.mdjson;
-    let errors = [];
-    let result = mdjson.validateDictionary(this).errors;
+  schemaErrors: computed(
+    'cleanJson',
+    'customSchemas.[]',
+    'hasDirtyHash',
+    'mdjson',
+    function () {
+      let mdjson = this.mdjson;
+      let errors = [];
+      let result = mdjson.validateDictionary(this).errors;
 
-    if (result) {
-      errors.pushObject({
-        title: "Default Dictionary Validation",
-        errors: result,
-      });
-    }
-
-    this.customSchemas.forEach((schema) => {
-      const validator = schema.validator;
-
-      if (validator.validate(schema.rootSchema, this.cleanJson)) {
-        return;
+      if (result) {
+        errors.pushObject({
+          title: 'Default Dictionary Validation',
+          errors: result,
+        });
       }
 
-      errors.pushObject({
-        title: schema.title,
-        errors: validator.errors,
-      });
-    });
+      this.customSchemas.forEach((schema) => {
+        const validator = schema.validator;
 
-    return errors;
-  }),
+        if (validator.validate(schema.rootSchema, this.cleanJson)) {
+          return;
+        }
+
+        errors.pushObject({
+          title: schema.title,
+          errors: validator.errors,
+        });
+      });
+
+      return errors;
+    }
+  ),
 
   assignId(force) {
     if (force || !this.dictionaryId) {
-      this.set("json.dictionaryId", uuidV4());
+      this.set('json.dictionaryId', uuidV4());
     }
   },
 
@@ -140,10 +146,10 @@ export default Model.extend(Validations, Copyable, {
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
 
-    json.set("dataDictionary.citation.title", `Copy of ${name}`);
+    json.set('dataDictionary.citation.title', `Copy of ${name}`);
     this.assignId(true);
 
-    return this.store.createRecord("dictionary", {
+    return this.store.createRecord('dictionary', {
       json: json,
     });
   },
