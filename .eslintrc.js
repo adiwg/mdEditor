@@ -23,9 +23,10 @@ module.exports = {
   },
   rules: {
     'no-console': 1,
+    'ember/no-jquery': 'off',
     'ember/classic-decorator-hooks': 'error',
     'ember/classic-decorator-no-classic-methods': 'error',
-    'no-incorrect-calls-with-inline-anonymous-functions': 'off',
+    'ember/no-incorrect-calls-with-inline-anonymous-functions': 'off',
     'no-empty-function': 'off',
     '@typescript-eslint/no-empty-function': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
