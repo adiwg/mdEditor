@@ -1,29 +1,33 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-const columns = [{
-  propertyName: 'title',
-  title: 'Title'
-},{
-  propertyName: 'dictionaryId',
-  title: 'ID',
-  isHidden: true
-}, {
-  propertyName: 'json.dataDictionary.subject',
-  title: 'Subject'
-}];
+const columns = [
+  {
+    propertyName: 'title',
+    title: 'Title',
+  },
+  {
+    propertyName: 'dictionaryId',
+    title: 'ID',
+    isHidden: true,
+  },
+  {
+    propertyName: 'json.dataDictionary.subject',
+    title: 'Subject',
+  },
+];
 
 export default Route.extend({
   slider: service(),
   model() {
     //return this.store.peekAll('contact');
-    return this.modelFor('application').findBy('modelName','dictionary');
+    return this.modelFor('application').findBy('modelName', 'dictionary');
   },
 
   columns: columns,
 
   actions: {
-    getColumns(){
+    getColumns() {
       return this.columns;
     },
 
@@ -36,6 +40,6 @@ export default Route.extend({
       slider.toggleSlider(true);
 
       return false;
-    }
-  }
+    },
+  },
 });

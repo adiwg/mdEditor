@@ -5,26 +5,26 @@
  * @category docs
  */
 
-import LinkComponent from "@ember/routing/link-component";
+import LinkComponent from '@ember/routing/link-component';
 
-import Route from "@ember/routing/route";
-import Component from "@ember/component";
-import Application from "@ember/application";
+import Route from '@ember/routing/route';
+import Component from '@ember/component';
+import Application from '@ember/application';
 import {
   computed,
   defineProperty,
   getWithDefault,
   //set
-} from "@ember/object";
-import { isNone } from "@ember/utils";
-import { assert } from "@ember/debug";
-import Resolver from "ember-resolver";
-import loadInitializers from "ember-load-initializers";
-import config from "mdeditor/config/environment";
+} from '@ember/object';
+import { isNone } from '@ember/utils';
+import { assert } from '@ember/debug';
+import Resolver from 'ember-resolver';
+import loadInitializers from 'ember-load-initializers';
+import config from 'mdeditor/config/environment';
 
 let events = {
   // add support for the blur event
-  blur: "blur",
+  blur: 'blur',
 };
 
 //Ember.MODEL_FACTORY_INJECTIONS = true;
@@ -44,7 +44,7 @@ loadInitializers(App, config.modulePrefix);
 
 //for bootstrap
 LinkComponent.reopen({
-  attributeBindings: ["data-toggle", "data-placement"],
+  attributeBindings: ['data-toggle', 'data-placement'],
 });
 //for crumbly
 Route.reopen({
@@ -64,7 +64,7 @@ Component.reopen({
     let isVisible = isNone(visibility) ? true : visibility;
 
     if (path !== undefined) {
-      assert(`${path} is not a profile path!`, path.charAt(0) !== ".");
+      assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
 
       // generate profile definition
       // path.split('.').reduce((acc, curr, idx) => {
@@ -80,8 +80,8 @@ Component.reopen({
 
       defineProperty(
         this,
-        "isVisible",
-        computed("profile.active", function () {
+        'isVisible',
+        computed('profile.active', function () {
           if (!profile.activeComponents) {
             return isVisible;
           }

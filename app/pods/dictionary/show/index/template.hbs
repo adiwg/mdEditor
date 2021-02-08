@@ -1,87 +1,101 @@
 <div class="row md-no-spotlight">
-  {{#with model.json.dataDictionary as |dictionary|}}
-  <div class="col-sm-9 col-md-offset-1">
-    <h3>
-      {{fa-icon "book" class="text-muted"}}
+  {{#with this.model.json.dataDictionary as |dictionary|}}
+    <div class="col-sm-9 col-md-offset-1">
+      <h3>
+        {{fa-icon "book" class="text-muted"}}
 
-      Viewing Dictionary: {{model.title}}
-      {{control/md-status model=model}}
-    </h3>
+        Viewing Dictionary: {{this.model.title}}
+        <Control::MdStatus @model={{this.model}}/>
+      </h3>
 
-    {{#layout/md-card shadow=false muted=true title="Main" bodyIsRow=false
-      collapsible=true
-      btnText="Edit" btnClass="success"
-      btnAction=(route-action "linkTo" "dictionary.show.edit") btnIcon="pencil"
-      data-spy="Main"
-    }}
-      <div class="row">
-        <dl class="dl-horizontal col-xxl-6">
-            {{control/md-definition title="Dictionary Id" text=model.json.dictionaryId}}
-            {{control/md-definition title="Dictionary Title" text=model.title}}
-            {{control/md-definition title="Subject" text=(if dictionary.subject (join ", " dictionary.subject))}}
-        </dl>
-        <dl class="dl-horizontal col-xxl-6">
-          {{#control/md-definition title="Responsible Party" }}
+      <Layout::MdCard
+        @shadow={{false}}
+        @muted={{true}}
+        @title="Main"
+        @bodyIsRow={{false}}
+      >
+        <div class="row">
+          <dl class="dl-horizontal col-xxl-6">
+            <Control::MdDefinition @title="Dictionary Id" @text={{this.model.json.dictionaryId}}/>
+            <Control::MdDefinition @title="Dictionary Title" @text={{this.model.title}}/>
+            <Control::MdDefinition @title="Subject" @text={{if this.dictionary.subject (join ", " this.dictionary.subject)}}/>
+          </dl>
+          <dl class="dl-horizontal col-xxl-6">
+            <Control::MdDefinition @title="Responsible Party">
               {{#with dictionary.responsibleParty as |party|}}
-                  {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
-                  (
-                  {{#each party.party as |contact index|}}
-                      {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
-                  {{else}}
-                      <em class="text-muted">No Contacts assigned.</em>
-                  {{/each}}
-                  )
-                  <br>
-                  {{else}}
-                  <em class="text-muted">No responsibility assigned.</em>
+                {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
+                (
+                {{#each party.party as |contact index|}}
+                  {{if index ", "}} <Control::MdContactLink @contactId={{contact.contactId}}/>
+                {{else}}
+                  <em class="text-muted">No Contacts assigned.</em>
+                {{/each}}
+                )
+                <br>
+                {{else}}
+                <em class="text-muted">No responsibility assigned.</em>
               {{/with}}
-          {{/control/md-definition}}
-        </dl>
-        <div class="col-xs-12">
-          {{#layout/md-card shadow=false muted=true plain=true}}
-            <div class="row">
-              <div class="text-info col-xs-6 col-sm-3">Locale</div>
-              <div class="col-xs-6 col-sm-3">
-                <label class="text-nowrap">Character Set:</label>
-                <span class="text-nowrap">{{get-property dictionary.locale "characterSet"}}</span>
+            </Control::MdDefinition>
+          </dl>
+          <div class="col-xs-12">
+            <Layout::MdCard
+              @shadow={{false }}
+              @muted={{true}}
+              @plain={{true}}
+            >
+              {{#each dictionary.locale as | locale index|}}
+                <div class="row">
+                <div class="text-info col-xs-6 col-sm-2">#{{index}} Locale</div>
+                <div class="col-xs-6 col-sm-4">
+                  <label class="text-nowrap">Character Set:</label>
+                  <span class="text-nowrap">{{locale.characterSet}}</span>
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                  <label>Country:</label>
+                  <span class="text-nowrap">{{locale.conuntry}}</span>
+                </div>
+                <div class="col-xs-6 col-sm-3">
+                  <label>Language:</label>
+                  <span>{{locale.language}}</span>
+                </div>
               </div>
-              <div class="col-xs-6 col-sm-3">
-                <label>Country:</label>
-                <span class="text-nowrap">{{get-property dictionary.locale "country"}}</span>
-              </div>
-              <div class="col-xs-6 col-sm-3">
-                <label>Language:</label>
-                <span>{{get-property dictionary.locale "language"}}</span>
-              </div>
-            </div>
-          {{/layout/md-card}}
+              {{/each}}
+            </Layout::MdCard>
+          </div>
         </div>
-      </div>
-
-      {{#layout/md-card shadow=false muted=true title="Description"
-        collapsible=true scroll=true maximizable=true
-        class="md-embedded"
-      }}
+        <Layout::MdCard
+          @shadow={{false}}
+          @muted={{true}}
+          @title="Description"
+          @collapsible={{true}}
+          @scroll={{true}}
+          @maximizable={{true}}
+          @class="md-embedded"
+        >
           {{md-markdown dictionary.description "Description not provided!"}}
-      {{/layout/md-card}}
+        </Layout::MdCard>
+      </Layout::MdCard>
+    <Object::MdCitation::Preview
+      @profilePath="dictionary.main.citation"
+      @citation={{dictionary.citation}}
+      @muted={{true}}
+      @editCitation={{route-action "editCitation"}}
+      @data-spy="Citation"
+    />
 
-    {{/layout/md-card}}
-
-    {{object/md-citation/preview
-      profilePath="dictionary.main.citation"
-      citation=dictionary.citation
-      muted=true
-      editCitation=(route-action "editCitation")
-      data-spy="Citation"
-    }}
-
-    {{#layout/md-card shadow=false muted=true title="Domains" bodyIsRow=false
-      collapsible=true
-      btnText="Edit" btnClass="success"
-      btnAction=(route-action "linkTo" "dictionary.show.edit.domain") btnIcon="pencil"
-      data-spy="Domains"
-    }}
-    {{#if dictionary.domain}}
+    <Layout::MdCard
+      @shadow={{false}}
+      @muted={{true}}
+      @title="Domains"
+      @bodyIsRow={{false}}
+      @collapsible={{true}}
+      @btnText="Edit"
+      btnClass="success"
+      @btnAction={{route-action "linkTo" "dictionary.show.edit.domain"}}
+      @btnIcon="pencil"
+      @data-spy="Domains"
+    >
+      {{#if dictionary.domain}}
       <table class="table table-striped">
         <thead>
           <tr>
@@ -99,8 +113,9 @@
               {{!-- <td>{{domain.domainId}}</td> --}}
               <td>{{get-property domain "codeName"}}</td>
               <td>{{#if domain.description}} {{word-limit domain.description}} {{else}} <em>Not Described</em>{{/if}}</td>
-              <td>{{#link-to "dictionary.show.edit.domain.edit" index class="btn btn-xs btn-success"}}Edit{{/link-to}}</td>
-
+              <td>
+                <LinkTo @route="dictionary.show.edit.domain.edit" index @class="btn btn-xs btn-success">Edit</LinkTo>
+              </td>
             </tr>
           {{/each}}
         </tbody>
@@ -111,14 +126,19 @@
         </h3>
       </div>
       {{/if}}
-    {{/layout/md-card}}
-
-    {{#layout/md-card shadow=false muted=true title="Entities" bodyIsRow=false
-      collapsible=true
-      btnText="Edit" btnClass="success"
-      btnAction=(route-action "linkTo" "dictionary.show.edit.entity") btnIcon="pencil"
-      data-spy="Entities"
-    }}
+    </Layout::MdCard>
+    <Layout::MdCard
+      @shadow={{false}}
+      @muted={{true}}
+      @title="Entities"
+      @bodyIsRow={{false}}
+      @collapsible={{true}}
+      @btnText="Edit"
+      @btnClass="success"
+      @btnAction={{route-action "linkTo" "dictionary.show.edit.entity"}}
+      @btnIcon="pencil"
+      @data-spy="Entities"
+    >
       {{#if dictionary.entity}}
       <table class="table table-striped">
         <thead>
@@ -137,10 +157,12 @@
               {{!-- <td>{{entity.entityId}}</td> --}}
               <td>{{get-property entity "codeName"}}</td>
               <td>{{#if entity.description}} {{word-limit entity.description}} {{else}} <em>Not Described</em>{{/if}}</td>
-              <td>{{#link-to "dictionary.show.edit.entity.edit" index class="btn btn-xs btn-success"}}Edit{{/link-to}}</td>
-
+              <td>
+                <LinkTo @route="dictionary.show.edit.entity.edit" @model={{index}} @class="btn btn-xs btn-success">
+                  Edit
+                </LinkTo>
+              </td>
             </tr>
-
           {{/each}}
         </tbody>
       </table>
@@ -150,24 +172,27 @@
         </h3>
       </div>
       {{/if}}
-    {{/layout/md-card}}
-  </div>
+    </Layout::MdCard>
+    </div>
   {{/with}}
 
   <div class="md-control-sidebar col-sm-2 no-nav">
-    {{#control/md-crud-buttons
-      model=model
-      allowCopy=true
-      allowDelete=true
-      doDelete=(route-action "destroyDictionary")
-      doCopy=(route-action "copyDictionary")
-     }}
-      {{#link-to "dictionary.show.edit" model.id class="btn btn-lg btn-success" }}
-        {{fa-icon "pencil"}} Edit{{/link-to}}
-    {{/control/md-crud-buttons}}
+    <Control::MdCrudButtons
+      @model={{this.model}}
+      @allowCopy={{true}}
+      @allowDelete={{true}}
+      @doDelete={{route-action "destroyDictionary"}}
+      @doCopy={{route-action "copyDictionary"}}
+    >
+    <LinkTo @route="dictionary.show.edit" @model={{this.model.id}} @class="btn btn-lg btn-success">
+      Edit
+    </LinkTo>
+    </Control::MdCrudButtons>
     <hr>
-    {{#link-to "dictionaries" class="btn btn-lg btn-primary btn-block" }}
-      {{fa-icon "list"}} Show List{{/link-to}}
-    {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+    <LinkTo @route="dictionaries" @class="btn btn-lg btn-primary btn-block">
+      {{fa-icon "list"}} Show List
+    </LinkTo>
+    <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{route-action "setScrollTo"}}/>
+
   </div>
 </div>
