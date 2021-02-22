@@ -240,3 +240,4 @@ Validation errors:
 2021-02-22T21:08:06.544Z [info] [app/pods/help/route.js]: SUCCESS
 2021-02-22T21:08:48.098Z [warn] WARNING: {{capitalize}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/import/template.hbs
 2021-02-22T21:10:13.829Z [info] [app/pods/import/route.js]: SUCCESS
+2021-02-22T23:46:23.100Z [info] [app/pods/not-found/route.js]: SUCCESS
