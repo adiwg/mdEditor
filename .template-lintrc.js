@@ -1,13 +1,15 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  extends: "octane",
+  plugins: ['ember-template-lint-plugin-prettier'],
+
+  extends: ['octane', 'ember-template-lint-plugin-prettier:octane'],
 
   rules: {
     //'no-bare-strings': true
-    "attribute-indentation": false,
-    "block-indentation": false,
-    "simple-unless": false,
-    "no-implicit-this": true
-  }
+    'attribute-indentation': false,
+    'block-indentation': false,
+    'simple-unless': false,
+    'no-implicit-this': true,
+  },
 };

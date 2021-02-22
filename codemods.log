@@ -173,3 +173,19 @@ Validation errors:
 2021-02-03T17:36:40.838Z [info] [app/pods/components/object/md-srs/component.js]: SUCCESS
 2021-02-03T17:36:40.875Z [info] [app/pods/components/object/md-taxonomy/component.js]: SUCCESS
 2021-02-03T17:36:40.947Z [info] [app/pods/components/object/md-time-period/component.js]: SUCCESS
+2021-02-22T16:22:20.493Z [warn] [app/pods/contact/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.802Z [warn] [app/pods/contact/show/edit/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.854Z [warn] [app/pods/contact/new/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.898Z [warn] [app/pods/contact/show/index/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.974Z [warn] [app/pods/contact/show/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.985Z [warn] [app/pods/contact/new/id/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:21.002Z [warn] [app/pods/contact/new/index/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:28:38.408Z [info] [app/pods/contact/new/index/route.js]: SUCCESS
+2021-02-22T16:28:39.072Z [info] [app/pods/contact/route.js]: SUCCESS
+2021-02-22T16:28:39.191Z [info] [app/pods/contact/show/edit/route.js]: SUCCESS
+2021-02-22T16:28:39.386Z [info] [app/pods/contact/show/index/route.js]: SUCCESS
+2021-02-22T16:28:39.494Z [info] [app/pods/contact/new/id/route.js]: SUCCESS
+2021-02-22T16:28:39.660Z [info] [app/pods/contact/show/route.js]: SUCCESS
+2021-02-22T16:28:39.723Z [info] [app/pods/contact/new/route.js]: SUCCESS
+2021-02-22T16:35:12.993Z [warn] WARNING: {{get-dash}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/contact/show/index/template.hbs
+2021-02-22T16:35:13.003Z [warn] WARNING: {{get-dash}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/contact/show/index/template.hbs
