@@ -192,3 +192,47 @@ Validation errors:
 2021-02-22T16:59:39.830Z [info] [app/pods/contacts/route.js]: SUCCESS
 2021-02-22T17:08:45.677Z [info] [app/pods/dashboard/route.js]: SUCCESS
 2021-02-22T17:22:18.434Z [info] [app/pods/dictionaries/route.js]: SUCCESS
+2021-02-22T17:29:41.989Z [info] [app/pods/dictionary/show/index/route.js]: SUCCESS
+2021-02-22T17:29:42.763Z [info] [app/pods/dictionary/show/edit/domain/edit/citation/route.js]: SUCCESS
+2021-02-22T17:29:43.166Z [info] [app/pods/dictionary/show/edit/citation/route.js]: SUCCESS
+2021-02-22T17:29:43.361Z [info] [app/pods/dictionary/show/edit/domain/route.js]: SUCCESS
+2021-02-22T17:29:43.661Z [info] [app/pods/dictionary/show/edit/entity/edit/route.js]: SUCCESS
+2021-02-22T17:29:44.657Z [info] [app/pods/dictionary/show/edit/entity/edit/attribute/route.js]: SUCCESS
+2021-02-22T17:29:45.539Z [info] [app/pods/dictionary/show/edit/domain/edit/citation/identifier/route.js]: SUCCESS
+2021-02-22T17:29:45.203Z [info] [app/pods/dictionary/show/edit/domain/edit/index/route.js]: SUCCESS
+2021-02-22T17:29:46.719Z [info] [app/pods/dictionary/show/edit/domain/edit/item/route.js]: SUCCESS
+2021-02-22T17:29:47.168Z [info] [app/pods/dictionary/route.js]: SUCCESS
+2021-02-22T17:29:47.214Z [info] [app/pods/dictionary/show/edit/entity/route.js]: SUCCESS
+2021-02-22T17:29:46.578Z [info] [app/pods/dictionary/show/edit/entity/edit/citation/route.js]: SUCCESS
+2021-02-22T17:29:47.165Z [info] [app/pods/dictionary/show/edit/entity/edit/index/route.js]: SUCCESS
+2021-02-22T17:29:47.402Z [info] [app/pods/dictionary/show/edit/domain/edit/route.js]: SUCCESS
+2021-02-22T17:29:46.583Z [info] [app/pods/dictionary/show/edit/domain/edit/citation/index/route.js]: SUCCESS
+2021-02-22T17:29:47.486Z [info] [app/pods/dictionary/show/edit/entity/edit/attribute/index/route.js]: SUCCESS
+2021-02-22T17:29:47.831Z [info] [app/pods/dictionary/new/id/route.js]: SUCCESS
+2021-02-22T17:29:47.229Z [info] [app/pods/dictionary/new/route.js]: SUCCESS
+2021-02-22T17:29:47.802Z [info] [app/pods/dictionary/show/route.js]: SUCCESS
+2021-02-22T17:29:47.787Z [info] [app/pods/dictionary/show/edit/domain/index/route.js]: SUCCESS
+2021-02-22T17:29:47.920Z [info] [app/pods/dictionary/show/edit/citation/index/route.js]: SUCCESS
+2021-02-22T17:29:47.901Z [info] [app/pods/dictionary/show/edit/index/route.js]: SUCCESS
+2021-02-22T17:29:47.985Z [info] [app/pods/dictionary/show/edit/citation/identifier/route.js]: SUCCESS
+2021-02-22T17:29:44.847Z [info] [app/pods/dictionary/show/edit/entity/index/route.js]: SUCCESS
+2021-02-22T17:29:47.834Z [warn] [app/pods/dictionary/show/edit/entity/import/route.js]: FAILURE 
+Validation errors: 
+	[columnObject]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[columnObject]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-22T17:29:47.999Z [info] [app/pods/dictionary/show/edit/entity/import/route.js]: SUCCESS
+2021-02-22T17:29:48.023Z [info] [app/pods/dictionary/new/index/route.js]: SUCCESS
+2021-02-22T17:29:48.170Z [info] [app/pods/dictionary/show/edit/route.js]: SUCCESS
+2021-02-22T17:29:48.196Z [info] [app/pods/dictionary/show/edit/entity/edit/citation/identifier/route.js]: SUCCESS
+2021-02-22T17:29:48.266Z [info] [app/pods/dictionary/show/edit/entity/edit/citation/index/route.js]: SUCCESS
+2021-02-22T20:06:35.570Z [warn] WARNING: {{round}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/edit/entity/import/template.hbs
+2021-02-22T20:06:35.573Z [warn] WARNING: {{round}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/edit/entity/import/template.hbs
+2021-02-22T20:06:35.636Z [warn] WARNING: {{html-safe}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.642Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.642Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.642Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.643Z [warn] WARNING: {{md-markdown}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.650Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.650Z [warn] WARNING: {{word-limit}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.656Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.657Z [warn] WARNING: {{word-limit}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
