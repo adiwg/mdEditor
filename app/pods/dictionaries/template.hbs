@@ -1,38 +1,38 @@
-<h3 class="text-info">{{fa-icon "book"}} Dictionaries</h3>
+<h3 class='text-info'>
+  {{fa-icon 'book'}} Dictionaries
+</h3>
 
-{{#if model.length}}
-  {{#layout/md-card
-    collapsible=true
-    collapsed=false
-    shadow=true
-  }}
-    {{control/md-record-table
-      data=model
-      dataColumns=(compute (route-action "getColumns"))
-      allActions=true
-      selectProperty="_selectedFromList"
-      showSlider=(route-action "showSlider")
-    }}
-  {{/layout/md-card}}
+{{#if this.model.length}}
+  <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
+    <Control::MdRecordTable
+      @data={{this.model}}
+      @dataColumns={{compute (route-action 'getColumns')}}
+      @allActions={{true}}
+      @selectProperty='_selectedFromList'
+      @showSlider={{route-action 'showSlider'}}
+    />
+  </Layout::MdCard>
 {{else}}
-<div class="alert alert-info">
-  <h3>No Dictionaries found.
-    {{#link-to "dictionary.new" class="btn btn-success btn-lg" }}
-      {{fa-icon "plus"}} Create a Dictionary
-    {{/link-to}}
-  </h3>
-</div>
+  <div class='alert alert-info'>
+    <h3>
+      No Dictionaries found.
+      <LinkTo @route='dictionary.new' class='btn btn-success btn-lg'>
+        {{fa-icon 'plus'}} Create a Dictionary
+      </LinkTo>
+    </h3>
+  </div>
 {{/if}}
 
 {{outlet}}
-{{#if errorTarget}}
-  {{to-elsewhere
-    named="md-slider-error"
-    send=(hash
-      title=(concat "Viewing errors for: " errorTarget.title)
-      body=(component "control/md-errors"
-        errors=errorTarget.hasSchemaErrors
+{{#if this.errorTarget}}
+  <ToElsewhere
+    @named='md-slider-error'
+    @send={{
+      hash
+      title=(concat 'Viewing errors for: ' this.errorTarget.title)
+      body=(component
+        'control/md-errors' errors=this.errorTarget.hasSchemaErrors
       )
-    )
-  }}
+    }}
+  />
 {{/if}}

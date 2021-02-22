@@ -191,3 +191,4 @@ Validation errors:
 2021-02-22T16:35:13.003Z [warn] WARNING: {{get-dash}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/contact/show/index/template.hbs
 2021-02-22T16:59:39.830Z [info] [app/pods/contacts/route.js]: SUCCESS
 2021-02-22T17:08:45.677Z [info] [app/pods/dashboard/route.js]: SUCCESS
+2021-02-22T17:22:18.434Z [info] [app/pods/dictionaries/route.js]: SUCCESS
