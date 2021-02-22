@@ -10,27 +10,35 @@
         required=true
       }}
 
-      {{#layout/md-wrap data-spy="Record ID" class="md-embedded"
-        profilePath="record.main.basicInformation.recordId"
-      }}
+      <Layout::MdWrap
+        @data-spy="Record ID"
+        @class="md-embedded"
+        @profilePath="record.main.basicInformation.recordId"
+      >
         <div class="form-group">
           <label class="required">Record ID</label>
           <div class="input-group input-group-md">
-            {{input/md-input
-              valuePath="recordId"
-              model=model
-              placeholder="Assigned Record ID"
-              disabled=true
-            }}
+            <Input::MdInput
+              @valuePath="recordId"
+              @model={{this.model}}
+              @placeholder="Assigned Record ID"
+              @disabled={{true}}
+            />
             <span class="input-group-btn">
-                <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
-                  {{fa-icon "pencil"}}
-                  Edit</button>
-                  {{ember-tooltip text="Edit the metadata id" tooltipClass="ember-tooltip md-tooltip warning"}}
+              {{!-- template-lint-disable no-action --}}
+              <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
+                {{fa-icon "pencil"}}
+                Edit
+              </button>
+              <EmberTooltip
+                @text="Edit the metadata id"
+                @tooltipClass="ember-tooltip md-tooltip warning"
+              />
             </span>
           </div>
         </div>
-        {{/layout/md-wrap}}
+      </Layout::MdWrap>
+
 
         {{input/md-input
           value=model.title
