@@ -238,3 +238,5 @@ Validation errors:
 2021-02-22T20:06:35.657Z [warn] WARNING: {{word-limit}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
 2021-02-22T20:32:07.426Z [info] [app/pods/error/route.js]: SUCCESS
 2021-02-22T21:08:06.544Z [info] [app/pods/help/route.js]: SUCCESS
+2021-02-22T21:08:48.098Z [warn] WARNING: {{capitalize}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/import/template.hbs
+2021-02-22T21:10:13.829Z [info] [app/pods/import/route.js]: SUCCESS
