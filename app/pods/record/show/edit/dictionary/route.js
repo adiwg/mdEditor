@@ -1,101 +1,110 @@
-import Route from "@ember/routing/route";
-import { v4 as uuidV4 } from "uuid";
-import EmberObject, { get, computed, defineProperty, getWithDefault, set } from "@ember/object";
+import classic from 'ember-classic-decorator';
+import Route from '@ember/routing/route';
+import { v4 as uuidV4 } from 'uuid';
+import EmberObject, {
+  get,
+  defineProperty,
+  getWithDefault,
+  set,
+  action,
+  computed,
+} from '@ember/object';
 
-export default Route.extend({
+@classic
+export default class DictionaryRoute extends Route {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
-      title: "Dictionaries",
+      title: 'Dictionaries',
     };
 
     this.columns = [
       {
-        propertyName: "title",
-        title: "Title",
+        propertyName: 'title',
+        title: 'Title',
       },
       {
-        propertyName: "subject",
-        title: "Subject",
+        propertyName: 'subject',
+        title: 'Subject',
       },
     ];
-  },
+  }
+
   model() {
     //return this.store.peekAll('contact');
-    let dicts = this.modelFor("application").findBy("modelName", "dictionary");
-    let rec = this.modelFor("record.show.edit");
+    let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
+    let rec = this.modelFor('record.show.edit');
 
-    set(rec, "json.mdDictionary", getWithDefault(rec, "json.mdDictionary", []));
-    let selected = rec.get("json.mdDictionary");
+    set(rec, 'json.mdDictionary', getWithDefault(rec, 'json.mdDictionary', []));
+    let selected = rec.get('json.mdDictionary');
 
     return dicts.map((dict) => {
-      let json = get(dict, "json");
-      let id = get(json, "dictionaryId");
-      let data = get(json, "dataDictionary");
+      let json = get(dict, 'json');
+      let id = get(json, 'dictionaryId');
+      let data = get(json, 'dataDictionary');
 
       if (!id) {
-        set(json, "dictionaryId", uuidV4());
+        set(json, 'dictionaryId', uuidV4());
         dict.save();
       }
 
       return EmberObject.create({
         id: json.dictionaryId,
-        title: get(data, "citation.title"),
+        title: get(data, 'citation.title'),
         description: data.description,
         subject: data.subject,
         selected: selected.includes(json.dictionaryId),
       });
     });
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
-    this.controller.set("parentModel", this.modelFor("record.show.edit"));
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
 
     defineProperty(
       this.controller,
-      "selected",
-      computed("model", function () {
-        return this.model.filterBy("selected");
-      })
+      'selected',
+      computed.filterBy('model', 'selected')
     );
 
-    this.controllerFor("record.show.edit").setProperties({
+    this.controllerFor('record.show.edit').setProperties({
       onCancel: this.refresh,
       cancelScope: this,
     });
-  },
+  }
 
   _select(obj) {
-    let rec = this.modelFor("record.show.edit");
-    let selected = rec.get("json.mdDictionary");
+    let rec = this.modelFor('record.show.edit');
+    let selected = rec.get('json.mdDictionary');
 
     if (obj.selected) {
       if (selected.indexOf(obj.id) === -1) {
         selected.pushObject(obj.id);
-        this.controller.notifyPropertyChange("model");
+        this.controller.notifyPropertyChange('model');
         return;
       }
     }
     selected.removeObject(obj.id);
-    this.controller.notifyPropertyChange("model");
-  },
+    this.controller.notifyPropertyChange('model');
+  }
 
-  actions: {
-    getColumns() {
-      return this.columns;
-    },
+  @action
+  getColumns() {
+    return this.columns;
+  }
 
-    select(obj) {
-      this._select(obj);
-    },
+  @action
+  select(obj) {
+    this._select(obj);
+  }
 
-    remove(obj) {
-      set(obj, "selected", false);
-      this._select(obj);
-    },
-  },
-});
+  @action
+  remove(obj) {
+    set(obj, 'selected', false);
+    this._select(obj);
+  }
+}

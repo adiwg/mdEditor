@@ -1,19 +1,19 @@
-<h4 class="section-header">
+<h4 class='section-header'>
   Editing Lineage
-  {{control/md-status model=parentModel}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{object/md-objectroute-table
-  items=model.json.metadata.resourceLineage
-  header="Lineage"
-  shadow=true
-  buttonText="Add Lineage Object"
-  ellipsis=false
-  previewTemplate="object/md-lineage/preview"
-  profilePath="record.lineage"
-  editItem=(route-action "editLineage")
-  hideIndex=true
-  condensed=true
-  verticalButtons=true
-  addSubbar="md-subbar-extra"
-}}
+<Object::MdObjectrouteTable
+  @items={{this.model.json.metadata.resourceLineage}}
+  @header='Lineage'
+  @shadow={{true}}
+  @buttonText='Add Lineage Object'
+  @ellipsis={{false}}
+  @previewTemplate='object/md-lineage/preview'
+  @profilePath='record.lineage'
+  @editItem={{route-action 'editLineage'}}
+  @hideIndex={{true}}
+  @condensed={{true}}
+  @verticalButtons={{true}}
+  @addSubbar='md-subbar-extra'
+/>

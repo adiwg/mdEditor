@@ -1,13 +1,18 @@
+import classic from 'ember-classic-decorator';
+import { alias } from '@ember/object/computed';
 import Route from '@ember/routing/route';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { defineProperty } from '@ember/object';
-import { alias } from '@ember/object/computed';
 
-export default Route.extend(ScrollTo, {
+@classic
+export default class IndexRoute extends Route.extend(ScrollTo) {
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
-    defineProperty(this.controller, 'refreshSpy', alias(
-      'model.json.metadata.resourceInfo.extent.length'));
+    defineProperty(
+      this.controller,
+      'refreshSpy',
+      alias('model.json.metadata.resourceInfo.extent.length')
+    );
   }
-});
+}

@@ -1,33 +1,53 @@
-<h4 class="section-header">
+<h4 class='section-header'>
   Editing Funding
-  {{control/md-status model=parentModel}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{#each model.json.metadata.funding as |allocation index|}}
-  {{#layout/md-object-container
-    title="Funding Period"
-    index=index
-    editItem=(route-action "editAllocation")
-    deleteItem=(route-action "deleteAllocation")
-  }}
-    {{object/md-funding/preview item=allocation profilePath="record.funding"}}
-  {{/layout/md-object-container}}
+{{#each this.model.json.metadata.funding as |allocation index|}}
+  <Layout::MdObjectContainer
+    @title='Funding Period'
+    @index={{index}}
+    @editItem={{route-action 'editAllocation'}}
+    @deleteItem={{route-action 'deleteAllocation'}}
+  >
+    <Object::MdFunding::Preview
+      @item={{allocation}}
+      @profilePath='record.funding'
+    />
+  </Layout::MdObjectContainer>
 {{else}}
-  <h3 class="alert alert-info">No Funding Periods found.
-    <button type="button" class="btn btn-lg btn-success" {{action "addAllocation"}}>
-      {{fa-icon "plus"}} Add Funding Period</button>
+  <h3 class='alert alert-info'>
+    No Funding Periods found.
+    {{! template-lint-disable no-action }}
+    <button
+      type='button'
+      class='btn btn-lg btn-success'
+      {{action 'addAllocation'}}
+    >
+      {{fa-icon 'plus'}} Add Funding Period
+    </button>
   </h3>
 {{/each}}
 
-{{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
-  clickText="Add Funding Period"
-  clickIcon="plus"
-  clickType="success"
-  click=(route-action "addAllocation")
-  )
-}}
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{
+    component
+    'control/subbar-link'
+    clickText='Add Funding Period'
+    clickIcon='plus'
+    clickType='success'
+    click=(route-action 'addAllocation')
+  }}
+/>
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+<ToElsewhere
+  @named='md-scroll-spy-record-edit'
+  @send={{
+    component
+    'control/md-scroll-spy'
+    refresh=this.refresh
+    scrollInit=this.scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  }}
+/>
