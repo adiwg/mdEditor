@@ -99,7 +99,7 @@ export default Route.extend(ScrollTo, {
       if(asMdjson) {
         let records = store.peekAll('record').filterBy('_selected').map((
           itm) => {
-          return get(this, 'mdjson').formatRecord(itm);
+          return this.mdjson.formatRecord(itm);
         });
 
         window.saveAs(
@@ -135,10 +135,10 @@ export default Route.extend(ScrollTo, {
       }
     },
     getColumns(type) {
-      return get(this, 'columns').get(type);
+      return this.columns.get(type);
     },
     hasSelected() {
-      return get(this, 'hasSelected');
+      return this.hasSelected;
     }
   }
 });

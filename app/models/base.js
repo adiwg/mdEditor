@@ -1,11 +1,11 @@
-import DS from 'ember-data';
+import Model from '@ember-data/model';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';
 import { bool, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
-const Base = DS.Model.extend({
+const Base = Model.extend({
   /**
    * Base model
    *
@@ -51,28 +51,28 @@ const Base = DS.Model.extend({
   observeReload: observer('isReloading', function () {
     let reloading = this.isReloading;
 
-    if(!reloading) {
+    if (!reloading) {
       this.wasUpdated(this);
     }
   }),
 
-  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
-    function () {
-      if(this.isNew || this.isEmpty) {
-        return;
-      }
+  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash', function () {
+    if (this.isNew || this.isEmpty) {
+      return;
+    }
 
-      if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
-          this.hasDirtyAttributes)) {
-        once(this, function () {
-          this.save();
-        });
-      }
-    }),
+    if (
+      this.get('settings.data.autoSave') &&
+      (this.hasDirtyHash || this.hasDirtyAttributes)
+    ) {
+      once(this, function () {
+        this.save();
+      });
+    }
+  }),
 
   applyPatch() {
     once(this, function () {
-
       let patch = this.patch;
 
       patch.applyModelPatch(this);
@@ -80,13 +80,14 @@ const Base = DS.Model.extend({
   },
 
   isReady() {
-    let newHash = this.hashObject(JSON.parse(this.serialize()
-      .data.attributes
-      .json), true);
+    let newHash = this.hashObject(
+      JSON.parse(this.serialize().data.attributes.json),
+      true
+    );
 
     // if the currentHash is undefined, the record is either new or hasn't had the
     // hash calculated yet
-    if(this.currentHash === undefined) {
+    if (this.currentHash === undefined) {
       this.set('currentHash', newHash);
     }
   },
@@ -95,8 +96,7 @@ const Base = DS.Model.extend({
     this._super(...arguments);
 
     //let record = model.record || this;
-    let json = JSON.parse(this.serialize()
-      .data.attributes.json);
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -105,8 +105,7 @@ const Base = DS.Model.extend({
   wasLoaded() {
     this._super(...arguments);
 
-    let json = JSON.parse(this.serialize()
-      .data.attributes.json);
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -142,7 +141,7 @@ const Base = DS.Model.extend({
   hashObject(target, parsed) {
     let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
 
-    return typeof toHash === "object" ? hash(toHash) : undefined;
+    return typeof toHash === 'object' ? hash(toHash) : undefined;
   },
 
   /**
@@ -151,10 +150,11 @@ const Base = DS.Model.extend({
    * @property hasDirtyHash
    * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
-  hasDirtyHash: computed('currentHash', function () {
-    let newHash = this.hashObject(JSON.parse(this.serialize()
-      .data.attributes
-      .json), true);
+  hasDirtyHash: computed('currentHash', 'hasDirtyAttributes', function () {
+    let newHash = this.hashObject(
+      JSON.parse(this.serialize().data.attributes.json),
+      true
+    );
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet
@@ -162,49 +162,61 @@ const Base = DS.Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if(this.currentHash !== newHash || this.hasDirtyAttributes) {
+    if (this.currentHash !== newHash || this.hasDirtyAttributes) {
       return true;
     }
 
     return false;
   }),
 
-  canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
-    let dirty = this.hasDirtyHash;
-    let autoSave = this.get('settings.data.autoSave');
+  canRevert: computed(
+    'currentHash',
+    'hasDirtyHash',
+    'jsonRevert',
+    'settings.data.autoSave',
+    function () {
+      let dirty = this.hasDirtyHash;
+      let autoSave = this.get('settings.data.autoSave');
 
-    //no autoSave so just check if dirty
-    if(!autoSave && dirty) {
-      return true;
-    }
-
-    let revert = this.jsonRevert;
-
-    //if we have set revert object with autoSave on
-    if(revert && autoSave) {
-      let hash = this.hashObject(JSON.parse(revert), true) !== this.currentHash;
-
-      //check if changes have been made
-      if(hash) {
+      //no autoSave so just check if dirty
+      if (!autoSave && dirty) {
         return true;
       }
-    }
 
-    return false;
-  }),
+      let revert = this.jsonRevert;
+
+      //if we have set revert object with autoSave on
+      if (revert && autoSave) {
+        let hash =
+          this.hashObject(JSON.parse(revert), true) !== this.currentHash;
+
+        //check if changes have been made
+        if (hash) {
+          return true;
+        }
+      }
+
+      return false;
+    }
+  ),
 
   cleanJson: alias('_cleanJson'),
 
-  status: computed('hasDirtyHash', 'hasSchemaErrors', function () {
-    let dirty = this.hasDirtyHash;
-    let errors = this.hasSchemaErrors;
+  status: computed(
+    'currentHash',
+    'hasDirtyHash',
+    'hasSchemaErrors',
+    function () {
+      let dirty = this.hasDirtyHash;
+      let errors = this.hasSchemaErrors;
 
-    if(this.currentHash) {
-      return dirty ? 'danger' : errors ? 'warning' : 'success';
+      if (this.currentHash) {
+        return dirty ? 'danger' : errors ? 'warning' : 'success';
+      }
+
+      return 'success';
     }
-
-    return 'success';
-  }),
+  ),
 
   /**
    * Indicates whether errors are present.
@@ -227,26 +239,31 @@ const Base = DS.Model.extend({
    * @category computed
    * @requires
    */
-  customSchemas: computed('schemas.schemas.@each.isGlobal', 'profile', function () {
-    return this.schemas.schemas.filter((schema) => {
-      if(schema.schemaType !== this.constructor.modelName) {
-        return false;
-      }
+  customSchemas: computed(
+    'constructor.modelName',
+    'customProfiles.mapById',
+    'profile',
+    'schemas.schemas.@each.isGlobal',
+    function () {
+      return this.schemas.schemas.filter((schema) => {
+        if (schema.schemaType !== this.constructor.modelName) {
+          return false;
+        }
 
-      if(schema.isGlobal) {
-        return true;
-      }
+        if (schema.isGlobal) {
+          return true;
+        }
 
-      let profile=this.customProfiles.mapById[this.profile];
+        let profile = this.customProfiles.mapById[this.profile];
 
-      if(!profile || !profile.schemas){
-        return false;
-      }
+        if (!profile || !profile.schemas) {
+          return false;
+        }
 
-      return profile.schemas.indexOf(
-        schema) > -1;
-    }, this);
-  })
+        return profile.schemas.indexOf(schema) > -1;
+      }, this);
+    }
+  ),
 });
 
 //Modify the prototype instead of using computed.volatile()
@@ -255,7 +272,7 @@ const Base = DS.Model.extend({
 Object.defineProperty(Base.prototype, '_cleanJson', {
   get() {
     return this.clean.clean(this.json);
-  }
+  },
 });
 
 export default Base;

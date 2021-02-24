@@ -14,7 +14,7 @@ module('Integration | Component | input/md select contacts', function(hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
     await render(hbs`{{input/md-select-contacts}}`);
 
-    assert.ok(find('.md-select-contact'));
+    assert.dom('.md-select-contact').exists();
   });
 
   test('contact selected', async function(assert) {

@@ -1,4 +1,6 @@
-<span {{action "toggleAllSelection"}} role="button" class="center-block
-{{if (is-equal selectedItems.length data.length)
-  themeInstance.select-all-rows themeInstance.deselect-all-rows}}">
+{{!-- template-lint-disable no-action --}}
+<span {{action "toggleAllSelection"}} role="button"
+  class="center-block
+    {{if (is-equal this.selectedItems.length this.data.length)this.themeInstance.select-all-rows this.themeInstance.deselect-all-rows}}"
+  >
 </span>

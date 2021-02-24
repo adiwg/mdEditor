@@ -27,7 +27,7 @@ module('Integration | Component | layout/md-nav-secondary/link', function (
 
     await render(hbs `{{layout/md-nav-secondary/link link=links.firstObject nav=nav}}`);
 
-    assert.equal(this.element.textContent.trim(), 'Foo');
+    assert.dom(this.element).hasText('Foo');
 
     // Template block usage:
     await render(hbs `
@@ -36,7 +36,6 @@ module('Integration | Component | layout/md-nav-secondary/link', function (
       {{/layout/md-nav-secondary/link}}
     `);
 
-    assert.equal(this.element.textContent.trim(),
-      'Bar');
+    assert.dom(this.element).hasText('Bar');
   });
 });

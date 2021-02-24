@@ -36,6 +36,6 @@ module('Integration | Component | sb publisher', function(hooks) {
 
     await render(hbs`{{sb-publisher config=config settings=settings records=records}}`);
 
-    assert.equal(findAll('.tree-leaf').length, 4);
+    assert.dom('.tree-leaf').exists({ count: 4 });
   });
 });

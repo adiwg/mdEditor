@@ -1,36 +1,37 @@
-{{#each column.buttons as |btn|}}
+{{!-- TODO: remove "action" synthax once glimmer component is fixed --}}
+{{!-- template-lint-disable no-action --}}
+{{#each this.column.buttons as |btn|}}
   {{#if btn.confirm}}
-    {{#control/md-button-confirm class=(concat "btn btn-sm btn-" btn.type) onConfirm=(action btn.action column index record target=btn.target)}}
+    <Control::MdButtonConfirm
+      class="'btn btn-sm btn-' {{this.btn.type}}"
+      onConfirm={{action this.btn.action this.column this.index this.record target=btn.target}}
+    >
       <span class="fa fa-{{btn.icon}}"></span> {{btn.title}}
-    {{/control/md-button-confirm}}
+    </Control::MdButtonConfirm>
   {{else}}
-    <button type="button" class="btn btn-sm btn-{{btn.type}}" onclick={{action btn.action column index record target=btn.target}}>
+     <button type="button" class="btn btn-sm btn-{{btn.type}}" onclick={{action btn.action this.column this.index this.record target=btn.target}}>
       {{fa-icon btn.icon}} {{btn.title}}
     </button>
   {{/if}}
 {{/each}}
 
 <div class="btn-group text-center" role="group" aria-label="Row Error">
-  {{#if record.validations.isInvalid}}
+  {{#if this.record.validations.isInvalid}}
   <span class="md-error">
     {{fa-icon "exclamation-circle" fixedWidth=true}}
-    {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
-      This item has errors.
-    {{/ember-tooltip}}
+    <EmberTooltip side="right" tooltipClass="ember-tooltip md-tooltip danger">This item has errors.</EmberTooltip>
   </span>
-  {{else if record.validations.hasWarnings}}
+  {{else if this.record.validations.hasWarnings}}
   <span class="md-warning">
     {{fa-icon "exclamation-triangle" fixedWidth=true}}
-    {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip warning"}}
-      This item has warnings.
-    {{/ember-tooltip}}
+    <EmberTooltip side="right" tooltipClass="ember-tooltip md-tooltip warning">This item has warnings.</EmberTooltip>
   </span>
   {{/if}}
-  {{#each column.badges as |badge|}}
-    {{#if (get record badge.isVisible)}}
+  {{#each this.column.badges as |badge|}}
+    {{#if (get this.record badge.isVisible)}}
       <span class="md-{{badge.type}}">
         {{fa-icon badge.icon fixedWidth=true}}
-        {{ember-tooltip side="right" tooltipClass=(concat "ember-tooltip md-tooltip " badge.type) text=badge.tip}}
+        <EmberTooltip side="right" tooltipClass="'ember-tooltip md-tooltip ' {{this.badge.type}}" text={{this.badge.tip}}/>
       </span>
     {{/if}}
   {{/each}}

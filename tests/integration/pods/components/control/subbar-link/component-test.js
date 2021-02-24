@@ -16,7 +16,7 @@ module('Integration | Component | control/subbar link', function(hooks) {
 
     await render(hbs`{{control/subbar-link  text="foo" click=test}}`);
 
-    assert.equal(find('button').textContent.trim(), 'foo');
+    assert.dom('button').hasText('foo');
 
     await click('button');
 
@@ -27,6 +27,6 @@ module('Integration | Component | control/subbar link', function(hooks) {
       {{/control/subbar-link}}
     `);
 
-    assert.equal(find('section').textContent.trim(), 'template block text');
+    assert.dom('section').hasText('template block text');
   });
 });

@@ -23,7 +23,7 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(this, function() {
       set(model, 'scope', getWithDefault(model, 'scope', {}));
@@ -90,7 +90,7 @@ export default Component.extend(Validations, {
           'json.metadata.associatedResource', []));
 
         model.get('json.metadata.associatedResource').pushObject({
-          mdRecordId: get(this, 'recordId'),
+          mdRecordId: this.recordId,
           associationType: value
         });
 

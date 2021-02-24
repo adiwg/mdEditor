@@ -23,7 +23,7 @@ module('Integration | Component | input/md toggle', function(hooks) {
 
     await click('.x-toggle-btn');
 
-    assert.ok(find('.toggle-on'), 'toggle on')
+    assert.dom('.toggle-on').exists('toggle on')
     // Template block usage:
     await render(hbs`
       {{#input/md-toggle class="testme"}}
@@ -31,6 +31,6 @@ module('Integration | Component | input/md toggle', function(hooks) {
       {{/input/md-toggle}}
     `);
 
-    assert.equal(find('.testme').textContent.trim(), 'template block text');
+    assert.dom('.testme').hasText('template block text');
   });
 });

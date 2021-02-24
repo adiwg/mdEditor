@@ -27,6 +27,6 @@ module('Integration | Component | layout/nav/record/nav-main', function (hooks) 
       {{/layout/nav/record/nav-main}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'Translate');
+    assert.dom(this.element).hasText('Translate');
   });
 });

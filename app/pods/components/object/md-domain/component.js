@@ -1,54 +1,46 @@
-import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import Component from "@ember/component";
+import { set, getWithDefault, get } from "@ember/object";
+import { alias } from "@ember/object/computed";
+import { once } from "@ember/runloop";
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import uuidV4 from "uuid/v4";
+import { validator, buildValidations } from "ember-cp-validations";
+import { v4 as uuidV4 } from "uuid";
 
 const Validations = buildValidations({
-  'domainId': [
-    validator('presence', {
+  domainId: [
+    validator("presence", {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'codeName': [
-    validator('presence', {
+  codeName: [
+    validator("presence", {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'description': [
-    validator('presence', {
+  description: [
+    validator("presence", {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(this, function () {
-      set(model, 'domainId', getWithDefault(model, 'domainId', uuidV4()));
-      set(model, 'domainItem', getWithDefault(model, 'domainItem', []));
-      set(model, 'domainReference', getWithDefault(model,
-        'domainReference', {}));
+      set(model, "domainId", getWithDefault(model, "domainId", uuidV4()));
+      set(model, "domainItem", getWithDefault(model, "domainItem", []));
+      set(
+        model,
+        "domainReference",
+        getWithDefault(model, "domainReference", {})
+      );
     });
   },
 
@@ -69,32 +61,32 @@ export default Component.extend(Validations, {
    * @required
    */
 
-   /**
-    * The passed down editDomainItem method.
-    *
-    * @method editDomainItem
-    * @param {Number} index
-    * @required
-    */
+  /**
+   * The passed down editDomainItem method.
+   *
+   * @method editDomainItem
+   * @param {Number} index
+   * @required
+   */
 
-   /**
-    * The passed down editCitation method.
-    *
-    * @method editCitation
-    * @param {String} scrollTo
-    * @required
-    */
+  /**
+   * The passed down editCitation method.
+   *
+   * @method editCitation
+   * @param {String} scrollTo
+   * @required
+   */
 
-  tagName: 'form',
-  domainId: alias('model.domainId'),
-  codeName: alias('model.codeName'),
-  description: alias('model.description'),
+  tagName: "form",
+  domainId: alias("model.domainId"),
+  codeName: alias("model.codeName"),
+  description: alias("model.description"),
   actions: {
-    editDomainItem(id){
+    editDomainItem(id) {
       this.editDomainItem(id);
     },
-    editCitation(scrollTo){
+    editCitation(scrollTo) {
       this.editCitation(scrollTo);
-    }
-  }
+    },
+  },
 });

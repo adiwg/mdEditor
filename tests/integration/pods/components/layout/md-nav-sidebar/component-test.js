@@ -49,12 +49,12 @@ module('Integration | Component | md nav sidebar', function(hooks) {
   test('toggle help action', async function(assert) {
     await render(hbs `{{layout/md-nav-sidebar}}`);
     await click('.md-btn-help');
-    assert.ok(find('.md-sidebar-wrapper').classList.contains('help'));
+    assert.dom('.md-sidebar-wrapper').hasClass('help');
   });
 
   test('toggle sidebar action', async function(assert) {
     await render(hbs `<div id="md-wrapper">{{layout/md-nav-sidebar}}</div>`);
     await click('.sidebar-brand-link');
-    assert.ok(find('#md-wrapper').classList.contains('toggled'));
+    assert.dom('#md-wrapper').hasClass('toggled');
   });
 });

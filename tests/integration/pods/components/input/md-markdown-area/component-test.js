@@ -16,8 +16,7 @@ module('Integration | Component | input/md markdown area', function (hooks) {
     assert.equal(find('.md-markdown-editor').innerText.replace(
         /[ \n\s]+/g, '').trim(),
       '||||Entertext,Markdownissupported.​length:010');
-    assert.ok(find('.md-markdown-editor .length.md-error'),
-      'required ok');
+    assert.dom('.md-markdown-editor .length.md-error').exists('required ok');
 
     this.set('markdownValue', 'This is foobar.');
     this.set('change', value => {
@@ -33,8 +32,7 @@ module('Integration | Component | input/md markdown area', function (hooks) {
         }}`
     );
 
-    assert.equal(find('.md-markdown-editor .length.md-error')
-      .textContent, 'length: 15', 'maxlength ok');
+    assert.dom('.md-markdown-editor .length.md-error').hasText('length: 15', 'maxlength ok');
 
     this.set('markdownValue', 'This is binbash.');
 

@@ -53,8 +53,8 @@ module('Integration | Component | md-models-table/components/row-buttons', funct
 
     await render(hbs`{{md-models-table data=data columns=columns expandedRowComponent=(component "md-models-table/components/row-body" spotlighted=true)}}`);
 
-    assert.equal(findAll('.md-row-buttons .btn').length, 4);
-    assert.equal(findAll('.md-row-buttons .btn-danger').length, 2);
+    assert.dom('.md-row-buttons .btn').exists({ count: 4 });
+    assert.dom('.md-row-buttons .btn-danger').exists({ count: 2 });
     assert.dom('.md-button-confirm').hasText('biz');
     assert.dom('.md-button-confirm.btn-danger .fa').hasClass('fa-times');
 

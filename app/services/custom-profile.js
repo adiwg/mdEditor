@@ -1,7 +1,4 @@
-import Service from '@ember/service';
-import {
-  inject as service
-} from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import { computed, get } from '@ember/object';
 import { union, map } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';

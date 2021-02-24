@@ -1,16 +1,6 @@
-import {
-  module,
-  test
-} from 'qunit';
-import {
-  find,
-  visit,
-  currentURL,
-  click
-} from '@ember/test-helpers';
-import {
-  setupApplicationTest
-} from 'ember-qunit';
+import { module, test } from 'qunit';
+import { find, visit, currentURL, click } from '@ember/test-helpers';
+import { setupApplicationTest } from 'ember-qunit';
 
 module('Acceptance | pods/contacts', function (hooks) {
   setupApplicationTest(hooks);
@@ -30,7 +20,9 @@ module('Acceptance | pods/contacts', function (hooks) {
     store.createRecord('contact');
     await visit('/contacts');
     await click('button.md-button-confirm.btn-danger');
-    assert.equal(find('button.md-button-confirm.btn-danger').innerText
-      .trim(), 'Confirm');
+    assert.equal(
+      find('button.md-button-confirm.btn-danger').innerText.trim(),
+      'Confirm'
+    );
   });
 });

@@ -29,13 +29,13 @@ module('Integration | Component | md models table/components/check all', functio
 
     await render(hbs`{{md-models-table/components/check-all data=data selectedItems=data.selectedItems themeInstance=data.themeInstance toggleAllSelection=toggleAllSelection}}`);
 
-    assert.ok(find('span').classList.contains('deselect'), 'add class');
+    assert.dom('span').hasClass('deselect', 'add class');
 
     await click('span');
 
     // await render(hbs`{{md-models-table/components/check-all data=data themeInstance=data.themeInstance toggleAllSelection=toggleAllSelection}}`);
 
-    assert.ok(find('span').classList.contains('select'), 'deselect');
+    assert.dom('span').hasClass('select', 'deselect');
 
     // Template block usage:
     await render(hbs`
@@ -44,6 +44,6 @@ module('Integration | Component | md models table/components/check all', functio
       {{/md-models-table/components/check-all}}
     `);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.dom(this.element).hasText('');
   });
 });

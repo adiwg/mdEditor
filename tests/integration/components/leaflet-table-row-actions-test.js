@@ -18,6 +18,6 @@ module('Integration | Component | leaflet table row actions', function (hooks) {
       showForm=showForm
       deleteFeature=deleteFeature
     }}`);
-    assert.equal(findAll('button').length, 3);
+    assert.dom('button').exists({ count: 3 });
   });
 });

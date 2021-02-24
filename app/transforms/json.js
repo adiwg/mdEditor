@@ -1,10 +1,10 @@
+import Transform from '@ember-data/serializer/transform';
 import { inject as service } from '@ember/service';
 import EmberObject from '@ember/object';
 import { A, isArray } from '@ember/array';
-import DS from 'ember-data';
 
 
-export default DS.Transform.extend({
+export default Transform.extend({
   clean: service('cleaner'),
 
   deserialize(serialized) {

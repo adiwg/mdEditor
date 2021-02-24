@@ -17,6 +17,6 @@ module('Integration | Component | input/md datetime', function(hooks) {
                       format="YYYY-MM-DD"
                       placeholder="Enter date"}}`);
 
-    assert.equal(find('input').value, '1999-12-31', 'binding works');
+    assert.dom('input').hasValue('1999-12-31', 'binding works');
   });
 });

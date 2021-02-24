@@ -1,9 +1,5 @@
+import { NotFoundError } from '@ember-data/adapter/error';
 import Route from '@ember/routing/route';
-import DS from 'ember-data';
-
-const {
-  NotFoundError
-} = DS;
 
 export default Route.extend({
   model(params) {

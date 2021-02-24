@@ -61,16 +61,16 @@ export default Component.extend({
 
     this.currentEditor.value(this.value);
 
-    this.get('currentEditor').codemirror.on('change', () => once(this,
+    this.currentEditor.codemirror.on('change', () => once(this,
       function () {
         if(this.change) {
-          this.change(this.get('currentEditor').value())
+          this.change(this.currentEditor.value())
         }
       }));
   },
 
   willDestroyElement() {
-    this.get('currentEditor').toTextArea();
+    this.currentEditor.toTextArea();
     this.set('currentEditor', null);
   },
 
@@ -84,11 +84,11 @@ export default Component.extend({
     this._super(...arguments);
 
     run.once(this, () => {
-      if(isNone(get(this, 'value'))) {
+      if(isNone(this.value)) {
         set(this, 'value', '');
       }
 
-      let editor = this.get('currentEditor');
+      let editor = this.currentEditor;
 
       if(isEmpty(editor)) {
         return;
@@ -96,7 +96,7 @@ export default Component.extend({
 
       let cursor = editor.codemirror.getDoc().getCursor();
 
-      editor.value(this.get('value') || '');
+      editor.value(this.value || '');
       editor.codemirror.getDoc().setCursor(cursor);
     });
   },
@@ -224,11 +224,11 @@ export default Component.extend({
         className: 'length',
         defaultValue: (el) => {
           el.innerHTML =
-            `<span class="length md-${get(this, 'errorClass')}">length: ${get(this, 'length')}</span>`;
+            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
         },
         onUpdate: (el) => {
           el.innerHTML =
-            `<span class="length md-${get(this, 'errorClass')}">length: ${get(this, 'length')}</span>`;
+            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
         }
       }, 'lines', 'words']
     };
@@ -243,7 +243,7 @@ export default Component.extend({
    * @requires value
    */
   length: computed('value', function () {
-      return get(this, 'value') ? get(this, 'value')
+      return this.value ? this.value
         .length : 0;
     })
     .readOnly(),
@@ -257,10 +257,10 @@ export default Component.extend({
    * @requires value|maxlength
    */
   errorClass: computed('value', 'maxlength', function () {
-    let length = get(this, 'length');
-    let max = get(this, 'maxlength');
+    let length = this.length;
+    let max = this.maxlength;
 
-    if(get(this, 'required') && length < 1) {
+    if(this.required && length < 1) {
       return 'error';
     }
 

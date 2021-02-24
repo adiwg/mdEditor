@@ -12,7 +12,7 @@ module('Integration | Component | input/md month', function(hooks) {
 
     await render(hbs`{{input/md-month date="10"}}`);
 
-    assert.equal(find('input').value, 'October');
+    assert.dom('input').hasValue('October');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | input/md month', function(hooks) {
       {{/input/md-month}}
     `);
 
-    assert.equal(find('.testme').textContent.trim(), '', 'no block');
+    assert.dom('.testme').hasText('', 'no block');
   });
 });

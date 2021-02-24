@@ -6,7 +6,7 @@ export default Route.extend({
 
     this.breadCrumb = {
       title: 'Dictionary',
-      linkable: false
-    }
+      linkable: false,
+    };
   },
 });

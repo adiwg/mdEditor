@@ -10,6 +10,9 @@
 /node_modules/
 
 # misc
+.vscode/
+codemods.log
+MODULE_REPORT.md
 /.env*
 /.pnp*
 /.sass-cache

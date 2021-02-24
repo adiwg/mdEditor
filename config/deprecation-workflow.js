@@ -15,5 +15,6 @@ window.deprecationWorkflow.config = {
     { handler: "log", matchId: "computed-property.volatile" },
     { handler: "silence", matchId: "computed-property.override" },
     { handler: "silence", matchId: "ember-data:evented-api-usage" },
+    {handler: "silence", matchId: "isVisible"}
   ]
 };

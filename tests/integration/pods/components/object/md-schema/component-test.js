@@ -23,7 +23,7 @@ module('Integration | Component | object/md-schema', function(hooks) {
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),
     '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
 
-    assert.equal(find('.md-schema input').value, 'foo', 'render form');
+    assert.dom('.md-schema input').hasValue('foo', 'render form');
     // Template block usage:
     await render(hbs`
       {{#object/md-schema record=data}}

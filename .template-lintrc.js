@@ -1,12 +1,13 @@
 'use strict';
 
 module.exports = {
-  extends: 'recommended',
+  extends: 'octane',
 
   rules: {
-  //'no-bare-strings': true
-  'attribute-indentation': false,
-  'block-indentation': false,
-  'simple-unless': false
-  }
+    //'no-bare-strings': true
+    'attribute-indentation': false,
+    'block-indentation': false,
+    'simple-unless': false,
+    'no-implicit-this': true,
+  },
 };

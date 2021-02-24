@@ -39,6 +39,6 @@ module('Integration | Component | control/md record table', function(hooks) {
       {{/control/md-record-table}}
     `);
 
-    assert.equal(find('.md-record-table').textContent.trim(), 'template block text');
+    assert.dom('.md-record-table').hasText('template block text');
   });
 });

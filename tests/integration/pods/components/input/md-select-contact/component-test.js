@@ -27,6 +27,6 @@ module('Integration | Component | input/md select contact', function(hooks) {
       {{/input/md-select-contact}}
     `);
 
-    assert.equal(find('.md-select-contact').textContent.trim(), 'Select one option');
+    assert.dom('.md-select-contact').hasText('Select one option');
   });
 });

@@ -1,8 +1,5 @@
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import Ember from 'ember';
-import {
-  inject as service
-} from '@ember/service';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
 // import { computed } from '@ember/object';
@@ -55,22 +52,20 @@ export default Service.extend({
 
       let response = yield request(uri);
 
-      if(response && !semver.valid(response.version)) {
-        throw new Error("Invalid version");
+      if (response && !semver.valid(response.version)) {
+        throw new Error('Invalid version');
       }
 
       return response;
     } catch (error) {
-      if(isNotFoundError(error)) {
-        this.flashMessages
-          .danger(
-            `Could not load profile definition from ${uri}. Definition not found.`
-          );
+      if (isNotFoundError(error)) {
+        this.flashMessages.danger(
+          `Could not load profile definition from ${uri}. Definition not found.`
+        );
       } else {
-        this.flashMessages
-          .danger(
-            `Could not load profile definition from "${uri}". Error: ${error.message}`
-          );
+        this.flashMessages.danger(
+          `Could not load profile definition from "${uri}". Error: ${error.message}`
+        );
       }
     }
   }).drop(),
@@ -86,37 +81,38 @@ export default Service.extend({
   checkForUpdates: task(function* (records) {
     yield timeout(1000);
 
-    yield all(records.map(itm => {
-      if(itm.validations.attrs.uri.isInvalid) {
-        this.flashMessages
-          .warning(
+    yield all(
+      records.map((itm) => {
+        if (itm.validations.attrs.uri.isInvalid) {
+          this.flashMessages.warning(
             `Did not load definition for "${itm.title}". URL is Invalid.`
           );
-        return;
-      }
-
-      return request(itm.uri).then(response => {
-        // `response` is the data from the server
-        if(semver.valid(response.version)) {
-          itm.set('remoteVersion', response.version);
-        } else {
-          throw new Error("Invalid version");
+          return;
         }
 
-        return response;
-      }).catch(error => {
-        if(isNotFoundError(error)) {
-          this.flashMessages
-            .danger(
-              `Could not load definition for "${itm.title}". Definition not found.`
-            );
-        } else {
-          this.flashMessages
-            .danger(
-              `Could not load definition for "${itm.title}". Error: ${error.message}`
-            );
-        }
-      });
-    }));
+        return request(itm.uri)
+          .then((response) => {
+            // `response` is the data from the server
+            if (semver.valid(response.version)) {
+              itm.set('remoteVersion', response.version);
+            } else {
+              throw new Error('Invalid version');
+            }
+
+            return response;
+          })
+          .catch((error) => {
+            if (isNotFoundError(error)) {
+              this.flashMessages.danger(
+                `Could not load definition for "${itm.title}". Definition not found.`
+              );
+            } else {
+              this.flashMessages.danger(
+                `Could not load definition for "${itm.title}". Error: ${error.message}`
+              );
+            }
+          });
+      })
+    );
   }).drop(),
 });

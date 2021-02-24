@@ -1,11 +1,5 @@
 import Component from '@ember/component';
-import EmberObject from '@ember/object';
-import {
-  set,
-  getWithDefault,
-  get,
-  computed
-} from '@ember/object';
+import EmberObject, { set, getWithDefault, get, computed } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -61,7 +55,7 @@ const theComp = Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(this, function () {
       set(model, 'allowNull', getWithDefault(model, 'allowNull', false));
@@ -98,7 +92,7 @@ const theComp = Component.extend(Validations, {
 
   domainList: computed('domains.{@each.domainId,@each.codeName}',
     function () {
-      let domains = get(this, 'domains') || [];
+      let domains = this.domains || [];
 
       return domains.map((domain) => {
         if(get(domain, 'domainId')) {
