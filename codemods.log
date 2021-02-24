@@ -319,3 +319,4 @@ Validation errors:
 2021-02-23T18:22:29.346Z [warn] WARNING: {{md-markdown}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/record/show/index/template.hbs
 2021-02-23T18:22:29.353Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/record/show/index/template.hbs
 2021-02-24T19:46:41.015Z [info] [app/pods/records/route.js]: SUCCESS
+2021-02-24T19:49:56.286Z [info] [app/pods/save/route.js]: SUCCESS
