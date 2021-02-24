@@ -320,3 +320,13 @@ Validation errors:
 2021-02-23T18:22:29.353Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/record/show/index/template.hbs
 2021-02-24T19:46:41.015Z [info] [app/pods/records/route.js]: SUCCESS
 2021-02-24T19:49:56.286Z [info] [app/pods/save/route.js]: SUCCESS
+2021-02-24T19:53:21.001Z [info] [app/pods/settings/profile/index/controller.js]: SUCCESS
+2021-02-24T19:53:25.626Z [info] [app/pods/settings/index/route.js]: SUCCESS
+2021-02-24T19:53:25.767Z [info] [app/pods/settings/validation/route.js]: SUCCESS
+2021-02-24T19:53:26.132Z [info] [app/pods/settings/profile/route.js]: SUCCESS
+2021-02-24T19:53:26.177Z [info] [app/pods/settings/validation/controller.js]: SUCCESS
+2021-02-24T19:53:26.276Z [info] [app/pods/settings/profile/index/route.js]: SUCCESS
+2021-02-24T19:53:26.292Z [info] [app/pods/settings/route.js]: SUCCESS
+2021-02-24T19:53:26.328Z [info] [app/pods/settings/profile/manage/route.js]: SUCCESS
+2021-02-24T19:53:26.494Z [info] [app/pods/settings/main/route.js]: SUCCESS
+2021-02-24T19:53:27.036Z [info] [app/pods/settings/profile/manage/controller.js]: SUCCESS
