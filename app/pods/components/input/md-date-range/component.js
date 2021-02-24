@@ -16,24 +16,28 @@ import {
 } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'start': [
+
+  start: [
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.end'),
-      ignoreBlank: true
     })
   ],
-  'end': [
-    validator('date', {
-      onOrAfter: alias('model.start'),
-      isWarning: true
-    }),
-    validator('presence', {
-      presence: true,
-      disabled: notEmpty('model.start'),
-      ignoreBlank: true
-    })
-  ]
+  end: {
+    validators: [
+      validator('date', {
+        onOrAFter: alias('model.start'),
+        isWarning: true
+      }),
+      validator('presence', {
+        presence: true,
+        disabled: notEmpty('model.start'),
+      } )
+    ]
+  }
+}, {
+  message: 'Start or end date/time is required',
+  ignoreBlank: true
 });
 
 export default Component.extend(Validations, {
