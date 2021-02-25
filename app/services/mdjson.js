@@ -1,17 +1,14 @@
-import Service, { inject as service } from "@ember/service";
-import { isArray } from "@ember/array";
-import EmberObject, {
-  getWithDefault,
-  get,
-  set
-} from "@ember/object";
-import Ember from "ember";
-import Ajv from "ajv";
-import Schemas from "mdjson-schemas/resources/js/schemas";
-import { formatCitation } from "mdeditor/pods/components/object/md-citation/component";
-import * as draft4 from "ajv/lib/refs/json-schema-draft-04";
+import classic from 'ember-classic-decorator';
+import Service, { inject as service } from '@ember/service';
+import { isArray } from '@ember/array';
+import EmberObject, { getWithDefault, get, set } from '@ember/object';
+import Ember from 'ember';
+import Ajv from 'ajv';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
+import { formatCitation } from 'mdeditor/pods/components/object/md-citation/component';
+import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 
-Ember.libraries.register("mdJson-schemas", Schemas.schema.version);
+Ember.libraries.register('mdJson-schemas', Schemas.schema.version);
 
 const validator = new Ajv({
   verbose: true,
@@ -19,14 +16,14 @@ const validator = new Ajv({
   jsonPointers: true,
   removeAdditional: false,
   meta: false,
-  schemaId: "id",
+  schemaId: 'id',
 });
 
 //support draft-04
 validator.addMetaSchema(draft4);
 
 Object.keys(Schemas).forEach(function (key) {
-  if (key === "default") {
+  if (key === 'default') {
     return;
   }
   let val = Schemas[key];
@@ -35,20 +32,26 @@ Object.keys(Schemas).forEach(function (key) {
 });
 
 const unImplemented = [
-  "metadata.metadataInfo.otherMetadataLocale",
-  "metadata.resourceInfo.spatialRepresentation",
-  ["metadata.resourceInfo.extent", "verticalExtent"],
-  ["metadata.resourceInfo.extent", "temporalExtent"],
-  "metadata.resourceInfo.coverageDescription",
+  'metadata.metadataInfo.otherMetadataLocale',
+  'metadata.resourceInfo.spatialRepresentation',
+  ['metadata.resourceInfo.extent', 'verticalExtent'],
+  ['metadata.resourceInfo.extent', 'temporalExtent'],
+  'metadata.resourceInfo.coverageDescription',
   //'metadata.resourceInfo.taxonomy',
-  "metadata.resourceInfo.otherResourceLocale",
+  'metadata.resourceInfo.otherResourceLocale',
   //'metadata.resourceInfo.resourceMaintenance'
 ];
 
-export default Service.extend({
-  cleaner: service(),
-  contacts: service(),
-  store: service(),
+@classic
+export default class MdjsonService extends Service {
+  @service
+  cleaner;
+
+  @service
+  contacts;
+
+  @service
+  store;
 
   injectCitations(json) {
     let assoc = json.metadata.associatedResource;
@@ -61,65 +64,65 @@ export default Service.extend({
         return acc;
       }, []);
 
-      let records = this.store.peekAll("record").filterBy("recordId");
+      let records = this.store.peekAll('record').filterBy('recordId');
 
       refs.forEach((ref) => {
-        let record = records.findBy("recordId", ref.mdRecordId);
+        let record = records.findBy('recordId', ref.mdRecordId);
 
         if (record) {
-          let info = get(record, "json.metadata.metadataInfo") || {};
+          let info = get(record, 'json.metadata.metadataInfo') || {};
           let metadata = {
-            title: `Metadata for ${get(record, "title")}`,
-            responsibleParty: getWithDefault(info, "metadataContact", []),
-            date: getWithDefault(info, "metadataDate", []),
-            onlineResource: getWithDefault(info, "metadataOnlineResource", []),
-            identifier: [getWithDefault(info, "metadataIdentifier", {})],
+            title: `Metadata for ${get(record, 'title')}`,
+            responsibleParty: getWithDefault(info, 'metadataContact', []),
+            date: getWithDefault(info, 'metadataDate', []),
+            onlineResource: getWithDefault(info, 'metadataOnlineResource', []),
+            identifier: [getWithDefault(info, 'metadataIdentifier', {})],
           };
 
           let citation =
-            get(record, "json.metadata.resourceInfo.citation") || {};
+            get(record, 'json.metadata.resourceInfo.citation') || {};
           let resourceType =
-            get(record, "json.metadata.resourceInfo.resourceType") || [];
+            get(record, 'json.metadata.resourceInfo.resourceType') || [];
 
           set(
             ref,
-            "resourceCitation",
+            'resourceCitation',
             EmberObject.create(formatCitation(citation))
           );
           set(
             ref,
-            "metadataCitation",
+            'metadataCitation',
             EmberObject.create(formatCitation(metadata))
           );
-          set(ref, "resourceType", resourceType);
-          set(ref, "mdRecordId", null);
+          set(ref, 'resourceType', resourceType);
+          set(ref, 'mdRecordId', null);
 
           return;
         }
 
-        set(ref, "mdRecordId", null);
+        set(ref, 'mdRecordId', null);
       });
     }
-  },
+  }
 
   injectDictionaries(rec, json) {
-    let ids = rec.get("json.mdDictionary") || [];
+    let ids = rec.get('json.mdDictionary') || [];
     let arr = [];
 
     if (ids.length) {
-      let dicts = this.store.peekAll("dictionary").filterBy("dictionaryId");
+      let dicts = this.store.peekAll('dictionary').filterBy('dictionaryId');
 
       ids.forEach((id) => {
-        let record = dicts.findBy("dictionaryId", id);
+        let record = dicts.findBy('dictionaryId', id);
 
         if (record) {
-          arr.pushObject(record.get("json.dataDictionary"));
+          arr.pushObject(record.get('json.dataDictionary'));
         }
       });
     }
 
-    set(json, "dataDictionary", arr);
-  },
+    set(json, 'dataDictionary', arr);
+  }
 
   formatRecord(rec, asText) {
     let _contacts = [];
@@ -132,26 +135,26 @@ export default Service.extend({
         recipientId: true,
       };
 
-      if (key === "sourceId" && !("amount" in this || "currency" in this)) {
+      if (key === 'sourceId' && !('amount' in this || 'currency' in this)) {
         //console.log(this);
         return value;
       }
 
       if (check[key] && !_contacts.includes(value)) {
-        let contact = conts.get("contacts").findBy("contactId", value);
+        let contact = conts.get('contacts').findBy('contactId', value);
 
         if (!contact) {
           return null;
         }
 
-        let orgs = isArray(contact.get("json.memberOfOrganization"))
-          ? contact.get("json.memberOfOrganization").slice(0)
+        let orgs = isArray(contact.get('json.memberOfOrganization'))
+          ? contact.get('json.memberOfOrganization').slice(0)
           : null;
         _contacts.push(value);
 
         if (orgs && orgs.length) {
           orgs.forEach((itm) => {
-            let org = conts.get("contacts").findBy("contactId", itm);
+            let org = conts.get('contacts').findBy('contactId', itm);
 
             if (!org) {
               return;
@@ -161,7 +164,7 @@ export default Service.extend({
               _contacts.push(itm);
             }
 
-            let iOrgs = org.get("json.memberOfOrganization");
+            let iOrgs = org.get('json.memberOfOrganization');
 
             if (iOrgs.length) {
               iOrgs.forEach((iOrg) => {
@@ -178,16 +181,16 @@ export default Service.extend({
     };
 
     let cleaner = this.cleaner;
-    let clean = cleaner.clean(get(rec, "json"));
+    let clean = cleaner.clean(get(rec, 'json'));
 
     this.injectCitations(clean);
     this.injectDictionaries(rec, clean);
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
-    let contacts = this.store.peekAll("contact").mapBy("json");
+    let contacts = this.store.peekAll('contact').mapBy('json');
 
     json.contact = contacts.filter((item) => {
-      return _contacts.includes(get(item, "contactId"));
+      return _contacts.includes(get(item, 'contactId'));
     });
 
     if (unImplemented) {
@@ -210,26 +213,26 @@ export default Service.extend({
     }
 
     return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(json);
-  },
+  }
 
   validateRecord(record) {
-    validator.validate("schema", this.formatRecord(record));
+    validator.validate('schema', this.formatRecord(record));
 
     return validator;
-  },
+  }
 
   validateContact(contact) {
-    validator.validate("contact", contact.get("cleanJson"));
+    validator.validate('contact', contact.get('cleanJson'));
 
     return validator;
-  },
+  }
 
   validateDictionary(dictionary) {
     validator.validate(
-      "dataDictionary",
-      dictionary.get("cleanJson").dataDictionary
+      'dataDictionary',
+      dictionary.get('cleanJson').dataDictionary
     );
 
     return validator;
-  },
-});
+  }
+}
