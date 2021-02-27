@@ -23,13 +23,29 @@ const columns = [
 export default class DictionariesRoute extends Route {
   @service
   slider;
-
+  
   model() {
     //return this.store.peekAll('contact');
     return this.modelFor('application').findBy('modelName', 'dictionary');
   }
 
-  columns = columns;
+const columns = [
+  {
+    propertyName: 'title',
+    title: 'Title',
+  },
+  {
+    propertyName: 'dictionaryId',
+    title: 'ID',
+    isHidden: true,
+  },
+  {
+    propertyName: 'json.dataDictionary.subject',
+    title: 'Subject',
+  },
+];
+
+columns = columns;
 
   @action
   getColumns() {

@@ -2,11 +2,8 @@ import Model, { attr } from '@ember-data/model';
 import { or, alias } from '@ember/object/computed';
 import { computed, observer } from '@ember/object';
 import { once } from '@ember/runloop';
-import { checkVersion, regex } from 'mdeditor/models/schema'
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { checkVersion, regex } from 'mdeditor/models/schema';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 // [{
 //   "id": "full",
@@ -30,23 +27,22 @@ import {
 // }]
 
 const Validations = buildValidations({
-  'config': validator(
-    'presence', {
-      presence: true,
-      ignoreBlank: true,
-      message: 'The definition has not been downloaded.'
-    }),
-  'uri': [
+  config: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+    message: 'The definition has not been downloaded.',
+  }),
+  uri: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
+      ignoreBlank: true,
     }),
     validator('format', {
       regex: regex,
       isWarning: false,
-      message: 'This field should be a valid, resolvable URL.'
-    })
-  ]
+      message: 'This field should be a valid, resolvable URL.',
+    }),
+  ],
 });
 
 export default Model.extend(Validations, {
@@ -82,21 +78,26 @@ export default Model.extend(Validations, {
   hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
 
   /* eslint-disable ember/no-observers */
-  updateSettings: observer('hasDirtyAttributes', 'alias', 'uri',
-    'altDescription', 'remoteVersion',
+  updateSettings: observer(
+    'hasDirtyAttributes',
+    'alias',
+    'uri',
+    'altDescription',
+    'remoteVersion',
     'config',
     function () {
-      if(this.isNew || this.isEmpty || this.isDeleted) {
+      if (this.isNew || this.isEmpty || this.isDeleted) {
         return;
       }
 
-      if(this.hasDirtyAttributes) {
+      if (this.hasDirtyAttributes) {
         this.set('dateUpdated', new Date());
 
         once(this, function () {
           this.save();
         });
       }
-    })
+    }
+  ),
   /* eslint-enable ember/no-observers */
 });
