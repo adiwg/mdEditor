@@ -173,3 +173,184 @@ Validation errors:
 2021-02-03T17:36:40.838Z [info] [app/pods/components/object/md-srs/component.js]: SUCCESS
 2021-02-03T17:36:40.875Z [info] [app/pods/components/object/md-taxonomy/component.js]: SUCCESS
 2021-02-03T17:36:40.947Z [info] [app/pods/components/object/md-time-period/component.js]: SUCCESS
+2021-02-22T16:22:20.493Z [warn] [app/pods/contact/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.802Z [warn] [app/pods/contact/show/edit/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.854Z [warn] [app/pods/contact/new/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.898Z [warn] [app/pods/contact/show/index/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.974Z [warn] [app/pods/contact/show/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:20.985Z [warn] [app/pods/contact/new/id/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:22:21.002Z [warn] [app/pods/contact/new/index/route.js]: FAILURE Type mismatch, expected type 'routes' did not match type of file
+2021-02-22T16:28:38.408Z [info] [app/pods/contact/new/index/route.js]: SUCCESS
+2021-02-22T16:28:39.072Z [info] [app/pods/contact/route.js]: SUCCESS
+2021-02-22T16:28:39.191Z [info] [app/pods/contact/show/edit/route.js]: SUCCESS
+2021-02-22T16:28:39.386Z [info] [app/pods/contact/show/index/route.js]: SUCCESS
+2021-02-22T16:28:39.494Z [info] [app/pods/contact/new/id/route.js]: SUCCESS
+2021-02-22T16:28:39.660Z [info] [app/pods/contact/show/route.js]: SUCCESS
+2021-02-22T16:28:39.723Z [info] [app/pods/contact/new/route.js]: SUCCESS
+2021-02-22T16:35:12.993Z [warn] WARNING: {{get-dash}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/contact/show/index/template.hbs
+2021-02-22T16:35:13.003Z [warn] WARNING: {{get-dash}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/contact/show/index/template.hbs
+2021-02-22T16:59:39.830Z [info] [app/pods/contacts/route.js]: SUCCESS
+2021-02-22T17:08:45.677Z [info] [app/pods/dashboard/route.js]: SUCCESS
+2021-02-22T17:22:18.434Z [info] [app/pods/dictionaries/route.js]: SUCCESS
+2021-02-22T17:29:41.989Z [info] [app/pods/dictionary/show/index/route.js]: SUCCESS
+2021-02-22T17:29:42.763Z [info] [app/pods/dictionary/show/edit/domain/edit/citation/route.js]: SUCCESS
+2021-02-22T17:29:43.166Z [info] [app/pods/dictionary/show/edit/citation/route.js]: SUCCESS
+2021-02-22T17:29:43.361Z [info] [app/pods/dictionary/show/edit/domain/route.js]: SUCCESS
+2021-02-22T17:29:43.661Z [info] [app/pods/dictionary/show/edit/entity/edit/route.js]: SUCCESS
+2021-02-22T17:29:44.657Z [info] [app/pods/dictionary/show/edit/entity/edit/attribute/route.js]: SUCCESS
+2021-02-22T17:29:45.539Z [info] [app/pods/dictionary/show/edit/domain/edit/citation/identifier/route.js]: SUCCESS
+2021-02-22T17:29:45.203Z [info] [app/pods/dictionary/show/edit/domain/edit/index/route.js]: SUCCESS
+2021-02-22T17:29:46.719Z [info] [app/pods/dictionary/show/edit/domain/edit/item/route.js]: SUCCESS
+2021-02-22T17:29:47.168Z [info] [app/pods/dictionary/route.js]: SUCCESS
+2021-02-22T17:29:47.214Z [info] [app/pods/dictionary/show/edit/entity/route.js]: SUCCESS
+2021-02-22T17:29:46.578Z [info] [app/pods/dictionary/show/edit/entity/edit/citation/route.js]: SUCCESS
+2021-02-22T17:29:47.165Z [info] [app/pods/dictionary/show/edit/entity/edit/index/route.js]: SUCCESS
+2021-02-22T17:29:47.402Z [info] [app/pods/dictionary/show/edit/domain/edit/route.js]: SUCCESS
+2021-02-22T17:29:46.583Z [info] [app/pods/dictionary/show/edit/domain/edit/citation/index/route.js]: SUCCESS
+2021-02-22T17:29:47.486Z [info] [app/pods/dictionary/show/edit/entity/edit/attribute/index/route.js]: SUCCESS
+2021-02-22T17:29:47.831Z [info] [app/pods/dictionary/new/id/route.js]: SUCCESS
+2021-02-22T17:29:47.229Z [info] [app/pods/dictionary/new/route.js]: SUCCESS
+2021-02-22T17:29:47.802Z [info] [app/pods/dictionary/show/route.js]: SUCCESS
+2021-02-22T17:29:47.787Z [info] [app/pods/dictionary/show/edit/domain/index/route.js]: SUCCESS
+2021-02-22T17:29:47.920Z [info] [app/pods/dictionary/show/edit/citation/index/route.js]: SUCCESS
+2021-02-22T17:29:47.901Z [info] [app/pods/dictionary/show/edit/index/route.js]: SUCCESS
+2021-02-22T17:29:47.985Z [info] [app/pods/dictionary/show/edit/citation/identifier/route.js]: SUCCESS
+2021-02-22T17:29:44.847Z [info] [app/pods/dictionary/show/edit/entity/index/route.js]: SUCCESS
+2021-02-22T17:29:47.834Z [warn] [app/pods/dictionary/show/edit/entity/import/route.js]: FAILURE 
+Validation errors: 
+	[columnObject]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[columnObject]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-22T17:29:47.999Z [info] [app/pods/dictionary/show/edit/entity/import/route.js]: SUCCESS
+2021-02-22T17:29:48.023Z [info] [app/pods/dictionary/new/index/route.js]: SUCCESS
+2021-02-22T17:29:48.170Z [info] [app/pods/dictionary/show/edit/route.js]: SUCCESS
+2021-02-22T17:29:48.196Z [info] [app/pods/dictionary/show/edit/entity/edit/citation/identifier/route.js]: SUCCESS
+2021-02-22T17:29:48.266Z [info] [app/pods/dictionary/show/edit/entity/edit/citation/index/route.js]: SUCCESS
+2021-02-22T20:06:35.570Z [warn] WARNING: {{round}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/edit/entity/import/template.hbs
+2021-02-22T20:06:35.573Z [warn] WARNING: {{round}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/edit/entity/import/template.hbs
+2021-02-22T20:06:35.636Z [warn] WARNING: {{html-safe}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.642Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.642Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.642Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.643Z [warn] WARNING: {{md-markdown}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.650Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.650Z [warn] WARNING: {{word-limit}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.656Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:06:35.657Z [warn] WARNING: {{word-limit}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/dictionary/show/index/template.hbs
+2021-02-22T20:32:07.426Z [info] [app/pods/error/route.js]: SUCCESS
+2021-02-22T21:08:06.544Z [info] [app/pods/help/route.js]: SUCCESS
+2021-02-22T21:08:48.098Z [warn] WARNING: {{capitalize}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/import/template.hbs
+2021-02-22T21:10:13.829Z [info] [app/pods/import/route.js]: SUCCESS
+2021-02-22T23:46:23.100Z [info] [app/pods/not-found/route.js]: SUCCESS
+2021-02-22T23:57:21.643Z [info] [app/pods/publish/index/route.js]: SUCCESS
+2021-02-22T23:57:21.674Z [info] [app/pods/publish/route.js]: SUCCESS
+2021-02-23T00:06:21.843Z [info] [app/pods/record/show/edit/metadata/identifier/route.js]: SUCCESS
+2021-02-23T00:06:22.000Z [info] [app/pods/record/show/edit/main/citation/index/route.js]: SUCCESS
+2021-02-23T00:06:22.053Z [info] [app/pods/record/show/edit/coverages/route.js]: SUCCESS
+2021-02-23T00:06:22.102Z [info] [app/pods/record/show/edit/taxonomy/collection/index/route.js]: SUCCESS
+2021-02-23T00:06:22.144Z [info] [app/pods/record/show/edit/metadata/index/route.js]: SUCCESS
+2021-02-23T00:06:22.176Z [info] [app/pods/record/show/edit/metadata/parent/route.js]: SUCCESS
+2021-02-23T00:06:22.185Z [info] [app/pods/record/show/edit/spatial/index/route.js]: SUCCESS
+2021-02-23T00:06:22.220Z [info] [app/pods/record/show/edit/grid/route.js]: SUCCESS
+2021-02-23T00:06:22.298Z [info] [app/pods/record/show/edit/lineage/lineageobject/step/index/route.js]: SUCCESS
+2021-02-23T00:06:22.079Z [info] [app/pods/record/show/edit/associated/route.js]: SUCCESS
+2021-02-23T00:06:22.252Z [info] [app/pods/record/show/translate/route.js]: SUCCESS
+2021-02-23T00:06:22.363Z [info] [app/pods/record/show/index/route.js]: SUCCESS
+2021-02-23T00:06:22.442Z [info] [app/pods/record/show/edit/taxonomy/collection/system/index/route.js]: SUCCESS
+2021-02-23T00:06:22.466Z [info] [app/pods/record/show/edit/keywords/thesaurus/route.js]: SUCCESS
+2021-02-23T00:06:22.377Z [info] [app/pods/record/show/edit/funding/route.js]: SUCCESS
+2021-02-23T00:06:22.451Z [info] [app/pods/record/show/edit/index/route.js]: SUCCESS
+2021-02-23T00:06:22.574Z [info] [app/pods/record/show/edit/keywords/route.js]: SUCCESS
+2021-02-23T00:06:22.252Z [info] [app/pods/record/show/edit/metadata/alternate/identifier/route.js]: SUCCESS
+2021-02-23T00:06:22.399Z [info] [app/pods/record/show/edit/main/citation/identifier/route.js]: SUCCESS
+2021-02-23T00:06:22.509Z [info] [app/pods/record/show/edit/metadata/parent/index/route.js]: SUCCESS
+2021-02-23T00:06:22.559Z [info] [app/pods/record/show/edit/metadata/alternate/index/route.js]: SUCCESS
+2021-02-23T00:06:22.348Z [info] [app/pods/record/show/edit/taxonomy/collection/system/route.js]: SUCCESS
+2021-02-23T00:06:22.432Z [info] [app/pods/record/show/edit/taxonomy/collection/itis/route.js]: SUCCESS
+2021-02-23T00:06:22.573Z [info] [app/pods/record/show/edit/lineage/lineageobject/citation/identifier/route.js]: SUCCESS
+2021-02-23T00:06:22.664Z [info] [app/pods/record/show/edit/lineage/lineageobject/citation/index/route.js]: SUCCESS
+2021-02-23T00:06:22.394Z [info] [app/pods/record/show/edit/taxonomy/collection/route.js]: SUCCESS
+2021-02-23T00:06:22.540Z [info] [app/pods/record/show/edit/metadata/alternate/route.js]: SUCCESS
+2021-02-23T00:06:22.690Z [info] [app/pods/record/show/edit/taxonomy/index/route.js]: SUCCESS
+2021-02-23T00:06:22.739Z [info] [app/pods/record/route.js]: SUCCESS
+2021-02-23T00:06:22.733Z [info] [app/pods/record/show/edit/metadata/route.js]: SUCCESS
+2021-02-23T00:06:22.738Z [info] [app/pods/record/show/edit/dictionary/route.js]: SUCCESS
+2021-02-23T00:06:22.867Z [info] [app/pods/record/show/edit/constraint/route.js]: SUCCESS
+2021-02-23T00:06:22.970Z [info] [app/pods/record/show/edit/distribution/route.js]: SUCCESS
+2021-02-23T00:06:22.765Z [info] [app/pods/record/show/edit/lineage/lineageobject/step/route.js]: SUCCESS
+2021-02-23T00:06:22.938Z [info] [app/pods/record/show/edit/metadata/parent/identifier/route.js]: SUCCESS
+2021-02-23T00:06:22.990Z [info] [app/pods/record/show/edit/documents/citation/route.js]: SUCCESS
+2021-02-23T00:06:22.999Z [info] [app/pods/record/show/edit/lineage/lineageobject/citation/route.js]: SUCCESS
+2021-02-23T00:06:22.603Z [info] [app/pods/record/show/edit/lineage/route.js]: SUCCESS
+2021-02-23T00:06:22.615Z [info] [app/pods/record/show/edit/documents/route.js]: SUCCESS
+2021-02-23T00:06:22.946Z [info] [app/pods/record/show/edit/extent/route.js]: SUCCESS
+2021-02-23T00:06:22.955Z [info] [app/pods/record/show/edit/lineage/lineageobject/step/citation/route.js]: SUCCESS
+2021-02-23T00:06:23.038Z [info] [app/pods/record/show/edit/lineage/lineageobject/source/index/route.js]: SUCCESS
+2021-02-23T00:06:22.653Z [info] [app/pods/record/show/edit/lineage/lineageobject/route.js]: SUCCESS
+2021-02-23T00:06:22.932Z [info] [app/pods/record/show/edit/main/index/route.js]: SUCCESS
+2021-02-23T00:06:22.985Z [info] [app/pods/record/show/edit/main/citation/route.js]: SUCCESS
+2021-02-23T00:06:23.124Z [info] [app/pods/record/show/edit/keywords/index/route.js]: SUCCESS
+2021-02-23T00:06:22.946Z [info] [app/pods/record/new/route.js]: SUCCESS
+2021-02-23T00:06:23.097Z [info] [app/pods/record/show/route.js]: SUCCESS
+2021-02-23T00:06:23.149Z [info] [app/pods/record/index/route.js]: SUCCESS
+2021-02-23T00:06:22.798Z [info] [app/pods/record/show/edit/spatial/route.js]: SUCCESS
+2021-02-23T00:06:23.071Z [info] [app/pods/record/show/edit/associated/index/route.js]: SUCCESS
+2021-02-23T00:06:23.197Z [info] [app/pods/record/show/edit/associated/resource/route.js]: SUCCESS
+2021-02-23T00:06:23.180Z [info] [app/pods/record/show/edit/lineage/index/route.js]: SUCCESS
+2021-02-23T00:06:23.311Z [info] [app/pods/record/show/edit/funding/index/route.js]: SUCCESS
+2021-02-23T00:06:23.206Z [info] [app/pods/record/show/edit/associated/resource/index/route.js]: SUCCESS
+2021-02-23T00:06:23.269Z [info] [app/pods/record/show/edit/documents/citation/index/route.js]: SUCCESS
+2021-02-23T00:06:23.420Z [info] [app/pods/record/show/edit/distribution/distributor/transfer/route.js]: SUCCESS
+2021-02-23T00:06:23.264Z [info] [app/pods/record/show/edit/main/route.js]: SUCCESS
+2021-02-23T00:06:23.398Z [info] [app/pods/record/show/edit/distribution/distributor/route.js]: SUCCESS
+2021-02-23T00:06:23.477Z [info] [app/pods/record/show/edit/taxonomy/route.js]: SUCCESS
+2021-02-23T00:06:23.308Z [info] [app/pods/record/new/id/route.js]: SUCCESS
+2021-02-23T00:06:23.459Z [info] [app/pods/record/new/index/route.js]: SUCCESS
+2021-02-23T00:06:23.508Z [info] [app/pods/record/show/edit/route.js]: SUCCESS
+2021-02-23T00:06:23.116Z [info] [app/pods/record/show/edit/constraint/index/route.js]: SUCCESS
+2021-02-23T00:06:23.190Z [info] [app/pods/record/show/edit/distribution/index/route.js]: SUCCESS
+2021-02-23T00:06:23.301Z [info] [app/pods/record/show/edit/documents/index/route.js]: SUCCESS
+2021-02-23T00:06:23.549Z [info] [app/pods/record/show/edit/extent/spatial/route.js]: SUCCESS
+2021-02-23T00:06:23.664Z [info] [app/pods/record/show/edit/funding/allocation/route.js]: SUCCESS
+2021-02-23T00:06:23.751Z [info] [app/pods/record/show/edit/extent/index/route.js]: SUCCESS
+2021-02-23T00:06:23.548Z [info] [app/pods/record/show/edit/distribution/distributor/index/route.js]: SUCCESS
+2021-02-23T00:06:23.592Z [info] [app/pods/record/show/edit/lineage/lineageobject/source/route.js]: SUCCESS
+2021-02-23T00:06:23.766Z [info] [app/pods/record/show/edit/lineage/lineageobject/index/route.js]: SUCCESS
+2021-02-23T18:22:29.338Z [warn] WARNING: {{md-markdown}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/record/show/index/template.hbs
+2021-02-23T18:22:29.346Z [warn] WARNING: {{md-markdown}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/record/show/index/template.hbs
+2021-02-23T18:22:29.353Z [warn] WARNING: {{get-property}} was not converted as it has positional parameters which can't be automatically converted. Source: app/pods/record/show/index/template.hbs
+2021-02-24T19:46:41.015Z [info] [app/pods/records/route.js]: SUCCESS
+2021-02-24T19:49:56.286Z [info] [app/pods/save/route.js]: SUCCESS
+2021-02-24T19:53:21.001Z [info] [app/pods/settings/profile/index/controller.js]: SUCCESS
+2021-02-24T19:53:25.626Z [info] [app/pods/settings/index/route.js]: SUCCESS
+2021-02-24T19:53:25.767Z [info] [app/pods/settings/validation/route.js]: SUCCESS
+2021-02-24T19:53:26.132Z [info] [app/pods/settings/profile/route.js]: SUCCESS
+2021-02-24T19:53:26.177Z [info] [app/pods/settings/validation/controller.js]: SUCCESS
+2021-02-24T19:53:26.276Z [info] [app/pods/settings/profile/index/route.js]: SUCCESS
+2021-02-24T19:53:26.292Z [info] [app/pods/settings/route.js]: SUCCESS
+2021-02-24T19:53:26.328Z [info] [app/pods/settings/profile/manage/route.js]: SUCCESS
+2021-02-24T19:53:26.494Z [info] [app/pods/settings/main/route.js]: SUCCESS
+2021-02-24T19:53:27.036Z [info] [app/pods/settings/profile/manage/controller.js]: SUCCESS
+2021-02-25T15:36:09.459Z [info] [app/services/cleaner.js]: SUCCESS
+2021-02-25T15:38:00.174Z [info] [app/services/codelist.js]: SUCCESS
+2021-02-25T15:40:39.343Z [warn] [app/services/contacts.js]: FAILURE 
+Validation errors: 
+	[contacts]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2021-02-25T15:52:32.057Z [info] [app/services/custom-profile.js]: SUCCESS
+2021-02-25T15:56:52.801Z [info] [app/services/icon.js]: SUCCESS
+2021-02-25T15:58:11.532Z [info] [app/services/itis.js]: SUCCESS
+2021-02-25T15:59:28.958Z [info] [app/services/jsonvalidator.js]: SUCCESS
+2021-02-25T16:01:02.645Z [info] [app/services/keyword.js]: SUCCESS
+2021-02-25T16:04:36.394Z [info] [app/services/mdjson.js]: SUCCESS
+2021-02-25T16:07:41.894Z [info] [app/services/patch.js]: SUCCESS
+2021-02-25T16:09:24.684Z [info] [app/services/profile.js]: SUCCESS
+2021-02-25T16:13:29.212Z [warn] [app/services/publish.js]: FAILURE 
+Validation errors: 
+	[catalogs]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+2021-02-25T16:24:47.373Z [info] [app/services/schemas.js]: SUCCESS
+2021-02-25T16:38:42.414Z [warn] [app/services/settings.js]: FAILURE 
+Validation errors: 
+	[repositoryTemplate]: Transform not supported - need option '--decorators=true' or the property type CallExpression can not be transformed
+	[repositoryTemplate]: Transform not supported - value has modifiers like 'property' or 'meta'
+2021-02-25T16:38:42.445Z [info] [app/services/settings.js]: SUCCESS
+2021-02-25T16:40:07.808Z [info] [app/services/slider.js]: SUCCESS
+2021-02-25T16:42:31.818Z [info] [app/services/spotlight.js]: SUCCESS

@@ -1,56 +1,80 @@
-{{#with model.json.metadata.resourceInfo as |resource|}}
-<div class="row">
-    <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
-      <h4 class="section-header">
-        Editing <em>{{model.title}}</em>
-        {{control/md-status model=model}}
+{{#with this.model.json.metadata.resourceInfo as |resource|}}
+  <div class='row'>
+    <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
+      <h4 class='section-header'>
+        Editing
+        <em>
+          {{this.model.title}}
+        </em>
+        <Control::MdStatus @model={{this.model}} />
       </h4>
-      {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
-        profilePath="record.main.basicInformation" data-spy="Basic Information"
-        required=true
-      }}
-
-      {{#layout/md-wrap data-spy="Record ID" class="md-embedded"
-        profilePath="record.main.basicInformation.recordId"
-      }}
-        <div class="form-group">
-          <label class="required">Record ID</label>
-          <div class="input-group input-group-md">
-            {{input/md-input
-              valuePath="recordId"
-              model=model
-              placeholder="Assigned Record ID"
-              disabled=true
-            }}
-            <span class="input-group-btn">
-                <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
-                  {{fa-icon "pencil"}}
-                  Edit</button>
-                  {{ember-tooltip text="Edit the metadata id" tooltipClass="ember-tooltip md-tooltip warning"}}
-            </span>
+      <Layout::MdCard
+        @title='Basic Information'
+        @collapsible={{true}}
+        @collapsed={{false}}
+        @profilePath='record.main.basicInformation'
+        @data-spy='Basic Information'
+        @required={{true}}
+      >
+        <Layout::MdWrap
+          @data-spy='Record ID'
+          @class='md-embedded'
+          @profilePath='record.main.basicInformation.recordId'
+        >
+          <div class='form-group'>
+            <label class='required'>
+              Record ID
+            </label>
+            <div class='input-group input-group-md'>
+              <Input::MdInput
+                @valuePath='recordId'
+                @model={{this.model}}
+                @placeholder='Assigned Record ID'
+                @disabled={{true}}
+              />
+              <span class='input-group-btn'>
+                {{! template-lint-disable no-action }}
+                <button
+                  class='btn btn-warning'
+                  type='button'
+                  {{action (route-action 'editId')}}
+                >
+                  {{fa-icon 'pencil'}}
+                  Edit
+                </button>
+                <EmberTooltip
+                  @text='Edit the metadata id'
+                  @tooltipClass='ember-tooltip md-tooltip warning'
+                />
+              </span>
+            </div>
           </div>
-        </div>
-        {{/layout/md-wrap}}
+        </Layout::MdWrap>
 
-        {{input/md-input
-          value=model.title
-          placeholder="Enter the title for the resource."
-          label="Title"
-          required=true
-          profilePath="record.main.basicInformation.title"
-          data-spy="Title"
-          class="md-embedded"
-        }}
+        <Input::MdInput
+          @value={{this.model.title}}
+          @placeholder='Enter the title for the resource.'
+          @label='Title'
+          @required={{true}}
+          @profilePath='record.main.basicInformation.title'
+          @data-spy='Title'
+          @class='md-embedded'
+        />
 
         {{#if (is-array resource.status)}}
-        {{input/md-codelist-multi
-          value=resource.status label="Status" required=true
-          create=true tooltip=true icon=false mdCodeName="progress"
-          placeholder="Select the current status"
-          profilePath="record.main.basicInformation.status"
-          data-spy="Status"
-          class="md-embedded"
-        }}
+          <Input::MdCodelistMulti
+            @value={{resource.status}}
+            @label='Status'
+            @required={{true}}
+            @create={{true}}
+            @tooltip={{true}}
+            @icon={{false}}
+            @mdCodeName='progress'
+            @placeholder='Select the current status'
+            @profilePath='record.main.basicInformation.status'
+            @data-spy='Status'
+            @class='md-embedded'
+          />
         {{/if}}
 
         {{!-- {{input/md-codelist-multi
@@ -60,146 +84,165 @@
           profilePath="record.main.topicCategory"
         }} --}}
 
-        {{#layout/md-card
-          title="Default Locale"
-          shadow=false
-          data-spy=false
-          required=true
-          profilePath="record.main.basicInformation.defaultLocale"
-        }}
-          {{object/md-locale
-            model=resource.defaultResourceLocale
-            profilePath="record.main.basicInformation.defaultLocale"
-          }}
-        {{/layout/md-card}}
+        <Layout::MdCard
+          @title='Default Locale'
+          @shadow={{false}}
+          @data-spy={{false}}
+          @required={{true}}
+          @profilePath='record.main.basicInformation.defaultLocale'
+        >
+          <Object::MdLocale
+            @model={{resource.defaultResourceLocale}}
+            @profilePath='record.main.basicInformation.defaultLocale'
+          />
+        </Layout::MdCard>
+      </Layout::MdCard>
 
-      {{/layout/md-card}}
-
-        {{#if (is-array resource.resourceType)}}
-        <div class="form-group">
-            {{object/md-resource-type-array
-              plain=false
-              value=resource.resourceType
-              required=true
-              errorMessage="At least one Resource Type is required."
-              data-spy="Resource Types"
-              profilePath="record.main.resourceType"
-            }}
+      {{#if (is-array resource.resourceType)}}
+        <div class='form-group'>
+          <Object::MdResourceTypeArray
+            @plain={{false}}
+            @value={{resource.resourceType}}
+            @required={{true}}
+            @errorMessage='At least one Resource Type is required.'
+            @data-spy='Resource Types'
+            @profilePath='record.main.resourceType'
+          />
         </div>
-        {{/if}}
+      {{/if}}
 
-        {{#if (is-array resource.pointOfContact)}}
-        {{object/md-party-array
-          title="Point Of Contact"
-          pluralTitle="Points of Contact"
-          data-spy="Point Of Contact"
-          collapsible=true collapsed=false
-          required=true
-          value=resource.pointOfContact
-          profilePath="record.main.pointOfContact"
-          tipPath="json.metadata.resourceInfo.pointOfContact"
-          tipModel=model
-        }}
-        {{/if}}
+      {{#if (is-array resource.pointOfContact)}}
+        <Object::MdPartyArray
+          @title='Point Of Contact'
+          @pluralTitle='Points of Contact'
+          @data-spy='Point Of Contact'
+          @collapsible={{true}}
+          @collapsed={{false}}
+          @required={{true}}
+          @value={{resource.pointOfContact}}
+          @profilePath='record.main.pointOfContact'
+          @tipPath='json.metadata.resourceInfo.pointOfContact'
+          @tipModel={{this.model}}
+        />
+      {{/if}}
 
-        {{object/md-citation/preview
-          profilePath="record.main.citation"
-          citation=resource.citation
-          muted=true
-          required=true
-          editCitation=(route-action "editCitation")
-        }}
+      <Object::MdCitation::Preview
+        @profilePath='record.main.citation'
+        @citation={{resource.citation}}
+        @muted={{true}}
+        @required={{true}}
+        @editCitation={{route-action 'editCitation'}}
+      />
 
-        {{#layout/md-card title="Description" collapsible=true collapsed=false
-          profilePath="record.main.description"
-          required=true
-        }}
-          {{input/md-markdown-area
-            value=resource.abstract
-            profilePath="record.main.description.abstract"
-            label="Abstract"
-            placeholder="Enter an Abstract describing the resource."
-            required=true
-            change=(action (mut resource.abstract))
-          }}
+      <Layout::MdCard
+        @title='Description'
+        @collapsible={{true}}
+        @collapsed={{false}}
+        @profilePath='record.main.description'
+        @required={{true}}
+      >
+        {{! template-lint-disable no-action }}
+        <Input::MdMarkdownArea
+          @value={{resource.abstract}}
+          @profilePath='record.main.description.abstract'
+          @label='Abstract'
+          @placeholder='Enter an Abstract describing the resource.'
+          @required={{true}}
+          @change={{action (mut resource.abstract)}}
+        />
 
-          {{input/md-markdown-area
-            value=resource.shortAbstract
-            profilePath="record.main.description.shortAbstract"
-            label="Short Abstract"
-            placeholder="A short description of the resource. Max of 300 characters."
-            change=(action (mut resource.shortAbstract))
-            maxlength=300
-          }}
+        <Input::MdMarkdownArea
+          @value={{resource.shortAbstract}}
+          @profilePath='record.main.description.shortAbstract'
+          @label='Short Abstract'
+          @placeholder='A short description of the resource. Max of 300 characters.'
+          @change={{action (mut resource.shortAbstract)}}
+          @maxlength={{300}}
+        />
 
-          {{input/md-textarea
-            value=resource.purpose
-            profilePath="record.main.purpose"
-            label="Purpose"
-            placeholder="Enter text describing the reason for creating the resource."
-          }}
+        <Input::MdTextarea
+          @value={{resource.purpose}}
+          @profilePath='record.main.purpose'
+          @label='Purpose'
+          @placeholder='Enter text describing the reason for creating the resource.'
+        />
 
-          {{input/md-textarea
-            value=resource.supplementalInfo
-            profilePath="record.main.supplementalInfo"
-            label="Supplemental Information"
-            placeholder="Enter text describing other descriptive information about the resource."
-          }}
+        <Input::MdTextarea
+          @value={{resource.supplementalInfo}}
+          @profilePath='record.main.supplementalInfo'
+          @label='Supplemental Information'
+          @placeholder='Enter text describing other descriptive information about the resource.'
+        />
 
-          {{input/md-textarea
-            value=resource.environmentDescription
-            profilePath="record.main.environmentDescription"
-            label="Environment Description"
-            placeholder="Description of the processing environment, for example the software, hardware, or the computer operating system."
-          }}
-        {{/layout/md-card}}
+        <Input::MdTextarea
+          @value={{resource.environmentDescription}}
+          @profilePath='record.main.environmentDescription'
+          @label='Environment Description'
+          @placeholder='Description of the processing environment, for example the software, hardware, or the computer operating system.'
+        />
+      </Layout::MdCard>
 
-        {{#if resource.timePeriod}}
-        {{object/md-time-period model=resource.timePeriod
-          profilePath="record.main.timePeriod" data-spy="Time Period"
-          label="Time Period"
-        }}
-        {{/if}}
+      {{#if resource.timePeriod}}
+        <Object::MdTimePeriod
+          @model={{resource.timePeriod}}
+          @profilePath='record.main.timePeriod'
+          @data-spy='Time Period'
+          @label='Time Period'
+        />
+      {{/if}}
 
-        {{#object/md-object-table
-          items=resource.resourceMaintenance
-          header="Maintenance"
-          data-spy="Maintenance"
-          profilePath="record.main.maintenance"
-          buttonText="Add Maintenance"
-          ellipsis=true
-          attributes="frequency"
-          collapsible=true
-          as |editing|
-        }}
-          {{object/md-maintenance model=editing
-            profilePath="record.main.maintenance"
-          }}
-        {{/object/md-object-table}}
+      <Object::MdObjectTable
+        @items={{resource.resourceMaintenance}}
+        @header='Maintenance'
+        @data-spy='Maintenance'
+        @profilePath='record.main.maintenance'
+        @buttonText='Add Maintenance'
+        @ellipsis={{true}}
+        @attributes='frequency'
+        @collapsible={{true}} as |editing|
+      >
+        <Object::MdMaintenance
+          @model={{editing}}
+          @profilePath='record.main.maintenance'
+        />
+      </Object::MdObjectTable>
 
-        {{#if (is-array resource.graphicOverview)}}
-        {{object/md-graphic-array
-          model=resource.graphicOverview data-spy="Graphic Overview"
-          button-text="Add Graphic"
-          label="Graphic Overview"
-          profilePath="record.main.graphicOverview"
-        }}
-        {{/if}}
+      {{#if (is-array resource.graphicOverview)}}
+        <Object::MdGraphicArray
+          @model={{resource.graphicOverview}}
+          @data-spy='Graphic Overview'
+          @button-text='Add Graphic'
+          @label='Graphic Overview'
+          @profilePath='record.main.graphicOverview'
+        />
+      {{/if}}
 
-        {{#if (is-array resource.credit)}}
-        {{#object/md-simple-array-table
-          data-spy="Credit"
-          title="Credit"
-          profilePath="record.main.credit"
-          value=resource.credit as |credit| }}
-            <td>
-                {{input/md-input value=credit.item.value placeholder="Additional credits for the resource."}}
-            </td>
-        {{/object/md-simple-array-table}}
-        {{/if}}
+      {{#if (is-array resource.credit)}}
+        <Object::MdSimpleArrayTable
+          @data-spy='Credit'
+          @title='Credit'
+          @profilePath='record.main.credit'
+          @value={{resource.credit}} as |credit|
+        >
+          <td>
+            <Input::MdInput
+              @value={{credit.item.value}}
+              @placeholder='Additional credits for the resource.'
+            />
+          </td>
+        </Object::MdSimpleArrayTable>
+      {{/if}}
     </form>
-</div>
+  </div>
 {{/with}}
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=model.profile)}}
+<ToElsewhere
+  @named='md-scroll-spy-record-edit'
+  @send={{
+    component
+    'control/md-scroll-spy'
+    scrollInit=this.scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+    refresh=this.model.profile
+  }}
+/>

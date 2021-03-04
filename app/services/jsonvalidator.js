@@ -1,13 +1,14 @@
-import Service from "@ember/service";
-import Ajv from "ajv";
-import * as draft4 from "ajv/lib/refs/json-schema-draft-04";
+import classic from 'ember-classic-decorator';
+import Service from '@ember/service';
+import Ajv from 'ajv';
+import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 
 let validator = new Ajv({
   verbose: true,
   allErrors: true,
   removeAdditional: false,
   meta: false,
-  schemaId: "id",
+  schemaId: 'id',
 });
 
 //support draft-04
@@ -15,91 +16,91 @@ validator.addMetaSchema(draft4);
 //add JSON API schema
 validator.addSchema(
   {
-    $schema: "http://json-schema.org/draft-04/schema#",
-    title: "JSON API Schema",
+    $schema: 'http://json-schema.org/draft-04/schema#',
+    title: 'JSON API Schema',
     description:
-      "This is a schema for responses in the JSON API format. For more, see http://jsonapi.org",
+      'This is a schema for responses in the JSON API format. For more, see http://jsonapi.org',
     oneOf: [
       {
-        $ref: "#/definitions/success",
+        $ref: '#/definitions/success',
       },
       {
-        $ref: "#/definitions/failure",
+        $ref: '#/definitions/failure',
       },
       {
-        $ref: "#/definitions/info",
+        $ref: '#/definitions/info',
       },
     ],
 
     definitions: {
       success: {
-        type: "object",
-        required: ["data"],
+        type: 'object',
+        required: ['data'],
         properties: {
           data: {
-            $ref: "#/definitions/data",
+            $ref: '#/definitions/data',
           },
           included: {
             description:
               'To reduce the number of HTTP requests, servers **MAY** allow responses that include related resources along with the requested primary resources. Such responses are called "compound documents".',
-            type: "array",
+            type: 'array',
             items: {
-              $ref: "#/definitions/resource",
+              $ref: '#/definitions/resource',
             },
             uniqueItems: true,
           },
           meta: {
-            $ref: "#/definitions/meta",
+            $ref: '#/definitions/meta',
           },
           links: {
-            description: "Link members related to the primary data.",
+            description: 'Link members related to the primary data.',
             allOf: [
               {
-                $ref: "#/definitions/links",
+                $ref: '#/definitions/links',
               },
               {
-                $ref: "#/definitions/pagination",
+                $ref: '#/definitions/pagination',
               },
             ],
           },
           jsonapi: {
-            $ref: "#/definitions/jsonapi",
+            $ref: '#/definitions/jsonapi',
           },
         },
         additionalProperties: false,
       },
       failure: {
-        type: "object",
-        required: ["errors"],
+        type: 'object',
+        required: ['errors'],
         properties: {
           errors: {
-            type: "array",
+            type: 'array',
             items: {
-              $ref: "#/definitions/error",
+              $ref: '#/definitions/error',
             },
             uniqueItems: true,
           },
           meta: {
-            $ref: "#/definitions/meta",
+            $ref: '#/definitions/meta',
           },
           jsonapi: {
-            $ref: "#/definitions/jsonapi",
+            $ref: '#/definitions/jsonapi',
           },
         },
         additionalProperties: false,
       },
       info: {
-        type: "object",
-        required: ["meta"],
+        type: 'object',
+        required: ['meta'],
         properties: {
           meta: {
-            $ref: "#/definitions/meta",
+            $ref: '#/definitions/meta',
           },
           links: {
-            $ref: "#/definitions/links",
+            $ref: '#/definitions/links',
           },
           jsonapi: {
-            $ref: "#/definitions/jsonapi",
+            $ref: '#/definitions/jsonapi',
           },
         },
         additionalProperties: false,
@@ -107,8 +108,8 @@ validator.addSchema(
 
       meta: {
         description:
-          "Non-standard meta-information that can not be represented as an attribute or relationship.",
-        type: "object",
+          'Non-standard meta-information that can not be represented as an attribute or relationship.',
+        type: 'object',
         additionalProperties: true,
       },
       data: {
@@ -116,47 +117,47 @@ validator.addSchema(
           'The document\'s "primary data" is a representation of the resource or collection of resources targeted by a request.',
         oneOf: [
           {
-            $ref: "#/definitions/resource",
+            $ref: '#/definitions/resource',
           },
           {
             description:
-              "An array of resource objects, an array of resource identifier objects, or an empty array ([]), for requests that target resource collections.",
-            type: "array",
+              'An array of resource objects, an array of resource identifier objects, or an empty array ([]), for requests that target resource collections.',
+            type: 'array',
             items: {
-              $ref: "#/definitions/resource",
+              $ref: '#/definitions/resource',
             },
             uniqueItems: true,
           },
           {
             description:
               "null if the request is one that might correspond to a single resource, but doesn't currently.",
-            type: "null",
+            type: 'null',
           },
         ],
       },
       resource: {
         description:
           '"Resource objects" appear in a JSON API document to represent resources.',
-        type: "object",
-        required: ["type", "id"],
+        type: 'object',
+        required: ['type', 'id'],
         properties: {
           type: {
-            type: "string",
+            type: 'string',
           },
           id: {
-            type: "string",
+            type: 'string',
           },
           attributes: {
-            $ref: "#/definitions/attributes",
+            $ref: '#/definitions/attributes',
           },
           relationships: {
-            $ref: "#/definitions/relationships",
+            $ref: '#/definitions/relationships',
           },
           links: {
-            $ref: "#/definitions/links",
+            $ref: '#/definitions/links',
           },
           meta: {
-            $ref: "#/definitions/meta",
+            $ref: '#/definitions/meta',
           },
         },
         additionalProperties: false,
@@ -165,16 +166,16 @@ validator.addSchema(
       links: {
         description:
           'A resource object **MAY** contain references to other resource objects ("relationships"). Relationships may be to-one or to-many. Relationships can be specified by including a member in a resource\'s links object.',
-        type: "object",
+        type: 'object',
         properties: {
           self: {
             description:
               'A `self` member, whose value is a URL for the relationship itself (a "relationship URL"). This URL allows the client to directly manipulate the relationship. For example, it would allow a client to remove an `author` from an `article` without deleting the people resource itself.',
-            type: "string",
-            format: "uri",
+            type: 'string',
+            format: 'uri',
           },
           related: {
-            $ref: "#/definitions/link",
+            $ref: '#/definitions/link',
           },
         },
         additionalProperties: true,
@@ -185,20 +186,20 @@ validator.addSchema(
         oneOf: [
           {
             description: "A string containing the link's URL.",
-            type: "string",
-            format: "uri",
+            type: 'string',
+            format: 'uri',
           },
           {
-            type: "object",
-            required: ["href"],
+            type: 'object',
+            required: ['href'],
             properties: {
               href: {
                 description: "A string containing the link's URL.",
-                type: "string",
-                format: "uri",
+                type: 'string',
+                format: 'uri',
               },
               meta: {
-                $ref: "#/definitions/meta",
+                $ref: '#/definitions/meta',
               },
             },
           },
@@ -208,10 +209,10 @@ validator.addSchema(
       attributes: {
         description:
           'Members of the attributes object ("attributes") represent information about the resource object in which it\'s defined.',
-        type: "object",
+        type: 'object',
         patternProperties: {
-          "^(?!relationships$|links$)\\w[-\\w_]*$": {
-            description: "Attributes may contain any valid JSON value.",
+          '^(?!relationships$|links$)\\w[-\\w_]*$': {
+            description: 'Attributes may contain any valid JSON value.',
           },
         },
         additionalProperties: false,
@@ -220,27 +221,27 @@ validator.addSchema(
       relationships: {
         description:
           'Members of the relationships object ("relationships") represent references from the resource object in which it\'s defined to other resource objects.',
-        type: "object",
+        type: 'object',
         patternProperties: {
-          "^\\w[-\\w_]*$": {
+          '^\\w[-\\w_]*$': {
             properties: {
               links: {
-                $ref: "#/definitions/links",
+                $ref: '#/definitions/links',
               },
               data: {
                 description:
                   'Member, whose value represents "resource linkage".',
                 oneOf: [
                   {
-                    $ref: "#/definitions/relationshipToOne",
+                    $ref: '#/definitions/relationshipToOne',
                   },
                   {
-                    $ref: "#/definitions/relationshipToMany",
+                    $ref: '#/definitions/relationshipToMany',
                   },
                 ],
               },
               meta: {
-                $ref: "#/definitions/meta",
+                $ref: '#/definitions/meta',
               },
             },
             additionalProperties: false,
@@ -253,91 +254,91 @@ validator.addSchema(
           'References to other resource objects in a to-one ("relationship"). Relationships can be specified by including a member in a resource\'s links object.',
         anyOf: [
           {
-            $ref: "#/definitions/empty",
+            $ref: '#/definitions/empty',
           },
           {
-            $ref: "#/definitions/linkage",
+            $ref: '#/definitions/linkage',
           },
         ],
       },
       relationshipToMany: {
         description:
           'An array of objects each containing "type" and "id" members for to-many relationships.',
-        type: "array",
+        type: 'array',
         items: {
-          $ref: "#/definitions/linkage",
+          $ref: '#/definitions/linkage',
         },
         uniqueItems: true,
       },
       empty: {
-        description: "Describes an empty to-one relationship.",
-        type: "null",
+        description: 'Describes an empty to-one relationship.',
+        type: 'null',
       },
       linkage: {
         description: 'The "type" and "id" to non-empty members.',
-        type: "object",
-        required: ["type", "id"],
+        type: 'object',
+        required: ['type', 'id'],
         properties: {
           type: {
-            type: "string",
+            type: 'string',
           },
           id: {
-            type: "string",
+            type: 'string',
           },
           meta: {
-            $ref: "#/definitions/meta",
+            $ref: '#/definitions/meta',
           },
         },
         additionalProperties: false,
       },
       pagination: {
-        type: "object",
+        type: 'object',
         properties: {
           first: {
-            description: "The first page of data",
+            description: 'The first page of data',
             oneOf: [
               {
-                type: "string",
-                format: "uri",
+                type: 'string',
+                format: 'uri',
               },
               {
-                type: "null",
+                type: 'null',
               },
             ],
           },
           last: {
-            description: "The last page of data",
+            description: 'The last page of data',
             oneOf: [
               {
-                type: "string",
-                format: "uri",
+                type: 'string',
+                format: 'uri',
               },
               {
-                type: "null",
+                type: 'null',
               },
             ],
           },
           prev: {
-            description: "The previous page of data",
+            description: 'The previous page of data',
             oneOf: [
               {
-                type: "string",
-                format: "uri",
+                type: 'string',
+                format: 'uri',
               },
               {
-                type: "null",
+                type: 'null',
               },
             ],
           },
           next: {
-            description: "The next page of data",
+            description: 'The next page of data',
             oneOf: [
               {
-                type: "string",
-                format: "uri",
+                type: 'string',
+                format: 'uri',
               },
               {
-                type: "null",
+                type: 'null',
               },
             ],
           },
@@ -346,75 +347,76 @@ validator.addSchema(
 
       jsonapi: {
         description: "An object describing the server's implementation",
-        type: "object",
+        type: 'object',
         properties: {
           version: {
-            type: "string",
+            type: 'string',
           },
           meta: {
-            $ref: "#/definitions/meta",
+            $ref: '#/definitions/meta',
           },
         },
         additionalProperties: false,
       },
 
       error: {
-        type: "object",
+        type: 'object',
         properties: {
           id: {
             description:
-              "A unique identifier for this particular occurrence of the problem.",
-            type: "string",
+              'A unique identifier for this particular occurrence of the problem.',
+            type: 'string',
           },
           links: {
-            $ref: "#/definitions/links",
+            $ref: '#/definitions/links',
           },
           status: {
             description:
-              "The HTTP status code applicable to this problem, expressed as a string value.",
-            type: "string",
+              'The HTTP status code applicable to this problem, expressed as a string value.',
+            type: 'string',
           },
           code: {
             description:
-              "An application-specific error code, expressed as a string value.",
-            type: "string",
+              'An application-specific error code, expressed as a string value.',
+            type: 'string',
           },
           title: {
             description:
-              "A short, human-readable summary of the problem. It **SHOULD NOT** change from occurrence to occurrence of the problem, except for purposes of localization.",
-            type: "string",
+              'A short, human-readable summary of the problem. It **SHOULD NOT** change from occurrence to occurrence of the problem, except for purposes of localization.',
+            type: 'string',
           },
           detail: {
             description:
-              "A human-readable explanation specific to this occurrence of the problem.",
-            type: "string",
+              'A human-readable explanation specific to this occurrence of the problem.',
+            type: 'string',
           },
           source: {
-            type: "object",
+            type: 'object',
             properties: {
               pointer: {
                 description:
                   'A JSON Pointer [RFC6901] to the associated entity in the request document [e.g. "/data" for a primary data object, or "/data/attributes/title" for a specific attribute].',
-                type: "string",
+                type: 'string',
               },
               parameter: {
                 description:
-                  "A string indicating which query parameter caused the error.",
-                type: "string",
+                  'A string indicating which query parameter caused the error.',
+                type: 'string',
               },
             },
           },
           meta: {
-            $ref: "#/definitions/meta",
+            $ref: '#/definitions/meta',
           },
         },
         additionalProperties: false,
       },
     },
   },
-  "jsonapi"
+  'jsonapi'
 );
 
-export default Service.extend({
-  validator: validator,
-});
+@classic
+export default class JsonvalidatorService extends Service {
+  validator = validator;
+}

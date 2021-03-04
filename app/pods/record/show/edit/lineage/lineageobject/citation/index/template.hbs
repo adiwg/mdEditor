@@ -1,19 +1,33 @@
-<h4 class="section-header">Editing Citation
-  {{control/md-status model=(compute (route-action "parentModel"))}}
+<h4 class='section-header'>
+  Editing Citation
+  <Control::MdStatus @model={{compute (route-action 'parentModel')}} />
 </h4>
-{{#with model as |citation|}}
-    <div class="">
-      {{object/md-citation
-        model=citation
-        profilePath="record.lineage.citation"
-        editIdentifier=(route-action "editIdentifier")
-      }}
-      {{outlet}}
-    </div>
+{{#with this.model as |citation|}}
+  <div class=''>
+    <Object::MdCitation
+      @model={{citation}}
+      @profilePath='record.lineage.citation'
+      @editIdentifier={{route-action 'editIdentifier'}}
+    />
+    {{outlet}}
+  </div>
 {{/with}}
-{{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link" text="Back to Lineage Object" icon="arrow-left" click=(route-action "goBack"))
-}}
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{
+    component
+    'control/subbar-link'
+    text='Back to Lineage Object'
+    icon='arrow-left'
+    click=(route-action 'goBack')
+  }}
+/>
+<ToElsewhere
+  @named='md-scroll-spy-record-edit'
+  @send={{
+    component
+    'control/md-scroll-spy'
+    scrollInit=this.scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  }}
+/>

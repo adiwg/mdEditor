@@ -1,14 +1,15 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 
-export default Route.extend({
-setupController(controller, model) {
-  this._super(controller, model);
+@classic
+export default class TranslateRoute extends Route {
+  setupController(controller, model) {
+    super.setupController(controller, model);
 
-  controller.setProperties({
-    writer: controller.writer || null,
-    forceValid: controller.forceValid || false,
-    showAllTags: controller.showAllTags || false
-  });
-},
-
-});
+    controller.setProperties({
+      writer: controller.writer || null,
+      forceValid: controller.forceValid || false,
+      showAllTags: controller.showAllTags || false,
+    });
+  }
+}

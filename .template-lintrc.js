@@ -1,7 +1,14 @@
 'use strict';
 
 module.exports = {
-  extends: 'octane',
+  plugins: ['ember', 'prettier'],
+
+  extends: [
+    'eslint:recommended',
+    'plugin:ember/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:prettier/recommended',
+  ],
 
   rules: {
     //'no-bare-strings': true

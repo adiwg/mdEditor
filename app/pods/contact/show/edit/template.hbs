@@ -1,106 +1,136 @@
-<div class="row">
-    <div class="col-sm-9 col-md-offset-1">
-        <h3>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
-          <span class="text-danger">
-            {{!-- {{#if model.hasDirtyHash}}
+<div class='row'>
+  <div class='col-sm-9 col-md-offset-1'>
+    <h3>
+      Editing Contact: {{this.model.json.name}}
+      <small>
+        {{this.model.json.contactId}}
+      </small>
+      <span class='text-danger'>
+        {{!-- {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
               {{ember-tooltip text="This record has been modified!" side="right"
                 tooltipClass="ember-tooltip md-tooltip danger"
               }}
             {{/if}} --}}
-            {{control/md-status model=model}}
-          </span>
-        </h3>
-        <form>
-            {{input/md-input-confirm
-              valuePath="json.contactId"
-              model=model
-              data-spy="Contact ID"
-              confirmTip="Note! Editing the Contact ID may break links. Be aware."
-              placeholder="User assigned Contact ID" label="Contact ID"}}
+        <Control::MdStatus @model={{this.model}} />
+      </span>
+    </h3>
+    <form>
+      <Input::MdInputConfirm
+        @valuePath='json.contactId'
+        @model={{this.model}}
+        @data-spy='Contact ID'
+        @confirmTip='Note! Editing the Contact ID may break links. Be aware.'
+        @placeholder='User assigned Contact ID'
+        @label='Contact ID'
+      />
 
-            {{input/md-input
-              valuePath="json.name"
-              model=model
-              placeholder=(concat model.type " Name")
-              label=(concat model.type " Name")}}
+      <Input::MdInput
+        @valuePath='json.name'
+        @model={{this.model}}
+        @placeholder={{concat this.model.type ' Name'}}
+        @label={{concat this.model.type ' Name'}}
+      />
 
-            {{#unless model.json.isOrganization}}
-                {{input/md-input
-                  valuePath="json.positionName"
-                  model=model
-                  placeholder="Position Name" label="Position Name"}}
-            {{/unless}}
+      {{#unless this.model.json.isOrganization}}
+        <Input::MdInput
+          @valuePath='json.positionName'
+          @model={{this.model}}
+          @placeholder='Position Name'
+          @label='Position Name'
+        />
+      {{/unless}}
 
-            {{input/md-codelist
-              value=model.json.contactType label="Contact Type"
-              create=false tooltip=true icon=false mdCodeName="entityType"
-              placeholder="Select a contact type"
-            }}
+      <Input::MdCodelist
+        @value={{this.model.json.contactType}}
+        @label='Contact Type'
+        @create={{false}}
+        @tooltip={{true}}
+        @icon={{false}}
+        @mdCodeName='entityType'
+        @placeholder='Select a contact type'
+      />
 
-            {{input/md-select-contacts
-                label="Member Of Organization"
-                placeholder="Pick organization(s) this contact belongs to"
-                value=model.json.memberOfOrganization
-                contactType="organizations"
-                icon=true
-                tooltip=false
-                defaultIcon="organizations"
-                filterId=model.json.contactId
-              }}
+      <Input::MdSelectContacts
+        @label='Member Of Organization'
+        @placeholder='Pick organization(s) this contact belongs to'
+        @value={{this.model.json.memberOfOrganization}}
+        @contactType='organizations'
+        @icon={{true}}
+        @tooltip={{false}}
+        @defaultIcon='organizations'
+        @filterId={{this.model.json.contactId}}
+      />
 
+      <Object::MdPhoneArray
+        @value={{this.model.json.phone}}
+        @data-spy='Phone'
+      />
 
-            {{object/md-phone-array value=model.json.phone data-spy="Phone"}}
+      <Object::MdSimpleArrayTable
+        @data-spy='E-mail'
+        @title='E-mail Address'
+        @required={{false}}
+        @value={{this.model.json.electronicMailAddress}} as |email|
+      >
+        <td>
+          <Input::MdInput
+            @value={{email.item.value}}
+            @placeholder='Enter valid e-mail address'
+          />
+        </td>
+      </Object::MdSimpleArrayTable>
 
-           {{#object/md-simple-array-table data-spy="E-mail"
-              title="E-mail Address"
-              required=false
-              value=model.json.electronicMailAddress as |email|
-            }}
-              <td>
-                  {{input/md-input value=email.item.value
-                  placeholder="Enter valid e-mail address"}}
-              </td>
-            {{/object/md-simple-array-table}}
+      <Object::MdAddress
+        @model={{this.model.json.address}}
+        @data-spy='Address'
+      />
 
-            {{object/md-address model=model.json.address  data-spy="Address"}}
+      <Object::MdOnlineResourceArray
+        @model={{this.model.json.onlineResource}}
+        @profilePath='contact'
+        @data-spy='Online Resource'
+      />
 
-            {{object/md-online-resource-array model=model.json.onlineResource
-              profilePath="contact"
-              data-spy="Online Resource"}}
+      <Object::MdGraphicArray
+        @model={{this.model.json.logoGraphic}}
+        @data-spy='Logo'
+        @button-text='Add Logo'
+        @label='Logo'
+        @profilePath='contact'
+      />
 
-            {{object/md-graphic-array
-              model=model.json.logoGraphic data-spy="Logo"
-              button-text="Add Logo"
-              label="Logo"
-              profilePath="contact"
-            }}
+      <Object::MdSimpleArrayTable
+        @data-spy='Availability'
+        @title='Available Time'
+        @value={{this.model.json.hoursOfService}} as |hour|
+      >
+        <td>
+          <Input::MdInput
+            @value={{hour.item.value}}
+            @placeholder='Describe time when contact is avaiable'
+          />
+        </td>
+      </Object::MdSimpleArrayTable>
 
-            {{#object/md-simple-array-table data-spy="Availability"
-              title="Available Time"
-              value=model.json.hoursOfService as |hour|
-            }}
-              <td>
-                  {{input/md-input value=hour.item.value
-                  placeholder="Describe time when contact is avaiable"}}
-              </td>
-            {{/object/md-simple-array-table}}
-
-            {{input/md-textarea value=model.json.contactInstruction data-spy="Instructions"
-            placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
-        </form>
-    </div>
-      <div class="md-control-sidebar col-sm-2 no-nav">
-          {{control/md-crud-buttons
-              model=model
-              doSave=(route-action "saveContact")
-              doCancel=(route-action "cancelContact")
-              doDelete=(route-action "destroyContact")
-              doCopy=(route-action "copyContact")
-          }}
-          {{control/md-scroll-spy}}
-
-      </div>
+      <Input::MdTextarea
+        @value={{this.model.json.contactInstruction}}
+        @data-spy='Instructions'
+        @placeholder='Supplemental Contact Instructions'
+        @label='Contact Instructions'
+      />
+    </form>
+  </div>
+  <div class='md-control-sidebar col-sm-2 no-nav'>
+    <Control::MdCrudButtons
+      @model={{this.model}}
+      @doSave={{route-action 'saveContact'}}
+      @doCancel={{route-action 'cancelContact'}}
+      @doDelete={{route-action 'destroyContact'}}
+      @doCopy={{route-action 'copyContact'}}
+    />
+    <Control::MdScrollSpy />
+  </div>
 </div>
 
 {{!-- {{#control/md-modal

@@ -1,15 +1,24 @@
-<div class="row md-section-secondary">
-  <div class="col-sm-9 col-md-offset-1">
+<div class='row md-section-secondary'>
+  <div class='col-sm-9 col-md-offset-1'>
     {{outlet}}
   </div>
-  <div class="md-control-sidebar col-sm-3 col-md-2 hidden-print">
-    <div class="btn-group-vertical center-block" role="group" aria-label="Action Button Controls">
-      {{multiple-from-elsewhere name="md-subbar-settings"}}
+  <div class='md-control-sidebar col-sm-3 col-md-2 hidden-print'>
+    <div
+      class='btn-group-vertical center-block'
+      role='group'
+      aria-label='Action Button Controls'
+    >
+      <MultipleFromElsewhere @name='md-subbar-settings' />
     </div>
-    {{#from-elsewhere name="md-scroll-spy-settings" as |spy|}}
-        {{component spy offset=145}}
-    {{/from-elsewhere}}
+    <FromElsewhere @name='md-scroll-spy-settings' as |spy|>
+      {{component spy offset=145}}
+    </FromElsewhere>
   </div>
 </div>
 
-{{to-elsewhere named="nav-secondary" send=(component "layout/md-nav-secondary" navLinks=links isStaticLinks=true)}}
+<ToElsewhere
+  @named='nav-secondary'
+  @send={{
+    component 'layout/md-nav-secondary' navLinks=this.links isStaticLinks=true
+  }}
+/>

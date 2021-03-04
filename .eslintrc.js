@@ -24,6 +24,7 @@ module.exports = {
   rules: {
     'no-console': 1,
     'ember/no-jquery': 'off',
+    'ember/no-mixins': 'off',
     'ember/classic-decorator-hooks': 'error',
     'ember/classic-decorator-no-classic-methods': 'error',
     'ember/no-incorrect-calls-with-inline-anonymous-functions': 'off',

@@ -1,15 +1,15 @@
-<h4 class="section-header">
+<h4 class='section-header'>
   Editing Constraints
-  {{control/md-status model=model}}
+  <Control::MdStatus @model={{this.model}} />
 </h4>
-{{#object/md-object-table
-  items=model.json.metadata.resourceInfo.constraint
-  collasped=false
-  header="Constraints"
-  buttonText="Add Constraint"
-  previewTemplate=previewTemplate
-  addSubbar="md-subbar-extra"
-  attributes="type" as |editing|
-}}
-  {{object/md-constraint model=editing profilePath="record.constraints"}}
-{{/object/md-object-table}}
+<Object::MdObjectTable
+  @items={{this.model.json.metadata.resourceInfo.constraint}}
+  @collasped={{false}}
+  @header='Constraints'
+  @buttonText='Add Constraint'
+  @previewTemplate={{this.previewTemplate}}
+  @addSubbar='md-subbar-extra'
+  @attributes='type' as |editing|
+>
+  <Object::MdConstraint @model={{editing}} @profilePath='record.constraints' />
+</Object::MdObjectTable>

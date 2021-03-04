@@ -1,9 +1,9 @@
+import classic from 'ember-classic-decorator';
+import { union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import Ember from 'ember';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
-// import { computed } from '@ember/object';
-import { union } from '@ember/object/computed';
 import {
   // isAjaxError,
   isNotFoundError,
@@ -25,18 +25,24 @@ const coreProfiles = mdprofiles.asArray();
  * @submodule service
  * @class profile
  */
-export default Service.extend({
+@classic
+export default class ProfileService extends Service {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.profileRecords = this.store.peekAll('profile');
     //this.customProfiles = this.get('store').peekAll('custom-profile');
     this.coreProfiles = coreProfiles;
-  },
+  }
 
-  profiles: union('profileRecords', 'coreProfiles'),
-  flashMessages: service(),
-  store: service(),
+  @union('profileRecords', 'coreProfiles')
+  profiles;
+
+  @service
+  flashMessages;
+
+  @service
+  store;
 
   /**
    * Task that fetches the definition. Returns a Promise the yields the response.
@@ -46,7 +52,7 @@ export default Service.extend({
    * @async
    * @return {Promise} The request response
    */
-  fetchDefinition: task(function* (uri) {
+  @(task(function* (uri) {
     try {
       yield timeout(1000);
 
@@ -68,7 +74,8 @@ export default Service.extend({
         );
       }
     }
-  }).drop(),
+  }).drop())
+  fetchDefinition;
 
   /**
    * Task that checks the for updates at each `record.uri`.
@@ -78,7 +85,7 @@ export default Service.extend({
    * @async
    * @return {Promise} The request response
    */
-  checkForUpdates: task(function* (records) {
+  @(task(function* (records) {
     yield timeout(1000);
 
     yield all(
@@ -114,5 +121,6 @@ export default Service.extend({
           });
       })
     );
-  }).drop(),
-});
+  }).drop())
+  checkForUpdates;
+}
