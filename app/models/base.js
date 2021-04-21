@@ -1,11 +1,13 @@
-import Model from '@ember-data/model';
+import DS from 'ember-data';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';
 import { bool, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
+import { reject} from 'rsvp';
+import mdObjectSize from 'mdeditor/utils/md-object-size';
 
-const Base = Model.extend({
+const Base = DS.Model.extend({
   /**
    * Base model
    *
@@ -33,6 +35,8 @@ const Base = Model.extend({
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
+  flashMessages: service(),
+  localStorageMonitor: service(),
 
   /**
    * The hash for the clean record.
@@ -51,28 +55,28 @@ const Base = Model.extend({
   observeReload: observer('isReloading', function () {
     let reloading = this.isReloading;
 
-    if (!reloading) {
+    if(!reloading) {
       this.wasUpdated(this);
     }
   }),
 
-  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash', function () {
-    if (this.isNew || this.isEmpty) {
-      return;
-    }
+  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
+    function () {
+      if(this.isNew || this.isEmpty) {
+        return;
+      }
 
-    if (
-      this.get('settings.data.autoSave') &&
-      (this.hasDirtyHash || this.hasDirtyAttributes)
-    ) {
-      once(this, function () {
-        this.save();
-      });
-    }
-  }),
+      if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
+          this.hasDirtyAttributes)) {
+        once(this, function () {
+          this.save();
+        });
+      }
+    }),
 
   applyPatch() {
     once(this, function () {
+
       let patch = this.patch;
 
       patch.applyModelPatch(this);
@@ -80,14 +84,13 @@ const Base = Model.extend({
   },
 
   isReady() {
-    let newHash = this.hashObject(
-      JSON.parse(this.serialize().data.attributes.json),
-      true
-    );
+    let newHash = this.hashObject(JSON.parse(this.serialize()
+      .data.attributes
+      .json), true);
 
     // if the currentHash is undefined, the record is either new or hasn't had the
     // hash calculated yet
-    if (this.currentHash === undefined) {
+    if(this.currentHash === undefined) {
       this.set('currentHash', newHash);
     }
   },
@@ -96,7 +99,8 @@ const Base = Model.extend({
     this._super(...arguments);
 
     //let record = model.record || this;
-    let json = JSON.parse(this.serialize().data.attributes.json);
+    let json = JSON.parse(this.serialize()
+      .data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -105,7 +109,8 @@ const Base = Model.extend({
   wasLoaded() {
     this._super(...arguments);
 
-    let json = JSON.parse(this.serialize().data.attributes.json);
+    let json = JSON.parse(this.serialize()
+      .data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -141,7 +146,7 @@ const Base = Model.extend({
   hashObject(target, parsed) {
     let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
 
-    return typeof toHash === 'object' ? hash(toHash) : undefined;
+    return typeof toHash === "object" ? hash(toHash) : undefined;
   },
 
   /**
@@ -150,11 +155,10 @@ const Base = Model.extend({
    * @property hasDirtyHash
    * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
-  hasDirtyHash: computed('currentHash', 'hasDirtyAttributes', function () {
-    let newHash = this.hashObject(
-      JSON.parse(this.serialize().data.attributes.json),
-      true
-    );
+  hasDirtyHash: computed('currentHash', function () {
+    let newHash = this.hashObject(JSON.parse(this.serialize()
+      .data.attributes
+      .json), true);
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet
@@ -162,61 +166,49 @@ const Base = Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if (this.currentHash !== newHash || this.hasDirtyAttributes) {
+    if(this.currentHash !== newHash || this.hasDirtyAttributes) {
       return true;
     }
 
     return false;
   }),
 
-  canRevert: computed(
-    'currentHash',
-    'hasDirtyHash',
-    'jsonRevert',
-    'settings.data.autoSave',
-    function () {
-      let dirty = this.hasDirtyHash;
-      let autoSave = this.get('settings.data.autoSave');
+  canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
+    let dirty = this.hasDirtyHash;
+    let autoSave = this.get('settings.data.autoSave');
 
-      //no autoSave so just check if dirty
-      if (!autoSave && dirty) {
+    //no autoSave so just check if dirty
+    if(!autoSave && dirty) {
+      return true;
+    }
+
+    let revert = this.jsonRevert;
+
+    //if we have set revert object with autoSave on
+    if(revert && autoSave) {
+      let hash = this.hashObject(JSON.parse(revert), true) !== this.currentHash;
+
+      //check if changes have been made
+      if(hash) {
         return true;
       }
-
-      let revert = this.jsonRevert;
-
-      //if we have set revert object with autoSave on
-      if (revert && autoSave) {
-        let hash =
-          this.hashObject(JSON.parse(revert), true) !== this.currentHash;
-
-        //check if changes have been made
-        if (hash) {
-          return true;
-        }
-      }
-
-      return false;
     }
-  ),
+
+    return false;
+  }),
 
   cleanJson: alias('_cleanJson'),
 
-  status: computed(
-    'currentHash',
-    'hasDirtyHash',
-    'hasSchemaErrors',
-    function () {
-      let dirty = this.hasDirtyHash;
-      let errors = this.hasSchemaErrors;
+  status: computed('hasDirtyHash', 'hasSchemaErrors', function () {
+    let dirty = this.hasDirtyHash;
+    let errors = this.hasSchemaErrors;
 
-      if (this.currentHash) {
-        return dirty ? 'danger' : errors ? 'warning' : 'success';
-      }
-
-      return 'success';
+    if(this.currentHash) {
+      return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
-  ),
+
+    return 'success';
+  }),
 
   /**
    * Indicates whether errors are present.
@@ -239,31 +231,50 @@ const Base = Model.extend({
    * @category computed
    * @requires
    */
-  customSchemas: computed(
-    'constructor.modelName',
-    'customProfiles.mapById',
-    'profile',
-    'schemas.schemas.@each.isGlobal',
-    function () {
-      return this.schemas.schemas.filter((schema) => {
-        if (schema.schemaType !== this.constructor.modelName) {
-          return false;
-        }
+  customSchemas: computed('schemas.schemas.@each.isGlobal', 'profile', function () {
+    return this.schemas.schemas.filter((schema) => {
+      if(schema.schemaType !== this.constructor.modelName) {
+        return false;
+      }
 
-        if (schema.isGlobal) {
-          return true;
-        }
+      if(schema.isGlobal) {
+        return true;
+      }
 
-        let profile = this.customProfiles.mapById[this.profile];
+      let profile=this.customProfiles.mapById[this.profile];
 
-        if (!profile || !profile.schemas) {
-          return false;
-        }
+      if(!profile || !profile.schemas){
+        return false;
+      }
 
-        return profile.schemas.indexOf(schema) > -1;
-      }, this);
+      return profile.schemas.indexOf(
+        schema) > -1;
+    }, this);
+  }),
+
+  save(options) {
+    let snapshot = this.serialize({includeId: true})
+    let snapshotSize = mdObjectSize(snapshot)
+    let localStorageSize = mdObjectSize(window.localStorage.getItem(snapshot.data.type + "-" + snapshot.data.id))
+    let currLocalStorageSize = mdObjectSize(window.localStorage);
+
+    let diff = localStorageSize ? (snapshotSize - localStorageSize) : snapshotSize;
+
+    if(currLocalStorageSize + diff > 5000) {
+      let errorMessage = 'Warning! You have exceeded your local storage capacity. Your recent activity will not be saved. Please back up records and clear storage cache.'
+
+      this.flashMessages.danger(`${errorMessage}`, {timeout: 20000, preventDuplicates: true, onDestroy(){} })
+
+      let error = new Error(errorMessage);
+
+      return reject(error);
+    } else {
+      this.localStorageMonitor.storageSize();
+      this.localStorageMonitor.storagePercent();
+      return this._super.apply(this, [options]);
     }
-  ),
+
+  }
 });
 
 //Modify the prototype instead of using computed.volatile()
@@ -272,7 +283,7 @@ const Base = Model.extend({
 Object.defineProperty(Base.prototype, '_cleanJson', {
   get() {
     return this.clean.clean(this.json);
-  },
+  }
 });
 
 export default Base;
