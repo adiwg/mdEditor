@@ -1,17 +1,22 @@
 <div class="footer-container">
   <span>
     <a class="btn btn-xs btn-warning"
-    href="https://github.com/adiwg/mdEditor/issues"
-    target="_blank" rel="noopener noreferrer"
-    >
-      {{fa-icon "github"}} Report Issue
-      <EmberTooltip @text="Report bugs, Request features - GitHub account required." @side="top"/>
+    href="https://github.com/adiwg/mdEditor/issues/new"
+    target="_blank" rel="noopener noreferrer">
+      {{fa-icon "github"}}
+      Report Issue
+    {{ember-tooltip text="Report bugs, Request features - GitHub account required." side="top"}}
     </a>
+  </span>
+    <span class={{if isOverThreshold "text-danger" "text-success"}}>
+    {{fa-icon "archive"}}: {{percent}}
+    %
+    {{ember-tooltip text="This is a percent of how much local storage has been used." side="top"}}
   </span>
   <span>
     AutoSave:
-    <span class={{if this.settings.data.autoSave "text-success" "text-warning"}}>
-      {{if this.settings.data.autoSave "On" "Off"}}
+    <span class={{if settings.data.autoSave "text-success" "text-warning"}}>
+      {{if settings.data.autoSave "On" "Off"}}
     </span>
   </span>
   {{yield}}
