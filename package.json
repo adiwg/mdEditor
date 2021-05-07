@@ -149,7 +149,7 @@
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-ember": "^8.9.1",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-prettier": "^3.4.0",
     "font-awesome": "~4.7.0",
     "gcmd-keywords": "^8.6.0",
     "geojson-coords": "0.0.0",
