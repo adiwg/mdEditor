@@ -4,6 +4,7 @@ module.exports = {
   plugins: ['ember', 'prettier'],
 
   extends: [
+    'octane',
     'eslint:recommended',
     'plugin:ember/recommended',
     'plugin:@typescript-eslint/recommended',
