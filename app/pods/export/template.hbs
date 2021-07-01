@@ -50,7 +50,7 @@
         class='btn btn-lg btn-primary md-btn-responsive'
         {{action 'exportData'}}
       >
-        {{fa-icon 'sign-out'}} Export All
+        <FaIcon @icon="sign-out-alt" /> Export All
       </button>
       <button
         type='button'
@@ -58,7 +58,7 @@
         disabled={{if this.hasSelected false true}}
         {{action 'exportSelectedData'}}
       >
-        {{fa-icon 'check-square-o'}} Export Selected
+        <FaIcon @icon="check-square" /> Export Selected
       </button>
       <button
         type='button'
@@ -66,7 +66,7 @@
         disabled={{if this.hasSelectedRecords false true}}
         {{action 'exportSelectedData' true}}
       >
-        {{fa-icon 'check-square-o'}} Export mdJSON
+        <FaIcon @icon="check-square" /> Export mdJSON
       </button>
     </div>
     <hr />

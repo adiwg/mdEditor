@@ -58,7 +58,7 @@ export default Component.extend({
     let btns = [{
       title: 'Edit',
       type: 'success',
-      icon: 'pencil',
+      icon: 'edit',
       // action: this.actions.editRow,
       action: "editRow",
       target: this

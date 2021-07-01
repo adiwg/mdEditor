@@ -3,13 +3,12 @@
     <a class="btn btn-xs btn-warning"
     href="https://github.com/adiwg/mdEditor/issues/new"
     target="_blank" rel="noopener noreferrer">
-      {{fa-icon "github"}}
-      Report Issue
+      <FaIcon @icon="code-branch"/> Report Issue
     {{ember-tooltip text="Report bugs, Request features - GitHub account required." side="top"}}
     </a>
   </span>
     <span class={{if isOverThreshold "text-danger" "text-success"}}>
-    {{fa-icon "archive"}}: {{percent}}
+    <FaIcon @icon="archive" />: {{percent}}
     %
     {{ember-tooltip text="This is a percent of how much local storage has been used." side="top"}}
   </span>

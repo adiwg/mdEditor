@@ -11,7 +11,7 @@ spotlightEnabled=false
       <div class="row">
         <div class="col-sm-6">
           <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editCollection" index}}>
-            {{fa-icon "pencil"}} Edit Collection</button>
+            <FaIcon @icon="edit" /> Edit Collection</button>
         </div>
         <div class="col-sm-6">
           <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteCollection" index}}>

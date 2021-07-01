@@ -76,7 +76,7 @@
                           <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
                             <div class="btn-group{{if verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
                               <button type="button" class="btn btn-{{btnSize}} btn-success" {{action "editItem" items index (if scrollToId (concat scrollToId "-" index) null) }}>
-                                {{fa-icon "pencil"}} {{if editBtnText editBtnText "Edit"}}
+                                <FaIcon @icon="edit" /> {{if editBtnText editBtnText "Edit"}}
                               </button>
                               {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
                                   <span class="fa fa-times"></span> Delete

@@ -54,12 +54,15 @@
 <EmberLoadRemover />
 
 <Control::MdModal @isShowing={{this.settings.data.showSplash}} @showConfirm={{true}} @confirmLabel="OK">
-    <div class="alert alert-info" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
-    <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
-        This application is in beta testing,  <a
-        href="https://github.com/adiwg/mdEditor/issues"
-        target="_blank" rel="noopener noreferrer">please let us know</a> if you find any bugs.
-        Thank-you!
+    <div class="alert alert-info" role="alert">
+      <FaIcon @icon="exclamation-triangle"/>Update Alert
+    </div>
+    <div class="alert alert-warning" role="alert">
+      <FaIcon @icon="wrench"/>
+      This application is in beta testing,  <a
+      href="https://github.com/adiwg/mdEditor/issues"
+      target="_blank" rel="noopener noreferrer">please let us know</a> if you find any bugs.
+      Thank-you!
     </div>
     <p>
         The  md<span class="md-icon-mdeditor"></span>ditor has been updated
