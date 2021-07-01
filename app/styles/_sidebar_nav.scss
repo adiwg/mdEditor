@@ -145,8 +145,14 @@
           color: lighten($brand-primary, 46.5%);
         }
 
-        .svgRotate {
-          transform: rotate(180deg)
+        span::before {
+          font-family: FontAwesome;
+          content: '\f106';
+        }
+
+        &.collapsed span::before {
+          font-family: FontAwesome;
+          content: '\f107';
         }
       }
     }
