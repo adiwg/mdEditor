@@ -1,7 +1,14 @@
-  <ul class="sidebar-nav">
+
+   <ul class="sidebar-nav">
     <li class="sidebar-brand">
-      <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>md<span class="md-icon-mdeditor"></span>ditor</a><span class="md-app-version {{prerelease}}">v{{version}}</span>
-      <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}>{{fa-icon (if showHelp "list" "question-circle")}}</a>
+
+      <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>
+        md<span class="md-icon-mdeditor"></span>ditor</a><span class="md-app-version {{prerelease}}">v{{version}}</span>
+
+      <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}>
+        <FaIcon @icon={{if this.showHelp "list" "question-circle"}} @size="-1x" />
+      </a>
+
     </li>
     {{#liquid-if showHelp use="fade" enableGrowth=false}}
       {{md-help}}
@@ -14,12 +21,15 @@
               <div class="panel-heading clearfix" id="{{meta.listId}}-heading">
                 <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
                   {{#link-to (concat meta.type ".new") class="btn btn-primary btn-xs" }}
-                    {{fa-icon "plus"}} {{/link-to}}
+                    <FaIcon @icon="plus"/>
+                  {{/link-to}}
+
                   {{#link-to meta.list class="btn btn-primary btn-xs" }}
-                    <span class="fa fa-list"></span> {{/link-to}}
+                    <FaIcon @icon="list"/>
+                  {{/link-to}}
                 </div>
                 <h4 class="panel-title bg-primary">
-              <a class="" data-toggle="collapse" aria-expanded="true"
+               <a class="" data-toggle="collapse" aria-expanded="true"
                 href="#{{meta.listId}}" aria-controls={{meta.listId}}>
                 <span class="fa"></span> {{meta.title}} ({{class.length}})
               </a>
@@ -35,7 +45,7 @@
                           disabledWhen=record.isNew
                           draggable="false"
                         }}
-                          {{fa-icon "pencil"}}
+                          <FaIcon @icon="edit" />
                         {{/link-to}}
                       </div>
                       {{!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> --}}
@@ -46,9 +56,10 @@
                         draggable="false"
                       }}
                           {{#if record.defaultLogo}}
-                            <img src={{record.defaultLogo}} alt="logo" class="fa-fw">
+                            <FaIcon @icon={{record.defaultLogo}} class="fa-fw"/>
+                            {{!-- <img src={{record.defaultLogo}} alt="logo" class="fa-fw"> --}}
                           {{else}}
-                            <span class="fa fa-{{record.icon}} fa-fw"></span>
+                            <FaIcon @icon={{record.icon}} class="fa-fw" />
                           {{/if}}
                           {{record.title}}
                       {{/link-to}}
