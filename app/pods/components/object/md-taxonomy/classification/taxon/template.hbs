@@ -35,7 +35,7 @@
     <div class="md-taxon-btn">
       <button class="btn btn-xs btn-success" {{action "toggleEditing" elementId}}>
       {{!-- <button class="btn btn-xs btn-success" {{action (toggle "isEditing" this)}}> --}}
-        {{fa-icon "pencil"}} Edit
+        <FaIcon @icon="edit" /> Edit
       </button>
 
       {{#control/md-button-confirm class="btn btn-xs btn-danger" onConfirm=(action "deleteTaxa" model)}}

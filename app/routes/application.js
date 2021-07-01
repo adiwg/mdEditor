@@ -58,7 +58,7 @@ export default Route.extend({
       type: 'record',
       list: 'records',
       title: 'Metadata Records',
-      icon: 'file-o'
+      icon: 'copy'
     }), EmberObject.create({
       type: 'contact',
       list: 'contacts',

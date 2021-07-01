@@ -39,6 +39,10 @@
     "@ember/jquery": "^1.1.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.2.5",
+    "@fortawesome/ember-fontawesome": "^0.2.3",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
     "@mapbox/togeojson": "^0.16.0",
@@ -116,7 +120,6 @@
     "ember-elsewhere": "^1.2.1",
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.0.4",
-    "ember-font-awesome": "^4.0.0-rc.4",
     "ember-in-viewport": "^3.10.2",
     "ember-leaflet": "~5.0.0-beta.3",
     "ember-leaflet-layer-control": "~0.2.1",
@@ -154,7 +157,6 @@
     "eslint-plugin-ember": "^10.3.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "font-awesome": "~4.7.0",
     "gcmd-keywords": "^8.6.0",
     "geojson-coords": "0.0.0",
     "jquery-jsonview": "^1.2.3",
@@ -187,8 +189,10 @@
     "validator": "^13.6.0",
     "xmldom": "0.6.0",
     "y18n": "5.0.8",
-    "yuidoc-mdeditor-theme": "^1.5.0"
+    "yuidoc-mdeditor-theme": "^1.5.0",
+    "font-awesome": "~4.7.0"
   },
+  "dependencies": {},
   "ember-addon": {
     "paths": [
       "lib/ember-json-tree",

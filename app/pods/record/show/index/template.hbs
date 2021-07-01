@@ -16,7 +16,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'record.show.edit.main'}}
-        @btnIcon='pencil'
+        @btnIcon='edit'
       >
         <div class='row'>
           <dl class='dl-horizontal col-xxl-8'>
@@ -124,7 +124,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'record.show.edit.extent'}}
-        @btnIcon='pencil'
+        @btnIcon='edit'
       >
         <section>
           {{#each resource.extent as |extent index|}}
@@ -206,7 +206,7 @@
           @model={{this.model.id}}
           class='btn btn-lg btn-success'
         >
-          {{fa-icon 'pencil'}} Edit
+          <FaIcon @icon="edit" /> Edit
         </LinkTo>
       </Control::MdCrudButtons>
       <hr />

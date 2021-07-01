@@ -61,7 +61,7 @@ export default class ApplicationRoute extends Route {
         type: "record",
         list: "records",
         title: "Metadata Records",
-        icon: "file-o",
+        icon: "folder-open",
       }),
       EmberObject.create({
         type: "contact",

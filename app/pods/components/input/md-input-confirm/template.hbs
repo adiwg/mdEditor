@@ -17,7 +17,7 @@
           class="btn btn-warning"
           onConfirm=(action "allowEdit")
         }}
-            {{fa-icon "pencil"}} Edit
+            <FaIcon @icon="edit" /> Edit
             {{#if confirmTip}}
               {{#ember-tooltip}}
                 {{confirmTip}}

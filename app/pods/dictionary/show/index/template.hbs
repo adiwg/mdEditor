@@ -17,7 +17,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'dictionary.show.edit'}}
-        @btnIcon='pencil'
+        @btnIcon='edit'
         @data-spy='Main'
       >
         <div class='row'>
@@ -124,7 +124,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'dictionary.show.edit.domain'}}
-        @btnIcon='pencil'
+        @btnIcon='edit'
         @data-spy='Domains'
       >
         {{#if dictionary.domain}}
@@ -194,7 +194,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'dictionary.show.edit.entity'}}
-        @btnIcon='pencil'
+        @btnIcon='edit'
         @data-spy='Entities'
       >
         {{#if dictionary.entity}}
@@ -270,7 +270,7 @@
         @model={{this.model.id}}
         class='btn btn-lg btn-success'
       >
-        {{fa-icon 'pencil'}} Edit
+        <FaIcon @icon="edit" /> Edit
       </LinkTo>
     </Control::MdCrudButtons>
     <hr />

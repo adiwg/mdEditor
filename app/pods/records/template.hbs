@@ -1,5 +1,5 @@
 <h3 class='text-info'>
-  {{fa-icon 'file-text'}} Metadata Records
+  <FaIcon @icon="file-alt" /> Metadata Records
 </h3>
 {{#if this.model.length}}
   <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
@@ -18,7 +18,7 @@
     <h3>
       No Metadata Records found.
       <LinkTo @route='record.new' class='btn btn-success btn-lg'>
-        {{fa-icon 'plus'}} Create a Metadata Record
+        <FaIcon @icon="plus" />  Create a Metadata Record
       </LinkTo>
     </h3>
   </div>

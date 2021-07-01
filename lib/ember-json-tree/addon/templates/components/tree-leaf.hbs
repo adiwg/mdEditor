@@ -17,7 +17,7 @@
   {{#unless model.hideCheck}}
   <span class="tree-cell tree-icon" role="button" {{action "toggleCheck" bubbles=false}}>
       {{#if model.checkable}}
-        {{fa-icon (if model.isChecked "check-square-o" "square-o") fixedWidth=true}}
+        {{fa-icon (if model.isChecked "check-square" "square") fixedWidth=true}}
       {{else}}
         <span class="icon fa fa-fw"></span>
       {{/if}}

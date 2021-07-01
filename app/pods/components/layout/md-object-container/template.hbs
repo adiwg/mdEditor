@@ -14,7 +14,7 @@
   <div class="btn-group btn-group-sm">
     {{#if editItem}}
       <button type="button" class="btn btn-success" {{action editItem index}}>
-        {{fa-icon "pencil"}} Edit</button>
+        <FaIcon @icon="edit" /> Edit</button>
     {{/if}}
 
     {{#if deleteItem}}
