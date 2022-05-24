@@ -1,71 +1,72 @@
-import classic from 'ember-classic-decorator';
-import { action, computed } from '@ember/object';
 import Route from '@ember/routing/route';
-import { isArray } from '@ember/array';
-import { isEmpty } from '@ember/utils';
+import {
+  computed
+} from '@ember/object';
+import {
+  isArray
+} from '@ember/array';
+import {
+  isEmpty
+} from '@ember/utils';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-@classic
-export default class ItemRoute extends Route.extend(ScrollTo) {
+export default Route.extend(ScrollTo, {
   beforeModel() {
-    this.set(
-      'domainId',
-      this.paramsFor('dictionary.show.edit.domain.edit').domain_id
-    );
-  }
-
+    this.set('domainId', this.paramsFor(
+      'dictionary.show.edit.domain.edit').domain_id);
+  },
   model(params) {
     this.set('itemId', params.item_id);
 
     return this.setupModel();
-  }
+  },
 
-  @computed('itemId')
-  get breadCrumb() {
+  breadCrumb: computed('itemId', function () {
     return {
-      title: 'Item ' + this.itemId,
+      title: 'Item ' + this.itemId
     };
-  }
+  }),
 
-  setupController() {
+  setupController: function () {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
     //let parent = this.controllerFor('dictionary.show.edit.domain.edit.index');
 
-    this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
+    this.controller.set('parentModel', this.modelFor(
+      'dictionary.show.edit'));
     this.controller.set('domainId', this.domainId);
     this.controller.set('itemId', this.itemId);
-    this.controllerFor('dictionary.show.edit').setProperties({
-      onCancel: this.setupModel,
-      cancelScope: this,
-    });
-  }
+    this.controllerFor('dictionary.show.edit')
+      .setProperties({
+        onCancel: this.setupModel,
+        cancelScope: this
+      });
+  },
 
   setupModel() {
     let itemId = this.itemId;
     let model = this.modelFor('dictionary.show.edit');
-    let objects = model.get(
-      'json.dataDictionary.domain.' + this.domainId + '.domainItem'
-    );
-    let resource =
-      itemId && isArray(objects) ? objects.objectAt(itemId) : undefined;
+    let objects = model.get('json.dataDictionary.domain.' + this.domainId + '.domainItem');
+    let resource = itemId && isArray(objects) ? objects.objectAt(itemId) :
+      undefined;
 
     //make sure the domain item exists
-    if (isEmpty(resource)) {
-      this.flashMessages.warning(
-        'No Domain Item found! Re-directing to list...'
-      );
+    if(isEmpty(resource)) {
+      this.flashMessages
+        .warning('No Domain Item found! Re-directing to list...');
       this.replaceWith('dictionary.show.edit.domain');
 
       return;
     }
 
     return resource;
-  }
+  },
 
-  @action
-  backToDomain() {
-    this.transitionTo('dictionary.show.edit.domain.edit', this.domainId);
+  actions: {
+    backToDomain() {
+      this.transitionTo('dictionary.show.edit.domain.edit',
+        this.domainId);
+    }
   }
-}
+});

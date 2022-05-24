@@ -1,123 +1,105 @@
-{{#with this.model.json.dataDictionary as |resource|}}
-  <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
-    <h4 class='section-header'>
-      Editing
-      <em>
-        {{this.model.title}}
-      </em>
-      <Control::MdStatus @model={{this.model}} />
+{{#with model.json.dataDictionary as |resource|}}
+  <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
+    <h4 class="section-header">
+      Editing <em>{{model.title}}</em>
+      {{control/md-status model=model}}
     </h4>
-    <Layout::MdCard
-      @title='Basic Information'
-      @collapsible={{true}}
-      @collapsed={{false}}
-      @profilePath='dictionary.main.basicInformation'
-      @data-spy='Basic Information'
-      @required={{true}}
-    >
-      <Input::MdInput
-        @value={{this.model.title}}
-        @placeholder='Enter the title for the dictionary.'
-        @label='Title'
-        @required={{true}}
-        @profilePath='dictionary.main.basicInformation.title'
-        @data-spy='Title'
-        @class='md-embedded'
-      />
+    {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
+      profilePath="dictionary.main.basicInformation" data-spy="Basic Information"
+      required=true
+    }}
+      {{input/md-input
+        value=model.title
+        placeholder="Enter the title for the dictionary."
+        label="Title"
+        required=true
+        profilePath="dictionary.main.basicInformation.title"
+        data-spy="Title"
+        class="md-embedded"
+      }}
 
       {{#if (is-array resource.subject)}}
-        <Input::MdCodelistMulti
-          @create={{true}}
-          @label='Subject'
-          @tooltip={{true}}
-          @icon={{true}}
-          @disabled={{this.disabled}}
-          @allowClear={{true}}
-          @mdCodeName='scope'
-          @showValidations={{true}}
-          @model={{this.model}}
-          @path='json.dataDictionary.subject'
-          @placeholder='Choose type(s) of resource'
-          @profilePath='dictionary.main.basicInformation.subject'
-          @data-spy='Subject'
-          @class='md-embedded'
-        />
+        {{input/md-codelist-multi
+          create=true
+          label="Subject"
+          tooltip=true
+          icon=true
+          disabled=disabled
+          allowClear=true
+          mdCodeName="scope"
+          showValidations=true
+          model=model
+          path="json.dataDictionary.subject"
+          placeholder="Choose type(s) of resource"
+          profilePath="dictionary.main.basicInformation.subject"
+          data-spy="Subject"
+          class="md-embedded"
+        }}
       {{/if}}
 
-      <Layout::MdCard
-        @title='Responsible Party'
-        @class='md-embedded'
-        @required={{true}}
-        @collapsible={{false}}
-        @collapsed={{false}}
-        @profilePath='dictionary.main.basicInformation.responsibleParty'
-        @data-spy='Responsible Party'
-        @shadow={{false}}
-      >
-        {{! <label class="required"><h4 class="card-title inline-block">Responsible Party</h4></label> }}
-        <Object::MdParty @model={{resource.responsibleParty}} />
-      </Layout::MdCard>
+      {{#layout/md-card
+        title="Responsible Party"
+        class="md-embedded"
+        required=true
+        collapsible=false
+        collapsed=false
+        profilePath="dictionary.main.basicInformation.responsibleParty"
+        data-spy="Responsible Party"
+        shadow=false
+      }}
+        {{!-- <label class="required"><h4 class="card-title inline-block">Responsible Party</h4></label> --}}
+        {{object/md-party model=resource.responsibleParty}}
+      {{/layout/md-card}}
 
-      {{! template-lint-disable no-action }}
-      <Input::MdMarkdownArea
-        @value={{resource.description}}
-        @profilePath='dictionary.main.basicInformation.description'
-        @label='Description'
-        @placeholder='Enter text describing the dictionary.'
-        @data-spy='Description'
-        @class='md-embedded'
-        @change={{action (mut resource.description)}}
-      />
+      {{input/md-markdown-area
+        value=resource.description
+        profilePath="dictionary.main.basicInformation.description"
+        label="Description"
+        placeholder="Enter text describing the dictionary."
+        data-spy="Description"
+        class="md-embedded"
+      }}
 
-      <Input::MdBoolean
-        @label='Dictionary Included?'
-        @text='Dictionary is included with the resource'
-        @value={{resource.dictionaryIncludedWithResource}}
-        @profilePath='dictionary.main.basicInformation.included'
-      />
+      {{input/md-boolean
+        label="Dictionary Included?"
+        text="Dictionary is included with the resource"
+        value=resource.dictionaryIncludedWithResource
+        profilePath="dictionary.main.basicInformation.included"
+      }}
 
-      <Input::MdInput
-        @value={{resource.dictionaryFunctionalLanguage}}
-        @placeholder='Describe the language used in the dictionary, e.g. UML.'
-        @label='Functional Language'
-        @required={{false}}
-        @profilePath='dictionary.main.basicInformation.functionalLanguage'
-      />
-    </Layout::MdCard>
+      {{input/md-input
+        value=resource.dictionaryFunctionalLanguage
+        placeholder="Describe the language used in the dictionary, e.g. UML."
+        label="Functional Language"
+        required=false
+        profilePath="dictionary.main.basicInformation.functionalLanguage"
+      }}
+    {{/layout/md-card}}
 
-    <Object::MdSimpleArrayTable
-      @title='Recommended Use'
-      @required={{false}}
-      @plain={{false}}
-      @profilePath='dictionary.main.recommendedUse'
-      @value={{resource.recommendedUse}} as |val|
-    >
+    {{#object/md-simple-array-table
+      title="Recommended Use"
+      required=false
+      plain=false
+      profilePath="dictionary.main.recommendedUse"
+      value=resource.recommendedUse as |val|
+    }}
       <td>
-        <Input::MdTextarea
-          @value={{val.item.value}}
-          @placeholder='Enter a description of how the dictionary should be used.'
-        />
+          {{input/md-textarea value=val.item.value
+            placeholder="Enter a description of how the dictionary should be used."}}
       </td>
-    </Object::MdSimpleArrayTable>
+    {{/object/md-simple-array-table}}
 
-    <Object::MdLocaleArray
-      @title='Locale'
-      @data-spy='Locales'
-      @collapsible={{true}}
-      @collapsed={{false}}
-      @required={{false}}
-      @value={{resource.locale}}
-      @profilePath='dictionary.main.locale'
-    />
+    {{object/md-locale-array
+      title="Locale"
+      data-spy="Locales"
+      collapsible=true collapsed=false
+      required=false
+      value=resource.locale
+      profilePath="dictionary.main.locale"
+    }}
+
   </form>
 {{/with}}
 
-<ToElsewhere
-  @named='md-scroll-spy-dict-edit'
-  @send={{
-    component
-    'control/md-scroll-spy'
-    scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
-  }}
-/>
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

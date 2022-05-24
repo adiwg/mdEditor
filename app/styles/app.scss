@@ -1,7 +1,6 @@
 //** Point at which the navbar becomes uncollapsed.
 $grid-float-breakpoint: 532px !default;
 $sidebar-width: 300;
-@import './font-awesome/font-awesome';
 
 @import 'bootstrap_custom';
 
@@ -57,7 +56,6 @@ $white: #fff;
 @import 'ember-modal-dialog/ember-modal-appearance';
 //simple-mde
 @import 'simple-mde';
-@import 'easymde.min';
 
 //full-screen fix for liquid-fire
 .liquid-child.full-screen,

@@ -1,17 +1,12 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import { get, set, getWithDefault } from '@ember/object';
 
-@classic
-export default class DistributionRoute extends Route {
+export default Route.extend({
   afterModel(m) {
-    super.afterModel(...arguments);
+    this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(
-      model,
-      'resourceDistribution',
-      getWithDefault(model, 'resourceDistribution', [])
-    );
-  }
-}
+    set(model, 'resourceDistribution', getWithDefault(model,
+      'resourceDistribution', []));
+  },
+});

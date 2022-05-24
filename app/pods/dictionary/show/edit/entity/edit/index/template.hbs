@@ -1,47 +1,30 @@
-<h4 class='section-header'>
-  Editing Entity
-  {{#if this.model.codeName}}
-    <em>
-      {{this.model.codeName}}
-    </em>
+<h4 class="section-header">
+  Editing Entity {{#if model.codeName}}
+    <em>{{model.codeName}}</em>
   {{else}}
-    #{{this.entityId}}
+    #{{entityId}}
   {{/if}}
-  <span class='small'>
-    for
-    <em>
-      {{this.parentModel.title}}
-    </em>
-  </span>
-  <Control::MdStatus @model={{this.parentModel}} />
+  <span class="small">for <em>{{parentModel.title}}</em></span>
+  {{control/md-status model=parentModel}}
 </h4>
 
-<Object::MdEntity
-  @class=''
-  @model={{this.model}}
-  @dictionary={{this.parentModel.json.dataDictionary}}
-  @profilePath='dictionary.entity'
-  @editCitation={{route-action 'editCitation'}}
-  @editAttribute={{route-action 'editAttribute'}}
-/>
+{{object/md-entity
+  class=""
+  model=model
+  dictionary=parentModel.json.dataDictionary
+  profilePath="dictionary.entity"
+  editCitation=(route-action "editCitation")
+  editAttribute=(route-action "editAttribute")
+}}
 
-<ToElsewhere
-  @named='md-subbar-extra'
-  @send={{
-    component
-    'control/subbar-link'
-    text='Back to Entity List'
-    icon='arrow-left'
-    route='dictionary.show.edit.entity.index'
-  }}
-/>
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Entity List"
+    icon="arrow-left"
+    route="dictionary.show.edit.entity.index"
+  )
+}}
 
-<ToElsewhere
-  @named='md-scroll-spy-dict-edit'
-  @send={{
-    component
-    'control/md-scroll-spy'
-    scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
-  }}
-/>
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

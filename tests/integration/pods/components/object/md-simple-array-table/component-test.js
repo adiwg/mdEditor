@@ -49,7 +49,7 @@ module('Integration | Component | object/md simple array table', function (
 
     await click('.btn-info');
 
-    assert.dom('.table tr').exists({ count: 3 }, 'addItem');
+    assert.equal(findAll('.table tr').length, 3, 'addItem');
 
     await doubleClick('.btn-danger');
 

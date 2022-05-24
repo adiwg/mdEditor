@@ -1,10 +1,11 @@
-import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
-import { NotFoundError } from '@ember-data/adapter/error';
 import Route from '@ember/routing/route';
+import DS from 'ember-data';
 
-@classic
-export default class IdRoute extends Route {
+const {
+  NotFoundError
+} = DS;
+
+export default Route.extend({
   /**
    * The route model
    *
@@ -13,7 +14,7 @@ export default class IdRoute extends Route {
    * @chainable
    * @return {Object}
    */
-  model(params) {
+  model: function(params) {
     let record = this.store.peekRecord('contact', params.contact_id);
 
     if (record) {
@@ -21,7 +22,7 @@ export default class IdRoute extends Route {
     }
 
     return this.store.findRecord('contact', params.contact_id);
-  }
+  },
 
   /**
    * The breadcrumb title string.
@@ -30,7 +31,7 @@ export default class IdRoute extends Route {
    * @type {String}
    * @default null
    */
-  breadCrumb = null;
+  breadCrumb: null,
 
   /**
    * Called when route is deactivated.
@@ -38,21 +39,21 @@ export default class IdRoute extends Route {
    *
    * @method deactivate
    */
-  deactivate() {
+  deactivate: function() {
     // We grab the model loaded in this route
     let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
     // 'isDeleted' state, which means it wasn't saved to the metadata.
-    if (model && model.isDeleted) {
+    if(model && model.isDeleted) {
       // We call DS#unloadRecord() which removes it from the store
       this.store.unloadRecord(model);
     }
-  }
+  },
 
-  setupController(controller, model) {
+  setupController: function(controller, model) {
     // Call _super for default behavior
-    super.setupController(controller, model);
+    this._super(controller, model);
 
     // // setup tests for required attributes
     // controller.noId = Ember.computed('model.json.contactId', function () {
@@ -70,64 +71,74 @@ export default class IdRoute extends Route {
     // controller.allowSave = Ember.computed('noId', 'noName', function () {
     //   return(this.get('noName') || this.get('noId'));
     // });
-  }
+  },
 
-  @action
-  willTransition(transition) {
-    if (transition.targetName === 'contact.new.index') {
-      transition.abort();
-      return true;
+  // serialize: function (model) {
+  //   // If we got here without an ID (and therefore without a model)
+  //   // Ensure that we leave the route param in the URL blank (not 'undefined')
+  //   if(!model) {
+  //     return {
+  //       contact_id: ''
+  //     };
+  //   }
+  //
+  //   // Otherwise, let Ember handle it as usual
+  //   return this._super.apply(this, arguments);
+  // },
+
+  actions: {
+    willTransition: function(transition) {
+      if (transition.targetName === 'contact.new.index') {
+        transition.abort();
+        return true;
+      }
+
+      // We grab the model loaded in this route
+      var model = this.currentRouteModel();
+      // If we are leaving the Route we verify if the model is in
+      // 'isNew' state, which means it wasn't saved to the backend.
+      if (model && model.get('isNew')) {
+        //let contexts = transition.intent.contexts;
+        // We call DS#destroyRecord() which removes it from the store
+        model.destroyRecord().then(() => transition.retry());
+        //transition.abort();
+
+        // if (contexts && contexts.length > 0) {
+        //   //grab any models ids and apply them to transition
+        //   let ids = contexts.mapBy('id');
+        //   this.replaceWith(transition.targetName, ...ids);
+        //   return true;
+        // }
+        //
+        // this.replaceWith(transition.targetName);
+        return true;
+      }
+    },
+
+    saveContact() {
+      this.currentRouteModel()
+        .save()
+        .then((model) => {
+          this.replaceWith('contact.show.edit', model);
+        });
+    },
+
+    cancelContact() {
+      this.replaceWith('contacts');
+
+      return false;
+    },
+
+    error(error) {
+      if (error instanceof NotFoundError) {
+        this.flashMessages
+          .warning('No contact found! Re-directing to new contact...');
+        // redirect to new
+        this.replaceWith('contact.new');
+      } else {
+        // otherwise let the error bubble
+        return true;
+      }
     }
-
-    // We grab the model loaded in this route
-    var model = this.currentRouteModel();
-    // If we are leaving the Route we verify if the model is in
-    // 'isNew' state, which means it wasn't saved to the backend.
-    if (model && model.get('isNew')) {
-      //let contexts = transition.intent.contexts;
-      // We call DS#destroyRecord() which removes it from the store
-      model.destroyRecord().then(() => transition.retry());
-      //transition.abort();
-
-      // if (contexts && contexts.length > 0) {
-      //   //grab any models ids and apply them to transition
-      //   let ids = contexts.mapBy('id');
-      //   this.replaceWith(transition.targetName, ...ids);
-      //   return true;
-      // }
-      //
-      // this.replaceWith(transition.targetName);
-      return true;
-    }
   }
-
-  @action
-  saveContact() {
-    this.currentRouteModel()
-      .save()
-      .then((model) => {
-        this.replaceWith('contact.show.edit', model);
-      });
-  }
-
-  @action
-  cancelContact() {
-    this.replaceWith('contacts');
-
-    return false;
-  }
-
-  @action
-  error(error) {
-    if (error instanceof NotFoundError) {
-      this.flashMessages.warning(
-        'No contact found! Re-directing to new contact...'
-      );
-      // redirect to new
-      this.replaceWith('contact.new');
-    } else {
-      // otherwise let the error bubble
-      return true;
-    }
-  }
-}
+});

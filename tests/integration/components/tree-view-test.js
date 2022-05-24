@@ -40,13 +40,15 @@ module('Integration | Component | tree view', function(hooks) {
     assert.equal(find('.tree-trunk').innerText
       .replace(/[\s\n]+/g, '|'), '|bar1label|foo1label');
 
-    assert.dom('.tree-leaf').hasClass('tree-highlight', 'selected leaf highlighted');
+    assert.ok(find('.tree-leaf')
+      .classList.contains('tree-highlight'), 'selected leaf highlighted');
 
-    assert.dom('.tree-leaf .expand-icon').exists({ count: 1 }, 'node expand icon rendered');
+    assert.equal(findAll('.tree-leaf .expand-icon')
+      .length, 1, 'node expand icon rendered');
 
     await click(find('.expand-icon'));
 
-    assert.dom('.tree-leaf').exists({ count: 3 }, 'node expanded');
+    assert.equal(findAll('.tree-leaf').length, 3, 'node expanded');
 
     // Template block usage:
     await render(hbs `
@@ -60,6 +62,6 @@ module('Integration | Component | tree view', function(hooks) {
 
     await click(findAll('.tree-leaf')[1]);
 
-    assert.dom('.tree-leaf.tree-highlight').exists({ count: 2 }, 'node selected');
+    assert.equal(findAll('.tree-leaf.tree-highlight').length, 2, 'node selected');
   });
 });

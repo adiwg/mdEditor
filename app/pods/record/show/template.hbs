@@ -1,6 +1,3 @@
 {{outlet}}
 
-<ToElsewhere
-  @named='nav-main'
-  @send={{component 'layout/nav/record/nav-main' model=this.model}}
-/>
+{{to-elsewhere named="nav-main" send=(component "layout/nav/record/nav-main" model=model)}}

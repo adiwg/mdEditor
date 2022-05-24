@@ -1,37 +1,33 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
-import { get, getWithDefault, set, action } from '@ember/object';
+import { get, getWithDefault, set } from '@ember/object';
 
-@classic
-export default class IndexRoute extends Route {
+export default Route.extend({
   afterModel(m) {
-    super.afterModel(...arguments);
+    this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(
-      model,
-      'associatedResource',
-      getWithDefault(model, 'associatedResource', [])
-    );
-  }
+    set(model, 'associatedResource', getWithDefault(model, 'associatedResource', []));
+  },
 
-  setupController() {
+  setupController: function() {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    this.controller.set('parentModel', this.modelFor(
+      'record.show.edit'));
+  },
+
+  actions: {
+    editResource(id) {
+      this.transitionTo('record.show.edit.associated.resource', id);
+    } //,
+    // templateClass() {
+    //   return Ember.Object.extend({
+    //     init() {
+    //       this._super(...arguments);
+    //       //this.set('authority', {});
+    //     }
+    //   });
+    // }
   }
-
-  @action
-  editResource(id) {
-    this.transitionTo('record.show.edit.associated.resource', id);
-  } //,
-  // templateClass() {
-  //   return Ember.Object.extend({
-  //     init() {
-  //       this._super(...arguments);
-  //       //this.set('authority', {});
-  //     }
-  //   });
-  // }
-}
+});

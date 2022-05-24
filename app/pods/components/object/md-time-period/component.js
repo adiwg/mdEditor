@@ -54,28 +54,34 @@ const durationUnit = [
 ];
 
 const Validations = buildValidations({
-  intervalAmount: validator('presence', true),
-  startDateTime: [
+  'intervalAmount': [
+    validator('presence', {
+      presence: true,
+      //disabled: computed.notEmpty('model.endDateTime'),
+      ignoreBlank: true
+    })
+  ],
+  'startDateTime': [
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.endDateTime'),
+      ignoreBlank: true
     })
   ],
-  endDateTime: {
-    validators: [
-      validator('date', {
-        onOrAfter: alias('model.startDateTime'),
-        isWarning: true
-      }),
-      validator('presence', {
-        presence: true,
-        disabled: notEmpty('model.startDateTime')
-      })
-    ]
-  },
+  'endDateTime': [
+    validator('date', {
+      onOrAfter: alias('model.startDateTime'),
+      isWarning: true
+    }),
+    validator('presence', {
+      presence: true,
+      disabled: notEmpty('model.startDateTime'),
+      ignoreBlank: true
+    })
+  ]
 });
 
-export default Component.extend(Validations,{
+export default Component.extend(Validations, {
   init() {
     this._super(...arguments);
 
@@ -86,7 +92,7 @@ export default Component.extend(Validations,{
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = this.model;
+    let model = get(this, 'model');
 
     once(this, function () {
       set(model, 'periodName', getWithDefault(model,

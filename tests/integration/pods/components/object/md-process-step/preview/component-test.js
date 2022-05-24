@@ -46,7 +46,7 @@ module('Integration | Component | object/md-process-step/preview', function(hook
 
     await render(hbs`{{object/md-process-step/preview model=source profilePath="foobar"}}`);
 
-    assert.dom('textarea').hasValue('description');
+    assert.equal(find('textarea').value, 'description');
 
     // Template block usage:
     await render(hbs`
@@ -55,6 +55,6 @@ module('Integration | Component | object/md-process-step/preview', function(hook
       {{/object/md-process-step/preview}}
     `);
 
-    assert.dom('textarea').hasValue('description');
+    assert.equal(find('textarea').value, 'description');
   });
 });

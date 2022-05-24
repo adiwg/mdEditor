@@ -1,50 +1,46 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
-import { v4 as uuidV4 } from 'uuid';
-import EmberObject, {
+import uuidV4 from "uuid/v4";
+import EmberObject from '@ember/object';
+
+import {
   get,
+  computed,
   defineProperty,
   getWithDefault,
-  set,
-  action,
-  computed,
+  set
 } from '@ember/object';
 
-@classic
-export default class DictionaryRoute extends Route {
+export default Route.extend({
   init() {
-    super.init(...arguments);
+    this._super(...arguments);
 
     this.breadCrumb = {
-      title: 'Dictionaries',
+      title: 'Dictionaries'
     };
 
-    this.columns = [
-      {
-        propertyName: 'title',
-        title: 'Title',
-      },
-      {
-        propertyName: 'subject',
-        title: 'Subject',
-      },
-    ];
-  }
-
+    this.columns = [{
+      propertyName: 'title',
+      title: 'Title'
+    }, {
+      propertyName: 'subject',
+      title: 'Subject'
+    }]
+  },
   model() {
     //return this.store.peekAll('contact');
-    let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
+    let dicts = this.modelFor('application')
+      .findBy('modelName', 'dictionary');
     let rec = this.modelFor('record.show.edit');
 
     set(rec, 'json.mdDictionary', getWithDefault(rec, 'json.mdDictionary', []));
     let selected = rec.get('json.mdDictionary');
 
-    return dicts.map((dict) => {
+    return dicts.map(dict => {
       let json = get(dict, 'json');
       let id = get(json, 'dictionaryId');
       let data = get(json, 'dataDictionary');
 
-      if (!id) {
+      if(!id) {
         set(json, 'dictionaryId', uuidV4());
         dict.save();
       }
@@ -54,35 +50,36 @@ export default class DictionaryRoute extends Route {
         title: get(data, 'citation.title'),
         description: data.description,
         subject: data.subject,
-        selected: selected.includes(json.dictionaryId),
+        selected: selected.includes(json.dictionaryId)
       });
     });
-  }
+  },
 
-  setupController() {
+  setupController: function () {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    this.controller.set('parentModel', this.modelFor(
+      'record.show.edit'));
 
-    defineProperty(
-      this.controller,
-      'selected',
-      computed.filterBy('model', 'selected')
-    );
+    defineProperty(this.controller, 'selected', computed('model',
+      function () {
+        return this.model.filterBy('selected');
+      }));
 
-    this.controllerFor('record.show.edit').setProperties({
-      onCancel: this.refresh,
-      cancelScope: this,
-    });
-  }
+    this.controllerFor('record.show.edit')
+      .setProperties({
+        onCancel: this.refresh,
+        cancelScope: this
+      });
+  },
 
   _select(obj) {
     let rec = this.modelFor('record.show.edit');
     let selected = rec.get('json.mdDictionary');
 
-    if (obj.selected) {
-      if (selected.indexOf(obj.id) === -1) {
+    if(obj.selected) {
+      if(selected.indexOf(obj.id) === -1) {
         selected.pushObject(obj.id);
         this.controller.notifyPropertyChange('model');
         return;
@@ -90,21 +87,21 @@ export default class DictionaryRoute extends Route {
     }
     selected.removeObject(obj.id);
     this.controller.notifyPropertyChange('model');
-  }
 
-  @action
-  getColumns() {
-    return this.columns;
-  }
+  },
 
-  @action
-  select(obj) {
-    this._select(obj);
-  }
+  actions: {
+    getColumns() {
+      return this.columns;
+    },
 
-  @action
-  remove(obj) {
-    set(obj, 'selected', false);
-    this._select(obj);
+    select(obj) {
+      this._select(obj);
+    },
+
+    remove(obj) {
+      set(obj, 'selected', false);
+      this._select(obj);
+    }
   }
-}
+});

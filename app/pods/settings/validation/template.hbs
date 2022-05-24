@@ -1,108 +1,92 @@
 {{!-- <div class="alert alert-warning" role="alert">{{fa-icon "exclamation"}}
     This section is under development.
 </div> --}}
-<div class='section-header'>
+<div class="section-header">
   <h3>
     Custom Validation Schemas
   </h3>
 </div>
 
 <section>
-  <div class='section-header'>
-    <h4 class='md-table-title'>
-      {{#liquid-if this.schema use='fade' growDuration=100 class='inline-block'
-      }}
-        {{#if this.schema.isNew}}
+  <div class="section-header">
+    <h4 class="md-table-title">
+      {{#liquid-if schema use="fade" growDuration=100 class="inline-block"}}
+        {{#if schema.isNew}}
           Add Schema
-        {{else if this.schema}}
-          {{concat 'Edit ' this.schema.title}}
+        {{else if schema}}
+          {{concat "Edit " schema.title}}
         {{/if}}
-        {{#if this.task.isRunning}}
-          <small>
-            ...downloading schemas
-          </small>
-          {{fa-icon 'spinner' spin=true}}
+        {{#if task.isRunning}}
+          <small>...downloading schemas</small>
+          {{fa-icon "spinner" spin=true}}
         {{/if}}
       {{else}}
         Manage Schemas
       {{/liquid-if}}
     </h4>
-    <hr />
+    <hr>
   </div>
 
-  {{#liquid-if this.schema use='fade'}}
-    {{#if this.schema.isNew}}
-      <Object::MdSchema::Form @record={{this.schema}} />
-    {{else if this.schema}}
-      <Object::MdSchema @record={{this.schema}} />
+  {{#liquid-if schema use="fade"}}
+    {{#if schema.isNew}}
+      {{object/md-schema/form record=schema}}
+    {{else if schema}}
+      {{object/md-schema record=schema}}
     {{/if}}
   {{else}}
-    {{! template-lint-disable no-action }}
-    <Control::MdEditTable
-      @data={{this.model}}
-      @dataColumns={{this.columns}}
-      @columnSets={{this.columnSets}}
-      @rowBodyComponent='object/md-schema'
-      @pageSize={{25}}
-      @editRow={{action 'editSchema'}}
-      @actionBadges={{this.badges}}
-    />
+    {{control/md-edit-table
+      data=model
+      dataColumns=columns
+      columnSets=columnSets
+      rowBodyComponent="object/md-schema"
+      pageSize=25
+      editRow=(action "editSchema")
+      actionBadges=badges
+    }}
   {{/liquid-if}}
 </section>
 
-{{#if this.schema}}
-  <ToElsewhere
-    @named='md-subbar-settings'
-    @send={{
-      component
-      'control/md-button'
-      text=(if
-        this.task.isRunning
-        'Loading...'
-        (if this.schema.isNew 'Save Schema' 'Update Schema')
-      )
-      icon=(if this.task.isRunning 'spinner' 'floppy-o')
-      iconSpin=this.task.isRunning
-      disabled=this.disableSave
-      class='btn-success btn-lg'
-      click=(action 'saveSchema')
-    }}
-  />
-  <ToElsewhere
-    @named='md-subbar-settings'
-    @send={{
-      component
-      'control/md-button'
-      text=(if this.schema.isNew 'Cancel' 'Back')
-      icon=(if this.schema.isNew 'undo' 'arrow-left')
-      class=(if this.schema.isNew 'btn-warning btn-lg' 'btn-primary btn-lg')
-      click=(action 'cancelEdit')
-    }}
-  />
+{{#if schema}}
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text=(if task.isRunning "Loading..." (if schema.isNew "Save Schema" "Update Schema"))
+    icon=(if task.isRunning "spinner" "floppy-o")
+    iconSpin=task.isRunning
+    disabled=disableSave
+    class="btn-success btn-lg"
+    click=(action "saveSchema")
+    )
+  }}
+    {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text=(if schema.isNew "Cancel" "Back")
+    icon=(if schema.isNew "undo" "arrow-left")
+    class=(if schema.isNew "btn-warning btn-lg" "btn-primary btn-lg")
+    click=(action "cancelEdit")
+    )
+  }}
 {{else}}
-  <ToElsewhere
-    @named='md-subbar-settings'
-    @send={{
-      component
-      'control/md-button'
-      text='Add Schema'
-      icon='plus'
-      class='btn-success btn-lg'
-      click=(action 'addSchema')
-      disabled=(if this.schema true)
-    }}
-  />
-  <ToElsewhere
-    @named='md-subbar-settings'
-    @send={{
-      component
-      'control/md-button'
-      text=(if this.checkForUpdates.isRunning 'Checking...' 'Check for Updates')
-      iconSpin=this.checkForUpdates.isRunning
-      disabled=this.checkForUpdates.isRunning
-      icon=(if this.checkForUpdates.isRunning 'spinner' 'check')
-      class='btn-info btn-lg'
-      click=(perform this.checkForUpdates)
-    }}
-  />
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text="Add Schema"
+    icon="plus"
+    class="btn-success btn-lg"
+    click=(action "addSchema")
+    disabled=(if schema true)
+    )
+  }}
+  {{to-elsewhere
+    named="md-subbar-settings"
+    send=(component "control/md-button"
+    text=(if checkForUpdates.isRunning "Checking..." "Check for Updates")
+    iconSpin=checkForUpdates.isRunning
+    disabled=checkForUpdates.isRunning
+    icon=(if checkForUpdates.isRunning "spinner" "check")
+    class="btn-info btn-lg"
+    click=(perform checkForUpdates)
+    )
+  }}
 {{/if}}

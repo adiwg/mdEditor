@@ -13,8 +13,8 @@ module('Integration | Component | control/md spinner', function(hooks) {
 
     await render(hbs`{{control/md-spinner text="foobar" size="5"}}`);
 
-    assert.dom('.md-spinner').hasText('foobar');
-    assert.dom('.md-spinner .md-spinner-text').hasClass('size-5', 'adds class');
+    assert.equal(find('.md-spinner').textContent.trim(), 'foobar');
+    assert.ok(find('.md-spinner .md-spinner-text').classList.contains('size-5'), 'adds class');
 
     // Template block usage:
     await render(hbs`
@@ -23,6 +23,6 @@ module('Integration | Component | control/md spinner', function(hooks) {
       {{/control/md-spinner}}
     `);
 
-    assert.dom('.md-spinner').hasText('template block text', 'block ok');
+    assert.equal(find('.md-spinner').textContent.trim(), 'template block text', 'block ok');
   });
 });

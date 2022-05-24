@@ -1,58 +1,52 @@
-import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
-import { inject as service } from '@ember/service';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
-@classic
-export default class IndexController extends Controller {
-  @service('custom-profile')
-  customProfiles;
-
+export default Controller.extend({
+  customProfiles: service('custom-profile'),
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
-  columns = [
-    {
-      propertyName: 'title',
-      title: 'Title',
+  columns: [{
+    propertyName: 'title',
+    title: 'Title'
+  }, {
+    propertyName: 'definition.title',
+    title: 'Definition'
+  }, {
+    propertyName: 'description',
+    title: 'Description',
+    truncate: true,
+    isHidden: false
+  }],
+
+  // columnSets: [],
+  //
+  // badges: [{
+  //   type: 'info',
+  //   icon: 'info-circle',
+  //   tip: 'Update available.',
+  //   isVisible: 'hasUpdate'
+  // }],
+  actions: {
+    addProfile() {
+      this.set('profile', this.store.createRecord('custom-profile'));
     },
-    {
-      propertyName: 'definition.title',
-      title: 'Definition',
+    editProfile(index, record) {
+      this.set('profile', record);
     },
-    {
-      propertyName: 'description',
-      title: 'Description',
-      truncate: true,
-      isHidden: false,
+    saveProfile() {
+      let profile = this.profile;
+
+      return profile.save();
+
     },
-  ];
 
-  @action
-  addProfile() {
-    this.set('profile', this.store.createRecord('custom-profile'));
+    cancelEdit() {
+      let record = this.profile;
+
+      this.set('profile', null);
+      record.rollbackAttributes();
+    },
+    manageDefinitions() {
+      this.transitionToRoute('settings.profile.manage');
+    }
   }
-
-  @action
-  editProfile(index, record) {
-    this.set('profile', record);
-  }
-
-  @action
-  saveProfile() {
-    let profile = this.profile;
-
-    return profile.save();
-  }
-
-  @action
-  cancelEdit() {
-    let record = this.profile;
-
-    this.set('profile', null);
-    record.rollbackAttributes();
-  }
-
-  @action
-  manageDefinitions() {
-    this.transitionToRoute('settings.profile.manage');
-  }
-}
+});

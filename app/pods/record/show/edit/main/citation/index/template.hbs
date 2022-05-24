@@ -1,34 +1,20 @@
-<h4 class='col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header'>
-  Editing Citation
-  <Control::MdStatus @model={{this.model}} />
+<h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Citation
+  {{control/md-status model=model}}
 </h4>
-{{#with this.model.json.metadata.resourceInfo.citation as |citation|}}
-  <div class='row'>
-    <Object::MdCitation
-      @class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'
-      @model={{citation}}
-      @profilePath='record.main.citation'
-      @editIdentifier={{route-action 'editIdentifier'}}
-    />
-    {{outlet}}
-  </div>
+{{#with model.json.metadata.resourceInfo.citation as |citation|}}
+    <div class="row">
+      {{object/md-citation
+        class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
+        model=citation
+        profilePath="record.main.citation"
+        editIdentifier=(route-action "editIdentifier")
+      }}
+      {{outlet}}
+    </div>
 {{/with}}
-<ToElsewhere
-  @named='md-subbar-extra'
-  @send={{
-    component
-    'control/subbar-link'
-    text='Back to Main'
-    icon='arrow-left'
-    route='record.show.edit.main'
-  }}
-/>
-<ToElsewhere
-  @named='md-scroll-spy-record-edit'
-  @send={{
-    component
-    'control/md-scroll-spy'
-    scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
-  }}
-/>
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link" text="Back to Main" icon="arrow-left" route="record.show.edit.main")
+}}
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

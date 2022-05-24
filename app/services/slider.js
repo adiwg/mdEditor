@@ -1,33 +1,32 @@
-/* eslint-disable ember/no-observers */
-import classic from 'ember-classic-decorator';
-import { observes } from '@ember-decorators/object';
-import Service, { inject as service } from '@ember/service';
-import '@ember/object';
+import Service from '@ember/service';
+import {
+  inject as service
+} from '@ember/service';
+import {
+  observer
+} from '@ember/object';
 
-@classic
-export default class SliderService extends Service {
+export default Service.extend({
   init() {
-    super.init(...arguments);
+    this._super(...arguments);
 
-    this.router.currentRouteName;
-  }
+    this.get('router.currentRouteName');
+  },
 
-  @service
-  router;
+  router: service(),
 
-  showSlider = false;
-  fromName = 'md-slider-content';
+  showSlider: false,
+  fromName: 'md-slider-content',
 
-  @observes('router.currentRouteName')
-  routeObserver() {
+  routeObserver: observer('router.currentRouteName', function () {
     this.toggleSlider(false);
     this.set('fromName', 'md-slider-content');
-  }
+  }),
 
-  onClose() {}
+  onClose() {},
 
   toggleSlider(state) {
-    if (state === undefined) {
+    if(state === undefined) {
       this.toggleProperty('showSlider');
 
       return;
@@ -35,4 +34,4 @@ export default class SliderService extends Service {
 
     this.set('showSlider', !!state);
   }
-}
+});

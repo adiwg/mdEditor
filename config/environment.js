@@ -1,10 +1,10 @@
 'use strict';
 
-module.exports = function (environment) {
+module.exports = function(environment) {
   var deployTarget = process.env.DEPLOY_TARGET;
   var ENV = {
     contentSecurityPolicy: {
-      'style-src': "'self' 'unsafe-inline'",
+      'style-src': "'self' 'unsafe-inline'"
     },
     modulePrefix: 'mdeditor',
     podModulePrefix: 'mdeditor/pods',
@@ -18,21 +18,21 @@ module.exports = function (environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false,
-      },
+        Date: false
+      }
     },
 
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
       repository: 'https://github.com/adiwg/mdEditor',
-      defaultProfileId: 'org.adiwg.profile.full',
+      defaultProfileId: 'org.adiwg.profile.full'
     },
     'ember-load': {
-      loadingIndicatorClass: 'md-load-indicator',
+      loadingIndicatorClass: 'md-load-indicator'
     },
     'ember-local-storage': {
-      fileExport: true,
+      fileExport: true
     },
     'ember-toggle': {
       includedThemes: [],
@@ -47,7 +47,7 @@ module.exports = function (environment) {
       // flash message defaults
       timeout: 5000,
       extendedTimeout: 1500,
-      preventDuplicates: true,
+      preventDuplicates: true
       //sticky: true
     },
     'ember-cli-bootstrap-datetimepicker': {
@@ -60,9 +60,9 @@ module.exports = function (environment) {
         next: 'fa fa-angle-double-right',
         close: 'fa fa-times',
         clear: 'fa fa-trash',
-        today: 'fa fa-home',
-      },
-    },
+        today: 'fa fa-home'
+      }
+    }
   };
 
   if (environment === 'development') {

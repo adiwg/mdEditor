@@ -1,12 +1,12 @@
-import Adapter from 'ember-local-storage/adapters/adapter';
+import Adapter
+from 'ember-local-storage/adapters/adapter';
 
 export default Adapter.extend({
-
+  // //timestamp updates
   // updateRecord(store, type, snapshot) {
-    //timestamp updates
-    // let date = new Date();
-    //snapshot.record.set('dateUpdated', date.toISOString());
-  //   return this._super.apply([store, snapshot, type]);
+  //   //let date = new Date();
+  //
+  //   //snapshot.record.set('dateUpdated', date.toISOString());
+  //   return this._super.apply(this,[store, type, snapshot]);
   // }
 });
-

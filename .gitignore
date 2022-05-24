@@ -10,13 +10,9 @@
 /node_modules/
 
 # misc
-.vscode/
-codemods.log
-MODULE_REPORT.md
 /.env*
 /.pnp*
 /.sass-cache
-/.eslintcache
 /connect.lock
 /coverage/
 /libpeerconnection.log
@@ -30,4 +26,3 @@ jsconfig.json
 /.node_modules.ember-try/
 /bower.json.ember-try
 /package.json.ember-try
-/patches

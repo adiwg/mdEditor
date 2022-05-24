@@ -1,63 +1,60 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { action, computed } from '@ember/object';
+import { computed, get } from '@ember/object';
 
-@classic
-export default class StepRoute extends Route {
+export default Route.extend({
   model(params) {
     this.set('stepId', params.step_id);
-    this.set(
-      'lineageId',
-      this.paramsFor('record.show.edit.lineage.lineageobject').lineage_id
-    );
+    this.set('lineageId', this.paramsFor(
+      'record.show.edit.lineage.lineageobject').lineage_id);
 
     return this.setupModel();
-  }
+  },
 
-  @computed('stepId')
-  get breadCrumb() {
+  breadCrumb: computed('stepId', function () {
     return {
-      title: 'Step ' + this.stepId,
-      linkable: true,
+      title: 'Step ' + get(this, 'stepId'),
+      linkable: true
     };
-  }
+  }),
 
-  setupController() {
+  setupController: function () {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controller.set('stepId', this.stepId);
-    this.controllerFor('record.show.edit').setProperties({
-      onCancel: this.setupModel,
-      cancelScope: this,
-    });
-  }
+    this.controller.set('stepId', get(this, 'stepId'));
+    this.controllerFor('record.show.edit')
+      .setProperties({
+        onCancel: this.setupModel,
+        cancelScope: this
+      });
+  },
 
   setupModel() {
-    let stepId = this.stepId;
-    let lineageId = this.lineageId;
+    let stepId = get(this, 'stepId');
+    let lineageId = get(this, 'lineageId');
     let model = this.modelFor('record.show.edit');
     let steps = model.get(
-      'json.metadata.resourceLineage.' + lineageId + '.processStep'
-    );
-    let step = stepId && isArray(steps) ? steps.get(stepId) : undefined;
+      'json.metadata.resourceLineage.' + lineageId + '.processStep');
+    let step = stepId && isArray(steps) ? steps.get(
+      stepId) : undefined;
 
     //make sure the identifier exists
-    if (isEmpty(step)) {
-      this.flashMessages.warning('No Process Step found! Re-directing...');
+    if(isEmpty(step)) {
+      get(this, 'flashMessages')
+        .warning('No Process Step found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject');
 
       return;
     }
 
     return step;
+  },
+  actions: {
+    parentModel() {
+      return this.modelFor('record.show.edit');
+    }
   }
-
-  @action
-  parentModel() {
-    return this.modelFor('record.show.edit');
-  }
-}
+});

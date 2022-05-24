@@ -36,6 +36,6 @@ module('Integration | Component | control/md-edit-table', function(hooks) {
 
     assert.dom('.md-schema').exists('expanded row');
 
-    assert.dom('.md-schema input').hasValue('foo', 'render row contents');
+    assert.equal(find('.md-schema input').value, 'foo', 'render row contents');
   });
 });

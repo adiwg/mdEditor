@@ -1,0 +1,89 @@
+{{head-layout}}
+
+<div class="md-message-container">
+  <div class="md-message-wrapper">
+    {{#each flashMessages.queue as |flash|}}
+    {{#flash-message flash=flash as |component flash|}}
+    {{flash.message}}
+    {{#if flash.showProgress}}
+    <div class="progress">
+      {{! template-lint-disable no-inline-styles }}
+      <div class="progress-bar" role="progressbar"
+        aria-valuenow={{flash.progressValue}}
+        aria-valuemin="0" aria-valuemax="100"
+        style={{html-safe (concat "width:" flash.progressValue "%;")}}>
+        {{flash.progressValue}}%
+      </div>
+    </div>
+    {{/if}}
+    {{/flash-message}}
+    {{/each}}
+  </div>
+</div>
+
+{{#md-title as |title|}}
+  {{title title replace=false}}
+{{/md-title}}
+
+<div id="md-wrapper" class="">
+
+  {{!-- Slider --}}
+    {{#layout/md-slider
+      visible=slider.showSlider
+      fromName=slider.fromName
+      onClose=slider.onClose
+      context=slider.context
+    }}
+    {{/layout/md-slider}}
+  {{!-- /#slider --}}
+
+  {{!-- Sidebar --}}
+    {{layout/md-nav-sidebar items=model}}
+  {{!-- /#sidebar-wrapper --}}
+
+  {{!-- Page Content --}}
+  <div id="md-page-content-wrapper">
+    <div id="md-navbars">
+      {{#layout/md-nav-main}}
+        {{from-elsewhere name="nav-main"}}
+      {{/layout/md-nav-main}}
+      {{layout/md-breadcrumb}}
+      {{from-elsewhere name="nav-secondary"}}
+    </div>
+    <div id="md-page-content" class="container-fluid">
+      {{outlet}}
+    </div>
+  </div>
+  {{!-- /#page-content-wrapper --}}
+  {{layout/md-footer class="hidden-print"}}
+</div>
+{{ember-load-remover}}
+
+{{#control/md-modal isShowing=settings.data.showSplash showConfirm=true confirmLabel="OK"}}
+    <div class="alert alert-info" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
+    <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
+        This application is in beta testing,  <a
+        href="https://github.com/adiwg/mdEditor/issues"
+        target="_blank" rel="noopener noreferrer">please let us know</a> if you find any bugs.
+        Thank-you!
+    </div>
+    <p>
+        The  md<span class="md-icon-mdeditor"></span>ditor has been updated
+        since your last session. Some features may have been added or changed.
+        Please note the version below (also shown in the {{#link-to
+        "settings"}}Settings{{/link-to}}) when reporting bugs or issues. If you
+        are having problems, you might want to {{#link-to "settings"}} clear
+        your localstorage{{/link-to}} which will delete all records. This
+        application is in beta but <strong class="text-warning">SHOULD BE</strong>
+        safe for production use.
+    </p>
+    <p>
+        Current Version: <span class="text-info">{{control/md-repo-link}}</span>
+    </p>
+{{/control/md-modal}}
+
+{{#if spotlight.show}}
+  {{control/md-spotlight}}
+{{/if}}
+
+{{control/md-scroll-spy scrollInit="top" routeName=currentRoute}}

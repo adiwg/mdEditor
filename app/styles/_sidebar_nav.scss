@@ -146,12 +146,10 @@
         }
 
         span::before {
-          font-family: FontAwesome;
           content: '\f106';
         }
 
         &.collapsed span::before {
-          font-family: FontAwesome;
           content: '\f107';
         }
       }

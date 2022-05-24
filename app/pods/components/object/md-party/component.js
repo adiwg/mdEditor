@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, { computed, get, getWithDefault, set } from '@ember/object';
+import EmberObject from '@ember/object';
 import {
   A
 } from '@ember/array';
@@ -9,6 +9,12 @@ import {
 import {
   alias
 } from '@ember/object/computed';
+import {
+  computed,
+  get,
+  getWithDefault,
+  set
+} from '@ember/object';
 import {
   validator,
   buildValidations
@@ -35,7 +41,7 @@ const Template = EmberObject.extend(Validations, {
   },
   _contacts: computed('party', {
     get() {
-      let party = this.party;
+      let party = get(this, 'party');
       return party.mapBy('contactId');
     },
     set(key, value) {

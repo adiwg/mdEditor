@@ -1,25 +1,39 @@
 <div class="section-header">
   <h3>
-    <Layout::MdWrap @data-spy="Version">
-    <small class="small"><b>md<span class="md-icon-mdeditor"></span>ditor</b> Version: <Control::MdRepoLink /></small>
-    </Layout::MdWrap>
+    {{#layout/md-wrap data-spy="Version"}}
+    <small class="small"><b>md<span class="md-icon-mdeditor"></span>ditor</b> Version: {{control/md-repo-link}}</small>
+    {{/layout/md-wrap}}
   </h3>
 </div>
 
-<Layout::MdCard @title="General Settings" @data-spy="General">
+{{#layout/md-card title="General Settings" data-spy="General"}}
 <form class="form-horizontal">
   <div class="form-group">
       <label class="col-sm-3 co-xxl-2 control-label">Auto Save</label>
       <div class="col-sm-2">
-        {{!-- template-lint-disable no-action --}}
-        <XToggle @value={{this.model.autoSave}} @onToggle={{action (mut this.model.autoSave)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
+        {{x-toggle
+          value=model.autoSave
+          onToggle=(action (mut model.autoSave))
+          showLabels=true
+          onLabel="On"
+          offLabel="Off"
+          size="medium"
+          theme="default"
+        }}
       </div>
   </div>
   <div class="form-group">
       <label class="col-sm-3 co-xxl-2 control-label">Copy in Edit Mode</label>
       <div class="col-sm-2">
-        {{!-- template-lint-disable no-action --}}
-        <XToggle @value={{this.model.showCopy}} @onToggle={{action (mut this.model.showCopy)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
+        {{x-toggle
+          value=model.showCopy
+          onToggle=(action (mut model.showCopy))
+          showLabels=true
+          onLabel="On"
+          offLabel="Off"
+          size="medium"
+          theme="default"
+        }}
       </div>
   </div>
 
@@ -27,67 +41,97 @@
     <div class="form-group">
         <label class="col-sm-3 co-xxl-2 control-label">Delete in Edit Mode</label>
         <div class="col-sm-2">
-          {{!-- template-lint-disable no-action --}}
-          <XToggle @value={{this.model.showDelete}} @onToggle={{action (mut this.model.showDelete)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
+          {{x-toggle
+            value=model.showDelete
+            onToggle=(action (mut model.showDelete))
+            showLabels=true
+            onLabel="On"
+            offLabel="Off"
+            size="medium"
+            theme="default"
+          }}
         </div>
     </div>
     <div class="form-group no-margin">
-      <label class="col-sm-3 control-label">Clear All Records</label>
-      <div class="col-sm-9 form-group-inline">
-
-        {{!-- template-lint-disable no-action --}}
-        <Control::MdButton
-          @class="btn btn-sm btn-danger"
-          @icon="times"
-          @text="Clear Storage Cache"
-          @click={{action (mut this.showStorageModal) true}} />
-          {{!-- TODO: WORK ON FIXING THE ESCAPE CHARACTERS FOR THIS --}}
-        {{!-- template-lint-disable no-curly-component-invocation --}}
-        {{control/md-modal
-          message="<h4 class=\"text-danger\"><span class=\"fa fa-exclamation-circle\"></span> <strong>Are you sure?</strong></h4> Clicking <strong class=\"text-danger\">Confirm</strong> will delete ALL  records in
+      <label class="col-sm-3 co-xxl-2 control-label">Clear All Records</label>
+      <div class="col-sm-2">
+        {{#control/md-button-modal class="btn btn-sm btn-danger" type="button"
+          message="<h1>Are you sure?</h1> Clicking OK will delete ALL  records in
           your browser cache. Have you made a backup?"
-          confirm=(route-action "clearLocalStorage")
-          showCancel=true
-          cancelType="primary"
-          showConfirm=true
-          confirmLabel="Confirm"
-          confirmType="danger"
-          isShowing=this.showStorageModal
+          onConfirm=(route-action "clearLocalStorage")
         }}
-        <div class="form-group-inline">
-          <span>Keep Settings?</span>
-          <Input @type="checkbox" @checked={{this.model.keepSettings}} />
-        </div>
+          <span class="fa fa-times"></span> Clear Storage Cache
+        {{/control/md-button-modal}}
       </div>
     </div>
   </div>
 </form>
-</Layout::MdCard>
+{{/layout/md-card}}
 
-<Layout::MdCard @title="Defaults" @shadow={{true}}>
+{{#layout/md-card
+  title="Defaults"
+  shadow=true
+}}
 <div class="form-group">
     <div class="col-md-4">
-      <Input::MdCodelist @value={{this.model.language}} @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="language" @label="Language" @showValidations={{true}} @placeholder="Select or enter a language code." />
+      {{input/md-codelist
+        value=model.language
+        create=true
+        tooltip=true
+        icon=false
+        disabled=disabled
+        mdCodeName="language"
+        label="Language"
+        showValidations=true
+        placeholder="Select or enter a language code."
+      }}
     </div>
     <div class="col-md-4">
-      <Input::MdCodelist @value={{this.model.characterSet}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="characterSet" @label="Character Set" @showValidations={{true}} @placeholder="Select character set." />
+      {{input/md-codelist
+        value=model.characterSet
+        create=false
+        tooltip=true
+        icon=false
+        disabled=disabled
+        mdCodeName="characterSet"
+        label="Character Set"
+        showValidations=true
+        placeholder="Select character set."
+      }}
     </div>
     <div class="col-md-4">
-      <Input::MdCodelist @value={{this.model.country}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="countries" @label="Country" @placeholder="Select country code." />
+      {{input/md-codelist
+        value=model.country
+        create=false
+        tooltip=true
+        icon=false
+        disabled=disabled
+        mdCodeName="countries"
+        label="Country"
+        placeholder="Select country code."
+      }}
     </div>
     <hr class="col-md-12">
     <div class="col-md-8">
-      <Input::MdInput @label="Import URL" @type="url" @value={{this.model.importUriBase}} @placeholder="Text string used as the default URL for importing." />
+      {{input/md-input
+        label="Import URL"
+        type="url"
+        value=model.importUriBase
+        placeholder="Text string used as the default URL for importing."
+      }}
     </div>
     <hr class="col-md-12">
     <div class="col-md-8">
       <label>mdTranslator API URL</label>
       <div class="input-group">
-        <Input::MdInput @type="url" @value={{this.model.mdTranslatorAPI}} @placeholder="URL for the ADIwg Metadata Translator." />
+        {{input/md-input
+          type="url"
+          value=model.mdTranslatorAPI
+          placeholder="URL for the ADIwg Metadata Translator."
+        }}
         <span class="input-group-btn">
-          {{!-- template-lint-disable no-action --}}
           <button class="btn btn-warning" type="button" {{action "resetMdTranslatorAPI"}}>Default
-            <EmberTooltip @tooltipClass="ember-tooltip md-tooltip info" @text="Reset to default" />
+            {{ember-tooltip tooltipClass="ember-tooltip md-tooltip info" text="Reset to default"}}
           </button>
         </span>
       </div>
@@ -96,29 +140,64 @@
 
 <div class="clearfix"></div>
 <hr>
-  <Object::MdArrayTable @columns="Repository, Collection Title" @value={{this.model.repositoryDefaults}} @plain={{true}} @title="Metadata Repository" @templateClass={{this.settings.repositoryTemplate}} @onChange={{route-action "save"}} @data-spy="Metadata Repository" as |meta|>
+  {{#object/md-array-table
+    columns="Repository, Collection Title"
+    value=model.repositoryDefaults
+    plain=true
+    title="Metadata Repository"
+    templateClass=settings.repositoryTemplate
+    onChange=(route-action "save")
+    data-spy="Metadata Repository" as |meta|
+  }}
     <td>
-      <Input::MdCodelist @value={{meta.item.repository}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="metadataRepository" @closeOnSelect={{true}} @placeholder="Select or enter a repository." @change={{route-action "save"}} />
+      {{input/md-codelist
+        value=meta.item.repository
+        create=true
+        tooltip=true
+        icon=false
+        mdCodeName="metadataRepository"
+        closeOnSelect=true
+        placeholder="Select or enter a repository."
+        change=(route-action "save")
+      }}
     </td>
     <td>
-      <Input::MdInput @type="text" @value={{meta.item.title}} @placeholder="Text string used to identify a set of resources in the repository." @change={{route-action "save"}} />
+      {{input/md-input
+        type="text"
+        value=meta.item.title
+        placeholder="Text string used to identify a set of resources in the repository."
+        change=(route-action "save")
+      }}
     </td>
-  </Object::MdArrayTable>
-</Layout::MdCard>
+  {{/object/md-array-table}}
+{{/layout/md-card}}
 
-<Layout::MdCard @title="Date Settings" @data-spy="Dates">
+{{#layout/md-card title="Date Settings" data-spy="Dates"}}
   <div class="col-md-4">
-    <Input::MdMonth @date={{this.model.fiscalStartMonth}} @format="MMMM" @altFormat="MM" @label="Start Month of Fiscal Year" @placeholder="Select month." />
+    {{input/md-month
+      date=model.fiscalStartMonth
+      format="MMMM"
+      altFormat="MM"
+      label="Start Month of Fiscal Year"
+      placeholder="Select month."
+    }}
   </div>
-</Layout::MdCard>
+{{/layout/md-card}}
 
-<Layout::MdCard @title="Publishing Settings" @data-spy="Publishing">
+{{#layout/md-card title="Publishing Settings" data-spy="Publishing"}}
   {{#each (compute (route-action "catalogs")) as |catalog|}}
-    <Layout::MdCard @title={{catalog.name}} @collapsible={{true}} @collapsed={{false}} @shadow={{false}} @class="md-embedded">
-    {{component catalog.settingsComponent model=this.model.publishOptions save=(route-action "save")}}
-    </Layout::MdCard>
+    {{#layout/md-card
+      title=catalog.name
+      collapsible=true
+      collapsed=false
+      shadow=false
+      class="md-embedded"
+    }}
+    {{component catalog.settingsComponent model=model.publishOptions save=(route-action "save")}}
+    {{/layout/md-card}}
   {{/each}}
-</Layout::MdCard>
+{{/layout/md-card}}
  {{outlet}}
 
- <ToElsewhere @named="md-scroll-spy-settings" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />
+ {{to-elsewhere named="md-scroll-spy-settings"
+   send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
