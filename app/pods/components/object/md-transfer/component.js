@@ -44,7 +44,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = this.model;
+    let model = get(this, 'model');
 
     once(function () {
       set(model, 'onlineOption', getWithDefault(model, 'onlineOption', []));

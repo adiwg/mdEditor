@@ -1,33 +1,33 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
-import { get, getWithDefault, set, action } from '@ember/object';
+import { get, getWithDefault, set } from '@ember/object';
 
-@classic
-export default class IndexRoute extends Route {
+export default Route.extend({
   afterModel(m) {
-    super.afterModel(...arguments);
+    this._super(...arguments);
 
     let model = get(m, 'json.metadata');
     set(model, 'resourceLineage', getWithDefault(model, 'resourceLineage', []));
-  }
+  },
 
-  setupController() {
+  setupController: function() {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    this.controller.set('parentModel', this.modelFor(
+      'record.show.edit'));
+  },
+
+  actions: {
+    editLineage(id) {
+      this.transitionTo('record.show.edit.lineage.lineageobject', id);
+    }//,
+    // templateClass() {
+    //   return Ember.Object.extend({
+    //     init() {
+    //       this._super(...arguments);
+    //       //this.set('authority', {});
+    //     }
+    //   });
+    // }
   }
-
-  @action
-  editLineage(id) {
-    this.transitionTo('record.show.edit.lineage.lineageobject', id);
-  } //,
-  // templateClass() {
-  //   return Ember.Object.extend({
-  //     init() {
-  //       this._super(...arguments);
-  //       //this.set('authority', {});
-  //     }
-  //   });
-  // }
-}
+});

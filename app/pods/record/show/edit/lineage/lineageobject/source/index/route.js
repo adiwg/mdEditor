@@ -1,24 +1,22 @@
-import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-@classic
-export default class IndexRoute extends Route.extend(ScrollTo) {
-  setupController(controller) {
+export default Route.extend(ScrollTo, {
+  setupController: function (controller) {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
     let sourceId = this.paramsFor(
-      'record.show.edit.lineage.lineageobject.source'
-    ).source_id;
+        'record.show.edit.lineage.lineageobject.source')
+      .source_id;
 
     controller.set('parentModel', this.modelFor('record.show.edit'));
     controller.set('sourceId', sourceId);
-  }
+  },
 
-  @action
-  goBack() {
-    this.transitionTo('record.show.edit.lineage.lineageobject');
+  actions: {
+    goBack() {
+      this.transitionTo('record.show.edit.lineage.lineageobject');
+    }
   }
-}
+});

@@ -1,14 +1,12 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 
-@classic
-export default class ContactRoute extends Route {
+export default Route.extend({
   init() {
-    super.init(...arguments);
+    this._super(...arguments);
 
     this.breadCrumb = {
       title: 'Contact',
-      linkable: false,
-    };
+      linkable: false
+    }
   }
-}
+});

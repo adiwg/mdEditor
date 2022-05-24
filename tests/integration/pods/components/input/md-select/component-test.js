@@ -71,7 +71,7 @@ module('Integration | Component | input/md select', function(hooks) {
       assert.equal(find('.md-select').textContent
         .replace(/[ \n]+/g, '|'), '|baz|', 'display value updates');
 
-      assert.equal(this.value, 2, 'value is updated');
+      assert.equal(this.get('value'), 2, 'value is updated');
   });
 
   test('create option', async function(assert) {
@@ -110,6 +110,6 @@ module('Integration | Component | input/md select', function(hooks) {
       assert.equal(find('.md-select').textContent
         .replace(/[ \n]+/g, '|'), '|biz|', 'display value updates');
 
-      assert.equal(this.value, 'biz', 'value is updated');
+      assert.equal(this.get('value'), 'biz', 'value is updated');
   });
 });

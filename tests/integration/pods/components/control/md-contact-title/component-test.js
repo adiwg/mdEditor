@@ -17,7 +17,7 @@ module('Integration | Component | control/md contact title', function(hooks) {
 
     await render(hbs`<span>{{control/md-contact-title contactId=0}}</span>`);
 
-    assert.dom('span').hasText('Contact0');
+    assert.equal(find('span').textContent.trim(), 'Contact0');
 
     // Template block usage:
     await render(hbs`<div class="test1">
@@ -27,6 +27,6 @@ module('Integration | Component | control/md contact title', function(hooks) {
       </div>
     `);
 
-    assert.dom('.test1').hasText('template block text Contact0');
+    assert.equal(find('.test1').textContent.trim(), 'template block text Contact0');
   });
 });

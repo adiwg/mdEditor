@@ -20,12 +20,10 @@ module('Integration | Component | control/md repo link', function(hooks) {
 
     await render(hbs `{{control/md-repo-link}}`);
 
-    assert.dom('a').hasText(version);
-    assert.dom('a').hasAttribute(
-      'href',
-      `${repository}/tree/${version.substring(version.indexOf('+') + 1)}`,
-      'link ok'
-    );
+    assert.equal(find('a').textContent
+      .trim(), version);
+    assert.equal(find('a').getAttribute('href'),
+      `${repository}/tree/${version.substring(version.indexOf('+') + 1)}`, 'link ok');
 
     // Template block usage:
     await render(hbs `
@@ -34,6 +32,7 @@ module('Integration | Component | control/md repo link', function(hooks) {
       {{/control/md-repo-link}}
     `);
 
-    assert.dom('a').hasText('template block text', 'block ok');
+    assert.equal(find('a').textContent
+      .trim(), 'template block text', 'block ok');
   });
 });

@@ -1,27 +1,27 @@
-<td colspan={{this.visibleProcessedColumns.length}}>
+<td colspan={{visibleProcessedColumns.length}}>
   {{#if hasBlock}}
     {{yield
       (hash
-        expandedRowComponent=this.expandedRowComponent
-        record=this.record
-        visibleProcessedColumns=this.visibleProcessedColumns
-        index=this.index
-        clickOnRow=this.clickOnRow
-        sendAction=this.sendAction
-        themeInstance=this.themeInstance
-        expandRow=this.expandRow
-        collapseRow=this.collapseRow
+        expandedRowComponent=expandedRowComponent
+        record=record
+        visibleProcessedColumns=visibleProcessedColumns
+        index=index
+        clickOnRow=clickOnRow
+        sendAction=sendAction
+        themeInstance=themeInstance
+        expandRow=expandRow
+        collapseRow=collapseRow
       )}}
   {{else}}
     {{component
-      this.expandedRowComponent
-      record=this.record
-      visibleProcessedColumns=this.visibleProcessedColumns
-      index=this.index
-      clickOnRow=this.clickOnRow
-      sendAction=this.sendAction
-      themeInstance=this.themeInstance
-      expandRow=this.expandRow
-      collapseRow=this.collapseRow}}
+      expandedRowComponent
+      record=record
+      visibleProcessedColumns=visibleProcessedColumns
+      index=index
+      clickOnRow=clickOnRow
+      sendAction=sendAction
+      themeInstance=themeInstance
+      expandRow=expandRow
+      collapseRow=collapseRow}}
   {{/if}}
 </td>

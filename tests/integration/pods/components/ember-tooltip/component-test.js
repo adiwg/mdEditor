@@ -14,7 +14,7 @@ module('Integration | Component | ember-tooltip', function(hooks) {
 
     await render(hbs`{{ember-tooltip}}`);
 
-    assert.dom(this.element).hasText('');
+    assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`

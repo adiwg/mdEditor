@@ -12,6 +12,6 @@ module('Integration | Component | leaflet table row', function(hooks) {
 
     await render(hbs`{{leaflet-table-row}}`);
 
-    assert.dom('tr').exists({ count: 1 });
+    assert.equal(findAll('tr').length, 1);
   });
 });

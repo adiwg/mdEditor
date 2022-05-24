@@ -18,4 +18,5 @@ export default function startApp(attrs) {
     registerModalAssertHelpers();
     return application;
   });
+
 }

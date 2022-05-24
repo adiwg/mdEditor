@@ -13,16 +13,16 @@ module('Integration | Component | input/md input confirm', function(hooks) {
 
     await render(hbs`{{input/md-input-confirm}}`);
 
-    assert.dom('.md-input').hasText('Edit');
-    assert.dom('.md-input input[disabled]').exists('input disabled');
+    assert.equal(find('.md-input').textContent.trim(), 'Edit');
+    assert.ok(find('.md-input input[disabled]'), 'input disabled');
 
     await click('.btn-warning');
 
-    assert.dom('.md-input').hasText('Confirm', 'confirm ok');
+    assert.equal(find('.md-input').textContent.trim(), 'Confirm', 'confirm ok');
 
     await click('.btn-warning');
 
-    assert.dom('.md-input input:not([disabled])').exists('input enabled');
+    assert.ok(find('.md-input input:not([disabled])'), 'input enabled');
 
     // Template block usage:
     await render(hbs`

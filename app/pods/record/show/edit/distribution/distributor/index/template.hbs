@@ -1,46 +1,33 @@
-<h4 class='section-header'>
-  Editing Distributor #{{this.distributorId}} in
-  <span class='text-success'>
-    Distribution #{{this.distributionId}}
-  </span>
-  <Control::MdButtonConfirm
-    @class='btn btn-xs btn-danger'
-    @onConfirm={{route-action 'deleteDistributor'}}
-    @tooltip='Delete Distributor?'
-    @tipClass='danger'
-    @tipSide='bottom'
-  >
-    {{fa-icon 'times'}} Delete
-  </Control::MdButtonConfirm>
-  <Control::MdStatus @model={{this.parentModel}} />
+<h4 class="section-header">
+  Editing Distributor #{{distributorId}} in <span class="text-success">Distribution #{{distributionId}}</span>
+  {{#control/md-button-confirm
+    class="btn btn-xs btn-danger"
+    onConfirm=(route-action "deleteDistributor")
+    tooltip="Delete Distributor?"
+    tipClass="danger"
+    tipSide="bottom"
+  }}
+    {{fa-icon "times"}} Delete
+  {{/control/md-button-confirm}}
+  {{control/md-status model=parentModel}}
 </h4>
 
-<Object::MdDistributor
-  @model={{this.model}}
-  @distributorId={{this.distributorId}}
-  @profilePath='record.distribution.distributor'
-  @editTransferOption={{route-action 'editTransferOption'}}
-/>
+{{object/md-distributor
+  model=model
+  distributorId=distributorId
+  profilePath="record.distribution.distributor"
+  editTransferOption=(route-action "editTransferOption")
+}}
 
-<ToElsewhere
-  @named='md-subbar-extra'
-  @send={{
-    component
-    'control/subbar-link'
-    text='Back to Distribution List'
-    icon='arrow-left'
-    type='primary'
-    route='record.show.edit.distribution'
-  }}
-/>
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Distribution List"
+    icon="arrow-left"
+    type="primary"
+    route="record.show.edit.distribution"
+  )
+}}
 
-<ToElsewhere
-  @named='md-scroll-spy-record-edit'
-  @send={{
-    component
-    'control/md-scroll-spy'
-    refresh=this.refresh
-    scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
-  }}
-/>
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

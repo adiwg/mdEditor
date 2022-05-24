@@ -19,7 +19,7 @@ module('Integration | Component | object/md identifier', function (hooks) {
       'Identifier|Namespace|namespace0|×|Version|Description|Authority|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|No|Date|found.|Add|Date|No|Responsible|Party|found.|Add|Responsible|Party|No|Online|Resource|found.|Add|Online|Resource|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|'
     );
 
-    assert.dom('input').hasValue('identifier0', 'assign value');
+    assert.equal(find('input').value, 'identifier0', 'assign value');
     // Template block usage:
     await render(hbs `
       {{#object/md-identifier profilePath="foobar" model=(hash)}}

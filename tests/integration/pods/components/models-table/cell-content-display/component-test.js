@@ -20,7 +20,7 @@ module('Integration | Component | models-table/cell-content-display', function(h
     }));
 
     await render(hbs`{{models-table/cell-content-display column=column record=data}}`);
-    assert.dom(this.element).hasText('foo biz baz');
+    assert.equal(this.element.textContent.trim(), 'foo biz baz');
 
     this.set('column1', {
       propertyName: 'title',
@@ -29,6 +29,6 @@ module('Integration | Component | models-table/cell-content-display', function(h
     });
 
     await render(hbs`{{models-table/cell-content-display column=column1 record=data}}`);
-    assert.dom(this.element).hasText('foo biz ...');
+    assert.equal(this.element.textContent.trim(), 'foo biz ...');
   });
 });

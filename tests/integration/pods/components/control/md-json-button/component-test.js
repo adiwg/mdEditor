@@ -15,7 +15,8 @@ module('Integration | Component | control/md json button', function(hooks) {
 
     await render(hbs `{{control/md-json-button}}`);
 
-    assert.dom('button').hasText('Preview JSON');
+    assert.equal(find('button').textContent
+      .trim(), 'Preview JSON');
 
     // Template block usage:
     await render(hbs `
@@ -24,7 +25,8 @@ module('Integration | Component | control/md json button', function(hooks) {
       {{/control/md-json-button}}
     `);
 
-    assert.dom('button').hasText('template block text');
+    assert.equal(find('button').textContent
+      .trim(), 'template block text');
   });
 
   test('render json modal', async function(assert) {
@@ -38,7 +40,9 @@ module('Integration | Component | control/md json button', function(hooks) {
 
     await click('button.btn');
 
-    assert.dom(document.querySelector('.md-jsmodal-container')).hasText('{"foo": "bar"}');
+    assert.equal(document.querySelector('.md-jsmodal-container')
+      .textContent
+      .trim(), '{"foo": "bar"}');
   });
 
   test('render json slider', async function(assert) {

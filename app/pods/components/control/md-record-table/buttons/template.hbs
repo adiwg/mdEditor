@@ -1,6 +1,6 @@
 {{control/md-record-table/buttons/show record=record}}
 <button type="button" class="btn btn-sm btn-success" onclick={{action "editItem" record}}>
-  {{fa-icon "edit"}} Edit
+  {{fa-icon "pencil"}} Edit
 </button>
 {{#control/md-button-confirm class="btn btn-sm btn-danger" onConfirm=(action "deleteItem" record index isSelected clickOnRow)}}
   <span class="fa fa-times"></span> Delete

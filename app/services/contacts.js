@@ -1,49 +1,43 @@
 import Service, { inject as service } from '@ember/service';
 import { A } from '@ember/array';
 import EmberObject, { computed } from '@ember/object';
-import classic from 'ember-classic-decorator';
 
-@classic
-export default class ContactsService extends Service {
+export default Service.extend({
   init() {
-    super.init(...arguments);
+    this._super(...arguments);
 
     let store = this.store;
 
     this.set('contacts', store.peekAll('contact'));
-  }
+  },
 
-  @service store;
+  store: service(),
 
-  contacts = A();
+  contacts: A(),
 
-  @computed('contacts.[]')
-  get organizations() {
+  organizations: computed('contacts.[]', function() {
     let orgs = this.contacts.filterBy('json.isOrganization');
 
     return orgs;
-  }
+  }),
 
-  @computed('contacts.[]')
-  get individuals() {
+  individuals: computed('contacts.[]', function() {
     let ind = this.contacts.rejectBy('json.isOrganization');
 
     return ind;
-  }
+  }),
 
-  @computed('contactsCodes.[]')
-  get organizationsCodes() {
-    let orgs = this.contactsCodes.filterBy('icon', 'users');
+  organizationsCodes: computed('contactsCodes.[]', function() {
+    let orgs = this.contactsCodes.filterBy('icon','users');
 
     return orgs;
-  }
+  }),
 
-  @computed('contactsCodes.[]')
-  get individualsCodes() {
-    let ind = this.contactsCodes.rejectBy('icon', 'users');
+  individualsCodes: computed('contactsCodes.[]', function() {
+    let ind = this.contactsCodes.rejectBy('icon','users');
 
     return ind;
-  }
+  }),
 
   /**
    * mapped is a re-mapped array of code objects.
@@ -53,8 +47,7 @@ export default class ContactsService extends Service {
    * @category computed
    * @requires mdCodeName
    */
-  @computed('contacts.@each.name', 'defaultIcon', 'icons')
-  get contactsCodes() {
+  contactsCodes: computed('contacts.@each.name', function() {
     //let codeId = this.get('valuePath');
     //let codeName = this.get('namePath');
     //let tooltip = this.get('tooltipPath');
@@ -63,16 +56,16 @@ export default class ContactsService extends Service {
     let defaultIcon = this.defaultIcon;
     let mdCodelist = this.contacts.sortBy('title');
 
-    mdCodelist.forEach(function (item) {
+    mdCodelist.forEach(function(item) {
       let newObject = EmberObject.create({
         codeId: item.get('contactId'),
         codeName: item.get('title'),
         tooltip: item.get('combinedName'),
-        icon: item.get('icon') || icons.get(defaultIcon),
+        icon: item.get('icon') || icons.get(defaultIcon)
       });
       codelist.pushObject(newObject);
     });
 
     return codelist;
-  }
-}
+  })
+});

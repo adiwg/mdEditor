@@ -1,48 +1,52 @@
-import classic from 'ember-classic-decorator';
 import $ from 'jquery';
 import Route from '@ember/routing/route';
-import EmberObject, { get, set, action } from '@ember/object';
-import { isArray, A } from '@ember/array';
+import EmberObject, { get, set } from '@ember/object';
+import { isArray } from '@ember/array';
 import { isEmpty } from '@ember/utils';
+import { A } from '@ember/array';
 
-@classic
-export default class SpatialRoute extends Route {
+export default Route.extend({
   model(params) {
     this.set('extentId', params.extent_id);
 
     return this.setupModel();
-  }
 
-  setupController(controller) {
+  },
+
+  setupController: function (controller) {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
-    this.controllerFor('record.show.edit').setProperties({
-      onCancel: this.setupModel,
-      cancelScope: this,
-      extentId: this.extentId,
-    });
+    this.controllerFor('record.show.edit')
+      .setProperties({
+        onCancel: this.setupModel,
+        cancelScope: this,
+        extentId: this.extentId
+      });
 
-    controller.setProperties({
-      featureGroup: null,
-      extentId: this.extentId,
-    });
-  }
+    controller
+      .setProperties({
+        featureGroup: null,
+        extentId: this.extentId
+      });
+  },
 
   setupModel() {
     let model = this.modelFor('record.show.edit.extent');
     let extents = model.get('json.metadata.resourceInfo.extent');
-    let extent = get(extents, this.extentId || this.controller.get('extentId'));
+    let extent = get(extents, this.extentId || this.controller.get(
+      'extentId'));
 
     //make sure the extent still exists
-    if (isEmpty(extent)) {
-      this.flashMessages.warning('No extent found! Re-directing to list...');
+    if(isEmpty(extent)) {
+      get(this, 'flashMessages')
+        .warning('No extent found! Re-directing to list...');
       this.replaceWith('record.show.edit.extent');
 
       return;
     }
 
-    if (!isArray(extent.geographicExtent[0].geographicElement)) {
+    if(!isArray(extent.geographicExtent[0].geographicElement)) {
       set(extent, 'geographicExtent.0.geographicElement', A([]));
     }
 
@@ -55,102 +59,99 @@ export default class SpatialRoute extends Route {
     this.set('layers', layers);
 
     return model;
-  }
+  },
 
-  @action
-  getContext() {
-    return this;
-  }
+  actions: {
+    getContext() {
+      return this;
+    },
+    handleResize() {
+      $('.map-file-picker .leaflet-container')
+        .height(($(window)
+          .height() - $('#md-navbars')
+          .outerHeight() - 15) / 2);
+    },
+    uploadData() {
+      $('.map-file-picker .file-picker__input')
+        .click();
+    },
+    deleteAllFeatures() {
+      let features = this.layers;
+      let group = this.controller
+        .get('featureGroup');
 
-  @action
-  handleResize() {
-    $('.map-file-picker .leaflet-container').height(
-      ($(window).height() - $('#md-navbars').outerHeight() - 15) / 2
-    );
-  }
+      if(features.length) {
+        features.forEach((item) => {
+          features.popObject(item);
+          group.removeLayer(item._layer);
+        });
 
-  @action
-  uploadData() {
-    $('.map-file-picker .file-picker__input').click();
-  }
-
-  @action
-  deleteAllFeatures() {
-    let features = this.layers;
-    let group = this.controller.get('featureGroup');
-
-    if (features.length) {
-      features.forEach((item) => {
-        features.popObject(item);
-        group.removeLayer(item._layer);
-      });
-
-      if (group._map.drawControl) {
-        group._map.drawControl.remove();
+        if(group._map.drawControl) {
+          group._map.drawControl.remove();
+        }
+        features.clear();
       }
-      features.clear();
-    }
-  }
+    },
+    setFeatureGroup(obj) {
+      this.controller
+        .set('featureGroup', obj);
+    },
+    zoomAll() {
+      let layer = this.controller
+        .get('featureGroup');
+      let bnds = layer.getBounds();
+      let map = layer._map;
 
-  @action
-  setFeatureGroup(obj) {
-    this.controller.set('featureGroup', obj);
-  }
+      if(bnds.isValid()) {
+        map.fitBounds(bnds, {
+          maxZoom: 14
+        });
+        return;
+      }
 
-  @action
-  zoomAll() {
-    let layer = this.controller.get('featureGroup');
-    let bnds = layer.getBounds();
-    let map = layer._map;
+      map.fitWorld();
+    },
+    exportGeoJSON() {
+      let fg = this.controller
+        .get('featureGroup');
 
-    if (bnds.isValid()) {
-      map.fitBounds(bnds, {
-        maxZoom: 14,
-      });
-      return;
-    }
+      let json = {
+        'type': 'FeatureCollection',
+        'features': []
+      };
 
-    map.fitWorld();
-  }
+      if(fg) {
+        let geoGroup = fg.getLayers();
+        geoGroup.forEach((l) => {
+          let layers = l.getLayers();
 
-  @action
-  exportGeoJSON() {
-    let fg = this.controller.get('featureGroup');
+          layers.forEach((layer) => {
+            let feature = layer.feature;
 
-    let json = {
-      type: 'FeatureCollection',
-      features: [],
-    };
-
-    if (fg) {
-      let geoGroup = fg.getLayers();
-      geoGroup.forEach((l) => {
-        let layers = l.getLayers();
-
-        layers.forEach((layer) => {
-          let feature = layer.feature;
-
-          json.features.push({
-            type: 'Feature',
-            id: feature.id,
-            geometry: feature.geometry,
-            properties: feature.properties,
+            json.features.push({
+              'type': 'Feature',
+              'id': feature.id,
+              'geometry': feature.geometry,
+              'properties': feature.properties
+            });
           });
         });
-      });
 
-      window.saveAs(
-        new Blob([JSON.stringify(json)], {
-          type: 'application/json;charset=utf-8',
-        }),
-        'export_features.json'
-      );
+        window.saveAs(
+          new Blob([JSON.stringify(json)], {
+            type: 'application/json;charset=utf-8'
+          }),
+          'export_features.json'
+        );
 
-      // return new Ember.RSVP.Promise((resolve) => {
-      //   Ember.run(null, resolve, json);
-      // }, 'MD: ExportSpatialData');
-    } else {
-      this.flashMessages.warning('Found no features to export.');
+        // return new Ember.RSVP.Promise((resolve) => {
+        //   Ember.run(null, resolve, json);
+        // }, 'MD: ExportSpatialData');
+
+      } else {
+        get(this, 'flashMessages')
+          .warning('Found no features to export.');
+      }
     }
   }
-}
+});

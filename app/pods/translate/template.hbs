@@ -11,9 +11,8 @@
         border-radius: 5vh;
     }
 </style>
-<Layout::MdCard
-class="construction card-inverse card-warning" shadow={{false}}>
-  <div class="text-center">
+{{#layout/md-card class="construction card-inverse card-warning" shadow=false}}
+    <div class="text-center">
         <div>
             {{fa-icon "exclamation-triangle" size=2}}
         </div>
@@ -21,4 +20,4 @@ class="construction card-inverse card-warning" shadow={{false}}>
             <b>Page Under <br>Construction</b>
         </div>
     </div>
-</Layout::MdCard>
+{{/layout/md-card}}

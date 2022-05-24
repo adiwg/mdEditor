@@ -30,6 +30,7 @@ module('Integration | Component | control/md json viewer', function(hooks) {
 
     await render(hbs `{{control/md-json-viewer json=json modal=false}}`);
 
-    assert.dom('.md-json-viewer').hasText('{"foo": "bar"}');
+    assert.equal(find('.md-json-viewer').textContent
+      .trim(), '{"foo": "bar"}');
   });
 });

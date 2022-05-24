@@ -1,28 +1,25 @@
-import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
-import { getWithDefault, get, set, action } from '@ember/object';
+import { getWithDefault, get, set } from '@ember/object';
 
-@classic
-export default class IndexRoute extends Route {
+export default Route.extend({
   afterModel(m) {
-    super.afterModel(...arguments);
+    this._super(...arguments);
 
     let model = get(m, 'json.dataDictionary');
     set(model, 'domain', getWithDefault(model, 'domain', []));
-  }
+  },
 
-  setupController() {
+  setupController: function() {
     // Call _super for default behavior
-    super.setupController(...arguments);
+    this._super(...arguments);
 
-    this.controller.set(
-      'parentModel',
-      this.modelFor('dictionary.show.edit.index')
-    );
-  }
+    this.controller.set('parentModel', this.modelFor(
+      'dictionary.show.edit.index'));
+  },
 
-  @action
-  editDomain(id) {
-    this.transitionTo('dictionary.show.edit.domain.edit', id);
+  actions: {
+    editDomain(id) {
+      this.transitionTo('dictionary.show.edit.domain.edit', id);
+    }
   }
-}
+});

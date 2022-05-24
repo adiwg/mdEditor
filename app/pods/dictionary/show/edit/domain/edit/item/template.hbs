@@ -1,40 +1,28 @@
-<h4 class='section-header'>
-  Editing Domain Item
-  {{#if this.model.name}}
-    <em>
-      {{this.model.name}}
-    </em>
+<h4 class="section-header">
+  Editing Domain Item {{#if model.name}}
+    <em>{{model.name}}</em>
   {{else}}
-    #{{this.itemId}}
+    #{{itemId}}
   {{/if}}
   {{!-- <span class="small">for <em>{{parentModel.codeName}}</em></span> --}}
-  <Control::MdStatus @model={{this.parentModel}} />
+  {{control/md-status model=parentModel}}
 </h4>
 
-<Object::MdDomainitem
-  @class=''
-  @model={{this.model}}
-  @profilePath='dictionary.domain.domainItem'
-/>
+{{object/md-domainitem
+  class=""
+  model=model
+  profilePath="dictionary.domain.domainItem"
+}}
 
-<ToElsewhere
-  @named='md-subbar-extra'
-  @send={{
-    component
-    'control/subbar-link'
-    text='Back to Domain'
-    icon='arrow-left'
-    type='primary'
-    click=(route-action 'backToDomain')
-  }}
-/>
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Domain"
+    icon="arrow-left"
+    type="primary"
+    click=(route-action "backToDomain")
+  )
+}}
 
-<ToElsewhere
-  @named='md-scroll-spy-dict-edit'
-  @send={{
-    component
-    'control/md-scroll-spy'
-    scrollInit=this.scrollTo
-    setScrollTo=(route-action 'setScrollTo')
-  }}
-/>
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

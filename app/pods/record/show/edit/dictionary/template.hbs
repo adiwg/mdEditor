@@ -1,83 +1,59 @@
-<div class='row'>
-  <div class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
-    <h3 class='text-info'>
-      {{fa-icon 'book'}} Dictionaries
-      <span class='small'>
-        for
-        <em>
-          {{this.parentModel.title}}
-        </em>
-      </span>
-      <Control::MdStatus @model={{this.parentModel}} />
+<div class="row">
+  <div class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
+    <h3 class="text-info">{{fa-icon "book"}} Dictionaries
+      <span class="small">for <em>{{parentModel.title}}</em></span>
+      {{control/md-status model=parentModel}}
     </h3>
-    {{#if this.model.length}}
-      <Layout::MdCard
-        @collapsible={{true}}
-        @collapsed={{false}}
-        @shadow={{true}}
-        @title='Select Dictionaries'
-        @spotlightEnabled={{false}}
-      >
-        <Control::MdRecordTable
-          @data={{this.model}}
-          @dataColumns={{compute (route-action 'getColumns')}}
-          @select={{route-action 'select'}}
-          @actionsColumn={{false}}
-          @selectProperty='selected'
-          @selectedItems={{this.selected}}
-        />
-      </Layout::MdCard>
+    {{#if model.length}}
+      {{#layout/md-card collapsible=true collapsed=false shadow=true
+        title="Select Dictionaries"
+        spotlightEnabled=false
+      }}
+        {{control/md-record-table
+          data=model
+          dataColumns=(compute (route-action "getColumns"))
+          select=(route-action "select")
+          actionsColumn=false
+          selectProperty="selected"
+          selectedItems=selected
+        }}
+      {{/layout/md-card}}
 
-      <Layout::MdCard
-        @collapsible={{true}}
-        @collapsed={{false}}
-        @shadow={{true}}
-        @title='Selected Dictionaries'
-        @class='card-inverse hd-success card-outline-success'
-        @spotlightEnabled={{false}}
-      >
-        <ul class='list-group'>
-          {{#each this.selected as |item|}}
-            <li class='list-group-item'>
-              <h4 class=''>
-                {{item.title}}
-                <Control::MdButtonConfirm
-                  @class='btn btn btn-danger pull-right'
-                  @onConfirm={{route-action 'remove' item}}
-                >
-                  <span class='fa fa-times'></span>
-                  Remove
-                </Control::MdButtonConfirm>
-              </h4>
-              {{!-- <p class="list-group-item-text">{{get-property item "description"}}</p> --}}
-              <dl class='dl-horizontal list-group-item-text'>
-                <Control::MdDefinition
-                  @title='Subject'
-                  @text={{item.subject}}
-                />
-                <Control::MdDefinition
-                  @title='Description'
-                  @text={{item.description}}
-                />
-              </dl>
-              {{! <div class="list-group-item-text"></div> }}
-            </li>
-          {{else}}
-            <li class='list-group-item alert alert-info'>
-              <h3>
-                No Dictionaries selected.
-              </h3>
-            </li>
-          {{/each}}
-        </ul>
-      </Layout::MdCard>
+      {{#layout/md-card collapsible=true collapsed=false shadow=true
+        title="Selected Dictionaries"
+        class="card-inverse hd-success card-outline-success"
+        spotlightEnabled=false
+      }}
+      <ul class="list-group">
+        {{#each selected as |item|}}
+        <li class="list-group-item">
+          <h4 class="">{{item.title}}
+            {{#control/md-button-confirm class="btn btn btn-danger pull-right"
+              onConfirm=(route-action "remove" item)}}
+              <span class="fa fa-times"></span> Remove
+            {{/control/md-button-confirm}}
+          </h4>
+          {{!-- <p class="list-group-item-text">{{get-property item "description"}}</p> --}}
+          <dl class="dl-horizontal list-group-item-text">
+              {{control/md-definition title="Subject" text=item.subject}}
+              {{control/md-definition title="Description" text=item.description}}
+          </dl>
+          {{!-- <div class="list-group-item-text"></div> --}}
+        </li>
+        {{else}}
+        <li class="list-group-item alert alert-info">
+          <h3>No Dictionaries selected.
+          </h3>
+        </li>
+        {{/each}}
+      </ul>
+      {{/layout/md-card}}
     {{else}}
-      <div class='alert alert-info'>
-        <h3>
-          No Dictionaries found.
-          <LinkTo @route='dictionary.new' class='btn btn-success btn-lg'>
-            {{fa-icon 'plus'}} Create a Dictionary
-          </LinkTo>
+      <div class="alert alert-info">
+        <h3>No Dictionaries found.
+          {{#link-to "dictionary.new" class="btn btn-success btn-lg" }}
+            {{fa-icon "plus"}} Create a Dictionary
+          {{/link-to}}
         </h3>
       </div>
     {{/if}}

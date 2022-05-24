@@ -12,6 +12,6 @@ module('Integration | Component | control/md record table/buttons/show', functio
 
     await render(hbs`{{control/md-record-table/buttons/show}}`);
 
-    assert.dom('.btn-info').hasText('Show');
+    assert.equal(find('.btn-info').textContent.trim(), 'Show');
   });
 });

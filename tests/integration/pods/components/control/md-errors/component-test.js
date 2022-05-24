@@ -26,7 +26,9 @@ module('Integration | Component | control/md errors', function (hooks) {
         '|').trim(),
       '|Test|0|message1|/foo/biz|1|message2|Test2|');
 
-    assert.dom(findAll('.md-error-list .label')[1]).hasClass('label-danger', 'class applied');
+    assert.ok(findAll('.md-error-list .label')[1].classList.contains(
+        'label-danger'),
+      'class applied');
 
     // Template block usage:
     await render(hbs `

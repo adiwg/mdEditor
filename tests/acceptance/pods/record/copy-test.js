@@ -1,6 +1,16 @@
-import { module, test } from 'qunit';
-import { findAll, visit, currentURL, click } from '@ember/test-helpers';
-import { setupApplicationTest } from 'ember-qunit';
+import {
+  module,
+  test
+} from 'qunit';
+import {
+  findAll,
+  visit,
+  currentURL,
+  click
+} from '@ember/test-helpers';
+import {
+  setupApplicationTest
+} from 'ember-qunit';
 import createRecord from 'mdeditor/tests/helpers/create-record';
 
 module('Acceptance | pods/record copy', function (hooks) {
@@ -19,11 +29,7 @@ module('Acceptance | pods/record copy', function (hooks) {
     //await settled();
     assert.equal(currentURL(), '/record/' + record.id);
     await click('.md-crud-buttons .btn-info');
-    assert.equal(
-      findAll('.md-input-input input')[0].value,
-      'Copy of My Record0',
-      'created copy'
-    );
+    assert.equal(findAll('.md-input-input input')[0].value, 'Copy of My Record0', 'created copy');
 
     //change route to prevent error during teardown
     await visit('/');

@@ -65,7 +65,7 @@ module('Integration | Component | layout/nav/dictionary/nav-main', function (
       {{to-elsewhere named="dictionary-nav" send=(component "control/md-button" text="testme")}}
       `);
 
-    assert.dom(this.element).hasText('testme');
+    assert.equal(this.element.textContent.trim(), 'testme');
 
     // Template block usage:
     await render(hbs `
@@ -75,6 +75,6 @@ module('Integration | Component | layout/nav/dictionary/nav-main', function (
       {{to-elsewhere named="dictionary-nav" send=(component "control/md-button" text="testme")}}
     `);
 
-    assert.dom(this.element).hasText('testme');
+    assert.equal(this.element.textContent.trim(), 'testme');
   });
 });

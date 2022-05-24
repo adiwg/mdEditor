@@ -12,7 +12,7 @@ module('Integration | Component | md title', function(hooks) {
 
     await render(hbs`{{md-title}}`);
 
-    assert.dom(this.element).hasText('');
+    assert.equal(this.element.textContent.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | md title', function(hooks) {
       {{/md-title}}
     `);
 
-    assert.dom(this.element).hasText('template block text');
+    assert.equal(this.element.textContent.trim(), 'template block text');
   });
 });

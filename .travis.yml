@@ -1,9 +1,10 @@
 ---
 language: node_js
 node_js:
-  - "12"
+  - "8"
 
-dist: xenial
+sudo: false
+dist: bionic
 
 addons:
   chrome: stable
@@ -16,10 +17,6 @@ env:
     # See https://git.io/vdao3 for details.
     - JOBS=1
 
-branches:
-  only:
-    - master
-
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash
   - export PATH=$HOME/.yarn/bin:$PATH
@@ -27,6 +24,8 @@ before_install:
 
 install:
   - yarn install --non-interactive
-#TODO:  will need to turn this back on when testing suite gets built
+#
 # script:
+#   - yarn lint:hbs
+#   - yarn lint:js
 #   - yarn test

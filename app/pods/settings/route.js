@@ -1,85 +1,57 @@
-import classic from 'ember-classic-decorator';
-import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import Setting from 'mdeditor/models/setting';
-import { get, action } from '@ember/object';
+import { get } from '@ember/object';
+import { inject as service } from '@ember/service';
 
-@classic
-export default class SettingsRoute extends Route {
-  @service
-  settings;
+export default Route.extend({
 
-  @service
-  publish;
-
+  settings: service(),
+  publish: service(),
   /**
    * The profile service
    *
    * @return {Ember.Service} profile
    */
-  @service
-  profile;
+  profile: service(),
 
   setupController(controller, model) {
-    super.setupController(controller, model);
+    this._super(controller, model);
 
-    const links = [
-      {
-        title: 'Main',
-        target: 'settings.main',
-        tip: 'Main application settings',
-      },
-      {
-        title: 'Profiles',
-        target: 'settings.profile',
-        tip: 'Custom profile settings',
-      },
-      {
-        title: 'Validation',
-        target: 'settings.validation',
-        tip: 'Custom validation settings',
-      },
-    ];
+    const links = [{
+      title: 'Main',
+      target: 'settings.main',
+      tip: 'Main application settings'
+    }, {
+      title: 'Profiles',
+      target: 'settings.profile',
+      tip: 'Custom profile settings'
+    }, {
+      title: 'Validation',
+      target: 'settings.validation',
+      tip: 'Custom validation settings'
+    }]
     controller.set('links', links);
-  }
+  },
 
-  @action
-  clearLocalStorage() {
-    let data = this.settings.data.serialize({ includeId: true });
+  actions: {
+    clearLocalStorage() {
+      window.localStorage.clear();
+      this.transitionTo('application');
+      window.location.reload();
+    },
+    save() {
+      this.settings.data.save();
+    },
 
-    window.localStorage.clear();
+    catalogs() {
+      return this.get('publish.catalogs');
+    },
 
-    if (this.settings.data.keepSettings) {
-      window.localStorage.setItem(
-        'index-settings',
-        `["settings-${data.data.id}"]`
-      );
-      this.store.pushPayload('setting', data);
+    resetMdTranslatorAPI() {
+      let url = get(Setting, 'attributes').get('mdTranslatorAPI').options.defaultValue;
+      let model = get(this.controller, 'model');
 
-      let rec = this.store.peekRecord('setting', data.data.id);
-      rec.save().then(() => window.location.reload());
+      model.set('mdTranslatorAPI', url);
     }
-
-    window.location.reload();
-    //this.transitionTo('application');
   }
-
-  @action
-  save() {
-    this.settings.data.save();
-  }
-
-  @action
-  catalogs() {
-    return this.publish.catalogs;
-  }
-
-  @action
-  resetMdTranslatorAPI() {
-    let url = get(Setting, 'attributes').get('mdTranslatorAPI').options
-      .defaultValue;
-    let model = get(this.controller, 'model');
-
-    model.set('mdTranslatorAPI', url);
-  }
-}
+});

@@ -1,8 +1,9 @@
 import Component from '@ember/component';
-import { computed, set, getWithDefault, get } from '@ember/object';
+import { computed } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { once } from '@ember/runloop';
+import { set, getWithDefault, get } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -46,7 +47,7 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = this.model;
+    let model = get(this, 'model');
 
     once(this, function () {
       set(model, 'allocation', getWithDefault(model, 'allocation', []));

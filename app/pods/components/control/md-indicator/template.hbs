@@ -2,8 +2,9 @@
 
 {{#ember-popover
   popoverHideDelay=popoverHideDelay
-  popperContainer="body"
+  popperContainer=popperContainer
   tooltipClass=(concat "md-tooltip " type)
+  event=event
 }}
   {{#if title}}
     <h4 class="title">

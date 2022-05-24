@@ -61,6 +61,6 @@ module('Integration | Component | tree leaf', function(hooks) {
 
     assert.equal(find('.tree-leaf').innerText.trim(), 'foo1label');
 
-    assert.dom('.tree-indent').doesNotExist('not in tree');
+    assert.equal(findAll('.tree-indent').length, 0, 'not in tree');
   });
 });

@@ -1,4 +1,3 @@
-/* eslint-disable ember/no-new-mixins */
 /**
  * @module mdeditor
  * @submodule mixins
@@ -8,7 +7,7 @@ import Mixin from '@ember/object/mixin';
 
 export default Mixin.create({
   queryParams: {
-    scrollTo: true,
+    scrollTo: true
   },
   setScrollTo(scrollTo) {
     this.controller.set('scrollTo', scrollTo || '');
@@ -16,6 +15,6 @@ export default Mixin.create({
   actions: {
     setScrollTo(scrollTo) {
       this.setScrollTo(scrollTo);
-    },
-  },
+    }
+  }
 });

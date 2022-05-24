@@ -13,7 +13,7 @@ module('Integration | Component | layout/md card', function(hooks) {
 
     await render(hbs`{{layout/md-card title="foo"}}`);
 
-    assert.dom('.md-card').hasText('foo');
+    assert.equal(find('.md-card').textContent.trim(), 'foo');
 
     // await render(hbs`{{layout/md-card title="foo" collasped="true"}}`);
 
@@ -26,7 +26,7 @@ module('Integration | Component | layout/md card', function(hooks) {
       {{/layout/md-card}}
     `);
 
-    assert.dom('.md-card').hasText('template block text', 'block');
+    assert.equal(find('.md-card').textContent.trim(), 'template block text', 'block');
 
     await render(hbs`
       {{#layout/md-card title="foo" collapsed=true collapsible=true}}
@@ -35,6 +35,6 @@ module('Integration | Component | layout/md card', function(hooks) {
     `);
 
     assert.equal(find('.md-card').innerText.trim(), 'foo', 'collapsed');
-    assert.dom('.md-card .card-block:not(.in)').exists('class ok');
+    assert.ok(find('.md-card .card-block:not(.in)'), 'class ok');
   });
 });

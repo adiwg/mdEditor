@@ -263,7 +263,7 @@ export default Component.extend(Template, {
    * @requires items.length,alertIfEmpty
    */
   showAlert: computed('items.length', 'alertIfEmpty', function () {
-    return get(this, 'items.length') === 0 && this.alertIfEmpty;
+    return get(this, 'items.length') === 0 && get(this, 'alertIfEmpty');
   }),
 
   panelId: computed('items.@each.val', 'editing', function () {

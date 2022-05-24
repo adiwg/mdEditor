@@ -1,18 +1,18 @@
-<h4 class='section-header'>
+<h4 class="section-header">
   Editing Additional Documentation
-  <Control::MdStatus @model={{this.parentModel}} />
+  {{control/md-status model=parentModel}}
 </h4>
 
-<Object::MdObjectrouteTable
-  @items={{this.model.json.metadata.additionalDocumentation}}
-  @header='Additional Documents'
-  @shadow={{true}}
-  @verticalButtons={{true}}
-  @buttonText='Add Document'
-  @ellipsis={{true}}
-  @previewTemplate='object/md-documentation/preview'
-  @editItem={{route-action 'editDocument'}}
-  @hideIndex={{true}}
-  @condensed={{true}}
-  @addSubbar='md-subbar-extra'
-/>
+{{object/md-objectroute-table
+  items=model.json.metadata.additionalDocumentation
+  header="Additional Documents"
+  shadow=true
+  verticalButtons=true
+  buttonText="Add Document"
+  ellipsis=true
+  previewTemplate="object/md-documentation/preview"
+  editItem=(route-action "editDocument")
+  hideIndex=true
+  condensed=true
+  addSubbar="md-subbar-extra"
+}}

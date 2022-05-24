@@ -69,22 +69,6 @@ export default Component.extend({
   confirmLabel: 'OK',
 
   /**
-   * Style for the confirm button
-   *
-   * @property confirmType
-   * @type {String}
-   */
-  confirmType: 'success',
-
-  /**
-   * Style for the cancel button
-   *
-   * @property cancelType
-   * @type {String}
-   */
-  cancelType: 'warning',
-
-  /**
    * Close action callback
    *
    * @method closeModal

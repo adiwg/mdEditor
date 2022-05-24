@@ -21,7 +21,7 @@ module('Integration | Component | input/md input', function(hooks) {
         placeholder="Enter FooBar"}}
     `);
 
-    assert.dom('label').hasText('Foo', 'labeled OK');
+    assert.equal(find('label').textContent, 'Foo', 'labeled OK');
 
     const input = this.$('input');
     const props = [
@@ -41,6 +41,6 @@ module('Integration | Component | input/md input', function(hooks) {
       {{/input/md-input}}
     `);
 
-    assert.dom('.help-block').hasText('help text', 'block renders');
+    assert.equal(find('.help-block').textContent, 'help text', 'block renders');
   });
 });

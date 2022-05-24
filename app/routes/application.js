@@ -35,8 +35,7 @@ export default Route.extend({
   spotlight: service(),
   slider: service(),
   router: service(),
-  settings: service(),
-  localStorageMonitor: service(),
+
   /**
    * Models for sidebar navigation
    *
@@ -54,11 +53,11 @@ export default Route.extend({
       })
     ];
 
-    let metadata = A([EmberObject.create({
+    let meta = A([EmberObject.create({
       type: 'record',
       list: 'records',
       title: 'Metadata Records',
-      icon: 'copy'
+      icon: 'file-o'
     }), EmberObject.create({
       type: 'contact',
       list: 'contacts',
@@ -71,11 +70,14 @@ export default Route.extend({
       icon: 'book'
     })]);
 
-    let mapFn = function (item) {
-      let meta = metadata.findBy('type', item.modelName);
+    let idx = 0;
 
-      meta.set('listId', guidFor(item));
-      item.set('meta', meta);
+    let mapFn = function (item) {
+
+      meta[idx].set('listId', guidFor(item));
+      item.set('meta', meta[idx]);
+      idx = ++idx;
+
       return item;
     };
 
@@ -98,16 +100,6 @@ export default Route.extend({
   },
 
   beforeModel() {
-    let storagePercentStatus = this.localStorageMonitor.storagePercentTracked > 100
-
-    if(storagePercentStatus) {
-      this.router.replaceWith('error')
-      .then((route) => {
-        route.controller.set('lastError', new Error(
-          'You have exceeded your local storage capacity. Your recent activity will not be saved. Please back up records and clear storage cache'
-        ))
-      })
-    }
     if(!defaultProfileId) {
       this.router.replaceWith('error')
         .then(function (route) {
