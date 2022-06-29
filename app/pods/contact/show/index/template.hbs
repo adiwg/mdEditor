@@ -21,6 +21,7 @@
     {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
         <dl class="dl-horizontal col-lg-6">
           {{control/md-definition title="Contact Id" text=model.contactId}}
+          {{control/md-definition title="Contact Id Namespace" text=model.contactIdNamespace}}
           {{control/md-definition title="Contact Name" text=model.name}}
 
           {{#unless model.json.isOrganization}}

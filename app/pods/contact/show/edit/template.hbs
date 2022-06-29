@@ -19,6 +19,12 @@
               confirmTip="Note! Editing the Contact ID may break links. Be aware."
               placeholder="User assigned Contact ID" label="Contact ID"}}
 
+            {{input/md-input-confirm
+              valuePath="json.contactIdNamespace"
+              model=model
+              data-spy="Contact ID namespace"
+              placeholder="namespace e.g. ror, orcid" label="Contact ID namespace"}}
+
             {{input/md-input
               valuePath="json.name"
               model=model

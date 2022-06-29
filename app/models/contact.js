@@ -64,6 +64,7 @@ const JsonDefault = EmberObject.extend({
     this._super(...arguments);
     this.setProperties({
       'contactId': uuidV4(),
+      'contactIdNamespace': null,
       'isOrganization': false,
       'name': null,
       //'positionName': null,
@@ -73,7 +74,7 @@ const JsonDefault = EmberObject.extend({
       'address': [],
       'electronicMailAddress': [],
       'onlineResource': [],
-      'hoursOfService': []
+      'hoursOfService': [],
       //'contactInstructions': null,
       //'contactType': null;
     });
@@ -269,7 +270,7 @@ const Contact = Model.extend(Validations, Copyable, {
     function () {
       let contacts = this.get('contactsService.organizations');
 
-      let org = contacts.findBy('json.contactId', get(this,
+      let org = contacts.findBy('json.contactId.identifier', get(this,
         'defaultOrganization'));
 
       return org ? get(org, 'name') : null;

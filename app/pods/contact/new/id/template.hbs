@@ -33,6 +33,20 @@
             </div>
         </div>
         <div class="form-group">
+
+            <label class="col-sm-3 control-label">
+              Contact ID Namespace
+            </label>
+
+            <div class="col-sm-9">
+              {{input/md-input
+                valuePath="json.contactIdNamespace"
+                model=model
+                placeholder="Enter an Identifier for this contact"}}
+            </div>
+
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label
             {{unless (v-get model "json.name" "options.presence.disabled")
             "required"}}">Name</label>
