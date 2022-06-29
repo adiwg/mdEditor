@@ -64,7 +64,6 @@ const JsonDefault = EmberObject.extend({
     this._super(...arguments);
     this.setProperties({
       'contactId': uuidV4(),
-      'contactIdNamespace': null,
       'isOrganization': false,
       'name': null,
       //'positionName': null,
@@ -73,6 +72,7 @@ const JsonDefault = EmberObject.extend({
       'phone': [],
       'address': [],
       'electronicMailAddress': [],
+      'externalIdentifiers': [],
       'onlineResource': [],
       'hoursOfService': [],
       //'contactInstructions': null,

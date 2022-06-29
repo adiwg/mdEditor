@@ -19,12 +19,6 @@
               confirmTip="Note! Editing the Contact ID may break links. Be aware."
               placeholder="User assigned Contact ID" label="Contact ID"}}
 
-            {{input/md-input-confirm
-              valuePath="json.contactIdNamespace"
-              model=model
-              data-spy="Contact ID namespace"
-              placeholder="namespace e.g. ror, orcid" label="Contact ID namespace"}}
-
             {{input/md-input
               valuePath="json.name"
               model=model
@@ -55,6 +49,8 @@
                 filterId=model.json.contactId
               }}
 
+            <h3>asdf</h3>
+            {{object/md-contact-identifier-array value=model.json.externalIdentifiers data-spy="ExternalIdentifiers"}}
 
             {{object/md-phone-array value=model.json.phone data-spy="Phone"}}
 
