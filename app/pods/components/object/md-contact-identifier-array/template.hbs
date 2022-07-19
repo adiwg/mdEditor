@@ -11,8 +11,10 @@
       placeholder="External Contact Identifier"}}
   </td>
   <td>
-      {{input/md-input valuePath="namespace" model=contactId.item
-      showValidations=true
-      placeholder="External Contact Identifier Namespace (ror, orcid, etc...)"}}
+      {{input/md-codelist path="namespace" model=contactId.item
+      create=true tooltip=true icon=false mdCodeName="onlineFunction"
+      placeholder="Select a Namespace for this identifier"
+      profilePath="contact.externalIdentifiers.namespace"
+      data-spy=false }}
   </td>
 {{/object/md-array-table}}
