@@ -9515,7 +9515,7 @@ mdcodes@^2.8.1:
     glob "^7.1.0"
     rimraf "^2.6.2"
 
-mdjson-schemas@2.8.0-rc2:
+mdjson-schemas@2.8.0rc2:
   version "2.8.0-rc2"
   resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.8.0-rc2.tgz#ddbf76c881e41595249da3354fb7f6cbeade91dc"
   integrity sha512-zXaArC9RCsyLC+6XbSUnZDo6WQb+PcamKh86WRulT13GXTA0BmTUdPVdTSyNWwfVNkF603NzgBpo469V4PRspw==
