@@ -12,6 +12,11 @@ const Validations = buildValidations({
       presence: true,
       ignoreBlank: true
     })
+  ],
+  'namespace': [
+    validator('presence', {
+      presence: true
+    })
   ]
 });
 
