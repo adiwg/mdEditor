@@ -72,7 +72,7 @@ const JsonDefault = EmberObject.extend({
       'phone': [],
       'address': [],
       'electronicMailAddress': [],
-      'externalIdentifiers': [],
+      'externalIdentifier': [],
       'onlineResource': [],
       'hoursOfService': [],
       //'contactInstructions': null,
