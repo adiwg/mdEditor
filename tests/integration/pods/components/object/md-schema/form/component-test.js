@@ -21,7 +21,7 @@ module('Integration | Component | object/md-schema/form', function(hooks) {
     await render(hbs`{{object/md-schema/form record=data}}`);
 
     assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(),
-    'Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
+    '|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
 
     assert.equal(find('input').value, 'foo', 'render form');
 

@@ -1,4 +1,4 @@
-import { alias } from '@ember/object/computed';
+import { alias, and } from '@ember/object/computed';
 import Component from '@ember/component';
 import { getWithDefault, set } from '@ember/object';
 import {
@@ -55,7 +55,10 @@ const theComp = Component.extend(Validations, {
    * @type {Boolean}
    */
 
-  identifier: alias('model.identifier')
+  identifier: alias('model.identifier'),
+  collapsible: false,
+  collapse: true,
+  isCollapsed: and('collapsible', 'collapse'),
 });
 
 export {
