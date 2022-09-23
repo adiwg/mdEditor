@@ -47,6 +47,18 @@ export default function () {
     this.reverse('toRight')
   );
   this.transition(
+    this.toRoute('record.show.edit.spatial.raster'),
+    this.fromRoute('record.show.edit.spatial.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
+    this.toRoute('record.show.edit.spatial.raster.attribute'),
+    this.fromRoute('record.show.edit.spatial.raster.index'),
+    this.use('toLeft'),
+    this.reverse('toRight')
+  );
+  this.transition(
     this.toRoute('record.show.edit.taxonomy.collection'),
     this.fromRoute('record.show.edit.taxonomy.index'),
     this.use('toLeft'),

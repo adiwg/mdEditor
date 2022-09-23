@@ -11533,10 +11533,10 @@ mdcodes@^2.8.1:
     glob "^7.1.0"
     rimraf "^2.6.2"
 
-mdjson-schemas@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.7.0.tgz#3d3b482c75812449596c5ff67463b6d6b6b5efb0"
-  integrity sha512-ENrx5pPjCz1bHza4NoZVrDtJ1Ox6qfooRpUaL62Fb9OruvrB9+7h8qBKDcgCV1FjXeY8qLZrgfKPtH+gt2eeSQ==
+mdjson-schemas@^2.8.0-rc3:
+  version "2.8.0-rc3"
+  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.8.0-rc3.tgz#aa301158308e2281db2c925b89bc00b54bea4704"
+  integrity sha512-kpX3zjN0Qg6v1Rypz0fSO1vnDKHE/s3YFjIGblVHZrhuMYEPKu17WsHSaqFrxkRQNaSUye5BXG0DzIZsEzcizA==
 
 mdkeywords@^2.0.1:
   version "2.0.1"
@@ -11840,10 +11840,10 @@ moment-timezone@^0.5.13:
   dependencies:
     moment ">= 2.9.0"
 
-moment-timezone@^0.5.34:
-  version "0.5.34"
-  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.34.tgz#a75938f7476b88f155d3504a9343f7519d9a405c"
-  integrity sha512-3zAEHh2hKUs3EXLESx/wsgw6IQdusOT8Bxm3D9UrHPQR7zlMmzwybC8zHEM1tQ4LJwP7fcxrWr8tuBg05fFCbg==
+moment-timezone@^0.5.37:
+  version "0.5.37"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.37.tgz#adf97f719c4e458fdb12e2b4e87b8bec9f4eef1e"
+  integrity sha512-uEDzDNFhfaywRl+vwXxffjjq1q0Vzr+fcQpQ1bU0kbzorfS7zVtZnCnGc8mhWmF39d4g4YriF6kwA75mJKE/Zg==
   dependencies:
     moment ">= 2.9.0"
 
@@ -13704,10 +13704,10 @@ sane@^4.1.0:
     minimist "^1.1.1"
     walker "~1.0.5"
 
-sass@^1.54.4:
-  version "1.54.4"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.54.4.tgz#803ff2fef5525f1dd01670c3915b4b68b6cba72d"
-  integrity sha512-3tmF16yvnBwtlPrNBHw/H907j8MlOX8aTBnlNX1yrKx24RKcJGPyLhFUwkoKBKesR3unP93/2z14Ll8NicwQUA==
+sass@^1.55.0:
+  version "1.55.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.55.0.tgz#0c4d3c293cfe8f8a2e8d3b666e1cf1bff8065d1c"
+  integrity sha512-Pk+PMy7OGLs9WaxZGJMn7S96dvlyVBwwtToX895WmCpAOr5YiJYEUJfiJidMuKb613z2xNWcXCHEuOvjZbqC6A==
   dependencies:
     chokidar ">=3.0.0 <4.0.0"
     immutable "^4.0.0"

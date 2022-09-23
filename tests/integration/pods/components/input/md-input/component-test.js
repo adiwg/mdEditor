@@ -6,22 +6,20 @@ import hbs from 'htmlbars-inline-precompile';
 module('Integration | Component | input/md input', function(hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
-    // Set any properties with this.set('myProperty', 'value');
-    // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+  test('it renders md-input', async function(assert) {
 
     await render(hbs `
       {{input/md-input
         label="Foo"
         value="Bar"
+        showInfoTip="true"
         maxlength=100
         required="true"
         inputClass="test"
         placeholder="Enter FooBar"}}
     `);
 
-    assert.equal(find('label').textContent, 'Foo', 'labeled OK');
+    assert.equal(find('label').textContent.trim(), 'Foo', 'labeled OK');
 
     const input = this.$('input');
     const props = [
