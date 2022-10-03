@@ -160,6 +160,33 @@
     </div>
     </div>
 
+    <div class="row">
+      <div class="col-md-6">
+        {{#layout/md-card shadow=false muted=true title="External Identifiers" bodyIsRow=model.json.externalIdentifier.length}}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Identifier</th>
+                  <th>Namespace</th>
+                </tr>
+              </thead>
+              <tbody>
+          {{#each model.json.externalIdentifier as |ei|}}
+            <tr>
+              <td>{{ei.identifier}}</td>
+              <td>{{ei.namespace}}</td>
+            </tr>
+          {{else}}
+            <tr><td><em class="text-muted">No External Identifiers.</em></td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+        {{/layout/md-card}}
+      </div>
+    </div>
+
   </div>
   <div class="md-control-sidebar col-sm-2 no-nav">
     {{#control/md-crud-buttons
