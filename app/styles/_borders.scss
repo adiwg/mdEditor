@@ -76,6 +76,11 @@ $theme-colors: map-merge(
 .border-white {
   border-color: $white !important;
 }
+
+.border-transparent {
+  border-color: transparent;
+}
+
 //
 // Border-radius
 //

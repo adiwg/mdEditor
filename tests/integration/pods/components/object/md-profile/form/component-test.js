@@ -14,8 +14,8 @@ module('Integration | Component | object/md-profile/form', function (hooks) {
 
     await render(hbs `{{object/md-profile/form record=model}}`);
 
-    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
-      'URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|'
+    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|'
     );
 
     // Template block usage:

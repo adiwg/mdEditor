@@ -145,3 +145,9 @@
 .card-lighter {
   @include card-variant(lighten($gray-lighter,3), $panel-default-border);
 }
+
+.md-card-form-control {
+  border-color: $gray-lighter;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

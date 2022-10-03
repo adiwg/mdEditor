@@ -8,7 +8,6 @@
   placeholder="Select method used to represent geographic information"
   label="Spatial Representation Type"
   profilePath=(concat profilePath ".spatialRepresentationType")
-
 }}
 
 {{#object/md-object-table
@@ -33,4 +32,22 @@
   {{object/md-spatial-resolution model=editing profilePath=(concat profilePath ".spatialResolution")}}
 {{/object/md-object-table}}
 
+
+{{object/md-objectroute-table
+  attributes=" "
+  items=model.coverageDescription
+  header="Raster Description"
+  shadow=true
+  buttonText="Add Raster Description"
+  ellipsis=false
+  previewTemplate="object/md-raster/preview"
+  editItem=(action "editRaster")
+  verticalButtons=true
+  profilePath=(concat profilePath ".coverageDescription")
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  data-spy="Raster Descriptions"
+  addSubbar="md-subbar-extra"
+}}
 {{yield}}
