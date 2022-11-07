@@ -5,8 +5,7 @@ import DS from 'ember-data';
 import EmberObject, { observer } from "@ember/object";
 
 const defaultValues = {
-  // mdTranslatorAPI: 'https://mdtranslator.herokuapp.com/api/v3/translator',
-  mdTranslatorAPI: 'https://md-translator.onrender.com/api/v3/translator',
+  mdTranslatorAPI: 'https://api.sciencebase.gov/mdTranslator/api/v3/translator',
   fiscalStartMonth: '10'
 };
 
