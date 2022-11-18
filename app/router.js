@@ -106,6 +106,11 @@ Router.map(function () {
               path: 'documents/:citation_id'
             }, function () {});
           });
+          this.route('dataquality', function () {
+            this.route('edit', {
+              path: ':data_quality_id'
+            }, function () {});
+          });
           this.route('coverages');
           this.route('grid');
           this.route('main', function () {

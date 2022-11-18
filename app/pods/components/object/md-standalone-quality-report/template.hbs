@@ -1,0 +1,45 @@
+{{#layout/md-card
+  title="Standalone Quality Report"
+  collapsible=true
+  collapsed=false
+  profilePath="record.dataquality.standalonequalityreport"
+  data-spy="Standalone Quality Report"
+  spotlightEnabled=false
+  deleteAction=(action "deleteStandaloneQualityReport")
+}}
+  <div class="row">
+    <div class="col-lg-12">
+      <form>
+        <div class="form-group">
+          <label>abstract</label>
+          {{input/md-textarea value=model.abstract placeholder="Quality Report Abstract"}}
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {{#if model.reportReference}}
+    {{#layout/md-card
+        title="Report Reference"
+        collapsible=true
+        collapsed=false
+        spotlightEnabled=false
+        deleteAction=(action "deleteReportReference")}}
+      {{object/md-citation
+        model=model.reportReference
+        profilePath="record.dataquality.reportReference"
+      }}
+    {{/layout/md-card}}
+  {{else}}
+    <div class="md-object-table box-shadow--4dp">
+      <div class="alert md-alert-table alert-info">
+        <h4>No Report Reference Found
+          <button class="btn btn-success btn-md" {{action "addReportReference"}}>
+            <i class="fa fa-plus"/>
+            Add Report Reference
+          </button>
+        </h4>
+      </div>
+    </div>
+  {{/if}}
+{{/layout/md-card}}

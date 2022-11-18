@@ -1,0 +1,19 @@
+<h4 class="section-header">
+  Editing Data Quality
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-objectroute-table
+  items=model.json.metadata.dataQuality
+  header="Data Quality"
+  shadow=true
+  buttonText="Add Quality Object"
+  ellipsis=false
+  previewTemplate="object/md-dataquality/preview"
+  profilePath="record.dataQuality"
+  editItem=(route-action "editDataQuality")
+  hideIndex=true
+  condensed=true
+  verticalButtons=true
+  addSubbar="md-subbar-extra"
+}}
