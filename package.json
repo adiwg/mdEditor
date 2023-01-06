@@ -24,14 +24,8 @@
   "bugs": {
     "url": "https://github.com/adiwg/mdEditor/issues"
   },
-  "resolutions": {
-    "@babel/core": "^7.0.0-0",
-    "eslint": "5.16.0",
-    "leaflet": "^0.7.0",
-    "@lezer/common": "^1.0.0"
-  },
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": "8.* || >= 10.* || >=12*"
   },
   "devDependencies": {
     "@ember/jquery": "^0.6.0",
