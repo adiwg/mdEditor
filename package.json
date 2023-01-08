@@ -15,8 +15,18 @@
   },
   "scripts": {
     "build": "ember build",
+    "lint": "npm-run-all --aggregate-output --continue-on-error --parallel 'lint:!(fix)'",
+    "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint .",
+    "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint .",
+    "lint:sass": "stylelint 'app/styles/**/*.scss'",
+    "lint:sass:fix": "stylelint 'app/styles/**/*.scss' --fix",
+    "format": "npm-run-all format:*",
+    "format:hbs": "prettier --write 'app/**/*.hbs'",
+    "format:js": "prettier --write '{app,config,stories,tests}/**/*.js' *.js",
+    "format:sass": "prettier --write app/**/*.scss",
+    "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
     "test": "ember try:each --skip-cleanup=true"
   },
@@ -24,8 +34,22 @@
   "bugs": {
     "url": "https://github.com/adiwg/mdEditor/issues"
   },
+  "resolutions": {
+    "@lezer/common": "^1.0.0",
+    "@babel/core": "^7.0",
+    "leaflet": "^0.7.0",
+    "postcss": "^8.4.19",
+    "@types/node": "*"
+  },
   "engines": {
     "node": "8.* || >= 10.* || >=12*"
+  },
+  "dependencies": {
+    "cz-conventional-changelog": "^3.1.0",
+    "git-cz": "^4.8.0",
+    "ember-cli-htmlbars": "^6.0.0",
+    "ember-cli-babel": "^7.7.3",
+    "ember-cli-sass": "~10.0.0"
   },
   "devDependencies": {
     "@ember/jquery": "^0.6.0",
@@ -43,7 +67,6 @@
     "ember-autoresize": "jlblcc/ember-autoresize#latest",
     "ember-cli": "~3.12.0",
     "ember-cli-app-version": "^3.2.0",
-    "ember-cli-babel": "^7.7.3",
     "ember-cli-bootstrap-datetimepicker": "~0.9.3",
     "ember-cli-dependency-checker": "^3.1.0",
     "ember-cli-deploy": "^1.0",
@@ -53,12 +76,9 @@
     "ember-cli-eslint": "^5.1.0",
     "ember-cli-file-picker": "0.0.12",
     "ember-cli-flash": "^1.3.16",
-    "ember-cli-htmlbars": "^3.0.1",
-    "ember-cli-htmlbars-inline-precompile": "^2.1.0",
     "ember-cli-inject-live-reload": "^1.8.2",
     "ember-cli-moment-shim": "3.8.0",
     "ember-cli-release": "^0.2.9",
-    "ember-cli-sass": "~10.0.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-string-helpers": "4.0.5",
     "ember-cli-template-lint": "^1.0.0-beta.3",
@@ -100,8 +120,13 @@
     "ember-tooltips": "^3.6.0",
     "ember-truth-helpers": "^2.1.0",
     "ember-try": "^1.3.0",
-    "eslint-plugin-ember": "^6.7.1",
-    "eslint-plugin-node": "^9.0.1",
+    "ember-template-lint": "^4.14.0",
+    "ember-template-lint-plugin-prettier": "^4.0.0",
+    "eslint": "^8.18.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-ember": "^10.6.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-qunit": "^7.3.0",
     "font-awesome": "~4.7.0",
     "gcmd-keywords": "^8.6.0",
     "geojson-coords": "0.0.0",
@@ -119,8 +144,12 @@
     "moment-timezone": "^0.5.37",
     "object-hash": "^2.0.1",
     "papaparse": "^4.6.3",
+    "prettier": "^2.7.1",
     "qunit-dom": "^0.9.0",
     "sass": "^1.55.0",
+    "stylelint": "^14.14.0",
+    "stylelint-config-prettier-scss": "^0.0.1",
+    "stylelint-config-standard-scss": "^6.0.0",
     "scroll-into-view-if-needed": "^2.2.29",
     "semver": "^6.3.0",
     "shapefile": "^0.6.2",
@@ -136,5 +165,10 @@
       "lib/ember-leaflet-table",
       "lib/mdeditor-sciencebase"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
