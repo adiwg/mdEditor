@@ -219,8 +219,8 @@ define("mdeditor/tests/acceptance/pods/record/copy-test", ["qunit", "@ember/test
       let store = this.owner.lookup('service:store');
       let record = store.createRecord('record', json);
       record.save();
-      await (0, _testHelpers.visit)("/record/".concat(record.id, "/edit"));
-      assert.equal((0, _testHelpers.currentURL)(), "/record/".concat(record.id, "/edit"));
+      await (0, _testHelpers.visit)(`/record/${record.id}/edit`);
+      assert.equal((0, _testHelpers.currentURL)(), `/record/${record.id}/edit`);
     });
 
     // need to figure out why the Promise is being rejected when asserting the currentURL
@@ -397,8 +397,8 @@ define("mdeditor/tests/helpers/create-dictionary", ["exports"], function (_expor
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.createDictionary = _exports.createAttribute = _exports.createEntity = _exports.createDomain = void 0;
-  let createDictionary = function createDictionary(total) {
+  _exports.createEntity = _exports.createDomain = _exports.createDictionary = _exports.createAttribute = void 0;
+  let createDictionary = function (total) {
     const dictionaries = [];
     for (let i = 0; i < total; i++) {
       const dictionary = Ember.Object.create({
@@ -426,7 +426,7 @@ define("mdeditor/tests/helpers/create-dictionary", ["exports"], function (_expor
     return dictionaries;
   };
   _exports.createDictionary = createDictionary;
-  let createDomain = function createDomain(total) {
+  let createDomain = function (total) {
     const domains = [];
     for (let i = 0; i < total; i++) {
       const domain = Ember.Object.create({
@@ -445,7 +445,7 @@ define("mdeditor/tests/helpers/create-dictionary", ["exports"], function (_expor
     return domains;
   };
   _exports.createDomain = createDomain;
-  let createAttribute = function createAttribute(total) {
+  let createAttribute = function (total) {
     const attributes = [];
     for (let i = 0; i < total; i++) {
       const attribute = Ember.Object.create({
@@ -465,7 +465,7 @@ define("mdeditor/tests/helpers/create-dictionary", ["exports"], function (_expor
     return attributes;
   };
   _exports.createAttribute = createAttribute;
-  let createEntity = function createEntity(total) {
+  let createEntity = function (total) {
     const entities = [];
     for (let i = 0; i < total; i++) {
       const entity = Ember.Object.create({
@@ -612,7 +612,7 @@ define("mdeditor/tests/helpers/create-map-layer", ["exports"], function (_export
           coordinates: [-104.99404, 39.75621 + i]
         },
         properties: {
-          name: "Feature " + i
+          name: `Feature ` + i
         }
       });
       layers.features.push(layer);
@@ -734,7 +734,7 @@ define("mdeditor/tests/helpers/create-record", ["exports"], function (_exports) 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.createAttribute = _exports.createCoverageDescription = _exports.createRecord = void 0;
+  _exports.createRecord = _exports.createCoverageDescription = _exports.createAttribute = void 0;
   let createRecord = total => {
     const records = [];
     for (let i = 0; i < total; i++) {
@@ -1147,10 +1147,10 @@ define("mdeditor/tests/helpers/data-transfer", ["exports"], function (_exports) 
   });
   _exports.default = void 0;
   var c = Ember.Object.extend({
-    getData: function getData() {
+    getData: function () {
       return this.get('payload');
     },
-    setData: function setData(dataType, payload) {
+    setData: function (dataType, payload) {
       this.set("data", {
         dataType: dataType,
         payload: payload
@@ -1158,7 +1158,7 @@ define("mdeditor/tests/helpers/data-transfer", ["exports"], function (_exports) 
     }
   });
   c.reopenClass({
-    makeMockEvent: function makeMockEvent(payload) {
+    makeMockEvent: function (payload) {
       var transfer = this.create({
         payload: payload
       });
@@ -1173,15 +1173,15 @@ define("mdeditor/tests/helpers/data-transfer", ["exports"], function (_exports) 
       };
       return res;
     },
-    createDomEvent: function createDomEvent(type) {
+    createDomEvent: function (type) {
       var event = document.createEvent("CustomEvent");
       event.initCustomEvent(type, true, true, null);
       event.dataTransfer = {
         data: {},
-        setData: function setData(type, val) {
+        setData: function (type, val) {
           this.data[type] = val;
         },
-        getData: function getData(type) {
+        getData: function (type) {
           return this.data[type];
         }
       };
@@ -1237,7 +1237,7 @@ define("mdeditor/tests/helpers/drag-drop", ["exports", "@ember/test-helpers", "m
     } = options;
     let dropElement = await (0, _testHelpers.find)(dropSelector);
     if (!dropElement) {
-      throw "There are no drop targets by the given selector: '".concat(dropSelector, "'");
+      throw `There are no drop targets by the given selector: '${dropSelector}'`;
     }
     await dragOver(dropSelector, dragOverMoves);
     if (options.beforeDrop) {
@@ -1247,7 +1247,8 @@ define("mdeditor/tests/helpers/drag-drop", ["exports", "@ember/test-helpers", "m
     await (0, _testHelpers.triggerEvent)(dropSelector, 'drop', event);
     return await (0, _testHelpers.triggerEvent)(dragSelector, 'dragend', dropEndOptions);
   }
-  async function drag(dragSelector, options = {}) {
+  async function drag(dragSelector) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     let dragEvent = new _mockEvent.default(options.dragStartOptions);
     await (0, _testHelpers.triggerEvent)(dragSelector, 'mouseover');
     await (0, _testHelpers.triggerEvent)(dragSelector, 'dragstart', dragEvent);
@@ -1266,7 +1267,9 @@ define("mdeditor/tests/helpers/ember-cli-file-picker", ["exports"], function (_e
     value: true
   });
   _exports.uploadFileHelper = _exports.uploadFile = void 0;
-  function createFile(content = ['test'], options = {}) {
+  function createFile() {
+    let content = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : ['test'];
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
       name,
       type,
@@ -1278,7 +1281,7 @@ define("mdeditor/tests/helpers/ember-cli-file-picker", ["exports"], function (_e
     file.name = name ? name : 'test.txt';
     return file;
   }
-  const uploadFileHelper = function uploadFileHelper(content, options) {
+  const uploadFileHelper = function (content, options) {
     const file = createFile(content, options);
     const event = jQuery.Event('change');
     event.target = {
@@ -1303,7 +1306,7 @@ define("mdeditor/tests/helpers/ember-drag-drop", ["exports", "mdeditor/tests/hel
   function drop($dragHandle, dropCssPath, dragEvent) {
     let dropTarget = document.querySelector(dropCssPath);
     if (dropTarget.length === 0) {
-      throw "There are no drop targets by the given selector: '".concat(dropCssPath, "'");
+      throw `There are no drop targets by the given selector: '${dropCssPath}'`;
     }
     Ember.run(() => {
       triggerEvent(dropTarget, 'dragover', _dataTransfer.default.makeMockEvent());
@@ -1315,7 +1318,8 @@ define("mdeditor/tests/helpers/ember-drag-drop", ["exports", "mdeditor/tests/hel
       triggerEvent($dragHandle, 'dragend', _dataTransfer.default.makeMockEvent());
     });
   }
-  function drag(cssPath, options = {}) {
+  function drag(cssPath) {
+    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     let dragEvent = _dataTransfer.default.makeMockEvent();
     let dragHandle = document.querySelector(cssPath);
     Ember.run(() => {
@@ -1342,15 +1346,16 @@ define("mdeditor/tests/helpers/ember-power-select", ["exports", "ember-power-sel
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  _exports.clickTrigger = void 0;
   _exports.default = deprecatedRegisterHelpers;
-  _exports.selectChoose = _exports.touchTrigger = _exports.nativeTouch = _exports.clickTrigger = _exports.typeInSearch = _exports.triggerKeydown = _exports.nativeMouseUp = _exports.nativeMouseDown = _exports.findContains = void 0;
+  _exports.typeInSearch = _exports.triggerKeydown = _exports.touchTrigger = _exports.selectChoose = _exports.nativeTouch = _exports.nativeMouseUp = _exports.nativeMouseDown = _exports.findContains = void 0;
   function deprecateHelper(fn, name) {
-    return function (...args) {
-      (true && !(false) && Ember.deprecate("DEPRECATED `import { ".concat(name, " } from '../../tests/helpers/ember-power-select';` is deprecated. Please, replace it with `import { ").concat(name, " } from 'ember-power-select/test-support/helpers';`"), false, {
+    return function () {
+      (true && !(false) && Ember.deprecate(`DEPRECATED \`import { ${name} } from '../../tests/helpers/ember-power-select';\` is deprecated. Please, replace it with \`import { ${name} } from 'ember-power-select/test-support/helpers';\``, false, {
         until: '1.11.0',
-        id: "ember-power-select-test-support-".concat(name)
+        id: `ember-power-select-test-support-${name}`
       }));
-      return fn(...args);
+      return fn(...arguments);
     };
   }
   let findContains = deprecateHelper(_helpers.findContains, 'findContains');
@@ -1394,9 +1399,9 @@ define("mdeditor/tests/helpers/md-helpers", ["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.parseInput = parseInput;
   _exports.formatContent = formatContent;
-  _exports.lsClean = _exports.nestedValues = void 0;
+  _exports.nestedValues = _exports.lsClean = void 0;
+  _exports.parseInput = parseInput;
   /**
    * The parseInput helper will query for any input, textarea, or instance of
    * md-select and return the value(s) as a delimited string. Set delimiter to
@@ -1409,7 +1414,8 @@ define("mdeditor/tests/helpers/md-helpers", ["exports"], function (_exports) {
    * @static
    * @return {String|Array}
    */
-  function parseInput(e, delimiter = '|') {
+  function parseInput(e) {
+    let delimiter = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '|';
     // TODO: Support md-toggle
     let text = Array.from(e.querySelectorAll('input,textarea,.md-select')).map(i => (i.type === 'checkbox' ? i.checked.toString() : false) || i.value || Array.from(i.querySelectorAll('.select-value')).map(n => n.textContent).join('|'));
     return delimiter ? text.join(delimiter) : text;
@@ -1447,13 +1453,15 @@ define("mdeditor/tests/helpers/mock-event", ["exports"], function (_exports) {
       this.data[type] = value;
       return this;
     }
-    getData(type = "Text") {
+    getData() {
+      let type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "Text";
       return this.data[type];
     }
     setDragImage() {}
   }
   class MockEvent {
-    constructor(options = {}) {
+    constructor() {
+      let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
       this.dataTransfer = new DataTransfer();
       this.dataTransfer.setData('Text', options.dataTransferData);
       this.setProperties(options);
@@ -1493,20 +1501,20 @@ define("mdeditor/tests/helpers/modal-asserts", ["exports", "jquery", "qunit"], f
     const overlaySelector = '.md-modal-overlay';
     const dialogSelector = '.ember-modal-dialog';
     assert.isPresentOnce = function (selector, message) {
-      message = message || "".concat(selector, " is present in DOM once");
+      message = message || `${selector} is present in DOM once`;
       return this.equal((0, _jquery.default)(selector).length, 1, message);
     };
     assert.isAbsent = function (selector, message) {
-      message = message || "".concat(selector, " is absent from DOM");
+      message = message || `${selector} is absent from DOM`;
       return this.equal((0, _jquery.default)(selector).length, 0, message);
     };
     assert.isVisible = function (selector, message) {
-      message = message || "".concat(selector, " is not visible");
+      message = message || `${selector} is not visible`;
       return this.ok((0, _jquery.default)(selector).is(':visible'), message);
     };
     assert.dialogOpensAndCloses = function (options /*, message*/) {
       //message = message || `Dialog triggered by ${options.openSelector} failed to open and close`;
-      const dialogContent = options.dialogText ? [dialogSelector, ":contains(".concat(options.dialogText, ")")].join('') : dialogSelector;
+      const dialogContent = options.dialogText ? [dialogSelector, `:contains(${options.dialogText})`].join('') : dialogSelector;
       const self = this;
       return click(options.openSelector, options.context).then(function () {
         if (options.hasOverlay) {
@@ -1560,7 +1568,11 @@ define("mdeditor/tests/integration/components/feature-form-test", ["@ember/test-
           description: 'foobar'
         }
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{feature-form model=model}}
+      */
+      {
         "id": "zqCRS9hC",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"feature-form\",null,[[\"model\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1568,7 +1580,15 @@ define("mdeditor/tests/integration/components/feature-form-test", ["@ember/test-
       assert.equal((0, _testHelpers.find)('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(), '|Feature|ID|Name|Description|Other|Properties|read-only|Name|Value|None|found.|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#feature-form model=model}}
+              template block text
+            {{/feature-form}}
+          
+      */
+      {
         "id": "von06tDY",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"feature-form\",null,[[\"model\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -1588,7 +1608,26 @@ define("mdeditor/tests/integration/components/feature-group-test", ["@ember/test
       this.set('layers', (0, _createMapLayer.default)(2));
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#leaflet-draw lat=0 lng=0 zoom=2}}
+              {{!-- Specify child layer components here --}}
+              {{#layer-group name="Terrain" baselayer=true default=true}}
+                {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+              {{/layer-group}}
+      
+              {{#feature-group name="Extents" default=true}}
+                {{#each layers as |l|}}
+                  {{geojson-layer geoJSON=l draw=true}}
+                {{/each}}
+              {{/feature-group}}
+      
+              {{layer-control}}
+            {{/leaflet-draw}}
+          
+      */
+      {
         "id": "mSlXIeXa",
         "block": "{\"symbols\":[\"l\"],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"          \"],[1,[28,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[24,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"feature-group\",null,[[\"name\",\"default\"],[\"Extents\",true]],{\"statements\":[[4,\"each\",[[24,[\"layers\"]]],null,{\"statements\":[[0,\"            \"],[1,[28,\"geojson-layer\",null,[[\"geoJSON\",\"draw\"],[[23,1,[]],true]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n        \"],[1,[22,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -1615,7 +1654,19 @@ define("mdeditor/tests/integration/components/feature-table-test", ["@ember/test
       };
       this.set('data', (0, _createMapLayer.default)(2));
       assert.expect(4);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{feature-table
+            data=data.features
+            columnComponents=(hash
+              leaflet-table-row-actions=(component "leaflet-table-row-actions"
+              showForm=showForm
+              zoomTo=zoomTo
+              deleteFeature=deleteFeature
+            ))
+          }}
+      */
+      {
         "id": "+59K97qw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"feature-table\",null,[[\"data\",\"columnComponents\"],[[24,[\"data\",\"features\"]],[28,\"hash\",null,[[\"leaflet-table-row-actions\"],[[28,\"component\",[\"leaflet-table-row-actions\"],[[\"showForm\",\"zoomTo\",\"deleteFeature\"],[[24,[\"showForm\"]],[24,[\"zoomTo\"]],[24,[\"deleteFeature\"]]]]]]]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1639,7 +1690,26 @@ define("mdeditor/tests/integration/components/geojson-layer-test", ["@ember/test
       this.set('layers', (0, _createMapLayer.default)(2));
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#leaflet-draw lat=0 lng=0 zoom=2}}
+              {{!-- Specify child layer components here --}}
+              {{#layer-group name="Terrain" baselayer=true default=true}}
+                {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+              {{/layer-group}}
+      
+              {{#feature-group name="Extents" default=true}}
+                {{#each layers as |l|}}
+                  {{geojson-layer geoJSON=l draw=true editLayers=layers}}
+                {{/each}}
+              {{/feature-group}}
+      
+              {{layer-control}}
+            {{/leaflet-draw}}
+          
+      */
+      {
         "id": "V09y6BZy",
         "block": "{\"symbols\":[\"l\"],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"          \"],[1,[28,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[24,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"feature-group\",null,[[\"name\",\"default\"],[\"Extents\",true]],{\"statements\":[[4,\"each\",[[24,[\"layers\"]]],null,{\"statements\":[[0,\"            \"],[1,[28,\"geojson-layer\",null,[[\"geoJSON\",\"draw\",\"editLayers\"],[[23,1,[]],true,[24,[\"layers\"]]]]],false],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n        \"],[1,[22,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -1660,7 +1730,20 @@ define("mdeditor/tests/integration/components/leaflet-draw-test", ["@ember/test-
       this.set('layers', (0, _createMapLayer.default)(2));
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#leaflet-draw lat=0 lng=0 zoom=2}}
+              {{!-- Specify child layer components here --}}
+              {{#layer-group name="Terrain" baselayer=true default=true}}
+                {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+              {{/layer-group}}
+      
+              {{layer-control}}
+            {{/leaflet-draw}}
+          
+      */
+      {
         "id": "RlgiTreF",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"leaflet-draw\",null,[[\"lat\",\"lng\",\"zoom\"],[0,0,2]],{\"statements\":[[4,\"layer-group\",null,[[\"name\",\"baselayer\",\"default\"],[\"Terrain\",true,true]],{\"statements\":[[0,\"          \"],[1,[28,\"tile-layer\",null,[[\"url\",\"attribution\"],[\"http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png\",[24,[\"mapAttribution\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n        \"],[1,[22,\"layer-control\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -1680,7 +1763,15 @@ define("mdeditor/tests/integration/components/leaflet-table-row-actions-test", [
       this.zoomTo = function () {};
       this.showForm = function () {};
       this.deleteFeature = function () {};
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{leaflet-table-row-actions
+            zoomTo=zoomTo
+            showForm=showForm
+            deleteFeature=deleteFeature
+          }}
+      */
+      {
         "id": "wm33aNOw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"leaflet-table-row-actions\",null,[[\"zoomTo\",\"showForm\",\"deleteFeature\"],[[24,[\"zoomTo\"]],[24,[\"showForm\"]],[24,[\"deleteFeature\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1698,7 +1789,11 @@ define("mdeditor/tests/integration/components/leaflet-table-row-test", ["@ember/
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{leaflet-table-row}}
+      */
+      {
         "id": "P92N9X7U",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"leaflet-table-row\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -1716,7 +1811,12 @@ define("mdeditor/tests/integration/components/leaflet-table-test", ["@ember/test
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       this.set('layers', (0, _createMapLayer.default)(2));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{leaflet-table layers=layers.features
+            resizeDebouncedEventsEnabled=true}}
+      */
+      {
         "id": "tWrXLNFF",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"leaflet-table\",null,[[\"layers\",\"resizeDebouncedEventsEnabled\"],[[24,[\"layers\",\"features\"]],true]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1752,7 +1852,11 @@ define("mdeditor/tests/integration/components/sb-publisher-test", ["@ember/test-
         }
       }));
       this.set('records', (0, _createRecord.default)(3));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{sb-publisher config=config settings=settings records=records}}
+      */
+      {
         "id": "q4nF2V5F",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"sb-publisher\",null,[[\"config\",\"settings\",\"records\"],[[24,[\"config\"]],[24,[\"settings\"]],[24,[\"records\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1770,7 +1874,11 @@ define("mdeditor/tests/integration/components/sb-settings-test", ["@ember/test-h
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{sb-settings}}
+      */
+      {
         "id": "X4SFMJyq",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"sb-settings\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -1806,7 +1914,11 @@ define("mdeditor/tests/integration/components/sb-tree-label-test", ["@ember/test
         type: 'application',
         uuid: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{sb-tree-label model=model}}
+      */
+      {
         "id": "37dk+wnz",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"sb-tree-label\",null,[[\"model\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1862,7 +1974,11 @@ define("mdeditor/tests/integration/components/sb-tree-test", ["@ember/test-helpe
         type: 'application',
         uuid: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8'
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{sb-tree model=model labelComponent="sb-tree-label"}}
+      */
+      {
         "id": "NDA/Pok4",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"sb-tree\",null,[[\"model\",\"labelComponent\"],[[24,[\"model\"]],\"sb-tree-label\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1908,7 +2024,17 @@ define("mdeditor/tests/integration/components/tree-branch-test", ["@ember/test-h
       this.set('select', function () {
         assert.ok(true, 'called select');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{tree-branch model=model
+                select=select
+                selected=selected
+                nodeDepth=3
+                path=path
+            }}
+      */
+      {
         "id": "OJKnbKHR",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"tree-branch\",null,[[\"model\",\"select\",\"selected\",\"nodeDepth\",\"path\"],[[24,[\"model\"]],[24,[\"select\"]],[24,[\"selected\"]],3,[24,[\"path\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1917,7 +2043,20 @@ define("mdeditor/tests/integration/components/tree-branch-test", ["@ember/test-h
       assert.equal((0, _testHelpers.find)('.tree-branch').innerText.trim(), 'foo1label');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#tree-branch model=model
+              select=select
+              selected=selected
+              nodeDepth=3
+              path=path
+            }}
+              template block text
+            {{/tree-branch}}
+          
+      */
+      {
         "id": "S915ZCbU",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-branch\",null,[[\"model\",\"select\",\"selected\",\"nodeDepth\",\"path\"],[[24,[\"model\"]],[24,[\"select\"]],[24,[\"selected\"]],3,[24,[\"path\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -1948,7 +2087,11 @@ define("mdeditor/tests/integration/components/tree-label-test", ["@ember/test-he
       });
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{tree-label model=model}}
+      */
+      {
         "id": "fkICw9HE",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"tree-label\",null,[[\"model\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -1956,7 +2099,15 @@ define("mdeditor/tests/integration/components/tree-label-test", ["@ember/test-he
       assert.equal((0, _testHelpers.find)('.tree-label-text').innerText.trim(), 'foo1label');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#tree-label model=model}}
+              template block text
+            {{/tree-label}}
+          
+      */
+      {
         "id": "udnZOytJ",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-label\",null,[[\"model\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2001,7 +2152,17 @@ define("mdeditor/tests/integration/components/tree-leaf-test", ["@ember/test-hel
       this.set('select', function () {
         assert.ok(true, 'called select');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{tree-leaf model=model
+            inTree=true
+            select=select
+            selected=selected
+            nodeDepth=3
+            nodePath=nodePath
+          }}
+      */
+      {
         "id": "quSG1G17",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"tree-leaf\",null,[[\"model\",\"inTree\",\"select\",\"selected\",\"nodeDepth\",\"nodePath\"],[[24,[\"model\"]],true,[24,[\"select\"]],[24,[\"selected\"]],3,[24,[\"nodePath\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2010,7 +2171,19 @@ define("mdeditor/tests/integration/components/tree-leaf-test", ["@ember/test-hel
       assert.equal((0, _testHelpers.find)('.tree-leaf').innerText.trim(), 'foo1label');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#tree-leaf model=model
+              inTree=false
+              select=select
+              selected=selected
+            }}
+              template block text
+            {{/tree-leaf}}
+          
+      */
+      {
         "id": "wcFrt4pB",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-leaf\",null,[[\"model\",\"inTree\",\"select\",\"selected\"],[[24,[\"model\"]],false,[24,[\"select\"]],[24,[\"selected\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2051,7 +2224,18 @@ define("mdeditor/tests/integration/components/tree-search-test", ["@ember/test-h
         assert.ok(true, 'called select');
       });
       this.set('searchString', 'foo');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{tree-search
+              model=model
+              selected=selected
+              select=select
+              searchString=searchString
+              exactMatch=exactMatch
+            }}
+      */
+      {
         "id": "uGb817V1",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"tree-search\",null,[[\"model\",\"selected\",\"select\",\"searchString\",\"exactMatch\"],[[24,[\"model\"]],[24,[\"selected\"]],[24,[\"select\"]],[24,[\"searchString\"]],[24,[\"exactMatch\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2061,7 +2245,19 @@ define("mdeditor/tests/integration/components/tree-search-test", ["@ember/test-h
       assert.equal((0, _testHelpers.find)('.tree-search').innerText.replace(/[ \n]+/g, '|'), 'Search|Tree:|Exact|Match|2|matches|found.|foo1label|foo2label', 'exact match');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#tree-search
+              model=model
+              selected=selected
+              select=select
+            }}
+              template block text
+            {{/tree-search}}
+          
+      */
+      {
         "id": "1QAiNJP7",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-search\",null,[[\"model\",\"selected\",\"select\"],[[24,[\"model\"]],[24,[\"selected\"]],[24,[\"select\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2101,7 +2297,11 @@ define("mdeditor/tests/integration/components/tree-view-test", ["@ember/test-hel
       });
       // Handle any actions with this.on('myAction', function(val) { ... });
       assert.expect(7);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{tree-view model=model selected=selected}}
+      */
+      {
         "id": "UwSxCJQ6",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"tree-view\",null,[[\"model\",\"selected\"],[[24,[\"model\"]],[24,[\"selected\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2113,7 +2313,15 @@ define("mdeditor/tests/integration/components/tree-view-test", ["@ember/test-hel
       assert.equal((0, _testHelpers.findAll)('.tree-leaf').length, 3, 'node expanded');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#tree-view model=model select=select}}
+              template block text
+            {{/tree-view}}
+          
+      */
+      {
         "id": "OHjnoj3O",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"tree-view\",null,[[\"model\",\"select\"],[[24,[\"model\"]],[24,[\"select\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2133,7 +2341,11 @@ define("mdeditor/tests/integration/helpers/object-is-empty-test", ["qunit", "emb
     // Replace this with your real tests.
     (0, _qunit.test)('it renders', async function (assert) {
       this.set('inputValue', '1234');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object-is-empty inputValue}}
+      */
+      {
         "id": "GSagCU8j",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object-is-empty\",[[24,[\"inputValue\"]]],null],false]],\"hasEval\":false}",
         "meta": {}
@@ -2151,7 +2363,11 @@ define("mdeditor/tests/integration/helpers/present-test", ["@ember/test-helpers"
     // Replace this with your real tests.
     (0, _qunit.test)('it renders', async function (assert) {
       this.set('inputValue', '1234');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>{{present inputValue}}</section>
+      */
+      {
         "id": "wL4s7BkC",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[1,[28,\"present\",[[24,[\"inputValue\"]]],null],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -2168,13 +2384,19 @@ define("mdeditor/tests/integration/helpers/word-limit-test", ["@ember/test-helpe
 
     // Replace this with your real tests.
     (0, _qunit.test)('it renders', async function (assert) {
-      this.set('inputValue', "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum, neque\n      nec sagittis maximus, lacus lectus placerat libero, finibus varius arcu enim\n      eget ante. Duis.");
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      this.set('inputValue', `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam rutrum, neque
+      nec sagittis maximus, lacus lectus placerat libero, finibus varius arcu enim
+      eget ante. Duis.`);
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>{{word-limit inputValue limit=20 wordLength=10}}</section>
+      */
+      {
         "id": "Xr1JHQPo",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[1,[28,\"word-limit\",[[24,[\"inputValue\"]]],[[\"limit\",\"wordLength\"],[20,10]]],false],[9]],\"hasEval\":false}",
         "meta": {}
       }));
-      assert.equal((0, _testHelpers.find)('section').textContent.trim(), "Lorem ipsum dolor sit amet,  consectetu... adipiscing...elit. Etiam rutrum, neque nec sagittis maximus, lacus lectus placerat libero, finibus varius ...");
+      assert.equal((0, _testHelpers.find)('section').textContent.trim(), `Lorem ipsum dolor sit amet,  consectetu... adipiscing...elit. Etiam rutrum, neque nec sagittis maximus, lacus lectus placerat libero, finibus varius ...`);
     });
   });
 });
@@ -2187,7 +2409,15 @@ define("mdeditor/tests/integration/pods/components/control/md-alert-table/compon
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-alert-table
+            title="Foos"
+            required=true
+            tipMessage="Biz is baz."
+          }}
+      */
+      {
         "id": "db5ZT1dX",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-alert-table\",null,[[\"title\",\"required\",\"tipMessage\"],[\"Foos\",true,\"Biz is baz.\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2199,7 +2429,15 @@ define("mdeditor/tests/integration/pods/components/control/md-alert-table/compon
       });
       assert.dom('.md-alert-table.alert-danger').exists();
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-alert-table title="Bars"}}
+              template block text
+            {{/control/md-alert-table}}
+          
+      */
+      {
         "id": "QiwhbZXM",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-alert-table\",null,[[\"title\"],[\"Bars\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2217,7 +2455,11 @@ define("mdeditor/tests/integration/pods/components/control/md-button-confirm/com
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-button-confirm}}
+      */
+      {
         "id": "tqvrE4qs",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-button-confirm\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -2225,7 +2467,15 @@ define("mdeditor/tests/integration/pods/components/control/md-button-confirm/com
       assert.equal((0, _testHelpers.find)('button').innerText.trim(), '');
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-button-confirm}}
+              template block text
+            {{/control/md-button-confirm}}
+          
+      */
+      {
         "id": "RGc0SS/2",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-button-confirm\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2237,7 +2487,16 @@ define("mdeditor/tests/integration/pods/components/control/md-button-confirm/com
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            <a href="#">Test</a>
+            {{#control/md-button-confirm}}
+              Test
+            {{/control/md-button-confirm}}
+          
+      */
+      {
         "id": "FyQue1/5",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[7,\"a\",true],[10,\"href\",\"#\"],[8],[0,\"Test\"],[9],[0,\"\\n\"],[4,\"control/md-button-confirm\",null,null,{\"statements\":[[0,\"        Test\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2252,11 +2511,19 @@ define("mdeditor/tests/integration/pods/components/control/md-button-confirm/com
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
       this.set('externalAction', type => {
-        assert.ok(type, "".concat(type, " called"));
+        assert.ok(type, `${type} called`);
       });
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-button-confirm onConfirm=(action externalAction "onConfirm")}}
+              Test
+            {{/control/md-button-confirm}}
+          
+      */
+      {
         "id": "cwKh8wcL",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-button-confirm\",null,[[\"onConfirm\"],[[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"onConfirm\"],null]]],{\"statements\":[[0,\"        Test\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2276,7 +2543,11 @@ define("mdeditor/tests/integration/pods/components/control/md-button-modal/compo
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-button-modal}}
+      */
+      {
         "id": "ZSKm2QLB",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-button-modal\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -2284,7 +2555,15 @@ define("mdeditor/tests/integration/pods/components/control/md-button-modal/compo
       assert.equal((0, _testHelpers.find)('.md-button-modal').innerText.trim(), '');
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-button-modal}}
+              template block text
+            {{/control/md-button-modal}}
+          
+      */
+      {
         "id": "F6rZnLP/",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-button-modal\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2298,9 +2577,19 @@ define("mdeditor/tests/integration/pods/components/control/md-button-modal/compo
       // modalDialogService.destinationElementId = 'test-div';
 
       this.set('externalAction', type => {
-        assert.ok(type, "".concat(type, " called"));
+        assert.ok(type, `${type} called`);
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            <div id='test-div'></div>
+            {{#control/md-button-modal
+                message="Hello" onConfirm=(action externalAction "confirm")
+                onCancel=(action externalAction "cancel")}} Test
+            {{/control/md-button-modal}}
+          
+      */
+      {
         "id": "7TD1VSEX",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[7,\"div\",true],[10,\"id\",\"test-div\"],[8],[9],[0,\"\\n      \"],[4,\"control/md-button-modal\",null,[[\"message\",\"onConfirm\",\"onCancel\"],[\"Hello\",[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"confirm\"],null],[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"cancel\"],null]]],{\"statements\":[[0,\" Test\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2310,7 +2599,18 @@ define("mdeditor/tests/integration/pods/components/control/md-button-modal/compo
       await (0, _testHelpers.click)('.md-button-modal');
       assert.isPresentOnce('.md-modal-overlay');
       await (0, _testHelpers.clearRender)();
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            <div id='test-div'></div>
+            {{#control/md-button-modal
+              renderInPlace=true
+              message="Hello" onConfirm=(action externalAction "confirm")
+              onCancel=(action externalAction "cancel")}} Test
+            {{/control/md-button-modal}}
+          
+      */
+      {
         "id": "A8QcUo7q",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[7,\"div\",true],[10,\"id\",\"test-div\"],[8],[9],[0,\"\\n      \"],[4,\"control/md-button-modal\",null,[[\"renderInPlace\",\"message\",\"onConfirm\",\"onCancel\"],[true,\"Hello\",[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"confirm\"],null],[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"cancel\"],null]]],{\"statements\":[[0,\" Test\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2342,7 +2642,11 @@ define("mdeditor/tests/integration/pods/components/control/md-button/component-t
       this.set('myAction', function (val) {
         assert.ok(val, 'Click action');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-button text="Click me" click=(action myAction true)}}
+      */
+      {
         "id": "ZC0cOZ/H",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-button\",null,[[\"text\",\"click\"],[\"Click me\",[28,\"action\",[[23,0,[]],[24,[\"myAction\"]],true],null]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2351,7 +2655,15 @@ define("mdeditor/tests/integration/pods/components/control/md-button/component-t
       (0, _testHelpers.click)('.md-button');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-button}}
+              template block text
+            {{/control/md-button}}
+          
+      */
+      {
         "id": "03k2SbUy",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-button\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2373,7 +2685,11 @@ define("mdeditor/tests/integration/pods/components/control/md-contact-link/compo
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-contact-link contacts=contacts contactId=0}}
+      */
+      {
         "id": "pxFJU6dO",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-contact-link\",null,[[\"contacts\",\"contactId\"],[[24,[\"contacts\"]],0]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2381,7 +2697,15 @@ define("mdeditor/tests/integration/pods/components/control/md-contact-link/compo
       assert.equal((0, _testHelpers.find)('a').innerText.trim(), 'Contact0', 'renders link');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-contact-link contacts=contacts contactId=0 block=true}}
+              template block text
+            {{/control/md-contact-link}}
+          
+      */
+      {
         "id": "qHXG9RZE",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-contact-link\",null,[[\"contacts\",\"contactId\",\"block\"],[[24,[\"contacts\"]],0,true]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2400,7 +2724,11 @@ define("mdeditor/tests/integration/pods/components/control/md-contact-title/comp
       // Handle any actions with this.on('myAction', function(val) { ... });
       var store = this.owner.lookup('service:store');
       store.createRecord('contact', (0, _createContact.default)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <span>{{control/md-contact-title contactId=0}}</span>
+      */
+      {
         "id": "bk26CxWD",
         "block": "{\"symbols\":[],\"statements\":[[7,\"span\",true],[8],[1,[28,\"control/md-contact-title\",null,[[\"contactId\"],[0]]],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -2408,7 +2736,16 @@ define("mdeditor/tests/integration/pods/components/control/md-contact-title/comp
       assert.equal((0, _testHelpers.find)('span').textContent.trim(), 'Contact0');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <div class="test1">
+            {{#control/md-contact-title contactId=0 as |c|}}
+              template block text {{c.title}}
+            {{/control/md-contact-title}}
+            </div>
+          
+      */
+      {
         "id": "jMQvLy2k",
         "block": "{\"symbols\":[\"c\"],\"statements\":[[7,\"div\",true],[10,\"class\",\"test1\"],[8],[0,\"\\n\"],[4,\"control/md-contact-title\",null,[[\"contactId\"],[0]],{\"statements\":[[0,\"        template block text \"],[1,[23,1,[\"title\"]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"      \"],[9],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2428,7 +2765,11 @@ define("mdeditor/tests/integration/pods/components/control/md-crud-buttons/compo
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-crud-buttons allowCopy=true allowDelete=true}}
+      */
+      {
         "id": "y/mjSNGw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-crud-buttons\",null,[[\"allowCopy\",\"allowDelete\"],[true,true]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2437,7 +2778,15 @@ define("mdeditor/tests/integration/pods/components/control/md-crud-buttons/compo
       assert.equal((0, _testHelpers.find)('.md-crud-buttons').textContent.replace(/[ \n]+/g, '|'), '|Copy|Delete|');
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-crud-buttons doSave=true allowCopy=true}}
+              template block text
+            {{/control/md-crud-buttons}}
+          
+      */
+      {
         "id": "ADZvkhqU",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-crud-buttons\",null,[[\"doSave\",\"allowCopy\"],[true,true]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2450,7 +2799,7 @@ define("mdeditor/tests/integration/pods/components/control/md-crud-buttons/compo
 
       // test double for the external action
       this.set('externalAction', type => {
-        assert.ok(type, "".concat(type, " called"));
+        assert.ok(type, `${type} called`);
       });
 
       //enable save and delete
@@ -2458,7 +2807,13 @@ define("mdeditor/tests/integration/pods/components/control/md-crud-buttons/compo
         hasDirtyHash: true,
         canRevert: true
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-crud-buttons model=model doSave=(action externalAction
+        'doSave') doCancel=(action externalAction 'doCancel') doCopy=(action
+        externalAction 'doCopy') doDelete=(action externalAction 'doDelete') allowCopy=true allowDelete=true}}
+      */
+      {
         "id": "s88SE2b/",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-crud-buttons\",null,[[\"model\",\"doSave\",\"doCancel\",\"doCopy\",\"doDelete\",\"allowCopy\",\"allowDelete\"],[[24,[\"model\"]],[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"doSave\"],null],[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"doCancel\"],null],[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"doCopy\"],null],[28,\"action\",[[23,0,[]],[24,[\"externalAction\"]],\"doDelete\"],null],true,true]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2483,13 +2838,21 @@ define("mdeditor/tests/integration/pods/components/control/md-definition/compone
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-definition title="foobar" text="bizbaz"}}
+      */
+      {
         "id": "K/9FE+vQ",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-definition\",null,[[\"title\",\"text\"],[\"foobar\",\"bizbaz\"]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal((0, _testHelpers.find)('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(), 'foobar|bizbaz|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-definition title="foobar"}}
+      */
+      {
         "id": "/bfdiis0",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-definition\",null,[[\"title\"],[\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2497,7 +2860,15 @@ define("mdeditor/tests/integration/pods/components/control/md-definition/compone
       assert.equal((0, _testHelpers.find)('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(), 'foobar|Not|Defined|', 'no text');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-definition title="foobar"}}
+              template block text
+            {{/control/md-definition}}
+          
+      */
+      {
         "id": "86A/wYHV",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-definition\",null,[[\"title\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2529,7 +2900,11 @@ define("mdeditor/tests/integration/pods/components/control/md-edit-table/compone
         propertyName: 'type',
         title: 'Type'
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-edit-table data=data dataColumns=columns rowBodyComponent="object/md-schema"}}
+      */
+      {
         "id": "clR+HHnt",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-edit-table\",null,[[\"data\",\"dataColumns\",\"rowBodyComponent\"],[[24,[\"data\"]],[24,[\"columns\"]],\"object/md-schema\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2562,7 +2937,11 @@ define("mdeditor/tests/integration/pods/components/control/md-errors/component-t
         title: 'Test2',
         errors: []
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-errors errors=errors}}
+      */
+      {
         "id": "PqxTYhO9",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-errors\",null,[[\"errors\"],[[24,[\"errors\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2571,7 +2950,15 @@ define("mdeditor/tests/integration/pods/components/control/md-errors/component-t
       assert.ok((0, _testHelpers.findAll)('.md-error-list .label')[1].classList.contains('label-danger'), 'class applied');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-errors  errors=errors}}
+              template block text
+            {{/control/md-errors}}
+          
+      */
+      {
         "id": "gwY/Irt/",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-errors\",null,[[\"errors\"],[[24,[\"errors\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2589,7 +2976,11 @@ define("mdeditor/tests/integration/pods/components/control/md-fiscalyear/compone
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-fiscalyear context=this}}
+      */
+      {
         "id": "9P55wWdL",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-fiscalyear\",null,[[\"context\"],[[23,0,[]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2609,7 +3000,25 @@ define("mdeditor/tests/integration/pods/components/control/md-fiscalyear/compone
       });
       // Handle any actions with this.on('myAction', function(val) { ... });
       var year = new Date().getFullYear();
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{input/md-datetime
+              class="start"
+              valuePath="start"
+              model=this
+              label="Start Date"
+              placeholder="Enter start dateTime"
+            }}
+            {{input/md-datetime
+              class="end"
+              valuePath="end"
+              model=this
+              label="End Date"
+            }}
+            {{control/md-fiscalyear context=this settings=settings}}
+      */
+      {
         "id": "M3yGHXNh",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"input/md-datetime\",null,[[\"class\",\"valuePath\",\"model\",\"label\",\"placeholder\"],[\"start\",\"start\",[23,0,[]],\"Start Date\",\"Enter start dateTime\"]]],false],[0,\"\\n      \"],[1,[28,\"input/md-datetime\",null,[[\"class\",\"valuePath\",\"model\",\"label\"],[\"end\",\"end\",[23,0,[]],\"End Date\"]]],false],[0,\"\\n      \"],[1,[28,\"control/md-fiscalyear\",null,[[\"context\",\"settings\"],[[23,0,[]],[24,[\"settings\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2635,13 +3044,21 @@ define("mdeditor/tests/integration/pods/components/control/md-import-csv/compone
       this.set('progress', 0);
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-import-csv}}
+      */
+      {
         "id": "niQlXi6v",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-import-csv\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal((0, _testHelpers.find)('.md-import-picker').textContent.trim(), 'Click or Drop a CSV here.');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-import-csv isProcessing=true progress=progress}}
+      */
+      {
         "id": "aLxICkyw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-import-csv\",null,[[\"isProcessing\",\"progress\"],[true,[24,[\"progress\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2668,7 +3085,17 @@ define("mdeditor/tests/integration/pods/components/control/md-indicator/componen
         foo: 'This',
         bar: 'warning'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-indicator
+            icon="sticky-note"
+            title="Hello"
+            note="${foo} is a ${bar}"
+            values=values
+            type="danger"}}
+            
+      */
+      {
         "id": "Dl4Oe9ox",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-indicator\",null,[[\"icon\",\"title\",\"note\",\"values\",\"type\"],[\"sticky-note\",\"Hello\",\"${foo} is a ${bar}\",[24,[\"values\"]],\"danger\"]]],false],[0,\"\\n      \"]],\"hasEval\":false}",
         "meta": {}
@@ -2710,7 +3137,26 @@ define("mdeditor/tests/integration/pods/components/control/md-indicator/related/
       });
       this.set('dictionary', (0, _createDictionary.createDictionary)(1)[0].json.dataDictionary);
       this.set('model', this.dictionary.entity[0].attribute[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-indicator/related
+            model=model
+            route=true
+            icon="cog"
+            note="The attribute ${foo} has an associated domain: ${bar}."
+            route="dictionary.show.edit.entity"
+            values=values
+            parent=dictionary
+            relatedId="domainId"
+            path="domain"
+            title="Related Indicator Test"
+            linkText="Go to Domain"
+            type="warning"
+            popperContainer="#ember-testing"
+            routeIdPaths=(array "values.foo")
+          }}
+      */
+      {
         "id": "a1Hq5omP",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-indicator/related\",null,[[\"model\",\"route\",\"icon\",\"note\",\"route\",\"values\",\"parent\",\"relatedId\",\"path\",\"title\",\"linkText\",\"type\",\"popperContainer\",\"routeIdPaths\"],[[24,[\"model\"]],true,\"cog\",\"The attribute ${foo} has an associated domain: ${bar}.\",\"dictionary.show.edit.entity\",[24,[\"values\"]],[24,[\"dictionary\"]],\"domainId\",\"domain\",\"Related Indicator Test\",\"Go to Domain\",\"warning\",\"#ember-testing\",[28,\"array\",[\"values.foo\"],null]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2721,7 +3167,7 @@ define("mdeditor/tests/integration/pods/components/control/md-indicator/related/
       assert.dom('.md-indicator .fa').hasClass('fa-cog');
       await (0, _testHelpers.triggerEvent)('.md-indicator-related .md-indicator', 'mouseenter');
       (0, _dom.assertTooltipContent)(assert, {
-        contentString: "Related Indicator Test\nThe attribute attribute1 has an associated domain: codeName0.\nGo to Domain"
+        contentString: `Related Indicator Test\nThe attribute attribute1 has an associated domain: codeName0.\nGo to Domain`
       });
       await (0, _testHelpers.click)('.btn');
     });
@@ -2736,7 +3182,11 @@ define("mdeditor/tests/integration/pods/components/control/md-infotip/component-
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-infotip}}
+      */
+      {
         "id": "ZykxUW8s",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-infotip\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -2744,7 +3194,15 @@ define("mdeditor/tests/integration/pods/components/control/md-infotip/component-
       assert.equal(this.element.textContent.trim(), '');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-infotip}}
+              template block text
+            {{/control/md-infotip}}
+          
+      */
+      {
         "id": "ltvhuIeV",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-infotip\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2802,7 +3260,11 @@ define("mdeditor/tests/integration/pods/components/control/md-itis/component-tes
       })]);
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-itis taxonomy=taxonomy}}
+      */
+      {
         "id": "e6jUvnI0",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-itis\",null,[[\"taxonomy\"],[[24,[\"taxonomy\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2813,7 +3275,11 @@ define("mdeditor/tests/integration/pods/components/control/md-itis/component-tes
       // await click('button[type=submit]');
       // await settled();
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-itis taxonomy=taxonomy searchResult=taxa found=true}}
+      */
+      {
         "id": "+9DGhqWP",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-itis\",null,[[\"taxonomy\",\"searchResult\",\"found\"],[[24,[\"taxonomy\"]],[24,[\"taxa\"]],true]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2835,7 +3301,11 @@ define("mdeditor/tests/integration/pods/components/control/md-json-button/compon
       this.set('json', {
         foo: 'bar'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-json-button}}
+      */
+      {
         "id": "FdHCZTIy",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-json-button\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -2843,7 +3313,15 @@ define("mdeditor/tests/integration/pods/components/control/md-json-button/compon
       assert.equal((0, _testHelpers.find)('button').textContent.trim(), 'Preview JSON');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-json-button}}
+              template block text
+            {{/control/md-json-button}}
+          
+      */
+      {
         "id": "hEVqRZ6K",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-json-button\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2856,7 +3334,11 @@ define("mdeditor/tests/integration/pods/components/control/md-json-button/compon
       this.set('json', {
         foo: 'bar'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-json-button json=json preview=true}}
+      */
+      {
         "id": "+2fTwcpF",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-json-button\",null,[[\"json\",\"preview\"],[[24,[\"json\"]],true]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2870,7 +3352,18 @@ define("mdeditor/tests/integration/pods/components/control/md-json-button/compon
       this.set('json', {
         foo: 'bar'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-json-button json=json title="foobar"}}
+            <div class="slider">
+              {{#from-elsewhere name="md-slider-json" as |slider|}}
+                <h3 class="text-info">{{slider.title}}</h3>
+                <hr>
+                {{component slider.body}}
+              {{/from-elsewhere}}
+            </div>
+      */
+      {
         "id": "u5Xr56f1",
         "block": "{\"symbols\":[\"slider\"],\"statements\":[[1,[28,\"control/md-json-button\",null,[[\"json\",\"title\"],[[24,[\"json\"]],\"foobar\"]]],false],[0,\"\\n      \"],[7,\"div\",true],[10,\"class\",\"slider\"],[8],[0,\"\\n\"],[4,\"from-elsewhere\",null,[[\"name\"],[\"md-slider-json\"]],{\"statements\":[[0,\"          \"],[7,\"h3\",true],[10,\"class\",\"text-info\"],[8],[1,[23,1,[\"title\"]],false],[9],[0,\"\\n          \"],[7,\"hr\",true],[8],[9],[0,\"\\n          \"],[1,[28,\"component\",[[23,1,[\"body\"]]],null],false],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"      \"],[9]],\"hasEval\":false}",
         "meta": {}
@@ -2891,7 +3384,11 @@ define("mdeditor/tests/integration/pods/components/control/md-json-viewer/compon
       this.set('json', {
         foo: 'bar'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-json-viewer json=json}}
+      */
+      {
         "id": "TcOCWF/H",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-json-viewer\",null,[[\"json\"],[[24,[\"json\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2904,7 +3401,11 @@ define("mdeditor/tests/integration/pods/components/control/md-json-viewer/compon
       this.set('json', {
         foo: 'bar'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-json-viewer json=json modal=false}}
+      */
+      {
         "id": "EQYsgPf9",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-json-viewer\",null,[[\"json\",\"modal\"],[[24,[\"json\"]],false]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2922,7 +3423,11 @@ define("mdeditor/tests/integration/pods/components/control/md-modal/component-te
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-modal isShowing=true}}
+      */
+      {
         "id": "SzJXlXQ8",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-modal\",null,[[\"isShowing\"],[true]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2930,7 +3435,15 @@ define("mdeditor/tests/integration/pods/components/control/md-modal/component-te
       assert.ok(document.querySelector('.md-modal-container'));
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-modal isShowing=true}}
+              template block text
+            {{/control/md-modal}}
+          
+      */
+      {
         "id": "f3JPqgHv",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-modal\",null,[[\"isShowing\"],[true]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -2953,7 +3466,11 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/butto
       });
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-record-table/buttons record=model}}
+      */
+      {
         "id": "9HtadClo",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-record-table/buttons\",null,[[\"record\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -2962,7 +3479,13 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/butto
       assert.dom('.md-status-icon .btn-danger').isVisible();
       assert.dom('.md-status-icon .btn-warning').isVisible();
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{#control/md-record-table/buttons}}
+                template block text
+              {{/control/md-record-table/buttons}}
+      */
+      {
         "id": "EZ0t44CS",
         "block": "{\"symbols\":[],\"statements\":[[4,\"control/md-record-table/buttons\",null,null,{\"statements\":[[0,\"          template block text\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}",
         "meta": {}
@@ -2985,7 +3508,7 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/butto
         buttonConfig: {
           title: 'foobar',
           style: 'warning',
-          action: function action(rec) {
+          action: function (rec) {
             assert.equal(rec.biz, 'baz', 'action fired');
           }
         }
@@ -2993,7 +3516,11 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/butto
 
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-record-table/buttons/custom column=column record=rec}}
+      */
+      {
         "id": "MGlm/+qB",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-record-table/buttons/custom\",null,[[\"column\",\"record\"],[[24,[\"column\"]],[24,[\"rec\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3017,7 +3544,11 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/butto
       this.set('deleteSelected', function (selectedItems) {
         assert.equal(selectedItems, items, 'fires action');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-record-table/buttons/filter deleteSelected=deleteSelected selectedItems=selectedItems}}
+      */
+      {
         "id": "JUHx4BI6",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-record-table/buttons/filter\",null,[[\"deleteSelected\",\"selectedItems\"],[[24,[\"deleteSelected\"]],[24,[\"selectedItems\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3036,7 +3567,11 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/butto
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-record-table/buttons/show}}
+      */
+      {
         "id": "CIQW3h35",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-record-table/buttons/show\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3069,7 +3604,11 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/compo
 
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-record-table dataColumns=columns data=data}}
+      */
+      {
         "id": "OuB9O86R",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-record-table\",null,[[\"dataColumns\",\"data\"],[[24,[\"columns\"]],[24,[\"data\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3077,7 +3616,15 @@ define("mdeditor/tests/integration/pods/components/control/md-record-table/compo
       assert.equal((0, _testHelpers.find)('.md-record-table').textContent.replace(/[ \n\t\s]+/g, '|').trim(), '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Actions|Title|Type|Actions|Title|Type|foo|bar|Show|biz|baz|Show|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-record-table dataColumns=columns data=data}}
+              template block text
+            {{/control/md-record-table}}
+          
+      */
+      {
         "id": "KOiBYcL2",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-record-table\",null,[[\"dataColumns\",\"data\"],[[24,[\"columns\"]],[24,[\"data\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3101,16 +3648,28 @@ define("mdeditor/tests/integration/pods/components/control/md-repo-link/componen
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-repo-link}}
+      */
+      {
         "id": "F+AIyKwT",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-repo-link\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal((0, _testHelpers.find)('a').textContent.trim(), version);
-      assert.equal((0, _testHelpers.find)('a').getAttribute('href'), "".concat(repository, "/tree/").concat(version.substring(version.indexOf('+') + 1)), 'link ok');
+      assert.equal((0, _testHelpers.find)('a').getAttribute('href'), `${repository}/tree/${version.substring(version.indexOf('+') + 1)}`, 'link ok');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-repo-link}}
+              template block text
+            {{/control/md-repo-link}}
+          
+      */
+      {
         "id": "J/VwpCTq",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-repo-link\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3128,7 +3687,11 @@ define("mdeditor/tests/integration/pods/components/control/md-scroll-into-view/c
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-scroll-into-view}}
+      */
+      {
         "id": "vrCTc9ZH",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"control/md-scroll-into-view\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3136,7 +3699,15 @@ define("mdeditor/tests/integration/pods/components/control/md-scroll-into-view/c
       assert.equal(this.element.textContent.trim(), '');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-scroll-into-view}}
+              template block text
+            {{/control/md-scroll-into-view}}
+          
+      */
+      {
         "id": "7z4D/Vlt",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-scroll-into-view\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3161,7 +3732,13 @@ define("mdeditor/tests/integration/pods/components/control/md-scroll-spy/compone
       // });
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <div data-spy="Foo" id="foo1">Foo</div>
+            <div data-spy="Bar" id="bar1">Bar</div>
+            {{control/md-scroll-spy setScrollTo=setScrollTo}}
+      */
+      {
         "id": "7Fz0P+T0",
         "block": "{\"symbols\":[],\"statements\":[[7,\"div\",true],[10,\"data-spy\",\"Foo\"],[10,\"id\",\"foo1\"],[8],[0,\"Foo\"],[9],[0,\"\\n      \"],[7,\"div\",true],[10,\"data-spy\",\"Bar\"],[10,\"id\",\"bar1\"],[8],[0,\"Bar\"],[9],[0,\"\\n      \"],[1,[28,\"control/md-scroll-spy\",null,[[\"setScrollTo\"],[[24,[\"setScrollTo\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3169,7 +3746,15 @@ define("mdeditor/tests/integration/pods/components/control/md-scroll-spy/compone
       assert.equal((0, _testHelpers.find)('ul').textContent.replace(/[ \n\t\s]+/g, '|').trim(), '|Foo|Bar|');
       await (0, _testHelpers.click)('ul a');
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-scroll-spy setScrollTo=setScrollTo}}
+              template block text
+            {{/control/md-scroll-spy}}
+          
+      */
+      {
         "id": "7eHiwVrX",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-scroll-spy\",null,[[\"setScrollTo\"],[[24,[\"setScrollTo\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3204,7 +3789,11 @@ define("mdeditor/tests/integration/pods/components/control/md-select-table/compo
       this.set('select', function (selected) {
         assert.equal(selected[0].title, 'foo', 'calls action');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-select-table columns=columns data=data select=select}}
+      */
+      {
         "id": "Fy+rfgpM",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-select-table\",null,[[\"columns\",\"data\",\"select\"],[[24,[\"columns\"]],[24,[\"data\"]],[24,[\"select\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3213,7 +3802,15 @@ define("mdeditor/tests/integration/pods/components/control/md-select-table/compo
       (0, _testHelpers.click)('.md-select-table tbody tr');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-select-table}}
+              template block text
+            {{/control/md-select-table}}
+          
+      */
+      {
         "id": "LI4m+FX9",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-select-table\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3231,7 +3828,11 @@ define("mdeditor/tests/integration/pods/components/control/md-spinner/component-
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-spinner text="foobar" size="5"}}
+      */
+      {
         "id": "vOezijb2",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-spinner\",null,[[\"text\",\"size\"],[\"foobar\",\"5\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3240,7 +3841,15 @@ define("mdeditor/tests/integration/pods/components/control/md-spinner/component-
       assert.ok((0, _testHelpers.find)('.md-spinner .md-spinner-text').classList.contains('size-5'), 'adds class');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-spinner}}
+              template block text
+            {{/control/md-spinner}}
+          
+      */
+      {
         "id": "NJovIzPH",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-spinner\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3262,10 +3871,15 @@ define("mdeditor/tests/integration/pods/components/control/md-spotlight/componen
       var scope = {
         foo: 'bar'
       };
-      var close = function close() {
+      var close = function () {
         assert.equal(this.foo, 'bar', 'calls close action');
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <div id="foo">foobar</div>
+            {{control/md-spotlight}}
+      */
+      {
         "id": "Rf1nF6/x",
         "block": "{\"symbols\":[],\"statements\":[[7,\"div\",true],[10,\"id\",\"foo\"],[8],[0,\"foobar\"],[9],[0,\"\\n      \"],[1,[22,\"control/md-spotlight\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3291,7 +3905,11 @@ define("mdeditor/tests/integration/pods/components/control/md-status/component-t
       });
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/md-status model=model}}
+      */
+      {
         "id": "iGtHxXTA",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/md-status\",null,[[\"model\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3301,7 +3919,15 @@ define("mdeditor/tests/integration/pods/components/control/md-status/component-t
       this.set('model.hasSchemaErrors', true);
       assert.dom('.md-status-icon .md-error').isNotVisible();
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/md-status model=model}}
+              template block text
+            {{/control/md-status}}
+          
+      */
+      {
         "id": "w9tnfYpE",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/md-status\",null,[[\"model\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3319,7 +3945,11 @@ define("mdeditor/tests/integration/pods/components/control/subbar-citation/compo
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/subbar-citation text="foobar"}}
+      */
+      {
         "id": "Gj4Ac28l",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/subbar-citation\",null,[[\"text\"],[\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3327,7 +3957,15 @@ define("mdeditor/tests/integration/pods/components/control/subbar-citation/compo
       assert.equal((0, _testHelpers.find)('.btn-group-vertical').textContent.replace(/[ \n\t\s]+/g, '|').trim(), '|Select|a|Record|foobar|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/subbar-citation}}
+              template block text
+            {{/control/subbar-citation}}
+          
+      */
+      {
         "id": "dySsOj+Q",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/subbar-citation\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3355,7 +3993,11 @@ define("mdeditor/tests/integration/pods/components/control/subbar-importcsv/comp
 
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/subbar-importcsv class="importcsv" actionContext=foo}}
+      */
+      {
         "id": "1O8Bx8k+",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/subbar-importcsv\",null,[[\"class\",\"actionContext\"],[\"importcsv\",[24,[\"foo\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3364,7 +4006,15 @@ define("mdeditor/tests/integration/pods/components/control/subbar-importcsv/comp
       (0, _testHelpers.click)('.importcsv .btn-info');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/subbar-importcsv class="importcsv"}}
+              template block text
+            {{/control/subbar-importcsv}}
+          
+      */
+      {
         "id": "mNt7Tqm/",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/subbar-importcsv\",null,[[\"class\"],[\"importcsv\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3386,7 +4036,11 @@ define("mdeditor/tests/integration/pods/components/control/subbar-link/component
       });
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/subbar-link  text="foo" click=test}}
+      */
+      {
         "id": "f0MKUM+9",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/subbar-link\",null,[[\"text\",\"click\"],[\"foo\",[24,[\"test\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3395,7 +4049,15 @@ define("mdeditor/tests/integration/pods/components/control/subbar-link/component
       await (0, _testHelpers.click)('button');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/subbar-link text="foo" click=test}}
+              <section>template block text</section>
+            {{/control/subbar-link}}
+          
+      */
+      {
         "id": "tbPLHl7U",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/subbar-link\",null,[[\"text\",\"click\"],[\"foo\",[24,[\"test\"]]]],{\"statements\":[[0,\"        \"],[7,\"section\",true],[8],[0,\"template block text\"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3413,7 +4075,11 @@ define("mdeditor/tests/integration/pods/components/control/subbar-spatial/compon
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/subbar-spatial class="testme"}}
+      */
+      {
         "id": "7a5bmZfv",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/subbar-spatial\",null,[[\"class\"],[\"testme\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3421,7 +4087,15 @@ define("mdeditor/tests/integration/pods/components/control/subbar-spatial/compon
       assert.equal((0, _testHelpers.find)('.testme').textContent.replace(/[ \n]+/g, '|').trim(), '|Zoom|All|Import|Features|Export|Features|Delete|All|Back|to|List|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#control/subbar-spatial class="testme"}}
+              template block text
+            {{/control/subbar-spatial}}
+          
+      */
+      {
         "id": "Y4IOqNAM",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"control/subbar-spatial\",null,[[\"class\"],[\"testme\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3434,23 +4108,33 @@ define("mdeditor/tests/integration/pods/components/control/subbar-spatial/compon
 
       assert.expect(5);
       this.setProperties({
-        test1: function test1() {
+        test1: function () {
           assert.ok(true, 'called zoomAll');
         },
-        test2: function test2() {
+        test2: function () {
           assert.ok(true, 'called uploadData');
         },
-        test3: function test3() {
+        test3: function () {
           assert.ok(true, 'called exportGeoJSON');
         },
-        test4: function test4() {
+        test4: function () {
           assert.ok(true, 'called deleteAllFeatures');
         },
-        test5: function test5() {
+        test5: function () {
           assert.ok(true, 'called toList');
         }
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{control/subbar-spatial
+            zoomAll=test1
+            uploadData=test2
+            exportGeoJSON=test3
+            deleteAllFeatures=test4
+            toList=test5
+          }}
+      */
+      {
         "id": "1jkyIYKV",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"control/subbar-spatial\",null,[[\"zoomAll\",\"uploadData\",\"exportGeoJSON\",\"deleteAllFeatures\",\"toList\"],[[24,[\"test1\"]],[24,[\"test2\"]],[24,[\"test3\"]],[24,[\"test4\"]],[24,[\"test5\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3469,7 +4153,11 @@ define("mdeditor/tests/integration/pods/components/ember-tooltip/component-test"
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{ember-tooltip}}
+      */
+      {
         "id": "3vKsVbDd",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"ember-tooltip\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3477,7 +4165,15 @@ define("mdeditor/tests/integration/pods/components/ember-tooltip/component-test"
       assert.equal(this.element.textContent.trim(), '');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#ember-tooltip isShown="true"}}
+              template block text
+            {{/ember-tooltip}}
+          
+      */
+      {
         "id": "6nHpSXF3",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"ember-tooltip\",null,[[\"isShown\"],[\"true\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3497,7 +4193,11 @@ define("mdeditor/tests/integration/pods/components/input/md-boolean/component-te
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-boolean value=false text="Foo Bar" label="Baz" }}
+      */
+      {
         "id": "gjlo6MFi",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-boolean\",null,[[\"value\",\"text\",\"label\"],[false,\"Foo Bar\",\"Baz\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3505,7 +4205,15 @@ define("mdeditor/tests/integration/pods/components/input/md-boolean/component-te
       assert.equal((0, _testHelpers.find)('.form-group').textContent.replace(/[ \n]+/g, '|'), '|Baz|Foo|Bar|');
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-boolean value=true text="Foo Bar" label="Baz"}}
+              template block text
+            {{/input/md-boolean}}
+          
+      */
+      {
         "id": "X0tl7Ihh",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-boolean\",null,[[\"value\",\"text\",\"label\"],[true,\"Foo Bar\",\"Baz\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3535,8 +4243,14 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist-multi/compo
   (0, _qunit.module)('Integration | Component | input/md codelist multi', function (hooks) {
     (0, _emberQunit.setupRenderingTest)(hooks);
     hooks.beforeEach(function () {
+      var _this = this;
       this.actions = {};
-      this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+      this.send = function (actionName) {
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+        return _this.actions[actionName].apply(_this, args);
+      };
     });
     hooks.beforeEach(function () {
       this.owner.register('service:codelist', codelist);
@@ -3548,7 +4262,18 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist-multi/compo
       this.set('fooVal', ['foo', 'bar']);
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-codelist-multi
+              mdCodeName="foobar"
+              value=fooVal
+            }}
+              <p>template block text</p>
+            {{/input/md-codelist-multi}}
+          
+      */
+      {
         "id": "NcoGivXD",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-codelist-multi\",null,[[\"mdCodeName\",\"value\"],[\"foobar\",[24,[\"fooVal\"]]]],{\"statements\":[[0,\"        \"],[7,\"p\",true],[8],[0,\"template block text\"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3563,7 +4288,15 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist-multi/compo
       this.actions.update = actual => {
         assert.equal(actual, this.get('value'), 'submitted value is passed to external action');
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-codelist-multi
+            create=false
+            value=value
+            mdCodeName="foobar"
+            change=(action "update" value)}}
+      */
+      {
         "id": "j5kBZ74s",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-codelist-multi\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[false,[24,[\"value\"]],\"foobar\",[28,\"action\",[[23,0,[]],\"update\",[24,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3578,7 +4311,15 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist-multi/compo
       this.actions.update = actual => {
         assert.equal(actual, this.get('value'), 'submitted value is passed to external action');
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-codelist-multi
+            create=true
+            value=value
+            mdCodeName="foobar"
+            change=(action "update" value)}}
+      */
+      {
         "id": "WC3IpKJw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-codelist-multi\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[true,[24,[\"value\"]],\"foobar\",[28,\"action\",[[23,0,[]],\"update\",[24,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3610,8 +4351,14 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist/component-t
   (0, _qunit.module)('Integration | Component | input/md-codelist', function (hooks) {
     (0, _emberQunit.setupRenderingTest)(hooks);
     hooks.beforeEach(function () {
+      var _this = this;
       this.actions = {};
-      this.send = (actionName, ...args) => this.actions[actionName].apply(this, args);
+      this.send = function (actionName) {
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+        return _this.actions[actionName].apply(_this, args);
+      };
     });
     hooks.beforeEach(function () {
       this.owner.register('service:codelist', codelist);
@@ -3622,7 +4369,12 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist/component-t
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-codelist
+            value='foo' mdCodeName="foobar"}}
+      */
+      {
         "id": "EVnEW5ZO",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-codelist\",null,[[\"value\",\"mdCodeName\"],[\"foo\",\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3635,7 +4387,13 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist/component-t
       this.actions.update = actual => {
         assert.equal(actual, this.get('value'), 'submitted value is passed to external action');
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-codelist
+            value=value mdCodeName="foobar"
+            change=(action "update" value)}}
+      */
+      {
         "id": "OAhxYgBp",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-codelist\",null,[[\"value\",\"mdCodeName\",\"change\"],[[24,[\"value\"]],\"foobar\",[28,\"action\",[[23,0,[]],\"update\",[24,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3653,7 +4411,15 @@ define("mdeditor/tests/integration/pods/components/input/md-codelist/component-t
       this.actions.update = actual => {
         assert.equal(actual, this.get('value'), 'submitted value is passed to external action');
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-codelist
+            create=true
+            value=value
+            mdCodeName="foobar"
+            change=(action "update" value)}}
+      */
+      {
         "id": "nTirPUs4",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-codelist\",null,[[\"create\",\"value\",\"mdCodeName\",\"change\"],[true,[24,[\"value\"]],\"foobar\",[28,\"action\",[[23,0,[]],\"update\",[24,[\"value\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3679,7 +4445,11 @@ define("mdeditor/tests/integration/pods/components/input/md-date-range/component
       this.set('end', new Date('2017-01-01'));
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-date-range class="testme" startDateTime=start endDateTime=end profilePath="foobar"}}
+      */
+      {
         "id": "Rb8NRDgI",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-date-range\",null,[[\"class\",\"startDateTime\",\"endDateTime\",\"profilePath\"],[\"testme\",[24,[\"start\"]],[24,[\"end\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3688,7 +4458,15 @@ define("mdeditor/tests/integration/pods/components/input/md-date-range/component
       assert.equal(new Date((0, _testHelpers.findAll)('.date input')[0].value).toISOString(), this.start.toISOString(), 'set start');
       assert.equal(new Date((0, _testHelpers.findAll)('.date input')[1].value).toISOString(), this.end.toISOString(), 'set end');
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-date-range class="testme" startDateTime=start endDateTime=end profilePath="foobar"}}
+              template block text
+            {{/input/md-date-range}}
+          
+      */
+      {
         "id": "/FcTU/tB",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-date-range\",null,[[\"class\",\"startDateTime\",\"endDateTime\",\"profilePath\"],[\"testme\",[24,[\"start\"]],[24,[\"end\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3707,7 +4485,14 @@ define("mdeditor/tests/integration/pods/components/input/md-datetime/component-t
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
       this.set('mydate', '1999-12-31T23:59:59.999+0900');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-datetime
+                            date=mydate
+                            format="YYYY-MM-DD"
+                            placeholder="Enter date"}}
+      */
+      {
         "id": "Ab2s54pq",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-datetime\",null,[[\"date\",\"format\",\"placeholder\"],[[24,[\"mydate\"]],\"YYYY-MM-DD\",\"Enter date\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3725,7 +4510,11 @@ define("mdeditor/tests/integration/pods/components/input/md-input-confirm/compon
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-input-confirm}}
+      */
+      {
         "id": "0E7ddOfR",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"input/md-input-confirm\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3738,7 +4527,15 @@ define("mdeditor/tests/integration/pods/components/input/md-input-confirm/compon
       assert.ok((0, _testHelpers.find)('.md-input input:not([disabled])'), 'input enabled');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-input-confirm}}
+              template block text
+            {{/input/md-input-confirm}}
+          
+      */
+      {
         "id": "eL0jDQk3",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-input-confirm\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3753,7 +4550,20 @@ define("mdeditor/tests/integration/pods/components/input/md-input/component-test
   (0, _qunit.module)('Integration | Component | input/md input', function (hooks) {
     (0, _emberQunit.setupRenderingTest)(hooks);
     (0, _qunit.test)('it renders md-input', async function (assert) {
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{input/md-input
+              label="Foo"
+              value="Bar"
+              showInfoTip="true"
+              maxlength=100
+              required="true"
+              inputClass="test"
+              placeholder="Enter FooBar"}}
+          
+      */
+      {
         "id": "Kxd5OXsb",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"input/md-input\",null,[[\"label\",\"value\",\"showInfoTip\",\"maxlength\",\"required\",\"inputClass\",\"placeholder\"],[\"Foo\",\"Bar\",\"true\",100,\"true\",\"test\",\"Enter FooBar\"]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3764,7 +4574,15 @@ define("mdeditor/tests/integration/pods/components/input/md-input/component-test
       assert.deepEqual(props, [true, 100, 'Bar', 'Enter FooBar', true], 'properties set OK');
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-input}}
+              <p class="help-block">help text</p>
+            {{/input/md-input}}
+          
+      */
+      {
         "id": "rBc/beup",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-input\",null,null,{\"statements\":[[0,\"        \"],[7,\"p\",true],[10,\"class\",\"help-block\"],[8],[0,\"help text\"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3782,7 +4600,11 @@ define("mdeditor/tests/integration/pods/components/input/md-markdown-area/compon
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-markdown-area required=true}}
+      */
+      {
         "id": "NfbDl9S4",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-markdown-area\",null,[[\"required\"],[true]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3790,7 +4612,11 @@ define("mdeditor/tests/integration/pods/components/input/md-markdown-area/compon
       assert.equal((0, _testHelpers.find)('.md-markdown-editor').innerText.replace(/[ \n\s]+/g, '').trim(), '||||Entertext,Markdownissupported.​length:0100:0');
       assert.ok((0, _testHelpers.find)('.md-markdown-editor .length.md-error'), 'required ok');
       this.set('markdownValue', 'This is foobar.');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-markdown-area value=markdownValue maxlength=10 required=false}}
+      */
+      {
         "id": "f+GzQOI9",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-markdown-area\",null,[[\"value\",\"maxlength\",\"required\"],[[24,[\"markdownValue\"]],10,false]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3798,7 +4624,15 @@ define("mdeditor/tests/integration/pods/components/input/md-markdown-area/compon
       assert.equal((0, _testHelpers.find)('.md-markdown-editor .length.md-error').textContent, 'length: 15', 'maxlength ok');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-markdown-area}}
+              template block text
+            {{/input/md-markdown-area}}
+          
+      */
+      {
         "id": "Ltu4oWFp",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-markdown-area\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3816,7 +4650,11 @@ define("mdeditor/tests/integration/pods/components/input/md-month/component-test
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-month date="10"}}
+      */
+      {
         "id": "+yoBomZr",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-month\",null,[[\"date\"],[\"10\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3824,7 +4662,15 @@ define("mdeditor/tests/integration/pods/components/input/md-month/component-test
       assert.equal((0, _testHelpers.find)('input').value, 'October');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-month class="testme" date="10"}}
+              template block text
+            {{/input/md-month}}
+          
+      */
+      {
         "id": "atqTYxDI",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-month\",null,[[\"class\",\"date\"],[\"testme\",\"10\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3843,7 +4689,11 @@ define("mdeditor/tests/integration/pods/components/input/md-select-contact/compo
       var cs = this.owner.lookup('service:contacts');
       cs.set('contacts', contacts);
       this.set('contacts', contacts);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-select-contact value=1}}
+      */
+      {
         "id": "wswGMPs0",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-select-contact\",null,[[\"value\"],[1]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3851,7 +4701,15 @@ define("mdeditor/tests/integration/pods/components/input/md-select-contact/compo
       assert.equal((0, _testHelpers.find)('.md-select-contact').textContent.replace(/[ \n]+/g, '|').trim(), '|Contact1|×|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-select-contact}}
+              template block text
+            {{/input/md-select-contact}}
+          
+      */
+      {
         "id": "B/VACfLw",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-select-contact\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3868,7 +4726,11 @@ define("mdeditor/tests/integration/pods/components/input/md-select-contacts/comp
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-select-contacts}}
+      */
+      {
         "id": "BszrmhJZ",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"input/md-select-contacts\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3886,7 +4748,11 @@ define("mdeditor/tests/integration/pods/components/input/md-select-contacts/comp
       //store.createRecord('contact', contacts[0]);
       //store.createRecord('contact', contacts[1]);
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-select-contacts}}
+      */
+      {
         "id": "BszrmhJZ",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"input/md-select-contacts\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3907,7 +4773,15 @@ define("mdeditor/tests/integration/pods/components/input/md-select-profile/compo
       // test dummy for the external profile action
       this.set('updateProfile', () => {});
       this.set('profileId', _environment.default.APP.defaultProfileId);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-select-profile
+            value=profileId
+            updateProfile=updateProfile
+            class="testme"
+          }}
+      */
+      {
         "id": "N5QfEFEi",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-select-profile\",null,[[\"value\",\"updateProfile\",\"class\"],[[24,[\"profileId\"]],[24,[\"updateProfile\"]],\"testme\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3922,7 +4796,11 @@ define("mdeditor/tests/integration/pods/components/input/md-select-profile/compo
       this.set('updateProfile', actual => {
         assert.equal(actual, _environment.default.APP.defaultProfileId, 'submitted value is passed to external action');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-select-profile value=null updateProfile=(action updateProfile)}}
+      */
+      {
         "id": "yLsB4s+B",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-select-profile\",null,[[\"value\",\"updateProfile\"],[null,[28,\"action\",[[23,0,[]],[24,[\"updateProfile\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3943,7 +4821,11 @@ define("mdeditor/tests/integration/pods/components/input/md-select-thesaurus/com
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-select-thesaurus}}
+      */
+      {
         "id": "d3VLD8rQ",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"input/md-select-thesaurus\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -3951,7 +4833,15 @@ define("mdeditor/tests/integration/pods/components/input/md-select-thesaurus/com
       assert.equal((0, _testHelpers.find)('.md-select').textContent.replace(/[ \n]+/g, '|'), '|Pick|a|thesaurus|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-select-thesaurus}}
+              template block text
+            {{/input/md-select-thesaurus}}
+          
+      */
+      {
         "id": "ThFIe8O9",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-select-thesaurus\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -3966,7 +4856,11 @@ define("mdeditor/tests/integration/pods/components/input/md-select-thesaurus/com
       this.set('selectThesaurus', id => {
         assert.equal(id.citation.identifier[0].identifier, '1eb0ea0a-312c-4d74-8d42-6f1ad758f999', 'submitted value is passed to external action');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-select-thesaurus selectThesaurus=selectThesaurus}}
+      */
+      {
         "id": "KzCmCf4Z",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-select-thesaurus\",null,[[\"selectThesaurus\"],[[24,[\"selectThesaurus\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -3991,7 +4885,19 @@ define("mdeditor/tests/integration/pods/components/input/md-select/component-tes
         name: 'foo',
         tip: 'bar'
       })]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{input/md-select
+              value=1
+              objectArray=objArray
+              valuePath="id"
+              namePath="name"
+              tooltipPath="tip"
+              placeholder="Select one"}}
+          
+      */
+      {
         "id": "YBlB4Kdz",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"input/md-select\",null,[[\"value\",\"objectArray\",\"valuePath\",\"namePath\",\"tooltipPath\",\"placeholder\"],[1,[24,[\"objArray\"]],\"id\",\"name\",\"tip\",\"Select one\"]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4013,7 +4919,17 @@ define("mdeditor/tests/integration/pods/components/input/md-select/component-tes
         tip: 'biz'
       })]);
       this.set('value', 1);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{input/md-select
+              value=value
+              objectArray=objArray
+              valuePath="id"
+              namePath="name"}}
+          
+      */
+      {
         "id": "adgl6jS9",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"input/md-select\",null,[[\"value\",\"objectArray\",\"valuePath\",\"namePath\"],[[24,[\"value\"]],[24,[\"objArray\"]],\"id\",\"name\"]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4039,7 +4955,18 @@ define("mdeditor/tests/integration/pods/components/input/md-select/component-tes
         tip: 'biz'
       })]);
       this.set('value', 1);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{input/md-select
+              value=value
+              create=true
+              objectArray=objArray
+              valuePath="id"
+              namePath="name"}}
+          
+      */
+      {
         "id": "rcKdh2K6",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"input/md-select\",null,[[\"value\",\"create\",\"objectArray\",\"valuePath\",\"namePath\"],[[24,[\"value\"]],true,[24,[\"objArray\"]],\"id\",\"name\"]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4062,7 +4989,17 @@ define("mdeditor/tests/integration/pods/components/input/md-textarea/component-t
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{input/md-textarea
+            value="Foo bar baz"
+            label="FooBar"
+            placeholder="placeholder"
+            rows=10}}
+            
+      */
+      {
         "id": "MP9NEYBp",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n      \"],[1,[28,\"input/md-textarea\",null,[[\"value\",\"label\",\"placeholder\",\"rows\"],[\"Foo bar baz\",\"FooBar\",\"placeholder\",10]]],false],[0,\"\\n      \"]],\"hasEval\":false}",
         "meta": {}
@@ -4071,7 +5008,15 @@ define("mdeditor/tests/integration/pods/components/input/md-textarea/component-t
       assert.equal((0, _testHelpers.find)('label').textContent, 'FooBar', 'label renders');
 
       // Template block usage:" + EOL +
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-textarea class="testme"}}
+              template block text
+            {{/input/md-textarea}}
+          
+      */
+      {
         "id": "OrJLXcDT",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-textarea\",null,[[\"class\"],[\"testme\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4090,7 +5035,17 @@ define("mdeditor/tests/integration/pods/components/input/md-toggle/component-tes
       this.set('value', false);
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{input/md-toggle
+            value=this.value
+            showLabels=true
+            onToggle=(action (mut this.value))
+            offLabel="No"
+            onLabel="Yes"
+          }}
+      */
+      {
         "id": "fcKCbwmF",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"input/md-toggle\",null,[[\"value\",\"showLabels\",\"onToggle\",\"offLabel\",\"onLabel\"],[[23,0,[\"value\"]],true,[28,\"action\",[[23,0,[]],[28,\"mut\",[[23,0,[\"value\"]]],null]],null],\"No\",\"Yes\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4099,7 +5054,15 @@ define("mdeditor/tests/integration/pods/components/input/md-toggle/component-tes
       await (0, _testHelpers.click)('.x-toggle-btn');
       assert.ok((0, _testHelpers.find)('.toggle-on'), 'toggle on');
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#input/md-toggle class="testme"}}
+              template block text
+            {{/input/md-toggle}}
+          
+      */
+      {
         "id": "AxyKbbVw",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"input/md-toggle\",null,[[\"class\"],[\"testme\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4117,7 +5080,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-card/component-test
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-card title="foo"}}
+      */
+      {
         "id": "lJn7MTX7",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-card\",null,[[\"title\"],[\"foo\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4129,13 +5096,29 @@ define("mdeditor/tests/integration/pods/components/layout/md-card/component-test
       // assert.equal(find('.md-card').textContent.trim(), 'foo');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-card}}
+              template block text
+            {{/layout/md-card}}
+          
+      */
+      {
         "id": "M+5H0+hm",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-card\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal((0, _testHelpers.find)('.md-card').textContent.trim(), 'template block text', 'block');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-card title="foo" collapsed=true collapsible=true}}
+              template block text
+            {{/layout/md-card}}
+          
+      */
+      {
         "id": "pGMgp3ey",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-card\",null,[[\"title\",\"collapsed\",\"collapsible\"],[\"foo\",true,true]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4158,7 +5141,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-footer/component-te
           autoSave: false
         }
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-footer settings=settings}}
+      */
+      {
         "id": "ANTpV+Sw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-footer\",null,[[\"settings\"],[[24,[\"settings\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4166,7 +5153,15 @@ define("mdeditor/tests/integration/pods/components/layout/md-footer/component-te
       assert.equal((0, _testHelpers.find)('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(), '|Report|Issue|AutoSave:|Off|');
       this.set('settings.data.autoSave', true);
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-footer settings=settings}}
+              template block text
+            {{/layout/md-footer}}
+          
+      */
+      {
         "id": "w7koDt8e",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-footer\",null,[[\"settings\"],[[24,[\"settings\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4186,7 +5181,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-main/component-
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-nav-main}}
+      */
+      {
         "id": "7HbRySVX",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"layout/md-nav-main\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4194,7 +5193,15 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-main/component-
       assert.equal((0, _testHelpers.find)('nav').innerText.replace(/[ \n]+/g, '|'), '|Dashboard|Export|Import|Publish|Settings');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-nav-main}}
+              template block text
+            {{/layout/md-nav-main}}
+          
+      */
+      {
         "id": "vTbqEBbv",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-nav-main\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4261,7 +5268,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-secondary/compo
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-nav-secondary model=model}}
+      */
+      {
         "id": "vCS56Cuf",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-nav-secondary\",null,[[\"model\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4270,7 +5281,15 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-secondary/compo
       assert.equal((0, _testHelpers.find)('.nav').textContent.replace(/[ \n]+/g, '|'), more + '|Foo|Bar|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-nav-secondary model=model}}
+              <li>template block text</li>
+            {{/layout/md-nav-secondary}}
+          
+      */
+      {
         "id": "7PVVRSYN",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-nav-secondary\",null,[[\"model\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        \"],[7,\"li\",true],[8],[0,\"template block text\"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4285,14 +5304,22 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-secondary/compo
       // Handle any actions with this.on('myAction', function(val) { ... });
 
       this.set('customService.active', 'org.adiwg.profile.basic');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-nav-secondary model=model}}
+      */
+      {
         "id": "vCS56Cuf",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-nav-secondary\",null,[[\"model\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       var more = (0, _testHelpers.findAll)('.overflow-nav').length ? '|More' : '';
       assert.equal((0, _testHelpers.find)('.nav').textContent.replace(/[ \n]+/g, '|'), more + '|FooBar|BarFoo|FooBar1|BarFoo2|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <div style="width:100px;">{{layout/md-nav-secondary model=model}}</div>
+      */
+      {
         "id": "fT9ZgaMr",
         "block": "{\"symbols\":[],\"statements\":[[7,\"div\",true],[10,\"style\",\"width:100px;\"],[8],[1,[28,\"layout/md-nav-secondary\",null,[[\"model\"],[[24,[\"model\"]]]]],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -4320,7 +5347,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-secondary/link/
       this.nav = {
         links: this.links
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-nav-secondary/link link=links.firstObject nav=nav}}
+      */
+      {
         "id": "SjqIZjc7",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-nav-secondary/link\",null,[[\"link\",\"nav\"],[[24,[\"links\",\"firstObject\"]],[24,[\"nav\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4328,7 +5359,15 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-secondary/link/
       assert.equal(this.element.textContent.trim(), 'Foo');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-nav-secondary/link link=links.lastObject nav=nav}}
+              template block text
+            {{/layout/md-nav-secondary/link}}
+          
+      */
+      {
         "id": "dTotO+8I",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-nav-secondary/link\",null,[[\"link\",\"nav\"],[[24,[\"links\",\"lastObject\"]],[24,[\"nav\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4367,7 +5406,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-sidebar/compone
       // Handle any actions with this.on('myAction', function(val) { ... });
 
       this.set('model', [records, contacts, dicts]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-nav-sidebar items=model version="test"}}
+      */
+      {
         "id": "oOzPshzD",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-nav-sidebar\",null,[[\"items\",\"version\"],[[24,[\"model\"]],\"test\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4375,7 +5418,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-sidebar/compone
       assert.equal((0, _testHelpers.find)('.sidebar-nav').textContent.replace(/[ \n]+/g, '|'), '|mdditorvtest|Records|(2)|My|Record0|My|Record1|Contacts|(2)|Contact0|Contact1|Dictionaries|(2)|My|Dictionary0|My|Dictionary1|');
     });
     (0, _qunit.test)('toggle help action', async function (assert) {
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-nav-sidebar}}
+      */
+      {
         "id": "/wtPdttb",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"layout/md-nav-sidebar\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4384,7 +5431,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-nav-sidebar/compone
       assert.ok((0, _testHelpers.find)('.md-sidebar-wrapper').classList.contains('help'));
     });
     (0, _qunit.test)('toggle sidebar action', async function (assert) {
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <div id="md-wrapper">{{layout/md-nav-sidebar}}</div>
+      */
+      {
         "id": "YaaE/gVE",
         "block": "{\"symbols\":[],\"statements\":[[7,\"div\",true],[10,\"id\",\"md-wrapper\"],[8],[1,[22,\"layout/md-nav-sidebar\"],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -4403,7 +5454,15 @@ define("mdeditor/tests/integration/pods/components/layout/md-object-container/co
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-object-container
+            title="Foo"
+            isCollapsible=true
+            index="1"
+          }}
+      */
+      {
         "id": "Hm3ScjAT",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-object-container\",null,[[\"title\",\"isCollapsible\",\"index\"],[\"Foo\",true,\"1\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4414,7 +5473,15 @@ define("mdeditor/tests/integration/pods/components/layout/md-object-container/co
       assert.dom('.md-object-container .btn-collapse').hasClass('collapsed');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-object-container}}
+              template block text
+            {{/layout/md-object-container}}
+          
+      */
+      {
         "id": "oZCFfN2y",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-object-container\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4432,7 +5499,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-slider/component-te
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-slider}}
+      */
+      {
         "id": "K8sOFqjB",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"layout/md-slider\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4440,7 +5511,20 @@ define("mdeditor/tests/integration/pods/components/layout/md-slider/component-te
       assert.equal((0, _testHelpers.find)('.md-slider').textContent.trim(), 'Close');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-slider fromName="slider"}}
+              template block text
+            {{/layout/md-slider}}
+            {{to-elsewhere named="slider"
+              send=(hash
+                title="biz"
+                body=(component "layout/md-card" title="foobar"))
+            }}
+          
+      */
+      {
         "id": "FLb3THMW",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-slider\",null,[[\"fromName\"],[\"slider\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[28,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"slider\",[28,\"hash\",null,[[\"title\",\"body\"],[\"biz\",[28,\"component\",[\"layout/md-card\"],[[\"title\"],[\"foobar\"]]]]]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4459,7 +5543,11 @@ define("mdeditor/tests/integration/pods/components/layout/md-wrap/component-test
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/md-wrap class="testme"}}
+      */
+      {
         "id": "moXlat3Z",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/md-wrap\",null,[[\"class\"],[\"testme\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4467,7 +5555,15 @@ define("mdeditor/tests/integration/pods/components/layout/md-wrap/component-test
       assert.equal((0, _testHelpers.find)('.testme').textContent.trim(), '');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/md-wrap class="testme"}}
+              template block text
+            {{/layout/md-wrap}}
+          
+      */
+      {
         "id": "fJoC4aqA",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/md-wrap\",null,[[\"class\"],[\"testme\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4537,7 +5633,13 @@ define("mdeditor/tests/integration/pods/components/layout/nav/dictionary/nav-mai
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/nav/dictionary/nav-main model=model}}
+            {{to-elsewhere named="dictionary-nav" send=(component "control/md-button" text="testme")}}
+            
+      */
+      {
         "id": "kfjnpNao",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"layout/nav/dictionary/nav-main\",null,[[\"model\"],[[24,[\"model\"]]]]],false],[0,\"\\n      \"],[1,[28,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"dictionary-nav\",[28,\"component\",[\"control/md-button\"],[[\"text\"],[\"testme\"]]]]]],false],[0,\"\\n      \"]],\"hasEval\":false}",
         "meta": {}
@@ -4545,7 +5647,16 @@ define("mdeditor/tests/integration/pods/components/layout/nav/dictionary/nav-mai
       assert.equal(this.element.textContent.trim(), 'testme');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/nav/dictionary/nav-main model=model}}
+              template block text
+            {{/layout/nav/dictionary/nav-main}}
+            {{to-elsewhere named="dictionary-nav" send=(component "control/md-button" text="testme")}}
+          
+      */
+      {
         "id": "uRoBR1Kt",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/nav/dictionary/nav-main\",null,[[\"model\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[28,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"dictionary-nav\",[28,\"component\",[\"control/md-button\"],[[\"text\"],[\"testme\"]]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4564,7 +5675,13 @@ define("mdeditor/tests/integration/pods/components/layout/nav/record/nav-main/co
       // Handle any actions with this.set('myAction', function(val) { ... });
       this.foo = function () {};
       this.profileId = _environment.default.APP.defaultProfileId;
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{layout/nav/record/nav-main}}
+          {{to-elsewhere named="record-nav" send=(component "input/md-select-profile" value=profileId updateProfile=this.foo)}}
+          
+      */
+      {
         "id": "lAREQhMJ",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"layout/nav/record/nav-main\"],false],[0,\"\\n    \"],[1,[28,\"to-elsewhere\",null,[[\"named\",\"send\"],[\"record-nav\",[28,\"component\",[\"input/md-select-profile\"],[[\"value\",\"updateProfile\"],[[24,[\"profileId\"]],[23,0,[\"foo\"]]]]]]]],false],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4572,7 +5689,15 @@ define("mdeditor/tests/integration/pods/components/layout/nav/record/nav-main/co
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Translate|Profile|Full|?|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#layout/nav/record/nav-main}}
+              template block text
+            {{/layout/nav/record/nav-main}}
+          
+      */
+      {
         "id": "1nFMK2zh",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"layout/nav/record/nav-main\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4592,7 +5717,11 @@ define("mdeditor/tests/integration/pods/components/md-help/component-test", ["@e
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-help}}
+      */
+      {
         "id": "iLPoPgdy",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"md-help\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4600,7 +5729,15 @@ define("mdeditor/tests/integration/pods/components/md-help/component-test", ["@e
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Help|Main|Tour|The|mdEditor|is|a|web|application|that|allows|users|to|author|and|edit|metadata|for|projects|and|datasets.|The|primary|design|goal|is|to|develop|an|editor|that|will|allow|creation|and|management|of|archival|quality|metadata|without|requiring|extensive|knowledge|of|metadata|standards.|A|comprehensive|User|Manual|is|available.|The|manual|includes|a|tutorial,|reference,|and|best|practices.|View|User|Manual|If|you|would|like|to|receive|announcements|regarding|the|mdEditor,|join|our|email|list!|Join|Email|list|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#md-help}}
+              template block text
+            {{/md-help}}
+          
+      */
+      {
         "id": "mDCBuwo3",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"md-help\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4631,7 +5768,11 @@ define("mdeditor/tests/integration/pods/components/md-models-table/component-tes
         propertyName: 'type',
         title: 'Type'
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-models-table data=data columns=columns}}
+      */
+      {
         "id": "SimpEWop",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"md-models-table\",null,[[\"data\",\"columns\"],[[24,[\"data\"]],[24,[\"columns\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4639,7 +5780,15 @@ define("mdeditor/tests/integration/pods/components/md-models-table/component-tes
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Search:|Columns|Show|All|Hide|All|Restore|Defaults|Title|Type|Title|Type|Title|Type|foo|bar|biz|baz|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#md-models-table}}
+              template block text
+            {{/md-models-table}}
+          
+      */
+      {
         "id": "HFawtjvi",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"md-models-table\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4671,7 +5820,11 @@ define("mdeditor/tests/integration/pods/components/md-models-table/components/ch
         assert.ok(true, 'toggleAll action');
         this.set('selectedItems.length', 1);
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-models-table/components/check-all data=data selectedItems=data.selectedItems themeInstance=data.themeInstance toggleAllSelection=toggleAllSelection}}
+      */
+      {
         "id": "CQdEzpau",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"md-models-table/components/check-all\",null,[[\"data\",\"selectedItems\",\"themeInstance\",\"toggleAllSelection\"],[[24,[\"data\"]],[24,[\"data\",\"selectedItems\"]],[24,[\"data\",\"themeInstance\"]],[24,[\"toggleAllSelection\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4684,7 +5837,15 @@ define("mdeditor/tests/integration/pods/components/md-models-table/components/ch
       assert.ok((0, _testHelpers.find)('span').classList.contains('select'), 'deselect');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#md-models-table/components/check-all}}
+              template block text
+            {{/md-models-table/components/check-all}}
+          
+      */
+      {
         "id": "xwLd9HXZ",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"md-models-table/components/check-all\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4706,7 +5867,11 @@ define("mdeditor/tests/integration/pods/components/md-models-table/components/ch
         'deselect-row': 'deselect'
       };
       this.set('isSelected', false);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-models-table/components/check isSelected=isSelected themeInstance=themeInstance}}
+      */
+      {
         "id": "PMo3Xmev",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"md-models-table/components/check\",null,[[\"isSelected\",\"themeInstance\"],[[24,[\"isSelected\"]],[24,[\"themeInstance\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4716,7 +5881,15 @@ define("mdeditor/tests/integration/pods/components/md-models-table/components/ch
       assert.ok((0, _testHelpers.find)('span').classList.contains('select'), 'update class');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#md-models-table/components/check}}
+              template block text
+            {{/md-models-table/components/check}}
+          
+      */
+      {
         "id": "vzjRZrkF",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"md-models-table/components/check\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4737,7 +5910,11 @@ define("mdeditor/tests/integration/pods/components/md-models-table/components/ro
       this.set('myAction', function () {
         assert.ok(true, 'call collapseRow');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-models-table/components/row-body collapseRow=myAction}}
+      */
+      {
         "id": "lcd48Rwn",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"md-models-table/components/row-body\",null,[[\"collapseRow\"],[[24,[\"myAction\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4758,7 +5935,11 @@ define("mdeditor/tests/integration/pods/components/md-models-table/components/ro
         assert.equal(record.title, 'foo', 'called passed action');
         this.expandRow(index, record);
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-models-table/components/row-buttons}}
+      */
+      {
         "id": "L/GNUZXL",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"md-models-table/components/row-buttons\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4795,7 +5976,11 @@ define("mdeditor/tests/integration/pods/components/md-models-table/components/ro
           action: this.myAction
         }]
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-models-table data=data columns=columns expandedRowComponent=(component "md-models-table/components/row-body" spotlighted=true)}}
+      */
+      {
         "id": "MtwUtds9",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"md-models-table\",null,[[\"data\",\"columns\",\"expandedRowComponent\"],[[24,[\"data\"]],[24,[\"columns\"]],[28,\"component\",[\"md-models-table/components/row-body\"],[[\"spotlighted\"],[true]]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4819,7 +6004,11 @@ define("mdeditor/tests/integration/pods/components/md-title/component-test", ["@
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-title}}
+      */
+      {
         "id": "8da3z/LK",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"md-title\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4827,7 +6016,15 @@ define("mdeditor/tests/integration/pods/components/md-title/component-test", ["@
       assert.equal(this.element.textContent.trim(), '');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#md-title}}
+              template block text
+            {{/md-title}}
+          
+      */
+      {
         "id": "i7KE7rEm",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"md-title\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4855,7 +6052,19 @@ define("mdeditor/tests/integration/pods/components/md-translate/component-test",
         assert.ok(title, 'save title');
         assert.equal(blob.constructor.name, 'Blob', 'save blob');
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{md-translate
+            model=model
+            isLoading=isLoading
+            messages=messages
+            result=result
+            errorLevel=2
+            isJson=true
+            writeObj=writer
+          }}
+      */
+      {
         "id": "hTkEAnbu",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"md-translate\",null,[[\"model\",\"isLoading\",\"messages\",\"result\",\"errorLevel\",\"isJson\",\"writeObj\"],[[24,[\"model\"]],[24,[\"isLoading\"]],[24,[\"messages\"]],[24,[\"result\"]],2,true,[24,[\"writer\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4871,7 +6080,15 @@ define("mdeditor/tests/integration/pods/components/md-translate/component-test",
       (0, _testHelpers.click)('.md-translator-preview.warning .btn-success');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#md-translate}}
+              template block text
+            {{/md-translate}}
+          
+      */
+      {
         "id": "1qFgffnw",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"md-translate\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4895,7 +6112,11 @@ define("mdeditor/tests/integration/pods/components/models-table/cell-content-dis
         title: 'foo biz baz',
         uri: 'bar'
       }));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{models-table/cell-content-display column=column record=data}}
+      */
+      {
         "id": "PQfhnCwq",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"models-table/cell-content-display\",null,[[\"column\",\"record\"],[[24,[\"column\"]],[24,[\"data\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4906,7 +6127,11 @@ define("mdeditor/tests/integration/pods/components/models-table/cell-content-dis
         truncate: true,
         wordLimit: 2
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{models-table/cell-content-display column=column1 record=data}}
+      */
+      {
         "id": "95UWO0PS",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"models-table/cell-content-display\",null,[[\"column\",\"record\"],[[24,[\"column1\"]],[24,[\"data\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4924,7 +6149,11 @@ define("mdeditor/tests/integration/pods/components/models-table/row-expand/compo
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{models-table/row-expand}}
+      */
+      {
         "id": "HeHLdig+",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"models-table/row-expand\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4932,7 +6161,15 @@ define("mdeditor/tests/integration/pods/components/models-table/row-expand/compo
       assert.equal(this.element.textContent.trim(), '');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#models-table/row-expand}}
+              template block text
+            {{/models-table/row-expand}}
+          
+      */
+      {
         "id": "ksixTEU6",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"models-table/row-expand\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4950,7 +6187,11 @@ define("mdeditor/tests/integration/pods/components/models-table/table-body/compo
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{models-table/table-body}}
+      */
+      {
         "id": "mTRK7kno",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"models-table/table-body\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -4958,7 +6199,15 @@ define("mdeditor/tests/integration/pods/components/models-table/table-body/compo
       assert.equal(this.element.textContent.trim(), '');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#models-table/table-body}}
+              template block text
+            {{/models-table/table-body}}
+          
+      */
+      {
         "id": "amuBMJuB",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"models-table/table-body\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -4983,7 +6232,11 @@ define("mdeditor/tests/integration/pods/components/object/md-address/md-address-
         "postalCode": "postalCode",
         "country": "country"
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-address/md-address-block item=address}}
+      */
+      {
         "id": "3D38jJSW",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-address/md-address-block\",null,[[\"item\"],[[24,[\"address\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4991,7 +6244,15 @@ define("mdeditor/tests/integration/pods/components/object/md-address/md-address-
       assert.equal((0, _testHelpers.find)('address').textContent.replace(/[ \n]+/g, '|').trim(), '|deliveryPoint0|deliveryPoint1|city,|administrativeArea|postalCode|country|mailing,|physical|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-address/md-address-block item=address}}
+              template block text
+            {{/object/md-address/md-address-block}}
+          
+      */
+      {
         "id": "RNQ15DLO",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-address/md-address-block\",null,[[\"item\"],[[24,[\"address\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5016,7 +6277,11 @@ define("mdeditor/tests/integration/pods/components/object/md-allocation/componen
         'comment': 'comment',
         sourceAllocationId: 'sourceAllocationId'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-allocation profilePath="test" model=allocation}}
+      */
+      {
         "id": "WxU7VCci",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-allocation\",null,[[\"profilePath\",\"model\"],[\"test\",[24,[\"allocation\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5024,7 +6289,15 @@ define("mdeditor/tests/integration/pods/components/object/md-allocation/componen
       assert.equal((0, _testHelpers.find)('.md-card').textContent.replace(/[ \n]+/g, '|').trim(), '|Amount|Amount|Currency|Choose|unit|of|currency|Award|ID|Source|Pick|contact|that|supplied|funds|Recipient|Pick|contact|that|received|funds|No|Other|Contacts|found.|Add|Other|Contact|Matching|Matching|funds|or|in-kind|services|Comment|No|Online|Resource|found.|Add|Online|Resource|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-allocation profilePath="test" model=allocation class="testme"}}
+              template block text
+            {{/object/md-allocation}}
+          
+      */
+      {
         "id": "mq87gFhb",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-allocation\",null,[[\"profilePath\",\"model\",\"class\"],[\"test\",[24,[\"allocation\"]],\"testme\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5047,7 +6320,25 @@ define("mdeditor/tests/integration/pods/components/object/md-array-table/compone
         biz: 'biz2',
         baz: 'baz2'
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-array-table
+              columns="biz,baz"
+              value=data
+              title="FooBar"
+              data-spy="FooBar" as |f|
+            }}
+              <td>
+                {{f.item.biz}}
+              </td>
+              <td>
+                {{f.item.baz}}
+              </td>
+            {{/object/md-array-table}}
+            
+      */
+      {
         "id": "WbGu1T5E",
         "block": "{\"symbols\":[\"f\"],\"statements\":[[0,\"\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"title\",\"data-spy\"],[\"biz,baz\",[24,[\"data\"]],\"FooBar\",\"FooBar\"]],{\"statements\":[[0,\"        \"],[7,\"td\",true],[8],[0,\"\\n          \"],[1,[23,1,[\"item\",\"biz\"]],false],[0,\"\\n        \"],[9],[0,\"\\n        \"],[7,\"td\",true],[8],[0,\"\\n          \"],[1,[23,1,[\"item\",\"baz\"]],false],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"      \"]],\"hasEval\":false}",
         "meta": {}
@@ -5055,7 +6346,19 @@ define("mdeditor/tests/integration/pods/components/object/md-array-table/compone
       assert.equal((0, _testHelpers.find)('.panel').textContent.replace(/[ \n]+/g, '|').trim(), '|FooBars|2|Add|#|Biz|Baz|0|biz1|baz1|Delete|1|biz2|baz2|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-array-table
+              columns="biz,baz"
+              value=data
+              title="FooBar"
+            }}
+              template block text
+            {{/object/md-array-table}}
+          
+      */
+      {
         "id": "Dx2VY2vr",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-array-table\",null,[[\"columns\",\"value\",\"title\"],[\"biz,baz\",[24,[\"data\"]],\"FooBar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5112,7 +6415,11 @@ define("mdeditor/tests/integration/pods/components/object/md-associated/componen
           "type": "product"
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-associated profilePath="foobar" model=model}}
+      */
+      {
         "id": "GjEkhvWk",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-associated\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5120,7 +6427,15 @@ define("mdeditor/tests/integration/pods/components/object/md-associated/componen
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[ \n]+/g, '|').trim(), '|Association|Type|product|?|×|Initiative|Type|Choose|Type|of|Initiative|Resource|Types|2|Add|#|Type|Name|0|website|?|×|Delete|1|product|?|×|Delete|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|Dates|1|Add|Date|#|Date|Date|Type|Description|0|publication|?|×|Delete|Edition|Presentation|Form|No|Responsible|Party|found.|Add|Responsible|Party|No|Online|Resource|found.|Add|Online|Resource|Identifier|1|Add|OK|#|Identifier|Namespace|Description|0|5a70c2dee4b0a9a2e9dafbe7|gov.sciencebase.catalog|Identifier|imported|from|ScienceBase|during|publication|More...|Delete|Identifier|1|Add|OK|#|Identifier|Namespace|0|5a70c2dee4b0a9a2e9dafbe7|gov.sciencebase.catalog|Edit|Delete|Identifier|1|Add|OK|#|Identifier|Namespace|0|5a70c2dee4b0a9a2e9dafbe7|gov.sciencebase.catalog|Edit|Delete|Series|Name|Issue|Page|No|Other|Details|found.|Add|Other|Detail|No|Graphic|found.|Add|Graphic|Metadata|Citation|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|No|Date|found.|Add|Date|Responsible|Parties|1|Add|#|Role|Contacts|0|author|?|×|Delete|No|Online|Resource|found.|Add|Online|Resource|Identifier|1|Add|OK|#|Identifier|Namespace|Description|0|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|urn:uuid|Not|Defined|More...|Delete|Identifier|1|Add|OK|#|Identifier|Namespace|0|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|urn:uuid|Edit|Delete|Identifier|1|Add|OK|#|Identifier|Namespace|0|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|urn:uuid|Edit|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-associated profilePath="foobar" model=model}}
+              template block text
+            {{/object/md-associated}}
+          
+      */
+      {
         "id": "kv9BOMnh",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-associated\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5177,7 +6492,11 @@ define("mdeditor/tests/integration/pods/components/object/md-associated/preview/
           "type": "product"
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-associated/preview item=model class="testme"}}
+      */
+      {
         "id": "3JJNArXu",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-associated/preview\",null,[[\"item\",\"class\"],[[24,[\"model\"]],\"testme\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5185,7 +6504,15 @@ define("mdeditor/tests/integration/pods/components/object/md-associated/preview/
       assert.equal((0, _testHelpers.find)('.testme').textContent.replace(/[ \n]+/g, '|').trim(), '|Resource|#|Association|Type|product|Initiative|Type|Not|Defined|Title|Pacific|Connectivity|Website|Alternate|Titles|No|alternate|titles|assigned.|Dates|September|30th|2015|(publication)|Identifier|5a70c2dee4b0a9a2e9dafbe7|(gov.sciencebase.catalog)|Responsible|Party|No|responsibility|assigned.|Metadata|Identifier|f4abb4e0-a3d6-450f-adca-6d07eac19b0b|(urn:uuid)|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-associated/preview item=model class="testme"}}
+              template block text
+            {{/object/md-associated/preview}}
+          
+      */
+      {
         "id": "ZTN9BnAs",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-associated/preview\",null,[[\"item\",\"class\"],[[24,[\"model\"]],\"testme\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5202,7 +6529,11 @@ define("mdeditor/tests/integration/pods/components/object/md-attribute/component
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('model', (0, _createDictionary.createAttribute)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-attribute model=model profilePath="foobar"}}
+      */
+      {
         "id": "NlKKzA/m",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-attribute\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5210,7 +6541,15 @@ define("mdeditor/tests/integration/pods/components/object/md-attribute/component
       assert.equal((0, _testHelpers.find)('.md-card').textContent.replace(/[ \n]+/g, '|').trim(), '|Attribute|Information|Code|Name|Definition|Data|Type|dataType0|×|Allow|Null?|Allow|null|values|Common|Name|Domain|Select|or|enter|the|domain|for|this|attribute.|Aliases|1|Add|Alias|0|Delete|Units|Units|Resolution|Case|Sensitive?|Is|the|attribute|content|case|sensitive?|Field|Width|Missing|Value|Minimum|Value|Maximum|Value|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-attribute model=model profilePath="foobar"}}
+              template block text
+            {{/object/md-attribute}}
+          
+      */
+      {
         "id": "3jDPPN+X",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-attribute\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5227,7 +6566,11 @@ define("mdeditor/tests/integration/pods/components/object/md-attribute/preview/c
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('model', (0, _createDictionary.createAttribute)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <div class="testme">{{object/md-attribute/preview model=model profilePath="foobar"}}</div>
+      */
+      {
         "id": "BgEXHkYj",
         "block": "{\"symbols\":[],\"statements\":[[7,\"div\",true],[10,\"class\",\"testme\"],[8],[1,[28,\"object/md-attribute/preview\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -5251,7 +6594,11 @@ define("mdeditor/tests/integration/pods/components/object/md-bbox/component-test
         "southLatitude": 29.640690610830635,
         "northLatitude": 30.42485959910817
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-bbox profilePath="foobar" model=model}}
+      */
+      {
         "id": "W4HvGjO9",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-bbox\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5264,7 +6611,15 @@ define("mdeditor/tests/integration/pods/components/object/md-bbox/component-test
       assert.equal(inputs[3].value, this.model.westLongitude, 'west');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-bbox profilePath="foobar" model=model}}
+              template block text
+            {{/object/md-bbox}}
+          
+      */
+      {
         "id": "S4FHfW5A",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-bbox\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5281,13 +6636,21 @@ define("mdeditor/tests/integration/pods/components/object/md-citation-array/comp
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('citation', (0, _createCitation.default)(3));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-citation-array}}
+      */
+      {
         "id": "MBehbRDh",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"object/md-citation-array\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal((0, _testHelpers.find)('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-citation-array model=citation}}
+      */
+      {
         "id": "/uXqSVc7",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-citation-array\",null,[[\"model\"],[[24,[\"citation\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5295,7 +6658,15 @@ define("mdeditor/tests/integration/pods/components/object/md-citation-array/comp
       assert.equal((0, _testHelpers.find)('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|Citation|3|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|2|title2|More...|Delete|', 'renders rows');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-citation-array}}
+              template block text
+            {{/object/md-citation-array}}
+          
+      */
+      {
         "id": "8LMMQcD1",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-citation-array\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5312,7 +6683,11 @@ define("mdeditor/tests/integration/pods/components/object/md-citation/component-
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('citation', (0, _createCitation.default)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-citation profilePath="foobar" model=citation}}
+      */
+      {
         "id": "RtW37Mdh",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-citation\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"citation\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5320,7 +6695,15 @@ define("mdeditor/tests/integration/pods/components/object/md-citation/component-
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[ \n]+/g, '|').trim(), '|Basic|Information|Title|Alternate|Titles|2|Add|Alternate|Title|0|Delete|1|Delete|Dates|2|Add|Date|#|Date|Date|Type|Description|0|dateType|×|Delete|1|dateType|×|Delete|Edition|Presentation|Form|×|presentationForm0|×|presentationForm1|Responsible|Parties|2|Add|#|Role|Contacts|0|role|×|Delete|1|role|×|Delete|Online|Resource|2|Add|OK|#|Name|Uri|0|Not|Defined|http://adiwg.org|Edit|Delete|1|Not|Defined|http://mdeditor.org|Edit|Delete|Identifier|2|Add|OK|#|Identifier|Namespace|Description|0|identifier0|Not|Defined|Not|Defined|More...|Delete|1|identifier-0|Not|Defined|Not|Defined|More...|Delete|Identifier|2|Add|OK|#|Identifier|Namespace|0|identifier0|Not|Defined|Edit|Delete|1|identifier-0|Not|Defined|Edit|Delete|Identifier|2|Add|OK|#|Identifier|Namespace|0|identifier0|Not|Defined|Edit|Delete|1|identifier-0|Not|Defined|Edit|Delete|Series|Name|Issue|Page|Other|Details|2|Add|0|Delete|1|Delete|Graphic|2|Add|OK|0|fileName:|Edit|Delete|1|fileName:|Edit|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-citation profilePath="foobar"}}
+              template block text
+            {{/object/md-citation}}
+          
+      */
+      {
         "id": "eOi54CPK",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-citation\",null,[[\"profilePath\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5337,7 +6720,11 @@ define("mdeditor/tests/integration/pods/components/object/md-citation/preview/bo
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('citation', (0, _createCitation.default)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-citation/preview/body citation=citation}}
+      */
+      {
         "id": "YuudbIQI",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-citation/preview/body\",null,[[\"citation\"],[[24,[\"citation\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5345,7 +6732,15 @@ define("mdeditor/tests/integration/pods/components/object/md-citation/preview/bo
       assert.equal((0, _testHelpers.find)('.row').textContent.replace(/[ \n]+/g, '|').trim(), '|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|October|13th|2016|(dateType)|October|22nd|2016|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|)|role|(|)|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-citation/preview/body}}
+              template block text
+            {{/object/md-citation/preview/body}}
+          
+      */
+      {
         "id": "sUcR8ZyH",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-citation/preview/body\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5367,7 +6762,11 @@ define("mdeditor/tests/integration/pods/components/object/md-citation/preview/co
       this.set('editCitation', function (v) {
         assert.ok(v, 'Called external action');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-citation/preview editCitation=editCitation citation=citation}}
+      */
+      {
         "id": "w1mHv6wI",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-citation/preview\",null,[[\"editCitation\",\"citation\"],[[24,[\"editCitation\"]],[24,[\"citation\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5376,7 +6775,15 @@ define("mdeditor/tests/integration/pods/components/object/md-citation/preview/co
       await (0, _testHelpers.click)('.btn-success');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-citation/preview editCitation=editCitation}}
+              template block text
+            {{/object/md-citation/preview}}
+          
+      */
+      {
         "id": "imkcj7Dl",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-citation/preview\",null,[[\"editCitation\"],[[24,[\"editCitation\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5393,7 +6800,11 @@ define("mdeditor/tests/integration/pods/components/object/md-constraint/componen
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('model', {});
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-constraint profilePath="foobar" model=model}}
+      */
+      {
         "id": "RZXh4ND8",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-constraint\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5401,7 +6812,15 @@ define("mdeditor/tests/integration/pods/components/object/md-constraint/componen
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[ \n]+/g, '|').trim(), '|Constraint|Type|The|type|of|constraint.|No|Use|Limitations|found.|Add|Use|Limitation|Legal|Access|Constraints|Use|Constraints|No|Other|Constraint|found.|Add|Other|Constraint|Security|Classification|Name|of|the|handling|restrictions|on|the|resource|or|metadata.|Classification|System|Name|Note|Handling|Description|No|Responsible|Party|found.|Add|Responsible|Party|No|Graphic|or|Logo|found.|Add|Graphic|or|Logo|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-constraint profilePath="foobar" model=model}}
+              template block text
+            {{/object/md-constraint}}
+          
+      */
+      {
         "id": "QB8DUCsX",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-constraint\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5419,7 +6838,11 @@ define("mdeditor/tests/integration/pods/components/object/md-date-array/componen
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-date-array value=model profilePath="foobar"}}
+      */
+      {
         "id": "Ce/zxQyN",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-date-array\",null,[[\"value\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5433,7 +6856,15 @@ define("mdeditor/tests/integration/pods/components/object/md-date-array/componen
       assert.equal((0, _testHelpers.find)('.panel').textContent.replace(/[ \n]+/g, '|').trim(), '|Dates|1|Add|#|Date|Date|Type|Description|0|dateType|×|Delete|', 'item');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-date-array value=model profilePath="foobar"}}
+              template block text
+            {{/object/md-date-array}}
+          
+      */
+      {
         "id": "ZTcAMYtC",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-date-array\",null,[[\"value\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5450,7 +6881,11 @@ define("mdeditor/tests/integration/pods/components/object/md-date/component-test
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <table><tr>{{object/md-date model=model profilePath="foobar"}}</tr></table>
+      */
+      {
         "id": "dIggkcq3",
         "block": "{\"symbols\":[],\"statements\":[[7,\"table\",true],[8],[7,\"tr\",true],[8],[1,[28,\"object/md-date\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false],[9],[9]],\"hasEval\":false}",
         "meta": {}
@@ -5464,7 +6899,15 @@ define("mdeditor/tests/integration/pods/components/object/md-date/component-test
       assert.equal((0, _testHelpers.find)('table').textContent.replace(/[ \n]+/g, '|').trim(), "|dateType|×|");
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <table><tr>
+            {{#object/md-date profilePath="foobar"}}
+              template block text
+            {{/object/md-date}}
+          </tr></table>
+      */
+      {
         "id": "BmkCkQcZ",
         "block": "{\"symbols\":[],\"statements\":[[7,\"table\",true],[8],[7,\"tr\",true],[8],[0,\"\\n\"],[4,\"object/md-date\",null,[[\"profilePath\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"],[9],[9]],\"hasEval\":false}",
         "meta": {}
@@ -5506,7 +6949,11 @@ define("mdeditor/tests/integration/pods/components/object/md-distribution/compon
           }
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-distribution model=model profilePath="foobar"}}
+      */
+      {
         "id": "IjVuDFEm",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-distribution\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5514,7 +6961,15 @@ define("mdeditor/tests/integration/pods/components/object/md-distribution/compon
       assert.equal((0, _testHelpers.find)('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|Distribution|#|Delete|Description|Liablity|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-distribution model=model profilePath="foobar"}}
+              template block text
+            {{/object/md-distribution}}
+          
+      */
+      {
         "id": "Z9yg2Qxf",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-distribution\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5558,7 +7013,11 @@ define("mdeditor/tests/integration/pods/components/object/md-distributor/compone
           "transferSize": 10.9
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-distributor model=distributor profilePath="foobar"}}
+      */
+      {
         "id": "kde4eDLI",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-distributor\",null,[[\"model\",\"profilePath\"],[[24,[\"distributor\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5566,7 +7025,15 @@ define("mdeditor/tests/integration/pods/components/object/md-distributor/compone
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Contacts|Role|role|×|Transfer|Options|2|Add|OK|#|Size(mb)|Online?|Offline?|Format?|0|9.9|no|no|no|More...|Delete|1|10.9|no|no|no|More...|Delete|Order|Process|Fees|Planned|Availability|Ordering|Instructions|Turnaround|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-distributor model=distributor profilePath="foobar"}}
+              template block text
+            {{/object/md-distributor}}
+          
+      */
+      {
         "id": "4L4t1mtP",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-distributor\",null,[[\"model\",\"profilePath\"],[[24,[\"distributor\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5611,7 +7078,11 @@ define("mdeditor/tests/integration/pods/components/object/md-distributor/preview
           "transferSize": 10.9
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-distributor/preview item=distributor}}
+      */
+      {
         "id": "KKG8Y9pR",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-distributor/preview\",null,[[\"item\"],[[24,[\"distributor\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5619,7 +7090,15 @@ define("mdeditor/tests/integration/pods/components/object/md-distributor/preview
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|role|(|Contact0|)|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-distributor/preview class="testme" item=distributor}}
+              template block text
+            {{/object/md-distributor/preview}}
+          
+      */
+      {
         "id": "Hv2mqg4O",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-distributor/preview\",null,[[\"class\",\"item\"],[\"testme\",[24,[\"distributor\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5642,7 +7121,11 @@ define("mdeditor/tests/integration/pods/components/object/md-documentation/compo
         }],
         citation: (0, _createCitation.default)(2)
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-documentation profilePath="foobar" model=doc}}
+      */
+      {
         "id": "lK+RHGL3",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-documentation\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"doc\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5650,7 +7133,15 @@ define("mdeditor/tests/integration/pods/components/object/md-documentation/compo
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Resource|Types|1|Add|#|Type|Name|0|foo|×|Delete|Basic|Information|Title|Alternate|Titles|2|Add|Alternate|Title|0|Delete|1|Delete|Dates|2|Add|Date|#|Date|Date|Type|Description|0|dateType|×|Delete|1|dateType|×|Delete|Edition|Presentation|Form|×|presentationForm0|×|presentationForm1|Responsible|Parties|2|Add|#|Role|Contacts|0|role|×|Delete|1|role|×|Delete|Online|Resource|2|Add|OK|#|Name|Uri|0|Not|Defined|http://adiwg.org|Edit|Delete|1|Not|Defined|http://mdeditor.org|Edit|Delete|Identifier|2|Add|OK|#|Identifier|Namespace|Description|0|identifier0|Not|Defined|Not|Defined|More...|Delete|1|identifier-0|Not|Defined|Not|Defined|More...|Delete|Identifier|2|Add|OK|#|Identifier|Namespace|0|identifier0|Not|Defined|Edit|Delete|1|identifier-0|Not|Defined|Edit|Delete|Identifier|2|Add|OK|#|Identifier|Namespace|0|identifier0|Not|Defined|Edit|Delete|1|identifier-0|Not|Defined|Edit|Delete|Series|Name|Issue|Page|Other|Details|2|Add|0|Delete|1|Delete|Graphic|2|Add|OK|0|fileName:|Edit|Delete|1|fileName:|Edit|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-documentation profilePath="foobar" model=doc}}
+              template block text
+            {{/object/md-documentation}}
+          
+      */
+      {
         "id": "B4gRASXT",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-documentation\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"doc\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5673,7 +7164,11 @@ define("mdeditor/tests/integration/pods/components/object/md-documentation/previ
         }],
         citation: (0, _createCitation.default)(2)
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-documentation/preview item=doc}}
+      */
+      {
         "id": "d1q6QYMQ",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-documentation/preview\",null,[[\"item\"],[[24,[\"doc\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5681,7 +7176,15 @@ define("mdeditor/tests/integration/pods/components/object/md-documentation/previ
       assert.equal((0, _testHelpers.find)('.text-muted').textContent.replace(/[\s\n]+/g, '|').trim(), '|Document|#|Resource|Type(s)|foo:|bar|Title|title0|Alternate|Titles|alternateTitle0|alternateTitle1|Dates|October|13th|2016|(dateType)|October|22nd|2016|(dateType)|Identifier|identifier0|identifier-0|Responsible|Party|role|(|)|role|(|)|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-documentation/preview class="testme" item=doc}}
+              template block text
+            {{/object/md-documentation/preview}}
+          
+      */
+      {
         "id": "9RRr8EXK",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-documentation/preview\",null,[[\"class\",\"item\"],[\"testme\",[24,[\"doc\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5698,7 +7201,11 @@ define("mdeditor/tests/integration/pods/components/object/md-domain/component-te
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('domain', (0, _createDictionary.createDomain)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-domain profilePath="foobar" model=domain}}
+      */
+      {
         "id": "iBmZeHij",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-domain\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"domain\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5706,7 +7213,15 @@ define("mdeditor/tests/integration/pods/components/object/md-domain/component-te
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Domain|Information|Domain|Identifier|Code|Name|Common|Name|Description|Domain|Items|1|Add|OK|#|Domain|Item|Name|Value|Definition|0|More...|Delete|Domain|Reference|Edit|Title|Not|Defined|Alternate|Titles|No|alternate|titles|assigned.|Dates|No|dates|assigned.|Identifier|No|identifiers|assigned.|Responsible|Party|No|responsibility|assigned.|Edit|Citation|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-domain profilePath="foobar" model=domain}}
+              template block text
+            {{/object/md-domain}}
+          
+      */
+      {
         "id": "HY2/r6Qe",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-domain\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"domain\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5730,7 +7245,11 @@ define("mdeditor/tests/integration/pods/components/object/md-domainitem/componen
           "title": "domainReference"
         }
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-domainitem profilePath="foobar" model=item}}
+      */
+      {
         "id": "DQCyHSmh",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-domainitem\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"item\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5738,7 +7257,15 @@ define("mdeditor/tests/integration/pods/components/object/md-domainitem/componen
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Name|Value|Definition|Item|Reference|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|No|Date|found.|Add|Date|No|Responsible|Party|found.|Add|Responsible|Party|No|Online|Resource|found.|Add|Online|Resource|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-domainitem profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-domainitem}}
+          
+      */
+      {
         "id": "X6RAna9g",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-domainitem\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5762,7 +7289,11 @@ define("mdeditor/tests/integration/pods/components/object/md-domainitem/preview/
           "title": "domainReference"
         }
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-domainitem/preview profilePath="foobar" model=item tagName="table"}}
+      */
+      {
         "id": "p03DaPWz",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-domainitem/preview\",null,[[\"profilePath\",\"model\",\"tagName\"],[\"foobar\",[24,[\"item\"]],\"table\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5773,7 +7304,15 @@ define("mdeditor/tests/integration/pods/components/object/md-domainitem/preview/
       assert.equal((0, _testHelpers.findAll)('input')[2].value, 'definition0', 'definition');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-domainitem/preview profilePath="foobar" model=item tagName="table"}}
+              template block text
+            {{/object/md-domainitem/preview}}
+          
+      */
+      {
         "id": "xpy0yCpN",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-domainitem/preview\",null,[[\"profilePath\",\"model\",\"tagName\"],[\"foobar\",[24,[\"item\"]],\"table\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5791,7 +7330,11 @@ define("mdeditor/tests/integration/pods/components/object/md-entity/component-te
       // Set any properties with this.set('myProperty', 'value');
       this.set('dictionary', (0, _createDictionary.createDictionary)(1)[0].json.dataDictionary);
       this.set('entity', this.dictionary.entity[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-entity dictionary=dictionary profilePath="foobar" model=entity}}
+      */
+      {
         "id": "VfNF51Hq",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-entity\",null,[[\"dictionary\",\"profilePath\",\"model\"],[[24,[\"dictionary\"]],\"foobar\",[24,[\"entity\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5802,7 +7345,15 @@ define("mdeditor/tests/integration/pods/components/object/md-entity/component-te
       });
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-entity dictionary=(hash) profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-entity}}
+          
+      */
+      {
         "id": "Lw1Zxth9",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-entity\",null,[[\"dictionary\",\"profilePath\",\"model\"],[[28,\"hash\",null,null],\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5820,7 +7371,11 @@ define("mdeditor/tests/integration/pods/components/object/md-extent/component-te
       assert.expect(9);
       // Set any properties with this.set('myProperty', 'value');
       this.set('model', (0, _createExtent.default)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-extent profilePath="foobar" extent=model}}
+      */
+      {
         "id": "fs1CjFbQ",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-extent\",null,[[\"profilePath\",\"extent\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5832,7 +7387,15 @@ define("mdeditor/tests/integration/pods/components/object/md-extent/component-te
       this.set('model.geographicExtent.firstObject.boundingBox', {});
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-extent profilePath="foobar" extent=model}}
+              template block text
+            {{/object/md-extent}}
+          
+      */
+      {
         "id": "VALjKwHA",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-extent\",null,[[\"profilePath\",\"extent\"],[\"foobar\",[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5877,7 +7440,17 @@ define("mdeditor/tests/integration/pods/components/object/md-extent/spatial/comp
           }]
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-extent/spatial
+            extent=extent
+            index=9
+            deleteFeatures=deleteFeatures
+            editFeatures=editFeatures
+            profilePath="foobar"
+          }}
+      */
+      {
         "id": "onnypTQh",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-extent/spatial\",null,[[\"extent\",\"index\",\"deleteFeatures\",\"editFeatures\",\"profilePath\"],[[24,[\"extent\"]],9,[24,[\"deleteFeatures\"]],[24,[\"editFeatures\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5903,7 +7476,16 @@ define("mdeditor/tests/integration/pods/components/object/md-extent/spatial/comp
         geographicExtent: [{}]
       };
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-extent/spatial extent=empty profilePath="foobar"
+      }}
+              template block text
+            {{/object/md-extent/spatial}}
+          
+      */
+      {
         "id": "JmHmFY2R",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-extent/spatial\",null,[[\"extent\",\"profilePath\"],[[24,[\"empty\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5951,7 +7533,11 @@ define("mdeditor/tests/integration/pods/components/object/md-funding/component-t
         },
         description: 'foo is bar.'
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-funding model=funding profilePath="foobar"}}
+      */
+      {
         "id": "6q2W+QCK",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-funding\",null,[[\"model\",\"profilePath\"],[[24,[\"funding\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -5959,7 +7545,15 @@ define("mdeditor/tests/integration/pods/components/object/md-funding/component-t
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Allocation|1|Add|OK|#|Amount|Currency|Matching|0|9.9|currency|Not|Defined|Edit|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|Time|Unit|year|×|Duration|Years|Months|Days|Hours|Minutes|Seconds|Description|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-funding model=(hash) profilePath="foobar"}}
+              template block text
+            {{/object/md-funding}}
+          
+      */
+      {
         "id": "f9ZRveQ5",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-funding\",null,[[\"model\",\"profilePath\"],[[28,\"hash\",null,null],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -5984,7 +7578,11 @@ define("mdeditor/tests/integration/pods/components/object/md-funding/preview/com
           "endDateTime": "2016-12-31"
         }
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>{{object/md-funding/preview item=funding}}</section>
+      */
+      {
         "id": "Q8uI/JwI",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[1,[28,\"object/md-funding/preview\",null,[[\"item\"],[[24,[\"funding\"]]]]],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -5992,7 +7590,15 @@ define("mdeditor/tests/integration/pods/components/object/md-funding/preview/com
       assert.equal((0, _testHelpers.find)('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|Start|Date:|Not|defined|End|Date:|12-31-2016|Allocations|Amount|Currency|Source|Recipient|Match?|9.9|currency|--|--|--|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>
+            {{#object/md-funding/preview item=(hash)}}
+              template block text
+            {{/object/md-funding/preview}}</section>
+          
+      */
+      {
         "id": "Z+60OAaN",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[0,\"\\n\"],[4,\"object/md-funding/preview\",null,[[\"item\"],[[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n      \"]],\"parameters\":[]},null],[9],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6023,7 +7629,11 @@ define("mdeditor/tests/integration/pods/components/object/md-graphic-array/compo
           "uri": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
         }]
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-graphic-array model=graphic}}
+      */
+      {
         "id": "jM9fWjKK",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-graphic-array\",null,[[\"model\"],[[24,[\"graphic\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6032,7 +7642,15 @@ define("mdeditor/tests/integration/pods/components/object/md-graphic-array/compo
       assert.ok((0, _testHelpers.find)('.md-logo-preview').complete, 'loaded image');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-graphic-array model=graphic}}
+              template block text
+            {{/object/md-graphic-array}}
+          
+      */
+      {
         "id": "2uHo3Yy4",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-graphic-array\",null,[[\"model\"],[[24,[\"graphic\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6064,7 +7682,11 @@ define("mdeditor/tests/integration/pods/components/object/md-identifier-array/co
       this.set('edit', function (id) {
         assert.ok(id, 'called edit');
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-identifier-array model=id editItem=edit}}
+      */
+      {
         "id": "/3bM0zOy",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-identifier-array\",null,[[\"model\",\"editItem\"],[[24,[\"id\"]],[24,[\"edit\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6076,7 +7698,16 @@ define("mdeditor/tests/integration/pods/components/object/md-identifier-array/co
       assert.equal(this.id.length, 2), 'delete item';
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>
+            {{#object/md-identifier-array}}
+              template block text
+            {{/object/md-identifier-array}}
+            </section>
+          
+      */
+      {
         "id": "5Mm4RR9N",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[0,\"\\n\"],[4,\"object/md-identifier-array\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"      \"],[9],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6093,7 +7724,11 @@ define("mdeditor/tests/integration/pods/components/object/md-identifier-object-t
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('id', (0, _createIdentifier.default)(2));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-identifier-object-table model=id}}
+      */
+      {
         "id": "CAHsy/y/",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-identifier-object-table\",null,[[\"model\"],[[24,[\"id\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6101,7 +7736,15 @@ define("mdeditor/tests/integration/pods/components/object/md-identifier-object-t
       assert.equal((0, _testHelpers.find)('.md-object-table').textContent.replace(/[\s\n]+/g, '|').trim(), '|Identifier|2|Add|OK|#|Identifier|Namespace|0|identifier0|namespace0|Edit|Delete|1|identifier1|namespace1|Edit|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-identifier-object-table}}
+              template block text
+            {{/object/md-identifier-object-table}}
+          
+      */
+      {
         "id": "e+6pAH/T",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-identifier-object-table\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6118,7 +7761,11 @@ define("mdeditor/tests/integration/pods/components/object/md-identifier/componen
     (0, _qunit.test)('it renders', async function (assert) {
       // Set any properties with this.set('myProperty', 'value');
       this.set('id', (0, _createIdentifier.default)(1)[0]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-identifier model=id profilePath="foobar"}}
+      */
+      {
         "id": "/A8dkIwJ",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-identifier\",null,[[\"model\",\"profilePath\"],[[24,[\"id\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6126,7 +7773,15 @@ define("mdeditor/tests/integration/pods/components/object/md-identifier/componen
       assert.equal((0, _testHelpers.find)('.md-identifier').textContent.replace(/[\s\n]+/g, '|').trim(), '|Identifier|Namespace|namespace0|×|Version|Description|Authority|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|No|Date|found.|Add|Date|No|Responsible|Party|found.|Add|Responsible|Party|No|Online|Resource|found.|Add|Online|Resource|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|');
       assert.equal((0, _testHelpers.find)('input').value, 'identifier0', 'assign value');
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-identifier profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-identifier}}
+          
+      */
+      {
         "id": "S0bKBB76",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-identifier\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6146,7 +7801,11 @@ define("mdeditor/tests/integration/pods/components/object/md-keyword-citation/co
         keywordType: 'theme',
         thesaurus: (0, _createCitation.default)(1)[0]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-keyword-citation model=keyword profilePath="foobar"}}
+      */
+      {
         "id": "f4hP+NZa",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-keyword-citation\",null,[[\"model\",\"profilePath\"],[[24,[\"keyword\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6156,7 +7815,15 @@ define("mdeditor/tests/integration/pods/components/object/md-keyword-citation/co
       assert.equal(input, "title0|2016-10-13|edition|http://adiwg.org", 'input values');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-keyword-citation model=(hash thesaurus=(hash)) profilePath="foobar"}}
+              template block text
+            {{/object/md-keyword-citation}}
+          
+      */
+      {
         "id": "2BL9vNbl",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-keyword-citation\",null,[[\"model\",\"profilePath\"],[[28,\"hash\",null,[[\"thesaurus\"],[[28,\"hash\",null,null]]]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6183,13 +7850,21 @@ define("mdeditor/tests/integration/pods/components/object/md-keyword-list/compon
           'path': ['foo1', 'bar1']
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-keyword-list model=model profilePath="foobar"}}
+      */
+      {
         "id": "H4IRxUCa",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-keyword-list\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal((0, _testHelpers.find)('ul').textContent.replace(/[ \n]+/g, '|').trim(), '|Delete|foo1|Delete|bar1|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-keyword-list model=model readOnly=false profilePath="foobar"}}
+      */
+      {
         "id": "KP3cNAbQ",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-keyword-list\",null,[[\"model\",\"readOnly\",\"profilePath\"],[[24,[\"model\"]],false,\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6201,7 +7876,15 @@ define("mdeditor/tests/integration/pods/components/object/md-keyword-list/compon
       assert.equal((0, _testHelpers.find)('table').textContent.replace(/[ \n]+/g, '|').trim(), '|Keyword|Id|(Optional)|Delete|Delete|Add|Keyword|Toggle|Thesaurus|', 'readOnly = false.');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>
+            {{#object/md-keyword-list profilePath="foobar"}}
+              template block text
+            {{/object/md-keyword-list}}</section>
+          
+      */
+      {
         "id": "IQ1acbqm",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[0,\"\\n\"],[4,\"object/md-keyword-list\",null,[[\"profilePath\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n      \"]],\"parameters\":[]},null],[9],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6238,7 +7921,11 @@ define("mdeditor/tests/integration/pods/components/object/md-lineage/component-t
           "description": "description"
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>{{object/md-lineage profilePath="foobar" model=lineage}}</section>
+      */
+      {
         "id": "S+cZidXh",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[1,[28,\"object/md-lineage\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"lineage\"]]]]],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -6246,7 +7933,15 @@ define("mdeditor/tests/integration/pods/components/object/md-lineage/component-t
       assert.equal((0, _testHelpers.find)('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|Statement|No|Process|Step|found.|Add|Process|Step|Source|2|Add|OK|#|Description|0|More...|Delete|1|More...|Delete|Citation|2|Add|OK|#|Title|0|title|More...|Delete|1|title|More...|Delete|Scope|scopeCode|×|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>
+            {{#object/md-lineage profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-lineage}}</section>
+          
+      */
+      {
         "id": "NQkI0apa",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[0,\"\\n\"],[4,\"object/md-lineage\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n      \"]],\"parameters\":[]},null],[9],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6284,7 +7979,11 @@ define("mdeditor/tests/integration/pods/components/object/md-lineage/preview/com
           "description": "description"
         }]
       });
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>{{object/md-lineage/preview item=lineage}}</section>
+      */
+      {
         "id": "cyboD7KQ",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[1,[28,\"object/md-lineage/preview\",null,[[\"item\"],[[24,[\"lineage\"]]]]],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -6292,7 +7991,15 @@ define("mdeditor/tests/integration/pods/components/object/md-lineage/preview/com
       assert.equal((0, _testHelpers.find)('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|Lineage|#|Statement|statement|Process|Step|No|process|steps|assigned.|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>
+            {{#object/md-lineage/preview}}
+              template block text
+            {{/object/md-lineage/preview}}</section>
+          
+      */
+      {
         "id": "6CYwiqob",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[0,\"\\n\"],[4,\"object/md-lineage/preview\",null,null,{\"statements\":[[0,\"        template block text\\n      \"]],\"parameters\":[]},null],[9],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6317,7 +8024,11 @@ define("mdeditor/tests/integration/pods/components/object/md-locale-array/compon
         characterSet: "UTF-32",
         country: "BDI"
       }]);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-locale-array value=locales}}
+      */
+      {
         "id": "HP04e62h",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-locale-array\",null,[[\"value\"],[[24,[\"locales\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6325,7 +8036,15 @@ define("mdeditor/tests/integration/pods/components/object/md-locale-array/compon
       assert.equal((0, _testHelpers.find)('.panel').textContent.replace(/[\s\n]+/g, '|').trim(), '|2|Add|#|Language|Character|Set|Country|0|eng|?|×|UTF-8|?|×|USA|?|×|Delete|1|spa|?|×|UTF-32|?|×|BDI|?|×|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-locale-array}}
+              template block text
+            {{/object/md-locale-array}}
+          
+      */
+      {
         "id": "RpEtvD8W",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-locale-array\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6348,7 +8067,11 @@ define("mdeditor/tests/integration/pods/components/object/md-locale/component-te
           country: "USA"
         })
       }));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>{{object/md-locale settings=settings model=(hash) profilePath="foobar"}}</section>
+      */
+      {
         "id": "c61yMLcj",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[1,[28,\"object/md-locale\",null,[[\"settings\",\"model\",\"profilePath\"],[[24,[\"settings\"]],[28,\"hash\",null,null],\"foobar\"]]],false],[9]],\"hasEval\":false}",
         "meta": {}
@@ -6356,7 +8079,15 @@ define("mdeditor/tests/integration/pods/components/object/md-locale/component-te
       assert.equal((0, _testHelpers.find)('section').textContent.replace(/[\s\n]+/g, '|').trim(), '|Language|eng|?|×|Character|Set|UTF-8|?|×|Country|USA|?|×|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <section>
+            {{#object/md-locale settings=settings model=(hash) profilePath="foobar"}}
+              template block text
+            {{/object/md-locale}}</section>
+          
+      */
+      {
         "id": "t+dPPCQy",
         "block": "{\"symbols\":[],\"statements\":[[7,\"section\",true],[8],[0,\"\\n\"],[4,\"object/md-locale\",null,[[\"settings\",\"model\",\"profilePath\"],[[24,[\"settings\"]],[28,\"hash\",null,null],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n      \"]],\"parameters\":[]},null],[9],[0,\"\\n    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6413,7 +8144,11 @@ define("mdeditor/tests/integration/pods/components/object/md-maintenance/compone
           }]
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-maintenance profilePath="foobar" model=model}}
+      */
+      {
         "id": "XzuGL4wJ",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-maintenance\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6421,7 +8156,15 @@ define("mdeditor/tests/integration/pods/components/object/md-maintenance/compone
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Frequency|frequency|×|Dates|2|Add|Date|#|Date|Date|Type|Description|0|creation|?|×|Delete|1|publication|?|×|Delete|Contacts|2|Add|Contact|#|Role|Contacts|0|author|?|×|Delete|1|publisher|?|×|Delete|Notes|2|Add|Notes|0|Delete|1|Delete|Scope|×|scopeCode0|×|scopeCode1|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-maintenance profilePath="foobar"}}
+              template block text
+            {{/object/md-maintenance}}
+          
+      */
+      {
         "id": "n3hfZH+Z",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-maintenance\",null,[[\"profilePath\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6450,7 +8193,11 @@ define("mdeditor/tests/integration/pods/components/object/md-medium/component-te
           "identifier": "identifier"
         }
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-medium profilePath="foobar" model=model}}
+      */
+      {
         "id": "JLaw0qhe",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-medium\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6458,7 +8205,15 @@ define("mdeditor/tests/integration/pods/components/object/md-medium/component-te
       assert.equal((0, _testHelpers.find)('form').textContent.replace(/[\s\n]+/g, '|').trim(), '|Medium|Title|Storage|Density|Density|Units|Number|Of|Volumes|Storage|Format|×|mediumFormat0|×|mediumFormat1|Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|Version|Description|Note|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-medium profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-medium}}
+          
+      */
+      {
         "id": "CeRB0Yod",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-medium\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6482,7 +8237,11 @@ define("mdeditor/tests/integration/pods/components/object/md-object-table/compon
         biz: 'biz1',
         baz: 'baz1'
       }];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-object-table header="Foo Bars" attributes="biz,baz"}}
+      */
+      {
         "id": "mLSftx/q",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-object-table\",null,[[\"header\",\"attributes\"],[\"Foo Bars\",\"biz,baz\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6490,7 +8249,23 @@ define("mdeditor/tests/integration/pods/components/object/md-object-table/compon
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|No|Foo|Bars|found.|Add|Foo|Bar|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-object-table
+             items=model
+             header="FooBar"
+             buttonText="Add FooBar"
+             ellipsis=true
+             profilePath="foobar"
+             attributes="biz,baz" as |foo|
+            }}
+              <span>Biz:{{foo.biz}}</span>
+              <span>Baz:{{foo.baz}}</span>
+            {{/object/md-object-table}}
+          
+      */
+      {
         "id": "EKoK956b",
         "block": "{\"symbols\":[\"foo\"],\"statements\":[[0,\"\\n\"],[4,\"object/md-object-table\",null,[[\"items\",\"header\",\"buttonText\",\"ellipsis\",\"profilePath\",\"attributes\"],[[24,[\"model\"]],\"FooBar\",\"Add FooBar\",true,\"foobar\",\"biz,baz\"]],{\"statements\":[[0,\"        \"],[7,\"span\",true],[8],[0,\"Biz:\"],[1,[23,1,[\"biz\"]],false],[9],[0,\"\\n        \"],[7,\"span\",true],[8],[0,\"Baz:\"],[1,[23,1,[\"baz\"]],false],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6514,7 +8289,11 @@ define("mdeditor/tests/integration/pods/components/object/md-objectroute-table/c
         biz: 'biz1',
         baz: 'baz1'
       }];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-objectroute-table attributes="biz,baz" header="FooBar"}}
+      */
+      {
         "id": "FotqDrNK",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-objectroute-table\",null,[[\"attributes\",\"header\"],[\"biz,baz\",\"FooBar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6522,7 +8301,23 @@ define("mdeditor/tests/integration/pods/components/object/md-objectroute-table/c
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|No|FooBar|found.|Add|FooBar|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-objectroute-table
+             items=model
+             header="FooBar"
+             buttonText="Add FooBar"
+             ellipsis=true
+             profilePath="foobar"
+             attributes="biz,baz" as |foo|
+            }}
+              <span>Biz:{{foo.biz}}</span>
+              <span>Baz:{{foo.baz}}</span>
+            {{/object/md-objectroute-table}}
+          
+      */
+      {
         "id": "FeR2hN55",
         "block": "{\"symbols\":[\"foo\"],\"statements\":[[0,\"\\n\"],[4,\"object/md-objectroute-table\",null,[[\"items\",\"header\",\"buttonText\",\"ellipsis\",\"profilePath\",\"attributes\"],[[24,[\"model\"]],\"FooBar\",\"Add FooBar\",true,\"foobar\",\"biz,baz\"]],{\"statements\":[[0,\"        \"],[7,\"span\",true],[8],[0,\"Biz:\"],[1,[23,1,[\"biz\"]],false],[9],[0,\"\\n        \"],[7,\"span\",true],[8],[0,\"Baz:\"],[1,[23,1,[\"baz\"]],false],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6548,7 +8343,11 @@ define("mdeditor/tests/integration/pods/components/object/md-online-resource/com
         "applicationProfile": "applicationProfile",
         "protocolRequest": "protocolRequest"
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-online-resource model=model profilePath="foobar"}}
+      */
+      {
         "id": "5wXqjXqN",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-online-resource\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6556,7 +8355,15 @@ define("mdeditor/tests/integration/pods/components/object/md-online-resource/com
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Name|URI|Protocol|Description|Function|download|?|×|Application|Profile|applicationProfile|×|Protocol|Request|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-online-resource profilePath="foobar" model=model}}
+              template block text
+            {{/object/md-online-resource}}
+          
+      */
+      {
         "id": "lCJo8dT9",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-online-resource\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6594,7 +8401,11 @@ define("mdeditor/tests/integration/pods/components/object/md-party-array/compone
       var contacts = (0, _createContact.default)(2);
       var cs = this.owner.lookup('service:contacts');
       cs.set('contacts', contacts);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-party-array value=party profilePath="foobar"}}
+      */
+      {
         "id": "K0cFGeTa",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-party-array\",null,[[\"value\",\"profilePath\"],[[24,[\"party\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6602,7 +8413,15 @@ define("mdeditor/tests/integration/pods/components/object/md-party-array/compone
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|2|Add|#|Role|Contacts|0|author|?|×|×|Contact0|Delete|1|publisher|?|×|×|Contact1|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-party-array model=(hash) profilePath="foobar"}}
+              template block text
+            {{/object/md-party-array}}
+          
+      */
+      {
         "id": "yyKFpwnZ",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-party-array\",null,[[\"model\",\"profilePath\"],[[28,\"hash\",null,null],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6634,7 +8453,11 @@ define("mdeditor/tests/integration/pods/components/object/md-party/component-tes
       var contacts = (0, _createContact.default)(2);
       var cs = this.owner.lookup('service:contacts');
       cs.set('contacts', contacts);
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-party model=party}}
+      */
+      {
         "id": "KOhCxx2D",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-party\",null,[[\"model\"],[[24,[\"party\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6642,7 +8465,15 @@ define("mdeditor/tests/integration/pods/components/object/md-party/component-tes
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Role|author|?|×|Contacts|×|Contact0|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-party model=(hash)}}
+              template block text
+            {{/object/md-party}}
+          
+      */
+      {
         "id": "LGrqDqqp",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-party\",null,[[\"model\"],[[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6745,7 +8576,11 @@ define("mdeditor/tests/integration/pods/components/object/md-process-step/compon
           "title": "title1"
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-process-step profilePath="foobar" model=step}}
+      */
+      {
         "id": "uzoARtvT",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-process-step\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"step\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6753,7 +8588,15 @@ define("mdeditor/tests/integration/pods/components/object/md-process-step/compon
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), "|Step|ID|Description|Step|Sources|1|Add|#|Description|0|Delete|Step|Products|1|Add|#|Description|0|Delete|Processors|2|Add|#|Role|Contacts|0|role|×|Delete|1|role|×|Delete|Step|Reference|2|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|No|Time|Period|Name|found.|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Scope|Select|type|of|resource.|");
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-process-step profilePath="foobar" model=step}}
+              template block text
+            {{/object/md-process-step}}
+          
+      */
+      {
         "id": "aedjZNnb",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-process-step\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"step\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6800,7 +8643,11 @@ define("mdeditor/tests/integration/pods/components/object/md-process-step/previe
           "description": "description1"
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-process-step/preview model=source profilePath="foobar"}}
+      */
+      {
         "id": "Ml4L1GuD",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-process-step/preview\",null,[[\"model\",\"profilePath\"],[[24,[\"source\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6808,7 +8655,15 @@ define("mdeditor/tests/integration/pods/components/object/md-process-step/previe
       assert.equal((0, _testHelpers.find)('textarea').value, 'description');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-process-step/preview model=source profilePath="foobar"}}
+              template block text
+            {{/object/md-process-step/preview}}
+          
+      */
+      {
         "id": "6P6AX1CU",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-process-step/preview\",null,[[\"model\",\"profilePath\"],[[24,[\"source\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6826,7 +8681,11 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/component-t
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
       this.model = (0, _createProfile.default)(1)[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-profile record=model}}
+      */
+      {
         "id": "koQIUq/w",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-profile\",null,[[\"record\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6834,7 +8693,15 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/component-t
       assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(), '|URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-profile record=model}}
+              template block text
+            {{/object/md-profile}}
+          
+      */
+      {
         "id": "3KIb/ZG3",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-profile\",null,[[\"record\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6855,7 +8722,11 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/custom/comp
         title: 'testme',
         description: 'testing description'
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-profile/custom record=model}}
+      */
+      {
         "id": "z+SNgkSX",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-profile/custom\",null,[[\"record\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6863,7 +8734,15 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/custom/comp
       assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(), '|Title|Description|Profile|Definition|Select|the|profile|definition.|Select|Schemas|No|schemas|avialable.|Schemas|Selected|Select|schemas|from|the|list.|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-profile/custom record=model}}
+              template block text
+            {{/object/md-profile/custom}}
+          
+      */
+      {
         "id": "KM4Hbwhi",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-profile/custom\",null,[[\"record\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6881,7 +8760,11 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/form/compon
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
       this.model = (0, _createProfile.default)(1)[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-profile/form record=model}}
+      */
+      {
         "id": "W/2x61O8",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-profile/form\",null,[[\"record\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6889,7 +8772,15 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/form/compon
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-profile/form record=model}}
+              template block text
+            {{/object/md-profile/form}}
+          
+      */
+      {
         "id": "oE+O+NSo",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-profile/form\",null,[[\"record\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6907,7 +8798,11 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/preview/com
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.set('myAction', function(val) { ... });
       this.model = (0, _createProfile.default)(1)[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-profile/preview  record=model}}
+      */
+      {
         "id": "9SAZavA7",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-profile/preview\",null,[[\"record\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6915,7 +8810,15 @@ define("mdeditor/tests/integration/pods/components/object/md-profile/preview/com
       assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(), '|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-profile/preview record=model}}
+              template block text
+            {{/object/md-profile/preview}}
+          
+      */
+      {
         "id": "fj2A1Puf",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-profile/preview\",null,[[\"record\"],[[24,[\"model\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -6937,7 +8840,11 @@ define("mdeditor/tests/integration/pods/components/object/md-raster/attrgroup/at
       let attribute = (0, _createRecord.createAttribute)(1);
       this.set('model', attribute[0]);
       let input = (0, _mdHelpers.nestedValues)(attribute[0]).join('|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-raster/attrgroup/attribute profilePath="foobar" model=model}}
+      */
+      {
         "id": "s5xJBO98",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-raster/attrgroup/attribute\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -6953,7 +8860,11 @@ define("mdeditor/tests/integration/pods/components/object/md-raster/attrgroup/co
   (0, _qunit.module)('Integration | Component | object/md-raster/attrgroup', function (hooks) {
     (0, _emberQunit.setupRenderingTest)(hooks);
     (0, _qunit.test)('it renders', async function (assert) {
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-raster/attrgroup }}
+      */
+      {
         "id": "JRuxaajN",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"object/md-raster/attrgroup\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -7004,7 +8915,11 @@ define("mdeditor/tests/integration/pods/components/object/md-raster/component-te
       };
       let nestedValues = obj => typeof obj === 'object' ? Object.values(obj).map(nestedValues).flat() : [obj];
       let input = nestedValues(this.model).join('|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-raster profilePath="foobar" model=model}}
+      */
+      {
         "id": "cbejHDsd",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-raster\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7037,7 +8952,11 @@ define("mdeditor/tests/integration/pods/components/object/md-raster/image-desc/c
         "lensDistortionAvailable": "true"
       };
       let input = (0, _mdHelpers.nestedValues)(this.model).join('|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-raster/image-desc profilePath="foobar" model=model}}
+      */
+      {
         "id": "ssHkrvWq",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-raster/image-desc\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7058,7 +8977,11 @@ define("mdeditor/tests/integration/pods/components/object/md-raster/preview/comp
         "coverageDescription": "coverageDescription"
       };
       let input = Object.values(this.model).join('|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-raster/preview profilePath="foobar" model=model}}
+      */
+      {
         "id": "//YFtB5/",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-raster/preview\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7087,7 +9010,11 @@ define("mdeditor/tests/integration/pods/components/object/md-repository-array/co
         },
         "repository": "data.gov"
       }];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-repository-array value=repo profilePath="foo"}}
+      */
+      {
         "id": "wlAh+/SZ",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-repository-array\",null,[[\"value\",\"profilePath\"],[[24,[\"repo\"]],\"foo\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7096,7 +9023,15 @@ define("mdeditor/tests/integration/pods/components/object/md-repository-array/co
       assert.dom('.md-input input').hasValue('Arctic LCC data.gov');
       assert.dom('.select-value').hasText('data.gov');
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-repository-array profilePath="foo"}}
+              template block text
+            {{/object/md-repository-array}}
+          
+      */
+      {
         "id": "l4pQMrgv",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-repository-array\",null,[[\"profilePath\"],[\"foo\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7119,7 +9054,11 @@ define("mdeditor/tests/integration/pods/components/object/md-resource-type-array
       }, {
         "type": "map"
       }];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-resource-type-array value=rt profilePath="foobar"}}
+      */
+      {
         "id": "DK9kiKq4",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-resource-type-array\",null,[[\"value\",\"profilePath\"],[[24,[\"rt\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7127,7 +9066,15 @@ define("mdeditor/tests/integration/pods/components/object/md-resource-type-array
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Resource|Types|2|Add|#|Type|Name|0|project|?|×|Delete|1|map|?|×|Delete|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-resource-type-array profilePath="foobar"}}
+              template block text
+            {{/object/md-resource-type-array}}
+          
+      */
+      {
         "id": "HUfG50uE",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-resource-type-array\",null,[[\"profilePath\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7151,7 +9098,11 @@ define("mdeditor/tests/integration/pods/components/object/md-schema/component-te
         localVersion: '1.0',
         hasUpdate: true
       }));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-schema record=data}}
+      */
+      {
         "id": "aeWXPLJE",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-schema\",null,[[\"record\"],[[24,[\"data\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7159,7 +9110,15 @@ define("mdeditor/tests/integration/pods/components/object/md-schema/component-te
       assert.equal(this.element.textContent.replace(/[ \s\n]+/g, '|').trim(), '|Info|Schemas|Title|URL|Version|1.0|Update|Available|(1.1)|Description|Type|Select|the|record|type|for|schema.|Apply|Globally?|No|Yes|');
       assert.equal((0, _testHelpers.find)('.md-schema input').value, 'foo', 'render form');
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-schema record=data}}
+              template block text
+            {{/object/md-schema}}
+          
+      */
+      {
         "id": "nvBqZFUC",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-schema\",null,[[\"record\"],[[24,[\"data\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7183,7 +9142,11 @@ define("mdeditor/tests/integration/pods/components/object/md-schema/form/compone
         localVersion: '1.0',
         hasUpdate: true
       }));
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-schema/form record=data}}
+      */
+      {
         "id": "+MyiVzQN",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-schema/form\",null,[[\"record\"],[[24,[\"data\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7192,7 +9155,15 @@ define("mdeditor/tests/integration/pods/components/object/md-schema/form/compone
       assert.equal((0, _testHelpers.find)('input').value, 'foo', 'render form');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-schema/form record=data}}
+              template block text
+            {{/object/md-schema/form}}
+          
+      */
+      {
         "id": "GsxwB8iq",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-schema/form\",null,[[\"record\"],[[24,[\"data\"]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7218,7 +9189,11 @@ define("mdeditor/tests/integration/pods/components/object/md-simple-array-table/
       //   this.model.pushObject(val);
       // });
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-simple-array-table}}
+      */
+      {
         "id": "elWQtSaT",
         "block": "{\"symbols\":[],\"statements\":[[1,[22,\"object/md-simple-array-table\"],false]],\"hasEval\":false}",
         "meta": {}
@@ -7226,7 +9201,22 @@ define("mdeditor/tests/integration/pods/components/object/md-simple-array-table/
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|No|Item|found.|Add|Item|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-simple-array-table
+              title="FooBar"
+              required=false
+              plain=true
+              value=model as |foo|
+            }}
+              <td>
+                  {{foo.item.value}}
+              </td>
+            {{/object/md-simple-array-table}}
+          
+      */
+      {
         "id": "II9umch+",
         "block": "{\"symbols\":[\"foo\"],\"statements\":[[0,\"\\n\"],[4,\"object/md-simple-array-table\",null,[[\"title\",\"required\",\"plain\",\"value\"],[\"FooBar\",false,true,[24,[\"model\"]]]],{\"statements\":[[0,\"        \"],[7,\"td\",true],[8],[0,\"\\n            \"],[1,[23,1,[\"item\",\"value\"]],false],[0,\"\\n        \"],[9],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7276,7 +9266,11 @@ define("mdeditor/tests/integration/pods/components/object/md-source/component-te
           "description": "description1"
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-source profilePath="foobar" model=source}}
+      */
+      {
         "id": "vqCFfQaa",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-source\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"source\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7284,7 +9278,15 @@ define("mdeditor/tests/integration/pods/components/object/md-source/component-te
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Source|ID|Description|Scope|Select|type|of|resource.|Source|Citation|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|No|Date|found.|Add|Date|No|Responsible|Party|found.|Add|Responsible|Party|No|Online|Resource|found.|Add|Online|Resource|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|Metadata|Citation|2|Add|OK|#|Title|0|title0|Edit|Delete|1|title1|Edit|Delete|Spatial|Reference|System|Reference|System|Type|referenceSystemType|×|Reference|System|Identifier|Identifier|Namespace|Select|or|type|a|namespace|for|the|identifier.|Version|Description|Authority|Basic|Information|Title|No|Alternate|Title|found.|Add|Alternate|Title|No|Date|found.|Add|Date|No|Responsible|Party|found.|Add|Responsible|Party|No|Online|Resource|found.|Add|Online|Resource|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|No|Identifier|found.|Add|Identifier|Spatial|Resolution|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|distance|Value|Units|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-source profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-source}}
+          
+      */
+      {
         "id": "liklxbTM",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-source\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7330,7 +9332,11 @@ define("mdeditor/tests/integration/pods/components/object/md-source/preview/comp
           "description": "description1"
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-source/preview model=source profilePath="foobar"}}
+      */
+      {
         "id": "JirYe/lT",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-source/preview\",null,[[\"model\",\"profilePath\"],[[24,[\"source\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7338,7 +9344,15 @@ define("mdeditor/tests/integration/pods/components/object/md-source/preview/comp
       assert.equal((0, _testHelpers.find)('textarea').value, 'description');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-source/preview model=source profilePath="foobar"}}
+              template block text
+            {{/object/md-source/preview}}
+          
+      */
+      {
         "id": "+un1IO3o",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-source/preview\",null,[[\"model\",\"profilePath\"],[[24,[\"source\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7431,7 +9445,11 @@ define("mdeditor/tests/integration/pods/components/object/md-spatial-info/compon
         }],
         spatialRepresentationType: ["vector", "stereoModel"]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-spatial-info profilePath="foobar" model=model}}
+      */
+      {
         "id": "xMvYgFoi",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-spatial-info\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7439,7 +9457,15 @@ define("mdeditor/tests/integration/pods/components/object/md-spatial-info/compon
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Spatial|Representation|Type|×|stereoModel|?|×|vector|?|Spatial|Reference|System|5|Add|OK|#|Reference|System|Type|Identifier|0|referenceSystemType|identifier|Edit|Delete|1|projected|Zone|10|Edit|Delete|2|geodeticGeographic2D|4326|Edit|Delete|3|projected|Not|Defined|Edit|Delete|4|geodeticGeographic2D|Not|Defined|Edit|Delete|Spatial|Resolution|6|Add|OK|#|Scale|Factor|Level|Of|Detail|Type|0|99999|Not|Defined|Not|Defined|Edit|Delete|1|Not|Defined|Not|Defined|distance|Edit|Delete|2|Not|Defined|levelOfDetail|Not|Defined|Edit|Delete|3|Not|Defined|Not|Defined|Not|Defined|Edit|Delete|4|Not|Defined|Not|Defined|Not|Defined|Edit|Delete|5|Not|Defined|Not|Defined|Not|Defined|Edit|Delete|Add|Spatial|Resolution|No|Raster|Description|found.|Add|Raster|Description|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-spatial-info profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-spatial-info}}
+          
+      */
+      {
         "id": "SFe1LKyx",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-spatial-info\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7503,7 +9529,11 @@ define("mdeditor/tests/integration/pods/components/object/md-spatial-resolution/
       //! this option was giving not working well with the regex experesson
       //var empty = "Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|";
 
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-spatial-resolution profilePath="foobar" model=model.scaleFactor}}
+      */
+      {
         "id": "eXxtRz+M",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-spatial-resolution\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"scaleFactor\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7511,7 +9541,11 @@ define("mdeditor/tests/integration/pods/components/object/md-spatial-resolution/
       assert.equal((0, _testHelpers.findAll)('.md-input-input input')[0].value, this.model.scaleFactor.scaleFactor, 'scaleFactor');
       assert.ok((0, _testHelpers.findAll)('.md-input-input input')[1].disabled, 'level disabled');
       assert.ok((0, _testHelpers.findAll)('.md-input-input input')[2].disabled, 'measure disabled');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-spatial-resolution profilePath="foobar" model=model.measure}}
+      */
+      {
         "id": "0eFa4FGj",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-spatial-resolution\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"measure\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7519,7 +9553,11 @@ define("mdeditor/tests/integration/pods/components/object/md-spatial-resolution/
       assert.equal((0, _testHelpers.findAll)('.md-input-input input')[2].value, this.model.measure.measure.value, 'measure');
       assert.ok((0, _testHelpers.findAll)('.md-input-input input')[1].disabled, 'level disabled');
       assert.ok((0, _testHelpers.findAll)('.md-input-input input')[0].disabled, 'scaleFactor disabled');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-spatial-resolution profilePath="foobar" model=model.levelOfDetail}}
+      */
+      {
         "id": "MUZ988Xw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-spatial-resolution\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"levelOfDetail\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7527,19 +9565,31 @@ define("mdeditor/tests/integration/pods/components/object/md-spatial-resolution/
       assert.equal((0, _testHelpers.findAll)('.md-input-input input')[1].value, this.model.levelOfDetail.levelOfDetail, 'levelOfDetail');
       assert.ok((0, _testHelpers.findAll)('.md-input-input input')[2].disabled, 'measure disabled');
       assert.ok((0, _testHelpers.findAll)('.md-input-input input')[0].disabled, 'scaleFactor disabled');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-spatial-resolution profilePath="foobar" model=model.geographicResolution}}
+      */
+      {
         "id": "MOe+H7V/",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-spatial-resolution\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"geographicResolution\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'geographicResolution');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-spatial-resolution profilePath="foobar" model=model.bearingDistanceResolution}}
+      */
+      {
         "id": "e3fWXarz",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-spatial-resolution\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"bearingDistanceResolution\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'bearingDistanceResolution');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-spatial-resolution profilePath="foobar" model=model.coordinateResolution}}
+      */
+      {
         "id": "Oc7PDvLs",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-spatial-resolution\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"coordinateResolution\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7547,7 +9597,15 @@ define("mdeditor/tests/integration/pods/components/object/md-spatial-resolution/
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Scale|Factor|Level|Of|Detail|Measure|Measure|Type|The|type|of|measurement.|Value|Units|', 'coordinateResolution');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-spatial-resolution model=(hash) profilePath="foobar"}}
+              template block text
+            {{/object/md-spatial-resolution}}
+          
+      */
+      {
         "id": "YXFsDwzP",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-spatial-resolution\",null,[[\"model\",\"profilePath\"],[[28,\"hash\",null,null],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7572,7 +9630,11 @@ define("mdeditor/tests/integration/pods/components/object/md-srs/component-test"
           "description": "description"
         }
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-srs profilePath="foobar" model=srs}}
+      */
+      {
         "id": "Sy6WAXJG",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-srs\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"srs\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7582,7 +9644,15 @@ define("mdeditor/tests/integration/pods/components/object/md-srs/component-test"
       assert.equal(input, 'identifier|version|description|', 'input values');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-srs profilePath="foobar"}}
+              template block text
+            {{/object/md-srs}}
+          
+      */
+      {
         "id": "8sDbB5EM",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-srs\",null,[[\"profilePath\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7600,13 +9670,21 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/classifica
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       this.model = (0, _createTaxonomy.default)()[0].taxonomicClassification;
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy/classification model=model profilePath="foobar"}}
+      */
+      {
         "id": "RN7++R2/",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy/classification\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|Kingdom|Animalia|(202423)|Edit|Delete|Add|Child|Subkingdom|Radiata|(914153)|Edit|Delete|Add|Child|Phylum|Cnidaria|(48738)|Edit|Delete|Add|Child|Subphylum|Medusozoa|(718920)|Edit|Delete|Add|Child|Class|Scyphozoa|(51483)|Edit|Delete|Add|Child|Subclass|Discomedusae|(718923)|Edit|Delete|Add|Child|Order|Rhizostomeae|(51756)|Edit|Delete|Add|Child|Family|Rhizostomatidae|(51911)|Edit|Delete|Add|Child|Genus|Rhopilema|(51919)|Edit|Delete|Add|Child|Species|Rhopilema|verrilli|(51920)|mushroom|jellyfish|Edit|Delete|Add|Child|');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy/classification model=model preview=true profilePath="foobar"}}
+      */
+      {
         "id": "mJysUZSf",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy/classification\",null,[[\"model\",\"preview\",\"profilePath\"],[[24,[\"model\"]],true,\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7614,7 +9692,15 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/classifica
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Kingdom|Fungi|(555705)|Kingdom|Kingdom|Animalia|(202423)|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-taxonomy/classification profilePath="foobar"}}
+              template block text
+            {{/object/md-taxonomy/classification}}
+          
+      */
+      {
         "id": "m7kGbppK",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/classification\",null,[[\"profilePath\"],[\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7634,7 +9720,11 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/classifica
       this.delete = function (taxa) {
         assert.ok(taxa, 'called delete');
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy/classification/taxon model=model deleteTaxa=delete top=top profilePath="foobar"}}
+      */
+      {
         "id": "crm4Gk3O",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy/classification/taxon\",null,[[\"model\",\"deleteTaxa\",\"top\",\"profilePath\"],[[24,[\"model\"]],[24,[\"delete\"]],[24,[\"top\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7649,7 +9739,13 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/classifica
       await (0, _testHelpers.click)('.btn-danger');
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Kingdom|Fungi|(555705)|Kingdom|Edit|Delete|Add|Child|Subkingdom|Dikarya|(936287)|Edit|Delete|Add|Child|Division|Basidiomycota|(623881)|Edit|Delete|Add|Child|');
       await (0, _testHelpers.click)('.md-taxon .md-taxon .btn-info');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        <ul class="list-group md-classification">
+            {{object/md-taxonomy/classification/taxon model=model preview=false top=top profilePath="foobar"}}
+          </ul>
+      */
+      {
         "id": "MGLvUSe2",
         "block": "{\"symbols\":[],\"statements\":[[7,\"ul\",true],[10,\"class\",\"list-group md-classification\"],[8],[0,\"\\n      \"],[1,[28,\"object/md-taxonomy/classification/taxon\",null,[[\"model\",\"preview\",\"top\",\"profilePath\"],[[24,[\"model\"]],false,[24,[\"top\"]],\"foobar\"]]],false],[0,\"\\n    \"],[9]],\"hasEval\":false}",
         "meta": {}
@@ -7668,7 +9764,15 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/classifica
       await (0, _testHelpers.click)(del);
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-taxonomy/classification/taxon model=model profilePath="foobar"}}
+              template block text
+            {{/object/md-taxonomy/classification/taxon}}
+          
+      */
+      {
         "id": "QoGdMJ/5",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/classification/taxon\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7686,7 +9790,11 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       this.model = (0, _createTaxonomy.default)()[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy/collection model=model profilePath="foobar"}}
+      */
+      {
         "id": "hxINAx20",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy/collection\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7696,7 +9804,15 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       assert.equal(input, "Integrated Taxonomic Information System (ITIS)|modifications||Scope|Id Procedure|Id Completeness", 'input values');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-taxonomy/collection profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-taxonomy/collection}}
+          
+      */
+      {
         "id": "ELqbY7+N",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7714,7 +9830,11 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       this.model = (0, _createTaxonomy.default)()[0].taxonomicSystem[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy/collection/system model=model profilePath="foobar"}}
+      */
+      {
         "id": "WenkIkkq",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy/collection/system\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7724,7 +9844,15 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       assert.equal(input, "modifications|Integrated Taxonomic Information System (ITIS)|2019-02-26|Taxa imported from ITIS||||||Retrieved from the Integrated Taxonomic Information System on-line database, https://www.itis.gov.", 'input values');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-taxonomy/collection/system model=(hash) profilePath="foobar"}}
+              template block text
+            {{/object/md-taxonomy/collection/system}}
+          
+      */
+      {
         "id": "ThrbIf9n",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection/system\",null,[[\"model\",\"profilePath\"],[[28,\"hash\",null,null],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7742,7 +9870,11 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       this.model = (0, _createTaxonomy.default)()[0].taxonomicSystem[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy/collection/system/preview model=model profilePath="foobar"}}
+      */
+      {
         "id": "NNUO0dJ0",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy/collection/system/preview\",null,[[\"model\",\"profilePath\"],[[24,[\"model\"]],\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7751,7 +9883,15 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       assert.equal(input, "Integrated Taxonomic Information System (ITIS)|modifications", 'input values');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-taxonomy/collection/system/preview model=(hash) profilePath="foobar"}}
+              template block text
+            {{/object/md-taxonomy/collection/system/preview}}
+          
+      */
+      {
         "id": "61zUzbnB",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection/system/preview\",null,[[\"model\",\"profilePath\"],[[28,\"hash\",null,null],\"foobar\"]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7769,7 +9909,11 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       this.model = (0, _createTaxonomy.default)()[0].voucher[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy/collection/voucher profilePath="foobar" model=model}}
+      */
+      {
         "id": "78byeNMw",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy/collection/voucher\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7779,7 +9923,15 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/collection
       assert.equal(input, "Specimen|", 'input values');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-taxonomy/collection/voucher profilePath="foobar" model=(hash repository=(hash))}}
+              template block text
+            {{/object/md-taxonomy/collection/voucher}}
+          
+      */
+      {
         "id": "4iJ3y5K3",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy/collection/voucher\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,[[\"repository\"],[[28,\"hash\",null,null]]]]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7797,7 +9949,11 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/component-
       // Set any properties with this.set('myProperty', 'value');
       // Handle any actions with this.on('myAction', function(val) { ... });
       this.model = (0, _createTaxonomy.default)()[0];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-taxonomy model=model index=0 profilePath="foobar"}}
+      */
+      {
         "id": "hKuL6Ndg",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-taxonomy\",null,[[\"model\",\"index\",\"profilePath\"],[[24,[\"model\"]],0,\"foobar\"]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7807,7 +9963,15 @@ define("mdeditor/tests/integration/pods/components/object/md-taxonomy/component-
       assert.equal((0, _testHelpers.find)('li').textContent.replace(/[\s\n]+/g, '|').trim(), '|Kingdom|Fungi|(555705)|Kingdom|Subkingdom|Dikarya|(936287)|Division|Basidiomycota|(623881)|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-taxonomy}}
+              template block text
+            {{/object/md-taxonomy}}
+          
+      */
+      {
         "id": "HDyTEyIi",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-taxonomy\",null,null,{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7864,7 +10028,11 @@ define("mdeditor/tests/integration/pods/components/object/md-time-period/compone
           "ageEstimate": "ageEstimate"
         }
       }];
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-time-period profilePath="foobar" model=model.firstObject}}
+      */
+      {
         "id": "U89TaM8f",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-time-period\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"firstObject\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7872,7 +10040,11 @@ define("mdeditor/tests/integration/pods/components/object/md-time-period/compone
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|Time|Unit|year|×|Duration|Years|Months|Days|Hours|Minutes|Seconds|');
       var input = (0, _testHelpers.findAll)('form input, form textarea').mapBy('value').join('|');
       assert.equal(input, (0, _moment.default)(date).format('YYYY-MM-DD HH:mm:ss') + '|2016-12-31 00:00:00|identifier|description|periodName0|periodName1|9|1|1|1|1|1|1', 'input values');
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-time-period profilePath="foobar" model=model.lastObject}}
+      */
+      {
         "id": "dFw4B4Mc",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-time-period\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\",\"lastObject\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7881,7 +10053,15 @@ define("mdeditor/tests/integration/pods/components/object/md-time-period/compone
       assert.equal(input1, "||identifier|description|periodName0|periodName1|||||||", 'geologic input values');
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), "|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|Time|Period|Names|2|Add|Time|Period|Name|0|Delete|1|Delete|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|", 'geologic age');
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-time-period profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-time-period}}
+          
+      */
+      {
         "id": "EsFl+8oJ",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-time-period\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7928,7 +10108,11 @@ define("mdeditor/tests/integration/pods/components/object/md-transfer/component-
           }
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-transfer profilePath="foobar" model=model}}
+      */
+      {
         "id": "ytYwBogl",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-transfer\",null,[[\"profilePath\",\"model\"],[\"foobar\",[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7938,7 +10122,15 @@ define("mdeditor/tests/integration/pods/components/object/md-transfer/component-
       assert.equal(input, "9.9|unitsOfDistribution|title0||||title1|||||9||||", 'input values');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-transfer profilePath="foobar" model=(hash)}}
+              template block text
+            {{/object/md-transfer}}
+          
+      */
+      {
         "id": "WDutFaE4",
         "block": "{\"symbols\":[],\"statements\":[[0,\"\\n\"],[4,\"object/md-transfer\",null,[[\"profilePath\",\"model\"],[\"foobar\",[28,\"hash\",null,null]]],{\"statements\":[[0,\"        template block text\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -7984,7 +10176,11 @@ define("mdeditor/tests/integration/pods/components/object/md-transfer/preview/co
           }
         }]
       };
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        {{object/md-transfer/preview item=model}}
+      */
+      {
         "id": "RXid3Ivo",
         "block": "{\"symbols\":[],\"statements\":[[1,[28,\"object/md-transfer/preview\",null,[[\"item\"],[[24,[\"model\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -7992,7 +10188,15 @@ define("mdeditor/tests/integration/pods/components/object/md-transfer/preview/co
       assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(), '|9.9|yes(2)|yes(2)|yes(2)|');
 
       // Template block usage:
-      await (0, _testHelpers.render)(Ember.HTMLBars.template({
+      await (0, _testHelpers.render)(Ember.HTMLBars.template(
+      /*
+        
+            {{#object/md-transfer/preview isTable=false item=model as |t|}}
+              transferSize: {{t.transferSize}}
+            {{/object/md-transfer/preview}}
+          
+      */
+      {
         "id": "4jzQXstu",
         "block": "{\"symbols\":[\"t\"],\"statements\":[[0,\"\\n\"],[4,\"object/md-transfer/preview\",null,[[\"isTable\",\"item\"],[false,[24,[\"model\"]]]],{\"statements\":[[0,\"        transferSize: \"],[1,[23,1,[\"transferSize\"]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"    \"]],\"hasEval\":false}",
         "meta": {}
@@ -8011,7 +10215,7 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('app.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'app.js should pass ESLint\n\n');
+    assert.ok(false, 'app.js should pass ESLint\n\n11:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n38:7 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n67:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n68:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n69:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n94:18 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('formats.js', function (assert) {
     assert.expect(1);
@@ -8063,7 +10267,7 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('initializers/local-storage-export.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'initializers/local-storage-export.js should pass ESLint\n\n');
+    assert.ok(false, 'initializers/local-storage-export.js should pass ESLint\n\n4:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n56:3 - Use `import Store from \'@ember-data/store\';` instead of using DS.Store (ember/use-ember-data-rfc-395-imports)');
   });
   QUnit.test('instance-initializers/profile.js', function (assert) {
     assert.expect(1);
@@ -8079,191 +10283,191 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('mixins/cancel.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'mixins/cancel.js should pass ESLint\n\n');
+    assert.ok(false, 'mixins/cancel.js should pass ESLint\n\n6:16 - Don\'t create new mixins (ember/no-new-mixins)\n11:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n14:12 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('mixins/hash-poll.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'mixins/hash-poll.js should pass ESLint\n\n');
+    assert.ok(false, 'mixins/hash-poll.js should pass ESLint\n\n24:16 - Don\'t create new mixins (ember/no-new-mixins)\n30:8 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('mixins/object-template.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'mixins/object-template.js should pass ESLint\n\n');
+    assert.ok(false, 'mixins/object-template.js should pass ESLint\n\n13:16 - Don\'t create new mixins (ember/no-new-mixins)\n61:24 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n76:22 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('mixins/scroll-to.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'mixins/scroll-to.js should pass ESLint\n\n');
+    assert.ok(false, 'mixins/scroll-to.js should pass ESLint\n\n8:16 - Don\'t create new mixins (ember/no-new-mixins)');
   });
   QUnit.test('models/base.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/base.js should pass ESLint\n\n51:18 - Don\'t use observers if possible (ember/no-observers)\n59:20 - Don\'t use observers if possible (ember/no-observers)');
+    assert.ok(false, 'models/base.js should pass ESLint\n\n1:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n8:14 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:14 - Use `import Model from \'@ember-data/model\';` instead of using DS.Model (ember/use-ember-data-rfc-395-imports)\n51:18 - Don\'t use observers (ember/no-observers)\n59:20 - Don\'t use observers (ember/no-observers)\n65:10 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n67:20 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n74:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n154:17 - Use of undeclared dependencies in computed property: hasDirtyAttributes (ember/require-computed-property-dependencies)\n172:14 - Use of undeclared dependencies in computed property: currentHash, jsonRevert (ember/require-computed-property-dependencies)\n174:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n198:11 - Use of undeclared dependencies in computed property: currentHash (ember/require-computed-property-dependencies)\n230:18 - Use of undeclared dependencies in computed property: constructor.modelName, customProfiles.mapById (ember/require-computed-property-dependencies)');
   });
   QUnit.test('models/contact.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/contact.js should pass ESLint\n\n');
+    assert.ok(false, 'models/contact.js should pass ESLint\n\n15:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n62:21 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n98:13 - Use `import { hasMany } from \'@ember-data/model\';` instead of using DS.hasMany (ember/use-ember-data-rfc-395-imports)\n101:18 - Use `import { hasMany } from \'@ember-data/model\';` instead of using DS.hasMany (ember/use-ember-data-rfc-395-imports)\n113:9 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n127:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n194:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n209:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n223:16 - Use of undeclared dependencies in computed property: contactsService.organizations, json.contactId (ember/require-computed-property-dependencies)\n227:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n233:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n235:29 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n236:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n240:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n265:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n269:28 - Use of undeclared dependencies in computed property: contactsService.organizations (ember/require-computed-property-dependencies)\n271:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n273:62 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n276:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n288:17 - Use of undeclared dependencies in computed property: contactsService.organizations, json (ember/require-computed-property-dependencies)\n301:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n307:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n311:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n332:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n351:17 - Use of undeclared dependencies in computed property: cleanJson, mdjson (ember/require-computed-property-dependencies)');
   });
   QUnit.test('models/custom-profile.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/custom-profile.js should pass ESLint\n\n');
+    assert.ok(false, 'models/custom-profile.js should pass ESLint\n\n1:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n76:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n76:16 - Use `import Model from \'@ember-data/model\';` instead of using DS.Model (ember/use-ember-data-rfc-395-imports)\n94:8 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n95:10 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n96:10 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n97:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n98:14 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n106:12 - Use `import { hasMany } from \'@ember-data/model\';` instead of using DS.hasMany (ember/use-ember-data-rfc-395-imports)\n107:15 - Use of undeclared dependencies in computed property: definitions.profiles (ember/require-computed-property-dependencies)\n123:20 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('models/dictionary.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/dictionary.js should pass ESLint\n\n');
+    assert.ok(false, 'models/dictionary.js should pass ESLint\n\n2:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n39:21 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n80:12 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n83:9 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n88:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n108:17 - Use of undeclared dependencies in computed property: cleanJson, mdjson (ember/require-computed-property-dependencies)\n138:11 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n139:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('models/profile.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/profile.js should pass ESLint\n\n');
+    assert.ok(false, 'models/profile.js should pass ESLint\n\n1:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n52:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n52:16 - Use `import Model from \'@ember-data/model\';` instead of using DS.Model (ember/use-ember-data-rfc-395-imports)\n69:8 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n70:10 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n71:19 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n72:18 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n73:11 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n96:20 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('models/record.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/record.js should pass ESLint\n\n');
+    assert.ok(false, 'models/record.js should pass ESLint\n\n6:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n75:12 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n78:9 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n124:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n132:9 - Use of undeclared dependencies in computed property: json.metadata.resourceInfo.resourceType.0.type (ember/require-computed-property-dependencies)\n134:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n151:14 - Use of undeclared dependencies in computed property: store (ember/require-computed-property-dependencies)\n166:18 - Use of undeclared dependencies in computed property: hasParent.identifier, store (ember/require-computed-property-dependencies)\n167:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n209:17 - Use of undeclared dependencies in computed property: mdjson (ember/require-computed-property-dependencies)\n250:52 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('models/schema.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/schema.js should pass ESLint\n\n');
+    assert.ok(false, 'models/schema.js should pass ESLint\n\n1:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n72:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n72:17 - Use `import Model from \'@ember-data/model\';` instead of using DS.Model (ember/use-ember-data-rfc-395-imports)\n91:10 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n92:8 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n93:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n94:15 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n95:12 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n96:18 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n97:13 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n100:18 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n127:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n143:14 - Use of undeclared dependencies in computed property: customSchemas.length, schemaValidator, title (ember/require-computed-property-dependencies)\n143:52 - Always return a value from computed properties (ember/require-return-from-computed)\n144:27 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n176:20 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('models/setting.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'models/setting.js should pass ESLint\n\n92:19 - Don\'t use observers if possible (ember/no-observers)');
+    assert.ok(false, 'models/setting.js should pass ESLint\n\n4:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n12:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:18 - Use `import Model from \'@ember-data/model\';` instead of using DS.Model (ember/use-ember-data-rfc-395-imports)\n34:19 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n37:15 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n40:13 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n43:15 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n46:13 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n49:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n52:16 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n57:17 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n60:12 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n63:13 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n66:18 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n69:20 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n72:21 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n75:23 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n76:19 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n81:18 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n92:19 - Don\'t use observers (ember/no-observers)\n95:24 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('pods/components/control/md-alert-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-alert-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-alert-table/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n20:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-button-confirm/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-button-confirm/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-button-confirm/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/md-button-modal/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-button-modal/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-button-modal/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n14:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n61:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-button/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-button/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-button/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n14:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n75:15 - Use of undeclared dependencies in computed property: text.length (ember/require-computed-property-dependencies)');
   });
   QUnit.test('pods/components/control/md-contact-link/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-contact-link/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-contact-link/component.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n16:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n18:32 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n19:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n20:45 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/control/md-contact-title/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-contact-title/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-contact-title/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/control/md-crud-buttons/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-crud-buttons/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-crud-buttons/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n29:15 - Use of undeclared dependencies in computed property: settings.data.showDelete (ember/require-computed-property-dependencies)\n33:13 - Use of undeclared dependencies in computed property: settings.data.showCopy (ember/require-computed-property-dependencies)\n37:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-definition/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-definition/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-definition/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/control/md-edit-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-edit-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-edit-table/component.js should pass ESLint\n\n57:18 - Use of undeclared dependencies in computed property: actionBadges (ember/require-computed-property-dependencies)\n95:1 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-errors/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-errors/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-errors/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/md-fiscalyear/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-fiscalyear/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-fiscalyear/component.js should pass ESLint\n\n27:13 - Use the `not` computed property macro. (ember/require-computed-macros)\n28:13 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n32:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/control/md-import-csv/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-import-csv/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-import-csv/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n22:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n22:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n103:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n109:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n168:13 - Do not use jQuery (ember/no-jquery)\n217:17 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/components/control/md-indicator/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-indicator/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-indicator/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n29:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/md-indicator/related/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-indicator/related/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-indicator/related/component.js should pass ESLint\n\n124:12 - Use of undeclared dependencies in computed property: relatedId, relatedIdLocal, this.model (ember/require-computed-property-dependencies)\n137:17 - Use of undeclared dependencies in computed property: parent, path (ember/require-computed-property-dependencies)');
   });
   QUnit.test('pods/components/control/md-infotip/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-infotip/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-infotip/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n13:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/md-itis/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-itis/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-itis/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n29:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n33:5 - Use `set(this, \'propertyName\', \'value\')` instead of assignment for untracked properties that are used as computed property dependencies (or convert to using tracked properties). (ember/no-assignment-of-untracked-properties-used-in-tracking-contexts)\n36:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n47:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n78:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n99:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n101:69 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n103:53 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n105:53 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n123:48 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n126:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/control/md-json-button/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-json-button/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-json-button/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n9:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n48:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-json-viewer/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-json-viewer/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-json-viewer/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n54:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n54:3 - Call super in lifecycle hooks (ember/require-super-in-lifecycle-hooks)\n58:5 - Do not use jQuery (ember/no-jquery)\n62:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n64:7 - Do not use jQuery (ember/no-jquery)\n68:7 - Do not use jQuery (ember/no-jquery)\n72:18 - Do not use jQuery (ember/no-jquery)\n76:18 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/components/control/md-modal/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-modal/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-modal/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n97:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-record-table/buttons/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n8:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-record-table/buttons/custom/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/custom/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/custom/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/md-record-table/buttons/filter/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/filter/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/filter/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n6:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n8:15 - Use the `gt` computed property macro. (ember/require-computed-macros)\n9:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n17:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n28:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-record-table/buttons/show/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/buttons/show/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/buttons/show/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/control/md-record-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-record-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-record-table/component.js should pass ESLint\n\n36:37 - Use of undeclared dependencies in computed property: actionsColumn (ember/require-computed-property-dependencies)\n128:18 - Use of undeclared dependencies in computed property: showSlider (ember/require-computed-property-dependencies)\n144:18 - Use of undeclared dependencies in computed property: data, selectProperty (ember/require-computed-property-dependencies)\n176:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n181:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n189:27 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n190:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n191:33 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n191:66 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n193:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n197:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n202:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n206:10 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/control/md-repo-link/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-repo-link/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-repo-link/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n12:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n13:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/md-scroll-into-view/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-scroll-into-view/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-scroll-into-view/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n7:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)');
   });
   QUnit.test('pods/components/control/md-scroll-spy/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-scroll-spy/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-scroll-spy/component.js should pass ESLint\n\n8:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n14:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n14:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n63:8 - Do not use jQuery (ember/no-jquery)\n64:16 - Do not use jQuery (ember/no-jquery)\n70:20 - Do not use jQuery (ember/no-jquery)\n74:19 - Do not use jQuery (ember/no-jquery)\n94:19 - Do not use jQuery (ember/no-jquery)\n101:34 - Do not using `String` prototype extension methods. (ember/no-string-prototype-extensions)\n111:5 - Do not use jQuery (ember/no-jquery)\n123:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n126:16 - Do not use jQuery (ember/no-jquery)\n139:35 - Do not using `String` prototype extension methods. (ember/no-string-prototype-extensions)\n145:12 - Do not use jQuery (ember/no-jquery)\n154:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n170:19 - Do not use jQuery (ember/no-jquery)\n173:7 - Do not use jQuery (ember/no-jquery)\n176:5 - Do not use jQuery (ember/no-jquery)\n179:7 - Do not use jQuery (ember/no-jquery)\n190:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-select-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-select-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-select-table/component.js should pass ESLint\n\n69:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-spinner/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-spinner/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-spinner/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/md-spotlight/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-spotlight/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-spotlight/component.js should pass ESLint\n\n64:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/md-status/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/md-status/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/md-status/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n6:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n29:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/control/subbar-citation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-citation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-citation/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/subbar-importcsv/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-importcsv/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-importcsv/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/subbar-link/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-link/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-link/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/control/subbar-spatial/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/control/subbar-spatial/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/control/subbar-spatial/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n4:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/ember-tooltip/component.js', function (assert) {
     assert.expect(1);
@@ -8271,35 +10475,35 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('pods/components/input/md-boolean/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-boolean/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-boolean/component.js should pass ESLint\n\n6:9 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n9:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n9:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/input/md-codelist-multi/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-codelist-multi/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-codelist-multi/component.js should pass ESLint\n\n94:17 - Use of undeclared dependencies in computed property: codelist (ember/require-computed-property-dependencies)\n114:13 - Use of undeclared dependencies in computed property: create (ember/require-computed-property-dependencies)');
   });
   QUnit.test('pods/components/input/md-codelist/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-codelist/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-codelist/component.js should pass ESLint\n\n44:7 - Use of undeclared dependencies in computed property: mdCodeName, namePath (ember/require-computed-property-dependencies)\n141:17 - Use of undeclared dependencies in computed property: codelist (ember/require-computed-property-dependencies)\n167:11 - Use of undeclared dependencies in computed property: defaultIcon, icons, mdCodeName, namePath, tooltipPath, valuePath (ember/require-computed-property-dependencies)\n200:13 - Use of undeclared dependencies in computed property: create (ember/require-computed-property-dependencies)\n252:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/input/md-date-range/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-date-range/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-date-range/component.js should pass ESLint\n\n8:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n39:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n39:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n87:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n90:8 - Always return a value from computed properties (ember/require-return-from-computed)\n91:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n99:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n102:8 - Always return a value from computed properties (ember/require-return-from-computed)\n103:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('pods/components/input/md-datetime/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-datetime/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-datetime/component.js should pass ESLint\n\n14:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n33:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n33:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n84:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n85:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n208:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n220:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n229:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('pods/components/input/md-input-confirm/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-input-confirm/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-input-confirm/component.js should pass ESLint\n\n22:15 - Use the `reads` computed property macro. (ember/require-computed-macros)\n26:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/input/md-input/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-input/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-input/component.js should pass ESLint\n\n8:9 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n13:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n13:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n80:41 - Use of undeclared dependencies in computed property: validation.options.presence.disabled, validation.options.presence.presence (ember/require-computed-property-dependencies)\n85:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n86:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/input/md-markdown-area/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-markdown-area/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-markdown-area/component.js should pass ESLint\n\n6:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n12:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n28:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n32:15 - Do not use jQuery (ember/no-jquery)\n52:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n55:20 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n56:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n115:12 - Use of undeclared dependencies in computed property: errorClass, length (ember/require-computed-property-dependencies)\n117:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n122:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n122:75 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n126:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n126:75 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n145:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n145:35 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n158:15 - Use of undeclared dependencies in computed property: length, required (ember/require-computed-property-dependencies)\n158:46 - Always return a value from computed properties (ember/require-return-from-computed)\n159:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n160:15 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n162:8 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/input/md-month/component.js', function (assert) {
     assert.expect(1);
@@ -8315,19 +10519,19 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('pods/components/input/md-select-profile/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select-profile/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select-profile/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n42:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/input/md-select-thesaurus/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select-thesaurus/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select-thesaurus/component.js should pass ESLint\n\n9:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n11:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n11:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n49:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/input/md-select/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-select/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-select/component.js should pass ESLint\n\n11:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n15:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n17:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n74:13 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n75:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n281:14 - Use the `reads` computed property macro. (ember/require-computed-macros)\n332:17 - Use of undeclared dependencies in computed property: codelist (ember/require-computed-property-dependencies)\n354:13 - Use of undeclared dependencies in computed property: defaultIcon, namePath, tooltipPath, valuePath (ember/require-computed-property-dependencies)\n417:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/input/md-textarea/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/input/md-textarea/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/input/md-textarea/component.js should pass ESLint\n\n6:9 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n12:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n48:41 - Use of undeclared dependencies in computed property: validation.options.presence.disabled, validation.options.presence.presence (ember/require-computed-property-dependencies)\n53:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n54:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/input/md-toggle/component.js', function (assert) {
     assert.expect(1);
@@ -8335,55 +10539,55 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('pods/components/layout/md-breadcrumb/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-breadcrumb/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-breadcrumb/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/layout/md-card/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-card/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-card/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n12:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n252:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n256:18 - Do not use jQuery (ember/no-jquery)\n257:18 - Do not use jQuery (ember/no-jquery)\n272:9 - Do not use jQuery (ember/no-jquery)\n290:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n294:7 - Do not use jQuery (ember/no-jquery)\n296:7 - Do not use jQuery (ember/no-jquery)\n299:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/layout/md-footer/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-footer/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-footer/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/layout/md-nav-main/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-nav-main/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-nav-main/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n9:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n11:7 - Do not use jQuery (ember/no-jquery)\n14:7 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/components/layout/md-nav-secondary/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-nav-secondary/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-nav-secondary/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:1 - Don\'t use a mixin (ember/no-mixins)\n8:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n36:10 - Use of undeclared dependencies in computed property: linkWidth, model.constructor.modelName, nav.offset, navLinks, this.customProfile.defaultProfile.definition.nav (ember/require-computed-property-dependencies)\n38:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n50:42 - Use of undeclared dependencies in computed property: linkWidth, nav.offset (ember/require-computed-property-dependencies)\n69:14 - Use of undeclared dependencies in computed property: navPadding (ember/require-computed-property-dependencies)\n84:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n84:3 - Call super in lifecycle hooks (ember/require-super-in-lifecycle-hooks)');
   });
   QUnit.test('pods/components/layout/md-nav-secondary/link/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-nav-secondary/link/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-nav-secondary/link/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n6:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n7:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n9:25 - Do not use jQuery (ember/no-jquery)\n13:33 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('pods/components/layout/md-nav-sidebar/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-nav-sidebar/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-nav-sidebar/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n6:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n12:15 - Use of undeclared dependencies in computed property: version (ember/require-computed-property-dependencies)\n12:24 - Always return a value from computed properties (ember/require-return-from-computed)\n29:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n34:7 - Do not use jQuery (ember/no-jquery)\n37:7 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/components/layout/md-object-container/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-object-container/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-object-container/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n38:15 - Use of undeclared dependencies in computed property: index (ember/require-computed-property-dependencies)');
   });
   QUnit.test('pods/components/layout/md-slider/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-slider/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-slider/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n12:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n12:3 - Call super in lifecycle hooks (ember/require-super-in-lifecycle-hooks)\n13:5 - Do not use jQuery (ember/no-jquery)\n23:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n28:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/layout/md-wrap/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/md-wrap/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/md-wrap/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/layout/nav/dictionary/nav-main/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/nav/dictionary/nav-main/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/nav/dictionary/nav-main/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/layout/nav/record/nav-main/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/layout/nav/record/nav-main/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/layout/nav/record/nav-main/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/md-help/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-help/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-help/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/md-models-table/component.js', function (assert) {
     assert.expect(1);
@@ -8391,19 +10595,19 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('pods/components/md-models-table/components/check-all/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-models-table/components/check-all/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-models-table/components/check-all/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n4:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/md-models-table/components/check/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-models-table/components/check/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-models-table/components/check/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n6:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/md-models-table/components/row-body/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-models-table/components/row-body/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-models-table/components/row-body/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n6:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n10:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n17:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)');
   });
   QUnit.test('pods/components/md-models-table/components/row-buttons/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-models-table/components/row-buttons/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-models-table/components/row-buttons/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/md-models-table/themes/bootstrap3.js', function (assert) {
     assert.expect(1);
@@ -8415,139 +10619,139 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('pods/components/md-translate/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/md-translate/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/md-translate/component.js should pass ESLint\n\n6:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n32:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n32:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n103:25 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n109:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n112:18 - Use of undeclared dependencies in computed property: errorTitle, errors (ember/require-computed-property-dependencies)\n113:15 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n116:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n121:13 - Use of undeclared dependencies in computed property: writerOptions (ember/require-computed-property-dependencies)\n122:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n123:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n128:15 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n138:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n151:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n164:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n166:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n167:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n168:25 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n190:13 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n201:11 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n207:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n208:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n209:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n215:52 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n223:33 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n236:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/models-table/table-body/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/models-table/table-body/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/models-table/table-body/component.js should pass ESLint\n\n4:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-address/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-address/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-address/component.js should pass ESLint\n\n8:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n11:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n11:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n55:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-address/md-address-block/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-address/md-address-block/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-address/md-address-block/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-allocation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-allocation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-allocation/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n25:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n26:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n29:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n31:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n32:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n33:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n34:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n56:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-array-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-array-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-array-table/component.js should pass ESLint\n\n8:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n14:1 - Don\'t use a mixin (ember/no-mixins)\n16:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n16:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n26:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n181:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n199:33 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n241:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n265:19 - Do not use jQuery (ember/no-jquery)\n266:19 - Do not use jQuery (ember/no-jquery)\n282:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-associated/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-associated/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-associated/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n20:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n26:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n28:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n29:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n30:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n31:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n33:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n38:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n63:29 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n67:22 - Use of undeclared dependencies in computed property: recordId (ember/require-computed-property-dependencies)\n70:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n82:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n89:56 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n93:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-associated/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-associated/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-associated/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n23:13 - Use of undeclared dependencies in computed property: item.resourceCitation (ember/require-computed-property-dependencies)\n24:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n25:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n30:29 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n33:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n36:23 - Use of undeclared dependencies in computed property: item.metadataCitation.identifier.0 (ember/require-computed-property-dependencies)\n37:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n38:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n44:29 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-attribute/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-attribute/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-attribute/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n48:23 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n60:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n61:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n64:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n66:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n67:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n68:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n69:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n70:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n71:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n92:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n101:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n104:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n106:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n107:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n108:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n114:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-attribute/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-attribute/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-attribute/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-bbox/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-bbox/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-bbox/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n45:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n45:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-citation-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation-array/component.js should pass ESLint\n\n3:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n66:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-citation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n8:22 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n10:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n12:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n14:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n17:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n19:25 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n20:24 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n25:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n43:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n48:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n49:25 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n53:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-citation/preview/body/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation/preview/body/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation/preview/body/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-citation/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-citation/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-citation/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n41:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-constraint/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-constraint/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-constraint/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n35:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n36:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n39:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n41:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n42:35 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n43:29 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n44:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n46:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n51:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n71:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-contact-identifier-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-contact-identifier-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-contact-identifier-array/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n23:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n43:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-date-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-date-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-date-array/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n9:15 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n20:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-date/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-date/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-date/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n19:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-distribution/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-distribution/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-distribution/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n28:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n29:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n32:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n34:9 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n79:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n84:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-distributor/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-distributor/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-distributor/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n24:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n25:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n28:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n30:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n31:29 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n35:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n37:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n42:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n64:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n78:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-distributor/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-distributor/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-distributor/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-documentation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-documentation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-documentation/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n19:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n20:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n23:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n25:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n26:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n27:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n31:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-documentation/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-documentation/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-documentation/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-domain/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-domain/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-domain/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n41:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n42:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n45:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n47:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n48:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n49:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n50:37 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n88:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n92:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-domainitem/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-domainitem/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-domainitem/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n42:23 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n50:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n51:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n54:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n56:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n57:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n79:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-domainitem/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-domainitem/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-domainitem/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-entity/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-entity/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-entity/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n47:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n50:68 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n54:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n57:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n59:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n60:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n61:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n62:49 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n64:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n65:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n66:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n67:37 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n97:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n99:23 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n132:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n169:18 - Use of undeclared dependencies in computed property: model.attribute (ember/require-computed-property-dependencies)\n170:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n174:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n175:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n176:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n185:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n187:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n189:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n190:25 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n191:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n213:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n215:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n219:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n222:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n223:25 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n224:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-extent/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-extent/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-extent/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-extent/spatial/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-extent/spatial/component.js should pass ESLint\n\n57:21 - Don\'t use observers if possible (ember/no-observers)');
+    assert.ok(false, 'pods/components/object/md-extent/spatial/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n19:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n19:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n20:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n23:15 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n25:10 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n26:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n57:21 - Don\'t use observers (ember/no-observers)\n94:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-funding/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-funding/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-funding/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n46:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n47:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n50:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n52:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n53:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n54:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n74:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-funding/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-funding/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-funding/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-graphic-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-graphic-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-graphic-array/component.js should pass ESLint\n\n8:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n11:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n11:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n75:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-identifier-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-identifier-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-identifier-array/component.js should pass ESLint\n\n3:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n8:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n70:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-identifier-object-table/component.js', function (assert) {
     assert.expect(1);
@@ -8555,731 +10759,731 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('pods/components/object/md-identifier/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-identifier/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-identifier/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n21:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n21:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n22:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n25:17 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n27:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n28:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('pods/components/object/md-keyword-citation/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-keyword-citation/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-keyword-citation/component.js should pass ESLint\n\n9:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n33:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n33:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n36:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n42:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n45:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n55:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n58:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n68:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n71:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-keyword-list/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-keyword-list/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-keyword-list/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n10:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n13:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n17:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n25:7 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/components/object/md-lineage/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-lineage/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-lineage/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n9:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n13:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n15:10 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n16:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n17:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n18:33 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n19:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n23:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n48:22 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n55:19 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-lineage/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-lineage/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-lineage/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-locale-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-locale-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-locale-array/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n6:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-locale/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-locale/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-locale/component.js should pass ESLint\n\n21:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n40:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n40:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n43:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n47:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n52:12 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('pods/components/object/md-maintenance/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-maintenance/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-maintenance/component.js should pass ESLint\n\n6:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n19:13 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n20:14 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n21:13 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n22:16 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n28:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n37:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n61:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n64:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n65:25 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n70:11 - Use of undeclared dependencies in computed property: model.scope (ember/require-computed-property-dependencies)\n72:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-medium/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-medium/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-medium/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n10:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n12:10 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n13:41 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n15:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n19:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-object-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-object-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-object-table/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n13:1 - Don\'t use a mixin (ember/no-mixins)\n16:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n16:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n46:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n57:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n267:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n267:47 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n270:12 - Use of undeclared dependencies in computed property: elementId (ember/require-computed-property-dependencies)\n304:14 - Do not using `String` prototype extension methods. (ember/no-string-prototype-extensions)\n313:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n329:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-objectroute-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-objectroute-table/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-objectroute-table/component.js should pass ESLint\n\n55:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-online-resource-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-online-resource-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-online-resource-array/component.js should pass ESLint\n\n13:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n16:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n16:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n18:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n22:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n118:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-online-resource/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-online-resource/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-online-resource/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n27:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n27:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n28:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n31:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n34:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n56:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n59:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n71:11 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-party-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-party-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-party-array/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n6:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-party/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-party/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-party/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n36:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n44:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n59:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n59:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n60:14 - Use of undeclared dependencies in computed property: model.party (ember/require-computed-property-dependencies)\n62:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n77:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n82:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n83:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n84:26 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('pods/components/object/md-phone-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-phone-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-phone-array/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n23:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n43:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-process-step/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-process-step/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-process-step/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n9:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n13:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n15:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n16:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n20:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n23:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n25:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n26:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n26:60 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n27:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n28:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n29:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n30:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n31:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n32:33 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n36:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n55:19 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-process-step/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-process-step/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-process-step/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-profile/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-profile/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-profile/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-profile/custom/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-profile/custom/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-profile/custom/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n13:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-profile/form/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-profile/form/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-profile/form/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-profile/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-profile/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-profile/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-raster/attrgroup/attribute/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-raster/attrgroup/attribute/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-raster/attrgroup/attribute/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n39:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n73:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n76:17 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n78:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n79:41 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n81:44 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n83:42 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n85:45 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n87:42 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n92:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-raster/attrgroup/attribute/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-raster/attrgroup/attribute/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-raster/attrgroup/attribute/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-raster/attrgroup/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-raster/attrgroup/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-raster/attrgroup/component.js should pass ESLint\n\n35:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n38:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n41:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n42:44 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n44:33 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n63:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-raster/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-raster/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-raster/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n28:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n45:5 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n48:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n51:20 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n52:40 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n54:42 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n56:45 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n62:5 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-raster/image-desc/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-raster/image-desc/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-raster/image-desc/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n35:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n35:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n50:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n54:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n57:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n58:40 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('pods/components/object/md-raster/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-raster/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-raster/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-repository-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-repository-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-repository-array/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n7:23 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n14:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n16:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n19:10 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n21:38 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-resource-type-array/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-resource-type-array/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-resource-type-array/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n17:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n37:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-schema/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-schema/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-schema/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-schema/form/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-schema/form/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-schema/form/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n17:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-simple-array-table/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-simple-array-table/component.js should pass ESLint\n\n74:19 - Don\'t use observers if possible (ember/no-observers)');
+    assert.ok(true, 'pods/components/object/md-simple-array-table/component.js should pass ESLint\n\n74:19 - Don\'t use observers (ember/no-observers)');
   });
   QUnit.test('pods/components/object/md-source/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-source/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-source/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n28:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n29:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n32:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n34:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n35:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n36:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n38:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n40:39 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n42:37 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n45:9 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n47:39 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n49:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n70:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-source/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-source/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-source/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-spatial-info/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-spatial-info/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-spatial-info/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n10:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n12:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n13:44 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n14:47 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n15:39 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:41 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n39:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n41:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-spatial-resolution/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-spatial-resolution/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-spatial-resolution/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n59:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n59:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n60:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n63:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n66:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n67:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n93:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n99:25 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n108:25 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n110:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-srs/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-srs/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-srs/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n27:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n27:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n28:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n31:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n34:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n35:47 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('pods/components/object/md-taxonomy/classification/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-taxonomy/classification/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-taxonomy/classification/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-taxonomy/classification/taxon/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-taxonomy/classification/taxon/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-taxonomy/classification/taxon/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n37:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n43:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n46:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n47:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n49:43 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n53:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n62:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n68:10 - Use of undeclared dependencies in computed property: parentItem (ember/require-computed-property-dependencies)\n80:16 - Use the `reads` computed property macro. (ember/require-computed-macros)\n81:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n109:30 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n116:5 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n123:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/components/object/md-taxonomy/collection/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-taxonomy/collection/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-taxonomy/collection/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n50:23 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n62:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n63:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n66:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n68:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n69:45 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n71:37 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n73:45 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n75:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n76:29 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n98:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n103:19 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-taxonomy/collection/system/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-taxonomy/collection/system/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-taxonomy/collection/system/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n27:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n28:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n31:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n33:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n34:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n56:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/components/object/md-taxonomy/collection/system/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-taxonomy/collection/system/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-taxonomy/collection/system/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n17:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-taxonomy/collection/voucher/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-taxonomy/collection/voucher/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-taxonomy/collection/voucher/component.js should pass ESLint\n\n2:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n26:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n34:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n34:17 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n38:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n43:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n44:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n45:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('pods/components/object/md-taxonomy/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-taxonomy/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-taxonomy/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n7:10 - Use of undeclared dependencies in computed property: index (ember/require-computed-property-dependencies)\n8:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n13:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n19:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/components/object/md-time-period/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-time-period/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-time-period/component.js should pass ESLint\n\n5:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n84:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n92:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n95:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n97:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n98:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n100:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n101:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n106:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n110:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n121:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n123:8 - Always return a value from computed properties (ember/require-return-from-computed)\n124:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n132:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n134:8 - Always return a value from computed properties (ember/require-return-from-computed)\n135:18 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)');
   });
   QUnit.test('pods/components/object/md-transfer/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-transfer/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-transfer/component.js should pass ESLint\n\n4:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n43:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n44:3 - Do not use classic ember components lifecycle hooks. Prefer using "@ember/render-modifiers" or custom functional modifiers. (ember/no-component-lifecycle-hooks)\n47:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n49:10 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n50:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n51:35 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n52:39 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n54:40 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n64:3 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)\n125:19 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/components/object/md-transfer/preview/component.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/components/object/md-transfer/preview/component.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/components/object/md-transfer/preview/component.js should pass ESLint\n\n1:8 - Use Glimmer components(@glimmer/component) instead of classic components(@ember/component) (ember/no-classic-components)\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n3:16 - Please switch to a tagless component by setting `tagName: \'\'` or converting to a Glimmer component (ember/require-tagless-components)');
   });
   QUnit.test('pods/contact/new/id/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/new/id/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/new/id/route.js should pass ESLint\n\n2:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n5:3 - Use `import { NotFoundError } from \'@ember-data/adapter/error\';` instead of using DS destructuring (ember/use-ember-data-rfc-395-imports)\n8:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n89:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/contact/new/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/new/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/new/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/contact/new/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/new/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/new/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/contact/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/contact/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/show/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/show/edit/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/contact/show/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/show/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/show/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/contact/show/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contact/show/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contact/show/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n14:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n45:11 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/contacts/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/contacts/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/contacts/route.js should pass ESLint\n\n23:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n32:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n41:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/dashboard/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dashboard/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dashboard/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionaries/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionaries/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionaries/route.js should pass ESLint\n\n16:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n25:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n34:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/dictionary/new/id/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/new/id/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/new/id/route.js should pass ESLint\n\n3:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n6:3 - Use `import { NotFoundError } from \'@ember-data/adapter/error\';` instead of using DS destructuring (ember/use-ember-data-rfc-395-imports)\n9:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n48:28 - Use the `or` computed property macro. (ember/require-computed-macros)\n67:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/new/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/new/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/new/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionary/new/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/new/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/new/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionary/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionary/show/edit/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/citation/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/citation/identifier/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/dictionary/show/edit/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/citation/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/citation/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/edit/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/citation/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/citation/identifier/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n21:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n22:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/edit/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/citation/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n11:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n24:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n35:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n39:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/edit/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/citation/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/edit/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n15:18 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n17:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n18:37 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n20:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/edit/item/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/item/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/item/route.js should pass ESLint\n\n11:1 - Don\'t use a mixin (ember/no-mixins)\n13:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n36:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n38:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n39:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n40:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n66:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/edit/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n24:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/index/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n9:26 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n20:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/domain/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/domain/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/domain/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/edit/attribute/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/attribute/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/attribute/index/route.js should pass ESLint\n\n5:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n19:18 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n21:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n23:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n24:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n32:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/edit/attribute/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/attribute/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/attribute/route.js should pass ESLint\n\n13:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n35:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n59:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/edit/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/citation/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/citation/identifier/route.js should pass ESLint\n\n8:1 - Don\'t use a mixin (ember/no-mixins)\n10:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n27:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n29:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n57:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/edit/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/citation/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/edit/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/citation/route.js should pass ESLint\n\n9:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n33:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n35:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n60:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/edit/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/index/route.js should pass ESLint\n\n5:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:18 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n21:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n21:37 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n23:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/edit/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n24:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/import/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/import/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/import/route.js should pass ESLint\n\n24:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n43:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n76:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n79:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n95:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n105:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n132:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n142:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n143:28 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n145:10 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n146:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n149:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n152:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n154:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n156:61 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n182:33 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n197:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/index/route.js should pass ESLint\n\n9:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n13:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n15:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n17:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n29:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/entity/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/entity/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/entity/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/dictionary/show/edit/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n9:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n10:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n11:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n12:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n13:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n14:26 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n15:26 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:26 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n22:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n29:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/edit/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n45:10 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/dictionary/show/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/dictionary/show/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/dictionary/show/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/dictionary/show/route.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/error/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/error/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/error/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/export/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/export/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/export/route.js should pass ESLint\n\n9:1 - Don\'t use a mixin (ember/no-mixins)\n14:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n22:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n30:20 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:52 - Use of undeclared dependencies in computed property: store (ember/require-computed-property-dependencies)\n43:20 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n43:59 - Use of undeclared dependencies in computed property: store (ember/require-computed-property-dependencies)\n87:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n102:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n138:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n141:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/help/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/help/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/help/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/import/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/import/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/import/route.js should pass ESLint\n\n24:1 - Don\'t use a mixin (ember/no-mixins)\n36:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n56:33 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n75:14 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n77:14 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n93:20 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n119:8 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n209:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n260:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n262:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n276:13 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n338:11 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n343:11 - Do not use jQuery (ember/no-jquery)\n388:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n394:17 - Do not use jQuery (ember/no-jquery)\n399:13 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n408:11 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n427:11 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n456:15 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/not-found/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/not-found/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/not-found/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/publish/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/publish/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/publish/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/publish/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/publish/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/publish/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/new/id/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/new/id/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/new/id/route.js should pass ESLint\n\n2:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n5:3 - Use `import { NotFoundError } from \'@ember-data/adapter/error\';` instead of using DS destructuring (ember/use-ember-data-rfc-395-imports)\n8:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n60:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/new/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/new/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/new/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/new/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/new/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/new/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/associated/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/index/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n9:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n20:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/associated/resource/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/resource/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/resource/index/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n17:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n27:43 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n38:37 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/associated/resource/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/resource/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/resource/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n9:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n25:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n26:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n34:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n43:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/associated/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/associated/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/associated/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/constraint/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/constraint/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/constraint/index/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n9:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/constraint/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/constraint/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/constraint/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/coverages/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/coverages/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/coverages/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/dictionary/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/dictionary/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/dictionary/route.js should pass ESLint\n\n13:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n35:35 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n39:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n40:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n41:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n50:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n62:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n65:20 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n65:49 - Use the `filterBy` computed property macro. (ember/require-computed-macros)\n70:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n84:9 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n89:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n93:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/distribution/distributor/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/distributor/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/distributor/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:43 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n19:47 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n22:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n22:42 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n22:46 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n29:19 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:49 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n33:37 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n36:37 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n44:9 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n44:41 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/distribution/distributor/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/distributor/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/distributor/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n26:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n28:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/distribution/distributor/transfer/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/distributor/transfer/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/distributor/transfer/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n28:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n31:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n32:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n76:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n78:19 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n79:49 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n81:22 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/distribution/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n14:20 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n18:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n25:7 - Do not use jQuery (ember/no-jquery)\n26:20 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/record/show/edit/distribution/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/distribution/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/distribution/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n9:40 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)');
   });
   QUnit.test('pods/record/show/edit/documents/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/citation/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n12:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n12:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n12:43 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/documents/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/citation/route.js should pass ESLint\n\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n26:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n26:39 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n27:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n35:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n45:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/documents/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/index/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n9:43 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n17:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n21:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/documents/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/documents/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/documents/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/extent/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/extent/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/extent/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:20 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/extent/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/extent/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/extent/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:25 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n14:5 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n15:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n17:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n19:50 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n21:49 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n23:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n25:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n31:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n49:7 - Do not use jQuery (ember/no-jquery)\n50:20 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/record/show/edit/extent/spatial/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/extent/spatial/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/extent/spatial/route.js should pass ESLint\n\n8:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n20:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n37:48 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n42:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n64:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n69:7 - Do not use jQuery (ember/no-jquery)\n70:18 - Do not use jQuery (ember/no-jquery)\n71:23 - Do not use jQuery (ember/no-jquery)\n75:7 - Do not use jQuery (ember/no-jquery)\n80:19 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n96:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n100:19 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n115:16 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n152:9 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/funding/allocation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/funding/allocation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/funding/allocation/route.js should pass ESLint\n\n15:1 - Don\'t use a mixin (ember/no-mixins)\n17:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n20:30 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n35:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n36:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n36:41 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n38:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n46:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n54:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/funding/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/funding/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/funding/index/route.js should pass ESLint\n\n5:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n11:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n12:29 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n23:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n50:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/funding/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/funding/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/funding/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/grid/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/grid/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/grid/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/keywords/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/keywords/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/keywords/index/route.js should pass ESLint\n\n7:1 - Don\'t use a mixin (ember/no-mixins)\n10:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n23:27 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n24:38 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n28:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n29:42 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n36:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n44:7 - Do not use jQuery (ember/no-jquery)\n44:44 - Do not use jQuery (ember/no-jquery)\n57:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n58:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n64:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/keywords/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/keywords/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/keywords/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n4:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/keywords/thesaurus/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/keywords/thesaurus/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/keywords/thesaurus/route.js should pass ESLint\n\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n16:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n16:51 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n24:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n49:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n57:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n94:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/lineage/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/index/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n8:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n9:35 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n20:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/citation/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/citation/identifier/route.js should pass ESLint\n\n5:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n45:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/citation/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/citation/route.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n46:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n12:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n12:38 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n12:42 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n15:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n9:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n25:38 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n26:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n34:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n42:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/source/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/source/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/source/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/source/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/source/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/source/route.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n46:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/step/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/step/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/step/citation/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n21:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n22:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n23:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n51:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/step/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/step/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/step/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n12:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n12:35 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n12:39 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n15:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/lineageobject/step/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/lineageobject/step/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/lineageobject/step/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n26:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:35 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n28:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n36:18 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n37:21 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n46:7 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n55:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/lineage/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/lineage/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/lineage/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/main/citation/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/citation/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/citation/identifier/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/main/citation/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/citation/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/citation/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n34:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/main/citation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/citation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/citation/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/main/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n8:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n13:30 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n14:41 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n16:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n17:26 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n18:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n19:26 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n20:32 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n21:39 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n23:35 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n30:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n37:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/main/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/main/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/main/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/metadata/alternate/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/alternate/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/alternate/identifier/route.js should pass ESLint\n\n5:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n20:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:23 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n44:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/metadata/alternate/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/alternate/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/alternate/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n5:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/metadata/alternate/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/alternate/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/alternate/route.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n16:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n17:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n43:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/metadata/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/identifier/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n14:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n15:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n27:7 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n30:12 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/metadata/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n8:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n14:16 - Do not use anonymous functions as arguments to `debounce`, `once`, and `scheduleOnce`. (ember/no-incorrect-calls-with-inline-anonymous-functions)\n15:37 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n17:34 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n19:41 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n21:44 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n23:43 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n25:40 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n27:36 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n29:48 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n31:41 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n39:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n46:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/metadata/parent/identifier/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/parent/identifier/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/parent/identifier/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/metadata/parent/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/parent/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/parent/index/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n10:15 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n23:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/metadata/parent/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/parent/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/parent/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/metadata/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/metadata/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/metadata/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n4:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n32:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n48:10 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('pods/record/show/edit/spatial/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/spatial/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/spatial/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/spatial/raster/attribute/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/spatial/raster/attribute/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/spatial/raster/attribute/route.js should pass ESLint\n\n4:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n29:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n31:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n32:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n33:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n69:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n75:19 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n76:64 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n77:25 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n82:21 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/spatial/raster/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/spatial/raster/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/spatial/raster/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n12:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n14:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n14:37 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n14:41 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n18:20 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n22:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n25:70 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/spatial/raster/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/spatial/raster/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/spatial/raster/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n24:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n25:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n26:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n53:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/spatial/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/spatial/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/spatial/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/edit/taxonomy/collection/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/taxonomy/collection/index/route.js should pass ESLint\n\n3:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n11:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n13:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n13:41 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n13:45 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n17:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n22:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/taxonomy/collection/itis/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/itis/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/taxonomy/collection/itis/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n20:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n20:41 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n20:45 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n24:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/taxonomy/collection/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/taxonomy/collection/route.js should pass ESLint\n\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n28:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n29:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/record/show/edit/taxonomy/collection/system/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/system/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/taxonomy/collection/system/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n17:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/taxonomy/collection/system/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/taxonomy/collection/system/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/taxonomy/collection/system/route.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n19:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n46:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/edit/taxonomy/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/taxonomy/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/taxonomy/index/route.js should pass ESLint\n\n12:1 - Don\'t use a mixin (ember/no-mixins)\n14:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n18:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n19:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n26:5 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)\n30:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n47:9 - Do not use jQuery (ember/no-jquery)\n48:22 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('pods/record/show/edit/taxonomy/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/edit/taxonomy/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/edit/taxonomy/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/record/show/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/index/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n19:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/record/show/translate/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/record/show/translate/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/record/show/translate/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/records/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/records/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/records/route.js should pass ESLint\n\n18:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n27:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n36:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/save/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/save/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/save/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/settings/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/settings/main/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/main/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/main/route.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/settings/profile/index/controller.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/profile/index/controller.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/profile/index/controller.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n28:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/settings/profile/index/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/profile/index/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/profile/index/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/settings/profile/manage/controller.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/profile/manage/controller.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/profile/manage/controller.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n55:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/settings/profile/manage/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/profile/manage/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/profile/manage/route.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/settings/profile/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/profile/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/profile/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/settings/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/route.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n36:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n47:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n51:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n52:19 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n52:23 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('pods/settings/validation/controller.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/validation/controller.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/validation/controller.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n62:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('pods/settings/validation/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/settings/validation/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/settings/validation/route.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('pods/translate/route.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'pods/translate/route.js should pass ESLint\n\n');
+    assert.ok(false, 'pods/translate/route.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('resolver.js', function (assert) {
     assert.expect(1);
@@ -9287,15 +11491,15 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('router.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'router.js should pass ESLint\n\n');
+    assert.ok(false, 'router.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('routes/application.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'routes/application.js should pass ESLint\n\n');
+    assert.ok(false, 'routes/application.js should pass ESLint\n\n18:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n22:5 - Do not use jQuery (ember/no-jquery)\n127:3 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)\n141:7 - Do not access controller in route outside of setupController/resetController (ember/no-controller-access-in-routes)');
   });
   QUnit.test('routes/index.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'routes/index.js should pass ESLint\n\n');
+    assert.ok(false, 'routes/index.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('serializers/application.js', function (assert) {
     assert.expect(1);
@@ -9303,31 +11507,31 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('services/cleaner.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/cleaner.js should pass ESLint\n\n');
+    assert.ok(false, 'services/cleaner.js should pass ESLint\n\n98:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('services/codelist.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/codelist.js should pass ESLint\n\n');
+    assert.ok(false, 'services/codelist.js should pass ESLint\n\n6:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('services/contacts.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/contacts.js should pass ESLint\n\n');
+    assert.ok(false, 'services/contacts.js should pass ESLint\n\n5:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n50:18 - Use of undeclared dependencies in computed property: defaultIcon, icons (ember/require-computed-property-dependencies)');
   });
   QUnit.test('services/custom-profile.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/custom-profile.js should pass ESLint\n\n');
+    assert.ok(false, 'services/custom-profile.js should pass ESLint\n\n34:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n38:5 - Use `set(this, \'propertyName\', \'value\')` instead of assignment for untracked properties that are used as computed property dependencies (or convert to using tracked properties). (ember/no-assignment-of-untracked-properties-used-in-tracking-contexts)\n105:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n137:21 - Use of undeclared dependencies in computed property: defaultProfile.definition.components (ember/require-computed-property-dependencies)\n138:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('services/icon.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/icon.js should pass ESLint\n\n');
+    assert.ok(false, 'services/icon.js should pass ESLint\n\n3:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('services/itis.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/itis.js should pass ESLint\n\n');
+    assert.ok(false, 'services/itis.js should pass ESLint\n\n27:14 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n35:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n260:17 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n266:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('services/jsonvalidator.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/jsonvalidator.js should pass ESLint\n\n');
+    assert.ok(false, 'services/jsonvalidator.js should pass ESLint\n\n375:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('services/keyword.js', function (assert) {
     assert.expect(1);
@@ -9335,39 +11539,39 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('services/mdjson.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/mdjson.js should pass ESLint\n\n');
+    assert.ok(false, 'services/mdjson.js should pass ESLint\n\n59:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n81:22 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n83:38 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n84:33 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n86:21 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n87:31 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n89:28 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n92:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n94:30 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n198:31 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n209:33 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('services/patch.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/patch.js should pass ESLint\n\n');
+    assert.ok(false, 'services/patch.js should pass ESLint\n\n14:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n22:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n44:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n48:41 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n49:34 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n57:24 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n61:30 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n65:45 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n66:38 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n87:34 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n102:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n124:27 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n126:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n128:27 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n237:26 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n240:42 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n241:36 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('services/profile.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/profile.js should pass ESLint\n\n');
+    assert.ok(false, 'services/profile.js should pass ESLint\n\n31:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n35:5 - Use `set(this, \'propertyName\', \'value\')` instead of assignment for untracked properties that are used as computed property dependencies (or convert to using tracked properties). (ember/no-assignment-of-untracked-properties-used-in-tracking-contexts)\n37:5 - Use `set(this, \'propertyName\', \'value\')` instead of assignment for untracked properties that are used as computed property dependencies (or convert to using tracked properties). (ember/no-assignment-of-untracked-properties-used-in-tracking-contexts)');
   });
   QUnit.test('services/publish.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/publish.js should pass ESLint\n\n');
+    assert.ok(false, 'services/publish.js should pass ESLint\n\n4:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('services/schemas.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/schemas.js should pass ESLint\n\n');
+    assert.ok(false, 'services/schemas.js should pass ESLint\n\n16:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n29:5 - Use `set(this, \'propertyName\', \'value\')` instead of assignment for untracked properties that are used as computed property dependencies (or convert to using tracked properties). (ember/no-assignment-of-untracked-properties-used-in-tracking-contexts)');
   });
   QUnit.test('services/settings.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/settings.js should pass ESLint\n\n');
+    assert.ok(false, 'services/settings.js should pass ESLint\n\n14:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n40:45 - Use `||` or the ternary operator instead of `getWithDefault()` (ember/no-get-with-default)\n59:23 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('services/slider.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/slider.js should pass ESLint\n\n21:18 - Don\'t use observers if possible (ember/no-observers)');
+    assert.ok(false, 'services/slider.js should pass ESLint\n\n9:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n13:5 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n21:18 - Don\'t use observers (ember/no-observers)');
   });
   QUnit.test('services/spotlight.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'services/spotlight.js should pass ESLint\n\n');
+    assert.ok(false, 'services/spotlight.js should pass ESLint\n\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n21:7 - Do not use jQuery (ember/no-jquery)\n31:5 - Do not use jQuery (ember/no-jquery)\n32:5 - Do not use jQuery (ember/no-jquery)\n39:5 - Do not use jQuery (ember/no-jquery)\n48:7 - Do not use jQuery (ember/no-jquery)\n49:7 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('transforms/json.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'transforms/json.js should pass ESLint\n\n');
+    assert.ok(false, 'transforms/json.js should pass ESLint\n\n4:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n7:16 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n7:16 - Use `import Transform from \'@ember-data/serializer/transform\';` instead of using DS.Transform (ember/use-ember-data-rfc-395-imports)');
   });
   QUnit.test('transitions.js', function (assert) {
     assert.expect(1);
@@ -9383,11 +11587,11 @@ define("mdeditor/tests/lint/app.lint-test", [], function () {
   });
   QUnit.test('validators/array-required.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'validators/array-required.js should pass ESLint\n\n');
+    assert.ok(false, 'validators/array-required.js should pass ESLint\n\n59:16 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('validators/array-valid.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'validators/array-valid.js should pass ESLint\n\n');
+    assert.ok(false, 'validators/array-valid.js should pass ESLint\n\n17:14 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('validators/messages.js', function (assert) {
     assert.expect(1);
@@ -10589,7 +12793,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('helpers/modal-asserts.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'helpers/modal-asserts.js should pass ESLint\n\n');
+    assert.ok(false, 'helpers/modal-asserts.js should pass ESLint\n\n11:23 - Do not use jQuery (ember/no-jquery)\n16:23 - Do not use jQuery (ember/no-jquery)\n21:20 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('helpers/start-app.js', function (assert) {
     assert.expect(1);
@@ -10729,7 +12933,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/control/md-indicator/related/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/md-indicator/related/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/md-indicator/related/component-test.js should pass ESLint\n\n14:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('integration/pods/components/control/md-infotip/component-test.js', function (assert) {
     assert.expect(1);
@@ -10745,7 +12949,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/control/md-json-viewer/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/md-json-viewer/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/md-json-viewer/component-test.js should pass ESLint\n\n19:18 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('integration/pods/components/control/md-modal/component-test.js', function (assert) {
     assert.expect(1);
@@ -10805,7 +13009,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/control/subbar-importcsv/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/control/subbar-importcsv/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/control/subbar-importcsv/component-test.js should pass ESLint\n\n13:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n14:7 - Use the @action decorator instead of declaring an actions hash (ember/no-actions-hash)');
   });
   QUnit.test('integration/pods/components/control/subbar-link/component-test.js', function (assert) {
     assert.expect(1);
@@ -10825,11 +13029,11 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/input/md-codelist-multi/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-codelist-multi/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-codelist-multi/component-test.js should pass ESLint\n\n25:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n71:28 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n96:28 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('integration/pods/components/input/md-codelist/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-codelist/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-codelist/component-test.js should pass ESLint\n\n21:18 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n55:28 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n78:28 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('integration/pods/components/input/md-date-range/component-test.js', function (assert) {
     assert.expect(1);
@@ -10845,7 +13049,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/input/md-input/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-input/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-input/component-test.js should pass ESLint\n\n24:19 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('integration/pods/components/input/md-markdown-area/component-test.js', function (assert) {
     assert.expect(1);
@@ -10873,7 +13077,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/input/md-select/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/input/md-select/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/input/md-select/component-test.js should pass ESLint\n\n74:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)\n113:20 - Use ES5 getters (`this.property`) instead of Ember\'s `get` function (ember/no-get)');
   });
   QUnit.test('integration/pods/components/input/md-textarea/component-test.js', function (assert) {
     assert.expect(1);
@@ -10897,7 +13101,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/layout/md-nav-secondary/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/layout/md-nav-secondary/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/layout/md-nav-secondary/component-test.js should pass ESLint\n\n48:21 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('integration/pods/components/layout/md-nav-secondary/link/component-test.js', function (assert) {
     assert.expect(1);
@@ -11105,7 +13309,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('integration/pods/components/object/md-keyword-list/component-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'integration/pods/components/object/md-keyword-list/component-test.js should pass ESLint\n\n');
+    assert.ok(false, 'integration/pods/components/object/md-keyword-list/component-test.js should pass ESLint\n\n33:18 - Do not use jQuery (ember/no-jquery)\n34:18 - Do not use jQuery (ember/no-jquery)');
   });
   QUnit.test('integration/pods/components/object/md-lineage/component-test.js', function (assert) {
     assert.expect(1);
@@ -11317,11 +13521,11 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('unit/instance-initializers/route-publish-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/instance-initializers/route-publish-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/instance-initializers/route-publish-test.js should pass ESLint\n\n24:50 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('unit/instance-initializers/settings-sciencebase-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/instance-initializers/settings-sciencebase-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/instance-initializers/settings-sciencebase-test.js should pass ESLint\n\n25:50 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)');
   });
   QUnit.test('unit/instance-initializers/settings-test.js', function (assert) {
     assert.expect(1);
@@ -11329,19 +13533,19 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('unit/mixins/cancel-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/mixins/cancel-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/mixins/cancel-test.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n8:24 - Don\'t create new mixins (ember/no-new-mixins)');
   });
   QUnit.test('unit/mixins/hash-poll-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/mixins/hash-poll-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/mixins/hash-poll-test.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n8:26 - Don\'t create new mixins (ember/no-new-mixins)');
   });
   QUnit.test('unit/mixins/object-template-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/mixins/object-template-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/mixins/object-template-test.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n8:32 - Don\'t create new mixins (ember/no-new-mixins)');
   });
   QUnit.test('unit/mixins/scroll-to-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/mixins/scroll-to-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/mixins/scroll-to-test.js should pass ESLint\n\n2:1 - Don\'t use a mixin (ember/no-mixins)\n8:26 - Don\'t create new mixins (ember/no-new-mixins)');
   });
   QUnit.test('unit/models/base-test.js', function (assert) {
     assert.expect(1);
@@ -11873,7 +14077,7 @@ define("mdeditor/tests/lint/tests.lint-test", [], function () {
   });
   QUnit.test('unit/serializers/application-test.js', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'unit/serializers/application-test.js should pass ESLint\n\n');
+    assert.ok(false, 'unit/serializers/application-test.js should pass ESLint\n\n2:1 - Imports from @ember-data packages should be preferred over imports from ember-data (ember/use-ember-data-rfc-395-imports)\n31:17 - Native JS classes should be used instead of classic classes (ember/no-classic-classes)\n31:17 - Use `import Model from \'@ember-data/model\';` instead of using DS.Model (ember/use-ember-data-rfc-395-imports)\n32:13 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n33:14 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)\n34:20 - Use `import { attr } from \'@ember-data/model\';` instead of using DS.attr (ember/use-ember-data-rfc-395-imports)');
   });
   QUnit.test('unit/services/cleaner-test.js', function (assert) {
     assert.expect(1);
