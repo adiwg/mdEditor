@@ -1,15 +1,36 @@
-{{input/md-codelist
-  value=model.scope.scopeCode
-  label="Scope"
-  create=true
-  tooltip=true
-  icon=true
-  mdCodeName="scope"
-  closeOnSelect=false
-  placeholder="Select type of resource."
-  profilePath=(concat profilePath ".scope")
-  data-spy="Scope"
-}}
+{{#layout/md-card}}
+  <div class="row">
+    <div class="col-md-6">
+      {{input/md-input
+        label="System Generated UID"
+        value=model.systemIdentifier.uid
+        disabled=true
+      }}
+    </div>
+    <div class="col-md-6">
+      {{input/md-input
+        label="User Label"
+        value=model.systemIdentifier.label
+      }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    {{input/md-codelist
+      value=model.scope.scopeCode
+      label="Scope"
+      create=true
+      tooltip=true
+      icon=true
+      mdCodeName="scope"
+      closeOnSelect=false
+      placeholder="Select type of resource."
+      profilePath=(concat profilePath ".scope")
+      data-spy="Scope"
+    }}
+    </div>
+  </div>
+{{/layout/md-card}}
 
 {{#if model.standaloneQualityReport}}
 

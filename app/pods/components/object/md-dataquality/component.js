@@ -1,6 +1,7 @@
 import Component from '@ember/component';
 import { getWithDefault, get, set } from '@ember/object';
 import { once } from '@ember/runloop';
+import uuidV4 from 'uuid/v4';
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -10,6 +11,7 @@ export default Component.extend({
 
     once(function() {
       set(model, 'scope', getWithDefault(model, 'scope', {}));
+      set(model, 'systemIdentifier', getWithDefault(model, 'systemIdentifier', {uid: uuidV4()}))
     });
   },
 
