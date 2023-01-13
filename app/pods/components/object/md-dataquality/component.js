@@ -1,7 +1,17 @@
 import Component from '@ember/component';
-import { set } from '@ember/object';
+import { getWithDefault, get, set } from '@ember/object';
+import { once } from '@ember/runloop';
 
 export default Component.extend({
+  didReceiveAttrs() {
+    this._super(...arguments);
+
+    let model = get(this, 'model');
+
+    once(function() {
+      set(model, 'scope', getWithDefault(model, 'scope', {}));
+    });
+  },
 
   tagName: 'form',
 
