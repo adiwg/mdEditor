@@ -1,8 +1,7 @@
-import Service from '@ember/service';
+import Service, { inject as service } from '@ember/service';
 import RefParser from 'json-schema-ref-parser';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
-import { inject as service } from '@ember/service';
 import { filterBy } from '@ember/object/computed';
 import {
   // isAjaxError,

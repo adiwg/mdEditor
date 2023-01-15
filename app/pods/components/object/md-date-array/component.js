@@ -6,7 +6,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if(isNone(get(this, 'value'))) {
+    if(isNone(this.value)) {
       set(this, 'value', []);
     }
   },

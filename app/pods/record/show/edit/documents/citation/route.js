@@ -1,13 +1,12 @@
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
-import { isArray } from '@ember/array';
+import { isArray, A } from '@ember/array';
 import { computed, get } from '@ember/object';
-import { A } from '@ember/array';
 
 export default Route.extend({
   breadCrumb: computed('citationId', function () {
     return {
-      title: get(this, 'citationId'),
+      title: this.citationId,
       linkable: true
     };
   }),
@@ -23,7 +22,7 @@ export default Route.extend({
     this._super(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-    this.controller.set('citationId', get(this, 'citationId'));
+    this.controller.set('citationId', this.citationId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -32,7 +31,7 @@ export default Route.extend({
   },
 
   setupModel() {
-    let citationId = get(this, 'citationId');
+    let citationId = this.citationId;
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.additionalDocumentation');
     let resource = citationId && isArray(objects) ? A(
@@ -42,7 +41,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(resource)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Document object found! Re-directing to list...');
       this.replaceWith('record.show.edit.documents');
 

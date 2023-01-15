@@ -35,7 +35,7 @@ export default Mixin.create({
     if(Template) {
       let owner = getOwner(this);
 
-      return assign(Template.create(owner.ownerInjection(), defaults || {}),
+      return merge(Template.create(owner.ownerInjection(), defaults || {}),
         value);
 
     }

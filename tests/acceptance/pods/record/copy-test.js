@@ -1,7 +1,10 @@
-import { module, /*test,*/ skip } from 'qunit';
+import { module, /*test, */ skip } from 'qunit';
 import { visit, currentURL } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
-import { createRecord, createCoverageDescription } from 'mdeditor/tests/helpers/create-record';
+import {
+  createRecord,
+  createCoverageDescription
+} from 'mdeditor/tests/helpers/create-record';
 import createContact from 'mdeditor/tests/helpers/create-contact';
 import { lsClean } from 'mdeditor/tests/helpers/md-helpers';
 
