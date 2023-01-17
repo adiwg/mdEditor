@@ -1,12 +1,12 @@
-import Store from '@ember-data/store';
 import { Promise } from 'rsvp';
 import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
+import DS from 'ember-data';
 import { singularize } from 'ember-inflector';
 
 const exportSelected = function(store, types, options) {
   // merge defaults
-  options = merge({
+  options = assign({
     json: true,
     download: false,
     filename: 'ember-data.json',
@@ -53,7 +53,7 @@ const exportSelected = function(store, types, options) {
 };
 
 export function initialize() {
-  Store.reopen({
+  DS.Store.reopen({
     exportSelectedData(types, options) {
       return exportSelected(this, types, options);
     }

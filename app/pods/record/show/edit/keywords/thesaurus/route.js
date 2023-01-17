@@ -13,7 +13,7 @@ export default Route.extend({
   },
 
   setupModel() {
-    let thesaurusId = this.thesaurusId || this.controller.get(
+    let thesaurusId = get(this, 'thesaurusId') || this.controller.get(
       'thesaurusId');
     let model = this.modelFor('record.show.edit.keywords');
     let thesaurus = model.get('json.metadata.resourceInfo.keyword')
@@ -21,7 +21,7 @@ export default Route.extend({
 
     //make sure the thesaurus still exists
     if(isEmpty(thesaurus)) {
-      this.flashMessages
+      get(this, 'flashMessages')
         .warning('No thesaurus found! Re-directing to list...');
       this.replaceWith('record.show.edit.keywords');
 

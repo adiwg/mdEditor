@@ -259,7 +259,7 @@ export default Route.extend(ScrollTo, {
 
   actions: {
     getColumns() {
-      return this.columns;
+      return get(this, 'columns');
     },
     getIcon(type) {
       return this.icons[type];
@@ -273,7 +273,7 @@ export default Route.extend(ScrollTo, {
       new Promise((resolve, reject) => {
           if(file.type.match(/.*\/xml$/)) {
             set(controller, 'isTranslating', true);
-            this.flashMessages
+            get(this, 'flashMessages')
               .info(`Translation service provided by ${url}.`);
 
             this.ajax.request(url, {
@@ -424,7 +424,7 @@ export default Route.extend(ScrollTo, {
           json: false
         })
         .then(() => {
-          this.flashMessages
+          get(this, 'flashMessages')
             .success(
               `Imported data. Records were
               ${this.currentRouteModel().get('merge') ? 'merged' : 'replaced'}.`, {
@@ -453,7 +453,7 @@ export default Route.extend(ScrollTo, {
             })
             .then(() => {
               settingService.setup();
-              this.flashMessages
+              get(this, 'flashMessages')
                 .success(
                   `Imported Settings.`, {
                     extendedTimeout: 1500

@@ -100,31 +100,32 @@ export default Component.extend({
   subTitle: null,
 
   errorClass: computed('errorLevel', 'errors', function () {
-    return errorClasses[this.errorLevel];
+    return errorClasses[get(this, 'errorLevel')];
   }),
 
   errorTitle: computed('errorLevel', 'errors', function () {
     let type = ['Success', 'Notice', 'Warning', 'Error'];
 
-    return type[this.errorLevel];
+    return type[get(this, 'errorLevel')];
   }),
 
   errorSubTitle: computed('subTitle', function () {
-    let err = this.errors;
+    let err = get(this, 'errors');
 
     if(err.length) {
-      return this.errorTitle + ' ocurred during translation.';
+      return get(this, 'errorTitle') + ' ocurred during translation.';
     }
 
     return null;
   }),
   writeObj: computed('writer', function () {
-    return this.writerOptions
-      .findBy('value', this.writer);
+    return get(this, 'writerOptions')
+      .findBy('value', get(this,
+        'writer'));
   }),
 
   writerType: computed('writeObj', function () {
-    let obj = this.writeObj;
+    let obj = get(this, 'writeObj');
 
     return obj ? obj.type.split('/')[1] : null;
   }),
@@ -134,7 +135,7 @@ export default Component.extend({
   apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
   isHtml: computed('writerType', function () {
     //IE does not supoprt srcdoc, so default to non-html display
-    return this.writerType === 'html' && 'srcdoc' in document.createElement(
+    return get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement(
       'iframe');
   }),
 
@@ -160,11 +161,11 @@ export default Component.extend({
           type: 'POST',
           data: {
             //file: JSON.stringify(cleaner.clean(json)),
-            file: mdjson.formatRecord(this.model, true),
+            file: mdjson.formatRecord(get(this, 'model'), true),
             reader: 'mdJson',
-            writer: this.writer,
-            showAllTags: this.showAllTags,
-            forceValid: this.forceValid,
+            writer: get(this, 'writer'),
+            showAllTags: get(this, 'showAllTags'),
+            forceValid: get(this, 'forceValid'),
             validate: 'normal',
             format: 'json'
           },
@@ -204,14 +205,14 @@ export default Component.extend({
     },
     saveResult() {
       let title = get(this, 'model.title');
-      let result = this.result;
-      let writer = this.writeObj;
+      let result = get(this, 'result');
+      let writer = get(this, 'writeObj');
 
       window.saveAs(
         new Blob([result], {
           type: `${writer.type};charset=utf-8`
         }),
-        `${title}_${moment().format('YYYYMMDD')}.${this.writerType}`
+        `${title}_${moment().format('YYYYMMDD')}.${get(this, 'writerType')}`
       );
     },
     clearResult() {
@@ -219,7 +220,7 @@ export default Component.extend({
     },
     prettifyJson() {
       let promise = new Promise((resolve, reject) => {
-        let parsed = JSON.parse(this.result);
+        let parsed = JSON.parse(get(this, 'result'));
 
         if(parsed) {
           resolve(parsed);
@@ -232,7 +233,7 @@ export default Component.extend({
         set(this, 'result', JSON.stringify(obj, null, 2));
       }).catch((error) => {
         //console.log(error);
-        this.flashMessages.danger(error.message);
+        get(this, 'flashMessages').danger(error.message);
       });
     },
     errorClass(level) {

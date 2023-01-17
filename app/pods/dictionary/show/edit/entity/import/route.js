@@ -11,8 +11,15 @@ import {
   isPresent,
   isBlank
 } from '@ember/utils';
-import EmberObject, { get, getWithDefault, set, computed } from '@ember/object';
+import EmberObject from '@ember/object';
 import uuidV4 from "uuid/v4";
+
+import {
+  get,
+  getWithDefault,
+  set,
+  computed
+} from '@ember/object';
 
 export default Route.extend({
   setupController(controller, model) {

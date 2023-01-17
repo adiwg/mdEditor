@@ -6,7 +6,7 @@ import { computed, get } from '@ember/object';
 export default Route.extend({
   breadCrumb: computed('lineageId', function () {
     return {
-      title: this.lineageId,
+      title: get(this, 'lineageId'),
       linkable: true
     };
   }),
@@ -22,7 +22,7 @@ export default Route.extend({
     this._super(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-    this.controller.set('lineageId', this.lineageId);
+    this.controller.set('lineageId', get(this, 'lineageId'));
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -31,7 +31,7 @@ export default Route.extend({
   },
 
   setupModel() {
-    let lineageId = this.lineageId;
+    let lineageId = get(this, 'lineageId');
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.resourceLineage');
     let lineage = lineageId && isArray(objects) ? objects.get(lineageId) :
@@ -39,7 +39,7 @@ export default Route.extend({
 
     //make sure the identifier exists
     if(isEmpty(lineage)) {
-      this.flashMessages
+      get(this, 'flashMessages')
         .warning('No lineage object found! Re-directing to list...');
       this.replaceWith('record.show.edit.lineage');
 

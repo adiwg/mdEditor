@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { computed } from '@ember/object';
-import { isArray, A } from '@ember/array';
+import { isArray } from '@ember/array';
+import { A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
 export default Route.extend({

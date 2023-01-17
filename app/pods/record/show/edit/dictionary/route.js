@@ -1,6 +1,14 @@
 import Route from '@ember/routing/route';
 import uuidV4 from "uuid/v4";
-import EmberObject, { get, computed, defineProperty, getWithDefault, set } from '@ember/object';
+import EmberObject from '@ember/object';
+
+import {
+  get,
+  computed,
+  defineProperty,
+  getWithDefault,
+  set
+} from '@ember/object';
 
 export default Route.extend({
   init() {

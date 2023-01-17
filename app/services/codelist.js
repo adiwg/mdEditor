@@ -1,6 +1,7 @@
 import { computed } from '@ember/object';
-import Service, { inject as service } from '@ember/service';
+import Service from '@ember/service';
 import codes from 'mdcodes/resources/js/mdcodes.js';
+import { inject as service } from '@ember/service';
 
 export default Service.extend({
   /**

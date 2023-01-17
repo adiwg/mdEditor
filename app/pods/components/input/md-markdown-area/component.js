@@ -53,7 +53,7 @@ export default Component.extend({
     this._super(...arguments);
 
     run.once(this, () => {
-      if(isNone(this.value)) {
+      if(isNone(get(this, 'value'))) {
         set(this, 'value', '');
       }
     });
@@ -114,16 +114,16 @@ export default Component.extend({
    */
   options: computed('placeholder', function() {
     return {
-      placeholder: this.placeholder,
+      placeholder: get(this, 'placeholder'),
       status: [{
         className: 'length',
         defaultValue: (el) => {
           el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+            `<span class="length md-${get(this, 'errorClass')}">length: ${get(this, 'length')}</span>`;
         },
         onUpdate: (el) => {
           el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+            `<span class="length md-${get(this, 'errorClass')}">length: ${get(this, 'length')}</span>`;
         }
       }, 'lines', 'words', 'cursor']
     };
@@ -142,7 +142,7 @@ export default Component.extend({
    * @requires value
    */
   length: computed('value', function() {
-      return this.value ? this.value
+      return get(this, 'value') ? get(this, 'value')
         .length : 0;
     })
     .readOnly(),
@@ -156,10 +156,10 @@ export default Component.extend({
    * @requires value|maxlength
    */
   errorClass: computed('value', 'maxlength', function() {
-    let length = this.length;
-    let max = this.maxlength;
+    let length = get(this, 'length');
+    let max = get(this, 'maxlength');
 
-    if(this.required && length < 1) {
+    if(get(this, 'required') && length < 1) {
       return 'error';
     }
 

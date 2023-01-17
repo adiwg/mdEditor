@@ -1,7 +1,7 @@
-import Model, { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
+import DS from 'ember-data';
 import EmberObject, { observer } from "@ember/object";
 
 const defaultValues = {
@@ -9,7 +9,7 @@ const defaultValues = {
   fiscalStartMonth: '10'
 };
 
-const theModel = Model.extend({
+const theModel = DS.Model.extend({
   /**
    * Setting model
    *
@@ -31,54 +31,54 @@ const theModel = Model.extend({
     this.updateSettings;
   },
   //cleaner: inject.service(),
-  compressOnSave: attr('boolean', {
+  compressOnSave: DS.attr('boolean', {
     defaultValue: true
   }),
-  showSplash: attr('boolean', {
+  showSplash: DS.attr('boolean', {
     defaultValue: true
   }),
-  autoSave: attr('boolean', {
+  autoSave: DS.attr('boolean', {
     defaultValue: false
   }),
-  showDelete: attr('boolean', {
+  showDelete: DS.attr('boolean', {
     defaultValue: false
   }),
-  showCopy: attr('boolean', {
+  showCopy: DS.attr('boolean', {
     defaultValue: false
   }),
-  lastVersion: attr('string', {
+  lastVersion: DS.attr('string', {
     defaultValue: ''
   }),
-  dateUpdated: attr('date', {
+  dateUpdated: DS.attr('date', {
     defaultValue() {
       return new Date();
     }
   }),
-  characterSet: attr('string', {
+  characterSet: DS.attr('string', {
     defaultValue: 'UTF-8'
   }),
-  country: attr('string', {
+  country: DS.attr('string', {
     defaultValue: 'USA'
   }),
-  language: attr('string', {
+  language: DS.attr('string', {
     defaultValue: 'eng'
   }),
-  importUriBase: attr('string', {
+  importUriBase: DS.attr('string', {
     defaultValue: ''
   }),
-  mdTranslatorAPI: attr('string', {
+  mdTranslatorAPI: DS.attr('string', {
     defaultValue: defaultValues.mdTranslatorAPI
   }),
-  fiscalStartMonth: attr('string', {
+  fiscalStartMonth: DS.attr('string', {
     defaultValue: defaultValues.fiscalStartMonth
   }),
-  repositoryDefaults: attr('json'),
-  publishOptions: attr('json', {
+  repositoryDefaults: DS.attr('json'),
+  publishOptions: DS.attr('json', {
     defaultValue: function () {
       return EmberObject.create();
     }
   }),
-  customSchemas: attr('json', {
+  customSchemas: DS.attr('json', {
     defaultValue: function () {
       return [];
     }

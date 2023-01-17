@@ -1,13 +1,9 @@
-import { module, /*test, */ todo } from 'qunit';
+import { module, /*test,*/ todo } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { createAttribute } from 'mdeditor/tests/helpers/create-record';
-import {
-  parseInput,
-  formatContent,
-  nestedValues
-} from 'mdeditor/tests/helpers/md-helpers';
+import { parseInput, formatContent, nestedValues } from 'mdeditor/tests/helpers/md-helpers';
 
 module('Integration | Component | object/md-raster/attrgroup/attribute', function(hooks) {
   setupRenderingTest(hooks);

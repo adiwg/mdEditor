@@ -18,7 +18,7 @@ const clean = function (obj, options) {
     return;
   }
 
-  if(((/string|number|boolean/))
+  if((/string|number|boolean/)
     .test(typeof obj)) {
     return obj;
   }

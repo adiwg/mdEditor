@@ -1,11 +1,11 @@
-import Model from '@ember-data/model';
+import DS from 'ember-data';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';
 import { bool, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 
-const Base = Model.extend({
+const Base = DS.Model.extend({
   /**
    * Base model
    *

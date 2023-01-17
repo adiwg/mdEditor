@@ -84,7 +84,7 @@ export default Component.extend(Validations, {
   //  endDateTime: moment().hour(0).second(0).minute(0)
   start: computed('startDateTime', {
     get() {
-      let dt = this.startDateTime;
+      let dt = get(this, 'startDateTime');
       return dt === undefined ? null : dt;
     },
     set(key, value) {
@@ -96,7 +96,7 @@ export default Component.extend(Validations, {
   }),
   end: computed('endDateTime', {
     get() {
-      let dt = this.endDateTime;
+      let dt = get(this, 'endDateTime');
       return dt === undefined ? null : dt;
     },
     set(key, value) {

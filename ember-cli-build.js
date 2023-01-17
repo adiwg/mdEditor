@@ -14,11 +14,9 @@ module.exports = function (defaults) {
         'node_modules/jquery-jsonview/src'
       ]
     },
-
     'ember-math-helpers': {
       only: ['round']
     },
-
     fingerprint: {
       exclude: [
         'images/layers-2x.png',
@@ -31,7 +29,6 @@ module.exports = function (defaults) {
         'worker'
       ]
     },
-
     autoImport: {
       webpack: {
         node: {
@@ -39,10 +36,6 @@ module.exports = function (defaults) {
           //https: true
         }
       }
-    },
-
-    'ember-models-table': {
-      includeDefaultCss: true
     }
   });
 

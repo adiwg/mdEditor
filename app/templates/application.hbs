@@ -1,9 +1,9 @@
-<HeadLayout />
+{{head-layout}}
 
 <div class="md-message-container">
   <div class="md-message-wrapper">
     {{#each flashMessages.queue as |flash|}}
-    <FlashMessage @flash={{flash}} as |component flash|>
+    {{#flash-message flash=flash as |component flash|}}
     {{flash.message}}
     {{#if flash.showProgress}}
     <div class="progress">
@@ -16,45 +16,50 @@
       </div>
     </div>
     {{/if}}
-    </FlashMessage>
+    {{/flash-message}}
     {{/each}}
   </div>
 </div>
 
-<MdTitle as |title|>
+{{#md-title as |title|}}
   {{title title replace=false}}
-</MdTitle>
+{{/md-title}}
 
 <div id="md-wrapper" class="">
 
   {{!-- Slider --}}
-    <Layout::MdSlider @visible={{slider.showSlider}} @fromName={{slider.fromName}} @onClose={{slider.onClose}} @context={{slider.context}}>
-    </Layout::MdSlider>
+    {{#layout/md-slider
+      visible=slider.showSlider
+      fromName=slider.fromName
+      onClose=slider.onClose
+      context=slider.context
+    }}
+    {{/layout/md-slider}}
   {{!-- /#slider --}}
 
   {{!-- Sidebar --}}
-    <Layout::MdNavSidebar @items={{model}} />
+    {{layout/md-nav-sidebar items=model}}
   {{!-- /#sidebar-wrapper --}}
 
   {{!-- Page Content --}}
   <div id="md-page-content-wrapper">
     <div id="md-navbars">
-      <Layout::MdNavMain>
-        <FromElsewhere @name="nav-main" />
-      </Layout::MdNavMain>
-      <Layout::MdBreadcrumb />
-      <FromElsewhere @name="nav-secondary" />
+      {{#layout/md-nav-main}}
+        {{from-elsewhere name="nav-main"}}
+      {{/layout/md-nav-main}}
+      {{layout/md-breadcrumb}}
+      {{from-elsewhere name="nav-secondary"}}
     </div>
     <div id="md-page-content" class="container-fluid">
       {{outlet}}
     </div>
   </div>
   {{!-- /#page-content-wrapper --}}
-  <Layout::MdFooter @class="hidden-print" />
+  {{layout/md-footer class="hidden-print"}}
 </div>
-<EmberLoadRemover />
+{{ember-load-remover}}
 
-<Control::MdModal @isShowing={{settings.data.showSplash}} @showConfirm={{true}} @confirmLabel="OK">
+{{#control/md-modal isShowing=settings.data.showSplash showConfirm=true confirmLabel="OK"}}
     <div class="alert alert-info" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
     <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
         This application is in beta testing,  <a
@@ -65,19 +70,20 @@
     <p>
         The  md<span class="md-icon-mdeditor"></span>ditor has been updated
         since your last session. Some features may have been added or changed.
-        Please note the version below (also shown in the <LinkTo @route="settings">Settings</LinkTo>) when reporting bugs or issues. If you
-        are having problems, you might want to <LinkTo @route="settings"> clear
-        your localstorage</LinkTo> which will delete all records. This
+        Please note the version below (also shown in the {{#link-to
+        "settings"}}Settings{{/link-to}}) when reporting bugs or issues. If you
+        are having problems, you might want to {{#link-to "settings"}} clear
+        your localstorage{{/link-to}} which will delete all records. This
         application is in beta but <strong class="text-warning">SHOULD BE</strong>
         safe for production use.
     </p>
     <p>
-        Current Version: <span class="text-info"><Control::MdRepoLink /></span>
+        Current Version: <span class="text-info">{{control/md-repo-link}}</span>
     </p>
-</Control::MdModal>
+{{/control/md-modal}}
 
 {{#if spotlight.show}}
-  <Control::MdSpotlight />
+  {{control/md-spotlight}}
 {{/if}}
 
-<Control::MdScrollSpy @scrollInit="top" @routeName={{currentRoute}} />
+{{control/md-scroll-spy scrollInit="top" routeName=currentRoute}}

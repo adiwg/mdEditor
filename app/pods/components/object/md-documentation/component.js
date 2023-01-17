@@ -20,7 +20,7 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = this.model;
+    let model = get(this, 'model');
 
     once(this, function() {
       set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
