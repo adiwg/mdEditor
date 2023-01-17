@@ -56,7 +56,7 @@ const theComp = Component.extend({
   actions: {
     handleFile(file) {
       if (file.size > 50000) {
-        get(this, 'flashMessages')
+        this.flashMessages
           .danger(
             `The image exceeded the maximum size of 50KB: ${file.size} bytes.
             Please use an online URL to load the image.`
@@ -68,7 +68,7 @@ const theComp = Component.extend({
         set(model, 'uri', file.data);
 
         if (file.size > 25000) {
-          get(this, 'flashMessages')
+          this.flashMessages
             .warning(
               `The image exceeded the recommended size of 25KB: ${file.size} bytes`
             );

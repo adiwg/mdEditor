@@ -60,7 +60,7 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     if(model) {
       once(this, function () {

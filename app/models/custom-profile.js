@@ -1,7 +1,6 @@
-import DS from 'ember-data';
-import { computed } from '@ember/object';
+import Model, { attr, hasMany } from '@ember-data/model';
+import { computed, observer } from '@ember/object';
 import { or, alias, notEmpty } from '@ember/object/computed';
-import { observer } from '@ember/object';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 // import { regex } from 'mdeditor/models/schema';
@@ -73,7 +72,7 @@ const Validations = buildValidations({
   // ]
 });
 
-export default DS.Model.extend(Validations, {
+export default Model.extend(Validations, {
   /**
    * Custom Profile model
    *
@@ -91,11 +90,11 @@ export default DS.Model.extend(Validations, {
   },
 
   definitions: service('profile'),
-  uri: DS.attr('string'),
-  alias: DS.attr('string'),
-  title: DS.attr('string'),
-  description: DS.attr('string'),
-  profileId: DS.attr('string'),
+  uri: attr('string'),
+  alias: attr('string'),
+  title: attr('string'),
+  description: attr('string'),
+  profileId: attr('string'),
   //remoteVersion: DS.attr('string'),
 
   profileTitle: or('alias', 'title'),
@@ -103,7 +102,7 @@ export default DS.Model.extend(Validations, {
   components: alias('profile.components').readOnly(),
   //localVersion: alias('version'),
   //hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
-  schemas: DS.hasMany('schemas'),
+  schemas: hasMany('schemas'),
   definition: computed('profileId', function() {
     return this.definitions.profiles.findBy('identifier', this.profileId);
   }),

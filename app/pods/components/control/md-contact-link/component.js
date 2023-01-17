@@ -16,7 +16,7 @@ export default LinkComponent.extend({
   didReceiveAttrs() {
     //Inline link title comes first, if present.
     let block = !this.block ? [this.get('contact.title')] : [];
-    let params = get(this, 'params');
+    let params = this.params;
     let add = block.concat(['contact.show', this.get('contact.id')]);
 
 

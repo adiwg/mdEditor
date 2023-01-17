@@ -1,3 +1,4 @@
+import { hasMany, attr } from '@ember-data/model';
 import {
   alias,
   notEmpty
@@ -12,7 +13,6 @@ import EmberObject, {
 import {
   Copyable
 } from 'ember-copy'
-import DS from 'ember-data';
 import uuidV4 from 'uuid/v4';
 import Validator from 'validator';
 import Model from 'mdeditor/models/base';
@@ -95,10 +95,10 @@ const Contact = Model.extend(Validations, Copyable, {
    */
 
   contactsService: service('contacts'),
-  contacts: DS.hasMany('contact', {
+  contacts: hasMany('contact', {
     inverse: 'organizations'
   }),
-  organizations: DS.hasMany('contact', {
+  organizations: hasMany('contact', {
     inverse: 'contacts'
   }),
 
@@ -110,7 +110,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @type {json}
    * @required
    */
-  json: DS.attr('json', {
+  json: attr('json', {
     defaultValue: function () {
       return JsonDefault.create();
     }
@@ -124,7 +124,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @default new Date()
    * @required
    */
-  dateUpdated: DS.attr('date', {
+  dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
     }
@@ -230,7 +230,7 @@ const Contact = Model.extend(Validations, Copyable, {
       if(uri) {
         return uri;
       }
-      let orgId = get(this, 'defaultOrganization');
+      let orgId = this.defaultOrganization;
 
       if(orgId && orgId !== this.get('json.contactId')) {
         let contacts = this.get('contactsService.organizations');
@@ -270,8 +270,7 @@ const Contact = Model.extend(Validations, Copyable, {
     function () {
       let contacts = this.get('contactsService.organizations');
 
-      let org = contacts.findBy('json.contactId.identifier', get(this,
-        'defaultOrganization'));
+      let org = contacts.findBy('json.contactId.identifier', this.defaultOrganization);
 
       return org ? get(org, 'name') : null;
     }),

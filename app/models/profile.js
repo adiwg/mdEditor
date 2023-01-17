@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import Model, { attr } from '@ember-data/model';
 import { or, alias } from '@ember/object/computed';
 import { computed, observer } from '@ember/object';
 import { once } from '@ember/runloop';
@@ -49,7 +49,7 @@ const Validations = buildValidations({
   ]
 });
 
-export default DS.Model.extend(Validations, {
+export default Model.extend(Validations, {
   /**
    * Profile model
    *
@@ -66,11 +66,11 @@ export default DS.Model.extend(Validations, {
     this.updateSettings;
   },
 
-  uri: DS.attr('string'),
-  alias: DS.attr('string'),
-  altDescription: DS.attr('string'),
-  remoteVersion: DS.attr('string'),
-  config: DS.attr('json'),
+  uri: attr('string'),
+  alias: attr('string'),
+  altDescription: attr('string'),
+  remoteVersion: attr('string'),
+  config: attr('json'),
 
   title: or('alias', 'config.title'),
   identifier: alias('config.identifier'),
