@@ -1,10 +1,9 @@
-import { computed, get } from '@ember/object';
+import { computed, get, defineProperty } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
 import {
   warn
 } from '@ember/debug';
 import { isArray, A } from '@ember/array';
-import { defineProperty } from '@ember/object';
 
 export default Table.extend({
   /**
@@ -178,7 +177,7 @@ export default Table.extend({
       this._super(...arguments);
 
       let prop = this.selectProperty;
-      let sel = get(this, 'selectedItems');
+      let sel = this.selectedItems;
 
       rec.toggleProperty(prop);
       this.select(rec, idx, sel);
@@ -186,20 +185,20 @@ export default Table.extend({
 
     toggleAllSelection() {
       //this._super(...arguments);
-      let selectedItems = get(this, 'selectedItems');
-      let data = get(this, 'data');
+      let selectedItems = this.selectedItems;
+      let data = this.data;
       const allSelectedBefore = get(selectedItems, 'length') === get(data,
         'length');
-      get(this, 'selectedItems')
+      this.selectedItems
         .clear();
 
       if(!allSelectedBefore) {
-        get(this, 'selectedItems')
+        this.selectedItems
           .pushObjects(data.toArray());
       }
       this.userInteractionObserver();
 
-      let selected = get(this, 'selectedItems');
+      let selected = this.selectedItems;
       let prop = this.selectProperty;
       //let data = get(this, 'data');
 

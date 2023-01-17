@@ -66,4 +66,4 @@ module('Integration | Component | control/md-indicator/related', function (
 
     await click('.btn');
   });
-})
+});

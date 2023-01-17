@@ -1,9 +1,8 @@
 import $ from 'jquery';
 import Route from '@ember/routing/route';
 import EmberObject, { get, set } from '@ember/object';
-import { isArray } from '@ember/array';
+import { isArray, A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
-import { A } from '@ember/array';
 
 export default Route.extend({
   model(params) {
@@ -39,7 +38,7 @@ export default Route.extend({
 
     //make sure the extent still exists
     if(isEmpty(extent)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No extent found! Re-directing to list...');
       this.replaceWith('record.show.edit.extent');
 
@@ -149,7 +148,7 @@ export default Route.extend({
         // }, 'MD: ExportSpatialData');
 
       } else {
-        get(this, 'flashMessages')
+        this.flashMessages
           .warning('Found no features to export.');
       }
     }

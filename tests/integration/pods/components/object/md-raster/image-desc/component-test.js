@@ -2,7 +2,11 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
-import { parseInput, formatContent, nestedValues } from 'mdeditor/tests/helpers/md-helpers';
+import {
+  parseInput,
+  formatContent,
+  nestedValues
+} from 'mdeditor/tests/helpers/md-helpers';
 
 module('Integration | Component | object/md-raster/image-desc', function(hooks) {
   setupRenderingTest(hooks);

@@ -68,7 +68,7 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
     //this.set('fooVal', ['foo']);
     this.set('value', ['foo']);
     this.actions.update = (actual) => {
-      assert.equal(actual, this.get('value'),
+      assert.equal(actual, this.value,
         'submitted value is passed to external action');
     };
 
@@ -93,7 +93,7 @@ module('Integration | Component | input/md codelist multi', function(hooks) {
 
     this.set('value', ['foo']);
     this.actions.update = (actual) => {
-      assert.equal(actual, this.get('value'),
+      assert.equal(actual, this.value,
         'submitted value is passed to external action');
     };
 

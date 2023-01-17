@@ -2,9 +2,7 @@ import Component from '@ember/component';
 import {
   htmlSafe
 } from '@ember/string';
-import {
-  computed
-} from '@ember/object';
+import { computed, getWithDefault } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -16,7 +14,6 @@ import {
   buildValidations
 } from 'ember-cp-validations';
 import { once } from '@ember/runloop';
-import { getWithDefault } from '@ember/object';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 const Validations = buildValidations({

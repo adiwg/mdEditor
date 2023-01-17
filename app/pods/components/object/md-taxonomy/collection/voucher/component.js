@@ -1,7 +1,6 @@
-import EmberObject from '@ember/object';
+import EmberObject, { getWithDefault, set } from '@ember/object';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
-import { getWithDefault, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import {
   validator,

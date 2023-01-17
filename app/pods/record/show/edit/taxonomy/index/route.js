@@ -1,14 +1,6 @@
 import Route from '@ember/routing/route';
-import {
-  get,
-  set,
-  getWithDefault
-} from '@ember/object';
+import EmberObject, { get, set, getWithDefault } from '@ember/object';
 import $ from 'jquery';
-// import {
-//   once
-// } from '@ember/runloop';
-import EmberObject from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
