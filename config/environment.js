@@ -92,7 +92,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'staging') {
-    ENV.rootURL = '/mdEditor';
+    ENV.rootURL = '/';
     ENV.locationType = 'hash';
   }
 
