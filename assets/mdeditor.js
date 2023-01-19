@@ -55,9 +55,9 @@
   Ember.Component.reopen({
     init() {
       this._super(...arguments);
-      let profile = Ember.get(this, 'profile');
-      let path = Ember.get(this, 'profilePath');
-      let visibility = Ember.get(this, 'visibility');
+      let profile = this.profile;
+      let path = this.profilePath;
+      let visibility = this.visibility;
       let isVisible = Ember.isNone(visibility) ? true : visibility;
       if (path !== undefined) {
         (true && !(path.charAt(0) !== '.') && Ember.assert(`${path} is not a profile path!`, path.charAt(0) !== '.')); // generate profile definition
@@ -1545,136 +1545,6 @@
     }
   });
 });
-;define("mdeditor/components/models-table/themes/ember-paper/columns-dropdown", ["exports", "ember-models-table/components/models-table/themes/ember-paper/columns-dropdown"], function (_exports, _columnsDropdown) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _columnsDropdown.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/data-group-by-select", ["exports", "ember-models-table/components/models-table/themes/ember-paper/data-group-by-select"], function (_exports, _dataGroupBySelect) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _dataGroupBySelect.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/global-filter", ["exports", "ember-models-table/components/models-table/themes/ember-paper/global-filter"], function (_exports, _globalFilter) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _globalFilter.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/page-size-select", ["exports", "ember-models-table/components/models-table/themes/ember-paper/page-size-select"], function (_exports, _pageSizeSelect) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _pageSizeSelect.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/pagination-numeric", ["exports", "ember-models-table/components/models-table/themes/ember-paper/pagination-numeric"], function (_exports, _paginationNumeric) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _paginationNumeric.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/pagination-simple", ["exports", "ember-models-table/components/models-table/themes/ember-paper/pagination-simple"], function (_exports, _paginationSimple) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _paginationSimple.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/row-filtering-cell", ["exports", "ember-models-table/components/models-table/themes/ember-paper/row-filtering-cell"], function (_exports, _rowFilteringCell) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _rowFilteringCell.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/row-sorting-cell", ["exports", "ember-models-table/components/models-table/themes/ember-paper/row-sorting-cell"], function (_exports, _rowSortingCell) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _rowSortingCell.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/select", ["exports", "ember-models-table/components/models-table/themes/ember-paper/select"], function (_exports, _select) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _select.default;
-    }
-  });
-});
-;define("mdeditor/components/models-table/themes/ember-paper/summary", ["exports", "ember-models-table/components/models-table/themes/ember-paper/summary"], function (_exports, _summary) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _summary.default;
-    }
-  });
-});
 ;define("mdeditor/components/models-table/themes/ember-semanticui/row-filtering-cell", ["exports", "ember-models-table/components/models-table/themes/ember-semanticui/row-filtering-cell"], function (_exports, _rowFilteringCell) {
   "use strict";
 
@@ -2630,19 +2500,6 @@
   QUnit.test('addon/templates/components/leaflet-table.hbs', function (assert) {
     assert.expect(1);
     assert.ok(true, 'addon/templates/components/leaflet-table.hbs should pass TemplateLint.\n\n');
-  });
-});
-;define("mdeditor/emt-themes/ember-paper", ["exports", "ember-models-table/emt-themes/ember-paper"], function (_exports, _emberPaper) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _emberPaper.default;
-    }
   });
 });
 ;define("mdeditor/event_dispatcher", ["exports", "ember-gestures/event_dispatcher", "mdeditor/config/environment"], function (_exports, _event_dispatcher, _environment) {
@@ -4189,25 +4046,6 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/helpers/option-is-object", ["exports", "ember-models-table/helpers/option-is-object"], function (_exports, _optionIsObject) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _optionIsObject.default;
-    }
-  });
-  Object.defineProperty(_exports, "optionIsObject", {
-    enumerable: true,
-    get: function () {
-      return _optionIsObject.optionIsObject;
-    }
-  });
-});
 ;define("mdeditor/helpers/optional", ["exports", "ember-composable-helpers/helpers/optional"], function (_exports, _optional) {
   "use strict";
 
@@ -5260,7 +5098,7 @@
     }
   });
 });
-;define("mdeditor/initializers/local-storage-export", ["exports", "ember-data", "ember-inflector"], function (_exports, _emberData, _emberInflector) {
+;define("mdeditor/initializers/local-storage-export", ["exports", "@ember-data/store", "ember-inflector"], function (_exports, _store, _emberInflector) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -5270,7 +5108,7 @@
   _exports.initialize = initialize;
   const exportSelected = function (store, types, options) {
     // merge defaults
-    options = Ember.assign({
+    options = merge({
       json: true,
       download: false,
       filename: 'ember-data.json',
@@ -5305,7 +5143,7 @@
     }, 'DS: LocalStorageAdapter#exportData');
   };
   function initialize() {
-    _emberData.default.Store.reopen({
+    _store.default.reopen({
       exportSelectedData(types, options) {
         return exportSelected(this, types, options);
       }
@@ -5743,7 +5581,7 @@
       let Template = this.templateClass;
       if (Template) {
         let owner = Ember.getOwner(this);
-        return Ember.assign(Template.create(owner.ownerInjection(), defaults || {}), value);
+        return merge(Template.create(owner.ownerInjection(), defaults || {}), value);
       }
       return object;
     },
@@ -5817,14 +5655,14 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/models/base", ["exports", "ember-data", "object-hash"], function (_exports, _emberData, _objectHash) {
+;define("mdeditor/models/base", ["exports", "@ember-data/model", "object-hash"], function (_exports, _model, _objectHash) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  const Base = _emberData.default.Model.extend({
+  const Base = _model.default.extend({
     /**
      * Base model
      *
@@ -6035,7 +5873,7 @@
   var _default = Base;
   _exports.default = _default;
 });
-;define("mdeditor/models/contact", ["exports", "ember-copy", "ember-data", "uuid/v4", "validator", "mdeditor/models/base", "ember-cp-validations"], function (_exports, _emberCopy, _emberData, _v, _validator, _base, _emberCpValidations) {
+;define("mdeditor/models/contact", ["exports", "@ember-data/model", "ember-copy", "uuid/v4", "validator", "mdeditor/models/base", "ember-cp-validations"], function (_exports, _model, _emberCopy, _v, _validator, _base, _emberCpValidations) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6106,10 +5944,10 @@
      */
 
     contactsService: Ember.inject.service('contacts'),
-    contacts: _emberData.default.hasMany('contact', {
+    contacts: (0, _model.hasMany)('contact', {
       inverse: 'organizations'
     }),
-    organizations: _emberData.default.hasMany('contact', {
+    organizations: (0, _model.hasMany)('contact', {
       inverse: 'contacts'
     }),
     /**
@@ -6120,7 +5958,7 @@
      * @type {json}
      * @required
      */
-    json: _emberData.default.attr('json', {
+    json: (0, _model.attr)('json', {
       defaultValue: function () {
         return JsonDefault.create();
       }
@@ -6133,7 +5971,7 @@
      * @default new Date()
      * @required
      */
-    dateUpdated: _emberData.default.attr('date', {
+    dateUpdated: (0, _model.attr)('date', {
       defaultValue() {
         return new Date();
       }
@@ -6223,7 +6061,7 @@
       if (uri) {
         return uri;
       }
-      let orgId = Ember.get(this, 'defaultOrganization');
+      let orgId = this.defaultOrganization;
       if (orgId && orgId !== this.get('json.contactId')) {
         let contacts = this.get('contactsService.organizations');
         let org = contacts.findBy('json.contactId', orgId);
@@ -6251,7 +6089,7 @@
     }),
     defaultOrganizationName: Ember.computed('defaultOrganization', function () {
       let contacts = this.get('contactsService.organizations');
-      let org = contacts.findBy('json.contactId.identifier', Ember.get(this, 'defaultOrganization'));
+      let org = contacts.findBy('json.contactId.identifier', this.defaultOrganization);
       return org ? Ember.get(org, 'name') : null;
     }),
     /**
@@ -6399,7 +6237,7 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/models/custom-profile", ["exports", "ember-data", "ember-cp-validations"], function (_exports, _emberData, _emberCpValidations) {
+;define("mdeditor/models/custom-profile", ["exports", "@ember-data/model", "ember-cp-validations"], function (_exports, _model, _emberCpValidations) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6466,7 +6304,7 @@
     // })
     // ]
   });
-  var _default = _emberData.default.Model.extend(Validations, {
+  var _default = _model.default.extend(Validations, {
     /**
      * Custom Profile model
      *
@@ -6482,11 +6320,11 @@
       this.updateSettings;
     },
     definitions: Ember.inject.service('profile'),
-    uri: _emberData.default.attr('string'),
-    alias: _emberData.default.attr('string'),
-    title: _emberData.default.attr('string'),
-    description: _emberData.default.attr('string'),
-    profileId: _emberData.default.attr('string'),
+    uri: (0, _model.attr)('string'),
+    alias: (0, _model.attr)('string'),
+    title: (0, _model.attr)('string'),
+    description: (0, _model.attr)('string'),
+    profileId: (0, _model.attr)('string'),
     //remoteVersion: DS.attr('string'),
 
     profileTitle: Ember.computed.or('alias', 'title'),
@@ -6494,7 +6332,7 @@
     components: Ember.computed.alias('profile.components').readOnly(),
     //localVersion: alias('version'),
     //hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
-    schemas: _emberData.default.hasMany('schemas'),
+    schemas: (0, _model.hasMany)('schemas'),
     definition: Ember.computed('profileId', function () {
       return this.definitions.profiles.findBy('identifier', this.profileId);
     }),
@@ -6514,7 +6352,7 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/models/dictionary", ["exports", "ember-copy", "ember-data", "uuid/v4", "mdeditor/models/base", "ember-cp-validations", "mdeditor/config/environment"], function (_exports, _emberCopy, _emberData, _v, _base, _emberCpValidations, _environment) {
+;define("mdeditor/models/dictionary", ["exports", "@ember-data/model", "ember-copy", "uuid/v4", "mdeditor/models/base", "ember-cp-validations", "mdeditor/config/environment"], function (_exports, _model, _emberCopy, _v, _base, _emberCpValidations, _environment) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6579,15 +6417,15 @@
       this._super(...arguments);
       this.on('didLoad', this, this.assignId);
     },
-    profile: _emberData.default.attr('string', {
+    profile: (0, _model.attr)('string', {
       defaultValue: defaultProfileId
     }),
-    json: _emberData.default.attr('json', {
+    json: (0, _model.attr)('json', {
       defaultValue() {
         return JsonDefault.create();
       }
     }),
-    dateUpdated: _emberData.default.attr('date', {
+    dateUpdated: (0, _model.attr)('date', {
       defaultValue() {
         return new Date();
       }
@@ -6691,7 +6529,7 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/models/profile", ["exports", "ember-data", "mdeditor/models/schema", "ember-cp-validations"], function (_exports, _emberData, _schema, _emberCpValidations) {
+;define("mdeditor/models/profile", ["exports", "@ember-data/model", "mdeditor/models/schema", "ember-cp-validations"], function (_exports, _model, _schema, _emberCpValidations) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6734,7 +6572,7 @@
       message: 'This field should be a valid, resolvable URL.'
     })]
   });
-  var _default = _emberData.default.Model.extend(Validations, {
+  var _default = _model.default.extend(Validations, {
     /**
      * Profile model
      *
@@ -6749,11 +6587,11 @@
       this._super(...arguments);
       this.updateSettings;
     },
-    uri: _emberData.default.attr('string'),
-    alias: _emberData.default.attr('string'),
-    altDescription: _emberData.default.attr('string'),
-    remoteVersion: _emberData.default.attr('string'),
-    config: _emberData.default.attr('json'),
+    uri: (0, _model.attr)('string'),
+    alias: (0, _model.attr)('string'),
+    altDescription: (0, _model.attr)('string'),
+    remoteVersion: (0, _model.attr)('string'),
+    config: (0, _model.attr)('json'),
     title: Ember.computed.or('alias', 'config.title'),
     identifier: Ember.computed.alias('config.identifier'),
     namespace: Ember.computed.alias('config.namespace'),
@@ -6778,7 +6616,7 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/models/record", ["exports", "ember-copy", "ember-data", "uuid/v4", "mdeditor/models/base", "ember-cp-validations", "mdeditor/config/environment"], function (_exports, _emberCopy, _emberData, _v, _base, _emberCpValidations, _environment) {
+;define("mdeditor/models/record", ["exports", "@ember-data/model", "ember-copy", "uuid/v4", "mdeditor/models/base", "ember-cp-validations", "mdeditor/config/environment"], function (_exports, _model, _emberCopy, _v, _base, _emberCpValidations, _environment) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -6837,10 +6675,10 @@
      * @submodule data-models
      */
 
-    profile: _emberData.default.attr('string', {
+    profile: (0, _model.attr)('string', {
       defaultValue: defaultProfileId
     }),
-    json: _emberData.default.attr('json', {
+    json: (0, _model.attr)('json', {
       defaultValue() {
         const obj = Ember.Object.create({
           schema: {
@@ -6885,7 +6723,7 @@
         return obj;
       }
     }),
-    dateUpdated: _emberData.default.attr('date', {
+    dateUpdated: (0, _model.attr)('date', {
       defaultValue() {
         return new Date();
       }
@@ -6994,7 +6832,7 @@
   var _default = Record;
   _exports.default = _default;
 });
-;define("mdeditor/models/schema", ["exports", "ember-data", "ember-cp-validations", "semver", "ajv", "ajv-errors", "ajv/lib/refs/json-schema-draft-04"], function (_exports, _emberData, _emberCpValidations, _semver, _ajv, ajvErrors, draft4) {
+;define("mdeditor/models/schema", ["exports", "@ember-data/model", "ember-cp-validations", "semver", "ajv", "ajv-errors", "ajv/lib/refs/json-schema-draft-04"], function (_exports, _model, _emberCpValidations, _semver, _ajv, ajvErrors, draft4) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -7043,7 +6881,7 @@
       isWarning: true
     })]
   });
-  const theComp = _emberData.default.Model.extend(Validations, {
+  const theComp = _model.default.extend(Validations, {
     /**
      * Schema model
      *
@@ -7060,16 +6898,16 @@
       this.updateSettings;
     },
     flashMessages: Ember.inject.service(),
-    title: _emberData.default.attr('string'),
-    uri: _emberData.default.attr('string'),
-    description: _emberData.default.attr('string'),
-    schemaType: _emberData.default.attr('string'),
-    version: _emberData.default.attr('string'),
-    remoteVersion: _emberData.default.attr('string'),
-    isGlobal: _emberData.default.attr('boolean', {
+    title: (0, _model.attr)('string'),
+    uri: (0, _model.attr)('string'),
+    description: (0, _model.attr)('string'),
+    schemaType: (0, _model.attr)('string'),
+    version: (0, _model.attr)('string'),
+    remoteVersion: (0, _model.attr)('string'),
+    isGlobal: (0, _model.attr)('boolean', {
       defaultValue: false
     }),
-    customSchemas: _emberData.default.attr('json', {
+    customSchemas: (0, _model.attr)('json', {
       defaultValue: function () {
         return [];
       }
@@ -7091,7 +6929,7 @@
      * @default new Date()
      * @required
      */
-    dateUpdated: _emberData.default.attr('date', {
+    dateUpdated: (0, _model.attr)('date', {
       defaultValue() {
         return new Date();
       }
@@ -7130,7 +6968,7 @@
   });
   _exports.default = theComp;
 });
-;define("mdeditor/models/setting", ["exports", "ember-data"], function (_exports, _emberData) {
+;define("mdeditor/models/setting", ["exports", "@ember-data/model"], function (_exports, _model) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
@@ -7142,7 +6980,7 @@
     fiscalStartMonth: '10'
   };
   _exports.defaultValues = defaultValues;
-  const theModel = _emberData.default.Model.extend({
+  const theModel = _model.default.extend({
     /**
      * Setting model
      *
@@ -7163,54 +7001,54 @@
       this.updateSettings;
     },
     //cleaner: inject.service(),
-    compressOnSave: _emberData.default.attr('boolean', {
+    compressOnSave: (0, _model.attr)('boolean', {
       defaultValue: true
     }),
-    showSplash: _emberData.default.attr('boolean', {
+    showSplash: (0, _model.attr)('boolean', {
       defaultValue: true
     }),
-    autoSave: _emberData.default.attr('boolean', {
+    autoSave: (0, _model.attr)('boolean', {
       defaultValue: false
     }),
-    showDelete: _emberData.default.attr('boolean', {
+    showDelete: (0, _model.attr)('boolean', {
       defaultValue: false
     }),
-    showCopy: _emberData.default.attr('boolean', {
+    showCopy: (0, _model.attr)('boolean', {
       defaultValue: false
     }),
-    lastVersion: _emberData.default.attr('string', {
+    lastVersion: (0, _model.attr)('string', {
       defaultValue: ''
     }),
-    dateUpdated: _emberData.default.attr('date', {
+    dateUpdated: (0, _model.attr)('date', {
       defaultValue() {
         return new Date();
       }
     }),
-    characterSet: _emberData.default.attr('string', {
+    characterSet: (0, _model.attr)('string', {
       defaultValue: 'UTF-8'
     }),
-    country: _emberData.default.attr('string', {
+    country: (0, _model.attr)('string', {
       defaultValue: 'USA'
     }),
-    language: _emberData.default.attr('string', {
+    language: (0, _model.attr)('string', {
       defaultValue: 'eng'
     }),
-    importUriBase: _emberData.default.attr('string', {
+    importUriBase: (0, _model.attr)('string', {
       defaultValue: ''
     }),
-    mdTranslatorAPI: _emberData.default.attr('string', {
+    mdTranslatorAPI: (0, _model.attr)('string', {
       defaultValue: defaultValues.mdTranslatorAPI
     }),
-    fiscalStartMonth: _emberData.default.attr('string', {
+    fiscalStartMonth: (0, _model.attr)('string', {
       defaultValue: defaultValues.fiscalStartMonth
     }),
-    repositoryDefaults: _emberData.default.attr('json'),
-    publishOptions: _emberData.default.attr('json', {
+    repositoryDefaults: (0, _model.attr)('json'),
+    publishOptions: (0, _model.attr)('json', {
       defaultValue: function () {
         return Ember.Object.create();
       }
     }),
-    customSchemas: _emberData.default.attr('json', {
+    customSchemas: (0, _model.attr)('json', {
       defaultValue: function () {
         return [];
       }
@@ -7697,7 +7535,7 @@
     didReceiveAttrs() {
       //Inline link title comes first, if present.
       let block = !this.block ? [this.get('contact.title')] : [];
-      let params = Ember.get(this, 'params');
+      let params = this.params;
       let add = block.concat(['contact.show', this.get('contact.id')]);
       Ember.set(this, 'params', params ? add.concat(params) : add);
       this._super(...arguments);
@@ -10013,21 +9851,21 @@
       clickOnRow(idx, rec) {
         this._super(...arguments);
         let prop = this.selectProperty;
-        let sel = Ember.get(this, 'selectedItems');
+        let sel = this.selectedItems;
         rec.toggleProperty(prop);
         this.select(rec, idx, sel);
       },
       toggleAllSelection() {
         //this._super(...arguments);
-        let selectedItems = Ember.get(this, 'selectedItems');
-        let data = Ember.get(this, 'data');
+        let selectedItems = this.selectedItems;
+        let data = this.data;
         const allSelectedBefore = Ember.get(selectedItems, 'length') === Ember.get(data, 'length');
-        Ember.get(this, 'selectedItems').clear();
+        this.selectedItems.clear();
         if (!allSelectedBefore) {
-          Ember.get(this, 'selectedItems').pushObjects(data.toArray());
+          this.selectedItems.pushObjects(data.toArray());
         }
         this.userInteractionObserver();
-        let selected = Ember.get(this, 'selectedItems');
+        let selected = this.selectedItems;
         let prop = this.selectProperty;
         //let data = get(this, 'data');
 
@@ -11498,7 +11336,7 @@
     //  endDateTime: moment().hour(0).second(0).minute(0)
     start: Ember.computed('startDateTime', {
       get() {
-        let dt = Ember.get(this, 'startDateTime');
+        let dt = this.startDateTime;
         return dt === undefined ? null : dt;
       },
       set(key, value) {
@@ -11510,7 +11348,7 @@
     }),
     end: Ember.computed('endDateTime', {
       get() {
-        let dt = Ember.get(this, 'endDateTime');
+        let dt = this.endDateTime;
         return dt === undefined ? null : dt;
       },
       set(key, value) {
@@ -12173,7 +12011,7 @@
     didReceiveAttrs() {
       this._super(...arguments);
       Ember.run.once(this, () => {
-        if (Ember.isNone(Ember.get(this, 'value'))) {
+        if (Ember.isNone(this.value)) {
           Ember.set(this, 'value', '');
         }
       });
@@ -12230,14 +12068,14 @@
      */
     options: Ember.computed('placeholder', function () {
       return {
-        placeholder: Ember.get(this, 'placeholder'),
+        placeholder: this.placeholder,
         status: [{
           className: 'length',
           defaultValue: el => {
-            el.innerHTML = `<span class="length md-${Ember.get(this, 'errorClass')}">length: ${Ember.get(this, 'length')}</span>`;
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
           },
           onUpdate: el => {
-            el.innerHTML = `<span class="length md-${Ember.get(this, 'errorClass')}">length: ${Ember.get(this, 'length')}</span>`;
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
           }
         }, 'lines', 'words', 'cursor']
       };
@@ -12255,7 +12093,7 @@
      * @requires value
      */
     length: Ember.computed('value', function () {
-      return Ember.get(this, 'value') ? Ember.get(this, 'value').length : 0;
+      return this.value ? this.value.length : 0;
     }).readOnly(),
     /**
      * Returns string indicating error or warning based on maxlength.
@@ -12266,9 +12104,9 @@
      * @requires value|maxlength
      */
     errorClass: Ember.computed('value', 'maxlength', function () {
-      let length = Ember.get(this, 'length');
-      let max = Ember.get(this, 'maxlength');
-      if (Ember.get(this, 'required') && length < 1) {
+      let length = this.length;
+      let max = this.maxlength;
+      if (this.required && length < 1) {
         return 'error';
       }
       if (!max || length <= max - 25) {
@@ -13734,7 +13572,7 @@
         (0, _jquery.default)('body').toggleClass('slider', val);
       },
       spotlight(id) {
-        Ember.get(this, 'spotlight').setTarget(id);
+        this.spotlight.setTarget(id);
       }
     }
   });
@@ -14672,10 +14510,11 @@
   _exports.default = void 0;
   var _default = _modelsTable.default.extend({
     init() {
-      this.pageSizeValues = [10, 25, 50, 500];
-      this.filteringIgnoreCase = true;
       this._super(...arguments);
+      // this.pageSizeValues = [10, 25, 50, 500];
+      // this.filteringIgnoreCase = true;
     },
+
     themeInstance: _bootstrap.default.create()
   });
   _exports.default = _default;
@@ -15050,24 +14889,24 @@
     isLoading: false,
     subTitle: null,
     errorClass: Ember.computed('errorLevel', 'errors', function () {
-      return errorClasses[Ember.get(this, 'errorLevel')];
+      return errorClasses[this.errorLevel];
     }),
     errorTitle: Ember.computed('errorLevel', 'errors', function () {
       let type = ['Success', 'Notice', 'Warning', 'Error'];
-      return type[Ember.get(this, 'errorLevel')];
+      return type[this.errorLevel];
     }),
     errorSubTitle: Ember.computed('subTitle', function () {
-      let err = Ember.get(this, 'errors');
+      let err = this.errors;
       if (err.length) {
-        return Ember.get(this, 'errorTitle') + ' ocurred during translation.';
+        return this.errorTitle + ' ocurred during translation.';
       }
       return null;
     }),
     writeObj: Ember.computed('writer', function () {
-      return Ember.get(this, 'writerOptions').findBy('value', Ember.get(this, 'writer'));
+      return this.writerOptions.findBy('value', this.writer);
     }),
     writerType: Ember.computed('writeObj', function () {
-      let obj = Ember.get(this, 'writeObj');
+      let obj = this.writeObj;
       return obj ? obj.type.split('/')[1] : null;
     }),
     isJson: Ember.computed.equal('writerType', 'json'),
@@ -15075,7 +14914,7 @@
     apiURL: Ember.computed.or('settings.data.mdTranslatorAPI', 'defaultAPI'),
     isHtml: Ember.computed('writerType', function () {
       //IE does not supoprt srcdoc, so default to non-html display
-      return Ember.get(this, 'writerType') === 'html' && 'srcdoc' in document.createElement('iframe');
+      return this.writerType === 'html' && 'srcdoc' in document.createElement('iframe');
     }),
     messages: Ember.computed.alias('errors'),
     _clearResult() {
@@ -15095,11 +14934,11 @@
           type: 'POST',
           data: {
             //file: JSON.stringify(cleaner.clean(json)),
-            file: mdjson.formatRecord(Ember.get(this, 'model'), true),
+            file: mdjson.formatRecord(this.model, true),
             reader: 'mdJson',
-            writer: Ember.get(this, 'writer'),
-            showAllTags: Ember.get(this, 'showAllTags'),
-            forceValid: Ember.get(this, 'forceValid'),
+            writer: this.writer,
+            showAllTags: this.showAllTags,
+            forceValid: this.forceValid,
             validate: 'normal',
             format: 'json'
           },
@@ -15124,18 +14963,18 @@
       },
       saveResult() {
         let title = Ember.get(this, 'model.title');
-        let result = Ember.get(this, 'result');
-        let writer = Ember.get(this, 'writeObj');
+        let result = this.result;
+        let writer = this.writeObj;
         window.saveAs(new Blob([result], {
           type: `${writer.type};charset=utf-8`
-        }), `${title}_${(0, _moment.default)().format('YYYYMMDD')}.${Ember.get(this, 'writerType')}`);
+        }), `${title}_${(0, _moment.default)().format('YYYYMMDD')}.${this.writerType}`);
       },
       clearResult() {
         this._clearResult();
       },
       prettifyJson() {
         let promise = new Ember.RSVP.Promise((resolve, reject) => {
-          let parsed = JSON.parse(Ember.get(this, 'result'));
+          let parsed = JSON.parse(this.result);
           if (parsed) {
             resolve(parsed);
           } else {
@@ -15146,7 +14985,7 @@
           Ember.set(this, 'result', JSON.stringify(obj, null, 2));
         }).catch(error => {
           //console.log(error);
-          Ember.get(this, 'flashMessages').danger(error.message);
+          this.flashMessages.danger(error.message);
         });
       },
       errorClass(level) {
@@ -15835,7 +15674,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'currency', Ember.getWithDefault(model, 'currency', 'USD'));
         Ember.set(model, 'onlineResource', Ember.getWithDefault(model, 'onlineResource', []));
@@ -16424,7 +16263,7 @@
     store: Ember.inject.service(),
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'scope', Ember.getWithDefault(model, 'scope', {}));
         Ember.set(model, 'resourceType', Ember.getWithDefault(model, 'resourceType', []));
@@ -16472,7 +16311,7 @@
         if (!assoc) {
           Ember.set(model, 'json.metadata.associatedResource', Ember.getWithDefault(model, 'json.metadata.associatedResource', []));
           model.get('json.metadata.associatedResource').pushObject({
-            mdRecordId: Ember.get(this, 'recordId'),
+            mdRecordId: this.recordId,
             associationType: value
           });
           model.notifyPropertyChange('hasDirtyHash');
@@ -16793,7 +16632,7 @@
   const theComp = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'allowNull', Ember.getWithDefault(model, 'allowNull', false));
         Ember.set(model, 'reference', Ember.getWithDefault(model, 'reference', {}));
@@ -16826,7 +16665,7 @@
     allowNull: Ember.computed.alias('model.allowNull'),
     domains: Ember.computed.alias('dictionary.domain'),
     domainList: Ember.computed('domains.{@each.domainId,@each.codeName}', function () {
-      let domains = Ember.get(this, 'domains') || [];
+      let domains = this.domains || [];
       return domains.map(domain => {
         if (Ember.get(domain, 'domainId')) {
           return {
@@ -17864,7 +17703,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'useLimitation', Ember.getWithDefault(model, 'useLimitation', []));
         Ember.set(model, 'graphic', Ember.getWithDefault(model, 'graphic', []));
@@ -18191,7 +18030,7 @@
   var _default = Ember.Component.extend({
     init() {
       this._super(...arguments);
-      if (Ember.isNone(Ember.get(this, 'value'))) {
+      if (Ember.isNone(this.value)) {
         Ember.set(this, 'value', []);
       }
     },
@@ -18511,7 +18350,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'contact', Ember.getWithDefault(model, 'contact', {
           role: null,
@@ -18763,7 +18602,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'resourceType', Ember.getWithDefault(model, 'resourceType', []));
         Ember.set(model, 'citation', Ember.A(Ember.getWithDefault(model, 'citation', [{}])));
@@ -18916,7 +18755,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'domainId', Ember.getWithDefault(model, 'domainId', (0, _v.default)()));
         Ember.set(model, 'domainItem', Ember.getWithDefault(model, 'domainItem', []));
@@ -19096,7 +18935,7 @@
   const theComp = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'reference', Ember.getWithDefault(model, 'reference', {}));
       });
@@ -19275,11 +19114,11 @@
   var _default = Ember.Component.extend(Validations, {
     init() {
       this._super(...arguments);
-      (true && !(Ember.get(this, 'dictionary')) && Ember.assert(`You must supply a dictionary for ${this.toString()}.`, Ember.get(this, 'dictionary')));
+      (true && !(this.dictionary) && Ember.assert(`You must supply a dictionary for ${this.toString()}.`, this.dictionary));
     },
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'entityId', Ember.getWithDefault(model, 'entityId', (0, _v.default)()));
         Ember.set(model, 'alias', Ember.getWithDefault(model, 'alias', []));
@@ -19382,7 +19221,7 @@
       return [];
     }),
     entityList: Ember.computed('entities.{@each.entityId,@each.codeName}', function () {
-      return Ember.get(this, 'entities').map(attr => {
+      return this.entities.map(attr => {
         if (Ember.get(attr, 'entityId')) {
           return {
             codeId: Ember.get(attr, 'entityId'),
@@ -19989,7 +19828,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'allocation', Ember.getWithDefault(model, 'allocation', []));
         Ember.set(model, 'timePeriod', Ember.getWithDefault(model, 'timePeriod', {}));
@@ -20999,7 +20838,7 @@
   var _default = Ember.Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(function () {
         Ember.set(model, 'scope', Ember.getWithDefault(model, 'scope', {}));
         Ember.set(model, 'citation', Ember.getWithDefault(model, 'citation', []));
@@ -21559,7 +21398,7 @@
   var _default = Ember.Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(function () {
         Ember.set(model, 'mediumSpecification', Ember.getWithDefault(model, 'mediumSpecification', {}));
         Ember.set(model, 'identifier', Ember.getWithDefault(model, 'identifier', {}));
@@ -21920,7 +21759,7 @@
      * @requires items.length,alertIfEmpty
      */
     showAlert: Ember.computed('items.length', 'alertIfEmpty', function () {
-      return Ember.get(this, 'items.length') === 0 && Ember.get(this, 'alertIfEmpty');
+      return Ember.get(this, 'items.length') === 0 && this.alertIfEmpty;
     }),
     panelId: Ember.computed('items.@each.val', 'editing', function () {
       return 'panel-' + this.elementId;
@@ -22481,14 +22320,14 @@
     actions: {
       handleFile(file) {
         if (file.size > 50000) {
-          Ember.get(this, 'flashMessages').danger(`The image exceeded the maximum size of 50KB: ${file.size} bytes.
+          this.flashMessages.danger(`The image exceeded the maximum size of 50KB: ${file.size} bytes.
             Please use an online URL to load the image.`);
         } else {
           let model = this.model;
           Ember.set(model, 'name', file.name);
           Ember.set(model, 'uri', file.data);
           if (file.size > 25000) {
-            Ember.get(this, 'flashMessages').warning(`The image exceeded the recommended size of 25KB: ${file.size} bytes`);
+            this.flashMessages.warning(`The image exceeded the recommended size of 25KB: ${file.size} bytes`);
           }
           //reset the input field
           //this.$('.import-file-picker input:file').val('');
@@ -22705,7 +22544,7 @@
     },
     _contacts: Ember.computed('party', {
       get() {
-        let party = Ember.get(this, 'party');
+        let party = this.party;
         return party.mapBy('contactId');
       },
       set(key, value) {
@@ -22895,16 +22734,16 @@
   var _default = Ember.Component.extend({
     init() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'timePeriod', Ember.getWithDefault(model, 'timePeriod', {}));
       });
     },
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
-        Ember.set(model, 'stepId', Ember.getWithDefault(model, 'stepId', Ember.get(this, 'itemId')));
+        Ember.set(model, 'stepId', Ember.getWithDefault(model, 'stepId', this.itemId));
         Ember.set(model, 'timePeriod', Ember.getWithDefault(model, 'timePeriod', {}));
         Ember.set(model, 'scope', Ember.getWithDefault(model, 'scope', {}));
         Ember.set(model, 'reference', Ember.getWithDefault(model, 'reference', []));
@@ -23704,7 +23543,7 @@
 
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       if (model) {
         Ember.run.once(this, function () {
           Ember.set(model, 'attributeContentType', Ember.getWithDefault(model, 'attributeContentType', []));
@@ -23916,7 +23755,7 @@
 
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       if (model) {
         Ember.run.once(this, function () {
           Ember.set(model, 'attributeGroup', Ember.getWithDefault(model, 'attributeGroup', []));
@@ -24006,7 +23845,7 @@
       this._super(...arguments);
 
       // let model = getWithDefault(this, 'model', {}) || {};
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       if (model) {
         Ember.run.once(this, function () {
           Ember.set(model, 'imageQualityCode', Ember.getWithDefault(model, 'imageQualityCode', {}));
@@ -24819,7 +24658,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'sourceId', Ember.getWithDefault(model, 'sourceId', (0, _v.default)()));
         Ember.set(model, 'sourceCitation', Ember.getWithDefault(model, 'sourceCitation', {}));
@@ -25026,7 +24865,7 @@
   var _default = Ember.Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'spatialReferenceSystem', Ember.getWithDefault(model, 'spatialReferenceSystem', []));
         Ember.set(model, 'spatialRepresentationType', Ember.getWithDefault(model, 'spatialRepresentationType', []));
@@ -25177,7 +25016,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       if (model) {
         Ember.run.once(this, function () {
           Ember.set(model, 'measure', Ember.getWithDefault(model, 'measure', {}));
@@ -25354,7 +25193,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       if (model) {
         Ember.run.once(this, function () {
           Ember.set(model, 'referenceSystemIdentifier', Ember.getWithDefault(model, 'referenceSystemIdentifier', {}));
@@ -25771,7 +25610,7 @@
   const theComp = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'taxonomicClassification', Ember.getWithDefault(model, 'taxonomicClassification', []));
         Ember.set(model, 'taxonomicSystem', Ember.getWithDefault(model, 'taxonomicSystem', []));
@@ -25828,7 +25667,7 @@
   var _default = Ember.Component.extend(Validations, {
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'citation', Ember.getWithDefault(model, 'citation', {}));
       });
@@ -26316,7 +26155,7 @@
     },
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(this, function () {
         Ember.set(model, 'periodName', Ember.getWithDefault(model, 'periodName', []));
         Ember.set(model, 'timeInterval', Ember.getWithDefault(model, 'timeInterval', {}));
@@ -26540,7 +26379,7 @@
   var _default = Ember.Component.extend({
     didReceiveAttrs() {
       this._super(...arguments);
-      let model = Ember.get(this, 'model');
+      let model = this.model;
       Ember.run.once(function () {
         Ember.set(model, 'onlineOption', Ember.getWithDefault(model, 'onlineOption', []));
         Ember.set(model, 'offlineOption', Ember.getWithDefault(model, 'offlineOption', []));
@@ -26801,16 +26640,13 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/pods/contact/new/id/route", ["exports", "ember-data"], function (_exports, _emberData) {
+;define("mdeditor/pods/contact/new/id/route", ["exports", "@ember-data/adapter/error"], function (_exports, _error) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  const {
-    NotFoundError
-  } = _emberData.default;
   var _default = Ember.Route.extend({
     /**
      * The route model
@@ -26925,7 +26761,7 @@
         return false;
       },
       error(error) {
-        if (error instanceof NotFoundError) {
+        if (error instanceof _error.NotFoundError) {
           this.flashMessages.warning('No contact found! Re-directing to new contact...');
           // redirect to new
           this.replaceWith('contact.new');
@@ -27922,16 +27758,13 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/pods/dictionary/new/id/route", ["exports", "ember-data"], function (_exports, _emberData) {
+;define("mdeditor/pods/dictionary/new/id/route", ["exports", "@ember-data/adapter/error"], function (_exports, _error) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  const {
-    NotFoundError
-  } = _emberData.default;
   var _default = Ember.Route.extend({
     model: function (params) {
       let record = this.store.peekRecord('dictionary', params.dictionary_id);
@@ -28008,7 +27841,7 @@
         return false;
       },
       error(error) {
-        if (error instanceof NotFoundError) {
+        if (error instanceof _error.NotFoundError) {
           this.flashMessages.warning('No dictionary found! Re-directing to new record...');
           // redirect to new
           this.replaceWith('dictionary.new');
@@ -30574,7 +30407,7 @@
         let store = this.store;
         if (asMdjson) {
           let records = store.peekAll('record').filterBy('_selected').map(itm => {
-            return Ember.get(this, 'mdjson').formatRecord(itm);
+            return this.mdjson.formatRecord(itm);
           });
           window.saveAs(new Blob([JSON.stringify(records)], {
             type: 'application/json;charset=utf-8'
@@ -30600,10 +30433,10 @@
         }
       },
       getColumns(type) {
-        return Ember.get(this, 'columns').get(type);
+        return this.columns.get(type);
       },
       hasSelected() {
-        return Ember.get(this, 'hasSelected');
+        return this.hasSelected;
       }
     }
   });
@@ -30915,7 +30748,7 @@
     },
     actions: {
       getColumns() {
-        return Ember.get(this, 'columns');
+        return this.columns;
       },
       getIcon(type) {
         return this.icons[type];
@@ -30928,7 +30761,7 @@
         new Ember.RSVP.Promise((resolve, reject) => {
           if (file.type.match(/.*\/xml$/)) {
             Ember.set(controller, 'isTranslating', true);
-            Ember.get(this, 'flashMessages').info(`Translation service provided by ${url}.`);
+            this.flashMessages.info(`Translation service provided by ${url}.`);
             this.ajax.request(url, {
               type: 'POST',
               data: {
@@ -31033,7 +30866,7 @@
           truncate: !this.currentRouteModel().get('merge'),
           json: false
         }).then(() => {
-          Ember.get(this, 'flashMessages').success(`Imported data. Records were
+          this.flashMessages.success(`Imported data. Records were
               ${this.currentRouteModel().get('merge') ? 'merged' : 'replaced'}.`, {
             extendedTimeout: 1500
           });
@@ -31055,7 +30888,7 @@
               json: false
             }).then(() => {
               settingService.setup();
-              Ember.get(this, 'flashMessages').success(`Imported Settings.`, {
+              this.flashMessages.success(`Imported Settings.`, {
                 extendedTimeout: 1500
               });
             });
@@ -31454,16 +31287,13 @@
   });
   _exports.default = _default;
 });
-;define("mdeditor/pods/record/new/id/route", ["exports", "ember-data"], function (_exports, _emberData) {
+;define("mdeditor/pods/record/new/id/route", ["exports", "@ember-data/adapter/error"], function (_exports, _error) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  const {
-    NotFoundError
-  } = _emberData.default;
   var _default = Ember.Route.extend({
     model(params) {
       let record = this.store.peekRecord('record', params.record_id);
@@ -31549,7 +31379,7 @@
         return false;
       },
       error(error) {
-        if (error instanceof NotFoundError) {
+        if (error instanceof _error.NotFoundError) {
           this.flashMessages.warning('No record found! Re-directing to new record...');
           // redirect to new
           this.replaceWith('record.new');
@@ -31916,7 +31746,7 @@
   var _default = Ember.Route.extend({
     breadCrumb: Ember.computed('resourceId', function () {
       return {
-        title: Ember.get(this, 'resourceId'),
+        title: this.resourceId,
         linkable: true
       };
     }),
@@ -31929,21 +31759,21 @@
       this._super(...arguments);
 
       //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-      this.controller.set('resourceId', Ember.get(this, 'resourceId'));
+      this.controller.set('resourceId', this.resourceId);
       this.controllerFor('record.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
       });
     },
     setupModel() {
-      let resourceId = Ember.get(this, 'resourceId');
+      let resourceId = this.resourceId;
       let model = this.modelFor('record.show.edit');
       let objects = model.get('json.metadata.associatedResource');
       let resource = resourceId && Ember.isArray(objects) ? objects.objectAt(resourceId) : undefined;
 
       //make sure the identifier exists
       if (Ember.isEmpty(resource)) {
-        Ember.get(this, 'flashMessages').warning('No Associated Resource object found! Re-directing to list...');
+        this.flashMessages.warning('No Associated Resource object found! Re-directing to list...');
         this.replaceWith('record.show.edit.associated');
         return;
       }
@@ -32797,7 +32627,7 @@
   var _default = Ember.Route.extend({
     breadCrumb: Ember.computed('citationId', function () {
       return {
-        title: Ember.get(this, 'citationId'),
+        title: this.citationId,
         linkable: true
       };
     }),
@@ -32810,21 +32640,21 @@
       this._super(...arguments);
 
       //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-      this.controller.set('citationId', Ember.get(this, 'citationId'));
+      this.controller.set('citationId', this.citationId);
       this.controllerFor('record.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
       });
     },
     setupModel() {
-      let citationId = Ember.get(this, 'citationId');
+      let citationId = this.citationId;
       let model = this.modelFor('record.show.edit');
       let objects = model.get('json.metadata.additionalDocumentation');
       let resource = citationId && Ember.isArray(objects) ? Ember.A(objects).objectAt(citationId) : undefined;
 
       //make sure the identifier exists
       if (Ember.isEmpty(resource)) {
-        Ember.get(this, 'flashMessages').warning('No Document object found! Re-directing to list...');
+        this.flashMessages.warning('No Document object found! Re-directing to list...');
         this.replaceWith('record.show.edit.documents');
         return;
       }
@@ -33120,7 +32950,7 @@
 
       //make sure the extent still exists
       if (Ember.isEmpty(extent)) {
-        Ember.get(this, 'flashMessages').warning('No extent found! Re-directing to list...');
+        this.flashMessages.warning('No extent found! Re-directing to list...');
         this.replaceWith('record.show.edit.extent');
         return;
       }
@@ -33201,7 +33031,7 @@
           //   Ember.run(null, resolve, json);
           // }, 'MD: ExportSpatialData');
         } else {
-          Ember.get(this, 'flashMessages').warning('Found no features to export.');
+          this.flashMessages.warning('Found no features to export.');
         }
       }
     }
@@ -33278,7 +33108,7 @@
   var _default = Ember.Route.extend(_scrollTo.default, {
     breadCrumb: Ember.computed('allocationId', function () {
       return {
-        title: 'Allocation ' + Ember.get(this, 'allocationId'),
+        title: 'Allocation ' + this.allocationId,
         linkable: true
       };
     }),
@@ -33290,21 +33120,21 @@
       // Call _super for default behavior
       this._super(...arguments);
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
-      this.controller.set('allocationId', Ember.get(this, 'allocationId'));
+      this.controller.set('allocationId', this.allocationId);
       this.controllerFor('record.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
       });
     },
     setupModel() {
-      let allocationId = Ember.get(this, 'allocationId');
+      let allocationId = this.allocationId;
       let model = this.modelFor('record.show.edit');
       let objects = model.get('json.metadata.funding');
       let resource = allocationId && Ember.isArray(objects) ? Ember.A(objects).objectAt(allocationId) : undefined;
 
       //make sure the allocation exists
       if (Ember.isEmpty(resource)) {
-        Ember.get(this, 'flashMessages').warning('No Funding object found! Re-directing to list...');
+        this.flashMessages.warning('No Funding object found! Re-directing to list...');
         this.replaceWith('record.show.edit.funding');
         return;
       }
@@ -33801,13 +33631,13 @@
       return this.setupModel();
     },
     setupModel() {
-      let thesaurusId = Ember.get(this, 'thesaurusId') || this.controller.get('thesaurusId');
+      let thesaurusId = this.thesaurusId || this.controller.get('thesaurusId');
       let model = this.modelFor('record.show.edit.keywords');
       let thesaurus = model.get('json.metadata.resourceInfo.keyword').get(thesaurusId);
 
       //make sure the thesaurus still exists
       if (Ember.isEmpty(thesaurus)) {
-        Ember.get(this, 'flashMessages').warning('No thesaurus found! Re-directing to list...');
+        this.flashMessages.warning('No thesaurus found! Re-directing to list...');
         this.replaceWith('record.show.edit.keywords');
         return;
       }
@@ -34316,7 +34146,7 @@
   var _default = Ember.Route.extend({
     breadCrumb: Ember.computed('lineageId', function () {
       return {
-        title: Ember.get(this, 'lineageId'),
+        title: this.lineageId,
         linkable: true
       };
     }),
@@ -34329,21 +34159,21 @@
       this._super(...arguments);
 
       //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-      this.controller.set('lineageId', Ember.get(this, 'lineageId'));
+      this.controller.set('lineageId', this.lineageId);
       this.controllerFor('record.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
       });
     },
     setupModel() {
-      let lineageId = Ember.get(this, 'lineageId');
+      let lineageId = this.lineageId;
       let model = this.modelFor('record.show.edit');
       let objects = model.get('json.metadata.resourceLineage');
       let lineage = lineageId && Ember.isArray(objects) ? objects.get(lineageId) : undefined;
 
       //make sure the identifier exists
       if (Ember.isEmpty(lineage)) {
-        Ember.get(this, 'flashMessages').warning('No lineage object found! Re-directing to list...');
+        this.flashMessages.warning('No lineage object found! Re-directing to list...');
         this.replaceWith('record.show.edit.lineage');
         return;
       }
@@ -34647,7 +34477,7 @@
     },
     breadCrumb: Ember.computed('stepId', function () {
       return {
-        title: 'Step ' + Ember.get(this, 'stepId'),
+        title: 'Step ' + this.stepId,
         linkable: true
       };
     }),
@@ -34655,22 +34485,22 @@
       // Call _super for default behavior
       this._super(...arguments);
       this.controller.set('parentModel', this.modelFor('record.show.edit'));
-      this.controller.set('stepId', Ember.get(this, 'stepId'));
+      this.controller.set('stepId', this.stepId);
       this.controllerFor('record.show.edit').setProperties({
         onCancel: this.setupModel,
         cancelScope: this
       });
     },
     setupModel() {
-      let stepId = Ember.get(this, 'stepId');
-      let lineageId = Ember.get(this, 'lineageId');
+      let stepId = this.stepId;
+      let lineageId = this.lineageId;
       let model = this.modelFor('record.show.edit');
       let steps = model.get('json.metadata.resourceLineage.' + lineageId + '.processStep');
       let step = stepId && Ember.isArray(steps) ? steps.get(stepId) : undefined;
 
       //make sure the identifier exists
       if (Ember.isEmpty(step)) {
-        Ember.get(this, 'flashMessages').warning('No Process Step found! Re-directing...');
+        this.flashMessages.warning('No Process Step found! Re-directing...');
         this.replaceWith('record.show.edit.lineage.lineageobject');
         return;
       }
@@ -40853,12 +40683,12 @@
   _exports.default = void 0;
   var _default = Ember.HTMLBars.template(
   /*
-    {{head-layout}}
+    <HeadLayout />
   
   <div class="md-message-container">
     <div class="md-message-wrapper">
       {{#each flashMessages.queue as |flash|}}
-      {{#flash-message flash=flash as |component flash|}}
+      <FlashMessage @flash={{flash}} as |component flash|>
       {{flash.message}}
       {{#if flash.showProgress}}
       <div class="progress">
@@ -40871,50 +40701,45 @@
         </div>
       </div>
       {{/if}}
-      {{/flash-message}}
+      </FlashMessage>
       {{/each}}
     </div>
   </div>
   
-  {{#md-title as |title|}}
+  <MdTitle as |title|>
     {{title title replace=false}}
-  {{/md-title}}
+  </MdTitle>
   
   <div id="md-wrapper" class="">
   
     {{!-- Slider --}}
-      {{#layout/md-slider
-        visible=slider.showSlider
-        fromName=slider.fromName
-        onClose=slider.onClose
-        context=slider.context
-      }}
-      {{/layout/md-slider}}
+      <Layout::MdSlider @visible={{slider.showSlider}} @fromName={{slider.fromName}} @onClose={{slider.onClose}} @context={{slider.context}}>
+      </Layout::MdSlider>
     {{!-- /#slider --}}
   
     {{!-- Sidebar --}}
-      {{layout/md-nav-sidebar items=model}}
+      <Layout::MdNavSidebar @items={{model}} />
     {{!-- /#sidebar-wrapper --}}
   
     {{!-- Page Content --}}
     <div id="md-page-content-wrapper">
       <div id="md-navbars">
-        {{#layout/md-nav-main}}
-          {{from-elsewhere name="nav-main"}}
-        {{/layout/md-nav-main}}
-        {{layout/md-breadcrumb}}
-        {{from-elsewhere name="nav-secondary"}}
+        <Layout::MdNavMain>
+          <FromElsewhere @name="nav-main" />
+        </Layout::MdNavMain>
+        <Layout::MdBreadcrumb />
+        <FromElsewhere @name="nav-secondary" />
       </div>
       <div id="md-page-content" class="container-fluid">
         {{outlet}}
       </div>
     </div>
     {{!-- /#page-content-wrapper --}}
-    {{layout/md-footer class="hidden-print"}}
+    <Layout::MdFooter @class="hidden-print" />
   </div>
-  {{ember-load-remover}}
+  <EmberLoadRemover />
   
-  {{#control/md-modal isShowing=settings.data.showSplash showConfirm=true confirmLabel="OK"}}
+  <Control::MdModal @isShowing={{settings.data.showSplash}} @showConfirm={{true}} @confirmLabel="OK">
       <div class="alert alert-info" role="alert">{{fa-icon "exclamation-triangle"}} Update Alert</div>
       <div class="alert alert-warning" role="alert">{{fa-icon "wrench"}}
           This application is in beta testing,  <a
@@ -40925,28 +40750,27 @@
       <p>
           The  md<span class="md-icon-mdeditor"></span>ditor has been updated
           since your last session. Some features may have been added or changed.
-          Please note the version below (also shown in the {{#link-to
-          "settings"}}Settings{{/link-to}}) when reporting bugs or issues. If you
-          are having problems, you might want to {{#link-to "settings"}} clear
-          your localstorage{{/link-to}} which will delete all records. This
+          Please note the version below (also shown in the <LinkTo @route="settings">Settings</LinkTo>) when reporting bugs or issues. If you
+          are having problems, you might want to <LinkTo @route="settings"> clear
+          your localstorage</LinkTo> which will delete all records. This
           application is in beta but <strong class="text-warning">SHOULD BE</strong>
           safe for production use.
       </p>
       <p>
-          Current Version: <span class="text-info">{{control/md-repo-link}}</span>
+          Current Version: <span class="text-info"><Control::MdRepoLink /></span>
       </p>
-  {{/control/md-modal}}
+  </Control::MdModal>
   
   {{#if spotlight.show}}
-    {{control/md-spotlight}}
+    <Control::MdSpotlight />
   {{/if}}
   
-  {{control/md-scroll-spy scrollInit="top" routeName=currentRoute}}
+  <Control::MdScrollSpy @scrollInit="top" @routeName={{currentRoute}} />
   
   */
   {
-    "id": "AWTXHebZ",
-    "block": "{\"symbols\":[\"title\",\"flash\",\"component\",\"flash\"],\"statements\":[[1,[22,\"head-layout\"],false],[0,\"\\n\\n\"],[7,\"div\",true],[10,\"class\",\"md-message-container\"],[8],[0,\"\\n  \"],[7,\"div\",true],[10,\"class\",\"md-message-wrapper\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"flashMessages\",\"queue\"]]],null,{\"statements\":[[4,\"flash-message\",null,[[\"flash\"],[[23,2,[]]]],{\"statements\":[[0,\"    \"],[1,[23,4,[\"message\"]],false],[0,\"\\n\"],[4,\"if\",[[23,4,[\"showProgress\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"progress\"],[8],[0,\"\\n\"],[0,\"      \"],[7,\"div\",true],[10,\"class\",\"progress-bar\"],[10,\"role\",\"progressbar\"],[11,\"aria-valuenow\",[23,4,[\"progressValue\"]]],[10,\"aria-valuemin\",\"0\"],[10,\"aria-valuemax\",\"100\"],[11,\"style\",[28,\"html-safe\",[[28,\"concat\",[\"width:\",[23,4,[\"progressValue\"]],\"%;\"],null]],null]],[8],[0,\"\\n        \"],[1,[23,4,[\"progressValue\"]],false],[0,\"%\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[3,4]},null]],\"parameters\":[2]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\\n\"],[4,\"md-title\",null,null,{\"statements\":[[0,\"  \"],[1,[28,\"page-title\",[[23,1,[]]],[[\"replace\",\"_deprecate\"],[false,null]]],false],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"\\n\"],[7,\"div\",true],[10,\"id\",\"md-wrapper\"],[10,\"class\",\"\"],[8],[0,\"\\n\\n\"],[4,\"layout/md-slider\",null,[[\"visible\",\"fromName\",\"onClose\",\"context\"],[[24,[\"slider\",\"showSlider\"]],[24,[\"slider\",\"fromName\"]],[24,[\"slider\",\"onClose\"]],[24,[\"slider\",\"context\"]]]],{\"statements\":[],\"parameters\":[]},null],[0,\"\\n\"],[0,\"    \"],[1,[28,\"layout/md-nav-sidebar\",null,[[\"items\"],[[24,[\"model\"]]]]],false],[0,\"\\n\"],[0,\"\\n\"],[0,\"  \"],[7,\"div\",true],[10,\"id\",\"md-page-content-wrapper\"],[8],[0,\"\\n    \"],[7,\"div\",true],[10,\"id\",\"md-navbars\"],[8],[0,\"\\n\"],[4,\"layout/md-nav-main\",null,null,{\"statements\":[[0,\"        \"],[1,[28,\"from-elsewhere\",null,[[\"name\"],[\"nav-main\"]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[1,[22,\"layout/md-breadcrumb\"],false],[0,\"\\n      \"],[1,[28,\"from-elsewhere\",null,[[\"name\"],[\"nav-secondary\"]]],false],[0,\"\\n    \"],[9],[0,\"\\n    \"],[7,\"div\",true],[10,\"id\",\"md-page-content\"],[10,\"class\",\"container-fluid\"],[8],[0,\"\\n      \"],[1,[22,\"outlet\"],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[0,\"  \"],[1,[28,\"layout/md-footer\",null,[[\"class\"],[\"hidden-print\"]]],false],[0,\"\\n\"],[9],[0,\"\\n\"],[1,[22,\"ember-load-remover\"],false],[0,\"\\n\\n\"],[4,\"control/md-modal\",null,[[\"isShowing\",\"showConfirm\",\"confirmLabel\"],[[24,[\"settings\",\"data\",\"showSplash\"]],true,\"OK\"]],{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"alert alert-info\"],[10,\"role\",\"alert\"],[8],[1,[28,\"fa-icon\",[\"exclamation-triangle\"],null],false],[0,\" Update Alert\"],[9],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"alert alert-warning\"],[10,\"role\",\"alert\"],[8],[1,[28,\"fa-icon\",[\"wrench\"],null],false],[0,\"\\n        This application is in beta testing,  \"],[7,\"a\",true],[10,\"href\",\"https://github.com/adiwg/mdEditor/issues\"],[10,\"target\",\"_blank\"],[10,\"rel\",\"noopener noreferrer\"],[8],[0,\"please let us know\"],[9],[0,\" if you find any bugs.\\n        Thank-you!\\n    \"],[9],[0,\"\\n    \"],[7,\"p\",true],[8],[0,\"\\n        The  md\"],[7,\"span\",true],[10,\"class\",\"md-icon-mdeditor\"],[8],[9],[0,\"ditor has been updated\\n        since your last session. Some features may have been added or changed.\\n        Please note the version below (also shown in the \"],[4,\"link-to\",null,[[\"route\"],[\"settings\"]],{\"statements\":[[0,\"Settings\"]],\"parameters\":[]},null],[0,\") when reporting bugs or issues. If you\\n        are having problems, you might want to \"],[4,\"link-to\",null,[[\"route\"],[\"settings\"]],{\"statements\":[[0,\" clear\\n        your localstorage\"]],\"parameters\":[]},null],[0,\" which will delete all records. This\\n        application is in beta but \"],[7,\"strong\",true],[10,\"class\",\"text-warning\"],[8],[0,\"SHOULD BE\"],[9],[0,\"\\n        safe for production use.\\n    \"],[9],[0,\"\\n    \"],[7,\"p\",true],[8],[0,\"\\n        Current Version: \"],[7,\"span\",true],[10,\"class\",\"text-info\"],[8],[1,[22,\"control/md-repo-link\"],false],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[24,[\"spotlight\",\"show\"]]],null,{\"statements\":[[0,\"  \"],[1,[22,\"control/md-spotlight\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[28,\"control/md-scroll-spy\",null,[[\"scrollInit\",\"routeName\"],[\"top\",[24,[\"currentRoute\"]]]]],false],[0,\"\\n\"]],\"hasEval\":false}",
+    "id": "vxaBcX9c",
+    "block": "{\"symbols\":[\"title\",\"flash\",\"component\",\"flash\"],\"statements\":[[5,\"head-layout\",[],[[],[]]],[0,\"\\n\\n\"],[7,\"div\",true],[10,\"class\",\"md-message-container\"],[8],[0,\"\\n  \"],[7,\"div\",true],[10,\"class\",\"md-message-wrapper\"],[8],[0,\"\\n\"],[4,\"each\",[[24,[\"flashMessages\",\"queue\"]]],null,{\"statements\":[[0,\"    \"],[5,\"flash-message\",[],[[\"@flash\"],[[23,2,[]]]],{\"statements\":[[0,\"\\n    \"],[1,[23,4,[\"message\"]],false],[0,\"\\n\"],[4,\"if\",[[23,4,[\"showProgress\"]]],null,{\"statements\":[[0,\"    \"],[7,\"div\",true],[10,\"class\",\"progress\"],[8],[0,\"\\n\"],[0,\"      \"],[7,\"div\",true],[10,\"class\",\"progress-bar\"],[10,\"role\",\"progressbar\"],[11,\"aria-valuenow\",[23,4,[\"progressValue\"]]],[10,\"aria-valuemin\",\"0\"],[10,\"aria-valuemax\",\"100\"],[11,\"style\",[28,\"html-safe\",[[28,\"concat\",[\"width:\",[23,4,[\"progressValue\"]],\"%;\"],null]],null]],[8],[0,\"\\n        \"],[1,[23,4,[\"progressValue\"]],false],[0,\"%\\n      \"],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"]],\"parameters\":[3,4]}],[0,\"\\n\"]],\"parameters\":[2]},null],[0,\"  \"],[9],[0,\"\\n\"],[9],[0,\"\\n\\n\"],[5,\"md-title\",[],[[],[]],{\"statements\":[[0,\"\\n  \"],[1,[28,\"page-title\",[[23,1,[]]],[[\"replace\",\"_deprecate\"],[false,null]]],false],[0,\"\\n\"]],\"parameters\":[1]}],[0,\"\\n\\n\"],[7,\"div\",true],[10,\"id\",\"md-wrapper\"],[10,\"class\",\"\"],[8],[0,\"\\n\\n\"],[0,\"    \"],[5,\"layout/md-slider\",[],[[\"@visible\",\"@fromName\",\"@onClose\",\"@context\"],[[24,[\"slider\",\"showSlider\"]],[24,[\"slider\",\"fromName\"]],[24,[\"slider\",\"onClose\"]],[24,[\"slider\",\"context\"]]]],{\"statements\":[[0,\"\\n    \"]],\"parameters\":[]}],[0,\"\\n\"],[0,\"\\n\"],[0,\"    \"],[5,\"layout/md-nav-sidebar\",[],[[\"@items\"],[[22,\"model\"]]]],[0,\"\\n\"],[0,\"\\n\"],[0,\"  \"],[7,\"div\",true],[10,\"id\",\"md-page-content-wrapper\"],[8],[0,\"\\n    \"],[7,\"div\",true],[10,\"id\",\"md-navbars\"],[8],[0,\"\\n      \"],[5,\"layout/md-nav-main\",[],[[],[]],{\"statements\":[[0,\"\\n        \"],[5,\"from-elsewhere\",[],[[\"@name\"],[\"nav-main\"]]],[0,\"\\n      \"]],\"parameters\":[]}],[0,\"\\n      \"],[5,\"layout/md-breadcrumb\",[],[[],[]]],[0,\"\\n      \"],[5,\"from-elsewhere\",[],[[\"@name\"],[\"nav-secondary\"]]],[0,\"\\n    \"],[9],[0,\"\\n    \"],[7,\"div\",true],[10,\"id\",\"md-page-content\"],[10,\"class\",\"container-fluid\"],[8],[0,\"\\n      \"],[1,[22,\"outlet\"],false],[0,\"\\n    \"],[9],[0,\"\\n  \"],[9],[0,\"\\n\"],[0,\"  \"],[5,\"layout/md-footer\",[],[[\"@class\"],[\"hidden-print\"]]],[0,\"\\n\"],[9],[0,\"\\n\"],[5,\"ember-load-remover\",[],[[],[]]],[0,\"\\n\\n\"],[5,\"control/md-modal\",[],[[\"@isShowing\",\"@showConfirm\",\"@confirmLabel\"],[[24,[\"settings\",\"data\",\"showSplash\"]],true,\"OK\"]],{\"statements\":[[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"alert alert-info\"],[10,\"role\",\"alert\"],[8],[1,[28,\"fa-icon\",[\"exclamation-triangle\"],null],false],[0,\" Update Alert\"],[9],[0,\"\\n    \"],[7,\"div\",true],[10,\"class\",\"alert alert-warning\"],[10,\"role\",\"alert\"],[8],[1,[28,\"fa-icon\",[\"wrench\"],null],false],[0,\"\\n        This application is in beta testing,  \"],[7,\"a\",true],[10,\"href\",\"https://github.com/adiwg/mdEditor/issues\"],[10,\"target\",\"_blank\"],[10,\"rel\",\"noopener noreferrer\"],[8],[0,\"please let us know\"],[9],[0,\" if you find any bugs.\\n        Thank-you!\\n    \"],[9],[0,\"\\n    \"],[7,\"p\",true],[8],[0,\"\\n        The  md\"],[7,\"span\",true],[10,\"class\",\"md-icon-mdeditor\"],[8],[9],[0,\"ditor has been updated\\n        since your last session. Some features may have been added or changed.\\n        Please note the version below (also shown in the \"],[5,\"link-to\",[],[[\"@route\"],[\"settings\"]],{\"statements\":[[0,\"Settings\"]],\"parameters\":[]}],[0,\") when reporting bugs or issues. If you\\n        are having problems, you might want to \"],[5,\"link-to\",[],[[\"@route\"],[\"settings\"]],{\"statements\":[[0,\" clear\\n        your localstorage\"]],\"parameters\":[]}],[0,\" which will delete all records. This\\n        application is in beta but \"],[7,\"strong\",true],[10,\"class\",\"text-warning\"],[8],[0,\"SHOULD BE\"],[9],[0,\"\\n        safe for production use.\\n    \"],[9],[0,\"\\n    \"],[7,\"p\",true],[8],[0,\"\\n        Current Version: \"],[7,\"span\",true],[10,\"class\",\"text-info\"],[8],[5,\"control/md-repo-link\",[],[[],[]]],[9],[0,\"\\n    \"],[9],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n\\n\"],[4,\"if\",[[24,[\"spotlight\",\"show\"]]],null,{\"statements\":[[0,\"  \"],[5,\"control/md-spotlight\",[],[[],[]]],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[5,\"control/md-scroll-spy\",[],[[\"@scrollInit\",\"@routeName\"],[\"top\",[22,\"currentRoute\"]]]],[0,\"\\n\"]],\"hasEval\":false}",
     "meta": {
       "moduleName": "mdeditor/templates/application.hbs"
     }
@@ -41195,12 +41019,12 @@
   _exports.default = void 0;
   var _default = Ember.HTMLBars.template(
   /*
-    {{layout/md-nav-secondary}}
+    <Layout::MdNavSecondary />
   
   */
   {
-    "id": "xl/EYAhu",
-    "block": "{\"symbols\":[],\"statements\":[[1,[22,\"layout/md-nav-secondary\"],false],[0,\"\\n\"]],\"hasEval\":false}",
+    "id": "2gG7KE3a",
+    "block": "{\"symbols\":[],\"statements\":[[5,\"layout/md-nav-secondary\",[],[[],[]]],[0,\"\\n\"]],\"hasEval\":false}",
     "meta": {
       "moduleName": "mdeditor/templates/nav-secondary.hbs"
     }
@@ -41285,19 +41109,6 @@
     }
   });
 });
-;define("mdeditor/themes/ember-paper", ["exports", "ember-models-table/themes/ember-paper"], function (_exports, _emberPaper) {
-  "use strict";
-
-  Object.defineProperty(_exports, "__esModule", {
-    value: true
-  });
-  Object.defineProperty(_exports, "default", {
-    enumerable: true,
-    get: function () {
-      return _emberPaper.default;
-    }
-  });
-});
 ;define("mdeditor/themes/ember-semanticui", ["exports", "ember-models-table/themes/ember-semanticui"], function (_exports, _emberSemanticui) {
   "use strict";
 
@@ -41337,14 +41148,14 @@
     }
   });
 });
-;define("mdeditor/transforms/json", ["exports", "ember-data"], function (_exports, _emberData) {
+;define("mdeditor/transforms/json", ["exports", "@ember-data/serializer/transform"], function (_exports, _transform) {
   "use strict";
 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
   _exports.default = void 0;
-  var _default = _emberData.default.Transform.extend({
+  var _default = _transform.default.extend({
     clean: Ember.inject.service('cleaner'),
     deserialize(serialized) {
       let json = JSON.parse(serialized);
@@ -42096,7 +41907,7 @@ catch(err) {
 
 ;
           if (!runningTests) {
-            require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","defaultProfileId":"org.adiwg.profile.full","name":"mdeditor","version":"0.10.0+3f8ea488"});
+            require("mdeditor/app")["default"].create({"repository":"https://github.com/adiwg/mdEditor","defaultProfileId":"org.adiwg.profile.full","name":"mdeditor","version":"0.10.0+02cef9ff"});
           }
         
 //# sourceMappingURL=mdeditor.map
