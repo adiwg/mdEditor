@@ -1,0 +1,53 @@
+{{#object/md-object-table
+  items=model
+  header=label
+  buttonText="Add Identifier"
+  ellipsis=ellipsis
+  templateClass=templateClass
+  attributes=attributes
+ as |editing|
+}}
+
+{{object/md-identifier
+  model=editing
+  short=short
+  profilePath=profilePath
+}}
+
+{{!-- {{input/md-input
+  value=editing.identifier
+  placeholder="Enter the identifier for the resource."
+  label="Identifier"
+  required=true
+  profilePath=(concat profilePath 'identifier')
+}}
+
+{{input/md-codelist
+  label="Namespace"
+  placeholder="Select or type a namespace for the identifier."
+  create=true
+  required=false
+  tooltip=true
+  icon=false
+  disabled=disabled
+  allowClear=true
+  mdCodeName="namespace"
+  valuePath="code"
+  value=editing.namespace
+  profilePath=(concat profilePath 'namespace')
+}}
+
+{{input/md-input
+  value=editing.version
+  placeholder="Enter the version for the identifier."
+  label="Version"
+  profilePath=(concat profilePath 'version')
+}}
+
+{{input/md-textarea
+  value=editing.description
+  profilePath=(concat profilePath 'description')
+  label="Description"
+  placeholder="Enter a description of the identifier."
+}} --}}
+{{/object/md-object-table}}

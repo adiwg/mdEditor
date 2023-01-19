@@ -1,0 +1,38 @@
+.tree-search {
+  .search-form {
+    margin: 1em .5em;
+  }
+
+  div.form-group {
+    margin-bottom: 15px;
+    padding-right: 1em;
+  }
+
+  .chk-grp {
+    width: 10em;
+
+    .checkbox {
+      margin-right: 1em;
+    }
+  }
+
+  .search-grp {
+    min-width: 15em;
+
+    .input-search {
+      width: 100%;
+    }
+  }
+
+  .tree-label {
+    display: table-cell;
+    padding-right: 5px;
+    width: 100%;
+  }
+
+  .tree-highlight {
+    .text-info {
+      color: $gray-dark;
+    }
+  }
+}

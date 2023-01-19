@@ -1,0 +1,17 @@
+  <div class="md-preview-image text-center">
+    {{#if item.uri}}
+    <img src={{item.uri}} class="img-responsive img-thumbnail" alt="Image Preview">
+    {{else}}
+    URI Not Defined
+    {{/if}}
+  </div>
+<dl class="dl-horizontal">
+  <dt>Name</dt>
+  <dd>
+  <div class="wrap">{{html-safe (if item.name item.name "<em>Not Defined</em>")}}</div>
+  </dd>
+  <dt>URI</dt>
+  <dd>
+    <div class="wrap">{{html-safe (if item.uri item.uri "<em>Not Defined</em>")}}</div>
+  </dd>
+</dl>

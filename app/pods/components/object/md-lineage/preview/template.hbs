@@ -1,0 +1,31 @@
+<dl class="dl-horizontal col-lg-12">
+    <dt>
+      <h4 class="text-info">Lineage #{{index}}</h4>
+    </dt>
+    <dd></dd>
+    {{control/md-definition title="Statement" text=(word-limit item.statement wordLength=20)}}
+</dl>
+<dl class="dl-horizontal col-lg-12">
+    {{#control/md-definition title="Process Step" }}
+        {{#each item.processStep as |step i|}}
+          {{#if (lt i showLimit)}}
+          <p>
+            <span class="text-info">{{if step.stepId step.stepId i}}</span>: {{word-limit step.description limit=20 wordLength=20}}
+          </p>
+          {{/if}}
+        {{else}}
+            <em class="text-muted">No process steps assigned.</em>
+        {{/each}}
+    {{/control/md-definition}}
+    {{#if item.processStep.length}}
+      {{#if showMore}}
+      <p class="text-right">
+        <a type="button" role="button" class="plain-link" {{action (toggle "showMore" this)}}> {{fa-icon "caret-up"}} Less</a>
+      </p>
+      {{else}}
+      <p class="text-right">
+        <a type="button" role="button" class="plain-link" {{action (toggle "showMore" this)}}>{{fa-icon "caret-down"}} More</a>
+      </p>
+      {{/if}}
+    {{/if}}
+</dl>

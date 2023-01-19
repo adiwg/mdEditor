@@ -1,0 +1,19 @@
+{{#object/md-object-table
+  items=model
+  header=label
+  shadow=shadow
+  buttonText="Add Resource"
+  ellipsis=ellipsis
+  previewTemplate=previewTemplate
+  profilePath=profilePath
+  templateClass=templateClass
+  attributes=attributes as |editing|
+}}
+    {{!-- Editing: {{editing.name}} --}}
+
+    {{object/md-online-resource imagePicker=imagePicker model=editing
+      profilePath=profilePath
+    }}
+
+{{/object/md-object-table}}
+{{yield}}

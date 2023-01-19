@@ -1,0 +1,58 @@
+<nav id="md-navbar-main" class="navbar navbar-inverse navbar-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#md-navbar-main-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" {{ action "toggleSidebar" }}>
+        <span class="md-icon-mdeditor"></span>
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="md-navbar-main-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          {{#link-to "dashboard"}}
+            <span class="fa fa-dashboard"></span>
+            <span class="md-nav-text">Dashboard</span>
+            {{ember-tooltip text="Dashboard" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
+          {{/link-to}}
+        </li>
+        <li>
+          {{#link-to "export"}}
+            <span class="fa fa-sign-out"></span>
+            <span class="md-nav-text">Export</span>
+            {{ember-tooltip text="Export" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
+          {{/link-to}}
+        </li>
+        <li>
+          {{#link-to "import"}}
+            <span class="fa fa-sign-in"></span>
+            <span class="md-nav-text">Import</span>
+            {{ember-tooltip text="Import" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
+          {{/link-to}}
+        </li>
+        <li>
+          {{#link-to "publish"}}
+            <span class="fa fa-share-square-o"></span>
+            <span class="md-nav-text">Publish</span>
+            {{ember-tooltip text="Publish" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
+          {{/link-to}}
+        </li>
+        {{yield}}
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          {{#link-to "settings"}}
+            <span class="fa fa-gear"></span>
+            <span class="md-nav-text nav-settings">Settings</span>
+            {{ember-tooltip text="Settings" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
+          {{/link-to}}
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

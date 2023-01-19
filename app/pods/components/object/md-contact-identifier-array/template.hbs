@@ -1,0 +1,21 @@
+{{#object/md-array-table
+  columns="Identifier,Namespace"
+  title="External Identifier"
+  value=value
+  validation=validation
+  data-spy=null
+  templateClass=templateClass as |contactId|
+}}
+  <td>
+      {{input/md-input valuePath="identifier" model=contactId.item
+      placeholder="External Contact Identifier"}}
+  </td>
+  <td>
+      {{input/md-codelist path="namespace" model=contactId.item
+      create=true tooltip=true icon=false mdCodeName="namespace"
+      showValidations=true
+      placeholder="Select a Namespace"
+      profilePath="contact.externalIdentifier.namespace"
+      data-spy=false }}
+  </td>
+{{/object/md-array-table}}

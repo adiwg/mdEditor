@@ -16,6 +16,7 @@
   "laxbreak": false,
   "newcap": true,
   "noarg": true,
+  "node": true,
   "noempty": false,
   "nonew": false,
   "nomen": false,
@@ -27,6 +28,6 @@
   "strict": false,
   "white": false,
   "eqnull": true,
-  "esnext": true,
+  "esversion": 6,
   "unused": true
 }

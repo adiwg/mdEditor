@@ -1,0 +1,34 @@
+{{#object/md-array-table
+  columns="Type, Name"
+  title="Resource Type"
+  data-spy=false
+  value=value
+  validation=validation
+  plain=plain
+  required=required
+  errorMessage=errorMessage
+  tipPath=tipPath
+  tipModel=tipModel
+  profilePath=profilePath
+  templateClass=templateClass as |type|
+}}
+  <td>
+    {{#with type.item as |item|}}
+    {{input/md-codelist
+      create=true
+      tooltip=true
+      icon=true
+      disabled=disabled
+      allowClear=true
+      mdCodeName="scope"
+      showValidations=true
+      profilePath=(concat profilePath ".resourceType")
+      model=item
+      path="type" placeholder="Choose type of resource" }}
+      {{/with}}
+  </td>
+  <td>
+    {{input/md-input value=type.item.name profilePath=(concat profilePath ".name")
+      placeholder="Name of resource"}}
+  </td>
+{{/object/md-array-table}}

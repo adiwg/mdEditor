@@ -1,0 +1,10 @@
+{{#with item as |t|}}
+  {{#if isTable}}
+    <td>{{t.transferSize}}</td>
+    <td>{{if t.onlineOption.length (concat "yes(" t.onlineOption.length ")") "no"}}</td>
+    <td>{{if t.offlineOption.length (concat "yes(" t.offlineOption.length ")") "no"}}</td>
+    <td>{{if t.distributionFormat.length (concat "yes(" t.distributionFormat.length ")") "no"}}</td>
+  {{else}}
+    {{yield t}}
+  {{/if}}
+{{/with}}

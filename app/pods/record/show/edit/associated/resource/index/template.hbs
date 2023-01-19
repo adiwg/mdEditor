@@ -1,0 +1,34 @@
+<h4 class="section-header">
+  Editing Associated Resource #{{resourceId}}
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-associated model=model recordId=parentModel.recordId
+  profilePath="record.associated"
+  editLinked=(route-action "editLinked")
+}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-citation"
+    text="Back to Resource List"
+    icon="arrow-left"
+    route="record.show.edit.associated"
+    selectResource=(route-action "selectResource")
+  )
+}}
+
+{{to-elsewhere
+  named="md-slider-content"
+  send=(hash
+    title=(concat "Click row to select a resource: " model.associationType)
+    body=(component "control/md-select-table"
+      select=(route-action "insertResource")
+      data=(compute (route-action "sliderData"))
+      columns=(compute (route-action "sliderColumns"))
+    )
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

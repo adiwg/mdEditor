@@ -1,0 +1,19 @@
+<h4 class="section-header">
+  Editing Associated Resource
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-objectroute-table
+  items=model.json.metadata.associatedResource
+  header="Associated Resource"
+  shadow=true
+  buttonText="Add Resource"
+  ellipsis=ellipsis
+  previewTemplate="object/md-associated/preview"
+  editItem=(route-action "editResource")
+  verticalButtons=true
+  profilePath="record.associated"
+  hideIndex=true
+  condensed=true
+  addSubbar="md-subbar-extra"
+}}

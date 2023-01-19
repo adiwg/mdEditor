@@ -1,0 +1,153 @@
+.md-card {
+  .card-flex {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    &.card-block::before,
+    &.card-block::after {
+      content: none;
+      // display: table;
+    }
+
+    .btn-group-vertical {
+      margin-left: 1em;
+      min-width: 150px;
+    }
+  }
+
+  .card-title {
+    font-size: 1.2em;
+    margin-bottom: 0;
+  }
+
+  .card-buttons {
+    margin-bottom: 1.2em;
+  }
+
+  &.scroll-card .card-collapse {
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  &.full-screen {
+    height: 100vh;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10000;
+
+    .card-block.card-collapse {
+      max-height: none;
+      overflow-y: auto;
+    }
+  }
+
+  .card-footer {
+    .btn {
+      margin-bottom: 5px;
+      margin-top: 5px;
+    }
+
+    .btn:focus {
+      outline: none;
+    }
+  }
+
+  &.hd-success .card-header {
+    background-color: $brand-success;
+
+    a {
+      color: $body-bg;
+
+      &:hover {
+        color: lighten($brand-info, 35);
+      }
+    }
+  }
+
+  &.card-inverse .md-card-maximize {
+    color: $body-bg;
+
+    &:hover {
+      color: darken($body-bg, 10);
+      //font-weight: 900;
+    }
+  }
+
+  &.muted .card-block {
+    color: $text-muted;
+  }
+
+  .form-inline {
+    > * {
+      padding-right: 1em;
+    }
+
+    > label {
+      padding-right: 2em;
+    }
+  }
+
+  .list-group-item {
+    border-left: 0;
+    border-right: 0;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.md-card-chevron a {
+  //color: inherit;
+  text-decoration: none;
+
+  span::before {
+    content: '\f106';
+  }
+
+  &.collapsed span::before {
+    content: '\f107';
+  }
+}
+
+.card-table {
+  .card-block {
+    padding: 0;
+
+    table {
+      margin-bottom: 0;
+
+      tr:first-child {
+        td,
+        tr {
+          border-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.md-card-even {
+  background-color: lighten($brand-info, 45);
+}
+
+.card-lighter {
+  @include card-variant(lighten($gray-lighter,3), $panel-default-border);
+}
+
+.md-card-form-control {
+  border-color: $gray-lighter;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}

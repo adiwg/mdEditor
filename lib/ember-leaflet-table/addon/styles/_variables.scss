@@ -1,0 +1,15 @@
+$gray-base:               #000 !default;
+$gray-darker:             lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:               lighten($gray-base, 20%) !default;   // #333
+$gray:                    lighten($gray-base, 33.5%) !default; // #555
+$gray-light:              lighten($gray-base, 46.7%) !default; // #777
+$gray-lightly:            lighten($gray-base, 86.7%) !default; // #ddd
+$gray-lighter:            lighten($gray-base, 93.5%) !default; // #eee
+
+$blue:                    #428bca;
+$light-blue:              #5bc0de !default;
+$dark-blue:               darken($blue, 6.5%) !default; // #337ab7
+$green:                   #5cb85c !default;
+$orange:                  #f0ad4e !default;
+$red:                     #d9534f !default;
+$white:                   #fff !default;

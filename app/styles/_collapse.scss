@@ -1,0 +1,9 @@
+.md-collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .25s ease-in-out;
+
+  &.open {
+    max-height: 100vh;
+  }
+}

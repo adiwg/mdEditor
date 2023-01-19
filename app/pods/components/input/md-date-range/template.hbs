@@ -1,0 +1,32 @@
+<label class="text-info required">Dates</label>
+{{input/md-datetime
+  class="start"
+  valuePath="start"
+  model=this
+  showValidations=true
+  forceDateOutput=true
+  label="Start Date"
+  showClear=true
+  format="YYYY-MM-DD HH:mm:ss"
+  placeholder="Enter start dateTime"
+  profilePath=(concat profilePath ".start")
+}}
+{{input/md-datetime
+  class="end"
+  valuePath="end"
+  model=this
+  showValidations=true
+  forceDateOutput=true
+  showClear=true
+  label="End Date"
+  format="YYYY-MM-DD HH:mm:ss"
+  placeholder="Enter end dateTime"
+  profilePath=(concat profilePath ".end")
+}}
+{{control/md-fiscalyear
+  start="start"
+  end="end"
+  context=this
+  profilePath=(concat profilePath ".fiscalyear")
+}}
+{{yield}}

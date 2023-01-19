@@ -1,0 +1,32 @@
+<div class="row md-section-secondary">
+  <div class="md-record-content col-sm-10">
+    {{liquid-outlet}}
+  </div>
+  <div class="md-control-sidebar col-sm-2 hidden-print">
+      {{control/md-crud-buttons
+          model=model
+          doSave=(route-action "saveRecord")
+          doCancel=(route-action "cancelRecord")
+          doDelete=(route-action "destroyRecord")
+          doCopy=(route-action "copyRecord")
+      }}
+    {{!-- {{#liquid-bind currentModel use="fade" duration="1000"}} --}}
+      <hr>
+      {{from-elsewhere name="md-subbar-extra"}}
+
+      <div class="btn-group-vertical center-block" role="group" aria-label="Action Button Controls">
+        {{multiple-from-elsewhere name="md-subbar-buttons"}}
+      </div>
+
+      {{#from-elsewhere name="md-scroll-spy-record-edit" as |spy|}}
+          {{component spy offset=145}}
+      {{/from-elsewhere}}
+    {{!-- {{/liquid-bind}} --}}
+  </div>
+</div>
+
+{{to-elsewhere named="record-nav" send=(component "input/md-select-profile" value=model.profile record=model)}}
+
+{{#if model}}
+  {{to-elsewhere named="nav-secondary" send=(component "layout/md-nav-secondary" model=model)}}
+{{/if}}

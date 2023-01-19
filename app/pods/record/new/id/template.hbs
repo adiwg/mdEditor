@@ -1,0 +1,57 @@
+<div class="row page-header">
+    <div class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3">
+        <h3>Create New Record</h3>
+    </div>
+</div>
+
+<div class="row">
+    <form {{action "saveRecord" on="submit"}}
+    class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3">
+      <div class="form-group">
+          <label class="control-label">Record ID</label>
+          <div class="text-muted">{{model.recordId}}</div>
+          {{!-- <div class="">
+              {{input/md-input
+              valuePath="recordId"
+              model=model
+              placeholder="Enter an ID for this record"}}
+          </div> --}}
+      </div>
+        <div class="form-group">
+            <label class="control-label
+            {{if (v-get model "json.metadata.resourceInfo.citation.title"
+             "options.presence.presence") "required"}}">Record Title</label>
+            <div class="">
+              {{input/md-input
+                valuePath="json.metadata.resourceInfo.citation.title"
+                model=model
+                profilePath="record.new.title"
+                placeholder="Enter a title for the record"
+              }}
+            </div>
+        </div>
+        <div class="form-group clear">
+            {{!-- <label class="col-sm-3 control-label">Choose Type</label> --}}
+            <div class="card">
+            <div class="card-block">
+
+            {{object/md-resource-type-array
+              plain=true
+              value=model.json.metadata.resourceInfo.resourceType
+              required=true
+              profilePath="record.new"
+            }}
+          </div>
+          </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                 <span class="pull-right">
+                      <button type="submit" class="btn btn-success md-form-save"
+                                                      disabled={{v-get model "isInvalid"}}>Save</button>
+                      <button type="button" {{action "cancelRecord"}} class="btn btn-warning ">Cancel</button>
+                 </span>
+            </div>
+        </div>
+    </form>
+</div>

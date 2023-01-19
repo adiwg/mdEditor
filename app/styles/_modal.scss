@@ -1,0 +1,81 @@
+.md-modal-container.ember-modal-dialog {
+  width: 300px;
+  z-index: 2100;
+
+  h1 {
+    color: $brand-info;
+    font-size: 1.2em;
+    margin-bottom: 1em;
+  }
+
+  .md-modal-buttons {
+    margin-top: 10px;
+  }
+
+  .md-modal-body {
+    min-height: 75px;
+    padding: 10px;
+  }
+
+  .alert {
+    font-size: 1.2em;
+    font-weight: 700;
+  }
+}
+
+.md-modal-overlay.translucent {
+  background-color: rgba($gray-lighter, .85);
+  z-index: 1100;
+}
+
+.md-modal-close {
+  background-color: $body-bg;
+  border-radius: 14px;
+  border-style: none;
+  box-shadow: 0 0 10px;
+  color: $gray-dark;
+  display: none;
+  font-size: 14px;
+  opacity: 0.8;
+  padding: 1px;
+  position: absolute;
+  right: -1em;
+  top: -1em;
+  transition: color 250ms;
+
+  &:hover {
+    color: $brand-danger;
+    opacity: 1;
+  }
+}
+@media (min-width: 420px) {
+  .md-modal-container.ember-modal-dialog {
+    width: 375px;
+  }
+
+  .md-modal-close {
+    display: block;
+  }
+}
+
+.md-no-liquid {
+  .liquid-child,
+  .liquid-container {
+    transform: none !important;
+  }
+
+  .md-flash {
+    animation: none !important;
+  }
+}
+
+.md-spotlight-target {
+  position: relative;
+  z-index: 1101;
+}
+
+.md-no-spotlight {
+  .md-btn-spotlight {
+    display: none;
+  }
+}

@@ -1,0 +1,34 @@
+{{#if modal}}
+  {{#modal-dialog
+      onClose=(action "closeModal")
+      translucentOverlay=true
+      containerClass="md-jsmodal-container"
+      overlayClass="md-modal-overlay"
+      attachment="top center"
+      targetAttachment="top center"
+      tetherTarget="html"
+  }}
+    <button type="button" {{action "closeModal"}} class="md-modal-close" aria-label="Close">
+      <span class="fa-stack">
+          <i class="fa fa-circle fa-stack-2x"></i>
+          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
+      </span>
+    </button>
+    <div class="md-viewer-body"></div>
+  {{/modal-dialog}}
+{{else}}
+  <div class="well">
+    <div class="btn-toolbar md-viewer-controls pull-right">
+      <div class="btn-group-vertical" role="group" aria-label="JSON viewer controls">
+        <button type="button" class="btn btn-primary" {{action "expand"}} title="Expand All">{{fa-icon "plus"}}</button>
+        <button type="button" class="btn btn-default" {{action "collapse"}} title="Collapse All">{{fa-icon "minus"}}</button>
+      </div>
+      <div class="btn-group-vertical" role="group" aria-label="JSON viewer controls">
+        <button type="button" class="btn btn-primary" {{action "zoomin"}} title="Zoom in">{{fa-icon "search"}}</button>
+        <button type="button" class="btn btn-default" {{action "zoomout"}} title="Zoom Out">{{fa-icon "search-minus"}}</button>
+      </div>
+    </div>
+    <div class="md-viewer-body">
+    </div>
+  </div>
+{{/if}}

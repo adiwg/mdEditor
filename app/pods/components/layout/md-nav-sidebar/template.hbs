@@ -1,0 +1,65 @@
+  <ul class="sidebar-nav">
+    <li class="sidebar-brand">
+      <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>md<span class="md-icon-mdeditor"></span>ditor</a><span class="md-app-version {{prerelease}}">v{{version}}</span>
+      <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}>{{fa-icon (if showHelp "list" "question-circle")}}</a>
+    </li>
+    {{#liquid-if showHelp use="fade" enableGrowth=false}}
+      {{md-help}}
+    {{else}}
+    <li id="md-sidebar-lists">
+      <div class="panel-group">
+        {{#each items as |class|}}
+          {{#with class.meta as |meta|}}
+            <div class="panel">
+              <div class="panel-heading clearfix" id="{{meta.listId}}-heading">
+                <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
+                  {{#link-to (concat meta.type ".new") class="btn btn-primary btn-xs" }}
+                    {{fa-icon "plus"}} {{/link-to}}
+                  {{#link-to meta.list class="btn btn-primary btn-xs" }}
+                    <span class="fa fa-list"></span> {{/link-to}}
+                </div>
+                <h4 class="panel-title bg-primary">
+              <a class="" data-toggle="collapse" aria-expanded="true"
+                href="#{{meta.listId}}" aria-controls={{meta.listId}}>
+                <span class="fa"></span> {{meta.title}} ({{class.length}})
+              </a>
+            </h4>
+              </div>
+              <div class="panel-collapse collapse in" role="tabpanel" aria-expanded="true" id={{meta.listId}} aria-labelledby="{{meta.listId}}-heading">
+                <div class="list-group">
+                {{#each class as |record|}}
+                    <div class="list-group-item" draggable="true">
+                      <div class="btn-group btn-group-xs pull-right" role="group" aria-label="Navigation Buttons">
+                        {{#link-to (concat meta.type ".show.edit") record
+                          class=(concat "btn btn-" record.status)
+                          disabledWhen=record.isNew
+                          draggable="false"
+                        }}
+                          {{fa-icon "pencil"}}
+                        {{/link-to}}
+                      </div>
+                      {{!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> --}}
+                      {{#link-to (concat meta.type ".show")
+                        record class="sidebar-row"
+                        disabledWhen=record.isNew
+                        activeClass=(concat "active text-" record.status)
+                        draggable="false"
+                      }}
+                          {{#if record.defaultLogo}}
+                            <img src={{record.defaultLogo}} alt="logo" class="fa-fw">
+                          {{else}}
+                            <span class="fa fa-{{record.icon}} fa-fw"></span>
+                          {{/if}}
+                          {{record.title}}
+                      {{/link-to}}
+                    </div>
+                {{/each}}
+                </div>
+              </div>
+            </div>
+          {{/with}}
+        {{/each}}
+      </div>
+    </li>
+    {{/liquid-if}}
+  </ul>

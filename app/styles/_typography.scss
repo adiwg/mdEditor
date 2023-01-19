@@ -1,0 +1,92 @@
+.md-fa-link i.fa {
+  padding-left: 0.3em;
+  padding-right: 0.3em;
+}
+
+a.external::after {
+  @extend sup;
+
+  content: '\f08e';
+  font-family: FontAwesome;
+  font-style: normal;
+  font-weight: normal;
+}
+
+.page-header {
+  margin: 20px 0;
+}
+
+.section-header,
+.tab-header {
+  color: $md-text-info-dark;
+  margin-bottom: 20px;
+  margin-top: 0;
+  padding: 0;
+
+  hr {
+    margin: 0;
+  }
+}
+
+.tab-header {
+  margin: 15px 0;
+}
+
+.no-margin {
+  margin: 0;
+}
+
+.no-padding {
+  padding: 0;
+}
+
+.huge-text {
+  font-size: 40px;
+}
+
+.list-group-item-heading {
+  hr {
+    margin-bottom: .5em;
+    margin-top: .5em;
+  }
+}
+
+a {
+  transition: all 0.3s ease-out;
+}
+
+.wrapped {
+  white-space: normal !important;
+}
+
+.nowrap {
+  white-space: nowrap !important;
+}
+
+.text-white {
+  color: $white !important;
+}
+
+.text-info-dark {
+  color: $md-text-info-dark !important;
+}
+
+.plain-link {
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  &:active,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.word-break-all {
+  overflow-wrap: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
+}

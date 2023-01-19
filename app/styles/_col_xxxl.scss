@@ -1,0 +1,108 @@
+$screen-xxxl:                  1920px !default;
+$screen-xxxl-min:              $screen-xxxl !default;
+$screen-xxxl-desktop:          $screen-xxxl-min !default;
+$screen-xxl-max:              ($screen-xxxl-min - 1) !default;
+$container-xxxlarge-desktop:   (2010px + $grid-gutter-width) !default;
+$container-xxxl:               $container-xxxlarge-desktop !default;
+
+.container {
+  // @include container-fixed; No need for, already done.
+  @media (min-width: $screen-xxxl-min) {
+    width: $container-xxxl;
+  }
+}
+
+// xxxlarge grid
+//
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+
+@media (min-width: $screen-xxxl-min) {
+  @include make-grid(xxxl);
+}
+
+// Generate the xxxlarge columns
+@mixin make-xxxl-column($columns, $gutter: $grid-gutter-width) {
+  position: relative;
+  min-height: 1px;
+  padding-left:  ($gutter / 2);
+  padding-right: ($gutter / 2);
+
+  @media (min-width: $screen-xxxl-min) {
+    float: left;
+    width: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-xxxl-column-offset($columns) {
+  @media (min-width: $screen-xxxl-min) {
+    margin-left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-xxxl-column-push($columns) {
+  @media (min-width: $screen-xxxl-min) {
+    left: percentage(($columns / $grid-columns));
+  }
+}
+@mixin make-xxxl-column-pull($columns) {
+  @media (min-width: $screen-xxxl-min) {
+    right: percentage(($columns / $grid-columns));
+  }
+}
+
+@mixin make-grid-columns($i: 1, $list: ".col-xxxl-#{$i}") {
+  @for $i from (1 + 1) through $grid-columns {
+    $list: "#{$list}, .col-xxxl-#{$i}";
+  }
+  #{$list} {
+    position: relative;
+    // Prevent columns from collapsing when empty
+    min-height: 1px;
+    // Inner gutter via padding
+    padding-left:  calc($grid-gutter-width / 2);
+    padding-right: calc($grid-gutter-width / 2);
+  }
+}
+
+@include make-grid-columns;
+
+@include responsive-invisibility('.visible-xxxl');
+
+.visible-xxxl-block,
+.visible-xxxl-inline,
+.visible-xxxl-inline-block {
+  display: none !important;
+}
+
+@media (min-width: $screen-xxxl-min) {
+  @include responsive-invisibility('.visible-xxl');
+  @include responsive-visibility('.visible-xxxl');
+}
+.visible-xxxl-block {
+  @media (min-width: $screen-xxxl-min) {
+    display: block !important;
+  }
+}
+.visible-xxxl-inline {
+  @media (min-width: $screen-xxxl-min) {
+    display: inline !important;
+  }
+}
+.visible-xxxl-inline-block {
+  @media (min-width: $screen-xxxl-min) {
+    display: inline-block !important;
+  }
+}
+
+@media (min-width: $screen-xxl-min) and (max-width: $screen-xxl-max) {
+  @include responsive-invisibility('.hidden-xxl');
+}
+
+@media (min-width: $screen-xxxl-min) {
+  @include responsive-invisibility('.hidden-xxxl');
+  @include responsive-visibility('.hidden-xxl');
+
+  .visible-xxl-block,
+  .visible-xxl-inline,
+  .visible-xxl-inline-block {
+    display: none !important;
+  }
+}

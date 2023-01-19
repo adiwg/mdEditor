@@ -1,0 +1,54 @@
+@keyframes fp-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba($btn-success-border, .7);
+  }
+
+  100% {
+    box-shadow: 0 0 0 15px rgba($btn-success-border, 0);
+  }
+}
+
+.md-file-picker {
+  button {
+    font-size: 4vw;
+    min-height: 20rem;
+    transition-duration: 1s;
+    transition-property: background-color, color;
+    white-space: normal;
+
+    @media (min-width: $grid-float-breakpoint) {
+      font-size: 3vw;
+    }
+  }
+
+  &.over button {
+    @include button-variant($btn-success-color, $btn-success-bg, $btn-success-border);
+
+    animation: fp-pulse 1.5s infinite;
+  }
+}
+
+.md-online-resource {
+  .md-file-picker {
+    margin: 1em;
+
+    button {
+      font-size: 1.1em;
+      min-height: 100px;
+
+      @media (min-width: $grid-float-breakpoint) {
+        font-size: 1.5em;
+      }
+    }
+  }
+
+  .md-preview-image {
+    line-height: 100px;
+    margin: 1em;
+
+    img {
+      margin: auto;
+      max-height: 100px;
+    }
+  }
+}

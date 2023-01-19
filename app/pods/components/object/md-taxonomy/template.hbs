@@ -1,0 +1,38 @@
+{{#layout/md-card
+title=title
+collapsible=true
+collapsed=false
+profilePath="record.taxonomy"
+data-spy=(concat "Collection " index)
+shadow=true
+spotlightEnabled=false
+}}
+    <div class="card-buttons">
+      <div class="row">
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editCollection" index}}>
+            {{fa-icon "pencil"}} Edit Collection</button>
+        </div>
+        <div class="col-sm-6">
+          <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteCollection" index}}>
+              {{fa-icon "times"}} Delete Collection</button>
+        </div>
+      </div>
+    </div>
+
+    {{#layout/md-card
+      collapsible=true
+      collapsed=false
+      shadow=false
+      maximizable=false
+      spotlightEnabled=false
+      block=false
+      profilePath="record.taxonomy.classificationPreview"
+    }}
+      {{object/md-taxonomy/classification
+        model=model.taxonomicClassification
+        preview=true
+        profilePath="record.taxonomy.classificationPreview"
+      }}
+    {{/layout/md-card}}
+{{/layout/md-card}}

@@ -1,0 +1,30 @@
+<h4 class="section-header">
+  Editing Entity {{#if model.codeName}}
+    <em>{{model.codeName}}</em>
+  {{else}}
+    #{{entityId}}
+  {{/if}}
+  <span class="small">for <em>{{parentModel.title}}</em></span>
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-entity
+  class=""
+  model=model
+  dictionary=parentModel.json.dataDictionary
+  profilePath="dictionary.entity"
+  editCitation=(route-action "editCitation")
+  editAttribute=(route-action "editAttribute")
+}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Entity List"
+    icon="arrow-left"
+    route="dictionary.show.edit.entity.index"
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

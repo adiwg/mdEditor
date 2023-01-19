@@ -1,0 +1,58 @@
+.md-keywords-container {
+  border: 1px solid $gray-lighter;
+  padding: 15px;
+
+  &.hide-thesaurus {
+    .md-keywords-thesaurus {
+      left: -100px;
+      margin-left: -100px;
+      opacity: 0;
+      overflow-x: hidden;
+      position: fixed;
+    }
+
+    .md-keywords-list {
+      @include transition(width .5s ease .25s);
+      width: 100%;
+    }
+  }
+}
+
+.md-keywords-select {
+  display: inline-block;
+  margin: 0 10px;
+  max-width: 300px;
+  vertical-align: middle;
+  width: 50%;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+}
+
+//.md-keywords-list,
+.md-keywords-thesaurus {
+  @include transition(all .5s ease);
+}
+
+.md-keyword-tree {
+  > .tree-trunk > .tree-branch:first-child > .tree-leaf {
+    border-top: 0;
+  }
+}
+
+.md-keywords-collapse {
+  font-size: 28px;
+  padding: 5px;
+
+  span::before {
+    content: '\f106';
+    font-weight: 900;
+    padding: 10px;
+    vertical-align: middle;
+  }
+
+  &.collapsed span::before {
+    content: '\f107';
+  }
+}

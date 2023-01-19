@@ -1,0 +1,207 @@
+<div class="row md-no-spotlight">
+  <div class="col-sm-9 col-md-offset-1">
+    <h3>
+      {{#if model.defaultLogo}}
+        <img src={{model.defaultLogo}} class="img-responsive inline-block md-logo-preview" alt="Responsive image">
+      {{else}}
+        {{fa-icon model.icon class="text-muted"}}
+      {{/if}}
+
+      Viewing {{model.type}} Contact: {{model.title}}
+          {{!-- <span class="text-danger">
+            {{#if model.hasDirtyHash}}
+              {{fa-icon "exclamation-circle"}}
+              {{ember-tooltip text='This record has been modified!' side="right"
+                tooltipClass="ember-tooltip md-tooltip danger"
+              }}
+            {{/if}}
+          </span> --}}
+          {{control/md-status model=model}}
+    </h3>
+    {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
+        <dl class="dl-horizontal col-lg-6">
+          {{control/md-definition title="Contact Id" text=model.contactId}}
+          {{control/md-definition title="Contact Name" text=model.name}}
+
+          {{#unless model.json.isOrganization}}
+            {{control/md-definition title="Position" text=model.json.positionName}}
+          {{/unless}}
+
+          {{control/md-definition title="Contact Type" text=model.json.contactType}}
+          {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
+
+        </dl>
+        <dl class="dl-horizontal col-lg-6">
+          {{#control/md-definition title="Organizations"}}
+            {{#each model.json.memberOfOrganization as |orgId|}}
+              {{control/md-contact-link
+                contactId=orgId
+              }}<br>
+              {{else}}
+                <em class="text-muted">No organizations assigned.</em>
+            {{/each}}
+          {{/control/md-definition}}
+        </dl>
+    {{/layout/md-card}}
+
+    <div class="row">
+    <div class="col-md-6 col-xxl-4">
+    {{#layout/md-card shadow=false muted=true title="Phone" class="card-table"}}
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#each model.json.phone as |ph|}}
+              <tr>
+                <td>{{get-dash ph "phoneName"}}</td>
+                <td>
+                  {{#if ph.phoneNumber}}
+                    <a href="tel:{{ph.phoneNumber}}">{{ph.phoneNumber}}
+                      {{ember-tooltip text="Click to call."}}
+                    </a>
+                  {{else}}
+                    --
+                  {{/if}}
+                </td>
+                <td>
+                  {{if ph.service.length (join ", " ph.service) "--"}}
+                </td>
+              </tr>
+            {{else}}
+              <tr><td><em class="text-muted">No phones assigned.</em></td></tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      {{/layout/md-card}}
+    </div>
+    <div class="col-md-6 col-xxl-4">
+
+      {{#layout/md-card shadow=false muted=true title="E-mail" class=""}}
+      <ul class="list-unstyled">
+        {{#each model.json.electronicMailAddress as |email|}}
+          <li><a href="mailto:{{email}}" target="_blank" rel="noopener noreferrer">{{email}}
+            {{ember-tooltip text="Click to send e-mail."}}
+          </a></li>
+        {{else}}
+          <li><em class="text-muted">No e-mails assigned.</em></li>
+        {{/each}}
+      </ul>
+      {{/layout/md-card}}
+    </div>
+    <div class="clearfix hidden-xxl"></div>
+    <div class="col-md-6 col-xxl-4">
+
+      {{#layout/md-card shadow=false muted=true title="Availability" class=""}}
+      <ul class="list-unstyled">
+        {{#each model.json.hoursOfService as |hours|}}
+          <li>{{hours}}</li>
+        {{else}}
+          <li><em class="text-muted">No information provided.</em></li>
+        {{/each}}
+      </ul>
+      {{/layout/md-card}}
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-md-6">
+    {{#layout/md-card shadow=false muted=true title="Address" bodyIsRow=model.json.address.length}}
+        {{#each model.json.address as |address|}}
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-block">
+                {{object/md-address/md-address-block item=address}}
+              </div>
+            </div>
+          </div>
+        {{else}}
+            <em>No addresses provided.</em>
+        {{/each}}
+      {{/layout/md-card}}
+    </div>
+    <div class="col-md-6">
+      {{#layout/md-card shadow=false muted=true title="Online Resource"}}
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>URI</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{#each model.json.onlineResource as |ol|}}
+                <tr>
+                  <td>{{get-dash ol "name"}}</td>
+                  <td>
+                    {{#if ol.uri}}
+                      <a href={{ol.uri}} target="_blank" rel="noopener noreferrer">{{ol.uri}}
+                        {{!-- {{ember-tooltip text="Click to visit."}} --}}
+                      </a>
+                    {{else}}
+                      --
+                    {{/if}}
+                  </td>
+                </tr>
+              {{else}}
+                <tr><td><em class="text-muted">No online resources assigned.</em></td></tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+      {{/layout/md-card}}
+    </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        {{#layout/md-card shadow=false muted=true title="External Identifiers" bodyIsRow=model.json.externalIdentifier.length}}
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Identifier</th>
+                  <th>Namespace</th>
+                </tr>
+              </thead>
+              <tbody>
+          {{#each model.json.externalIdentifier as |ei|}}
+            <tr>
+              <td>{{ei.identifier}}</td>
+              <td>{{ei.namespace}}</td>
+            </tr>
+          {{else}}
+            <tr><td><em class="text-muted">No External Identifiers.</em></td></tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+        {{/layout/md-card}}
+      </div>
+    </div>
+
+  </div>
+  <div class="md-control-sidebar col-sm-2 no-nav">
+    {{#control/md-crud-buttons
+      model=model
+      allowCopy=true
+      allowDelete=true
+      doDelete=(route-action "destroyContact")
+      doCopy=(route-action "copyContact")
+    }}
+      {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
+        {{fa-icon "pencil"}} Edit{{/link-to}}
+    {{/control/md-crud-buttons}}
+    <hr>
+    {{#link-to "contacts" class="btn btn-lg btn-primary btn-block" }}
+    {{fa-icon "list"}} Show List{{/link-to}}
+    {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+  </div>
+</div>

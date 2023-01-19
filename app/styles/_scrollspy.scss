@@ -1,0 +1,47 @@
+@keyframes flash {
+  0%,
+  100%,
+  50% {
+    opacity: 1;
+  }
+
+  25%,
+  75% {
+    opacity: .5;
+  }
+}
+
+.md-scroll-spy {
+  .nav > li > a {
+    padding: 5px 10px;
+    transition: none;
+  }
+
+  .nav .md-embedded {
+    font-size: .95em;
+    padding-left: 10px;
+
+    > a {
+      padding-bottom: 2.5px;
+      padding-top: 2.5px;
+
+    }
+  }
+
+  //disable hilighting
+  .nav li.active a{
+    background-color: inherit;
+    color: $link-color;
+
+    &:hover,
+    &:focus {
+      background-color: $nav-link-hover-bg;
+    }
+  }
+}
+
+.md-flash {
+  animation-duration: 1.5s;
+  animation-fill-mode: both;
+  animation-name: flash;
+}

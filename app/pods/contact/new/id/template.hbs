@@ -1,0 +1,69 @@
+<div class="row page-header">
+    <div class="col-md-6 col-md-offset-3">
+        <h3>Create New Contact</h3>
+    </div>
+</div>
+
+<div class="row">
+    <form {{action "saveContact" on="submit"}} class="form-horizontal col-md-6 col-md-offset-3" >
+      <div class="form-group">
+            <label class="col-sm-3 control-label">Contact Type</label>
+            <div class="col-sm-9 col-sm-offset-">
+              {{input/md-toggle
+                value=model.json.isOrganization
+                onToggle=(action (mut model.json.isOrganization))
+                showLabels=true
+                onLabel="Organization"
+                offLabel="Individual"
+                size="large"
+                theme="form"
+              }}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label
+              {{if (v-get model "json.contactId" "options.presence.presence")
+              "required"}}">Contact ID</label>
+
+            <div class="col-sm-9">
+                {{input/md-input
+                valuePath="json.contactId"
+                model=model
+                placeholder="Enter an ID for this contact"}}
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label
+            {{unless (v-get model "json.name" "options.presence.disabled")
+            "required"}}">Name</label>
+            <div class="col-sm-9">
+                {{input/md-input
+                valuePath="json.name"
+                model=model
+                placeholder="Enter a name for this contact"}}
+            </div>
+        </div>
+        {{#unless model.json.isOrganization}}
+        <div class="form-group">
+            <label class="col-sm-3 control-label
+            {{unless (v-get model "json.positionName" "options.presence.disabled")
+            "required"}}">Position Name</label>
+            <div class="col-sm-9">
+                {{input/md-input
+                valuePath="json.positionName"
+                model=model
+                placeholder="Enter a name for this position"}}
+            </div>
+        </div>
+        {{/unless}}
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-sm-8">
+                 <span class="pull-right">
+                      <button type="submit" class="btn btn-success md-form-save"
+                                                       disabled={{v-get model "isInvalid"}}>Save</button>
+                      <button type="button" {{action "cancelContact"}} class="btn btn-warning ">Cancel</button>
+                 </span>
+            </div>
+        </div>
+    </form>
+</div>

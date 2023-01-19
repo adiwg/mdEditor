@@ -1,0 +1,5 @@
+{{#if showButton}}
+  {{#control/md-button-confirm class="btn btn-danger btn-block" onConfirm=(action "deleteSelected" selectedItems)}}
+    <span class="fa fa-times"></span> Delete Selected
+  {{/control/md-button-confirm}}
+{{/if}}

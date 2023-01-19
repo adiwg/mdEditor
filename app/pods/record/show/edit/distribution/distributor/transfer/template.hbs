@@ -1,0 +1,33 @@
+<h4 class="section-header">
+  Editing Transfer Options for
+  <span class="text-success">Distributor #{{distributorId}}</span> in
+  <span class="text-primary">Distribution #{{distributionId}}</span>
+  {{#control/md-button-confirm
+    class="btn btn-xs btn-danger"
+    onConfirm=(route-action "deleteTransfer")
+    tooltip="Delete Transfer Option?"
+    tipClass="danger"
+    tipSide="bottom"
+  }}
+    {{fa-icon "times"}} Delete
+  {{/control/md-button-confirm}}
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-transfer
+  model=model
+  profilePath="record.distribution.distributor.transferOption"
+}}
+
+{{to-elsewhere
+  named="md-subbar-buttons"
+  send=(component "control/md-button"
+  text="Back to Distributor"
+  icon="arrow-left"
+  class="btn-primary btn-lg"
+  click=(route-action "backToDistributor")
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-record-edit"
+  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

@@ -1,0 +1,153 @@
+%extend_1 {
+  font-size: 13px;
+  height: 28px;
+  padding: 4px;
+}
+
+#menu-toggle {
+  background-color: $gray-base;
+  color: $body-bg;
+  margin-right: 1em;
+
+  &:hover {
+    background-color: $gray-darker;
+  }
+}
+
+#md-nav-stacked {
+  position: fixed;
+
+  li {
+    > a {
+      &:focus {
+        background-color: inherit;
+      }
+
+      > span {
+        display: block;
+        padding: 10px 15px;
+      }
+
+      &.no-padding {
+        padding: 0;
+      }
+    }
+
+    &.active > a {
+      background-color: $brand-primary;
+    }
+  }
+}
+
+#md-navbars {
+  background-color: $body-bg;
+  border-top: 1px solid $body-bg;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1001;
+
+  a:focus {
+    outline: none;
+  }
+
+  .navbar {
+    border-radius: 0;
+  }
+}
+
+#md-navbar-main {
+  margin-bottom: 1px;
+
+  a.active {
+    color: $brand-warning;
+  }
+
+  .navbar-form {
+    margin: 0;
+    padding: 10px;
+
+    .form-control {
+      @extend %extend_1;
+    }
+
+    .bootstrap-select button {
+      @extend %extend_1;
+    }
+  }
+
+  .navbar {
+    margin-bottom: 0;
+  }
+
+  .navbar-nav.navbar-right {
+    margin-right: 260px;
+  }
+
+  .select-profile {
+    display: inline-block;
+    min-width: 125px;
+    white-space: nowrap;
+    width: 125px;
+  }
+
+  .ember-power-select-trigger {
+    line-height: 2em;
+    min-height: 2em;
+  }
+}
+
+#md-wrapper.toggled {
+  #md-navbar-main .navbar-nav.navbar-right {
+    margin-right: -15px;
+  }
+}
+
+#md-navbar-secondary {
+  background-color: lighten($gray-base, 96);
+  border-bottom: 1px solid lighten($gray-base, 90);
+  max-height: 40px;
+
+  a.active {
+    color: $brand-warning;
+  }
+}
+
+.navbar {
+  .divider-vertical {
+    border-left: 1px solid lighten($gray-base, 95);
+    border-right: 1px solid $body-bg;
+    height: 50px;
+    margin: 0;
+  }
+
+  form label {
+    float: none;
+    font-weight: 500;
+    margin-right: 7px;
+    margin-top: 0;
+    padding-top: 0 !important;
+  }
+}
+
+.navbar-brand {
+  padding-right: 0;
+}
+
+#tool-navbar [data-hint]::after {
+  white-space: normal;
+}
+
+.navbar-inverse .divider-vertical {
+  border-left-color: $gray-darker;
+  border-right-color: lighten($gray-base, 27);
+}
+
+.nav > li > a:focus {
+  background-color: inherit;
+  color: $brand-primary;
+}
+
+.md-nav-tip.ember-tooltip {
+  display: none !important;
+}

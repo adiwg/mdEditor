@@ -1,0 +1,94 @@
+{{#layout/md-card shadow=false
+  muted=false
+  plain=true}}
+    <div class="row">
+    <label class="text-info col-sm-2 col-xxl-1 required">Amount</label>
+    {{input/md-input
+      class="col-sm-5 col-xxl-3"
+      type="number"
+      model=this
+      valuePath="amount"
+      step="0.01"
+      label="Amount"
+      placeholder="Enter amount for the allocation."
+      profilePath=(concat profilePath ".amount")
+      showValidations=true
+    }}
+    {{input/md-codelist
+      create=false
+      model=this
+      class="col-sm-5 col-xxl-3"
+      mdCodeName="currency"
+      namePath="codeName"
+      valuePath="codeName"
+      path="currency"
+      label="Currency"
+      required=true
+      tooltip=true
+      icon=false
+      allowClear=true
+      placeholder="Choose unit of currency"
+      profilePath=(concat profilePath ".currency")
+    }}
+  </div>
+
+  {{input/md-input
+    value=model.sourceAllocationId
+    label="Award ID"
+    placeholder="The source's identifier for the allocation, e.g. award number."
+    profilePath=(concat profilePath ".sourceAllocationId")
+  }}
+
+  {{input/md-select-contact
+      label="Source"
+      placeholder="Pick contact that supplied funds"
+      value=model.sourceId
+      contactType="contacts"
+      icon=true
+      tooltip=false
+      profilePath=(concat profilePath ".source")
+   }}
+
+  {{input/md-select-contact
+      label="Recipient"
+      placeholder="Pick contact that received funds"
+      value=model.recipientId
+      contactType="contacts"
+      icon=true
+      tooltip=false
+      profilePath=(concat profilePath ".recipient")
+  }}
+
+  {{object/md-party-array
+    title="Other Contacts"
+    plain=false
+    required=false
+    value=model.responsibleParty
+    profilePath=(concat profilePath ".otherContacts")
+  }}
+
+  {{input/md-boolean
+    label="Matching"
+    text="Matching funds or in-kind services"
+    value=model.matching
+    profilePath=(concat profilePath ".matching")
+  }}
+
+ {{input/md-textarea
+     value=model.comment
+     profilePath=(concat profilePath ".comment")
+     label="Comment"
+     placeholder="Enter any comments about the allocation."
+   }}
+
+  {{#if (is-array model.onlineResource)}}
+    {{object/md-online-resource-array model=model.onlineResource
+     profilePath=(concat profilePath ".onlineResource")
+     class=(if embedded "md-embedded")
+     plain=true
+     shadow=false
+     data-spy="Online Resource"}}
+   {{/if}}
+{{/layout/md-card}}
+
+{{yield}}

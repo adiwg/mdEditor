@@ -1,0 +1,76 @@
+{{#unless readOnly}}
+  <table class="table table-striped table-hover fadeIn">
+    <thead>
+      <tr>
+        <th>Keyword</th>
+        <th>Id (Optional)</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each model.keyword as |keyword|}}
+        <tr>
+          <td>
+            {{input/md-input
+              value=keyword.keyword
+              placeholder="Keyword"
+              profilePath=(concat profilePath ".keyword.keyword")
+            }}
+          </td>
+          <td>
+            {{input/md-input
+              value=keyword.identifier
+              placeholder="Unique identifier"
+              profilePath=(concat profilePath ".keyword.identifier")
+            }}
+          </td>
+          <td>
+            <div class="md-button-column">
+              <button class="btn btn-xs btn-danger" {{action "deleteKeyword" model.keyword keyword}}>
+                <span class="fa fa-times"></span> Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+{{else}}
+  <tr>
+    <td colspan="3">
+      Add some keywords.
+    </td>
+  </tr>
+      {{/each}}
+      <tr>
+        <td colspan="3">
+          <button type="button" class="btn btn-xs btn-success" {{action "addKeyword" model.keyword}}>
+            {{fa-icon "plus"}} Add Keyword
+          </button>
+          <button type="button" class="btn btn-xs btn-info" {{action "hideThesaurus" this.element}}>
+            {{fa-icon "eye"}} Toggle Thesaurus
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+{{else}}
+
+  <ul class="list-group">
+    {{#each model.keyword as |keyword|}}
+      <li class="list-group-item">
+        <button class="btn btn-xs btn-danger pull-right" {{action "deleteKeyword" model.keyword keyword}}>
+          <span class="fa fa-times"></span> Delete
+        </button>
+        {{keyword.keyword}}
+      </li>
+{{else}}
+    <li class="list-group-item">Add some keywords.</li>
+    {{/each}}
+    {{#if editThesaurus}}
+    <li class="list-group-item">
+      <button type="button" class="btn btn-block btn-success" {{action editThesaurus listId}}>
+        {{fa-icon "pencil"}} Edit keywords.
+      </button>
+    </li>
+    {{/if}}
+  </ul>
+{{/unless}}
+{{yield}}

@@ -1,0 +1,52 @@
+{{#layout/md-object-container
+  title="Distribution"
+  index=index
+  profilePath=profilePath
+  deleteItem=(action "deleteDistribution")
+}}
+  <div class="row">
+    <div class="col-sm-6">
+      {{input/md-textarea
+        valuePath="description"
+        model=this
+        rows=2
+        maxHeight=300
+        showValidations=true
+        placeholder="Describe the distribution of the resource"
+        label="Description"
+        profilePath=(concat profilePath ".description")
+      }}
+    </div>
+    <div class="col-sm-6">
+      {{input/md-textarea
+        value=model.liablityStatement
+        rows=2
+        maxHeight=300
+        placeholder="Statement of the liability assumed by the provider of the resource"
+        label="Liablity Statement"
+        profilePath=(concat profilePath ".liablityStatement")
+      }}
+    </div>
+  </div>
+  {{object/md-objectroute-table
+    attributes="Contacts"
+    items=distributor
+    required=distributorRequired
+    tipPath="distributor"
+    tipModel=this
+    header="Distributors"
+    shadow=false
+    buttonText="Add Distributor"
+    ellipsis=true
+    previewTemplateTable="object/md-distributor/preview"
+    editItem=editDistributor
+    profilePath=(concat profilePath ".distributor")
+    verticalButtons=false
+    hideIndex=false
+    condensed=false
+    editOnAdd=true
+    scrollToId=(concat "md-distributor-" index)
+    data-spy=false
+    routeParams=index
+  }}
+{{/layout/md-object-container}}

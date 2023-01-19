@@ -1,9 +1,42 @@
-/* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+'use strict';
 
-module.exports = function(defaults) {
-  var app = new EmberApp(defaults, {
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+
+module.exports = function (defaults) {
+  let app = new EmberApp(defaults, {
     // Add options here
+    sassOptions: {
+      includePaths: [
+        'node_modules/bootstrap-sass/assets/stylesheets',
+        'node_modules/bootstrap-3-card/sass',
+        // 'node_modules/select2/src/scss',
+        // 'node_modules/select2-bootstrap-theme/src',
+        'node_modules/jquery-jsonview/src'
+      ]
+    },
+    'ember-math-helpers': {
+      only: ['round']
+    },
+    fingerprint: {
+      exclude: [
+        'images/layers-2x.png',
+        'images/layers.png',
+        'images/marker-icon-2x.png',
+        'images/marker-icon.png',
+        'images/marker-shadow.png',
+        'images/spritesheet-2x.png',
+        'images/spritesheet.png',
+        'worker'
+      ]
+    },
+    autoImport: {
+      webpack: {
+        node: {
+          http: true,
+          //https: true
+        }
+      }
+    }
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -18,6 +51,26 @@ module.exports = function(defaults) {
   // modules that you would like to import into your application
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
+
+  //bootstrap js
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js'
+  );
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
+  app.import(
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js'
+  );
+  //jquery-jsonview
+  app.import('node_modules/jquery-jsonview/dist/jquery.jsonview.js');
+  //papaparse for worker
+  app.import('node_modules/papaparse/papaparse.js', { outputFile: 'assets/workers/worker_papaparse.js' });
+  //marked
+  app.import('node_modules/marked/lib/marked.js');
 
   return app.toTree();
 };

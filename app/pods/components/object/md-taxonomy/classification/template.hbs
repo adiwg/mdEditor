@@ -1,0 +1,15 @@
+{{#each (sort-by "order" model) as |class index|}}
+  {{object/md-taxonomy/classification/taxon
+    model=class
+    parentItem=parentItem
+    top=(unless parentItem model)
+    index=index
+    dragging=dragging
+    preview=preview
+    profilePath=(concat profilePath ".taxon")
+  }}
+{{else}}
+  <div class="alert alert-info no-margin">
+    <h3>No <span class="required">Classification</span> found.</h3>
+  </div>
+{{/each}}

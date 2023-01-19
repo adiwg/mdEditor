@@ -1,0 +1,25 @@
+$ember-power-select-line-height: 2.3 !default;
+$ember-power-select-multiple-option-line-height: 1.8 !default;
+$ember-power-select-highlighted-background: $gray-lighter;
+$ember-power-select-selected-background: lighten($brand-primary, 45) !default;
+
+.ember-power-select-multiple-option,
+.ember-power-select-selected-item {
+  .badge,
+  .fa {
+    display: none;
+  }
+}
+
+.md-select-option.with-tip .select-value {
+  padding-right: 10px;
+}
+// Disabled styles
+
+.ember-power-select-trigger[aria-disabled=true] {
+  cursor: not-allowed;
+}
+
+div.ember-basic-dropdown-content {
+  z-index: 1102;
+}

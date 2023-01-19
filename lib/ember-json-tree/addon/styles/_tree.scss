@@ -1,0 +1,99 @@
+.tree-trunk.list-group {
+  border-bottom: 1px;
+  margin: 0;
+  padding: 0;
+
+  .tree-branch {
+    border: 0;
+    margin: 0;
+    padding: 0;
+
+    &:last-of-type .tree-leaf {
+      margin-bottom: 0;
+    }
+  }
+
+  .is-dragging-object {
+    .badge,
+    .tree-icon {
+      opacity: 0;
+    }
+  }
+
+  .draggable-object-target.accepts-drag {
+    .tree-leaf {
+      background-color: lighten($orange, 15);
+    }
+  }
+}
+
+.tree-leaf {
+  border: {
+    color: $gray-lightly;
+    style: solid;
+    width: 1px;
+  }
+  cursor: pointer;
+  margin-bottom: -1px;
+  padding: 10px;
+
+  &.tree-highlight {
+    background-color: $green;
+    color: $white;
+
+    &:hover {
+      background-color: darken($green, 5);
+    }
+
+    .tree-icon {
+      color: $white;
+    }
+  }
+
+  &.node-disabled {
+    color: $gray-light;
+    cursor: not-allowed;
+  }
+
+  &:not(.node-disabled):not(.tree-highlight):hover {
+    background-color: $gray-lighter;
+  }
+
+  .tree-cell {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .tree-icon {
+    color: $light-blue;
+    font-size: 1.25em;
+
+    &:hover {
+      color: $orange;
+      cursor: default;
+    }
+  }
+
+  .tree-fill {
+    width: 100%;
+  }
+
+  .tree-indent {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  span.icon,
+  i.icon {
+    margin-right: 5px;
+    min-width: 12px;
+  }
+
+  .badge {
+    background-color: $gray-base;
+  }
+
+  .tree-label-text {
+    margin-right: 25px;
+  }
+}

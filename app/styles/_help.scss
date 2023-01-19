@@ -1,0 +1,47 @@
+.md-help-sidebar-content {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding: 0 10px;
+}
+
+section.md-help-sidebar {
+  background-color: lighten($brand-success, 40);
+  height: 100%;
+  // opacity: 0;
+  overflow: hidden;
+  // padding: 53px 0 0;
+  position: absolute;
+  top: 0;
+  // transition: opacity .5s ease;
+  width: #{$sidebar-width}px;
+  z-index: 3;
+
+  .page-header {
+    border-bottom-color: $gray-light;
+    margin: 0 0 20px;
+
+    h3 {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.md-sidebar-wrapper.help {
+  .icon-mdeditor {
+    color: darken($brand-success, 10);
+  }
+
+  section.md-help-sidebar {
+    //height: 100%;
+    // opacity: 1;
+  }
+
+  a.md-btn-help {
+    color: darken($brand-success, 10);
+
+    &:hover {
+      color: $body-bg;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<tr class={{record.state}}
+    {{action "mouseEnter" record on="mouseEnter"}}
+    {{action "mouseLeave" record on="mouseLeave"}}
+    {{action (action showForm record) on="doubleClick"}}
+>
+  {{#each processedColumns as |column|}}
+    {{#if column.isVisible}}
+      <td class={{column.className}}>
+        {{#if column.template}}
+          {{partial column.template}}
+        {{else}}
+          {{get record column.propertyName}}
+        {{/if}}
+      </td>
+    {{/if}}
+  {{/each}}
+</tr>

@@ -1,18 +1,22 @@
-import Ember from 'ember';
 import Application from '../../app';
 import config from '../../config/environment';
+import { merge } from '@ember/polyfills';
+import { run } from '@ember/runloop';
+import registerModalAssertHelpers from './modal-asserts';
+import registerPowerSelectHelpers from '../../tests/helpers/ember-power-select';
+
+registerPowerSelectHelpers();
 
 export default function startApp(attrs) {
-  var application;
+  let attributes = merge({}, config.APP);
+  attributes = merge(attributes, attrs); // use defaults, but you can override;
 
-  var attributes = Ember.merge({}, config.APP);
-  attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
-
-  Ember.run(function() {
-    application = Application.create(attributes);
+  return run(() => {
+    let application = Application.create(attributes);
     application.setupForTesting();
     application.injectTestHelpers();
+    registerModalAssertHelpers();
+    return application;
   });
 
-  return application;
 }

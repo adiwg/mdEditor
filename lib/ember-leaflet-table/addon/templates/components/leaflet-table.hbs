@@ -1,0 +1,78 @@
+{{#file-picker class="map-file-picker" fileLoaded="readData" progressValue=progress selectOnClick=false preview=false accept=fileTypes readAs="readAsArrayBuffer" }}
+  <div class="map-dropzone-target">
+    <span><i class="fa fa-bullseye"></i> Drop Here!</span>
+  </div>
+  {{#leaflet-draw lat=lat lng=lng zoom=zoom onLoad=(action "setup") editLayers=layers closeForm=(action "closeForm") showForm=(action "showForm")}}
+    {{!-- Specify child layer components here --}}
+    {{#layer-group name="Terrain" baselayer=true default=true}}
+      {{!-- {{tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}} --}}
+      {{tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+    {{/layer-group}}
+
+    {{geojson-layer geoJSON=worldOverlay stroke=false color="#555555" fillOpacity=0.1}}
+
+    {{#feature-group name="Extents" default=true setFeatureGroup=setFeatureGroup}}
+      {{#each layers as |l|}}
+        {{lgeojson-layer geoJSON=l draw=true editLayers=layers}}
+      {{/each}}
+    {{/feature-group}}
+
+    {{layer-control}}
+  {{/leaflet-draw}}
+  {{#unless formData}}
+  <h4 class="table-title">Feature Properties</h4>
+  {{#feature-table data=layers
+    columnComponents=(hash
+      leaflet-table-row-actions=(component "leaflet-table-row-actions"
+      showForm=(action "showForm")
+      zoomTo=(action "zoomTo")
+      deleteFeature=(action "deleteFeature")
+    ))
+    showGlobalFilter=false
+    showColumnsDropdown=false
+    pageSize=10 as |ft|
+  }}
+    {{!-- {{ft.global-filter}}
+    {{ft.columns-dropdown}} --}}
+      {{#ft.Table as |table|}}
+        {{table.Header}}
+        {{#table.Body as |body|}}
+          {{#if body.allColumnsAreHidden}}
+            {{body.ColumnsHidden}}
+          {{else}}
+            {{#if body.visibleContent.length}}
+            {{!-- {{debugger}} --}}
+              {{#each body.visibleContent as |record index|}}
+                {{body.row record=record
+                  index=index
+                  showForm=(action "showForm")
+                  zoomTo=(action "zoomTo")
+                  deleteFeature=(action "deleteFeature")
+                }}
+                {{#if (exists-in body.expandedItems record)}}
+                  {{body.RowExpand
+                    expandedRowComponent=expandedRowComponent
+                    record=record
+                    index=index
+                  }}
+                {{/if}}
+              {{/each}}
+            {{else}}
+              {{body.no-data}}
+            {{/if}}
+          {{/if}}
+        {{/table.Body}}
+        {{table.Tooter}}
+      {{/ft.Table}}
+    {{ft.Footer}}
+  {{/feature-table}}
+  {{else}}
+  <h4 class="table-title">Edit Feature Properties
+      <button class="btn btn-xs btn-info pull-right" {{action "closeForm"}} title="Close Form">
+        <span class="fa fa-check"></span> OK
+      </button>
+  </h4>
+  {{feature-form model=formData}}
+  {{/unless}}
+  {{yield}}
+{{/file-picker}}

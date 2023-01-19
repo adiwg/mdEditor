@@ -1,0 +1,91 @@
+label {
+  .x-toggle-default.x-toggle-btn,
+  .x-toggle-form.x-toggle-btn {
+    background-color: $btn-danger-bg;
+    transition: background-color .2s;
+  }
+
+  .x-toggle-form.x-toggle-btn {
+    background-color: $btn-primary-bg;
+    border-radius: .2em;
+    padding: .2em;
+  }
+
+  // .x-toggle-default.x-toggle-btn::after,
+  .x-toggle-form.x-toggle-btn::after {
+    background-color: $body-bg;
+    border-radius: .2em;
+    transition: left .2s;
+  }
+}
+
+.x-toggle:checked + label > .x-toggle-default.x-toggle-btn,
+.x-toggle:checked + label > .x-toggle-form.x-toggle-btn {
+  background-color: $btn-success-bg;
+}
+
+.form-group {
+  .x-toggle-component {
+    .toggle-text {
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+
+    &.toggle-on {
+      .on-label {
+        color: $btn-success-bg;
+        text-decoration: underline;
+      }
+    }
+
+    &.toggle-off {
+      .off-label {
+        color: $btn-primary-bg;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.x-toggle-component {
+  .off-label,
+  .on-label {
+    margin-bottom: 0;
+  }
+
+  label.on-label {
+    padding-left: .25em;
+  }
+
+  .x-toggle-container {
+    label {
+      display: flex;
+    }
+
+    &.small {
+      height: 1.6em;
+      width: 3em;
+    }
+
+    &.medium {
+      height: 2.1em;
+      // padding: 3px;
+      width: 4em;
+    }
+
+    .large {
+      height: 2.1em;
+      // padding: 4px;
+      width: 4.7em;
+    }
+  }
+}
+
+.form-horizontal {
+  .form-group {
+    .x-toggle-component {
+      justify-content: initial;
+      line-height: 32px;
+    }
+  }
+}

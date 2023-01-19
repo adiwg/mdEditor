@@ -1,0 +1,167 @@
+#md-page-content fieldset {
+  margin-bottom: 30px;
+
+  &.collapse {
+    background-color: lighten($brand-primary, 47);
+    padding: 15px 0 10px;
+  }
+}
+
+#md-page-content legend {
+  margin-bottom: 0;
+
+  a {
+    text-decoration: none;
+
+    &.collapsed span::before {
+      content: '\f107';
+    }
+  }
+}
+
+.md-panel-chevron a {
+  color: $link-color;
+  text-decoration: none;
+
+  span::before {
+    content: '\f106';
+  }
+
+  &.collapsed span::before {
+    content: '\f107';
+  }
+
+  &:hover {
+    color: $link-hover-color;
+  }
+}
+
+.md-multiselect.form-control {
+  height: auto;
+
+  .checkbox-inline {
+    margin-left: 10px;
+  }
+}
+
+.md-select {
+  .ember-power-select-trigger {
+    min-width: 125px;
+  }
+}
+
+.ember-power-select-option>.md-select-option.with-tip {
+  @include text-overflow();
+  display: list-item;
+  padding-right: 1.5em;
+  position: relative;
+
+  .select-tip {
+    position: absolute;
+    right: 0;
+  }
+}
+
+.md-button-column {
+  line-height: $input-height-base;
+}
+
+.md-object-table.editing {
+  .panel-title a {
+    color: $text-muted;
+    cursor: default;
+  }
+}
+
+// Zebra-striping
+form {
+  .table-striped {
+    >tbody>tr:nth-of-type(odd) {
+      background-color: lighten($brand-info, 45);
+    }
+  }
+
+  .table-hover {
+    >tbody>tr:hover {
+      background-color: lighten($brand-info, 42);
+    }
+  }
+
+  tfoot {
+    background-color: lighten($gray-lighter, 5);
+  }
+
+  &.no-gutter {
+    .form-group>* {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+//borrowed from Bootstrap v4
+.label-pill {
+  border-radius: 10rem;
+  padding-left: .6em;
+  padding-right: .6em;
+}
+
+.panel-title {
+  .label-pill {
+    font-size: .7em;
+    vertical-align: middle;
+  }
+}
+
+//to display error icons
+.md-input-input {
+  position: relative;
+
+  >input[placeholder] {
+    text-overflow: ellipsis;
+    padding-right: 30px;
+  }
+}
+
+.md-datetime {
+  max-width: 220px;
+  min-width: 190px;
+}
+
+.md-codelist {
+  min-width: 150px;
+}
+
+//fiscalyear
+.md-fiscalyear {
+  label {
+    color: lighten($brand-primary, 10);
+    font-size: 0;
+  }
+
+  .ember-power-select-trigger {
+    background-color: $brand-primary;
+
+    &[aria-disabled=true] {
+      background-color: $gray-lighter;
+    }
+
+    .ember-power-select-placeholder {
+      color: $body-bg;
+    }
+
+    .ember-power-select-status-icon {
+      border-top-color: $body-bg;
+    }
+  }
+}
+
+.form-group-inline {
+  align-items: center;
+  display: flex;
+  margin-bottom: 5px;
+
+  >* {
+    margin-right: 1em;
+  }
+}

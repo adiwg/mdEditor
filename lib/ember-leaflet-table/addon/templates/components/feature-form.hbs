@@ -1,0 +1,35 @@
+<hr>
+<form class="md-feature-form">
+  {{input/md-input value=model.id
+      placeholder="Unique ID for the feature" label="Feature ID"}}
+  {{input/md-input value=model.properties.name
+      placeholder="Short descriptive name" label="Name" class="required"}}
+  {{input/md-textarea value=model.properties.description
+      placeholder="Description of the area and resources bounded by the extent"
+      label="Description"}}
+</form>
+<h4 class="table-title">Other Properties
+    <span><small>read-only</small></span>
+</h4>
+<hr>
+<table class="table table-bordered table-hover">
+<thead>
+  <tr>
+    <th>Name</th>
+    <th>Value</th>
+  </tr>
+</thead>
+<tbody>
+{{#each additionalProperties as |p|}}
+      <tr>
+        <th>{{p.name}}</th>
+        <td>{{p.value}}</td>
+      </tr>
+  {{else}}
+  <tr>
+    <td colspan="2">None found.</td>
+  </tr>
+{{/each}}
+</tbody>
+</table>
+{{yield}}

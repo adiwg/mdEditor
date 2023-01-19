@@ -1,0 +1,31 @@
+.md-json-viewer {
+  .well {
+    min-height: 200px;
+    overflow-x: hidden;
+  }
+
+  .md-viewer-controls .btn-group-vertical {
+    display: block;
+    margin-bottom: 15px;
+
+    button {
+      z-index: 1000;
+    }
+  }
+}
+
+.md-jsmodal-container.ember-modal-dialog {
+  margin-top: 5vh;
+  max-width: 1200px;
+  width: 90vw;
+  z-index: 2100;
+
+  .md-viewer-body {
+    height: 75vh;
+    overflow-y: auto;
+  }
+
+  @media (min-width: 420px) {
+    width: 70vw;
+  }
+}

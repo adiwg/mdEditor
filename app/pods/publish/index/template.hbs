@@ -1,0 +1,29 @@
+<h3 class="text-info">Click to choose a publishing service:</h3>
+
+<div class="list-group">
+  {{#each model as |catalog|}}
+    {{#link-to (concat "publish." catalog.route) class="list-group-item" }}
+    <div class="media">
+      <div class="media-left media-middle">
+          {{#if catalog.image}}
+            <img class="media-object fa-fw fa-5x" src={{catalog.image}} alt="{{catalog.title}} icon">
+          {{else}}
+            {{fa-icon (if catalog.icon catalog.icon "list-alt") size="5" fixedWidth=true class="text-info"}}
+          {{/if}}
+      </div>
+      <div class="media-body">
+        {{!-- <h4 >Middle aligned media</h4> --}}
+          <h1 class="media-heading">{{catalog.name}}</h1>
+          <p class="text-muted">{{catalog.description}}</p>
+      </div>
+    </div>
+    {{/link-to}}
+  {{else}}
+  <div class="card card-inverse card-warning">
+    <div class="card-block">
+      <h4 class="card-title">{{fa-icon "exclamation-triangle"}} No Services Available!</h4>
+      <p class="card-text">No publication services have been configured. Contact your technical support for assistance.</p>
+    </div>
+  </div>
+  {{/each}}
+</div>

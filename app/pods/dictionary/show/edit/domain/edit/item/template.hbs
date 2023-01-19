@@ -1,0 +1,28 @@
+<h4 class="section-header">
+  Editing Domain Item {{#if model.name}}
+    <em>{{model.name}}</em>
+  {{else}}
+    #{{itemId}}
+  {{/if}}
+  {{!-- <span class="small">for <em>{{parentModel.codeName}}</em></span> --}}
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-domainitem
+  class=""
+  model=model
+  profilePath="dictionary.domain.domainItem"
+}}
+
+{{to-elsewhere
+  named="md-subbar-extra"
+  send=(component "control/subbar-link"
+    text="Back to Domain"
+    icon="arrow-left"
+    type="primary"
+    click=(route-action "backToDomain")
+  )
+}}
+
+{{to-elsewhere named="md-scroll-spy-dict-edit"
+  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

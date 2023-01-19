@@ -17,11 +17,12 @@
     "find",
     "findWithAssert",
     "wait",
-    "DS",
     "andThen",
     "currentURL",
     "currentPath",
-    "currentRouteName"
+    "currentRouteName",
+    "selectChoose",
+    "typeInSearch"
   ],
   "node": false,
   "browser": false,
@@ -47,6 +48,6 @@
   "strict": false,
   "white": false,
   "eqnull": true,
-  "esnext": true,
+  "esversion": 6,
   "unused": true
 }

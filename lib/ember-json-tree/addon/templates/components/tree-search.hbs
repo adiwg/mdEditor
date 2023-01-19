@@ -1,0 +1,41 @@
+  <div class="search-form form-inline">
+    <div class="form-group search-grp">
+      <label for="input-search" class="sr-only">Search Tree:</label>
+      {{input type="text" class="form-control input-search" placeholder="Type to search..." value=searchString}}
+    </div>
+    <div class="form-group chk-grp">
+      {{!-- <div class="checkbox">
+        <label data-toggle="tooltip" title="" data-original-title="Show results in the tree(slower).">
+          <input type="checkbox" class="chk-reveal-results" value="false"> Reveal Results </label>
+      </div> --}}
+      <div class="checkbox">
+        <label>
+          {{input type="checkbox" class="chk-exact-match" checked=exactMatch}} Exact Match </label>
+      </div>
+    </div>
+
+      {{!-- <div class="form-group">
+        <button type="button" class="btn btn-success btn-md btn-search">
+          Search
+        </button>
+        <button type="button" class="btn btn-warning btn-md btn-clear-search">
+          Clear
+        </button>
+    </div> --}}
+    <div class="form-group text-info inline-block">
+      {{#if searchString.length}}
+        {{actualTotal}} matches found.
+        {{#if overLimit}} Displaying first {{limit}} results...
+        {{/if}}
+      {{/if}}
+    </div>
+  </div>
+  {{! template-lint-disable no-inline-styles }}
+  <div class="search-output" style="opacity: 1;">
+    <ul class="list-group">
+      {{#each (sort-by "label" searchResult) as |child|}}
+          {{tree-leaf model=child highlight=searchString select=select selected=selected}}
+      {{/each}}
+    </ul>
+  </div>
+{{yield}}

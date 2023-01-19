@@ -1,0 +1,273 @@
+html {
+  height: 100%;
+}
+
+body {
+  //position: relative;
+  &.slider {
+    overflow: hidden;
+  }
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.v-align-middle {
+  vertical-align: middle;
+}
+
+.display-table {
+  display: table;
+}
+
+// .d-flex {
+//   display: flex;
+// }
+//
+// .flex-grow {
+//   flex-grow: 1;
+// }
+
+#md-wrapper {
+  @include transition(all .5s ease);
+  padding-left: 0;
+
+  .hint--info::after {
+    background-color: $brand-primary;
+  }
+
+  .hint--info.hint--bottom::before {
+    border-bottom-color: $brand-primary;
+  }
+
+  &.toggled {
+    padding-left: #{$sidebar-width}px;
+
+    .md-sidebar-wrapper {
+      width: #{$sidebar-width}px;
+
+      .sidebar-brand {
+        display: list-item;
+      }
+    }
+
+    #md-page-content-wrapper {
+      margin-right: -#{$sidebar-width}px;
+      position: absolute;
+    }
+
+    .footer-container {
+      left: 0;
+    }
+
+    #md-navbar-main .navbar-brand {
+      display: none;
+    }
+  }
+}
+
+.md-sidebar-wrapper {
+  @include transition(all .5s ease);
+  background: $body-bg none repeat scroll 0 0;
+  height: 100vh;
+  left: #{$sidebar-width}px;
+  margin-left: -#{$sidebar-width}px;
+  overflow-x: hidden;
+  position: fixed;
+  width: 0;
+  z-index: 1000;
+
+  .liquid-container,
+  .liquid-child {
+    height: 100%;
+    background-color: lighten($brand-success, 40);
+  }
+}
+
+.md-slider {
+  @include transition(width .5s ease);
+  background: $body-bg none repeat scroll 0 0;
+  height: 100vh;
+  overflow: auto;
+  position: fixed;
+  right: 0;
+  width: 0;
+  z-index: 10000;
+
+  &.in {
+    width: 100%;
+
+    .close {
+      opacity: .3;
+
+      &:hover{
+        opacity: .8;
+      }
+    }
+
+    > .md-slider-body {
+      @include transition(opacity .5s ease .5s);
+      opacity: 1;
+    }
+  }
+
+  > .md-slider-body {
+    opacity: 0;
+    padding: 10px;
+  }
+
+  .close {
+    @include transition(all .5s ease);
+    color: $brand-primary;
+    margin: 10px;
+    opacity: 0;
+  }
+}
+
+#md-page-content-wrapper {
+  padding: 0 1px 1px;
+  position: absolute;
+  width: 100%;
+}
+
+#md-page-content {
+  //display: none;
+  padding-top: 90px;
+  padding-bottom: 40px;
+
+  .md-section-secondary {
+    padding-top: 45px;
+
+    .md-record-content {
+      padding: 15px;
+    }
+  }
+}
+
+.md-control-sidebar {
+  .md-scroll-spy {
+    margin-top: 1em;
+  }
+
+  @media(min-width: $screen-sm-min) {
+    padding: 15px;
+    position: sticky;
+    top: 135px;
+
+    &.no-nav {
+      top: 95px;
+    }
+
+    .btn {
+      display: inline-block;
+      min-width: 7em;
+    }
+  }
+
+  @media(max-width: $screen-lg-min) {
+    margin-left: -10px;
+  }
+}
+
+.md-footer {
+  background-color: $navbar-inverse-bg;
+  //background-color: lighten($brand-primary, 50);
+  border-left: 1px solid;
+  bottom: 0;
+  color: $body-bg;
+  //color: $gray-darker;
+  line-height: 26px;
+  padding-right: 25px;
+  position: fixed;
+  text-align: right;
+  width: 100%;
+  z-index: 1000;
+
+  .footer-container {
+    left: -#{$sidebar-width}px;
+    position: relative;
+
+    @media(max-width: $screen-sm-min) {
+      left: 0;
+    }
+
+    .text-success {
+      color: lighten($brand-success, 10);
+    }
+
+    .text-info {
+      color: lighten($brand-info, 10);
+    }
+
+    .text-warning {
+      color: lighten($brand-warning, 10);
+    }
+
+    >  span {
+      margin-left: 1em;
+    }
+  }
+
+  .btn-xs {
+    line-height: 1.25em;
+  }
+}
+
+.md-object-container {
+  border: 1px solid $gray-lighter;
+  padding: 15px;
+  transition: border-color .25s ease;
+
+  &.odd {
+    background-color: inherit;
+  }
+
+  &.even {
+    background-color: lighten($gray-lighter, 5);
+  }
+
+  &:hover {
+    //background-color: lighten($brand-info, 46);
+    border-color: lighten($brand-success, 5);
+  }
+
+  .btn-collapse {
+    display: inline-block;
+    font-size: 24px;
+    // padding: 5px;
+
+    span::before {
+      content: '\f106';
+      font-weight: 900;
+      padding: 10px;
+      // vertical-align: middle;
+    }
+
+    &.collapsed span::before {
+      content: '\f107';
+    }
+  }
+
+  hr {
+    margin: 15px 0;
+  }
+
+  table {
+    background-color: $white;
+  }
+
+  .md-object-container-header {
+    align-items: center;
+    display: flex;
+
+    .btn-group {
+      margin-left: 1em;
+    }
+
+    .title {
+      margin: 0;
+    }
+  }
+
+}
