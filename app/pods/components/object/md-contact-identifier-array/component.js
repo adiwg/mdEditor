@@ -23,16 +23,24 @@ const Validations = buildValidations({
 export default Component.extend({
 
   /**
-   * mdEditor class for input and edit of mdJSON 'phone' object.
-   * The class manages the maintenance of an array of phone objects.
+   * mdEditor class for input and edit of mdJSON 'externalIdentifiers' object.
+   * The class manages the maintenance of an array of phone externalIdentifiers.
    *
-   * @class md-phone-array
+   * @class md-contact-identfier-array
    * @module mdeditor
    * @submodule components-object
    * @constructor
    */
 
   attributeBindings: ['data-spy'],
+
+  init() {
+    this._super(...arguments);
+
+    if (!this.value) {
+      this.value = [];
+    }
+  },
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
