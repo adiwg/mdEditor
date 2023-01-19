@@ -8,7 +8,7 @@
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   3.12.4
+ * @version   3.12.1
  */
 
 /*globals process */
@@ -151,30 +151,30 @@ enifed("@ember/debug/index", ["exports", "@ember/-internals/browser-environment"
   _exports._warnIfUsingStrippedFeatureFlags = _exports.getDebugFunction = _exports.setDebugFunction = _exports.deprecateFunc = _exports.runInDebug = _exports.debugFreeze = _exports.debugSeal = _exports.deprecate = _exports.debug = _exports.warn = _exports.info = _exports.assert = void 0;
 
   // These are the default production build versions:
-  var noop = function () {};
+  const noop = () => {};
 
-  var assert = noop;
+  let assert = noop;
   _exports.assert = assert;
-  var info = noop;
+  let info = noop;
   _exports.info = info;
-  var warn = noop;
+  let warn = noop;
   _exports.warn = warn;
-  var debug = noop;
+  let debug = noop;
   _exports.debug = debug;
-  var deprecate = noop;
+  let deprecate = noop;
   _exports.deprecate = deprecate;
-  var debugSeal = noop;
+  let debugSeal = noop;
   _exports.debugSeal = debugSeal;
-  var debugFreeze = noop;
+  let debugFreeze = noop;
   _exports.debugFreeze = debugFreeze;
-  var runInDebug = noop;
+  let runInDebug = noop;
   _exports.runInDebug = runInDebug;
-  var setDebugFunction = noop;
+  let setDebugFunction = noop;
   _exports.setDebugFunction = setDebugFunction;
-  var getDebugFunction = noop;
+  let getDebugFunction = noop;
   _exports.getDebugFunction = getDebugFunction;
 
-  var deprecateFunc = function () {
+  let deprecateFunc = function () {
     return arguments[arguments.length - 1];
   };
 
@@ -322,11 +322,8 @@ enifed("@ember/debug/index", ["exports", "@ember/-internals/browser-environment"
       */
 
       setDebugFunction('info', function info() {
-        var _console;
-
-        (_console = console).info.apply(_console, arguments);
+        console.info(...arguments);
         /* eslint-disable-line no-console */
-
       });
       /**
        @module @ember/debug
@@ -354,30 +351,18 @@ enifed("@ember/debug/index", ["exports", "@ember/-internals/browser-environment"
         @private
       */
 
-      setDebugFunction('deprecateFunc', function deprecateFunc() {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-
+      setDebugFunction('deprecateFunc', function deprecateFunc(...args) {
         if (args.length === 3) {
-          var message = args[0],
-              options = args[1],
-              func = args[2];
-          return function () {
+          let [message, options, func] = args;
+          return function (...args) {
             deprecate(message, false, options);
-
-            for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-              args[_key2] = arguments[_key2];
-            }
-
             return func.apply(this, args);
           };
         } else {
-          var _message = args[0],
-              _func = args[1];
+          let [message, func] = args;
           return function () {
-            deprecate(_message);
-            return _func.apply(this, arguments);
+            deprecate(message);
+            return func.apply(this, arguments);
           };
         }
       });
@@ -429,7 +414,7 @@ enifed("@ember/debug/index", ["exports", "@ember/-internals/browser-environment"
       setDebugFunction('warn', _warn2.default);
     }
 
-  var _warnIfUsingStrippedFeatureFlags;
+  let _warnIfUsingStrippedFeatureFlags;
 
   _exports._warnIfUsingStrippedFeatureFlags = _warnIfUsingStrippedFeatureFlags;
 
@@ -437,9 +422,9 @@ enifed("@ember/debug/index", ["exports", "@ember/-internals/browser-environment"
   /* DEBUG */
   && !(0, _testing.isTesting)()) {
     if (typeof window !== 'undefined' && (_browserEnvironment.isFirefox || _browserEnvironment.isChrome) && window.addEventListener) {
-      window.addEventListener('load', function () {
+      window.addEventListener('load', () => {
         if (document.documentElement && document.documentElement.dataset && !document.documentElement.dataset.emberExtension) {
-          var downloadURL;
+          let downloadURL;
 
           if (_browserEnvironment.isChrome) {
             downloadURL = 'https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi';
@@ -501,17 +486,17 @@ enifed("@ember/debug/lib/deprecate", ["exports", "@ember/-internals/environment"
     @param handler {Function} A function to handle deprecation calls.
     @since 2.1.0
   */
-  var registerHandler = function () {};
+  let registerHandler = () => {};
 
   _exports.registerHandler = registerHandler;
-  var missingOptionsDeprecation;
+  let missingOptionsDeprecation;
   _exports.missingOptionsDeprecation = missingOptionsDeprecation;
-  var missingOptionsIdDeprecation;
+  let missingOptionsIdDeprecation;
   _exports.missingOptionsIdDeprecation = missingOptionsIdDeprecation;
-  var missingOptionsUntilDeprecation;
+  let missingOptionsUntilDeprecation;
   _exports.missingOptionsUntilDeprecation = missingOptionsUntilDeprecation;
 
-  var deprecate = function () {};
+  let deprecate = () => {};
 
   if (true
   /* DEBUG */
@@ -520,8 +505,8 @@ enifed("@ember/debug/lib/deprecate", ["exports", "@ember/-internals/environment"
         (0, _handlers.registerHandler)('deprecate', handler);
       };
 
-      var formatMessage = function formatMessage(_message, options) {
-        var message = _message;
+      let formatMessage = function formatMessage(_message, options) {
+        let message = _message;
 
         if (options && options.id) {
           message = message + (" [deprecation id: " + options.id + "]");
@@ -535,17 +520,15 @@ enifed("@ember/debug/lib/deprecate", ["exports", "@ember/-internals/environment"
       };
 
       registerHandler(function logDeprecationToConsole(message, options) {
-        var updatedMessage = formatMessage(message, options);
+        let updatedMessage = formatMessage(message, options);
         console.warn("DEPRECATION: " + updatedMessage); // eslint-disable-line no-console
       });
-      var captureErrorForStack;
+      let captureErrorForStack;
 
       if (new Error().stack) {
-        captureErrorForStack = function () {
-          return new Error();
-        };
+        captureErrorForStack = () => new Error();
       } else {
-        captureErrorForStack = function () {
+        captureErrorForStack = () => {
           try {
             __fail__.fail();
           } catch (e) {
@@ -556,9 +539,9 @@ enifed("@ember/debug/lib/deprecate", ["exports", "@ember/-internals/environment"
 
       registerHandler(function logDeprecationStackTrace(message, options, next) {
         if (_environment.ENV.LOG_STACKTRACE_ON_DEPRECATION) {
-          var stackStr = '';
-          var error = captureErrorForStack();
-          var stack;
+          let stackStr = '';
+          let error = captureErrorForStack();
+          let stack;
 
           if (error.stack) {
             if (error['arguments']) {
@@ -573,7 +556,7 @@ enifed("@ember/debug/lib/deprecate", ["exports", "@ember/-internals/environment"
             stackStr = "\n    " + stack.slice(2).join('\n    ');
           }
 
-          var updatedMessage = formatMessage(message, options);
+          let updatedMessage = formatMessage(message, options);
           console.warn("DEPRECATION: " + updatedMessage + stackStr); // eslint-disable-line no-console
         } else {
           next(message, options);
@@ -581,7 +564,7 @@ enifed("@ember/debug/lib/deprecate", ["exports", "@ember/-internals/environment"
       });
       registerHandler(function raiseOnDeprecation(message, options, next) {
         if (_environment.ENV.RAISE_ON_DEPRECATION) {
-          var updatedMessage = formatMessage(message);
+          let updatedMessage = formatMessage(message);
           throw new Error(updatedMessage);
         } else {
           next(message, options);
@@ -633,14 +616,14 @@ enifed("@ember/debug/lib/handlers", ["exports"], function (_exports) {
   "use strict";
 
   _exports.invoke = _exports.registerHandler = _exports.HANDLERS = void 0;
-  var HANDLERS = {};
+  let HANDLERS = {};
   _exports.HANDLERS = HANDLERS;
 
-  var registerHandler = function () {};
+  let registerHandler = () => {};
 
   _exports.registerHandler = registerHandler;
 
-  var invoke = function () {};
+  let invoke = () => {};
 
   _exports.invoke = invoke;
 
@@ -648,9 +631,9 @@ enifed("@ember/debug/lib/handlers", ["exports"], function (_exports) {
   /* DEBUG */
   ) {
       _exports.registerHandler = registerHandler = function registerHandler(type, callback) {
-        var nextHandler = HANDLERS[type] || function () {};
+        let nextHandler = HANDLERS[type] || (() => {});
 
-        HANDLERS[type] = function (message, options) {
+        HANDLERS[type] = (message, options) => {
           callback(message, options, nextHandler);
         };
       };
@@ -660,7 +643,7 @@ enifed("@ember/debug/lib/handlers", ["exports"], function (_exports) {
           return;
         }
 
-        var handlerForType = HANDLERS[type];
+        let handlerForType = HANDLERS[type];
 
         if (handlerForType) {
           handlerForType(message, options);
@@ -673,7 +656,7 @@ enifed("@ember/debug/lib/testing", ["exports"], function (_exports) {
 
   _exports.isTesting = isTesting;
   _exports.setTesting = setTesting;
-  var testing = false;
+  let testing = false;
 
   function isTesting() {
     return testing;
@@ -688,15 +671,15 @@ enifed("@ember/debug/lib/warn", ["exports", "@ember/debug/index", "@ember/debug/
 
   _exports.missingOptionsDeprecation = _exports.missingOptionsIdDeprecation = _exports.registerHandler = _exports.default = void 0;
 
-  var registerHandler = function () {};
+  let registerHandler = () => {};
 
   _exports.registerHandler = registerHandler;
 
-  var warn = function () {};
+  let warn = () => {};
 
-  var missingOptionsDeprecation;
+  let missingOptionsDeprecation;
   _exports.missingOptionsDeprecation = missingOptionsDeprecation;
-  var missingOptionsIdDeprecation;
+  let missingOptionsIdDeprecation;
   /**
   @module @ember/debug
   */
@@ -864,9 +847,10 @@ enifed("ember-testing/lib/adapters/adapter", ["exports", "@ember/-internals/runt
       @method exception
       @param {String} error The exception to be raised.
     */
-    exception: function (error) {
+    exception(error) {
       throw error;
     }
+
   });
 
   _exports.default = _default;
@@ -892,10 +876,11 @@ enifed("ember-testing/lib/adapters/qunit", ["exports", "@ember/-internals/utils"
     @public
   */
   var _default = _adapter.default.extend({
-    init: function () {
+    init() {
       this.doneCallbacks = [];
     },
-    asyncStart: function () {
+
+    asyncStart() {
       if (typeof QUnit.stop === 'function') {
         // very old QUnit version
         QUnit.stop();
@@ -903,23 +888,26 @@ enifed("ember-testing/lib/adapters/qunit", ["exports", "@ember/-internals/utils"
         this.doneCallbacks.push(QUnit.config.current ? QUnit.config.current.assert.async() : null);
       }
     },
-    asyncEnd: function () {
+
+    asyncEnd() {
       // checking for QUnit.stop here (even though we _need_ QUnit.start) because
       // QUnit.start() still exists in QUnit 2.x (it just throws an error when calling
       // inside a test context)
       if (typeof QUnit.stop === 'function') {
         QUnit.start();
       } else {
-        var done = this.doneCallbacks.pop(); // This can be null if asyncStart() was called outside of a test
+        let done = this.doneCallbacks.pop(); // This can be null if asyncStart() was called outside of a test
 
         if (done) {
           done();
         }
       }
     },
-    exception: function (error) {
+
+    exception(error) {
       QUnit.config.current.assert.ok(false, (0, _utils.inspect)(error));
     }
+
   });
 
   _exports.default = _default;
@@ -929,12 +917,12 @@ enifed("ember-testing/lib/events", ["exports", "@ember/runloop", "@ember/polyfil
 
   _exports.focus = focus;
   _exports.fireEvent = fireEvent;
-  var DEFAULT_EVENT_OPTIONS = {
+  const DEFAULT_EVENT_OPTIONS = {
     canBubble: true,
     cancelable: true
   };
-  var KEYBOARD_EVENT_TYPES = ['keydown', 'keypress', 'keyup'];
-  var MOUSE_EVENT_TYPES = ['click', 'mousedown', 'mouseup', 'dblclick', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover'];
+  const KEYBOARD_EVENT_TYPES = ['keydown', 'keypress', 'keyup'];
+  const MOUSE_EVENT_TYPES = ['click', 'mousedown', 'mouseup', 'dblclick', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover'];
 
   function focus(el) {
     if (!el) {
@@ -942,11 +930,11 @@ enifed("ember-testing/lib/events", ["exports", "@ember/runloop", "@ember/polyfil
     }
 
     if (el.isContentEditable || (0, _isFormControl.default)(el)) {
-      var type = el.getAttribute('type');
+      let type = el.getAttribute('type');
 
       if (type !== 'checkbox' && type !== 'radio' && type !== 'hidden') {
         (0, _runloop.run)(null, function () {
-          var browserIsNotFocused = document.hasFocus && !document.hasFocus(); // makes `document.activeElement` be `element`. If the browser is focused, it also fires a focus event
+          let browserIsNotFocused = document.hasFocus && !document.hasFocus(); // makes `document.activeElement` be `element`. If the browser is focused, it also fires a focus event
 
           el.focus(); // Firefox does not trigger the `focusin` event if the window
           // does not have focus. If the document does not have focus then
@@ -964,22 +952,20 @@ enifed("ember-testing/lib/events", ["exports", "@ember/runloop", "@ember/polyfil
     }
   }
 
-  function fireEvent(element, type) {
-    var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
+  function fireEvent(element, type, options = {}) {
     if (!element) {
       return;
     }
 
-    var event;
+    let event;
 
     if (KEYBOARD_EVENT_TYPES.indexOf(type) > -1) {
       event = buildKeyboardEvent(type, options);
     } else if (MOUSE_EVENT_TYPES.indexOf(type) > -1) {
-      var rect = element.getBoundingClientRect();
-      var x = rect.left + 1;
-      var y = rect.top + 1;
-      var simulatedCoordinates = {
+      let rect = element.getBoundingClientRect();
+      let x = rect.left + 1;
+      let y = rect.top + 1;
+      let simulatedCoordinates = {
         screenX: x + 5,
         screenY: y + 95,
         clientX: x,
@@ -993,12 +979,11 @@ enifed("ember-testing/lib/events", ["exports", "@ember/runloop", "@ember/polyfil
     element.dispatchEvent(event);
   }
 
-  function buildBasicEvent(type) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var event = document.createEvent('Events'); // Event.bubbles is read only
+  function buildBasicEvent(type, options = {}) {
+    let event = document.createEvent('Events'); // Event.bubbles is read only
 
-    var bubbles = options.bubbles !== undefined ? options.bubbles : true;
-    var cancelable = options.cancelable !== undefined ? options.cancelable : true;
+    let bubbles = options.bubbles !== undefined ? options.bubbles : true;
+    let cancelable = options.cancelable !== undefined ? options.cancelable : true;
     delete options.bubbles;
     delete options.cancelable;
     event.initEvent(type, bubbles, cancelable);
@@ -1006,13 +991,12 @@ enifed("ember-testing/lib/events", ["exports", "@ember/runloop", "@ember/polyfil
     return event;
   }
 
-  function buildMouseEvent(type) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var event;
+  function buildMouseEvent(type, options = {}) {
+    let event;
 
     try {
       event = document.createEvent('MouseEvents');
-      var eventOpts = (0, _polyfills.assign)({}, DEFAULT_EVENT_OPTIONS, options);
+      let eventOpts = (0, _polyfills.assign)({}, DEFAULT_EVENT_OPTIONS, options);
       event.initMouseEvent(type, eventOpts.canBubble, eventOpts.cancelable, window, eventOpts.detail, eventOpts.screenX, eventOpts.screenY, eventOpts.clientX, eventOpts.clientY, eventOpts.ctrlKey, eventOpts.altKey, eventOpts.shiftKey, eventOpts.metaKey, eventOpts.button, eventOpts.relatedTarget);
     } catch (e) {
       event = buildBasicEvent(type, options);
@@ -1021,13 +1005,12 @@ enifed("ember-testing/lib/events", ["exports", "@ember/runloop", "@ember/polyfil
     return event;
   }
 
-  function buildKeyboardEvent(type) {
-    var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-    var event;
+  function buildKeyboardEvent(type, options = {}) {
+    let event;
 
     try {
       event = document.createEvent('KeyEvents');
-      var eventOpts = (0, _polyfills.assign)({}, DEFAULT_EVENT_OPTIONS, options);
+      let eventOpts = (0, _polyfills.assign)({}, DEFAULT_EVENT_OPTIONS, options);
       event.initKeyEvent(type, eventOpts.canBubble, eventOpts.cancelable, window, eventOpts.ctrlKey, eventOpts.altKey, eventOpts.shiftKey, eventOpts.metaKey, eventOpts.keyCode, eventOpts.charCode);
     } catch (e) {
       event = buildBasicEvent(type, options);
@@ -1091,7 +1074,7 @@ enifed("ember-testing/lib/ext/application", ["@ember/application", "ember-testin
        @method setupForTesting
       @public
     */
-    setupForTesting: function () {
+    setupForTesting() {
       (0, _setup_for_testing.default)();
       this.testing = true;
       this.resolveRegistration('router:main').reopen({
@@ -1125,7 +1108,7 @@ enifed("ember-testing/lib/ext/application", ["@ember/application", "ember-testin
        @method injectTestHelpers
       @public
     */
-    injectTestHelpers: function (helperContainer) {
+    injectTestHelpers(helperContainer) {
       if (helperContainer) {
         this.helperContainer = helperContainer;
       } else {
@@ -1133,15 +1116,16 @@ enifed("ember-testing/lib/ext/application", ["@ember/application", "ember-testin
       }
 
       this.reopen({
-        willDestroy: function () {
-          this._super.apply(this, arguments);
+        willDestroy() {
+          this._super(...arguments);
 
           this.removeTestHelpers();
         }
+
       });
       this.testHelpers = {};
 
-      for (var name in _helpers.helpers) {
+      for (let name in _helpers.helpers) {
         this.originalMethods[name] = this.helperContainer[name];
         this.testHelpers[name] = this.helperContainer[name] = helper(this, name);
         protoWrap(_promise.default.prototype, name, helper(this, name), _helpers.helpers[name].meta.wait);
@@ -1160,29 +1144,26 @@ enifed("ember-testing/lib/ext/application", ["@ember/application", "ember-testin
        @public
       @method removeTestHelpers
     */
-    removeTestHelpers: function () {
+    removeTestHelpers() {
       if (!this.helperContainer) {
         return;
       }
 
-      for (var name in _helpers.helpers) {
+      for (let name in _helpers.helpers) {
         this.helperContainer[name] = this.originalMethods[name];
         delete _promise.default.prototype[name];
         delete this.testHelpers[name];
         delete this.originalMethods[name];
       }
     }
+
   }); // This method is no longer needed
   // But still here for backwards compatibility
   // of helper chaining
 
 
   function protoWrap(proto, name, callback, isAsync) {
-    proto[name] = function () {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
+    proto[name] = function (...args) {
       if (isAsync) {
         return callback.apply(this, args);
       } else {
@@ -1194,35 +1175,21 @@ enifed("ember-testing/lib/ext/application", ["@ember/application", "ember-testin
   }
 
   function helper(app, name) {
-    var fn = _helpers.helpers[name].method;
-    var meta = _helpers.helpers[name].meta;
+    let fn = _helpers.helpers[name].method;
+    let meta = _helpers.helpers[name].meta;
 
     if (!meta.wait) {
-      return function () {
-        for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-          args[_key2] = arguments[_key2];
-        }
-
-        return fn.apply(app, [app].concat(args));
-      };
+      return (...args) => fn.apply(app, [app, ...args]);
     }
 
-    return function () {
-      for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
-      var lastPromise = (0, _run.default)(function () {
-        return (0, _promise.resolve)((0, _promise.getLastPromise)());
-      }); // wait for last helper's promise to resolve and then
+    return (...args) => {
+      let lastPromise = (0, _run.default)(() => (0, _promise.resolve)((0, _promise.getLastPromise)())); // wait for last helper's promise to resolve and then
       // execute. To be safe, we need to tell the adapter we're going
       // asynchronous here, because fn may not be invoked before we
       // return.
 
       (0, _adapter.asyncStart)();
-      return lastPromise.then(function () {
-        return fn.apply(app, [app].concat(args));
-      }).finally(_adapter.asyncEnd);
+      return lastPromise.then(() => fn.apply(app, [app, ...args])).finally(_adapter.asyncEnd);
     };
   }
 });
@@ -1236,14 +1203,12 @@ enifed("ember-testing/lib/ext/rsvp", ["exports", "@ember/-internals/runtime", "@
     if ((0, _debug.isTesting)() && !_runloop.backburner.currentInstance) {
       (0, _adapter.asyncStart)();
 
-      _runloop.backburner.schedule('actions', function () {
+      _runloop.backburner.schedule('actions', () => {
         (0, _adapter.asyncEnd)();
         callback(promise);
       });
     } else {
-      _runloop.backburner.schedule('actions', function () {
-        return callback(promise);
-      });
+      _runloop.backburner.schedule('actions', () => callback(promise));
     }
   });
 
@@ -1272,7 +1237,7 @@ enifed("ember-testing/lib/helpers/-is-form-control", ["exports"], function (_exp
   "use strict";
 
   _exports.default = isFormControl;
-  var FORM_CONTROL_TAGS = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'];
+  const FORM_CONTROL_TAGS = ['INPUT', 'BUTTON', 'SELECT', 'TEXTAREA'];
   /**
     @private
     @param {Element} element the element to check
@@ -1280,8 +1245,10 @@ enifed("ember-testing/lib/helpers/-is-form-control", ["exports"], function (_exp
   */
 
   function isFormControl(element) {
-    var tagName = element.tagName,
-        type = element.type;
+    let {
+      tagName,
+      type
+    } = element;
 
     if (type === 'hidden') {
       return false;
@@ -1327,8 +1294,8 @@ enifed("ember-testing/lib/helpers/click", ["exports", "ember-testing/lib/events"
     @public
   */
   function click(app, selector, context) {
-    var $el = app.testHelpers.findWithAssert(selector, context);
-    var el = $el[0];
+    let $el = app.testHelpers.findWithAssert(selector, context);
+    let el = $el[0];
     (0, _events.fireEvent)(el, 'mousedown');
     (0, _events.focus)(el);
     (0, _events.fireEvent)(el, 'mouseup');
@@ -1364,7 +1331,7 @@ enifed("ember-testing/lib/helpers/current_path", ["exports", "@ember/-internals/
   @public
   */
   function currentPath(app) {
-    var routingService = app.__container__.lookup('service:-routing');
+    let routingService = app.__container__.lookup('service:-routing');
 
     return (0, _metal.get)(routingService, 'currentPath');
   }
@@ -1396,7 +1363,7 @@ enifed("ember-testing/lib/helpers/current_route_name", ["exports", "@ember/-inte
   @public
   */
   function currentRouteName(app) {
-    var routingService = app.__container__.lookup('service:-routing');
+    let routingService = app.__container__.lookup('service:-routing');
 
     return (0, _metal.get)(routingService, 'currentRouteName');
   }
@@ -1429,7 +1396,7 @@ enifed("ember-testing/lib/helpers/current_url", ["exports", "@ember/-internals/m
   @public
   */
   function currentURL(app) {
-    var router = app.__container__.lookup('router:main');
+    let router = app.__container__.lookup('router:main');
 
     return (0, _metal.get)(router, 'location').getURL();
   }
@@ -1462,7 +1429,7 @@ enifed("ember-testing/lib/helpers/fill_in", ["exports", "ember-testing/lib/event
     @public
   */
   function fillIn(app, selector, contextOrText, text) {
-    var $el, el, context;
+    let $el, el, context;
 
     if (text === undefined) {
       text = contextOrText;
@@ -1522,7 +1489,7 @@ enifed("ember-testing/lib/helpers/find", ["exports", "@ember/-internals/metal", 
       true && !false && (0, _debug.assert)('If jQuery is disabled, please import and use helpers from @ember/test-helpers [https://github.com/emberjs/ember-test-helpers]. Note: `find` is not an available helper.');
     }
 
-    var $el;
+    let $el;
     context = context || (0, _metal.get)(app, 'rootElement');
     $el = app.$(selector, context);
     return $el;
@@ -1562,7 +1529,7 @@ enifed("ember-testing/lib/helpers/find_with_assert", ["exports"], function (_exp
     @public
   */
   function findWithAssert(app, selector, context) {
-    var $el = app.testHelpers.find(selector, context);
+    let $el = app.testHelpers.find(selector, context);
 
     if ($el.length === 0) {
       throw new Error('Element ' + selector + ' not found.');
@@ -1597,7 +1564,7 @@ enifed("ember-testing/lib/helpers/key_event", ["exports"], function (_exports) {
     @public
   */
   function keyEvent(app, selector, contextOrType, typeOrKeyCode, keyCode) {
-    var context, type;
+    let context, type;
 
     if (keyCode === undefined) {
       context = null;
@@ -1609,7 +1576,7 @@ enifed("ember-testing/lib/helpers/key_event", ["exports"], function (_exports) {
     }
 
     return app.testHelpers.triggerEvent(selector, context, type, {
-      keyCode: keyCode,
+      keyCode,
       which: keyCode
     });
   }
@@ -1623,7 +1590,7 @@ enifed("ember-testing/lib/helpers/pause_test", ["exports", "@ember/-internals/ru
   /**
   @module ember
   */
-  var resume;
+  let resume;
   /**
    Resumes a test paused by `pauseTest`.
   
@@ -1678,7 +1645,7 @@ enifed("ember-testing/lib/helpers/pause_test", ["exports", "@ember/-internals/ru
 
   function pauseTest() {
     (0, _debug.info)('Testing paused. Use `resumeTest()` to continue.');
-    return new _runtime.RSVP.Promise(function (resolve) {
+    return new _runtime.RSVP.Promise(resolve => {
       resume = resolve;
     }, 'TestAdapter paused promise');
   }
@@ -1713,8 +1680,8 @@ enifed("ember-testing/lib/helpers/trigger_event", ["exports", "ember-testing/lib
    @public
   */
   function triggerEvent(app, selector, contextOrType, typeOrOptions, possibleOptions) {
-    var arity = arguments.length;
-    var context, type, options;
+    let arity = arguments.length;
+    let context, type, options;
 
     if (arity === 3) {
       // context and options are optional, so this is
@@ -1743,8 +1710,8 @@ enifed("ember-testing/lib/helpers/trigger_event", ["exports", "ember-testing/lib
       options = possibleOptions;
     }
 
-    var $el = app.testHelpers.findWithAssert(selector, context);
-    var el = $el[0];
+    let $el = app.testHelpers.findWithAssert(selector, context);
+    let el = $el[0];
     (0, _events.fireEvent)(el, type, options);
     return app.testHelpers.wait();
   }
@@ -1773,10 +1740,10 @@ enifed("ember-testing/lib/helpers/visit", ["exports", "@ember/runloop"], functio
     @public
   */
   function visit(app, url) {
-    var router = app.__container__.lookup('router:main');
+    let router = app.__container__.lookup('router:main');
 
-    var shouldHandleURL = false;
-    app.boot().then(function () {
+    let shouldHandleURL = false;
+    app.boot().then(() => {
       router.location.setURL(url);
 
       if (shouldHandleURL) {
@@ -1836,12 +1803,12 @@ enifed("ember-testing/lib/helpers/wait", ["exports", "ember-testing/lib/test/wai
   */
   function wait(app, value) {
     return new _runtime.RSVP.Promise(function (resolve) {
-      var router = app.__container__.lookup('router:main'); // Every 10ms, poll for the async thing to have finished
+      let router = app.__container__.lookup('router:main'); // Every 10ms, poll for the async thing to have finished
 
 
-      var watcher = setInterval(function () {
+      let watcher = setInterval(() => {
         // 1. If the router is loading, keep polling
-        var routerIsLoading = router._routerMicrolib && Boolean(router._routerMicrolib.activeTransition);
+        let routerIsLoading = router._routerMicrolib && Boolean(router._routerMicrolib.activeTransition);
 
         if (routerIsLoading) {
           return;
@@ -1872,16 +1839,18 @@ enifed("ember-testing/lib/helpers/wait", ["exports", "ember-testing/lib/test/wai
 enifed("ember-testing/lib/initializers", ["@ember/application"], function (_application) {
   "use strict";
 
-  var name = 'deferReadiness in `testing` mode';
+  let name = 'deferReadiness in `testing` mode';
   (0, _application.onLoad)('Ember.Application', function (Application) {
     if (!Application.initializers[name]) {
       Application.initializer({
         name: name,
-        initialize: function (application) {
+
+        initialize(application) {
           if (application.testing) {
             application.deferReadiness();
           }
         }
+
       });
     }
   });
@@ -1907,7 +1876,7 @@ enifed("ember-testing/lib/setup_for_testing", ["exports", "@ember/debug", "@embe
   */
   function setupForTesting() {
     (0, _debug.setTesting)(true);
-    var adapter = (0, _adapter.getAdapter)(); // if adapter is not manually set default to QUnit
+    let adapter = (0, _adapter.getAdapter)(); // if adapter is not manually set default to QUnit
 
     if (!adapter) {
       (0, _adapter.setAdapter)(typeof self.QUnit === 'undefined' ? _adapter2.default.create() : _qunit.default.create());
@@ -1928,7 +1897,7 @@ enifed("ember-testing/lib/support", ["@ember/debug", "@ember/-internals/views", 
   /**
     @module ember
   */
-  var $ = _views.jQuery;
+  const $ = _views.jQuery;
   /**
     This method creates a checkbox and triggers the click event to fire the
     passed in handler. It is used to correct for a bug in older versions
@@ -1939,7 +1908,7 @@ enifed("ember-testing/lib/support", ["@ember/debug", "@ember/-internals/views", 
   */
 
   function testCheckboxClick(handler) {
-    var input = document.createElement('input');
+    let input = document.createElement('input');
     $(input).attr('type', 'checkbox').css({
       position: 'absolute',
       left: '-1000px',
@@ -1960,12 +1929,13 @@ enifed("ember-testing/lib/support", ["@ember/debug", "@ember/-internals/views", 
         if (!this.checked && !$.event.special.click) {
           $.event.special.click = {
             // For checkbox, fire native event so checked state will be right
-            trigger: function () {
+            trigger() {
               if (this.nodeName === 'INPUT' && this.type === 'checkbox' && this.click) {
                 this.click();
                 return false;
               }
             }
+
           };
         }
       }); // Try again to verify that the patch took effect or blow up.
@@ -1999,7 +1969,7 @@ enifed("ember-testing/lib/test", ["exports", "ember-testing/lib/test/helpers", "
     @namespace Ember
     @public
   */
-  var Test = {
+  const Test = {
     /**
       Hash containing all known test helpers.
        @property _helpers
@@ -2053,7 +2023,7 @@ enifed("ember-testing/lib/test/adapter", ["exports", "@ember/-internals/error-ha
   _exports.setAdapter = setAdapter;
   _exports.asyncStart = asyncStart;
   _exports.asyncEnd = asyncEnd;
-  var adapter;
+  let adapter;
 
   function getAdapter() {
     return adapter;
@@ -2093,7 +2063,7 @@ enifed("ember-testing/lib/test/helpers", ["exports", "ember-testing/lib/test/pro
   _exports.registerAsyncHelper = registerAsyncHelper;
   _exports.unregisterHelper = unregisterHelper;
   _exports.helpers = void 0;
-  var helpers = {};
+  const helpers = {};
   /**
    @module @ember/test
   */
@@ -2232,7 +2202,7 @@ enifed("ember-testing/lib/test/on_inject_helpers", ["exports"], function (_expor
   _exports.onInjectHelpers = onInjectHelpers;
   _exports.invokeInjectHelpersCallbacks = invokeInjectHelpersCallbacks;
   _exports.callbacks = void 0;
-  var callbacks = [];
+  const callbacks = [];
   /**
     Used to register callbacks to be fired whenever `App.injectTestHelpers`
     is called.
@@ -2268,7 +2238,7 @@ enifed("ember-testing/lib/test/on_inject_helpers", ["exports"], function (_expor
   }
 
   function invokeInjectHelpersCallbacks(app) {
-    for (var i = 0; i < callbacks.length; i++) {
+    for (let i = 0; i < callbacks.length; i++) {
       callbacks[i](app);
     }
   }
@@ -2280,7 +2250,7 @@ enifed("ember-testing/lib/test/pending_requests", ["exports"], function (_export
   _exports.clearPendingRequests = clearPendingRequests;
   _exports.incrementPendingRequests = incrementPendingRequests;
   _exports.decrementPendingRequests = decrementPendingRequests;
-  var requests = [];
+  let requests = [];
 
   function pendingRequests() {
     return requests.length;
@@ -2296,7 +2266,7 @@ enifed("ember-testing/lib/test/pending_requests", ["exports"], function (_export
 
   function decrementPendingRequests(_, xhr) {
     setTimeout(function () {
-      for (var i = 0; i < requests.length; i++) {
+      for (let i = 0; i < requests.length; i++) {
         if (xhr === requests[i]) {
           requests.splice(i, 1);
           break;
@@ -2305,46 +2275,27 @@ enifed("ember-testing/lib/test/pending_requests", ["exports"], function (_export
     }, 0);
   }
 });
-enifed("ember-testing/lib/test/promise", ["exports", "ember-babel", "@ember/-internals/runtime", "ember-testing/lib/test/run"], function (_exports, _emberBabel, _runtime, _run) {
+enifed("ember-testing/lib/test/promise", ["exports", "@ember/-internals/runtime", "ember-testing/lib/test/run"], function (_exports, _runtime, _run) {
   "use strict";
 
   _exports.promise = promise;
   _exports.resolve = resolve;
   _exports.getLastPromise = getLastPromise;
   _exports.default = void 0;
-  var lastPromise;
+  let lastPromise;
 
-  var TestPromise =
-  /*#__PURE__*/
-  function (_RSVP$Promise) {
-    (0, _emberBabel.inheritsLoose)(TestPromise, _RSVP$Promise);
-
-    function TestPromise() {
-      var _this;
-
-      _this = _RSVP$Promise.apply(this, arguments) || this;
-      lastPromise = (0, _emberBabel.assertThisInitialized)(_this);
-      return _this;
+  class TestPromise extends _runtime.RSVP.Promise {
+    constructor() {
+      super(...arguments);
+      lastPromise = this;
     }
 
-    var _proto = TestPromise.prototype;
+    then(_onFulfillment, ...args) {
+      let onFulfillment = typeof _onFulfillment === 'function' ? result => isolate(_onFulfillment, result) : undefined;
+      return super.then(onFulfillment, ...args);
+    }
 
-    _proto.then = function then(_onFulfillment) {
-      var _RSVP$Promise$prototy;
-
-      var onFulfillment = typeof _onFulfillment === 'function' ? function (result) {
-        return isolate(_onFulfillment, result);
-      } : undefined;
-
-      for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        args[_key - 1] = arguments[_key];
-      }
-
-      return (_RSVP$Promise$prototy = _RSVP$Promise.prototype.then).call.apply(_RSVP$Promise$prototy, [this, onFulfillment].concat(args));
-    };
-
-    return TestPromise;
-  }(_runtime.RSVP.Promise);
+  }
   /**
     This returns a thenable tailored for testing.  It catches failed
     `onSuccess` callbacks and invokes the `Ember.Test.adapter.exception`
@@ -2363,7 +2314,7 @@ enifed("ember-testing/lib/test/promise", ["exports", "ember-babel", "@ember/-int
   _exports.default = TestPromise;
 
   function promise(resolver, label) {
-    var fullLabel = "Ember.Test.promise: " + (label || '<Unknown Promise>');
+    let fullLabel = "Ember.Test.promise: " + (label || '<Unknown Promise>');
     return new TestPromise(resolver, fullLabel);
   }
   /**
@@ -2396,8 +2347,8 @@ enifed("ember-testing/lib/test/promise", ["exports", "ember-babel", "@ember/-int
   function isolate(onFulfillment, result) {
     // Reset lastPromise for nested helpers
     lastPromise = null;
-    var value = onFulfillment(result);
-    var promise = lastPromise;
+    let value = onFulfillment(result);
+    let promise = lastPromise;
     lastPromise = null; // If the method returned a promise
     // return that promise. If not,
     // return the last async helper's promise
@@ -2405,11 +2356,7 @@ enifed("ember-testing/lib/test/promise", ["exports", "ember-babel", "@ember/-int
     if (value && value instanceof TestPromise || !promise) {
       return value;
     } else {
-      return (0, _run.default)(function () {
-        return resolve(promise).then(function () {
-          return value;
-        });
-      });
+      return (0, _run.default)(() => resolve(promise).then(() => value));
     }
   }
 });
@@ -2436,8 +2383,8 @@ enifed("ember-testing/lib/test/waiters", ["exports"], function (_exports) {
   /**
    @module @ember/test
   */
-  var contexts = [];
-  var callbacks = [];
+  const contexts = [];
+  const callbacks = [];
   /**
      This allows ember-testing to play nicely with other asynchronous
      events, such as an application that is waiting for a CSS3
@@ -2512,7 +2459,7 @@ enifed("ember-testing/lib/test/waiters", ["exports"], function (_exports) {
       context = null;
     }
 
-    var i = indexOf(context, callback);
+    let i = indexOf(context, callback);
 
     if (i === -1) {
       return;
@@ -2541,9 +2488,9 @@ enifed("ember-testing/lib/test/waiters", ["exports"], function (_exports) {
       return false;
     }
 
-    for (var i = 0; i < callbacks.length; i++) {
-      var context = contexts[i];
-      var callback = callbacks[i];
+    for (let i = 0; i < callbacks.length; i++) {
+      let context = contexts[i];
+      let callback = callbacks[i];
 
       if (!callback.call(context)) {
         return true;
@@ -2554,7 +2501,7 @@ enifed("ember-testing/lib/test/waiters", ["exports"], function (_exports) {
   }
 
   function indexOf(context, callback) {
-    for (var i = 0; i < callbacks.length; i++) {
+    for (let i = 0; i < callbacks.length; i++) {
       if (callbacks[i] === callback && contexts[i] === context) {
         return i;
       }
@@ -2599,16 +2546,18 @@ Ember.setupForTesting = testing.setupForTesting;
 })();
 
 /* globals require, Ember, jQuery */
-
 (() => {
   if (typeof jQuery !== 'undefined') {
     let _Ember;
+
     if (typeof Ember !== 'undefined') {
       _Ember = Ember;
     } else {
       _Ember = require('ember').default;
     }
+
     let pendingRequests;
+
     if (Ember.__loader.registry['ember-testing/test/pending_requests']) {
       // Ember <= 3.1
       pendingRequests = Ember.__loader.require('ember-testing/test/pending_requests');
@@ -2616,6 +2565,7 @@ Ember.setupForTesting = testing.setupForTesting;
       // Ember >= 3.2
       pendingRequests = Ember.__loader.require('ember-testing/lib/test/pending_requests');
     }
+
     if (pendingRequests) {
       // This exists to ensure that the AJAX listeners setup by Ember itself
       // (which as of 2.17 are not properly torn down) get cleared and released
@@ -2627,753 +2577,647 @@ Ember.setupForTesting = testing.setupForTesting;
           jQuery(document).off('ajaxSend', pendingRequests.incrementPendingRequests);
           jQuery(document).off('ajaxComplete', pendingRequests.decrementPendingRequests);
           pendingRequests.clearPendingRequests();
+
           this._super(...arguments);
         }
+
       });
     }
   }
 })();
 /*!
- * QUnit 2.19.3
+ * QUnit 2.9.3
  * https://qunitjs.com/
  *
- * Copyright OpenJS Foundation and other contributors
+ * Copyright jQuery Foundation and other contributors
  * Released under the MIT license
  * https://jquery.org/license
+ *
+ * Date: 2019-10-08T15:49Z
  */
-(function () {
+(function (global$1) {
   'use strict';
 
-  function _typeof(obj) {
-    "@babel/helpers - typeof";
+  global$1 = global$1 && global$1.hasOwnProperty('default') ? global$1['default'] : global$1;
 
-    return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
-      return typeof obj;
-    } : function (obj) {
-      return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    }, _typeof(obj);
+  var window$1 = global$1.window;
+  var self$1 = global$1.self;
+  var console = global$1.console;
+  var setTimeout$1 = global$1.setTimeout;
+  var clearTimeout = global$1.clearTimeout;
+
+  var document$1 = window$1 && window$1.document;
+  var navigator = window$1 && window$1.navigator;
+
+  var localSessionStorage = function () {
+  	var x = "qunit-test-string";
+  	try {
+  		global$1.sessionStorage.setItem(x, x);
+  		global$1.sessionStorage.removeItem(x);
+  		return global$1.sessionStorage;
+  	} catch (e) {
+  		return undefined;
+  	}
+  }();
+
+  /**
+   * Returns a function that proxies to the given method name on the globals
+   * console object. The proxy will also detect if the console doesn't exist and
+   * will appropriately no-op. This allows support for IE9, which doesn't have a
+   * console if the developer tools are not open.
+   */
+  function consoleProxy(method) {
+  	return function () {
+  		if (console) {
+  			console[method].apply(console, arguments);
+  		}
+  	};
   }
-  function _classCallCheck(instance, Constructor) {
+
+  var Logger = {
+  	warn: consoleProxy("warn")
+  };
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
+
+
+
+
+
+
+
+
+
+
+
+  var classCallCheck = function (instance, Constructor) {
     if (!(instance instanceof Constructor)) {
       throw new TypeError("Cannot call a class as a function");
     }
-  }
-  function _defineProperties(target, props) {
-    for (var i = 0; i < props.length; i++) {
-      var descriptor = props[i];
-      descriptor.enumerable = descriptor.enumerable || false;
-      descriptor.configurable = true;
-      if ("value" in descriptor) descriptor.writable = true;
-      Object.defineProperty(target, descriptor.key, descriptor);
-    }
-  }
-  function _createClass(Constructor, protoProps, staticProps) {
-    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
-    if (staticProps) _defineProperties(Constructor, staticProps);
-    Object.defineProperty(Constructor, "prototype", {
-      writable: false
-    });
-    return Constructor;
-  }
-  function _slicedToArray(arr, i) {
-    return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-  }
-  function _toConsumableArray(arr) {
-    return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-  }
-  function _arrayWithoutHoles(arr) {
-    if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-  }
-  function _arrayWithHoles(arr) {
-    if (Array.isArray(arr)) return arr;
-  }
-  function _iterableToArray(iter) {
-    if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-  }
-  function _iterableToArrayLimit(arr, i) {
-    var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-    if (_i == null) return;
-    var _arr = [];
-    var _n = true;
-    var _d = false;
-    var _s, _e;
-    try {
-      for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-        _arr.push(_s.value);
-        if (i && _arr.length === i) break;
-      }
-    } catch (err) {
-      _d = true;
-      _e = err;
-    } finally {
-      try {
-        if (!_n && _i["return"] != null) _i["return"]();
-      } finally {
-        if (_d) throw _e;
+  };
+
+  var createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
       }
     }
-    return _arr;
-  }
-  function _unsupportedIterableToArray(o, minLen) {
-    if (!o) return;
-    if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-    var n = Object.prototype.toString.call(o).slice(8, -1);
-    if (n === "Object" && o.constructor) n = o.constructor.name;
-    if (n === "Map" || n === "Set") return Array.from(o);
-    if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-  }
-  function _arrayLikeToArray(arr, len) {
-    if (len == null || len > arr.length) len = arr.length;
-    for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-    return arr2;
-  }
-  function _nonIterableSpread() {
-    throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function _nonIterableRest() {
-    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-  }
-  function _createForOfIteratorHelper(o, allowArrayLike) {
-    var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
-    if (!it) {
-      if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
-        if (it) o = it;
-        var i = 0;
-        var F = function () {};
-        return {
-          s: F,
-          n: function () {
-            if (i >= o.length) return {
-              done: true
-            };
-            return {
-              done: false,
-              value: o[i++]
-            };
-          },
-          e: function (e) {
-            throw e;
-          },
-          f: F
-        };
-      }
-      throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-    }
-    var normalCompletion = true,
-      didErr = false,
-      err;
-    return {
-      s: function () {
-        it = it.call(o);
-      },
-      n: function () {
-        var step = it.next();
-        normalCompletion = step.done;
-        return step;
-      },
-      e: function (e) {
-        didErr = true;
-        err = e;
-      },
-      f: function () {
-        try {
-          if (!normalCompletion && it.return != null) it.return();
-        } finally {
-          if (didErr) throw err;
-        }
-      }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
     };
-  }
-
-  // We don't use global-this-polyfill [1], because it modifies
-  // the globals scope by default. QUnit must not affect the host context
-  // as developers may test their project may be such a polyfill, and/or
-  // they may intentionally test their project with and without certain
-  // polyfills and we must not affect that. It also uses an obscure
-  // mechanism that seems to sometimes causes a runtime error in older
-  // browsers (specifically Safari and IE versions that support
-  // Object.defineProperty but then report _T_ as undefined).
-  // [1] https://github.com/ungap/global-this/blob/v0.4.4/esm/index.js
-  //
-  // Another way is `Function('return this')()`, but doing so relies
-  // on eval which will cause a CSP error on some servers.
-  //
-  // Instead, simply check the four options that already exist
-  // in all supported environments.
-  function getGlobalThis() {
-    if (typeof globalThis !== 'undefined') {
-      // For SpiderMonkey, modern browsers, and recent Node.js
-      // eslint-disable-next-line no-undef
-      return globalThis;
-    }
-    if (typeof self !== 'undefined') {
-      // For web workers
-      // eslint-disable-next-line no-undef
-      return self;
-    }
-    if (typeof window$1 !== 'undefined') {
-      // For document context in browsers
-      return window$1;
-    }
-    if (typeof global !== 'undefined') {
-      // For Node.js
-      // eslint-disable-next-line no-undef
-      return global;
-    }
-    throw new Error('Unable to locate global object');
-  }
-
-  // This avoids a simple `export const` assignment as that would lead Rollup
-  // to change getGlobalThis and use the same (generated) variable name there.
-  var g = getGlobalThis();
-  var window$1 = g.window;
-  var console$1 = g.console;
-  var setTimeout$1 = g.setTimeout;
-  var clearTimeout = g.clearTimeout;
-  var document = window$1 && window$1.document;
-  var navigator = window$1 && window$1.navigator;
-  var localSessionStorage = function () {
-    var x = 'qunit-test-string';
-    try {
-      g.sessionStorage.setItem(x, x);
-      g.sessionStorage.removeItem(x);
-      return g.sessionStorage;
-    } catch (e) {
-      return undefined;
-    }
   }();
 
-  // Basic fallback for ES6 Map
-  // Support: IE 9-10, Safari 7, PhantomJS; Map is undefined
-  // Support: iOS 8; `new Map(iterable)` is not supported
-  //
-  // Fallback for ES7 Map#keys
-  // Support: IE 11; Map#keys is undefined
-  var StringMap = typeof g.Map === 'function' && typeof g.Map.prototype.keys === 'function' && typeof g.Symbol === 'function' && _typeof(g.Symbol.iterator) === 'symbol' ? g.Map : function StringMap(input) {
-    var _this = this;
-    var store = Object.create(null);
-    var hasOwn = Object.prototype.hasOwnProperty;
-    this.has = function (strKey) {
-      return hasOwn.call(store, strKey);
-    };
-    this.get = function (strKey) {
-      return store[strKey];
-    };
-    this.set = function (strKey, val) {
-      if (!hasOwn.call(store, strKey)) {
-        this.size++;
-      }
-      store[strKey] = val;
-      return this;
-    };
-    this.delete = function (strKey) {
-      if (hasOwn.call(store, strKey)) {
-        delete store[strKey];
-        this.size--;
-      }
-    };
-    this.forEach = function (callback) {
-      for (var strKey in store) {
-        callback(store[strKey], strKey);
-      }
-    };
-    this.keys = function () {
-      return Object.keys(store);
-    };
-    this.clear = function () {
-      store = Object.create(null);
-      this.size = 0;
-    };
-    this.size = 0;
-    if (input) {
-      input.forEach(function (val, strKey) {
-        _this.set(strKey, val);
-      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  var toConsumableArray = function (arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i];
+
+      return arr2;
+    } else {
+      return Array.from(arr);
     }
-  };
-
-  // Basic fallback for ES6 Set
-  // Support: IE 11, `new Set(iterable)` parameter not yet implemented
-  // Test for Set#values() which came after Set(iterable).
-  var StringSet = typeof g.Set === 'function' && typeof g.Set.prototype.values === 'function' ? g.Set : function (input) {
-    var set = Object.create(null);
-    if (Array.isArray(input)) {
-      input.forEach(function (item) {
-        set[item] = true;
-      });
-    }
-    return {
-      add: function add(value) {
-        set[value] = true;
-      },
-      has: function has(value) {
-        return value in set;
-      },
-      get size() {
-        return Object.keys(set).length;
-      }
-    };
-  };
-
-  // Support: IE 9
-  // Detect if the console object exists and no-op otherwise.
-  // This allows support for IE 9, which doesn't have a console
-  // object if the developer tools are not open.
-
-  // Support: IE 9
-  // Function#bind is supported, but no console.log.bind().
-
-  // Support: SpiderMonkey (mozjs 68+)
-  // The console object has a log method, but no warn method.
-
-  var Logger = {
-    warn: console$1 ? Function.prototype.bind.call(console$1.warn || console$1.log, console$1) : function () {}
   };
 
   var toString = Object.prototype.toString;
-  var hasOwn$1 = Object.prototype.hasOwnProperty;
-  var nativePerf = getNativePerf();
+  var hasOwn = Object.prototype.hasOwnProperty;
+  var now = Date.now || function () {
+  	return new Date().getTime();
+  };
 
-  // TODO: Consider using globalThis instead so that perf marks work
-  // in Node.js as well. As they can have overhead, we should also
-  // have a way to disable these, and/or make them an opt-in reporter
-  // in QUnit 3 and then support globalThis.
-  // For example: `QUnit.addReporter(QUnit.reporters.perf)`.
-  function getNativePerf() {
-    if (window$1 && typeof window$1.performance !== 'undefined' && typeof window$1.performance.mark === 'function' && typeof window$1.performance.measure === 'function') {
-      return window$1.performance;
-    } else {
-      return undefined;
-    }
+  var hasPerformanceApi = detectPerformanceApi();
+  var performance = hasPerformanceApi ? window$1.performance : undefined;
+  var performanceNow = hasPerformanceApi ? performance.now.bind(performance) : now;
+
+  function detectPerformanceApi() {
+  	return window$1 && typeof window$1.performance !== "undefined" && typeof window$1.performance.mark === "function" && typeof window$1.performance.measure === "function";
   }
-  var performance = {
-    now: nativePerf ? nativePerf.now.bind(nativePerf) : Date.now,
-    measure: nativePerf ? function (comment, startMark, endMark) {
-      // `performance.measure` may fail if the mark could not be found.
-      // reasons a specific mark could not be found include: outside code invoking `performance.clearMarks()`
-      try {
-        nativePerf.measure(comment, startMark, endMark);
-      } catch (ex) {
-        Logger.warn('performance.measure could not be executed because of ', ex.message);
-      }
-    } : function () {},
-    mark: nativePerf ? nativePerf.mark.bind(nativePerf) : function () {}
+
+  function measure(comment, startMark, endMark) {
+
+  	// `performance.measure` may fail if the mark could not be found.
+  	// reasons a specific mark could not be found include: outside code invoking `performance.clearMarks()`
+  	try {
+  		performance.measure(comment, startMark, endMark);
+  	} catch (ex) {
+  		Logger.warn("performance.measure could not be executed because of ", ex.message);
+  	}
+  }
+
+  var defined = {
+  	document: window$1 && window$1.document !== undefined,
+  	setTimeout: setTimeout$1 !== undefined
   };
 
   // Returns a new Array with the elements that are in a but not in b
   function diff(a, b) {
-    return a.filter(function (a) {
-      return b.indexOf(a) === -1;
-    });
+  	var i,
+  	    j,
+  	    result = a.slice();
+
+  	for (i = 0; i < result.length; i++) {
+  		for (j = 0; j < b.length; j++) {
+  			if (result[i] === b[j]) {
+  				result.splice(i, 1);
+  				i--;
+  				break;
+  			}
+  		}
+  	}
+  	return result;
   }
 
   /**
    * Determines whether an element exists in a given array or not.
    *
    * @method inArray
-   * @param {any} elem
+   * @param {Any} elem
    * @param {Array} array
-   * @return {boolean}
+   * @return {Boolean}
    */
   function inArray(elem, array) {
-    return array.indexOf(elem) !== -1;
+  	return array.indexOf(elem) !== -1;
   }
 
   /**
-   * Recursively clone an object into a plain array or object, taking only the
-   * own enumerable properties.
+   * Makes a clone of an object using only Array or Object as base,
+   * and copies over the own enumerable properties.
    *
-   * @param {any} obj
-   * @param {bool} [allowArray=true]
-   * @return {Object|Array}
+   * @param {Object} obj
+   * @return {Object} New object with only the own properties (recursively).
    */
   function objectValues(obj) {
-    var allowArray = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-    var vals = allowArray && is('array', obj) ? [] : {};
-    for (var key in obj) {
-      if (hasOwn$1.call(obj, key)) {
-        var val = obj[key];
-        vals[key] = val === Object(val) ? objectValues(val, allowArray) : val;
-      }
-    }
-    return vals;
+  	var key,
+  	    val,
+  	    vals = is("array", obj) ? [] : {};
+  	for (key in obj) {
+  		if (hasOwn.call(obj, key)) {
+  			val = obj[key];
+  			vals[key] = val === Object(val) ? objectValues(val) : val;
+  		}
+  	}
+  	return vals;
   }
 
-  /**
-   * Recursively clone an object into a plain object, taking only the
-   * subset of own enumerable properties that exist a given model.
-   *
-   * @param {any} obj
-   * @param {any} model
-   * @return {Object}
-   */
-  function objectValuesSubset(obj, model) {
-    // Return primitive values unchanged to avoid false positives or confusing
-    // results from assert.propContains().
-    // E.g. an actual null or false wrongly equaling an empty object,
-    // or an actual string being reported as object not matching a partial object.
-    if (obj !== Object(obj)) {
-      return obj;
-    }
-
-    // Unlike objectValues(), subset arrays to a plain objects as well.
-    // This enables subsetting [20, 30] with {1: 30}.
-    var subset = {};
-    for (var key in model) {
-      if (hasOwn$1.call(model, key) && hasOwn$1.call(obj, key)) {
-        subset[key] = objectValuesSubset(obj[key], model[key]);
-      }
-    }
-    return subset;
-  }
   function extend(a, b, undefOnly) {
-    for (var prop in b) {
-      if (hasOwn$1.call(b, prop)) {
-        if (b[prop] === undefined) {
-          delete a[prop];
-        } else if (!(undefOnly && typeof a[prop] !== 'undefined')) {
-          a[prop] = b[prop];
-        }
-      }
-    }
-    return a;
-  }
-  function objectType(obj) {
-    if (typeof obj === 'undefined') {
-      return 'undefined';
-    }
+  	for (var prop in b) {
+  		if (hasOwn.call(b, prop)) {
+  			if (b[prop] === undefined) {
+  				delete a[prop];
+  			} else if (!(undefOnly && typeof a[prop] !== "undefined")) {
+  				a[prop] = b[prop];
+  			}
+  		}
+  	}
 
-    // Consider: typeof null === object
-    if (obj === null) {
-      return 'null';
-    }
-    var match = toString.call(obj).match(/^\[object\s(.*)\]$/);
-    var type = match && match[1];
-    switch (type) {
-      case 'Number':
-        if (isNaN(obj)) {
-          return 'nan';
-        }
-        return 'number';
-      case 'String':
-      case 'Boolean':
-      case 'Array':
-      case 'Set':
-      case 'Map':
-      case 'Date':
-      case 'RegExp':
-      case 'Function':
-      case 'Symbol':
-        return type.toLowerCase();
-      default:
-        return _typeof(obj);
-    }
+  	return a;
+  }
+
+  function objectType(obj) {
+  	if (typeof obj === "undefined") {
+  		return "undefined";
+  	}
+
+  	// Consider: typeof null === object
+  	if (obj === null) {
+  		return "null";
+  	}
+
+  	var match = toString.call(obj).match(/^\[object\s(.*)\]$/),
+  	    type = match && match[1];
+
+  	switch (type) {
+  		case "Number":
+  			if (isNaN(obj)) {
+  				return "nan";
+  			}
+  			return "number";
+  		case "String":
+  		case "Boolean":
+  		case "Array":
+  		case "Set":
+  		case "Map":
+  		case "Date":
+  		case "RegExp":
+  		case "Function":
+  		case "Symbol":
+  			return type.toLowerCase();
+  		default:
+  			return typeof obj === "undefined" ? "undefined" : _typeof(obj);
+  	}
   }
 
   // Safe object type checking
   function is(type, obj) {
-    return objectType(obj) === type;
+  	return objectType(obj) === type;
   }
 
   // Based on Java's String.hashCode, a simple but not
   // rigorously collision resistant hashing function
   function generateHash(module, testName) {
-    var str = module + '\x1C' + testName;
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-      hash = (hash << 5) - hash + str.charCodeAt(i);
-      hash |= 0;
-    }
+  	var str = module + "\x1C" + testName;
+  	var hash = 0;
 
-    // Convert the possibly negative integer hash code into an 8 character hex string, which isn't
-    // strictly necessary but increases user understanding that the id is a SHA-like hash
-    var hex = (0x100000000 + hash).toString(16);
-    if (hex.length < 8) {
-      hex = '0000000' + hex;
-    }
-    return hex.slice(-8);
+  	for (var i = 0; i < str.length; i++) {
+  		hash = (hash << 5) - hash + str.charCodeAt(i);
+  		hash |= 0;
+  	}
+
+  	// Convert the possibly negative integer hash code into an 8 character hex string, which isn't
+  	// strictly necessary but increases user understanding that the id is a SHA-like hash
+  	var hex = (0x100000000 + hash).toString(16);
+  	if (hex.length < 8) {
+  		hex = "0000000" + hex;
+  	}
+
+  	return hex.slice(-8);
   }
 
-  /**
-   * Converts an error into a simple string for comparisons.
-   *
-   * @param {Error|any} error
-   * @return {string}
-   */
-  function errorString(error) {
-    // Use String() instead of toString() to handle non-object values like undefined or null.
-    var resultErrorString = String(error);
+  // Test for equality any JavaScript type.
+  // Authors: Philippe Rathé <prathe@gmail.com>, David Chan <david@troi.org>
+  var equiv = (function () {
 
-    // If the error wasn't a subclass of Error but something like
-    // an object literal with name and message properties...
-    if (resultErrorString.slice(0, 7) === '[object') {
-      // Based on https://es5.github.io/#x15.11.4.4
-      return (error.name || 'Error') + (error.message ? ": ".concat(error.message) : '');
-    } else {
-      return resultErrorString;
-    }
-  }
+  	// Value pairs queued for comparison. Used for breadth-first processing order, recursion
+  	// detection and avoiding repeated comparison (see below for details).
+  	// Elements are { a: val, b: val }.
+  	var pairs = [];
 
-  var BOXABLE_TYPES = new StringSet(['boolean', 'number', 'string']);
+  	var getProto = Object.getPrototypeOf || function (obj) {
+  		return obj.__proto__;
+  	};
 
-  // Memory for previously seen containers (object, array, map, set).
-  // Used for recursion detection, and to avoid repeated comparison.
-  //
-  // Elements are { a: val, b: val }.
-  var memory = [];
-  function useStrictEquality(a, b) {
-    return a === b;
-  }
-  function useObjectValueEquality(a, b) {
-    return a === b || a.valueOf() === b.valueOf();
-  }
-  function compareConstructors(a, b) {
-    // Comparing constructors is more strict than using `instanceof`
-    return getConstructor(a) === getConstructor(b);
-  }
-  function getConstructor(obj) {
-    var proto = Object.getPrototypeOf(obj);
+  	function useStrictEquality(a, b) {
 
-    // If the obj prototype descends from a null constructor, treat it
-    // as a null prototype.
-    // Ref https://github.com/qunitjs/qunit/issues/851
-    //
-    // Allow objects with no prototype, from Object.create(null), to be equivalent to
-    // plain objects that have Object as their constructor.
-    return !proto || proto.constructor === null ? Object : obj.constructor;
-  }
-  function getRegExpFlags(regexp) {
-    return 'flags' in regexp ? regexp.flags : regexp.toString().match(/[gimuy]*$/)[0];
-  }
+  		// This only gets called if a and b are not strict equal, and is used to compare on
+  		// the primitive values inside object wrappers. For example:
+  		// `var i = 1;`
+  		// `var j = new Number(1);`
+  		// Neither a nor b can be null, as a !== b and they have the same type.
+  		if ((typeof a === "undefined" ? "undefined" : _typeof(a)) === "object") {
+  			a = a.valueOf();
+  		}
+  		if ((typeof b === "undefined" ? "undefined" : _typeof(b)) === "object") {
+  			b = b.valueOf();
+  		}
 
-  // Specialised comparisons after entryTypeCallbacks.object, based on `objectType()`
-  var objTypeCallbacks = {
-    undefined: useStrictEquality,
-    null: useStrictEquality,
-    // Handle boxed boolean
-    boolean: useObjectValueEquality,
-    number: function number(a, b) {
-      // Handle NaN and boxed number
-      return a === b || a.valueOf() === b.valueOf() || isNaN(a.valueOf()) && isNaN(b.valueOf());
-    },
-    // Handle boxed string
-    string: useObjectValueEquality,
-    symbol: useStrictEquality,
-    date: useObjectValueEquality,
-    nan: function nan() {
-      return true;
-    },
-    regexp: function regexp(a, b) {
-      return a.source === b.source &&
-      // Include flags in the comparison
-      getRegExpFlags(a) === getRegExpFlags(b);
-    },
-    // identical reference only
-    function: useStrictEquality,
-    array: function array(a, b) {
-      if (a.length !== b.length) {
-        // Safe and faster
-        return false;
-      }
-      for (var i = 0; i < a.length; i++) {
-        if (!typeEquiv(a[i], b[i])) {
-          return false;
-        }
-      }
-      return true;
-    },
-    // Define sets a and b to be equivalent if for each element aVal in a, there
-    // is some element bVal in b such that aVal and bVal are equivalent. Element
-    // repetitions are not counted, so these are equivalent:
-    // a = new Set( [ X={}, Y=[], Y ] );
-    // b = new Set( [ Y, X, X ] );
-    set: function set(a, b) {
-      if (a.size !== b.size) {
-        // This optimization has certain quirks because of the lack of
-        // repetition counting. For instance, adding the same
-        // (reference-identical) element to two equivalent sets can
-        // make them non-equivalent.
-        return false;
-      }
-      var outerEq = true;
-      a.forEach(function (aVal) {
-        // Short-circuit if the result is already known. (Using for...of
-        // with a break clause would be cleaner here, but it would cause
-        // a syntax error on older JavaScript implementations even if
-        // Set is unused)
-        if (!outerEq) {
-          return;
-        }
-        var innerEq = false;
-        b.forEach(function (bVal) {
-          // Likewise, short-circuit if the result is already known
-          if (innerEq) {
-            return;
-          }
+  		return a === b;
+  	}
 
-          // Swap out the global memory, as nested typeEquiv() would clobber it
-          var originalMemory = memory;
-          memory = [];
-          if (typeEquiv(bVal, aVal)) {
-            innerEq = true;
-          }
-          // Restore
-          memory = originalMemory;
-        });
-        if (!innerEq) {
-          outerEq = false;
-        }
-      });
-      return outerEq;
-    },
-    // Define maps a and b to be equivalent if for each key-value pair (aKey, aVal)
-    // in a, there is some key-value pair (bKey, bVal) in b such that
-    // [ aKey, aVal ] and [ bKey, bVal ] are equivalent. Key repetitions are not
-    // counted, so these are equivalent:
-    // a = new Map( [ [ {}, 1 ], [ {}, 1 ], [ [], 1 ] ] );
-    // b = new Map( [ [ {}, 1 ], [ [], 1 ], [ [], 1 ] ] );
-    map: function map(a, b) {
-      if (a.size !== b.size) {
-        // This optimization has certain quirks because of the lack of
-        // repetition counting. For instance, adding the same
-        // (reference-identical) key-value pair to two equivalent maps
-        // can make them non-equivalent.
-        return false;
-      }
-      var outerEq = true;
-      a.forEach(function (aVal, aKey) {
-        // Short-circuit if the result is already known. (Using for...of
-        // with a break clause would be cleaner here, but it would cause
-        // a syntax error on older JavaScript implementations even if
-        // Map is unused)
-        if (!outerEq) {
-          return;
-        }
-        var innerEq = false;
-        b.forEach(function (bVal, bKey) {
-          // Likewise, short-circuit if the result is already known
-          if (innerEq) {
-            return;
-          }
+  	function compareConstructors(a, b) {
+  		var protoA = getProto(a);
+  		var protoB = getProto(b);
 
-          // Swap out the global memory, as nested typeEquiv() would clobber it
-          var originalMemory = memory;
-          memory = [];
-          if (objTypeCallbacks.array([bVal, bKey], [aVal, aKey])) {
-            innerEq = true;
-          }
-          // Restore
-          memory = originalMemory;
-        });
-        if (!innerEq) {
-          outerEq = false;
-        }
-      });
-      return outerEq;
-    }
-  };
+  		// Comparing constructors is more strict than using `instanceof`
+  		if (a.constructor === b.constructor) {
+  			return true;
+  		}
 
-  // Entry points from typeEquiv, based on `typeof`
-  var entryTypeCallbacks = {
-    undefined: useStrictEquality,
-    null: useStrictEquality,
-    boolean: useStrictEquality,
-    number: function number(a, b) {
-      // Handle NaN
-      return a === b || isNaN(a) && isNaN(b);
-    },
-    string: useStrictEquality,
-    symbol: useStrictEquality,
-    function: useStrictEquality,
-    object: function object(a, b) {
-      // Handle memory (skip recursion)
-      if (memory.some(function (pair) {
-        return pair.a === a && pair.b === b;
-      })) {
-        return true;
-      }
-      memory.push({
-        a: a,
-        b: b
-      });
-      var aObjType = objectType(a);
-      var bObjType = objectType(b);
-      if (aObjType !== 'object' || bObjType !== 'object') {
-        // Handle literal `null`
-        // Handle: Array, Map/Set, Date, Regxp/Function, boxed primitives
-        return aObjType === bObjType && objTypeCallbacks[aObjType](a, b);
-      }
+  		// Ref #851
+  		// If the obj prototype descends from a null constructor, treat it
+  		// as a null prototype.
+  		if (protoA && protoA.constructor === null) {
+  			protoA = null;
+  		}
+  		if (protoB && protoB.constructor === null) {
+  			protoB = null;
+  		}
 
-      // NOTE: Literal null must not make it here as it would throw
-      if (compareConstructors(a, b) === false) {
-        return false;
-      }
-      var aProperties = [];
-      var bProperties = [];
+  		// Allow objects with no prototype to be equivalent to
+  		// objects with Object as their constructor.
+  		if (protoA === null && protoB === Object.prototype || protoB === null && protoA === Object.prototype) {
+  			return true;
+  		}
 
-      // Be strict and go deep, no filtering with hasOwnProperty.
-      for (var i in a) {
-        // Collect a's properties
-        aProperties.push(i);
+  		return false;
+  	}
 
-        // Skip OOP methods that look the same
-        if (a.constructor !== Object && typeof a.constructor !== 'undefined' && typeof a[i] === 'function' && typeof b[i] === 'function' && a[i].toString() === b[i].toString()) {
-          continue;
-        }
-        if (!typeEquiv(a[i], b[i])) {
-          return false;
-        }
-      }
-      for (var _i in b) {
-        // Collect b's properties
-        bProperties.push(_i);
-      }
-      return objTypeCallbacks.array(aProperties.sort(), bProperties.sort());
-    }
-  };
-  function typeEquiv(a, b) {
-    // Optimization: Only perform type-specific comparison when pairs are not strictly equal.
-    if (a === b) {
-      return true;
-    }
-    var aType = _typeof(a);
-    var bType = _typeof(b);
-    if (aType !== bType) {
-      // Support comparing primitive to boxed primitives
-      // Try again after possibly unwrapping one
-      return (aType === 'object' && BOXABLE_TYPES.has(objectType(a)) ? a.valueOf() : a) === (bType === 'object' && BOXABLE_TYPES.has(objectType(b)) ? b.valueOf() : b);
-    }
-    return entryTypeCallbacks[aType](a, b);
-  }
-  function innerEquiv(a, b) {
-    var res = typeEquiv(a, b);
-    // Release any retained objects and reset recursion detection for next call
-    memory = [];
-    return res;
-  }
+  	function getRegExpFlags(regexp) {
+  		return "flags" in regexp ? regexp.flags : regexp.toString().match(/[gimuy]*$/)[0];
+  	}
 
-  /**
-   * Test any two types of JavaScript values for equality.
-   *
-   * @author Philippe Rathé <prathe@gmail.com>
-   * @author David Chan <david@troi.org>
-   */
-  function equiv(a, b) {
-    if (arguments.length === 2) {
-      return a === b || innerEquiv(a, b);
-    }
+  	function isContainer(val) {
+  		return ["object", "array", "map", "set"].indexOf(objectType(val)) !== -1;
+  	}
 
-    // Given 0 or 1 arguments, just return true (nothing to compare).
-    // Given (A,B,C,D) compare C,D then B,C then A,B.
-    var i = arguments.length - 1;
-    while (i > 0) {
-      if (!innerEquiv(arguments[i - 1], arguments[i])) {
-        return false;
-      }
-      i--;
-    }
-    return true;
-  }
+  	function breadthFirstCompareChild(a, b) {
+
+  		// If a is a container not reference-equal to b, postpone the comparison to the
+  		// end of the pairs queue -- unless (a, b) has been seen before, in which case skip
+  		// over the pair.
+  		if (a === b) {
+  			return true;
+  		}
+  		if (!isContainer(a)) {
+  			return typeEquiv(a, b);
+  		}
+  		if (pairs.every(function (pair) {
+  			return pair.a !== a || pair.b !== b;
+  		})) {
+
+  			// Not yet started comparing this pair
+  			pairs.push({ a: a, b: b });
+  		}
+  		return true;
+  	}
+
+  	var callbacks = {
+  		"string": useStrictEquality,
+  		"boolean": useStrictEquality,
+  		"number": useStrictEquality,
+  		"null": useStrictEquality,
+  		"undefined": useStrictEquality,
+  		"symbol": useStrictEquality,
+  		"date": useStrictEquality,
+
+  		"nan": function nan() {
+  			return true;
+  		},
+
+  		"regexp": function regexp(a, b) {
+  			return a.source === b.source &&
+
+  			// Include flags in the comparison
+  			getRegExpFlags(a) === getRegExpFlags(b);
+  		},
+
+  		// abort (identical references / instance methods were skipped earlier)
+  		"function": function _function() {
+  			return false;
+  		},
+
+  		"array": function array(a, b) {
+  			var i, len;
+
+  			len = a.length;
+  			if (len !== b.length) {
+
+  				// Safe and faster
+  				return false;
+  			}
+
+  			for (i = 0; i < len; i++) {
+
+  				// Compare non-containers; queue non-reference-equal containers
+  				if (!breadthFirstCompareChild(a[i], b[i])) {
+  					return false;
+  				}
+  			}
+  			return true;
+  		},
+
+  		// Define sets a and b to be equivalent if for each element aVal in a, there
+  		// is some element bVal in b such that aVal and bVal are equivalent. Element
+  		// repetitions are not counted, so these are equivalent:
+  		// a = new Set( [ {}, [], [] ] );
+  		// b = new Set( [ {}, {}, [] ] );
+  		"set": function set$$1(a, b) {
+  			var innerEq,
+  			    outerEq = true;
+
+  			if (a.size !== b.size) {
+
+  				// This optimization has certain quirks because of the lack of
+  				// repetition counting. For instance, adding the same
+  				// (reference-identical) element to two equivalent sets can
+  				// make them non-equivalent.
+  				return false;
+  			}
+
+  			a.forEach(function (aVal) {
+
+  				// Short-circuit if the result is already known. (Using for...of
+  				// with a break clause would be cleaner here, but it would cause
+  				// a syntax error on older Javascript implementations even if
+  				// Set is unused)
+  				if (!outerEq) {
+  					return;
+  				}
+
+  				innerEq = false;
+
+  				b.forEach(function (bVal) {
+  					var parentPairs;
+
+  					// Likewise, short-circuit if the result is already known
+  					if (innerEq) {
+  						return;
+  					}
+
+  					// Swap out the global pairs list, as the nested call to
+  					// innerEquiv will clobber its contents
+  					parentPairs = pairs;
+  					if (innerEquiv(bVal, aVal)) {
+  						innerEq = true;
+  					}
+
+  					// Replace the global pairs list
+  					pairs = parentPairs;
+  				});
+
+  				if (!innerEq) {
+  					outerEq = false;
+  				}
+  			});
+
+  			return outerEq;
+  		},
+
+  		// Define maps a and b to be equivalent if for each key-value pair (aKey, aVal)
+  		// in a, there is some key-value pair (bKey, bVal) in b such that
+  		// [ aKey, aVal ] and [ bKey, bVal ] are equivalent. Key repetitions are not
+  		// counted, so these are equivalent:
+  		// a = new Map( [ [ {}, 1 ], [ {}, 1 ], [ [], 1 ] ] );
+  		// b = new Map( [ [ {}, 1 ], [ [], 1 ], [ [], 1 ] ] );
+  		"map": function map(a, b) {
+  			var innerEq,
+  			    outerEq = true;
+
+  			if (a.size !== b.size) {
+
+  				// This optimization has certain quirks because of the lack of
+  				// repetition counting. For instance, adding the same
+  				// (reference-identical) key-value pair to two equivalent maps
+  				// can make them non-equivalent.
+  				return false;
+  			}
+
+  			a.forEach(function (aVal, aKey) {
+
+  				// Short-circuit if the result is already known. (Using for...of
+  				// with a break clause would be cleaner here, but it would cause
+  				// a syntax error on older Javascript implementations even if
+  				// Map is unused)
+  				if (!outerEq) {
+  					return;
+  				}
+
+  				innerEq = false;
+
+  				b.forEach(function (bVal, bKey) {
+  					var parentPairs;
+
+  					// Likewise, short-circuit if the result is already known
+  					if (innerEq) {
+  						return;
+  					}
+
+  					// Swap out the global pairs list, as the nested call to
+  					// innerEquiv will clobber its contents
+  					parentPairs = pairs;
+  					if (innerEquiv([bVal, bKey], [aVal, aKey])) {
+  						innerEq = true;
+  					}
+
+  					// Replace the global pairs list
+  					pairs = parentPairs;
+  				});
+
+  				if (!innerEq) {
+  					outerEq = false;
+  				}
+  			});
+
+  			return outerEq;
+  		},
+
+  		"object": function object(a, b) {
+  			var i,
+  			    aProperties = [],
+  			    bProperties = [];
+
+  			if (compareConstructors(a, b) === false) {
+  				return false;
+  			}
+
+  			// Be strict: don't ensure hasOwnProperty and go deep
+  			for (i in a) {
+
+  				// Collect a's properties
+  				aProperties.push(i);
+
+  				// Skip OOP methods that look the same
+  				if (a.constructor !== Object && typeof a.constructor !== "undefined" && typeof a[i] === "function" && typeof b[i] === "function" && a[i].toString() === b[i].toString()) {
+  					continue;
+  				}
+
+  				// Compare non-containers; queue non-reference-equal containers
+  				if (!breadthFirstCompareChild(a[i], b[i])) {
+  					return false;
+  				}
+  			}
+
+  			for (i in b) {
+
+  				// Collect b's properties
+  				bProperties.push(i);
+  			}
+
+  			// Ensures identical properties name
+  			return typeEquiv(aProperties.sort(), bProperties.sort());
+  		}
+  	};
+
+  	function typeEquiv(a, b) {
+  		var type = objectType(a);
+
+  		// Callbacks for containers will append to the pairs queue to achieve breadth-first
+  		// search order. The pairs queue is also used to avoid reprocessing any pair of
+  		// containers that are reference-equal to a previously visited pair (a special case
+  		// this being recursion detection).
+  		//
+  		// Because of this approach, once typeEquiv returns a false value, it should not be
+  		// called again without clearing the pair queue else it may wrongly report a visited
+  		// pair as being equivalent.
+  		return objectType(b) === type && callbacks[type](a, b);
+  	}
+
+  	function innerEquiv(a, b) {
+  		var i, pair;
+
+  		// We're done when there's nothing more to compare
+  		if (arguments.length < 2) {
+  			return true;
+  		}
+
+  		// Clear the global pair queue and add the top-level values being compared
+  		pairs = [{ a: a, b: b }];
+
+  		for (i = 0; i < pairs.length; i++) {
+  			pair = pairs[i];
+
+  			// Perform type-specific comparison on any pairs that are not strictly
+  			// equal. For container types, that comparison will postpone comparison
+  			// of any sub-container pair to the end of the pair queue. This gives
+  			// breadth-first search order. It also avoids the reprocessing of
+  			// reference-equal siblings, cousins etc, which can have a significant speed
+  			// impact when comparing a container of small objects each of which has a
+  			// reference to the same (singleton) large object.
+  			if (pair.a !== pair.b && !typeEquiv(pair.a, pair.b)) {
+  				return false;
+  			}
+  		}
+
+  		// ...across all consecutive argument pairs
+  		return arguments.length === 2 || innerEquiv.apply(this, [].slice.call(arguments, 1));
+  	}
+
+  	return function () {
+  		var result = innerEquiv.apply(undefined, arguments);
+
+  		// Release any retained objects
+  		pairs.length = 0;
+  		return result;
+  	};
+  })();
 
   /**
    * Config object: Maintain internal state
@@ -3381,1093 +3225,615 @@ Ember.setupForTesting = testing.setupForTesting;
    * `config` initialized at top of scope
    */
   var config = {
-    // HTML Reporter: Modify document.title when suite is done
-    altertitle: true,
-    // HTML Reporter: collapse every test except the first failing test
-    // If false, all failing tests will be expanded
-    collapse: true,
-    // whether or not to fail when there are zero tests
-    // defaults to `true`
-    failOnZeroTests: true,
-    // Select by pattern or case-insenstive substring match against "moduleName: testName"
-    filter: undefined,
-    // Depth up-to which object will be dumped
-    maxDepth: 5,
-    // Select case-insensitive match of the module name
-    module: undefined,
-    // HTML Reporter: Select module/test by array of internal IDs
-    moduleId: undefined,
-    // By default, run previously failed tests first
-    // very useful in combination with "Hide passed tests" checked
-    reorder: true,
-    // When enabled, all tests must call expect()
-    requireExpects: false,
-    // By default, scroll to top of the page when suite is done
-    scrolltop: true,
-    // The storage module to use for reordering tests
-    storage: localSessionStorage,
-    testId: undefined,
-    // HTML Reporter: List of URL parameters that are given visual controls
-    urlConfig: [],
-    // Internal: The first unnamed module
-    //
-    // By being defined as the intial value for currentModule, it is the
-    // receptacle and implied parent for any global tests. It is as if we
-    // called `QUnit.module( "" );` before any other tests were defined.
-    //
-    // If we reach begin() and no tests were put in it, we dequeue it as if it
-    // never existed, and in that case never expose it to the events and
-    // callbacks API.
-    //
-    // When global tests are defined, then this unnamed module will execute
-    // as any other module, including moduleStart/moduleDone events etc.
-    //
-    // Since this module isn't explicitly created by the user, they have no
-    // access to add hooks for it. The hooks object is defined to comply
-    // with internal expectations of test.js, but they will be empty.
-    // To apply hooks, place tests explicitly in a QUnit.module(), and use
-    // its hooks accordingly.
-    //
-    // For global hooks that apply to all tests and all modules, use QUnit.hooks.
-    //
-    // NOTE: This is *not* a "global module". It is not an ancestor of all modules
-    // and tests. It is merely the parent for any tests defined globally,
-    // before the first QUnit.module(). As such, the events for this unnamed
-    // module will fire as normal, right after its last test, and *not* at
-    // the end of the test run.
-    //
-    // NOTE: This also should probably also not become a global module, unless
-    // we keep it out of the public API. For example, it would likely not
-    // improve the user interface and plugin behaviour if all modules became
-    // wrapped between the start and end events of this module, and thus
-    // needlessly add indentation, indirection, or other visible noise.
-    // Unit tests for the callbacks API would detect that as a regression.
-    currentModule: {
-      name: '',
-      tests: [],
-      childModules: [],
-      testsRun: 0,
-      testsIgnored: 0,
-      hooks: {
-        before: [],
-        beforeEach: [],
-        afterEach: [],
-        after: []
-      }
-    },
-    // Internal: Exposed to make resets easier
-    // Ref https://github.com/qunitjs/qunit/pull/1598
-    globalHooks: {},
-    // Internal state
-    blocking: true,
-    callbacks: {},
-    modules: [],
-    queue: [],
-    stats: {
-      all: 0,
-      bad: 0,
-      testCount: 0
-    }
+
+  	// The queue of tests to run
+  	queue: [],
+
+  	// Block until document ready
+  	blocking: true,
+
+  	// By default, run previously failed tests first
+  	// very useful in combination with "Hide passed tests" checked
+  	reorder: true,
+
+  	// By default, modify document.title when suite is done
+  	altertitle: true,
+
+  	// HTML Reporter: collapse every test except the first failing test
+  	// If false, all failing tests will be expanded
+  	collapse: true,
+
+  	// By default, scroll to top of the page when suite is done
+  	scrolltop: true,
+
+  	// Depth up-to which object will be dumped
+  	maxDepth: 5,
+
+  	// When enabled, all tests must call expect()
+  	requireExpects: false,
+
+  	// Placeholder for user-configurable form-exposed URL parameters
+  	urlConfig: [],
+
+  	// Set of all modules.
+  	modules: [],
+
+  	// The first unnamed module
+  	currentModule: {
+  		name: "",
+  		tests: [],
+  		childModules: [],
+  		testsRun: 0,
+  		unskippedTestsRun: 0,
+  		hooks: {
+  			before: [],
+  			beforeEach: [],
+  			afterEach: [],
+  			after: []
+  		}
+  	},
+
+  	callbacks: {},
+
+  	// The storage module to use for reordering tests
+  	storage: localSessionStorage
   };
 
-  // Apply a predefined QUnit.config object
-  //
-  // Ignore QUnit.config if it is a QUnit distribution instead of preconfig.
-  // That means QUnit was loaded twice! (Use the same approach as export.js)
-  var preConfig = g && g.QUnit && !g.QUnit.version && g.QUnit.config;
-  if (preConfig) {
-    extend(config, preConfig);
+  // take a predefined QUnit.config and extend the defaults
+  var globalConfig = window$1 && window$1.QUnit && window$1.QUnit.config;
+
+  // only extend the global config if there is no QUnit overload
+  if (window$1 && window$1.QUnit && !window$1.QUnit.version) {
+  	extend(config, globalConfig);
   }
 
   // Push a loose unnamed module to the modules collection
   config.modules.push(config.currentModule);
 
+  // Based on jsDump by Ariel Flesler
+  // http://flesler.blogspot.com/2008/05/jsdump-pretty-dump-of-any-javascript.html
   var dump = (function () {
-    function quote(str) {
-      return '"' + str.toString().replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"';
-    }
-    function literal(o) {
-      return o + '';
-    }
-    function join(pre, arr, post) {
-      var s = dump.separator();
-      var inner = dump.indent(1);
-      if (arr.join) {
-        arr = arr.join(',' + s + inner);
-      }
-      if (!arr) {
-        return pre + post;
-      }
-      var base = dump.indent();
-      return [pre, inner + arr, base + post].join(s);
-    }
-    function array(arr, stack) {
-      if (dump.maxDepth && dump.depth > dump.maxDepth) {
-        return '[object Array]';
-      }
-      this.up();
-      var i = arr.length;
-      var ret = new Array(i);
-      while (i--) {
-        ret[i] = this.parse(arr[i], undefined, stack);
-      }
-      this.down();
-      return join('[', ret, ']');
-    }
-    function isArray(obj) {
-      return (
-        // Native Arrays
-        toString.call(obj) === '[object Array]' ||
-        // NodeList objects
-        typeof obj.length === 'number' && obj.item !== undefined && (obj.length ? obj.item(0) === obj[0] : obj.item(0) === null && obj[0] === undefined)
-      );
-    }
-    var reName = /^function (\w+)/;
-    var dump = {
-      // The objType is used mostly internally, you can fix a (custom) type in advance
-      parse: function parse(obj, objType, stack) {
-        stack = stack || [];
-        var objIndex = stack.indexOf(obj);
-        if (objIndex !== -1) {
-          return "recursion(".concat(objIndex - stack.length, ")");
-        }
-        objType = objType || this.typeOf(obj);
-        var parser = this.parsers[objType];
-        var parserType = _typeof(parser);
-        if (parserType === 'function') {
-          stack.push(obj);
-          var res = parser.call(this, obj, stack);
-          stack.pop();
-          return res;
-        }
-        if (parserType === 'string') {
-          return parser;
-        }
-        return '[ERROR: Missing QUnit.dump formatter for type ' + objType + ']';
-      },
-      typeOf: function typeOf(obj) {
-        var type;
-        if (obj === null) {
-          type = 'null';
-        } else if (typeof obj === 'undefined') {
-          type = 'undefined';
-        } else if (is('regexp', obj)) {
-          type = 'regexp';
-        } else if (is('date', obj)) {
-          type = 'date';
-        } else if (is('function', obj)) {
-          type = 'function';
-        } else if (obj.setInterval !== undefined && obj.document !== undefined && obj.nodeType === undefined) {
-          type = 'window';
-        } else if (obj.nodeType === 9) {
-          type = 'document';
-        } else if (obj.nodeType) {
-          type = 'node';
-        } else if (isArray(obj)) {
-          type = 'array';
-        } else if (obj.constructor === Error.prototype.constructor) {
-          type = 'error';
-        } else {
-          type = _typeof(obj);
-        }
-        return type;
-      },
-      separator: function separator() {
-        if (this.multiline) {
-          return this.HTML ? '<br />' : '\n';
-        } else {
-          return this.HTML ? '&#160;' : ' ';
-        }
-      },
-      // Extra can be a number, shortcut for increasing-calling-decreasing
-      indent: function indent(extra) {
-        if (!this.multiline) {
-          return '';
-        }
-        var chr = this.indentChar;
-        if (this.HTML) {
-          chr = chr.replace(/\t/g, '   ').replace(/ /g, '&#160;');
-        }
-        return new Array(this.depth + (extra || 0)).join(chr);
-      },
-      up: function up(a) {
-        this.depth += a || 1;
-      },
-      down: function down(a) {
-        this.depth -= a || 1;
-      },
-      setParser: function setParser(name, parser) {
-        this.parsers[name] = parser;
-      },
-      // The next 3 are exposed so you can use them
-      quote: quote,
-      literal: literal,
-      join: join,
-      depth: 1,
-      maxDepth: config.maxDepth,
-      // This is the list of parsers, to modify them, use dump.setParser
-      parsers: {
-        window: '[Window]',
-        document: '[Document]',
-        error: function error(_error) {
-          return 'Error("' + _error.message + '")';
-        },
-        // This has been unused since QUnit 1.0.0.
-        // @todo Deprecate and remove.
-        unknown: '[Unknown]',
-        null: 'null',
-        undefined: 'undefined',
-        function: function _function(fn) {
-          var ret = 'function';
+  	function quote(str) {
+  		return "\"" + str.toString().replace(/\\/g, "\\\\").replace(/"/g, "\\\"") + "\"";
+  	}
+  	function literal(o) {
+  		return o + "";
+  	}
+  	function join(pre, arr, post) {
+  		var s = dump.separator(),
+  		    base = dump.indent(),
+  		    inner = dump.indent(1);
+  		if (arr.join) {
+  			arr = arr.join("," + s + inner);
+  		}
+  		if (!arr) {
+  			return pre + post;
+  		}
+  		return [pre, inner + arr, base + post].join(s);
+  	}
+  	function array(arr, stack) {
+  		var i = arr.length,
+  		    ret = new Array(i);
 
-          // Functions never have name in IE
-          var name = 'name' in fn ? fn.name : (reName.exec(fn) || [])[1];
-          if (name) {
-            ret += ' ' + name;
-          }
-          ret += '(';
-          ret = [ret, dump.parse(fn, 'functionArgs'), '){'].join('');
-          return join(ret, dump.parse(fn, 'functionCode'), '}');
-        },
-        array: array,
-        nodelist: array,
-        arguments: array,
-        object: function object(map, stack) {
-          var ret = [];
-          if (dump.maxDepth && dump.depth > dump.maxDepth) {
-            return '[object Object]';
-          }
-          dump.up();
-          var keys = [];
-          for (var key in map) {
-            keys.push(key);
-          }
+  		if (dump.maxDepth && dump.depth > dump.maxDepth) {
+  			return "[object Array]";
+  		}
 
-          // Some properties are not always enumerable on Error objects.
-          var nonEnumerableProperties = ['message', 'name'];
-          for (var i in nonEnumerableProperties) {
-            var _key = nonEnumerableProperties[i];
-            if (_key in map && !inArray(_key, keys)) {
-              keys.push(_key);
-            }
-          }
-          keys.sort();
-          for (var _i = 0; _i < keys.length; _i++) {
-            var _key2 = keys[_i];
-            var val = map[_key2];
-            ret.push(dump.parse(_key2, 'key') + ': ' + dump.parse(val, undefined, stack));
-          }
-          dump.down();
-          return join('{', ret, '}');
-        },
-        node: function node(_node) {
-          var open = dump.HTML ? '&lt;' : '<';
-          var close = dump.HTML ? '&gt;' : '>';
-          var tag = _node.nodeName.toLowerCase();
-          var ret = open + tag;
-          var attrs = _node.attributes;
-          if (attrs) {
-            for (var i = 0; i < attrs.length; i++) {
-              var val = attrs[i].nodeValue;
+  		this.up();
+  		while (i--) {
+  			ret[i] = this.parse(arr[i], undefined, stack);
+  		}
+  		this.down();
+  		return join("[", ret, "]");
+  	}
 
-              // IE6 includes all attributes in .attributes, even ones not explicitly
-              // set. Those have values like undefined, null, 0, false, "" or
-              // "inherit".
-              if (val && val !== 'inherit') {
-                ret += ' ' + attrs[i].nodeName + '=' + dump.parse(val, 'attribute');
-              }
-            }
-          }
-          ret += close;
+  	function isArray(obj) {
+  		return (
 
-          // Show content of TextNode or CDATASection
-          if (_node.nodeType === 3 || _node.nodeType === 4) {
-            ret += _node.nodeValue;
-          }
-          return ret + open + '/' + tag + close;
-        },
-        // Function calls it internally, it's the arguments part of the function
-        functionArgs: function functionArgs(fn) {
-          var l = fn.length;
-          if (!l) {
-            return '';
-          }
-          var args = new Array(l);
-          while (l--) {
-            // 97 is 'a'
-            args[l] = String.fromCharCode(97 + l);
-          }
-          return ' ' + args.join(', ') + ' ';
-        },
-        // Object calls it internally, the key part of an item in a map
-        key: quote,
-        // Function calls it internally, it's the content of the function
-        functionCode: '[code]',
-        // Node calls it internally, it's a html attribute value
-        attribute: quote,
-        string: quote,
-        date: quote,
-        regexp: literal,
-        number: literal,
-        boolean: literal,
-        symbol: function symbol(sym) {
-          return sym.toString();
-        }
-      },
-      // If true, entities are escaped ( <, >, \t, space and \n )
-      HTML: false,
-      // Indentation unit
-      indentChar: '  ',
-      // If true, items in a collection, are separated by a \n, else just a space.
-      multiline: true
-    };
-    return dump;
+  			//Native Arrays
+  			toString.call(obj) === "[object Array]" ||
+
+  			// NodeList objects
+  			typeof obj.length === "number" && obj.item !== undefined && (obj.length ? obj.item(0) === obj[0] : obj.item(0) === null && obj[0] === undefined)
+  		);
+  	}
+
+  	var reName = /^function (\w+)/,
+  	    dump = {
+
+  		// The objType is used mostly internally, you can fix a (custom) type in advance
+  		parse: function parse(obj, objType, stack) {
+  			stack = stack || [];
+  			var res,
+  			    parser,
+  			    parserType,
+  			    objIndex = stack.indexOf(obj);
+
+  			if (objIndex !== -1) {
+  				return "recursion(" + (objIndex - stack.length) + ")";
+  			}
+
+  			objType = objType || this.typeOf(obj);
+  			parser = this.parsers[objType];
+  			parserType = typeof parser === "undefined" ? "undefined" : _typeof(parser);
+
+  			if (parserType === "function") {
+  				stack.push(obj);
+  				res = parser.call(this, obj, stack);
+  				stack.pop();
+  				return res;
+  			}
+  			return parserType === "string" ? parser : this.parsers.error;
+  		},
+  		typeOf: function typeOf(obj) {
+  			var type;
+
+  			if (obj === null) {
+  				type = "null";
+  			} else if (typeof obj === "undefined") {
+  				type = "undefined";
+  			} else if (is("regexp", obj)) {
+  				type = "regexp";
+  			} else if (is("date", obj)) {
+  				type = "date";
+  			} else if (is("function", obj)) {
+  				type = "function";
+  			} else if (obj.setInterval !== undefined && obj.document !== undefined && obj.nodeType === undefined) {
+  				type = "window";
+  			} else if (obj.nodeType === 9) {
+  				type = "document";
+  			} else if (obj.nodeType) {
+  				type = "node";
+  			} else if (isArray(obj)) {
+  				type = "array";
+  			} else if (obj.constructor === Error.prototype.constructor) {
+  				type = "error";
+  			} else {
+  				type = typeof obj === "undefined" ? "undefined" : _typeof(obj);
+  			}
+  			return type;
+  		},
+
+  		separator: function separator() {
+  			if (this.multiline) {
+  				return this.HTML ? "<br />" : "\n";
+  			} else {
+  				return this.HTML ? "&#160;" : " ";
+  			}
+  		},
+
+  		// Extra can be a number, shortcut for increasing-calling-decreasing
+  		indent: function indent(extra) {
+  			if (!this.multiline) {
+  				return "";
+  			}
+  			var chr = this.indentChar;
+  			if (this.HTML) {
+  				chr = chr.replace(/\t/g, "   ").replace(/ /g, "&#160;");
+  			}
+  			return new Array(this.depth + (extra || 0)).join(chr);
+  		},
+  		up: function up(a) {
+  			this.depth += a || 1;
+  		},
+  		down: function down(a) {
+  			this.depth -= a || 1;
+  		},
+  		setParser: function setParser(name, parser) {
+  			this.parsers[name] = parser;
+  		},
+
+  		// The next 3 are exposed so you can use them
+  		quote: quote,
+  		literal: literal,
+  		join: join,
+  		depth: 1,
+  		maxDepth: config.maxDepth,
+
+  		// This is the list of parsers, to modify them, use dump.setParser
+  		parsers: {
+  			window: "[Window]",
+  			document: "[Document]",
+  			error: function error(_error) {
+  				return "Error(\"" + _error.message + "\")";
+  			},
+  			unknown: "[Unknown]",
+  			"null": "null",
+  			"undefined": "undefined",
+  			"function": function _function(fn) {
+  				var ret = "function",
+
+
+  				// Functions never have name in IE
+  				name = "name" in fn ? fn.name : (reName.exec(fn) || [])[1];
+
+  				if (name) {
+  					ret += " " + name;
+  				}
+  				ret += "(";
+
+  				ret = [ret, dump.parse(fn, "functionArgs"), "){"].join("");
+  				return join(ret, dump.parse(fn, "functionCode"), "}");
+  			},
+  			array: array,
+  			nodelist: array,
+  			"arguments": array,
+  			object: function object(map, stack) {
+  				var keys,
+  				    key,
+  				    val,
+  				    i,
+  				    nonEnumerableProperties,
+  				    ret = [];
+
+  				if (dump.maxDepth && dump.depth > dump.maxDepth) {
+  					return "[object Object]";
+  				}
+
+  				dump.up();
+  				keys = [];
+  				for (key in map) {
+  					keys.push(key);
+  				}
+
+  				// Some properties are not always enumerable on Error objects.
+  				nonEnumerableProperties = ["message", "name"];
+  				for (i in nonEnumerableProperties) {
+  					key = nonEnumerableProperties[i];
+  					if (key in map && !inArray(key, keys)) {
+  						keys.push(key);
+  					}
+  				}
+  				keys.sort();
+  				for (i = 0; i < keys.length; i++) {
+  					key = keys[i];
+  					val = map[key];
+  					ret.push(dump.parse(key, "key") + ": " + dump.parse(val, undefined, stack));
+  				}
+  				dump.down();
+  				return join("{", ret, "}");
+  			},
+  			node: function node(_node) {
+  				var len,
+  				    i,
+  				    val,
+  				    open = dump.HTML ? "&lt;" : "<",
+  				    close = dump.HTML ? "&gt;" : ">",
+  				    tag = _node.nodeName.toLowerCase(),
+  				    ret = open + tag,
+  				    attrs = _node.attributes;
+
+  				if (attrs) {
+  					for (i = 0, len = attrs.length; i < len; i++) {
+  						val = attrs[i].nodeValue;
+
+  						// IE6 includes all attributes in .attributes, even ones not explicitly
+  						// set. Those have values like undefined, null, 0, false, "" or
+  						// "inherit".
+  						if (val && val !== "inherit") {
+  							ret += " " + attrs[i].nodeName + "=" + dump.parse(val, "attribute");
+  						}
+  					}
+  				}
+  				ret += close;
+
+  				// Show content of TextNode or CDATASection
+  				if (_node.nodeType === 3 || _node.nodeType === 4) {
+  					ret += _node.nodeValue;
+  				}
+
+  				return ret + open + "/" + tag + close;
+  			},
+
+  			// Function calls it internally, it's the arguments part of the function
+  			functionArgs: function functionArgs(fn) {
+  				var args,
+  				    l = fn.length;
+
+  				if (!l) {
+  					return "";
+  				}
+
+  				args = new Array(l);
+  				while (l--) {
+
+  					// 97 is 'a'
+  					args[l] = String.fromCharCode(97 + l);
+  				}
+  				return " " + args.join(", ") + " ";
+  			},
+
+  			// Object calls it internally, the key part of an item in a map
+  			key: quote,
+
+  			// Function calls it internally, it's the content of the function
+  			functionCode: "[code]",
+
+  			// Node calls it internally, it's a html attribute value
+  			attribute: quote,
+  			string: quote,
+  			date: quote,
+  			regexp: literal,
+  			number: literal,
+  			"boolean": literal,
+  			symbol: function symbol(sym) {
+  				return sym.toString();
+  			}
+  		},
+
+  		// If true, entities are escaped ( <, >, \t, space and \n )
+  		HTML: false,
+
+  		// Indentation unit
+  		indentChar: "  ",
+
+  		// If true, items in a collection, are separated by a \n, else just a space.
+  		multiline: true
+  	};
+
+  	return dump;
   })();
 
-  var SuiteReport = /*#__PURE__*/function () {
-    function SuiteReport(name, parentSuite) {
-      _classCallCheck(this, SuiteReport);
-      this.name = name;
-      this.fullName = parentSuite ? parentSuite.fullName.concat(name) : [];
+  var SuiteReport = function () {
+  	function SuiteReport(name, parentSuite) {
+  		classCallCheck(this, SuiteReport);
 
-      // When an "error" event is emitted from onUncaughtException(), the
-      // "runEnd" event should report the status as failed. The "runEnd" event data
-      // is tracked through this property (via the "runSuite" instance).
-      this.globalFailureCount = 0;
-      this.tests = [];
-      this.childSuites = [];
-      if (parentSuite) {
-        parentSuite.pushChildSuite(this);
-      }
-    }
-    _createClass(SuiteReport, [{
-      key: "start",
-      value: function start(recordTime) {
-        if (recordTime) {
-          this._startTime = performance.now();
-          var suiteLevel = this.fullName.length;
-          performance.mark("qunit_suite_".concat(suiteLevel, "_start"));
-        }
-        return {
-          name: this.name,
-          fullName: this.fullName.slice(),
-          tests: this.tests.map(function (test) {
-            return test.start();
-          }),
-          childSuites: this.childSuites.map(function (suite) {
-            return suite.start();
-          }),
-          testCounts: {
-            total: this.getTestCounts().total
-          }
-        };
-      }
-    }, {
-      key: "end",
-      value: function end(recordTime) {
-        if (recordTime) {
-          this._endTime = performance.now();
-          var suiteLevel = this.fullName.length;
-          var suiteName = this.fullName.join(' – ');
-          performance.mark("qunit_suite_".concat(suiteLevel, "_end"));
-          performance.measure(suiteLevel === 0 ? 'QUnit Test Run' : "QUnit Test Suite: ".concat(suiteName), "qunit_suite_".concat(suiteLevel, "_start"), "qunit_suite_".concat(suiteLevel, "_end"));
-        }
-        return {
-          name: this.name,
-          fullName: this.fullName.slice(),
-          tests: this.tests.map(function (test) {
-            return test.end();
-          }),
-          childSuites: this.childSuites.map(function (suite) {
-            return suite.end();
-          }),
-          testCounts: this.getTestCounts(),
-          runtime: this.getRuntime(),
-          status: this.getStatus()
-        };
-      }
-    }, {
-      key: "pushChildSuite",
-      value: function pushChildSuite(suite) {
-        this.childSuites.push(suite);
-      }
-    }, {
-      key: "pushTest",
-      value: function pushTest(test) {
-        this.tests.push(test);
-      }
-    }, {
-      key: "getRuntime",
-      value: function getRuntime() {
-        return Math.round(this._endTime - this._startTime);
-      }
-    }, {
-      key: "getTestCounts",
-      value: function getTestCounts() {
-        var counts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-          passed: 0,
-          failed: 0,
-          skipped: 0,
-          todo: 0,
-          total: 0
-        };
-        counts.failed += this.globalFailureCount;
-        counts.total += this.globalFailureCount;
-        counts = this.tests.reduce(function (counts, test) {
-          if (test.valid) {
-            counts[test.getStatus()]++;
-            counts.total++;
-          }
-          return counts;
-        }, counts);
-        return this.childSuites.reduce(function (counts, suite) {
-          return suite.getTestCounts(counts);
-        }, counts);
-      }
-    }, {
-      key: "getStatus",
-      value: function getStatus() {
-        var _this$getTestCounts = this.getTestCounts(),
-          total = _this$getTestCounts.total,
-          failed = _this$getTestCounts.failed,
-          skipped = _this$getTestCounts.skipped,
-          todo = _this$getTestCounts.todo;
-        if (failed) {
-          return 'failed';
-        } else {
-          if (skipped === total) {
-            return 'skipped';
-          } else if (todo === total) {
-            return 'todo';
-          } else {
-            return 'passed';
-          }
-        }
-      }
-    }]);
-    return SuiteReport;
+  		this.name = name;
+  		this.fullName = parentSuite ? parentSuite.fullName.concat(name) : [];
+
+  		this.tests = [];
+  		this.childSuites = [];
+
+  		if (parentSuite) {
+  			parentSuite.pushChildSuite(this);
+  		}
+  	}
+
+  	createClass(SuiteReport, [{
+  		key: "start",
+  		value: function start(recordTime) {
+  			if (recordTime) {
+  				this._startTime = performanceNow();
+
+  				if (performance) {
+  					var suiteLevel = this.fullName.length;
+  					performance.mark("qunit_suite_" + suiteLevel + "_start");
+  				}
+  			}
+
+  			return {
+  				name: this.name,
+  				fullName: this.fullName.slice(),
+  				tests: this.tests.map(function (test) {
+  					return test.start();
+  				}),
+  				childSuites: this.childSuites.map(function (suite) {
+  					return suite.start();
+  				}),
+  				testCounts: {
+  					total: this.getTestCounts().total
+  				}
+  			};
+  		}
+  	}, {
+  		key: "end",
+  		value: function end(recordTime) {
+  			if (recordTime) {
+  				this._endTime = performanceNow();
+
+  				if (performance) {
+  					var suiteLevel = this.fullName.length;
+  					performance.mark("qunit_suite_" + suiteLevel + "_end");
+
+  					var suiteName = this.fullName.join(" – ");
+
+  					measure(suiteLevel === 0 ? "QUnit Test Run" : "QUnit Test Suite: " + suiteName, "qunit_suite_" + suiteLevel + "_start", "qunit_suite_" + suiteLevel + "_end");
+  				}
+  			}
+
+  			return {
+  				name: this.name,
+  				fullName: this.fullName.slice(),
+  				tests: this.tests.map(function (test) {
+  					return test.end();
+  				}),
+  				childSuites: this.childSuites.map(function (suite) {
+  					return suite.end();
+  				}),
+  				testCounts: this.getTestCounts(),
+  				runtime: this.getRuntime(),
+  				status: this.getStatus()
+  			};
+  		}
+  	}, {
+  		key: "pushChildSuite",
+  		value: function pushChildSuite(suite) {
+  			this.childSuites.push(suite);
+  		}
+  	}, {
+  		key: "pushTest",
+  		value: function pushTest(test) {
+  			this.tests.push(test);
+  		}
+  	}, {
+  		key: "getRuntime",
+  		value: function getRuntime() {
+  			return this._endTime - this._startTime;
+  		}
+  	}, {
+  		key: "getTestCounts",
+  		value: function getTestCounts() {
+  			var counts = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { passed: 0, failed: 0, skipped: 0, todo: 0, total: 0 };
+
+  			counts = this.tests.reduce(function (counts, test) {
+  				if (test.valid) {
+  					counts[test.getStatus()]++;
+  					counts.total++;
+  				}
+
+  				return counts;
+  			}, counts);
+
+  			return this.childSuites.reduce(function (counts, suite) {
+  				return suite.getTestCounts(counts);
+  			}, counts);
+  		}
+  	}, {
+  		key: "getStatus",
+  		value: function getStatus() {
+  			var _getTestCounts = this.getTestCounts(),
+  			    total = _getTestCounts.total,
+  			    failed = _getTestCounts.failed,
+  			    skipped = _getTestCounts.skipped,
+  			    todo = _getTestCounts.todo;
+
+  			if (failed) {
+  				return "failed";
+  			} else {
+  				if (skipped === total) {
+  					return "skipped";
+  				} else if (todo === total) {
+  					return "todo";
+  				} else {
+  					return "passed";
+  				}
+  			}
+  		}
+  	}]);
+  	return SuiteReport;
   }();
+
+  var focused = false;
 
   var moduleStack = [];
-  var runSuite = new SuiteReport();
-  function isParentModuleInQueue() {
-    var modulesInQueue = config.modules.filter(function (module) {
-      return !module.ignored;
-    }).map(function (module) {
-      return module.moduleId;
-    });
-    return moduleStack.some(function (module) {
-      return modulesInQueue.includes(module.moduleId);
-    });
-  }
-  function createModule(name, testEnvironment, modifiers) {
-    var parentModule = moduleStack.length ? moduleStack.slice(-1)[0] : null;
-    var moduleName = parentModule !== null ? [parentModule.name, name].join(' > ') : name;
-    var parentSuite = parentModule ? parentModule.suiteReport : runSuite;
-    var skip = parentModule !== null && parentModule.skip || modifiers.skip;
-    var todo = parentModule !== null && parentModule.todo || modifiers.todo;
-    var env = {};
-    if (parentModule) {
-      extend(env, parentModule.testEnvironment);
-    }
-    extend(env, testEnvironment);
-    var module = {
-      name: moduleName,
-      parentModule: parentModule,
-      hooks: {
-        before: [],
-        beforeEach: [],
-        afterEach: [],
-        after: []
-      },
-      testEnvironment: env,
-      tests: [],
-      moduleId: generateHash(moduleName),
-      testsRun: 0,
-      testsIgnored: 0,
-      childModules: [],
-      suiteReport: new SuiteReport(name, parentSuite),
-      // Initialised by test.js when the module start executing,
-      // i.e. before the first test in this module (or a child).
-      stats: null,
-      // Pass along `skip` and `todo` properties from parent module, in case
-      // there is one, to childs. And use own otherwise.
-      // This property will be used to mark own tests and tests of child suites
-      // as either `skipped` or `todo`.
-      skip: skip,
-      todo: skip ? false : todo,
-      ignored: modifiers.ignored || false
-    };
-    if (parentModule) {
-      parentModule.childModules.push(module);
-    }
-    config.modules.push(module);
-    return module;
-  }
-  function setHookFromEnvironment(hooks, environment, name) {
-    var potentialHook = environment[name];
-    if (typeof potentialHook === 'function') {
-      hooks[name].push(potentialHook);
-    }
-    delete environment[name];
-  }
-  function makeSetHook(module, hookName) {
-    return function setHook(callback) {
-      if (config.currentModule !== module) {
-        Logger.warn('The `' + hookName + '` hook was called inside the wrong module (`' + config.currentModule.name + '`). ' + 'Instead, use hooks provided by the callback to the containing module (`' + module.name + '`). ' + 'This will become an error in QUnit 3.0.');
-      }
-      module.hooks[hookName].push(callback);
-    };
-  }
-  function processModule(name, options, executeNow) {
-    var modifiers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-    if (typeof options === 'function') {
-      executeNow = options;
-      options = undefined;
-    }
-    var module = createModule(name, options, modifiers);
 
-    // Transfer any initial hooks from the options object to the 'hooks' object
-    var testEnvironment = module.testEnvironment;
-    var hooks = module.hooks;
-    setHookFromEnvironment(hooks, testEnvironment, 'before');
-    setHookFromEnvironment(hooks, testEnvironment, 'beforeEach');
-    setHookFromEnvironment(hooks, testEnvironment, 'afterEach');
-    setHookFromEnvironment(hooks, testEnvironment, 'after');
-    var moduleFns = {
-      before: makeSetHook(module, 'before'),
-      beforeEach: makeSetHook(module, 'beforeEach'),
-      afterEach: makeSetHook(module, 'afterEach'),
-      after: makeSetHook(module, 'after')
-    };
-    var prevModule = config.currentModule;
-    config.currentModule = module;
-    if (typeof executeNow === 'function') {
-      moduleStack.push(module);
-      try {
-        var cbReturnValue = executeNow.call(module.testEnvironment, moduleFns);
-        if (cbReturnValue && typeof cbReturnValue.then === 'function') {
-          Logger.warn('Returning a promise from a module callback is not supported. ' + 'Instead, use hooks for async behavior. ' + 'This will become an error in QUnit 3.0.');
-        }
-      } finally {
-        // If the module closure threw an uncaught error during the load phase,
-        // we let this bubble up to global error handlers. But, not until after
-        // we teardown internal state to ensure correct module nesting.
-        // Ref https://github.com/qunitjs/qunit/issues/1478.
-        moduleStack.pop();
-        config.currentModule = module.parentModule || prevModule;
-      }
-    }
+  function createModule(name, testEnvironment, modifiers) {
+  	var parentModule = moduleStack.length ? moduleStack.slice(-1)[0] : null;
+  	var moduleName = parentModule !== null ? [parentModule.name, name].join(" > ") : name;
+  	var parentSuite = parentModule ? parentModule.suiteReport : globalSuite;
+
+  	var skip = parentModule !== null && parentModule.skip || modifiers.skip;
+  	var todo = parentModule !== null && parentModule.todo || modifiers.todo;
+
+  	var module = {
+  		name: moduleName,
+  		parentModule: parentModule,
+  		tests: [],
+  		moduleId: generateHash(moduleName),
+  		testsRun: 0,
+  		unskippedTestsRun: 0,
+  		childModules: [],
+  		suiteReport: new SuiteReport(name, parentSuite),
+
+  		// Pass along `skip` and `todo` properties from parent module, in case
+  		// there is one, to childs. And use own otherwise.
+  		// This property will be used to mark own tests and tests of child suites
+  		// as either `skipped` or `todo`.
+  		skip: skip,
+  		todo: skip ? false : todo
+  	};
+
+  	var env = {};
+  	if (parentModule) {
+  		parentModule.childModules.push(module);
+  		extend(env, parentModule.testEnvironment);
+  	}
+  	extend(env, testEnvironment);
+  	module.testEnvironment = env;
+
+  	config.modules.push(module);
+  	return module;
   }
-  var focused$1 = false; // indicates that the "only" filter was used
+
+  function processModule(name, options, executeNow) {
+  	var modifiers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+  	if (objectType(options) === "function") {
+  		executeNow = options;
+  		options = undefined;
+  	}
+
+  	var module = createModule(name, options, modifiers);
+
+  	// Move any hooks to a 'hooks' object
+  	var testEnvironment = module.testEnvironment;
+  	var hooks = module.hooks = {};
+
+  	setHookFromEnvironment(hooks, testEnvironment, "before");
+  	setHookFromEnvironment(hooks, testEnvironment, "beforeEach");
+  	setHookFromEnvironment(hooks, testEnvironment, "afterEach");
+  	setHookFromEnvironment(hooks, testEnvironment, "after");
+
+  	var moduleFns = {
+  		before: setHookFunction(module, "before"),
+  		beforeEach: setHookFunction(module, "beforeEach"),
+  		afterEach: setHookFunction(module, "afterEach"),
+  		after: setHookFunction(module, "after")
+  	};
+
+  	var currentModule = config.currentModule;
+  	if (objectType(executeNow) === "function") {
+  		moduleStack.push(module);
+  		config.currentModule = module;
+  		executeNow.call(module.testEnvironment, moduleFns);
+  		moduleStack.pop();
+  		module = module.parentModule || currentModule;
+  	}
+
+  	config.currentModule = module;
+
+  	function setHookFromEnvironment(hooks, environment, name) {
+  		var potentialHook = environment[name];
+  		hooks[name] = typeof potentialHook === "function" ? [potentialHook] : [];
+  		delete environment[name];
+  	}
+
+  	function setHookFunction(module, hookName) {
+  		return function setHook(callback) {
+  			module.hooks[hookName].push(callback);
+  		};
+  	}
+  }
 
   function module$1(name, options, executeNow) {
-    var ignored = focused$1 && !isParentModuleInQueue();
-    processModule(name, options, executeNow, {
-      ignored: ignored
-    });
+  	if (focused) {
+  		return;
+  	}
+
+  	processModule(name, options, executeNow);
   }
+
   module$1.only = function () {
-    if (!focused$1) {
-      // Upon the first module.only() call,
-      // delete any and all previously registered modules and tests.
-      config.modules.length = 0;
-      config.queue.length = 0;
+  	if (focused) {
+  		return;
+  	}
 
-      // Ignore any tests declared after this block within the same
-      // module parent. https://github.com/qunitjs/qunit/issues/1645
-      config.currentModule.ignored = true;
-    }
-    focused$1 = true;
-    processModule.apply(void 0, arguments);
+  	config.modules.length = 0;
+  	config.queue.length = 0;
+
+  	module$1.apply(undefined, arguments);
+
+  	focused = true;
   };
+
   module$1.skip = function (name, options, executeNow) {
-    if (focused$1) {
-      return;
-    }
-    processModule(name, options, executeNow, {
-      skip: true
-    });
+  	if (focused) {
+  		return;
+  	}
+
+  	processModule(name, options, executeNow, { skip: true });
   };
+
   module$1.todo = function (name, options, executeNow) {
-    if (focused$1) {
-      return;
-    }
-    processModule(name, options, executeNow, {
-      todo: true
-    });
+  	if (focused) {
+  		return;
+  	}
+
+  	processModule(name, options, executeNow, { todo: true });
   };
-
-  // Doesn't support IE9, it will return undefined on these browsers
-  // See also https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error/Stack
-  var fileName = (sourceFromStacktrace(0) || '').replace(/(:\d+)+\)?/, '')
-  // Remove anything prior to the last slash (Unix/Windows)
-  // from the last frame
-  .replace(/.+[/\\]/, '');
-  function extractStacktrace(e, offset) {
-    offset = offset === undefined ? 4 : offset;
-    if (e && e.stack) {
-      var stack = e.stack.split('\n');
-      if (/^error$/i.test(stack[0])) {
-        stack.shift();
-      }
-      if (fileName) {
-        var include = [];
-        for (var i = offset; i < stack.length; i++) {
-          if (stack[i].indexOf(fileName) !== -1) {
-            break;
-          }
-          include.push(stack[i]);
-        }
-        if (include.length) {
-          return include.join('\n');
-        }
-      }
-      return stack[offset];
-    }
-  }
-  function sourceFromStacktrace(offset) {
-    var error = new Error();
-
-    // Support: Safari <=7 only, IE <=10 - 11 only
-    // Not all browsers generate the `stack` property for `new Error()`, see also #636
-    if (!error.stack) {
-      try {
-        throw error;
-      } catch (err) {
-        error = err;
-      }
-    }
-    return extractStacktrace(error, offset);
-  }
-
-  var Assert = /*#__PURE__*/function () {
-    function Assert(testContext) {
-      _classCallCheck(this, Assert);
-      this.test = testContext;
-    }
-    _createClass(Assert, [{
-      key: "timeout",
-      value: function timeout(duration) {
-        if (typeof duration !== 'number') {
-          throw new Error('You must pass a number as the duration to assert.timeout');
-        }
-        this.test.timeout = duration;
-
-        // If a timeout has been set, clear it and reset with the new duration
-        if (config.timeout) {
-          clearTimeout(config.timeout);
-          config.timeout = null;
-          if (config.timeoutHandler && this.test.timeout > 0) {
-            this.test.internalResetTimeout(this.test.timeout);
-          }
-        }
-      }
-
-      // Documents a "step", which is a string value, in a test as a passing assertion
-    }, {
-      key: "step",
-      value: function step(message) {
-        var assertionMessage = message;
-        var result = !!message;
-        this.test.steps.push(message);
-        if (typeof message === 'undefined' || message === '') {
-          assertionMessage = 'You must provide a message to assert.step';
-        } else if (typeof message !== 'string') {
-          assertionMessage = 'You must provide a string value to assert.step';
-          result = false;
-        }
-        this.pushResult({
-          result: result,
-          message: assertionMessage
-        });
-      }
-
-      // Verifies the steps in a test match a given array of string values
-    }, {
-      key: "verifySteps",
-      value: function verifySteps(steps, message) {
-        // Since the steps array is just string values, we can clone with slice
-        var actualStepsClone = this.test.steps.slice();
-        this.deepEqual(actualStepsClone, steps, message);
-        this.test.steps.length = 0;
-      }
-    }, {
-      key: "expect",
-      value: function expect(asserts) {
-        if (arguments.length === 1) {
-          this.test.expected = asserts;
-        } else {
-          return this.test.expected;
-        }
-      }
-
-      // Create a new async pause and return a new function that can release the pause.
-    }, {
-      key: "async",
-      value: function async(count) {
-        var requiredCalls = count === undefined ? 1 : count;
-        return this.test.internalStop(requiredCalls);
-      }
-
-      // Exports test.push() to the user API
-      // Alias of pushResult.
-    }, {
-      key: "push",
-      value: function push(result, actual, expected, message, negative) {
-        Logger.warn('assert.push is deprecated and will be removed in QUnit 3.0.' + ' Please use assert.pushResult instead (https://api.qunitjs.com/assert/pushResult).');
-        var currentAssert = this instanceof Assert ? this : config.current.assert;
-        return currentAssert.pushResult({
-          result: result,
-          actual: actual,
-          expected: expected,
-          message: message,
-          negative: negative
-        });
-      }
-    }, {
-      key: "pushResult",
-      value: function pushResult(resultInfo) {
-        // Destructure of resultInfo = { result, actual, expected, message, negative }
-        var assert = this;
-        var currentTest = assert instanceof Assert && assert.test || config.current;
-
-        // Backwards compatibility fix.
-        // Allows the direct use of global exported assertions and QUnit.assert.*
-        // Although, it's use is not recommended as it can leak assertions
-        // to other tests from async tests, because we only get a reference to the current test,
-        // not exactly the test where assertion were intended to be called.
-        if (!currentTest) {
-          throw new Error('assertion outside test context, in ' + sourceFromStacktrace(2));
-        }
-        if (!(assert instanceof Assert)) {
-          assert = currentTest.assert;
-        }
-        return assert.test.pushResult(resultInfo);
-      }
-    }, {
-      key: "ok",
-      value: function ok(result, message) {
-        if (!message) {
-          message = result ? 'okay' : "failed, expected argument to be truthy, was: ".concat(dump.parse(result));
-        }
-        this.pushResult({
-          result: !!result,
-          actual: result,
-          expected: true,
-          message: message
-        });
-      }
-    }, {
-      key: "notOk",
-      value: function notOk(result, message) {
-        if (!message) {
-          message = !result ? 'okay' : "failed, expected argument to be falsy, was: ".concat(dump.parse(result));
-        }
-        this.pushResult({
-          result: !result,
-          actual: result,
-          expected: false,
-          message: message
-        });
-      }
-    }, {
-      key: "true",
-      value: function _true(result, message) {
-        this.pushResult({
-          result: result === true,
-          actual: result,
-          expected: true,
-          message: message
-        });
-      }
-    }, {
-      key: "false",
-      value: function _false(result, message) {
-        this.pushResult({
-          result: result === false,
-          actual: result,
-          expected: false,
-          message: message
-        });
-      }
-    }, {
-      key: "equal",
-      value: function equal(actual, expected, message) {
-        this.pushResult({
-          // eslint-disable-next-line eqeqeq
-          result: expected == actual,
-          actual: actual,
-          expected: expected,
-          message: message
-        });
-      }
-    }, {
-      key: "notEqual",
-      value: function notEqual(actual, expected, message) {
-        this.pushResult({
-          // eslint-disable-next-line eqeqeq
-          result: expected != actual,
-          actual: actual,
-          expected: expected,
-          message: message,
-          negative: true
-        });
-      }
-    }, {
-      key: "propEqual",
-      value: function propEqual(actual, expected, message) {
-        actual = objectValues(actual);
-        expected = objectValues(expected);
-        this.pushResult({
-          result: equiv(actual, expected),
-          actual: actual,
-          expected: expected,
-          message: message
-        });
-      }
-    }, {
-      key: "notPropEqual",
-      value: function notPropEqual(actual, expected, message) {
-        actual = objectValues(actual);
-        expected = objectValues(expected);
-        this.pushResult({
-          result: !equiv(actual, expected),
-          actual: actual,
-          expected: expected,
-          message: message,
-          negative: true
-        });
-      }
-    }, {
-      key: "propContains",
-      value: function propContains(actual, expected, message) {
-        actual = objectValuesSubset(actual, expected);
-
-        // The expected parameter is usually a plain object, but clone it for
-        // consistency with propEqual(), and to make it easy to explain that
-        // inheritence is not considered (on either side), and to support
-        // recursively checking subsets of nested objects.
-        expected = objectValues(expected, false);
-        this.pushResult({
-          result: equiv(actual, expected),
-          actual: actual,
-          expected: expected,
-          message: message
-        });
-      }
-    }, {
-      key: "notPropContains",
-      value: function notPropContains(actual, expected, message) {
-        actual = objectValuesSubset(actual, expected);
-        expected = objectValues(expected);
-        this.pushResult({
-          result: !equiv(actual, expected),
-          actual: actual,
-          expected: expected,
-          message: message,
-          negative: true
-        });
-      }
-    }, {
-      key: "deepEqual",
-      value: function deepEqual(actual, expected, message) {
-        this.pushResult({
-          result: equiv(actual, expected),
-          actual: actual,
-          expected: expected,
-          message: message
-        });
-      }
-    }, {
-      key: "notDeepEqual",
-      value: function notDeepEqual(actual, expected, message) {
-        this.pushResult({
-          result: !equiv(actual, expected),
-          actual: actual,
-          expected: expected,
-          message: message,
-          negative: true
-        });
-      }
-    }, {
-      key: "strictEqual",
-      value: function strictEqual(actual, expected, message) {
-        this.pushResult({
-          result: expected === actual,
-          actual: actual,
-          expected: expected,
-          message: message
-        });
-      }
-    }, {
-      key: "notStrictEqual",
-      value: function notStrictEqual(actual, expected, message) {
-        this.pushResult({
-          result: expected !== actual,
-          actual: actual,
-          expected: expected,
-          message: message,
-          negative: true
-        });
-      }
-    }, {
-      key: 'throws',
-      value: function throws(block, expected, message) {
-        var _validateExpectedExce = validateExpectedExceptionArgs(expected, message, 'throws');
-        var _validateExpectedExce2 = _slicedToArray(_validateExpectedExce, 2);
-        expected = _validateExpectedExce2[0];
-        message = _validateExpectedExce2[1];
-        var currentTest = this instanceof Assert && this.test || config.current;
-        if (typeof block !== 'function') {
-          currentTest.assert.pushResult({
-            result: false,
-            actual: block,
-            message: 'The value provided to `assert.throws` in ' + '"' + currentTest.testName + '" was not a function.'
-          });
-          return;
-        }
-        var actual;
-        var result = false;
-        currentTest.ignoreGlobalErrors = true;
-        try {
-          block.call(currentTest.testEnvironment);
-        } catch (e) {
-          actual = e;
-        }
-        currentTest.ignoreGlobalErrors = false;
-        if (actual) {
-          var _validateException = validateException(actual, expected, message);
-          var _validateException2 = _slicedToArray(_validateException, 3);
-          result = _validateException2[0];
-          expected = _validateException2[1];
-          message = _validateException2[2];
-        }
-        currentTest.assert.pushResult({
-          result: result,
-          // undefined if it didn't throw
-          actual: actual && errorString(actual),
-          expected: expected,
-          message: message
-        });
-      }
-    }, {
-      key: "rejects",
-      value: function rejects(promise, expected, message) {
-        var _validateExpectedExce3 = validateExpectedExceptionArgs(expected, message, 'rejects');
-        var _validateExpectedExce4 = _slicedToArray(_validateExpectedExce3, 2);
-        expected = _validateExpectedExce4[0];
-        message = _validateExpectedExce4[1];
-        var currentTest = this instanceof Assert && this.test || config.current;
-        var then = promise && promise.then;
-        if (typeof then !== 'function') {
-          currentTest.assert.pushResult({
-            result: false,
-            message: 'The value provided to `assert.rejects` in ' + '"' + currentTest.testName + '" was not a promise.',
-            actual: promise
-          });
-          return;
-        }
-        var done = this.async();
-        return then.call(promise, function handleFulfillment() {
-          currentTest.assert.pushResult({
-            result: false,
-            message: 'The promise returned by the `assert.rejects` callback in ' + '"' + currentTest.testName + '" did not reject.',
-            actual: promise
-          });
-          done();
-        }, function handleRejection(actual) {
-          var result;
-          var _validateException3 = validateException(actual, expected, message);
-          var _validateException4 = _slicedToArray(_validateException3, 3);
-          result = _validateException4[0];
-          expected = _validateException4[1];
-          message = _validateException4[2];
-          currentTest.assert.pushResult({
-            result: result,
-            // leave rejection value of undefined as-is
-            actual: actual && errorString(actual),
-            expected: expected,
-            message: message
-          });
-          done();
-        });
-      }
-    }]);
-    return Assert;
-  }();
-  function validateExpectedExceptionArgs(expected, message, assertionMethod) {
-    var expectedType = objectType(expected);
-
-    // 'expected' is optional unless doing string comparison
-    if (expectedType === 'string') {
-      if (message === undefined) {
-        message = expected;
-        expected = undefined;
-        return [expected, message];
-      } else {
-        throw new Error('assert.' + assertionMethod + ' does not accept a string value for the expected argument.\n' + 'Use a non-string object value (e.g. RegExp or validator function) ' + 'instead if necessary.');
-      }
-    }
-    var valid = !expected ||
-    // TODO: be more explicit here
-    expectedType === 'regexp' || expectedType === 'function' || expectedType === 'object';
-    if (!valid) {
-      throw new Error('Invalid expected value type (' + expectedType + ') ' + 'provided to assert.' + assertionMethod + '.');
-    }
-    return [expected, message];
-  }
-  function validateException(actual, expected, message) {
-    var result = false;
-    var expectedType = objectType(expected);
-
-    // These branches should be exhaustive, based on validation done in validateExpectedException
-
-    // We don't want to validate
-    if (!expected) {
-      result = true;
-
-      // Expected is a regexp
-    } else if (expectedType === 'regexp') {
-      result = expected.test(errorString(actual));
-
-      // Log the string form of the regexp
-      expected = String(expected);
-
-      // Expected is a constructor, maybe an Error constructor.
-      // Note the extra check on its prototype - this is an implicit
-      // requirement of "instanceof", else it will throw a TypeError.
-    } else if (expectedType === 'function' && expected.prototype !== undefined && actual instanceof expected) {
-      result = true;
-
-      // Expected is an Error object
-    } else if (expectedType === 'object') {
-      result = actual instanceof expected.constructor && actual.name === expected.name && actual.message === expected.message;
-
-      // Log the string form of the Error object
-      expected = errorString(expected);
-
-      // Expected is a validation function which returns true if validation passed
-    } else if (expectedType === 'function') {
-      // protect against accidental semantics which could hard error in the test
-      try {
-        result = expected.call({}, actual) === true;
-        expected = null;
-      } catch (e) {
-        // assign the "expected" to a nice error string to communicate the local failure to the user
-        expected = errorString(e);
-      }
-    }
-    return [result, expected, message];
-  }
-
-  // Provide an alternative to assert.throws(), for environments that consider throws a reserved word
-  // Known to us are: Closure Compiler, Narwhal
-  // eslint-disable-next-line dot-notation
-  Assert.prototype.raises = Assert.prototype['throws'];
 
   var LISTENERS = Object.create(null);
-  var SUPPORTED_EVENTS = ['error', 'runStart', 'suiteStart', 'testStart', 'assertion', 'testEnd', 'suiteEnd', 'runEnd'];
+  var SUPPORTED_EVENTS = ["runStart", "suiteStart", "testStart", "assertion", "testEnd", "suiteEnd", "runEnd"];
 
   /**
    * Emits an event with the specified data to all currently registered listeners.
@@ -4477,21 +3843,22 @@ Ember.setupForTesting = testing.setupForTesting;
    *
    * @private
    * @method emit
-   * @param {string} eventName
+   * @param {String} eventName
    * @param {Object} data
-   * @return {void}
+   * @return {Void}
    */
   function emit(eventName, data) {
-    if (typeof eventName !== 'string') {
-      throw new TypeError('eventName must be a string when emitting an event');
-    }
+  	if (objectType(eventName) !== "string") {
+  		throw new TypeError("eventName must be a string when emitting an event");
+  	}
 
-    // Clone the callbacks in case one of them registers a new callback
-    var originalCallbacks = LISTENERS[eventName];
-    var callbacks = originalCallbacks ? _toConsumableArray(originalCallbacks) : [];
-    for (var i = 0; i < callbacks.length; i++) {
-      callbacks[i](data);
-    }
+  	// Clone the callbacks in case one of them registers a new callback
+  	var originalCallbacks = LISTENERS[eventName];
+  	var callbacks = originalCallbacks ? [].concat(toConsumableArray(originalCallbacks)) : [];
+
+  	for (var i = 0; i < callbacks.length; i++) {
+  		callbacks[i](data);
+  	}
   }
 
   /**
@@ -4499,392 +3866,1298 @@ Ember.setupForTesting = testing.setupForTesting;
    *
    * @public
    * @method on
-   * @param {string} eventName
+   * @param {String} eventName
    * @param {Function} callback
-   * @return {void}
+   * @return {Void}
    */
   function on(eventName, callback) {
-    if (typeof eventName !== 'string') {
-      throw new TypeError('eventName must be a string when registering a listener');
-    } else if (!inArray(eventName, SUPPORTED_EVENTS)) {
-      var events = SUPPORTED_EVENTS.join(', ');
-      throw new Error("\"".concat(eventName, "\" is not a valid event; must be one of: ").concat(events, "."));
-    } else if (typeof callback !== 'function') {
-      throw new TypeError('callback must be a function when registering a listener');
-    }
-    if (!LISTENERS[eventName]) {
-      LISTENERS[eventName] = [];
-    }
+  	if (objectType(eventName) !== "string") {
+  		throw new TypeError("eventName must be a string when registering a listener");
+  	} else if (!inArray(eventName, SUPPORTED_EVENTS)) {
+  		var events = SUPPORTED_EVENTS.join(", ");
+  		throw new Error("\"" + eventName + "\" is not a valid event; must be one of: " + events + ".");
+  	} else if (objectType(callback) !== "function") {
+  		throw new TypeError("callback must be a function when registering a listener");
+  	}
 
-    // Don't register the same callback more than once
-    if (!inArray(callback, LISTENERS[eventName])) {
-      LISTENERS[eventName].push(callback);
-    }
+  	if (!LISTENERS[eventName]) {
+  		LISTENERS[eventName] = [];
+  	}
+
+  	// Don't register the same callback more than once
+  	if (!inArray(callback, LISTENERS[eventName])) {
+  		LISTENERS[eventName].push(callback);
+  	}
   }
 
-  var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-  function commonjsRequire (path) {
-  	throw new Error('Could not dynamically require "' + path + '". Please configure the dynamicRequireTargets or/and ignoreDynamicRequires option of @rollup/plugin-commonjs appropriately for this require call to work.');
+  function objectOrFunction(x) {
+    var type = typeof x === 'undefined' ? 'undefined' : _typeof(x);
+    return x !== null && (type === 'object' || type === 'function');
   }
 
-  var promisePolyfill = {exports: {}};
+  function isFunction(x) {
+    return typeof x === 'function';
+  }
 
-  (function () {
 
-    /** @suppress {undefinedVars} */
-    var globalNS = function () {
-      // the only reliable means to get the global object is
-      // `Function('return this')()`
-      // However, this causes CSP violations in Chrome apps.
-      if (typeof globalThis !== 'undefined') {
-        return globalThis;
+
+  var _isArray = void 0;
+  if (Array.isArray) {
+    _isArray = Array.isArray;
+  } else {
+    _isArray = function _isArray(x) {
+      return Object.prototype.toString.call(x) === '[object Array]';
+    };
+  }
+
+  var isArray = _isArray;
+
+  var len = 0;
+  var vertxNext = void 0;
+  var customSchedulerFn = void 0;
+
+  var asap = function asap(callback, arg) {
+    queue[len] = callback;
+    queue[len + 1] = arg;
+    len += 2;
+    if (len === 2) {
+      // If len is 2, that means that we need to schedule an async flush.
+      // If additional callbacks are queued before the queue is flushed, they
+      // will be processed by this flush that we are scheduling.
+      if (customSchedulerFn) {
+        customSchedulerFn(flush);
+      } else {
+        scheduleFlush();
       }
-      if (typeof self !== 'undefined') {
-        return self;
-      }
-      if (typeof window !== 'undefined') {
-        return window;
-      }
-      if (typeof commonjsGlobal !== 'undefined') {
-        return commonjsGlobal;
-      }
-      throw new Error('unable to locate global object');
-    }();
-
-    // Expose the polyfill if Promise is undefined or set to a
-    // non-function value. The latter can be due to a named HTMLElement
-    // being exposed by browsers for legacy reasons.
-    // https://github.com/taylorhakes/promise-polyfill/issues/114
-    if (typeof globalNS['Promise'] === 'function') {
-      promisePolyfill.exports = globalNS['Promise'];
-      return;
     }
+  };
 
-    /**
-     * @this {Promise}
-     */
-    function finallyConstructor(callback) {
-      var constructor = this.constructor;
-      return this.then(function (value) {
-        // @ts-ignore
-        return constructor.resolve(callback()).then(function () {
-          return value;
-        });
-      }, function (reason) {
-        // @ts-ignore
-        return constructor.resolve(callback()).then(function () {
-          // @ts-ignore
-          return constructor.reject(reason);
-        });
-      });
-    }
-    function allSettled(arr) {
-      var P = this;
-      return new P(function (resolve, reject) {
-        if (!(arr && typeof arr.length !== 'undefined')) {
-          return reject(new TypeError(_typeof(arr) + ' ' + arr + ' is not iterable(cannot read property Symbol(Symbol.iterator))'));
-        }
-        var args = Array.prototype.slice.call(arr);
-        if (args.length === 0) return resolve([]);
-        var remaining = args.length;
-        function res(i, val) {
-          if (val && (_typeof(val) === 'object' || typeof val === 'function')) {
-            var then = val.then;
-            if (typeof then === 'function') {
-              then.call(val, function (val) {
-                res(i, val);
-              }, function (e) {
-                args[i] = {
-                  status: 'rejected',
-                  reason: e
-                };
-                if (--remaining === 0) {
-                  resolve(args);
-                }
-              });
-              return;
-            }
-          }
-          args[i] = {
-            status: 'fulfilled',
-            value: val
-          };
-          if (--remaining === 0) {
-            resolve(args);
-          }
-        }
-        for (var i = 0; i < args.length; i++) {
-          res(i, args[i]);
-        }
-      });
-    }
+  function setScheduler(scheduleFn) {
+    customSchedulerFn = scheduleFn;
+  }
 
-    // Store setTimeout reference so promise-polyfill will be unaffected by
-    // other code modifying setTimeout (like sinon.useFakeTimers())
-    var setTimeoutFunc = setTimeout;
-    function isArray(x) {
-      return Boolean(x && typeof x.length !== 'undefined');
-    }
-    function noop() {}
+  function setAsap(asapFn) {
+    asap = asapFn;
+  }
 
-    // Polyfill for Function.prototype.bind
-    function bind(fn, thisArg) {
+  var browserWindow = typeof window !== 'undefined' ? window : undefined;
+  var browserGlobal = browserWindow || {};
+  var BrowserMutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
+  var isNode = typeof self === 'undefined' && typeof process !== 'undefined' && {}.toString.call(process) === '[object process]';
+
+  // test for web worker but not in IE10
+  var isWorker = typeof Uint8ClampedArray !== 'undefined' && typeof importScripts !== 'undefined' && typeof MessageChannel !== 'undefined';
+
+  // node
+  function useNextTick() {
+    // node version 0.10.x displays a deprecation warning when nextTick is used recursively
+    // see https://github.com/cujojs/when/issues/410 for details
+    return function () {
+      return process.nextTick(flush);
+    };
+  }
+
+  // vertx
+  function useVertxTimer() {
+    if (typeof vertxNext !== 'undefined') {
       return function () {
-        fn.apply(thisArg, arguments);
+        vertxNext(flush);
       };
     }
 
-    /**
-     * @constructor
-     * @param {Function} fn
-     */
-    function Promise(fn) {
-      if (!(this instanceof Promise)) throw new TypeError('Promises must be constructed via new');
-      if (typeof fn !== 'function') throw new TypeError('not a function');
-      /** @type {!number} */
-      this._state = 0;
-      /** @type {!boolean} */
-      this._handled = false;
-      /** @type {Promise|undefined} */
-      this._value = undefined;
-      /** @type {!Array<!Function>} */
-      this._deferreds = [];
-      doResolve(fn, this);
+    return useSetTimeout();
+  }
+
+  function useMutationObserver() {
+    var iterations = 0;
+    var observer = new BrowserMutationObserver(flush);
+    var node = document.createTextNode('');
+    observer.observe(node, { characterData: true });
+
+    return function () {
+      node.data = iterations = ++iterations % 2;
+    };
+  }
+
+  // web worker
+  function useMessageChannel() {
+    var channel = new MessageChannel();
+    channel.port1.onmessage = flush;
+    return function () {
+      return channel.port2.postMessage(0);
+    };
+  }
+
+  function useSetTimeout() {
+    // Store setTimeout reference so es6-promise will be unaffected by
+    // other code modifying setTimeout (like sinon.useFakeTimers())
+    var globalSetTimeout = setTimeout;
+    return function () {
+      return globalSetTimeout(flush, 1);
+    };
+  }
+
+  var queue = new Array(1000);
+  function flush() {
+    for (var i = 0; i < len; i += 2) {
+      var callback = queue[i];
+      var arg = queue[i + 1];
+
+      callback(arg);
+
+      queue[i] = undefined;
+      queue[i + 1] = undefined;
     }
-    function handle(self, deferred) {
-      while (self._state === 3) {
-        self = self._value;
+
+    len = 0;
+  }
+
+  function attemptVertx() {
+    try {
+      var vertx = Function('return this')().require('vertx');
+      vertxNext = vertx.runOnLoop || vertx.runOnContext;
+      return useVertxTimer();
+    } catch (e) {
+      return useSetTimeout();
+    }
+  }
+
+  var scheduleFlush = void 0;
+  // Decide what async method to use to triggering processing of queued callbacks:
+  if (isNode) {
+    scheduleFlush = useNextTick();
+  } else if (BrowserMutationObserver) {
+    scheduleFlush = useMutationObserver();
+  } else if (isWorker) {
+    scheduleFlush = useMessageChannel();
+  } else if (browserWindow === undefined && typeof require === 'function') {
+    scheduleFlush = attemptVertx();
+  } else {
+    scheduleFlush = useSetTimeout();
+  }
+
+  function then(onFulfillment, onRejection) {
+    var parent = this;
+
+    var child = new this.constructor(noop);
+
+    if (child[PROMISE_ID] === undefined) {
+      makePromise(child);
+    }
+
+    var _state = parent._state;
+
+
+    if (_state) {
+      var callback = arguments[_state - 1];
+      asap(function () {
+        return invokeCallback(_state, child, callback, parent._result);
+      });
+    } else {
+      subscribe(parent, child, onFulfillment, onRejection);
+    }
+
+    return child;
+  }
+
+  /**
+    `Promise.resolve` returns a promise that will become resolved with the
+    passed `value`. It is shorthand for the following:
+
+    ```javascript
+    let promise = new Promise(function(resolve, reject){
+      resolve(1);
+    });
+
+    promise.then(function(value){
+      // value === 1
+    });
+    ```
+
+    Instead of writing the above, your code now simply becomes the following:
+
+    ```javascript
+    let promise = Promise.resolve(1);
+
+    promise.then(function(value){
+      // value === 1
+    });
+    ```
+
+    @method resolve
+    @static
+    @param {Any} value value that the returned promise will be resolved with
+    Useful for tooling.
+    @return {Promise} a promise that will become fulfilled with the given
+    `value`
+  */
+  function resolve$1(object) {
+    /*jshint validthis:true */
+    var Constructor = this;
+
+    if (object && (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && object.constructor === Constructor) {
+      return object;
+    }
+
+    var promise = new Constructor(noop);
+    resolve(promise, object);
+    return promise;
+  }
+
+  var PROMISE_ID = Math.random().toString(36).substring(2);
+
+  function noop() {}
+
+  var PENDING = void 0;
+  var FULFILLED = 1;
+  var REJECTED = 2;
+
+  function selfFulfillment() {
+    return new TypeError("You cannot resolve a promise with itself");
+  }
+
+  function cannotReturnOwn() {
+    return new TypeError('A promises callback cannot return that same promise.');
+  }
+
+  function tryThen(then$$1, value, fulfillmentHandler, rejectionHandler) {
+    try {
+      then$$1.call(value, fulfillmentHandler, rejectionHandler);
+    } catch (e) {
+      return e;
+    }
+  }
+
+  function handleForeignThenable(promise, thenable, then$$1) {
+    asap(function (promise) {
+      var sealed = false;
+      var error = tryThen(then$$1, thenable, function (value) {
+        if (sealed) {
+          return;
+        }
+        sealed = true;
+        if (thenable !== value) {
+          resolve(promise, value);
+        } else {
+          fulfill(promise, value);
+        }
+      }, function (reason) {
+        if (sealed) {
+          return;
+        }
+        sealed = true;
+
+        reject(promise, reason);
+      }, 'Settle: ' + (promise._label || ' unknown promise'));
+
+      if (!sealed && error) {
+        sealed = true;
+        reject(promise, error);
       }
-      if (self._state === 0) {
-        self._deferreds.push(deferred);
+    }, promise);
+  }
+
+  function handleOwnThenable(promise, thenable) {
+    if (thenable._state === FULFILLED) {
+      fulfill(promise, thenable._result);
+    } else if (thenable._state === REJECTED) {
+      reject(promise, thenable._result);
+    } else {
+      subscribe(thenable, undefined, function (value) {
+        return resolve(promise, value);
+      }, function (reason) {
+        return reject(promise, reason);
+      });
+    }
+  }
+
+  function handleMaybeThenable(promise, maybeThenable, then$$1) {
+    if (maybeThenable.constructor === promise.constructor && then$$1 === then && maybeThenable.constructor.resolve === resolve$1) {
+      handleOwnThenable(promise, maybeThenable);
+    } else {
+      if (then$$1 === undefined) {
+        fulfill(promise, maybeThenable);
+      } else if (isFunction(then$$1)) {
+        handleForeignThenable(promise, maybeThenable, then$$1);
+      } else {
+        fulfill(promise, maybeThenable);
+      }
+    }
+  }
+
+  function resolve(promise, value) {
+    if (promise === value) {
+      reject(promise, selfFulfillment());
+    } else if (objectOrFunction(value)) {
+      var then$$1 = void 0;
+      try {
+        then$$1 = value.then;
+      } catch (error) {
+        reject(promise, error);
         return;
       }
-      self._handled = true;
-      Promise._immediateFn(function () {
-        var cb = self._state === 1 ? deferred.onFulfilled : deferred.onRejected;
-        if (cb === null) {
-          (self._state === 1 ? resolve : reject)(deferred.promise, self._value);
-          return;
+      handleMaybeThenable(promise, value, then$$1);
+    } else {
+      fulfill(promise, value);
+    }
+  }
+
+  function publishRejection(promise) {
+    if (promise._onerror) {
+      promise._onerror(promise._result);
+    }
+
+    publish(promise);
+  }
+
+  function fulfill(promise, value) {
+    if (promise._state !== PENDING) {
+      return;
+    }
+
+    promise._result = value;
+    promise._state = FULFILLED;
+
+    if (promise._subscribers.length !== 0) {
+      asap(publish, promise);
+    }
+  }
+
+  function reject(promise, reason) {
+    if (promise._state !== PENDING) {
+      return;
+    }
+    promise._state = REJECTED;
+    promise._result = reason;
+
+    asap(publishRejection, promise);
+  }
+
+  function subscribe(parent, child, onFulfillment, onRejection) {
+    var _subscribers = parent._subscribers;
+    var length = _subscribers.length;
+
+
+    parent._onerror = null;
+
+    _subscribers[length] = child;
+    _subscribers[length + FULFILLED] = onFulfillment;
+    _subscribers[length + REJECTED] = onRejection;
+
+    if (length === 0 && parent._state) {
+      asap(publish, parent);
+    }
+  }
+
+  function publish(promise) {
+    var subscribers = promise._subscribers;
+    var settled = promise._state;
+
+    if (subscribers.length === 0) {
+      return;
+    }
+
+    var child = void 0,
+        callback = void 0,
+        detail = promise._result;
+
+    for (var i = 0; i < subscribers.length; i += 3) {
+      child = subscribers[i];
+      callback = subscribers[i + settled];
+
+      if (child) {
+        invokeCallback(settled, child, callback, detail);
+      } else {
+        callback(detail);
+      }
+    }
+
+    promise._subscribers.length = 0;
+  }
+
+  function invokeCallback(settled, promise, callback, detail) {
+    var hasCallback = isFunction(callback),
+        value = void 0,
+        error = void 0,
+        succeeded = true;
+
+    if (hasCallback) {
+      try {
+        value = callback(detail);
+      } catch (e) {
+        succeeded = false;
+        error = e;
+      }
+
+      if (promise === value) {
+        reject(promise, cannotReturnOwn());
+        return;
+      }
+    } else {
+      value = detail;
+    }
+
+    if (promise._state !== PENDING) {
+      // noop
+    } else if (hasCallback && succeeded) {
+      resolve(promise, value);
+    } else if (succeeded === false) {
+      reject(promise, error);
+    } else if (settled === FULFILLED) {
+      fulfill(promise, value);
+    } else if (settled === REJECTED) {
+      reject(promise, value);
+    }
+  }
+
+  function initializePromise(promise, resolver) {
+    try {
+      resolver(function resolvePromise(value) {
+        resolve(promise, value);
+      }, function rejectPromise(reason) {
+        reject(promise, reason);
+      });
+    } catch (e) {
+      reject(promise, e);
+    }
+  }
+
+  var id = 0;
+  function nextId() {
+    return id++;
+  }
+
+  function makePromise(promise) {
+    promise[PROMISE_ID] = id++;
+    promise._state = undefined;
+    promise._result = undefined;
+    promise._subscribers = [];
+  }
+
+  function validationError() {
+    return new Error('Array Methods must be provided an Array');
+  }
+
+  var Enumerator = function () {
+    function Enumerator(Constructor, input) {
+      classCallCheck(this, Enumerator);
+
+      this._instanceConstructor = Constructor;
+      this.promise = new Constructor(noop);
+
+      if (!this.promise[PROMISE_ID]) {
+        makePromise(this.promise);
+      }
+
+      if (isArray(input)) {
+        this.length = input.length;
+        this._remaining = input.length;
+
+        this._result = new Array(this.length);
+
+        if (this.length === 0) {
+          fulfill(this.promise, this._result);
+        } else {
+          this.length = this.length || 0;
+          this._enumerate(input);
+          if (this._remaining === 0) {
+            fulfill(this.promise, this._result);
+          }
         }
-        var ret;
-        try {
-          ret = cb(self._value);
-        } catch (e) {
-          reject(deferred.promise, e);
-          return;
+      } else {
+        reject(this.promise, validationError());
+      }
+    }
+
+    createClass(Enumerator, [{
+      key: '_enumerate',
+      value: function _enumerate(input) {
+        for (var i = 0; this._state === PENDING && i < input.length; i++) {
+          this._eachEntry(input[i], i);
         }
-        resolve(deferred.promise, ret);
+      }
+    }, {
+      key: '_eachEntry',
+      value: function _eachEntry(entry, i) {
+        var c = this._instanceConstructor;
+        var resolve$$1 = c.resolve;
+
+
+        if (resolve$$1 === resolve$1) {
+          var _then = void 0;
+          var error = void 0;
+          var didError = false;
+          try {
+            _then = entry.then;
+          } catch (e) {
+            didError = true;
+            error = e;
+          }
+
+          if (_then === then && entry._state !== PENDING) {
+            this._settledAt(entry._state, i, entry._result);
+          } else if (typeof _then !== 'function') {
+            this._remaining--;
+            this._result[i] = entry;
+          } else if (c === Promise$2) {
+            var promise = new c(noop);
+            if (didError) {
+              reject(promise, error);
+            } else {
+              handleMaybeThenable(promise, entry, _then);
+            }
+            this._willSettleAt(promise, i);
+          } else {
+            this._willSettleAt(new c(function (resolve$$1) {
+              return resolve$$1(entry);
+            }), i);
+          }
+        } else {
+          this._willSettleAt(resolve$$1(entry), i);
+        }
+      }
+    }, {
+      key: '_settledAt',
+      value: function _settledAt(state, i, value) {
+        var promise = this.promise;
+
+
+        if (promise._state === PENDING) {
+          this._remaining--;
+
+          if (state === REJECTED) {
+            reject(promise, value);
+          } else {
+            this._result[i] = value;
+          }
+        }
+
+        if (this._remaining === 0) {
+          fulfill(promise, this._result);
+        }
+      }
+    }, {
+      key: '_willSettleAt',
+      value: function _willSettleAt(promise, i) {
+        var enumerator = this;
+
+        subscribe(promise, undefined, function (value) {
+          return enumerator._settledAt(FULFILLED, i, value);
+        }, function (reason) {
+          return enumerator._settledAt(REJECTED, i, reason);
+        });
+      }
+    }]);
+    return Enumerator;
+  }();
+
+  /**
+    `Promise.all` accepts an array of promises, and returns a new promise which
+    is fulfilled with an array of fulfillment values for the passed promises, or
+    rejected with the reason of the first passed promise to be rejected. It casts all
+    elements of the passed iterable to promises as it runs this algorithm.
+
+    Example:
+
+    ```javascript
+    let promise1 = resolve(1);
+    let promise2 = resolve(2);
+    let promise3 = resolve(3);
+    let promises = [ promise1, promise2, promise3 ];
+
+    Promise.all(promises).then(function(array){
+      // The array here would be [ 1, 2, 3 ];
+    });
+    ```
+
+    If any of the `promises` given to `all` are rejected, the first promise
+    that is rejected will be given as an argument to the returned promises's
+    rejection handler. For example:
+
+    Example:
+
+    ```javascript
+    let promise1 = resolve(1);
+    let promise2 = reject(new Error("2"));
+    let promise3 = reject(new Error("3"));
+    let promises = [ promise1, promise2, promise3 ];
+
+    Promise.all(promises).then(function(array){
+      // Code here never runs because there are rejected promises!
+    }, function(error) {
+      // error.message === "2"
+    });
+    ```
+
+    @method all
+    @static
+    @param {Array} entries array of promises
+    @param {String} label optional string for labeling the promise.
+    Useful for tooling.
+    @return {Promise} promise that is fulfilled when all `promises` have been
+    fulfilled, or rejected if any of them become rejected.
+    @static
+  */
+  function all(entries) {
+    return new Enumerator(this, entries).promise;
+  }
+
+  /**
+    `Promise.race` returns a new promise which is settled in the same way as the
+    first passed promise to settle.
+
+    Example:
+
+    ```javascript
+    let promise1 = new Promise(function(resolve, reject){
+      setTimeout(function(){
+        resolve('promise 1');
+      }, 200);
+    });
+
+    let promise2 = new Promise(function(resolve, reject){
+      setTimeout(function(){
+        resolve('promise 2');
+      }, 100);
+    });
+
+    Promise.race([promise1, promise2]).then(function(result){
+      // result === 'promise 2' because it was resolved before promise1
+      // was resolved.
+    });
+    ```
+
+    `Promise.race` is deterministic in that only the state of the first
+    settled promise matters. For example, even if other promises given to the
+    `promises` array argument are resolved, but the first settled promise has
+    become rejected before the other promises became fulfilled, the returned
+    promise will become rejected:
+
+    ```javascript
+    let promise1 = new Promise(function(resolve, reject){
+      setTimeout(function(){
+        resolve('promise 1');
+      }, 200);
+    });
+
+    let promise2 = new Promise(function(resolve, reject){
+      setTimeout(function(){
+        reject(new Error('promise 2'));
+      }, 100);
+    });
+
+    Promise.race([promise1, promise2]).then(function(result){
+      // Code here never runs
+    }, function(reason){
+      // reason.message === 'promise 2' because promise 2 became rejected before
+      // promise 1 became fulfilled
+    });
+    ```
+
+    An example real-world use case is implementing timeouts:
+
+    ```javascript
+    Promise.race([ajax('foo.json'), timeout(5000)])
+    ```
+
+    @method race
+    @static
+    @param {Array} promises array of promises to observe
+    Useful for tooling.
+    @return {Promise} a promise which settles in the same way as the first passed
+    promise to settle.
+  */
+  function race(entries) {
+    /*jshint validthis:true */
+    var Constructor = this;
+
+    if (!isArray(entries)) {
+      return new Constructor(function (_, reject) {
+        return reject(new TypeError('You must pass an array to race.'));
+      });
+    } else {
+      return new Constructor(function (resolve, reject) {
+        var length = entries.length;
+        for (var i = 0; i < length; i++) {
+          Constructor.resolve(entries[i]).then(resolve, reject);
+        }
       });
     }
-    function resolve(self, newValue) {
-      try {
-        // Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-        if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.');
-        if (newValue && (_typeof(newValue) === 'object' || typeof newValue === 'function')) {
-          var then = newValue.then;
-          if (newValue instanceof Promise) {
-            self._state = 3;
-            self._value = newValue;
-            finale(self);
-            return;
-          } else if (typeof then === 'function') {
-            doResolve(bind(then, newValue), self);
-            return;
+  }
+
+  /**
+    `Promise.reject` returns a promise rejected with the passed `reason`.
+    It is shorthand for the following:
+
+    ```javascript
+    let promise = new Promise(function(resolve, reject){
+      reject(new Error('WHOOPS'));
+    });
+
+    promise.then(function(value){
+      // Code here doesn't run because the promise is rejected!
+    }, function(reason){
+      // reason.message === 'WHOOPS'
+    });
+    ```
+
+    Instead of writing the above, your code now simply becomes the following:
+
+    ```javascript
+    let promise = Promise.reject(new Error('WHOOPS'));
+
+    promise.then(function(value){
+      // Code here doesn't run because the promise is rejected!
+    }, function(reason){
+      // reason.message === 'WHOOPS'
+    });
+    ```
+
+    @method reject
+    @static
+    @param {Any} reason value that the returned promise will be rejected with.
+    Useful for tooling.
+    @return {Promise} a promise rejected with the given `reason`.
+  */
+  function reject$1(reason) {
+    /*jshint validthis:true */
+    var Constructor = this;
+    var promise = new Constructor(noop);
+    reject(promise, reason);
+    return promise;
+  }
+
+  function needsResolver() {
+    throw new TypeError('You must pass a resolver function as the first argument to the promise constructor');
+  }
+
+  function needsNew() {
+    throw new TypeError("Failed to construct 'Promise': Please use the 'new' operator, this object constructor cannot be called as a function.");
+  }
+
+  /**
+    Promise objects represent the eventual result of an asynchronous operation. The
+    primary way of interacting with a promise is through its `then` method, which
+    registers callbacks to receive either a promise's eventual value or the reason
+    why the promise cannot be fulfilled.
+
+    Terminology
+    -----------
+
+    - `promise` is an object or function with a `then` method whose behavior conforms to this specification.
+    - `thenable` is an object or function that defines a `then` method.
+    - `value` is any legal JavaScript value (including undefined, a thenable, or a promise).
+    - `exception` is a value that is thrown using the throw statement.
+    - `reason` is a value that indicates why a promise was rejected.
+    - `settled` the final resting state of a promise, fulfilled or rejected.
+
+    A promise can be in one of three states: pending, fulfilled, or rejected.
+
+    Promises that are fulfilled have a fulfillment value and are in the fulfilled
+    state.  Promises that are rejected have a rejection reason and are in the
+    rejected state.  A fulfillment value is never a thenable.
+
+    Promises can also be said to *resolve* a value.  If this value is also a
+    promise, then the original promise's settled state will match the value's
+    settled state.  So a promise that *resolves* a promise that rejects will
+    itself reject, and a promise that *resolves* a promise that fulfills will
+    itself fulfill.
+
+
+    Basic Usage:
+    ------------
+
+    ```js
+    let promise = new Promise(function(resolve, reject) {
+      // on success
+      resolve(value);
+
+      // on failure
+      reject(reason);
+    });
+
+    promise.then(function(value) {
+      // on fulfillment
+    }, function(reason) {
+      // on rejection
+    });
+    ```
+
+    Advanced Usage:
+    ---------------
+
+    Promises shine when abstracting away asynchronous interactions such as
+    `XMLHttpRequest`s.
+
+    ```js
+    function getJSON(url) {
+      return new Promise(function(resolve, reject){
+        let xhr = new XMLHttpRequest();
+
+        xhr.open('GET', url);
+        xhr.onreadystatechange = handler;
+        xhr.responseType = 'json';
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.send();
+
+        function handler() {
+          if (this.readyState === this.DONE) {
+            if (this.status === 200) {
+              resolve(this.response);
+            } else {
+              reject(new Error('getJSON: `' + url + '` failed with status: [' + this.status + ']'));
+            }
           }
-        }
-        self._state = 1;
-        self._value = newValue;
-        finale(self);
-      } catch (e) {
-        reject(self, e);
-      }
+        };
+      });
     }
-    function reject(self, newValue) {
-      self._state = 2;
-      self._value = newValue;
-      finale(self);
-    }
-    function finale(self) {
-      if (self._state === 2 && self._deferreds.length === 0) {
-        Promise._immediateFn(function () {
-          if (!self._handled) {
-            Promise._unhandledRejectionFn(self._value);
-          }
-        });
+
+    getJSON('/posts.json').then(function(json) {
+      // on fulfillment
+    }, function(reason) {
+      // on rejection
+    });
+    ```
+
+    Unlike callbacks, promises are great composable primitives.
+
+    ```js
+    Promise.all([
+      getJSON('/posts'),
+      getJSON('/comments')
+    ]).then(function(values){
+      values[0] // => postsJSON
+      values[1] // => commentsJSON
+
+      return values;
+    });
+    ```
+
+    @class Promise
+    @param {Function} resolver
+    Useful for tooling.
+    @constructor
+  */
+
+  var Promise$2 = function () {
+    function Promise(resolver) {
+      classCallCheck(this, Promise);
+
+      this[PROMISE_ID] = nextId();
+      this._result = this._state = undefined;
+      this._subscribers = [];
+
+      if (noop !== resolver) {
+        typeof resolver !== 'function' && needsResolver();
+        this instanceof Promise ? initializePromise(this, resolver) : needsNew();
       }
-      for (var i = 0, len = self._deferreds.length; i < len; i++) {
-        handle(self, self._deferreds[i]);
-      }
-      self._deferreds = null;
     }
 
     /**
-     * @constructor
-     */
-    function Handler(onFulfilled, onRejected, promise) {
-      this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
-      this.onRejected = typeof onRejected === 'function' ? onRejected : null;
-      this.promise = promise;
+    The primary way of interacting with a promise is through its `then` method,
+    which registers callbacks to receive either a promise's eventual value or the
+    reason why the promise cannot be fulfilled.
+     ```js
+    findUser().then(function(user){
+      // user is available
+    }, function(reason){
+      // user is unavailable, and you are given the reason why
+    });
+    ```
+     Chaining
+    --------
+     The return value of `then` is itself a promise.  This second, 'downstream'
+    promise is resolved with the return value of the first promise's fulfillment
+    or rejection handler, or rejected if the handler throws an exception.
+     ```js
+    findUser().then(function (user) {
+      return user.name;
+    }, function (reason) {
+      return 'default name';
+    }).then(function (userName) {
+      // If `findUser` fulfilled, `userName` will be the user's name, otherwise it
+      // will be `'default name'`
+    });
+     findUser().then(function (user) {
+      throw new Error('Found user, but still unhappy');
+    }, function (reason) {
+      throw new Error('`findUser` rejected and we're unhappy');
+    }).then(function (value) {
+      // never reached
+    }, function (reason) {
+      // if `findUser` fulfilled, `reason` will be 'Found user, but still unhappy'.
+      // If `findUser` rejected, `reason` will be '`findUser` rejected and we're unhappy'.
+    });
+    ```
+    If the downstream promise does not specify a rejection handler, rejection reasons will be propagated further downstream.
+     ```js
+    findUser().then(function (user) {
+      throw new PedagogicalException('Upstream error');
+    }).then(function (value) {
+      // never reached
+    }).then(function (value) {
+      // never reached
+    }, function (reason) {
+      // The `PedgagocialException` is propagated all the way down to here
+    });
+    ```
+     Assimilation
+    ------------
+     Sometimes the value you want to propagate to a downstream promise can only be
+    retrieved asynchronously. This can be achieved by returning a promise in the
+    fulfillment or rejection handler. The downstream promise will then be pending
+    until the returned promise is settled. This is called *assimilation*.
+     ```js
+    findUser().then(function (user) {
+      return findCommentsByAuthor(user);
+    }).then(function (comments) {
+      // The user's comments are now available
+    });
+    ```
+     If the assimliated promise rejects, then the downstream promise will also reject.
+     ```js
+    findUser().then(function (user) {
+      return findCommentsByAuthor(user);
+    }).then(function (comments) {
+      // If `findCommentsByAuthor` fulfills, we'll have the value here
+    }, function (reason) {
+      // If `findCommentsByAuthor` rejects, we'll have the reason here
+    });
+    ```
+     Simple Example
+    --------------
+     Synchronous Example
+     ```javascript
+    let result;
+     try {
+      result = findResult();
+      // success
+    } catch(reason) {
+      // failure
     }
-
-    /**
-     * Take a potentially misbehaving resolver function and make sure
-     * onFulfilled and onRejected are only called once.
-     *
-     * Makes no guarantees about asynchrony.
-     */
-    function doResolve(fn, self) {
-      var done = false;
-      try {
-        fn(function (value) {
-          if (done) return;
-          done = true;
-          resolve(self, value);
-        }, function (reason) {
-          if (done) return;
-          done = true;
-          reject(self, reason);
-        });
-      } catch (ex) {
-        if (done) return;
-        done = true;
-        reject(self, ex);
+    ```
+     Errback Example
+     ```js
+    findResult(function(result, err){
+      if (err) {
+        // failure
+      } else {
+        // success
       }
+    });
+    ```
+     Promise Example;
+     ```javascript
+    findResult().then(function(result){
+      // success
+    }, function(reason){
+      // failure
+    });
+    ```
+     Advanced Example
+    --------------
+     Synchronous Example
+     ```javascript
+    let author, books;
+     try {
+      author = findAuthor();
+      books  = findBooksByAuthor(author);
+      // success
+    } catch(reason) {
+      // failure
     }
-    Promise.prototype['catch'] = function (onRejected) {
-      return this.then(null, onRejected);
-    };
-    Promise.prototype.then = function (onFulfilled, onRejected) {
-      // @ts-ignore
-      var prom = new this.constructor(noop);
-      handle(this, new Handler(onFulfilled, onRejected, prom));
-      return prom;
-    };
-    Promise.prototype['finally'] = finallyConstructor;
-    Promise.all = function (arr) {
-      return new Promise(function (resolve, reject) {
-        if (!isArray(arr)) {
-          return reject(new TypeError('Promise.all accepts an array'));
-        }
-        var args = Array.prototype.slice.call(arr);
-        if (args.length === 0) return resolve([]);
-        var remaining = args.length;
-        function res(i, val) {
-          try {
-            if (val && (_typeof(val) === 'object' || typeof val === 'function')) {
-              var then = val.then;
-              if (typeof then === 'function') {
-                then.call(val, function (val) {
-                  res(i, val);
-                }, reject);
-                return;
+    ```
+     Errback Example
+     ```js
+     function foundBooks(books) {
+     }
+     function failure(reason) {
+     }
+     findAuthor(function(author, err){
+      if (err) {
+        failure(err);
+        // failure
+      } else {
+        try {
+          findBoooksByAuthor(author, function(books, err) {
+            if (err) {
+              failure(err);
+            } else {
+              try {
+                foundBooks(books);
+              } catch(reason) {
+                failure(reason);
               }
             }
-            args[i] = val;
-            if (--remaining === 0) {
-              resolve(args);
-            }
-          } catch (ex) {
-            reject(ex);
+          });
+        } catch(error) {
+          failure(err);
+        }
+        // success
+      }
+    });
+    ```
+     Promise Example;
+     ```javascript
+    findAuthor().
+      then(findBooksByAuthor).
+      then(function(books){
+        // found books
+    }).catch(function(reason){
+      // something went wrong
+    });
+    ```
+     @method then
+    @param {Function} onFulfilled
+    @param {Function} onRejected
+    Useful for tooling.
+    @return {Promise}
+    */
+
+    /**
+    `catch` is simply sugar for `then(undefined, onRejection)` which makes it the same
+    as the catch block of a try/catch statement.
+    ```js
+    function findAuthor(){
+    throw new Error('couldn't find that author');
+    }
+    // synchronous
+    try {
+    findAuthor();
+    } catch(reason) {
+    // something went wrong
+    }
+    // async with promises
+    findAuthor().catch(function(reason){
+    // something went wrong
+    });
+    ```
+    @method catch
+    @param {Function} onRejection
+    Useful for tooling.
+    @return {Promise}
+    */
+
+
+    createClass(Promise, [{
+      key: 'catch',
+      value: function _catch(onRejection) {
+        return this.then(null, onRejection);
+      }
+
+      /**
+        `finally` will be invoked regardless of the promise's fate just as native
+        try/catch/finally behaves
+      
+        Synchronous example:
+      
+        ```js
+        findAuthor() {
+          if (Math.random() > 0.5) {
+            throw new Error();
           }
+          return new Author();
         }
-        for (var i = 0; i < args.length; i++) {
-          res(i, args[i]);
+      
+        try {
+          return findAuthor(); // succeed or fail
+        } catch(error) {
+          return findOtherAuther();
+        } finally {
+          // always runs
+          // doesn't affect the return value
         }
-      });
-    };
-    Promise.allSettled = allSettled;
-    Promise.resolve = function (value) {
-      if (value && _typeof(value) === 'object' && value.constructor === Promise) {
-        return value;
-      }
-      return new Promise(function (resolve) {
-        resolve(value);
-      });
-    };
-    Promise.reject = function (value) {
-      return new Promise(function (resolve, reject) {
-        reject(value);
-      });
-    };
-    Promise.race = function (arr) {
-      return new Promise(function (resolve, reject) {
-        if (!isArray(arr)) {
-          return reject(new TypeError('Promise.race accepts an array'));
-        }
-        for (var i = 0, len = arr.length; i < len; i++) {
-          Promise.resolve(arr[i]).then(resolve, reject);
-        }
-      });
-    };
+        ```
+      
+        Asynchronous example:
+      
+        ```js
+        findAuthor().catch(function(reason){
+          return findOtherAuther();
+        }).finally(function(){
+          // author was either found, or not
+        });
+        ```
+      
+        @method finally
+        @param {Function} callback
+        @return {Promise}
+      */
 
-    // Use polyfill for setImmediate for performance gains
-    Promise._immediateFn =
-    // @ts-ignore
-    typeof setImmediate === 'function' && function (fn) {
-      // @ts-ignore
-      setImmediate(fn);
-    } || function (fn) {
-      setTimeoutFunc(fn, 0);
-    };
-    Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
-      if (typeof console !== 'undefined' && console) {
-        console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
-      }
-    };
+    }, {
+      key: 'finally',
+      value: function _finally(callback) {
+        var promise = this;
+        var constructor = promise.constructor;
 
-    promisePolyfill.exports = Promise;
-  })();
-  var _Promise = promisePolyfill.exports;
+        if (isFunction(callback)) {
+          return promise.then(function (value) {
+            return constructor.resolve(callback()).then(function () {
+              return value;
+            });
+          }, function (reason) {
+            return constructor.resolve(callback()).then(function () {
+              throw reason;
+            });
+          });
+        }
+
+        return promise.then(callback, callback);
+      }
+    }]);
+    return Promise;
+  }();
+
+  Promise$2.prototype.then = then;
+  Promise$2.all = all;
+  Promise$2.race = race;
+  Promise$2.resolve = resolve$1;
+  Promise$2.reject = reject$1;
+  Promise$2._setScheduler = setScheduler;
+  Promise$2._setAsap = setAsap;
+  Promise$2._asap = asap;
+
+  /*global self*/
+  function polyfill() {
+    var local = void 0;
+
+    if (typeof global !== 'undefined') {
+      local = global;
+    } else if (typeof self !== 'undefined') {
+      local = self;
+    } else {
+      try {
+        local = Function('return this')();
+      } catch (e) {
+        throw new Error('polyfill failed because global object is unavailable in this environment');
+      }
+    }
+
+    var P = local.Promise;
+
+    if (P) {
+      var promiseToString = null;
+      try {
+        promiseToString = Object.prototype.toString.call(P.resolve());
+      } catch (e) {
+        // silently ignored
+      }
+
+      if (promiseToString === '[object Promise]' && !P.cast) {
+        return;
+      }
+    }
+
+    local.Promise = Promise$2;
+  }
+
+  // Strange compat..
+  Promise$2.polyfill = polyfill;
+  Promise$2.Promise = Promise$2;
+
+  var Promise$1 = typeof Promise !== "undefined" ? Promise : Promise$2;
 
   // Register logging callbacks
   function registerLoggingCallbacks(obj) {
-    var callbackNames = ['begin', 'done', 'log', 'testStart', 'testDone', 'moduleStart', 'moduleDone'];
-    function registerLoggingCallback(key) {
-      return function loggingCallback(callback) {
-        if (typeof callback !== 'function') {
-          throw new Error('Callback parameter must be a function');
-        }
-        config.callbacks[key].push(callback);
-      };
-    }
-    for (var i = 0; i < callbackNames.length; i++) {
-      var key = callbackNames[i];
+  	var i,
+  	    l,
+  	    key,
+  	    callbackNames = ["begin", "done", "log", "testStart", "testDone", "moduleStart", "moduleDone"];
 
-      // Initialize key collection of logging callback
-      if (typeof config.callbacks[key] === 'undefined') {
-        config.callbacks[key] = [];
-      }
-      obj[key] = registerLoggingCallback(key);
-    }
+  	function registerLoggingCallback(key) {
+  		var loggingCallback = function loggingCallback(callback) {
+  			if (objectType(callback) !== "function") {
+  				throw new Error("QUnit logging methods require a callback function as their first parameters.");
+  			}
+
+  			config.callbacks[key].push(callback);
+  		};
+
+  		return loggingCallback;
+  	}
+
+  	for (i = 0, l = callbackNames.length; i < l; i++) {
+  		key = callbackNames[i];
+
+  		// Initialize key collection of logging callback
+  		if (objectType(config.callbacks[key]) === "undefined") {
+  			config.callbacks[key] = [];
+  		}
+
+  		obj[key] = registerLoggingCallback(key);
+  	}
   }
+
   function runLoggingCallbacks(key, args) {
-    var callbacks = config.callbacks[key];
+  	var callbacks = config.callbacks[key];
 
-    // Handling 'log' callbacks separately. Unlike the other callbacks,
-    // the log callback is not controlled by the processing queue,
-    // but rather used by asserts. Hence to promisfy the 'log' callback
-    // would mean promisfying each step of a test
-    if (key === 'log') {
-      callbacks.map(function (callback) {
-        return callback(args);
-      });
-      return;
-    }
+  	// Handling 'log' callbacks separately. Unlike the other callbacks,
+  	// the log callback is not controlled by the processing queue,
+  	// but rather used by asserts. Hence to promisfy the 'log' callback
+  	// would mean promisfying each step of a test
+  	if (key === "log") {
+  		callbacks.map(function (callback) {
+  			return callback(args);
+  		});
+  		return;
+  	}
 
-    // ensure that each callback is executed serially
-    var promiseChain = _Promise.resolve();
-    callbacks.forEach(function (callback) {
-      promiseChain = promiseChain.then(function () {
-        return _Promise.resolve(callback(args));
-      });
-    });
-    return promiseChain;
+  	// ensure that each callback is executed serially
+  	return callbacks.reduce(function (promiseChain, callback) {
+  		return promiseChain.then(function () {
+  			return Promise$1.resolve(callback(args));
+  		});
+  	}, Promise$1.resolve([]));
+  }
+
+  // Doesn't support IE9, it will return undefined on these browsers
+  // See also https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/Error/Stack
+  var fileName = (sourceFromStacktrace(0) || "").replace(/(:\d+)+\)?/, "").replace(/.+\//, "");
+
+  function extractStacktrace(e, offset) {
+  	offset = offset === undefined ? 4 : offset;
+
+  	var stack, include, i;
+
+  	if (e && e.stack) {
+  		stack = e.stack.split("\n");
+  		if (/^error$/i.test(stack[0])) {
+  			stack.shift();
+  		}
+  		if (fileName) {
+  			include = [];
+  			for (i = offset; i < stack.length; i++) {
+  				if (stack[i].indexOf(fileName) !== -1) {
+  					break;
+  				}
+  				include.push(stack[i]);
+  			}
+  			if (include.length) {
+  				return include.join("\n");
+  			}
+  		}
+  		return stack[offset];
+  	}
+  }
+
+  function sourceFromStacktrace(offset) {
+  	var error = new Error();
+
+  	// Support: Safari <=7 only, IE <=10 - 11 only
+  	// Not all browsers generate the `stack` property for `new Error()`, see also #636
+  	if (!error.stack) {
+  		try {
+  			throw error;
+  		} catch (err) {
+  			error = err;
+  		}
+  	}
+
+  	return extractStacktrace(error, offset);
   }
 
   var priorityCount = 0;
-  var unitSampler;
+  var unitSampler = void 0;
 
   // This is a queue of functions that are tasks within a single test.
   // After tests are dequeued from config.queue they are expanded into
@@ -4896,62 +5169,65 @@ Ember.setupForTesting = testing.setupForTesting;
    * process the testQueue
    */
   function advance() {
-    advanceTaskQueue();
-    if (!taskQueue.length && !config.blocking && !config.current) {
-      advanceTestQueue();
-    }
+  	advanceTaskQueue();
+
+  	if (!taskQueue.length && !config.blocking && !config.current) {
+  		advanceTestQueue();
+  	}
   }
 
   /**
    * Advances the taskQueue with an increased depth
    */
   function advanceTaskQueue() {
-    var start = performance.now();
-    config.depth = (config.depth || 0) + 1;
-    processTaskQueue(start);
-    config.depth--;
+  	var start = now();
+  	config.depth = (config.depth || 0) + 1;
+
+  	processTaskQueue(start);
+
+  	config.depth--;
   }
 
   /**
    * Process the first task on the taskQueue as a promise.
-   * Each task is a function added by Test#queue() in /src/test.js
+   * Each task is a function returned by https://github.com/qunitjs/qunit/blob/master/src/test.js#L381
    */
   function processTaskQueue(start) {
-    if (taskQueue.length && !config.blocking) {
-      var elapsedTime = performance.now() - start;
+  	if (taskQueue.length && !config.blocking) {
+  		var elapsedTime = now() - start;
 
-      // The updateRate ensures that a user interface (HTML Reporter) can be updated
-      // at least once every second. This can also prevent browsers from prompting
-      // a warning about long running scripts.
-      if (!setTimeout$1 || config.updateRate <= 0 || elapsedTime < config.updateRate) {
-        var task = taskQueue.shift();
-        _Promise.resolve(task()).then(function () {
-          if (!taskQueue.length) {
-            advance();
-          } else {
-            processTaskQueue(start);
-          }
-        });
-      } else {
-        setTimeout$1(advance);
-      }
-    }
+  		if (!defined.setTimeout || config.updateRate <= 0 || elapsedTime < config.updateRate) {
+  			var task = taskQueue.shift();
+  			Promise$1.resolve(task()).then(function () {
+  				if (!taskQueue.length) {
+  					advance();
+  				} else {
+  					processTaskQueue(start);
+  				}
+  			});
+  		} else {
+  			setTimeout$1(advance);
+  		}
+  	}
   }
 
   /**
    * Advance the testQueue to the next test to process. Call done() if testQueue completes.
    */
   function advanceTestQueue() {
-    if (!config.blocking && !config.queue.length && config.depth === 0) {
-      done();
-      return;
-    }
-    var testTasks = config.queue.shift();
-    addToTaskQueue(testTasks());
-    if (priorityCount > 0) {
-      priorityCount--;
-    }
-    advance();
+  	if (!config.blocking && !config.queue.length && config.depth === 0) {
+  		done();
+  		return;
+  	}
+
+  	var testTasks = config.queue.shift();
+  	addToTaskQueue(testTasks());
+
+  	if (priorityCount > 0) {
+  		priorityCount--;
+  	}
+
+  	advance();
   }
 
   /**
@@ -4959,57 +5235,59 @@ Ember.setupForTesting = testing.setupForTesting;
    * @param {Array} tasksArray
    */
   function addToTaskQueue(tasksArray) {
-    taskQueue.push.apply(taskQueue, _toConsumableArray(tasksArray));
+  	taskQueue.push.apply(taskQueue, toConsumableArray(tasksArray));
   }
 
   /**
    * Return the number of tasks remaining in the task queue to be processed.
-   * @return {number}
+   * @return {Number}
    */
   function taskQueueLength() {
-    return taskQueue.length;
+  	return taskQueue.length;
   }
 
   /**
    * Adds a test to the TestQueue for execution.
    * @param {Function} testTasksFunc
-   * @param {boolean} prioritize
-   * @param {string} seed
+   * @param {Boolean} prioritize
+   * @param {String} seed
    */
   function addToTestQueue(testTasksFunc, prioritize, seed) {
-    if (prioritize) {
-      config.queue.splice(priorityCount++, 0, testTasksFunc);
-    } else if (seed) {
-      if (!unitSampler) {
-        unitSampler = unitSamplerGenerator(seed);
-      }
+  	if (prioritize) {
+  		config.queue.splice(priorityCount++, 0, testTasksFunc);
+  	} else if (seed) {
+  		if (!unitSampler) {
+  			unitSampler = unitSamplerGenerator(seed);
+  		}
 
-      // Insert into a random position after all prioritized items
-      var index = Math.floor(unitSampler() * (config.queue.length - priorityCount + 1));
-      config.queue.splice(priorityCount + index, 0, testTasksFunc);
-    } else {
-      config.queue.push(testTasksFunc);
-    }
+  		// Insert into a random position after all prioritized items
+  		var index = Math.floor(unitSampler() * (config.queue.length - priorityCount + 1));
+  		config.queue.splice(priorityCount + index, 0, testTasksFunc);
+  	} else {
+  		config.queue.push(testTasksFunc);
+  	}
   }
 
   /**
    * Creates a seeded "sample" generator which is used for randomizing tests.
    */
   function unitSamplerGenerator(seed) {
-    // 32-bit xorshift, requires only a nonzero seed
-    // https://excamera.com/sphinx/article-xorshift.html
-    var sample = parseInt(generateHash(seed), 16) || -1;
-    return function () {
-      sample ^= sample << 13;
-      sample ^= sample >>> 17;
-      sample ^= sample << 5;
 
-      // ECMAScript has no unsigned number type
-      if (sample < 0) {
-        sample += 0x100000000;
-      }
-      return sample / 0x100000000;
-    };
+  	// 32-bit xorshift, requires only a nonzero seed
+  	// http://excamera.com/sphinx/article-xorshift.html
+  	var sample = parseInt(generateHash(seed), 16) || -1;
+  	return function () {
+  		sample ^= sample << 13;
+  		sample ^= sample >>> 17;
+  		sample ^= sample << 5;
+
+  		// ECMAScript has no unsigned number type
+  		if (sample < 0) {
+  			sample += 0x100000000;
+  		}
+
+  		return sample / 0x100000000;
+  	};
   }
 
   /**
@@ -5017,3615 +5295,2851 @@ Ember.setupForTesting = testing.setupForTesting;
    * items. It handles emitting the final run events.
    */
   function done() {
-    // We have reached the end of the processing queue and are about to emit the
-    // "runEnd" event after which reporters typically stop listening and exit
-    // the process. First, check if we need to emit one final test.
-    if (config.stats.testCount === 0 && config.failOnZeroTests === true) {
-      var error;
-      if (config.filter && config.filter.length) {
-        error = new Error("No tests matched the filter \"".concat(config.filter, "\"."));
-      } else if (config.module && config.module.length) {
-        error = new Error("No tests matched the module \"".concat(config.module, "\"."));
-      } else if (config.moduleId && config.moduleId.length) {
-        error = new Error("No tests matched the moduleId \"".concat(config.moduleId, "\"."));
-      } else if (config.testId && config.testId.length) {
-        error = new Error("No tests matched the testId \"".concat(config.testId, "\"."));
-      } else {
-        error = new Error('No tests were run.');
-      }
-      test('global failure', extend(function (assert) {
-        assert.pushResult({
-          result: false,
-          message: error.message,
-          source: error.stack
-        });
-      }, {
-        validTest: true
-      }));
+  	var storage = config.storage;
 
-      // We do need to call `advance()` in order to resume the processing queue.
-      // Once this new test is finished processing, we'll reach `done` again, and
-      // that time the above condition will evaluate to false.
-      advance();
-      return;
-    }
-    var storage = config.storage;
-    var runtime = Math.round(performance.now() - config.started);
-    var passed = config.stats.all - config.stats.bad;
-    ProcessingQueue.finished = true;
-    emit('runEnd', runSuite.end(true));
-    runLoggingCallbacks('done', {
-      // @deprecated since 2.19.0 Use done() without `details` parameter,
-      // or use `QUnit.on('runEnd')` instead. Parameter to be replaced in
-      // QUnit 3.0 with test counts.
-      passed: passed,
-      failed: config.stats.bad,
-      total: config.stats.all,
-      runtime: runtime
-    }).then(function () {
-      // Clear own storage items if all tests passed
-      if (storage && config.stats.bad === 0) {
-        for (var i = storage.length - 1; i >= 0; i--) {
-          var key = storage.key(i);
-          if (key.indexOf('qunit-test-') === 0) {
-            storage.removeItem(key);
-          }
-        }
-      }
-    });
+  	ProcessingQueue.finished = true;
+
+  	var runtime = now() - config.started;
+  	var passed = config.stats.all - config.stats.bad;
+
+  	if (config.stats.all === 0) {
+
+  		if (config.filter && config.filter.length) {
+  			throw new Error("No tests matched the filter \"" + config.filter + "\".");
+  		}
+
+  		if (config.module && config.module.length) {
+  			throw new Error("No tests matched the module \"" + config.module + "\".");
+  		}
+
+  		if (config.moduleId && config.moduleId.length) {
+  			throw new Error("No tests matched the moduleId \"" + config.moduleId + "\".");
+  		}
+
+  		if (config.testId && config.testId.length) {
+  			throw new Error("No tests matched the testId \"" + config.testId + "\".");
+  		}
+
+  		throw new Error("No tests were run.");
+  	}
+
+  	emit("runEnd", globalSuite.end(true));
+  	runLoggingCallbacks("done", {
+  		passed: passed,
+  		failed: config.stats.bad,
+  		total: config.stats.all,
+  		runtime: runtime
+  	}).then(function () {
+
+  		// Clear own storage items if all tests passed
+  		if (storage && config.stats.bad === 0) {
+  			for (var i = storage.length - 1; i >= 0; i--) {
+  				var key = storage.key(i);
+
+  				if (key.indexOf("qunit-test-") === 0) {
+  					storage.removeItem(key);
+  				}
+  			}
+  		}
+  	});
   }
+
   var ProcessingQueue = {
-    finished: false,
-    add: addToTestQueue,
-    advance: advance,
-    taskCount: taskQueueLength
+  	finished: false,
+  	add: addToTestQueue,
+  	advance: advance,
+  	taskCount: taskQueueLength
   };
 
-  var TestReport = /*#__PURE__*/function () {
-    function TestReport(name, suite, options) {
-      _classCallCheck(this, TestReport);
-      this.name = name;
-      this.suiteName = suite.name;
-      this.fullName = suite.fullName.concat(name);
-      this.runtime = 0;
-      this.assertions = [];
-      this.skipped = !!options.skip;
-      this.todo = !!options.todo;
-      this.valid = options.valid;
-      this._startTime = 0;
-      this._endTime = 0;
-      suite.pushTest(this);
-    }
-    _createClass(TestReport, [{
-      key: "start",
-      value: function start(recordTime) {
-        if (recordTime) {
-          this._startTime = performance.now();
-          performance.mark('qunit_test_start');
-        }
-        return {
-          name: this.name,
-          suiteName: this.suiteName,
-          fullName: this.fullName.slice()
-        };
-      }
-    }, {
-      key: "end",
-      value: function end(recordTime) {
-        if (recordTime) {
-          this._endTime = performance.now();
-          if (performance) {
-            performance.mark('qunit_test_end');
-            var testName = this.fullName.join(' – ');
-            performance.measure("QUnit Test: ".concat(testName), 'qunit_test_start', 'qunit_test_end');
-          }
-        }
-        return extend(this.start(), {
-          runtime: this.getRuntime(),
-          status: this.getStatus(),
-          errors: this.getFailedAssertions(),
-          assertions: this.getAssertions()
-        });
-      }
-    }, {
-      key: "pushAssertion",
-      value: function pushAssertion(assertion) {
-        this.assertions.push(assertion);
-      }
-    }, {
-      key: "getRuntime",
-      value: function getRuntime() {
-        return Math.round(this._endTime - this._startTime);
-      }
-    }, {
-      key: "getStatus",
-      value: function getStatus() {
-        if (this.skipped) {
-          return 'skipped';
-        }
-        var testPassed = this.getFailedAssertions().length > 0 ? this.todo : !this.todo;
-        if (!testPassed) {
-          return 'failed';
-        } else if (this.todo) {
-          return 'todo';
-        } else {
-          return 'passed';
-        }
-      }
-    }, {
-      key: "getFailedAssertions",
-      value: function getFailedAssertions() {
-        return this.assertions.filter(function (assertion) {
-          return !assertion.passed;
-        });
-      }
-    }, {
-      key: "getAssertions",
-      value: function getAssertions() {
-        return this.assertions.slice();
-      }
+  var TestReport = function () {
+  	function TestReport(name, suite, options) {
+  		classCallCheck(this, TestReport);
 
-      // Remove actual and expected values from assertions. This is to prevent
-      // leaking memory throughout a test suite.
-    }, {
-      key: "slimAssertions",
-      value: function slimAssertions() {
-        this.assertions = this.assertions.map(function (assertion) {
-          delete assertion.actual;
-          delete assertion.expected;
-          return assertion;
-        });
-      }
-    }]);
-    return TestReport;
+  		this.name = name;
+  		this.suiteName = suite.name;
+  		this.fullName = suite.fullName.concat(name);
+  		this.runtime = 0;
+  		this.assertions = [];
+
+  		this.skipped = !!options.skip;
+  		this.todo = !!options.todo;
+
+  		this.valid = options.valid;
+
+  		this._startTime = 0;
+  		this._endTime = 0;
+
+  		suite.pushTest(this);
+  	}
+
+  	createClass(TestReport, [{
+  		key: "start",
+  		value: function start(recordTime) {
+  			if (recordTime) {
+  				this._startTime = performanceNow();
+  				if (performance) {
+  					performance.mark("qunit_test_start");
+  				}
+  			}
+
+  			return {
+  				name: this.name,
+  				suiteName: this.suiteName,
+  				fullName: this.fullName.slice()
+  			};
+  		}
+  	}, {
+  		key: "end",
+  		value: function end(recordTime) {
+  			if (recordTime) {
+  				this._endTime = performanceNow();
+  				if (performance) {
+  					performance.mark("qunit_test_end");
+
+  					var testName = this.fullName.join(" – ");
+
+  					measure("QUnit Test: " + testName, "qunit_test_start", "qunit_test_end");
+  				}
+  			}
+
+  			return extend(this.start(), {
+  				runtime: this.getRuntime(),
+  				status: this.getStatus(),
+  				errors: this.getFailedAssertions(),
+  				assertions: this.getAssertions()
+  			});
+  		}
+  	}, {
+  		key: "pushAssertion",
+  		value: function pushAssertion(assertion) {
+  			this.assertions.push(assertion);
+  		}
+  	}, {
+  		key: "getRuntime",
+  		value: function getRuntime() {
+  			return this._endTime - this._startTime;
+  		}
+  	}, {
+  		key: "getStatus",
+  		value: function getStatus() {
+  			if (this.skipped) {
+  				return "skipped";
+  			}
+
+  			var testPassed = this.getFailedAssertions().length > 0 ? this.todo : !this.todo;
+
+  			if (!testPassed) {
+  				return "failed";
+  			} else if (this.todo) {
+  				return "todo";
+  			} else {
+  				return "passed";
+  			}
+  		}
+  	}, {
+  		key: "getFailedAssertions",
+  		value: function getFailedAssertions() {
+  			return this.assertions.filter(function (assertion) {
+  				return !assertion.passed;
+  			});
+  		}
+  	}, {
+  		key: "getAssertions",
+  		value: function getAssertions() {
+  			return this.assertions.slice();
+  		}
+
+  		// Remove actual and expected values from assertions. This is to prevent
+  		// leaking memory throughout a test suite.
+
+  	}, {
+  		key: "slimAssertions",
+  		value: function slimAssertions() {
+  			this.assertions = this.assertions.map(function (assertion) {
+  				delete assertion.actual;
+  				delete assertion.expected;
+  				return assertion;
+  			});
+  		}
+  	}]);
+  	return TestReport;
   }();
 
+  var focused$1 = false;
+
   function Test(settings) {
-    this.expected = null;
-    this.assertions = [];
-    this.module = config.currentModule;
-    this.steps = [];
-    this.timeout = undefined;
-    this.data = undefined;
-    this.withData = false;
-    this.pauses = new StringMap();
-    this.nextPauseId = 1;
+  	var i, l;
 
-    // For the most common case, we have:
-    // - 0: new Test
-    // - 1: addTest
-    // - 2: QUnit.test
-    // - 3: user file
-    //
-    // This needs is customised by test.each()
-    this.stackOffset = 3;
-    extend(this, settings);
+  	++Test.count;
 
-    // If a module is skipped, all its tests and the tests of the child suites
-    // should be treated as skipped even if they are defined as `only` or `todo`.
-    // As for `todo` module, all its tests will be treated as `todo` except for
-    // tests defined as `skip` which will be left intact.
-    //
-    // So, if a test is defined as `todo` and is inside a skipped module, we should
-    // then treat that test as if was defined as `skip`.
-    if (this.module.skip) {
-      this.skip = true;
-      this.todo = false;
+  	this.expected = null;
+  	this.assertions = [];
+  	this.semaphore = 0;
+  	this.module = config.currentModule;
+  	this.steps = [];
+  	this.timeout = undefined;
+  	this.errorForStack = new Error();
 
-      // Skipped tests should be left intact
-    } else if (this.module.todo && !this.skip) {
-      this.todo = true;
-    }
+  	// If a module is skipped, all its tests and the tests of the child suites
+  	// should be treated as skipped even if they are defined as `only` or `todo`.
+  	// As for `todo` module, all its tests will be treated as `todo` except for
+  	// tests defined as `skip` which will be left intact.
+  	//
+  	// So, if a test is defined as `todo` and is inside a skipped module, we should
+  	// then treat that test as if was defined as `skip`.
+  	if (this.module.skip) {
+  		settings.skip = true;
+  		settings.todo = false;
 
-    // Queuing a late test after the run has ended is not allowed.
-    // This was once supported for internal use by QUnit.onError().
-    // Ref https://github.com/qunitjs/qunit/issues/1377
-    if (ProcessingQueue.finished) {
-      // Using this for anything other than onError(), such as testing in QUnit.done(),
-      // is unstable and will likely result in the added tests being ignored by CI.
-      // (Meaning the CI passes irregardless of the added tests).
-      //
-      // TODO: Make this an error in QUnit 3.0
-      // throw new Error( "Unexpected test after runEnd" );
-      Logger.warn('Unexpected test after runEnd. This is unstable and will fail in QUnit 3.0.');
-      return;
-    }
-    if (!this.skip && typeof this.callback !== 'function') {
-      var method = this.todo ? 'QUnit.todo' : 'QUnit.test';
-      throw new TypeError("You must provide a callback to ".concat(method, "(\"").concat(this.testName, "\")"));
-    }
+  		// Skipped tests should be left intact
+  	} else if (this.module.todo && !settings.skip) {
+  		settings.todo = true;
+  	}
 
-    // Register unique strings
-    for (var i = 0, l = this.module.tests; i < l.length; i++) {
-      if (this.module.tests[i].name === this.testName) {
-        this.testName += ' ';
-      }
-    }
-    this.testId = generateHash(this.module.name, this.testName);
+  	extend(this, settings);
 
-    // No validation after this. Beyond this point, failures must be recorded as
-    // a completed test with errors, instead of early bail out.
-    // Otherwise, internals may be left in an inconsistent state.
-    // Ref https://github.com/qunitjs/qunit/issues/1514
+  	this.testReport = new TestReport(settings.testName, this.module.suiteReport, {
+  		todo: settings.todo,
+  		skip: settings.skip,
+  		valid: this.valid()
+  	});
 
-    ++Test.count;
-    this.errorForStack = new Error();
-    if (this.callback && this.callback.validTest) {
-      // Omit the test-level trace for the internal "No tests" test failure,
-      // There is already an assertion-level trace, and that's noisy enough
-      // as it is.
-      this.errorForStack.stack = undefined;
-    }
-    this.testReport = new TestReport(this.testName, this.module.suiteReport, {
-      todo: this.todo,
-      skip: this.skip,
-      valid: this.valid()
-    });
-    this.module.tests.push({
-      name: this.testName,
-      testId: this.testId,
-      skip: !!this.skip
-    });
-    if (this.skip) {
-      // Skipped tests will fully ignore any sent callback
-      this.callback = function () {};
-      this.async = false;
-      this.expected = 0;
-    } else {
-      this.assert = new Assert(this);
-    }
+  	// Register unique strings
+  	for (i = 0, l = this.module.tests; i < l.length; i++) {
+  		if (this.module.tests[i].name === this.testName) {
+  			this.testName += " ";
+  		}
+  	}
+
+  	this.testId = generateHash(this.module.name, this.testName);
+
+  	this.module.tests.push({
+  		name: this.testName,
+  		testId: this.testId,
+  		skip: !!settings.skip
+  	});
+
+  	if (settings.skip) {
+
+  		// Skipped tests will fully ignore any sent callback
+  		this.callback = function () {};
+  		this.async = false;
+  		this.expected = 0;
+  	} else {
+  		if (typeof this.callback !== "function") {
+  			var method = this.todo ? "todo" : "test";
+
+  			// eslint-disable-next-line max-len
+  			throw new TypeError("You must provide a function as a test callback to QUnit." + method + "(\"" + settings.testName + "\")");
+  		}
+
+  		this.assert = new Assert(this);
+  	}
   }
+
   Test.count = 0;
+
   function getNotStartedModules(startModule) {
-    var module = startModule;
-    var modules = [];
-    while (module && module.testsRun === 0) {
-      modules.push(module);
-      module = module.parentModule;
-    }
+  	var module = startModule,
+  	    modules = [];
 
-    // The above push modules from the child to the parent
-    // return a reversed order with the top being the top most parent module
-    return modules.reverse();
+  	while (module && module.testsRun === 0) {
+  		modules.push(module);
+  		module = module.parentModule;
+  	}
+
+  	// The above push modules from the child to the parent
+  	// return a reversed order with the top being the top most parent module
+  	return modules.reverse();
   }
+
   Test.prototype = {
-    // Use a getter to avoid computing a stack trace (which can be expensive),
-    // This is displayed by the HTML Reporter, but most other integrations do
-    // not access it.
-    get stack() {
-      return extractStacktrace(this.errorForStack, this.stackOffset);
-    },
-    before: function before() {
-      var _this = this;
-      var module = this.module;
-      var notStartedModules = getNotStartedModules(module);
 
-      // ensure the callbacks are executed serially for each module
-      var moduleStartChain = _Promise.resolve();
-      notStartedModules.forEach(function (startModule) {
-        moduleStartChain = moduleStartChain.then(function () {
-          startModule.stats = {
-            all: 0,
-            bad: 0,
-            started: performance.now()
-          };
-          emit('suiteStart', startModule.suiteReport.start(true));
-          return runLoggingCallbacks('moduleStart', {
-            name: startModule.name,
-            tests: startModule.tests
-          });
-        });
-      });
-      return moduleStartChain.then(function () {
-        config.current = _this;
-        _this.testEnvironment = extend({}, module.testEnvironment);
-        _this.started = performance.now();
-        emit('testStart', _this.testReport.start(true));
-        return runLoggingCallbacks('testStart', {
-          name: _this.testName,
-          module: module.name,
-          testId: _this.testId,
-          previousFailure: _this.previousFailure
-        }).then(function () {
-          if (!config.pollution) {
-            saveGlobal();
-          }
-        });
-      });
-    },
-    run: function run() {
-      config.current = this;
-      if (config.notrycatch) {
-        runTest(this);
-        return;
-      }
-      try {
-        runTest(this);
-      } catch (e) {
-        this.pushFailure('Died on test #' + (this.assertions.length + 1) + ': ' + (e.message || e) + '\n' + this.stack, extractStacktrace(e, 0));
+  	// generating a stack trace can be expensive, so using a getter defers this until we need it
+  	get stack() {
+  		return extractStacktrace(this.errorForStack, 2);
+  	},
 
-        // Else next test will carry the responsibility
-        saveGlobal();
+  	before: function before() {
+  		var _this = this;
 
-        // Restart the tests if they're blocking
-        if (config.blocking) {
-          internalRecover(this);
-        }
-      }
-      function runTest(test) {
-        var promise;
-        if (test.withData) {
-          promise = test.callback.call(test.testEnvironment, test.assert, test.data);
-        } else {
-          promise = test.callback.call(test.testEnvironment, test.assert);
-        }
-        test.resolvePromise(promise);
+  		var module = this.module,
+  		    notStartedModules = getNotStartedModules(module);
 
-        // If the test has an async "pause" on it, but the timeout is 0, then we push a
-        // failure as the test should be synchronous.
-        if (test.timeout === 0 && test.pauses.size > 0) {
-          pushFailure('Test did not finish synchronously even though assert.timeout( 0 ) was used.', sourceFromStacktrace(2));
-        }
-      }
-    },
-    after: function after() {
-      checkPollution();
-    },
-    queueGlobalHook: function queueGlobalHook(hook, hookName) {
-      var _this2 = this;
-      var runHook = function runHook() {
-        config.current = _this2;
-        var promise;
-        if (config.notrycatch) {
-          promise = hook.call(_this2.testEnvironment, _this2.assert);
-        } else {
-          try {
-            promise = hook.call(_this2.testEnvironment, _this2.assert);
-          } catch (error) {
-            _this2.pushFailure('Global ' + hookName + ' failed on ' + _this2.testName + ': ' + errorString(error), extractStacktrace(error, 0));
-            return;
-          }
-        }
-        _this2.resolvePromise(promise, hookName);
-      };
-      return runHook;
-    },
-    queueHook: function queueHook(hook, hookName, hookOwner) {
-      var _this3 = this;
-      var callHook = function callHook() {
-        var promise = hook.call(_this3.testEnvironment, _this3.assert);
-        _this3.resolvePromise(promise, hookName);
-      };
-      var runHook = function runHook() {
-        if (hookName === 'before') {
-          if (hookOwner.testsRun !== 0) {
-            return;
-          }
-          _this3.preserveEnvironment = true;
-        }
+  		// ensure the callbacks are executed serially for each module
+  		var callbackPromises = notStartedModules.reduce(function (promiseChain, startModule) {
+  			return promiseChain.then(function () {
+  				startModule.stats = { all: 0, bad: 0, started: now() };
+  				emit("suiteStart", startModule.suiteReport.start(true));
+  				return runLoggingCallbacks("moduleStart", {
+  					name: startModule.name,
+  					tests: startModule.tests
+  				});
+  			});
+  		}, Promise$1.resolve([]));
 
-        // The 'after' hook should only execute when there are not tests left and
-        // when the 'after' and 'finish' tasks are the only tasks left to process
-        if (hookName === 'after' && !lastTestWithinModuleExecuted(hookOwner) && (config.queue.length > 0 || ProcessingQueue.taskCount() > 2)) {
-          return;
-        }
-        config.current = _this3;
-        if (config.notrycatch) {
-          callHook();
-          return;
-        }
-        try {
-          // This try-block includes the indirect call to resolvePromise, which shouldn't
-          // have to be inside try-catch. But, since we support any user-provided thenable
-          // object, the thenable might throw in some unexpected way.
-          // This subtle behaviour is undocumented. To avoid new failures in minor releases
-          // we will not change this until QUnit 3.
-          // TODO: In QUnit 3, reduce this try-block to just hook.call(), matching
-          // the simplicity of queueGlobalHook.
-          callHook();
-        } catch (error) {
-          _this3.pushFailure(hookName + ' failed on ' + _this3.testName + ': ' + (error.message || error), extractStacktrace(error, 0));
-        }
-      };
-      return runHook;
-    },
-    // Currently only used for module level hooks, can be used to add global level ones
-    hooks: function hooks(handler) {
-      var hooks = [];
-      function processGlobalhooks(test) {
-        if ((handler === 'beforeEach' || handler === 'afterEach') && config.globalHooks[handler]) {
-          for (var i = 0; i < config.globalHooks[handler].length; i++) {
-            hooks.push(test.queueGlobalHook(config.globalHooks[handler][i], handler));
-          }
-        }
-      }
-      function processHooks(test, module) {
-        if (module.parentModule) {
-          processHooks(test, module.parentModule);
-        }
-        if (module.hooks[handler].length) {
-          for (var i = 0; i < module.hooks[handler].length; i++) {
-            hooks.push(test.queueHook(module.hooks[handler][i], handler, module));
-          }
-        }
-      }
+  		return callbackPromises.then(function () {
+  			config.current = _this;
 
-      // Hooks are ignored on skipped tests
-      if (!this.skip) {
-        processGlobalhooks(this);
-        processHooks(this, this.module);
-      }
-      return hooks;
-    },
-    finish: function finish() {
-      config.current = this;
+  			_this.testEnvironment = extend({}, module.testEnvironment);
 
-      // Release the test callback to ensure that anything referenced has been
-      // released to be garbage collected.
-      this.callback = undefined;
-      if (this.steps.length) {
-        var stepsList = this.steps.join(', ');
-        this.pushFailure('Expected assert.verifySteps() to be called before end of test ' + "after using assert.step(). Unverified steps: ".concat(stepsList), this.stack);
-      }
-      if (config.requireExpects && this.expected === null) {
-        this.pushFailure('Expected number of assertions to be defined, but expect() was ' + 'not called.', this.stack);
-      } else if (this.expected !== null && this.expected !== this.assertions.length) {
-        this.pushFailure('Expected ' + this.expected + ' assertions, but ' + this.assertions.length + ' were run', this.stack);
-      } else if (this.expected === null && !this.assertions.length) {
-        this.pushFailure('Expected at least one assertion, but none were run - call ' + 'expect(0) to accept zero assertions.', this.stack);
-      }
-      var module = this.module;
-      var moduleName = module.name;
-      var testName = this.testName;
-      var skipped = !!this.skip;
-      var todo = !!this.todo;
-      var bad = 0;
-      var storage = config.storage;
-      this.runtime = Math.round(performance.now() - this.started);
-      config.stats.all += this.assertions.length;
-      config.stats.testCount += 1;
-      module.stats.all += this.assertions.length;
-      for (var i = 0; i < this.assertions.length; i++) {
-        // A failing assertion will counts toward the HTML Reporter's
-        // "X assertions, Y failed" line even if it was inside a todo.
-        // Inverting this would be similarly confusing since all but the last
-        // passing assertion inside a todo test should be considered as good.
-        // These stats don't decide the outcome of anything, so counting them
-        // as failing seems the most intuitive.
-        if (!this.assertions[i].result) {
-          bad++;
-          config.stats.bad++;
-          module.stats.bad++;
-        }
-      }
-      if (skipped) {
-        incrementTestsIgnored(module);
-      } else {
-        incrementTestsRun(module);
-      }
+  			_this.started = now();
+  			emit("testStart", _this.testReport.start(true));
+  			return runLoggingCallbacks("testStart", {
+  				name: _this.testName,
+  				module: module.name,
+  				testId: _this.testId,
+  				previousFailure: _this.previousFailure
+  			}).then(function () {
+  				if (!config.pollution) {
+  					saveGlobal();
+  				}
+  			});
+  		});
+  	},
 
-      // Store result when possible.
-      // Note that this also marks todo tests as bad, thus they get hoisted,
-      // and always run first on refresh.
-      if (storage) {
-        if (bad) {
-          storage.setItem('qunit-test-' + moduleName + '-' + testName, bad);
-        } else {
-          storage.removeItem('qunit-test-' + moduleName + '-' + testName);
-        }
-      }
+  	run: function run() {
+  		var promise;
 
-      // After emitting the js-reporters event we cleanup the assertion data to
-      // avoid leaking it. It is not used by the legacy testDone callbacks.
-      emit('testEnd', this.testReport.end(true));
-      this.testReport.slimAssertions();
-      var test = this;
-      return runLoggingCallbacks('testDone', {
-        name: testName,
-        module: moduleName,
-        skipped: skipped,
-        todo: todo,
-        failed: bad,
-        passed: this.assertions.length - bad,
-        total: this.assertions.length,
-        runtime: skipped ? 0 : this.runtime,
-        // HTML Reporter use
-        assertions: this.assertions,
-        testId: this.testId,
-        // Source of Test
-        // generating stack trace is expensive, so using a getter will help defer this until we need it
-        get source() {
-          return test.stack;
-        }
-      }).then(function () {
-        if (allTestsExecuted(module)) {
-          var completedModules = [module];
+  		config.current = this;
 
-          // Check if the parent modules, iteratively, are done. If that the case,
-          // we emit the `suiteEnd` event and trigger `moduleDone` callback.
-          var parent = module.parentModule;
-          while (parent && allTestsExecuted(parent)) {
-            completedModules.push(parent);
-            parent = parent.parentModule;
-          }
-          var moduleDoneChain = _Promise.resolve();
-          completedModules.forEach(function (completedModule) {
-            moduleDoneChain = moduleDoneChain.then(function () {
-              return logSuiteEnd(completedModule);
-            });
-          });
-          return moduleDoneChain;
-        }
-      }).then(function () {
-        config.current = undefined;
-      });
-      function logSuiteEnd(module) {
-        // Reset `module.hooks` to ensure that anything referenced in these hooks
-        // has been released to be garbage collected. Descendant modules that were
-        // entirely skipped, e.g. due to filtering, will never have this method
-        // called for them, but might have hooks with references pinning data in
-        // memory (even if the hooks weren't actually executed), so we reset the
-        // hooks on all descendant modules here as well. This is safe because we
-        // will never call this as long as any descendant modules still have tests
-        // to run. This also means that in multi-tiered nesting scenarios we might
-        // reset the hooks multiple times on some modules, but that's harmless.
-        var modules = [module];
-        while (modules.length) {
-          var nextModule = modules.shift();
-          nextModule.hooks = {};
-          modules.push.apply(modules, _toConsumableArray(nextModule.childModules));
-        }
-        emit('suiteEnd', module.suiteReport.end(true));
-        return runLoggingCallbacks('moduleDone', {
-          name: module.name,
-          tests: module.tests,
-          failed: module.stats.bad,
-          passed: module.stats.all - module.stats.bad,
-          total: module.stats.all,
-          runtime: Math.round(performance.now() - module.stats.started)
-        });
-      }
-    },
-    preserveTestEnvironment: function preserveTestEnvironment() {
-      if (this.preserveEnvironment) {
-        this.module.testEnvironment = this.testEnvironment;
-        this.testEnvironment = extend({}, this.module.testEnvironment);
-      }
-    },
-    queue: function queue() {
-      var test = this;
-      if (!this.valid()) {
-        incrementTestsIgnored(this.module);
-        return;
-      }
-      function runTest() {
-        return [function () {
-          return test.before();
-        }].concat(_toConsumableArray(test.hooks('before')), [function () {
-          test.preserveTestEnvironment();
-        }], _toConsumableArray(test.hooks('beforeEach')), [function () {
-          test.run();
-        }], _toConsumableArray(test.hooks('afterEach').reverse()), _toConsumableArray(test.hooks('after').reverse()), [function () {
-          test.after();
-        }, function () {
-          return test.finish();
-        }]);
-      }
-      var previousFailCount = config.storage && +config.storage.getItem('qunit-test-' + this.module.name + '-' + this.testName);
+  		this.callbackStarted = now();
 
-      // Prioritize previously failed tests, detected from storage
-      var prioritize = config.reorder && !!previousFailCount;
-      this.previousFailure = !!previousFailCount;
-      ProcessingQueue.add(runTest, prioritize, config.seed);
-    },
-    pushResult: function pushResult(resultInfo) {
-      if (this !== config.current) {
-        var message = resultInfo && resultInfo.message || '';
-        var testName = this && this.testName || '';
-        var error = 'Assertion occurred after test finished.\n' + '> Test: ' + testName + '\n' + '> Message: ' + message + '\n';
-        throw new Error(error);
-      }
+  		if (config.notrycatch) {
+  			runTest(this);
+  			return;
+  		}
 
-      // Destructure of resultInfo = { result, actual, expected, message, negative }
-      var details = {
-        module: this.module.name,
-        name: this.testName,
-        result: resultInfo.result,
-        message: resultInfo.message,
-        actual: resultInfo.actual,
-        testId: this.testId,
-        negative: resultInfo.negative || false,
-        runtime: Math.round(performance.now() - this.started),
-        todo: !!this.todo
-      };
-      if (hasOwn$1.call(resultInfo, 'expected')) {
-        details.expected = resultInfo.expected;
-      }
-      if (!resultInfo.result) {
-        var source = resultInfo.source || sourceFromStacktrace();
-        if (source) {
-          details.source = source;
-        }
-      }
-      this.logAssertion(details);
-      this.assertions.push({
-        result: !!resultInfo.result,
-        message: resultInfo.message
-      });
-    },
-    pushFailure: function pushFailure(message, source, actual) {
-      if (!(this instanceof Test)) {
-        throw new Error('pushFailure() assertion outside test context, was ' + sourceFromStacktrace(2));
-      }
-      this.pushResult({
-        result: false,
-        message: message || 'error',
-        actual: actual || null,
-        source: source
-      });
-    },
-    /**
-     * Log assertion details using both the old QUnit.log interface and
-     * QUnit.on( "assertion" ) interface.
-     *
-     * @private
-     */
-    logAssertion: function logAssertion(details) {
-      runLoggingCallbacks('log', details);
-      var assertion = {
-        passed: details.result,
-        actual: details.actual,
-        expected: details.expected,
-        message: details.message,
-        stack: details.source,
-        todo: details.todo
-      };
-      this.testReport.pushAssertion(assertion);
-      emit('assertion', assertion);
-    },
-    /**
-     * Reset config.timeout with a new timeout duration.
-     *
-     * @param {number} timeoutDuration
-     */
-    internalResetTimeout: function internalResetTimeout(timeoutDuration) {
-      clearTimeout(config.timeout);
-      config.timeout = setTimeout$1(config.timeoutHandler(timeoutDuration), timeoutDuration);
-    },
-    /**
-     * Create a new async pause and return a new function that can release the pause.
-     *
-     * This mechanism is internally used by:
-     *
-     * - explicit async pauses, created by calling `assert.async()`,
-     * - implicit async pauses, created when `QUnit.test()` or module hook callbacks
-     *   use async-await or otherwise return a Promise.
-     *
-     * Happy scenario:
-     *
-     * - Pause is created by calling internalStop().
-     *
-     *   Pause is released normally by invoking release() during the same test.
-     *
-     *   The release() callback lets internal processing resume.
-     *
-     * Failure scenarios:
-     *
-     * - The test fails due to an uncaught exception.
-     *
-     *   In this case, Test.run() will call internalRecover() which empties the clears all
-     *   async pauses and sets the cancelled flag, which means we silently ignore any
-     *   late calls to the resume() callback, as we will have moved on to a different
-     *   test by then, and we don't want to cause an extra "release during a different test"
-     *   errors that the developer isn't really responsible for. This can happen when a test
-     *   correctly schedules a call to release(), but also causes an uncaught error. The
-     *   uncaught error means we will no longer wait for the release (as it might not arrive).
-     *
-     * - Pause is never released, or called an insufficient number of times.
-     *
-     *   Our timeout handler will kill the pause and resume test processing, basically
-     *   like internalRecover(), but for one pause instead of any/all.
-     *
-     *   Here, too, any late calls to resume() will be silently ignored to avoid
-     *   extra errors. We tolerate this since the original test will have already been
-     *   marked as failure.
-     *
-     *   TODO: QUnit 3 will enable timeouts by default <https://github.com/qunitjs/qunit/issues/1483>,
-     *   but right now a test will hang indefinitely if async pauses are not released,
-     *   unless QUnit.config.testTimeout or assert.timeout() is used.
-     *
-     * - Pause is spontaneously released during a different test,
-     *   or when no test is currently running.
-     *
-     *   This is close to impossible because this error only happens if the original test
-     *   succesfully finished first (since other failure scenarios kill pauses and ignore
-     *   late calls). It can happen if a test ended exactly as expected, but has some
-     *   external or shared state continuing to hold a reference to the release callback,
-     *   and either the same test scheduled another call to it in the future, or a later test
-     *   causes it to be called through some shared state.
-     *
-     * - Pause release() is called too often, during the same test.
-     *
-     *   This simply throws an error, after which uncaught error handling picks it up
-     *   and processing resumes.
-     *
-     * @param {number} [requiredCalls=1]
-     */
-    internalStop: function internalStop() {
-      var requiredCalls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      config.blocking = true;
-      var test = this;
-      var pauseId = this.nextPauseId++;
-      var pause = {
-        cancelled: false,
-        remaining: requiredCalls
-      };
-      test.pauses.set(pauseId, pause);
-      function release() {
-        if (pause.cancelled) {
-          return;
-        }
-        if (config.current === undefined) {
-          throw new Error('Unexpected release of async pause after tests finished.\n' + "> Test: ".concat(test.testName, " [async #").concat(pauseId, "]"));
-        }
-        if (config.current !== test) {
-          throw new Error('Unexpected release of async pause during a different test.\n' + "> Test: ".concat(test.testName, " [async #").concat(pauseId, "]"));
-        }
-        if (pause.remaining <= 0) {
-          throw new Error('Tried to release async pause that was already released.\n' + "> Test: ".concat(test.testName, " [async #").concat(pauseId, "]"));
-        }
+  		try {
+  			runTest(this);
+  		} catch (e) {
+  			this.pushFailure("Died on test #" + (this.assertions.length + 1) + " " + this.stack + ": " + (e.message || e), extractStacktrace(e, 0));
 
-        // The `requiredCalls` parameter exists to support `assert.async(count)`
-        pause.remaining--;
-        if (pause.remaining === 0) {
-          test.pauses.delete(pauseId);
-        }
-        internalStart(test);
-      }
+  			// Else next test will carry the responsibility
+  			saveGlobal();
 
-      // Set a recovery timeout, if so configured.
-      if (setTimeout$1) {
-        var timeoutDuration;
-        if (typeof test.timeout === 'number') {
-          timeoutDuration = test.timeout;
-        } else if (typeof config.testTimeout === 'number') {
-          timeoutDuration = config.testTimeout;
-        }
-        if (typeof timeoutDuration === 'number' && timeoutDuration > 0) {
-          config.timeoutHandler = function (timeout) {
-            return function () {
-              config.timeout = null;
-              pause.cancelled = true;
-              test.pauses.delete(pauseId);
-              test.pushFailure("Test took longer than ".concat(timeout, "ms; test timed out."), sourceFromStacktrace(2));
-              internalStart(test);
-            };
-          };
-          clearTimeout(config.timeout);
-          config.timeout = setTimeout$1(config.timeoutHandler(timeoutDuration), timeoutDuration);
-        }
-      }
-      return release;
-    },
-    resolvePromise: function resolvePromise(promise, phase) {
-      if (promise != null) {
-        var _test = this;
-        var then = promise.then;
-        if (typeof then === 'function') {
-          var resume = _test.internalStop();
-          var resolve = function resolve() {
-            resume();
-          };
-          if (config.notrycatch) {
-            then.call(promise, resolve);
-          } else {
-            var reject = function reject(error) {
-              var message = 'Promise rejected ' + (!phase ? 'during' : phase.replace(/Each$/, '')) + ' "' + _test.testName + '": ' + (error && error.message || error);
-              _test.pushFailure(message, extractStacktrace(error, 0));
+  			// Restart the tests if they're blocking
+  			if (config.blocking) {
+  				internalRecover(this);
+  			}
+  		}
 
-              // Else next test will carry the responsibility
-              saveGlobal();
+  		function runTest(test) {
+  			promise = test.callback.call(test.testEnvironment, test.assert);
+  			test.resolvePromise(promise);
 
-              // Unblock
-              internalRecover(_test);
-            };
-            then.call(promise, resolve, reject);
-          }
-        }
-      }
-    },
-    valid: function valid() {
-      // Internally-generated tests are always valid
-      if (this.callback && this.callback.validTest) {
-        return true;
-      }
-      function moduleChainIdMatch(testModule, selectedId) {
-        return (
-          // undefined or empty array
-          !selectedId || !selectedId.length || inArray(testModule.moduleId, selectedId) || testModule.parentModule && moduleChainIdMatch(testModule.parentModule, selectedId)
-        );
-      }
-      if (!moduleChainIdMatch(this.module, config.moduleId)) {
-        return false;
-      }
-      if (config.testId && config.testId.length && !inArray(this.testId, config.testId)) {
-        return false;
-      }
-      function moduleChainNameMatch(testModule, selectedModule) {
-        if (!selectedModule) {
-          // undefined or empty string
-          return true;
-        }
-        var testModuleName = testModule.name ? testModule.name.toLowerCase() : null;
-        if (testModuleName === selectedModule) {
-          return true;
-        } else if (testModule.parentModule) {
-          return moduleChainNameMatch(testModule.parentModule, selectedModule);
-        } else {
-          return false;
-        }
-      }
-      var selectedModule = config.module && config.module.toLowerCase();
-      if (!moduleChainNameMatch(this.module, selectedModule)) {
-        return false;
-      }
-      var filter = config.filter;
-      if (!filter) {
-        return true;
-      }
-      var regexFilter = /^(!?)\/([\w\W]*)\/(i?$)/.exec(filter);
-      var fullName = this.module.name + ': ' + this.testName;
-      return regexFilter ? this.regexFilter(!!regexFilter[1], regexFilter[2], regexFilter[3], fullName) : this.stringFilter(filter, fullName);
-    },
-    regexFilter: function regexFilter(exclude, pattern, flags, fullName) {
-      var regex = new RegExp(pattern, flags);
-      var match = regex.test(fullName);
-      return match !== exclude;
-    },
-    stringFilter: function stringFilter(filter, fullName) {
-      filter = filter.toLowerCase();
-      fullName = fullName.toLowerCase();
-      var include = filter.charAt(0) !== '!';
-      if (!include) {
-        filter = filter.slice(1);
-      }
+  			// If the test has a "lock" on it, but the timeout is 0, then we push a
+  			// failure as the test should be synchronous.
+  			if (test.timeout === 0 && test.semaphore !== 0) {
+  				pushFailure("Test did not finish synchronously even though assert.timeout( 0 ) was used.", sourceFromStacktrace(2));
+  			}
+  		}
+  	},
 
-      // If the filter matches, we need to honour include
-      if (fullName.indexOf(filter) !== -1) {
-        return include;
-      }
+  	after: function after() {
+  		checkPollution();
+  	},
 
-      // Otherwise, do the opposite
-      return !include;
-    }
+  	queueHook: function queueHook(hook, hookName, hookOwner) {
+  		var _this2 = this;
+
+  		var callHook = function callHook() {
+  			var promise = hook.call(_this2.testEnvironment, _this2.assert);
+  			_this2.resolvePromise(promise, hookName);
+  		};
+
+  		var runHook = function runHook() {
+  			if (hookName === "before") {
+  				if (hookOwner.unskippedTestsRun !== 0) {
+  					return;
+  				}
+
+  				_this2.preserveEnvironment = true;
+  			}
+
+  			// The 'after' hook should only execute when there are not tests left and
+  			// when the 'after' and 'finish' tasks are the only tasks left to process
+  			if (hookName === "after" && hookOwner.unskippedTestsRun !== numberOfUnskippedTests(hookOwner) - 1 && (config.queue.length > 0 || ProcessingQueue.taskCount() > 2)) {
+  				return;
+  			}
+
+  			config.current = _this2;
+  			if (config.notrycatch) {
+  				callHook();
+  				return;
+  			}
+  			try {
+  				callHook();
+  			} catch (error) {
+  				_this2.pushFailure(hookName + " failed on " + _this2.testName + ": " + (error.message || error), extractStacktrace(error, 0));
+  			}
+  		};
+
+  		return runHook;
+  	},
+
+
+  	// Currently only used for module level hooks, can be used to add global level ones
+  	hooks: function hooks(handler) {
+  		var hooks = [];
+
+  		function processHooks(test, module) {
+  			if (module.parentModule) {
+  				processHooks(test, module.parentModule);
+  			}
+
+  			if (module.hooks[handler].length) {
+  				for (var i = 0; i < module.hooks[handler].length; i++) {
+  					hooks.push(test.queueHook(module.hooks[handler][i], handler, module));
+  				}
+  			}
+  		}
+
+  		// Hooks are ignored on skipped tests
+  		if (!this.skip) {
+  			processHooks(this, this.module);
+  		}
+
+  		return hooks;
+  	},
+
+
+  	finish: function finish() {
+  		config.current = this;
+
+  		// Release the test callback to ensure that anything referenced has been
+  		// released to be garbage collected.
+  		this.callback = undefined;
+
+  		if (this.steps.length) {
+  			var stepsList = this.steps.join(", ");
+  			this.pushFailure("Expected assert.verifySteps() to be called before end of test " + ("after using assert.step(). Unverified steps: " + stepsList), this.stack);
+  		}
+
+  		if (config.requireExpects && this.expected === null) {
+  			this.pushFailure("Expected number of assertions to be defined, but expect() was " + "not called.", this.stack);
+  		} else if (this.expected !== null && this.expected !== this.assertions.length) {
+  			this.pushFailure("Expected " + this.expected + " assertions, but " + this.assertions.length + " were run", this.stack);
+  		} else if (this.expected === null && !this.assertions.length) {
+  			this.pushFailure("Expected at least one assertion, but none were run - call " + "expect(0) to accept zero assertions.", this.stack);
+  		}
+
+  		var i,
+  		    module = this.module,
+  		    moduleName = module.name,
+  		    testName = this.testName,
+  		    skipped = !!this.skip,
+  		    todo = !!this.todo,
+  		    bad = 0,
+  		    storage = config.storage;
+
+  		this.runtime = now() - this.started;
+
+  		config.stats.all += this.assertions.length;
+  		module.stats.all += this.assertions.length;
+
+  		for (i = 0; i < this.assertions.length; i++) {
+  			if (!this.assertions[i].result) {
+  				bad++;
+  				config.stats.bad++;
+  				module.stats.bad++;
+  			}
+  		}
+
+  		notifyTestsRan(module, skipped);
+
+  		// Store result when possible
+  		if (storage) {
+  			if (bad) {
+  				storage.setItem("qunit-test-" + moduleName + "-" + testName, bad);
+  			} else {
+  				storage.removeItem("qunit-test-" + moduleName + "-" + testName);
+  			}
+  		}
+
+  		// After emitting the js-reporters event we cleanup the assertion data to
+  		// avoid leaking it. It is not used by the legacy testDone callbacks.
+  		emit("testEnd", this.testReport.end(true));
+  		this.testReport.slimAssertions();
+  		var test = this;
+
+  		return runLoggingCallbacks("testDone", {
+  			name: testName,
+  			module: moduleName,
+  			skipped: skipped,
+  			todo: todo,
+  			failed: bad,
+  			passed: this.assertions.length - bad,
+  			total: this.assertions.length,
+  			runtime: skipped ? 0 : this.runtime,
+
+  			// HTML Reporter use
+  			assertions: this.assertions,
+  			testId: this.testId,
+
+  			// Source of Test
+  			// generating stack trace is expensive, so using a getter will help defer this until we need it
+  			get source() {
+  				return test.stack;
+  			}
+  		}).then(function () {
+  			if (module.testsRun === numberOfTests(module)) {
+  				var completedModules = [module];
+
+  				// Check if the parent modules, iteratively, are done. If that the case,
+  				// we emit the `suiteEnd` event and trigger `moduleDone` callback.
+  				var parent = module.parentModule;
+  				while (parent && parent.testsRun === numberOfTests(parent)) {
+  					completedModules.push(parent);
+  					parent = parent.parentModule;
+  				}
+
+  				return completedModules.reduce(function (promiseChain, completedModule) {
+  					return promiseChain.then(function () {
+  						return logSuiteEnd(completedModule);
+  					});
+  				}, Promise$1.resolve([]));
+  			}
+  		}).then(function () {
+  			config.current = undefined;
+  		});
+
+  		function logSuiteEnd(module) {
+
+  			// Reset `module.hooks` to ensure that anything referenced in these hooks
+  			// has been released to be garbage collected.
+  			module.hooks = {};
+
+  			emit("suiteEnd", module.suiteReport.end(true));
+  			return runLoggingCallbacks("moduleDone", {
+  				name: module.name,
+  				tests: module.tests,
+  				failed: module.stats.bad,
+  				passed: module.stats.all - module.stats.bad,
+  				total: module.stats.all,
+  				runtime: now() - module.stats.started
+  			});
+  		}
+  	},
+
+  	preserveTestEnvironment: function preserveTestEnvironment() {
+  		if (this.preserveEnvironment) {
+  			this.module.testEnvironment = this.testEnvironment;
+  			this.testEnvironment = extend({}, this.module.testEnvironment);
+  		}
+  	},
+
+  	queue: function queue() {
+  		var test = this;
+
+  		if (!this.valid()) {
+  			return;
+  		}
+
+  		function runTest() {
+  			return [function () {
+  				return test.before();
+  			}].concat(toConsumableArray(test.hooks("before")), [function () {
+  				test.preserveTestEnvironment();
+  			}], toConsumableArray(test.hooks("beforeEach")), [function () {
+  				test.run();
+  			}], toConsumableArray(test.hooks("afterEach").reverse()), toConsumableArray(test.hooks("after").reverse()), [function () {
+  				test.after();
+  			}, function () {
+  				return test.finish();
+  			}]);
+  		}
+
+  		var previousFailCount = config.storage && +config.storage.getItem("qunit-test-" + this.module.name + "-" + this.testName);
+
+  		// Prioritize previously failed tests, detected from storage
+  		var prioritize = config.reorder && !!previousFailCount;
+
+  		this.previousFailure = !!previousFailCount;
+
+  		ProcessingQueue.add(runTest, prioritize, config.seed);
+
+  		// If the queue has already finished, we manually process the new test
+  		if (ProcessingQueue.finished) {
+  			ProcessingQueue.advance();
+  		}
+  	},
+
+
+  	pushResult: function pushResult(resultInfo) {
+  		if (this !== config.current) {
+  			throw new Error("Assertion occurred after test had finished.");
+  		}
+
+  		// Destructure of resultInfo = { result, actual, expected, message, negative }
+  		var source,
+  		    details = {
+  			module: this.module.name,
+  			name: this.testName,
+  			result: resultInfo.result,
+  			message: resultInfo.message,
+  			actual: resultInfo.actual,
+  			testId: this.testId,
+  			negative: resultInfo.negative || false,
+  			runtime: now() - this.started,
+  			todo: !!this.todo
+  		};
+
+  		if (hasOwn.call(resultInfo, "expected")) {
+  			details.expected = resultInfo.expected;
+  		}
+
+  		if (!resultInfo.result) {
+  			source = resultInfo.source || sourceFromStacktrace();
+
+  			if (source) {
+  				details.source = source;
+  			}
+  		}
+
+  		this.logAssertion(details);
+
+  		this.assertions.push({
+  			result: !!resultInfo.result,
+  			message: resultInfo.message
+  		});
+  	},
+
+  	pushFailure: function pushFailure(message, source, actual) {
+  		if (!(this instanceof Test)) {
+  			throw new Error("pushFailure() assertion outside test context, was " + sourceFromStacktrace(2));
+  		}
+
+  		this.pushResult({
+  			result: false,
+  			message: message || "error",
+  			actual: actual || null,
+  			source: source
+  		});
+  	},
+
+  	/**
+    * Log assertion details using both the old QUnit.log interface and
+    * QUnit.on( "assertion" ) interface.
+    *
+    * @private
+    */
+  	logAssertion: function logAssertion(details) {
+  		runLoggingCallbacks("log", details);
+
+  		var assertion = {
+  			passed: details.result,
+  			actual: details.actual,
+  			expected: details.expected,
+  			message: details.message,
+  			stack: details.source,
+  			todo: details.todo
+  		};
+  		this.testReport.pushAssertion(assertion);
+  		emit("assertion", assertion);
+  	},
+
+
+  	resolvePromise: function resolvePromise(promise, phase) {
+  		var then,
+  		    resume,
+  		    message,
+  		    test = this;
+  		if (promise != null) {
+  			then = promise.then;
+  			if (objectType(then) === "function") {
+  				resume = internalStop(test);
+  				if (config.notrycatch) {
+  					then.call(promise, function () {
+  						resume();
+  					});
+  				} else {
+  					then.call(promise, function () {
+  						resume();
+  					}, function (error) {
+  						message = "Promise rejected " + (!phase ? "during" : phase.replace(/Each$/, "")) + " \"" + test.testName + "\": " + (error && error.message || error);
+  						test.pushFailure(message, extractStacktrace(error, 0));
+
+  						// Else next test will carry the responsibility
+  						saveGlobal();
+
+  						// Unblock
+  						internalRecover(test);
+  					});
+  				}
+  			}
+  		}
+  	},
+
+  	valid: function valid() {
+  		var filter = config.filter,
+  		    regexFilter = /^(!?)\/([\w\W]*)\/(i?$)/.exec(filter),
+  		    module = config.module && config.module.toLowerCase(),
+  		    fullName = this.module.name + ": " + this.testName;
+
+  		function moduleChainNameMatch(testModule) {
+  			var testModuleName = testModule.name ? testModule.name.toLowerCase() : null;
+  			if (testModuleName === module) {
+  				return true;
+  			} else if (testModule.parentModule) {
+  				return moduleChainNameMatch(testModule.parentModule);
+  			} else {
+  				return false;
+  			}
+  		}
+
+  		function moduleChainIdMatch(testModule) {
+  			return inArray(testModule.moduleId, config.moduleId) || testModule.parentModule && moduleChainIdMatch(testModule.parentModule);
+  		}
+
+  		// Internally-generated tests are always valid
+  		if (this.callback && this.callback.validTest) {
+  			return true;
+  		}
+
+  		if (config.moduleId && config.moduleId.length > 0 && !moduleChainIdMatch(this.module)) {
+
+  			return false;
+  		}
+
+  		if (config.testId && config.testId.length > 0 && !inArray(this.testId, config.testId)) {
+
+  			return false;
+  		}
+
+  		if (module && !moduleChainNameMatch(this.module)) {
+  			return false;
+  		}
+
+  		if (!filter) {
+  			return true;
+  		}
+
+  		return regexFilter ? this.regexFilter(!!regexFilter[1], regexFilter[2], regexFilter[3], fullName) : this.stringFilter(filter, fullName);
+  	},
+
+  	regexFilter: function regexFilter(exclude, pattern, flags, fullName) {
+  		var regex = new RegExp(pattern, flags);
+  		var match = regex.test(fullName);
+
+  		return match !== exclude;
+  	},
+
+  	stringFilter: function stringFilter(filter, fullName) {
+  		filter = filter.toLowerCase();
+  		fullName = fullName.toLowerCase();
+
+  		var include = filter.charAt(0) !== "!";
+  		if (!include) {
+  			filter = filter.slice(1);
+  		}
+
+  		// If the filter matches, we need to honour include
+  		if (fullName.indexOf(filter) !== -1) {
+  			return include;
+  		}
+
+  		// Otherwise, do the opposite
+  		return !include;
+  	}
   };
+
   function pushFailure() {
-    if (!config.current) {
-      throw new Error('pushFailure() assertion outside test context, in ' + sourceFromStacktrace(2));
-    }
+  	if (!config.current) {
+  		throw new Error("pushFailure() assertion outside test context, in " + sourceFromStacktrace(2));
+  	}
 
-    // Gets current test obj
-    var currentTest = config.current;
-    return currentTest.pushFailure.apply(currentTest, arguments);
+  	// Gets current test obj
+  	var currentTest = config.current;
+
+  	return currentTest.pushFailure.apply(currentTest, arguments);
   }
+
   function saveGlobal() {
-    config.pollution = [];
-    if (config.noglobals) {
-      for (var key in g) {
-        if (hasOwn$1.call(g, key)) {
-          // In Opera sometimes DOM element ids show up here, ignore them
-          if (/^qunit-test-output/.test(key)) {
-            continue;
-          }
-          config.pollution.push(key);
-        }
-      }
-    }
-  }
-  function checkPollution() {
-    var old = config.pollution;
-    saveGlobal();
-    var newGlobals = diff(config.pollution, old);
-    if (newGlobals.length > 0) {
-      pushFailure('Introduced global variable(s): ' + newGlobals.join(', '));
-    }
-    var deletedGlobals = diff(old, config.pollution);
-    if (deletedGlobals.length > 0) {
-      pushFailure('Deleted global variable(s): ' + deletedGlobals.join(', '));
-    }
-  }
-  var focused = false; // indicates that the "only" filter was used
+  	config.pollution = [];
 
-  function addTest(settings) {
-    if (focused || config.currentModule.ignored) {
-      return;
-    }
-    var newTest = new Test(settings);
-    newTest.queue();
+  	if (config.noglobals) {
+  		for (var key in global$1) {
+  			if (hasOwn.call(global$1, key)) {
+
+  				// In Opera sometimes DOM element ids show up here, ignore them
+  				if (/^qunit-test-output/.test(key)) {
+  					continue;
+  				}
+  				config.pollution.push(key);
+  			}
+  		}
+  	}
   }
-  function addOnlyTest(settings) {
-    if (config.currentModule.ignored) {
-      return;
-    }
-    if (!focused) {
-      config.queue.length = 0;
-      focused = true;
-    }
-    var newTest = new Test(settings);
-    newTest.queue();
+
+  function checkPollution() {
+  	var newGlobals,
+  	    deletedGlobals,
+  	    old = config.pollution;
+
+  	saveGlobal();
+
+  	newGlobals = diff(config.pollution, old);
+  	if (newGlobals.length > 0) {
+  		pushFailure("Introduced global variable(s): " + newGlobals.join(", "));
+  	}
+
+  	deletedGlobals = diff(old, config.pollution);
+  	if (deletedGlobals.length > 0) {
+  		pushFailure("Deleted global variable(s): " + deletedGlobals.join(", "));
+  	}
   }
 
   // Will be exposed as QUnit.test
   function test(testName, callback) {
-    addTest({
-      testName: testName,
-      callback: callback
-    });
+  	if (focused$1) {
+  		return;
+  	}
+
+  	var newTest = new Test({
+  		testName: testName,
+  		callback: callback
+  	});
+
+  	newTest.queue();
   }
-  function makeEachTestName(testName, argument) {
-    return "".concat(testName, " [").concat(argument, "]");
+
+  function todo(testName, callback) {
+  	if (focused$1) {
+  		return;
+  	}
+
+  	var newTest = new Test({
+  		testName: testName,
+  		callback: callback,
+  		todo: true
+  	});
+
+  	newTest.queue();
   }
-  function runEach(data, eachFn) {
-    if (Array.isArray(data)) {
-      for (var i = 0; i < data.length; i++) {
-        eachFn(data[i], i);
-      }
-    } else if (_typeof(data) === 'object' && data !== null) {
-      for (var key in data) {
-        eachFn(data[key], key);
-      }
-    } else {
-      throw new Error("test.each() expects an array or object as input, but\nfound ".concat(_typeof(data), " instead."));
-    }
+
+  // Will be exposed as QUnit.skip
+  function skip(testName) {
+  	if (focused$1) {
+  		return;
+  	}
+
+  	var test = new Test({
+  		testName: testName,
+  		skip: true
+  	});
+
+  	test.queue();
   }
-  extend(test, {
-    todo: function todo(testName, callback) {
-      addTest({
-        testName: testName,
-        callback: callback,
-        todo: true
-      });
-    },
-    skip: function skip(testName) {
-      addTest({
-        testName: testName,
-        skip: true
-      });
-    },
-    only: function only(testName, callback) {
-      addOnlyTest({
-        testName: testName,
-        callback: callback
-      });
-    },
-    each: function each(testName, dataset, callback) {
-      runEach(dataset, function (data, testKey) {
-        addTest({
-          testName: makeEachTestName(testName, testKey),
-          callback: callback,
-          withData: true,
-          stackOffset: 5,
-          data: data
-        });
-      });
-    }
-  });
-  test.todo.each = function (testName, dataset, callback) {
-    runEach(dataset, function (data, testKey) {
-      addTest({
-        testName: makeEachTestName(testName, testKey),
-        callback: callback,
-        todo: true,
-        withData: true,
-        stackOffset: 5,
-        data: data
-      });
-    });
-  };
-  test.skip.each = function (testName, dataset) {
-    runEach(dataset, function (_, testKey) {
-      addTest({
-        testName: makeEachTestName(testName, testKey),
-        stackOffset: 5,
-        skip: true
-      });
-    });
-  };
-  test.only.each = function (testName, dataset, callback) {
-    runEach(dataset, function (data, testKey) {
-      addOnlyTest({
-        testName: makeEachTestName(testName, testKey),
-        callback: callback,
-        withData: true,
-        stackOffset: 5,
-        data: data
-      });
-    });
-  };
+
+  // Will be exposed as QUnit.only
+  function only(testName, callback) {
+  	if (focused$1) {
+  		return;
+  	}
+
+  	config.queue.length = 0;
+  	focused$1 = true;
+
+  	var newTest = new Test({
+  		testName: testName,
+  		callback: callback
+  	});
+
+  	newTest.queue();
+  }
+
+  // Resets config.timeout with a new timeout duration.
+  function resetTestTimeout(timeoutDuration) {
+  	clearTimeout(config.timeout);
+  	config.timeout = setTimeout$1(config.timeoutHandler(timeoutDuration), timeoutDuration);
+  }
+
+  // Put a hold on processing and return a function that will release it.
+  function internalStop(test) {
+  	var released = false;
+  	test.semaphore += 1;
+  	config.blocking = true;
+
+  	// Set a recovery timeout, if so configured.
+  	if (defined.setTimeout) {
+  		var timeoutDuration = void 0;
+
+  		if (typeof test.timeout === "number") {
+  			timeoutDuration = test.timeout;
+  		} else if (typeof config.testTimeout === "number") {
+  			timeoutDuration = config.testTimeout;
+  		}
+
+  		if (typeof timeoutDuration === "number" && timeoutDuration > 0) {
+  			clearTimeout(config.timeout);
+  			config.timeoutHandler = function (timeout) {
+  				return function () {
+  					pushFailure("Test took longer than " + timeout + "ms; test timed out.", sourceFromStacktrace(2));
+  					released = true;
+  					internalRecover(test);
+  				};
+  			};
+  			config.timeout = setTimeout$1(config.timeoutHandler(timeoutDuration), timeoutDuration);
+  		}
+  	}
+
+  	return function resume() {
+  		if (released) {
+  			return;
+  		}
+
+  		released = true;
+  		test.semaphore -= 1;
+  		internalStart(test);
+  	};
+  }
 
   // Forcefully release all processing holds.
   function internalRecover(test) {
-    test.pauses.forEach(function (pause) {
-      pause.cancelled = true;
-    });
-    test.pauses.clear();
-    internalStart(test);
+  	test.semaphore = 0;
+  	internalStart(test);
   }
 
   // Release a processing hold, scheduling a resumption attempt if no holds remain.
   function internalStart(test) {
-    // Ignore if other async pauses still exist.
-    if (test.pauses.size > 0) {
-      return;
-    }
 
-    // Add a slight delay to allow more assertions etc.
-    if (setTimeout$1) {
-      clearTimeout(config.timeout);
-      config.timeout = setTimeout$1(function () {
-        if (test.pauses.size > 0) {
-          return;
-        }
-        clearTimeout(config.timeout);
-        config.timeout = null;
-        config.blocking = false;
-        ProcessingQueue.advance();
-      });
-    } else {
-      config.blocking = false;
-      ProcessingQueue.advance();
-    }
+  	// If semaphore is non-numeric, throw error
+  	if (isNaN(test.semaphore)) {
+  		test.semaphore = 0;
+
+  		pushFailure("Invalid value on test.semaphore", sourceFromStacktrace(2));
+  		return;
+  	}
+
+  	// Don't start until equal number of stop-calls
+  	if (test.semaphore > 0) {
+  		return;
+  	}
+
+  	// Throw an Error if start is called more often than stop
+  	if (test.semaphore < 0) {
+  		test.semaphore = 0;
+
+  		pushFailure("Tried to restart test while already started (test's semaphore was 0 already)", sourceFromStacktrace(2));
+  		return;
+  	}
+
+  	// Add a slight delay to allow more assertions etc.
+  	if (defined.setTimeout) {
+  		if (config.timeout) {
+  			clearTimeout(config.timeout);
+  		}
+  		config.timeout = setTimeout$1(function () {
+  			if (test.semaphore > 0) {
+  				return;
+  			}
+
+  			if (config.timeout) {
+  				clearTimeout(config.timeout);
+  			}
+
+  			begin();
+  		});
+  	} else {
+  		begin();
+  	}
   }
+
   function collectTests(module) {
-    var tests = [].concat(module.tests);
-    var modules = _toConsumableArray(module.childModules);
+  	var tests = [].concat(module.tests);
+  	var modules = [].concat(toConsumableArray(module.childModules));
 
-    // Do a breadth-first traversal of the child modules
-    while (modules.length) {
-      var nextModule = modules.shift();
-      tests.push.apply(tests, nextModule.tests);
-      modules.push.apply(modules, _toConsumableArray(nextModule.childModules));
-    }
-    return tests;
-  }
+  	// Do a breadth-first traversal of the child modules
+  	while (modules.length) {
+  		var nextModule = modules.shift();
+  		tests.push.apply(tests, nextModule.tests);
+  		modules.push.apply(modules, toConsumableArray(nextModule.childModules));
+  	}
 
-  // This returns true after all executable and skippable tests
-  // in a module have been proccessed, and informs 'suiteEnd'
-  // and moduleDone().
-  function allTestsExecuted(module) {
-    return module.testsRun + module.testsIgnored === collectTests(module).length;
+  	return tests;
   }
 
-  // This returns true during the last executable non-skipped test
-  // within a module, and informs the running of the 'after' hook
-  // for a given module. This runs only once for a given module,
-  // but must run during the last non-skipped test. When it runs,
-  // there may be non-zero skipped tests left.
-  function lastTestWithinModuleExecuted(module) {
-    return module.testsRun === collectTests(module).filter(function (test) {
-      return !test.skip;
-    }).length - 1;
+  function numberOfTests(module) {
+  	return collectTests(module).length;
   }
-  function incrementTestsRun(module) {
-    module.testsRun++;
-    while (module = module.parentModule) {
-      module.testsRun++;
-    }
+
+  function numberOfUnskippedTests(module) {
+  	return collectTests(module).filter(function (test) {
+  		return !test.skip;
+  	}).length;
   }
-  function incrementTestsIgnored(module) {
-    module.testsIgnored++;
-    while (module = module.parentModule) {
-      module.testsIgnored++;
-    }
+
+  function notifyTestsRan(module, skipped) {
+  	module.testsRun++;
+  	if (!skipped) {
+  		module.unskippedTestsRun++;
+  	}
+  	while (module = module.parentModule) {
+  		module.testsRun++;
+  		if (!skipped) {
+  			module.unskippedTestsRun++;
+  		}
+  	}
+  }
+
+  var Assert = function () {
+  	function Assert(testContext) {
+  		classCallCheck(this, Assert);
+
+  		this.test = testContext;
+  	}
+
+  	// Assert helpers
+
+  	createClass(Assert, [{
+  		key: "timeout",
+  		value: function timeout(duration) {
+  			if (typeof duration !== "number") {
+  				throw new Error("You must pass a number as the duration to assert.timeout");
+  			}
+
+  			this.test.timeout = duration;
+
+  			// If a timeout has been set, clear it and reset with the new duration
+  			if (config.timeout) {
+  				clearTimeout(config.timeout);
+
+  				if (config.timeoutHandler && this.test.timeout > 0) {
+  					resetTestTimeout(this.test.timeout);
+  				}
+  			}
+  		}
+
+  		// Documents a "step", which is a string value, in a test as a passing assertion
+
+  	}, {
+  		key: "step",
+  		value: function step(message) {
+  			var assertionMessage = message;
+  			var result = !!message;
+
+  			this.test.steps.push(message);
+
+  			if (objectType(message) === "undefined" || message === "") {
+  				assertionMessage = "You must provide a message to assert.step";
+  			} else if (objectType(message) !== "string") {
+  				assertionMessage = "You must provide a string value to assert.step";
+  				result = false;
+  			}
+
+  			this.pushResult({
+  				result: result,
+  				message: assertionMessage
+  			});
+  		}
+
+  		// Verifies the steps in a test match a given array of string values
+
+  	}, {
+  		key: "verifySteps",
+  		value: function verifySteps(steps, message) {
+
+  			// Since the steps array is just string values, we can clone with slice
+  			var actualStepsClone = this.test.steps.slice();
+  			this.deepEqual(actualStepsClone, steps, message);
+  			this.test.steps.length = 0;
+  		}
+
+  		// Specify the number of expected assertions to guarantee that failed test
+  		// (no assertions are run at all) don't slip through.
+
+  	}, {
+  		key: "expect",
+  		value: function expect(asserts) {
+  			if (arguments.length === 1) {
+  				this.test.expected = asserts;
+  			} else {
+  				return this.test.expected;
+  			}
+  		}
+
+  		// Put a hold on processing and return a function that will release it a maximum of once.
+
+  	}, {
+  		key: "async",
+  		value: function async(count) {
+  			var test$$1 = this.test;
+
+  			var popped = false,
+  			    acceptCallCount = count;
+
+  			if (typeof acceptCallCount === "undefined") {
+  				acceptCallCount = 1;
+  			}
+
+  			var resume = internalStop(test$$1);
+
+  			return function done() {
+  				if (config.current !== test$$1) {
+  					throw Error("assert.async callback called after test finished.");
+  				}
+
+  				if (popped) {
+  					test$$1.pushFailure("Too many calls to the `assert.async` callback", sourceFromStacktrace(2));
+  					return;
+  				}
+
+  				acceptCallCount -= 1;
+  				if (acceptCallCount > 0) {
+  					return;
+  				}
+
+  				popped = true;
+  				resume();
+  			};
+  		}
+
+  		// Exports test.push() to the user API
+  		// Alias of pushResult.
+
+  	}, {
+  		key: "push",
+  		value: function push(result, actual, expected, message, negative) {
+  			Logger.warn("assert.push is deprecated and will be removed in QUnit 3.0." + " Please use assert.pushResult instead (https://api.qunitjs.com/assert/pushResult).");
+
+  			var currentAssert = this instanceof Assert ? this : config.current.assert;
+  			return currentAssert.pushResult({
+  				result: result,
+  				actual: actual,
+  				expected: expected,
+  				message: message,
+  				negative: negative
+  			});
+  		}
+  	}, {
+  		key: "pushResult",
+  		value: function pushResult(resultInfo) {
+
+  			// Destructure of resultInfo = { result, actual, expected, message, negative }
+  			var assert = this;
+  			var currentTest = assert instanceof Assert && assert.test || config.current;
+
+  			// Backwards compatibility fix.
+  			// Allows the direct use of global exported assertions and QUnit.assert.*
+  			// Although, it's use is not recommended as it can leak assertions
+  			// to other tests from async tests, because we only get a reference to the current test,
+  			// not exactly the test where assertion were intended to be called.
+  			if (!currentTest) {
+  				throw new Error("assertion outside test context, in " + sourceFromStacktrace(2));
+  			}
+
+  			if (!(assert instanceof Assert)) {
+  				assert = currentTest.assert;
+  			}
+
+  			return assert.test.pushResult(resultInfo);
+  		}
+  	}, {
+  		key: "ok",
+  		value: function ok(result, message) {
+  			if (!message) {
+  				message = result ? "okay" : "failed, expected argument to be truthy, was: " + dump.parse(result);
+  			}
+
+  			this.pushResult({
+  				result: !!result,
+  				actual: result,
+  				expected: true,
+  				message: message
+  			});
+  		}
+  	}, {
+  		key: "notOk",
+  		value: function notOk(result, message) {
+  			if (!message) {
+  				message = !result ? "okay" : "failed, expected argument to be falsy, was: " + dump.parse(result);
+  			}
+
+  			this.pushResult({
+  				result: !result,
+  				actual: result,
+  				expected: false,
+  				message: message
+  			});
+  		}
+  	}, {
+  		key: "equal",
+  		value: function equal(actual, expected, message) {
+
+  			// eslint-disable-next-line eqeqeq
+  			var result = expected == actual;
+
+  			this.pushResult({
+  				result: result,
+  				actual: actual,
+  				expected: expected,
+  				message: message
+  			});
+  		}
+  	}, {
+  		key: "notEqual",
+  		value: function notEqual(actual, expected, message) {
+
+  			// eslint-disable-next-line eqeqeq
+  			var result = expected != actual;
+
+  			this.pushResult({
+  				result: result,
+  				actual: actual,
+  				expected: expected,
+  				message: message,
+  				negative: true
+  			});
+  		}
+  	}, {
+  		key: "propEqual",
+  		value: function propEqual(actual, expected, message) {
+  			actual = objectValues(actual);
+  			expected = objectValues(expected);
+
+  			this.pushResult({
+  				result: equiv(actual, expected),
+  				actual: actual,
+  				expected: expected,
+  				message: message
+  			});
+  		}
+  	}, {
+  		key: "notPropEqual",
+  		value: function notPropEqual(actual, expected, message) {
+  			actual = objectValues(actual);
+  			expected = objectValues(expected);
+
+  			this.pushResult({
+  				result: !equiv(actual, expected),
+  				actual: actual,
+  				expected: expected,
+  				message: message,
+  				negative: true
+  			});
+  		}
+  	}, {
+  		key: "deepEqual",
+  		value: function deepEqual(actual, expected, message) {
+  			this.pushResult({
+  				result: equiv(actual, expected),
+  				actual: actual,
+  				expected: expected,
+  				message: message
+  			});
+  		}
+  	}, {
+  		key: "notDeepEqual",
+  		value: function notDeepEqual(actual, expected, message) {
+  			this.pushResult({
+  				result: !equiv(actual, expected),
+  				actual: actual,
+  				expected: expected,
+  				message: message,
+  				negative: true
+  			});
+  		}
+  	}, {
+  		key: "strictEqual",
+  		value: function strictEqual(actual, expected, message) {
+  			this.pushResult({
+  				result: expected === actual,
+  				actual: actual,
+  				expected: expected,
+  				message: message
+  			});
+  		}
+  	}, {
+  		key: "notStrictEqual",
+  		value: function notStrictEqual(actual, expected, message) {
+  			this.pushResult({
+  				result: expected !== actual,
+  				actual: actual,
+  				expected: expected,
+  				message: message,
+  				negative: true
+  			});
+  		}
+  	}, {
+  		key: "throws",
+  		value: function throws(block, expected, message) {
+  			var actual = void 0,
+  			    result = false;
+
+  			var currentTest = this instanceof Assert && this.test || config.current;
+
+  			// 'expected' is optional unless doing string comparison
+  			if (objectType(expected) === "string") {
+  				if (message == null) {
+  					message = expected;
+  					expected = null;
+  				} else {
+  					throw new Error("throws/raises does not accept a string value for the expected argument.\n" + "Use a non-string object value (e.g. regExp) instead if it's necessary.");
+  				}
+  			}
+
+  			currentTest.ignoreGlobalErrors = true;
+  			try {
+  				block.call(currentTest.testEnvironment);
+  			} catch (e) {
+  				actual = e;
+  			}
+  			currentTest.ignoreGlobalErrors = false;
+
+  			if (actual) {
+  				var expectedType = objectType(expected);
+
+  				// We don't want to validate thrown error
+  				if (!expected) {
+  					result = true;
+
+  					// Expected is a regexp
+  				} else if (expectedType === "regexp") {
+  					result = expected.test(errorString(actual));
+
+  					// Log the string form of the regexp
+  					expected = String(expected);
+
+  					// Expected is a constructor, maybe an Error constructor
+  				} else if (expectedType === "function" && actual instanceof expected) {
+  					result = true;
+
+  					// Expected is an Error object
+  				} else if (expectedType === "object") {
+  					result = actual instanceof expected.constructor && actual.name === expected.name && actual.message === expected.message;
+
+  					// Log the string form of the Error object
+  					expected = errorString(expected);
+
+  					// Expected is a validation function which returns true if validation passed
+  				} else if (expectedType === "function" && expected.call({}, actual) === true) {
+  					expected = null;
+  					result = true;
+  				}
+  			}
+
+  			currentTest.assert.pushResult({
+  				result: result,
+
+  				// undefined if it didn't throw
+  				actual: actual && errorString(actual),
+  				expected: expected,
+  				message: message
+  			});
+  		}
+  	}, {
+  		key: "rejects",
+  		value: function rejects(promise, expected, message) {
+  			var result = false;
+
+  			var currentTest = this instanceof Assert && this.test || config.current;
+
+  			// 'expected' is optional unless doing string comparison
+  			if (objectType(expected) === "string") {
+  				if (message === undefined) {
+  					message = expected;
+  					expected = undefined;
+  				} else {
+  					message = "assert.rejects does not accept a string value for the expected " + "argument.\nUse a non-string object value (e.g. validator function) instead " + "if necessary.";
+
+  					currentTest.assert.pushResult({
+  						result: false,
+  						message: message
+  					});
+
+  					return;
+  				}
+  			}
+
+  			var then = promise && promise.then;
+  			if (objectType(then) !== "function") {
+  				var _message = "The value provided to `assert.rejects` in " + "\"" + currentTest.testName + "\" was not a promise.";
+
+  				currentTest.assert.pushResult({
+  					result: false,
+  					message: _message,
+  					actual: promise
+  				});
+
+  				return;
+  			}
+
+  			var done = this.async();
+
+  			return then.call(promise, function handleFulfillment() {
+  				var message = "The promise returned by the `assert.rejects` callback in " + "\"" + currentTest.testName + "\" did not reject.";
+
+  				currentTest.assert.pushResult({
+  					result: false,
+  					message: message,
+  					actual: promise
+  				});
+
+  				done();
+  			}, function handleRejection(actual) {
+  				var expectedType = objectType(expected);
+
+  				// We don't want to validate
+  				if (expected === undefined) {
+  					result = true;
+
+  					// Expected is a regexp
+  				} else if (expectedType === "regexp") {
+  					result = expected.test(errorString(actual));
+
+  					// Log the string form of the regexp
+  					expected = String(expected);
+
+  					// Expected is a constructor, maybe an Error constructor
+  				} else if (expectedType === "function" && actual instanceof expected) {
+  					result = true;
+
+  					// Expected is an Error object
+  				} else if (expectedType === "object") {
+  					result = actual instanceof expected.constructor && actual.name === expected.name && actual.message === expected.message;
+
+  					// Log the string form of the Error object
+  					expected = errorString(expected);
+
+  					// Expected is a validation function which returns true if validation passed
+  				} else {
+  					if (expectedType === "function") {
+  						result = expected.call({}, actual) === true;
+  						expected = null;
+
+  						// Expected is some other invalid type
+  					} else {
+  						result = false;
+  						message = "invalid expected value provided to `assert.rejects` " + "callback in \"" + currentTest.testName + "\": " + expectedType + ".";
+  					}
+  				}
+
+  				currentTest.assert.pushResult({
+  					result: result,
+
+  					// leave rejection value of undefined as-is
+  					actual: actual && errorString(actual),
+  					expected: expected,
+  					message: message
+  				});
+
+  				done();
+  			});
+  		}
+  	}]);
+  	return Assert;
+  }();
+
+  // Provide an alternative to assert.throws(), for environments that consider throws a reserved word
+  // Known to us are: Closure Compiler, Narwhal
+  // eslint-disable-next-line dot-notation
+
+
+  Assert.prototype.raises = Assert.prototype["throws"];
+
+  /**
+   * Converts an error into a simple string for comparisons.
+   *
+   * @param {Error|Object} error
+   * @return {String}
+   */
+  function errorString(error) {
+  	var resultErrorString = error.toString();
+
+  	// If the error wasn't a subclass of Error but something like
+  	// an object literal with name and message properties...
+  	if (resultErrorString.substring(0, 7) === "[object") {
+  		var name = error.name ? error.name.toString() : "Error";
+  		var message = error.message ? error.message.toString() : "";
+
+  		if (name && message) {
+  			return name + ": " + message;
+  		} else if (name) {
+  			return name;
+  		} else if (message) {
+  			return message;
+  		} else {
+  			return "Error";
+  		}
+  	} else {
+  		return resultErrorString;
+  	}
   }
 
   /* global module, exports, define */
   function exportQUnit(QUnit) {
-    var exportedModule = false;
-    if (window$1 && document) {
-      // QUnit may be defined when it is preconfigured but then only QUnit and QUnit.config may be defined.
-      if (window$1.QUnit && window$1.QUnit.version) {
-        throw new Error('QUnit has already been defined.');
-      }
-      window$1.QUnit = QUnit;
-      exportedModule = true;
-    }
 
-    // For Node.js
-    if (typeof module !== 'undefined' && module && module.exports) {
-      module.exports = QUnit;
+  	if (defined.document) {
 
-      // For consistency with CommonJS environments' exports
-      module.exports.QUnit = QUnit;
-      exportedModule = true;
-    }
+  		// QUnit may be defined when it is preconfigured but then only QUnit and QUnit.config may be defined.
+  		if (window$1.QUnit && window$1.QUnit.version) {
+  			throw new Error("QUnit has already been defined.");
+  		}
 
-    // For CommonJS with exports, but without module.exports, like Rhino
-    if (typeof exports !== 'undefined' && exports) {
-      exports.QUnit = QUnit;
-      exportedModule = true;
-    }
+  		window$1.QUnit = QUnit;
+  	}
 
-    // For AMD
-    if (typeof define === 'function' && define.amd) {
-      define(function () {
-        return QUnit;
-      });
-      QUnit.config.autostart = false;
-      exportedModule = true;
-    }
+  	// For nodejs
+  	if (typeof module !== "undefined" && module && module.exports) {
+  		module.exports = QUnit;
 
-    // For other environments, including Web Workers (globalThis === self),
-    // SpiderMonkey (mozjs), and other embedded JavaScript engines
-    if (!exportedModule) {
-      g.QUnit = QUnit;
-    }
+  		// For consistency with CommonJS environments' exports
+  		module.exports.QUnit = QUnit;
+  	}
+
+  	// For CommonJS with exports, but without module.exports, like Rhino
+  	if (typeof exports !== "undefined" && exports) {
+  		exports.QUnit = QUnit;
+  	}
+
+  	if (typeof define === "function" && define.amd) {
+  		define(function () {
+  			return QUnit;
+  		});
+  		QUnit.config.autostart = false;
+  	}
+
+  	// For Web/Service Workers
+  	if (self$1 && self$1.WorkerGlobalScope && self$1 instanceof self$1.WorkerGlobalScope) {
+  		self$1.QUnit = QUnit;
+  	}
   }
 
-  var ConsoleReporter = /*#__PURE__*/function () {
-    function ConsoleReporter(runner) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      _classCallCheck(this, ConsoleReporter);
-      // Cache references to console methods to ensure we can report failures
-      // from tests tests that mock the console object itself.
-      // https://github.com/qunitjs/qunit/issues/1340
-      // Support IE 9: Function#bind is supported, but no console.log.bind().
-      this.log = options.log || Function.prototype.bind.call(console$1.log, console$1);
-      runner.on('error', this.onError.bind(this));
-      runner.on('runStart', this.onRunStart.bind(this));
-      runner.on('testStart', this.onTestStart.bind(this));
-      runner.on('testEnd', this.onTestEnd.bind(this));
-      runner.on('runEnd', this.onRunEnd.bind(this));
-    }
-    _createClass(ConsoleReporter, [{
-      key: "onError",
-      value: function onError(error) {
-        this.log('error', error);
-      }
-    }, {
-      key: "onRunStart",
-      value: function onRunStart(runStart) {
-        this.log('runStart', runStart);
-      }
-    }, {
-      key: "onTestStart",
-      value: function onTestStart(test) {
-        this.log('testStart', test);
-      }
-    }, {
-      key: "onTestEnd",
-      value: function onTestEnd(test) {
-        this.log('testEnd', test);
-      }
-    }, {
-      key: "onRunEnd",
-      value: function onRunEnd(runEnd) {
-        this.log('runEnd', runEnd);
-      }
-    }], [{
-      key: "init",
-      value: function init(runner, options) {
-        return new ConsoleReporter(runner, options);
-      }
-    }]);
-    return ConsoleReporter;
-  }();
+  // Handle an unhandled exception. By convention, returns true if further
+  // error handling should be suppressed and false otherwise.
+  // In this case, we will only suppress further error handling if the
+  // "ignoreGlobalErrors" configuration option is enabled.
+  function onError(error) {
+  	for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+  		args[_key - 1] = arguments[_key];
+  	}
 
-  var FORCE_COLOR,
-    NODE_DISABLE_COLORS,
-    NO_COLOR,
-    TERM,
-    isTTY = true;
-  if (typeof process !== 'undefined') {
-    var _ref = process.env || {};
-    FORCE_COLOR = _ref.FORCE_COLOR;
-    NODE_DISABLE_COLORS = _ref.NODE_DISABLE_COLORS;
-    NO_COLOR = _ref.NO_COLOR;
-    TERM = _ref.TERM;
-    isTTY = process.stdout && process.stdout.isTTY;
-  }
-  var $ = {
-    enabled: !NODE_DISABLE_COLORS && NO_COLOR == null && TERM !== 'dumb' && (FORCE_COLOR != null && FORCE_COLOR !== '0' || isTTY),
-    // modifiers
-    reset: init(0, 0),
-    bold: init(1, 22),
-    dim: init(2, 22),
-    italic: init(3, 23),
-    underline: init(4, 24),
-    inverse: init(7, 27),
-    hidden: init(8, 28),
-    strikethrough: init(9, 29),
-    // colors
-    black: init(30, 39),
-    red: init(31, 39),
-    green: init(32, 39),
-    yellow: init(33, 39),
-    blue: init(34, 39),
-    magenta: init(35, 39),
-    cyan: init(36, 39),
-    white: init(37, 39),
-    gray: init(90, 39),
-    grey: init(90, 39),
-    // background colors
-    bgBlack: init(40, 49),
-    bgRed: init(41, 49),
-    bgGreen: init(42, 49),
-    bgYellow: init(43, 49),
-    bgBlue: init(44, 49),
-    bgMagenta: init(45, 49),
-    bgCyan: init(46, 49),
-    bgWhite: init(47, 49)
-  };
-  function run(arr, str) {
-    var i = 0,
-      tmp,
-      beg = '',
-      end = '';
-    for (; i < arr.length; i++) {
-      tmp = arr[i];
-      beg += tmp.open;
-      end += tmp.close;
-      if (!!~str.indexOf(tmp.close)) {
-        str = str.replace(tmp.rgx, tmp.close + tmp.open);
-      }
-    }
-    return beg + str + end;
-  }
-  function chain(has, keys) {
-    var ctx = {
-      has: has,
-      keys: keys
-    };
-    ctx.reset = $.reset.bind(ctx);
-    ctx.bold = $.bold.bind(ctx);
-    ctx.dim = $.dim.bind(ctx);
-    ctx.italic = $.italic.bind(ctx);
-    ctx.underline = $.underline.bind(ctx);
-    ctx.inverse = $.inverse.bind(ctx);
-    ctx.hidden = $.hidden.bind(ctx);
-    ctx.strikethrough = $.strikethrough.bind(ctx);
-    ctx.black = $.black.bind(ctx);
-    ctx.red = $.red.bind(ctx);
-    ctx.green = $.green.bind(ctx);
-    ctx.yellow = $.yellow.bind(ctx);
-    ctx.blue = $.blue.bind(ctx);
-    ctx.magenta = $.magenta.bind(ctx);
-    ctx.cyan = $.cyan.bind(ctx);
-    ctx.white = $.white.bind(ctx);
-    ctx.gray = $.gray.bind(ctx);
-    ctx.grey = $.grey.bind(ctx);
-    ctx.bgBlack = $.bgBlack.bind(ctx);
-    ctx.bgRed = $.bgRed.bind(ctx);
-    ctx.bgGreen = $.bgGreen.bind(ctx);
-    ctx.bgYellow = $.bgYellow.bind(ctx);
-    ctx.bgBlue = $.bgBlue.bind(ctx);
-    ctx.bgMagenta = $.bgMagenta.bind(ctx);
-    ctx.bgCyan = $.bgCyan.bind(ctx);
-    ctx.bgWhite = $.bgWhite.bind(ctx);
-    return ctx;
-  }
-  function init(open, close) {
-    var blk = {
-      open: "\x1B[".concat(open, "m"),
-      close: "\x1B[".concat(close, "m"),
-      rgx: new RegExp("\\x1b\\[".concat(close, "m"), 'g')
-    };
-    return function (txt) {
-      if (this !== void 0 && this.has !== void 0) {
-        !!~this.has.indexOf(open) || (this.has.push(open), this.keys.push(blk));
-        return txt === void 0 ? this : $.enabled ? run(this.keys, txt + '') : txt + '';
-      }
-      return txt === void 0 ? chain([open], [blk]) : $.enabled ? run([blk], txt + '') : txt + '';
-    };
+  	if (config.current) {
+  		if (config.current.ignoreGlobalErrors) {
+  			return true;
+  		}
+  		pushFailure.apply(undefined, [error.message, error.stacktrace || error.fileName + ":" + error.lineNumber].concat(args));
+  	} else {
+  		test("global failure", extend(function () {
+  			pushFailure.apply(undefined, [error.message, error.stacktrace || error.fileName + ":" + error.lineNumber].concat(args));
+  		}, { validTest: true }));
+  	}
+
+  	return false;
   }
 
-  var hasOwn = Object.prototype.hasOwnProperty;
+  // Handle an unhandled rejection
+  function onUnhandledRejection(reason) {
+  	var resultInfo = {
+  		result: false,
+  		message: reason.message || "error",
+  		actual: reason,
+  		source: reason.stack || sourceFromStacktrace(3)
+  	};
 
-  /**
-   * Format a given value into YAML.
-   *
-   * YAML is a superset of JSON that supports all the same data
-   * types and syntax, and more. As such, it is always possible
-   * to fallback to JSON.stringfify, but we generally avoid
-   * that to make output easier to read for humans.
-   *
-   * Supported data types:
-   *
-   * - null
-   * - boolean
-   * - number
-   * - string
-   * - array
-   * - object
-   *
-   * Anything else (including NaN, Infinity, and undefined)
-   * must be described in strings, for display purposes.
-   *
-   * Note that quotes are optional in YAML strings if the
-   * strings are "simple", and as such we generally prefer
-   * that for improved readability. We output strings in
-   * one of three ways:
-   *
-   * - bare unquoted text, for simple one-line strings.
-   * - JSON (quoted text), for complex one-line strings.
-   * - YAML Block, for complex multi-line strings.
-   *
-   * Objects with cyclical references will be stringifed as
-   * "[Circular]" as they cannot otherwise be represented.
-   */
-  function prettyYamlValue(value) {
-    var indent = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 4;
-    if (value === undefined) {
-      // Not supported in JSON/YAML, turn into string
-      // and let the below output it as bare string.
-      value = String(value);
-    }
-
-    // Support IE 9-11: Use isFinite instead of ES6 Number.isFinite
-    if (typeof value === 'number' && !isFinite(value)) {
-      // Turn NaN and Infinity into simple strings.
-      // Paranoia: Don't return directly just in case there's
-      // a way to add special characters here.
-      value = String(value);
-    }
-    if (typeof value === 'number') {
-      // Simple numbers
-      return JSON.stringify(value);
-    }
-    if (typeof value === 'string') {
-      // If any of these match, then we can't output it
-      // as bare unquoted text, because that would either
-      // cause data loss or invalid YAML syntax.
-      //
-      // - Quotes, escapes, line breaks, or JSON-like stuff.
-      var rSpecialJson = /['"\\/[{}\]\r\n]/;
-
-      // - Characters that are special at the start of a YAML value
-      var rSpecialYaml = /[-?:,[\]{}#&*!|=>'"%@`]/;
-
-      // - Leading or trailing whitespace.
-      var rUntrimmed = /(^\s|\s$)/;
-
-      // - Ambiguous as YAML number, e.g. '2', '-1.2', '.2', or '2_000'
-      var rNumerical = /^[\d._-]+$/;
-
-      // - Ambiguous as YAML bool.
-      //   Use case-insensitive match, although technically only
-      //   fully-lower, fully-upper, or uppercase-first would be ambiguous.
-      //   e.g. true/True/TRUE, but not tRUe.
-      var rBool = /^(true|false|y|n|yes|no|on|off)$/i;
-
-      // Is this a complex string?
-      if (value === '' || rSpecialJson.test(value) || rSpecialYaml.test(value[0]) || rUntrimmed.test(value) || rNumerical.test(value) || rBool.test(value)) {
-        if (!/\n/.test(value)) {
-          // Complex one-line string, use JSON (quoted string)
-          return JSON.stringify(value);
-        }
-
-        // See also <https://yaml-multiline.info/>
-        // Support IE 9-11: Avoid ES6 String#repeat
-        var prefix = new Array(indent + 1).join(' ');
-        var trailingLinebreakMatch = value.match(/\n+$/);
-        var trailingLinebreaks = trailingLinebreakMatch ? trailingLinebreakMatch[0].length : 0;
-        if (trailingLinebreaks === 1) {
-          // Use the most straight-forward "Block" string in YAML
-          // without any "Chomping" indicators.
-          var lines = value
-
-          // Ignore the last new line, since we'll get that one for free
-          // with the straight-forward Block syntax.
-          .replace(/\n$/, '').split('\n').map(function (line) {
-            return prefix + line;
-          });
-          return '|\n' + lines.join('\n');
-        } else {
-          // This has either no trailing new lines, or more than 1.
-          // Use |+ so that YAML parsers will preserve it exactly.
-          var _lines = value.split('\n').map(function (line) {
-            return prefix + line;
-          });
-          return '|+\n' + _lines.join('\n');
-        }
-      } else {
-        // Simple string, use bare unquoted text
-        return value;
-      }
-    }
-
-    // Handle null, boolean, array, and object
-    return JSON.stringify(decycledShallowClone(value), null, 2);
-  }
-
-  /**
-   * Creates a shallow clone of an object where cycles have
-   * been replaced with "[Circular]".
-   */
-  function decycledShallowClone(object) {
-    var ancestors = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-    if (ancestors.indexOf(object) !== -1) {
-      return '[Circular]';
-    }
-    var type = Object.prototype.toString.call(object).replace(/^\[.+\s(.+?)]$/, '$1').toLowerCase();
-    var clone;
-    switch (type) {
-      case 'array':
-        ancestors.push(object);
-        clone = object.map(function (element) {
-          return decycledShallowClone(element, ancestors);
-        });
-        ancestors.pop();
-        break;
-      case 'object':
-        ancestors.push(object);
-        clone = {};
-        Object.keys(object).forEach(function (key) {
-          clone[key] = decycledShallowClone(object[key], ancestors);
-        });
-        ancestors.pop();
-        break;
-      default:
-        clone = object;
-    }
-    return clone;
-  }
-  var TapReporter = /*#__PURE__*/function () {
-    function TapReporter(runner) {
-      var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      _classCallCheck(this, TapReporter);
-      // Cache references to console methods to ensure we can report failures
-      // from tests tests that mock the console object itself.
-      // https://github.com/qunitjs/qunit/issues/1340
-      // Support IE 9: Function#bind is supported, but no console.log.bind().
-      this.log = options.log || Function.prototype.bind.call(console$1.log, console$1);
-      this.testCount = 0;
-      this.ended = false;
-      this.bailed = false;
-      runner.on('error', this.onError.bind(this));
-      runner.on('runStart', this.onRunStart.bind(this));
-      runner.on('testEnd', this.onTestEnd.bind(this));
-      runner.on('runEnd', this.onRunEnd.bind(this));
-    }
-    _createClass(TapReporter, [{
-      key: "onRunStart",
-      value: function onRunStart(_runSuite) {
-        this.log('TAP version 13');
-      }
-    }, {
-      key: "onError",
-      value: function onError(error) {
-        if (this.bailed) {
-          return;
-        }
-        this.bailed = true;
-
-        // Imitate onTestEnd
-        // Skip this if we're past "runEnd" as it would look odd
-        if (!this.ended) {
-          this.testCount = this.testCount + 1;
-          this.log($.red("not ok ".concat(this.testCount, " global failure")));
-          this.logError(error);
-        }
-        this.log('Bail out! ' + errorString(error).split('\n')[0]);
-        if (this.ended) {
-          this.logError(error);
-        }
-      }
-    }, {
-      key: "onTestEnd",
-      value: function onTestEnd(test) {
-        var _this = this;
-        this.testCount = this.testCount + 1;
-        if (test.status === 'passed') {
-          this.log("ok ".concat(this.testCount, " ").concat(test.fullName.join(' > ')));
-        } else if (test.status === 'skipped') {
-          this.log($.yellow("ok ".concat(this.testCount, " # SKIP ").concat(test.fullName.join(' > '))));
-        } else if (test.status === 'todo') {
-          this.log($.cyan("not ok ".concat(this.testCount, " # TODO ").concat(test.fullName.join(' > '))));
-          test.errors.forEach(function (error) {
-            return _this.logAssertion(error, 'todo');
-          });
-        } else {
-          this.log($.red("not ok ".concat(this.testCount, " ").concat(test.fullName.join(' > '))));
-          test.errors.forEach(function (error) {
-            return _this.logAssertion(error);
-          });
-        }
-      }
-    }, {
-      key: "onRunEnd",
-      value: function onRunEnd(runSuite) {
-        this.ended = true;
-        this.log("1..".concat(runSuite.testCounts.total));
-        this.log("# pass ".concat(runSuite.testCounts.passed));
-        this.log($.yellow("# skip ".concat(runSuite.testCounts.skipped)));
-        this.log($.cyan("# todo ".concat(runSuite.testCounts.todo)));
-        this.log($.red("# fail ".concat(runSuite.testCounts.failed)));
-      }
-    }, {
-      key: "logAssertion",
-      value: function logAssertion(error, severity) {
-        var out = '  ---';
-        out += "\n  message: ".concat(prettyYamlValue(error.message || 'failed'));
-        out += "\n  severity: ".concat(prettyYamlValue(severity || 'failed'));
-        if (hasOwn.call(error, 'actual')) {
-          out += "\n  actual  : ".concat(prettyYamlValue(error.actual));
-        }
-        if (hasOwn.call(error, 'expected')) {
-          out += "\n  expected: ".concat(prettyYamlValue(error.expected));
-        }
-        if (error.stack) {
-          // Since stacks aren't user generated, take a bit of liberty by
-          // adding a trailing new line to allow a straight-forward YAML Blocks.
-          out += "\n  stack: ".concat(prettyYamlValue(error.stack + '\n'));
-        }
-        out += '\n  ...';
-        this.log(out);
-      }
-    }, {
-      key: "logError",
-      value: function logError(error) {
-        var out = '  ---';
-        out += "\n  message: ".concat(prettyYamlValue(errorString(error)));
-        out += "\n  severity: ".concat(prettyYamlValue('failed'));
-        if (error && error.stack) {
-          out += "\n  stack: ".concat(prettyYamlValue(error.stack + '\n'));
-        }
-        out += '\n  ...';
-        this.log(out);
-      }
-    }], [{
-      key: "init",
-      value: function init(runner, options) {
-        return new TapReporter(runner, options);
-      }
-    }]);
-    return TapReporter;
-  }();
-
-  var reporters = {
-    console: ConsoleReporter,
-    tap: TapReporter
-  };
-
-  function makeAddGlobalHook(hookName) {
-    return function addGlobalHook(callback) {
-      if (!config.globalHooks[hookName]) {
-        config.globalHooks[hookName] = [];
-      }
-      config.globalHooks[hookName].push(callback);
-    };
-  }
-  var hooks = {
-    beforeEach: makeAddGlobalHook('beforeEach'),
-    afterEach: makeAddGlobalHook('afterEach')
-  };
-
-  /**
-   * Handle a global error that should result in a failed test run.
-   *
-   * Summary:
-   *
-   * - If we're strictly inside a test (or one if its module hooks), the exception
-   *   becomes a failed assertion.
-   *
-   *   This has the important side-effect that uncaught exceptions (such as
-   *   calling an undefined function) during a "todo" test do NOT result in
-   *   a failed test run.
-   *
-   * - If we're anywhere outside a test (be it in early event callbacks, or
-   *   internally between tests, or somewhere after "runEnd" if the process is
-   *   still alive for some reason), then send an "error" event to the reporters.
-   *
-   * @since 2.17.0
-   * @param {Error|any} error
-   */
-  function onUncaughtException(error) {
-    if (config.current) {
-      config.current.assert.pushResult({
-        result: false,
-        message: "global failure: ".concat(errorString(error)),
-        // We could let callers specify an offset to subtract a number of frames via
-        // sourceFromStacktrace, in case they are a wrapper further away from the error
-        // handler, and thus reduce some noise in the stack trace. However, we're not
-        // doing this right now because it would almost never be used in practice given
-        // the vast majority of error values will be Error objects, and thus have their
-        // own stack trace already.
-        source: error && error.stack || sourceFromStacktrace(2)
-      });
-    } else {
-      // The "error" event was added in QUnit 2.17.
-      // Increase "bad assertion" stats despite no longer pushing an assertion in this case.
-      // This ensures "runEnd" and "QUnit.done()" handlers behave as expected, since the "bad"
-      // count is typically how reporters decide on the boolean outcome of the test run.
-      runSuite.globalFailureCount++;
-      config.stats.bad++;
-      config.stats.all++;
-      emit('error', error);
-    }
-  }
-
-  /**
-   * Handle a window.onerror error.
-   *
-   * If there is a current test that sets the internal `ignoreGlobalErrors` field
-   * (such as during `assert.throws()`), then the error is ignored and native
-   * error reporting is suppressed as well. This is because in browsers, an error
-   * can sometimes end up in `window.onerror` instead of in the local try/catch.
-   * This ignoring of errors does not apply to our general onUncaughtException
-   * method, nor to our `unhandledRejection` handlers, as those are not meant
-   * to receive an "expected" error during `assert.throws()`.
-   *
-   * @see <https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/onerror>
-   * @deprecated since 2.17.0 Use QUnit.onUncaughtException instead.
-   * @param {Object} details
-   * @param {string} details.message
-   * @param {string} details.fileName
-   * @param {number} details.lineNumber
-   * @param {string|undefined} [details.stacktrace]
-   * @return {bool} True if native error reporting should be suppressed.
-   */
-  function onWindowError(details) {
-    Logger.warn('QUnit.onError is deprecated and will be removed in QUnit 3.0.' + ' Please use QUnit.onUncaughtException instead.');
-    if (config.current && config.current.ignoreGlobalErrors) {
-      return true;
-    }
-    var err = new Error(details.message);
-    err.stack = details.stacktrace || details.fileName + ':' + details.lineNumber;
-    onUncaughtException(err);
-    return false;
+  	var currentTest = config.current;
+  	if (currentTest) {
+  		currentTest.assert.pushResult(resultInfo);
+  	} else {
+  		test("global failure", extend(function (assert) {
+  			assert.pushResult(resultInfo);
+  		}, { validTest: true }));
+  	}
   }
 
   var QUnit = {};
+  var globalSuite = new SuiteReport();
 
-  // The "currentModule" object would ideally be defined using the createModule()
-  // function. Since it isn't, add the missing suiteReport property to it now that
-  // we have loaded all source code required to do so.
-  //
-  // TODO: Consider defining currentModule in core.js or module.js in its entirely
-  // rather than partly in config.js and partly here.
-  config.currentModule.suiteReport = runSuite;
+  // The initial "currentModule" represents the global (or top-level) module that
+  // is not explicitly defined by the user, therefore we add the "globalSuite" to
+  // it since each module has a suiteReport associated with it.
+  config.currentModule.suiteReport = globalSuite;
+
   var globalStartCalled = false;
   var runStarted = false;
 
   // Figure out if we're running the tests from a server or not
-  QUnit.isLocal = window$1 && window$1.location && window$1.location.protocol === 'file:';
+  QUnit.isLocal = !(defined.document && window$1.location.protocol !== "file:");
 
   // Expose the current QUnit version
-  QUnit.version = '2.19.3';
+  QUnit.version = "2.9.3";
+
   extend(QUnit, {
-    config: config,
-    dump: dump,
-    equiv: equiv,
-    reporters: reporters,
-    hooks: hooks,
-    is: is,
-    objectType: objectType,
-    on: on,
-    onError: onWindowError,
-    onUncaughtException: onUncaughtException,
-    pushFailure: pushFailure,
-    assert: Assert.prototype,
-    module: module$1,
-    test: test,
-    // alias other test flavors for easy access
-    todo: test.todo,
-    skip: test.skip,
-    only: test.only,
-    start: function start(count) {
-      if (config.current) {
-        throw new Error('QUnit.start cannot be called inside a test context.');
-      }
-      var globalStartAlreadyCalled = globalStartCalled;
-      globalStartCalled = true;
-      if (runStarted) {
-        throw new Error('Called start() while test already started running');
-      }
-      if (globalStartAlreadyCalled || count > 1) {
-        throw new Error('Called start() outside of a test context too many times');
-      }
-      if (config.autostart) {
-        throw new Error('Called start() outside of a test context when ' + 'QUnit.config.autostart was true');
-      }
-      if (!config.pageLoaded) {
-        // The page isn't completely loaded yet, so we set autostart and then
-        // load if we're in Node or wait for the browser's load event.
-        config.autostart = true;
+  	on: on,
 
-        // Starts from Node even if .load was not previously called. We still return
-        // early otherwise we'll wind up "beginning" twice.
-        if (!document) {
-          QUnit.load();
-        }
-        return;
-      }
-      scheduleBegin();
-    },
-    onUnhandledRejection: function onUnhandledRejection(reason) {
-      Logger.warn('QUnit.onUnhandledRejection is deprecated and will be removed in QUnit 3.0.' + ' Please use QUnit.onUncaughtException instead.');
-      onUncaughtException(reason);
-    },
-    extend: function extend$1() {
-      Logger.warn('QUnit.extend is deprecated and will be removed in QUnit 3.0.' + ' Please use Object.assign instead.');
+  	module: module$1,
 
-      // delegate to utility implementation, which does not warn and can be used elsewhere internally
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-      return extend.apply(this, args);
-    },
-    load: function load() {
-      config.pageLoaded = true;
+  	test: test,
 
-      // Initialize the configuration options
-      extend(config, {
-        started: 0,
-        updateRate: 1000,
-        autostart: true,
-        filter: ''
-      }, true);
-      if (!runStarted) {
-        config.blocking = false;
-        if (config.autostart) {
-          scheduleBegin();
-        }
-      }
-    },
-    stack: function stack(offset) {
-      offset = (offset || 0) + 2;
-      return sourceFromStacktrace(offset);
-    }
+  	todo: todo,
+
+  	skip: skip,
+
+  	only: only,
+
+  	start: function start(count) {
+  		var globalStartAlreadyCalled = globalStartCalled;
+
+  		if (!config.current) {
+  			globalStartCalled = true;
+
+  			if (runStarted) {
+  				throw new Error("Called start() while test already started running");
+  			} else if (globalStartAlreadyCalled || count > 1) {
+  				throw new Error("Called start() outside of a test context too many times");
+  			} else if (config.autostart) {
+  				throw new Error("Called start() outside of a test context when " + "QUnit.config.autostart was true");
+  			} else if (!config.pageLoaded) {
+
+  				// The page isn't completely loaded yet, so we set autostart and then
+  				// load if we're in Node or wait for the browser's load event.
+  				config.autostart = true;
+
+  				// Starts from Node even if .load was not previously called. We still return
+  				// early otherwise we'll wind up "beginning" twice.
+  				if (!defined.document) {
+  					QUnit.load();
+  				}
+
+  				return;
+  			}
+  		} else {
+  			throw new Error("QUnit.start cannot be called inside a test context.");
+  		}
+
+  		scheduleBegin();
+  	},
+
+  	config: config,
+
+  	is: is,
+
+  	objectType: objectType,
+
+  	extend: extend,
+
+  	load: function load() {
+  		config.pageLoaded = true;
+
+  		// Initialize the configuration options
+  		extend(config, {
+  			stats: { all: 0, bad: 0 },
+  			started: 0,
+  			updateRate: 1000,
+  			autostart: true,
+  			filter: ""
+  		}, true);
+
+  		if (!runStarted) {
+  			config.blocking = false;
+
+  			if (config.autostart) {
+  				scheduleBegin();
+  			}
+  		}
+  	},
+
+  	stack: function stack(offset) {
+  		offset = (offset || 0) + 2;
+  		return sourceFromStacktrace(offset);
+  	},
+
+  	onError: onError,
+
+  	onUnhandledRejection: onUnhandledRejection
   });
+
+  QUnit.pushFailure = pushFailure;
+  QUnit.assert = Assert.prototype;
+  QUnit.equiv = equiv;
+  QUnit.dump = dump;
+
   registerLoggingCallbacks(QUnit);
+
   function scheduleBegin() {
-    runStarted = true;
 
-    // Add a slight delay to allow definition of more modules and tests.
-    if (setTimeout$1) {
-      setTimeout$1(function () {
-        begin();
-      });
-    } else {
-      begin();
-    }
+  	runStarted = true;
+
+  	// Add a slight delay to allow definition of more modules and tests.
+  	if (defined.setTimeout) {
+  		setTimeout$1(function () {
+  			begin();
+  		});
+  	} else {
+  		begin();
+  	}
   }
+
   function unblockAndAdvanceQueue() {
-    config.blocking = false;
-    ProcessingQueue.advance();
+  	config.blocking = false;
+  	ProcessingQueue.advance();
   }
+
   function begin() {
-    if (config.started) {
-      unblockAndAdvanceQueue();
-      return;
-    }
+  	var i,
+  	    l,
+  	    modulesLog = [];
 
-    // The test run hasn't officially begun yet
-    // Record the time of the test run's beginning
-    config.started = performance.now();
+  	// If the test run hasn't officially begun yet
+  	if (!config.started) {
 
-    // Delete the loose unnamed module if unused.
-    if (config.modules[0].name === '' && config.modules[0].tests.length === 0) {
-      config.modules.shift();
-    }
-    var modulesLog = [];
-    for (var i = 0; i < config.modules.length; i++) {
-      // Don't expose the unnamed global test module to plugins.
-      if (config.modules[i].name !== '') {
-        modulesLog.push({
-          name: config.modules[i].name,
-          moduleId: config.modules[i].moduleId,
-          // Added in QUnit 1.16.0 for internal use by html-reporter,
-          // but no longer used since QUnit 2.7.0.
-          // @deprecated Kept unofficially to be removed in QUnit 3.0.
-          tests: config.modules[i].tests
-        });
-      }
-    }
+  		// Record the time of the test run's beginning
+  		config.started = now();
 
-    // The test run is officially beginning now
-    emit('runStart', runSuite.start(true));
-    runLoggingCallbacks('begin', {
-      totalTests: Test.count,
-      modules: modulesLog
-    }).then(unblockAndAdvanceQueue);
+  		// Delete the loose unnamed module if unused.
+  		if (config.modules[0].name === "" && config.modules[0].tests.length === 0) {
+  			config.modules.shift();
+  		}
+
+  		// Avoid unnecessary information by not logging modules' test environments
+  		for (i = 0, l = config.modules.length; i < l; i++) {
+  			modulesLog.push({
+  				name: config.modules[i].name,
+  				tests: config.modules[i].tests
+  			});
+  		}
+
+  		// The test run is officially beginning now
+  		emit("runStart", globalSuite.start(true));
+  		runLoggingCallbacks("begin", {
+  			totalTests: Test.count,
+  			modules: modulesLog
+  		}).then(unblockAndAdvanceQueue);
+  	} else {
+  		unblockAndAdvanceQueue();
+  	}
   }
+
   exportQUnit(QUnit);
 
   (function () {
-    if (!window$1 || !document) {
-      return;
-    }
-    var config = QUnit.config;
-    var hasOwn = Object.prototype.hasOwnProperty;
 
-    // Stores fixture HTML for resetting later
-    function storeFixture() {
-      // Avoid overwriting user-defined values
-      if (hasOwn.call(config, 'fixture')) {
-        return;
-      }
-      var fixture = document.getElementById('qunit-fixture');
-      if (fixture) {
-        config.fixture = fixture.cloneNode(true);
-      }
-    }
-    QUnit.begin(storeFixture);
+  	if (typeof window$1 === "undefined" || typeof document$1 === "undefined") {
+  		return;
+  	}
 
-    // Resets the fixture DOM element if available.
-    function resetFixture() {
-      if (config.fixture == null) {
-        return;
-      }
-      var fixture = document.getElementById('qunit-fixture');
-      var resetFixtureType = _typeof(config.fixture);
-      if (resetFixtureType === 'string') {
-        // support user defined values for `config.fixture`
-        var newFixture = document.createElement('div');
-        newFixture.setAttribute('id', 'qunit-fixture');
-        newFixture.innerHTML = config.fixture;
-        fixture.parentNode.replaceChild(newFixture, fixture);
-      } else {
-        var clonedFixture = config.fixture.cloneNode(true);
-        fixture.parentNode.replaceChild(clonedFixture, fixture);
-      }
-    }
-    QUnit.testStart(resetFixture);
+  	var config = QUnit.config,
+  	    hasOwn = Object.prototype.hasOwnProperty;
+
+  	// Stores fixture HTML for resetting later
+  	function storeFixture() {
+
+  		// Avoid overwriting user-defined values
+  		if (hasOwn.call(config, "fixture")) {
+  			return;
+  		}
+
+  		var fixture = document$1.getElementById("qunit-fixture");
+  		if (fixture) {
+  			config.fixture = fixture.cloneNode(true);
+  		}
+  	}
+
+  	QUnit.begin(storeFixture);
+
+  	// Resets the fixture DOM element if available.
+  	function resetFixture() {
+  		if (config.fixture == null) {
+  			return;
+  		}
+
+  		var fixture = document$1.getElementById("qunit-fixture");
+  		var resetFixtureType = _typeof(config.fixture);
+  		if (resetFixtureType === "string") {
+
+  			// support user defined values for `config.fixture`
+  			var newFixture = document$1.createElement("div");
+  			newFixture.setAttribute("id", "qunit-fixture");
+  			newFixture.innerHTML = config.fixture;
+  			fixture.parentNode.replaceChild(newFixture, fixture);
+  		} else {
+  			var clonedFixture = config.fixture.cloneNode(true);
+  			fixture.parentNode.replaceChild(clonedFixture, fixture);
+  		}
+  	}
+
+  	QUnit.testStart(resetFixture);
   })();
 
   (function () {
-    // Only interact with URLs via window.location
-    var location = typeof window$1 !== 'undefined' && window$1.location;
-    if (!location) {
-      return;
-    }
-    var urlParams = getUrlParams();
-    QUnit.urlParams = urlParams;
-    QUnit.config.filter = urlParams.filter;
-    QUnit.config.module = urlParams.module;
-    QUnit.config.moduleId = [].concat(urlParams.moduleId || []);
-    QUnit.config.testId = [].concat(urlParams.testId || []);
 
-    // Test order randomization
-    if (urlParams.seed === true) {
-      // Generate a random seed if the option is specified without a value
-      QUnit.config.seed = Math.random().toString(36).slice(2);
-    } else if (urlParams.seed) {
-      QUnit.config.seed = urlParams.seed;
-    }
+  	// Only interact with URLs via window.location
+  	var location = typeof window$1 !== "undefined" && window$1.location;
+  	if (!location) {
+  		return;
+  	}
 
-    // Add URL-parameter-mapped config values with UI form rendering data
-    QUnit.config.urlConfig.push({
-      id: 'hidepassed',
-      label: 'Hide passed tests',
-      tooltip: 'Only show tests and assertions that fail. Stored as query-strings.'
-    }, {
-      id: 'noglobals',
-      label: 'Check for Globals',
-      tooltip: 'Enabling this will test if any test introduces new properties on the ' + 'global object (`window` in Browsers). Stored as query-strings.'
-    }, {
-      id: 'notrycatch',
-      label: 'No try-catch',
-      tooltip: 'Enabling this will run tests outside of a try-catch block. Makes debugging ' + 'exceptions in IE reasonable. Stored as query-strings.'
-    });
-    QUnit.begin(function () {
-      var urlConfig = QUnit.config.urlConfig;
-      for (var i = 0; i < urlConfig.length; i++) {
-        // Options can be either strings or objects with nonempty "id" properties
-        var option = QUnit.config.urlConfig[i];
-        if (typeof option !== 'string') {
-          option = option.id;
-        }
-        if (QUnit.config[option] === undefined) {
-          QUnit.config[option] = urlParams[option];
-        }
-      }
-    });
-    function getUrlParams() {
-      var urlParams = Object.create(null);
-      var params = location.search.slice(1).split('&');
-      var length = params.length;
-      for (var i = 0; i < length; i++) {
-        if (params[i]) {
-          var param = params[i].split('=');
-          var name = decodeQueryParam(param[0]);
+  	var urlParams = getUrlParams();
 
-          // Allow just a key to turn on a flag, e.g., test.html?noglobals
-          var value = param.length === 1 || decodeQueryParam(param.slice(1).join('='));
-          if (name in urlParams) {
-            urlParams[name] = [].concat(urlParams[name], value);
-          } else {
-            urlParams[name] = value;
-          }
-        }
-      }
-      return urlParams;
-    }
-    function decodeQueryParam(param) {
-      return decodeURIComponent(param.replace(/\+/g, '%20'));
-    }
+  	QUnit.urlParams = urlParams;
+
+  	// Match module/test by inclusion in an array
+  	QUnit.config.moduleId = [].concat(urlParams.moduleId || []);
+  	QUnit.config.testId = [].concat(urlParams.testId || []);
+
+  	// Exact case-insensitive match of the module name
+  	QUnit.config.module = urlParams.module;
+
+  	// Regular expression or case-insenstive substring match against "moduleName: testName"
+  	QUnit.config.filter = urlParams.filter;
+
+  	// Test order randomization
+  	if (urlParams.seed === true) {
+
+  		// Generate a random seed if the option is specified without a value
+  		QUnit.config.seed = Math.random().toString(36).slice(2);
+  	} else if (urlParams.seed) {
+  		QUnit.config.seed = urlParams.seed;
+  	}
+
+  	// Add URL-parameter-mapped config values with UI form rendering data
+  	QUnit.config.urlConfig.push({
+  		id: "hidepassed",
+  		label: "Hide passed tests",
+  		tooltip: "Only show tests and assertions that fail. Stored as query-strings."
+  	}, {
+  		id: "noglobals",
+  		label: "Check for Globals",
+  		tooltip: "Enabling this will test if any test introduces new properties on the " + "global object (`window` in Browsers). Stored as query-strings."
+  	}, {
+  		id: "notrycatch",
+  		label: "No try-catch",
+  		tooltip: "Enabling this will run tests outside of a try-catch block. Makes debugging " + "exceptions in IE reasonable. Stored as query-strings."
+  	});
+
+  	QUnit.begin(function () {
+  		var i,
+  		    option,
+  		    urlConfig = QUnit.config.urlConfig;
+
+  		for (i = 0; i < urlConfig.length; i++) {
+
+  			// Options can be either strings or objects with nonempty "id" properties
+  			option = QUnit.config.urlConfig[i];
+  			if (typeof option !== "string") {
+  				option = option.id;
+  			}
+
+  			if (QUnit.config[option] === undefined) {
+  				QUnit.config[option] = urlParams[option];
+  			}
+  		}
+  	});
+
+  	function getUrlParams() {
+  		var i, param, name, value;
+  		var urlParams = Object.create(null);
+  		var params = location.search.slice(1).split("&");
+  		var length = params.length;
+
+  		for (i = 0; i < length; i++) {
+  			if (params[i]) {
+  				param = params[i].split("=");
+  				name = decodeQueryParam(param[0]);
+
+  				// Allow just a key to turn on a flag, e.g., test.html?noglobals
+  				value = param.length === 1 || decodeQueryParam(param.slice(1).join("="));
+  				if (name in urlParams) {
+  					urlParams[name] = [].concat(urlParams[name], value);
+  				} else {
+  					urlParams[name] = value;
+  				}
+  			}
+  		}
+
+  		return urlParams;
+  	}
+
+  	function decodeQueryParam(param) {
+  		return decodeURIComponent(param.replace(/\+/g, "%20"));
+  	}
   })();
 
-  var fuzzysort$1 = {exports: {}};
-
-  (function (module) {
-    (function (root, UMD) {
-      if (module.exports) module.exports = UMD();else root.fuzzysort = UMD();
-    })(commonjsGlobal, function UMD() {
-      function fuzzysortNew(instanceOptions) {
-        var fuzzysort = {
-          single: function single(search, target, options) {
-            if (search == 'farzher') return {
-              target: "farzher was here (^-^*)/",
-              score: 0,
-              indexes: [0, 1, 2, 3, 4, 5, 6]
-            };
-            if (!search) return null;
-            if (!isObj(search)) search = fuzzysort.getPreparedSearch(search);
-            if (!target) return null;
-            if (!isObj(target)) target = fuzzysort.getPrepared(target);
-            var allowTypo = options && options.allowTypo !== undefined ? options.allowTypo : instanceOptions && instanceOptions.allowTypo !== undefined ? instanceOptions.allowTypo : true;
-            var algorithm = allowTypo ? fuzzysort.algorithm : fuzzysort.algorithmNoTypo;
-            return algorithm(search, target, search[0]);
-          },
-          go: function go(search, targets, options) {
-            if (search == 'farzher') return [{
-              target: "farzher was here (^-^*)/",
-              score: 0,
-              indexes: [0, 1, 2, 3, 4, 5, 6],
-              obj: targets ? targets[0] : null
-            }];
-            if (!search) return noResults;
-            search = fuzzysort.prepareSearch(search);
-            var searchLowerCode = search[0];
-            var threshold = options && options.threshold || instanceOptions && instanceOptions.threshold || -9007199254740991;
-            var limit = options && options.limit || instanceOptions && instanceOptions.limit || 9007199254740991;
-            var allowTypo = options && options.allowTypo !== undefined ? options.allowTypo : instanceOptions && instanceOptions.allowTypo !== undefined ? instanceOptions.allowTypo : true;
-            var algorithm = allowTypo ? fuzzysort.algorithm : fuzzysort.algorithmNoTypo;
-            var resultsLen = 0;
-            var limitedCount = 0;
-            var targetsLen = targets.length;
-
-            // This code is copy/pasted 3 times for performance reasons [options.keys, options.key, no keys]
-
-            // options.keys
-            if (options && options.keys) {
-              var scoreFn = options.scoreFn || defaultScoreFn;
-              var keys = options.keys;
-              var keysLen = keys.length;
-              for (var i = targetsLen - 1; i >= 0; --i) {
-                var obj = targets[i];
-                var objResults = new Array(keysLen);
-                for (var keyI = keysLen - 1; keyI >= 0; --keyI) {
-                  var key = keys[keyI];
-                  var target = getValue(obj, key);
-                  if (!target) {
-                    objResults[keyI] = null;
-                    continue;
-                  }
-                  if (!isObj(target)) target = fuzzysort.getPrepared(target);
-                  objResults[keyI] = algorithm(search, target, searchLowerCode);
-                }
-                objResults.obj = obj; // before scoreFn so scoreFn can use it
-                var score = scoreFn(objResults);
-                if (score === null) continue;
-                if (score < threshold) continue;
-                objResults.score = score;
-                if (resultsLen < limit) {
-                  q.add(objResults);
-                  ++resultsLen;
-                } else {
-                  ++limitedCount;
-                  if (score > q.peek().score) q.replaceTop(objResults);
-                }
-              }
-
-              // options.key
-            } else if (options && options.key) {
-              var key = options.key;
-              for (var i = targetsLen - 1; i >= 0; --i) {
-                var obj = targets[i];
-                var target = getValue(obj, key);
-                if (!target) continue;
-                if (!isObj(target)) target = fuzzysort.getPrepared(target);
-                var result = algorithm(search, target, searchLowerCode);
-                if (result === null) continue;
-                if (result.score < threshold) continue;
-
-                // have to clone result so duplicate targets from different obj can each reference the correct obj
-                result = {
-                  target: result.target,
-                  _targetLowerCodes: null,
-                  _nextBeginningIndexes: null,
-                  score: result.score,
-                  indexes: result.indexes,
-                  obj: obj
-                }; // hidden
-
-                if (resultsLen < limit) {
-                  q.add(result);
-                  ++resultsLen;
-                } else {
-                  ++limitedCount;
-                  if (result.score > q.peek().score) q.replaceTop(result);
-                }
-              }
-
-              // no keys
-            } else {
-              for (var i = targetsLen - 1; i >= 0; --i) {
-                var target = targets[i];
-                if (!target) continue;
-                if (!isObj(target)) target = fuzzysort.getPrepared(target);
-                var result = algorithm(search, target, searchLowerCode);
-                if (result === null) continue;
-                if (result.score < threshold) continue;
-                if (resultsLen < limit) {
-                  q.add(result);
-                  ++resultsLen;
-                } else {
-                  ++limitedCount;
-                  if (result.score > q.peek().score) q.replaceTop(result);
-                }
-              }
-            }
-            if (resultsLen === 0) return noResults;
-            var results = new Array(resultsLen);
-            for (var i = resultsLen - 1; i >= 0; --i) {
-              results[i] = q.poll();
-            }
-            results.total = resultsLen + limitedCount;
-            return results;
-          },
-          goAsync: function goAsync(search, targets, options) {
-            var canceled = false;
-            var p = new Promise(function (resolve, reject) {
-              if (search == 'farzher') return resolve([{
-                target: "farzher was here (^-^*)/",
-                score: 0,
-                indexes: [0, 1, 2, 3, 4, 5, 6],
-                obj: targets ? targets[0] : null
-              }]);
-              if (!search) return resolve(noResults);
-              search = fuzzysort.prepareSearch(search);
-              var searchLowerCode = search[0];
-              var q = fastpriorityqueue();
-              var iCurrent = targets.length - 1;
-              var threshold = options && options.threshold || instanceOptions && instanceOptions.threshold || -9007199254740991;
-              var limit = options && options.limit || instanceOptions && instanceOptions.limit || 9007199254740991;
-              var allowTypo = options && options.allowTypo !== undefined ? options.allowTypo : instanceOptions && instanceOptions.allowTypo !== undefined ? instanceOptions.allowTypo : true;
-              var algorithm = allowTypo ? fuzzysort.algorithm : fuzzysort.algorithmNoTypo;
-              var resultsLen = 0;
-              var limitedCount = 0;
-              function step() {
-                if (canceled) return reject('canceled');
-                var startMs = Date.now();
-
-                // This code is copy/pasted 3 times for performance reasons [options.keys, options.key, no keys]
-
-                // options.keys
-                if (options && options.keys) {
-                  var scoreFn = options.scoreFn || defaultScoreFn;
-                  var keys = options.keys;
-                  var keysLen = keys.length;
-                  for (; iCurrent >= 0; --iCurrent) {
-                    if (iCurrent % 1000 /*itemsPerCheck*/ === 0) {
-                      if (Date.now() - startMs >= 10 /*asyncInterval*/) {
-                        isNode ? setImmediate(step) : setTimeout(step);
-                        return;
-                      }
-                    }
-                    var obj = targets[iCurrent];
-                    var objResults = new Array(keysLen);
-                    for (var keyI = keysLen - 1; keyI >= 0; --keyI) {
-                      var key = keys[keyI];
-                      var target = getValue(obj, key);
-                      if (!target) {
-                        objResults[keyI] = null;
-                        continue;
-                      }
-                      if (!isObj(target)) target = fuzzysort.getPrepared(target);
-                      objResults[keyI] = algorithm(search, target, searchLowerCode);
-                    }
-                    objResults.obj = obj; // before scoreFn so scoreFn can use it
-                    var score = scoreFn(objResults);
-                    if (score === null) continue;
-                    if (score < threshold) continue;
-                    objResults.score = score;
-                    if (resultsLen < limit) {
-                      q.add(objResults);
-                      ++resultsLen;
-                    } else {
-                      ++limitedCount;
-                      if (score > q.peek().score) q.replaceTop(objResults);
-                    }
-                  }
-
-                  // options.key
-                } else if (options && options.key) {
-                  var key = options.key;
-                  for (; iCurrent >= 0; --iCurrent) {
-                    if (iCurrent % 1000 /*itemsPerCheck*/ === 0) {
-                      if (Date.now() - startMs >= 10 /*asyncInterval*/) {
-                        isNode ? setImmediate(step) : setTimeout(step);
-                        return;
-                      }
-                    }
-                    var obj = targets[iCurrent];
-                    var target = getValue(obj, key);
-                    if (!target) continue;
-                    if (!isObj(target)) target = fuzzysort.getPrepared(target);
-                    var result = algorithm(search, target, searchLowerCode);
-                    if (result === null) continue;
-                    if (result.score < threshold) continue;
-
-                    // have to clone result so duplicate targets from different obj can each reference the correct obj
-                    result = {
-                      target: result.target,
-                      _targetLowerCodes: null,
-                      _nextBeginningIndexes: null,
-                      score: result.score,
-                      indexes: result.indexes,
-                      obj: obj
-                    }; // hidden
-
-                    if (resultsLen < limit) {
-                      q.add(result);
-                      ++resultsLen;
-                    } else {
-                      ++limitedCount;
-                      if (result.score > q.peek().score) q.replaceTop(result);
-                    }
-                  }
-
-                  // no keys
-                } else {
-                  for (; iCurrent >= 0; --iCurrent) {
-                    if (iCurrent % 1000 /*itemsPerCheck*/ === 0) {
-                      if (Date.now() - startMs >= 10 /*asyncInterval*/) {
-                        isNode ? setImmediate(step) : setTimeout(step);
-                        return;
-                      }
-                    }
-                    var target = targets[iCurrent];
-                    if (!target) continue;
-                    if (!isObj(target)) target = fuzzysort.getPrepared(target);
-                    var result = algorithm(search, target, searchLowerCode);
-                    if (result === null) continue;
-                    if (result.score < threshold) continue;
-                    if (resultsLen < limit) {
-                      q.add(result);
-                      ++resultsLen;
-                    } else {
-                      ++limitedCount;
-                      if (result.score > q.peek().score) q.replaceTop(result);
-                    }
-                  }
-                }
-                if (resultsLen === 0) return resolve(noResults);
-                var results = new Array(resultsLen);
-                for (var i = resultsLen - 1; i >= 0; --i) {
-                  results[i] = q.poll();
-                }
-                results.total = resultsLen + limitedCount;
-                resolve(results);
-              }
-              isNode ? setImmediate(step) : step(); //setTimeout here is too slow
-            });
-
-            p.cancel = function () {
-              canceled = true;
-            };
-            return p;
-          },
-          highlight: function highlight(result, hOpen, hClose) {
-            if (typeof hOpen == 'function') return fuzzysort.highlightCallback(result, hOpen);
-            if (result === null) return null;
-            if (hOpen === undefined) hOpen = '<b>';
-            if (hClose === undefined) hClose = '</b>';
-            var highlighted = '';
-            var matchesIndex = 0;
-            var opened = false;
-            var target = result.target;
-            var targetLen = target.length;
-            var matchesBest = result.indexes;
-            for (var i = 0; i < targetLen; ++i) {
-              var char = target[i];
-              if (matchesBest[matchesIndex] === i) {
-                ++matchesIndex;
-                if (!opened) {
-                  opened = true;
-                  highlighted += hOpen;
-                }
-                if (matchesIndex === matchesBest.length) {
-                  highlighted += char + hClose + target.substr(i + 1);
-                  break;
-                }
-              } else {
-                if (opened) {
-                  opened = false;
-                  highlighted += hClose;
-                }
-              }
-              highlighted += char;
-            }
-            return highlighted;
-          },
-          highlightCallback: function highlightCallback(result, cb) {
-            if (result === null) return null;
-            var target = result.target;
-            var targetLen = target.length;
-            var indexes = result.indexes;
-            var highlighted = '';
-            var matchI = 0;
-            var indexesI = 0;
-            var opened = false;
-            var result = [];
-            for (var i = 0; i < targetLen; ++i) {
-              var char = target[i];
-              if (indexes[indexesI] === i) {
-                ++indexesI;
-                if (!opened) {
-                  opened = true;
-                  result.push(highlighted);
-                  highlighted = '';
-                }
-                if (indexesI === indexes.length) {
-                  highlighted += char;
-                  result.push(cb(highlighted, matchI++));
-                  highlighted = '';
-                  result.push(target.substr(i + 1));
-                  break;
-                }
-              } else {
-                if (opened) {
-                  opened = false;
-                  result.push(cb(highlighted, matchI++));
-                  highlighted = '';
-                }
-              }
-              highlighted += char;
-            }
-            return result;
-          },
-          prepare: function prepare(target) {
-            if (!target) return {
-              target: '',
-              _targetLowerCodes: [0 /*this 0 doesn't make sense. here because an empty array causes the algorithm to deoptimize and run 50% slower!*/],
-              _nextBeginningIndexes: null,
-              score: null,
-              indexes: null,
-              obj: null
-            }; // hidden
-            return {
-              target: target,
-              _targetLowerCodes: fuzzysort.prepareLowerCodes(target),
-              _nextBeginningIndexes: null,
-              score: null,
-              indexes: null,
-              obj: null
-            }; // hidden
-          },
-
-          prepareSlow: function prepareSlow(target) {
-            if (!target) return {
-              target: '',
-              _targetLowerCodes: [0 /*this 0 doesn't make sense. here because an empty array causes the algorithm to deoptimize and run 50% slower!*/],
-              _nextBeginningIndexes: null,
-              score: null,
-              indexes: null,
-              obj: null
-            }; // hidden
-            return {
-              target: target,
-              _targetLowerCodes: fuzzysort.prepareLowerCodes(target),
-              _nextBeginningIndexes: fuzzysort.prepareNextBeginningIndexes(target),
-              score: null,
-              indexes: null,
-              obj: null
-            }; // hidden
-          },
-
-          prepareSearch: function prepareSearch(search) {
-            if (!search) search = '';
-            return fuzzysort.prepareLowerCodes(search);
-          },
-          // Below this point is only internal code
-          // Below this point is only internal code
-          // Below this point is only internal code
-          // Below this point is only internal code
-
-          getPrepared: function getPrepared(target) {
-            if (target.length > 999) return fuzzysort.prepare(target); // don't cache huge targets
-            var targetPrepared = preparedCache.get(target);
-            if (targetPrepared !== undefined) return targetPrepared;
-            targetPrepared = fuzzysort.prepare(target);
-            preparedCache.set(target, targetPrepared);
-            return targetPrepared;
-          },
-          getPreparedSearch: function getPreparedSearch(search) {
-            if (search.length > 999) return fuzzysort.prepareSearch(search); // don't cache huge searches
-            var searchPrepared = preparedSearchCache.get(search);
-            if (searchPrepared !== undefined) return searchPrepared;
-            searchPrepared = fuzzysort.prepareSearch(search);
-            preparedSearchCache.set(search, searchPrepared);
-            return searchPrepared;
-          },
-          algorithm: function algorithm(searchLowerCodes, prepared, searchLowerCode) {
-            var targetLowerCodes = prepared._targetLowerCodes;
-            var searchLen = searchLowerCodes.length;
-            var targetLen = targetLowerCodes.length;
-            var searchI = 0; // where we at
-            var targetI = 0; // where you at
-            var typoSimpleI = 0;
-            var matchesSimpleLen = 0;
-
-            // very basic fuzzy match; to remove non-matching targets ASAP!
-            // walk through target. find sequential matches.
-            // if all chars aren't found then exit
-            for (;;) {
-              var isMatch = searchLowerCode === targetLowerCodes[targetI];
-              if (isMatch) {
-                matchesSimple[matchesSimpleLen++] = targetI;
-                ++searchI;
-                if (searchI === searchLen) break;
-                searchLowerCode = searchLowerCodes[typoSimpleI === 0 ? searchI : typoSimpleI === searchI ? searchI + 1 : typoSimpleI === searchI - 1 ? searchI - 1 : searchI];
-              }
-              ++targetI;
-              if (targetI >= targetLen) {
-                // Failed to find searchI
-                // Check for typo or exit
-                // we go as far as possible before trying to transpose
-                // then we transpose backwards until we reach the beginning
-                for (;;) {
-                  if (searchI <= 1) return null; // not allowed to transpose first char
-                  if (typoSimpleI === 0) {
-                    // we haven't tried to transpose yet
-                    --searchI;
-                    var searchLowerCodeNew = searchLowerCodes[searchI];
-                    if (searchLowerCode === searchLowerCodeNew) continue; // doesn't make sense to transpose a repeat char
-                    typoSimpleI = searchI;
-                  } else {
-                    if (typoSimpleI === 1) return null; // reached the end of the line for transposing
-                    --typoSimpleI;
-                    searchI = typoSimpleI;
-                    searchLowerCode = searchLowerCodes[searchI + 1];
-                    var searchLowerCodeNew = searchLowerCodes[searchI];
-                    if (searchLowerCode === searchLowerCodeNew) continue; // doesn't make sense to transpose a repeat char
-                  }
-
-                  matchesSimpleLen = searchI;
-                  targetI = matchesSimple[matchesSimpleLen - 1] + 1;
-                  break;
-                }
-              }
-            }
-            var searchI = 0;
-            var typoStrictI = 0;
-            var successStrict = false;
-            var matchesStrictLen = 0;
-            var nextBeginningIndexes = prepared._nextBeginningIndexes;
-            if (nextBeginningIndexes === null) nextBeginningIndexes = prepared._nextBeginningIndexes = fuzzysort.prepareNextBeginningIndexes(prepared.target);
-            var firstPossibleI = targetI = matchesSimple[0] === 0 ? 0 : nextBeginningIndexes[matchesSimple[0] - 1];
-
-            // Our target string successfully matched all characters in sequence!
-            // Let's try a more advanced and strict test to improve the score
-            // only count it as a match if it's consecutive or a beginning character!
-            if (targetI !== targetLen) for (;;) {
-              if (targetI >= targetLen) {
-                // We failed to find a good spot for this search char, go back to the previous search char and force it forward
-                if (searchI <= 0) {
-                  // We failed to push chars forward for a better match
-                  // transpose, starting from the beginning
-                  ++typoStrictI;
-                  if (typoStrictI > searchLen - 2) break;
-                  if (searchLowerCodes[typoStrictI] === searchLowerCodes[typoStrictI + 1]) continue; // doesn't make sense to transpose a repeat char
-                  targetI = firstPossibleI;
-                  continue;
-                }
-                --searchI;
-                var lastMatch = matchesStrict[--matchesStrictLen];
-                targetI = nextBeginningIndexes[lastMatch];
-              } else {
-                var isMatch = searchLowerCodes[typoStrictI === 0 ? searchI : typoStrictI === searchI ? searchI + 1 : typoStrictI === searchI - 1 ? searchI - 1 : searchI] === targetLowerCodes[targetI];
-                if (isMatch) {
-                  matchesStrict[matchesStrictLen++] = targetI;
-                  ++searchI;
-                  if (searchI === searchLen) {
-                    successStrict = true;
-                    break;
-                  }
-                  ++targetI;
-                } else {
-                  targetI = nextBeginningIndexes[targetI];
-                }
-              }
-            }
-            {
-              // tally up the score & keep track of matches for highlighting later
-              if (successStrict) {
-                var matchesBest = matchesStrict;
-                var matchesBestLen = matchesStrictLen;
-              } else {
-                var matchesBest = matchesSimple;
-                var matchesBestLen = matchesSimpleLen;
-              }
-              var score = 0;
-              var lastTargetI = -1;
-              for (var i = 0; i < searchLen; ++i) {
-                var targetI = matchesBest[i];
-                // score only goes down if they're not consecutive
-                if (lastTargetI !== targetI - 1) score -= targetI;
-                lastTargetI = targetI;
-              }
-              if (!successStrict) {
-                score *= 1000;
-                if (typoSimpleI !== 0) score += -20; /*typoPenalty*/
-              } else {
-                if (typoStrictI !== 0) score += -20; /*typoPenalty*/
-              }
-
-              score -= targetLen - searchLen;
-              prepared.score = score;
-              prepared.indexes = new Array(matchesBestLen);
-              for (var i = matchesBestLen - 1; i >= 0; --i) {
-                prepared.indexes[i] = matchesBest[i];
-              }
-              return prepared;
-            }
-          },
-          algorithmNoTypo: function algorithmNoTypo(searchLowerCodes, prepared, searchLowerCode) {
-            var targetLowerCodes = prepared._targetLowerCodes;
-            var searchLen = searchLowerCodes.length;
-            var targetLen = targetLowerCodes.length;
-            var searchI = 0; // where we at
-            var targetI = 0; // where you at
-            var matchesSimpleLen = 0;
-
-            // very basic fuzzy match; to remove non-matching targets ASAP!
-            // walk through target. find sequential matches.
-            // if all chars aren't found then exit
-            for (;;) {
-              var isMatch = searchLowerCode === targetLowerCodes[targetI];
-              if (isMatch) {
-                matchesSimple[matchesSimpleLen++] = targetI;
-                ++searchI;
-                if (searchI === searchLen) break;
-                searchLowerCode = searchLowerCodes[searchI];
-              }
-              ++targetI;
-              if (targetI >= targetLen) return null; // Failed to find searchI
-            }
-
-            var searchI = 0;
-            var successStrict = false;
-            var matchesStrictLen = 0;
-            var nextBeginningIndexes = prepared._nextBeginningIndexes;
-            if (nextBeginningIndexes === null) nextBeginningIndexes = prepared._nextBeginningIndexes = fuzzysort.prepareNextBeginningIndexes(prepared.target);
-            targetI = matchesSimple[0] === 0 ? 0 : nextBeginningIndexes[matchesSimple[0] - 1];
-
-            // Our target string successfully matched all characters in sequence!
-            // Let's try a more advanced and strict test to improve the score
-            // only count it as a match if it's consecutive or a beginning character!
-            if (targetI !== targetLen) for (;;) {
-              if (targetI >= targetLen) {
-                // We failed to find a good spot for this search char, go back to the previous search char and force it forward
-                if (searchI <= 0) break; // We failed to push chars forward for a better match
-
-                --searchI;
-                var lastMatch = matchesStrict[--matchesStrictLen];
-                targetI = nextBeginningIndexes[lastMatch];
-              } else {
-                var isMatch = searchLowerCodes[searchI] === targetLowerCodes[targetI];
-                if (isMatch) {
-                  matchesStrict[matchesStrictLen++] = targetI;
-                  ++searchI;
-                  if (searchI === searchLen) {
-                    successStrict = true;
-                    break;
-                  }
-                  ++targetI;
-                } else {
-                  targetI = nextBeginningIndexes[targetI];
-                }
-              }
-            }
-            {
-              // tally up the score & keep track of matches for highlighting later
-              if (successStrict) {
-                var matchesBest = matchesStrict;
-                var matchesBestLen = matchesStrictLen;
-              } else {
-                var matchesBest = matchesSimple;
-                var matchesBestLen = matchesSimpleLen;
-              }
-              var score = 0;
-              var lastTargetI = -1;
-              for (var i = 0; i < searchLen; ++i) {
-                var targetI = matchesBest[i];
-                // score only goes down if they're not consecutive
-                if (lastTargetI !== targetI - 1) score -= targetI;
-                lastTargetI = targetI;
-              }
-              if (!successStrict) score *= 1000;
-              score -= targetLen - searchLen;
-              prepared.score = score;
-              prepared.indexes = new Array(matchesBestLen);
-              for (var i = matchesBestLen - 1; i >= 0; --i) {
-                prepared.indexes[i] = matchesBest[i];
-              }
-              return prepared;
-            }
-          },
-          prepareLowerCodes: function prepareLowerCodes(str) {
-            var strLen = str.length;
-            var lowerCodes = []; // new Array(strLen)    sparse array is too slow
-            var lower = str.toLowerCase();
-            for (var i = 0; i < strLen; ++i) {
-              lowerCodes[i] = lower.charCodeAt(i);
-            }
-            return lowerCodes;
-          },
-          prepareBeginningIndexes: function prepareBeginningIndexes(target) {
-            var targetLen = target.length;
-            var beginningIndexes = [];
-            var beginningIndexesLen = 0;
-            var wasUpper = false;
-            var wasAlphanum = false;
-            for (var i = 0; i < targetLen; ++i) {
-              var targetCode = target.charCodeAt(i);
-              var isUpper = targetCode >= 65 && targetCode <= 90;
-              var isAlphanum = isUpper || targetCode >= 97 && targetCode <= 122 || targetCode >= 48 && targetCode <= 57;
-              var isBeginning = isUpper && !wasUpper || !wasAlphanum || !isAlphanum;
-              wasUpper = isUpper;
-              wasAlphanum = isAlphanum;
-              if (isBeginning) beginningIndexes[beginningIndexesLen++] = i;
-            }
-            return beginningIndexes;
-          },
-          prepareNextBeginningIndexes: function prepareNextBeginningIndexes(target) {
-            var targetLen = target.length;
-            var beginningIndexes = fuzzysort.prepareBeginningIndexes(target);
-            var nextBeginningIndexes = []; // new Array(targetLen)     sparse array is too slow
-            var lastIsBeginning = beginningIndexes[0];
-            var lastIsBeginningI = 0;
-            for (var i = 0; i < targetLen; ++i) {
-              if (lastIsBeginning > i) {
-                nextBeginningIndexes[i] = lastIsBeginning;
-              } else {
-                lastIsBeginning = beginningIndexes[++lastIsBeginningI];
-                nextBeginningIndexes[i] = lastIsBeginning === undefined ? targetLen : lastIsBeginning;
-              }
-            }
-            return nextBeginningIndexes;
-          },
-          cleanup: cleanup,
-          new: fuzzysortNew
-        };
-        return fuzzysort;
-      } // fuzzysortNew
-
-      // This stuff is outside fuzzysortNew, because it's shared with instances of fuzzysort.new()
-      var isNode = typeof commonjsRequire !== 'undefined' && typeof window === 'undefined';
-      var MyMap = typeof Map === 'function' ? Map : function () {
-        var s = Object.create(null);
-        this.get = function (k) {
-          return s[k];
-        };
-        this.set = function (k, val) {
-          s[k] = val;
-          return this;
-        };
-        this.clear = function () {
-          s = Object.create(null);
-        };
-      };
-      var preparedCache = new MyMap();
-      var preparedSearchCache = new MyMap();
-      var noResults = [];
-      noResults.total = 0;
-      var matchesSimple = [];
-      var matchesStrict = [];
-      function cleanup() {
-        preparedCache.clear();
-        preparedSearchCache.clear();
-        matchesSimple = [];
-        matchesStrict = [];
-      }
-      function defaultScoreFn(a) {
-        var max = -9007199254740991;
-        for (var i = a.length - 1; i >= 0; --i) {
-          var result = a[i];
-          if (result === null) continue;
-          var score = result.score;
-          if (score > max) max = score;
-        }
-        if (max === -9007199254740991) return null;
-        return max;
-      }
-
-      // prop = 'key'              2.5ms optimized for this case, seems to be about as fast as direct obj[prop]
-      // prop = 'key1.key2'        10ms
-      // prop = ['key1', 'key2']   27ms
-      function getValue(obj, prop) {
-        var tmp = obj[prop];
-        if (tmp !== undefined) return tmp;
-        var segs = prop;
-        if (!Array.isArray(prop)) segs = prop.split('.');
-        var len = segs.length;
-        var i = -1;
-        while (obj && ++i < len) {
-          obj = obj[segs[i]];
-        }
-        return obj;
-      }
-      function isObj(x) {
-        return _typeof(x) === 'object';
-      } // faster as a function
-
-      // Hacked version of https://github.com/lemire/FastPriorityQueue.js
-      var fastpriorityqueue = function fastpriorityqueue() {
-        var r = [],
-          o = 0,
-          e = {};
-        function n() {
-          for (var e = 0, n = r[e], c = 1; c < o;) {
-            var f = c + 1;
-            e = c, f < o && r[f].score < r[c].score && (e = f), r[e - 1 >> 1] = r[e], c = 1 + (e << 1);
-          }
-          for (var a = e - 1 >> 1; e > 0 && n.score < r[a].score; a = (e = a) - 1 >> 1) {
-            r[e] = r[a];
-          }
-          r[e] = n;
-        }
-        return e.add = function (e) {
-          var n = o;
-          r[o++] = e;
-          for (var c = n - 1 >> 1; n > 0 && e.score < r[c].score; c = (n = c) - 1 >> 1) {
-            r[n] = r[c];
-          }
-          r[n] = e;
-        }, e.poll = function () {
-          if (0 !== o) {
-            var e = r[0];
-            return r[0] = r[--o], n(), e;
-          }
-        }, e.peek = function (e) {
-          if (0 !== o) return r[0];
-        }, e.replaceTop = function (o) {
-          r[0] = o, n();
-        }, e;
-      };
-      var q = fastpriorityqueue(); // reuse this, except for async, it needs to make its own
-
-      return fuzzysortNew();
-    }); // UMD
-
-    // TODO: (performance) wasm version!?
-    // TODO: (performance) threads?
-    // TODO: (performance) avoid cache misses
-    // TODO: (performance) preparedCache is a memory leak
-    // TODO: (like sublime) backslash === forwardslash
-    // TODO: (like sublime) spaces: "a b" should do 2 searches 1 for a and 1 for b
-    // TODO: (scoring) garbage in targets that allows most searches to strict match need a penality
-    // TODO: (performance) idk if allowTypo is optimized
-  })(fuzzysort$1);
-  var fuzzysort = fuzzysort$1.exports;
-
   var stats = {
-    failedTests: [],
-    defined: 0,
-    completed: 0
+  	passedTests: 0,
+  	failedTests: 0,
+  	skippedTests: 0,
+  	todoTests: 0
   };
 
   // Escape text for attribute or text content.
-  function escapeText(str) {
-    if (!str) {
-      return '';
-    }
+  function escapeText(s) {
+  	if (!s) {
+  		return "";
+  	}
+  	s = s + "";
 
-    // Both single quotes and double quotes (for attributes)
-    return ('' + str).replace(/['"<>&]/g, function (s) {
-      switch (s) {
-        case "'":
-          return '&#039;';
-        case '"':
-          return '&quot;';
-        case '<':
-          return '&lt;';
-        case '>':
-          return '&gt;';
-        case '&':
-          return '&amp;';
-      }
-    });
+  	// Both single quotes and double quotes (for attributes)
+  	return s.replace(/['"<>&]/g, function (s) {
+  		switch (s) {
+  			case "'":
+  				return "&#039;";
+  			case "\"":
+  				return "&quot;";
+  			case "<":
+  				return "&lt;";
+  			case ">":
+  				return "&gt;";
+  			case "&":
+  				return "&amp;";
+  		}
+  	});
   }
+
   (function () {
-    // Don't load the HTML Reporter on non-browser environments
-    if (!window$1 || !document) {
-      return;
-    }
-    var config = QUnit.config;
-    var hiddenTests = [];
-    var collapseNext = false;
-    var hasOwn = Object.prototype.hasOwnProperty;
-    var unfilteredUrl = setUrl({
-      filter: undefined,
-      module: undefined,
-      moduleId: undefined,
-      testId: undefined
-    });
-    var dropdownData = null;
-    function trim(string) {
-      if (typeof string.trim === 'function') {
-        return string.trim();
-      } else {
-        return string.replace(/^\s+|\s+$/g, '');
-      }
-    }
-    function addEvent(elem, type, fn) {
-      elem.addEventListener(type, fn, false);
-    }
-    function removeEvent(elem, type, fn) {
-      elem.removeEventListener(type, fn, false);
-    }
-    function addEvents(elems, type, fn) {
-      var i = elems.length;
-      while (i--) {
-        addEvent(elems[i], type, fn);
-      }
-    }
-    function hasClass(elem, name) {
-      return (' ' + elem.className + ' ').indexOf(' ' + name + ' ') >= 0;
-    }
-    function addClass(elem, name) {
-      if (!hasClass(elem, name)) {
-        elem.className += (elem.className ? ' ' : '') + name;
-      }
-    }
-    function toggleClass(elem, name, force) {
-      if (force || typeof force === 'undefined' && !hasClass(elem, name)) {
-        addClass(elem, name);
-      } else {
-        removeClass(elem, name);
-      }
-    }
-    function removeClass(elem, name) {
-      var set = ' ' + elem.className + ' ';
 
-      // Class name may appear multiple times
-      while (set.indexOf(' ' + name + ' ') >= 0) {
-        set = set.replace(' ' + name + ' ', ' ');
-      }
+  	// Don't load the HTML Reporter on non-browser environments
+  	if (typeof window$1 === "undefined" || !window$1.document) {
+  		return;
+  	}
 
-      // Trim for prettiness
-      elem.className = trim(set);
-    }
-    function id(name) {
-      return document.getElementById && document.getElementById(name);
-    }
-    function abortTests() {
-      var abortButton = id('qunit-abort-tests-button');
-      if (abortButton) {
-        abortButton.disabled = true;
-        abortButton.innerHTML = 'Aborting...';
-      }
-      QUnit.config.queue.length = 0;
-      return false;
-    }
-    function interceptNavigation(ev) {
-      // Trim potential accidental whitespace so that QUnit doesn't throw an error about no tests matching the filter.
-      var filterInputElem = id('qunit-filter-input');
-      filterInputElem.value = trim(filterInputElem.value);
-      applyUrlParams();
-      if (ev && ev.preventDefault) {
-        ev.preventDefault();
-      }
-      return false;
-    }
-    function getUrlConfigHtml() {
-      var selection = false;
-      var urlConfig = config.urlConfig;
-      var urlConfigHtml = '';
-      for (var i = 0; i < urlConfig.length; i++) {
-        // Options can be either strings or objects with nonempty "id" properties
-        var val = config.urlConfig[i];
-        if (typeof val === 'string') {
-          val = {
-            id: val,
-            label: val
-          };
-        }
-        var escaped = escapeText(val.id);
-        var escapedTooltip = escapeText(val.tooltip);
-        if (!val.value || typeof val.value === 'string') {
-          urlConfigHtml += "<label for='qunit-urlconfig-" + escaped + "' title='" + escapedTooltip + "'><input id='qunit-urlconfig-" + escaped + "' name='" + escaped + "' type='checkbox'" + (val.value ? " value='" + escapeText(val.value) + "'" : '') + (config[val.id] ? " checked='checked'" : '') + " title='" + escapedTooltip + "' />" + escapeText(val.label) + '</label>';
-        } else {
-          urlConfigHtml += "<label for='qunit-urlconfig-" + escaped + "' title='" + escapedTooltip + "'>" + val.label + ": </label><select id='qunit-urlconfig-" + escaped + "' name='" + escaped + "' title='" + escapedTooltip + "'><option></option>";
-          if (Array.isArray(val.value)) {
-            for (var j = 0; j < val.value.length; j++) {
-              escaped = escapeText(val.value[j]);
-              urlConfigHtml += "<option value='" + escaped + "'" + (config[val.id] === val.value[j] ? (selection = true) && " selected='selected'" : '') + '>' + escaped + '</option>';
-            }
-          } else {
-            for (var _j in val.value) {
-              if (hasOwn.call(val.value, _j)) {
-                urlConfigHtml += "<option value='" + escapeText(_j) + "'" + (config[val.id] === _j ? (selection = true) && " selected='selected'" : '') + '>' + escapeText(val.value[_j]) + '</option>';
-              }
-            }
-          }
-          if (config[val.id] && !selection) {
-            escaped = escapeText(config[val.id]);
-            urlConfigHtml += "<option value='" + escaped + "' selected='selected' disabled='disabled'>" + escaped + '</option>';
-          }
-          urlConfigHtml += '</select>';
-        }
-      }
-      return urlConfigHtml;
-    }
+  	var config = QUnit.config,
+  	    hiddenTests = [],
+  	    document = window$1.document,
+  	    collapseNext = false,
+  	    hasOwn$$1 = Object.prototype.hasOwnProperty,
+  	    unfilteredUrl = setUrl({ filter: undefined, module: undefined,
+  		moduleId: undefined, testId: undefined }),
+  	    modulesList = [];
 
-    // Handle "click" events on toolbar checkboxes and "change" for select menus.
-    // Updates the URL with the new state of `config.urlConfig` values.
-    function toolbarChanged() {
-      var field = this;
-      var params = {};
+  	function addEvent(elem, type, fn) {
+  		elem.addEventListener(type, fn, false);
+  	}
 
-      // Detect if field is a select menu or a checkbox
-      var value;
-      if ('selectedIndex' in field) {
-        value = field.options[field.selectedIndex].value || undefined;
-      } else {
-        value = field.checked ? field.defaultValue || true : undefined;
-      }
-      params[field.name] = value;
-      var updatedUrl = setUrl(params);
+  	function removeEvent(elem, type, fn) {
+  		elem.removeEventListener(type, fn, false);
+  	}
 
-      // Check if we can apply the change without a page refresh
-      if (field.name === 'hidepassed' && 'replaceState' in window$1.history) {
-        QUnit.urlParams[field.name] = value;
-        config[field.name] = value || false;
-        var tests = id('qunit-tests');
-        if (tests) {
-          var length = tests.children.length;
-          var children = tests.children;
-          if (field.checked) {
-            for (var i = 0; i < length; i++) {
-              var test = children[i];
-              var className = test ? test.className : '';
-              var classNameHasPass = className.indexOf('pass') > -1;
-              var classNameHasSkipped = className.indexOf('skipped') > -1;
-              if (classNameHasPass || classNameHasSkipped) {
-                hiddenTests.push(test);
-              }
-            }
-            var _iterator = _createForOfIteratorHelper(hiddenTests),
-              _step;
-            try {
-              for (_iterator.s(); !(_step = _iterator.n()).done;) {
-                var hiddenTest = _step.value;
-                tests.removeChild(hiddenTest);
-              }
-            } catch (err) {
-              _iterator.e(err);
-            } finally {
-              _iterator.f();
-            }
-          } else {
-            var _test;
-            while ((_test = hiddenTests.pop()) != null) {
-              tests.appendChild(_test);
-            }
-          }
-        }
-        window$1.history.replaceState(null, '', updatedUrl);
-      } else {
-        window$1.location = updatedUrl;
-      }
-    }
-    function setUrl(params) {
-      var querystring = '?';
-      var location = window$1.location;
-      params = extend(extend({}, QUnit.urlParams), params);
-      for (var key in params) {
-        // Skip inherited or undefined properties
-        if (hasOwn.call(params, key) && params[key] !== undefined) {
-          // Output a parameter for each value of this key
-          // (but usually just one)
-          var arrValue = [].concat(params[key]);
-          for (var i = 0; i < arrValue.length; i++) {
-            querystring += encodeURIComponent(key);
-            if (arrValue[i] !== true) {
-              querystring += '=' + encodeURIComponent(arrValue[i]);
-            }
-            querystring += '&';
-          }
-        }
-      }
-      return location.protocol + '//' + location.host + location.pathname + querystring.slice(0, -1);
-    }
-    function applyUrlParams() {
-      var filter = id('qunit-filter-input').value;
-      window$1.location = setUrl({
-        filter: filter === '' ? undefined : filter,
-        moduleId: _toConsumableArray(dropdownData.selectedMap.keys()),
-        // Remove module and testId filter
-        module: undefined,
-        testId: undefined
-      });
-    }
-    function toolbarUrlConfigContainer() {
-      var urlConfigContainer = document.createElement('span');
-      urlConfigContainer.innerHTML = getUrlConfigHtml();
-      addClass(urlConfigContainer, 'qunit-url-config');
-      addEvents(urlConfigContainer.getElementsByTagName('input'), 'change', toolbarChanged);
-      addEvents(urlConfigContainer.getElementsByTagName('select'), 'change', toolbarChanged);
-      return urlConfigContainer;
-    }
-    function abortTestsButton() {
-      var button = document.createElement('button');
-      button.id = 'qunit-abort-tests-button';
-      button.innerHTML = 'Abort';
-      addEvent(button, 'click', abortTests);
-      return button;
-    }
-    function toolbarLooseFilter() {
-      var filter = document.createElement('form');
-      var label = document.createElement('label');
-      var input = document.createElement('input');
-      var button = document.createElement('button');
-      addClass(filter, 'qunit-filter');
-      label.innerHTML = 'Filter: ';
-      input.type = 'text';
-      input.value = config.filter || '';
-      input.name = 'filter';
-      input.id = 'qunit-filter-input';
-      button.innerHTML = 'Go';
-      label.appendChild(input);
-      filter.appendChild(label);
-      filter.appendChild(document.createTextNode(' '));
-      filter.appendChild(button);
-      addEvent(filter, 'submit', interceptNavigation);
-      return filter;
-    }
-    function createModuleListItem(moduleId, name, checked) {
-      return '<li><label class="clickable' + (checked ? ' checked' : '') + '"><input type="checkbox" ' + 'value="' + escapeText(moduleId) + '"' + (checked ? ' checked="checked"' : '') + ' />' + escapeText(name) + '</label></li>';
-    }
+  	function addEvents(elems, type, fn) {
+  		var i = elems.length;
+  		while (i--) {
+  			addEvent(elems[i], type, fn);
+  		}
+  	}
 
-    /**
-     * @param {Array} Results from fuzzysort
-     * @return {string} HTML
-     */
-    function moduleListHtml(results) {
-      var html = '';
+  	function hasClass(elem, name) {
+  		return (" " + elem.className + " ").indexOf(" " + name + " ") >= 0;
+  	}
 
-      // Hoist the already selected items, and show them always
-      // even if not matched by the current search.
-      dropdownData.selectedMap.forEach(function (name, moduleId) {
-        html += createModuleListItem(moduleId, name, true);
-      });
-      for (var i = 0; i < results.length; i++) {
-        var mod = results[i].obj;
-        if (!dropdownData.selectedMap.has(mod.moduleId)) {
-          html += createModuleListItem(mod.moduleId, mod.name, false);
-        }
-      }
-      return html;
-    }
-    function toolbarModuleFilter(beginDetails) {
-      var initialSelected = null;
-      dropdownData = {
-        options: beginDetails.modules.slice(),
-        selectedMap: new StringMap(),
-        isDirty: function isDirty() {
-          return _toConsumableArray(dropdownData.selectedMap.keys()).sort().join(',') !== _toConsumableArray(initialSelected.keys()).sort().join(',');
-        }
-      };
-      if (config.moduleId.length) {
-        // The module dropdown is seeded with the runtime configuration of the last run.
-        //
-        // We don't reference `config.moduleId` directly after this and keep our own
-        // copy because:
-        // 1. This naturaly filters out unknown moduleIds.
-        // 2. Gives us a place to manage and remember unsubmitted checkbox changes.
-        // 3. Gives us an efficient way to map a selected moduleId to module name
-        //    during rendering.
-        for (var i = 0; i < beginDetails.modules.length; i++) {
-          var mod = beginDetails.modules[i];
-          if (config.moduleId.indexOf(mod.moduleId) !== -1) {
-            dropdownData.selectedMap.set(mod.moduleId, mod.name);
-          }
-        }
-      }
-      initialSelected = new StringMap(dropdownData.selectedMap);
-      var moduleSearch = document.createElement('input');
-      moduleSearch.id = 'qunit-modulefilter-search';
-      moduleSearch.autocomplete = 'off';
-      addEvent(moduleSearch, 'input', searchInput);
-      addEvent(moduleSearch, 'input', searchFocus);
-      addEvent(moduleSearch, 'focus', searchFocus);
-      addEvent(moduleSearch, 'click', searchFocus);
-      var label = document.createElement('label');
-      label.htmlFor = 'qunit-modulefilter-search';
-      label.textContent = 'Module:';
-      var searchContainer = document.createElement('span');
-      searchContainer.id = 'qunit-modulefilter-search-container';
-      searchContainer.appendChild(moduleSearch);
-      var applyButton = document.createElement('button');
-      applyButton.textContent = 'Apply';
-      applyButton.title = 'Re-run the selected test modules';
-      addEvent(applyButton, 'click', applyUrlParams);
-      var resetButton = document.createElement('button');
-      resetButton.textContent = 'Reset';
-      resetButton.type = 'reset';
-      resetButton.title = 'Restore the previous module selection';
-      var clearButton = document.createElement('button');
-      clearButton.textContent = 'Select none';
-      clearButton.type = 'button';
-      clearButton.title = 'Clear the current module selection';
-      addEvent(clearButton, 'click', function () {
-        dropdownData.selectedMap.clear();
-        selectionChange();
-        searchInput();
-      });
-      var actions = document.createElement('span');
-      actions.id = 'qunit-modulefilter-actions';
-      actions.appendChild(applyButton);
-      actions.appendChild(resetButton);
-      if (initialSelected.size) {
-        // Only show clear button if functionally different from reset
-        actions.appendChild(clearButton);
-      }
-      var dropDownList = document.createElement('ul');
-      dropDownList.id = 'qunit-modulefilter-dropdown-list';
-      var dropDown = document.createElement('div');
-      dropDown.id = 'qunit-modulefilter-dropdown';
-      dropDown.style.display = 'none';
-      dropDown.appendChild(actions);
-      dropDown.appendChild(dropDownList);
-      addEvent(dropDown, 'change', selectionChange);
-      searchContainer.appendChild(dropDown);
-      // Set initial moduleSearch.placeholder and clearButton/resetButton.
-      selectionChange();
-      var moduleFilter = document.createElement('form');
-      moduleFilter.id = 'qunit-modulefilter';
-      moduleFilter.appendChild(label);
-      moduleFilter.appendChild(document.createTextNode(' '));
-      moduleFilter.appendChild(searchContainer);
-      addEvent(moduleFilter, 'submit', interceptNavigation);
-      addEvent(moduleFilter, 'reset', function () {
-        dropdownData.selectedMap = new StringMap(initialSelected);
-        // Set moduleSearch.placeholder and reflect non-dirty state
-        selectionChange();
-        searchInput();
-      });
+  	function addClass(elem, name) {
+  		if (!hasClass(elem, name)) {
+  			elem.className += (elem.className ? " " : "") + name;
+  		}
+  	}
 
-      // Enables show/hide for the dropdown
-      function searchFocus() {
-        if (dropDown.style.display !== 'none') {
-          return;
-        }
+  	function toggleClass(elem, name, force) {
+  		if (force || typeof force === "undefined" && !hasClass(elem, name)) {
+  			addClass(elem, name);
+  		} else {
+  			removeClass(elem, name);
+  		}
+  	}
 
-        // Optimization: Defer rendering options until focussed.
-        // https://github.com/qunitjs/qunit/issues/1664
-        searchInput();
-        dropDown.style.display = 'block';
+  	function removeClass(elem, name) {
+  		var set = " " + elem.className + " ";
 
-        // Hide on Escape keydown or on click outside the container
-        addEvent(document, 'click', hideHandler);
-        addEvent(document, 'keydown', hideHandler);
-        function hideHandler(e) {
-          var inContainer = moduleFilter.contains(e.target);
-          if (e.keyCode === 27 || !inContainer) {
-            if (e.keyCode === 27 && inContainer) {
-              moduleSearch.focus();
-            }
-            dropDown.style.display = 'none';
-            removeEvent(document, 'click', hideHandler);
-            removeEvent(document, 'keydown', hideHandler);
-            moduleSearch.value = '';
-            searchInput();
-          }
-        }
-      }
+  		// Class name may appear multiple times
+  		while (set.indexOf(" " + name + " ") >= 0) {
+  			set = set.replace(" " + name + " ", " ");
+  		}
 
-      /**
-       * @param {string} searchText
-       * @return {string} HTML
-       */
-      function filterModules(searchText) {
-        var results;
-        if (searchText === '') {
-          // Improve on-boarding experience by having an immediate display of
-          // module names, indicating how the interface works. This also makes
-          // for a quicker interaction in the common case of small projects.
-          // Don't mandate typing just to get the menu.
-          results = dropdownData.options.slice(0, 20).map(function (obj) {
-            // Fake empty results. https://github.com/farzher/fuzzysort/issues/41
-            return {
-              obj: obj
-            };
-          });
-        } else {
-          results = fuzzysort.go(searchText, dropdownData.options, {
-            limit: 20,
-            key: 'name',
-            allowTypo: true
-          });
-        }
-        return moduleListHtml(results);
-      }
+  		// Trim for prettiness
+  		elem.className = typeof set.trim === "function" ? set.trim() : set.replace(/^\s+|\s+$/g, "");
+  	}
 
-      // Processes module search box input
-      var searchInputTimeout;
-      function searchInput() {
-        // Use a debounce with a ~0ms timeout. This is effectively instantaneous,
-        // but is better than undebounced because it avoids an ever-growing
-        // backlog of unprocessed now-outdated input events if fuzzysearch or
-        // drodown DOM is slow (e.g. very large test suite).
-        window$1.clearTimeout(searchInputTimeout);
-        searchInputTimeout = window$1.setTimeout(function () {
-          dropDownList.innerHTML = filterModules(moduleSearch.value);
-        });
-      }
+  	function id(name) {
+  		return document.getElementById && document.getElementById(name);
+  	}
 
-      // Processes checkbox change, or a generic render (initial render, or after reset event)
-      // Avoid any dropdown rendering here as this is used by toolbarModuleFilter()
-      // during the initial render, which should not delay test execution.
-      function selectionChange(evt) {
-        var checkbox = evt && evt.target || null;
-        if (checkbox) {
-          // Update internal state
-          if (checkbox.checked) {
-            dropdownData.selectedMap.set(checkbox.value, checkbox.parentNode.textContent);
-          } else {
-            dropdownData.selectedMap.delete(checkbox.value);
-          }
+  	function abortTests() {
+  		var abortButton = id("qunit-abort-tests-button");
+  		if (abortButton) {
+  			abortButton.disabled = true;
+  			abortButton.innerHTML = "Aborting...";
+  		}
+  		QUnit.config.queue.length = 0;
+  		return false;
+  	}
 
-          // Update UI state
-          toggleClass(checkbox.parentNode, 'checked', checkbox.checked);
-        }
-        var textForm = dropdownData.selectedMap.size ? dropdownData.selectedMap.size + ' ' + (dropdownData.selectedMap.size === 1 ? 'module' : 'modules') : 'All modules';
-        moduleSearch.placeholder = textForm;
-        moduleSearch.title = 'Type to search through and reduce the list.';
-        resetButton.disabled = !dropdownData.isDirty();
-        clearButton.style.display = dropdownData.selectedMap.size ? '' : 'none';
-      }
-      return moduleFilter;
-    }
-    function appendToolbar(beginDetails) {
-      var toolbar = id('qunit-testrunner-toolbar');
-      if (toolbar) {
-        toolbar.appendChild(toolbarUrlConfigContainer());
-        var toolbarFilters = document.createElement('span');
-        toolbarFilters.id = 'qunit-toolbar-filters';
-        toolbarFilters.appendChild(toolbarLooseFilter());
-        toolbarFilters.appendChild(toolbarModuleFilter(beginDetails));
-        var clearfix = document.createElement('div');
-        clearfix.className = 'clearfix';
-        toolbar.appendChild(toolbarFilters);
-        toolbar.appendChild(clearfix);
-      }
-    }
-    function appendHeader() {
-      var header = id('qunit-header');
-      if (header) {
-        header.innerHTML = "<a href='" + escapeText(unfilteredUrl) + "'>" + header.innerHTML + '</a> ';
-      }
-    }
-    function appendBanner() {
-      var banner = id('qunit-banner');
-      if (banner) {
-        banner.className = '';
-      }
-    }
-    function appendTestResults() {
-      var tests = id('qunit-tests');
-      var result = id('qunit-testresult');
-      var controls;
-      if (result) {
-        result.parentNode.removeChild(result);
-      }
-      if (tests) {
-        tests.innerHTML = '';
-        result = document.createElement('p');
-        result.id = 'qunit-testresult';
-        result.className = 'result';
-        tests.parentNode.insertBefore(result, tests);
-        result.innerHTML = '<div id="qunit-testresult-display">Running...<br />&#160;</div>' + '<div id="qunit-testresult-controls"></div>' + '<div class="clearfix"></div>';
-        controls = id('qunit-testresult-controls');
-      }
-      if (controls) {
-        controls.appendChild(abortTestsButton());
-      }
-    }
-    function appendFilteredTest() {
-      var testId = QUnit.config.testId;
-      if (!testId || testId.length <= 0) {
-        return '';
-      }
-      return "<div id='qunit-filteredTest'>Rerunning selected tests: " + escapeText(testId.join(', ')) + " <a id='qunit-clearFilter' href='" + escapeText(unfilteredUrl) + "'>Run all tests</a></div>";
-    }
-    function appendUserAgent() {
-      var userAgent = id('qunit-userAgent');
-      if (userAgent) {
-        userAgent.innerHTML = '';
-        userAgent.appendChild(document.createTextNode('QUnit ' + QUnit.version + '; ' + navigator.userAgent));
-      }
-    }
-    function appendInterface(beginDetails) {
-      var qunit = id('qunit');
+  	function interceptNavigation(ev) {
+  		applyUrlParams();
 
-      // For compat with QUnit 1.2, and to support fully custom theme HTML,
-      // we will use any existing elements if no id="qunit" element exists.
-      //
-      // Note that we don't fail or fallback to creating it ourselves,
-      // because not having id="qunit" (and not having the below elements)
-      // simply means QUnit acts headless, allowing users to use their own
-      // reporters, or for a test runner to listen for events directly without
-      // having the HTML reporter actively render anything.
-      if (qunit) {
-        qunit.setAttribute('role', 'main');
+  		if (ev && ev.preventDefault) {
+  			ev.preventDefault();
+  		}
 
-        // Since QUnit 1.3, these are created automatically if the page
-        // contains id="qunit".
-        qunit.innerHTML = "<h1 id='qunit-header'>" + escapeText(document.title) + '</h1>' + "<h2 id='qunit-banner'></h2>" + "<div id='qunit-testrunner-toolbar' role='navigation'></div>" + appendFilteredTest() + "<h2 id='qunit-userAgent'></h2>" + "<ol id='qunit-tests'></ol>";
-      }
-      appendHeader();
-      appendBanner();
-      appendTestResults();
-      appendUserAgent();
-      appendToolbar(beginDetails);
-    }
-    function appendTest(name, testId, moduleName) {
-      var tests = id('qunit-tests');
-      if (!tests) {
-        return;
-      }
-      var title = document.createElement('strong');
-      title.innerHTML = getNameHtml(name, moduleName);
-      var testBlock = document.createElement('li');
-      testBlock.appendChild(title);
+  		return false;
+  	}
 
-      // No ID or rerun link for "global failure" blocks
-      if (testId !== undefined) {
-        var rerunTrigger = document.createElement('a');
-        rerunTrigger.innerHTML = 'Rerun';
-        rerunTrigger.href = setUrl({
-          testId: testId
-        });
-        testBlock.id = 'qunit-test-output-' + testId;
-        testBlock.appendChild(rerunTrigger);
-      }
-      var assertList = document.createElement('ol');
-      assertList.className = 'qunit-assert-list';
-      testBlock.appendChild(assertList);
-      tests.appendChild(testBlock);
-      return testBlock;
-    }
+  	function getUrlConfigHtml() {
+  		var i,
+  		    j,
+  		    val,
+  		    escaped,
+  		    escapedTooltip,
+  		    selection = false,
+  		    urlConfig = config.urlConfig,
+  		    urlConfigHtml = "";
 
-    // HTML Reporter initialization and load
-    QUnit.on('runStart', function (runStart) {
-      stats.defined = runStart.testCounts.total;
-    });
-    QUnit.begin(function (beginDetails) {
-      // Initialize QUnit elements
-      // This is done from begin() instead of runStart, because
-      // urlparams.js uses begin(), which we need to wait for.
-      // urlparams.js in turn uses begin() to allow plugins to
-      // add entries to QUnit.config.urlConfig, which may be done
-      // asynchronously.
-      // <https://github.com/qunitjs/qunit/issues/1657>
-      appendInterface(beginDetails);
-    });
-    function getRerunFailedHtml(failedTests) {
-      if (failedTests.length === 0) {
-        return '';
-      }
-      var href = setUrl({
-        testId: failedTests
-      });
-      return ["<br /><a href='" + escapeText(href) + "'>", failedTests.length === 1 ? 'Rerun 1 failed test' : 'Rerun ' + failedTests.length + ' failed tests', '</a>'].join('');
-    }
-    QUnit.on('runEnd', function (runEnd) {
-      var banner = id('qunit-banner');
-      var tests = id('qunit-tests');
-      var abortButton = id('qunit-abort-tests-button');
-      var assertPassed = config.stats.all - config.stats.bad;
-      var html = [runEnd.testCounts.total, ' tests completed in ', runEnd.runtime, ' milliseconds, with ', runEnd.testCounts.failed, ' failed, ', runEnd.testCounts.skipped, ' skipped, and ', runEnd.testCounts.todo, ' todo.<br />', "<span class='passed'>", assertPassed, "</span> assertions of <span class='total'>", config.stats.all, "</span> passed, <span class='failed'>", config.stats.bad, '</span> failed.', getRerunFailedHtml(stats.failedTests)].join('');
-      var test;
-      var assertLi;
-      var assertList;
+  		for (i = 0; i < urlConfig.length; i++) {
 
-      // Update remaining tests to aborted
-      if (abortButton && abortButton.disabled) {
-        html = 'Tests aborted after ' + runEnd.runtime + ' milliseconds.';
-        for (var i = 0; i < tests.children.length; i++) {
-          test = tests.children[i];
-          if (test.className === '' || test.className === 'running') {
-            test.className = 'aborted';
-            assertList = test.getElementsByTagName('ol')[0];
-            assertLi = document.createElement('li');
-            assertLi.className = 'fail';
-            assertLi.innerHTML = 'Test aborted.';
-            assertList.appendChild(assertLi);
-          }
-        }
-      }
-      if (banner && (!abortButton || abortButton.disabled === false)) {
-        banner.className = runEnd.status === 'failed' ? 'qunit-fail' : 'qunit-pass';
-      }
-      if (abortButton) {
-        abortButton.parentNode.removeChild(abortButton);
-      }
-      if (tests) {
-        id('qunit-testresult-display').innerHTML = html;
-      }
-      if (config.altertitle && document.title) {
-        // Show ✖ for good, ✔ for bad suite result in title
-        // use escape sequences in case file gets loaded with non-utf-8
-        // charset
-        document.title = [runEnd.status === 'failed' ? "\u2716" : "\u2714", document.title.replace(/^[\u2714\u2716] /i, '')].join(' ');
-      }
+  			// Options can be either strings or objects with nonempty "id" properties
+  			val = config.urlConfig[i];
+  			if (typeof val === "string") {
+  				val = {
+  					id: val,
+  					label: val
+  				};
+  			}
 
-      // Scroll back to top to show results
-      if (config.scrolltop && window$1.scrollTo) {
-        window$1.scrollTo(0, 0);
-      }
-    });
-    function getNameHtml(name, module) {
-      var nameHtml = '';
-      if (module) {
-        nameHtml = "<span class='module-name'>" + escapeText(module) + '</span>: ';
-      }
-      nameHtml += "<span class='test-name'>" + escapeText(name) + '</span>';
-      return nameHtml;
-    }
-    function getProgressHtml(stats) {
-      return [stats.completed, ' / ', stats.defined, ' tests completed.<br />'].join('');
-    }
-    QUnit.testStart(function (details) {
-      var running, bad;
-      appendTest(details.name, details.testId, details.module);
-      running = id('qunit-testresult-display');
-      if (running) {
-        addClass(running, 'running');
-        bad = QUnit.config.reorder && details.previousFailure;
-        running.innerHTML = [getProgressHtml(stats), bad ? 'Rerunning previously failed test: <br />' : 'Running: ', getNameHtml(details.name, details.module), getRerunFailedHtml(stats.failedTests)].join('');
-      }
-    });
-    function stripHtml(string) {
-      // Strip tags, html entity and whitespaces
-      return string.replace(/<\/?[^>]+(>|$)/g, '').replace(/&quot;/g, '').replace(/\s+/g, '');
-    }
-    QUnit.log(function (details) {
-      var testItem = id('qunit-test-output-' + details.testId);
-      if (!testItem) {
-        return;
-      }
-      var message = escapeText(details.message) || (details.result ? 'okay' : 'failed');
-      message = "<span class='test-message'>" + message + '</span>';
-      message += "<span class='runtime'>@ " + details.runtime + ' ms</span>';
-      var expected;
-      var actual;
-      var diff;
-      var showDiff = false;
+  			escaped = escapeText(val.id);
+  			escapedTooltip = escapeText(val.tooltip);
 
-      // The pushFailure doesn't provide details.expected
-      // when it calls, it's implicit to also not show expected and diff stuff
-      // Also, we need to check details.expected existence, as it can exist and be undefined
-      if (!details.result && hasOwn.call(details, 'expected')) {
-        if (details.negative) {
-          expected = 'NOT ' + QUnit.dump.parse(details.expected);
-        } else {
-          expected = QUnit.dump.parse(details.expected);
-        }
-        actual = QUnit.dump.parse(details.actual);
-        message += "<table><tr class='test-expected'><th>Expected: </th><td><pre>" + escapeText(expected) + '</pre></td></tr>';
-        if (actual !== expected) {
-          message += "<tr class='test-actual'><th>Result: </th><td><pre>" + escapeText(actual) + '</pre></td></tr>';
-          if (typeof details.actual === 'number' && typeof details.expected === 'number') {
-            if (!isNaN(details.actual) && !isNaN(details.expected)) {
-              showDiff = true;
-              diff = details.actual - details.expected;
-              diff = (diff > 0 ? '+' : '') + diff;
-            }
-          } else if (typeof details.actual !== 'boolean' && typeof details.expected !== 'boolean') {
-            diff = QUnit.diff(expected, actual);
+  			if (!val.value || typeof val.value === "string") {
+  				urlConfigHtml += "<label for='qunit-urlconfig-" + escaped + "' title='" + escapedTooltip + "'><input id='qunit-urlconfig-" + escaped + "' name='" + escaped + "' type='checkbox'" + (val.value ? " value='" + escapeText(val.value) + "'" : "") + (config[val.id] ? " checked='checked'" : "") + " title='" + escapedTooltip + "' />" + escapeText(val.label) + "</label>";
+  			} else {
+  				urlConfigHtml += "<label for='qunit-urlconfig-" + escaped + "' title='" + escapedTooltip + "'>" + val.label + ": </label><select id='qunit-urlconfig-" + escaped + "' name='" + escaped + "' title='" + escapedTooltip + "'><option></option>";
 
-            // don't show diff if there is zero overlap
-            showDiff = stripHtml(diff).length !== stripHtml(expected).length + stripHtml(actual).length;
-          }
-          if (showDiff) {
-            message += "<tr class='test-diff'><th>Diff: </th><td><pre>" + diff + '</pre></td></tr>';
-          }
-        } else if (expected.indexOf('[object Array]') !== -1 || expected.indexOf('[object Object]') !== -1) {
-          message += "<tr class='test-message'><th>Message: </th><td>" + 'Diff suppressed as the depth of object is more than current max depth (' + QUnit.config.maxDepth + ').<p>Hint: Use <code>QUnit.dump.maxDepth</code> to ' + " run with a higher max depth or <a href='" + escapeText(setUrl({
-            maxDepth: -1
-          })) + "'>" + 'Rerun</a> without max depth.</p></td></tr>';
-        } else {
-          message += "<tr class='test-message'><th>Message: </th><td>" + 'Diff suppressed as the expected and actual results have an equivalent' + ' serialization</td></tr>';
-        }
-        if (details.source) {
-          message += "<tr class='test-source'><th>Source: </th><td><pre>" + escapeText(details.source) + '</pre></td></tr>';
-        }
-        message += '</table>';
+  				if (QUnit.is("array", val.value)) {
+  					for (j = 0; j < val.value.length; j++) {
+  						escaped = escapeText(val.value[j]);
+  						urlConfigHtml += "<option value='" + escaped + "'" + (config[val.id] === val.value[j] ? (selection = true) && " selected='selected'" : "") + ">" + escaped + "</option>";
+  					}
+  				} else {
+  					for (j in val.value) {
+  						if (hasOwn$$1.call(val.value, j)) {
+  							urlConfigHtml += "<option value='" + escapeText(j) + "'" + (config[val.id] === j ? (selection = true) && " selected='selected'" : "") + ">" + escapeText(val.value[j]) + "</option>";
+  						}
+  					}
+  				}
+  				if (config[val.id] && !selection) {
+  					escaped = escapeText(config[val.id]);
+  					urlConfigHtml += "<option value='" + escaped + "' selected='selected' disabled='disabled'>" + escaped + "</option>";
+  				}
+  				urlConfigHtml += "</select>";
+  			}
+  		}
 
-        // This occurs when pushFailure is set and we have an extracted stack trace
-      } else if (!details.result && details.source) {
-        message += '<table>' + "<tr class='test-source'><th>Source: </th><td><pre>" + escapeText(details.source) + '</pre></td></tr>' + '</table>';
-      }
-      var assertList = testItem.getElementsByTagName('ol')[0];
-      var assertLi = document.createElement('li');
-      assertLi.className = details.result ? 'pass' : 'fail';
-      assertLi.innerHTML = message;
-      assertList.appendChild(assertLi);
-    });
-    QUnit.testDone(function (details) {
-      var tests = id('qunit-tests');
-      var testItem = id('qunit-test-output-' + details.testId);
-      if (!tests || !testItem) {
-        return;
-      }
-      removeClass(testItem, 'running');
-      var status;
-      if (details.failed > 0) {
-        status = 'failed';
-      } else if (details.todo) {
-        status = 'todo';
-      } else {
-        status = details.skipped ? 'skipped' : 'passed';
-      }
-      var assertList = testItem.getElementsByTagName('ol')[0];
-      var good = details.passed;
-      var bad = details.failed;
+  		return urlConfigHtml;
+  	}
 
-      // This test passed if it has no unexpected failed assertions
-      var testPassed = details.failed > 0 ? details.todo : !details.todo;
-      if (testPassed) {
-        // Collapse the passing tests
-        addClass(assertList, 'qunit-collapsed');
-      } else {
-        stats.failedTests.push(details.testId);
-        if (config.collapse) {
-          if (!collapseNext) {
-            // Skip collapsing the first failing test
-            collapseNext = true;
-          } else {
-            // Collapse remaining tests
-            addClass(assertList, 'qunit-collapsed');
-          }
-        }
-      }
+  	// Handle "click" events on toolbar checkboxes and "change" for select menus.
+  	// Updates the URL with the new state of `config.urlConfig` values.
+  	function toolbarChanged() {
+  		var updatedUrl,
+  		    value,
+  		    tests,
+  		    field = this,
+  		    params = {};
 
-      // The testItem.firstChild is the test name
-      var testTitle = testItem.firstChild;
-      var testCounts = bad ? "<b class='failed'>" + bad + '</b>, ' + "<b class='passed'>" + good + '</b>, ' : '';
-      testTitle.innerHTML += " <b class='counts'>(" + testCounts + details.assertions.length + ')</b>';
-      stats.completed++;
-      if (details.skipped) {
-        testItem.className = 'skipped';
-        var skipped = document.createElement('em');
-        skipped.className = 'qunit-skipped-label';
-        skipped.innerHTML = 'skipped';
-        testItem.insertBefore(skipped, testTitle);
-      } else {
-        addEvent(testTitle, 'click', function () {
-          toggleClass(assertList, 'qunit-collapsed');
-        });
-        testItem.className = testPassed ? 'pass' : 'fail';
-        if (details.todo) {
-          var todoLabel = document.createElement('em');
-          todoLabel.className = 'qunit-todo-label';
-          todoLabel.innerHTML = 'todo';
-          testItem.className += ' todo';
-          testItem.insertBefore(todoLabel, testTitle);
-        }
-        var time = document.createElement('span');
-        time.className = 'runtime';
-        time.innerHTML = details.runtime + ' ms';
-        testItem.insertBefore(time, assertList);
-      }
+  		// Detect if field is a select menu or a checkbox
+  		if ("selectedIndex" in field) {
+  			value = field.options[field.selectedIndex].value || undefined;
+  		} else {
+  			value = field.checked ? field.defaultValue || true : undefined;
+  		}
 
-      // Show the source of the test when showing assertions
-      if (details.source) {
-        var sourceName = document.createElement('p');
-        sourceName.innerHTML = '<strong>Source: </strong>' + escapeText(details.source);
-        addClass(sourceName, 'qunit-source');
-        if (testPassed) {
-          addClass(sourceName, 'qunit-collapsed');
-        }
-        addEvent(testTitle, 'click', function () {
-          toggleClass(sourceName, 'qunit-collapsed');
-        });
-        testItem.appendChild(sourceName);
-      }
-      if (config.hidepassed && (status === 'passed' || details.skipped)) {
-        // use removeChild instead of remove because of support
-        hiddenTests.push(testItem);
-        tests.removeChild(testItem);
-      }
-    });
-    QUnit.on('error', function (error) {
-      var testItem = appendTest('global failure');
-      if (!testItem) {
-        // HTML Reporter is probably disabled or not yet initialized.
-        return;
-      }
+  		params[field.name] = value;
+  		updatedUrl = setUrl(params);
 
-      // Render similar to a failed assertion (see above QUnit.log callback)
-      var message = escapeText(errorString(error));
-      message = "<span class='test-message'>" + message + '</span>';
-      if (error && error.stack) {
-        message += '<table>' + "<tr class='test-source'><th>Source: </th><td><pre>" + escapeText(error.stack) + '</pre></td></tr>' + '</table>';
-      }
-      var assertList = testItem.getElementsByTagName('ol')[0];
-      var assertLi = document.createElement('li');
-      assertLi.className = 'fail';
-      assertLi.innerHTML = message;
-      assertList.appendChild(assertLi);
+  		// Check if we can apply the change without a page refresh
+  		if ("hidepassed" === field.name && "replaceState" in window$1.history) {
+  			QUnit.urlParams[field.name] = value;
+  			config[field.name] = value || false;
+  			tests = id("qunit-tests");
+  			if (tests) {
+  				var length = tests.children.length;
+  				var children = tests.children;
 
-      // Make it visible
-      testItem.className = 'fail';
-    });
+  				if (field.checked) {
+  					for (var i = 0; i < length; i++) {
+  						var test$$1 = children[i];
 
-    // Avoid readyState issue with phantomjs
-    // Ref: #818
-    var usingPhantom = function (p) {
-      return p && p.version && p.version.major > 0;
-    }(window$1.phantom);
-    if (usingPhantom) {
-      console$1.warn('Support for PhantomJS is deprecated and will be removed in QUnit 3.0.');
-    }
-    if (!usingPhantom && document.readyState === 'complete') {
-      QUnit.load();
-    } else {
-      addEvent(window$1, 'load', QUnit.load);
-    }
+  						if (test$$1 && test$$1.className.indexOf("pass") > -1) {
+  							hiddenTests.push(test$$1);
+  						}
+  					}
 
-    // Wrap window.onerror. We will call the original window.onerror to see if
-    // the existing handler fully handles the error; if not, we will call the
-    // QUnit.onError function.
-    var originalWindowOnError = window$1.onerror;
+  					var _iteratorNormalCompletion = true;
+  					var _didIteratorError = false;
+  					var _iteratorError = undefined;
 
-    // Cover uncaught exceptions
-    // Returning true will suppress the default browser handler,
-    // returning false will let it run.
-    window$1.onerror = function (message, fileName, lineNumber, columnNumber, errorObj) {
-      var ret = false;
-      if (originalWindowOnError) {
-        for (var _len = arguments.length, args = new Array(_len > 5 ? _len - 5 : 0), _key = 5; _key < _len; _key++) {
-          args[_key - 5] = arguments[_key];
-        }
-        ret = originalWindowOnError.call.apply(originalWindowOnError, [this, message, fileName, lineNumber, columnNumber, errorObj].concat(args));
-      }
+  					try {
+  						for (var _iterator = hiddenTests[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+  							var hiddenTest = _step.value;
 
-      // Treat return value as window.onerror itself does,
-      // Only do our handling if not suppressed.
-      if (ret !== true) {
-        // If there is a current test that sets the internal `ignoreGlobalErrors` field
-        // (such as during `assert.throws()`), then the error is ignored and native
-        // error reporting is suppressed as well. This is because in browsers, an error
-        // can sometimes end up in `window.onerror` instead of in the local try/catch.
-        // This ignoring of errors does not apply to our general onUncaughtException
-        // method, nor to our `unhandledRejection` handlers, as those are not meant
-        // to receive an "expected" error during `assert.throws()`.
-        if (config.current && config.current.ignoreGlobalErrors) {
-          return true;
-        }
+  							tests.removeChild(hiddenTest);
+  						}
+  					} catch (err) {
+  						_didIteratorError = true;
+  						_iteratorError = err;
+  					} finally {
+  						try {
+  							if (!_iteratorNormalCompletion && _iterator.return) {
+  								_iterator.return();
+  							}
+  						} finally {
+  							if (_didIteratorError) {
+  								throw _iteratorError;
+  							}
+  						}
+  					}
+  				} else {
+  					while ((test$$1 = hiddenTests.pop()) != null) {
+  						tests.appendChild(test$$1);
+  					}
+  				}
+  			}
+  			window$1.history.replaceState(null, "", updatedUrl);
+  		} else {
+  			window$1.location = updatedUrl;
+  		}
+  	}
 
-        // According to
-        // https://blog.sentry.io/2016/01/04/client-javascript-reporting-window-onerror,
-        // most modern browsers support an errorObj argument; use that to
-        // get a full stack trace if it's available.
-        var error = errorObj || new Error(message);
-        if (!error.stack && fileName && lineNumber) {
-          error.stack = "".concat(fileName, ":").concat(lineNumber);
-        }
-        QUnit.onUncaughtException(error);
-      }
-      return ret;
-    };
-    window$1.addEventListener('unhandledrejection', function (event) {
-      QUnit.onUncaughtException(event.reason);
-    });
+  	function setUrl(params) {
+  		var key,
+  		    arrValue,
+  		    i,
+  		    querystring = "?",
+  		    location = window$1.location;
+
+  		params = QUnit.extend(QUnit.extend({}, QUnit.urlParams), params);
+
+  		for (key in params) {
+
+  			// Skip inherited or undefined properties
+  			if (hasOwn$$1.call(params, key) && params[key] !== undefined) {
+
+  				// Output a parameter for each value of this key
+  				// (but usually just one)
+  				arrValue = [].concat(params[key]);
+  				for (i = 0; i < arrValue.length; i++) {
+  					querystring += encodeURIComponent(key);
+  					if (arrValue[i] !== true) {
+  						querystring += "=" + encodeURIComponent(arrValue[i]);
+  					}
+  					querystring += "&";
+  				}
+  			}
+  		}
+  		return location.protocol + "//" + location.host + location.pathname + querystring.slice(0, -1);
+  	}
+
+  	function applyUrlParams() {
+  		var i,
+  		    selectedModules = [],
+  		    modulesList = id("qunit-modulefilter-dropdown-list").getElementsByTagName("input"),
+  		    filter = id("qunit-filter-input").value;
+
+  		for (i = 0; i < modulesList.length; i++) {
+  			if (modulesList[i].checked) {
+  				selectedModules.push(modulesList[i].value);
+  			}
+  		}
+
+  		window$1.location = setUrl({
+  			filter: filter === "" ? undefined : filter,
+  			moduleId: selectedModules.length === 0 ? undefined : selectedModules,
+
+  			// Remove module and testId filter
+  			module: undefined,
+  			testId: undefined
+  		});
+  	}
+
+  	function toolbarUrlConfigContainer() {
+  		var urlConfigContainer = document.createElement("span");
+
+  		urlConfigContainer.innerHTML = getUrlConfigHtml();
+  		addClass(urlConfigContainer, "qunit-url-config");
+
+  		addEvents(urlConfigContainer.getElementsByTagName("input"), "change", toolbarChanged);
+  		addEvents(urlConfigContainer.getElementsByTagName("select"), "change", toolbarChanged);
+
+  		return urlConfigContainer;
+  	}
+
+  	function abortTestsButton() {
+  		var button = document.createElement("button");
+  		button.id = "qunit-abort-tests-button";
+  		button.innerHTML = "Abort";
+  		addEvent(button, "click", abortTests);
+  		return button;
+  	}
+
+  	function toolbarLooseFilter() {
+  		var filter = document.createElement("form"),
+  		    label = document.createElement("label"),
+  		    input = document.createElement("input"),
+  		    button = document.createElement("button");
+
+  		addClass(filter, "qunit-filter");
+
+  		label.innerHTML = "Filter: ";
+
+  		input.type = "text";
+  		input.value = config.filter || "";
+  		input.name = "filter";
+  		input.id = "qunit-filter-input";
+
+  		button.innerHTML = "Go";
+
+  		label.appendChild(input);
+
+  		filter.appendChild(label);
+  		filter.appendChild(document.createTextNode(" "));
+  		filter.appendChild(button);
+  		addEvent(filter, "submit", interceptNavigation);
+
+  		return filter;
+  	}
+
+  	function moduleListHtml() {
+  		var i,
+  		    checked,
+  		    html = "";
+
+  		for (i = 0; i < config.modules.length; i++) {
+  			if (config.modules[i].name !== "") {
+  				checked = config.moduleId.indexOf(config.modules[i].moduleId) > -1;
+  				html += "<li><label class='clickable" + (checked ? " checked" : "") + "'><input type='checkbox' " + "value='" + config.modules[i].moduleId + "'" + (checked ? " checked='checked'" : "") + " />" + escapeText(config.modules[i].name) + "</label></li>";
+  			}
+  		}
+
+  		return html;
+  	}
+
+  	function toolbarModuleFilter() {
+  		var commit,
+  		    reset,
+  		    moduleFilter = document.createElement("form"),
+  		    label = document.createElement("label"),
+  		    moduleSearch = document.createElement("input"),
+  		    dropDown = document.createElement("div"),
+  		    actions = document.createElement("span"),
+  		    applyButton = document.createElement("button"),
+  		    resetButton = document.createElement("button"),
+  		    allModulesLabel = document.createElement("label"),
+  		    allCheckbox = document.createElement("input"),
+  		    dropDownList = document.createElement("ul"),
+  		    dirty = false;
+
+  		moduleSearch.id = "qunit-modulefilter-search";
+  		moduleSearch.autocomplete = "off";
+  		addEvent(moduleSearch, "input", searchInput);
+  		addEvent(moduleSearch, "input", searchFocus);
+  		addEvent(moduleSearch, "focus", searchFocus);
+  		addEvent(moduleSearch, "click", searchFocus);
+
+  		label.id = "qunit-modulefilter-search-container";
+  		label.innerHTML = "Module: ";
+  		label.appendChild(moduleSearch);
+
+  		applyButton.textContent = "Apply";
+  		applyButton.style.display = "none";
+
+  		resetButton.textContent = "Reset";
+  		resetButton.type = "reset";
+  		resetButton.style.display = "none";
+
+  		allCheckbox.type = "checkbox";
+  		allCheckbox.checked = config.moduleId.length === 0;
+
+  		allModulesLabel.className = "clickable";
+  		if (config.moduleId.length) {
+  			allModulesLabel.className = "checked";
+  		}
+  		allModulesLabel.appendChild(allCheckbox);
+  		allModulesLabel.appendChild(document.createTextNode("All modules"));
+
+  		actions.id = "qunit-modulefilter-actions";
+  		actions.appendChild(applyButton);
+  		actions.appendChild(resetButton);
+  		actions.appendChild(allModulesLabel);
+  		commit = actions.firstChild;
+  		reset = commit.nextSibling;
+  		addEvent(commit, "click", applyUrlParams);
+
+  		dropDownList.id = "qunit-modulefilter-dropdown-list";
+  		dropDownList.innerHTML = moduleListHtml();
+
+  		dropDown.id = "qunit-modulefilter-dropdown";
+  		dropDown.style.display = "none";
+  		dropDown.appendChild(actions);
+  		dropDown.appendChild(dropDownList);
+  		addEvent(dropDown, "change", selectionChange);
+  		selectionChange();
+
+  		moduleFilter.id = "qunit-modulefilter";
+  		moduleFilter.appendChild(label);
+  		moduleFilter.appendChild(dropDown);
+  		addEvent(moduleFilter, "submit", interceptNavigation);
+  		addEvent(moduleFilter, "reset", function () {
+
+  			// Let the reset happen, then update styles
+  			window$1.setTimeout(selectionChange);
+  		});
+
+  		// Enables show/hide for the dropdown
+  		function searchFocus() {
+  			if (dropDown.style.display !== "none") {
+  				return;
+  			}
+
+  			dropDown.style.display = "block";
+  			addEvent(document, "click", hideHandler);
+  			addEvent(document, "keydown", hideHandler);
+
+  			// Hide on Escape keydown or outside-container click
+  			function hideHandler(e) {
+  				var inContainer = moduleFilter.contains(e.target);
+
+  				if (e.keyCode === 27 || !inContainer) {
+  					if (e.keyCode === 27 && inContainer) {
+  						moduleSearch.focus();
+  					}
+  					dropDown.style.display = "none";
+  					removeEvent(document, "click", hideHandler);
+  					removeEvent(document, "keydown", hideHandler);
+  					moduleSearch.value = "";
+  					searchInput();
+  				}
+  			}
+  		}
+
+  		// Processes module search box input
+  		function searchInput() {
+  			var i,
+  			    item,
+  			    searchText = moduleSearch.value.toLowerCase(),
+  			    listItems = dropDownList.children;
+
+  			for (i = 0; i < listItems.length; i++) {
+  				item = listItems[i];
+  				if (!searchText || item.textContent.toLowerCase().indexOf(searchText) > -1) {
+  					item.style.display = "";
+  				} else {
+  					item.style.display = "none";
+  				}
+  			}
+  		}
+
+  		// Processes selection changes
+  		function selectionChange(evt) {
+  			var i,
+  			    item,
+  			    checkbox = evt && evt.target || allCheckbox,
+  			    modulesList = dropDownList.getElementsByTagName("input"),
+  			    selectedNames = [];
+
+  			toggleClass(checkbox.parentNode, "checked", checkbox.checked);
+
+  			dirty = false;
+  			if (checkbox.checked && checkbox !== allCheckbox) {
+  				allCheckbox.checked = false;
+  				removeClass(allCheckbox.parentNode, "checked");
+  			}
+  			for (i = 0; i < modulesList.length; i++) {
+  				item = modulesList[i];
+  				if (!evt) {
+  					toggleClass(item.parentNode, "checked", item.checked);
+  				} else if (checkbox === allCheckbox && checkbox.checked) {
+  					item.checked = false;
+  					removeClass(item.parentNode, "checked");
+  				}
+  				dirty = dirty || item.checked !== item.defaultChecked;
+  				if (item.checked) {
+  					selectedNames.push(item.parentNode.textContent);
+  				}
+  			}
+
+  			commit.style.display = reset.style.display = dirty ? "" : "none";
+  			moduleSearch.placeholder = selectedNames.join(", ") || allCheckbox.parentNode.textContent;
+  			moduleSearch.title = "Type to filter list. Current selection:\n" + (selectedNames.join("\n") || allCheckbox.parentNode.textContent);
+  		}
+
+  		return moduleFilter;
+  	}
+
+  	function appendToolbar() {
+  		var toolbar = id("qunit-testrunner-toolbar");
+
+  		if (toolbar) {
+  			toolbar.appendChild(toolbarUrlConfigContainer());
+  			toolbar.appendChild(toolbarModuleFilter());
+  			toolbar.appendChild(toolbarLooseFilter());
+  			toolbar.appendChild(document.createElement("div")).className = "clearfix";
+  		}
+  	}
+
+  	function appendHeader() {
+  		var header = id("qunit-header");
+
+  		if (header) {
+  			header.innerHTML = "<a href='" + escapeText(unfilteredUrl) + "'>" + header.innerHTML + "</a> ";
+  		}
+  	}
+
+  	function appendBanner() {
+  		var banner = id("qunit-banner");
+
+  		if (banner) {
+  			banner.className = "";
+  		}
+  	}
+
+  	function appendTestResults() {
+  		var tests = id("qunit-tests"),
+  		    result = id("qunit-testresult"),
+  		    controls;
+
+  		if (result) {
+  			result.parentNode.removeChild(result);
+  		}
+
+  		if (tests) {
+  			tests.innerHTML = "";
+  			result = document.createElement("p");
+  			result.id = "qunit-testresult";
+  			result.className = "result";
+  			tests.parentNode.insertBefore(result, tests);
+  			result.innerHTML = "<div id=\"qunit-testresult-display\">Running...<br />&#160;</div>" + "<div id=\"qunit-testresult-controls\"></div>" + "<div class=\"clearfix\"></div>";
+  			controls = id("qunit-testresult-controls");
+  		}
+
+  		if (controls) {
+  			controls.appendChild(abortTestsButton());
+  		}
+  	}
+
+  	function appendFilteredTest() {
+  		var testId = QUnit.config.testId;
+  		if (!testId || testId.length <= 0) {
+  			return "";
+  		}
+  		return "<div id='qunit-filteredTest'>Rerunning selected tests: " + escapeText(testId.join(", ")) + " <a id='qunit-clearFilter' href='" + escapeText(unfilteredUrl) + "'>Run all tests</a></div>";
+  	}
+
+  	function appendUserAgent() {
+  		var userAgent = id("qunit-userAgent");
+
+  		if (userAgent) {
+  			userAgent.innerHTML = "";
+  			userAgent.appendChild(document.createTextNode("QUnit " + QUnit.version + "; " + navigator.userAgent));
+  		}
+  	}
+
+  	function appendInterface() {
+  		var qunit = id("qunit");
+
+  		if (qunit) {
+  			qunit.innerHTML = "<h1 id='qunit-header'>" + escapeText(document.title) + "</h1>" + "<h2 id='qunit-banner'></h2>" + "<div id='qunit-testrunner-toolbar'></div>" + appendFilteredTest() + "<h2 id='qunit-userAgent'></h2>" + "<ol id='qunit-tests'></ol>";
+  		}
+
+  		appendHeader();
+  		appendBanner();
+  		appendTestResults();
+  		appendUserAgent();
+  		appendToolbar();
+  	}
+
+  	function appendTest(name, testId, moduleName) {
+  		var title,
+  		    rerunTrigger,
+  		    testBlock,
+  		    assertList,
+  		    tests = id("qunit-tests");
+
+  		if (!tests) {
+  			return;
+  		}
+
+  		title = document.createElement("strong");
+  		title.innerHTML = getNameHtml(name, moduleName);
+
+  		rerunTrigger = document.createElement("a");
+  		rerunTrigger.innerHTML = "Rerun";
+  		rerunTrigger.href = setUrl({ testId: testId });
+
+  		testBlock = document.createElement("li");
+  		testBlock.appendChild(title);
+  		testBlock.appendChild(rerunTrigger);
+  		testBlock.id = "qunit-test-output-" + testId;
+
+  		assertList = document.createElement("ol");
+  		assertList.className = "qunit-assert-list";
+
+  		testBlock.appendChild(assertList);
+
+  		tests.appendChild(testBlock);
+  	}
+
+  	// HTML Reporter initialization and load
+  	QUnit.begin(function (details) {
+  		var i, moduleObj;
+
+  		// Sort modules by name for the picker
+  		for (i = 0; i < details.modules.length; i++) {
+  			moduleObj = details.modules[i];
+  			if (moduleObj.name) {
+  				modulesList.push(moduleObj.name);
+  			}
+  		}
+  		modulesList.sort(function (a, b) {
+  			return a.localeCompare(b);
+  		});
+
+  		// Initialize QUnit elements
+  		appendInterface();
+  	});
+
+  	QUnit.done(function (details) {
+  		var banner = id("qunit-banner"),
+  		    tests = id("qunit-tests"),
+  		    abortButton = id("qunit-abort-tests-button"),
+  		    totalTests = stats.passedTests + stats.skippedTests + stats.todoTests + stats.failedTests,
+  		    html = [totalTests, " tests completed in ", details.runtime, " milliseconds, with ", stats.failedTests, " failed, ", stats.skippedTests, " skipped, and ", stats.todoTests, " todo.<br />", "<span class='passed'>", details.passed, "</span> assertions of <span class='total'>", details.total, "</span> passed, <span class='failed'>", details.failed, "</span> failed."].join(""),
+  		    test$$1,
+  		    assertLi,
+  		    assertList;
+
+  		// Update remaining tests to aborted
+  		if (abortButton && abortButton.disabled) {
+  			html = "Tests aborted after " + details.runtime + " milliseconds.";
+
+  			for (var i = 0; i < tests.children.length; i++) {
+  				test$$1 = tests.children[i];
+  				if (test$$1.className === "" || test$$1.className === "running") {
+  					test$$1.className = "aborted";
+  					assertList = test$$1.getElementsByTagName("ol")[0];
+  					assertLi = document.createElement("li");
+  					assertLi.className = "fail";
+  					assertLi.innerHTML = "Test aborted.";
+  					assertList.appendChild(assertLi);
+  				}
+  			}
+  		}
+
+  		if (banner && (!abortButton || abortButton.disabled === false)) {
+  			banner.className = stats.failedTests ? "qunit-fail" : "qunit-pass";
+  		}
+
+  		if (abortButton) {
+  			abortButton.parentNode.removeChild(abortButton);
+  		}
+
+  		if (tests) {
+  			id("qunit-testresult-display").innerHTML = html;
+  		}
+
+  		if (config.altertitle && document.title) {
+
+  			// Show ✖ for good, ✔ for bad suite result in title
+  			// use escape sequences in case file gets loaded with non-utf-8
+  			// charset
+  			document.title = [stats.failedTests ? "\u2716" : "\u2714", document.title.replace(/^[\u2714\u2716] /i, "")].join(" ");
+  		}
+
+  		// Scroll back to top to show results
+  		if (config.scrolltop && window$1.scrollTo) {
+  			window$1.scrollTo(0, 0);
+  		}
+  	});
+
+  	function getNameHtml(name, module) {
+  		var nameHtml = "";
+
+  		if (module) {
+  			nameHtml = "<span class='module-name'>" + escapeText(module) + "</span>: ";
+  		}
+
+  		nameHtml += "<span class='test-name'>" + escapeText(name) + "</span>";
+
+  		return nameHtml;
+  	}
+
+  	function getProgressHtml(runtime, stats, total) {
+  		var completed = stats.passedTests + stats.skippedTests + stats.todoTests + stats.failedTests;
+
+  		return ["<br />", completed, " / ", total, " tests completed in ", runtime, " milliseconds, with ", stats.failedTests, " failed, ", stats.skippedTests, " skipped, and ", stats.todoTests, " todo."].join("");
+  	}
+
+  	QUnit.testStart(function (details) {
+  		var running, bad;
+
+  		appendTest(details.name, details.testId, details.module);
+
+  		running = id("qunit-testresult-display");
+
+  		if (running) {
+  			addClass(running, "running");
+
+  			bad = QUnit.config.reorder && details.previousFailure;
+
+  			running.innerHTML = [bad ? "Rerunning previously failed test: <br />" : "Running: <br />", getNameHtml(details.name, details.module), getProgressHtml(now() - config.started, stats, Test.count)].join("");
+  		}
+  	});
+
+  	function stripHtml(string) {
+
+  		// Strip tags, html entity and whitespaces
+  		return string.replace(/<\/?[^>]+(>|$)/g, "").replace(/&quot;/g, "").replace(/\s+/g, "");
+  	}
+
+  	QUnit.log(function (details) {
+  		var assertList,
+  		    assertLi,
+  		    message,
+  		    expected,
+  		    actual,
+  		    diff$$1,
+  		    showDiff = false,
+  		    testItem = id("qunit-test-output-" + details.testId);
+
+  		if (!testItem) {
+  			return;
+  		}
+
+  		message = escapeText(details.message) || (details.result ? "okay" : "failed");
+  		message = "<span class='test-message'>" + message + "</span>";
+  		message += "<span class='runtime'>@ " + details.runtime + " ms</span>";
+
+  		// The pushFailure doesn't provide details.expected
+  		// when it calls, it's implicit to also not show expected and diff stuff
+  		// Also, we need to check details.expected existence, as it can exist and be undefined
+  		if (!details.result && hasOwn$$1.call(details, "expected")) {
+  			if (details.negative) {
+  				expected = "NOT " + QUnit.dump.parse(details.expected);
+  			} else {
+  				expected = QUnit.dump.parse(details.expected);
+  			}
+
+  			actual = QUnit.dump.parse(details.actual);
+  			message += "<table><tr class='test-expected'><th>Expected: </th><td><pre>" + escapeText(expected) + "</pre></td></tr>";
+
+  			if (actual !== expected) {
+
+  				message += "<tr class='test-actual'><th>Result: </th><td><pre>" + escapeText(actual) + "</pre></td></tr>";
+
+  				if (typeof details.actual === "number" && typeof details.expected === "number") {
+  					if (!isNaN(details.actual) && !isNaN(details.expected)) {
+  						showDiff = true;
+  						diff$$1 = details.actual - details.expected;
+  						diff$$1 = (diff$$1 > 0 ? "+" : "") + diff$$1;
+  					}
+  				} else if (typeof details.actual !== "boolean" && typeof details.expected !== "boolean") {
+  					diff$$1 = QUnit.diff(expected, actual);
+
+  					// don't show diff if there is zero overlap
+  					showDiff = stripHtml(diff$$1).length !== stripHtml(expected).length + stripHtml(actual).length;
+  				}
+
+  				if (showDiff) {
+  					message += "<tr class='test-diff'><th>Diff: </th><td><pre>" + diff$$1 + "</pre></td></tr>";
+  				}
+  			} else if (expected.indexOf("[object Array]") !== -1 || expected.indexOf("[object Object]") !== -1) {
+  				message += "<tr class='test-message'><th>Message: </th><td>" + "Diff suppressed as the depth of object is more than current max depth (" + QUnit.config.maxDepth + ").<p>Hint: Use <code>QUnit.dump.maxDepth</code> to " + " run with a higher max depth or <a href='" + escapeText(setUrl({ maxDepth: -1 })) + "'>" + "Rerun</a> without max depth.</p></td></tr>";
+  			} else {
+  				message += "<tr class='test-message'><th>Message: </th><td>" + "Diff suppressed as the expected and actual results have an equivalent" + " serialization</td></tr>";
+  			}
+
+  			if (details.source) {
+  				message += "<tr class='test-source'><th>Source: </th><td><pre>" + escapeText(details.source) + "</pre></td></tr>";
+  			}
+
+  			message += "</table>";
+
+  			// This occurs when pushFailure is set and we have an extracted stack trace
+  		} else if (!details.result && details.source) {
+  			message += "<table>" + "<tr class='test-source'><th>Source: </th><td><pre>" + escapeText(details.source) + "</pre></td></tr>" + "</table>";
+  		}
+
+  		assertList = testItem.getElementsByTagName("ol")[0];
+
+  		assertLi = document.createElement("li");
+  		assertLi.className = details.result ? "pass" : "fail";
+  		assertLi.innerHTML = message;
+  		assertList.appendChild(assertLi);
+  	});
+
+  	QUnit.testDone(function (details) {
+  		var testTitle,
+  		    time,
+  		    testItem,
+  		    assertList,
+  		    status,
+  		    good,
+  		    bad,
+  		    testCounts,
+  		    skipped,
+  		    sourceName,
+  		    tests = id("qunit-tests");
+
+  		if (!tests) {
+  			return;
+  		}
+
+  		testItem = id("qunit-test-output-" + details.testId);
+
+  		removeClass(testItem, "running");
+
+  		if (details.failed > 0) {
+  			status = "failed";
+  		} else if (details.todo) {
+  			status = "todo";
+  		} else {
+  			status = details.skipped ? "skipped" : "passed";
+  		}
+
+  		assertList = testItem.getElementsByTagName("ol")[0];
+
+  		good = details.passed;
+  		bad = details.failed;
+
+  		// This test passed if it has no unexpected failed assertions
+  		var testPassed = details.failed > 0 ? details.todo : !details.todo;
+
+  		if (testPassed) {
+
+  			// Collapse the passing tests
+  			addClass(assertList, "qunit-collapsed");
+  		} else if (config.collapse) {
+  			if (!collapseNext) {
+
+  				// Skip collapsing the first failing test
+  				collapseNext = true;
+  			} else {
+
+  				// Collapse remaining tests
+  				addClass(assertList, "qunit-collapsed");
+  			}
+  		}
+
+  		// The testItem.firstChild is the test name
+  		testTitle = testItem.firstChild;
+
+  		testCounts = bad ? "<b class='failed'>" + bad + "</b>, " + "<b class='passed'>" + good + "</b>, " : "";
+
+  		testTitle.innerHTML += " <b class='counts'>(" + testCounts + details.assertions.length + ")</b>";
+
+  		if (details.skipped) {
+  			stats.skippedTests++;
+
+  			testItem.className = "skipped";
+  			skipped = document.createElement("em");
+  			skipped.className = "qunit-skipped-label";
+  			skipped.innerHTML = "skipped";
+  			testItem.insertBefore(skipped, testTitle);
+  		} else {
+  			addEvent(testTitle, "click", function () {
+  				toggleClass(assertList, "qunit-collapsed");
+  			});
+
+  			testItem.className = testPassed ? "pass" : "fail";
+
+  			if (details.todo) {
+  				var todoLabel = document.createElement("em");
+  				todoLabel.className = "qunit-todo-label";
+  				todoLabel.innerHTML = "todo";
+  				testItem.className += " todo";
+  				testItem.insertBefore(todoLabel, testTitle);
+  			}
+
+  			time = document.createElement("span");
+  			time.className = "runtime";
+  			time.innerHTML = details.runtime + " ms";
+  			testItem.insertBefore(time, assertList);
+
+  			if (!testPassed) {
+  				stats.failedTests++;
+  			} else if (details.todo) {
+  				stats.todoTests++;
+  			} else {
+  				stats.passedTests++;
+  			}
+  		}
+
+  		// Show the source of the test when showing assertions
+  		if (details.source) {
+  			sourceName = document.createElement("p");
+  			sourceName.innerHTML = "<strong>Source: </strong>" + escapeText(details.source);
+  			addClass(sourceName, "qunit-source");
+  			if (testPassed) {
+  				addClass(sourceName, "qunit-collapsed");
+  			}
+  			addEvent(testTitle, "click", function () {
+  				toggleClass(sourceName, "qunit-collapsed");
+  			});
+  			testItem.appendChild(sourceName);
+  		}
+
+  		if (config.hidepassed && status === "passed") {
+
+  			// use removeChild instead of remove because of support
+  			hiddenTests.push(testItem);
+
+  			tests.removeChild(testItem);
+  		}
+  	});
+
+  	// Avoid readyState issue with phantomjs
+  	// Ref: #818
+  	var notPhantom = function (p) {
+  		return !(p && p.version && p.version.major > 0);
+  	}(window$1.phantom);
+
+  	if (notPhantom && document.readyState === "complete") {
+  		QUnit.load();
+  	} else {
+  		addEvent(window$1, "load", QUnit.load);
+  	}
+
+  	// Wrap window.onerror. We will call the original window.onerror to see if
+  	// the existing handler fully handles the error; if not, we will call the
+  	// QUnit.onError function.
+  	var originalWindowOnError = window$1.onerror;
+
+  	// Cover uncaught exceptions
+  	// Returning true will suppress the default browser handler,
+  	// returning false will let it run.
+  	window$1.onerror = function (message, fileName, lineNumber, columnNumber, errorObj) {
+  		var ret = false;
+  		if (originalWindowOnError) {
+  			for (var _len = arguments.length, args = Array(_len > 5 ? _len - 5 : 0), _key = 5; _key < _len; _key++) {
+  				args[_key - 5] = arguments[_key];
+  			}
+
+  			ret = originalWindowOnError.call.apply(originalWindowOnError, [this, message, fileName, lineNumber, columnNumber, errorObj].concat(args));
+  		}
+
+  		// Treat return value as window.onerror itself does,
+  		// Only do our handling if not suppressed.
+  		if (ret !== true) {
+  			var error = {
+  				message: message,
+  				fileName: fileName,
+  				lineNumber: lineNumber
+  			};
+
+  			// According to
+  			// https://blog.sentry.io/2016/01/04/client-javascript-reporting-window-onerror,
+  			// most modern browsers support an errorObj argument; use that to
+  			// get a full stack trace if it's available.
+  			if (errorObj && errorObj.stack) {
+  				error.stacktrace = extractStacktrace(errorObj, 0);
+  			}
+
+  			ret = QUnit.onError(error);
+  		}
+
+  		return ret;
+  	};
+
+  	// Listen for unhandled rejections, and call QUnit.onUnhandledRejection
+  	window$1.addEventListener("unhandledrejection", function (event) {
+  		QUnit.onUnhandledRejection(event.reason);
+  	});
   })();
 
   /*
@@ -8657,988 +8171,1049 @@ Ember.setupForTesting = testing.setupForTesting;
    *
    */
   QUnit.diff = function () {
-    function DiffMatchPatch() {}
+  	function DiffMatchPatch() {}
 
-    //  DIFF FUNCTIONS
+  	//  DIFF FUNCTIONS
 
-    /**
-     * The data structure representing a diff is an array of tuples:
-     * [[DIFF_DELETE, 'Hello'], [DIFF_INSERT, 'Goodbye'], [DIFF_EQUAL, ' world.']]
-     * which means: delete 'Hello', add 'Goodbye' and keep ' world.'
-     */
-    var DIFF_DELETE = -1;
-    var DIFF_INSERT = 1;
-    var DIFF_EQUAL = 0;
-    var hasOwn = Object.prototype.hasOwnProperty;
+  	/**
+    * The data structure representing a diff is an array of tuples:
+    * [[DIFF_DELETE, 'Hello'], [DIFF_INSERT, 'Goodbye'], [DIFF_EQUAL, ' world.']]
+    * which means: delete 'Hello', add 'Goodbye' and keep ' world.'
+    */
+  	var DIFF_DELETE = -1,
+  	    DIFF_INSERT = 1,
+  	    DIFF_EQUAL = 0;
 
-    /**
-     * Find the differences between two texts.  Simplifies the problem by stripping
-     * any common prefix or suffix off the texts before diffing.
-     * @param {string} text1 Old string to be diffed.
-     * @param {string} text2 New string to be diffed.
-     * @param {boolean=} optChecklines Optional speedup flag. If present and false,
-     *     then don't run a line-level diff first to identify the changed areas.
-     *     Defaults to true, which does a faster, slightly less optimal diff.
-     * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
-     */
-    DiffMatchPatch.prototype.DiffMain = function (text1, text2, optChecklines) {
-      // The diff must be complete in up to 1 second.
-      var deadline = Date.now() + 1000;
+  	/**
+    * Find the differences between two texts.  Simplifies the problem by stripping
+    * any common prefix or suffix off the texts before diffing.
+    * @param {string} text1 Old string to be diffed.
+    * @param {string} text2 New string to be diffed.
+    * @param {boolean=} optChecklines Optional speedup flag. If present and false,
+    *     then don't run a line-level diff first to identify the changed areas.
+    *     Defaults to true, which does a faster, slightly less optimal diff.
+    * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
+    */
+  	DiffMatchPatch.prototype.DiffMain = function (text1, text2, optChecklines) {
+  		var deadline, checklines, commonlength, commonprefix, commonsuffix, diffs;
 
-      // Check for null inputs.
-      if (text1 === null || text2 === null) {
-        throw new Error('Cannot diff null input.');
-      }
+  		// The diff must be complete in up to 1 second.
+  		deadline = new Date().getTime() + 1000;
 
-      // Check for equality (speedup).
-      if (text1 === text2) {
-        if (text1) {
-          return [[DIFF_EQUAL, text1]];
-        }
-        return [];
-      }
-      if (typeof optChecklines === 'undefined') {
-        optChecklines = true;
-      }
+  		// Check for null inputs.
+  		if (text1 === null || text2 === null) {
+  			throw new Error("Null input. (DiffMain)");
+  		}
 
-      // Trim off common prefix (speedup).
-      var commonlength = this.diffCommonPrefix(text1, text2);
-      var commonprefix = text1.substring(0, commonlength);
-      text1 = text1.substring(commonlength);
-      text2 = text2.substring(commonlength);
+  		// Check for equality (speedup).
+  		if (text1 === text2) {
+  			if (text1) {
+  				return [[DIFF_EQUAL, text1]];
+  			}
+  			return [];
+  		}
 
-      // Trim off common suffix (speedup).
-      commonlength = this.diffCommonSuffix(text1, text2);
-      var commonsuffix = text1.substring(text1.length - commonlength);
-      text1 = text1.substring(0, text1.length - commonlength);
-      text2 = text2.substring(0, text2.length - commonlength);
+  		if (typeof optChecklines === "undefined") {
+  			optChecklines = true;
+  		}
 
-      // Compute the diff on the middle block.
-      var diffs = this.diffCompute(text1, text2, optChecklines, deadline);
+  		checklines = optChecklines;
 
-      // Restore the prefix and suffix.
-      if (commonprefix) {
-        diffs.unshift([DIFF_EQUAL, commonprefix]);
-      }
-      if (commonsuffix) {
-        diffs.push([DIFF_EQUAL, commonsuffix]);
-      }
-      this.diffCleanupMerge(diffs);
-      return diffs;
-    };
+  		// Trim off common prefix (speedup).
+  		commonlength = this.diffCommonPrefix(text1, text2);
+  		commonprefix = text1.substring(0, commonlength);
+  		text1 = text1.substring(commonlength);
+  		text2 = text2.substring(commonlength);
 
-    /**
-     * Reduce the number of edits by eliminating operationally trivial equalities.
-     * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
-     */
-    DiffMatchPatch.prototype.diffCleanupEfficiency = function (diffs) {
-      var changes, equalities, equalitiesLength, lastequality, pointer, preIns, preDel, postIns, postDel;
-      changes = false;
-      equalities = []; // Stack of indices where equalities are found.
-      equalitiesLength = 0; // Keeping our own length var is faster in JS.
-      /** @type {?string} */
-      lastequality = null;
+  		// Trim off common suffix (speedup).
+  		commonlength = this.diffCommonSuffix(text1, text2);
+  		commonsuffix = text1.substring(text1.length - commonlength);
+  		text1 = text1.substring(0, text1.length - commonlength);
+  		text2 = text2.substring(0, text2.length - commonlength);
 
-      // Always equal to diffs[equalities[equalitiesLength - 1]][1]
-      pointer = 0; // Index of current position.
+  		// Compute the diff on the middle block.
+  		diffs = this.diffCompute(text1, text2, checklines, deadline);
 
-      // Is there an insertion operation before the last equality.
-      preIns = false;
+  		// Restore the prefix and suffix.
+  		if (commonprefix) {
+  			diffs.unshift([DIFF_EQUAL, commonprefix]);
+  		}
+  		if (commonsuffix) {
+  			diffs.push([DIFF_EQUAL, commonsuffix]);
+  		}
+  		this.diffCleanupMerge(diffs);
+  		return diffs;
+  	};
 
-      // Is there a deletion operation before the last equality.
-      preDel = false;
+  	/**
+    * Reduce the number of edits by eliminating operationally trivial equalities.
+    * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
+    */
+  	DiffMatchPatch.prototype.diffCleanupEfficiency = function (diffs) {
+  		var changes, equalities, equalitiesLength, lastequality, pointer, preIns, preDel, postIns, postDel;
+  		changes = false;
+  		equalities = []; // Stack of indices where equalities are found.
+  		equalitiesLength = 0; // Keeping our own length var is faster in JS.
+  		/** @type {?string} */
+  		lastequality = null;
 
-      // Is there an insertion operation after the last equality.
-      postIns = false;
+  		// Always equal to diffs[equalities[equalitiesLength - 1]][1]
+  		pointer = 0; // Index of current position.
 
-      // Is there a deletion operation after the last equality.
-      postDel = false;
-      while (pointer < diffs.length) {
-        // Equality found.
-        if (diffs[pointer][0] === DIFF_EQUAL) {
-          if (diffs[pointer][1].length < 4 && (postIns || postDel)) {
-            // Candidate found.
-            equalities[equalitiesLength++] = pointer;
-            preIns = postIns;
-            preDel = postDel;
-            lastequality = diffs[pointer][1];
-          } else {
-            // Not a candidate, and can never become one.
-            equalitiesLength = 0;
-            lastequality = null;
-          }
-          postIns = postDel = false;
+  		// Is there an insertion operation before the last equality.
+  		preIns = false;
 
-          // An insertion or deletion.
-        } else {
-          if (diffs[pointer][0] === DIFF_DELETE) {
-            postDel = true;
-          } else {
-            postIns = true;
-          }
+  		// Is there a deletion operation before the last equality.
+  		preDel = false;
 
-          /*
-           * Five types to be split:
-           * <ins>A</ins><del>B</del>XY<ins>C</ins><del>D</del>
-           * <ins>A</ins>X<ins>C</ins><del>D</del>
-           * <ins>A</ins><del>B</del>X<ins>C</ins>
-           * <ins>A</del>X<ins>C</ins><del>D</del>
-           * <ins>A</ins><del>B</del>X<del>C</del>
-           */
-          if (lastequality && (preIns && preDel && postIns && postDel || lastequality.length < 2 && preIns + preDel + postIns + postDel === 3)) {
-            // Duplicate record.
-            diffs.splice(equalities[equalitiesLength - 1], 0, [DIFF_DELETE, lastequality]);
+  		// Is there an insertion operation after the last equality.
+  		postIns = false;
 
-            // Change second copy to insert.
-            diffs[equalities[equalitiesLength - 1] + 1][0] = DIFF_INSERT;
-            equalitiesLength--; // Throw away the equality we just deleted;
-            lastequality = null;
-            if (preIns && preDel) {
-              // No changes made which could affect previous entry, keep going.
-              postIns = postDel = true;
-              equalitiesLength = 0;
-            } else {
-              equalitiesLength--; // Throw away the previous equality.
-              pointer = equalitiesLength > 0 ? equalities[equalitiesLength - 1] : -1;
-              postIns = postDel = false;
-            }
-            changes = true;
-          }
-        }
-        pointer++;
-      }
-      if (changes) {
-        this.diffCleanupMerge(diffs);
-      }
-    };
+  		// Is there a deletion operation after the last equality.
+  		postDel = false;
+  		while (pointer < diffs.length) {
 
-    /**
-     * Convert a diff array into a pretty HTML report.
-     * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
-     * @param {integer} string to be beautified.
-     * @return {string} HTML representation.
-     */
-    DiffMatchPatch.prototype.diffPrettyHtml = function (diffs) {
-      var html = [];
-      for (var x = 0; x < diffs.length; x++) {
-        var op = diffs[x][0]; // Operation (insert, delete, equal)
-        var data = diffs[x][1]; // Text of change.
-        switch (op) {
-          case DIFF_INSERT:
-            html[x] = '<ins>' + escapeText(data) + '</ins>';
-            break;
-          case DIFF_DELETE:
-            html[x] = '<del>' + escapeText(data) + '</del>';
-            break;
-          case DIFF_EQUAL:
-            html[x] = '<span>' + escapeText(data) + '</span>';
-            break;
-        }
-      }
-      return html.join('');
-    };
+  			// Equality found.
+  			if (diffs[pointer][0] === DIFF_EQUAL) {
+  				if (diffs[pointer][1].length < 4 && (postIns || postDel)) {
 
-    /**
-     * Determine the common prefix of two strings.
-     * @param {string} text1 First string.
-     * @param {string} text2 Second string.
-     * @return {number} The number of characters common to the start of each
-     *     string.
-     */
-    DiffMatchPatch.prototype.diffCommonPrefix = function (text1, text2) {
-      var pointermid, pointermax, pointermin, pointerstart;
+  					// Candidate found.
+  					equalities[equalitiesLength++] = pointer;
+  					preIns = postIns;
+  					preDel = postDel;
+  					lastequality = diffs[pointer][1];
+  				} else {
 
-      // Quick check for common null cases.
-      if (!text1 || !text2 || text1.charAt(0) !== text2.charAt(0)) {
-        return 0;
-      }
+  					// Not a candidate, and can never become one.
+  					equalitiesLength = 0;
+  					lastequality = null;
+  				}
+  				postIns = postDel = false;
 
-      // Binary search.
-      // Performance analysis: https://neil.fraser.name/news/2007/10/09/
-      pointermin = 0;
-      pointermax = Math.min(text1.length, text2.length);
-      pointermid = pointermax;
-      pointerstart = 0;
-      while (pointermin < pointermid) {
-        if (text1.substring(pointerstart, pointermid) === text2.substring(pointerstart, pointermid)) {
-          pointermin = pointermid;
-          pointerstart = pointermin;
-        } else {
-          pointermax = pointermid;
-        }
-        pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
-      }
-      return pointermid;
-    };
+  				// An insertion or deletion.
+  			} else {
 
-    /**
-     * Determine the common suffix of two strings.
-     * @param {string} text1 First string.
-     * @param {string} text2 Second string.
-     * @return {number} The number of characters common to the end of each string.
-     */
-    DiffMatchPatch.prototype.diffCommonSuffix = function (text1, text2) {
-      var pointermid, pointermax, pointermin, pointerend;
+  				if (diffs[pointer][0] === DIFF_DELETE) {
+  					postDel = true;
+  				} else {
+  					postIns = true;
+  				}
 
-      // Quick check for common null cases.
-      if (!text1 || !text2 || text1.charAt(text1.length - 1) !== text2.charAt(text2.length - 1)) {
-        return 0;
-      }
+  				/*
+       * Five types to be split:
+       * <ins>A</ins><del>B</del>XY<ins>C</ins><del>D</del>
+       * <ins>A</ins>X<ins>C</ins><del>D</del>
+       * <ins>A</ins><del>B</del>X<ins>C</ins>
+       * <ins>A</del>X<ins>C</ins><del>D</del>
+       * <ins>A</ins><del>B</del>X<del>C</del>
+       */
+  				if (lastequality && (preIns && preDel && postIns && postDel || lastequality.length < 2 && preIns + preDel + postIns + postDel === 3)) {
 
-      // Binary search.
-      // Performance analysis: https://neil.fraser.name/news/2007/10/09/
-      pointermin = 0;
-      pointermax = Math.min(text1.length, text2.length);
-      pointermid = pointermax;
-      pointerend = 0;
-      while (pointermin < pointermid) {
-        if (text1.substring(text1.length - pointermid, text1.length - pointerend) === text2.substring(text2.length - pointermid, text2.length - pointerend)) {
-          pointermin = pointermid;
-          pointerend = pointermin;
-        } else {
-          pointermax = pointermid;
-        }
-        pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
-      }
-      return pointermid;
-    };
+  					// Duplicate record.
+  					diffs.splice(equalities[equalitiesLength - 1], 0, [DIFF_DELETE, lastequality]);
 
-    /**
-     * Find the differences between two texts.  Assumes that the texts do not
-     * have any common prefix or suffix.
-     * @param {string} text1 Old string to be diffed.
-     * @param {string} text2 New string to be diffed.
-     * @param {boolean} checklines Speedup flag.  If false, then don't run a
-     *     line-level diff first to identify the changed areas.
-     *     If true, then run a faster, slightly less optimal diff.
-     * @param {number} deadline Time when the diff should be complete by.
-     * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
-     * @private
-     */
-    DiffMatchPatch.prototype.diffCompute = function (text1, text2, checklines, deadline) {
-      var diffs, longtext, shorttext, i, hm, text1A, text2A, text1B, text2B, midCommon, diffsA, diffsB;
-      if (!text1) {
-        // Just add some text (speedup).
-        return [[DIFF_INSERT, text2]];
-      }
-      if (!text2) {
-        // Just delete some text (speedup).
-        return [[DIFF_DELETE, text1]];
-      }
-      longtext = text1.length > text2.length ? text1 : text2;
-      shorttext = text1.length > text2.length ? text2 : text1;
-      i = longtext.indexOf(shorttext);
-      if (i !== -1) {
-        // Shorter text is inside the longer text (speedup).
-        diffs = [[DIFF_INSERT, longtext.substring(0, i)], [DIFF_EQUAL, shorttext], [DIFF_INSERT, longtext.substring(i + shorttext.length)]];
+  					// Change second copy to insert.
+  					diffs[equalities[equalitiesLength - 1] + 1][0] = DIFF_INSERT;
+  					equalitiesLength--; // Throw away the equality we just deleted;
+  					lastequality = null;
+  					if (preIns && preDel) {
 
-        // Swap insertions for deletions if diff is reversed.
-        if (text1.length > text2.length) {
-          diffs[0][0] = diffs[2][0] = DIFF_DELETE;
-        }
-        return diffs;
-      }
-      if (shorttext.length === 1) {
-        // Single character string.
-        // After the previous speedup, the character can't be an equality.
-        return [[DIFF_DELETE, text1], [DIFF_INSERT, text2]];
-      }
+  						// No changes made which could affect previous entry, keep going.
+  						postIns = postDel = true;
+  						equalitiesLength = 0;
+  					} else {
+  						equalitiesLength--; // Throw away the previous equality.
+  						pointer = equalitiesLength > 0 ? equalities[equalitiesLength - 1] : -1;
+  						postIns = postDel = false;
+  					}
+  					changes = true;
+  				}
+  			}
+  			pointer++;
+  		}
 
-      // Check to see if the problem can be split in two.
-      hm = this.diffHalfMatch(text1, text2);
-      if (hm) {
-        // A half-match was found, sort out the return data.
-        text1A = hm[0];
-        text1B = hm[1];
-        text2A = hm[2];
-        text2B = hm[3];
-        midCommon = hm[4];
+  		if (changes) {
+  			this.diffCleanupMerge(diffs);
+  		}
+  	};
 
-        // Send both pairs off for separate processing.
-        diffsA = this.DiffMain(text1A, text2A, checklines, deadline);
-        diffsB = this.DiffMain(text1B, text2B, checklines, deadline);
+  	/**
+    * Convert a diff array into a pretty HTML report.
+    * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
+    * @param {integer} string to be beautified.
+    * @return {string} HTML representation.
+    */
+  	DiffMatchPatch.prototype.diffPrettyHtml = function (diffs) {
+  		var op,
+  		    data,
+  		    x,
+  		    html = [];
+  		for (x = 0; x < diffs.length; x++) {
+  			op = diffs[x][0]; // Operation (insert, delete, equal)
+  			data = diffs[x][1]; // Text of change.
+  			switch (op) {
+  				case DIFF_INSERT:
+  					html[x] = "<ins>" + escapeText(data) + "</ins>";
+  					break;
+  				case DIFF_DELETE:
+  					html[x] = "<del>" + escapeText(data) + "</del>";
+  					break;
+  				case DIFF_EQUAL:
+  					html[x] = "<span>" + escapeText(data) + "</span>";
+  					break;
+  			}
+  		}
+  		return html.join("");
+  	};
 
-        // Merge the results.
-        return diffsA.concat([[DIFF_EQUAL, midCommon]], diffsB);
-      }
-      if (checklines && text1.length > 100 && text2.length > 100) {
-        return this.diffLineMode(text1, text2, deadline);
-      }
-      return this.diffBisect(text1, text2, deadline);
-    };
+  	/**
+    * Determine the common prefix of two strings.
+    * @param {string} text1 First string.
+    * @param {string} text2 Second string.
+    * @return {number} The number of characters common to the start of each
+    *     string.
+    */
+  	DiffMatchPatch.prototype.diffCommonPrefix = function (text1, text2) {
+  		var pointermid, pointermax, pointermin, pointerstart;
 
-    /**
-     * Do the two texts share a substring which is at least half the length of the
-     * longer text?
-     * This speedup can produce non-minimal diffs.
-     * @param {string} text1 First string.
-     * @param {string} text2 Second string.
+  		// Quick check for common null cases.
+  		if (!text1 || !text2 || text1.charAt(0) !== text2.charAt(0)) {
+  			return 0;
+  		}
+
+  		// Binary search.
+  		// Performance analysis: https://neil.fraser.name/news/2007/10/09/
+  		pointermin = 0;
+  		pointermax = Math.min(text1.length, text2.length);
+  		pointermid = pointermax;
+  		pointerstart = 0;
+  		while (pointermin < pointermid) {
+  			if (text1.substring(pointerstart, pointermid) === text2.substring(pointerstart, pointermid)) {
+  				pointermin = pointermid;
+  				pointerstart = pointermin;
+  			} else {
+  				pointermax = pointermid;
+  			}
+  			pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
+  		}
+  		return pointermid;
+  	};
+
+  	/**
+    * Determine the common suffix of two strings.
+    * @param {string} text1 First string.
+    * @param {string} text2 Second string.
+    * @return {number} The number of characters common to the end of each string.
+    */
+  	DiffMatchPatch.prototype.diffCommonSuffix = function (text1, text2) {
+  		var pointermid, pointermax, pointermin, pointerend;
+
+  		// Quick check for common null cases.
+  		if (!text1 || !text2 || text1.charAt(text1.length - 1) !== text2.charAt(text2.length - 1)) {
+  			return 0;
+  		}
+
+  		// Binary search.
+  		// Performance analysis: https://neil.fraser.name/news/2007/10/09/
+  		pointermin = 0;
+  		pointermax = Math.min(text1.length, text2.length);
+  		pointermid = pointermax;
+  		pointerend = 0;
+  		while (pointermin < pointermid) {
+  			if (text1.substring(text1.length - pointermid, text1.length - pointerend) === text2.substring(text2.length - pointermid, text2.length - pointerend)) {
+  				pointermin = pointermid;
+  				pointerend = pointermin;
+  			} else {
+  				pointermax = pointermid;
+  			}
+  			pointermid = Math.floor((pointermax - pointermin) / 2 + pointermin);
+  		}
+  		return pointermid;
+  	};
+
+  	/**
+    * Find the differences between two texts.  Assumes that the texts do not
+    * have any common prefix or suffix.
+    * @param {string} text1 Old string to be diffed.
+    * @param {string} text2 New string to be diffed.
+    * @param {boolean} checklines Speedup flag.  If false, then don't run a
+    *     line-level diff first to identify the changed areas.
+    *     If true, then run a faster, slightly less optimal diff.
+    * @param {number} deadline Time when the diff should be complete by.
+    * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffCompute = function (text1, text2, checklines, deadline) {
+  		var diffs, longtext, shorttext, i, hm, text1A, text2A, text1B, text2B, midCommon, diffsA, diffsB;
+
+  		if (!text1) {
+
+  			// Just add some text (speedup).
+  			return [[DIFF_INSERT, text2]];
+  		}
+
+  		if (!text2) {
+
+  			// Just delete some text (speedup).
+  			return [[DIFF_DELETE, text1]];
+  		}
+
+  		longtext = text1.length > text2.length ? text1 : text2;
+  		shorttext = text1.length > text2.length ? text2 : text1;
+  		i = longtext.indexOf(shorttext);
+  		if (i !== -1) {
+
+  			// Shorter text is inside the longer text (speedup).
+  			diffs = [[DIFF_INSERT, longtext.substring(0, i)], [DIFF_EQUAL, shorttext], [DIFF_INSERT, longtext.substring(i + shorttext.length)]];
+
+  			// Swap insertions for deletions if diff is reversed.
+  			if (text1.length > text2.length) {
+  				diffs[0][0] = diffs[2][0] = DIFF_DELETE;
+  			}
+  			return diffs;
+  		}
+
+  		if (shorttext.length === 1) {
+
+  			// Single character string.
+  			// After the previous speedup, the character can't be an equality.
+  			return [[DIFF_DELETE, text1], [DIFF_INSERT, text2]];
+  		}
+
+  		// Check to see if the problem can be split in two.
+  		hm = this.diffHalfMatch(text1, text2);
+  		if (hm) {
+
+  			// A half-match was found, sort out the return data.
+  			text1A = hm[0];
+  			text1B = hm[1];
+  			text2A = hm[2];
+  			text2B = hm[3];
+  			midCommon = hm[4];
+
+  			// Send both pairs off for separate processing.
+  			diffsA = this.DiffMain(text1A, text2A, checklines, deadline);
+  			diffsB = this.DiffMain(text1B, text2B, checklines, deadline);
+
+  			// Merge the results.
+  			return diffsA.concat([[DIFF_EQUAL, midCommon]], diffsB);
+  		}
+
+  		if (checklines && text1.length > 100 && text2.length > 100) {
+  			return this.diffLineMode(text1, text2, deadline);
+  		}
+
+  		return this.diffBisect(text1, text2, deadline);
+  	};
+
+  	/**
+    * Do the two texts share a substring which is at least half the length of the
+    * longer text?
+    * This speedup can produce non-minimal diffs.
+    * @param {string} text1 First string.
+    * @param {string} text2 Second string.
+    * @return {Array.<string>} Five element Array, containing the prefix of
+    *     text1, the suffix of text1, the prefix of text2, the suffix of
+    *     text2 and the common middle.  Or null if there was no match.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffHalfMatch = function (text1, text2) {
+  		var longtext, shorttext, dmp, text1A, text2B, text2A, text1B, midCommon, hm1, hm2, hm;
+
+  		longtext = text1.length > text2.length ? text1 : text2;
+  		shorttext = text1.length > text2.length ? text2 : text1;
+  		if (longtext.length < 4 || shorttext.length * 2 < longtext.length) {
+  			return null; // Pointless.
+  		}
+  		dmp = this; // 'this' becomes 'window' in a closure.
+
+  		/**
+     * Does a substring of shorttext exist within longtext such that the substring
+     * is at least half the length of longtext?
+     * Closure, but does not reference any external variables.
+     * @param {string} longtext Longer string.
+     * @param {string} shorttext Shorter string.
+     * @param {number} i Start index of quarter length substring within longtext.
      * @return {Array.<string>} Five element Array, containing the prefix of
-     *     text1, the suffix of text1, the prefix of text2, the suffix of
-     *     text2 and the common middle.  Or null if there was no match.
+     *     longtext, the suffix of longtext, the prefix of shorttext, the suffix
+     *     of shorttext and the common middle.  Or null if there was no match.
      * @private
      */
-    DiffMatchPatch.prototype.diffHalfMatch = function (text1, text2) {
-      var longtext, shorttext, dmp, text1A, text2B, text2A, text1B, midCommon, hm1, hm2, hm;
-      longtext = text1.length > text2.length ? text1 : text2;
-      shorttext = text1.length > text2.length ? text2 : text1;
-      if (longtext.length < 4 || shorttext.length * 2 < longtext.length) {
-        return null; // Pointless.
-      }
+  		function diffHalfMatchI(longtext, shorttext, i) {
+  			var seed, j, bestCommon, prefixLength, suffixLength, bestLongtextA, bestLongtextB, bestShorttextA, bestShorttextB;
 
-      dmp = this; // 'this' becomes 'window' in a closure.
+  			// Start with a 1/4 length substring at position i as a seed.
+  			seed = longtext.substring(i, i + Math.floor(longtext.length / 4));
+  			j = -1;
+  			bestCommon = "";
+  			while ((j = shorttext.indexOf(seed, j + 1)) !== -1) {
+  				prefixLength = dmp.diffCommonPrefix(longtext.substring(i), shorttext.substring(j));
+  				suffixLength = dmp.diffCommonSuffix(longtext.substring(0, i), shorttext.substring(0, j));
+  				if (bestCommon.length < suffixLength + prefixLength) {
+  					bestCommon = shorttext.substring(j - suffixLength, j) + shorttext.substring(j, j + prefixLength);
+  					bestLongtextA = longtext.substring(0, i - suffixLength);
+  					bestLongtextB = longtext.substring(i + prefixLength);
+  					bestShorttextA = shorttext.substring(0, j - suffixLength);
+  					bestShorttextB = shorttext.substring(j + prefixLength);
+  				}
+  			}
+  			if (bestCommon.length * 2 >= longtext.length) {
+  				return [bestLongtextA, bestLongtextB, bestShorttextA, bestShorttextB, bestCommon];
+  			} else {
+  				return null;
+  			}
+  		}
 
-      /**
-       * Does a substring of shorttext exist within longtext such that the substring
-       * is at least half the length of longtext?
-       * Closure, but does not reference any external variables.
-       * @param {string} longtext Longer string.
-       * @param {string} shorttext Shorter string.
-       * @param {number} i Start index of quarter length substring within longtext.
-       * @return {Array.<string>} Five element Array, containing the prefix of
-       *     longtext, the suffix of longtext, the prefix of shorttext, the suffix
-       *     of shorttext and the common middle.  Or null if there was no match.
-       * @private
-       */
-      function diffHalfMatchI(longtext, shorttext, i) {
-        var seed, j, bestCommon, prefixLength, suffixLength, bestLongtextA, bestLongtextB, bestShorttextA, bestShorttextB;
+  		// First check if the second quarter is the seed for a half-match.
+  		hm1 = diffHalfMatchI(longtext, shorttext, Math.ceil(longtext.length / 4));
 
-        // Start with a 1/4 length substring at position i as a seed.
-        seed = longtext.substring(i, i + Math.floor(longtext.length / 4));
-        j = -1;
-        bestCommon = '';
-        while ((j = shorttext.indexOf(seed, j + 1)) !== -1) {
-          prefixLength = dmp.diffCommonPrefix(longtext.substring(i), shorttext.substring(j));
-          suffixLength = dmp.diffCommonSuffix(longtext.substring(0, i), shorttext.substring(0, j));
-          if (bestCommon.length < suffixLength + prefixLength) {
-            bestCommon = shorttext.substring(j - suffixLength, j) + shorttext.substring(j, j + prefixLength);
-            bestLongtextA = longtext.substring(0, i - suffixLength);
-            bestLongtextB = longtext.substring(i + prefixLength);
-            bestShorttextA = shorttext.substring(0, j - suffixLength);
-            bestShorttextB = shorttext.substring(j + prefixLength);
-          }
-        }
-        if (bestCommon.length * 2 >= longtext.length) {
-          return [bestLongtextA, bestLongtextB, bestShorttextA, bestShorttextB, bestCommon];
-        } else {
-          return null;
-        }
-      }
+  		// Check again based on the third quarter.
+  		hm2 = diffHalfMatchI(longtext, shorttext, Math.ceil(longtext.length / 2));
+  		if (!hm1 && !hm2) {
+  			return null;
+  		} else if (!hm2) {
+  			hm = hm1;
+  		} else if (!hm1) {
+  			hm = hm2;
+  		} else {
 
-      // First check if the second quarter is the seed for a half-match.
-      hm1 = diffHalfMatchI(longtext, shorttext, Math.ceil(longtext.length / 4));
+  			// Both matched.  Select the longest.
+  			hm = hm1[4].length > hm2[4].length ? hm1 : hm2;
+  		}
 
-      // Check again based on the third quarter.
-      hm2 = diffHalfMatchI(longtext, shorttext, Math.ceil(longtext.length / 2));
-      if (!hm1 && !hm2) {
-        return null;
-      } else if (!hm2) {
-        hm = hm1;
-      } else if (!hm1) {
-        hm = hm2;
-      } else {
-        // Both matched.  Select the longest.
-        hm = hm1[4].length > hm2[4].length ? hm1 : hm2;
-      }
+  		// A half-match was found, sort out the return data.
+  		if (text1.length > text2.length) {
+  			text1A = hm[0];
+  			text1B = hm[1];
+  			text2A = hm[2];
+  			text2B = hm[3];
+  		} else {
+  			text2A = hm[0];
+  			text2B = hm[1];
+  			text1A = hm[2];
+  			text1B = hm[3];
+  		}
+  		midCommon = hm[4];
+  		return [text1A, text1B, text2A, text2B, midCommon];
+  	};
 
-      // A half-match was found, sort out the return data.
-      if (text1.length > text2.length) {
-        text1A = hm[0];
-        text1B = hm[1];
-        text2A = hm[2];
-        text2B = hm[3];
-      } else {
-        text2A = hm[0];
-        text2B = hm[1];
-        text1A = hm[2];
-        text1B = hm[3];
-      }
-      midCommon = hm[4];
-      return [text1A, text1B, text2A, text2B, midCommon];
-    };
+  	/**
+    * Do a quick line-level diff on both strings, then rediff the parts for
+    * greater accuracy.
+    * This speedup can produce non-minimal diffs.
+    * @param {string} text1 Old string to be diffed.
+    * @param {string} text2 New string to be diffed.
+    * @param {number} deadline Time when the diff should be complete by.
+    * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffLineMode = function (text1, text2, deadline) {
+  		var a, diffs, linearray, pointer, countInsert, countDelete, textInsert, textDelete, j;
 
-    /**
-     * Do a quick line-level diff on both strings, then rediff the parts for
-     * greater accuracy.
-     * This speedup can produce non-minimal diffs.
-     * @param {string} text1 Old string to be diffed.
-     * @param {string} text2 New string to be diffed.
-     * @param {number} deadline Time when the diff should be complete by.
-     * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
-     * @private
-     */
-    DiffMatchPatch.prototype.diffLineMode = function (text1, text2, deadline) {
-      var a, diffs, linearray, pointer, countInsert, countDelete, textInsert, textDelete, j;
+  		// Scan the text on a line-by-line basis first.
+  		a = this.diffLinesToChars(text1, text2);
+  		text1 = a.chars1;
+  		text2 = a.chars2;
+  		linearray = a.lineArray;
 
-      // Scan the text on a line-by-line basis first.
-      a = this.diffLinesToChars(text1, text2);
-      text1 = a.chars1;
-      text2 = a.chars2;
-      linearray = a.lineArray;
-      diffs = this.DiffMain(text1, text2, false, deadline);
+  		diffs = this.DiffMain(text1, text2, false, deadline);
 
-      // Convert the diff back to original text.
-      this.diffCharsToLines(diffs, linearray);
+  		// Convert the diff back to original text.
+  		this.diffCharsToLines(diffs, linearray);
 
-      // Eliminate freak matches (e.g. blank lines)
-      this.diffCleanupSemantic(diffs);
+  		// Eliminate freak matches (e.g. blank lines)
+  		this.diffCleanupSemantic(diffs);
 
-      // Rediff any replacement blocks, this time character-by-character.
-      // Add a dummy entry at the end.
-      diffs.push([DIFF_EQUAL, '']);
-      pointer = 0;
-      countDelete = 0;
-      countInsert = 0;
-      textDelete = '';
-      textInsert = '';
-      while (pointer < diffs.length) {
-        switch (diffs[pointer][0]) {
-          case DIFF_INSERT:
-            countInsert++;
-            textInsert += diffs[pointer][1];
-            break;
-          case DIFF_DELETE:
-            countDelete++;
-            textDelete += diffs[pointer][1];
-            break;
-          case DIFF_EQUAL:
-            // Upon reaching an equality, check for prior redundancies.
-            if (countDelete >= 1 && countInsert >= 1) {
-              // Delete the offending records and add the merged ones.
-              diffs.splice(pointer - countDelete - countInsert, countDelete + countInsert);
-              pointer = pointer - countDelete - countInsert;
-              a = this.DiffMain(textDelete, textInsert, false, deadline);
-              for (j = a.length - 1; j >= 0; j--) {
-                diffs.splice(pointer, 0, a[j]);
-              }
-              pointer = pointer + a.length;
-            }
-            countInsert = 0;
-            countDelete = 0;
-            textDelete = '';
-            textInsert = '';
-            break;
-        }
-        pointer++;
-      }
-      diffs.pop(); // Remove the dummy entry at the end.
+  		// Rediff any replacement blocks, this time character-by-character.
+  		// Add a dummy entry at the end.
+  		diffs.push([DIFF_EQUAL, ""]);
+  		pointer = 0;
+  		countDelete = 0;
+  		countInsert = 0;
+  		textDelete = "";
+  		textInsert = "";
+  		while (pointer < diffs.length) {
+  			switch (diffs[pointer][0]) {
+  				case DIFF_INSERT:
+  					countInsert++;
+  					textInsert += diffs[pointer][1];
+  					break;
+  				case DIFF_DELETE:
+  					countDelete++;
+  					textDelete += diffs[pointer][1];
+  					break;
+  				case DIFF_EQUAL:
 
-      return diffs;
-    };
+  					// Upon reaching an equality, check for prior redundancies.
+  					if (countDelete >= 1 && countInsert >= 1) {
 
-    /**
-     * Find the 'middle snake' of a diff, split the problem in two
-     * and return the recursively constructed diff.
-     * See Myers 1986 paper: An O(ND) Difference Algorithm and Its Variations.
-     * @param {string} text1 Old string to be diffed.
-     * @param {string} text2 New string to be diffed.
-     * @param {number} deadline Time at which to bail if not yet complete.
-     * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
-     * @private
-     */
-    DiffMatchPatch.prototype.diffBisect = function (text1, text2, deadline) {
-      var text1Length, text2Length, maxD, vOffset, vLength, v1, v2, x, delta, front, k1start, k1end, k2start, k2end, k2Offset, k1Offset, x1, x2, y1, y2, d, k1, k2;
+  						// Delete the offending records and add the merged ones.
+  						diffs.splice(pointer - countDelete - countInsert, countDelete + countInsert);
+  						pointer = pointer - countDelete - countInsert;
+  						a = this.DiffMain(textDelete, textInsert, false, deadline);
+  						for (j = a.length - 1; j >= 0; j--) {
+  							diffs.splice(pointer, 0, a[j]);
+  						}
+  						pointer = pointer + a.length;
+  					}
+  					countInsert = 0;
+  					countDelete = 0;
+  					textDelete = "";
+  					textInsert = "";
+  					break;
+  			}
+  			pointer++;
+  		}
+  		diffs.pop(); // Remove the dummy entry at the end.
 
-      // Cache the text lengths to prevent multiple calls.
-      text1Length = text1.length;
-      text2Length = text2.length;
-      maxD = Math.ceil((text1Length + text2Length) / 2);
-      vOffset = maxD;
-      vLength = 2 * maxD;
-      v1 = new Array(vLength);
-      v2 = new Array(vLength);
+  		return diffs;
+  	};
 
-      // Setting all elements to -1 is faster in Chrome & Firefox than mixing
-      // integers and undefined.
-      for (x = 0; x < vLength; x++) {
-        v1[x] = -1;
-        v2[x] = -1;
-      }
-      v1[vOffset + 1] = 0;
-      v2[vOffset + 1] = 0;
-      delta = text1Length - text2Length;
+  	/**
+    * Find the 'middle snake' of a diff, split the problem in two
+    * and return the recursively constructed diff.
+    * See Myers 1986 paper: An O(ND) Difference Algorithm and Its Variations.
+    * @param {string} text1 Old string to be diffed.
+    * @param {string} text2 New string to be diffed.
+    * @param {number} deadline Time at which to bail if not yet complete.
+    * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffBisect = function (text1, text2, deadline) {
+  		var text1Length, text2Length, maxD, vOffset, vLength, v1, v2, x, delta, front, k1start, k1end, k2start, k2end, k2Offset, k1Offset, x1, x2, y1, y2, d, k1, k2;
 
-      // If the total number of characters is odd, then the front path will collide
-      // with the reverse path.
-      front = delta % 2 !== 0;
+  		// Cache the text lengths to prevent multiple calls.
+  		text1Length = text1.length;
+  		text2Length = text2.length;
+  		maxD = Math.ceil((text1Length + text2Length) / 2);
+  		vOffset = maxD;
+  		vLength = 2 * maxD;
+  		v1 = new Array(vLength);
+  		v2 = new Array(vLength);
 
-      // Offsets for start and end of k loop.
-      // Prevents mapping of space beyond the grid.
-      k1start = 0;
-      k1end = 0;
-      k2start = 0;
-      k2end = 0;
-      for (d = 0; d < maxD; d++) {
-        // Bail out if deadline is reached.
-        if (Date.now() > deadline) {
-          break;
-        }
+  		// Setting all elements to -1 is faster in Chrome & Firefox than mixing
+  		// integers and undefined.
+  		for (x = 0; x < vLength; x++) {
+  			v1[x] = -1;
+  			v2[x] = -1;
+  		}
+  		v1[vOffset + 1] = 0;
+  		v2[vOffset + 1] = 0;
+  		delta = text1Length - text2Length;
 
-        // Walk the front path one step.
-        for (k1 = -d + k1start; k1 <= d - k1end; k1 += 2) {
-          k1Offset = vOffset + k1;
-          if (k1 === -d || k1 !== d && v1[k1Offset - 1] < v1[k1Offset + 1]) {
-            x1 = v1[k1Offset + 1];
-          } else {
-            x1 = v1[k1Offset - 1] + 1;
-          }
-          y1 = x1 - k1;
-          while (x1 < text1Length && y1 < text2Length && text1.charAt(x1) === text2.charAt(y1)) {
-            x1++;
-            y1++;
-          }
-          v1[k1Offset] = x1;
-          if (x1 > text1Length) {
-            // Ran off the right of the graph.
-            k1end += 2;
-          } else if (y1 > text2Length) {
-            // Ran off the bottom of the graph.
-            k1start += 2;
-          } else if (front) {
-            k2Offset = vOffset + delta - k1;
-            if (k2Offset >= 0 && k2Offset < vLength && v2[k2Offset] !== -1) {
-              // Mirror x2 onto top-left coordinate system.
-              x2 = text1Length - v2[k2Offset];
-              if (x1 >= x2) {
-                // Overlap detected.
-                return this.diffBisectSplit(text1, text2, x1, y1, deadline);
-              }
-            }
-          }
-        }
+  		// If the total number of characters is odd, then the front path will collide
+  		// with the reverse path.
+  		front = delta % 2 !== 0;
 
-        // Walk the reverse path one step.
-        for (k2 = -d + k2start; k2 <= d - k2end; k2 += 2) {
-          k2Offset = vOffset + k2;
-          if (k2 === -d || k2 !== d && v2[k2Offset - 1] < v2[k2Offset + 1]) {
-            x2 = v2[k2Offset + 1];
-          } else {
-            x2 = v2[k2Offset - 1] + 1;
-          }
-          y2 = x2 - k2;
-          while (x2 < text1Length && y2 < text2Length && text1.charAt(text1Length - x2 - 1) === text2.charAt(text2Length - y2 - 1)) {
-            x2++;
-            y2++;
-          }
-          v2[k2Offset] = x2;
-          if (x2 > text1Length) {
-            // Ran off the left of the graph.
-            k2end += 2;
-          } else if (y2 > text2Length) {
-            // Ran off the top of the graph.
-            k2start += 2;
-          } else if (!front) {
-            k1Offset = vOffset + delta - k2;
-            if (k1Offset >= 0 && k1Offset < vLength && v1[k1Offset] !== -1) {
-              x1 = v1[k1Offset];
-              y1 = vOffset + x1 - k1Offset;
+  		// Offsets for start and end of k loop.
+  		// Prevents mapping of space beyond the grid.
+  		k1start = 0;
+  		k1end = 0;
+  		k2start = 0;
+  		k2end = 0;
+  		for (d = 0; d < maxD; d++) {
 
-              // Mirror x2 onto top-left coordinate system.
-              x2 = text1Length - x2;
-              if (x1 >= x2) {
-                // Overlap detected.
-                return this.diffBisectSplit(text1, text2, x1, y1, deadline);
-              }
-            }
-          }
-        }
-      }
+  			// Bail out if deadline is reached.
+  			if (new Date().getTime() > deadline) {
+  				break;
+  			}
 
-      // Diff took too long and hit the deadline or
-      // number of diffs equals number of characters, no commonality at all.
-      return [[DIFF_DELETE, text1], [DIFF_INSERT, text2]];
-    };
+  			// Walk the front path one step.
+  			for (k1 = -d + k1start; k1 <= d - k1end; k1 += 2) {
+  				k1Offset = vOffset + k1;
+  				if (k1 === -d || k1 !== d && v1[k1Offset - 1] < v1[k1Offset + 1]) {
+  					x1 = v1[k1Offset + 1];
+  				} else {
+  					x1 = v1[k1Offset - 1] + 1;
+  				}
+  				y1 = x1 - k1;
+  				while (x1 < text1Length && y1 < text2Length && text1.charAt(x1) === text2.charAt(y1)) {
+  					x1++;
+  					y1++;
+  				}
+  				v1[k1Offset] = x1;
+  				if (x1 > text1Length) {
 
-    /**
-     * Given the location of the 'middle snake', split the diff in two parts
-     * and recurse.
-     * @param {string} text1 Old string to be diffed.
-     * @param {string} text2 New string to be diffed.
-     * @param {number} x Index of split point in text1.
-     * @param {number} y Index of split point in text2.
-     * @param {number} deadline Time at which to bail if not yet complete.
-     * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
-     * @private
-     */
-    DiffMatchPatch.prototype.diffBisectSplit = function (text1, text2, x, y, deadline) {
-      var text1a, text1b, text2a, text2b, diffs, diffsb;
-      text1a = text1.substring(0, x);
-      text2a = text2.substring(0, y);
-      text1b = text1.substring(x);
-      text2b = text2.substring(y);
+  					// Ran off the right of the graph.
+  					k1end += 2;
+  				} else if (y1 > text2Length) {
 
-      // Compute both diffs serially.
-      diffs = this.DiffMain(text1a, text2a, false, deadline);
-      diffsb = this.DiffMain(text1b, text2b, false, deadline);
-      return diffs.concat(diffsb);
-    };
+  					// Ran off the bottom of the graph.
+  					k1start += 2;
+  				} else if (front) {
+  					k2Offset = vOffset + delta - k1;
+  					if (k2Offset >= 0 && k2Offset < vLength && v2[k2Offset] !== -1) {
 
-    /**
-     * Reduce the number of edits by eliminating semantically trivial equalities.
-     * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
-     */
-    DiffMatchPatch.prototype.diffCleanupSemantic = function (diffs) {
-      var changes = false;
-      var equalities = []; // Stack of indices where equalities are found.
-      var equalitiesLength = 0; // Keeping our own length var is faster in JS.
-      /** @type {?string} */
-      var lastequality = null;
+  						// Mirror x2 onto top-left coordinate system.
+  						x2 = text1Length - v2[k2Offset];
+  						if (x1 >= x2) {
 
-      // Always equal to diffs[equalities[equalitiesLength - 1]][1]
-      var pointer = 0; // Index of current position.
+  							// Overlap detected.
+  							return this.diffBisectSplit(text1, text2, x1, y1, deadline);
+  						}
+  					}
+  				}
+  			}
 
-      // Number of characters that changed prior to the equality.
-      var lengthInsertions1 = 0;
-      var lengthDeletions1 = 0;
+  			// Walk the reverse path one step.
+  			for (k2 = -d + k2start; k2 <= d - k2end; k2 += 2) {
+  				k2Offset = vOffset + k2;
+  				if (k2 === -d || k2 !== d && v2[k2Offset - 1] < v2[k2Offset + 1]) {
+  					x2 = v2[k2Offset + 1];
+  				} else {
+  					x2 = v2[k2Offset - 1] + 1;
+  				}
+  				y2 = x2 - k2;
+  				while (x2 < text1Length && y2 < text2Length && text1.charAt(text1Length - x2 - 1) === text2.charAt(text2Length - y2 - 1)) {
+  					x2++;
+  					y2++;
+  				}
+  				v2[k2Offset] = x2;
+  				if (x2 > text1Length) {
 
-      // Number of characters that changed after the equality.
-      var lengthInsertions2 = 0;
-      var lengthDeletions2 = 0;
-      while (pointer < diffs.length) {
-        if (diffs[pointer][0] === DIFF_EQUAL) {
-          // Equality found.
-          equalities[equalitiesLength++] = pointer;
-          lengthInsertions1 = lengthInsertions2;
-          lengthDeletions1 = lengthDeletions2;
-          lengthInsertions2 = 0;
-          lengthDeletions2 = 0;
-          lastequality = diffs[pointer][1];
-        } else {
-          // An insertion or deletion.
-          if (diffs[pointer][0] === DIFF_INSERT) {
-            lengthInsertions2 += diffs[pointer][1].length;
-          } else {
-            lengthDeletions2 += diffs[pointer][1].length;
-          }
+  					// Ran off the left of the graph.
+  					k2end += 2;
+  				} else if (y2 > text2Length) {
 
-          // Eliminate an equality that is smaller or equal to the edits on both
-          // sides of it.
-          if (lastequality && lastequality.length <= Math.max(lengthInsertions1, lengthDeletions1) && lastequality.length <= Math.max(lengthInsertions2, lengthDeletions2)) {
-            // Duplicate record.
-            diffs.splice(equalities[equalitiesLength - 1], 0, [DIFF_DELETE, lastequality]);
+  					// Ran off the top of the graph.
+  					k2start += 2;
+  				} else if (!front) {
+  					k1Offset = vOffset + delta - k2;
+  					if (k1Offset >= 0 && k1Offset < vLength && v1[k1Offset] !== -1) {
+  						x1 = v1[k1Offset];
+  						y1 = vOffset + x1 - k1Offset;
 
-            // Change second copy to insert.
-            diffs[equalities[equalitiesLength - 1] + 1][0] = DIFF_INSERT;
+  						// Mirror x2 onto top-left coordinate system.
+  						x2 = text1Length - x2;
+  						if (x1 >= x2) {
 
-            // Throw away the equality we just deleted.
-            equalitiesLength--;
+  							// Overlap detected.
+  							return this.diffBisectSplit(text1, text2, x1, y1, deadline);
+  						}
+  					}
+  				}
+  			}
+  		}
 
-            // Throw away the previous equality (it needs to be reevaluated).
-            equalitiesLength--;
-            pointer = equalitiesLength > 0 ? equalities[equalitiesLength - 1] : -1;
+  		// Diff took too long and hit the deadline or
+  		// number of diffs equals number of characters, no commonality at all.
+  		return [[DIFF_DELETE, text1], [DIFF_INSERT, text2]];
+  	};
 
-            // Reset the counters.
-            lengthInsertions1 = 0;
-            lengthDeletions1 = 0;
-            lengthInsertions2 = 0;
-            lengthDeletions2 = 0;
-            lastequality = null;
-            changes = true;
-          }
-        }
-        pointer++;
-      }
+  	/**
+    * Given the location of the 'middle snake', split the diff in two parts
+    * and recurse.
+    * @param {string} text1 Old string to be diffed.
+    * @param {string} text2 New string to be diffed.
+    * @param {number} x Index of split point in text1.
+    * @param {number} y Index of split point in text2.
+    * @param {number} deadline Time at which to bail if not yet complete.
+    * @return {!Array.<!DiffMatchPatch.Diff>} Array of diff tuples.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffBisectSplit = function (text1, text2, x, y, deadline) {
+  		var text1a, text1b, text2a, text2b, diffs, diffsb;
+  		text1a = text1.substring(0, x);
+  		text2a = text2.substring(0, y);
+  		text1b = text1.substring(x);
+  		text2b = text2.substring(y);
 
-      // Normalize the diff.
-      if (changes) {
-        this.diffCleanupMerge(diffs);
-      }
-      var deletion, insertion, overlapLength1, overlapLength2;
+  		// Compute both diffs serially.
+  		diffs = this.DiffMain(text1a, text2a, false, deadline);
+  		diffsb = this.DiffMain(text1b, text2b, false, deadline);
 
-      // Find any overlaps between deletions and insertions.
-      // e.g: <del>abcxxx</del><ins>xxxdef</ins>
-      //   -> <del>abc</del>xxx<ins>def</ins>
-      // e.g: <del>xxxabc</del><ins>defxxx</ins>
-      //   -> <ins>def</ins>xxx<del>abc</del>
-      // Only extract an overlap if it is as big as the edit ahead or behind it.
-      pointer = 1;
-      while (pointer < diffs.length) {
-        if (diffs[pointer - 1][0] === DIFF_DELETE && diffs[pointer][0] === DIFF_INSERT) {
-          deletion = diffs[pointer - 1][1];
-          insertion = diffs[pointer][1];
-          overlapLength1 = this.diffCommonOverlap(deletion, insertion);
-          overlapLength2 = this.diffCommonOverlap(insertion, deletion);
-          if (overlapLength1 >= overlapLength2) {
-            if (overlapLength1 >= deletion.length / 2 || overlapLength1 >= insertion.length / 2) {
-              // Overlap found.  Insert an equality and trim the surrounding edits.
-              diffs.splice(pointer, 0, [DIFF_EQUAL, insertion.substring(0, overlapLength1)]);
-              diffs[pointer - 1][1] = deletion.substring(0, deletion.length - overlapLength1);
-              diffs[pointer + 1][1] = insertion.substring(overlapLength1);
-              pointer++;
-            }
-          } else {
-            if (overlapLength2 >= deletion.length / 2 || overlapLength2 >= insertion.length / 2) {
-              // Reverse overlap found.
-              // Insert an equality and swap and trim the surrounding edits.
-              diffs.splice(pointer, 0, [DIFF_EQUAL, deletion.substring(0, overlapLength2)]);
-              diffs[pointer - 1][0] = DIFF_INSERT;
-              diffs[pointer - 1][1] = insertion.substring(0, insertion.length - overlapLength2);
-              diffs[pointer + 1][0] = DIFF_DELETE;
-              diffs[pointer + 1][1] = deletion.substring(overlapLength2);
-              pointer++;
-            }
-          }
-          pointer++;
-        }
-        pointer++;
-      }
-    };
+  		return diffs.concat(diffsb);
+  	};
 
-    /**
-     * Determine if the suffix of one string is the prefix of another.
-     * @param {string} text1 First string.
-     * @param {string} text2 Second string.
-     * @return {number} The number of characters common to the end of the first
-     *     string and the start of the second string.
-     * @private
-     */
-    DiffMatchPatch.prototype.diffCommonOverlap = function (text1, text2) {
-      // Cache the text lengths to prevent multiple calls.
-      var text1Length = text1.length;
-      var text2Length = text2.length;
+  	/**
+    * Reduce the number of edits by eliminating semantically trivial equalities.
+    * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
+    */
+  	DiffMatchPatch.prototype.diffCleanupSemantic = function (diffs) {
+  		var changes, equalities, equalitiesLength, lastequality, pointer, lengthInsertions2, lengthDeletions2, lengthInsertions1, lengthDeletions1, deletion, insertion, overlapLength1, overlapLength2;
+  		changes = false;
+  		equalities = []; // Stack of indices where equalities are found.
+  		equalitiesLength = 0; // Keeping our own length var is faster in JS.
+  		/** @type {?string} */
+  		lastequality = null;
 
-      // Eliminate the null case.
-      if (text1Length === 0 || text2Length === 0) {
-        return 0;
-      }
+  		// Always equal to diffs[equalities[equalitiesLength - 1]][1]
+  		pointer = 0; // Index of current position.
 
-      // Truncate the longer string.
-      if (text1Length > text2Length) {
-        text1 = text1.substring(text1Length - text2Length);
-      } else if (text1Length < text2Length) {
-        text2 = text2.substring(0, text1Length);
-      }
-      var textLength = Math.min(text1Length, text2Length);
+  		// Number of characters that changed prior to the equality.
+  		lengthInsertions1 = 0;
+  		lengthDeletions1 = 0;
 
-      // Quick check for the worst case.
-      if (text1 === text2) {
-        return textLength;
-      }
+  		// Number of characters that changed after the equality.
+  		lengthInsertions2 = 0;
+  		lengthDeletions2 = 0;
+  		while (pointer < diffs.length) {
+  			if (diffs[pointer][0] === DIFF_EQUAL) {
+  				// Equality found.
+  				equalities[equalitiesLength++] = pointer;
+  				lengthInsertions1 = lengthInsertions2;
+  				lengthDeletions1 = lengthDeletions2;
+  				lengthInsertions2 = 0;
+  				lengthDeletions2 = 0;
+  				lastequality = diffs[pointer][1];
+  			} else {
+  				// An insertion or deletion.
+  				if (diffs[pointer][0] === DIFF_INSERT) {
+  					lengthInsertions2 += diffs[pointer][1].length;
+  				} else {
+  					lengthDeletions2 += diffs[pointer][1].length;
+  				}
 
-      // Start by looking for a single character match
-      // and increase length until no match is found.
-      // Performance analysis: https://neil.fraser.name/news/2010/11/04/
-      var best = 0;
-      var length = 1;
-      while (true) {
-        var pattern = text1.substring(textLength - length);
-        var found = text2.indexOf(pattern);
-        if (found === -1) {
-          return best;
-        }
-        length += found;
-        if (found === 0 || text1.substring(textLength - length) === text2.substring(0, length)) {
-          best = length;
-          length++;
-        }
-      }
-    };
+  				// Eliminate an equality that is smaller or equal to the edits on both
+  				// sides of it.
+  				if (lastequality && lastequality.length <= Math.max(lengthInsertions1, lengthDeletions1) && lastequality.length <= Math.max(lengthInsertions2, lengthDeletions2)) {
 
-    /**
-     * Split two texts into an array of strings.  Reduce the texts to a string of
+  					// Duplicate record.
+  					diffs.splice(equalities[equalitiesLength - 1], 0, [DIFF_DELETE, lastequality]);
+
+  					// Change second copy to insert.
+  					diffs[equalities[equalitiesLength - 1] + 1][0] = DIFF_INSERT;
+
+  					// Throw away the equality we just deleted.
+  					equalitiesLength--;
+
+  					// Throw away the previous equality (it needs to be reevaluated).
+  					equalitiesLength--;
+  					pointer = equalitiesLength > 0 ? equalities[equalitiesLength - 1] : -1;
+
+  					// Reset the counters.
+  					lengthInsertions1 = 0;
+  					lengthDeletions1 = 0;
+  					lengthInsertions2 = 0;
+  					lengthDeletions2 = 0;
+  					lastequality = null;
+  					changes = true;
+  				}
+  			}
+  			pointer++;
+  		}
+
+  		// Normalize the diff.
+  		if (changes) {
+  			this.diffCleanupMerge(diffs);
+  		}
+
+  		// Find any overlaps between deletions and insertions.
+  		// e.g: <del>abcxxx</del><ins>xxxdef</ins>
+  		//   -> <del>abc</del>xxx<ins>def</ins>
+  		// e.g: <del>xxxabc</del><ins>defxxx</ins>
+  		//   -> <ins>def</ins>xxx<del>abc</del>
+  		// Only extract an overlap if it is as big as the edit ahead or behind it.
+  		pointer = 1;
+  		while (pointer < diffs.length) {
+  			if (diffs[pointer - 1][0] === DIFF_DELETE && diffs[pointer][0] === DIFF_INSERT) {
+  				deletion = diffs[pointer - 1][1];
+  				insertion = diffs[pointer][1];
+  				overlapLength1 = this.diffCommonOverlap(deletion, insertion);
+  				overlapLength2 = this.diffCommonOverlap(insertion, deletion);
+  				if (overlapLength1 >= overlapLength2) {
+  					if (overlapLength1 >= deletion.length / 2 || overlapLength1 >= insertion.length / 2) {
+
+  						// Overlap found.  Insert an equality and trim the surrounding edits.
+  						diffs.splice(pointer, 0, [DIFF_EQUAL, insertion.substring(0, overlapLength1)]);
+  						diffs[pointer - 1][1] = deletion.substring(0, deletion.length - overlapLength1);
+  						diffs[pointer + 1][1] = insertion.substring(overlapLength1);
+  						pointer++;
+  					}
+  				} else {
+  					if (overlapLength2 >= deletion.length / 2 || overlapLength2 >= insertion.length / 2) {
+
+  						// Reverse overlap found.
+  						// Insert an equality and swap and trim the surrounding edits.
+  						diffs.splice(pointer, 0, [DIFF_EQUAL, deletion.substring(0, overlapLength2)]);
+
+  						diffs[pointer - 1][0] = DIFF_INSERT;
+  						diffs[pointer - 1][1] = insertion.substring(0, insertion.length - overlapLength2);
+  						diffs[pointer + 1][0] = DIFF_DELETE;
+  						diffs[pointer + 1][1] = deletion.substring(overlapLength2);
+  						pointer++;
+  					}
+  				}
+  				pointer++;
+  			}
+  			pointer++;
+  		}
+  	};
+
+  	/**
+    * Determine if the suffix of one string is the prefix of another.
+    * @param {string} text1 First string.
+    * @param {string} text2 Second string.
+    * @return {number} The number of characters common to the end of the first
+    *     string and the start of the second string.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffCommonOverlap = function (text1, text2) {
+  		var text1Length, text2Length, textLength, best, length, pattern, found;
+
+  		// Cache the text lengths to prevent multiple calls.
+  		text1Length = text1.length;
+  		text2Length = text2.length;
+
+  		// Eliminate the null case.
+  		if (text1Length === 0 || text2Length === 0) {
+  			return 0;
+  		}
+
+  		// Truncate the longer string.
+  		if (text1Length > text2Length) {
+  			text1 = text1.substring(text1Length - text2Length);
+  		} else if (text1Length < text2Length) {
+  			text2 = text2.substring(0, text1Length);
+  		}
+  		textLength = Math.min(text1Length, text2Length);
+
+  		// Quick check for the worst case.
+  		if (text1 === text2) {
+  			return textLength;
+  		}
+
+  		// Start by looking for a single character match
+  		// and increase length until no match is found.
+  		// Performance analysis: https://neil.fraser.name/news/2010/11/04/
+  		best = 0;
+  		length = 1;
+  		while (true) {
+  			pattern = text1.substring(textLength - length);
+  			found = text2.indexOf(pattern);
+  			if (found === -1) {
+  				return best;
+  			}
+  			length += found;
+  			if (found === 0 || text1.substring(textLength - length) === text2.substring(0, length)) {
+  				best = length;
+  				length++;
+  			}
+  		}
+  	};
+
+  	/**
+    * Split two texts into an array of strings.  Reduce the texts to a string of
+    * hashes where each Unicode character represents one line.
+    * @param {string} text1 First string.
+    * @param {string} text2 Second string.
+    * @return {{chars1: string, chars2: string, lineArray: !Array.<string>}}
+    *     An object containing the encoded text1, the encoded text2 and
+    *     the array of unique strings.
+    *     The zeroth element of the array of unique strings is intentionally blank.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffLinesToChars = function (text1, text2) {
+  		var lineArray, lineHash, chars1, chars2;
+  		lineArray = []; // E.g. lineArray[4] === 'Hello\n'
+  		lineHash = {}; // E.g. lineHash['Hello\n'] === 4
+
+  		// '\x00' is a valid character, but various debuggers don't like it.
+  		// So we'll insert a junk entry to avoid generating a null character.
+  		lineArray[0] = "";
+
+  		/**
+     * Split a text into an array of strings.  Reduce the texts to a string of
      * hashes where each Unicode character represents one line.
-     * @param {string} text1 First string.
-     * @param {string} text2 Second string.
-     * @return {{chars1: string, chars2: string, lineArray: !Array.<string>}}
-     *     An object containing the encoded text1, the encoded text2 and
-     *     the array of unique strings.
-     *     The zeroth element of the array of unique strings is intentionally blank.
+     * Modifies linearray and linehash through being a closure.
+     * @param {string} text String to encode.
+     * @return {string} Encoded string.
      * @private
      */
-    DiffMatchPatch.prototype.diffLinesToChars = function (text1, text2) {
-      var lineArray = []; // E.g. lineArray[4] === 'Hello\n'
-      var lineHash = {}; // E.g. lineHash['Hello\n'] === 4
+  		function diffLinesToCharsMunge(text) {
+  			var chars, lineStart, lineEnd, lineArrayLength, line;
+  			chars = "";
 
-      // '\x00' is a valid character, but various debuggers don't like it.
-      // So we'll insert a junk entry to avoid generating a null character.
-      lineArray[0] = '';
+  			// Walk the text, pulling out a substring for each line.
+  			// text.split('\n') would would temporarily double our memory footprint.
+  			// Modifying text would create many large strings to garbage collect.
+  			lineStart = 0;
+  			lineEnd = -1;
 
-      /**
-       * Split a text into an array of strings.  Reduce the texts to a string of
-       * hashes where each Unicode character represents one line.
-       * Modifies linearray and linehash through being a closure.
-       * @param {string} text String to encode.
-       * @return {string} Encoded string.
-       * @private
-       */
-      function diffLinesToCharsMunge(text) {
-        var chars = '';
+  			// Keeping our own length variable is faster than looking it up.
+  			lineArrayLength = lineArray.length;
+  			while (lineEnd < text.length - 1) {
+  				lineEnd = text.indexOf("\n", lineStart);
+  				if (lineEnd === -1) {
+  					lineEnd = text.length - 1;
+  				}
+  				line = text.substring(lineStart, lineEnd + 1);
+  				lineStart = lineEnd + 1;
 
-        // Walk the text, pulling out a substring for each line.
-        // text.split('\n') would would temporarily double our memory footprint.
-        // Modifying text would create many large strings to garbage collect.
-        var lineStart = 0;
-        var lineEnd = -1;
+  				var lineHashExists = lineHash.hasOwnProperty ? lineHash.hasOwnProperty(line) : lineHash[line] !== undefined;
 
-        // Keeping our own length variable is faster than looking it up.
-        var lineArrayLength = lineArray.length;
-        while (lineEnd < text.length - 1) {
-          lineEnd = text.indexOf('\n', lineStart);
-          if (lineEnd === -1) {
-            lineEnd = text.length - 1;
-          }
-          var line = text.substring(lineStart, lineEnd + 1);
-          lineStart = lineEnd + 1;
-          if (hasOwn.call(lineHash, line)) {
-            chars += String.fromCharCode(lineHash[line]);
-          } else {
-            chars += String.fromCharCode(lineArrayLength);
-            lineHash[line] = lineArrayLength;
-            lineArray[lineArrayLength++] = line;
-          }
-        }
-        return chars;
-      }
-      var chars1 = diffLinesToCharsMunge(text1);
-      var chars2 = diffLinesToCharsMunge(text2);
-      return {
-        chars1: chars1,
-        chars2: chars2,
-        lineArray: lineArray
-      };
-    };
+  				if (lineHashExists) {
+  					chars += String.fromCharCode(lineHash[line]);
+  				} else {
+  					chars += String.fromCharCode(lineArrayLength);
+  					lineHash[line] = lineArrayLength;
+  					lineArray[lineArrayLength++] = line;
+  				}
+  			}
+  			return chars;
+  		}
 
-    /**
-     * Rehydrate the text in a diff from a string of line hashes to real lines of
-     * text.
-     * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
-     * @param {!Array.<string>} lineArray Array of unique strings.
-     * @private
-     */
-    DiffMatchPatch.prototype.diffCharsToLines = function (diffs, lineArray) {
-      for (var x = 0; x < diffs.length; x++) {
-        var chars = diffs[x][1];
-        var text = [];
-        for (var y = 0; y < chars.length; y++) {
-          text[y] = lineArray[chars.charCodeAt(y)];
-        }
-        diffs[x][1] = text.join('');
-      }
-    };
+  		chars1 = diffLinesToCharsMunge(text1);
+  		chars2 = diffLinesToCharsMunge(text2);
+  		return {
+  			chars1: chars1,
+  			chars2: chars2,
+  			lineArray: lineArray
+  		};
+  	};
 
-    /**
-     * Reorder and merge like edit sections.  Merge equalities.
-     * Any edit section can move as long as it doesn't cross an equality.
-     * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
-     */
-    DiffMatchPatch.prototype.diffCleanupMerge = function (diffs) {
-      diffs.push([DIFF_EQUAL, '']); // Add a dummy entry at the end.
-      var pointer = 0;
-      var countDelete = 0;
-      var countInsert = 0;
-      var textDelete = '';
-      var textInsert = '';
-      while (pointer < diffs.length) {
-        switch (diffs[pointer][0]) {
-          case DIFF_INSERT:
-            countInsert++;
-            textInsert += diffs[pointer][1];
-            pointer++;
-            break;
-          case DIFF_DELETE:
-            countDelete++;
-            textDelete += diffs[pointer][1];
-            pointer++;
-            break;
-          case DIFF_EQUAL:
-            // Upon reaching an equality, check for prior redundancies.
-            if (countDelete + countInsert > 1) {
-              if (countDelete !== 0 && countInsert !== 0) {
-                // Factor out any common prefixes.
-                var commonlength = this.diffCommonPrefix(textInsert, textDelete);
-                if (commonlength !== 0) {
-                  if (pointer - countDelete - countInsert > 0 && diffs[pointer - countDelete - countInsert - 1][0] === DIFF_EQUAL) {
-                    diffs[pointer - countDelete - countInsert - 1][1] += textInsert.substring(0, commonlength);
-                  } else {
-                    diffs.splice(0, 0, [DIFF_EQUAL, textInsert.substring(0, commonlength)]);
-                    pointer++;
-                  }
-                  textInsert = textInsert.substring(commonlength);
-                  textDelete = textDelete.substring(commonlength);
-                }
+  	/**
+    * Rehydrate the text in a diff from a string of line hashes to real lines of
+    * text.
+    * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
+    * @param {!Array.<string>} lineArray Array of unique strings.
+    * @private
+    */
+  	DiffMatchPatch.prototype.diffCharsToLines = function (diffs, lineArray) {
+  		var x, chars, text, y;
+  		for (x = 0; x < diffs.length; x++) {
+  			chars = diffs[x][1];
+  			text = [];
+  			for (y = 0; y < chars.length; y++) {
+  				text[y] = lineArray[chars.charCodeAt(y)];
+  			}
+  			diffs[x][1] = text.join("");
+  		}
+  	};
 
-                // Factor out any common suffixies.
-                commonlength = this.diffCommonSuffix(textInsert, textDelete);
-                if (commonlength !== 0) {
-                  diffs[pointer][1] = textInsert.substring(textInsert.length - commonlength) + diffs[pointer][1];
-                  textInsert = textInsert.substring(0, textInsert.length - commonlength);
-                  textDelete = textDelete.substring(0, textDelete.length - commonlength);
-                }
-              }
+  	/**
+    * Reorder and merge like edit sections.  Merge equalities.
+    * Any edit section can move as long as it doesn't cross an equality.
+    * @param {!Array.<!DiffMatchPatch.Diff>} diffs Array of diff tuples.
+    */
+  	DiffMatchPatch.prototype.diffCleanupMerge = function (diffs) {
+  		var pointer, countDelete, countInsert, textInsert, textDelete, commonlength, changes, diffPointer, position;
+  		diffs.push([DIFF_EQUAL, ""]); // Add a dummy entry at the end.
+  		pointer = 0;
+  		countDelete = 0;
+  		countInsert = 0;
+  		textDelete = "";
+  		textInsert = "";
 
-              // Delete the offending records and add the merged ones.
-              if (countDelete === 0) {
-                diffs.splice(pointer - countInsert, countDelete + countInsert, [DIFF_INSERT, textInsert]);
-              } else if (countInsert === 0) {
-                diffs.splice(pointer - countDelete, countDelete + countInsert, [DIFF_DELETE, textDelete]);
-              } else {
-                diffs.splice(pointer - countDelete - countInsert, countDelete + countInsert, [DIFF_DELETE, textDelete], [DIFF_INSERT, textInsert]);
-              }
-              pointer = pointer - countDelete - countInsert + (countDelete ? 1 : 0) + (countInsert ? 1 : 0) + 1;
-            } else if (pointer !== 0 && diffs[pointer - 1][0] === DIFF_EQUAL) {
-              // Merge this equality with the previous one.
-              diffs[pointer - 1][1] += diffs[pointer][1];
-              diffs.splice(pointer, 1);
-            } else {
-              pointer++;
-            }
-            countInsert = 0;
-            countDelete = 0;
-            textDelete = '';
-            textInsert = '';
-            break;
-        }
-      }
-      if (diffs[diffs.length - 1][1] === '') {
-        diffs.pop(); // Remove the dummy entry at the end.
-      }
+  		while (pointer < diffs.length) {
+  			switch (diffs[pointer][0]) {
+  				case DIFF_INSERT:
+  					countInsert++;
+  					textInsert += diffs[pointer][1];
+  					pointer++;
+  					break;
+  				case DIFF_DELETE:
+  					countDelete++;
+  					textDelete += diffs[pointer][1];
+  					pointer++;
+  					break;
+  				case DIFF_EQUAL:
 
-      // Second pass: look for single edits surrounded on both sides by equalities
-      // which can be shifted sideways to eliminate an equality.
-      // e.g: A<ins>BA</ins>C -> <ins>AB</ins>AC
-      var changes = false;
-      pointer = 1;
+  					// Upon reaching an equality, check for prior redundancies.
+  					if (countDelete + countInsert > 1) {
+  						if (countDelete !== 0 && countInsert !== 0) {
 
-      // Intentionally ignore the first and last element (don't need checking).
-      while (pointer < diffs.length - 1) {
-        if (diffs[pointer - 1][0] === DIFF_EQUAL && diffs[pointer + 1][0] === DIFF_EQUAL) {
-          var diffPointer = diffs[pointer][1];
-          var position = diffPointer.substring(diffPointer.length - diffs[pointer - 1][1].length);
+  							// Factor out any common prefixes.
+  							commonlength = this.diffCommonPrefix(textInsert, textDelete);
+  							if (commonlength !== 0) {
+  								if (pointer - countDelete - countInsert > 0 && diffs[pointer - countDelete - countInsert - 1][0] === DIFF_EQUAL) {
+  									diffs[pointer - countDelete - countInsert - 1][1] += textInsert.substring(0, commonlength);
+  								} else {
+  									diffs.splice(0, 0, [DIFF_EQUAL, textInsert.substring(0, commonlength)]);
+  									pointer++;
+  								}
+  								textInsert = textInsert.substring(commonlength);
+  								textDelete = textDelete.substring(commonlength);
+  							}
 
-          // This is a single edit surrounded by equalities.
-          if (position === diffs[pointer - 1][1]) {
-            // Shift the edit over the previous equality.
-            diffs[pointer][1] = diffs[pointer - 1][1] + diffs[pointer][1].substring(0, diffs[pointer][1].length - diffs[pointer - 1][1].length);
-            diffs[pointer + 1][1] = diffs[pointer - 1][1] + diffs[pointer + 1][1];
-            diffs.splice(pointer - 1, 1);
-            changes = true;
-          } else if (diffPointer.substring(0, diffs[pointer + 1][1].length) === diffs[pointer + 1][1]) {
-            // Shift the edit over the next equality.
-            diffs[pointer - 1][1] += diffs[pointer + 1][1];
-            diffs[pointer][1] = diffs[pointer][1].substring(diffs[pointer + 1][1].length) + diffs[pointer + 1][1];
-            diffs.splice(pointer + 1, 1);
-            changes = true;
-          }
-        }
-        pointer++;
-      }
+  							// Factor out any common suffixies.
+  							commonlength = this.diffCommonSuffix(textInsert, textDelete);
+  							if (commonlength !== 0) {
+  								diffs[pointer][1] = textInsert.substring(textInsert.length - commonlength) + diffs[pointer][1];
+  								textInsert = textInsert.substring(0, textInsert.length - commonlength);
+  								textDelete = textDelete.substring(0, textDelete.length - commonlength);
+  							}
+  						}
 
-      // If shifts were made, the diff needs reordering and another shift sweep.
-      if (changes) {
-        this.diffCleanupMerge(diffs);
-      }
-    };
-    return function (o, n) {
-      var diff, output, text;
-      diff = new DiffMatchPatch();
-      output = diff.DiffMain(o, n);
-      diff.diffCleanupEfficiency(output);
-      text = diff.diffPrettyHtml(output);
-      return text;
-    };
+  						// Delete the offending records and add the merged ones.
+  						if (countDelete === 0) {
+  							diffs.splice(pointer - countInsert, countDelete + countInsert, [DIFF_INSERT, textInsert]);
+  						} else if (countInsert === 0) {
+  							diffs.splice(pointer - countDelete, countDelete + countInsert, [DIFF_DELETE, textDelete]);
+  						} else {
+  							diffs.splice(pointer - countDelete - countInsert, countDelete + countInsert, [DIFF_DELETE, textDelete], [DIFF_INSERT, textInsert]);
+  						}
+  						pointer = pointer - countDelete - countInsert + (countDelete ? 1 : 0) + (countInsert ? 1 : 0) + 1;
+  					} else if (pointer !== 0 && diffs[pointer - 1][0] === DIFF_EQUAL) {
+
+  						// Merge this equality with the previous one.
+  						diffs[pointer - 1][1] += diffs[pointer][1];
+  						diffs.splice(pointer, 1);
+  					} else {
+  						pointer++;
+  					}
+  					countInsert = 0;
+  					countDelete = 0;
+  					textDelete = "";
+  					textInsert = "";
+  					break;
+  			}
+  		}
+  		if (diffs[diffs.length - 1][1] === "") {
+  			diffs.pop(); // Remove the dummy entry at the end.
+  		}
+
+  		// Second pass: look for single edits surrounded on both sides by equalities
+  		// which can be shifted sideways to eliminate an equality.
+  		// e.g: A<ins>BA</ins>C -> <ins>AB</ins>AC
+  		changes = false;
+  		pointer = 1;
+
+  		// Intentionally ignore the first and last element (don't need checking).
+  		while (pointer < diffs.length - 1) {
+  			if (diffs[pointer - 1][0] === DIFF_EQUAL && diffs[pointer + 1][0] === DIFF_EQUAL) {
+
+  				diffPointer = diffs[pointer][1];
+  				position = diffPointer.substring(diffPointer.length - diffs[pointer - 1][1].length);
+
+  				// This is a single edit surrounded by equalities.
+  				if (position === diffs[pointer - 1][1]) {
+
+  					// Shift the edit over the previous equality.
+  					diffs[pointer][1] = diffs[pointer - 1][1] + diffs[pointer][1].substring(0, diffs[pointer][1].length - diffs[pointer - 1][1].length);
+  					diffs[pointer + 1][1] = diffs[pointer - 1][1] + diffs[pointer + 1][1];
+  					diffs.splice(pointer - 1, 1);
+  					changes = true;
+  				} else if (diffPointer.substring(0, diffs[pointer + 1][1].length) === diffs[pointer + 1][1]) {
+
+  					// Shift the edit over the next equality.
+  					diffs[pointer - 1][1] += diffs[pointer + 1][1];
+  					diffs[pointer][1] = diffs[pointer][1].substring(diffs[pointer + 1][1].length) + diffs[pointer + 1][1];
+  					diffs.splice(pointer + 1, 1);
+  					changes = true;
+  				}
+  			}
+  			pointer++;
+  		}
+
+  		// If shifts were made, the diff needs reordering and another shift sweep.
+  		if (changes) {
+  			this.diffCleanupMerge(diffs);
+  		}
+  	};
+
+  	return function (o, n) {
+  		var diff, output, text;
+  		diff = new DiffMatchPatch();
+  		output = diff.DiffMain(o, n);
+  		diff.diffCleanupEfficiency(output);
+  		text = diff.diffPrettyHtml(output);
+
+  		return text;
+  	};
   }();
 
-})();
+}((function() { return this; }())));
 
 /* globals QUnit */
 
@@ -10902,8 +10477,8 @@ define("@ember/test-helpers/-internal/debug-info-helpers", ["exports"], function
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.debugInfoHelpers = void 0;
   _exports.default = registerDebugInfoHelper;
+  _exports.debugInfoHelpers = void 0;
   const debugInfoHelpers = new Set();
   /**
    * Registers a custom debug info helper to augment the output for test isolation validation.
@@ -10924,7 +10499,9 @@ define("@ember/test-helpers/-internal/debug-info-helpers", ["exports"], function
    *   }
    * })
    */
+
   _exports.debugInfoHelpers = debugInfoHelpers;
+
   function registerDebugInfoHelper(debugHelper) {
     debugInfoHelpers.add(debugHelper);
   }
@@ -10935,9 +10512,9 @@ define("@ember/test-helpers/-internal/debug-info", ["exports", "@ember/test-help
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.TestDebugInfo = void 0;
   _exports.backburnerDebugInfoAvailable = backburnerDebugInfoAvailable;
   _exports.getDebugInfo = getDebugInfo;
+  _exports.TestDebugInfo = void 0;
   const PENDING_AJAX_REQUESTS = 'Pending AJAX requests';
   const PENDING_TEST_WAITERS = 'Pending test waiters';
   const SCHEDULED_ASYNC = 'Scheduled async';
@@ -10948,6 +10525,7 @@ define("@ember/test-helpers/-internal/debug-info", ["exports", "@ember/test-help
    *
    * @returns {boolean} True if `getDebugInfo` is present in backburner, otherwise false.
    */
+
   function backburnerDebugInfoAvailable() {
     return typeof Ember.run.backburner.getDebugInfo === 'function';
   }
@@ -10958,6 +10536,8 @@ define("@ember/test-helpers/-internal/debug-info", ["exports", "@ember/test-help
    * @public
    * @returns {MaybeDebugInfo | null} Backburner debugInfo or, if the getDebugInfo method is not present, null
    */
+
+
   function getDebugInfo() {
     return Ember.run.backburner.DEBUG === true && backburnerDebugInfoAvailable() ? Ember.run.backburner.getDebugInfo() : null;
   }
@@ -10972,16 +10552,19 @@ define("@ember/test-helpers/-internal/debug-info", ["exports", "@ember/test-help
    * - info provided by backburner's getDebugInfo method (timers, schedules, and stack trace info)
    *
    */
+
+
   class TestDebugInfo {
-    constructor(settledState) {
-      let debugInfo = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : getDebugInfo();
+    constructor(settledState, debugInfo = getDebugInfo()) {
       this._summaryInfo = undefined;
       this._settledState = settledState;
       this._debugInfo = debugInfo;
     }
+
     get summary() {
       if (!this._summaryInfo) {
         this._summaryInfo = Ember.assign({}, this._settledState);
+
         if (this._debugInfo) {
           this._summaryInfo.autorunStackTrace = this._debugInfo.autorun && this._debugInfo.autorun.stack;
           this._summaryInfo.pendingTimersCount = this._debugInfo.timers.length;
@@ -11000,62 +10583,80 @@ define("@ember/test-helpers/-internal/debug-info", ["exports", "@ember/test-help
             return stacks;
           }, []);
         }
+
         if (this._summaryInfo.hasPendingTestWaiters) {
           this._summaryInfo.pendingTestWaiterInfo = (0, _emberTestWaiters.getPendingWaiterState)();
         }
       }
+
       return this._summaryInfo;
     }
-    toConsole() {
-      let _console = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : console;
+
+    toConsole(_console = console) {
       let summary = this.summary;
+
       if (summary.hasPendingRequests) {
         _console.log(PENDING_AJAX_REQUESTS);
       }
+
       if (summary.hasPendingLegacyWaiters) {
         _console.log(PENDING_TEST_WAITERS);
       }
+
       if (summary.hasPendingTestWaiters) {
         if (!summary.hasPendingLegacyWaiters) {
           _console.log(PENDING_TEST_WAITERS);
         }
+
         Object.keys(summary.pendingTestWaiterInfo.waiters).forEach(waiterName => {
           let waiterDebugInfo = summary.pendingTestWaiterInfo.waiters[waiterName];
+
           if (Array.isArray(waiterDebugInfo)) {
             _console.group(waiterName);
+
             waiterDebugInfo.forEach(debugInfo => {
-              _console.log(`${debugInfo.label ? debugInfo.label : 'stack'}: ${debugInfo.stack}`);
+              _console.log("".concat(debugInfo.label ? debugInfo.label : 'stack', ": ").concat(debugInfo.stack));
             });
+
             _console.groupEnd();
           } else {
             _console.log(waiterName);
           }
         });
       }
+
       if (summary.hasPendingTimers || summary.pendingScheduledQueueItemCount > 0) {
         _console.group(SCHEDULED_ASYNC);
+
         summary.pendingTimersStackTraces.forEach(timerStack => {
           _console.log(timerStack);
         });
         summary.pendingScheduledQueueItemStackTraces.forEach(scheduleQueueItemStack => {
           _console.log(scheduleQueueItemStack);
         });
+
         _console.groupEnd();
       }
+
       if (summary.hasRunLoop && summary.pendingTimersCount === 0 && summary.pendingScheduledQueueItemCount === 0) {
         _console.log(SCHEDULED_AUTORUN);
+
         if (summary.autorunStackTrace) {
           _console.log(summary.autorunStackTrace);
         }
       }
+
       _debugInfoHelpers.debugInfoHelpers.forEach(helper => {
         helper.log();
       });
     }
+
     _formatCount(title, count) {
-      return `${title}: ${count}`;
+      return "".concat(title, ": ").concat(count);
     }
+
   }
+
   _exports.TestDebugInfo = TestDebugInfo;
 });
 define("@ember/test-helpers/-tuple", ["exports"], function (_exports) {
@@ -11065,11 +10666,9 @@ define("@ember/test-helpers/-tuple", ["exports"], function (_exports) {
     value: true
   });
   _exports.default = tuple;
+
   // eslint-disable-next-line require-jsdoc
-  function tuple() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
+  function tuple(...args) {
     return args;
   }
 });
@@ -11079,12 +10678,13 @@ define("@ember/test-helpers/-utils", ["exports", "@ember/test-helpers/has-ember-
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.futureTick = _exports._Promise = void 0;
-  _exports.isNumeric = isNumeric;
-  _exports.nextTick = void 0;
   _exports.nextTickPromise = nextTickPromise;
   _exports.runDestroyablesFor = runDestroyablesFor;
+  _exports.isNumeric = isNumeric;
+  _exports.futureTick = _exports.nextTick = _exports._Promise = void 0;
+
   class _Promise extends Ember.RSVP.Promise {}
+
   _exports._Promise = _Promise;
   const ORIGINAL_RSVP_ASYNC = Ember.RSVP.configure('async');
   /*
@@ -11132,6 +10732,7 @@ define("@ember/test-helpers/-utils", ["exports", "@ember/test-helpers/has-ember-
   
     😩😫🙀
   */
+
   Ember.RSVP.configure('async', (callback, promise) => {
     if (promise instanceof _Promise) {
       // @ts-ignore - avoid erroring about useless `Promise !== RSVP.Promise` comparison
@@ -11156,7 +10757,9 @@ define("@ember/test-helpers/-utils", ["exports", "@ember/test-helpers/has-ember-
    @private
    @returns {Promise<void>} Promise which can not be forced to be ran synchronously
   */
+
   _exports.futureTick = futureTick;
+
   function nextTickPromise() {
     // Ember 3.4 removed the auto-run assertion, in 3.4+ we can (and should) avoid the "psuedo promisey" run loop configuration
     // for our `nextTickPromise` implementation. This allows us to have real microtask based next tick timing...
@@ -11178,14 +10781,19 @@ define("@ember/test-helpers/-utils", ["exports", "@ember/test-helpers/has-ember-
    @param {Object} object an object to search for the destroyable array within
    @param {string} property the property on the object that contains the destroyable array
   */
+
+
   function runDestroyablesFor(object, property) {
     let destroyables = object[property];
+
     if (!destroyables) {
       return;
     }
+
     for (let i = 0; i < destroyables.length; i++) {
       destroyables[i]();
     }
+
     delete object[property];
   }
   /**
@@ -11195,6 +10803,8 @@ define("@ember/test-helpers/-utils", ["exports", "@ember/test-helpers/has-ember-
    @param {string} n input string
    @returns {boolean} whether the input string consists only of numeric characters
    */
+
+
   function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(Number(n));
   }
@@ -11205,8 +10815,9 @@ define("@ember/test-helpers/application", ["exports", "@ember/test-helpers/resol
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.getApplication = getApplication;
   _exports.setApplication = setApplication;
+  _exports.getApplication = getApplication;
+
   var __application__;
   /**
     Stores the provided application instance so that tests being ran will be aware of the application under test.
@@ -11217,8 +10828,11 @@ define("@ember/test-helpers/application", ["exports", "@ember/test-helpers/resol
     @public
     @param {Ember.Application} application the application that will be tested
   */
+
+
   function setApplication(application) {
     __application__ = application;
+
     if (!(0, _resolver.getResolver)()) {
       let Resolver = application.Resolver;
       let resolver = Resolver.create({
@@ -11233,6 +10847,8 @@ define("@ember/test-helpers/application", ["exports", "@ember/test-helpers/resol
     @public
     @returns {Ember.Application} the previously stored application instance under test
   */
+
+
   function getApplication() {
     return __application__;
   }
@@ -11244,6 +10860,7 @@ define("@ember/test-helpers/build-owner", ["exports", "ember-test-helpers/legacy
     value: true
   });
   _exports.default = buildOwner;
+
   /**
     Creates an "owner" (an object that either _is_ or duck-types like an
     `Ember.ApplicationInstance`) from the provided options.
@@ -11267,9 +10884,11 @@ define("@ember/test-helpers/build-owner", ["exports", "ember-test-helpers/legacy
     if (application) {
       return application.boot().then(app => app.buildInstance().boot());
     }
+
     if (!resolver) {
       throw new Error('You must set up the ember-test-helpers environment with either `setResolver` or `setApplication` before running any tests.');
     }
+
     let {
       owner
     } = (0, _buildRegistry.default)(resolver);
@@ -11283,6 +10902,7 @@ define("@ember/test-helpers/dom/-get-element", ["exports", "@ember/test-helpers/
     value: true
   });
   _exports.default = void 0;
+
   /**
     Used internally by the DOM interaction helpers to find one element.
   
@@ -11302,6 +10922,7 @@ define("@ember/test-helpers/dom/-get-element", ["exports", "@ember/test-helpers/
       throw new Error('Must use an element or a selector string');
     }
   }
+
   var _default = getElement;
   _exports.default = _default;
 });
@@ -11312,6 +10933,7 @@ define("@ember/test-helpers/dom/-get-elements", ["exports", "@ember/test-helpers
     value: true
   });
   _exports.default = getElements;
+
   /**
     Used internally by the DOM interaction helpers to find multiple elements.
   
@@ -11335,8 +10957,8 @@ define("@ember/test-helpers/dom/-is-focusable", ["exports", "@ember/test-helpers
     value: true
   });
   _exports.default = isFocusable;
-  const FOCUSABLE_TAGS = ['A'];
-  // eslint-disable-next-line require-jsdoc
+  const FOCUSABLE_TAGS = ['A']; // eslint-disable-next-line require-jsdoc
+
   function isFocusableElement(element) {
     return FOCUSABLE_TAGS.indexOf(element.tagName) > -1;
   }
@@ -11345,13 +10967,17 @@ define("@ember/test-helpers/dom/-is-focusable", ["exports", "@ember/test-helpers
     @param {Element} element the element to check
     @returns {boolean} `true` when the element is focusable, `false` otherwise
   */
+
+
   function isFocusable(element) {
     if ((0, _target.isDocument)(element)) {
       return false;
     }
+
     if ((0, _isFormControl.default)(element) || element.isContentEditable || isFocusableElement(element)) {
       return true;
     }
+
     return element.hasAttribute('tabindex');
   }
 });
@@ -11368,6 +10994,7 @@ define("@ember/test-helpers/dom/-is-form-control", ["exports", "@ember/test-help
     @param {Element} element the element to check
     @returns {boolean} `true` when the element is a form control, `false` otherwise
   */
+
   function isFormControl(element) {
     return !(0, _target.isDocument)(element) && FORM_CONTROL_TAGS.indexOf(element.tagName) > -1 && element.type !== 'hidden';
   }
@@ -11378,13 +11005,15 @@ define("@ember/test-helpers/dom/-target", ["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.isDocument = isDocument;
   _exports.isElement = isElement;
+  _exports.isDocument = isDocument;
+
   // eslint-disable-next-line require-jsdoc
   function isElement(target) {
     return target.nodeType === Node.ELEMENT_NODE;
-  }
-  // eslint-disable-next-line require-jsdoc
+  } // eslint-disable-next-line require-jsdoc
+
+
   function isDocument(target) {
     return target.nodeType === Node.DOCUMENT_NODE;
   }
@@ -11396,6 +11025,7 @@ define("@ember/test-helpers/dom/-to-array", ["exports"], function (_exports) {
     value: true
   });
   _exports.default = toArray;
+
   /**
     @private
     @param {NodeList} nodelist the nodelist to convert to an array
@@ -11403,9 +11033,11 @@ define("@ember/test-helpers/dom/-to-array", ["exports"], function (_exports) {
   */
   function toArray(nodelist) {
     let array = new Array(nodelist.length);
+
     for (let i = 0; i < nodelist.length; i++) {
       array[i] = nodelist[i];
     }
+
     return array;
   }
 });
@@ -11417,18 +11049,19 @@ define("@ember/test-helpers/dom/blur", ["exports", "@ember/test-helpers/dom/-get
   });
   _exports.__blur__ = __blur__;
   _exports.default = blur;
+
   /**
     @private
     @param {Element} element the element to trigger events on
   */
   function __blur__(element) {
-    let browserIsNotFocused = document.hasFocus && !document.hasFocus();
-    // makes `document.activeElement` be `body`.
+    let browserIsNotFocused = document.hasFocus && !document.hasFocus(); // makes `document.activeElement` be `body`.
     // If the browser is focused, it also fires a blur event
-    element.blur();
-    // Chrome/Firefox does not trigger the `blur` event if the window
+
+    element.blur(); // Chrome/Firefox does not trigger the `blur` event if the window
     // does not have focus. If the document does not have focus then
     // fire `blur` event via native event.
+
     if (browserIsNotFocused) {
       (0, _fireEvent.default)(element, 'blur', {
         bubbles: false
@@ -11461,17 +11094,22 @@ define("@ember/test-helpers/dom/blur", ["exports", "@ember/test-helpers/dom/-get
   
     blur('input');
   */
-  function blur() {
-    let target = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : document.activeElement;
+
+
+  function blur(target = document.activeElement) {
     return (0, _utils.nextTickPromise)().then(() => {
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`blur('${target}')\`.`);
+        throw new Error("Element not found when calling `blur('".concat(target, "')`."));
       }
+
       if (!(0, _isFocusable.default)(element)) {
-        throw new Error(`${target} is not focusable`);
+        throw new Error("".concat(target, " is not focusable"));
       }
+
       __blur__(element);
+
       return (0, _settled.default)();
     });
   }
@@ -11484,6 +11122,7 @@ define("@ember/test-helpers/dom/click", ["exports", "@ember/test-helpers/dom/-ge
   });
   _exports.__click__ = __click__;
   _exports.default = click;
+
   /**
     @private
     @param {Element} element the element to click on
@@ -11491,9 +11130,11 @@ define("@ember/test-helpers/dom/click", ["exports", "@ember/test-helpers/dom/-ge
   */
   function __click__(element, options) {
     (0, _fireEvent.default)(element, 'mousedown', options);
+
     if ((0, _isFocusable.default)(element)) {
       (0, _focus.__focus__)(element);
     }
+
     (0, _fireEvent.default)(element, 'mouseup', options);
     (0, _fireEvent.default)(element, 'click', options);
   }
@@ -11542,20 +11183,26 @@ define("@ember/test-helpers/dom/click", ["exports", "@ember/test-helpers/dom/-ge
   
     click('button', { shiftKey: true });
   */
-  function click(target) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+
+  function click(target, options = {}) {
     return (0, _utils.nextTickPromise)().then(() => {
       if (!target) {
         throw new Error('Must pass an element or selector to `click`.');
       }
+
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`click('${target}')\`.`);
+        throw new Error("Element not found when calling `click('".concat(target, "')`."));
       }
+
       let isDisabledFormControl = (0, _isFormControl.default)(element) && element.disabled;
+
       if (!isDisabledFormControl) {
         __click__(element, options);
       }
+
       return (0, _settled.default)();
     });
   }
@@ -11568,6 +11215,7 @@ define("@ember/test-helpers/dom/double-click", ["exports", "@ember/test-helpers/
   });
   _exports.__doubleClick__ = __doubleClick__;
   _exports.default = doubleClick;
+
   /**
     @private
     @param {Element} element the element to double-click on
@@ -11575,9 +11223,11 @@ define("@ember/test-helpers/dom/double-click", ["exports", "@ember/test-helpers/
   */
   function __doubleClick__(element, options) {
     (0, _fireEvent.default)(element, 'mousedown', options);
+
     if ((0, _isFocusable.default)(element)) {
       (0, _focus.__focus__)(element);
     }
+
     (0, _fireEvent.default)(element, 'mouseup', options);
     (0, _fireEvent.default)(element, 'click', options);
     (0, _fireEvent.default)(element, 'mousedown', options);
@@ -11638,17 +11288,22 @@ define("@ember/test-helpers/dom/double-click", ["exports", "@ember/test-helpers/
   
     doubleClick('button', { shiftKey: true });
   */
-  function doubleClick(target) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+
+  function doubleClick(target, options = {}) {
     return (0, _utils.nextTickPromise)().then(() => {
       if (!target) {
         throw new Error('Must pass an element or selector to `doubleClick`.');
       }
+
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`doubleClick('${target}')\`.`);
+        throw new Error("Element not found when calling `doubleClick('".concat(target, "')`."));
       }
+
       __doubleClick__(element, options);
+
       return (0, _settled.default)();
     });
   }
@@ -11660,6 +11315,7 @@ define("@ember/test-helpers/dom/fill-in", ["exports", "@ember/test-helpers/dom/-
     value: true
   });
   _exports.default = fillIn;
+
   /**
     Fill the provided text into the `value` property (or set `.innerHTML` when
     the target is a content editable element) then trigger `change` and `input`
@@ -11682,23 +11338,31 @@ define("@ember/test-helpers/dom/fill-in", ["exports", "@ember/test-helpers/dom/-
       if (!target) {
         throw new Error('Must pass an element or selector to `fillIn`.');
       }
+
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`fillIn('${target}')\`.`);
+        throw new Error("Element not found when calling `fillIn('".concat(target, "')`."));
       }
+
       let isControl = (0, _isFormControl.default)(element);
+
       if (!isControl && !element.isContentEditable) {
         throw new Error('`fillIn` is only usable on form controls or contenteditable elements.');
       }
+
       if (typeof text === 'undefined' || text === null) {
         throw new Error('Must provide `text` when calling `fillIn`.');
       }
+
       (0, _focus.__focus__)(element);
+
       if (isControl) {
         element.value = text;
       } else {
         element.innerHTML = text;
       }
+
       (0, _fireEvent.default)(element, 'input');
       (0, _fireEvent.default)(element, 'change');
       return (0, _settled.default)();
@@ -11712,6 +11376,7 @@ define("@ember/test-helpers/dom/find-all", ["exports", "@ember/test-helpers/dom/
     value: true
   });
   _exports.default = findAll;
+
   /**
     Find all elements matched by the given selector. Similar to calling
     `querySelectorAll()` on the test root element, but returns an array instead
@@ -11725,9 +11390,11 @@ define("@ember/test-helpers/dom/find-all", ["exports", "@ember/test-helpers/dom/
     if (!selector) {
       throw new Error('Must pass a selector to `findAll`.');
     }
+
     if (arguments.length > 1) {
       throw new Error('The `findAll` test helper only takes a single argument.');
     }
+
     return (0, _toArray.default)((0, _getElements.default)(selector));
   }
 });
@@ -11738,6 +11405,7 @@ define("@ember/test-helpers/dom/find", ["exports", "@ember/test-helpers/dom/-get
     value: true
   });
   _exports.default = find;
+
   /**
     Find the first element matched by the given selector. Equivalent to calling
     `querySelector()` on the test root element.
@@ -11750,9 +11418,11 @@ define("@ember/test-helpers/dom/find", ["exports", "@ember/test-helpers/dom/-get
     if (!selector) {
       throw new Error('Must pass a selector to `find`.');
     }
+
     if (arguments.length > 1) {
       throw new Error('The `find` test helper only takes a single argument.');
     }
+
     return (0, _getElement.default)(selector);
   }
 });
@@ -11762,11 +11432,12 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = _exports.KEYBOARD_EVENT_TYPES = void 0;
-  _exports.isFileSelectionEventType = isFileSelectionEventType;
-  _exports.isFileSelectionInput = isFileSelectionInput;
   _exports.isKeyboardEventType = isKeyboardEventType;
   _exports.isMouseEventType = isMouseEventType;
+  _exports.isFileSelectionEventType = isFileSelectionEventType;
+  _exports.isFileSelectionInput = isFileSelectionInput;
+  _exports.default = _exports.KEYBOARD_EVENT_TYPES = void 0;
+
   // eslint-disable-next-line require-jsdoc
   const MOUSE_EVENT_CONSTRUCTOR = (() => {
     try {
@@ -11776,27 +11447,32 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
       return false;
     }
   })();
+
   const DEFAULT_EVENT_OPTIONS = {
     bubbles: true,
     cancelable: true
   };
-  const KEYBOARD_EVENT_TYPES = (0, _tuple.default)('keydown', 'keypress', 'keyup');
-  // eslint-disable-next-line require-jsdoc
+  const KEYBOARD_EVENT_TYPES = (0, _tuple.default)('keydown', 'keypress', 'keyup'); // eslint-disable-next-line require-jsdoc
+
   _exports.KEYBOARD_EVENT_TYPES = KEYBOARD_EVENT_TYPES;
+
   function isKeyboardEventType(eventType) {
     return KEYBOARD_EVENT_TYPES.indexOf(eventType) > -1;
   }
-  const MOUSE_EVENT_TYPES = (0, _tuple.default)('click', 'mousedown', 'mouseup', 'dblclick', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover');
-  // eslint-disable-next-line require-jsdoc
+
+  const MOUSE_EVENT_TYPES = (0, _tuple.default)('click', 'mousedown', 'mouseup', 'dblclick', 'mouseenter', 'mouseleave', 'mousemove', 'mouseout', 'mouseover'); // eslint-disable-next-line require-jsdoc
+
   function isMouseEventType(eventType) {
     return MOUSE_EVENT_TYPES.indexOf(eventType) > -1;
   }
-  const FILE_SELECTION_EVENT_TYPES = (0, _tuple.default)('change');
-  // eslint-disable-next-line require-jsdoc
+
+  const FILE_SELECTION_EVENT_TYPES = (0, _tuple.default)('change'); // eslint-disable-next-line require-jsdoc
+
   function isFileSelectionEventType(eventType) {
     return FILE_SELECTION_EVENT_TYPES.indexOf(eventType) > -1;
-  }
-  // eslint-disable-next-line require-jsdoc
+  } // eslint-disable-next-line require-jsdoc
+
+
   function isFileSelectionInput(element) {
     return element.files;
   }
@@ -11809,16 +11485,20 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
     @param {Object} [options] additional properties to be set on the event
     @returns {Event} the event that was dispatched
   */
-  function fireEvent(element, eventType) {
-    let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+
+  function fireEvent(element, eventType, options = {}) {
     if (!element) {
       throw new Error('Must pass an element to `fireEvent`');
     }
+
     let event;
+
     if (isKeyboardEventType(eventType)) {
       event = buildKeyboardEvent(eventType, options);
     } else if (isMouseEventType(eventType)) {
       let rect;
+
       if (element instanceof Window && element.document.documentElement) {
         rect = element.document.documentElement.getBoundingClientRect();
       } else if ((0, _target.isDocument)(element)) {
@@ -11828,6 +11508,7 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
       } else {
         return;
       }
+
       let x = rect.left + 1;
       let y = rect.top + 1;
       let simulatedCoordinates = {
@@ -11842,31 +11523,35 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
     } else {
       event = buildBasicEvent(eventType, options);
     }
+
     element.dispatchEvent(event);
     return event;
   }
+
   var _default = fireEvent; // eslint-disable-next-line require-jsdoc
+
   _exports.default = _default;
-  function buildBasicEvent(type) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  function buildBasicEvent(type, options = {}) {
     let event = document.createEvent('Events');
     let bubbles = options.bubbles !== undefined ? options.bubbles : true;
     let cancelable = options.cancelable !== undefined ? options.cancelable : true;
     delete options.bubbles;
-    delete options.cancelable;
-    // bubbles and cancelable are readonly, so they can be
+    delete options.cancelable; // bubbles and cancelable are readonly, so they can be
     // set when initializing event
+
     event.initEvent(type, bubbles, cancelable);
     Ember.assign(event, options);
     return event;
-  }
-  // eslint-disable-next-line require-jsdoc
-  function buildMouseEvent(type) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  } // eslint-disable-next-line require-jsdoc
+
+
+  function buildMouseEvent(type, options = {}) {
     let event;
     let eventOpts = Ember.assign({
       view: window
     }, DEFAULT_EVENT_OPTIONS, options);
+
     if (MOUSE_EVENT_CONSTRUCTOR) {
       event = new MouseEvent(type, eventOpts);
     } else {
@@ -11877,17 +11562,18 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
         event = buildBasicEvent(type, options);
       }
     }
+
     return event;
-  }
-  // eslint-disable-next-line require-jsdoc
-  function buildKeyboardEvent(type) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  } // eslint-disable-next-line require-jsdoc
+
+
+  function buildKeyboardEvent(type, options = {}) {
     let eventOpts = Ember.assign({}, DEFAULT_EVENT_OPTIONS, options);
     let event;
     let eventMethodName;
+
     try {
-      event = new KeyboardEvent(type, eventOpts);
-      // Property definitions are required for B/C for keyboard event usage
+      event = new KeyboardEvent(type, eventOpts); // Property definitions are required for B/C for keyboard event usage
       // If this properties are not defined, when listening for key events
       // keyCode/which will be 0. Also, keyCode and which now are string
       // and if app compare it with === with integer key definitions,
@@ -11895,46 +11581,51 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
       //
       // https://w3c.github.io/uievents/#interface-keyboardevent
       // https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
+
       Object.defineProperty(event, 'keyCode', {
         get() {
           return parseInt(eventOpts.keyCode);
         }
+
       });
       Object.defineProperty(event, 'which', {
         get() {
           return parseInt(eventOpts.which);
         }
+
       });
       return event;
-    } catch (e) {
-      // left intentionally blank
+    } catch (e) {// left intentionally blank
     }
+
     try {
       event = document.createEvent('KeyboardEvents');
       eventMethodName = 'initKeyboardEvent';
-    } catch (e) {
-      // left intentionally blank
+    } catch (e) {// left intentionally blank
     }
+
     if (!event) {
       try {
         event = document.createEvent('KeyEvents');
         eventMethodName = 'initKeyEvent';
-      } catch (e) {
-        // left intentionally blank
+      } catch (e) {// left intentionally blank
       }
     }
+
     if (event && eventMethodName) {
       event[eventMethodName](type, eventOpts.bubbles, eventOpts.cancelable, window, eventOpts.ctrlKey, eventOpts.altKey, eventOpts.shiftKey, eventOpts.metaKey, eventOpts.keyCode, eventOpts.charCode);
     } else {
       event = buildBasicEvent(type, options);
     }
+
     return event;
-  }
-  // eslint-disable-next-line require-jsdoc
-  function buildFileEvent(type, element) {
-    let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  } // eslint-disable-next-line require-jsdoc
+
+
+  function buildFileEvent(type, element, options = {}) {
     let event = buildBasicEvent(type);
     let files;
+
     if (Array.isArray(options)) {
       (true && !(false) && Ember.deprecate('Passing the `options` param as an array to `triggerEvent` for file inputs is deprecated. Please pass an object with a key `files` containing the array instead.', false, {
         id: 'ember-test-helpers.trigger-event.options-blob-array',
@@ -11944,17 +11635,20 @@ define("@ember/test-helpers/dom/fire-event", ["exports", "@ember/test-helpers/do
     } else {
       files = options.files;
     }
+
     if (Array.isArray(files)) {
       Object.defineProperty(files, 'item', {
         value(index) {
           return typeof index === 'number' ? this[index] : null;
         }
+
       });
       Object.defineProperty(element, 'files', {
         value: files,
         configurable: true
       });
     }
+
     Object.defineProperty(event, 'target', {
       value: element
     });
@@ -11969,17 +11663,18 @@ define("@ember/test-helpers/dom/focus", ["exports", "@ember/test-helpers/dom/-ge
   });
   _exports.__focus__ = __focus__;
   _exports.default = focus;
+
   /**
     @private
     @param {Element} element the element to trigger events on
   */
   function __focus__(element) {
-    let browserIsNotFocused = document.hasFocus && !document.hasFocus();
-    // makes `document.activeElement` be `element`. If the browser is focused, it also fires a focus event
-    element.focus();
-    // Firefox does not trigger the `focusin` event if the window
+    let browserIsNotFocused = document.hasFocus && !document.hasFocus(); // makes `document.activeElement` be `element`. If the browser is focused, it also fires a focus event
+
+    element.focus(); // Firefox does not trigger the `focusin` event if the window
     // does not have focus. If the document does not have focus then
     // fire `focusin` event as well.
+
     if (browserIsNotFocused) {
       // if the browser is not focused the previous `el.focus()` didn't fire an event, so we simulate it
       (0, _fireEvent.default)(element, 'focus', {
@@ -12013,19 +11708,26 @@ define("@ember/test-helpers/dom/focus", ["exports", "@ember/test-helpers/dom/-ge
   
     focus('input');
   */
+
+
   function focus(target) {
     return (0, _utils.nextTickPromise)().then(() => {
       if (!target) {
         throw new Error('Must pass an element or selector to `focus`.');
       }
+
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`focus('${target}')\`.`);
+        throw new Error("Element not found when calling `focus('".concat(target, "')`."));
       }
+
       if (!(0, _isFocusable.default)(element)) {
-        throw new Error(`${target} is not focusable`);
+        throw new Error("".concat(target, " is not focusable"));
       }
+
       __focus__(element);
+
       return (0, _settled.default)();
     });
   }
@@ -12037,6 +11739,7 @@ define("@ember/test-helpers/dom/get-root-element", ["exports", "@ember/test-help
     value: true
   });
   _exports.default = getRootElement;
+
   /**
     Get the root element of the application under test (usually `#ember-testing`)
   
@@ -12046,28 +11749,34 @@ define("@ember/test-helpers/dom/get-root-element", ["exports", "@ember/test-help
   function getRootElement() {
     let context = (0, _setupContext.getContext)();
     let owner = context && context.owner;
+
     if (!owner) {
       throw new Error('Must setup rendering context before attempting to interact with elements.');
     }
-    let rootElement;
-    // When the host app uses `setApplication` (instead of `setResolver`) the owner has
+
+    let rootElement; // When the host app uses `setApplication` (instead of `setResolver`) the owner has
     // a `rootElement` set on it with the element or id to be used
+
     if (owner && owner._emberTestHelpersMockOwner === undefined) {
       rootElement = owner.rootElement;
     } else {
       rootElement = '#ember-testing';
     }
+
     if (rootElement instanceof Window) {
       rootElement = rootElement.document;
     }
+
     if ((0, _target.isElement)(rootElement) || (0, _target.isDocument)(rootElement)) {
       return rootElement;
     } else if (typeof rootElement === 'string') {
       let _rootElement = document.querySelector(rootElement);
+
       if (_rootElement) {
         return _rootElement;
       }
-      throw new Error(`Application.rootElement (${rootElement}) not found`);
+
+      throw new Error("Application.rootElement (".concat(rootElement, ") not found"));
     } else {
       throw new Error('Application.rootElement must be an element or a selector string');
     }
@@ -12080,6 +11789,7 @@ define("@ember/test-helpers/dom/tap", ["exports", "@ember/test-helpers/dom/-get-
     value: true
   });
   _exports.default = tap;
+
   /**
     Taps on the specified target.
   
@@ -12122,21 +11832,25 @@ define("@ember/test-helpers/dom/tap", ["exports", "@ember/test-helpers/dom/-get-
   
     tap('button');
   */
-  function tap(target) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  function tap(target, options = {}) {
     return (0, _utils.nextTickPromise)().then(() => {
       if (!target) {
         throw new Error('Must pass an element or selector to `tap`.');
       }
+
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`tap('${target}')\`.`);
+        throw new Error("Element not found when calling `tap('".concat(target, "')`."));
       }
+
       let touchstartEv = (0, _fireEvent.default)(element, 'touchstart', options);
       let touchendEv = (0, _fireEvent.default)(element, 'touchend', options);
+
       if (!touchstartEv.defaultPrevented && !touchendEv.defaultPrevented) {
         (0, _click.__click__)(element, options);
       }
+
       return (0, _settled.default)();
     });
   }
@@ -12148,6 +11862,7 @@ define("@ember/test-helpers/dom/trigger-event", ["exports", "@ember/test-helpers
     value: true
   });
   _exports.default = triggerEvent;
+
   /**
    * Triggers an event on the specified target.
    *
@@ -12196,13 +11911,17 @@ define("@ember/test-helpers/dom/trigger-event", ["exports", "@ember/test-helpers
       if (!target) {
         throw new Error('Must pass an element or selector to `triggerEvent`.');
       }
+
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`triggerEvent('${target}', ...)\`.`);
+        throw new Error("Element not found when calling `triggerEvent('".concat(target, "', ...)`."));
       }
+
       if (!eventType) {
-        throw new Error(`Must provide an \`eventType\` to \`triggerEvent\``);
+        throw new Error("Must provide an `eventType` to `triggerEvent`");
       }
+
       (0, _fireEvent.default)(element, eventType, options);
       return (0, _settled.default)();
     });
@@ -12221,8 +11940,8 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
     altKey: false,
     shiftKey: false,
     metaKey: false
-  });
-  // This is not a comprehensive list, but it is better than nothing.
+  }); // This is not a comprehensive list, but it is better than nothing.
+
   const keyFromKeyCode = {
     8: 'Backspace',
     9: 'Tab',
@@ -12286,6 +12005,7 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
     @param {object} modifiers The modifiers of the event.
     @returns {string} The key string for the event.
    */
+
   function keyFromKeyCodeAndModifiers(keycode, modifiers) {
     if (keycode > 64 && keycode < 91) {
       if (modifiers.shiftKey) {
@@ -12294,7 +12014,9 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
         return String.fromCharCode(keycode).toLocaleLowerCase();
       }
     }
+
     let key = keyFromKeyCode[keycode];
+
     if (key) {
       return key;
     }
@@ -12304,12 +12026,16 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
    * @param {string} key The KeyboardEvent#key string
    * @returns {number} The keycode for the given key
    */
+
+
   function keyCodeFromKey(key) {
     let keys = Object.keys(keyFromKeyCode);
     let keyCode = keys.find(keyCode => keyFromKeyCode[Number(keyCode)] === key);
+
     if (!keyCode) {
       keyCode = keys.find(keyCode => keyFromKeyCode[Number(keyCode)] === key.toLowerCase());
     }
+
     return keyCode !== undefined ? parseInt(keyCode) : undefined;
   }
   /**
@@ -12319,9 +12045,11 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
     @param {number|string} key the `keyCode`(number) or `key`(string) of the event being triggered
     @param {Object} [modifiers] the state of various modifier keys
    */
-  function __triggerKeyEvent__(element, eventType, key) {
-    let modifiers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : DEFAULT_MODIFIERS;
+
+
+  function __triggerKeyEvent__(element, eventType, key, modifiers = DEFAULT_MODIFIERS) {
     let props;
+
     if (typeof key === 'number') {
       props = {
         keyCode: key,
@@ -12330,12 +12058,15 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
       };
     } else if (typeof key === 'string' && key.length !== 0) {
       let firstCharacter = key[0];
+
       if (firstCharacter !== firstCharacter.toUpperCase()) {
-        throw new Error(`Must provide a \`key\` to \`triggerKeyEvent\` that starts with an uppercase character but you passed \`${key}\`.`);
+        throw new Error("Must provide a `key` to `triggerKeyEvent` that starts with an uppercase character but you passed `".concat(key, "`."));
       }
+
       if ((0, _utils.isNumeric)(key) && key.length > 1) {
-        throw new Error(`Must provide a numeric \`keyCode\` to \`triggerKeyEvent\` but you passed \`${key}\` as a string.`);
+        throw new Error("Must provide a numeric `keyCode` to `triggerKeyEvent` but you passed `".concat(key, "` as a string."));
       }
+
       let keyCode = keyCodeFromKey(key);
       props = {
         keyCode,
@@ -12343,8 +12074,9 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
         key
       };
     } else {
-      throw new Error(`Must provide a \`key\` or \`keyCode\` to \`triggerKeyEvent\``);
+      throw new Error("Must provide a `key` or `keyCode` to `triggerKeyEvent`");
     }
+
     let options = Ember.assign(props, modifiers);
     (0, _fireEvent.default)(element, eventType, options);
   }
@@ -12371,24 +12103,32 @@ define("@ember/test-helpers/dom/trigger-key-event", ["exports", "@ember/test-hel
     </caption>
     triggerKeyEvent('button', 'keydown', 'Enter');
   */
-  function triggerKeyEvent(target, eventType, key) {
-    let modifiers = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : DEFAULT_MODIFIERS;
+
+
+  function triggerKeyEvent(target, eventType, key, modifiers = DEFAULT_MODIFIERS) {
     return (0, _utils.nextTickPromise)().then(() => {
       if (!target) {
         throw new Error('Must pass an element or selector to `triggerKeyEvent`.');
       }
+
       let element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`triggerKeyEvent('${target}', ...)\`.`);
+        throw new Error("Element not found when calling `triggerKeyEvent('".concat(target, "', ...)`."));
       }
+
       if (!eventType) {
-        throw new Error(`Must provide an \`eventType\` to \`triggerKeyEvent\``);
+        throw new Error("Must provide an `eventType` to `triggerKeyEvent`");
       }
+
       if (!(0, _fireEvent.isKeyboardEventType)(eventType)) {
         let validEventTypes = _fireEvent.KEYBOARD_EVENT_TYPES.join(', ');
-        throw new Error(`Must provide an \`eventType\` of ${validEventTypes} to \`triggerKeyEvent\` but you passed \`${eventType}\`.`);
+
+        throw new Error("Must provide an `eventType` of ".concat(validEventTypes, " to `triggerKeyEvent` but you passed `").concat(eventType, "`."));
       }
+
       __triggerKeyEvent__(element, eventType, key, modifiers);
+
       return (0, _settled.default)();
     });
   }
@@ -12400,6 +12140,7 @@ define("@ember/test-helpers/dom/type-in", ["exports", "@ember/test-helpers/-util
     value: true
   });
   _exports.default = typeIn;
+
   /**
    * Mimics character by character entry into the target `input` or `textarea` element.
    *
@@ -12424,39 +12165,47 @@ define("@ember/test-helpers/dom/type-in", ["exports", "@ember/test-helpers/-util
    *
    * typeIn('hello world');
    */
-  function typeIn(target, text) {
-    let options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  function typeIn(target, text, options = {}) {
     return (0, _utils.nextTickPromise)().then(() => {
       if (!target) {
         throw new Error('Must pass an element or selector to `typeIn`.');
       }
+
       const element = (0, _getElement.default)(target);
+
       if (!element) {
-        throw new Error(`Element not found when calling \`typeIn('${target}')\``);
+        throw new Error("Element not found when calling `typeIn('".concat(target, "')`"));
       }
+
       if (!(0, _isFormControl.default)(element)) {
         throw new Error('`typeIn` is only usable on form controls.');
       }
+
       if (typeof text === 'undefined' || text === null) {
         throw new Error('Must provide `text` when calling `typeIn`.');
       }
+
       let {
         delay = 50
       } = options;
+
       if ((0, _isFocusable.default)(element)) {
         (0, _focus.__focus__)(element);
       }
+
       return fillOut(element, text, delay).then(() => (0, _fireEvent.default)(element, 'change')).then(_settled.default);
     });
-  }
-  // eslint-disable-next-line require-jsdoc
+  } // eslint-disable-next-line require-jsdoc
+
+
   function fillOut(element, text, delay) {
     const inputFunctions = text.split('').map(character => keyEntry(element, character));
     return inputFunctions.reduce((currentPromise, func) => {
       return currentPromise.then(() => delayedExecute(delay)).then(func);
     }, Ember.RSVP.Promise.resolve(undefined));
-  }
-  // eslint-disable-next-line require-jsdoc
+  } // eslint-disable-next-line require-jsdoc
+
+
   function keyEntry(element, character) {
     let shiftKey = character === character.toUpperCase() && character !== character.toLowerCase();
     let options = {
@@ -12469,8 +12218,9 @@ define("@ember/test-helpers/dom/type-in", ["exports", "@ember/test-helpers/-util
         (0, _fireEvent.default)(element, 'input');
       }).then(() => (0, _triggerKeyEvent.__triggerKeyEvent__)(element, 'keyup', characterKey, options));
     };
-  }
-  // eslint-disable-next-line require-jsdoc
+  } // eslint-disable-next-line require-jsdoc
+
+
   function delayedExecute(delay) {
     return new Ember.RSVP.Promise(resolve => {
       setTimeout(resolve, delay);
@@ -12484,6 +12234,7 @@ define("@ember/test-helpers/dom/wait-for", ["exports", "@ember/test-helpers/wait
     value: true
   });
   _exports.default = waitFor;
+
   /**
     Used to wait for a particular selector to appear in the DOM. Due to the fact
     that it does not wait for general settledness, this is quite useful for testing
@@ -12495,32 +12246,38 @@ define("@ember/test-helpers/dom/wait-for", ["exports", "@ember/test-helpers/wait
     @param {number} [options.count=null] the number of elements that should match the provided selector (null means one or more)
     @return {Promise<Element|Element[]>} resolves when the element(s) appear on the page
   */
-  function waitFor(selector) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  function waitFor(selector, options = {}) {
     return (0, _utils.nextTickPromise)().then(() => {
       if (!selector) {
         throw new Error('Must pass a selector to `waitFor`.');
       }
+
       let {
         timeout = 1000,
         count = null,
         timeoutMessage
       } = options;
+
       if (!timeoutMessage) {
-        timeoutMessage = `waitFor timed out waiting for selector "${selector}"`;
+        timeoutMessage = "waitFor timed out waiting for selector \"".concat(selector, "\"");
       }
+
       let callback;
+
       if (count !== null) {
         callback = () => {
           let elements = (0, _getElements.default)(selector);
+
           if (elements.length === count) {
             return (0, _toArray.default)(elements);
           }
+
           return;
         };
       } else {
         callback = () => (0, _getElement.default)(selector);
       }
+
       return (0, _waitUntil.default)(callback, {
         timeout,
         timeoutMessage
@@ -12535,6 +12292,7 @@ define("@ember/test-helpers/global", ["exports"], function (_exports) {
     value: true
   });
   _exports.default = void 0;
+
   /* globals global */
   var _default = (() => {
     if (typeof self !== 'undefined') {
@@ -12547,6 +12305,7 @@ define("@ember/test-helpers/global", ["exports"], function (_exports) {
       return Function('return this')();
     }
   })();
+
   _exports.default = _default;
 });
 define("@ember/test-helpers/has-ember-version", ["exports"], function (_exports) {
@@ -12556,6 +12315,7 @@ define("@ember/test-helpers/has-ember-version", ["exports"], function (_exports)
     value: true
   });
   _exports.default = hasEmberVersion;
+
   /**
     Checks if the currently running Ember version is greater than or equal to the
     specified major and minor version numbers.
@@ -12578,262 +12338,262 @@ define("@ember/test-helpers/index", ["exports", "@ember/test-helpers/resolver", 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  Object.defineProperty(_exports, "blur", {
+  Object.defineProperty(_exports, "setResolver", {
     enumerable: true,
-    get: function () {
-      return _blur.default;
+    get: function get() {
+      return _resolver.setResolver;
+    }
+  });
+  Object.defineProperty(_exports, "getResolver", {
+    enumerable: true,
+    get: function get() {
+      return _resolver.getResolver;
+    }
+  });
+  Object.defineProperty(_exports, "getApplication", {
+    enumerable: true,
+    get: function get() {
+      return _application.getApplication;
+    }
+  });
+  Object.defineProperty(_exports, "setApplication", {
+    enumerable: true,
+    get: function get() {
+      return _application.setApplication;
+    }
+  });
+  Object.defineProperty(_exports, "setupContext", {
+    enumerable: true,
+    get: function get() {
+      return _setupContext.default;
+    }
+  });
+  Object.defineProperty(_exports, "getContext", {
+    enumerable: true,
+    get: function get() {
+      return _setupContext.getContext;
+    }
+  });
+  Object.defineProperty(_exports, "setContext", {
+    enumerable: true,
+    get: function get() {
+      return _setupContext.setContext;
+    }
+  });
+  Object.defineProperty(_exports, "unsetContext", {
+    enumerable: true,
+    get: function get() {
+      return _setupContext.unsetContext;
+    }
+  });
+  Object.defineProperty(_exports, "pauseTest", {
+    enumerable: true,
+    get: function get() {
+      return _setupContext.pauseTest;
+    }
+  });
+  Object.defineProperty(_exports, "resumeTest", {
+    enumerable: true,
+    get: function get() {
+      return _setupContext.resumeTest;
+    }
+  });
+  Object.defineProperty(_exports, "teardownContext", {
+    enumerable: true,
+    get: function get() {
+      return _teardownContext.default;
+    }
+  });
+  Object.defineProperty(_exports, "setupRenderingContext", {
+    enumerable: true,
+    get: function get() {
+      return _setupRenderingContext.default;
+    }
+  });
+  Object.defineProperty(_exports, "render", {
+    enumerable: true,
+    get: function get() {
+      return _setupRenderingContext.render;
     }
   });
   Object.defineProperty(_exports, "clearRender", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _setupRenderingContext.clearRender;
     }
   });
-  Object.defineProperty(_exports, "click", {
+  Object.defineProperty(_exports, "teardownRenderingContext", {
     enumerable: true,
-    get: function () {
-      return _click.default;
+    get: function get() {
+      return _teardownRenderingContext.default;
+    }
+  });
+  Object.defineProperty(_exports, "setupApplicationContext", {
+    enumerable: true,
+    get: function get() {
+      return _setupApplicationContext.default;
+    }
+  });
+  Object.defineProperty(_exports, "visit", {
+    enumerable: true,
+    get: function get() {
+      return _setupApplicationContext.visit;
     }
   });
   Object.defineProperty(_exports, "currentRouteName", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _setupApplicationContext.currentRouteName;
     }
   });
   Object.defineProperty(_exports, "currentURL", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _setupApplicationContext.currentURL;
-    }
-  });
-  Object.defineProperty(_exports, "doubleClick", {
-    enumerable: true,
-    get: function () {
-      return _doubleClick.default;
-    }
-  });
-  Object.defineProperty(_exports, "fillIn", {
-    enumerable: true,
-    get: function () {
-      return _fillIn.default;
-    }
-  });
-  Object.defineProperty(_exports, "find", {
-    enumerable: true,
-    get: function () {
-      return _find.default;
-    }
-  });
-  Object.defineProperty(_exports, "findAll", {
-    enumerable: true,
-    get: function () {
-      return _findAll.default;
-    }
-  });
-  Object.defineProperty(_exports, "focus", {
-    enumerable: true,
-    get: function () {
-      return _focus.default;
-    }
-  });
-  Object.defineProperty(_exports, "getApplication", {
-    enumerable: true,
-    get: function () {
-      return _application.getApplication;
-    }
-  });
-  Object.defineProperty(_exports, "getContext", {
-    enumerable: true,
-    get: function () {
-      return _setupContext.getContext;
-    }
-  });
-  Object.defineProperty(_exports, "getDebugInfo", {
-    enumerable: true,
-    get: function () {
-      return _debugInfo.getDebugInfo;
-    }
-  });
-  Object.defineProperty(_exports, "getResolver", {
-    enumerable: true,
-    get: function () {
-      return _resolver.getResolver;
-    }
-  });
-  Object.defineProperty(_exports, "getRootElement", {
-    enumerable: true,
-    get: function () {
-      return _getRootElement.default;
-    }
-  });
-  Object.defineProperty(_exports, "getSettledState", {
-    enumerable: true,
-    get: function () {
-      return _settled.getSettledState;
-    }
-  });
-  Object.defineProperty(_exports, "getTestMetadata", {
-    enumerable: true,
-    get: function () {
-      return _testMetadata.default;
-    }
-  });
-  Object.defineProperty(_exports, "isSettled", {
-    enumerable: true,
-    get: function () {
-      return _settled.isSettled;
-    }
-  });
-  Object.defineProperty(_exports, "pauseTest", {
-    enumerable: true,
-    get: function () {
-      return _setupContext.pauseTest;
-    }
-  });
-  Object.defineProperty(_exports, "registerDebugInfoHelper", {
-    enumerable: true,
-    get: function () {
-      return _debugInfoHelpers.default;
-    }
-  });
-  Object.defineProperty(_exports, "render", {
-    enumerable: true,
-    get: function () {
-      return _setupRenderingContext.render;
-    }
-  });
-  Object.defineProperty(_exports, "resetOnerror", {
-    enumerable: true,
-    get: function () {
-      return _setupOnerror.resetOnerror;
-    }
-  });
-  Object.defineProperty(_exports, "resumeTest", {
-    enumerable: true,
-    get: function () {
-      return _setupContext.resumeTest;
-    }
-  });
-  Object.defineProperty(_exports, "setApplication", {
-    enumerable: true,
-    get: function () {
-      return _application.setApplication;
-    }
-  });
-  Object.defineProperty(_exports, "setContext", {
-    enumerable: true,
-    get: function () {
-      return _setupContext.setContext;
-    }
-  });
-  Object.defineProperty(_exports, "setResolver", {
-    enumerable: true,
-    get: function () {
-      return _resolver.setResolver;
-    }
-  });
-  Object.defineProperty(_exports, "settled", {
-    enumerable: true,
-    get: function () {
-      return _settled.default;
-    }
-  });
-  Object.defineProperty(_exports, "setupApplicationContext", {
-    enumerable: true,
-    get: function () {
-      return _setupApplicationContext.default;
-    }
-  });
-  Object.defineProperty(_exports, "setupContext", {
-    enumerable: true,
-    get: function () {
-      return _setupContext.default;
-    }
-  });
-  Object.defineProperty(_exports, "setupOnerror", {
-    enumerable: true,
-    get: function () {
-      return _setupOnerror.default;
-    }
-  });
-  Object.defineProperty(_exports, "setupRenderingContext", {
-    enumerable: true,
-    get: function () {
-      return _setupRenderingContext.default;
-    }
-  });
-  Object.defineProperty(_exports, "tap", {
-    enumerable: true,
-    get: function () {
-      return _tap.default;
     }
   });
   Object.defineProperty(_exports, "teardownApplicationContext", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _teardownApplicationContext.default;
     }
   });
-  Object.defineProperty(_exports, "teardownContext", {
+  Object.defineProperty(_exports, "settled", {
     enumerable: true,
-    get: function () {
-      return _teardownContext.default;
+    get: function get() {
+      return _settled.default;
     }
   });
-  Object.defineProperty(_exports, "teardownRenderingContext", {
+  Object.defineProperty(_exports, "isSettled", {
     enumerable: true,
-    get: function () {
-      return _teardownRenderingContext.default;
+    get: function get() {
+      return _settled.isSettled;
+    }
+  });
+  Object.defineProperty(_exports, "getSettledState", {
+    enumerable: true,
+    get: function get() {
+      return _settled.getSettledState;
+    }
+  });
+  Object.defineProperty(_exports, "waitUntil", {
+    enumerable: true,
+    get: function get() {
+      return _waitUntil.default;
+    }
+  });
+  Object.defineProperty(_exports, "validateErrorHandler", {
+    enumerable: true,
+    get: function get() {
+      return _validateErrorHandler.default;
+    }
+  });
+  Object.defineProperty(_exports, "setupOnerror", {
+    enumerable: true,
+    get: function get() {
+      return _setupOnerror.default;
+    }
+  });
+  Object.defineProperty(_exports, "resetOnerror", {
+    enumerable: true,
+    get: function get() {
+      return _setupOnerror.resetOnerror;
+    }
+  });
+  Object.defineProperty(_exports, "getDebugInfo", {
+    enumerable: true,
+    get: function get() {
+      return _debugInfo.getDebugInfo;
+    }
+  });
+  Object.defineProperty(_exports, "registerDebugInfoHelper", {
+    enumerable: true,
+    get: function get() {
+      return _debugInfoHelpers.default;
+    }
+  });
+  Object.defineProperty(_exports, "getTestMetadata", {
+    enumerable: true,
+    get: function get() {
+      return _testMetadata.default;
+    }
+  });
+  Object.defineProperty(_exports, "click", {
+    enumerable: true,
+    get: function get() {
+      return _click.default;
+    }
+  });
+  Object.defineProperty(_exports, "doubleClick", {
+    enumerable: true,
+    get: function get() {
+      return _doubleClick.default;
+    }
+  });
+  Object.defineProperty(_exports, "tap", {
+    enumerable: true,
+    get: function get() {
+      return _tap.default;
+    }
+  });
+  Object.defineProperty(_exports, "focus", {
+    enumerable: true,
+    get: function get() {
+      return _focus.default;
+    }
+  });
+  Object.defineProperty(_exports, "blur", {
+    enumerable: true,
+    get: function get() {
+      return _blur.default;
     }
   });
   Object.defineProperty(_exports, "triggerEvent", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _triggerEvent.default;
     }
   });
   Object.defineProperty(_exports, "triggerKeyEvent", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _triggerKeyEvent.default;
     }
   });
-  Object.defineProperty(_exports, "typeIn", {
+  Object.defineProperty(_exports, "fillIn", {
     enumerable: true,
-    get: function () {
-      return _typeIn.default;
-    }
-  });
-  Object.defineProperty(_exports, "unsetContext", {
-    enumerable: true,
-    get: function () {
-      return _setupContext.unsetContext;
-    }
-  });
-  Object.defineProperty(_exports, "validateErrorHandler", {
-    enumerable: true,
-    get: function () {
-      return _validateErrorHandler.default;
-    }
-  });
-  Object.defineProperty(_exports, "visit", {
-    enumerable: true,
-    get: function () {
-      return _setupApplicationContext.visit;
+    get: function get() {
+      return _fillIn.default;
     }
   });
   Object.defineProperty(_exports, "waitFor", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _waitFor.default;
     }
   });
-  Object.defineProperty(_exports, "waitUntil", {
+  Object.defineProperty(_exports, "getRootElement", {
     enumerable: true,
-    get: function () {
-      return _waitUntil.default;
+    get: function get() {
+      return _getRootElement.default;
+    }
+  });
+  Object.defineProperty(_exports, "find", {
+    enumerable: true,
+    get: function get() {
+      return _find.default;
+    }
+  });
+  Object.defineProperty(_exports, "findAll", {
+    enumerable: true,
+    get: function get() {
+      return _findAll.default;
+    }
+  });
+  Object.defineProperty(_exports, "typeIn", {
+    enumerable: true,
+    get: function get() {
+      return _typeIn.default;
     }
   });
 });
@@ -12843,8 +12603,9 @@ define("@ember/test-helpers/resolver", ["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.getResolver = getResolver;
   _exports.setResolver = setResolver;
+  _exports.getResolver = getResolver;
+
   var __resolver__;
   /**
     Stores the provided resolver instance so that tests being ran can resolve
@@ -12855,6 +12616,8 @@ define("@ember/test-helpers/resolver", ["exports"], function (_exports) {
     @public
     @param {Ember.Resolver} resolver the resolver to be used for testing
   */
+
+
   function setResolver(resolver) {
     __resolver__ = resolver;
   }
@@ -12864,6 +12627,8 @@ define("@ember/test-helpers/resolver", ["exports"], function (_exports) {
     @public
     @returns {Ember.Resolver} the previously stored resolver
   */
+
+
   function getResolver() {
     return __resolver__;
   }
@@ -12874,11 +12639,12 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports._setupAJAXHooks = _setupAJAXHooks;
   _exports._teardownAJAXHooks = _teardownAJAXHooks;
-  _exports.default = settled;
+  _exports._setupAJAXHooks = _setupAJAXHooks;
   _exports.getSettledState = getSettledState;
   _exports.isSettled = isSettled;
+  _exports.default = settled;
+
   // Ember internally tracks AJAX requests in the same way that we do here for
   // legacy style "acceptance" tests using the `ember-testing.js` asset provided
   // by emberjs/ember.js itself. When `@ember/test-helpers`'s `settled` utility
@@ -12889,6 +12655,7 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
   // properly consider pending AJAX requests done within legacy acceptance tests.
   const _internalPendingRequests = (() => {
     let loader = Ember.__loader;
+
     if (loader.registry['ember-testing/test/pending_requests']) {
       // Ember <= 3.1
       return loader.require('ember-testing/test/pending_requests').pendingRequests;
@@ -12896,16 +12663,21 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
       // Ember >= 3.2
       return loader.require('ember-testing/lib/test/pending_requests').pendingRequests;
     }
+
     return () => 0;
   })();
+
   let requests;
   /**
     @private
     @returns {number} the count of pending requests
   */
+
   function pendingRequests() {
     let localRequestsPending = requests !== undefined ? requests.length : 0;
+
     let internalRequestsPending = _internalPendingRequests();
+
     return localRequestsPending + internalRequestsPending;
   }
   /**
@@ -12913,6 +12685,8 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
     @param {Event} event (unused)
     @param {XMLHTTPRequest} xhr the XHR that has initiated a request
   */
+
+
   function incrementAjaxPendingRequests(event, xhr) {
     requests.push(xhr);
   }
@@ -12921,6 +12695,8 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
     @param {Event} event (unused)
     @param {XMLHTTPRequest} xhr the XHR that has initiated a request
   */
+
+
   function decrementAjaxPendingRequests(event, xhr) {
     // In most Ember versions to date (current version is 2.16) RSVP promises are
     // configured to flush in the actions queue of the Ember run loop, however it
@@ -12945,15 +12721,19 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
   
     @private
   */
+
+
   function _teardownAJAXHooks() {
     // jQuery will not invoke `ajaxComplete` if
     //    1. `transport.send` throws synchronously and
     //    2. it has an `error` option which also throws synchronously
     // We can no longer handle any remaining requests
     requests = [];
+
     if (typeof jQuery === 'undefined') {
       return;
     }
+
     jQuery(document).off('ajaxSend', incrementAjaxPendingRequests);
     jQuery(document).off('ajaxComplete', decrementAjaxPendingRequests);
   }
@@ -12962,16 +12742,23 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
   
     @private
   */
+
+
   function _setupAJAXHooks() {
     requests = [];
+
     if (typeof jQuery === 'undefined') {
       return;
     }
+
     jQuery(document).on('ajaxSend', incrementAjaxPendingRequests);
     jQuery(document).on('ajaxComplete', decrementAjaxPendingRequests);
   }
+
   let _internalCheckWaiters;
+
   let loader = Ember.__loader;
+
   if (loader.registry['ember-testing/test/waiters']) {
     // Ember <= 3.1
     _internalCheckWaiters = loader.require('ember-testing/test/waiters').checkWaiters;
@@ -12983,18 +12770,19 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
     @private
     @returns {boolean} true if waiters are still pending
   */
+
+
   function checkWaiters() {
     let EmberTest = Ember.Test;
+
     if (_internalCheckWaiters) {
       return _internalCheckWaiters();
     } else if (EmberTest.waiters) {
-      if (EmberTest.waiters.some(_ref => {
-        let [context, callback] = _ref;
-        return !callback.call(context);
-      })) {
+      if (EmberTest.waiters.some(([context, callback]) => !callback.call(context))) {
         return true;
       }
     }
+
     return false;
   }
   /**
@@ -13021,9 +12809,11 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
     @public
     @returns {Object} object with properties for each of the metrics used to determine settledness
   */
+
+
   function getSettledState() {
-    let hasPendingTimers = Boolean(Ember.run.backburner.hasTimers());
-    let hasRunLoop = Boolean(Ember.run.backburner.currentInstance);
+    let hasPendingTimers = Boolean(Ember.run.hasScheduledTimers());
+    let hasRunLoop = Boolean(Ember.run.currentRunLoop);
     let hasPendingLegacyWaiters = checkWaiters();
     let hasPendingTestWaiters = (0, _emberTestWaiters.hasPendingWaiters)();
     let pendingRequestCount = pendingRequests();
@@ -13054,6 +12844,8 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
     @public
     @returns {boolean} `true` if settled, `false` otherwise
   */
+
+
   function isSettled() {
     let {
       hasPendingTimers,
@@ -13062,9 +12854,11 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
       hasPendingWaiters,
       hasPendingTransitions
     } = getSettledState();
+
     if (hasPendingTimers || hasRunLoop || hasPendingRequests || hasPendingWaiters || hasPendingTransitions) {
       return false;
     }
+
     return true;
   }
   /**
@@ -13074,6 +12868,8 @@ define("@ember/test-helpers/settled", ["exports", "@ember/test-helpers/-utils", 
     @public
     @returns {Promise<void>} resolves when settled
   */
+
+
   function settled() {
     return (0, _waitUntil.default)(isSettled, {
       timeout: Infinity
@@ -13086,18 +12882,18 @@ define("@ember/test-helpers/setup-application-context", ["exports", "@ember/test
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  _exports.isApplicationTestContext = isApplicationTestContext;
+  _exports.hasPendingTransitions = hasPendingTransitions;
+  _exports.setupRouterSettlednessTracking = setupRouterSettlednessTracking;
+  _exports.visit = visit;
   _exports.currentRouteName = currentRouteName;
   _exports.currentURL = currentURL;
   _exports.default = setupApplicationContext;
-  _exports.hasPendingTransitions = hasPendingTransitions;
-  _exports.isApplicationTestContext = isApplicationTestContext;
-  _exports.setupRouterSettlednessTracking = setupRouterSettlednessTracking;
-  _exports.visit = visit;
   const CAN_USE_ROUTER_EVENTS = (0, _hasEmberVersion.default)(3, 6);
   let routerTransitionsPending = null;
   const ROUTER = new WeakMap();
-  const HAS_SETUP_ROUTER = new WeakMap();
-  // eslint-disable-next-line require-jsdoc
+  const HAS_SETUP_ROUTER = new WeakMap(); // eslint-disable-next-line require-jsdoc
+
   function isApplicationTestContext(context) {
     return (0, _setupContext.isTestContext)(context);
   }
@@ -13107,26 +12903,34 @@ define("@ember/test-helpers/setup-application-context", ["exports", "@ember/test
     @public
     @returns {(boolean|null)} if there are pending transitions
   */
+
+
   function hasPendingTransitions() {
     if (CAN_USE_ROUTER_EVENTS) {
       return routerTransitionsPending;
     }
-    let context = (0, _setupContext.getContext)();
-    // there is no current context, we cannot check
+
+    let context = (0, _setupContext.getContext)(); // there is no current context, we cannot check
+
     if (context === undefined) {
       return null;
     }
+
     let router = ROUTER.get(context);
+
     if (router === undefined) {
       // if there is no router (e.g. no `visit` calls made yet), we cannot
       // check for pending transitions but this is explicitly not an error
       // condition
       return null;
     }
+
     let routerMicrolib = router._routerMicrolib || router.router;
+
     if (routerMicrolib === undefined) {
       return null;
     }
+
     return !!routerMicrolib.activeTransition;
   }
   /**
@@ -13137,33 +12941,41 @@ define("@ember/test-helpers/setup-application-context", ["exports", "@ember/test
   
     @public
    */
+
+
   function setupRouterSettlednessTracking() {
     const context = (0, _setupContext.getContext)();
+
     if (context === undefined) {
       throw new Error('Cannot setupRouterSettlednessTracking outside of a test context');
-    }
-    // avoid setting up many times for the same context
+    } // avoid setting up many times for the same context
+
+
     if (HAS_SETUP_ROUTER.get(context)) {
       return;
     }
+
     HAS_SETUP_ROUTER.set(context, true);
     let {
       owner
     } = context;
     let router;
+
     if (CAN_USE_ROUTER_EVENTS) {
-      router = owner.lookup('service:router');
-      // track pending transitions via the public routeWillChange / routeDidChange APIs
+      router = owner.lookup('service:router'); // track pending transitions via the public routeWillChange / routeDidChange APIs
       // routeWillChange can fire many times and is only useful to know when we have _started_
       // transitioning, we can then use routeDidChange to signal that the transition has settled
+
       router.on('routeWillChange', () => routerTransitionsPending = true);
       router.on('routeDidChange', () => routerTransitionsPending = false);
     } else {
       router = owner.lookup('router:main');
       ROUTER.set(context, router);
-    }
-    // hook into teardown to reset local settledness state
+    } // hook into teardown to reset local settledness state
+
+
     let ORIGINAL_WILL_DESTROY = router.willDestroy;
+
     router.willDestroy = function () {
       routerTransitionsPending = null;
       return ORIGINAL_WILL_DESTROY.apply(this, arguments);
@@ -13177,11 +12989,15 @@ define("@ember/test-helpers/setup-application-context", ["exports", "@ember/test
     @param {object} options app boot options
     @returns {Promise<void>} resolves when settled
   */
+
+
   function visit(url, options) {
     const context = (0, _setupContext.getContext)();
+
     if (!context || !isApplicationTestContext(context)) {
       throw new Error('Cannot call `visit` without having first called `setupApplicationContext`.');
     }
+
     let {
       owner
     } = context;
@@ -13203,25 +13019,34 @@ define("@ember/test-helpers/setup-application-context", ["exports", "@ember/test
     @public
     @returns {string} the currently active route name
   */
+
+
   function currentRouteName() {
     const context = (0, _setupContext.getContext)();
+
     if (!context || !isApplicationTestContext(context)) {
       throw new Error('Cannot call `currentRouteName` without having first called `setupApplicationContext`.');
     }
+
     let router = context.owner.lookup('router:main');
     return Ember.get(router, 'currentRouteName');
   }
+
   const HAS_CURRENT_URL_ON_ROUTER = (0, _hasEmberVersion.default)(2, 13);
   /**
     @public
     @returns {string} the applications current url
   */
+
   function currentURL() {
     const context = (0, _setupContext.getContext)();
+
     if (!context || !isApplicationTestContext(context)) {
       throw new Error('Cannot call `currentURL` without having first called `setupApplicationContext`.');
     }
+
     let router = context.owner.lookup('router:main');
+
     if (HAS_CURRENT_URL_ON_ROUTER) {
       return Ember.get(router, 'currentURL');
     } else {
@@ -13241,6 +13066,8 @@ define("@ember/test-helpers/setup-application-context", ["exports", "@ember/test
     @param {Object} context the context to setup
     @returns {Promise<Object>} resolves with the context that was setup
   */
+
+
   function setupApplicationContext(context) {
     let testMetadata = (0, _testMetadata.default)(context);
     testMetadata.setupTypes.push('setupApplicationContext');
@@ -13253,18 +13080,20 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.CLEANUP = void 0;
-  _exports.default = setupContext;
-  _exports.getContext = getContext;
   _exports.isTestContext = isTestContext;
+  _exports.setContext = setContext;
+  _exports.getContext = getContext;
+  _exports.unsetContext = unsetContext;
   _exports.pauseTest = pauseTest;
   _exports.resumeTest = resumeTest;
-  _exports.setContext = setContext;
-  _exports.unsetContext = unsetContext;
+  _exports.default = setupContext;
+  _exports.CLEANUP = void 0;
+
   // eslint-disable-next-line require-jsdoc
   function isTestContext(context) {
     return typeof context.pauseTest === 'function' && typeof context.resumeTest === 'function';
   }
+
   let __test_context__;
   /**
     Stores the provided context as the "global testing context".
@@ -13274,6 +13103,8 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
     @public
     @param {Object} context the context to use
   */
+
+
   function setContext(context) {
     __test_context__ = context;
   }
@@ -13283,6 +13114,8 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
     @public
     @returns {Object} the previously stored testing context
   */
+
+
   function getContext() {
     return __test_context__;
   }
@@ -13293,6 +13126,8 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
   
     @public
   */
+
+
   function unsetContext() {
     __test_context__ = undefined;
   }
@@ -13330,11 +13165,15 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
    *   });
    * });
    */
+
+
   function pauseTest() {
     let context = getContext();
+
     if (!context || !isTestContext(context)) {
       throw new Error('Cannot call `pauseTest` without having first called `setupTest` or `setupRenderingTest`.');
     }
+
     return context.pauseTest();
   }
   /**
@@ -13342,13 +13181,18 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
   
     @public
   */
+
+
   function resumeTest() {
     let context = getContext();
+
     if (!context || !isTestContext(context)) {
       throw new Error('Cannot call `resumeTest` without having first called `setupTest` or `setupRenderingTest`.');
     }
+
     context.resumeTest();
   }
+
   const CLEANUP = Object.create(null);
   /**
     Used by test framework addons to setup the provided context for testing.
@@ -13367,9 +13211,10 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
     @param {Resolver} [options.resolver] a resolver to use for customizing normal resolution
     @returns {Promise<Object>} resolves with the context that was setup
   */
+
   _exports.CLEANUP = CLEANUP;
-  function setupContext(context) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  function setupContext(context, options = {}) {
     Ember.testing = true;
     setContext(context);
     let contextGuid = Ember.guidFor(context);
@@ -13379,30 +13224,34 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
     Ember.run.backburner.DEBUG = true;
     return (0, _utils.nextTickPromise)().then(() => {
       let application = (0, _application.getApplication)();
+
       if (application) {
         return application.boot().then(() => {});
       }
+
       return;
     }).then(() => {
       let testElementContainer = document.getElementById('ember-testing-container'); // TODO remove "!"
-      let fixtureResetValue = testElementContainer.innerHTML;
-      // push this into the final cleanup bucket, to be ran _after_ the owner
+
+      let fixtureResetValue = testElementContainer.innerHTML; // push this into the final cleanup bucket, to be ran _after_ the owner
       // is destroyed and settled (e.g. flushed run loops, etc)
+
       CLEANUP[contextGuid].push(() => {
         testElementContainer.innerHTML = fixtureResetValue;
       });
       let {
         resolver
-      } = options;
-      // This handles precendence, specifying a specific option of
+      } = options; // This handles precendence, specifying a specific option of
       // resolver always trumps whatever is auto-detected, then we fallback to
       // the suite-wide registrations
       //
       // At some later time this can be extended to support specifying a custom
       // engine or application...
+
       if (resolver) {
         return (0, _buildOwner.default)(null, resolver);
       }
+
       return (0, _buildOwner.default)((0, _application.getApplication)(), (0, _resolver.getResolver)());
     }).then(owner => {
       Object.defineProperty(context, 'owner', {
@@ -13414,57 +13263,66 @@ define("@ember/test-helpers/setup-context", ["exports", "@ember/test-helpers/bui
       Object.defineProperty(context, 'set', {
         configurable: true,
         enumerable: true,
+
         value(key, value) {
           let ret = Ember.run(function () {
             return Ember.set(context, key, value);
           });
           return ret;
         },
+
         writable: false
       });
       Object.defineProperty(context, 'setProperties', {
         configurable: true,
         enumerable: true,
+
         value(hash) {
           let ret = Ember.run(function () {
             return Ember.setProperties(context, hash);
           });
           return ret;
         },
+
         writable: false
       });
       Object.defineProperty(context, 'get', {
         configurable: true,
         enumerable: true,
+
         value(key) {
           return Ember.get(context, key);
         },
+
         writable: false
       });
       Object.defineProperty(context, 'getProperties', {
         configurable: true,
         enumerable: true,
-        value() {
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-          }
+
+        value(...args) {
           return Ember.getProperties(context, args);
         },
+
         writable: false
       });
       let resume;
+
       context.resumeTest = function resumeTest() {
         (true && !(Boolean(resume)) && Ember.assert('Testing has not been paused. There is nothing to resume.', Boolean(resume)));
         resume();
         _global.default.resumeTest = resume = undefined;
       };
+
       context.pauseTest = function pauseTest() {
         console.info('Testing paused. Use `resumeTest()` to continue.'); // eslint-disable-line no-console
+
         return new Ember.RSVP.Promise(resolve => {
           resume = resolve;
           _global.default.resumeTest = resumeTest;
         }, 'TestAdapter paused promise');
       };
+
       (0, _settled._setupAJAXHooks)();
       return context;
     });
@@ -13497,10 +13355,12 @@ define("@ember/test-helpers/setup-onerror", ["exports"], function (_exports) {
    *   });
    * });
    */
+
   function setupOnerror(onError) {
     if (typeof onError !== 'function') {
       onError = ORIGINAL_EMBER_ONERROR;
     }
+
     Ember.onerror = onError;
   }
   /**
@@ -13516,6 +13376,8 @@ define("@ember/test-helpers/setup-onerror", ["exports"], function (_exports) {
    *   resetOnerror();
    * })
    */
+
+
   const resetOnerror = setupOnerror;
   _exports.resetOnerror = resetOnerror;
 });
@@ -13525,11 +13387,11 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.RENDERING_CLEANUP = void 0;
-  _exports.clearRender = clearRender;
-  _exports.default = setupRenderingContext;
   _exports.isRenderingTestContext = isRenderingTestContext;
   _exports.render = render;
+  _exports.clearRender = clearRender;
+  _exports.default = setupRenderingContext;
+  _exports.RENDERING_CLEANUP = void 0;
   const RENDERING_CLEANUP = Object.create(null);
   _exports.RENDERING_CLEANUP = RENDERING_CLEANUP;
   const OUTLET_TEMPLATE = Ember.HTMLBars.template({
@@ -13541,8 +13403,8 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     "id": "xOcW61lH",
     "block": "{\"symbols\":[],\"statements\":[],\"hasEval\":false}",
     "meta": {}
-  });
-  // eslint-disable-next-line require-jsdoc
+  }); // eslint-disable-next-line require-jsdoc
+
   function isRenderingTestContext(context) {
     return (0, _setupContext.isTestContext)(context) && typeof context.render === 'function' && typeof context.clearRender === 'function';
   }
@@ -13552,6 +13414,8 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     @param {string} templateFullName the fill template name
     @returns {Template} the template representing `templateFullName`
   */
+
+
   function lookupTemplate(owner, templateFullName) {
     let template = owner.lookup(templateFullName);
     if (typeof template === 'function') return template(owner);
@@ -13562,12 +13426,16 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     @param {Ember.ApplicationInstance} owner the current owner instance
     @returns {Template} a template representing {{outlet}}
   */
+
+
   function lookupOutletTemplate(owner) {
     let OutletTemplate = lookupTemplate(owner, 'template:-outlet');
+
     if (!OutletTemplate) {
       owner.register('template:-outlet', OUTLET_TEMPLATE);
       OutletTemplate = lookupTemplate(owner, 'template:-outlet');
     }
+
     return OutletTemplate;
   }
   /**
@@ -13575,6 +13443,8 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     @param {string} [selector] the selector to search for relative to element
     @returns {jQuery} a jQuery object representing the selector (or element itself if no selector)
   */
+
+
   function jQuerySelector(selector) {
     (true && !(false) && Ember.deprecate('Using this.$() in a rendering test has been deprecated, consider using this.element instead.', false, {
       id: 'ember-test-helpers.rendering-context.jquery-element',
@@ -13584,11 +13454,12 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     }));
     let {
       element
-    } = (0, _setupContext.getContext)();
-    // emulates Ember internal behavor of `this.$` in a component
+    } = (0, _setupContext.getContext)(); // emulates Ember internal behavor of `this.$` in a component
     // https://github.com/emberjs/ember.js/blob/v2.5.1/packages/ember-views/lib/views/states/has_element.js#L18
+
     return selector ? _global.default.jQuery(selector, element) : _global.default.jQuery(element);
   }
+
   let templateId = 0;
   /**
     Renders the provided template and appends it to the DOM.
@@ -13597,15 +13468,19 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     @param {CompiledTemplate} template the template to render
     @returns {Promise<void>} resolves when settled
   */
+
   function render(template) {
     let context = (0, _setupContext.getContext)();
+
     if (!template) {
       throw new Error('you must pass a template to `render()`');
     }
+
     return (0, _utils.nextTickPromise)().then(() => {
       if (!context || !isRenderingTestContext(context)) {
         throw new Error('Cannot call `render` without having first called `setupRenderingContext`.');
       }
+
       let {
         owner
       } = context;
@@ -13614,7 +13489,7 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
       let toplevelView = owner.lookup('-top-level-view:main');
       let OutletTemplate = lookupOutletTemplate(owner);
       templateId += 1;
-      let templateFullName = `template:-undertest-${templateId}`;
+      let templateFullName = "template:-undertest-".concat(templateId);
       owner.register(templateFullName, template);
       let outletState = {
         render: {
@@ -13642,13 +13517,13 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
           }
         }
       };
-      toplevelView.setOutletState(outletState);
-      // returning settled here because the actual rendering does not happen until
+      toplevelView.setOutletState(outletState); // returning settled here because the actual rendering does not happen until
       // the renderer detects it is dirty (which happens on backburner's end
       // hook), see the following implementation details:
       //
       // * [view:outlet](https://github.com/emberjs/ember.js/blob/f94a4b6aef5b41b96ef2e481f35e07608df01440/packages/ember-glimmer/lib/views/outlet.js#L129-L145) manually dirties its own tag upon `setOutletState`
       // * [backburner's custom end hook](https://github.com/emberjs/ember.js/blob/f94a4b6aef5b41b96ef2e481f35e07608df01440/packages/ember-glimmer/lib/renderer.js#L145-L159) detects that the current revision of the root is no longer the latest, and triggers a new rendering transaction
+
       return (0, _settled.default)();
     });
   }
@@ -13660,11 +13535,15 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     @public
     @returns {Promise<void>} resolves when settled
   */
+
+
   function clearRender() {
     let context = (0, _setupContext.getContext)();
+
     if (!context || !isRenderingTestContext(context)) {
       throw new Error('Cannot call `clearRender` without having first called `setupRenderingContext`.');
     }
+
     return render(EMPTY_TEMPLATE);
   }
   /**
@@ -13686,6 +13565,8 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     @param {Object} context the context to setup for rendering
     @returns {Promise<Object>} resolves with the context that was setup
   */
+
+
   function setupRenderingContext(context) {
     let contextGuid = Ember.guidFor(context);
     RENDERING_CLEANUP[contextGuid] = [];
@@ -13694,10 +13575,10 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
     return (0, _utils.nextTickPromise)().then(() => {
       let {
         owner
-      } = context;
-      // these methods being placed on the context itself will be deprecated in
+      } = context; // these methods being placed on the context itself will be deprecated in
       // a future version (no giant rush) to remove some confusion about which
       // is the "right" way to things...
+
       Object.defineProperty(context, 'render', {
         configurable: true,
         enumerable: true,
@@ -13710,6 +13591,7 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
         value: clearRender,
         writable: false
       });
+
       if (_global.default.jQuery) {
         Object.defineProperty(context, '$', {
           configurable: true,
@@ -13717,24 +13599,27 @@ define("@ember/test-helpers/setup-rendering-context", ["exports", "@ember/test-h
           value: jQuerySelector,
           writable: false
         });
-      }
-      // When the host app uses `setApplication` (instead of `setResolver`) the event dispatcher has
+      } // When the host app uses `setApplication` (instead of `setResolver`) the event dispatcher has
       // already been setup via `applicationInstance.boot()` in `./build-owner`. If using
       // `setResolver` (instead of `setApplication`) a "mock owner" is created by extending
       // `Ember._ContainerProxyMixin` and `Ember._RegistryProxyMixin` in this scenario we need to
       // manually start the event dispatcher.
+
+
       if (owner._emberTestHelpersMockOwner) {
         let dispatcher = owner.lookup('event_dispatcher:main') || Ember.EventDispatcher.create();
         dispatcher.setup({}, '#ember-testing');
       }
+
       let OutletView = owner.factoryFor ? owner.factoryFor('view:-outlet') : owner._lookupFactory('view:-outlet');
       let toplevelView = OutletView.create();
       owner.register('-top-level-view:main', {
         create() {
           return toplevelView;
         }
-      });
-      // initially render a simple empty template
+
+      }); // initially render a simple empty template
+
       return render(EMPTY_TEMPLATE).then(() => {
         Ember.run(toplevelView, 'appendTo', (0, _getRootElement.default)());
         return (0, _settled.default)();
@@ -13764,6 +13649,7 @@ define("@ember/test-helpers/teardown-application-context", ["exports", "@ember/t
     value: true
   });
   _exports.default = _default;
+
   /**
     Used by test framework addons to tear down the provided context after testing is completed.
   
@@ -13775,12 +13661,15 @@ define("@ember/test-helpers/teardown-application-context", ["exports", "@ember/t
   */
   function _default(context, options) {
     let waitForSettled = true;
+
     if (options !== undefined && 'waitForSettled' in options) {
       waitForSettled = options.waitForSettled;
     }
+
     if (waitForSettled) {
       return (0, _settled.default)();
     }
+
     return (0, _utils.nextTickPromise)();
   }
 });
@@ -13791,6 +13680,7 @@ define("@ember/test-helpers/teardown-context", ["exports", "@ember/test-helpers/
     value: true
   });
   _exports.default = teardownContext;
+
   /**
     Used by test framework addons to tear down the provided context after testing is completed.
   
@@ -13808,9 +13698,11 @@ define("@ember/test-helpers/teardown-context", ["exports", "@ember/test-helpers/
   */
   function teardownContext(context, options) {
     let waitForSettled = true;
+
     if (options !== undefined && 'waitForSettled' in options) {
       waitForSettled = options.waitForSettled;
     }
+
     return (0, _utils.nextTickPromise)().then(() => {
       let {
         owner
@@ -13819,16 +13711,20 @@ define("@ember/test-helpers/teardown-context", ["exports", "@ember/test-helpers/
       Ember.run(owner, 'destroy');
       Ember.testing = false;
       (0, _setupContext.unsetContext)();
+
       if (waitForSettled) {
         return (0, _settled.default)();
       }
+
       return (0, _utils.nextTickPromise)();
     }).finally(() => {
       let contextGuid = Ember.guidFor(context);
       (0, _utils.runDestroyablesFor)(_setupContext.CLEANUP, contextGuid);
+
       if (waitForSettled) {
         return (0, _settled.default)();
       }
+
       return (0, _utils.nextTickPromise)();
     });
   }
@@ -13840,6 +13736,7 @@ define("@ember/test-helpers/teardown-rendering-context", ["exports", "@ember/tes
     value: true
   });
   _exports.default = teardownRenderingContext;
+
   /**
     Used by test framework addons to tear down the provided context after testing is completed.
   
@@ -13856,15 +13753,19 @@ define("@ember/test-helpers/teardown-rendering-context", ["exports", "@ember/tes
   */
   function teardownRenderingContext(context, options) {
     let waitForSettled = true;
+
     if (options !== undefined && 'waitForSettled' in options) {
       waitForSettled = options.waitForSettled;
     }
+
     return (0, _utils.nextTickPromise)().then(() => {
       let contextGuid = Ember.guidFor(context);
       (0, _utils.runDestroyablesFor)(_setupRenderingContext.RENDERING_CLEANUP, contextGuid);
+
       if (waitForSettled) {
         return (0, _settled.default)();
       }
+
       return (0, _utils.nextTickPromise)();
     });
   }
@@ -13875,20 +13776,25 @@ define("@ember/test-helpers/test-metadata", ["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.TestMetadata = void 0;
   _exports.default = getTestMetadata;
+  _exports.TestMetadata = void 0;
+
   class TestMetadata {
     constructor() {
       this.setupTypes = [];
       this.usedHelpers = [];
     }
+
     get isRendering() {
       return this.setupTypes.indexOf('setupRenderingContext') > -1 && this.usedHelpers.indexOf('render') > -1;
     }
+
     get isApplication() {
       return this.setupTypes.indexOf('setupApplicationContext') > -1;
     }
+
   }
+
   _exports.TestMetadata = TestMetadata;
   const TEST_METADATA = new WeakMap();
   /**
@@ -13898,10 +13804,12 @@ define("@ember/test-helpers/test-metadata", ["exports"], function (_exports) {
    * @param {BaseContext} context the context to use
    * @returns {ITestMetadata} the test metadata for the provided context
    */
+
   function getTestMetadata(context) {
     if (!TEST_METADATA.has(context)) {
       TEST_METADATA.set(context, new TestMetadata());
     }
+
     return TEST_METADATA.get(context);
   }
 });
@@ -13943,14 +13851,16 @@ define("@ember/test-helpers/validate-error-handler", ["exports"], function (_exp
    *   assert.ok(result.isValid, result.message);
    * });
    */
-  function validateErrorHandler() {
-    let callback = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Ember.onerror;
+
+  function validateErrorHandler(callback = Ember.onerror) {
     if (callback === undefined || callback === null) {
       return VALID;
     }
+
     let error = new Error('Error handler validation error!');
     let originalEmberTesting = Ember.testing;
     Ember.testing = true;
+
     try {
       callback(error);
     } catch (e) {
@@ -13960,6 +13870,7 @@ define("@ember/test-helpers/validate-error-handler", ["exports"], function (_exp
     } finally {
       Ember.testing = originalEmberTesting;
     }
+
     return INVALID;
   }
 });
@@ -13985,39 +13896,42 @@ define("@ember/test-helpers/wait-until", ["exports", "@ember/test-helpers/-utils
     @param {string} [options.timeoutMessage='waitUntil timed out'] the message to use in the reject on timeout
     @returns {Promise} resolves with the callback value when it returns a truthy value
   */
-  function waitUntil(callback) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  function waitUntil(callback, options = {}) {
     let timeout = 'timeout' in options ? options.timeout : 1000;
-    let timeoutMessage = 'timeoutMessage' in options ? options.timeoutMessage : 'waitUntil timed out';
-    // creating this error eagerly so it has the proper invocation stack
+    let timeoutMessage = 'timeoutMessage' in options ? options.timeoutMessage : 'waitUntil timed out'; // creating this error eagerly so it has the proper invocation stack
+
     let waitUntilTimedOut = new Error(timeoutMessage);
     return new _utils._Promise(function (resolve, reject) {
-      let time = 0;
-      // eslint-disable-next-line require-jsdoc
+      let time = 0; // eslint-disable-next-line require-jsdoc
+
       function scheduleCheck(timeoutsIndex) {
         let interval = TIMEOUTS[timeoutsIndex];
+
         if (interval === undefined) {
           interval = MAX_TIMEOUT;
         }
+
         (0, _utils.futureTick)(function () {
           time += interval;
           let value;
+
           try {
             value = callback();
           } catch (error) {
             reject(error);
-            return;
           }
+
           if (value) {
             resolve(value);
           } else if (time < timeout) {
             scheduleCheck(timeoutsIndex + 1);
           } else {
             reject(waitUntilTimedOut);
-            return;
           }
         }, interval);
       }
+
       scheduleCheck(0);
     });
   }
@@ -14030,25 +13944,30 @@ define("ember-basic-dropdown/test-support/helpers", ["exports", "@ember/test-hel
   });
   _exports.clickTrigger = clickTrigger;
   _exports.tapTrigger = tapTrigger;
-  function clickTrigger(scope) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  function clickTrigger(scope, options = {}) {
     let selector = '.ember-basic-dropdown-trigger';
+
     if (scope) {
       let element = document.querySelector(scope);
+
       if (element.classList.contains('ember-basic-dropdown-trigger')) {
         selector = scope;
       } else {
         selector = scope + ' ' + selector;
       }
     }
+
     return (0, _testHelpers.click)(selector, options);
   }
-  function tapTrigger(scope) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  function tapTrigger(scope, options = {}) {
     let selector = '.ember-basic-dropdown-trigger';
+
     if (scope) {
       selector = scope + ' ' + selector;
     }
+
     return (0, _testHelpers.tap)(selector, options);
   }
 });
@@ -14166,21 +14085,22 @@ define("ember-macro-helpers/test-support/compute", ["exports"], function (_expor
     value: true
   });
   _exports.default = _default;
-  function _default(_ref) {
-    let {
-      assert,
-      baseClass = Ember.Component,
-      computed,
-      properties,
-      strictEqual,
-      deepEqual,
-      assertion,
-      assertReadOnly
-    } = _ref;
+
+  function _default({
+    assert,
+    baseClass = Ember.Component,
+    computed,
+    properties,
+    strictEqual,
+    deepEqual,
+    assertion,
+    assertReadOnly
+  }) {
     let MyComponent = baseClass.extend({
       computed
     });
     let subject;
+
     try {
       subject = MyComponent.create({
         renderer: {}
@@ -14189,13 +14109,14 @@ define("ember-macro-helpers/test-support/compute", ["exports"], function (_expor
       // this is for ember < 2.10
       // can remove once only support 2.12
       subject = MyComponent.create();
-    }
-
-    // compute initial value
+    } // compute initial value
     // to test recomputes
+
+
     Ember.get(subject, 'computed');
     Ember.setProperties(subject, properties);
     let result = Ember.get(subject, 'computed');
+
     function doAssertion(result) {
       if (assertion) {
         assert.ok(assertion(result));
@@ -14203,17 +14124,21 @@ define("ember-macro-helpers/test-support/compute", ["exports"], function (_expor
         assert.deepEqual(result, deepEqual);
       } else if (assertReadOnly) {
         let func = () => Ember.set(subject, 'computed', 'assert read only');
+
         assert.throws(func, /Cannot set read-only property/);
       } else if (assert) {
         assert.strictEqual(result, strictEqual);
       }
     }
+
     let promise;
+
     if (result && typeof result === 'object' && typeof result.then === 'function') {
       promise = result.then(doAssertion);
     } else {
       doAssertion(result);
     }
+
     return {
       subject,
       result,
@@ -14228,9 +14153,8 @@ define("ember-macro-helpers/test-support/expect-imports", ["exports"], function 
     value: true
   });
   _exports.default = _default;
-  const exclude = ['__esModule', 'default'];
+  const exclude = ['__esModule', 'default']; // helps prevent forgetting to test a new import
 
-  // helps prevent forgetting to test a new import
   function _default(assert, obj) {
     assert.expect(Object.getOwnPropertyNames(obj).filter(p => exclude.indexOf(p) === -1).length);
   }
@@ -14243,7 +14167,7 @@ define("ember-macro-helpers/test-support/index", ["exports", "ember-macro-helper
   });
   Object.defineProperty(_exports, "compute", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _compute.default;
     }
   });
@@ -14254,19 +14178,20 @@ define("ember-power-select/test-support/helpers", ["exports", "@ember/test-helpe
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.clearSelected = clearSelected;
-  _exports.clickTrigger = clickTrigger;
-  _exports.default = _default;
   _exports.findContains = findContains;
   _exports.nativeMouseDown = nativeMouseDown;
   _exports.nativeMouseUp = nativeMouseUp;
-  _exports.nativeTouch = nativeTouch;
-  _exports.removeMultipleOption = removeMultipleOption;
-  _exports.selectChoose = selectChoose;
-  _exports.selectSearch = selectSearch;
-  _exports.touchTrigger = touchTrigger;
   _exports.triggerKeydown = triggerKeydown;
   _exports.typeInSearch = typeInSearch;
+  _exports.clickTrigger = clickTrigger;
+  _exports.nativeTouch = nativeTouch;
+  _exports.touchTrigger = touchTrigger;
+  _exports.selectChoose = selectChoose;
+  _exports.selectSearch = selectSearch;
+  _exports.removeMultipleOption = removeMultipleOption;
+  _exports.clearSelected = clearSelected;
+  _exports.default = _default;
+
   /**
    * @private
    * @param {String} selector CSS3 selector of the elements to check the content
@@ -14279,54 +14204,68 @@ define("ember-power-select/test-support/helpers", ["exports", "@ember/test-helpe
       return e.textContent.trim().indexOf(text) > -1;
     })[0];
   }
+
   async function nativeMouseDown(selectorOrDomElement, options) {
     return (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'mousedown', options);
   }
+
   async function nativeMouseUp(selectorOrDomElement, options) {
     return (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'mouseup', options);
   }
+
   async function triggerKeydown(domElement, k) {
     return (0, _testHelpers.triggerKeyEvent)(domElement, 'keydown', k);
   }
+
   function typeInSearch(scopeOrText, text) {
     let scope = '';
+
     if (typeof text === 'undefined') {
       text = scopeOrText;
     } else {
       scope = scopeOrText;
     }
-    let selectors = ['.ember-power-select-search-input', '.ember-power-select-search input', '.ember-power-select-trigger-multiple-input', 'input[type="search"]'].map(selector => `${scope} ${selector}`).join(', ');
+
+    let selectors = ['.ember-power-select-search-input', '.ember-power-select-search input', '.ember-power-select-trigger-multiple-input', 'input[type="search"]'].map(selector => "".concat(scope, " ").concat(selector)).join(', ');
     return (0, _testHelpers.fillIn)(selectors, text);
   }
-  async function clickTrigger(scope) {
-    let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  async function clickTrigger(scope, options = {}) {
     let selector = '.ember-power-select-trigger';
+
     if (scope) {
-      selector = `${scope} ${selector}`;
+      selector = "".concat(scope, " ").concat(selector);
     }
+
     return (0, _testHelpers.click)(selector, options);
   }
+
   async function nativeTouch(selectorOrDomElement) {
     (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'touchstart');
     return (0, _testHelpers.triggerEvent)(selectorOrDomElement, 'touchend');
   }
+
   async function touchTrigger() {
     return nativeTouch('.ember-power-select-trigger');
   }
+
   async function selectChoose(cssPathOrTrigger, valueOrSelector, optionIndex) {
     return (0, _index.selectChoose)(cssPathOrTrigger, valueOrSelector, optionIndex);
   }
+
   async function selectSearch(cssPathOrTrigger, value) {
     return (0, _index.selectSearch)(cssPathOrTrigger, value);
   }
+
   async function removeMultipleOption(cssPath, value) {
     return (0, _index.removeMultipleOption)(cssPath, value);
   }
+
   async function clearSelected(cssPath) {
     return (0, _index.clearSelected)(cssPath);
-  }
+  } // Helpers for acceptance tests
 
-  // Helpers for acceptance tests
+
   function _default() {
     Ember.Test.registerAsyncHelper('selectChoose', function (_, cssPathOrTrigger, valueOrSelector, optionIndex) {
       (true && !(true) && Ember.deprecate('Using the implicit global async helper `selectChoose` is deprecated. Please, import it explicitly with `import { selectChoose } from "ember-power-select/test-support"`', true, {
@@ -14364,23 +14303,27 @@ define("ember-power-select/test-support/index", ["exports", "@ember/test-helpers
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.clearSelected = clearSelected;
-  _exports.removeMultipleOption = removeMultipleOption;
   _exports.selectChoose = selectChoose;
   _exports.selectSearch = selectSearch;
+  _exports.removeMultipleOption = removeMultipleOption;
+  _exports.clearSelected = clearSelected;
+
   async function openIfClosedAndGetContentId(trigger) {
-    let contentId = trigger.attributes['aria-owns'] && `${trigger.attributes['aria-owns'].value}`;
-    let content = contentId ? document.querySelector(`#${contentId}`) : undefined;
-    // If the dropdown is closed, open it
+    let contentId = trigger.attributes['aria-owns'] && "".concat(trigger.attributes['aria-owns'].value);
+    let content = contentId ? document.querySelector("#".concat(contentId)) : undefined; // If the dropdown is closed, open it
+
     if (!content || content.classList.contains('ember-basic-dropdown-content-placeholder')) {
       await (0, _testHelpers.click)(trigger);
       await (0, _testHelpers.settled)();
-      contentId = `${trigger.attributes['aria-owns'].value}`;
+      contentId = "".concat(trigger.attributes['aria-owns'].value);
     }
+
     return contentId;
   }
+
   async function selectChoose(cssPathOrTrigger, valueOrSelector, optionIndex) {
     let trigger, target;
+
     if (cssPathOrTrigger instanceof HTMLElement) {
       if (cssPathOrTrigger.classList.contains('ember-power-select-trigger')) {
         trigger = cssPathOrTrigger;
@@ -14388,26 +14331,33 @@ define("ember-power-select/test-support/index", ["exports", "@ember/test-helpers
         trigger = cssPathOrTrigger.querySelector('.ember-power-select-trigger');
       }
     } else {
-      trigger = document.querySelector(`${cssPathOrTrigger} .ember-power-select-trigger`);
+      trigger = document.querySelector("".concat(cssPathOrTrigger, " .ember-power-select-trigger"));
+
       if (!trigger) {
         trigger = document.querySelector(cssPathOrTrigger);
       }
+
       if (!trigger) {
-        throw new Error(`You called "selectChoose('${cssPathOrTrigger}', '${valueOrSelector}')" but no select was found using selector "${cssPathOrTrigger}"`);
+        throw new Error("You called \"selectChoose('".concat(cssPathOrTrigger, "', '").concat(valueOrSelector, "')\" but no select was found using selector \"").concat(cssPathOrTrigger, "\""));
       }
     }
+
     if (trigger.scrollIntoView) {
       trigger.scrollIntoView();
     }
-    let contentId = await openIfClosedAndGetContentId(trigger);
-    // Select the option with the given text
-    let options = document.querySelectorAll(`#${contentId} .ember-power-select-option`);
+
+    let contentId = await openIfClosedAndGetContentId(trigger); // Select the option with the given text
+
+    let options = document.querySelectorAll("#".concat(contentId, " .ember-power-select-option"));
     let potentialTargets = [].slice.apply(options).filter(opt => opt.textContent.indexOf(valueOrSelector) > -1);
+
     if (potentialTargets.length === 0) {
-      potentialTargets = document.querySelectorAll(`#${contentId} ${valueOrSelector}`);
+      potentialTargets = document.querySelectorAll("#".concat(contentId, " ").concat(valueOrSelector));
     }
+
     if (potentialTargets.length > 1) {
       let filteredTargets = [].slice.apply(potentialTargets).filter(t => t.textContent.trim() === valueOrSelector);
+
       if (optionIndex === undefined) {
         target = filteredTargets[0] || potentialTargets[0];
       } else {
@@ -14416,33 +14366,42 @@ define("ember-power-select/test-support/index", ["exports", "@ember/test-helpers
     } else {
       target = potentialTargets[0];
     }
+
     if (!target) {
-      throw new Error(`You called "selectChoose('${cssPathOrTrigger}', '${valueOrSelector}')" but "${valueOrSelector}" didn't match any option`);
+      throw new Error("You called \"selectChoose('".concat(cssPathOrTrigger, "', '").concat(valueOrSelector, "')\" but \"").concat(valueOrSelector, "\" didn't match any option"));
     }
+
     await (0, _testHelpers.click)(target);
     return (0, _testHelpers.settled)();
   }
+
   async function selectSearch(cssPathOrTrigger, value) {
     let trigger;
+
     if (cssPathOrTrigger instanceof HTMLElement) {
       trigger = cssPathOrTrigger;
     } else {
-      let triggerPath = `${cssPathOrTrigger} .ember-power-select-trigger`;
+      let triggerPath = "".concat(cssPathOrTrigger, " .ember-power-select-trigger");
       trigger = document.querySelector(triggerPath);
+
       if (!trigger) {
         triggerPath = cssPathOrTrigger;
         trigger = document.querySelector(triggerPath);
       }
+
       if (!trigger) {
-        throw new Error(`You called "selectSearch('${cssPathOrTrigger}', '${value}')" but no select was found using selector "${cssPathOrTrigger}"`);
+        throw new Error("You called \"selectSearch('".concat(cssPathOrTrigger, "', '").concat(value, "')\" but no select was found using selector \"").concat(cssPathOrTrigger, "\""));
       }
     }
+
     if (trigger.scrollIntoView) {
       trigger.scrollIntoView();
     }
+
     let isMultipleSelect = !!trigger.querySelector('.ember-power-select-trigger-multiple-input');
     let contentId = await openIfClosedAndGetContentId(trigger);
     let isDefaultSingleSelect = !!document.querySelector('.ember-power-select-search-input');
+
     if (isMultipleSelect) {
       await (0, _testHelpers.fillIn)(trigger.querySelector('.ember-power-select-trigger-multiple-input'), value);
     } else if (isDefaultSingleSelect) {
@@ -14450,21 +14409,26 @@ define("ember-power-select/test-support/index", ["exports", "@ember/test-helpers
     } else {
       // It's probably a customized version
       let inputIsInTrigger = !!trigger.querySelector('.ember-power-select-trigger input[type=search]');
+
       if (inputIsInTrigger) {
         await (0, _testHelpers.fillIn)(trigger.querySelector('input[type=search]'), value);
       } else {
-        await (0, _testHelpers.fillIn)(`#${contentId} .ember-power-select-search-input[type=search]`, 'input');
+        await (0, _testHelpers.fillIn)("#".concat(contentId, " .ember-power-select-search-input[type=search]"), 'input');
       }
     }
+
     return (0, _testHelpers.settled)();
   }
+
   async function removeMultipleOption(cssPath, value) {
     let elem;
-    let items = document.querySelectorAll(`${cssPath} .ember-power-select-multiple-options > li`);
+    let items = document.querySelectorAll("".concat(cssPath, " .ember-power-select-multiple-options > li"));
     let item = [].slice.apply(items).find(el => el.textContent.indexOf(value) > -1);
+
     if (item) {
       elem = item.querySelector('.ember-power-select-multiple-remove-btn');
     }
+
     try {
       await (0, _testHelpers.click)(elem);
       return (0, _testHelpers.settled)();
@@ -14473,8 +14437,10 @@ define("ember-power-select/test-support/index", ["exports", "@ember/test-helpers
       throw e;
     }
   }
+
   async function clearSelected(cssPath) {
-    let elem = document.querySelector(`${cssPath} .ember-power-select-clear-btn`);
+    let elem = document.querySelector("".concat(cssPath, " .ember-power-select-clear-btn"));
+
     try {
       await (0, _testHelpers.click)(elem);
       return (0, _testHelpers.settled)();
@@ -14490,10 +14456,12 @@ define("ember-qunit/adapter", ["exports", "qunit", "@ember/test-helpers/has-embe
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = void 0;
   _exports.nonTestDoneCallback = nonTestDoneCallback;
+  _exports.default = void 0;
+
   function unhandledRejectionAssertion(current, error) {
     let message, source;
+
     if (typeof error === 'object' && error !== null) {
       message = error.message;
       source = error.stack;
@@ -14504,6 +14472,7 @@ define("ember-qunit/adapter", ["exports", "qunit", "@ember/test-helpers/has-embe
       message = 'unhandledRejection occured, but it had no message';
       source = 'unknown source';
     }
+
     current.assert.pushResult({
       result: false,
       actual: false,
@@ -14512,12 +14481,15 @@ define("ember-qunit/adapter", ["exports", "qunit", "@ember/test-helpers/has-embe
       source: source
     });
   }
+
   function nonTestDoneCallback() {}
+
   let Adapter = Ember.Test.Adapter.extend({
     init() {
       this.doneCallbacks = [];
       this.qunit = this.qunit || _qunit.default;
     },
+
     asyncStart() {
       let currentTest = this.qunit.config.current;
       let done = currentTest && currentTest.assert ? currentTest.assert.async() : nonTestDoneCallback;
@@ -14526,38 +14498,42 @@ define("ember-qunit/adapter", ["exports", "qunit", "@ember/test-helpers/has-embe
         done
       });
     },
+
     asyncEnd() {
       let currentTest = this.qunit.config.current;
+
       if (this.doneCallbacks.length === 0) {
         throw new Error('Adapter asyncEnd called when no async was expected. Please create an issue in ember-qunit.');
       }
+
       let {
         test,
         done
-      } = this.doneCallbacks.pop();
-
-      // In future, we should explore fixing this at a different level, specifically
+      } = this.doneCallbacks.pop(); // In future, we should explore fixing this at a different level, specifically
       // addressing the pairing of asyncStart/asyncEnd behavior in a more consistent way.
+
       if (test === currentTest) {
         done();
       }
     },
+
     // clobber default implementation of `exception` will be added back for Ember
     // < 2.17 just below...
     exception: null
-  });
-
-  // Ember 2.17 and higher do not require the test adapter to have an `exception`
+  }); // Ember 2.17 and higher do not require the test adapter to have an `exception`
   // method When `exception` is not present, the unhandled rejection is
   // automatically re-thrown and will therefore hit QUnit's own global error
   // handler (therefore appropriately causing test failure)
+
   if (!(0, _hasEmberVersion.default)(2, 17)) {
     Adapter = Adapter.extend({
       exception(error) {
         unhandledRejectionAssertion(_qunit.default.config.current, error);
       }
+
     });
   }
+
   var _default = Adapter;
   _exports.default = _default;
 });
@@ -14567,84 +14543,85 @@ define("ember-qunit/index", ["exports", "ember-qunit/legacy-2-x/module-for", "em
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  Object.defineProperty(_exports, "QUnitAdapter", {
-    enumerable: true,
-    get: function () {
-      return _adapter.default;
-    }
-  });
-  Object.defineProperty(_exports, "loadTests", {
-    enumerable: true,
-    get: function () {
-      return _testLoader.loadTests;
-    }
-  });
-  Object.defineProperty(_exports, "module", {
-    enumerable: true,
-    get: function () {
-      return _qunit.module;
-    }
-  });
+  _exports.setupTest = setupTest;
+  _exports.setupRenderingTest = setupRenderingTest;
+  _exports.setupApplicationTest = setupApplicationTest;
+  _exports.setupTestContainer = setupTestContainer;
+  _exports.startTests = startTests;
+  _exports.setupTestAdapter = setupTestAdapter;
+  _exports.setupEmberTesting = setupEmberTesting;
+  _exports.setupEmberOnerrorValidation = setupEmberOnerrorValidation;
+  _exports.setupResetOnerror = setupResetOnerror;
+  _exports.setupTestIsolationValidation = setupTestIsolationValidation;
+  _exports.start = start;
   Object.defineProperty(_exports, "moduleFor", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _moduleFor.default;
     }
   });
   Object.defineProperty(_exports, "moduleForComponent", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _moduleForComponent.default;
     }
   });
   Object.defineProperty(_exports, "moduleForModel", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _moduleForModel.default;
+    }
+  });
+  Object.defineProperty(_exports, "QUnitAdapter", {
+    enumerable: true,
+    get: function get() {
+      return _adapter.default;
     }
   });
   Object.defineProperty(_exports, "nonTestDoneCallback", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _adapter.nonTestDoneCallback;
+    }
+  });
+  Object.defineProperty(_exports, "module", {
+    enumerable: true,
+    get: function get() {
+      return _qunit.module;
+    }
+  });
+  Object.defineProperty(_exports, "test", {
+    enumerable: true,
+    get: function get() {
+      return _qunit.test;
+    }
+  });
+  Object.defineProperty(_exports, "skip", {
+    enumerable: true,
+    get: function get() {
+      return _qunit.skip;
     }
   });
   Object.defineProperty(_exports, "only", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _qunit.only;
-    }
-  });
-  _exports.setupApplicationTest = setupApplicationTest;
-  _exports.setupEmberOnerrorValidation = setupEmberOnerrorValidation;
-  _exports.setupEmberTesting = setupEmberTesting;
-  _exports.setupRenderingTest = setupRenderingTest;
-  _exports.setupResetOnerror = setupResetOnerror;
-  _exports.setupTest = setupTest;
-  _exports.setupTestAdapter = setupTestAdapter;
-  _exports.setupTestContainer = setupTestContainer;
-  _exports.setupTestIsolationValidation = setupTestIsolationValidation;
-  Object.defineProperty(_exports, "skip", {
-    enumerable: true,
-    get: function () {
-      return _qunit.skip;
-    }
-  });
-  _exports.start = start;
-  _exports.startTests = startTests;
-  Object.defineProperty(_exports, "test", {
-    enumerable: true,
-    get: function () {
-      return _qunit.test;
     }
   });
   Object.defineProperty(_exports, "todo", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _qunit.todo;
     }
   });
+  Object.defineProperty(_exports, "loadTests", {
+    enumerable: true,
+    get: function get() {
+      return _testLoader.loadTests;
+    }
+  });
   let waitForSettled = true;
+
   function setupTest(hooks, _options) {
     let options = _options === undefined ? {
       waitForSettled
@@ -14656,13 +14633,14 @@ define("ember-qunit/index", ["exports", "ember-qunit/legacy-2-x/module-for", "em
       testMetadata.framework = 'qunit';
       return (0, _testHelpers.setupContext)(this, options).then(() => {
         let originalPauseTest = this.pauseTest;
+
         this.pauseTest = function QUnit_pauseTest() {
           assert.timeout(-1); // prevent the test from timing out
-
           // This is a temporary work around for
           // https://github.com/emberjs/ember-qunit/issues/496 this clears the
           // timeout that would fail the test when it hits the global testTimeout
           // value.
+
           clearTimeout(_qunit.default.config.timeout);
           return originalPauseTest.call(this);
         };
@@ -14672,6 +14650,7 @@ define("ember-qunit/index", ["exports", "ember-qunit/legacy-2-x/module-for", "em
       return (0, _testHelpers.teardownContext)(this, options);
     });
   }
+
   function setupRenderingTest(hooks, _options) {
     let options = _options === undefined ? {
       waitForSettled
@@ -14686,6 +14665,7 @@ define("ember-qunit/index", ["exports", "ember-qunit/legacy-2-x/module-for", "em
       return (0, _testHelpers.teardownRenderingContext)(this, options);
     });
   }
+
   function setupApplicationTest(hooks, _options) {
     let options = _options === undefined ? {
       waitForSettled
@@ -14700,7 +14680,6 @@ define("ember-qunit/index", ["exports", "ember-qunit/legacy-2-x/module-for", "em
       return (0, _testHelpers.teardownApplicationContext)(this, options);
     });
   }
-
   /**
      Uses current URL configuration to setup the test container.
   
@@ -14711,79 +14690,93 @@ define("ember-qunit/index", ["exports", "ember-qunit/legacy-2-x/module-for", "em
   
      @method setupTestContainer
    */
+
+
   function setupTestContainer() {
     let testContainer = document.getElementById('ember-testing-container');
+
     if (!testContainer) {
       return;
     }
+
     let params = _qunit.default.urlParams;
     let containerVisibility = params.nocontainer ? 'hidden' : 'visible';
     let containerPosition = params.dockcontainer || params.devmode ? 'fixed' : 'relative';
+
     if (params.devmode) {
       testContainer.className = ' full-screen';
     }
+
     testContainer.style.visibility = containerVisibility;
     testContainer.style.position = containerPosition;
     let qunitContainer = document.getElementById('qunit');
+
     if (params.dockcontainer) {
       qunitContainer.style.marginBottom = window.getComputedStyle(testContainer).height;
     }
   }
-
   /**
      Instruct QUnit to start the tests.
      @method startTests
    */
+
+
   function startTests() {
     _qunit.default.start();
   }
-
   /**
      Sets up the `Ember.Test` adapter for usage with QUnit 2.x.
   
      @method setupTestAdapter
    */
+
+
   function setupTestAdapter() {
     Ember.Test.adapter = _adapter.default.create();
   }
-
   /**
     Ensures that `Ember.testing` is set to `true` before each test begins
     (including `before` / `beforeEach`), and reset to `false` after each test is
     completed. This is done via `QUnit.testStart` and `QUnit.testDone`.
   
    */
+
+
   function setupEmberTesting() {
     _qunit.default.testStart(() => {
       Ember.testing = true;
     });
+
     _qunit.default.testDone(() => {
       Ember.testing = false;
     });
   }
-
   /**
     Ensures that `Ember.onerror` (if present) is properly configured to re-throw
     errors that occur while `Ember.testing` is `true`.
   */
+
+
   function setupEmberOnerrorValidation() {
     _qunit.default.module('ember-qunit: Ember.onerror validation', function () {
       _qunit.default.test('Ember.onerror is functioning properly', function (assert) {
         assert.expect(1);
         let result = (0, _testHelpers.validateErrorHandler)();
-        assert.ok(result.isValid, `Ember.onerror handler with invalid testing behavior detected. An Ember.onerror handler _must_ rethrow exceptions when \`Ember.testing\` is \`true\` or the test suite is unreliable. See https://git.io/vbine for more details.`);
+        assert.ok(result.isValid, "Ember.onerror handler with invalid testing behavior detected. An Ember.onerror handler _must_ rethrow exceptions when `Ember.testing` is `true` or the test suite is unreliable. See https://git.io/vbine for more details.");
       });
     });
   }
+
   function setupResetOnerror() {
     _qunit.default.testDone(_testHelpers.resetOnerror);
   }
+
   function setupTestIsolationValidation(delay) {
     waitForSettled = false;
     Ember.run.backburner.DEBUG = true;
+
     _qunit.default.on('testStart', () => (0, _testIsolationValidation.installTestNotIsolatedHook)(delay));
   }
-
   /**
      @method start
      @param {Object} [options] Options to be used for enabling/disabling behaviors
@@ -14806,29 +14799,37 @@ define("ember-qunit/index", ["exports", "ember-qunit/legacy-2-x/module-for", "em
      time in milliseconds that is allowed _after_ the test is completed for all
      async to have been completed. The default value is 50.
    */
-  function start() {
-    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+
+  function start(options = {}) {
     if (options.loadTests !== false) {
       (0, _testLoader.loadTests)();
     }
+
     if (options.setupTestContainer !== false) {
       setupTestContainer();
     }
+
     if (options.setupTestAdapter !== false) {
       setupTestAdapter();
     }
+
     if (options.setupEmberTesting !== false) {
       setupEmberTesting();
     }
+
     if (options.setupEmberOnerrorValidation !== false) {
       setupEmberOnerrorValidation();
     }
+
     if (typeof options.setupTestIsolationValidation !== 'undefined' && options.setupTestIsolationValidation !== false) {
       setupTestIsolationValidation(options.testIsolationValidationDelay);
     }
+
     if (options.startTests !== false) {
       startTests();
     }
+
     setupResetOnerror();
   }
 });
@@ -14839,9 +14840,10 @@ define("ember-qunit/legacy-2-x/module-for-component", ["exports", "ember-qunit/l
     value: true
   });
   _exports.default = moduleForComponent;
+
   function moduleForComponent(name, description, callbacks) {
     (0, _qunitModule.createModule)(_emberTestHelpers.TestModuleForComponent, name, description, callbacks);
-    (true && !(false) && Ember.deprecate(`The usage "moduleForComponent" is deprecated. Please migrate the "${name}" module to use "setupRenderingTest".`, false, {
+    (true && !(false) && Ember.deprecate("The usage \"moduleForComponent\" is deprecated. Please migrate the \"".concat(name, "\" module to use \"setupRenderingTest\"."), false, {
       id: 'ember-qunit.deprecate-legacy-apis',
       until: '5.0.0',
       url: 'https://github.com/emberjs/ember-qunit/blob/master/docs/migration.md'
@@ -14855,8 +14857,9 @@ define("ember-qunit/legacy-2-x/module-for-model", ["exports", "ember-qunit/legac
     value: true
   });
   _exports.default = moduleForModel;
+
   function moduleForModel(name, description, callbacks) {
-    (true && !(false) && Ember.deprecate(`The usage "moduleForModel" is deprecated. Please migrate the "${name}" module to the new test APIs.`, false, {
+    (true && !(false) && Ember.deprecate("The usage \"moduleForModel\" is deprecated. Please migrate the \"".concat(name, "\" module to the new test APIs."), false, {
       id: 'ember-qunit.deprecate-legacy-apis',
       until: '5.0.0',
       url: 'https://github.com/emberjs/ember-qunit/blob/master/docs/migration.md'
@@ -14871,8 +14874,9 @@ define("ember-qunit/legacy-2-x/module-for", ["exports", "ember-qunit/legacy-2-x/
     value: true
   });
   _exports.default = moduleFor;
+
   function moduleFor(name, description, callbacks) {
-    (true && !(false) && Ember.deprecate(`The usage "moduleFor" is deprecated. Please migrate the "${name}" module to use "module"`, false, {
+    (true && !(false) && Ember.deprecate("The usage \"moduleFor\" is deprecated. Please migrate the \"".concat(name, "\" module to use \"module\""), false, {
       id: 'ember-qunit.deprecate-legacy-apis',
       until: '5.0.0',
       url: 'https://github.com/emberjs/ember-qunit/blob/master/docs/migration.md'
@@ -14887,26 +14891,34 @@ define("ember-qunit/legacy-2-x/qunit-module", ["exports", "qunit"], function (_e
     value: true
   });
   _exports.createModule = createModule;
+
   function noop() {}
+
   function callbackFor(name, callbacks) {
     if (typeof callbacks !== 'object') {
       return noop;
     }
+
     if (!callbacks) {
       return noop;
     }
+
     var callback = noop;
+
     if (callbacks[name]) {
       callback = callbacks[name];
       delete callbacks[name];
     }
+
     return callback;
   }
+
   function createModule(Constructor, name, description, callbacks) {
     if (!callbacks && typeof description === 'object') {
       callbacks = description;
       description = name;
     }
+
     var before = callbackFor('before', callbacks);
     var beforeEach = callbackFor('beforeEach', callbacks);
     var afterEach = callbackFor('afterEach', callbacks);
@@ -14920,6 +14932,7 @@ define("ember-qunit/legacy-2-x/qunit-module", ["exports", "qunit"], function (_e
         module = new Constructor(name, description, callbacks);
         return before.apply(this, arguments);
       },
+
       beforeEach() {
         // provide the test context to the underlying module
         module.setContext(this);
@@ -14927,10 +14940,12 @@ define("ember-qunit/legacy-2-x/qunit-module", ["exports", "qunit"], function (_e
           return beforeEach.apply(this, arguments);
         });
       },
+
       afterEach() {
         let result = afterEach.apply(this, arguments);
         return Ember.RSVP.resolve(result).then(() => module.teardown(...arguments));
       },
+
       after() {
         try {
           return after.apply(this, arguments);
@@ -14938,6 +14953,7 @@ define("ember-qunit/legacy-2-x/qunit-module", ["exports", "qunit"], function (_e
           after = afterEach = before = beforeEach = callbacks = module = null;
         }
       }
+
     });
   }
 });
@@ -14949,6 +14965,7 @@ define("ember-qunit/test-isolation-validation", ["exports", "qunit", "@ember/tes
   });
   _exports.detectIfTestNotIsolated = detectIfTestNotIsolated;
   _exports.installTestNotIsolatedHook = installTestNotIsolatedHook;
+
   /* eslint-disable no-console */
 
   /**
@@ -14965,23 +14982,21 @@ define("ember-qunit/test-isolation-validation", ["exports", "qunit", "@ember/tes
    * @param {string} testInfo.module The name of the test module
    * @param {string} testInfo.name The test name
    */
-  function detectIfTestNotIsolated(test) {
-    let message = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+  function detectIfTestNotIsolated(test, message = '') {
     if (!(0, _testHelpers.isSettled)()) {
       let {
         debugInfo
       } = (0, _testHelpers.getSettledState)();
-      console.group(`${test.module.name}: ${test.testName}`);
+      console.group("".concat(test.module.name, ": ").concat(test.testName));
       debugInfo.toConsole();
       console.groupEnd();
       test.expected++;
       test.assert.pushResult({
         result: false,
-        message: `${message} \nMore information has been printed to the console. Please use that information to help in debugging.\n\n`
+        message: "".concat(message, " \nMore information has been printed to the console. Please use that information to help in debugging.\n\n")
       });
     }
   }
-
   /**
    * Installs a hook to detect if a specific test isn't isolated.
    * This hook is installed by patching into the `test.finish` method,
@@ -14990,23 +15005,24 @@ define("ember-qunit/test-isolation-validation", ["exports", "qunit", "@ember/tes
    * @function installTestNotIsolatedHook
    * @param {number} delay the delay delay to use when checking for isolation validation
    */
-  function installTestNotIsolatedHook() {
-    let delay = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 50;
+
+
+  function installTestNotIsolatedHook(delay = 50) {
     if (!(0, _testHelpers.getDebugInfo)()) {
       return;
     }
+
     let test = _qunit.default.config.current;
     let finish = test.finish;
     let pushFailure = test.pushFailure;
+
     test.pushFailure = function (message) {
       if (message.indexOf('Test took longer than') === 0) {
         detectIfTestNotIsolated(this, message);
       } else {
         return pushFailure.apply(this, arguments);
       }
-    };
-
-    // We're hooking into `test.finish`, which utilizes internal ordering of
+    }; // We're hooking into `test.finish`, which utilizes internal ordering of
     // when a test's hooks are invoked. We do this mainly becuase we need
     // greater precision as to when to detect and subsequently report if the
     // test is isolated.
@@ -15021,24 +15037,25 @@ define("ember-qunit/test-isolation-validation", ["exports", "qunit", "@ember/tes
     // - 'QUnit.done'
     //    - it detatches the failure from the actual test that failed, making it
     //      more confusing to the end user.
+
+
     test.finish = function () {
       let doFinish = () => finish.apply(this, arguments);
+
       if ((0, _testHelpers.isSettled)()) {
         return doFinish();
       } else {
         return (0, _testHelpers.waitUntil)(_testHelpers.isSettled, {
           timeout: delay
-        }).catch(() => {
-          // we consider that when waitUntil times out, you're in a state of
+        }).catch(() => {// we consider that when waitUntil times out, you're in a state of
           // test isolation violation. The nature of the error is irrelevant
           // in this case, and we want to allow the error to fall through
           // to the finally, where cleanup occurs.
         }).finally(() => {
-          detectIfTestNotIsolated(this, 'Test is not isolated (async execution is extending beyond the duration of the test).');
-
-          // canceling timers here isn't perfect, but is as good as we can do
+          detectIfTestNotIsolated(this, 'Test is not isolated (async execution is extending beyond the duration of the test).'); // canceling timers here isn't perfect, but is as good as we can do
           // to attempt to prevent future tests from failing due to this test's
           // leakage
+
           Ember.run.cancelTimers();
           return doFinish();
         });
@@ -15052,8 +15069,8 @@ define("ember-qunit/test-loader", ["exports", "qunit", "ember-cli-test-loader/te
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.TestLoader = void 0;
   _exports.loadTests = loadTests;
+  _exports.TestLoader = void 0;
   (0, _index.addModuleExcludeMatcher)(function (moduleName) {
     return _qunit.default.urlParams.nolint && moduleName.match(/\.(jshint|lint-test)$/);
   });
@@ -15061,11 +15078,12 @@ define("ember-qunit/test-loader", ["exports", "qunit", "ember-cli-test-loader/te
     return moduleName.match(/\.jshint$/);
   });
   let moduleLoadFailures = [];
+
   _qunit.default.done(function () {
     let length = moduleLoadFailures.length;
+
     try {
-      if (length === 0) {
-        // do nothing
+      if (length === 0) {// do nothing
       } else if (length === 1) {
         throw moduleLoadFailures[0];
       } else {
@@ -15076,16 +15094,19 @@ define("ember-qunit/test-loader", ["exports", "qunit", "ember-cli-test-loader/te
       moduleLoadFailures = [];
     }
   });
+
   class TestLoader extends _index.default {
     moduleLoadFailure(moduleName, error) {
       moduleLoadFailures.push(error);
+
       _qunit.default.module('TestLoader Failures');
+
       _qunit.default.test(moduleName + ': could not be loaded', function () {
         throw error;
       });
     }
-  }
 
+  }
   /**
      Load tests following the default patterns:
   
@@ -15100,7 +15121,10 @@ define("ember-qunit/test-loader", ["exports", "qunit", "ember-cli-test-loader/te
   
      @method loadTests
    */
+
+
   _exports.TestLoader = TestLoader;
+
   function loadTests() {
     new TestLoader().loadModules();
   }
@@ -15113,7 +15137,7 @@ define("ember-test-helpers/has-ember-version", ["exports", "@ember/test-helpers/
   });
   Object.defineProperty(_exports, "default", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _hasEmberVersion.default;
     }
   });
@@ -15132,35 +15156,34 @@ define("ember-test-helpers/index", ["exports", "@ember/test-helpers", "ember-tes
   };
   Object.defineProperty(_exports, "TestModule", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _testModule.default;
     }
   });
   Object.defineProperty(_exports, "TestModuleForAcceptance", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _testModuleForAcceptance.default;
     }
   });
   Object.defineProperty(_exports, "TestModuleForComponent", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _testModuleForComponent.default;
     }
   });
   Object.defineProperty(_exports, "TestModuleForModel", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _testModuleForModel.default;
     }
   });
   Object.keys(_testHelpers).forEach(function (key) {
     if (key === "default" || key === "__esModule") return;
     if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-    if (key in _exports && _exports[key] === _testHelpers[key]) return;
     Object.defineProperty(_exports, key, {
       enumerable: true,
-      get: function () {
+      get: function get() {
         return _testHelpers[key];
       }
     });
@@ -15173,6 +15196,7 @@ define("ember-test-helpers/legacy-0-6-x/-legacy-overrides", ["exports", "ember-t
     value: true
   });
   _exports.preGlimmerSetupIntegrationForComponent = preGlimmerSetupIntegrationForComponent;
+
   function preGlimmerSetupIntegrationForComponent() {
     var module = this;
     var context = this.context;
@@ -15181,18 +15205,23 @@ define("ember-test-helpers/legacy-0-6-x/-legacy-overrides", ["exports", "ember-t
     context.dispatcher.setup({}, '#ember-testing');
     context.actions = module.actionHooks;
     (this.registry || this.container).register('component:-test-holder', Ember.Component.extend());
+
     context.render = function (template) {
       // in case `this.render` is called twice, make sure to teardown the first invocation
       module.teardownComponent();
+
       if (!template) {
         throw new Error('in a component integration test you must pass a template to `render()`');
       }
+
       if (Ember.isArray(template)) {
         template = template.join('');
       }
+
       if (typeof template === 'string') {
         template = Ember.Handlebars.compile(template);
       }
+
       module.component = module.container.lookupFactory('component:-test-holder').create({
         layout: template
       });
@@ -15203,42 +15232,54 @@ define("ember-test-helpers/legacy-0-6-x/-legacy-overrides", ["exports", "ember-t
       });
       context._element = module.component.element;
     };
+
     context.$ = function () {
       return module.component.$.apply(module.component, arguments);
     };
+
     context.set = function (key, value) {
       var ret = Ember.run(function () {
         return Ember.set(context, key, value);
       });
+
       if ((0, _hasEmberVersion.default)(2, 0)) {
         return ret;
       }
     };
+
     context.setProperties = function (hash) {
       var ret = Ember.run(function () {
         return Ember.setProperties(context, hash);
       });
+
       if ((0, _hasEmberVersion.default)(2, 0)) {
         return ret;
       }
     };
+
     context.get = function (key) {
       return Ember.get(context, key);
     };
+
     context.getProperties = function () {
       var args = Array.prototype.slice.call(arguments);
       return Ember.getProperties(context, args);
     };
+
     context.on = function (actionName, handler) {
       module.actionHooks[actionName] = handler;
     };
+
     context.send = function (actionName) {
       var hook = module.actionHooks[actionName];
+
       if (!hook) {
         throw new Error('integration testing template received unexpected action ' + actionName);
       }
+
       hook.apply(module, Array.prototype.slice.call(arguments, 1));
     };
+
     context.clearRender = function () {
       module.teardownComponent();
     };
@@ -15251,6 +15292,7 @@ define("ember-test-helpers/legacy-0-6-x/abstract-test-module", ["exports", "embe
     value: true
   });
   _exports.default = void 0;
+
   class _default {
     constructor(name, options) {
       this.context = undefined;
@@ -15259,6 +15301,7 @@ define("ember-test-helpers/legacy-0-6-x/abstract-test-module", ["exports", "embe
       this.initSetupSteps();
       this.initTeardownSteps();
     }
+
     setup(assert) {
       Ember.testing = true;
       Ember.run.backburner.DEBUG = true;
@@ -15267,6 +15310,7 @@ define("ember-test-helpers/legacy-0-6-x/abstract-test-module", ["exports", "embe
         return this.invokeSteps(this.contextualizedSetupSteps, this.context, assert);
       });
     }
+
     teardown(assert) {
       return this.invokeSteps(this.contextualizedTeardownSteps, this.context, assert).then(() => {
         return this.invokeSteps(this.teardownSteps, this, assert);
@@ -15277,26 +15321,33 @@ define("ember-test-helpers/legacy-0-6-x/abstract-test-module", ["exports", "embe
         Ember.testing = false;
       });
     }
+
     initSetupSteps() {
       this.setupSteps = [];
       this.contextualizedSetupSteps = [];
+
       if (this.callbacks.beforeSetup) {
         this.setupSteps.push(this.callbacks.beforeSetup);
         delete this.callbacks.beforeSetup;
       }
+
       this.setupSteps.push(this.setupContext);
       this.setupSteps.push(this.setupTestElements);
       this.setupSteps.push(this.setupAJAXListeners);
       this.setupSteps.push(this.setupPromiseListeners);
+
       if (this.callbacks.setup) {
         this.contextualizedSetupSteps.push(this.callbacks.setup);
         delete this.callbacks.setup;
       }
     }
+
     invokeSteps(steps, context, assert) {
       steps = steps.slice();
+
       function nextStep() {
         var step = steps.shift();
+
         if (step) {
           // guard against exceptions, for example missing components referenced from needs.
           return new Ember.RSVP.Promise(resolve => {
@@ -15306,33 +15357,43 @@ define("ember-test-helpers/legacy-0-6-x/abstract-test-module", ["exports", "embe
           return Ember.RSVP.resolve();
         }
       }
+
       return nextStep();
     }
+
     contextualizeCallbacks() {}
+
     initTeardownSteps() {
       this.teardownSteps = [];
       this.contextualizedTeardownSteps = [];
+
       if (this.callbacks.teardown) {
         this.contextualizedTeardownSteps.push(this.callbacks.teardown);
         delete this.callbacks.teardown;
       }
+
       this.teardownSteps.push(this.teardownContext);
       this.teardownSteps.push(this.teardownTestElements);
       this.teardownSteps.push(this.teardownAJAXListeners);
       this.teardownSteps.push(this.teardownPromiseListeners);
+
       if (this.callbacks.afterTeardown) {
         this.teardownSteps.push(this.callbacks.afterTeardown);
         delete this.callbacks.afterTeardown;
       }
     }
+
     setupTestElements() {
       let testElementContainer = document.querySelector('#ember-testing-container');
+
       if (!testElementContainer) {
         testElementContainer = document.createElement('div');
         testElementContainer.setAttribute('id', 'ember-testing-container');
         document.body.appendChild(testElementContainer);
       }
+
       let testEl = document.querySelector('#ember-testing');
+
       if (!testEl) {
         let element = document.createElement('div');
         element.setAttribute('id', 'ember-testing');
@@ -15342,6 +15403,7 @@ define("ember-test-helpers/legacy-0-6-x/abstract-test-module", ["exports", "embe
         this.fixtureResetValue = testElementContainer.innerHTML;
       }
     }
+
     setupContext(options) {
       let context = this.getContext();
       Ember.assign(context, {
@@ -15352,57 +15414,70 @@ define("ember-test-helpers/legacy-0-6-x/abstract-test-module", ["exports", "embe
       (0, _testHelpers.setContext)(context);
       this.context = context;
     }
+
     setContext(context) {
       this.context = context;
     }
+
     getContext() {
       if (this.context) {
         return this.context;
       }
+
       return this.context = (0, _testHelpers.getContext)() || {};
     }
+
     setToString() {
       this.context.toString = () => {
         if (this.subjectName) {
-          return `test context for: ${this.subjectName}`;
+          return "test context for: ".concat(this.subjectName);
         }
+
         if (this.name) {
-          return `test context for: ${this.name}`;
+          return "test context for: ".concat(this.name);
         }
       };
     }
+
     setupAJAXListeners() {
       (0, _settled._setupAJAXHooks)();
     }
+
     teardownAJAXListeners() {
       (0, _settled._teardownAJAXHooks)();
     }
+
     setupPromiseListeners() {
       (0, _rsvp._setupPromiseListeners)();
     }
+
     teardownPromiseListeners() {
       (0, _rsvp._teardownPromiseListeners)();
     }
-    teardownTestElements() {
-      document.getElementById('ember-testing-container').innerHTML = this.fixtureResetValue;
 
-      // Ember 2.0.0 removed Ember.View as public API, so only do this when
+    teardownTestElements() {
+      document.getElementById('ember-testing-container').innerHTML = this.fixtureResetValue; // Ember 2.0.0 removed Ember.View as public API, so only do this when
       // Ember.View is present
+
       if (Ember.View && Ember.View.views) {
         Ember.View.views = {};
       }
     }
+
     teardownContext() {
       var context = this.context;
       this.context = undefined;
       (0, _testHelpers.unsetContext)();
+
       if (context && context.dispatcher && !context.dispatcher.isDestroyed) {
         Ember.run(function () {
           context.dispatcher.destroy();
         });
       }
     }
+
   }
+
   _exports.default = _default;
 });
 define("ember-test-helpers/legacy-0-6-x/build-registry", ["exports", "require"], function (_exports, _require) {
@@ -15412,8 +15487,10 @@ define("ember-test-helpers/legacy-0-6-x/build-registry", ["exports", "require"],
     value: true
   });
   _exports.default = _default;
+
   function exposeRegistryMethodsWithoutDeprecations(container) {
     var methods = ['register', 'unregister', 'resolve', 'normalize', 'typeInjection', 'injection', 'factoryInjection', 'factoryTypeInjection', 'has', 'options', 'optionsForType'];
+
     function exposeRegistryMethod(container, method) {
       if (method in container) {
         container[method] = function () {
@@ -15421,20 +15498,24 @@ define("ember-test-helpers/legacy-0-6-x/build-registry", ["exports", "require"],
         };
       }
     }
+
     for (var i = 0, l = methods.length; i < l; i++) {
       exposeRegistryMethod(container, methods[i]);
     }
   }
+
   var Owner = function () {
     if (Ember._RegistryProxyMixin && Ember._ContainerProxyMixin) {
       return Ember.Object.extend(Ember._RegistryProxyMixin, Ember._ContainerProxyMixin, {
         _emberTestHelpersMockOwner: true
       });
     }
+
     return Ember.Object.extend({
       _emberTestHelpersMockOwner: true
     });
   }();
+
   function _default(resolver) {
     var fallbackRegistry, registry, container;
     var namespace = Ember.Object.create({
@@ -15442,28 +15523,33 @@ define("ember-test-helpers/legacy-0-6-x/build-registry", ["exports", "require"],
         create() {
           return resolver;
         }
+
       }
     });
+
     function register(name, factory) {
       var thingToRegisterWith = registry || container;
+
       if (!(container.factoryFor ? container.factoryFor(name) : container.lookupFactory(name))) {
         thingToRegisterWith.register(name, factory);
       }
     }
+
     if (Ember.Application.buildRegistry) {
       fallbackRegistry = Ember.Application.buildRegistry(namespace);
       fallbackRegistry.register('component-lookup:main', Ember.ComponentLookup);
       registry = new Ember.Registry({
         fallback: fallbackRegistry
       });
+
       if (Ember.ApplicationInstance && Ember.ApplicationInstance.setupRegistry) {
         Ember.ApplicationInstance.setupRegistry(registry);
-      }
-
-      // these properties are set on the fallback registry by `buildRegistry`
+      } // these properties are set on the fallback registry by `buildRegistry`
       // and on the primary registry within the ApplicationInstance constructor
       // but we need to manually recreate them since ApplicationInstance's are not
       // exposed externally
+
+
       registry.normalizeFullName = fallbackRegistry.normalizeFullName;
       registry.makeToString = fallbackRegistry.makeToString;
       registry.describe = fallbackRegistry.describe;
@@ -15479,23 +15565,25 @@ define("ember-test-helpers/legacy-0-6-x/build-registry", ["exports", "require"],
     } else {
       container = Ember.Application.buildContainer(namespace);
       container.register('component-lookup:main', Ember.ComponentLookup);
-    }
-
-    // Ember 1.10.0 did not properly add `view:toplevel` or `view:default`
+    } // Ember 1.10.0 did not properly add `view:toplevel` or `view:default`
     // to the registry in Ember.Application.buildRegistry :(
     //
     // Ember 2.0.0 removed Ember.View as public API, so only do this when
     // Ember.View is present
+
+
     if (Ember.View) {
       register('view:toplevel', Ember.View.extend());
-    }
-
-    // Ember 2.0.0 removed Ember._MetamorphView from the Ember global, so only
+    } // Ember 2.0.0 removed Ember._MetamorphView from the Ember global, so only
     // do this when present
+
+
     if (Ember._MetamorphView) {
       register('view:default', Ember._MetamorphView);
     }
+
     var globalContext = typeof global === 'object' && global || self;
+
     if (requirejs.entries['ember-data/setup-container']) {
       // ember-data is a proper ember-cli addon since 2.3; if no 'import
       // 'ember-data'' is present somewhere in the tests, there is also no `DS`
@@ -15506,6 +15594,7 @@ define("ember-test-helpers/legacy-0-6-x/build-registry", ["exports", "require"],
       setupContainer(registry || container);
     } else if (globalContext.DS) {
       var DS = globalContext.DS;
+
       if (DS._setupContainer) {
         DS._setupContainer(registry || container);
       } else {
@@ -15518,6 +15607,7 @@ define("ember-test-helpers/legacy-0-6-x/build-registry", ["exports", "require"],
         register('adapter:-rest', DS.RESTAdapter);
       }
     }
+
     return {
       registry,
       container,
@@ -15534,7 +15624,6 @@ define("ember-test-helpers/legacy-0-6-x/ext/rsvp", ["exports", "ember-test-helpe
   _exports._setupPromiseListeners = _setupPromiseListeners;
   _exports._teardownPromiseListeners = _teardownPromiseListeners;
   let originalAsync;
-
   /**
     Configures `RSVP` to resolve promises on the run-loop's action queue. This is
     done by Ember internally since Ember 1.7 and it is only needed to
@@ -15542,6 +15631,7 @@ define("ember-test-helpers/legacy-0-6-x/ext/rsvp", ["exports", "ember-test-helpe
   
     @private
   */
+
   function _setupPromiseListeners() {
     if (!(0, _hasEmberVersion.default)(1, 7)) {
       originalAsync = Ember.RSVP.configure('async');
@@ -15552,12 +15642,13 @@ define("ember-test-helpers/legacy-0-6-x/ext/rsvp", ["exports", "ember-test-helpe
       });
     }
   }
-
   /**
     Resets `RSVP`'s `async` to its prior value.
   
     @private
   */
+
+
   function _teardownPromiseListeners() {
     if (!(0, _hasEmberVersion.default)(1, 7)) {
       Ember.RSVP.configure('async', originalAsync);
@@ -15571,18 +15662,21 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-acceptance", ["exports",
     value: true
   });
   _exports.default = void 0;
+
   class _default extends _abstractTestModule.default {
     setupContext() {
       super.setupContext({
         application: this.createApplication()
       });
     }
+
     teardownContext() {
       Ember.run(() => {
         (0, _testHelpers.getContext)().application.destroy();
       });
       super.teardownContext();
     }
+
     createApplication() {
       let {
         Application,
@@ -15596,7 +15690,9 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-acceptance", ["exports",
       });
       return application;
     }
+
   }
+
   _exports.default = _default;
 });
 define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", "ember-test-helpers/legacy-0-6-x/test-module", "ember-test-helpers/has-ember-version", "ember-test-helpers/legacy-0-6-x/-legacy-overrides"], function (_exports, _testModule, _hasEmberVersion, _legacyOverrides) {
@@ -15605,15 +15701,18 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.default = void 0;
   _exports.setupComponentIntegrationTest = setupComponentIntegrationTest;
+  _exports.default = void 0;
   let ACTION_KEY;
+
   if ((0, _hasEmberVersion.default)(2, 0)) {
     ACTION_KEY = 'actions';
   } else {
     ACTION_KEY = '_actions';
   }
+
   const isPreGlimmer = !(0, _hasEmberVersion.default)(1, 13);
+
   class _default extends _testModule.default {
     constructor(componentName, description, callbacks) {
       // Allow `description` to be omitted
@@ -15623,10 +15722,12 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
       } else if (!callbacks) {
         callbacks = {};
       }
+
       let integrationOption = callbacks.integration;
       let hasNeeds = Array.isArray(callbacks.needs);
       super('component:' + componentName, description, callbacks);
       this.componentName = componentName;
+
       if (hasNeeds || callbacks.unit || integrationOption === false) {
         this.isUnitTest = true;
       } else if (integrationOption) {
@@ -15638,55 +15739,70 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
         }));
         this.isUnitTest = true;
       }
+
       if (!this.isUnitTest && !this.isLegacy) {
         callbacks.integration = true;
       }
+
       if (this.isUnitTest || this.isLegacy) {
         this.setupSteps.push(this.setupComponentUnitTest);
       } else {
         this.callbacks.subject = function () {
           throw new Error("component integration tests do not support `subject()`. Instead, render the component as if it were HTML: `this.render('<my-component foo=true>');`. For more information, read: http://guides.emberjs.com/current/testing/testing-components/");
         };
+
         this.setupSteps.push(this.setupComponentIntegrationTest);
         this.teardownSteps.unshift(this.teardownComponent);
       }
+
       if (Ember.View && Ember.View.views) {
         this.setupSteps.push(this._aliasViewRegistry);
         this.teardownSteps.unshift(this._resetViewRegistry);
       }
     }
+
     initIntegration(options) {
       this.isLegacy = options.integration === 'legacy';
       this.isIntegration = options.integration !== 'legacy';
     }
+
     _aliasViewRegistry() {
       this._originalGlobalViewRegistry = Ember.View.views;
       var viewRegistry = this.container.lookup('-view-registry:main');
+
       if (viewRegistry) {
         Ember.View.views = viewRegistry;
       }
     }
+
     _resetViewRegistry() {
       Ember.View.views = this._originalGlobalViewRegistry;
     }
+
     setupComponentUnitTest() {
       var _this = this;
+
       var resolver = this.resolver;
       var context = this.context;
       var layoutName = 'template:components/' + this.componentName;
       var layout = resolver.resolve(layoutName);
       var thingToRegisterWith = this.registry || this.container;
+
       if (layout) {
         thingToRegisterWith.register(layoutName, layout);
         thingToRegisterWith.injection(this.subjectName, 'layout', layoutName);
       }
+
       var eventDispatcher = resolver.resolve('event_dispatcher:main');
+
       if (eventDispatcher) {
         thingToRegisterWith.register('event_dispatcher:main', eventDispatcher);
       }
+
       context.dispatcher = this.container.lookup('event_dispatcher:main') || Ember.EventDispatcher.create();
       context.dispatcher.setup({}, '#ember-testing');
       context._element = null;
+
       this.callbacks.render = function () {
         var subject;
         Ember.run(function () {
@@ -15694,12 +15810,14 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
           subject.appendTo('#ember-testing');
         });
         context._element = subject.element;
+
         _this.teardownSteps.unshift(function () {
           Ember.run(function () {
             Ember.tryInvoke(subject, 'destroy');
           });
         });
       };
+
       this.callbacks.append = function () {
         (true && !(false) && Ember.deprecate('this.append() is deprecated. Please use this.render() or this.$() instead.', false, {
           id: 'ember-test-helpers.test-module-for-component.append',
@@ -15707,12 +15825,14 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
         }));
         return context.$();
       };
+
       context.$ = function () {
         this.render();
         var subject = this.subject();
         return subject.$.apply(subject, arguments);
       };
     }
+
     setupComponentIntegrationTest() {
       if (isPreGlimmer) {
         return _legacyOverrides.preGlimmerSetupIntegrationForComponent.apply(this, arguments);
@@ -15720,35 +15840,43 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
         return setupComponentIntegrationTest.apply(this, arguments);
       }
     }
-    setupContext() {
-      super.setupContext();
 
-      // only setup the injection if we are running against a version
+    setupContext() {
+      super.setupContext(); // only setup the injection if we are running against a version
       // of Ember that has `-view-registry:main` (Ember >= 1.12)
+
       if (this.container.factoryFor ? this.container.factoryFor('-view-registry:main') : this.container.lookupFactory('-view-registry:main')) {
         (this.registry || this.container).injection('component', '_viewRegistry', '-view-registry:main');
       }
+
       if (!this.isUnitTest && !this.isLegacy) {
         this.context.factory = function () {};
       }
     }
+
     teardownComponent() {
       var component = this.component;
+
       if (component) {
         Ember.run(component, 'destroy');
         this.component = null;
       }
     }
+
   }
+
   _exports.default = _default;
+
   function getOwnerFromModule(module) {
     return Ember.getOwner && Ember.getOwner(module.container) || module.container.owner;
   }
+
   function lookupTemplateFromModule(module, templateFullName) {
     var template = module.container.lookup(templateFullName);
     if (typeof template === 'function') template = template(getOwnerFromModule(module));
     return template;
   }
+
   function setupComponentIntegrationTest() {
     var module = this;
     var context = this.context;
@@ -15774,21 +15902,26 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
     };
     var element = document.getElementById('ember-testing');
     var templateId = 0;
+
     if (hasOutletTemplate) {
       Ember.run(() => {
         toplevelView.setOutletState(outletState);
       });
     }
+
     context.render = function (template) {
       if (!template) {
         throw new Error('in a component integration test you must pass a template to `render()`');
       }
+
       if (Ember.isArray(template)) {
         template = template.join('');
       }
+
       if (typeof template === 'string') {
         template = Ember.Handlebars.compile(template);
       }
+
       var templateFullName = 'template:-undertest-' + ++templateId;
       this.registry.register(templateFullName, template);
       var stateToRender = {
@@ -15801,6 +15934,7 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
         template: lookupTemplateFromModule(module, templateFullName),
         outlets: {}
       };
+
       if (hasOutletTemplate) {
         stateToRender.name = 'index';
         outletState.outlets.main = {
@@ -15814,13 +15948,16 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
           outlets: {}
         };
       }
+
       Ember.run(() => {
         toplevelView.setOutletState(outletState);
       });
+
       if (!hasRendered) {
         Ember.run(module.component, 'appendTo', '#ember-testing');
         hasRendered = true;
       }
+
       if (EmberENV._APPLICATION_TEMPLATE_WRAPPER !== false) {
         // ensure the element is based on the wrapping toplevel view
         // Ember still wraps the main application template with a
@@ -15830,44 +15967,56 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-component", ["exports", 
         context._element = element = document.querySelector('#ember-testing');
       }
     };
+
     context.$ = function (selector) {
       // emulates Ember internal behavor of `this.$` in a component
       // https://github.com/emberjs/ember.js/blob/v2.5.1/packages/ember-views/lib/views/states/has_element.js#L18
       return selector ? jQuery(selector, element) : jQuery(element);
     };
+
     context.set = function (key, value) {
       var ret = Ember.run(function () {
         return Ember.set(context, key, value);
       });
+
       if ((0, _hasEmberVersion.default)(2, 0)) {
         return ret;
       }
     };
+
     context.setProperties = function (hash) {
       var ret = Ember.run(function () {
         return Ember.setProperties(context, hash);
       });
+
       if ((0, _hasEmberVersion.default)(2, 0)) {
         return ret;
       }
     };
+
     context.get = function (key) {
       return Ember.get(context, key);
     };
+
     context.getProperties = function () {
       var args = Array.prototype.slice.call(arguments);
       return Ember.getProperties(context, args);
     };
+
     context.on = function (actionName, handler) {
       module.actionHooks[actionName] = handler;
     };
+
     context.send = function (actionName) {
       var hook = module.actionHooks[actionName];
+
       if (!hook) {
         throw new Error('integration testing template received unexpected action ' + actionName);
       }
+
       hook.apply(module.context, Array.prototype.slice.call(arguments, 1));
     };
+
     context.clearRender = function () {
       Ember.run(function () {
         toplevelView.setOutletState({
@@ -15893,37 +16042,43 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-model", ["exports", "req
     value: true
   });
   _exports.default = void 0;
+
   class _default extends _testModule.default {
     constructor(modelName, description, callbacks) {
       super('model:' + modelName, description, callbacks);
       this.modelName = modelName;
       this.setupSteps.push(this.setupModel);
     }
+
     setupModel() {
       var container = this.container;
       var defaultSubject = this.defaultSubject;
       var callbacks = this.callbacks;
       var modelName = this.modelName;
       var adapterFactory = container.factoryFor ? container.factoryFor('adapter:application') : container.lookupFactory('adapter:application');
+
       if (!adapterFactory) {
         if (requirejs.entries['ember-data/adapters/json-api']) {
           adapterFactory = (0, _require.default)("ember-data/adapters/json-api")['default'];
-        }
-
-        // when ember-data/adapters/json-api is provided via ember-cli shims
+        } // when ember-data/adapters/json-api is provided via ember-cli shims
         // using Ember Data 1.x the actual JSONAPIAdapter isn't found, but the
         // above require statement returns a bizzaro object with only a `default`
         // property (circular reference actually)
+
+
         if (!adapterFactory || !adapterFactory.create) {
           adapterFactory = DS.JSONAPIAdapter || DS.FixtureAdapter;
         }
+
         var thingToRegisterWith = this.registry || this.container;
         thingToRegisterWith.register('adapter:application', adapterFactory);
       }
+
       callbacks.store = function () {
         var container = this.container;
         return container.lookup('service:store') || container.lookup('store:main');
       };
+
       if (callbacks.subject === defaultSubject) {
         callbacks.subject = function (options) {
           var container = this.container;
@@ -15934,7 +16089,9 @@ define("ember-test-helpers/legacy-0-6-x/test-module-for-model", ["exports", "req
         };
       }
     }
+
   }
+
   _exports.default = _default;
 });
 define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-helpers/legacy-0-6-x/abstract-test-module", "@ember/test-helpers", "ember-test-helpers/legacy-0-6-x/build-registry", "@ember/test-helpers/has-ember-version"], function (_exports, _abstractTestModule, _testHelpers, _buildRegistry, _hasEmberVersion) {
@@ -15944,6 +16101,7 @@ define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-he
     value: true
   });
   _exports.default = void 0;
+
   class _default extends _abstractTestModule.default {
     constructor(subjectName, description, callbacks) {
       // Allow `description` to be omitted, in which case it should
@@ -15952,71 +16110,89 @@ define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-he
         callbacks = description;
         description = subjectName;
       }
+
       super(description || subjectName, callbacks);
       this.subjectName = subjectName;
       this.description = description || subjectName;
       this.resolver = this.callbacks.resolver || (0, _testHelpers.getResolver)();
+
       if (this.callbacks.integration && this.callbacks.needs) {
         throw new Error("cannot declare 'integration: true' and 'needs' in the same module");
       }
+
       if (this.callbacks.integration) {
         this.initIntegration(callbacks);
         delete callbacks.integration;
       }
+
       this.initSubject();
       this.initNeeds();
     }
+
     initIntegration(options) {
       if (options.integration === 'legacy') {
         throw new Error("`integration: 'legacy'` is only valid for component tests.");
       }
+
       this.isIntegration = true;
     }
+
     initSubject() {
       this.callbacks.subject = this.callbacks.subject || this.defaultSubject;
     }
+
     initNeeds() {
       this.needs = [this.subjectName];
+
       if (this.callbacks.needs) {
         this.needs = this.needs.concat(this.callbacks.needs);
         delete this.callbacks.needs;
       }
     }
+
     initSetupSteps() {
       this.setupSteps = [];
       this.contextualizedSetupSteps = [];
+
       if (this.callbacks.beforeSetup) {
         this.setupSteps.push(this.callbacks.beforeSetup);
         delete this.callbacks.beforeSetup;
       }
+
       this.setupSteps.push(this.setupContainer);
       this.setupSteps.push(this.setupContext);
       this.setupSteps.push(this.setupTestElements);
       this.setupSteps.push(this.setupAJAXListeners);
       this.setupSteps.push(this.setupPromiseListeners);
+
       if (this.callbacks.setup) {
         this.contextualizedSetupSteps.push(this.callbacks.setup);
         delete this.callbacks.setup;
       }
     }
+
     initTeardownSteps() {
       this.teardownSteps = [];
       this.contextualizedTeardownSteps = [];
+
       if (this.callbacks.teardown) {
         this.contextualizedTeardownSteps.push(this.callbacks.teardown);
         delete this.callbacks.teardown;
       }
+
       this.teardownSteps.push(this.teardownSubject);
       this.teardownSteps.push(this.teardownContainer);
       this.teardownSteps.push(this.teardownContext);
       this.teardownSteps.push(this.teardownTestElements);
       this.teardownSteps.push(this.teardownAJAXListeners);
       this.teardownSteps.push(this.teardownPromiseListeners);
+
       if (this.callbacks.afterTeardown) {
         this.teardownSteps.push(this.callbacks.afterTeardown);
         delete this.callbacks.afterTeardown;
       }
     }
+
     setupContainer() {
       if (this.isIntegration || this.isLegacy) {
         this._setupIntegratedContainer();
@@ -16024,29 +16200,38 @@ define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-he
         this._setupIsolatedContainer();
       }
     }
+
     setupContext() {
       var subjectName = this.subjectName;
       var container = this.container;
-      var factory = function () {
+
+      var factory = function factory() {
         return container.factoryFor ? container.factoryFor(subjectName) : container.lookupFactory(subjectName);
       };
+
       super.setupContext({
         container: this.container,
         registry: this.registry,
         factory: factory,
+
         register() {
           var target = this.registry || this.container;
           return target.register.apply(target, arguments);
         }
+
       });
+
       if (Ember.setOwner) {
         Ember.setOwner(this.context, this.container.owner);
       }
+
       this.setupInject();
     }
+
     setupInject() {
       var module = this;
       var context = this.context;
+
       if (Ember.inject) {
         var keys = (Object.keys || keys)(Ember.inject);
         keys.forEach(function (typeName) {
@@ -16059,25 +16244,29 @@ define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-he
         });
       }
     }
+
     teardownSubject() {
       var subject = this.cache.subject;
+
       if (subject) {
         Ember.run(function () {
           Ember.tryInvoke(subject, 'destroy');
         });
       }
     }
+
     teardownContainer() {
       var container = this.container;
       Ember.run(function () {
         container.destroy();
       });
     }
+
     defaultSubject(options, factory) {
       return factory.create(options);
-    }
+    } // allow arbitrary named factories, like rspec let
 
-    // allow arbitrary named factories, like rspec let
+
     contextualizeCallbacks() {
       var callbacks = this.callbacks;
       var context = this.context;
@@ -16085,44 +16274,54 @@ define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-he
       this.cachedCalls = this.cachedCalls || {};
       var keys = (Object.keys || keys)(callbacks);
       var keysLength = keys.length;
+
       if (keysLength) {
         var deprecatedContext = this._buildDeprecatedContext(this, context);
+
         for (var i = 0; i < keysLength; i++) {
           this._contextualizeCallback(context, keys[i], deprecatedContext);
         }
       }
     }
+
     _contextualizeCallback(context, key, callbackContext) {
       var _this = this;
+
       var callbacks = this.callbacks;
       var factory = context.factory;
+
       context[key] = function (options) {
         if (_this.cachedCalls[key]) {
           return _this.cache[key];
         }
+
         var result = callbacks[key].call(callbackContext, options, factory());
         _this.cache[key] = result;
         _this.cachedCalls[key] = true;
         return result;
       };
     }
-
     /*
       Builds a version of the passed in context that contains deprecation warnings
       for accessing properties that exist on the module.
     */
+
+
     _buildDeprecatedContext(module, context) {
       var deprecatedContext = Object.create(context);
       var keysForDeprecation = Object.keys(module);
+
       for (var i = 0, l = keysForDeprecation.length; i < l; i++) {
         this._proxyDeprecation(module, deprecatedContext, keysForDeprecation[i]);
       }
+
       return deprecatedContext;
     }
-
     /*
       Defines a key on an object to act as a proxy for deprecating the original.
     */
+
+
     _proxyDeprecation(obj, proxy, key) {
       if (typeof proxy[key] === 'undefined') {
         Object.defineProperty(proxy, key, {
@@ -16133,18 +16332,22 @@ define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-he
             }));
             return obj[key];
           }
+
         });
       }
     }
+
     _setupContainer(isolated) {
       var resolver = this.resolver;
       var items = (0, _buildRegistry.default)(!isolated ? resolver : Object.create(resolver, {
         resolve: {
           value() {}
+
         }
       }));
       this.container = items.container;
       this.registry = items.registry;
+
       if ((0, _hasEmberVersion.default)(1, 13)) {
         var thingToRegisterWith = this.registry || this.container;
         var router = resolver.resolve('router:main');
@@ -16152,23 +16355,31 @@ define("ember-test-helpers/legacy-0-6-x/test-module", ["exports", "ember-test-he
         thingToRegisterWith.register('router:main', router);
       }
     }
+
     _setupIsolatedContainer() {
       var resolver = this.resolver;
+
       this._setupContainer(true);
+
       var thingToRegisterWith = this.registry || this.container;
+
       for (var i = this.needs.length; i > 0; i--) {
         var fullName = this.needs[i - 1];
         var normalizedFullName = resolver.normalize(fullName);
         thingToRegisterWith.register(fullName, resolver.resolve(normalizedFullName));
       }
+
       if (!this.registry) {
         this.container.resolver = function () {};
       }
     }
+
     _setupIntegratedContainer() {
       this._setupContainer();
     }
+
   }
+
   _exports.default = _default;
 });
 define("ember-test-helpers/wait", ["exports", "@ember/test-helpers/settled", "@ember/test-helpers"], function (_exports, _settled, _testHelpers) {
@@ -16177,19 +16388,20 @@ define("ember-test-helpers/wait", ["exports", "@ember/test-helpers/settled", "@e
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
+  _exports.default = wait;
   Object.defineProperty(_exports, "_setupAJAXHooks", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _settled._setupAJAXHooks;
     }
   });
   Object.defineProperty(_exports, "_teardownAJAXHooks", {
     enumerable: true,
-    get: function () {
+    get: function get() {
       return _settled._teardownAJAXHooks;
     }
   });
-  _exports.default = wait;
+
   /**
     Returns a promise that resolves when in a settled state (see `isSettled` for
     a definition of "settled state").
@@ -16202,11 +16414,11 @@ define("ember-test-helpers/wait", ["exports", "@ember/test-helpers/settled", "@e
     @param {boolean} [options.waitForWaiters=true] should test waiters be waited upon
     @returns {Promise<void>} resolves when settled
   */
-  function wait() {
-    let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  function wait(options = {}) {
     if (typeof options !== 'object' || options === null) {
       options = {};
     }
+
     return (0, _testHelpers.waitUntil)(() => {
       let waitForTimers = 'waitForTimers' in options ? options.waitForTimers : true;
       let waitForAJAX = 'waitForAJAX' in options ? options.waitForAJAX : true;
@@ -16217,15 +16429,19 @@ define("ember-test-helpers/wait", ["exports", "@ember/test-helpers/settled", "@e
         hasPendingRequests,
         hasPendingWaiters
       } = (0, _testHelpers.getSettledState)();
+
       if (waitForTimers && (hasPendingTimers || hasRunLoop)) {
         return false;
       }
+
       if (waitForAJAX && hasPendingRequests) {
         return false;
       }
+
       if (waitForWaiters && hasPendingWaiters) {
         return false;
       }
+
       return true;
     }, {
       timeout: Infinity
@@ -16239,19 +16455,24 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-content", ["ex
     value: true
   });
   _exports.default = assertTooltipContent;
+
   function assertTooltipContent(qunitAssert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
       contentString,
       selector
     } = options;
+
     if (Ember.isNone(contentString)) {
       (true && !(false) && Ember.assert('You must specify a contentString property in the options parameter'));
     }
+
     const tooltip = (0, _dom.findTooltip)(selector, options);
+
     if (!tooltip) {
       (true && !(false) && Ember.assert(`assertTooltipContent(): Could not find a tooltip for selector: ${selector}`));
     }
+
     const tooltipContent = tooltip.innerText.trim();
     qunitAssert.equal(tooltipContent, contentString, `Content of tooltip (${tooltipContent}) matched expected (${contentString})`);
   }
@@ -16263,6 +16484,7 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-not-rendered",
     value: true
   });
   _exports.default = assertTooltipNotRendered;
+
   function assertTooltipNotRendered(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16279,12 +16501,14 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-not-visible", 
     value: true
   });
   _exports.default = assertTooltipNotVisible;
+
   function assertTooltipNotVisible(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
       selector
     } = options;
     const tooltip = (0, _dom.findTooltip)(selector, options);
+
     if (tooltip) {
       const ariaHidden = tooltip.getAttribute('aria-hidden');
       assert.ok(ariaHidden === 'true', `assertTooltipNotVisible(): the ember-tooltip should be visible:
@@ -16301,6 +16525,7 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-rendered", ["e
     value: true
   });
   _exports.default = assertTooltipRendered;
+
   function assertTooltipRendered(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16317,6 +16542,7 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-side", ["expor
     value: true
   });
   _exports.default = assertTooltipSide;
+
   function assertTooltipSide(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16327,7 +16553,6 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-side", ["expor
       expectedGreaterDistance,
       expectedLesserDistance
     } = (0, _dom.getPositionDifferences)(options);
-
     /* When the side is top or left, the greater number
     is the target's position. Thus, we check that the
     target's position is greater than the tooltip's
@@ -16343,21 +16568,23 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-spacing", ["ex
     value: true
   });
   _exports.default = assertTooltipSpacing;
+
   function assertTooltipSpacing(qunitAssert, options) {
     const {
       side,
       spacing
     } = options;
     (0, _utils.validateSide)(side, 'assertTooltipSpacing');
+
     if (typeof spacing !== 'number') {
       (true && !(false) && Ember.assert(`You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`));
     }
+
     const {
       expectedGreaterDistance,
       expectedLesserDistance
     } = (0, _dom.getPositionDifferences)(options);
     const actualSpacing = Math.round(expectedGreaterDistance - expectedLesserDistance);
-
     /* When the side is top or left, the greater number
     is the target's position. Thus, we check that the
     target's position is greater than the tooltip's
@@ -16377,12 +16604,14 @@ define("ember-tooltips/test-support/dom/assertions/assert-tooltip-visible", ["ex
     value: true
   });
   _exports.default = assertTooltipVisible;
+
   function assertTooltipVisible(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
       selector
     } = options;
     const tooltip = (0, _dom.findTooltip)(selector, options);
+
     if (tooltip) {
       const ariaHidden = tooltip.getAttribute('aria-hidden');
       assert.ok(ariaHidden === 'false', `assertTooltipVisible(): the ember-tooltip should be visible:
@@ -16449,22 +16678,27 @@ define("ember-tooltips/test-support/dom/find-tooltip-target", ["exports"], funct
   });
   _exports.default = void 0;
   _exports.findTooltipTarget = findTooltipTarget;
+
   function findTooltipTarget(selector) {
     if (!selector) {
       // In case of passing null, undefined, etc
       selector = '.ember-tooltip-target, .ember-popover-target';
     }
+
     const {
       body
     } = document;
     const tooltipTarget = body.querySelectorAll(selector);
+
     if (tooltipTarget.length === 0) {
       throw new Error('ember-tooltips/test-support/dom/find-tooltip-target: No tooltip targets were found.');
     } else if (tooltipTarget.length > 1) {
       throw new Error('ember-tooltips/test-support/dom/find-tooltip-target: Multiple tooltip targets were found. Please provide an {option.targetSelector = ".specific-tooltip-target-class"}');
     }
+
     return tooltipTarget[0];
   }
+
   var _default = findTooltipTarget;
   _exports.default = _default;
 });
@@ -16476,53 +16710,63 @@ define("ember-tooltips/test-support/dom/find-tooltip", ["exports"], function (_e
   });
   _exports.default = void 0;
   _exports.findTooltip = findTooltip;
+
   function findTooltip(selectorOrElement) {
     let {
       targetSelector,
       multiple = false
     } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
     if (!selectorOrElement) {
       // In case of passing null, undefined, etc
       selectorOrElement = '.ember-tooltip, .ember-popover';
     }
-
     /* We querySelect tooltips from body instead of using ember-test-helper's
     find() method because tooltips and popovers are often rendered as
     children of <body> instead of children of the targetElement */
+
 
     const {
       body
     } = document;
     let tooltips = typeof selectorOrElement === 'string' ? body.querySelectorAll(selectorOrElement) : [selectorOrElement];
     tooltips = [].slice.call(tooltips).map(tooltip => getActualTooltip(tooltip, targetSelector)).filter(el => el);
+
     if (tooltips.length > 1) {
       console.warn(`ember-tooltips/test-support/dom/find-tooltip: Multiple tooltips were found. Consider passing a selector '.specific-tooltip-class'`);
     }
+
     if (multiple) {
       return tooltips;
     }
+
     let tooltip = tooltips[0];
+
     if (tooltip && !tooltip.classList.contains('ember-tooltip') && !tooltip.classList.contains('ember-popover')) {
       throw new Error(`getTooltipFromBody(): returned an element that is not a tooltip`);
     }
+
     return tooltip;
   }
+
   var _default = findTooltip;
   _exports.default = _default;
+
   function getActualTooltip(tooltip, targetSelector) {
     if (tooltip && tooltip.classList.contains('ember-tooltip-base')) {
       /* If what we find is the actually the tooltip component's element, we can
        * look up the intended tooltip by the element referenced by its target
        * element's aria-describedby attribute.
        */
-      const target = tooltip.closest('.ember-tooltip-target, .ember-popover-target');
+      const target = tooltip.closest('.ember-tooltip-target, .ember-popover-target'); // If a targetSelector is specified, filter by it
 
-      // If a targetSelector is specified, filter by it
       if (!target || targetSelector && !target.matches(targetSelector)) {
         return null;
       }
+
       tooltip = document.getElementById(target.getAttribute('aria-describedby'));
     }
+
     return tooltip;
   }
 });
@@ -16535,6 +16779,7 @@ define("ember-tooltips/test-support/dom/get-position-differences", ["exports", "
   _exports.default = void 0;
   _exports.getPositionDifferences = getPositionDifferences;
   _exports.getTooltipAndTargetPosition = getTooltipAndTargetPosition;
+
   /**
    @method getPositionDifferences
    @param String side The side the tooltip should be on relative to the target
@@ -16563,7 +16808,6 @@ define("ember-tooltips/test-support/dom/get-position-differences", ["exports", "
    determining whether a tooltip is the correct distance from
    the target on the given side.
    */
-
   function getPositionDifferences() {
     let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     const {
@@ -16583,6 +16827,7 @@ define("ember-tooltips/test-support/dom/get-position-differences", ["exports", "
       expectedLesserDistance
     };
   }
+
   function getTooltipAndTargetPosition() {
     let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     const {
@@ -16600,6 +16845,7 @@ define("ember-tooltips/test-support/dom/get-position-differences", ["exports", "
       tooltipPosition
     };
   }
+
   var _default = getPositionDifferences;
   _exports.default = _default;
 });
@@ -16706,15 +16952,18 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-content", [
     value: true
   });
   _exports.default = assertTooltipContent;
+
   function assertTooltipContent(qunitAssert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
       contentString,
       selector
     } = options;
+
     if (Ember.isNone(contentString)) {
       (true && !(false) && Ember.assert('You must specify a contentString property in the options parameter'));
     }
+
     const $tooltip = (0, _jquery.findTooltip)(selector, options);
     const tooltipContent = $tooltip.text().trim();
     qunitAssert.equal(tooltipContent, contentString, `Content of tooltip (${tooltipContent}) matched expected (${contentString})`);
@@ -16727,6 +16976,7 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-not-rendere
     value: true
   });
   _exports.default = assertTooltipNotRendered;
+
   function assertTooltipNotRendered(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16743,6 +16993,7 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-not-visible
     value: true
   });
   _exports.default = assertTooltipNotVisible;
+
   function assertTooltipNotVisible(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16761,6 +17012,7 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-rendered", 
     value: true
   });
   _exports.default = assertTooltipRendered;
+
   function assertTooltipRendered(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16777,6 +17029,7 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-side", ["ex
     value: true
   });
   _exports.default = assertTooltipSide;
+
   function assertTooltipSide(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16787,7 +17040,6 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-side", ["ex
       expectedGreaterDistance,
       expectedLesserDistance
     } = (0, _jquery.getPositionDifferences)(options);
-
     /* When the side is top or left, the greater number
     is the target's position. Thus, we check that the
     target's position is greater than the tooltip's
@@ -16803,21 +17055,23 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-spacing", [
     value: true
   });
   _exports.default = assertTooltipSpacing;
+
   function assertTooltipSpacing(qunitAssert, options) {
     const {
       side,
       spacing
     } = options;
     (0, _jquery.validateSide)(side, 'assertTooltipSpacing');
+
     if (typeof spacing !== 'number') {
       (true && !(false) && Ember.assert(`You must pass spacing as a number like assertTooltipSpacing(assert, { side: 'top', spacing: 10 });`));
     }
+
     const {
       expectedGreaterDistance,
       expectedLesserDistance
     } = (0, _jquery.getPositionDifferences)(options);
     const actualSpacing = Math.round(expectedGreaterDistance - expectedLesserDistance);
-
     /* When the side is top or left, the greater number
     is the target's position. Thus, we check that the
     target's position is greater than the tooltip's
@@ -16837,6 +17091,7 @@ define("ember-tooltips/test-support/jquery/assertions/assert-tooltip-visible", [
     value: true
   });
   _exports.default = assertTooltipVisible;
+
   function assertTooltipVisible(assert) {
     let options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     const {
@@ -16904,20 +17159,23 @@ define("ember-tooltips/test-support/jquery/find-tooltip-target", ["exports", "jq
     value: true
   });
   _exports.default = findTooltipTarget;
-  /* eslint-disable ember/no-jquery */
 
+  /* eslint-disable ember/no-jquery */
   function findTooltipTarget(selector) {
     if (!selector) {
       // In case of passing null, undefined, etc
       selector = '.ember-tooltip-target, .ember-popover-target';
     }
+
     const $body = (0, _jquery.default)(document.body);
     const $tooltipTarget = $body.find(selector);
+
     if ($tooltipTarget.length === 0) {
       throw Error('getTooltipTargetFromBody(): No tooltip targets were found.');
     } else if ($tooltipTarget.length > 1) {
       throw Error('getTooltipTargetFromBody(): Multiple tooltip targets were found. Please provide an {option.targetSelector = ".specific-tooltip-target-class"}');
     }
+
     return $tooltipTarget;
   }
 });
@@ -16928,45 +17186,52 @@ define("ember-tooltips/test-support/jquery/find-tooltip", ["exports", "jquery"],
     value: true
   });
   _exports.default = findTooltip;
-  /* eslint-disable ember/no-jquery */
 
+  /* eslint-disable ember/no-jquery */
   function findTooltip(selector) {
     let {
       targetSelector
     } = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
     if (!selector) {
       // In case of passing null, undefined, etc
       selector = '.ember-tooltip, .ember-popover';
     }
-
     /* We .find() tooltips from $body instead of using ember-test-helper's
     find() method because tooltips and popovers are often rendered as
     children of <body> instead of children of the $targetElement */
+
+
     let $tooltips = (0, _jquery.default)(document.body).find(selector);
     const tooltipElements = $tooltips.toArray().map(el => getActualTooltip(el, targetSelector)).filter(el => el);
     $tooltips = (0, _jquery.default)(tooltipElements);
+
     if ($tooltips.length && !$tooltips.hasClass('ember-tooltip') && !$tooltips.hasClass('ember-popover')) {
       throw Error(`getTooltipFromBody(): returned an element that is not a tooltip`);
     } else if ($tooltips.length > 1) {
       console.warn(`getTooltipFromBody(): Multiple tooltips were found. Consider passing { selector: '.specific-tooltip-class' }`);
     }
+
     return $tooltips;
   }
+
   function getActualTooltip(tooltip, targetSelector) {
     let $tooltip = (0, _jquery.default)(tooltip);
+
     if ($tooltip.hasClass('ember-tooltip-base')) {
       /* If what we find is the actually the tooltip component's element, we can
        * look up the intended tooltip by the element referenced by its target
        * element's aria-describedby attribute.
        */
-      const $target = $tooltip.closest('.ember-tooltip-target, .ember-popover-target');
+      const $target = $tooltip.closest('.ember-tooltip-target, .ember-popover-target'); // If a targetSelector is specified, filter by it
 
-      // If a targetSelector is specified, filter by it
       if (!$target.length || targetSelector && !$target.is(targetSelector)) {
         return null;
       }
+
       $tooltip = (0, _jquery.default)(document.body).find(`#${$target.attr('aria-describedby')}`);
     }
+
     return $tooltip[0];
   }
 });
@@ -16978,6 +17243,7 @@ define("ember-tooltips/test-support/jquery/get-position-differences", ["exports"
   });
   _exports.default = getPositionDifferences;
   _exports.getTooltipAndTargetPosition = getTooltipAndTargetPosition;
+
   /**
   @method getPositionDifferences
   @param String side The side the tooltip should be on relative to the target
@@ -17006,7 +17272,6 @@ define("ember-tooltips/test-support/jquery/get-position-differences", ["exports"
   determining whether a tooltip is the correct distance from
   the target on the given side.
   */
-
   function getPositionDifferences() {
     let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     const {
@@ -17026,6 +17291,7 @@ define("ember-tooltips/test-support/jquery/get-position-differences", ["exports"
       expectedLesserDistance
     };
   }
+
   function getTooltipAndTargetPosition() {
     let options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     const {
@@ -17131,18 +17397,23 @@ define("ember-tooltips/test-support/utils/get-opposite-side", ["exports"], funct
   });
   _exports.default = void 0;
   _exports.getOppositeSide = getOppositeSide;
+
   function getOppositeSide(side) {
     switch (side) {
       case 'top':
         return 'bottom';
+
       case 'right':
         return 'left';
+
       case 'bottom':
         return 'top';
+
       case 'left':
         return 'right';
     }
   }
+
   var _default = getOppositeSide;
   _exports.default = _default;
 });
@@ -17173,10 +17444,10 @@ define("ember-tooltips/test-support/utils/validate-side", ["exports"], function 
   });
   _exports.default = void 0;
   _exports.validateSide = validateSide;
+
   function validateSide(side) {
     let testHelper = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'assertTooltipSide';
     const sideIsValid = side === 'top' || side === 'right' || side === 'bottom' || side === 'left';
-
     /* We make sure the side being tested is valid. We
     use Ember.assert because assert is passed in from QUnit */
 
@@ -17184,6 +17455,7 @@ define("ember-tooltips/test-support/utils/validate-side", ["exports"], function 
       (true && !(false) && Ember.assert(`You must pass side like ${testHelper}(assert, { side: 'top' }); Valid options for side are top, right, bottom, and left.`));
     }
   }
+
   var _default = validateSide;
   _exports.default = _default;
 });
@@ -17193,9 +17465,9 @@ define("qunit/index", ["exports"], function (_exports) {
   Object.defineProperty(_exports, "__esModule", {
     value: true
   });
-  _exports.todo = _exports.test = _exports.skip = _exports.only = _exports.module = _exports.default = void 0;
-  /* globals QUnit */
+  _exports.default = _exports.todo = _exports.only = _exports.skip = _exports.test = _exports.module = void 0;
 
+  /* globals QUnit */
   var module = QUnit.module;
   _exports.module = module;
   var test = QUnit.test;
@@ -17306,36 +17578,36 @@ var __ember_auto_import__ =
 /************************************************************************/
 /******/ ({
 
-/***/ "../../../../tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/l.js":
-/*!**********************************************************************!*\
-  !*** /tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/l.js ***!
-  \**********************************************************************/
+/***/ "../../../../private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/l.js":
+/*!**************************************************************************************************************************!*\
+  !*** /private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/l.js ***!
+  \**************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\nwindow._eai_r = require;\nwindow._eai_d = define;\n\n\n//# sourceURL=webpack://__ember_auto_import__//tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/l.js?");
+eval("\nwindow._eai_r = require;\nwindow._eai_d = define;\n\n\n//# sourceURL=webpack://__ember_auto_import__//private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/l.js?");
 
 /***/ }),
 
-/***/ "../../../../tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/tests.js":
-/*!**************************************************************************!*\
-  !*** /tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/tests.js ***!
-  \**************************************************************************/
+/***/ "../../../../private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/tests.js":
+/*!******************************************************************************************************************************!*\
+  !*** /private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/tests.js ***!
+  \******************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("\nif (typeof document !== 'undefined') {\n  __webpack_require__.p = (function(){\n    var scripts = document.querySelectorAll('script');\n    return scripts[scripts.length - 1].src.replace(/\\/[^/]*$/, '/');\n  })();\n}\n\nmodule.exports = (function(){\n  var d = _eai_d;\n  var r = _eai_r;\n  window.emberAutoImportDynamic = function(specifier) {\n    if (arguments.length === 1) {\n      return r('_eai_dyn_' + specifier);\n    } else {\n      return r('_eai_dynt_' + specifier)(Array.prototype.slice.call(arguments, 1))\n    }\n  };\n})();\n\n\n//# sourceURL=webpack://__ember_auto_import__//tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/tests.js?");
+eval("\nif (typeof document !== 'undefined') {\n  __webpack_require__.p = (function(){\n    var scripts = document.querySelectorAll('script');\n    return scripts[scripts.length - 1].src.replace(/\\/[^/]*$/, '/');\n  })();\n}\n\nmodule.exports = (function(){\n  var d = _eai_d;\n  var r = _eai_r;\n  window.emberAutoImportDynamic = function(specifier) {\n    if (arguments.length === 1) {\n      return r('_eai_dyn_' + specifier);\n    } else {\n      return r('_eai_dynt_' + specifier)(Array.prototype.slice.call(arguments, 1))\n    }\n  };\n})();\n\n\n//# sourceURL=webpack://__ember_auto_import__//private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/tests.js?");
 
 /***/ }),
 
 /***/ 5:
-/*!***********************************************************************************************************************************************!*\
-  !*** multi /tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/l.js /tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/tests.js ***!
-  \***********************************************************************************************************************************************/
+/*!*******************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi /private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/l.js /private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/tests.js ***!
+  \*******************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! /tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/l.js */\"../../../../tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/l.js\");\nmodule.exports = __webpack_require__(/*! /tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/tests.js */\"../../../../tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/tests.js\");\n\n\n//# sourceURL=webpack://__ember_auto_import__/multi_/tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/l.js_/tmp/broccoli-11410J2MHzcoSIuvz/cache-878-bundler/staging/tests.js?");
+eval("__webpack_require__(/*! /private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/l.js */\"../../../../private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/l.js\");\nmodule.exports = __webpack_require__(/*! /private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/tests.js */\"../../../../private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/tests.js\");\n\n\n//# sourceURL=webpack://__ember_auto_import__/multi_/private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/l.js_/private/var/folders/1k/365szlq54g9f729yxbrpdmm40000gq/T/broccoli-22781Vo7nzfVTglcS/cache-881-bundler/staging/tests.js?");
 
 /***/ })
 
