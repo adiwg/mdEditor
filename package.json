@@ -45,20 +45,23 @@
     "node": "8.* || >= 10.* || >=12*"
   },
   "dependencies": {
-    "cz-conventional-changelog": "^3.1.0",
-    "ember-cli-babel": "^7.7.3",
-    "ember-cli-htmlbars": "^6.0.0",
-    "ember-cli-sass": "~10.0.0",
-    "git-cz": "^4.8.0"
+    "ember-named-blocks-polyfill": "^0.2.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.5",
+    "@babel/eslint-parser": "^7.18.2",
+    "@babel/plugin-proposal-decorators": "^7.18.6",
     "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^0.7.0",
     "@mapbox/togeojson": "^0.16.0",
     "Leaflet.vector-markers": "^0.0.6",
+    "ember-cli-babel": "^7.7.3",
+    "cz-conventional-changelog": "^3.1.0",
+    "ember-cli-htmlbars": "^6.0.0",
+    "ember-cli-sass": "~10.0.0",
+    "git-cz": "^4.8.0",
     "ajv": "^6.10.2",
     "ajv-errors": "^1.0.1",
-    "babel-eslint": "^8.0.0",
     "bootstrap-3-card": "^0.2.0",
     "bootstrap-sass": "~3.4.3",
     "broccoli-asset-rev": "^3.0.0",
@@ -66,6 +69,7 @@
     "ember-ajax": "^5.1.1",
     "ember-auto-import": "^1.5.3",
     "ember-autoresize": "jlblcc/ember-autoresize#latest",
+    "ember-classic-decorator": "^3.0.1",
     "ember-cli": "~3.12.0",
     "ember-cli-app-version": "^3.2.0",
     "ember-cli-bootstrap-datetimepicker": "~0.9.3",
