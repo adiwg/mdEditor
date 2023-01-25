@@ -19,7 +19,7 @@ import EmberObject from '@ember/object';
 const console = window.console;
 
 const proxy =
-  'https://itis-cors.herokuapp.com/https://services.itis.gov?' +
+  '/itis-proxy?' +
   'wt=json' +
   '&sort=score%20desc,nameWOInd%20asc' +
   '&fl=hierarchySoFarWRanks,hierarchyTSN,kingdom,rank,vernacular,tsn,nameWOInd,usage';
@@ -115,6 +115,7 @@ export default Service.extend({
     })
   },
 
+  settings: service(),
   ajax: service(),
   flashMessages: service(),
   isLoading: false,
@@ -123,7 +124,12 @@ export default Service.extend({
     let formatted = searchString.replace(/(-| )/g, '*');
     let titleized = titleize(searchString.replace(/(-)/g, '#')).replace(/( |#)/g, '*');
     let titleized2 = titleize(searchString).replace(/( )/g, '*');
-    let url = proxy +
+
+    const mdTranslatorAPIURL = new URL(this.settings.data.get('mdTranslatorAPI'))
+    const host = mdTranslatorAPIURL.hostname;
+    const port = mdTranslatorAPIURL.port;
+
+    let url = '//' + host + (port === '' ? port : ':' + port) + proxy +
       `&rows=${limit}&q=` +
       `(vernacular:*${formatted}*~0.5%20OR%20vernacular:*${titleized}*~0.5%20OR%20vernacular:*${titleized2}*~0.5` +
       `%20OR%20nameWOInd:${formatted}*~0.5%20OR%20nameWOInd:*${titleized}*~0.5` +
