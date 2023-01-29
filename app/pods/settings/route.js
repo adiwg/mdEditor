@@ -41,9 +41,22 @@ export default class SettingsRoute extends Route {
 
   @action
   clearLocalStorage() {
+    let data = this.settings.data.serialize({ includeId: true });
+
     window.localStorage.clear();
-    this.transitionTo('application');
+
+    if (this.settings.data.keepSettings) {
+
+      window.localStorage.setItem('index-settings',
+        `["settings-${data.data.id}"]`);
+      this.store.pushPayload('setting', data);
+
+      let rec = this.store.peekRecord('setting', data.data.id);
+      rec.save().then(() => window.location.reload());
+    }
+
     window.location.reload();
+      //this.transitionTo('application');
   }
 
   @action
