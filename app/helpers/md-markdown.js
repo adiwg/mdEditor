@@ -1,5 +1,5 @@
 import { helper as buildHelper } from '@ember/component/helper';
-//import marked from 'marked';
+// import marked from 'marked';
 import { htmlSafe } from '@ember/string';
 
 const marked = window.marked;

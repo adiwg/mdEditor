@@ -37,6 +37,9 @@ const theModel = Model.extend({
   showSplash: attr('boolean', {
     defaultValue: true
   }),
+  keepSettings: attr('boolean', {
+    defaultValue: true
+  }),
   autoSave: attr('boolean', {
     defaultValue: false
   }),
