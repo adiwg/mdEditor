@@ -11539,9 +11539,9 @@ mdn-links@^0.1.0:
   resolved "https://registry.yarnpkg.com/mdn-links/-/mdn-links-0.1.0.tgz#e24c83b97cb4c5886cc39f2f780705fbfe273aa5"
   integrity sha1-4kyDuXy0xYhsw58veAcF+/4nOqU=
 
-"mdprofiles@https://github.com/timothypage/mdProfiles/#feature/data-quality":
+"mdprofiles@https://github.com/adiwg/mdProfiles/#feature/data-quality":
   version "0.2.5-rc1"
-  resolved "https://github.com/timothypage/mdProfiles/#a8896b35fce901f1180634adb82fdc4ae78019db"
+  resolved "https://github.com/adiwg/mdProfiles/#a0b08ee32f15be0d860b068589936f9737a0f942"
   dependencies:
     ajv "^6.10.0"
 
