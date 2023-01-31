@@ -11539,9 +11539,10 @@ mdn-links@^0.1.0:
   resolved "https://registry.yarnpkg.com/mdn-links/-/mdn-links-0.1.0.tgz#e24c83b97cb4c5886cc39f2f780705fbfe273aa5"
   integrity sha1-4kyDuXy0xYhsw58veAcF+/4nOqU=
 
-"mdprofiles@https://github.com/adiwg/mdProfiles/#feature/data-quality":
+mdprofiles@0.2.5-rc1:
   version "0.2.5-rc1"
-  resolved "https://github.com/adiwg/mdProfiles/#a0b08ee32f15be0d860b068589936f9737a0f942"
+  resolved "https://registry.yarnpkg.com/mdprofiles/-/mdprofiles-0.2.5-rc1.tgz#f4830900e0ed0d3361404c13372839fd739dfbab"
+  integrity sha512-l6G0vkG53ShdHdUHUKNL5jhlBlgOAfYYKzKFJ0AGBW3iTwHKlyF0kAPCf2vjnedTbFsL4SqaV/j+GYpy6Pf4Bg==
   dependencies:
     ajv "^6.10.0"
 

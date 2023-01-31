@@ -115,7 +115,7 @@
     "mdcodes": "^2.8.2",
     "mdjson-schemas": "2.8.0-rc6",
     "mdkeywords": "^2.0.1",
-    "mdprofiles": "https://github.com/adiwg/mdProfiles/#feature/data-quality",
+    "mdprofiles": "0.2.5-rc1",
     "moment-timezone": "^0.5.37",
     "object-hash": "^2.0.1",
     "papaparse": "^4.6.3",
