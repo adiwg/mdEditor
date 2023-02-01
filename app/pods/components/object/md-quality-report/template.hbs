@@ -1,0 +1,37 @@
+{{#each model as |report index|}}
+  {{#layout/md-card
+    title="Report"
+    collapsible=true
+    collapsed=false
+    data-spy="Report"
+    deleteAction=(action "deleteReport" index)
+    spotlightEnabled=false
+  }}
+    {{input/md-codelist
+      label="Report Type"
+      value=report.type
+      create=true
+      tooltip=true
+      mdCodeName="dataQualityType"
+      closeOnSelect=true
+      placeholder="Select DQ Type"
+    }}
+
+    {{#each report.descriptiveResult as |descriptiveResult|}}
+      {{#layout/md-card}}
+        <h3>Descriptive Result</h3>
+        <label>statement</label>
+        {{input/md-textarea value=descriptiveResult.statement}}
+      {{/layout/md-card}}
+    {{/each}}
+
+    {{#if report.qualityMeasure}}
+      {{#layout/md-card}}
+        <h3>Quality Measure</h3>
+        <label>Description</label>
+        {{input/md-textarea value=report.qualityMeasure.description}}
+      {{/layout/md-card}}
+    {{/if}}
+
+  {{/layout/md-card}}
+{{/each}}

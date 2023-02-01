@@ -5237,7 +5237,7 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buildify@powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7:
+"buildify@github:powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7":
   version "0.4.0"
   resolved "https://codeload.github.com/powmedia/buildify/tar.gz/20458a121411f759dcc5ec1b441695eb7fc2b3b7"
   dependencies:
@@ -11515,10 +11515,10 @@ md5.js@^1.3.4:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
-mdcodes@^2.8.2:
-  version "2.8.2"
-  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.8.2.tgz#14f6ade248012094a3405b391411bbea063110bd"
-  integrity sha512-qDqQBWXATaq0o/TZIhwjeO0kCNUThs2GFayXewGqxuKDVeH7oepcrlzGSH1qO5naN3PVa7gXoJCxKMTfm9m1Ow==
+mdcodes@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.8.3.tgz#1ff7b65fa85510fe26a9a85df538870e1ad7bac9"
+  integrity sha512-y/s6iOBmCH6zZQQL9zuujKkoADnw4//DfwdDjoccH6J+PN9au89bGnnGs3J2bWIHsLSFYdo2mYQtLp97SXVE4A==
   dependencies:
     buildify powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7
     glob "^7.1.0"
