@@ -1,6 +1,6 @@
 {
   "name": "mdeditor",
-  "version": "0.10.0",
+  "version": "0.11.0-dev.1",
   "private": true,
   "description": "A web application for authoring and editing metadata.",
   "repository": {
