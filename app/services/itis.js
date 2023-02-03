@@ -117,11 +117,9 @@ export default Service.extend({
     let titleized = titleize(searchString.replace(/(-)/g, '#')).replace(/( |#)/g, '*');
     let titleized2 = titleize(searchString).replace(/( )/g, '*');
 
-    const mdTranslatorAPIURL = new URL(this.settings.data.get('mdTranslatorAPI'))
-    const host = mdTranslatorAPIURL.hostname;
-    const port = mdTranslatorAPIURL.port;
+    const baseUrl = this.settings.data.get('mdTranslatorAPI').replace('/api/v3/translator', '')
 
-    let url = '//' + host + (port === '' ? port : ':' + port) + proxy +
+    let url = baseUrl + proxy +
       `&rows=${limit}&q=` +
       `(vernacular:*${formatted}*~0.5%20OR%20vernacular:*${titleized}*~0.5%20OR%20vernacular:*${titleized2}*~0.5` +
       `%20OR%20nameWOInd:${formatted}*~0.5%20OR%20nameWOInd:*${titleized}*~0.5` +
