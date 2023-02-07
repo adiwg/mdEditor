@@ -17,13 +17,17 @@
       placeholder="Select DQ Type"
     }}
 
-    {{#each report.descriptiveResult as |descriptiveResult|}}
-      {{#layout/md-card}}
-        <h3>Descriptive Result</h3>
-        <label>statement</label>
-        {{input/md-textarea value=descriptiveResult.statement}}
-      {{/layout/md-card}}
+    {{#each report.descriptiveResult as |descriptiveResult descriptiveResultIndex|}}
+      {{object/md-quality-report/descriptive-result
+        model=descriptiveResult
+        remove=(action "removeFromReport" "descriptiveResult" index descriptiveResultIndex)
+      }}
     {{/each}}
+    <button class="btn btn-success btn-md" {{action "addToReport" "descriptiveResult" index}}>
+      <i class="fa fa-plus"/>
+      Add Descriptive Result
+    </button>
+
 
     {{#if report.qualityMeasure}}
       {{#layout/md-card}}
@@ -31,7 +35,20 @@
         <label>Description</label>
         {{input/md-textarea value=report.qualityMeasure.description}}
       {{/layout/md-card}}
+    {{else}}
+      <button class="btn btn-success btn-md" {{action "addQualityMeasureToReport" index}}>
+        <i class="fa fa-plus"/>
+        Add Quality Measure
+      </button>
     {{/if}}
-
   {{/layout/md-card}}
 {{/each}}
+
+<div class="row">
+  <div class="col-md-6">
+    <button class="btn btn-success btn-md" {{action "addReport"}}>
+      <i class="fa fa-plus"/>
+      Add Report
+    </button>
+  </div>
+</div>
