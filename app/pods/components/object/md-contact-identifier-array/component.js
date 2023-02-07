@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmObject from '@ember/object';
+import EmObject, { set } from '@ember/object';
 import { A } from '@ember/array';
 import {
   validator,
@@ -38,7 +38,7 @@ export default Component.extend({
     this._super(...arguments);
 
     if (!this.value) {
-      this.value = [];
+      set(this, 'value', A())
     }
   },
 
