@@ -1,0 +1,57 @@
+{{#layout/md-card}}
+  <div class="row">
+    <div class="col-md-6">
+      {{input/md-input
+        label="System Generated UID"
+        value=model.systemIdentifier.uid
+        disabled=true
+      }}
+    </div>
+    <div class="col-md-6">
+      {{input/md-input
+        label="User Label"
+        value=model.systemIdentifier.label
+      }}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    {{input/md-codelist
+      value=model.scope.scopeCode
+      label="Scope"
+      required=true
+      create=true
+      tooltip=true
+      icon=true
+      mdCodeName="scope"
+      closeOnSelect=false
+      placeholder="Select type of resource."
+      profilePath=(concat profilePath ".scope")
+      data-spy="Scope"
+    }}
+    </div>
+  </div>
+{{/layout/md-card}}
+
+{{#if model.standaloneQualityReport}}
+
+
+{{object/md-standalone-quality-report
+    model=model.standaloneQualityReport
+    deleteStandaloneQualityReport=(action "deleteStandaloneQualityReport")
+}}
+
+{{else}}
+
+<div class="md-object-table box-shadow--4dp">
+  <div class="alert md-alert-table alert-info">
+    <h4>No Standalone Quality Report Found
+      <button class="btn btn-success btn-md" {{action "addStandaloneQualityReport"}}>
+        <i class="fa fa-plus"/>
+        Add Standalone Quality Report
+      </button>
+    </h4>
+  </div>
+</div>
+
+{{/if}}
