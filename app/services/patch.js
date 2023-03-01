@@ -29,6 +29,10 @@ export default Service.extend({
 
       record.set('json.memberOfOrganization', A(record.get(
         'json.memberOfOrganization')).uniq());
+
+      if(record.get('json.externalIdentifier') == null) {
+        record.set('json.externalIdentifier', A());
+      }
       record.save().then(function () {
         record.notifyPropertyChange('currentHash');
       });
