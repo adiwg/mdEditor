@@ -1,0 +1,54 @@
+[
+  {
+    "citation": {
+      "date": [
+        {
+          "date": "2014-04",
+          "dateType": "revision"
+        }
+      ],
+      "title": "NGGDPP Bootload Example",
+      "edition": "ISO 19115-1:2014",
+      "onlineResource": [
+        {
+          "uri": "https://doi.org/10.18123/D6RP4M"
+        }
+      ],
+      "identifier": [
+        {
+          "identifier": "TBD"
+        }
+      ]
+    },
+    "keywordType": "NGGDPPBootloadExample",
+    "label": "NGGDPP Bootload Example",
+    "dynamicLoad": true,
+    "dynamicUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/vocabulary.json"
+  },
+  {
+    "citation": {
+      "date": [
+        {
+          "date": "2020-01-09",
+          "dateType": "revision"
+        }
+      ],
+      "title": "USGS Thesaurus",
+      "edition": "v1.0",
+      "onlineResource": [
+        {
+          "uri": "https://apps.usgs.gov/thesaurus/thesaurus.php?thcode=2"
+        }
+      ],
+      "identifier": [
+        {
+          "identifier": "USGS Thesaurus"
+        }
+      ]
+    },
+    "keywordType": "usgsThesaurus",
+    "label": "USGS Thesaurus",
+    "dynamicLoad": true,
+    "dynamicUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/usgs.json"
+  }
+]
