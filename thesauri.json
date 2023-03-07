@@ -23,7 +23,7 @@
     "keywordType": "NGGDPPBootloadExample",
     "label": "NGGDPP Bootload Example",
     "dynamicLoad": true,
-    "dynamicUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/vocabulary.json"
+    "keywordsUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/vocabulary.json"
   },
   {
     "citation": {
@@ -49,6 +49,6 @@
     "keywordType": "usgsThesaurus",
     "label": "USGS Thesaurus",
     "dynamicLoad": true,
-    "dynamicUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/usgs.json"
+    "keywordsUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/usgs.json"
   }
 ]
