@@ -34,6 +34,12 @@
               {{btnText}}
             </button>
           {{/if}}
+          {{#if deleteAction}}
+            {{#control/md-button-confirm class="btn btn-danger btn-xs"
+              onConfirm=(action deleteAction)}}
+              {{fa-icon "times"}} Delete
+            {{/control/md-button-confirm}}
+          {{/if}}
           {{#if spotlightEnabled}}
             <button type="button" name="button" class="btn btn-info btn-xs md-btn-spotlight" {{action "spotlight" elementId}}>
               {{fa-icon "circle"}}

@@ -219,6 +219,13 @@ export default Component.extend({
    */
 
   /**
+   * The action to perform when delete button is clicked.
+   * @property deleteAction
+   * @type {Function}
+   * @default undefined
+   */
+
+  /**
    * The height to offset from top of container when scrolling.
    *
    * @property offset

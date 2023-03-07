@@ -111,7 +111,8 @@ const Record = Model.extend(Validations, Copyable, {
             },
             extent: [],
             keyword: []
-          }
+          },
+          dataQuality: []
         },
         metadataRepository: [],
         dataDictionary: []

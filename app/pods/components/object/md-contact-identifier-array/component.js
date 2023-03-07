@@ -38,7 +38,7 @@ export default Component.extend({
     this._super(...arguments);
 
     if (!this.value) {
-      set(this, 'value', A())
+      this.value = [];
     }
   },
 
