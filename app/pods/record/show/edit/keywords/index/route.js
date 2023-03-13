@@ -6,6 +6,7 @@ import { copy } from 'ember-copy';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 // import { on } from '@ember/object/evented';
+import axios from 'axios';
 
 export default Route.extend(ScrollTo, {
   keyword: service(),
@@ -68,10 +69,22 @@ export default Route.extend(ScrollTo, {
     },
     selectThesaurus(selected, thesaurus) {
       if(selected) {
-        set(thesaurus, 'thesaurus', copy(selected.citation,
-          true));
-        if(selected.keywordType) {
-          set(thesaurus, 'keywordType', selected.keywordType);
+        if (selected.dynamicLoad) {
+          axios.get(selected.keywordsUrl).then((response) => {
+            set(selected, 'keywords', copy(response.data));
+            set(thesaurus, 'thesaurus', copy(selected.citation,
+              true));
+            if(selected.keywordType) {
+              set(thesaurus, 'keywordType', selected.keywordType);
+            }
+          });
+
+        } else {
+          set(thesaurus, 'thesaurus', copy(selected.citation,
+            true));
+          if(selected.keywordType) {
+            set(thesaurus, 'keywordType', selected.keywordType);
+          }
         }
       } else {
         set(thesaurus, 'thesaurus.identifier.0.identifier', 'custom');

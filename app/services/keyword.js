@@ -84,19 +84,8 @@ axios
     'https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/thesauri.json'
   )
   .then((response) => {
-    let getThesauriPromises = [];
     response.data.forEach((thesaurus) => {
-      const getThesaurusPromise = axios.get(thesaurus.keywordsUrl);
-      getThesauriPromises.push(getThesaurusPromise);
-    });
-    Promise.all(getThesauriPromises).then((responseArray) => {
-      responseArray.forEach(({ data: keywords }, index) => {
-        const thesaurus = {
-          ...response.data[index],
-          keywords,
-        };
-        service.get('thesaurus').pushObject(thesaurus);
-      });
+      service.get('thesaurus').pushObject(thesaurus);
     });
   });
 
