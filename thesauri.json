@@ -7,7 +7,7 @@
           "dateType": "revision"
         }
       ],
-      "title": "NGGDPP Bootload Example",
+      "title": "NGGDPP Bootload Example Title",
       "edition": "ISO 19115-1:2014",
       "onlineResource": [
         {
@@ -16,12 +16,12 @@
       ],
       "identifier": [
         {
-          "identifier": "TBD"
+          "identifier": "NGGDPP"
         }
       ]
     },
     "keywordType": "NGGDPPBootloadExample",
-    "label": "NGGDPP Bootload Example",
+    "label": "NGGDPP Bootload Example Label",
     "dynamicLoad": true,
     "keywordsUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/vocabulary.json"
   },
@@ -33,7 +33,7 @@
           "dateType": "revision"
         }
       ],
-      "title": "USGS Thesaurus",
+      "title": "USGS Thesaurus Title",
       "edition": "v1.0",
       "onlineResource": [
         {
@@ -47,7 +47,7 @@
       ]
     },
     "keywordType": "usgsThesaurus",
-    "label": "USGS Thesaurus",
+    "label": "USGS Thesaurus Label",
     "dynamicLoad": true,
     "keywordsUrl": "https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/usgs.json"
   }
