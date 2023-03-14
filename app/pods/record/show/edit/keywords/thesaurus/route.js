@@ -3,6 +3,7 @@ import Route from '@ember/routing/route';
 import { A, isArray } from '@ember/array';
 import EmberObject, { get, set } from '@ember/object';
 import { isEmpty } from '@ember/utils';
+import axios from 'axios';
 
 export default Route.extend({
   keyword: service(),
@@ -28,18 +29,33 @@ export default Route.extend({
       return;
     }
 
-    if(!isArray(thesaurus.keyword)) {
-      set(thesaurus, 'keyword', A());
+    let selectedThesaurus = this.keyword.findById(thesaurus.thesaurus.identifier[0].identifier);
+    if (selectedThesaurus.dynamicLoad) {
+      return axios.get(selectedThesaurus.keywordsUrl).then((response) => {
+        if(!isArray(thesaurus.keyword)) {
+          set(thesaurus, 'keyword', A());
+        }
+        set(selectedThesaurus, 'keywords', response.data);
+        return EmberObject.create({
+          id: thesaurusId,
+          keywords: thesaurus,
+          model: model,
+          path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
+          thesaurus: selectedThesaurus
+        });
+      })
+    } else {
+      if(!isArray(thesaurus.keyword)) {
+        set(thesaurus, 'keyword', A());
+      }
+      return EmberObject.create({
+        id: thesaurusId,
+        keywords: thesaurus,
+        model: model,
+        path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
+        thesaurus: selectedThesaurus
+      });
     }
-
-    return EmberObject.create({
-      id: thesaurusId,
-      keywords: thesaurus,
-      model: model,
-      path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
-      thesaurus: this.keyword
-        .findById(thesaurus.thesaurus.identifier[0].identifier)
-    });
   },
 
   setupController: function () {
