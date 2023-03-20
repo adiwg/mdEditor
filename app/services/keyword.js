@@ -1,11 +1,11 @@
-import Service from '@ember/service';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
-import { GCMD } from 'gcmd-keywords';
-import Keywords from 'mdkeywords';
-import ISO from 'mdcodes/resources/js/iso_topicCategory';
+import Service from '@ember/service';
 import axios from 'axios';
+import { GCMD } from 'gcmd-keywords';
+import ISO from 'mdcodes/resources/js/iso_topicCategory';
 import ENV from 'mdeditor/config/environment';
+import Keywords from 'mdkeywords';
 
 let service = EmberObject.create({
   thesaurus: A(),
@@ -22,6 +22,7 @@ let type = {
   'Instruments': 'instrument'
 };
 
+// GCMD thesauri
 Object.keys(GCMD)
   .forEach(function(key) {
     if (Array.isArray(GCMD[key])) {
@@ -57,6 +58,7 @@ let isoKeywords = ISO.codelist.map((topic) => {
 
 });
 
+// ISO Topic Category
 service.get('thesaurus')
   .pushObject({
     citation: {
@@ -78,15 +80,19 @@ service.get('thesaurus')
     label: 'ISO Topic Category'
   });
 
+// LCC thesauri
 service.get('thesaurus').pushObjects(Keywords.asArray());
 
-var thesaurusListUrl = ENV.keywords.thesaurusListUrl;
-if (thesaurusListUrl) {
-  axios .get(thesaurusListUrl).then((response) => {
-      response.data.forEach((thesaurus) => {
-        service.get('thesaurus').pushObject(thesaurus);
+// external config file
+if (ENV.keywords) {
+  if (ENV.keywords.thesaurusListUrl) {
+    var thesaurusListUrl = ENV.keywords.thesaurusListUrl;
+    axios .get(thesaurusListUrl).then((response) => {
+        response.data.forEach((thesaurus) => {
+          service.get('thesaurus').pushObject(thesaurus);
+        });
       });
-    });
+    }
 }
 
 export default Service.extend(service);
