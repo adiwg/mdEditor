@@ -5,6 +5,7 @@ import { GCMD } from 'gcmd-keywords';
 import Keywords from 'mdkeywords';
 import ISO from 'mdcodes/resources/js/iso_topicCategory';
 import axios from 'axios';
+import ENV from 'mdeditor/config/environment';
 
 let service = EmberObject.create({
   thesaurus: A(),
@@ -79,14 +80,14 @@ service.get('thesaurus')
 
 service.get('thesaurus').pushObjects(Keywords.asArray());
 
-axios
-  .get(
-    'https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/thesauri.json'
-  )
-  .then((response) => {
-    response.data.forEach((thesaurus) => {
-      service.get('thesaurus').pushObject(thesaurus);
+var thesaurusListUrl = ENV.keywords.thesaurusListUrl;
+if (thesaurusListUrl) {
+  axios .get(thesaurusListUrl).then((response) => {
+      response.data.forEach((thesaurus) => {
+        service.get('thesaurus').pushObject(thesaurus);
+      });
     });
-  });
+}
+
 
 export default Service.extend(service);

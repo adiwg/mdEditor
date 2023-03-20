@@ -63,6 +63,9 @@ module.exports = function(environment) {
         clear: 'fa fa-trash',
         today: 'fa fa-home'
       }
+    },
+    keywords: {
+      thesaurusListUrl: 'https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/thesauri.json'
     }
   };
 
