@@ -89,5 +89,4 @@ if (thesaurusListUrl) {
     });
 }
 
-
 export default Service.extend(service);
