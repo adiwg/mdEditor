@@ -7,6 +7,7 @@
           "dateType": "revision"
         }
       ],
+      "description": "NGGDPP Bootload Example Description",
       "title": "NGGDPP Bootload Example Title",
       "edition": "ISO 19115-1:2014",
       "onlineResource": [
@@ -33,6 +34,7 @@
           "dateType": "revision"
         }
       ],
+      "description": "USGS Thesaurus Description",
       "title": "USGS Thesaurus Title",
       "edition": "v1.0",
       "onlineResource": [
