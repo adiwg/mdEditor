@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 
 export default Route.extend({
   publish: service('publish'),
-  model: function() {
+  model: function () {
     return this.get('publish.catalogs');
   }
 });

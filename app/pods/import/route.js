@@ -5,7 +5,7 @@ import {
   or
 } from '@ember/object/computed';
 import Route from '@ember/routing/route';
-import $ from 'jquery';
+import jquery from 'jquery';
 import {
   A,
   isArray
@@ -340,7 +340,7 @@ export default Route.extend(ScrollTo, {
           return false;
         })
         .finally(() => {
-          $('.import-file-picker input:file')
+          jquery('.import-file-picker input:file')
             .val('');
         });
 
@@ -391,7 +391,7 @@ export default Route.extend(ScrollTo, {
               })
               .finally(() => {
                 set(controller, 'isLoading', false);
-                $('.md-import-picker input:file')
+                jquery('.md-import-picker input:file')
                   .val('');
               });
           } else {
