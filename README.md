@@ -27,8 +27,7 @@ You will need the following things properly installed on your computer.
 - [Git][git]
 - [Node.js][node]
   - Supported versions:`v10` or `v12`.
-  - **Apple Silicon Users**:  if you experience problems building or running
-    Boundary UIs, try Node v14.
+  - **Apple Silicon Users**:  if you experience problems building or running try Node v14.
 - [Yarn][yarn] installed globally
 - [Google Chrome][chrome]
 - [Firefox][firefox]
