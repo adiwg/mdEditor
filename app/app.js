@@ -64,9 +64,9 @@ Component.reopen({
   init() {
     this._super(...arguments);
 
-    let profile = get(this, 'profile');
-    let path = get(this, 'profilePath');
-    let visibility = get(this, 'visibility');
+    let profile = this.profile;
+    let path = this.profilePath;
+    let visibility = this.visibility;
     let isVisible = isNone(visibility) ? true : visibility;
 
     if(path !== undefined) {

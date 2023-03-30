@@ -14,9 +14,11 @@ module.exports = function (defaults) {
         'node_modules/jquery-jsonview/src'
       ]
     },
+
     'ember-math-helpers': {
       only: ['round']
     },
+
     fingerprint: {
       exclude: [
         'images/layers-2x.png',
@@ -29,6 +31,7 @@ module.exports = function (defaults) {
         'worker'
       ]
     },
+
     autoImport: {
       webpack: {
         node: {
@@ -36,6 +39,10 @@ module.exports = function (defaults) {
           //https: true
         }
       }
+    },
+
+    'ember-models-table': {
+      includeDefaultCss: true
     }
   });
 
@@ -70,7 +77,7 @@ module.exports = function (defaults) {
   //papaparse for worker
   app.import('node_modules/papaparse/papaparse.js', { outputFile: 'assets/workers/worker_papaparse.js' });
   //marked
-  app.import('node_modules/marked/lib/marked.js');
+  app.import('node_modules/marked/marked.min.js');
 
   return app.toTree();
 };

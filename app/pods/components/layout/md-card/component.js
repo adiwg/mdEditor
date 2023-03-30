@@ -303,7 +303,7 @@ export default Component.extend({
       $('body').toggleClass('slider', val);
     },
     spotlight(id) {
-      get(this, 'spotlight').setTarget(id);
+      this.spotlight.setTarget(id);
     }
   }
 });

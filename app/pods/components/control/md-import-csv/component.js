@@ -17,7 +17,7 @@ import {
 import {
   Promise
 } from 'rsvp';
-import $ from 'jquery';
+import jquery from 'jquery';
 
 export default Component.extend({
   /**
@@ -165,7 +165,7 @@ export default Component.extend({
           .finally(() => {
             //set(comp, 'isProcessing', false);
 
-            $('.md-import-picker input:file')
+            jquery('.md-import-picker input:file')
               .val('');
           });
       });
@@ -214,7 +214,7 @@ export default Component.extend({
               })
               .finally(() => {
                 set(comp, 'isLoading', false);
-                $('.import-file-picker input:file')
+                jquery('.import-file-picker input:file')
                   .val('');
               });
           } else {

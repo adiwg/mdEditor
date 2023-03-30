@@ -91,6 +91,7 @@ export default Component.extend({
    * @method cancel
    */
   cancel() {
+    console.log('cancel')
     this.closeModal();
   },
 

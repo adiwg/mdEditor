@@ -51,7 +51,7 @@ export default Component.extend(Validations, {
     this._super(...arguments);
 
     // let model = getWithDefault(this, 'model', {}) || {};
-    let model = get(this, 'model')
+    let model = this.model
 
     if (model) {
       once(this, function () {
