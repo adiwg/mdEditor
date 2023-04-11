@@ -2,7 +2,6 @@ import { A } from '@ember/array';
 import EmberObject from '@ember/object';
 import Service from '@ember/service';
 import axios from 'axios';
-import { GCMD } from 'gcmd-keywords';
 import ISO from 'mdcodes/resources/js/iso_topicCategory';
 import ENV from 'mdeditor/config/environment';
 import Keywords from 'mdkeywords';
@@ -16,38 +15,6 @@ let service = EmberObject.create({
       });
   }
 });
-
-let type = {
-  'Platforms': 'platform',
-  'Instruments': 'instrument'
-};
-
-// GCMD thesauri
-Object.keys(GCMD)
-  .forEach(function(key) {
-    if (Array.isArray(GCMD[key])) {
-      service.get('thesaurus')
-        .pushObject({
-          citation: {
-            date: [{
-              date: GCMD.version.date,
-              dateType: 'revision'
-            }],
-            title: 'Global Change Master Directory (GCMD) ' + GCMD[key][0].label,
-            edition: 'Version ' + GCMD.version.edition,
-            onlineResource: [{
-              uri: 'https://earthdata.nasa.gov/gcmd-forum'
-            }],
-            identifier: [{
-              identifier: GCMD[key][0].uuid
-            }]
-          },
-          keywords: GCMD[key][0].children,
-          keywordType: type[GCMD[key][0].label] || 'theme',
-          label: 'GCMD ' + GCMD[key][0].label
-        });
-    }
-  });
 
 let isoKeywords = ISO.codelist.map((topic) => {
   return {
@@ -87,7 +54,7 @@ service.get('thesaurus').pushObjects(Keywords.asArray());
 if (ENV.keywords) {
   if (ENV.keywords.thesaurusListUrl) {
     var thesaurusListUrl = ENV.keywords.thesaurusListUrl;
-    axios .get(thesaurusListUrl).then((response) => {
+    axios.get(thesaurusListUrl).then((response) => {
         response.data.forEach((thesaurus) => {
           service.get('thesaurus').pushObject(thesaurus);
         });
