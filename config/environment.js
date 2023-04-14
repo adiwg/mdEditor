@@ -65,7 +65,7 @@ module.exports = function(environment) {
       }
     },
     keywords: {
-      thesaurusListUrl: 'https://s3.us-east-1.amazonaws.com/sit-cdn.xentity/mdeditor/thesauri.json'
+      thesaurusListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@jwaspin/harvesters/resources/thesauri.json'
     }
   };
 
