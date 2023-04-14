@@ -4,7 +4,6 @@ import Service from '@ember/service';
 import axios from 'axios';
 import ISO from 'mdcodes/resources/js/iso_topicCategory';
 import ENV from 'mdeditor/config/environment';
-import Keywords from 'mdkeywords';
 
 let service = EmberObject.create({
   thesaurus: A(),
@@ -46,9 +45,6 @@ service.get('thesaurus')
     keywordType: 'isoTopicCategory',
     label: 'ISO Topic Category'
   });
-
-// LCC thesauri
-service.get('thesaurus').pushObjects(Keywords.asArray());
 
 // external config file
 if (ENV.keywords) {
