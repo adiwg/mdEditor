@@ -65,7 +65,7 @@ module.exports = function(environment) {
       }
     },
     keywords: {
-      thesaurusListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@jwaspin/harvesters/resources/thesauri.json'
+      thesaurusListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/thesauri.json'
     }
   };
 
