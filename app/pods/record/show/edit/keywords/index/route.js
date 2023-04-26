@@ -1,10 +1,11 @@
+import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
 import { A } from '@ember/array';
 import { getWithDefault, set } from '@ember/object';
-import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 import { copy } from 'ember-copy';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+// import { on } from '@ember/object/evented';
 
 export default Route.extend(ScrollTo, {
   keyword: service(),
