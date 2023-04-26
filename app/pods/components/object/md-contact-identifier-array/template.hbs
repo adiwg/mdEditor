@@ -7,7 +7,8 @@
   templateClass=templateClass as |contactId|
 }}
   <td>
-      {{input/md-input valuePath="identifier" model=contactId.item
+      {{input/md-input
+        value=contactId.item.identifier
       placeholder="External Contact Identifier"}}
   </td>
   <td>

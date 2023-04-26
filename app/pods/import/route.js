@@ -5,7 +5,7 @@ import {
   or
 } from '@ember/object/computed';
 import Route from '@ember/routing/route';
-import $ from 'jquery';
+import jquery from 'jquery';
 import {
   A,
   isArray
@@ -259,7 +259,7 @@ export default Route.extend(ScrollTo, {
 
   actions: {
     getColumns() {
-      return get(this, 'columns');
+      return this.columns;
     },
     getIcon(type) {
       return this.icons[type];
@@ -273,7 +273,7 @@ export default Route.extend(ScrollTo, {
       new Promise((resolve, reject) => {
           if(file.type.match(/.*\/xml$/)) {
             set(controller, 'isTranslating', true);
-            get(this, 'flashMessages')
+            this.flashMessages
               .info(`Translation service provided by ${url}.`);
 
             this.ajax.request(url, {
@@ -340,7 +340,7 @@ export default Route.extend(ScrollTo, {
           return false;
         })
         .finally(() => {
-          $('.import-file-picker input:file')
+          jquery('.import-file-picker input:file')
             .val('');
         });
 
@@ -391,7 +391,7 @@ export default Route.extend(ScrollTo, {
               })
               .finally(() => {
                 set(controller, 'isLoading', false);
-                $('.md-import-picker input:file')
+                jquery('.md-import-picker input:file')
                   .val('');
               });
           } else {
@@ -424,7 +424,7 @@ export default Route.extend(ScrollTo, {
           json: false
         })
         .then(() => {
-          get(this, 'flashMessages')
+          this.flashMessages
             .success(
               `Imported data. Records were
               ${this.currentRouteModel().get('merge') ? 'merged' : 'replaced'}.`, {
@@ -453,7 +453,7 @@ export default Route.extend(ScrollTo, {
             })
             .then(() => {
               settingService.setup();
-              get(this, 'flashMessages')
+              this.flashMessages
                 .success(
                   `Imported Settings.`, {
                     extendedTimeout: 1500

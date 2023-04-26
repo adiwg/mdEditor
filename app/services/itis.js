@@ -1,19 +1,11 @@
-import Service from '@ember/service';
-import {
-  inject as service
-} from '@ember/service';
-import {
-  get,
-  set,
-  computed
-} from '@ember/object';
+import Service, { inject as service } from '@ember/service';
+import EmberObject, { get, set, computed } from '@ember/object';
 import titleize from 'ember-cli-string-helpers/utils/titleize';
 import {
   isAjaxError,
   isNotFoundError,
   isForbiddenError
 } from 'ember-ajax/errors';
-import EmberObject from '@ember/object';
 //import moment from 'moment';
 
 const console = window.console;

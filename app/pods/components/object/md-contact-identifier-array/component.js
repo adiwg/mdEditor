@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmObject from '@ember/object';
+import EmObject, { set } from '@ember/object';
 import { A } from '@ember/array';
 import {
   validator,

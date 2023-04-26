@@ -1,7 +1,6 @@
 import Route from "@ember/routing/route";
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-import { get } from '@ember/object';
-import { defineProperty } from '@ember/object';
+import { get, defineProperty } from '@ember/object';
 import { alias } from '@ember/object/computed';
 
 export default Route.extend(ScrollTo, {

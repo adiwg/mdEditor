@@ -26,7 +26,7 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(this, function() {
       set(model, 'currency', getWithDefault(model, 'currency', 'USD'));

@@ -10,7 +10,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(this, function() {
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
@@ -20,10 +20,10 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(this, function() {
-      set(model, 'stepId', getWithDefault(model, 'stepId', get(this, 'itemId')));
+      set(model, 'stepId', getWithDefault(model, 'stepId', this.itemId));
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
       set(model, 'scope', getWithDefault(model, 'scope', {}));
       set(model, 'reference', getWithDefault(model, 'reference', []));
