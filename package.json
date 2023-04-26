@@ -77,7 +77,6 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-string-helpers": "4.0.6",
     "ember-cli-template-lint": "^1.0.0-beta.3",
-    "ember-cli-uglify": "^2.1.0",
     "ember-cli-yuidoc": "^0.9.1",
     "ember-composable-helpers": "^2.4.0",
     "ember-concurrency": "^1.1.2",
