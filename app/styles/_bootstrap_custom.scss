@@ -16,15 +16,18 @@ $brand-danger: #d9534f !default;
 
 $navbar-inverse-bg: lighten($gray-darker, 4);
 $breadcrumb-color: $gray;
+
 //see https://v4-alpha.getbootstrap.com/content/reboot/#native-font-stack
-$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !default;
-$font-family-monospace:  Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
+$font-family-sans-serif: -apple-system, blinkmacsystemfont, "Segoe UI", roboto, "Helvetica Neue", arial, sans-serif !default;
+$font-family-monospace:  menlo, monaco, consolas, "Liberation Mono", "Courier New", monospace !default;
 $font-family-base:       $font-family-sans-serif !default;
 
 @import 'bootstrap/mixins';
+
 // Reset and dependencies
 @import 'bootstrap/normalize';
 @import 'bootstrap/print';
+
 //@import 'bootstrap/glyphicons';
 // Core CSS
 @import 'bootstrap/scaffolding';
@@ -34,6 +37,7 @@ $font-family-base:       $font-family-sans-serif !default;
 @import 'bootstrap/tables';
 @import 'bootstrap/forms';
 @import 'bootstrap/buttons';
+
 // Components
 @import 'bootstrap/component-animations';
 @import 'bootstrap/dropdowns';
@@ -56,11 +60,14 @@ $font-family-base:       $font-family-sans-serif !default;
 @import 'bootstrap/responsive-embed';
 @import 'bootstrap/wells';
 @import 'bootstrap/close';
+
 // Components w/ JavaScript
 @import 'bootstrap/modals';
+
 //@import 'bootstrap/tooltip';
 //@import 'bootstrap/popovers';
 @import 'bootstrap/carousel';
+
 // Utility classes
 @import 'bootstrap/utilities';
 @import 'bootstrap/responsive-utilities';

@@ -66,10 +66,10 @@ export default Route.extend({
   },
 
   createAttribute(columnName, column) {
-    let domain = get(column, 'hasDomain') ? EmberObject.create({
+    let domain = column.hasDomain ? EmberObject.create({
       domainId: uuidV4(),
       codeName: columnName,
-      domainItem: get(column, 'domain').filter(i => isPresent(i)).map(
+      domainItem: column.domain.filter(i => isPresent(i)).map(
         (itm) => {
           return {
             name: itm.toString(),
@@ -85,7 +85,7 @@ export default Route.extend({
       allowNull: column.allowNull,
       maxValue: column.get('range') ? column.get('max').toString() : null,
       minValue: column.get('range') ? column.get('min').toString() : null,
-      domainId: domain ? get(domain, 'domainId') : null
+      domainId: domain ? domain.domainId : null
     };
 
     return {
@@ -136,15 +136,14 @@ export default Route.extend({
       let dataDictionary = this.get('controller.model.json.dataDictionary');
 
       if(get(data,'domains.length')) {
-        set(dataDictionary,'domain', getWithDefault(dataDictionary,
-          'domain', []));
+        set(dataDictionary,'domain', (dataDictionary.domain === undefined ? [] : dataDictionary.domain));
 
-        set(dataDictionary, 'domain', get(dataDictionary, 'domain').concat(data.domains));
+        set(dataDictionary, 'domain', dataDictionary.domain.concat(data.domains));
       }
 
-      set(dataDictionary,'entity', getWithDefault(dataDictionary, 'entity', []));
+      set(dataDictionary,'entity', (dataDictionary.entity === undefined ? [] : dataDictionary.entity));
       set(entity, 'attribute', data.attributes);
-      get(dataDictionary, 'entity').push(entity);
+      dataDictionary.entity.push(entity);
 
       this.transitionTo('dictionary.show.edit.entity.edit', get(
         dataDictionary, 'entity.length') - 1);

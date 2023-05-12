@@ -278,9 +278,7 @@ export default Component.extend({
    */
   label: null,
 
-  ariaLabel: computed('label', function() {
-    return this.label;
-  }),
+  ariaLabel: computed.reads('label'),
 
   /**
    * Indicates whether to allow the user to enter a new option
@@ -329,7 +327,7 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function() {
+  selectedItem: computed('codelist', 'value', function() {
     let value = this.value;
 
     return DS.PromiseObject.create({
@@ -351,7 +349,7 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseArray
    */
-  codelist: computed('objectArray', function() {
+  codelist: computed('defaultIcon', 'namePath', 'objectArray', 'tooltipPath', 'valuePath', function() {
     const objArray = this.objectArray;
     let inList = new Promise(function(resolve, reject) {
       // succeed

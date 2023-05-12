@@ -112,7 +112,7 @@ export default Component.extend({
    * @category computed
    * @requires placeholder
    */
-  options: computed('placeholder', function() {
+  options: computed('errorClass', 'length', 'placeholder', function() {
     return {
       placeholder: this.placeholder,
       status: [{
@@ -141,7 +141,7 @@ export default Component.extend({
    * @category computed
    * @requires value
    */
-  length: computed('value', function() {
+  length: computed('value.length', function() {
       return this.value ? this.value
         .length : 0;
     })
@@ -155,7 +155,7 @@ export default Component.extend({
    * @category computed
    * @requires value|maxlength
    */
-  errorClass: computed('value', 'maxlength', function() {
+  errorClass: computed('length', 'maxlength', 'required', 'value', function() {
     let length = this.length;
     let max = this.maxlength;
 

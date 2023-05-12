@@ -18,7 +18,7 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));
-    this.controller.set('entityId', get(parent, 'entityId'));
+    this.controller.set('entityId', parent.entityId);
 
     this.controllerFor('dictionary.show.edit')
       .setProperties({

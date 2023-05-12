@@ -1,3 +1,4 @@
+import { get } from '@ember/object';
 import Component from '@ember/component';
 import {
   htmlSafe
@@ -41,10 +42,8 @@ export default Component.extend(Validations, {
     this._super(...arguments);
 
     once(this, function () {
-      this.set('model.commonName', getWithDefault(this,
-        'model.commonName', []));
-      this.set('model.subClassification', getWithDefault(this,
-        'model.subClassification', []));
+      this.set('model.commonName', (get(this, 'model.commonName') === undefined ? [] : get(this, 'model.commonName')));
+      this.set('model.subClassification', (get(this, 'model.subClassification') === undefined ? [] : get(this, 'model.subClassification')));
     });
   },
   didInsertElement() {
@@ -62,7 +61,7 @@ export default Component.extend(Validations, {
   isEditing: false,
   preview: false,
 
-  level: computed('parent.level', function () {
+  level: computed('parent.level', 'parentItem', function () {
     let parent = this.parentItem;
 
     return parent ? parent.get('level') + 1 : 0;
@@ -74,10 +73,7 @@ export default Component.extend(Validations, {
     return htmlSafe('padding-left: ' + pad + 'rem;');
   }),
 
-  collapsible: computed('model.subClassification.[]', function () {
-    return this.get(
-      'model.subClassification.length');
-  }),
+  collapsible: computed.reads('model.subClassification.length'),
 
   taxonomicLevel: alias('model.taxonomicLevel'),
   taxonomicName: alias('model.taxonomicName'),

@@ -6,7 +6,7 @@ export default Route.extend({
     this._super(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
-    set(model, 'constraint', getWithDefault(model, 'constraint', []));
+    set(model, 'constraint', (model.constraint === undefined ? [] : model.constraint));
   },
 
   setupController: function() {

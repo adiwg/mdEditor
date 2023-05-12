@@ -24,9 +24,7 @@ export default Select.extend({
   searchEnabled: true,
   placeholder: 'Pick a Fiscal Year',
   create: true,
-  disabled: computed('settings.data.fiscalStartMonth', function() {
-    return !this.get('settings.data.fiscalStartMonth');
-  }),
+  disabled: computed.not('settings.data.fiscalStartMonth'),
   change() {
     let val = this.value;
     let month = parseInt(this.get(

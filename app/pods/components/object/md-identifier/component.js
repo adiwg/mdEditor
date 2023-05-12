@@ -1,3 +1,4 @@
+import { get } from '@ember/object';
 import { alias, and } from '@ember/object/computed';
 import Component from '@ember/component';
 import { getWithDefault, set } from '@ember/object';
@@ -22,11 +23,10 @@ const theComp = Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = getWithDefault(this, 'model', {}) || {};
+    let model = (this.model === undefined ? {} : this.model) || {};
 
     once(this, function () {
-      set(model, 'authority', getWithDefault(model, 'authority',
-        {}));
+      set(model, 'authority', (model.authority === undefined ? {} : model.authority));
     });
   },
 

@@ -54,8 +54,10 @@ $container-xxl:               $container-xxlarge-desktop !default;
   }
   #{$list} {
     position: relative;
+
     // Prevent columns from collapsing when empty
     min-height: 1px;
+
     // Inner gutter via padding
     padding-left:  calc($grid-gutter-width / 2);
     padding-right: calc($grid-gutter-width / 2);
@@ -76,16 +78,19 @@ $container-xxl:               $container-xxlarge-desktop !default;
   @include responsive-invisibility('.visible-lg');
   @include responsive-visibility('.visible-xxl');
 }
+
 .visible-xxl-block {
   @media (min-width: $screen-xxl-min) {
     display: block !important;
   }
 }
+
 .visible-xxl-inline {
   @media (min-width: $screen-xxl-min) {
     display: inline !important;
   }
 }
+
 .visible-xxl-inline-block {
   @media (min-width: $screen-xxl-min) {
     display: inline-block !important;

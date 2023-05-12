@@ -72,7 +72,7 @@ export default Component.extend({
   * @category computed
   * @requires text
   */
-  responsive: computed('text', function() {
+  responsive: computed('text.length', function() {
     return this.text.length > 12 || this.text.indexOf(' ') > 0;
   }),
 });

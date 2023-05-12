@@ -46,8 +46,7 @@
          .readOnly());
 
        defineProperty(this, 'required', computed(
-           'validation.options.presence{presence,disabled}',
-           'disabled',
+           'disabled', 'validation.options.presenc.{disabled,presence}', 'validation.options.presence.{disabled,presence}',
            function () {
              return !this.disabled &&
                this.get('validation.options.presence.presence') &&

@@ -51,7 +51,7 @@ const Template = EmberObject.extend(Validations, {
 });
 
 const theComp = Component.extend(Validations, {
-  _contacts: computed('model', {
+  _contacts: computed('model.party', {
     get() {
       let party = get(this, 'model.party');
       return party ? party.mapBy('contactId') : [];
@@ -74,8 +74,8 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'party', getWithDefault(model, 'party', []));
-      set(model, 'role', getWithDefault(model, 'role', null));
+      set(model, 'party', (model.party === undefined ? [] : model.party));
+      set(model, 'role', (model.role === undefined ? null : model.role));
     });
   },
 

@@ -30,7 +30,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    this.selected = [];
+    set(this, 'selected', []);
     assert('No taxonomy object supplied', this.taxonomy);
   },
   tagName: 'form',
@@ -98,11 +98,9 @@ export default Component.extend({
       let taxonomy = this.taxonomy;
       let itisCitation = this.get('itis.citation');
 
-      let classification = set(taxonomy, 'taxonomicClassification', getWithDefault(taxonomy,
-        'taxonomicClassification', []));
-      let systems= set(taxonomy, 'taxonomicSystem', getWithDefault(taxonomy,
-        'taxonomicSystem', [{citation:{}}]));
-      let system = systems.findBy('citation.title', get(itisCitation,'title'));
+      let classification = set(taxonomy, 'taxonomicClassification', (taxonomy.taxonomicClassification === undefined ? [] : taxonomy.taxonomicClassification));
+      let systems= set(taxonomy, 'taxonomicSystem', (taxonomy.taxonomicSystem === undefined ? [{citation:{}}] : taxonomy.taxonomicSystem));
+      let system = systems.findBy('citation.title', itisCitation.title);
 
       let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
       let today = moment().format('YYYY-MM-DD');
@@ -120,10 +118,10 @@ export default Component.extend({
           citation: itisCitation
         });
       } else {
-        let citation = set(system, 'citation', getWithDefault(system,'citation', {}));
+        let citation = set(system, 'citation', (system.citation === undefined ? {} : system.citation));
         formatCitation(citation);
 
-        let date = A(get(citation, 'date'));
+        let date = A(citation.date);
 
         if(!date.findBy('date', today)) {
           date.pushObject(dateObj);

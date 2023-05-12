@@ -41,9 +41,7 @@ export default Route.extend({
       'model.json.dataDictionary.resourceType', function() {
         return model.get('json.dataDictionary.resourceType') ? false : true;
       });
-    controller.allowSave = computed('noType', 'noName', function () {
-      return this.noName || this.noType;
-    });
+    controller.allowSave = computed.or('noName', 'noType');
 
   },
 

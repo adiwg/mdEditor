@@ -64,7 +64,7 @@ export default Component.extend(Validations, {
 
     if(model) {
       once(this, function () {
-        set(model, 'measure', getWithDefault(model, 'measure', {}));
+        set(model, 'measure', (model.measure === undefined ? {} : model.measure));
       });
     }
   },

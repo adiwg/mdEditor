@@ -50,15 +50,13 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'entityId', getWithDefault(model, 'entityId', uuidV4()));
-      set(model, 'alias', getWithDefault(model, 'alias', []));
-      set(model, 'primaryKeyAttributeCodeName', getWithDefault(model,
-        'primaryKeyAttributeCodeName', []));
-      set(model, 'index', getWithDefault(model, 'index', []));
-      set(model, 'attribute', getWithDefault(model, 'attribute', []));
-      set(model, 'foreignKey', getWithDefault(model, 'foreignKey', []));
-      set(model, 'entityReference', getWithDefault(model,
-        'entityReference', []));
+      set(model, 'entityId', (model.entityId === undefined ? uuidV4() : model.entityId));
+      set(model, 'alias', (model.alias === undefined ? [] : model.alias));
+      set(model, 'primaryKeyAttributeCodeName', (model.primaryKeyAttributeCodeName === undefined ? [] : model.primaryKeyAttributeCodeName));
+      set(model, 'index', (model.index === undefined ? [] : model.index));
+      set(model, 'attribute', (model.attribute === undefined ? [] : model.attribute));
+      set(model, 'foreignKey', (model.foreignKey === undefined ? [] : model.foreignKey));
+      set(model, 'entityReference', (model.entityReference === undefined ? [] : model.entityReference));
     });
   },
 
@@ -159,14 +157,14 @@ export default Component.extend(Validations, {
   entities: alias('dictionary.entity'),
   attributes: alias('model.attribute'),
 
-  attributeList: computed('attributes.{@each.codeName,[]}', function () {
+  attributeList: computed('attributes.@each.codeName', 'model.attribute', function () {
     let attr = get(this, 'model.attribute');
     if(attr) {
       return attr.map((attr) => {
         return {
-          codeId: get(attr, 'codeName'),
-          codeName: get(attr, 'codeName'),
-          tooltip: get(attr, 'definition')
+          codeId: attr.codeName,
+          codeName: attr.codeName,
+          tooltip: attr.definition
         };
       });
     }
@@ -177,11 +175,11 @@ export default Component.extend(Validations, {
     function () {
       return this.entities
         .map((attr) => {
-          if(get(attr, 'entityId')) {
+          if(attr.entityId) {
             return {
-              codeId: get(attr, 'entityId'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
+              codeId: attr.entityId,
+              codeName: attr.codeName,
+              tooltip: attr.definition
             };
           }
         });
@@ -209,12 +207,12 @@ export default Component.extend(Validations, {
         .findBy('entityId', id);
 
       if(entity) {
-        let a = get(entity, 'attribute')
+        let a = entity.attribute
           .map((attr) => {
             return {
-              codeId: get(attr, 'codeName'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
+              codeId: attr.codeName,
+              codeName: attr.codeName,
+              tooltip: attr.definition
             };
           });
 

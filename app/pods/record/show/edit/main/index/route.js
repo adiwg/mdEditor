@@ -10,18 +10,15 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
-    set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
-    set(model, 'defaultResourceLocale', getWithDefault(model,
-      'defaultResourceLocale', {}));
-    set(model, 'pointOfContact', getWithDefault(model, 'pointOfContact', []));
-    set(model, 'status', getWithDefault(model, 'status', []));
-    set(model, 'citation', getWithDefault(model, 'citation', formatCitation({})));
-    set(model, 'credit', getWithDefault(model, 'credit', []));
-    set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-    set(model, 'resourceMaintenance', getWithDefault(model,
-      'resourceMaintenance', []));
-    set(model, 'graphicOverview', getWithDefault(model, 'graphicOverview',
-      []));
+    set(model, 'timePeriod', (model.timePeriod === undefined ? {} : model.timePeriod));
+    set(model, 'defaultResourceLocale', (model.defaultResourceLocale === undefined ? {} : model.defaultResourceLocale));
+    set(model, 'pointOfContact', (model.pointOfContact === undefined ? [] : model.pointOfContact));
+    set(model, 'status', (model.status === undefined ? [] : model.status));
+    set(model, 'citation', (model.citation === undefined ? formatCitation({}) : model.citation));
+    set(model, 'credit', (model.credit === undefined ? [] : model.credit));
+    set(model, 'resourceType', (model.resourceType === undefined ? [] : model.resourceType));
+    set(model, 'resourceMaintenance', (model.resourceMaintenance === undefined ? [] : model.resourceMaintenance));
+    set(model, 'graphicOverview', (model.graphicOverview === undefined ? [] : model.graphicOverview));
   },
 
   setupController(controller, model) {

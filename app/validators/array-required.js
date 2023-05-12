@@ -56,7 +56,7 @@ ArrayRequired.reopenClass({
   getDependentsFor(attribute, options) {
     //return[];
     let track = [];
-    let opts = get(options, 'track');
+    let opts = options.track;
 
     assert(
       `[validator:array-valid] [${attribute}] option 'track' must be an array`,

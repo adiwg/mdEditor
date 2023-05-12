@@ -92,7 +92,7 @@
     overflow-x: hidden;
     overflow-y: auto;
     height: 100%;
-    margin: 0 0 0px;
+    margin: 0;
     background-color: $gray-darker;
 
     .panel {
@@ -111,6 +111,7 @@
         text-indent: 0;
         color: $body-bg;
         border: 0 none;
+
         //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
         border-radius: 0;
 
@@ -126,6 +127,7 @@
       .btn-group {
         margin-right: -1px;
         padding: 0;
+
         //Instead of the line below you could use @include border-radius($radius, $vertical-radius)
         border-radius: 0;
         background-color: $body-bg;

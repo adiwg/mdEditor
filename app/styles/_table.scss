@@ -91,6 +91,7 @@
   .table {
     margin-bottom: 0;
   }
+
   .table-hover > tbody > tr {
     transition: background-color 0.25s ease;
   }
@@ -170,6 +171,7 @@
     cursor: pointer;
   }
 }
+
 //Wider Responsive tables
 
 .md-table-responsive {
@@ -181,10 +183,12 @@
     -ms-overflow-style: -ms-autohiding-scrollbar;
     overflow-y: hidden;
     width: 100%;
+
     // Tighten up spacing
     > .table {
       min-width: 800px;
       margin-bottom: 0;
+
       // Ensure the content doesn't wrap
        > tbody,
        > thead,
@@ -197,6 +201,7 @@
         }
       }
     }
+
     // Special overrides for the bordered tables
     > .table-bordered {
       border: 0;

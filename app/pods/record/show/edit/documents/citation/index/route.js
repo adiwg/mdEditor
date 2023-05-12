@@ -9,7 +9,7 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
-    this.controller.set('citationId', get(this.controllerFor(
-      'record.show.edit.documents.citation'), 'citationId'));
+    this.controller.set('citationId', (this.controllerFor(
+      'record.show.edit.documents.citation')).citationId);
   }
 });

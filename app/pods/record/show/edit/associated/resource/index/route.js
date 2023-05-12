@@ -24,8 +24,8 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
-    this.controller.set('resourceId', get(this.controllerFor(
-      'record.show.edit.associated.resource'), 'resourceId'));
+    this.controller.set('resourceId', (this.controllerFor(
+      'record.show.edit.associated.resource')).resourceId);
   },
   actions: {
     insertResource(selected) {
@@ -35,7 +35,7 @@ export default Route.extend(ScrollTo, {
       if(rec) {
         let resource = this.currentRouteModel();
 
-        set(resource, 'mdRecordId', get(rec, 'recordId'));
+        set(resource, 'mdRecordId', rec.recordId);
       }
 
       //this.controller.set('slider', false);

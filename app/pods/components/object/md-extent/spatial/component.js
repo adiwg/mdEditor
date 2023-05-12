@@ -23,7 +23,7 @@ export default Component.extend({
     let geo = get(this, 'extent.geographicExtent.0');
 
     once(function () {
-      set(geo, 'boundingBox', getWithDefault(geo, 'boundingBox', {}));
+      set(geo, 'boundingBox', (geo.boundingBox === undefined ? {} : geo.boundingBox));
     });
   },
 

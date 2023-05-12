@@ -31,6 +31,7 @@ body {
 
 #md-wrapper {
   @include transition(all .5s ease);
+
   padding-left: 0;
 
   .hint--info::after {
@@ -69,6 +70,7 @@ body {
 
 .md-sidebar-wrapper {
   @include transition(all .5s ease);
+
   background: $body-bg none repeat scroll 0 0;
   height: 100vh;
   left: #{$sidebar-width}px;
@@ -87,6 +89,7 @@ body {
 
 .md-slider {
   @include transition(width .5s ease);
+
   background: $body-bg none repeat scroll 0 0;
   height: 100vh;
   overflow: auto;
@@ -108,6 +111,7 @@ body {
 
     > .md-slider-body {
       @include transition(opacity .5s ease .5s);
+
       opacity: 1;
     }
   }
@@ -119,6 +123,7 @@ body {
 
   .close {
     @include transition(all .5s ease);
+
     color: $brand-primary;
     margin: 10px;
     opacity: 0;
@@ -172,10 +177,12 @@ body {
 
 .md-footer {
   background-color: $navbar-inverse-bg;
+
   //background-color: lighten($brand-primary, 50);
   border-left: 1px solid;
   bottom: 0;
   color: $body-bg;
+
   //color: $gray-darker;
   line-height: 26px;
   padding-right: 25px;
@@ -235,12 +242,14 @@ body {
   .btn-collapse {
     display: inline-block;
     font-size: 24px;
+
     // padding: 5px;
 
     span::before {
       content: '\f106';
       font-weight: 900;
       padding: 10px;
+
       // vertical-align: middle;
     }
 

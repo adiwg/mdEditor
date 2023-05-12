@@ -47,7 +47,7 @@ export default Service.extend({
    * @category computed
    * @requires mdCodeName
    */
-  contactsCodes: computed('contacts.@each.name', function() {
+  contactsCodes: computed('contacts.@each.name', 'defaultIcon', 'icons', function() {
     //let codeId = this.get('valuePath');
     //let codeName = this.get('namePath');
     //let tooltip = this.get('tooltipPath');

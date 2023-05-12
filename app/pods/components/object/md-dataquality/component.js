@@ -7,11 +7,11 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = get(this, 'model');
+    let model = this.model;
 
     once(function() {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'systemIdentifier', getWithDefault(model, 'systemIdentifier', {uid: uuidV4()}))
+      set(model, 'scope', (model.scope === undefined ? {} : model.scope));
+      set(model, 'systemIdentifier', (model.systemIdentifier === undefined ? {uid: uuidV4()} : model.systemIdentifier))
     });
   },
 

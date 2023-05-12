@@ -47,12 +47,10 @@ export default Component.extend({
     let model = this.model;
 
     once(function () {
-      set(model, 'onlineOption', getWithDefault(model, 'onlineOption', []));
-      set(model, 'offlineOption', getWithDefault(model, 'offlineOption', []));
-      set(model, 'transferFrequency', getWithDefault(model,
-        'transferFrequency', {}));
-      set(model, 'distributionFormat', getWithDefault(model,
-        'distributionFormat', []));
+      set(model, 'onlineOption', (model.onlineOption === undefined ? [] : model.onlineOption));
+      set(model, 'offlineOption', (model.offlineOption === undefined ? [] : model.offlineOption));
+      set(model, 'transferFrequency', (model.transferFrequency === undefined ? {} : model.transferFrequency));
+      set(model, 'distributionFormat', (model.distributionFormat === undefined ? [] : model.distributionFormat));
       // set(model, 'presentationForm', getWithDefault(model,
       //   'presentationForm', []));
       // set(model, 'onlineResource', getWithDefault(model,

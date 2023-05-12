@@ -9,8 +9,8 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit.main'));
-    this.controller.set('lineageId', get(this.controllerFor(
-      'record.show.edit.lineage.lineageobject'), 'lineageId'));
+    this.controller.set('lineageId', (this.controllerFor(
+      'record.show.edit.lineage.lineageobject')).lineageId);
   },
   actions: {
     editCitation(index) {

@@ -3,6 +3,7 @@ form .required > label::after,
 label.required::after,
 span.required::after {
   @extend sup;
+
   color: $brand-danger;
   content: '\f069';
   font-family: FontAwesome;
@@ -16,6 +17,7 @@ span.required::after {
   position: absolute;
   right: 20px;
   top: 7px;
+
   //font-size: 12px;
 }
 

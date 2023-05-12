@@ -24,8 +24,7 @@ export default Route.extend(ScrollTo, {
 
     //make sure the identifier exists
     model.set('json.metadata.metadataInfo.metadataIdentifier',
-      getWithDefault(model,
-        'json.metadata.metadataInfo.metadataIdentifier', {}));
+      (get(model, 'json.metadata.metadataInfo.metadataIdentifier') === undefined ? {} : get(model, 'json.metadata.metadataInfo.metadataIdentifier')));
 
     return get(model,
       'json.metadata.metadataInfo.metadataIdentifier');

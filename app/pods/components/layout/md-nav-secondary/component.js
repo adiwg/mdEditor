@@ -32,7 +32,7 @@ export default Component.extend(ResizeAware, {
    */
   more: 'More',
 
-  links: computed('customProfile.active', 'model', 'navWidth', function () {
+  links: computed('customProfile.active', 'linkWidth', 'model.constructor.modelName', 'nav.offset', 'navLinks', 'navWidth', 'this.customProfile.defaultProfile.definition.nav', function () {
     const active = this.customProfile.getActiveProfile();
     const modelName = this.get('model.constructor.modelName');
     const nav = this;
@@ -46,8 +46,7 @@ export default Component.extend(ResizeAware, {
 
       link.setProperties({ nav: nav, index: index });
       defineProperty(link, 'navWidth', alias('nav.navWidth'));
-      defineProperty(link, 'isOverflow', computed('navWidth',
-        'width',
+      defineProperty(link, 'isOverflow', computed('linkWidth', 'nav.offset', 'navWidth', 'width',
         function () {
           return this.navWidth < this.linkWidth + this.nav
             .offset;
@@ -65,7 +64,7 @@ export default Component.extend(ResizeAware, {
   hasOverflow: computed('navWidth', 'linkWidth', function () {
     return this.navWidth < this.linkWidth;
   }),
-  linkWidth: computed('links.@each.width', function () {
+  linkWidth: computed('links.@each.width', 'navPadding', function () {
     return this.links.reduce((a, b) => a + b.width, this.navPadding);
   }),
 
@@ -81,6 +80,7 @@ export default Component.extend(ResizeAware, {
   }),
 
   didInsertElement: function () {
+this._super(...arguments);
     this._super.apply(this, arguments);
     this._handleDebouncedResizeEvent()
   },

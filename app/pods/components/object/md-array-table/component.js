@@ -196,7 +196,7 @@ export default Component.extend(Template, {
 
     if(isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(isArray(value) && get(value, 'length') > 0) {
+    } else if(isArray(value) && value.length > 0) {
       return false;
     } else {
       return true;

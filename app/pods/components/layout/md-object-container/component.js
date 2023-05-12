@@ -35,7 +35,7 @@ export default Component.extend({
   collapseProperty:true,
 
   isCollapsible: and('collapsible', 'collapseProperty'),
-  'data-spy': computed('title', function () {
+  'data-spy': computed('index', 'title', function () {
     return `${this.title} ${this.index}`;
   }),
 

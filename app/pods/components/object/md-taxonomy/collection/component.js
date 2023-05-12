@@ -61,14 +61,11 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'taxonomicClassification', getWithDefault(model,
-        'taxonomicClassification', []));
-      set(model, 'taxonomicSystem', getWithDefault(model,
-        'taxonomicSystem', []));
-      set(model, 'identificationReference', getWithDefault(model,
-        'identificationReference', []));
-      set(model, 'observer', getWithDefault(model, 'observer', []));
-      set(model, 'voucher', getWithDefault(model, 'voucher', []));
+      set(model, 'taxonomicClassification', (model.taxonomicClassification === undefined ? [] : model.taxonomicClassification));
+      set(model, 'taxonomicSystem', (model.taxonomicSystem === undefined ? [] : model.taxonomicSystem));
+      set(model, 'identificationReference', (model.identificationReference === undefined ? [] : model.identificationReference));
+      set(model, 'observer', (model.observer === undefined ? [] : model.observer));
+      set(model, 'voucher', (model.voucher === undefined ? [] : model.voucher));
     });
   },
   voucherTemplate: Voucher,

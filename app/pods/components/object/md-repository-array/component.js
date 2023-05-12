@@ -16,9 +16,9 @@ export default Component.extend({
       let defs = this.get('settings.data.repositoryDefaults');
       let titles = defs.filterBy('repository', value.repository);
 
-      if(get(titles, 'length')) {
+      if(titles.length) {
 
-        set(value, 'citation.title', get(titles.objectAt(0), 'title'));
+        set(value, 'citation.title', (titles.objectAt(0)).title);
       }
     }
   }

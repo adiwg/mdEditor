@@ -49,12 +49,9 @@ export default Component.extend(Validations, {
 
       if (model) {
         once(this, function () {
-          set(model, 'attributeGroup', getWithDefault(model,
-            'attributeGroup', []));
-          set(model, 'imageDescription', getWithDefault(model,
-            'imageDescription', {}));
-          set(model, 'processingLevelCode', getWithDefault(model,
-            'processingLevelCode', {}));
+          set(model, 'attributeGroup', (model.attributeGroup === undefined ? [] : model.attributeGroup));
+          set(model, 'imageDescription', (model.imageDescription === undefined ? {} : model.imageDescription));
+          set(model, 'processingLevelCode', (model.processingLevelCode === undefined ? {} : model.processingLevelCode));
         })
       }
     },

@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 
 export default Component.extend({
   router: service(),
-  title: computed('model.taxonomicSystem.0.citation.title', function() {
+  title: computed('index', 'model.taxonomicSystem.0.citation.title', function() {
     let title = this.get('model.taxonomicSystem.0.citation.title');
     let index = this.index;
 

@@ -109,7 +109,7 @@ export default Component.extend({
     return type[this.errorLevel];
   }),
 
-  errorSubTitle: computed('subTitle', function () {
+  errorSubTitle: computed('errorTitle', 'errors', 'subTitle', function () {
     let err = this.errors;
 
     if(err.length) {
@@ -118,7 +118,7 @@ export default Component.extend({
 
     return null;
   }),
-  writeObj: computed('writer', function () {
+  writeObj: computed('writer', 'writerOptions', function () {
     return this.writerOptions
       .findBy('value', this.writer);
   }),
@@ -186,7 +186,7 @@ export default Component.extend({
             response.writerMessages).map(itm => itm.split(':')));
           set(cmp, 'result', response.writerOutput);
           if(!response.success) {
-            get(cmp, 'flashMessages')
+            cmp.flashMessages
               .danger('Translation error!');
           }
         }, (response) => {
@@ -197,7 +197,7 @@ export default Component.extend({
           set(cmp, 'errorLevel', 3);
           set(cmp, 'isLoading', false);
           set(cmp, 'xhrError', error);
-          get(cmp, 'flashMessages')
+          cmp.flashMessages
             .danger(error);
         });
 

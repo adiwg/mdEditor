@@ -73,19 +73,14 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = getWithDefault(this, 'model', []) || [];
+    let model = (this.model === undefined ? [] : this.model) || [];
 
     once(this, function () {
-      set(model, 'attributeIdentifier', getWithDefault(model,
-        'attributeIdentifier', []));
-      set(model, 'bandBoundaryDefinition', getWithDefault(model,
-      'bandBoundaryDefinition', []));
-      set(model, 'transferFunctionType', getWithDefault(model,
-        'transferFunctionType', []));
-      set(model, 'transmittedPolarization', getWithDefault(model,
-        'transmittedPolarization', []));
-      set(model, 'detectedPolarization', getWithDefault(model,
-        'detectedPolarization', []));
+      set(model, 'attributeIdentifier', (model.attributeIdentifier === undefined ? [] : model.attributeIdentifier));
+      set(model, 'bandBoundaryDefinition', (model.bandBoundaryDefinition === undefined ? [] : model.bandBoundaryDefinition));
+      set(model, 'transferFunctionType', (model.transferFunctionType === undefined ? [] : model.transferFunctionType));
+      set(model, 'transmittedPolarization', (model.transmittedPolarization === undefined ? [] : model.transmittedPolarization));
+      set(model, 'detectedPolarization', (model.detectedPolarization === undefined ? [] : model.detectedPolarization));
     });
   },
 

@@ -1,3 +1,4 @@
+import { get } from '@ember/object';
 import { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
@@ -129,7 +130,7 @@ const Record = Model.extend(Validations, Copyable, {
 
   title: alias('json.metadata.resourceInfo.citation.title'),
 
-  icon: computed('json.metadata.resourceInfo.resourceType.firstObject.type',
+  icon: computed('json.metadata.resourceInfo.resourceType.0.type', 'json.metadata.resourceInfo.resourceType.firstObject.type',
     function () {
       const type = this.get(
           'json.metadata.resourceInfo.resourceType.0.type') ||
@@ -148,7 +149,7 @@ const Record = Model.extend(Validations, Copyable, {
   parentIds: alias(
     'json.metadata.metadataInfo.parentMetadata.identifier'),
 
-  hasParent: computed('parentIds.[]', function () {
+  hasParent: computed('parentIds.[]', 'store', function () {
     let ids = this.parentIds;
     let allRecords = this.store.peekAll('record');
     let records = allRecords.rejectBy('hasSchemaErrors');
@@ -163,7 +164,7 @@ const Record = Model.extend(Validations, Copyable, {
     });
   }),
 
-  defaultParent: computed('hasParent', function () {
+  defaultParent: computed('hasParent.identifier', 'store', function () {
     let id = this.get('hasParent.identifier');
     let allRecords = this.store.peekAll('record');
 
@@ -206,7 +207,7 @@ const Record = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
+  schemaErrors: computed('customSchemas.[]', 'hasDirtyHash', 'mdjson', function () {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateRecord(this).errors;
@@ -247,8 +248,7 @@ const Record = Model.extend(Validations, Copyable, {
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
-    json.set('metadata.resourceInfo.resourceType', getWithDefault(json,
-      'metadata.resourceInfo.resourceType', [{}]));
+    json.set('metadata.resourceInfo.resourceType', (get(json, 'metadata.resourceInfo.resourceType') === undefined ? [{}] : get(json, 'metadata.resourceInfo.resourceType')));
     json.set('metadata.metadataInfo.metadataIdentifier', {
       identifier: uuidV4(),
       namespace: 'urn:uuid'
