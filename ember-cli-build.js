@@ -31,7 +31,7 @@ module.exports = function (defaults) {
       // Tell broccoli-terser-sourcemap to not add sourcemap URLs
       hiddenSourceMap: true,
     },
-    
+
     'ember-math-helpers': {
       only: ['round']
     },
