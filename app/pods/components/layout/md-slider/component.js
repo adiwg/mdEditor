@@ -10,6 +10,7 @@ export default Component.extend({
   visible: false,
 
   didReceiveAttrs() {
+this._super();
     $('body')
       .toggleClass('slider', this.visible === true);
   },

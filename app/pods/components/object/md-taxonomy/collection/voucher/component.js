@@ -1,3 +1,4 @@
+import { get } from '@ember/object';
 import EmberObject, { getWithDefault, set } from '@ember/object';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
@@ -40,8 +41,8 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'repository', getWithDefault(model, 'repository', {}));
-      set(model, 'specimen', getWithDefault(model, 'specimen', null));
+      set(model, 'repository', (model.repository === undefined ? {} : model.repository));
+      set(model, 'specimen', (model.specimen === undefined ? null : model.specimen));
     });
   },
 

@@ -1,23 +1,18 @@
+import { get } from '@ember/object';
 import Component from '@ember/component';
 import { getWithDefault, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 const formatCitation = function(model) {
-  set(model, 'responsibleParty', getWithDefault(model,
-    'responsibleParty', []));
-  set(model, 'date', getWithDefault(model,
-    'date', []));
-  set(model, 'alternateTitle', getWithDefault(model,
-    'alternateTitle', []));
-  set(model, 'presentationForm', getWithDefault(model,
-    'presentationForm', []));
-  set(model, 'onlineResource', getWithDefault(model,
-    'onlineResource', []));
-  set(model, 'identifier', getWithDefault(model, 'identifier', []));
-  set(model, 'otherCitationDetails', getWithDefault(model,
-    'otherCitationDetails', []));
-  set(model, 'graphic', getWithDefault(model, 'graphic', []));
-  set(model, 'series', getWithDefault(model, 'series', {}));
+  set(model, 'responsibleParty', (model.responsibleParty === undefined ? [] : model.responsibleParty));
+  set(model, 'date', (model.date === undefined ? [] : model.date));
+  set(model, 'alternateTitle', (model.alternateTitle === undefined ? [] : model.alternateTitle));
+  set(model, 'presentationForm', (model.presentationForm === undefined ? [] : model.presentationForm));
+  set(model, 'onlineResource', (model.onlineResource === undefined ? [] : model.onlineResource));
+  set(model, 'identifier', (model.identifier === undefined ? [] : model.identifier));
+  set(model, 'otherCitationDetails', (model.otherCitationDetails === undefined ? [] : model.otherCitationDetails));
+  set(model, 'graphic', (model.graphic === undefined ? [] : model.graphic));
+  set(model, 'series', (model.series === undefined ? {} : model.series));
 
   return model;
 };
@@ -46,7 +41,7 @@ const theComp = Component.extend({
     //let model = getWithDefault(this, 'model', {}) || {};
 
     once(this, function() {
-      this.set('model', getWithDefault(this, 'model', {}));
+      this.set('model', (this.model === undefined ? {} : this.model));
       formatCitation(this.model);
     });
   },

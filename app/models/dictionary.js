@@ -105,7 +105,7 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
+  schemaErrors: computed('cleanJson', 'customSchemas.[]', 'hasDirtyHash', 'mdjson', function () {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateDictionary(this).errors;

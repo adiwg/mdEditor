@@ -1,3 +1,4 @@
+import { get } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import EmberObject, { set, getWithDefault } from '@ember/object';
 import config from 'mdeditor/config/environment';
@@ -37,8 +38,7 @@ export default Service.extend({
           settings.set('lastVersion', version);
         }
 
-        set(settings, 'repositoryDefaults', getWithDefault(settings,
-          'repositoryDefaults', []));
+        set(settings, 'repositoryDefaults', (settings.repositoryDefaults === undefined ? [] : settings.repositoryDefaults));
 
         //update mdTranslatorAPI if default is being used
         let isDefaultAPI = isEmpty(settings.get('mdTranslatorAPI')) || settings.get('mdTranslatorAPI').match(

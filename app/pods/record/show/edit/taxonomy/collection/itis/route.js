@@ -17,9 +17,8 @@ export default Route.extend({
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
-    this.controller.set('collectionId', get(this.controllerFor(
-        'record.show.edit.taxonomy.collection'),
-      'collectionId'));
+    this.controller.set('collectionId', (this.controllerFor(
+        'record.show.edit.taxonomy.collection')).collectionId);
   },
   actions: {
     toCollection() {

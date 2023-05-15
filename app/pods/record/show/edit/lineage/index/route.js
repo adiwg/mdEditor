@@ -6,7 +6,7 @@ export default Route.extend({
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'resourceLineage', getWithDefault(model, 'resourceLineage', []));
+    set(model, 'resourceLineage', (model.resourceLineage === undefined ? [] : model.resourceLineage));
   },
 
   setupController: function() {

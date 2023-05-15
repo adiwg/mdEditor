@@ -54,7 +54,7 @@ export default Component.extend({
    * @type {Object}
    * @required
    */
-  actionsColumn: computed('actionButtons', function () {
+  actionsColumn: computed('actionBadges', 'actionButtons', function () {
     let btns = [{
       title: 'Edit',
       type: 'success',

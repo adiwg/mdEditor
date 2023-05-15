@@ -41,7 +41,7 @@ export default Select.extend({
 
     //define cp using a dynamic dependent property
     defineProperty(this, 'mdCodelist',
-      computed(`mdCodes.${this.mdCodeName}.codelist.[]`, function () {
+      computed(`mdCodes.${this.mdCodeName}.codelist.[]`, 'mdCodeName', 'namePath', function () {
         return this.mdCodes
           .get(this.mdCodeName)
           .codelist
@@ -138,7 +138,7 @@ export default Select.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function () {
+  selectedItem: computed('codelist', 'value', function () {
     let value = this.value;
 
     return this.codelist
@@ -164,7 +164,7 @@ export default Select.extend({
    * @category computed
    * @requires mdCodeName
    */
-  mapped: computed('mdCodelist.[]', function () {
+  mapped: computed('defaultIcon', 'icons', 'mdCodeName', 'mdCodelist.[]', 'namePath', 'tooltipPath', 'valuePath', function () {
     let codeId = this.valuePath;
     let codeName = this.namePath;
     let tooltip = this.tooltipPath;
@@ -197,7 +197,7 @@ export default Select.extend({
    * @category computed
    * @requires value
    */
-  codelist: computed('value', 'filterId', 'mapped', function () {
+  codelist: computed('create', 'filterId', 'mapped', 'value', function () {
     let codelist = this.mapped;
     let value = this.value;
     let create = this.create;

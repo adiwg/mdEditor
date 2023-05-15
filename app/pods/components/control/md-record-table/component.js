@@ -32,7 +32,7 @@ export default Table.extend({
     this.filteringIgnoreCase = this.filteringIgnoreCase || true;
     this.multipleSelect = this.multipleSelect || true;
 
-    defineProperty(this, 'columns', computed('dataColumns', 'checkColumn',
+    defineProperty(this, 'columns', computed('actionsColumn', 'checkColumn', 'dataColumns',
       function () {
         let chk = this.checkColumn;
         let action = this.actionsColumn;
@@ -124,7 +124,7 @@ export default Table.extend({
    * @type {Object}
    * @required
    */
-  actionsColumn: computed('allActions', function () {
+  actionsColumn: computed('allActions', 'showSlider', function () {
     let all = this.allActions;
 
     return {
@@ -140,7 +140,7 @@ export default Table.extend({
     };
   }),
 
-  selectedItems: computed({
+  selectedItems: computed('data', 'selectProperty', {
     get() {
       let prop = this.selectProperty;
 
@@ -187,8 +187,7 @@ export default Table.extend({
       //this._super(...arguments);
       let selectedItems = this.selectedItems;
       let data = this.data;
-      const allSelectedBefore = get(selectedItems, 'length') === get(data,
-        'length');
+      const allSelectedBefore = selectedItems.length === data.length;
       this.selectedItems
         .clear();
 
@@ -202,7 +201,7 @@ export default Table.extend({
       let prop = this.selectProperty;
       //let data = get(this, 'data');
 
-      if(get(selected, 'length')) {
+      if(selected.length) {
         selected.setEach(prop, true);
       } else {
         data.setEach(prop, false);

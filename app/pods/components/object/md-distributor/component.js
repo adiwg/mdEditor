@@ -28,14 +28,12 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function() {
-      set(model, 'contact', getWithDefault(model, 'contact', {
+      set(model, 'contact', (model.contact === undefined ? {
         role: null,
         party: []
-      }));
-      set(model, 'orderProcess', A(getWithDefault(model,
-        'orderProcess', [{}])));
-      set(model, 'transferOption', A(getWithDefault(
-        model, 'transferOption', [{}])));
+      } : model.contact));
+      set(model, 'orderProcess', A((model.orderProcess === undefined ? [{}] : model.orderProcess)));
+      set(model, 'transferOption', A((model.transferOption === undefined ? [{}] : model.transferOption)));
     });
   },
 

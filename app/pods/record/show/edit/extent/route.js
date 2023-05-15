@@ -9,21 +9,15 @@ export default Route.extend({
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    set(info, 'extent', getWithDefault(info, 'extent', A()));
+    set(info, 'extent', (info.extent === undefined ? A() : info.extent));
 
-    get(info, 'extent').forEach((itm) => {
-      set(itm, 'geographicExtent', getWithDefault(itm,
-        'geographicExtent', A()));
-      set(itm, 'geographicExtent.0', getWithDefault(itm,
-        'geographicExtent.0', {}));
-      set(itm, 'geographicExtent.0.boundingBox', getWithDefault(itm,
-        'geographicExtent.0.boundingBox', {}));
-      set(itm, 'geographicExtent.0.identifier', getWithDefault(itm,
-        'geographicExtent.0.identifier', {}));
-      set(itm, 'verticalExtent', getWithDefault(itm, 'verticalExtent',
-        A()));
-      set(itm, 'temporalExtent', getWithDefault(itm, 'temporalExtent',
-        A()));
+    info.extent.forEach((itm) => {
+      set(itm, 'geographicExtent', (itm.geographicExtent === undefined ? A() : itm.geographicExtent));
+      set(itm, 'geographicExtent.0', (get(itm, 'geographicExtent.0') === undefined ? {} : get(itm, 'geographicExtent.0')));
+      set(itm, 'geographicExtent.0.boundingBox', (get(itm, 'geographicExtent.0.boundingBox') === undefined ? {} : get(itm, 'geographicExtent.0.boundingBox')));
+      set(itm, 'geographicExtent.0.identifier', (get(itm, 'geographicExtent.0.identifier') === undefined ? {} : get(itm, 'geographicExtent.0.identifier')));
+      set(itm, 'verticalExtent', (itm.verticalExtent === undefined ? A() : itm.verticalExtent));
+      set(itm, 'temporalExtent', (itm.temporalExtent === undefined ? A() : itm.temporalExtent));
     });
     return model;
   },

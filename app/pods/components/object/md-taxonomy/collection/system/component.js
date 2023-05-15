@@ -31,8 +31,7 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'citation', getWithDefault(model,
-        'citation', {}));
+      set(model, 'citation', (model.citation === undefined ? {} : model.citation));
     });
   },
 

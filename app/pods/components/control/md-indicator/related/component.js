@@ -121,7 +121,7 @@ export default Indicator.extend({
    * @routeIdPathscategory computed
    * @requires path,parent
    */
-  related: computed('path', 'parent', function () {
+  related: computed('parent', 'path', 'relatedId', 'relatedIdLocal', 'this.model', function () {
     return get(this.parent, this.path).findBy(this.relatedId, get(this
       .model, this.relatedIdLocal || this.relatedId));
   }),
@@ -134,7 +134,7 @@ export default Indicator.extend({
    * @category computed
    * @requires related
    */
-  relatedIndex: computed('related', function () {
+  relatedIndex: computed('parent', 'path', 'related', function () {
     return get(this.parent, this.path).indexOf(this.related);
   }),
 

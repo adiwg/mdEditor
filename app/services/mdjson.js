@@ -80,13 +80,11 @@ export default Service.extend({
         if(record) {
           let info = get(record, 'json.metadata.metadataInfo') || {};
           let metadata = {
-            'title': `Metadata for ${get(record,'title')}`,
-            'responsibleParty': getWithDefault(info,
-              'metadataContact', []),
-            'date': getWithDefault(info, 'metadataDate', []),
-            'onlineResource': getWithDefault(info,
-              'metadataOnlineResource', []),
-            'identifier': [getWithDefault(info, 'metadataIdentifier', {})],
+            'title': `Metadata for ${record.title}`,
+            'responsibleParty': (info.metadataContact === undefined ? [] : info.metadataContact),
+            'date': (info.metadataDate === undefined ? [] : info.metadataDate),
+            'onlineResource': (info.metadataOnlineResource === undefined ? [] : info.metadataOnlineResource),
+            'identifier': [(info.metadataIdentifier === undefined ? {} : info.metadataIdentifier)],
           };
 
           let citation = get(record,
@@ -195,7 +193,7 @@ export default Service.extend({
     };
 
     let cleaner = this.cleaner;
-    let clean = cleaner.clean(get(rec, 'json'));
+    let clean = cleaner.clean(rec.json);
 
     this.injectCitations(clean);
     this.injectDictionaries(rec, clean);
@@ -206,7 +204,7 @@ export default Service.extend({
       .mapBy('json');
 
     json.contact = contacts.filter((item) => {
-      return _contacts.includes(get(item, 'contactId'));
+      return _contacts.includes(item.contactId);
     });
 
     if(unImplemented) {

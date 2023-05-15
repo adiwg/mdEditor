@@ -15,7 +15,8 @@
   }
 
   li {
-    @include text-overflow();
+    @include text-overflow;
+
     font-weight: 600;
     max-width: 175px;
 

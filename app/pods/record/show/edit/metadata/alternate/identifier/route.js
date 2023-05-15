@@ -27,7 +27,7 @@ export default Route.extend(ScrollTo, {
   setupModel() {
     let identifierId = this.identifierId;
     let model = this.modelFor('record.show.edit.metadata.alternate');
-    let identifiers = get(model, 'identifier');
+    let identifiers = model.identifier;
     let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
 
     //make sure the identifier exists

@@ -14,6 +14,23 @@ module.exports = function (defaults) {
         'node_modules/jquery-jsonview/src'
       ]
     },
+    'ember-cli-terser': {
+      enabled: true,
+
+      exclude: ['vendor.js'],
+
+      terser: {
+        compress: {
+          sequences: 50,
+        },
+        output: {
+          semicolons: true,
+        },
+      },
+
+      // Tell broccoli-terser-sourcemap to not add sourcemap URLs
+      hiddenSourceMap: true,
+    },
 
     'ember-math-helpers': {
       only: ['round']

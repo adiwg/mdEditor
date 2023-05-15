@@ -1,3 +1,4 @@
+import { set } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import Ember from 'ember';
 import request from 'ember-ajax/request';
@@ -29,9 +30,9 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.profileRecords = this.store.peekAll('profile');
+    set(this, 'profileRecords', this.store.peekAll('profile'));
     //this.customProfiles = this.get('store').peekAll('custom-profile');
-    this.coreProfiles = coreProfiles;
+    set(this, 'coreProfiles', coreProfiles);
   },
 
   profiles: union('profileRecords', 'coreProfiles'),

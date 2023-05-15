@@ -1,3 +1,4 @@
+import { get } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { A } from '@ember/array';
@@ -20,14 +21,12 @@ export default Route.extend(ScrollTo, {
 
     //check to see if custom list
     info.keyword.forEach((k) => {
-      set(k, 'thesaurus', getWithDefault(k, 'thesaurus', {}));
-      set(k, 'thesaurus.identifier', getWithDefault(k,
-        'thesaurus.identifier', [{
+      set(k, 'thesaurus', (k.thesaurus === undefined ? {} : k.thesaurus));
+      set(k, 'thesaurus.identifier', (get(k, 'thesaurus.identifier') === undefined ? [{
           identifier: 'custom'
-        }]));
-      set(k, 'thesaurus.date', getWithDefault(k, 'thesaurus.date', [{}]));
-      set(k, 'thesaurus.onlineResource', getWithDefault(k,
-        'thesaurus.onlineResource', [{}]));
+        }] : get(k, 'thesaurus.identifier')));
+      set(k, 'thesaurus.date', (get(k, 'thesaurus.date') === undefined ? [{}] : get(k, 'thesaurus.date')));
+      set(k, 'thesaurus.onlineResource', (get(k, 'thesaurus.onlineResource') === undefined ? [{}] : get(k, 'thesaurus.onlineResource')));
     });
 
     return model;

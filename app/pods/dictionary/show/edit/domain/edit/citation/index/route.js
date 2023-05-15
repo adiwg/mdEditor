@@ -21,7 +21,7 @@ export default Route.extend(ScrollTo, {
     let domainId = this.paramsFor('dictionary.show.edit.domain.edit')
       .domain_id;
 
-    if(isEmpty(get(model, 'domainReference'))) {
+    if(isEmpty(model.domainReference)) {
       set(model, 'domainReference', {});
     }
 

@@ -48,8 +48,8 @@ export default Route.extend({
     },
 
     resetMdTranslatorAPI() {
-      let url = get(Setting, 'attributes').get('mdTranslatorAPI').options.defaultValue;
-      let model = get(this.controller, 'model');
+      let url = Setting.attributes.get('mdTranslatorAPI').options.defaultValue;
+      let model = this.controller.model;
 
       model.set('mdTranslatorAPI', url);
     }

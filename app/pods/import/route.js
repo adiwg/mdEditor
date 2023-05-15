@@ -72,9 +72,9 @@ export default Route.extend(ScrollTo, {
 
     switch(record.type) {
     case 'records':
-      return getWithDefault(json, 'metadata.resourceInfo.citation.title', 'NO TITLE');
+      return (get(json, 'metadata.resourceInfo.citation.title') === undefined ? 'NO TITLE' : get(json, 'metadata.resourceInfo.citation.title'));
     case 'dictionaries':
-      return getWithDefault(json, 'dataDictionary.citation.title', 'NO TITLE');
+      return (get(json, 'dataDictionary.citation.title') === undefined ? 'NO TITLE' : get(json, 'dataDictionary.citation.title'));
     case 'contacts':
       return json.name || 'NO NAME';
     case 'schemas':
@@ -335,7 +335,7 @@ export default Route.extend(ScrollTo, {
         })
         .catch((reason) => {
           //catch any errors
-          get(cmp, 'flashMessages')
+          cmp.flashMessages
             .danger(reason);
           return false;
         })
@@ -385,7 +385,7 @@ export default Route.extend(ScrollTo, {
               })
               .catch((reason) => {
                 //catch any errors
-                get(controller, 'flashMessages')
+                controller.flashMessages
                   .danger(reason);
                 return false;
               })
@@ -396,7 +396,7 @@ export default Route.extend(ScrollTo, {
               });
           } else {
             set(controller, 'errors', response.messages);
-            get(controller, 'flashMessages')
+            controller.flashMessages
               .danger('Import error!');
           }
         }).catch((response) => {
@@ -405,7 +405,7 @@ export default Route.extend(ScrollTo, {
 
           set(controller, 'xhrError', error);
           set(controller, 'isLoading', false);
-          get(controller, 'flashMessages')
+          controller.flashMessages
             .danger(error);
         });
 

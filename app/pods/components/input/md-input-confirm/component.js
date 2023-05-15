@@ -19,9 +19,7 @@ export default Input.extend({
 
   disabled: true,
 
-  isDisabled: computed('disabled', function(){
-    return this.disabled;
-  }),
+  isDisabled: computed.reads('disabled'),
 
   actions: {
     allowEdit() {

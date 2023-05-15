@@ -1,3 +1,4 @@
+import { set } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import { computed, get } from '@ember/object';
 import { union, map } from '@ember/object/computed';
@@ -32,7 +33,7 @@ export default Service.extend({
   init() {
     this._super(...arguments);
 
-    this.customProfiles = this.store.peekAll('custom-profile');
+    set(this, 'customProfiles', this.store.peekAll('custom-profile'));
   },
   flashMessages: service(),
   store: service(),
@@ -131,7 +132,7 @@ export default Service.extend({
    * @category computed
    * @required active
    */
-  activeComponents: computed('active', function () {
+  activeComponents: computed('active', 'defaultProfile.definition.components', function () {
     let comp = get(this.getActiveProfile(), 'definition.components');
     return comp || this.defaultProfile.definition.components;
   }),

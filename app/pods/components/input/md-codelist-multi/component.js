@@ -91,7 +91,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function() {
+  selectedItem: computed('codelist', 'value', function() {
     let value = this.value;
     let codelist = this.codelist;
 
@@ -111,7 +111,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: computed('value', 'filterId', 'mapped', function() {
+  codelist: computed('create', 'filterId', 'mapped', 'value', function() {
     let codelist = this.mapped;
     let value = this.value;
     let create = this.create;

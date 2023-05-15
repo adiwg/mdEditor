@@ -26,12 +26,10 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function() {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'resourceCitation', getWithDefault(model,
-        'resourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model,
-        'metadataCitation', {}));
+      set(model, 'scope', (model.scope === undefined ? {} : model.scope));
+      set(model, 'resourceType', (model.resourceType === undefined ? [] : model.resourceType));
+      set(model, 'resourceCitation', (model.resourceCitation === undefined ? {} : model.resourceCitation));
+      set(model, 'metadataCitation', (model.metadataCitation === undefined ? {} : model.metadataCitation));
     });
   },
 
@@ -65,7 +63,7 @@ export default Component.extend(Validations, {
   }),
 
   linkedAssociation: computed(
-    'linkedRecord.json.metadata.associatedResource.[]',
+    'linkedRecord.json.metadata.associatedResource.[]', 'recordId',
     function() {
       let ar = this.get('linkedRecord.json.metadata.associatedResource');
 
@@ -86,8 +84,7 @@ export default Component.extend(Validations, {
       let model = this.linkedRecord;
 
       if(!assoc) {
-        set(model, 'json.metadata.associatedResource', getWithDefault(model,
-          'json.metadata.associatedResource', []));
+        set(model, 'json.metadata.associatedResource', (get(model, 'json.metadata.associatedResource') === undefined ? [] : get(model, 'json.metadata.associatedResource')));
 
         model.get('json.metadata.associatedResource').pushObject({
           mdRecordId: this.recordId,

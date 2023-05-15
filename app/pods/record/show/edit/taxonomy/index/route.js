@@ -8,7 +8,7 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
-    set(model, 'taxonomy', getWithDefault(model, 'taxonomy', []));
+    set(model, 'taxonomy', (model.taxonomy === undefined ? [] : model.taxonomy));
   },
 
   setupController: function () {

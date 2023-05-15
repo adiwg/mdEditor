@@ -1,3 +1,4 @@
+import { set } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import RefParser from 'json-schema-ref-parser';
 import request from 'ember-ajax/request';
@@ -25,7 +26,7 @@ export default Service.extend({
      */
     this.parser = parser;
 
-    this.schemas = this.store.peekAll('schema');
+    set(this, 'schemas', this.store.peekAll('schema'));
   },
   store: service(),
   flashMessages: service(),

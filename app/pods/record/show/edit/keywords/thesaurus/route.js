@@ -91,7 +91,7 @@ export default Route.extend({
       let model = this.currentRouteModel();
       let keywords = model.get('model')
         .get(model.get('path'));
-      let kw = get(keywords, 'keyword');
+      let kw = keywords.keyword;
       let val = evt.target.checked;
 
       set(keywords, 'fullPath', val);

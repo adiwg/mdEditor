@@ -13,7 +13,7 @@ export default Component.extend({
     let model = this.model;
 
     once(this, function() {
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
+      set(model, 'timePeriod', (model.timePeriod === undefined ? {} : model.timePeriod));
     });
   },
 
@@ -23,13 +23,13 @@ export default Component.extend({
     let model = this.model;
 
     once(this, function() {
-      set(model, 'stepId', getWithDefault(model, 'stepId', this.itemId));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'reference', getWithDefault(model, 'reference', []));
-      set(model, 'processor', getWithDefault(model, 'processor', []));
-      set(model, 'stepSource', getWithDefault(model, 'stepSource', []));
-      set(model, 'stepProduct', getWithDefault(model, 'stepProduct', []));
+      set(model, 'stepId', (model.stepId === undefined ? this.itemId : model.stepId));
+      set(model, 'timePeriod', (model.timePeriod === undefined ? {} : model.timePeriod));
+      set(model, 'scope', (model.scope === undefined ? {} : model.scope));
+      set(model, 'reference', (model.reference === undefined ? [] : model.reference));
+      set(model, 'processor', (model.processor === undefined ? [] : model.processor));
+      set(model, 'stepSource', (model.stepSource === undefined ? [] : model.stepSource));
+      set(model, 'stepProduct', (model.stepProduct === undefined ? [] : model.stepProduct));
     });
   },
 

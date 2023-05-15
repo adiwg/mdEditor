@@ -55,7 +55,7 @@ export default Component.extend(Validations, {
 
     if (model) {
       once(this, function () {
-        set(model, 'imageQualityCode', getWithDefault(model, 'imageQualityCode', {}));
+        set(model, 'imageQualityCode', (model.imageQualityCode === undefined ? {} : model.imageQualityCode));
       })
     }
   },

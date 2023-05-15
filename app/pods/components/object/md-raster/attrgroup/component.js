@@ -39,10 +39,8 @@ export default Table.extend(Validations,{
 
     if(model) {
       once(this, function () {
-        set(model, 'attributeContentType', getWithDefault(model,
-          'attributeContentType', []));
-        set(model, 'attribute', getWithDefault(model,
-          'attribute', []));
+        set(model, 'attributeContentType', (model.attributeContentType === undefined ? [] : model.attributeContentType));
+        set(model, 'attribute', (model.attribute === undefined ? [] : model.attribute));
       });
     }
   },

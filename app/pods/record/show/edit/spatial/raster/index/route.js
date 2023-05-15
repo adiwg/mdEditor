@@ -10,9 +10,8 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
-    this.controller.set('rasterId', get(this.controllerFor(
-       'record.show.edit.spatial.raster'),
-     'rasterId'));
+    this.controller.set('rasterId', (this.controllerFor(
+       'record.show.edit.spatial.raster')).rasterId);
 
     defineProperty(this.controller, 'refreshSpy', alias(
       'model.json.metadata.resourceInfo.coverageDescription.length'));
