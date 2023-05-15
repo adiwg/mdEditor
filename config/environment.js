@@ -11,6 +11,7 @@ module.exports = function(environment) {
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
+    thesauriUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/thesauri.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
