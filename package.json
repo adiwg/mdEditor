@@ -128,7 +128,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-qunit": "^7.3.0",
     "font-awesome": "~4.7.0",
-    "gcmd-keywords": "^8.6.0",
     "geojson-coords": "0.0.0",
     "jquery-jsonview": "^1.2.3",
     "json-schema-ref-parser": "^7.1.4",
