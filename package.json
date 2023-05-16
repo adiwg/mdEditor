@@ -53,6 +53,7 @@
     "Leaflet.vector-markers": "^0.0.6",
     "ajv": "^6.10.2",
     "ajv-errors": "^1.0.1",
+    "axios": "^1.4.0",
     "bootstrap-3-card": "^0.2.0",
     "bootstrap-sass": "~3.4.1",
     "broccoli-asset-rev": "^3.0.0",
@@ -168,8 +169,5 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  },
-  "dependencies": {
-    "axios": "^1.4.0"
   }
 }
