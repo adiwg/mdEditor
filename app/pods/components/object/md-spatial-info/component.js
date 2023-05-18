@@ -10,10 +10,10 @@ export default Component.extend({
     let model = this.model;
 
     once(this, function() {
-      set(model, 'spatialReferenceSystem', getWithDefault(model, 'spatialReferenceSystem', []));
-      set(model, 'spatialRepresentationType', getWithDefault(model, 'spatialRepresentationType', []));
-      set(model, 'spatialResolution', getWithDefault(model, 'spatialResolution', []));
-      set(model, 'coverageDescription', getWithDefault(model, 'coverageDescription', []));
+      set(model, 'spatialReferenceSystem', (model.spatialReferenceSystem === undefined ? [] : model.spatialReferenceSystem));
+      set(model, 'spatialRepresentationType', (model.spatialRepresentationType === undefined ? [] : model.spatialRepresentationType));
+      set(model, 'spatialResolution', (model.spatialResolution === undefined ? [] : model.spatialResolution));
+      set(model, 'coverageDescription', (model.coverageDescription === undefined ? [] : model.coverageDescription));
     });
   },
 

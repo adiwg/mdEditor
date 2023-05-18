@@ -140,7 +140,7 @@ const theComp = Model.extend(Validations, {
     return this.customSchemas.get('firstObject.schema');
   }),
 
-  validator: computed('isGlobal', 'customSchemas', function () {
+  validator: computed('customSchemas.length', 'isGlobal', 'schemaValidator', 'title', function () {
     if(!this.isGlobal && !this.get('customSchemas.length')) {
       return;
     }

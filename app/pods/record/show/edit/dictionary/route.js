@@ -24,13 +24,13 @@ export default Route.extend({
       .findBy('modelName', 'dictionary');
     let rec = this.modelFor('record.show.edit');
 
-    set(rec, 'json.mdDictionary', getWithDefault(rec, 'json.mdDictionary', []));
+    set(rec, 'json.mdDictionary', (get(rec, 'json.mdDictionary') === undefined ? [] : get(rec, 'json.mdDictionary')));
     let selected = rec.get('json.mdDictionary');
 
     return dicts.map(dict => {
-      let json = get(dict, 'json');
-      let id = get(json, 'dictionaryId');
-      let data = get(json, 'dataDictionary');
+      let json = dict.json;
+      let id = json.dictionaryId;
+      let data = json.dataDictionary;
 
       if(!id) {
         set(json, 'dictionaryId', uuidV4());
@@ -54,10 +54,7 @@ export default Route.extend({
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
 
-    defineProperty(this.controller, 'selected', computed('model',
-      function () {
-        return this.model.filterBy('selected');
-      }));
+    defineProperty(this.controller, 'selected', computed.filterBy('model', 'selected'));
 
     this.controllerFor('record.show.edit')
       .setProperties({

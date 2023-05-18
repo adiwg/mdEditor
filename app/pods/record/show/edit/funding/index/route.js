@@ -8,7 +8,7 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'funding', A(getWithDefault(model, 'funding', [])));
+    set(model, 'funding', A((model.funding === undefined ? [] : model.funding)));
   },
 
   setupController: function() {

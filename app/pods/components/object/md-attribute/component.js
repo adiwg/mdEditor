@@ -58,11 +58,11 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allowNull', getWithDefault(model, 'allowNull', false));
-      set(model, 'reference', getWithDefault(model, 'reference', {}));
-      set(model, 'alias', getWithDefault(model, 'alias', []));
-      set(model, 'valueRange', getWithDefault(model, 'valueRange', []));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', []));
+      set(model, 'allowNull', (model.allowNull === undefined ? false : model.allowNull));
+      set(model, 'reference', (model.reference === undefined ? {} : model.reference));
+      set(model, 'alias', (model.alias === undefined ? [] : model.alias));
+      set(model, 'valueRange', (model.valueRange === undefined ? [] : model.valueRange));
+      set(model, 'timePeriod', (model.timePeriod === undefined ? [] : model.timePeriod));
     });
   },
 
@@ -95,11 +95,11 @@ const theComp = Component.extend(Validations, {
       let domains = this.domains || [];
 
       return domains.map((domain) => {
-        if(get(domain, 'domainId')) {
+        if(domain.domainId) {
           return {
-            codeId: get(domain, 'domainId'),
-            codeName: get(domain, 'codeName'),
-            tooltip: get(domain, 'description')
+            codeId: domain.domainId,
+            codeName: domain.codeName,
+            tooltip: domain.description
           };
         }
       });

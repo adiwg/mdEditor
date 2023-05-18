@@ -6,8 +6,7 @@ export default Route.extend({
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'additionalDocumentation', getWithDefault(model,
-      'additionalDocumentation', []));
+    set(model, 'additionalDocumentation', (model.additionalDocumentation === undefined ? [] : model.additionalDocumentation));
   },
 
   setupController: function() {

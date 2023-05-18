@@ -29,9 +29,9 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function() {
-      set(model, 'currency', getWithDefault(model, 'currency', 'USD'));
-      set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
-      set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
+      set(model, 'currency', (model.currency === undefined ? 'USD' : model.currency));
+      set(model, 'onlineResource', (model.onlineResource === undefined ? [] : model.onlineResource));
+      set(model, 'responsibleParty', (model.responsibleParty === undefined ? [] : model.responsibleParty));
     });
   },
   /**

@@ -6,7 +6,7 @@ import { computed, get } from '@ember/object';
 export default Route.extend({
   breadCrumb: computed('dataQualityId', function () {
     return {
-      title: get(this, 'dataQualityId'),
+      title: this.dataQualityId,
       linkable: true
     };
   }),
@@ -20,7 +20,7 @@ export default Route.extend({
   setupController: function () {
     this._super(...arguments);
 
-    this.controller.set('dataQualityId', get(this, 'dataQualityId'));
+    this.controller.set('dataQualityId', this.dataQualityId);
     this.controllerFor('record.show.edit')
       .setProperties({
         onCancel: this.setupModel,
@@ -29,13 +29,13 @@ export default Route.extend({
   },
 
   setupModel() {
-    let dataQualityId = get(this, 'dataQualityId');
+    let dataQualityId = this.dataQualityId;
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.dataQuality');
     let dataQuality = dataQualityId && isArray(objects) ? objects.get(dataQualityId) : undefined;
 
     if(isEmpty(dataQuality)) {
-      get(this, 'flashMessages')
+      this.flashMessages
         .warning('No Data Quality object found! Re-directing to list...');
       this.replaceWith('record.show.edit.dataquality');
 

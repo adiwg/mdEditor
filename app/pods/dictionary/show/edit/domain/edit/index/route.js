@@ -15,7 +15,7 @@ export default Route.extend(ScrollTo, {
     let parent = this.controllerFor('dictionary.show.edit.domain.edit');
 
     this.controller.set('parentModel', this.modelFor('dictionary.show.edit'));
-    this.controller.set('domainId', get(parent, 'domainId'));
+    this.controller.set('domainId', parent.domainId);
 
     this.controllerFor('dictionary.show.edit')
       .setProperties({

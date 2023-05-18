@@ -39,16 +39,15 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'useLimitation', getWithDefault(model, 'useLimitation', []));
-      set(model, 'graphic', getWithDefault(model, 'graphic', []));
-      set(model, 'responsibleParty', getWithDefault(model,
-        'responsibleParty', []));
-      set(model, 'legal', getWithDefault(model, 'legal', {
+      set(model, 'useLimitation', (model.useLimitation === undefined ? [] : model.useLimitation));
+      set(model, 'graphic', (model.graphic === undefined ? [] : model.graphic));
+      set(model, 'responsibleParty', (model.responsibleParty === undefined ? [] : model.responsibleParty));
+      set(model, 'legal', (model.legal === undefined ? {
         accessConstraint: [],
         useConstraint: [],
         otherConstraint: []
-      }));
-      set(model, 'security', getWithDefault(model, 'security', {}));
+      } : model.legal));
+      set(model, 'security', (model.security === undefined ? {} : model.security));
     });
   },
   /**

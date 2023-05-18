@@ -10,10 +10,9 @@ export default Component.extend({
     let model = this.model;
 
     once(function() {
-      set(model, 'mediumSpecification', getWithDefault(model,
-        'mediumSpecification', {}));
-      set(model, 'identifier', getWithDefault(model, 'identifier', {}));
-      set(model, 'mediumFormat', getWithDefault(model, 'mediumFormat', []));
+      set(model, 'mediumSpecification', (model.mediumSpecification === undefined ? {} : model.mediumSpecification));
+      set(model, 'identifier', (model.identifier === undefined ? {} : model.identifier));
+      set(model, 'mediumFormat', (model.mediumFormat === undefined ? [] : model.mediumFormat));
     });
   },
   tagName: 'form',

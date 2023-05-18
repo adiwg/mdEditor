@@ -7,13 +7,13 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let model = get(m, 'json.dataDictionary');
-    set(model, 'citation', getWithDefault(model, 'citation', {}));
-    set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', {}));
-    set(model, 'subject', getWithDefault(model, 'subject', []));
-    set(model, 'recommendedUse', getWithDefault(model, 'recommendedUse', []));
-    set(model, 'locale', getWithDefault(model, 'locale', []));
-    set(model, 'domain', getWithDefault(model, 'domain', []));
-    set(model, 'entity', getWithDefault(model, 'entity', []));
+    set(model, 'citation', (model.citation === undefined ? {} : model.citation));
+    set(model, 'responsibleParty', (model.responsibleParty === undefined ? {} : model.responsibleParty));
+    set(model, 'subject', (model.subject === undefined ? [] : model.subject));
+    set(model, 'recommendedUse', (model.recommendedUse === undefined ? [] : model.recommendedUse));
+    set(model, 'locale', (model.locale === undefined ? [] : model.locale));
+    set(model, 'domain', (model.domain === undefined ? [] : model.domain));
+    set(model, 'entity', (model.entity === undefined ? [] : model.entity));
   },
 
   setupController(controller, model) {

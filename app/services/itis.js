@@ -255,13 +255,13 @@ export default Service.extend({
   mergeTaxa(taxa, tree) {
     taxa.reduce((tree, taxon) => {
       let branch = this.getBranch(taxon, tree);
-      let sub = get(branch, 'subClassification');
+      let sub = branch.subClassification;
 
       if(!sub) {
         set(branch, 'subClassification', []);
       }
 
-      return get(branch, 'subClassification');
+      return branch.subClassification;
     }, tree);
   }
 });

@@ -14,7 +14,7 @@ export default Route.extend({
 
     once(this, ()=>{
 
-      set(model, 'entity', getWithDefault(model, 'entity', []));
+      set(model, 'entity', (model.entity === undefined ? [] : model.entity));
     });
   },
 

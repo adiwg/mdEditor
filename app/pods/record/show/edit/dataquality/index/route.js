@@ -8,7 +8,7 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'dataQuality', getWithDefault(model, 'dataQuality', []));
+    set(model, 'dataQuality', (model.dataQuality === undefined ? [] : model.dataQuality));
 
   },
 

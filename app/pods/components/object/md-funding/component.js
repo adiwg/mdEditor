@@ -49,8 +49,8 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allocation', getWithDefault(model, 'allocation', []));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
+      set(model, 'allocation', (model.allocation === undefined ? [] : model.allocation));
+      set(model, 'timePeriod', (model.timePeriod === undefined ? {} : model.timePeriod));
     });
   },
   /**

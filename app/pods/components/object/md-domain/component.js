@@ -45,10 +45,9 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'domainId', getWithDefault(model, 'domainId', uuidV4()));
-      set(model, 'domainItem', getWithDefault(model, 'domainItem', []));
-      set(model, 'domainReference', getWithDefault(model,
-        'domainReference', {}));
+      set(model, 'domainId', (model.domainId === undefined ? uuidV4() : model.domainId));
+      set(model, 'domainItem', (model.domainItem === undefined ? [] : model.domainItem));
+      set(model, 'domainReference', (model.domainReference === undefined ? {} : model.domainReference));
     });
   },
 

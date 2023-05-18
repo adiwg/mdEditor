@@ -23,8 +23,8 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function() {
-      set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'citation', A(getWithDefault(model, 'citation', [{}])));
+      set(model, 'resourceType', (model.resourceType === undefined ? [] : model.resourceType));
+      set(model, 'citation', A((model.citation === undefined ? [{}] : model.citation)));
     });
   },
 

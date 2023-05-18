@@ -32,7 +32,7 @@ export default Component.extend(Validations, {
 
     if(model){
     once(this, function() {
-      set(model, 'referenceSystemIdentifier', getWithDefault(model, 'referenceSystemIdentifier', {}));
+      set(model, 'referenceSystemIdentifier', (model.referenceSystemIdentifier === undefined ? {} : model.referenceSystemIdentifier));
     });
   }
   },

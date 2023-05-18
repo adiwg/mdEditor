@@ -95,15 +95,14 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'periodName', getWithDefault(model,
-        'periodName', []));
-      set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
-      set(model, 'duration', getWithDefault(model, 'duration', {}));
+      set(model, 'periodName', (model.periodName === undefined ? [] : model.periodName));
+      set(model, 'timeInterval', (model.timeInterval === undefined ? {} : model.timeInterval));
+      set(model, 'duration', (model.duration === undefined ? {} : model.duration));
       // set(model, 'presentationForm', getWithDefault(model,
       //   'presentationForm', []));
       // set(model, 'onlineResource', getWithDefault(model,
       //   'onlineResource', []));
-      set(model, 'identifier', getWithDefault(model, 'identifier', {}));
+      set(model, 'identifier', (model.identifier === undefined ? {} : model.identifier));
       // set(model, 'graphic', getWithDefault(model, 'graphic', []));
     });
   },

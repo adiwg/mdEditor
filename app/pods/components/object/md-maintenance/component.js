@@ -16,10 +16,10 @@ import { once } from '@ember/runloop';
 
 const formatMaint = function(model) {
   setProperties(model, {
-    'date': getWithDefault(model, 'date', []),
-    'scope': getWithDefault(model, 'scope', []),
-    'note': getWithDefault(model, 'note', []),
-    'contact': getWithDefault(model, 'contact', [])
+    'date': (model.date === undefined ? [] : model.date),
+    'scope': (model.scope === undefined ? [] : model.scope),
+    'note': (model.note === undefined ? [] : model.note),
+    'contact': (model.contact === undefined ? [] : model.contact)
   });
 
   return model;
@@ -62,12 +62,12 @@ const theComp = Component.extend({
     this._super(...arguments);
 
     once(this, function() {
-      this.set('model', getWithDefault(this, 'model', {}));
+      this.set('model', (this.model === undefined ? {} : this.model));
       formatMaint(this.model);
     });
   },
 
-  scopes: computed('scope', {
+  scopes: computed('model.scope', 'scope', {
     get() {
       let scope = get(this, 'model.scope');
       return scope ? scope.mapBy('scopeCode') : [];

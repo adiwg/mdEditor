@@ -9,7 +9,7 @@ export default Component.extend({
 
   showHelp: false,
 
-  prerelease: computed(function () {
+  prerelease: computed('version', function () {
     let version = this.version;
 
     if(version.substring(0, 3) === "0.0"){

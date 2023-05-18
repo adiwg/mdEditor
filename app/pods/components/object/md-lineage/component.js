@@ -13,10 +13,10 @@ export default Component.extend({
     let model = this.model;
 
     once(function() {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'citation', getWithDefault(model, 'citation', []));
-      set(model, 'processStep', getWithDefault(model, 'processStep', []));
-      set(model, 'source', getWithDefault(model, 'source', []));
+      set(model, 'scope', (model.scope === undefined ? {} : model.scope));
+      set(model, 'citation', (model.citation === undefined ? [] : model.citation));
+      set(model, 'processStep', (model.processStep === undefined ? [] : model.processStep));
+      set(model, 'source', (model.source === undefined ? [] : model.source));
     });
   },
 

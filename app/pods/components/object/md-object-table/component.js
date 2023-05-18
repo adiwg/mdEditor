@@ -267,7 +267,7 @@ export default Component.extend(Template, {
     return get(this, 'items.length') === 0 && this.alertIfEmpty;
   }),
 
-  panelId: computed('items.@each.val', 'editing', function () {
+  panelId: computed('editing', 'elementId', 'items.@each.val', function () {
     return 'panel-' + this.elementId;
   }),
 

@@ -6,7 +6,7 @@ export default Route.extend({
     this._super(...arguments);
 
     let model = get(m, 'json.dataDictionary');
-    set(model, 'domain', getWithDefault(model, 'domain', []));
+    set(model, 'domain', (model.domain === undefined ? [] : model.domain));
   },
 
   setupController: function() {

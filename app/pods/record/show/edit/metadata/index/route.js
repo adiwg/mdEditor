@@ -12,24 +12,15 @@ export default Route.extend(ScrollTo, {
     let model = get(m, 'json.metadata.metadataInfo');
 
     once(this, () => {
-      set(model, 'metadataContact', getWithDefault(model,
-        'metadataContact', []));
-      set(model, 'metadataDate', getWithDefault(model, 'metadataDate',
-        []));
-      set(model, 'metadataMaintenance', getWithDefault(model,
-        'metadataMaintenance', {}));
-      set(model, 'metadataOnlineResource', getWithDefault(model,
-        'metadataOnlineResource', []));
-      set(model, 'defaultMetadataLocale', getWithDefault(model,
-        'defaultMetadataLocale', {}));
-      set(model, 'metadataIdentifier', getWithDefault(model,
-        'metadataIdentifier', {}));
-      set(model, 'parentMetadata', getWithDefault(model,
-        'parentMetadata', {}));
-      set(model, 'alternateMetadataReference', getWithDefault(model,
-        'alternateMetadataReference', []));
-      set(m, 'json.metadataRepository', getWithDefault(m,
-        'json.metadataRepository', []));
+      set(model, 'metadataContact', (model.metadataContact === undefined ? [] : model.metadataContact));
+      set(model, 'metadataDate', (model.metadataDate === undefined ? [] : model.metadataDate));
+      set(model, 'metadataMaintenance', (model.metadataMaintenance === undefined ? {} : model.metadataMaintenance));
+      set(model, 'metadataOnlineResource', (model.metadataOnlineResource === undefined ? [] : model.metadataOnlineResource));
+      set(model, 'defaultMetadataLocale', (model.defaultMetadataLocale === undefined ? {} : model.defaultMetadataLocale));
+      set(model, 'metadataIdentifier', (model.metadataIdentifier === undefined ? {} : model.metadataIdentifier));
+      set(model, 'parentMetadata', (model.parentMetadata === undefined ? {} : model.parentMetadata));
+      set(model, 'alternateMetadataReference', (model.alternateMetadataReference === undefined ? [] : model.alternateMetadataReference));
+      set(m, 'json.metadataRepository', (get(m, 'json.metadataRepository') === undefined ? [] : get(m, 'json.metadataRepository')));
     });
   },
 

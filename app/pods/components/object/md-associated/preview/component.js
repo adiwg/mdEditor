@@ -20,7 +20,7 @@ export default Component.extend({
    */
   muted: true,
 
-  citation: computed('item', 'item.mdRecordId', function() {
+  citation: computed('item.{mdRecordId,resourceCitation}', function() {
     if(!this.get('item.mdRecordId')) {
       return this.get('item.resourceCitation');
     }
@@ -33,7 +33,7 @@ export default Component.extend({
     return linked || this.get('item.resourceCitation');
   }),
 
-  metadataIdentifier: computed('item.{metadataCitation.identifier,mdRecordId}', function() {
+  metadataIdentifier: computed('item.mdRecordId', 'item.metadataCitation.identifier.0', function() {
     if(!this.get('item.mdRecordId')) {
       return this.get('item.metadataCitation.identifier.0');
     }

@@ -221,8 +221,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @requires json.logoGraphic.firstObject.fileUri.firstObject.uri
    */
   defaultLogo: computed(
-    'json.logoGraphic.firstObject.fileUri.firstObject.uri',
-    'defaultOrganization',
+    'contactsService.organizations', 'defaultOrganization', 'json.contactId', 'json.logoGraphic.firstObject.fileUri.firstObject.uri',
     function () {
       let uri = this.get(
         'json.logoGraphic.firstObject.fileUri.firstObject.uri');
@@ -237,7 +236,7 @@ const Contact = Model.extend(Validations, Copyable, {
         let org = contacts.findBy('json.contactId', orgId);
 
         if(org) {
-          return get(org, 'defaultLogo');
+          return org.defaultLogo;
         }
       }
 
@@ -262,17 +261,17 @@ const Contact = Model.extend(Validations, Copyable, {
       } = json;
 
       return !isEmpty(memberOfOrganization) ?
-        get(memberOfOrganization, '0') :
+        memberOfOrganization[0] :
         null;
     }),
 
-  defaultOrganizationName: computed('defaultOrganization',
+  defaultOrganizationName: computed('contactsService.organizations', 'defaultOrganization',
     function () {
       let contacts = this.get('contactsService.organizations');
 
       let org = contacts.findBy('json.contactId.identifier', this.defaultOrganization);
 
-      return org ? get(org, 'name') : null;
+      return org ? org.name : null;
     }),
 
   /**
@@ -284,8 +283,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.name, json.isOrganization
    */
-  combinedName: computed('name',
-    'json{isOrganization,positionName,memberOfOrganization[]}',
+  combinedName: computed('contactsService.organizations', 'jso.memberOfOrganization[]', 'jso.{isOrganization,positionName}', 'json', 'name',
     function () {
       const json = this.json;
 
@@ -297,7 +295,7 @@ const Contact = Model.extend(Validations, Copyable, {
       } = json;
 
       let orgId = !isEmpty(memberOfOrganization) ?
-        get(memberOfOrganization, '0') :
+        memberOfOrganization[0] :
         null;
       let combinedName = name || positionName;
       let orgName;
@@ -307,7 +305,7 @@ const Contact = Model.extend(Validations, Copyable, {
         let org = contacts.findBy('json.contactId', orgId);
 
         if(org) {
-          orgName = get(org, 'name');
+          orgName = org.name;
         }
       }
 
@@ -347,7 +345,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
+  schemaErrors: computed('cleanJson', 'customSchemas.[]', 'hasDirtyHash', 'mdjson', function () {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateContact(this).errors;

@@ -151,7 +151,7 @@ const Base = Model.extend({
    * @property hasDirtyHash
    * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
-  hasDirtyHash: computed('currentHash', function () {
+  hasDirtyHash: computed('currentHash', 'hasDirtyAttributes', function () {
     let newHash = this.hashObject(JSON.parse(this.serialize()
       .data.attributes
       .json), true);
@@ -169,7 +169,7 @@ const Base = Model.extend({
     return false;
   }),
 
-  canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
+  canRevert: computed('currentHash', 'hasDirtyHash', 'jsonRevert', 'settings.data.autoSave', function () {
     let dirty = this.hasDirtyHash;
     let autoSave = this.get('settings.data.autoSave');
 
@@ -195,7 +195,7 @@ const Base = Model.extend({
 
   cleanJson: alias('_cleanJson'),
 
-  status: computed('hasDirtyHash', 'hasSchemaErrors', function () {
+  status: computed('currentHash', 'hasDirtyHash', 'hasSchemaErrors', function () {
     let dirty = this.hasDirtyHash;
     let errors = this.hasSchemaErrors;
 
@@ -227,7 +227,7 @@ const Base = Model.extend({
    * @category computed
    * @requires
    */
-  customSchemas: computed('schemas.schemas.@each.isGlobal', 'profile', function () {
+  customSchemas: computed('constructor.modelName', 'customProfiles.mapById', 'profile', 'schemas.schemas.@each.isGlobal', function () {
     return this.schemas.schemas.filter((schema) => {
       if(schema.schemaType !== this.constructor.modelName) {
         return false;

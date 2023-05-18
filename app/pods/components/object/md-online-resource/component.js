@@ -31,7 +31,7 @@ const theComp = Component.extend({
     once(this, ()=>{
         let plain = this.model;
 
-        if (plain && !get(plain,'validations')) {
+        if (plain && !plain.validations) {
           const Model = EmObject.extend(Validations, plain);
           const owner = getOwner(this);
 

@@ -49,8 +49,7 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'reference', getWithDefault(model,
-        'reference', {}));
+      set(model, 'reference', (model.reference === undefined ? {} : model.reference));
     });
   },
 

@@ -16,12 +16,10 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
-    this.controller.set('distributionId', get(this.controllerFor(
-        'record.show.edit.distribution.distributor'),
-      'distributionId'));
-    this.controller.set('distributorId', get(this.controllerFor(
-        'record.show.edit.distribution.distributor'),
-      'distributorId'));
+    this.controller.set('distributionId', (this.controllerFor(
+        'record.show.edit.distribution.distributor')).distributionId);
+    this.controller.set('distributorId', (this.controllerFor(
+        'record.show.edit.distribution.distributor')).distributorId);
   },
 
   actions: {

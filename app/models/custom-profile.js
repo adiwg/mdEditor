@@ -103,7 +103,7 @@ export default Model.extend(Validations, {
   //localVersion: alias('version'),
   //hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
   schemas: hasMany('schemas'),
-  definition: computed('profileId', function() {
+  definition: computed('definitions.profiles', 'profileId', function() {
     return this.definitions.profiles.findBy('identifier', this.profileId);
   }),
 

@@ -26,11 +26,11 @@ export default Component.extend({
    * @default "settings.showDelete"
    */
 
-  showDelete: computed('settings.showDelete', 'allowDelete', function () {
+  showDelete: computed('allowDelete', 'settings.data.showDelete', 'settings.showDelete', function () {
     return isEmpty(this.allowDelete) ? this.settings.data.showDelete : this.allowDelete;
   }),
 
-  showCopy: computed('settings.showDelete', 'allowCopy', function () {
+  showCopy: computed('allowCopy', 'settings.data.showCopy', 'settings.showDelete', function () {
     return isEmpty(this.allowCopy) ? this.settings.data.showCopy : this.allowCopy;
   }),
 

@@ -52,6 +52,7 @@ export default Component.extend({
   },
 
   didInsertElement() {
+this._super(...arguments);
     let json = this.json;
     let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 

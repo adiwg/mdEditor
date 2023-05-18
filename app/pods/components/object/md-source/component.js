@@ -32,21 +32,15 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'sourceId', getWithDefault(model, 'sourceId', uuidV4()));
-      set(model, 'sourceCitation', getWithDefault(model,
-        'sourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model,
-        'metadataCitation', []));
-      set(model, 'spatialResolution', getWithDefault(model,
-        'spatialResolution', {}));
-      set(model, 'referenceSystem', getWithDefault(model,
-        'referenceSystem', {}));
+      set(model, 'sourceId', (model.sourceId === undefined ? uuidV4() : model.sourceId));
+      set(model, 'sourceCitation', (model.sourceCitation === undefined ? {} : model.sourceCitation));
+      set(model, 'metadataCitation', (model.metadataCitation === undefined ? [] : model.metadataCitation));
+      set(model, 'spatialResolution', (model.spatialResolution === undefined ? {} : model.spatialResolution));
+      set(model, 'referenceSystem', (model.referenceSystem === undefined ? {} : model.referenceSystem));
       set(model, 'referenceSystem.referenceSystemIdentifier',
-        getWithDefault(model,
-          'referenceSystem.referenceSystemIdentifier', {}));
-      set(model, 'sourceProcessStep', getWithDefault(model,
-        'sourceProcessStep', []));
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
+        (get(model, 'referenceSystem.referenceSystemIdentifier') === undefined ? {} : get(model, 'referenceSystem.referenceSystemIdentifier')));
+      set(model, 'sourceProcessStep', (model.sourceProcessStep === undefined ? [] : model.sourceProcessStep));
+      set(model, 'scope', (model.scope === undefined ? {} : model.scope));
     });
   },
 
