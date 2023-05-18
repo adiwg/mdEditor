@@ -5,6 +5,7 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
+    hinting: false,
     sassOptions: {
       includePaths: [
         'node_modules/bootstrap-sass/assets/stylesheets',
@@ -13,6 +14,23 @@ module.exports = function (defaults) {
         // 'node_modules/select2-bootstrap-theme/src',
         'node_modules/jquery-jsonview/src'
       ]
+    },
+    'ember-cli-terser': {
+      enabled: true,
+
+      exclude: ['vendor.js'],
+
+      terser: {
+        compress: {
+          sequences: 50,
+        },
+        output: {
+          semicolons: true,
+        },
+      },
+
+      // Tell broccoli-terser-sourcemap to not add sourcemap URLs
+      hiddenSourceMap: true,
     },
 
     'ember-math-helpers': {

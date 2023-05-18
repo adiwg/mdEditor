@@ -51,7 +51,8 @@
 }
 
 .ember-power-select-option>.md-select-option.with-tip {
-  @include text-overflow();
+  @include text-overflow;
+
   display: list-item;
   padding-right: 1.5em;
   position: relative;
