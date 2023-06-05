@@ -6,6 +6,7 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'style-src': "'self' 'unsafe-inline'"
     },
+    hinting: false,
     modulePrefix: 'mdeditor',
     podModulePrefix: 'mdeditor/pods',
     environment: environment,
