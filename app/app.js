@@ -91,7 +91,8 @@ Component.reopen({
             return isVisible;
           }
 
-          return (get(profile.activeComponents, path) === undefined ? isVisible : get(profile.activeComponents, path));
+          return getWithDefault(profile.activeComponents, path,
+            isVisible);
         }));
     }
   }
