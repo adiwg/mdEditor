@@ -1,25 +1,71 @@
-import { inject as service } from '@ember/service';
-import Route from '@ember/routing/route';
 import { A } from '@ember/array';
 import { getWithDefault, set } from '@ember/object';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 import { copy } from 'ember-copy';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-// import { on } from '@ember/object/evented';
 
 export default Route.extend(ScrollTo, {
   keyword: service(),
+  profileService: service('profile'),
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
+    let recordModel = this.modelFor('record.show');
+    let profileId = recordModel.profile;
+    let profiles = this.profileService.profiles;
+    let allVocabularies = this.keyword.thesaurus; // list of all vocabularies known to mdEditor
+    console.log('all vocabularies', allVocabularies);
 
-    set(info, 'keyword', !info.hasOwnProperty('keyword') ? A() :
-      A(
-        info.keyword));
+    let selectedProfile = profiles.find((profile) => {
+      return `${profile.namespace}.${profile.identifier}` === profileId;
+    });
+    let requiredVocabularies = selectedProfile.vocabularies || [];
+    console.log('requiredVocabularies', requiredVocabularies);
 
-    //check to see if custom list
-    info.keyword.forEach((k) => {
+    // info.keyword is the list of vocabularies (aka: thesauri) that have been added to the record
+    let currentVocabularies = info.keyword || [];
+    console.log('initial vocabularies', currentVocabularies);
+
+    let missingVocabularies = requiredVocabularies.filter((requiredVocab) => {
+      if (!requiredVocab.id) return false;
+      return !(currentVocabularies.some((currentVocab) => {
+        return currentVocab.thesaurus.identifier[0].identifier === requiredVocab.id;
+      }));
+    });
+    console.log('missing', missingVocabularies);
+
+    let extraVocabularies = currentVocabularies.filter((currentVocab) => {
+      return !(requiredVocabularies.some((requiredVocab) => {
+        return requiredVocab.id === currentVocab.thesaurus.identifier[0].identifier;
+      }));
+    });
+    console.log('extraVocabularies', extraVocabularies);
+
+    if (missingVocabularies && missingVocabularies.length > 0) {
+      missingVocabularies.forEach((missing) => {
+        let missingVocab = allVocabularies.find((vocab) => {
+          return vocab.citation.identifier[0].identifier === missing.id;
+        })
+        currentVocabularies.pushObject({
+          keyword: [],
+          keywordType: missingVocab.keywordType || 'theme',
+          thesaurus: copy(missingVocab.citation, true),
+          fullPath: true
+        })
+      });
+    }
+
+    console.log('current vocabularies', currentVocabularies);
+    info.keyword = currentVocabularies;
+
+    set(info, 'keyword', !info.hasOwnProperty('keyword') ? A() : A(info.keyword));
+
+    console.log('record:', info.citation.title)
+    currentVocabularies.forEach((k, i) => {
+      console.log(`info.keyword[${i}]`, k);
       set(k, 'thesaurus', getWithDefault(k, 'thesaurus', {}));
       set(k, 'thesaurus.identifier', getWithDefault(k,
         'thesaurus.identifier', [{
@@ -38,8 +84,9 @@ export default Route.extend(ScrollTo, {
       return this;
     },
     addThesaurus() {
-      let the = this.currentRouteModel().get(
-        'json.metadata.resourceInfo.keyword');
+      console.log('addThesaurus');
+      let the = this.currentRouteModel().get( 'json.metadata.resourceInfo.keyword');
+      console.log('the', the);
 
       $("html, body").animate({ scrollTop: $(document).height() }, "slow");
 
@@ -67,9 +114,9 @@ export default Route.extend(ScrollTo, {
       this.transitionTo('record.show.edit.keywords.thesaurus', id);
     },
     selectThesaurus(selected, thesaurus) {
+      console.log('selectThesaurus', selected, thesaurus);
       if(selected) {
-        set(thesaurus, 'thesaurus', copy(selected.citation,
-          true));
+        set(thesaurus, 'thesaurus', copy(selected.citation, true));
         if(selected.keywordType) {
           set(thesaurus, 'keywordType', selected.keywordType);
         }
