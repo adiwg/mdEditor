@@ -13,6 +13,7 @@ module.exports = function(environment) {
     rootURL: '/',
     vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies.json',
     locationType: 'auto',
+    profilesListUrl: 'https://s3.amazonaws.com/sit-cdn.xentity/mdeditor/profilesList.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build

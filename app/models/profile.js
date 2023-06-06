@@ -1,33 +1,9 @@
 import Model, { attr } from '@ember-data/model';
-import { or, alias } from '@ember/object/computed';
 import { computed, observer } from '@ember/object';
+import { alias, or } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { checkVersion, regex } from 'mdeditor/models/schema'
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-
-// [{
-//   "id": "full",
-//   "namespace": "org.adiwg.profile",
-//   "alternateId": [""],
-//   "title": "Full",
-//   "description": "Evey supported component",
-//   "version": "0.0.0",
-//   "components": {
-//     "record": {},
-//     "contact": {},
-//     "dictionary": {}
-//   },
-//   "nav": {
-//     "record": [{
-//       "title": "",
-//       "target": "",
-//       "tip": ""
-//     }]
-//   }
-// }]
+import { buildValidations, validator } from 'ember-cp-validations';
+import { checkVersion, regex } from 'mdeditor/models/schema';
 
 const Validations = buildValidations({
   'config': validator(
@@ -66,19 +42,22 @@ export default Model.extend(Validations, {
     this.updateSettings;
   },
 
+  identifier: attr('string'),
+  alternateId: attr(),
+  version: attr('string'),
+  title: attr('string'),
+  namespace: attr('string'),
+  description: attr('string'),
+  components: attr(),
+  nav: attr(),
+
   uri: attr('string'),
   alias: attr('string'),
   altDescription: attr('string'),
   remoteVersion: attr('string'),
   config: attr('json'),
 
-  title: or('alias', 'config.title'),
-  identifier: alias('config.identifier'),
-  namespace: alias('config.namespace'),
-  description: or('altDescription', 'config.description'),
   localVersion: alias('config.version'),
-  components: alias('config.components'),
-  nav: alias('config.nav'),
   hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
 
   /* eslint-disable ember/no-observers */
