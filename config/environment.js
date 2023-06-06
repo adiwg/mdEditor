@@ -11,7 +11,7 @@ module.exports = function(environment) {
     podModulePrefix: 'mdeditor/pods',
     environment: environment,
     rootURL: '/',
-    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/thesauri.json',
+    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies.json',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
