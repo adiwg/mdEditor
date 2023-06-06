@@ -1,7 +1,6 @@
 import Route from '@ember/routing/route';
 import axios from 'axios';
-
-const profilesListUrl = 'https://s3.amazonaws.com/sit-cdn.xentity/mdeditor/profilesList.json';
+import ENV from 'mdeditor/config/environment';
 
 export default Route.extend({
   init() {
@@ -14,17 +13,19 @@ export default Route.extend({
   },
 
   model() {
-    return axios.get(profilesListUrl).then((profilesListResponse) => {
-      const profilesList = profilesListResponse.data;
-      const promiseArray = [];
-      profilesList.forEach((profileItem) => {
-        promiseArray.push(axios.get(profileItem.url));
+    if (ENV.profilesListUrl) {
+      return axios.get(profilesListUrl).then((profilesListResponse) => {
+        const profilesList = profilesListResponse.data;
+        const promiseArray = [];
+        profilesList.forEach((profileItem) => {
+          promiseArray.push(axios.get(profileItem.url));
+        });
+        return Promise.all(promiseArray).then((responseArray) => {
+          for (const response of responseArray) {
+              this.store.createRecord('profile', response.data);
+          }
+        });
       });
-      return Promise.all(promiseArray).then((responseArray) => {
-        for (const response of responseArray) {
-            this.store.createRecord('profile', response.data);
-        }
-      });
-    });
+    }
   }
 });

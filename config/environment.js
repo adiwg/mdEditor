@@ -12,6 +12,7 @@ module.exports = function(environment) {
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
+    profilesListUrl: 'https://s3.amazonaws.com/sit-cdn.xentity/mdeditor/profilesList.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
