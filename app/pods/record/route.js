@@ -9,4 +9,19 @@ export default Route.extend({
       linkable: false
     }
   },
+
+  model() {
+    return axios.get(profilesListUrl).then((profilesListResponse) => {
+      const profilesList = profilesListResponse.data;
+      const promiseArray = [];
+      profilesList.forEach((profileItem) => {
+        promiseArray.push(axios.get(profileItem.url));
+      });
+      return Promise.all(promiseArray).then((responseArray) => {
+        for (const response of responseArray) {
+            this.store.createRecord('profile', response.data);
+        }
+      });
+    });
+  }
 });

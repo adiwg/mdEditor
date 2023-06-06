@@ -1,20 +1,22 @@
-import Service, { inject as service } from '@ember/service';
-import Ember from 'ember';
-import request from 'ember-ajax/request';
-import { task, all, timeout } from 'ember-concurrency';
-// import { computed } from '@ember/object';
 import { union } from '@ember/object/computed';
-import {
-  // isAjaxError,
-  isNotFoundError,
-  // isForbiddenError
-} from 'ember-ajax/errors';
+import Service, { inject as service } from '@ember/service';
+import { isNotFoundError } from 'ember-ajax/errors';
+import request from 'ember-ajax/request';
+import { all, task, timeout } from 'ember-concurrency';
 import semver from 'semver';
-import mdprofiles from 'mdprofiles';
 
-Ember.libraries.register('mdProfiles', mdprofiles.version);
-
-const coreProfiles = mdprofiles.asArray();
+function adaptProfile(profile) {
+  return {
+    identifier: profile.identifier,
+    namespace: profile.namespace,
+    alternateId: profile.alternateId,
+    title: profile.title,
+    description: profile.description,
+    version: profile.version,
+    components: profile.components,
+    nav: profile.nav
+  }
+}
 
 /**
  * Profile service
@@ -28,13 +30,12 @@ const coreProfiles = mdprofiles.asArray();
 export default Service.extend({
   init() {
     this._super(...arguments);
-
-    this.profileRecords = this.store.peekAll('profile');
-    //this.customProfiles = this.get('store').peekAll('custom-profile');
-    this.coreProfiles = coreProfiles;
+    this.coreProfiles = this.store.peekAll('profile').toArray().map((record) => {
+      return adaptProfile(record);
+   });
   },
 
-  profiles: union('profileRecords', 'coreProfiles'),
+  profiles: union('coreProfiles'),
   flashMessages: service(),
   store: service(),
 

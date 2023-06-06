@@ -10347,13 +10347,6 @@ mdn-links@^0.1.0:
   resolved "https://registry.yarnpkg.com/mdn-links/-/mdn-links-0.1.0.tgz#e24c83b97cb4c5886cc39f2f780705fbfe273aa5"
   integrity sha512-m+gI2Hrgro1O0SwqHd9cFkqN8VGzP56eprB63gxu6z9EFQDMeaR083wcNqMVADIbgiMP/TOCCe0ZIXHLBv2tUg==
 
-mdprofiles@^0.2.4:
-  version "0.2.4"
-  resolved "https://registry.yarnpkg.com/mdprofiles/-/mdprofiles-0.2.4.tgz#e24704b55437d1e819855b516a03acbadd7cfdb8"
-  integrity sha512-D0+PU3m1S7k+jV5DZ3cE6aFDsVAXIaaE76aUUP1b1DtEH8Ru5H02YVtCI5UiZFdxMwWia+tXZcdzp5TPDLevgQ==
-  dependencies:
-    ajv "^6.10.0"
-
 mdurl@^1.0.1, mdurl@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/mdurl/-/mdurl-1.0.1.tgz#fe85b2ec75a59037f2adfec100fd6c601761152e"
