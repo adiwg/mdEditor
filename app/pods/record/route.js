@@ -13,8 +13,9 @@ export default Route.extend({
   },
 
   model() {
+    console.log(ENV);
     if (ENV.profilesListUrl) {
-      return axios.get(profilesListUrl).then((profilesListResponse) => {
+      return axios.get(ENV.profilesListUrl).then((profilesListResponse) => {
         const profilesList = profilesListResponse.data;
         const promiseArray = [];
         profilesList.forEach((profileItem) => {
