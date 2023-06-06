@@ -50,6 +50,7 @@ export default Model.extend(Validations, {
   description: attr('string'),
   components: attr(),
   nav: attr(),
+  vocabularies: attr(),
 
   uri: attr('string'),
   alias: attr('string'),
