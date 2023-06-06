@@ -14,7 +14,8 @@ function adaptProfile(profile) {
     description: profile.description,
     version: profile.version,
     components: profile.components,
-    nav: profile.nav
+    nav: profile.nav,
+    vocabularies: profile.vocabularies
   }
 }
 
