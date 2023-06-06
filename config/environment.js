@@ -11,8 +11,8 @@ module.exports = function(environment) {
     podModulePrefix: 'mdeditor/pods',
     environment: environment,
     rootURL: '/',
-    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies.json',
     locationType: 'auto',
+    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies.json',
     profilesListUrl: 'https://s3.amazonaws.com/sit-cdn.xentity/mdeditor/profilesList.json',
     EmberENV: {
       FEATURES: {
