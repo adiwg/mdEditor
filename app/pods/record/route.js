@@ -1,4 +1,7 @@
 import Route from '@ember/routing/route';
+import axios from 'axios';
+
+const profilesListUrl = 'https://s3.amazonaws.com/sit-cdn.xentity/mdeditor/profilesList.json';
 
 export default Route.extend({
   init() {
