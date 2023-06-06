@@ -13,7 +13,6 @@ export default Route.extend({
   },
 
   model() {
-    console.log(ENV);
     if (ENV.profilesListUrl) {
       return axios.get(ENV.profilesListUrl).then((profilesListResponse) => {
         const profilesList = profilesListResponse.data;
