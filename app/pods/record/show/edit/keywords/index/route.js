@@ -10,47 +10,27 @@ export default Route.extend(ScrollTo, {
   keyword: service(),
   profileService: service('profile'),
   model() {
-    let model = this.modelFor('record.show.edit');
-    let json = model.get('json');
+    let allVocabularies = this.keyword.thesaurus;
+
+    let editModel = this.modelFor('record.show.edit');
+    let json = editModel.get('json');
     let info = json.metadata.resourceInfo;
-    let recordModel = this.modelFor('record.show');
-    let profileId = recordModel.profile;
-    let profiles = this.profileService.profiles;
-    let allVocabularies = this.keyword.thesaurus; // list of all vocabularies known to mdEditor
-    console.log('all vocabularies', allVocabularies);
-
-    let selectedProfile = profiles.find((profile) => {
-      return `${profile.namespace}.${profile.identifier}` === profileId;
-    });
-    console.log('selectedProfile', selectedProfile);
-    
-    let requiredVocabularies = selectedProfile.vocabularies || [];
-    console.log('requiredVocabularies', requiredVocabularies);
-
-    // info.keyword is the list of vocabularies (aka: thesauri) that have been added to the record
     let currentVocabularies = info.keyword || [];
-    console.log('initial vocabularies', currentVocabularies);
 
+    let showModel = this.modelFor('record.show');
+    let profileId = showModel.profile;
+    let profiles = this.profileService.profiles;
+    let selectedProfile = profiles.find((profile) => `${profile.namespace}.${profile.identifier}` === profileId);
+
+    let requiredVocabularies = selectedProfile.vocabularies || [];
     let missingVocabularies = requiredVocabularies.filter((requiredVocab) => {
       if (!requiredVocab.id) return false;
-      return !(currentVocabularies.some((currentVocab) => {
-        return currentVocab.thesaurus.identifier[0].identifier === requiredVocab.id;
-      }));
+      return !(currentVocabularies.some((currentVocab) => currentVocab.thesaurus.identifier[0].identifier === requiredVocab.id));
     });
-    console.log('missing', missingVocabularies);
-
-    let extraVocabularies = currentVocabularies.filter((currentVocab) => {
-      return !(requiredVocabularies.some((requiredVocab) => {
-        return requiredVocab.id === currentVocab.thesaurus.identifier[0].identifier;
-      }));
-    });
-    console.log('extraVocabularies', extraVocabularies);
 
     if (missingVocabularies && missingVocabularies.length > 0) {
       missingVocabularies.forEach((missing) => {
-        let missingVocab = allVocabularies.find((vocab) => {
-          return vocab.citation.identifier[0].identifier === missing.id;
-        })
+        let missingVocab = allVocabularies.find((vocab) => vocab.citation.identifier[0].identifier === missing.id)
         currentVocabularies.pushObject({
           keyword: [],
           keywordType: missingVocab.keywordType || 'theme',
@@ -61,21 +41,14 @@ export default Route.extend(ScrollTo, {
     }
 
     set(info, 'keyword', A(currentVocabularies));
-
-    console.log('record:', info.citation.title)
     currentVocabularies.forEach((k, i) => {
-      console.log(`info.keyword[${i}]`, k);
       set(k, 'thesaurus', getWithDefault(k, 'thesaurus', {}));
-      set(k, 'thesaurus.identifier', getWithDefault(k,
-        'thesaurus.identifier', [{
-          identifier: 'custom'
-        }]));
+      set(k, 'thesaurus.identifier', getWithDefault(k, 'thesaurus.identifier', [{ identifier: 'custom' }]));
       set(k, 'thesaurus.date', getWithDefault(k, 'thesaurus.date', [{}]));
-      set(k, 'thesaurus.onlineResource', getWithDefault(k,
-        'thesaurus.onlineResource', [{}]));
+      set(k, 'thesaurus.onlineResource', getWithDefault(k, 'thesaurus.onlineResource', [{}]));
     });
 
-    return model;
+    return editModel;
   },
 
   actions: {
