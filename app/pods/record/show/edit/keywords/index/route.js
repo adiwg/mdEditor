@@ -22,6 +22,8 @@ export default Route.extend(ScrollTo, {
     let selectedProfile = profiles.find((profile) => {
       return `${profile.namespace}.${profile.identifier}` === profileId;
     });
+    console.log('selectedProfile', selectedProfile);
+    
     let requiredVocabularies = selectedProfile.vocabularies || [];
     console.log('requiredVocabularies', requiredVocabularies);
 
@@ -58,10 +60,7 @@ export default Route.extend(ScrollTo, {
       });
     }
 
-    console.log('current vocabularies', currentVocabularies);
-    info.keyword = currentVocabularies;
-
-    set(info, 'keyword', !info.hasOwnProperty('keyword') ? A() : A(info.keyword));
+    set(info, 'keyword', A(currentVocabularies));
 
     console.log('record:', info.citation.title)
     currentVocabularies.forEach((k, i) => {
