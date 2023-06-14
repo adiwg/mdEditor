@@ -29,11 +29,10 @@ export default Route.extend(ScrollTo, {
     this.controller.set('attrGroupId', this.attrGroupId);
     this.controller.set('attributeId', this.attributeId);
     this.controller.set('rasterId', this.rasterId);
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
@@ -44,19 +43,21 @@ export default Route.extend(ScrollTo, {
 
     let rasters = model.get('json.metadata.resourceInfo.coverageDescription');
 
-    let raster = rasterId && isArray(rasters)
-      ? A(rasters).objectAt(rasterId)
-      : undefined;
-    let attrGroup = raster && attrGroupId && isArray(raster.attributeGroup)
-      ? A(raster.attributeGroup).objectAt(attrGroupId)
-      : undefined;
-    let attribute = attrGroup && attributeId && isArray(attrGroup.attribute)
-      ? A(attrGroup.attribute).objectAt(attributeId)
-      : undefined;
+    let raster =
+      rasterId && isArray(rasters) ? A(rasters).objectAt(rasterId) : undefined;
+    let attrGroup =
+      raster && attrGroupId && isArray(raster.attributeGroup)
+        ? A(raster.attributeGroup).objectAt(attrGroupId)
+        : undefined;
+    let attribute =
+      attrGroup && attributeId && isArray(attrGroup.attribute)
+        ? A(attrGroup.attribute).objectAt(attributeId)
+        : undefined;
     //make sure the identifier exists
-    if(isEmpty(attribute)) {
-      this.flashMessages
-        .warning('No Attributes found! Re-directing to Attribute Groups...');
+    if (isEmpty(attribute)) {
+      this.flashMessages.warning(
+        'No Attributes found! Re-directing to Attribute Groups...'
+      );
       this.replaceWith('record.show.edit.spatial.raster');
 
       return;
@@ -71,20 +72,21 @@ export default Route.extend(ScrollTo, {
     },
 
     deleteAttribute(id) {
-      let model = this.controller.parentModel
-        .get('json.metadata.resourceInfo.coverageDescription')[this.controller.rasterId]
-        .attributeGroup[this.controller.attrGroupId].attribute;
+      let model = this.controller.parentModel.get(
+        'json.metadata.resourceInfo.coverageDescription'
+      )[this.controller.rasterId].attributeGroup[this.controller.attrGroupId]
+        .attribute;
 
       model.removeAt(id || parseInt(this.attributeId, 0));
       this.transitionTo('record.show.edit.spatial.raster', {
         queryParams: {
-          scrollTo: this.controller.attrGroupId
-        }
+          scrollTo: this.controller.attrGroupId,
+        },
       });
     },
 
     backToAttrGroup() {
       this.transitionTo('record.show.edit.spatial.raster');
-    }
-  }
+    },
+  },
 });

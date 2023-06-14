@@ -27,8 +27,8 @@ const ArrayRequired = BaseValidator.extend({
    *
    */
   validate(value, options) {
-    if(isArray(value)) {
-      if(value.length) {
+    if (isArray(value)) {
+      if (value.length) {
         return true;
       }
     }
@@ -36,7 +36,7 @@ const ArrayRequired = BaseValidator.extend({
     options.item = this.options.description || this.options.attribute;
 
     return this.createErrorMessage('arrayRequired', value, options);
-  }
+  },
 });
 
 ArrayRequired.reopenClass({
@@ -60,16 +60,17 @@ ArrayRequired.reopenClass({
 
     assert(
       `[validator:array-valid] [${attribute}] option 'track' must be an array`,
-      isArray(opts));
+      isArray(opts)
+    );
 
-    if(!isArray(opts)) return track;
+    if (!isArray(opts)) return track;
 
     opts.forEach((itm) => {
       track.push(`model.${attribute}.@each.${itm}`);
     });
 
     return track;
-  }
+  },
 });
 
 export default ArrayRequired;

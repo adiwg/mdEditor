@@ -5,5 +5,5 @@ export default Route.extend({
     let rec = this.store.createRecord('record');
 
     this.replaceWith('record.new.id', rec.id);
-  }
+  },
 });

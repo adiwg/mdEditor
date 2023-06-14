@@ -7,7 +7,7 @@ export default Route.extend({
   breadCrumb: computed('citationId', function () {
     return {
       title: this.citationId,
-      linkable: true
+      linkable: true,
     };
   }),
 
@@ -23,31 +23,31 @@ export default Route.extend({
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set('citationId', this.citationId);
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
     let citationId = this.citationId;
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.additionalDocumentation');
-    let resource = citationId && isArray(objects) ? A(
-        objects)
-      .objectAt(citationId) :
-      undefined;
+    let resource =
+      citationId && isArray(objects)
+        ? A(objects).objectAt(citationId)
+        : undefined;
 
     //make sure the identifier exists
-    if(isEmpty(resource)) {
-      this.flashMessages
-        .warning('No Document object found! Re-directing to list...');
+    if (isEmpty(resource)) {
+      this.flashMessages.warning(
+        'No Document object found! Re-directing to list...'
+      );
       this.replaceWith('record.show.edit.documents');
 
       return;
     }
 
     return resource;
-  }
+  },
 });

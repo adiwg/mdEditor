@@ -7,5 +7,5 @@ export default Table.extend({
     // this.pageSizeValues = [10, 25, 50, 500];
     // this.filteringIgnoreCase = true;
   },
-  themeInstance: Theme.create()
+  themeInstance: Theme.create(),
 });

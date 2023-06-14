@@ -3,13 +3,13 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | control/md scroll spy', function(hooks) {
+module('Integration | Component | control/md scroll spy', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     assert.expect(3);
     // Set any properties with this.set('myProperty', 'value');
-    this.set('setScrollTo', function(target){
+    this.set('setScrollTo', function (target) {
       assert.equal(target, 'foo', 'calls action');
     });
 
@@ -21,7 +21,12 @@ module('Integration | Component | control/md scroll spy', function(hooks) {
       <div data-spy="Bar" id="bar1">Bar</div>
       {{control/md-scroll-spy setScrollTo=setScrollTo}}`);
 
-    assert.equal(find('ul').textContent.replace(/[ \n\t\s]+/g,'|').trim(), '|Foo|Bar|');
+    assert.equal(
+      find('ul')
+        .textContent.replace(/[ \n\t\s]+/g, '|')
+        .trim(),
+      '|Foo|Bar|'
+    );
 
     await click('ul a');
     // Template block usage:

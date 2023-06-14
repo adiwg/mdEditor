@@ -4,10 +4,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createMapLayer from 'mdeditor/tests/helpers/create-map-layer';
 
-module('Integration | Component | leaflet draw', function(hooks) {
+module('Integration | Component | leaflet draw', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
@@ -25,7 +25,9 @@ module('Integration | Component | leaflet draw', function(hooks) {
       {{/leaflet-draw}}
     `);
 
-    assert.equal(find('.leaflet-container').innerText.trim().replace(/\n/g,'|'),
-     '+|−|Draw a polyline|Draw a polygon|Draw a rectangle|Draw a marker|3000 km|2000 mi|Leaflet');
+    assert.equal(
+      find('.leaflet-container').innerText.trim().replace(/\n/g, '|'),
+      '+|−|Draw a polyline|Draw a polygon|Draw a rectangle|Draw a marker|3000 km|2000 mi|Leaflet'
+    );
   });
 });

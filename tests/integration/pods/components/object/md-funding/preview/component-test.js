@@ -3,26 +3,33 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | object/md funding/preview', function(hooks) {
+module('Integration | Component | object/md funding/preview', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     this.set('funding', {
-      "allocation": [{
-        "amount": 9.9,
-        "currency": "currency"
-      }],
-      "timePeriod": {
-        "endDateTime": "2016-12-31"
-      }
+      allocation: [
+        {
+          amount: 9.9,
+          currency: 'currency',
+        },
+      ],
+      timePeriod: {
+        endDateTime: '2016-12-31',
+      },
     });
 
-    await render(hbs`<section>{{object/md-funding/preview item=funding}}</section>`);
+    await render(
+      hbs`<section>{{object/md-funding/preview item=funding}}</section>`
+    );
 
-    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Start|Date:|Not|defined|End|Date:|12-31-2016|Allocations|Amount|Currency|Source|Recipient|Match?|9.9|currency|--|--|--|');
+    assert.equal(
+      find('section')
+        .textContent.replace(/[\s\n]+/g, '|')
+        .trim(),
+      '|Start|Date:|Not|defined|End|Date:|12-31-2016|Allocations|Amount|Currency|Source|Recipient|Match?|9.9|currency|--|--|--|'
+    );
 
     // Template block usage:
     await render(hbs`<section>
@@ -31,8 +38,12 @@ module('Integration | Component | object/md funding/preview', function(hooks) {
       {{/object/md-funding/preview}}</section>
     `);
 
-    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
+    assert.equal(
+      find('section')
+        .textContent.replace(/[\s\n]+/g, '|')
+        .trim(),
       '|Start|Date:|Not|defined|End|Date:|Not|defined|Allocations|Amount|Currency|Source|Recipient|Match?|No|allocations|found.|',
-      'block');
+      'block'
+    );
   });
 });

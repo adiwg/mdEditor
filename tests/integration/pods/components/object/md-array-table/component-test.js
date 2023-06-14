@@ -3,19 +3,21 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | object/md array table', function(hooks) {
+module('Integration | Component | object/md array table', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
-     this.set('data', [{
-      biz: 'biz1',
-      baz: 'baz1'
-    }, {
-      biz: 'biz2',
-      baz: 'baz2'
-    }]);
+    this.set('data', [
+      {
+        biz: 'biz1',
+        baz: 'baz1',
+      },
+      {
+        biz: 'biz2',
+        baz: 'baz2',
+      },
+    ]);
 
     await render(hbs`
       {{#object/md-array-table
@@ -33,8 +35,12 @@ module('Integration | Component | object/md array table', function(hooks) {
       {{/object/md-array-table}}
       `);
 
-    assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|FooBars|2|Add|#|Biz|Baz|0|biz1|baz1|Delete|1|biz2|baz2|Delete|');
+    assert.equal(
+      find('.panel')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|FooBars|2|Add|#|Biz|Baz|0|biz1|baz1|Delete|1|biz2|baz2|Delete|'
+    );
 
     // Template block usage:
     await render(hbs`
@@ -47,7 +53,12 @@ module('Integration | Component | object/md array table', function(hooks) {
       {{/object/md-array-table}}
     `);
 
-    assert.equal(find('.panel').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|FooBars|2|Add|#|Biz|Baz|0|template|block|text|Delete|1|template|block|text|Delete|', 'block');
+    assert.equal(
+      find('.panel')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|FooBars|2|Add|#|Biz|Baz|0|template|block|text|Delete|1|template|block|text|Delete|',
+      'block'
+    );
   });
 });

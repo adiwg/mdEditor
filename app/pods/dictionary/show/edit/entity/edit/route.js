@@ -12,7 +12,7 @@ export default Route.extend({
 
   breadCrumb: computed('entityId', function () {
     return {
-      title: this.entityId
+      title: this.entityId,
     };
   }),
 
@@ -22,29 +22,29 @@ export default Route.extend({
 
     this.controller.set('setupModel', this.setupModel);
     this.controller.set('entityId', this.entityId);
-    this.controllerFor('dictionary.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('dictionary.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
     let entityId = this.entityId;
     let model = this.modelFor('dictionary.show.edit');
     let objects = model.get('json.dataDictionary.entity');
-    let resource = entityId && isArray(objects) ? objects.objectAt(entityId) :
-      undefined;
+    let resource =
+      entityId && isArray(objects) ? objects.objectAt(entityId) : undefined;
 
     //make sure the entity exists
-    if(isEmpty(resource)) {
-      this.flashMessages
-        .warning('No Entity object found! Re-directing to list...');
+    if (isEmpty(resource)) {
+      this.flashMessages.warning(
+        'No Entity object found! Re-directing to list...'
+      );
       this.replaceWith('dictionary.show.edit.entity');
 
       return;
     }
 
     return resource;
-  }
+  },
 });

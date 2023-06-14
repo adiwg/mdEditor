@@ -1,13 +1,13 @@
 import sbTreeNode from 'mdeditor/utils/sb-tree-node';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | sb tree node', function() {
-  test('it works', function(assert) {
+module('Unit | Utility | sb tree node', function () {
+  test('it works', function (assert) {
     assert.expect(2);
 
     let result = sbTreeNode.create({
       _record: {
-        recordId: 'theid'
+        recordId: 'theid',
       },
       //config: this.get('config')
     });

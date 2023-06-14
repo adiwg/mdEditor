@@ -4,23 +4,31 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createCitation from 'mdeditor/tests/helpers/create-citation';
 
-module('Integration | Component | object/md citation array', function(hooks) {
+module('Integration | Component | object/md citation array', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     this.set('citation', createCitation(3));
 
     await render(hbs`{{object/md-citation-array}}`);
 
-    assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');
+    assert.equal(
+      find('.md-object-table')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|No|Citation|found.|Add|Citation|'
+    );
 
     await render(hbs`{{object/md-citation-array model=citation}}`);
 
-    assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(
+      find('.md-object-table')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
       '|Citation|3|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|2|title2|More...|Delete|',
-      'renders rows');
+      'renders rows'
+    );
 
     // Template block usage:
     await render(hbs`
@@ -29,6 +37,11 @@ module('Integration | Component | object/md citation array', function(hooks) {
       {{/object/md-citation-array}}
     `);
 
-    assert.equal(find('.md-object-table').textContent.replace(/[ \n]+/g, '|').trim(), '|No|Citation|found.|Add|Citation|');
+    assert.equal(
+      find('.md-object-table')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|No|Citation|found.|Add|Citation|'
+    );
   });
 });

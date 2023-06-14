@@ -10,14 +10,16 @@
  * @static
  * @return {String|Array}
  */
- function parseInput(e, delimiter = '|') {
+function parseInput(e, delimiter = '|') {
   // TODO: Support md-toggle
-  let text = Array.from(e.querySelectorAll(
-      'input,textarea,.md-select'))
-    .map(i => (i.type === 'checkbox' ? i.checked.toString() : false) ||
+  let text = Array.from(e.querySelectorAll('input,textarea,.md-select')).map(
+    (i) =>
+      (i.type === 'checkbox' ? i.checked.toString() : false) ||
       i.value ||
       Array.from(i.querySelectorAll('.select-value'))
-      .map(n => n.textContent).join('|'));
+        .map((n) => n.textContent)
+        .join('|')
+  );
 
   return delimiter ? text.join(delimiter) : text;
 }
@@ -27,9 +29,7 @@ function formatContent(t) {
 }
 
 let nestedValues = (obj) =>
-  typeof obj === 'object'
-    ? Object.values(obj).map(nestedValues).flat()
-    : [obj];
+  typeof obj === 'object' ? Object.values(obj).map(nestedValues).flat() : [obj];
 
 let lsClean = () => {
   let ls = window.localStorage;
@@ -40,9 +40,7 @@ let lsClean = () => {
       ls.removeItem(k);
       console.info('Removed record:' + k);
     }
-  })
-}
-
-
+  });
+};
 
 export { parseInput, formatContent, nestedValues, lsClean };

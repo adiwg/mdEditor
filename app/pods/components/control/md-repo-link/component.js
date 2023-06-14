@@ -3,10 +3,7 @@ import Component from '@ember/component';
 import config from 'mdeditor/config/environment';
 
 const {
-  APP: {
-    repository,
-    version
-  }
+  APP: { repository, version },
 } = config;
 
 export default Component.extend({
@@ -46,8 +43,7 @@ export default Component.extend({
    * @return string
    */
   hash: computed('version', function () {
-    let idx = this.version
-      .indexOf('+') + 1;
+    let idx = this.version.indexOf('+') + 1;
 
     return version.substring(idx);
   }),

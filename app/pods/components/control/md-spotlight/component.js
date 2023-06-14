@@ -70,6 +70,6 @@ export default ModalDialog.extend({
     onClickOverlay() {
       this._super(...arguments);
       this.spotlight.close();
-    }
-  }
+    },
+  },
 });

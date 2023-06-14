@@ -3,11 +3,10 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | layout/md slider', function(hooks) {
+module('Integration | Component | layout/md slider', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
@@ -27,7 +26,12 @@ module('Integration | Component | layout/md slider', function(hooks) {
       }}
     `);
 
-    assert.equal(find('.md-slider').textContent.replace(/[ \n]+/g, '|').trim(), '|Close|biz|foobar|template|block|text|');
-    assert.ok(find('.md-card'),'rendered slider content');
+    assert.equal(
+      find('.md-slider')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Close|biz|foobar|template|block|text|'
+    );
+    assert.ok(find('.md-card'), 'rendered slider content');
   });
 });

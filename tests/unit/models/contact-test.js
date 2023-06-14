@@ -3,17 +3,21 @@ import { setupTest } from 'ember-qunit';
 
 import { run } from '@ember/runloop';
 
-module('Unit | Model | contact', function(hooks) {
+module('Unit | Model | contact', function (hooks) {
   setupTest(hooks);
 
-  test('it exists', function(assert) {
-    let model = run(() => this.owner.lookup('service:store').createRecord('contact'));
+  test('it exists', function (assert) {
+    let model = run(() =>
+      this.owner.lookup('service:store').createRecord('contact')
+    );
     // var store = this.store();
     assert.ok(!!model);
   });
 
-  test('should correctly compute title', function(assert) {
-    const me = run(() => this.owner.lookup('service:store').createRecord('contact'));
+  test('should correctly compute title', function (assert) {
+    const me = run(() =>
+      this.owner.lookup('service:store').createRecord('contact')
+    );
 
     assert.expect(3);
     me.set('json.name', 'bar');
@@ -26,8 +30,10 @@ module('Unit | Model | contact', function(hooks) {
     assert.equal(me.get('title'), null);
   });
 
-  test('should correctly compute icon', function(assert) {
-    const me = run(() => this.owner.lookup('service:store').createRecord('contact'));
+  test('should correctly compute icon', function (assert) {
+    const me = run(() =>
+      this.owner.lookup('service:store').createRecord('contact')
+    );
 
     assert.expect(2);
     me.set('json.isOrganization', true);

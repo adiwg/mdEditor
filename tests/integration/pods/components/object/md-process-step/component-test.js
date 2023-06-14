@@ -8,7 +8,6 @@ module('Integration | Component | object/md process step', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
     var contacts = createContact(2);
@@ -17,115 +16,134 @@ module('Integration | Component | object/md process step', function (hooks) {
     cs.set('contacts', contacts);
     //
     this.step = {
-      "stepId": "stepId",
-      "description": "description",
-      "rationale": "rationale",
-      "timePeriod": {
-        "startDateTime": "2016-10-15"
+      stepId: 'stepId',
+      description: 'description',
+      rationale: 'rationale',
+      timePeriod: {
+        startDateTime: '2016-10-15',
       },
-      "processor": [{
-          "role": "role",
-          "party": [{
-            "contactId": "0"
-          }]
+      processor: [
+        {
+          role: 'role',
+          party: [
+            {
+              contactId: '0',
+            },
+          ],
         },
         {
-          "role": "role",
-          "party": [{
-            "contactId": "1"
-          }]
-        }
+          role: 'role',
+          party: [
+            {
+              contactId: '1',
+            },
+          ],
+        },
       ],
-      "stepSource": [{
-        "description": "description",
-        "sourceCitation": {
-          "title": "title"
-        },
-        "metadataCitation": [{
-            "title": "title0"
+      stepSource: [
+        {
+          description: 'description',
+          sourceCitation: {
+            title: 'title',
           },
-          {
-            "title": "title1"
-          }
-        ],
-        "spatialResolution": {
-          "measure": {
-            "type": "distance",
-            "value": 99.9,
-            "unitOfMeasure": "unitOfMeasure"
-          }
-        },
-        "referenceSystem": {
-          "referenceSystemType": "referenceSystemType",
-          "referenceSystemIdentifier": {
-            "identifier": "identifier"
-          }
-        },
-        "sourceProcessStep": [{
-            "description": "description0"
+          metadataCitation: [
+            {
+              title: 'title0',
+            },
+            {
+              title: 'title1',
+            },
+          ],
+          spatialResolution: {
+            measure: {
+              type: 'distance',
+              value: 99.9,
+              unitOfMeasure: 'unitOfMeasure',
+            },
           },
-          {
-            "description": "description1"
-          }
-        ]
-      }],
-      "stepProduct": [{
-        "description": "description",
-        "sourceCitation": {
-          "title": "title"
-        },
-        "metadataCitation": [{
-            "title": "title0"
+          referenceSystem: {
+            referenceSystemType: 'referenceSystemType',
+            referenceSystemIdentifier: {
+              identifier: 'identifier',
+            },
           },
-          {
-            "title": "title1"
-          }
-        ],
-        "spatialResolution": {
-          "measure": {
-            "type": "distance",
-            "value": 99.9,
-            "unitOfMeasure": "unitOfMeasure"
-          }
+          sourceProcessStep: [
+            {
+              description: 'description0',
+            },
+            {
+              description: 'description1',
+            },
+          ],
         },
-        "referenceSystem": {
-          "referenceSystemType": "referenceSystemType",
-          "referenceSystemIdentifier": {
-            "identifier": "identifier"
-          }
-        },
-        "sourceProcessStep": [{
-            "description": "description0"
+      ],
+      stepProduct: [
+        {
+          description: 'description',
+          sourceCitation: {
+            title: 'title',
           },
-          {
-            "description": "description1"
-          }
-        ]
-      }],
-      "reference": [{
-          "title": "title0"
+          metadataCitation: [
+            {
+              title: 'title0',
+            },
+            {
+              title: 'title1',
+            },
+          ],
+          spatialResolution: {
+            measure: {
+              type: 'distance',
+              value: 99.9,
+              unitOfMeasure: 'unitOfMeasure',
+            },
+          },
+          referenceSystem: {
+            referenceSystemType: 'referenceSystemType',
+            referenceSystemIdentifier: {
+              identifier: 'identifier',
+            },
+          },
+          sourceProcessStep: [
+            {
+              description: 'description0',
+            },
+            {
+              description: 'description1',
+            },
+          ],
+        },
+      ],
+      reference: [
+        {
+          title: 'title0',
         },
         {
-          "title": "title1"
-        }
-      ]
+          title: 'title1',
+        },
+      ],
     };
 
-    await render(hbs `{{object/md-process-step profilePath="foobar" model=step}}`);
+    await render(
+      hbs`{{object/md-process-step profilePath="foobar" model=step}}`
+    );
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Step|ID|Description|Step|Sources|1|Add|#|Description|0|Delete|Step|Products|1|Add|#|Description|0|Delete|Processors|2|Add|#|Role|Contacts|0|role|×|Delete|1|role|×|Delete|Step|Reference|2|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|No|Time|Period|Name|found.|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Scope|Select|type|of|resource.|"
+    assert.equal(
+      this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Step|ID|Description|Step|Sources|1|Add|#|Description|0|Delete|Step|Products|1|Add|#|Description|0|Delete|Processors|2|Add|#|Role|Contacts|0|role|×|Delete|1|role|×|Delete|Step|Reference|2|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|No|Time|Period|Name|found.|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Scope|Select|type|of|resource.|'
     );
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#object/md-process-step profilePath="foobar" model=step}}
         template block text
       {{/object/md-process-step}}
     `);
 
-    assert.equal(this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
-      "|Step|ID|Description|Step|Sources|1|Add|#|Description|0|Delete|Step|Products|1|Add|#|Description|0|Delete|Processors|2|Add|#|Role|Contacts|0|role|×|Delete|1|role|×|Delete|Step|Reference|2|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|No|Time|Period|Name|found.|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Scope|Select|type|of|resource.|template|block|text|",
-      'block');
+    assert.equal(
+      this.element.textContent.replace(/[\s\n]+/g, '|').trim(),
+      '|Step|ID|Description|Step|Sources|1|Add|#|Description|0|Delete|Step|Products|1|Add|#|Description|0|Delete|Processors|2|Add|#|Role|Contacts|0|role|×|Delete|1|role|×|Delete|Step|Reference|2|Add|OK|#|Title|0|title0|More...|Delete|1|title1|More...|Delete|Time|Period|Dates|Start|Date|End|Date|Pick|Fiscal|Year|Pick|a|Fiscal|Year|Identifier|Description|No|Time|Period|Name|found.|Add|Time|Period|Name|Interval|Interval|Amount|Time|Unit|Choose|unit|of|time|Duration|Years|Months|Days|Hours|Minutes|Seconds|Scope|Select|type|of|resource.|template|block|text|',
+      'block'
+    );
   });
 });

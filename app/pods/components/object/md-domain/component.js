@@ -1,41 +1,30 @@
 import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import { set, getWithDefault, get } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import uuidV4 from "uuid/v4";
+import { validator, buildValidations } from 'ember-cp-validations';
+import uuidV4 from 'uuid/v4';
 
 const Validations = buildValidations({
-  'domainId': [
+  domainId: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'codeName': [
+  codeName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'description': [
+  description: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -47,8 +36,11 @@ export default Component.extend(Validations, {
     once(this, function () {
       set(model, 'domainId', getWithDefault(model, 'domainId', uuidV4()));
       set(model, 'domainItem', getWithDefault(model, 'domainItem', []));
-      set(model, 'domainReference', getWithDefault(model,
-        'domainReference', {}));
+      set(
+        model,
+        'domainReference',
+        getWithDefault(model, 'domainReference', {})
+      );
     });
   },
 
@@ -69,32 +61,32 @@ export default Component.extend(Validations, {
    * @required
    */
 
-   /**
-    * The passed down editDomainItem method.
-    *
-    * @method editDomainItem
-    * @param {Number} index
-    * @required
-    */
+  /**
+   * The passed down editDomainItem method.
+   *
+   * @method editDomainItem
+   * @param {Number} index
+   * @required
+   */
 
-   /**
-    * The passed down editCitation method.
-    *
-    * @method editCitation
-    * @param {String} scrollTo
-    * @required
-    */
+  /**
+   * The passed down editCitation method.
+   *
+   * @method editCitation
+   * @param {String} scrollTo
+   * @required
+   */
 
   tagName: 'form',
   domainId: alias('model.domainId'),
   codeName: alias('model.codeName'),
   description: alias('model.description'),
   actions: {
-    editDomainItem(id){
+    editDomainItem(id) {
       this.editDomainItem(id);
     },
-    editCitation(scrollTo){
+    editCitation(scrollTo) {
       this.editCitation(scrollTo);
-    }
-  }
+    },
+  },
 });

@@ -7,13 +7,14 @@ export default Route.extend(ScrollTo, {
   afterModel(model) {
     this._super(...arguments);
 
-    if(isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
-      this.flashMessages
-        .warning('No Parent Citation found! Re-directing to Metadata...');
+    if (isNone(get(model, 'json.metadata.metadataInfo.parentMetadata'))) {
+      this.flashMessages.warning(
+        'No Parent Citation found! Re-directing to Metadata...'
+      );
       this.replaceWith('record.show.edit.metadata', {
         queryParams: {
-          scrollTo: 'parent-metadata'
-        }
+          scrollTo: 'parent-metadata',
+        },
       });
     }
 
@@ -22,11 +23,14 @@ export default Route.extend(ScrollTo, {
 
   actions: {
     editIdentifier(index) {
-      this.transitionTo('record.show.edit.metadata.parent.identifier',
-          index)
-        .then(function () {
+      this.transitionTo(
+        'record.show.edit.metadata.parent.identifier',
+        index
+      ).then(
+        function () {
           this.setScrollTo('identifier');
-        }.bind(this));
-    }
-  }
+        }.bind(this)
+      );
+    },
+  },
 });

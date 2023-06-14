@@ -7,5 +7,5 @@ export default Component.extend({
   },
 
   classNames: ['property'],
-  isTable: true
+  isTable: true,
 });

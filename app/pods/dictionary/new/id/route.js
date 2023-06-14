@@ -15,36 +15,39 @@ export default Route.extend({
 
   breadCrumb: null,
 
-  deactivate: function() {
+  deactivate: function () {
     // We grab the model loaded in this route
     let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
     // 'isDeleted' state, which means it wasn't saved to the metadata.
-    if(model && model.isDeleted) {
+    if (model && model.isDeleted) {
       // We call DS#unloadRecord() which removes it from the store
       this.store.unloadRecord(model);
     }
   },
 
   //some test actions
-  setupController: function(controller, model) {
+  setupController: function (controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
 
     // setup tests for required attributes
     controller.noName = computed(
-      'model.json.dataDictionary.citation.title', function() {
+      'model.json.dataDictionary.citation.title',
+      function () {
         return model.get('json.dataDictionary.citation.title') ? false : true;
-      });
+      }
+    );
     controller.noType = computed(
-      'model.json.dataDictionary.resourceType', function() {
+      'model.json.dataDictionary.resourceType',
+      function () {
         return model.get('json.dataDictionary.resourceType') ? false : true;
-      });
+      }
+    );
     controller.allowSave = computed('noType', 'noName', function () {
       return this.noName || this.noType;
     });
-
   },
 
   // serialize: function (model) {
@@ -63,8 +66,8 @@ export default Route.extend({
   actions: {
     willTransition: function (transition) {
       if (transition.targetName === 'dictionary.new.index') {
-          transition.abort();
-          return true;
+        transition.abort();
+        return true;
       }
 
       // We grab the model loaded in this route
@@ -94,9 +97,10 @@ export default Route.extend({
     },
 
     error(error) {
-      if(error instanceof NotFoundError) {
-        this.flashMessages
-          .warning('No dictionary found! Re-directing to new record...');
+      if (error instanceof NotFoundError) {
+        this.flashMessages.warning(
+          'No dictionary found! Re-directing to new record...'
+        );
         // redirect to new
         this.replaceWith('dictionary.new');
       } else {
@@ -104,6 +108,5 @@ export default Route.extend({
         return true;
       }
     },
-  }
-
+  },
 });

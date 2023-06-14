@@ -9,11 +9,27 @@ export default Component.extend({
 
     let model = this.model;
 
-    once(this, function() {
-      set(model, 'spatialReferenceSystem', getWithDefault(model, 'spatialReferenceSystem', []));
-      set(model, 'spatialRepresentationType', getWithDefault(model, 'spatialRepresentationType', []));
-      set(model, 'spatialResolution', getWithDefault(model, 'spatialResolution', []));
-      set(model, 'coverageDescription', getWithDefault(model, 'coverageDescription', []));
+    once(this, function () {
+      set(
+        model,
+        'spatialReferenceSystem',
+        getWithDefault(model, 'spatialReferenceSystem', [])
+      );
+      set(
+        model,
+        'spatialRepresentationType',
+        getWithDefault(model, 'spatialRepresentationType', [])
+      );
+      set(
+        model,
+        'spatialResolution',
+        getWithDefault(model, 'spatialResolution', [])
+      );
+      set(
+        model,
+        'coverageDescription',
+        getWithDefault(model, 'coverageDescription', [])
+      );
     });
   },
 
@@ -40,7 +56,11 @@ export default Component.extend({
 
   actions: {
     editRaster(id) {
-      this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel, id);
-    }
-  }
+      this.router.transitionTo(
+        'record.show.edit.spatial.raster',
+        this.parentModel,
+        id
+      );
+    },
+  },
 });

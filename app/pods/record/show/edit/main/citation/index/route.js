@@ -33,10 +33,14 @@ export default Route.extend(ScrollTo, {
 
   actions: {
     editIdentifier(index) {
-      this.transitionTo('record.show.edit.main.citation.identifier', index)
-        .then(function () {
+      this.transitionTo(
+        'record.show.edit.main.citation.identifier',
+        index
+      ).then(
+        function () {
           this.setScrollTo('identifier');
-        }.bind(this));
-    }
-  }
+        }.bind(this)
+      );
+    },
+  },
 });

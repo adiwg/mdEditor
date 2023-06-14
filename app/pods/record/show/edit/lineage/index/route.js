@@ -9,18 +9,17 @@ export default Route.extend({
     set(model, 'resourceLineage', getWithDefault(model, 'resourceLineage', []));
   },
 
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
   },
 
   actions: {
     editLineage(id) {
       this.transitionTo('record.show.edit.lineage.lineageobject', id);
-    }//,
+    }, //,
     // templateClass() {
     //   return Ember.Object.extend({
     //     init() {
@@ -29,5 +28,5 @@ export default Route.extend({
     //     }
     //   });
     // }
-  }
+  },
 });

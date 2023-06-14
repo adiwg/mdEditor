@@ -6,15 +6,15 @@ import { once } from '@ember/runloop';
 export default Mixin.create({
   doCancel() {
     let controller = this.controller;
-    let same = !controller.cancelScope || getOwner(this)
-      .lookup('controller:application')
-      .currentPath === get(controller, 'cancelScope.routeName');
+    let same =
+      !controller.cancelScope ||
+      getOwner(this).lookup('controller:application').currentPath ===
+        get(controller, 'cancelScope.routeName');
 
-    if(controller.onCancel) {
+    if (controller.onCancel) {
       once(() => {
-        if(same) {
-          controller.onCancel.call(controller.cancelScope ||
-            this);
+        if (same) {
+          controller.onCancel.call(controller.cancelScope || this);
         } else {
           controller.set('onCancel', null);
           controller.set('cancelScope', null);
@@ -22,5 +22,5 @@ export default Mixin.create({
         this.refresh();
       });
     }
-  }
+  },
 });

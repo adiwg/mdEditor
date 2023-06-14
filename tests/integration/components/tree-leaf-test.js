@@ -3,33 +3,37 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | tree leaf', function(hooks) {
+module('Integration | Component | tree leaf', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     this.set('model', {
       broader: 'foo0',
-      children: [{
-        broader: 'foo2',
-        children: [],
-        label: 'foo2label',
-        uuid: 'foo2'
-      }],
+      children: [
+        {
+          broader: 'foo2',
+          children: [],
+          label: 'foo2label',
+          uuid: 'foo2',
+        },
+      ],
       label: 'foo1label',
-      uuid: 'foo1'
+      uuid: 'foo1',
     });
 
-    this.set('selected', [{
-      identifier: 'foo1'
-    }]);
+    this.set('selected', [
+      {
+        identifier: 'foo1',
+      },
+    ]);
 
     this.set('nodePath', [
-      {label: 'fiz', identifier:1},
-      {label: 'faz', identifier:10},
-      {label: 'foz', identifier:100}
+      { label: 'fiz', identifier: 1 },
+      { label: 'faz', identifier: 10 },
+      { label: 'foz', identifier: 100 },
     ]);
 
     this.set('select', function () {

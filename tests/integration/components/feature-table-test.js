@@ -22,7 +22,7 @@ module('Integration | Component | feature table', function (hooks) {
 
     assert.expect(4);
 
-    await render(hbs `{{feature-table
+    await render(hbs`{{feature-table
       data=data.features
       columnComponents=(hash
         leaflet-table-row-actions=(component "leaflet-table-row-actions"
@@ -32,17 +32,16 @@ module('Integration | Component | feature table', function (hooks) {
       ))
     }}`);
 
-    assert.equal(find('.feature-table')
-      .textContent
-      .replace(/[\s, \t]/g, '\n')
-      .trim()
-      .replace(/[ +\n]+/g, '|'),
+    assert.equal(
+      find('.feature-table')
+        .textContent.replace(/[\s, \t]/g, '\n')
+        .trim()
+        .replace(/[ +\n]+/g, '|'),
       'Search:|Columns|Show|All|Hide|All|Restore|Defaults|ID|Name|Description|ID|Name|Description|ID|Name|Description|1|Feature|1|2|Feature|2|Show|1|-|2|of|2|Clear|all|filters|Rows:|10|25|50|500|Page:|1'
     );
 
     await click(find('td .btn-success'));
     await click(find('td .btn-info'));
     await click(find('td .btn-danger'));
-
   });
 });

@@ -2,27 +2,27 @@ import Component from '@ember/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 import { get, set, getWithDefault } from '@ember/object';
-import { validator, buildValidations } from "ember-cp-validations";
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'name': [
+  name: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'description': [
+  description: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'identifier': [
+  identifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -42,57 +42,66 @@ export default Component.extend(Validations, {
     * @constructor
   */
 
-    didReceiveAttrs() {
-      this._super(...arguments);
+  didReceiveAttrs() {
+    this._super(...arguments);
 
-      let model = this.model;
+    let model = this.model;
 
-      if (model) {
-        once(this, function () {
-          set(model, 'attributeGroup', getWithDefault(model,
-            'attributeGroup', []));
-          set(model, 'imageDescription', getWithDefault(model,
-            'imageDescription', {}));
-          set(model, 'processingLevelCode', getWithDefault(model,
-            'processingLevelCode', {}));
-        })
-      }
-    },
+    if (model) {
+      once(this, function () {
+        set(
+          model,
+          'attributeGroup',
+          getWithDefault(model, 'attributeGroup', [])
+        );
+        set(
+          model,
+          'imageDescription',
+          getWithDefault(model, 'imageDescription', {})
+        );
+        set(
+          model,
+          'processingLevelCode',
+          getWithDefault(model, 'processingLevelCode', {})
+        );
+      });
+    }
+  },
 
-    tagName: 'form',
+  tagName: 'form',
 
-    /**
-    * 'name' is the alias for 'coverageName' used in the validations for the
-    * 'raster' object.
-    *
-    * @property name
-    * @type String
-    * @requires alias
-    * @default "alias('model.coverageName')"
-    */
-    name: alias('model.coverageName'),
+  /**
+   * 'name' is the alias for 'coverageName' used in the validations for the
+   * 'raster' object.
+   *
+   * @property name
+   * @type String
+   * @requires alias
+   * @default "alias('model.coverageName')"
+   */
+  name: alias('model.coverageName'),
 
-    /**
-     * 'description' is the alias for 'coverageDescripiton' used in the validations for the
-     * 'raster' object.
-     *
-     * @property description
-     * @type String
-     * @requires alias
-     * @default "alias('model.coverageDescription')"
-     */
-    description: alias('model.coverageDescription'),
+  /**
+   * 'description' is the alias for 'coverageDescripiton' used in the validations for the
+   * 'raster' object.
+   *
+   * @property description
+   * @type String
+   * @requires alias
+   * @default "alias('model.coverageDescription')"
+   */
+  description: alias('model.coverageDescription'),
 
-    /**
-     * 'identifier' is the alias for 'processLevelCode.identifier' used in the validations
-     * for the 'coverageDescription.processLevelCode' object.
-     *
-     * @property identifier
-     * @type String
-     * @requires alias
-     * @default "alias('model.processLevelCode.identifier')"
-     */
-    identifier: alias('model.processLevelCode.identifier'),
+  /**
+   * 'identifier' is the alias for 'processLevelCode.identifier' used in the validations
+   * for the 'coverageDescription.processLevelCode' object.
+   *
+   * @property identifier
+   * @type String
+   * @requires alias
+   * @default "alias('model.processLevelCode.identifier')"
+   */
+  identifier: alias('model.processLevelCode.identifier'),
 });
 
 export { Validations };

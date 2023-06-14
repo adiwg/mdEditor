@@ -7,8 +7,8 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let systemId = this.paramsFor(
-        'record.show.edit.taxonomy.collection.system')
-      .system_id;
+      'record.show.edit.taxonomy.collection.system'
+    ).system_id;
 
     controller.set('parentModel', this.modelFor('record.show.edit'));
     controller.set('systemId', systemId);
@@ -17,6 +17,6 @@ export default Route.extend(ScrollTo, {
   actions: {
     goBack() {
       this.transitionTo('record.show.edit.taxonomy.collection');
-    }
-  }
+    },
+  },
 });

@@ -4,11 +4,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createContact from 'mdeditor/tests/helpers/create-contact';
 
-
-module('Integration | Component | input/md select contact', function(hooks) {
+module('Integration | Component | input/md select contact', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     var contacts = createContact(3);
     var cs = this.owner.lookup('service:contacts');
 
@@ -18,7 +17,12 @@ module('Integration | Component | input/md select contact', function(hooks) {
 
     await render(hbs`{{input/md-select-contact value=1}}`);
 
-    assert.equal(find('.md-select-contact').textContent.replace(/[ \n]+/g, '|').trim(), '|Contact1|×|');
+    assert.equal(
+      find('.md-select-contact')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Contact1|×|'
+    );
 
     // Template block usage:
     await render(hbs`
@@ -27,6 +31,9 @@ module('Integration | Component | input/md select contact', function(hooks) {
       {{/input/md-select-contact}}
     `);
 
-    assert.equal(find('.md-select-contact').textContent.trim(), 'Select one option');
+    assert.equal(
+      find('.md-select-contact').textContent.trim(),
+      'Select one option'
+    );
   });
 });

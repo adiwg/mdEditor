@@ -24,11 +24,10 @@ export default Route.extend({
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set('distributionId', this.distributionId);
     this.controller.set('distributorId', this.distributorId);
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
@@ -36,23 +35,25 @@ export default Route.extend({
     let distributorId = this.distributorId;
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.resourceDistribution');
-    let distribution = distributionId && isArray(objects) ? A(
-        objects).objectAt(distributionId) :
-      undefined;
-    let distributor = distribution && distributorId && isArray(distribution
-        .distributor) ? A(
-        distribution.distributor).objectAt(distributorId) :
-      undefined;
+    let distribution =
+      distributionId && isArray(objects)
+        ? A(objects).objectAt(distributionId)
+        : undefined;
+    let distributor =
+      distribution && distributorId && isArray(distribution.distributor)
+        ? A(distribution.distributor).objectAt(distributorId)
+        : undefined;
 
     //make sure the identifier exists
-    if(isEmpty(distributor)) {
-      this.flashMessages
-        .warning('No Distributor object found! Re-directing to Distribution List...');
+    if (isEmpty(distributor)) {
+      this.flashMessages.warning(
+        'No Distributor object found! Re-directing to Distribution List...'
+      );
       this.replaceWith('record.show.edit.distribution');
 
       return;
     }
 
     return distributor;
-  }
+  },
 });

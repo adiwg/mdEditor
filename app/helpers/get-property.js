@@ -1,20 +1,14 @@
-import {
-  helper
-} from '@ember/component/helper';
-import {
-  htmlSafe
-} from '@ember/string';
-import {
-  get
-} from '@ember/object';
+import { helper } from '@ember/component/helper';
+import { htmlSafe } from '@ember/string';
+import { get } from '@ember/object';
 
 export function getProperty([obj, prop]) {
   let val = null;
 
-  if(obj) {
+  if (obj) {
     val = get(obj, prop.trim());
   }
-  return val || htmlSafe("<em>Not Defined</em>");
+  return val || htmlSafe('<em>Not Defined</em>');
 }
 
 export default helper(getProperty);

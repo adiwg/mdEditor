@@ -2,26 +2,23 @@ import Component from '@ember/component';
 import { alias, notEmpty } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { set, getWithDefault, get } from '@ember/object';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'refType': [
+  refType: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemIdentifier.identifier')
-    })
+      disabled: notEmpty('model.model.referenceSystemIdentifier.identifier'),
+    }),
   ],
-  'refSystem': [
+  refSystem: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemType')
-    })
-  ]
+      disabled: notEmpty('model.model.referenceSystemType'),
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -30,11 +27,15 @@ export default Component.extend(Validations, {
 
     let model = this.model;
 
-    if(model){
-    once(this, function() {
-      set(model, 'referenceSystemIdentifier', getWithDefault(model, 'referenceSystemIdentifier', {}));
-    });
-  }
+    if (model) {
+      once(this, function () {
+        set(
+          model,
+          'referenceSystemIdentifier',
+          getWithDefault(model, 'referenceSystemIdentifier', {})
+        );
+      });
+    }
   },
   /**
    * The string representing the path in the profile object for the resource.
@@ -55,5 +56,5 @@ export default Component.extend(Validations, {
 
   classNames: ['form'],
   refSystem: alias('model.referenceSystemIdentifier.identifier'),
-  refType: alias('model.referenceSystemType')
+  refType: alias('model.referenceSystemType'),
 });

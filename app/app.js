@@ -17,20 +17,16 @@ import {
   get,
   //set
 } from '@ember/object';
-import {
-  isNone
-} from '@ember/utils';
-import {
-  assert
-} from '@ember/debug';
+import { isNone } from '@ember/utils';
+import { assert } from '@ember/debug';
 import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from 'mdeditor/config/environment';
 
 let events = {
   // add support for the blur event
-  blur: 'blur'
-}
+  blur: 'blur',
+};
 
 //Ember.MODEL_FACTORY_INJECTIONS = true;
 export default class App extends Application {
@@ -48,14 +44,14 @@ loadInitializers(App, config.modulePrefix);
 
 //for bootstrap
 LinkComponent.reopen({
-  attributeBindings: ['data-toggle', 'data-placement']
+  attributeBindings: ['data-toggle', 'data-placement'],
 });
 //for crumbly
 Route.reopen({
   //breadCrumb: null
   currentRouteModel: function () {
     return this.modelFor(this.routeName);
-  }
+  },
 });
 //for profiles
 Component.reopen({
@@ -67,7 +63,7 @@ Component.reopen({
     let visibility = this.visibility;
     let isVisible = isNone(visibility) ? true : visibility;
 
-    if(path !== undefined) {
+    if (path !== undefined) {
       assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
 
       // generate profile definition
@@ -82,18 +78,19 @@ Component.reopen({
       //   return pp;
       // }, '');
 
-      defineProperty(this, 'isVisible', computed(
-        'profile.active',
-        function () {
-          if(!profile.activeComponents) {
+      defineProperty(
+        this,
+        'isVisible',
+        computed('profile.active', function () {
+          if (!profile.activeComponents) {
             return isVisible;
           }
 
-          return getWithDefault(profile.activeComponents, path,
-            isVisible);
-        }));
+          return getWithDefault(profile.activeComponents, path, isVisible);
+        })
+      );
     }
-  }
+  },
 });
 
 /**

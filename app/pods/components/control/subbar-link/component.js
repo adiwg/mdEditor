@@ -77,5 +77,5 @@ export default Component.extend({
 
   clickTxt: or('clickText', 'text'),
   clickButtonType: or('clickType', 'btnType'),
-  clickButtonIcon: or('clickIcon', 'icon')
+  clickButtonIcon: or('clickIcon', 'icon'),
 });

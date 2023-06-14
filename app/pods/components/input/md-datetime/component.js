@@ -3,35 +3,16 @@
  * @submodule components-input
  */
 
-import {
-  alias,
-  not,
-  notEmpty,
-  and,
-  or
-} from '@ember/object/computed';
+import { alias, not, notEmpty, and, or } from '@ember/object/computed';
 
 import Component from '@ember/component';
-import {
-  isBlank
-} from '@ember/utils';
-import {
-  get,
-  set,
-  computed,
-  defineProperty
-} from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
-import {
-  assert,
-  debug
-} from '@ember/debug';
+import { isBlank } from '@ember/utils';
+import { get, set, computed, defineProperty } from '@ember/object';
+import { once } from '@ember/runloop';
+import { assert, debug } from '@ember/debug';
 import moment from 'moment';
 
 export default Component.extend({
-
   /**
    * Datetime control with dropdown calendar.
    * Based on Bootstrap datetime picker.
@@ -46,94 +27,119 @@ export default Component.extend({
     let model = this.model;
     let valuePath = this.valuePath;
 
-    if(isBlank(model) !== isBlank(valuePath)) {
+    if (isBlank(model) !== isBlank(valuePath)) {
       assert(
         `You must supply both model and valuePath to ${this.toString()} or neither.`
       );
     }
 
-    if(!isBlank(model)) {
-      if(this.get(`model.${valuePath}`) === undefined) {
-        debug(
-          `model.${valuePath} is undefined in ${this.toString()}.`
-        );
+    if (!isBlank(model)) {
+      if (this.get(`model.${valuePath}`) === undefined) {
+        debug(`model.${valuePath} is undefined in ${this.toString()}.`);
       }
 
-      defineProperty(this, '_date', computed(`model.${valuePath}`, {
-        get() {
-          let val = get(this, `model.${valuePath}`);
+      defineProperty(
+        this,
+        '_date',
+        computed(`model.${valuePath}`, {
+          get() {
+            let val = get(this, `model.${valuePath}`);
 
-          return val ? moment(val, this.get('altFormat' || null)) :
-            null;
-        },
-        set(key, value) {
-          let formatted = this.formatValue(value,
-            `model.${valuePath}`);
+            return val ? moment(val, this.get('altFormat' || null)) : null;
+          },
+          set(key, value) {
+            let formatted = this.formatValue(value, `model.${valuePath}`);
 
-          return formatted;
-        }
-      }));
+            return formatted;
+          },
+        })
+      );
 
-      defineProperty(this, 'validation', alias(
-          `model.validations.attrs.${valuePath}`)
-        .readOnly());
+      defineProperty(
+        this,
+        'validation',
+        alias(`model.validations.attrs.${valuePath}`).readOnly()
+      );
 
-      defineProperty(this, 'required', computed(
+      defineProperty(
+        this,
+        'required',
+        computed(
           'validation.options.presence.{presence,disabled}',
           function () {
-            return this.get('validation.options.presence.presence') &&
-              !this.get('validation.options.presence.disabled');
-          })
-        .readOnly());
+            return (
+              this.get('validation.options.presence.presence') &&
+              !this.get('validation.options.presence.disabled')
+            );
+          }
+        ).readOnly()
+      );
 
-      defineProperty(this, 'notValidating', not(
-          'validation.isValidating')
-        .readOnly());
+      defineProperty(
+        this,
+        'notValidating',
+        not('validation.isValidating').readOnly()
+      );
 
-      defineProperty(this, 'hasContent', notEmpty('date')
-        .readOnly());
+      defineProperty(this, 'hasContent', notEmpty('date').readOnly());
 
-      defineProperty(this, 'hasWarnings', notEmpty(
-          'validation.warnings')
-        .readOnly());
+      defineProperty(
+        this,
+        'hasWarnings',
+        notEmpty('validation.warnings').readOnly()
+      );
 
-      defineProperty(this, 'isValid', and('hasContent',
-          'validation.isTruelyValid')
-        .readOnly());
+      defineProperty(
+        this,
+        'isValid',
+        and('hasContent', 'validation.isTruelyValid').readOnly()
+      );
 
-      defineProperty(this, 'shouldDisplayValidations', or(
-          'showValidations', 'didValidate',
-          'hasContent')
-        .readOnly());
+      defineProperty(
+        this,
+        'shouldDisplayValidations',
+        or('showValidations', 'didValidate', 'hasContent').readOnly()
+      );
 
-      defineProperty(this, 'showErrorClass', and('notValidating',
+      defineProperty(
+        this,
+        'showErrorClass',
+        and(
+          'notValidating',
           'showErrorMessage',
-          'hasContent', 'validation')
-        .readOnly());
+          'hasContent',
+          'validation'
+        ).readOnly()
+      );
 
-      defineProperty(this, 'showErrorMessage', and(
-          'shouldDisplayValidations',
-          'validation.isInvalid')
-        .readOnly());
+      defineProperty(
+        this,
+        'showErrorMessage',
+        and('shouldDisplayValidations', 'validation.isInvalid').readOnly()
+      );
 
-      defineProperty(this, 'showWarningMessage', and(
-          'shouldDisplayValidations',
-          'hasWarnings', 'isValid')
-        .readOnly());
+      defineProperty(
+        this,
+        'showWarningMessage',
+        and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly()
+      );
     } else {
-      defineProperty(this, '_date', computed('date', {
-        get() {
-          let val = this.date;
+      defineProperty(
+        this,
+        '_date',
+        computed('date', {
+          get() {
+            let val = this.date;
 
-          return val ? moment(val, this.get('altFormat' || null)) :
-            null;
-        },
-        set(key, value) {
-          let formatted = this.formatValue(value, 'date');
+            return val ? moment(val, this.get('altFormat' || null)) : null;
+          },
+          set(key, value) {
+            let formatted = this.formatValue(value, 'date');
 
-          return formatted;
-        }
-      }));
+            return formatted;
+          },
+        })
+      );
     }
   },
   classNames: ['md-datetime', 'md-input-input'],
@@ -165,7 +171,7 @@ export default Component.extend({
    * @type String
    * @default 'Enter date or datetime'
    */
-  placeholder: "Enter date or datetime",
+  placeholder: 'Enter date or datetime',
 
   /**
    * Form label for datetime input.
@@ -204,7 +210,7 @@ export default Component.extend({
   showClear: true,
 
   formatValue(value, target) {
-    if(isBlank(value)) {
+    if (isBlank(value)) {
       once(this, function () {
         set(this, target, null);
       });
@@ -214,7 +220,7 @@ export default Component.extend({
 
     let mom = moment(value);
 
-    if(this.altFormat) {
+    if (this.altFormat) {
       let alt = mom.format(this.altFormat);
 
       once(this, function () {
@@ -224,8 +230,7 @@ export default Component.extend({
     }
     //utc.add(utc.utcOffset(), 'minutes');
 
-    if(mom && mom.toISOString() !== this.get(target)) {
-
+    if (mom && mom.toISOString() !== this.get(target)) {
       once(this, function () {
         set(this, target, mom.toISOString());
       });
@@ -246,14 +251,14 @@ export default Component.extend({
    */
   calendarIcons: computed(function () {
     return {
-      time: "fa fa-clock-o",
-      date: "fa fa-calendar",
-      up: "fa fa-chevron-up",
-      down: "fa fa-chevron-down",
-      previous: "fa fa-angle-double-left",
-      next: "fa fa-angle-double-right",
-      close: "fa fa-times",
-      clear: "fa fa-trash"
+      time: 'fa fa-clock-o',
+      date: 'fa fa-calendar',
+      up: 'fa fa-chevron-up',
+      down: 'fa fa-chevron-down',
+      previous: 'fa fa-angle-double-left',
+      next: 'fa fa-angle-double-right',
+      close: 'fa fa-times',
+      clear: 'fa fa-trash',
     };
-  })
+  }),
 });

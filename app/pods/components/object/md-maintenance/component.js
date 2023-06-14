@@ -10,16 +10,16 @@ import {
   setProperties,
   getWithDefault,
   get,
-  set
+  set,
 } from '@ember/object';
 import { once } from '@ember/runloop';
 
-const formatMaint = function(model) {
+const formatMaint = function (model) {
   setProperties(model, {
-    'date': getWithDefault(model, 'date', []),
-    'scope': getWithDefault(model, 'scope', []),
-    'note': getWithDefault(model, 'note', []),
-    'contact': getWithDefault(model, 'contact', [])
+    date: getWithDefault(model, 'date', []),
+    scope: getWithDefault(model, 'scope', []),
+    note: getWithDefault(model, 'note', []),
+    contact: getWithDefault(model, 'contact', []),
   });
 
   return model;
@@ -61,7 +61,7 @@ const theComp = Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    once(this, function() {
+    once(this, function () {
       this.set('model', getWithDefault(this, 'model', {}));
       formatMaint(this.model);
     });
@@ -75,17 +75,13 @@ const theComp = Component.extend({
     set(key, value) {
       let map = value.map((itm) => {
         return {
-          scopeCode: itm
+          scopeCode: itm,
         };
       });
       set(this, 'model.scope', map);
       return value;
-    }
-  })
+    },
+  }),
 });
 
-export {
-  formatMaint,
-  theComp as
-  default
-};
+export { formatMaint, theComp as default };

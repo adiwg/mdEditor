@@ -43,8 +43,8 @@ export default Indicator.extend({
     this.linkText = this.linkText || 'Open Related';
 
     this.classNames = ['md-indicator-related', `md-${this.type}`].concat(
-      this
-      .classNames);
+      this.classNames
+    );
   },
 
   isVisible: bool('related'),
@@ -122,8 +122,10 @@ export default Indicator.extend({
    * @requires path,parent
    */
   related: computed('path', 'parent', function () {
-    return get(this.parent, this.path).findBy(this.relatedId, get(this
-      .model, this.relatedIdLocal || this.relatedId));
+    return get(this.parent, this.path).findBy(
+      this.relatedId,
+      get(this.model, this.relatedIdLocal || this.relatedId)
+    );
   }),
 
   /**
@@ -148,5 +150,5 @@ export default Indicator.extend({
    */
   models: map('routeIdPaths', function (p) {
     return this.get(p);
-  })
+  }),
 });

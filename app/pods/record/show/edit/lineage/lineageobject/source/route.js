@@ -5,8 +5,10 @@ import { isArray } from '@ember/array';
 export default Route.extend({
   model(params) {
     this.set('sourceId', params.source_id);
-    this.set('lineageId', this.paramsFor(
-      'record.show.edit.lineage.lineageobject').lineage_id);
+    this.set(
+      'lineageId',
+      this.paramsFor('record.show.edit.lineage.lineageobject').lineage_id
+    );
 
     return this.setupModel();
   },
@@ -16,11 +18,10 @@ export default Route.extend({
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
@@ -28,14 +29,14 @@ export default Route.extend({
     let lineageId = this.lineageId;
     let model = this.modelFor('record.show.edit');
     let sources = model.get(
-      'json.metadata.resourceLineage.' + lineageId + '.source');
-    let source = sourceId && isArray(sources) ? sources.get(
-      sourceId) : undefined;
+      'json.metadata.resourceLineage.' + lineageId + '.source'
+    );
+    let source =
+      sourceId && isArray(sources) ? sources.get(sourceId) : undefined;
 
     //make sure the identifier exists
-    if(isEmpty(source)) {
-      this.flashMessages
-        .warning('No source found! Re-directing...');
+    if (isEmpty(source)) {
+      this.flashMessages.warning('No source found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject');
 
       return;
@@ -46,6 +47,6 @@ export default Route.extend({
   actions: {
     parentModel() {
       return this.modelFor('record.show.edit');
-    }
-  }
+    },
+  },
 });

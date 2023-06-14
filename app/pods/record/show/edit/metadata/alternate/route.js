@@ -14,25 +14,24 @@ export default Route.extend({
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
     let citationId = this.citationId;
     let model = this.modelFor('record.show.edit');
     let citations = model.get(
-      'json.metadata.metadataInfo.alternateMetadataReference');
-    let citation = citationId && isArray(citations) ? citations.get(
-      citationId) : undefined;
+      'json.metadata.metadataInfo.alternateMetadataReference'
+    );
+    let citation =
+      citationId && isArray(citations) ? citations.get(citationId) : undefined;
 
     //make sure the identifier exists
-    if(isEmpty(citation)) {
-      this.flashMessages
-        .warning('No citation found! Re-directing...');
+    if (isEmpty(citation)) {
+      this.flashMessages.warning('No citation found! Re-directing...');
       this.replaceWith('record.show.edit.metadata');
 
       return;
@@ -43,6 +42,6 @@ export default Route.extend({
   actions: {
     parentModel() {
       return this.modelFor('record.show.edit');
-    }
-  }
+    },
+  },
 });

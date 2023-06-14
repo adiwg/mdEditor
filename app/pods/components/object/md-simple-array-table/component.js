@@ -41,26 +41,24 @@ export default ArrayTable.extend({
     get() {
       let items = this.value;
 
-      if(items === undefined) {
+      if (items === undefined) {
         items = [];
         //items[0] = '';
       }
 
       return items.reduce(function (acc, value) {
         acc.pushObject({
-          value: value
+          value: value,
         });
         return acc;
       }, []);
     },
 
     set(key, value) {
-      let newValue = value
-        .filterBy('value')
-        .mapBy('value');
+      let newValue = value.filterBy('value').mapBy('value');
       this.set('value', newValue);
       return value;
-    }
+    },
   }),
 
   /**
@@ -73,5 +71,5 @@ export default ArrayTable.extend({
    */
   valuesObserver: observer('arrayValues.@each.value', function () {
     this.set('arrayValues', this.arrayValues);
-  })
+  }),
 });

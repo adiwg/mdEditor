@@ -6,10 +6,14 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 export default Route.extend(ScrollTo, {
   model(params) {
     this.set('citationId', params.citation_id);
-    this.set('stepId', this.paramsFor(
-      'record.show.edit.lineage.lineageobject.step').step_id);
-    this.set('lineageId', this.paramsFor(
-      'record.show.edit.lineage.lineageobject').lineage_id);
+    this.set(
+      'stepId',
+      this.paramsFor('record.show.edit.lineage.lineageobject.step').step_id
+    );
+    this.set(
+      'lineageId',
+      this.paramsFor('record.show.edit.lineage.lineageobject').lineage_id
+    );
 
     return this.setupModel();
   },
@@ -20,11 +24,10 @@ export default Route.extend(ScrollTo, {
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('stepId', this.stepId);
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
@@ -33,14 +36,14 @@ export default Route.extend(ScrollTo, {
     let stepId = this.stepId;
     let model = this.modelFor('record.show.edit');
     let citations = model.get(
-      `json.metadata.resourceLineage.${lineageId}.processStep.${stepId}.reference`);
-    let citation = citationId && isArray(citations) ? citations.get(
-      citationId) : undefined;
+      `json.metadata.resourceLineage.${lineageId}.processStep.${stepId}.reference`
+    );
+    let citation =
+      citationId && isArray(citations) ? citations.get(citationId) : undefined;
 
     //make sure the identifier exists
-    if(isEmpty(citation)) {
-      this.flashMessages
-        .warning('No citation found! Re-directing...');
+    if (isEmpty(citation)) {
+      this.flashMessages.warning('No citation found! Re-directing...');
       this.replaceWith('record.show.edit.lineage.lineageobject.step');
 
       return;
@@ -52,8 +55,8 @@ export default Route.extend(ScrollTo, {
     parentModel() {
       return this.modelFor('record.show.edit');
     },
-    goBack(){
+    goBack() {
       this.transitionTo('record.show.edit.lineage.lineageobject.step');
-    }
-  }
+    },
+  },
 });

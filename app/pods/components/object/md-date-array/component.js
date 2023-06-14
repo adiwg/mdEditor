@@ -6,7 +6,7 @@ export default Component.extend({
   init() {
     this._super(...arguments);
 
-    if(isNone(this.value)) {
+    if (isNone(this.value)) {
       set(this, 'value', []);
     }
   },
@@ -22,8 +22,8 @@ export default Component.extend({
       this._super(...arguments);
       this.setProperties({
         date: null,
-        dateType: null
+        dateType: null,
       });
-    }
-  })
+    },
+  }),
 });

@@ -6,7 +6,6 @@ export default Component.extend({
   tagName: 'span',
   classNames: ['md-status'],
 
-
   /**
    * Model to display status for.
    *
@@ -35,11 +34,9 @@ export default Component.extend({
       let model = this.model;
 
       evt.stopPropagation();
-      model.save()
-        .then(() => {
-          this.flashMessages
-            .success(`Saved Record: ${model.get('title')}`);
-        });
-    }
-  }
+      model.save().then(() => {
+        this.flashMessages.success(`Saved Record: ${model.get('title')}`);
+      });
+    },
+  },
 });

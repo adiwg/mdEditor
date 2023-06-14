@@ -9,43 +9,38 @@ export default Route.extend({
     this.set('extentId', params.extent_id);
 
     return this.setupModel();
-
   },
 
   setupController: function (controller) {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this,
-        extentId: this.extentId
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+      extentId: this.extentId,
+    });
 
-    controller
-      .setProperties({
-        featureGroup: null,
-        extentId: this.extentId
-      });
+    controller.setProperties({
+      featureGroup: null,
+      extentId: this.extentId,
+    });
   },
 
   setupModel() {
     let model = this.modelFor('record.show.edit.extent');
     let extents = model.get('json.metadata.resourceInfo.extent');
-    let extent = get(extents, this.extentId || this.controller.get(
-      'extentId'));
+    let extent = get(extents, this.extentId || this.controller.get('extentId'));
 
     //make sure the extent still exists
-    if(isEmpty(extent)) {
-      this.flashMessages
-        .warning('No extent found! Re-directing to list...');
+    if (isEmpty(extent)) {
+      this.flashMessages.warning('No extent found! Re-directing to list...');
       this.replaceWith('record.show.edit.extent');
 
       return;
     }
 
-    if(!isArray(extent.geographicExtent[0].geographicElement)) {
+    if (!isArray(extent.geographicExtent[0].geographicElement)) {
       set(extent, 'geographicExtent.0.geographicElement', A([]));
     }
 
@@ -65,45 +60,40 @@ export default Route.extend({
       return this;
     },
     handleResize() {
-      $('.map-file-picker .leaflet-container')
-        .height(($(window)
-          .height() - $('#md-navbars')
-          .outerHeight() - 15) / 2);
+      $('.map-file-picker .leaflet-container').height(
+        ($(window).height() - $('#md-navbars').outerHeight() - 15) / 2
+      );
     },
     uploadData() {
-      $('.map-file-picker .file-picker__input')
-        .click();
+      $('.map-file-picker .file-picker__input').click();
     },
     deleteAllFeatures() {
       let features = this.layers;
-      let group = this.controller
-        .get('featureGroup');
+      let group = this.controller.get('featureGroup');
 
-      if(features.length) {
+      if (features.length) {
         features.forEach((item) => {
           features.popObject(item);
           group.removeLayer(item._layer);
         });
 
-        if(group._map.drawControl) {
+        if (group._map.drawControl) {
           group._map.drawControl.remove();
         }
         features.clear();
       }
     },
     setFeatureGroup(obj) {
-      this.controller
-        .set('featureGroup', obj);
+      this.controller.set('featureGroup', obj);
     },
     zoomAll() {
-      let layer = this.controller
-        .get('featureGroup');
+      let layer = this.controller.get('featureGroup');
       let bnds = layer.getBounds();
       let map = layer._map;
 
-      if(bnds.isValid()) {
+      if (bnds.isValid()) {
         map.fitBounds(bnds, {
-          maxZoom: 14
+          maxZoom: 14,
         });
         return;
       }
@@ -111,15 +101,14 @@ export default Route.extend({
       map.fitWorld();
     },
     exportGeoJSON() {
-      let fg = this.controller
-        .get('featureGroup');
+      let fg = this.controller.get('featureGroup');
 
       let json = {
-        'type': 'FeatureCollection',
-        'features': []
+        type: 'FeatureCollection',
+        features: [],
       };
 
-      if(fg) {
+      if (fg) {
         let geoGroup = fg.getLayers();
         geoGroup.forEach((l) => {
           let layers = l.getLayers();
@@ -128,17 +117,17 @@ export default Route.extend({
             let feature = layer.feature;
 
             json.features.push({
-              'type': 'Feature',
-              'id': feature.id,
-              'geometry': feature.geometry,
-              'properties': feature.properties
+              type: 'Feature',
+              id: feature.id,
+              geometry: feature.geometry,
+              properties: feature.properties,
             });
           });
         });
 
         window.saveAs(
           new Blob([JSON.stringify(json)], {
-            type: 'application/json;charset=utf-8'
+            type: 'application/json;charset=utf-8',
           }),
           'export_features.json'
         );
@@ -146,11 +135,9 @@ export default Route.extend({
         // return new Ember.RSVP.Promise((resolve) => {
         //   Ember.run(null, resolve, json);
         // }, 'MD: ExportSpatialData');
-
       } else {
-        this.flashMessages
-          .warning('Found no features to export.');
+        this.flashMessages.warning('Found no features to export.');
       }
-    }
-  }
+    },
+  },
 });

@@ -3,44 +3,52 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | object/md lineage', function(hooks) {
+module('Integration | Component | object/md lineage', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     this.set('lineage', {
-      "statement": "statement",
-      "scope": {
-        "scopeCode": "scopeCode"
+      statement: 'statement',
+      scope: {
+        scopeCode: 'scopeCode',
       },
-      "citation": [{
-          "title": "title"
+      citation: [
+        {
+          title: 'title',
         },
         {
-          "title": "title"
-        }
+          title: 'title',
+        },
       ],
-      "source": [{
-          "description": "description"
+      source: [
+        {
+          description: 'description',
         },
         {
-          "description": "description"
-        }
+          description: 'description',
+        },
       ],
-      "sourceProcessStep": [{
-          "description": "description"
+      sourceProcessStep: [
+        {
+          description: 'description',
         },
         {
-          "description": "description"
-        }
-      ]
+          description: 'description',
+        },
+      ],
     });
 
-    await render(hbs`<section>{{object/md-lineage profilePath="foobar" model=lineage}}</section>`);
+    await render(
+      hbs`<section>{{object/md-lineage profilePath="foobar" model=lineage}}</section>`
+    );
 
-    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
-      '|Statement|No|Process|Step|found.|Add|Process|Step|Source|2|Add|OK|#|Description|0|More...|Delete|1|More...|Delete|Citation|2|Add|OK|#|Title|0|title|More...|Delete|1|title|More...|Delete|Scope|scopeCode|×|');
+    assert.equal(
+      find('section')
+        .textContent.replace(/[\s\n]+/g, '|')
+        .trim(),
+      '|Statement|No|Process|Step|found.|Add|Process|Step|Source|2|Add|OK|#|Description|0|More...|Delete|1|More...|Delete|Citation|2|Add|OK|#|Title|0|title|More...|Delete|1|title|More...|Delete|Scope|scopeCode|×|'
+    );
 
     // Template block usage:
     await render(hbs`<section>
@@ -49,8 +57,12 @@ module('Integration | Component | object/md lineage', function(hooks) {
       {{/object/md-lineage}}</section>
     `);
 
-    assert.equal(find('section').textContent.replace(/[\s\n]+/g, '|').trim(),
+    assert.equal(
+      find('section')
+        .textContent.replace(/[\s\n]+/g, '|')
+        .trim(),
       '|Statement|No|Process|Step|found.|Add|Process|Step|No|Source|found.|Add|Source|No|Citation|found.|Add|Citation|Scope|Select|type|of|resource.|template|block|text|',
-      'block');
+      'block'
+    );
   });
 });

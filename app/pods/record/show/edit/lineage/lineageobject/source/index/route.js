@@ -7,8 +7,8 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let sourceId = this.paramsFor(
-        'record.show.edit.lineage.lineageobject.source')
-      .source_id;
+      'record.show.edit.lineage.lineageobject.source'
+    ).source_id;
 
     controller.set('parentModel', this.modelFor('record.show.edit'));
     controller.set('sourceId', sourceId);
@@ -17,6 +17,6 @@ export default Route.extend(ScrollTo, {
   actions: {
     goBack() {
       this.transitionTo('record.show.edit.lineage.lineageobject');
-    }
-  }
+    },
+  },
 });

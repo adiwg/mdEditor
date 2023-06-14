@@ -2,24 +2,21 @@ import EmberObject, { getWithDefault, set } from '@ember/object';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'specimen': [
+  specimen: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'repository': [
+  repository: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const Template = EmberObject.extend(Validations, {
@@ -27,7 +24,7 @@ const Template = EmberObject.extend(Validations, {
     this._super(...arguments);
     this.set('repository', {});
     this.set('specimen', null);
-  }
+  },
 });
 
 const theComp = Component.extend(Validations, {
@@ -46,12 +43,7 @@ const theComp = Component.extend(Validations, {
   },
 
   //attributeBindings: ['data-spy'],
-  templateClass: Template
+  templateClass: Template,
 });
 
-export {
-  Validations,
-  Template,
-  theComp as
-  default
-};
+export { Validations, Template, theComp as default };

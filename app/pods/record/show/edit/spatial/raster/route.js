@@ -13,7 +13,7 @@ export default Route.extend({
   breadCrumb: computed('rasterId', function () {
     return {
       title: 'RASTER ' + this.rasterId,
-      linkable: true
+      linkable: true,
     };
   }),
 
@@ -23,26 +23,24 @@ export default Route.extend({
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('rasterId', this.rasterId);
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
     let rasterId = this.rasterId;
     let model = this.modelFor('record.show.edit');
-    let rasters = model.get(
-      'json.metadata.resourceInfo.coverageDescription');
-    let raster = rasterId && isArray(rasters)
-      ? rasters.get(rasterId)
-      : undefined;
+    let rasters = model.get('json.metadata.resourceInfo.coverageDescription');
+    let raster =
+      rasterId && isArray(rasters) ? rasters.get(rasterId) : undefined;
 
     //make sure the raster exists
-    if(isEmpty(raster)) {
-      this.flashMessages
-        .warning('No Raster Description found! Re-directing...');
+    if (isEmpty(raster)) {
+      this.flashMessages.warning(
+        'No Raster Description found! Re-directing...'
+      );
       this.replaceWith('record.show.edit.spatial');
 
       return;
@@ -53,6 +51,6 @@ export default Route.extend({
   actions: {
     parentModel() {
       return this.modelFor('record.show.edit');
-    }
-  }
+    },
+  },
 });

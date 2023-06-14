@@ -5,15 +5,14 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
   actions: {
-    linkTo(route){
+    linkTo(route) {
       this.transitionTo(route);
     },
     setupMap(features, m) {
       let map = m.target;
-      let bounds = L.geoJson(features)
-        .getBounds();
+      let bounds = L.geoJson(features).getBounds();
 
       map.fitBounds(bounds);
-    }
-  }
+    },
+  },
 });

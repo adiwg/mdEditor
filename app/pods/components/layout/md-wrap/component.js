@@ -17,5 +17,5 @@ export default Component.extend({
    * @class md-wrap
    * @constructor
    */
-  attributeBindings: ['data-spy']
+  attributeBindings: ['data-spy'],
 });

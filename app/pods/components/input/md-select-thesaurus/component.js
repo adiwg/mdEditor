@@ -9,7 +9,6 @@ import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 
 export default Component.extend({
-
   /**
    * A select list control for displaying and selecting thesaurus entries from
    * the keyword service.
@@ -31,27 +30,26 @@ export default Component.extend({
   selectThesaurus() {},
 
   thesaurusList: computed('keyword.thesaurus.[]', function () {
-    let list = this.keyword
-      .thesaurus
-      .map((k) => {
-        return EmberObject.create({
-          id: k.citation.identifier[0].identifier,
-          label: k.label || k.citation.title || 'Keywords'
-        });
+    let list = this.keyword.thesaurus.map((k) => {
+      return EmberObject.create({
+        id: k.citation.identifier[0].identifier,
+        label: k.label || k.citation.title || 'Keywords',
       });
+    });
 
-    list.unshift(EmberObject.create({
-      id: 'custom',
-      label: 'Custom Thesaurus'
-    }));
+    list.unshift(
+      EmberObject.create({
+        id: 'custom',
+        label: 'Custom Thesaurus',
+      })
+    );
     return list;
   }),
   actions: {
     update(id, thesaurus) {
-      let selected = this.keyword
-        .findById(id);
+      let selected = this.keyword.findById(id);
 
       this.selectThesaurus(selected, thesaurus);
-    }
-  }
+    },
+  },
 });

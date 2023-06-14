@@ -4,28 +4,34 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import Route from '@ember/routing/route';
 
-module('Integration | Component | control/subbar importcsv', function(hooks) {
+module('Integration | Component | control/subbar importcsv', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     assert.expect(3);
     // Set any properties with this.set('myProperty', 'value');
     var Target = Route.extend({
       actions: {
         doImport() {
           assert.ok(true, 'calls target action');
-        }
-      }
+        },
+      },
     });
 
     this.set('foo', Target.create({}));
 
     // Handle any actions with this.on('myAction', function(val) { ... });
 
-    await render(hbs`{{control/subbar-importcsv class="importcsv" actionContext=foo}}`);
+    await render(
+      hbs`{{control/subbar-importcsv class="importcsv" actionContext=foo}}`
+    );
 
-    assert.equal(find('.importcsv').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Do|Import|Cancel|Import|');
+    assert.equal(
+      find('.importcsv')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Do|Import|Cancel|Import|'
+    );
 
     click('.importcsv .btn-info');
 
@@ -36,7 +42,12 @@ module('Integration | Component | control/subbar importcsv', function(hooks) {
       {{/control/subbar-importcsv}}
     `);
 
-    assert.equal(find('.importcsv').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Do|Import|Cancel|Import|template|block|text|', 'block');
+    assert.equal(
+      find('.importcsv')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Do|Import|Cancel|Import|template|block|text|',
+      'block'
+    );
   });
 });

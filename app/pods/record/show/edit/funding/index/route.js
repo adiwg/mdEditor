@@ -11,12 +11,11 @@ export default Route.extend(ScrollTo, {
     set(model, 'funding', A(getWithDefault(model, 'funding', [])));
   },
 
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
   },
 
   actions: {
@@ -24,29 +23,28 @@ export default Route.extend(ScrollTo, {
       this.transitionTo('record.show.edit.funding.allocation', id);
     },
     addAllocation() {
-      let funding = this.currentRouteModel()
-        .get('json.metadata.funding');
+      let funding = this.currentRouteModel().get('json.metadata.funding');
       let allocation = EmberObject.create({});
 
       // once(this, () => {
 
-        funding.pushObject(allocation);
-        this.setScrollTo(`funding-period-${funding.length-1}`);
-        this.transitionTo('record.show.edit.funding.allocation',
-          funding.length - 1);
+      funding.pushObject(allocation);
+      this.setScrollTo(`funding-period-${funding.length - 1}`);
+      this.transitionTo(
+        'record.show.edit.funding.allocation',
+        funding.length - 1
+      );
 
-        // $("html, body").animate({
-        //   scrollTop: $(document).height()
-        // }, "slow");
+      // $("html, body").animate({
+      //   scrollTop: $(document).height()
+      // }, "slow");
       // });
-
     },
     deleteAllocation(id) {
-      let all = this.currentRouteModel().get(
-        'json.metadata.funding');
+      let all = this.currentRouteModel().get('json.metadata.funding');
 
       all.removeAt(id);
       this.controller.set('refresh', all.get('length'));
-    }
-  }
+    },
+  },
 });

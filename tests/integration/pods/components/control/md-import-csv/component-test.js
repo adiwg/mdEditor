@@ -3,10 +3,10 @@ import { module, test, skip } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | control/md import csv', function(hooks) {
+module('Integration | Component | control/md import csv', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     assert.expect(3);
 
     // Set any properties with this.set('myProperty', 'value');
@@ -15,20 +15,35 @@ module('Integration | Component | control/md import csv', function(hooks) {
 
     await render(hbs`{{control/md-import-csv}}`);
 
-    assert.equal(find('.md-import-picker').textContent.trim(), 'Click or Drop a CSV here.');
+    assert.equal(
+      find('.md-import-picker').textContent.trim(),
+      'Click or Drop a CSV here.'
+    );
 
-    await render(hbs`{{control/md-import-csv isProcessing=true progress=progress}}`);
+    await render(
+      hbs`{{control/md-import-csv isProcessing=true progress=progress}}`
+    );
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Processing...|Stop|0%|Complete|', 'renders progressbar');
+    assert.equal(
+      find('.ember-view')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Processing...|Stop|0%|Complete|',
+      'renders progressbar'
+    );
 
     this.set('progress', 57);
 
-    assert.equal(find('.ember-view').textContent.replace(/[ \n]+/g, '|').trim(),
-    '|Processing...|Stop|57%|Complete|', 'updates progressbar');
+    assert.equal(
+      find('.ember-view')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Processing...|Stop|57%|Complete|',
+      'updates progressbar'
+    );
   });
 
-  skip('upload csv', async function(assert) {
-      assert.ok();
+  skip('upload csv', async function (assert) {
+    assert.ok();
   });
 });

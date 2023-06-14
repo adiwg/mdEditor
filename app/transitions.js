@@ -152,7 +152,7 @@ export default function () {
     this.toRoute('dictionary.show.edit'),
     this.fromRoute('dictionary.show.index'),
     this.use('toLeft'),
-    this.reverse('toRight'),
+    this.reverse('toRight')
     //this.debug()
   );
   this.transition(
@@ -228,11 +228,11 @@ export default function () {
     this.includingInitialRender(),
     this.toValue(true),
     this.use('toRight', {
-      duration: 250
+      duration: 250,
     }),
     this.reverse('toLeft', {
-      duration: 250
-    })//,
+      duration: 250,
+    }) //,
     //this.debug()
   );
   this.transition(
@@ -240,11 +240,11 @@ export default function () {
     this.includingInitialRender(),
     this.toValue(true),
     this.use('toLeft', {
-      duration: 250
+      duration: 250,
     }),
     this.reverse('toRight', {
-      duration: 250
-    })//,
+      duration: 250,
+    }) //,
     //this.debug()
   );
 }

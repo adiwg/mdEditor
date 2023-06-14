@@ -7,35 +7,28 @@ import { alias } from '@ember/object/computed';
 import { isArray } from '@ember/array';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
-import {
-  regex
-} from '../md-online-resource/component';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { regex } from '../md-online-resource/component';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'onlineResource': [
+  onlineResource: [
     validator('format', {
       regex: regex,
       isWarning: true,
       message: 'This field should be a valid, resolvable uri.',
-      dependentKeys: ['onlineResource', 'model.thesaurus.onlineResource.0.uri']
-    })
+      dependentKeys: ['onlineResource', 'model.thesaurus.onlineResource.0.uri'],
+    }),
   ],
   title: validator('presence', {
     presence: true,
-    ignoreBlank: true
-  })
+    ignoreBlank: true,
+  }),
 });
 
 export default Component.extend(Validations, {
-  disabled: computed('model.thesaurus.identifier.0.identifier',
-    function() {
-      return this.get('model.thesaurus.identifier.0.identifier') !==
-        'custom';
-    }),
+  disabled: computed('model.thesaurus.identifier.0.identifier', function () {
+    return this.get('model.thesaurus.identifier.0.identifier') !== 'custom';
+  }),
   title: alias('model.thesaurus.title'),
   onlineResource: computed('model.thesaurus.onlineResource.0.uri', {
     get() {
@@ -48,7 +41,7 @@ export default Component.extend(Validations, {
       }
       this.set('model.thesaurus.onlineResource.0.uri', value);
       return value;
-    }
+    },
   }),
   date: computed('model.thesaurus.date.0.date', {
     get() {
@@ -61,7 +54,7 @@ export default Component.extend(Validations, {
       }
       this.set('model.thesaurus.date.0.date', value);
       return value;
-    }
+    },
   }),
   dateType: computed('model.thesaurus.date.0.dateType', {
     get() {
@@ -74,6 +67,6 @@ export default Component.extend(Validations, {
       }
       this.set('model.thesaurus.date.0.dateType', value);
       return value;
-    }
-  })
+    },
+  }),
 });

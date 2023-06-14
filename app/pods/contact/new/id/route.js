@@ -10,7 +10,7 @@ export default Route.extend({
    * @chainable
    * @return {Object}
    */
-  model: function(params) {
+  model: function (params) {
     let record = this.store.peekRecord('contact', params.contact_id);
 
     if (record) {
@@ -35,19 +35,19 @@ export default Route.extend({
    *
    * @method deactivate
    */
-  deactivate: function() {
+  deactivate: function () {
     // We grab the model loaded in this route
     let model = this.currentRouteModel();
 
     // If we are leaving the Route we verify if the model is in
     // 'isDeleted' state, which means it wasn't saved to the metadata.
-    if(model && model.isDeleted) {
+    if (model && model.isDeleted) {
       // We call DS#unloadRecord() which removes it from the store
       this.store.unloadRecord(model);
     }
   },
 
-  setupController: function(controller, model) {
+  setupController: function (controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
 
@@ -83,7 +83,7 @@ export default Route.extend({
   // },
 
   actions: {
-    willTransition: function(transition) {
+    willTransition: function (transition) {
       if (transition.targetName === 'contact.new.index') {
         transition.abort();
         return true;
@@ -127,14 +127,15 @@ export default Route.extend({
 
     error(error) {
       if (error instanceof NotFoundError) {
-        this.flashMessages
-          .warning('No contact found! Re-directing to new contact...');
+        this.flashMessages.warning(
+          'No contact found! Re-directing to new contact...'
+        );
         // redirect to new
         this.replaceWith('contact.new');
       } else {
         // otherwise let the error bubble
         return true;
       }
-    }
-  }
+    },
+  },
 });

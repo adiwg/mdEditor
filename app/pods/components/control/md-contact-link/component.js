@@ -19,8 +19,7 @@ export default LinkComponent.extend({
     let params = this.params;
     let add = block.concat(['contact.show', this.get('contact.id')]);
 
-
-    set(this, 'params', params? add.concat(params) : add);
+    set(this, 'params', params ? add.concat(params) : add);
     this._super(...arguments);
   },
 
@@ -61,11 +60,10 @@ export default LinkComponent.extend({
    * @requires contactId
    */
   contact: computed('contactId', function () {
-      let rec = this.store
-        .peekAll('contact')
-        .findBy('json.contactId', this.contactId);
+    let rec = this.store
+      .peekAll('contact')
+      .findBy('json.contactId', this.contactId);
 
-      return rec;
-    })
-    .readOnly()
+    return rec;
+  }).readOnly(),
 });

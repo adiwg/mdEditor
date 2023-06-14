@@ -1,27 +1,23 @@
 import Component from '@ember/component';
 import EmObject, { set } from '@ember/object';
 import { A } from '@ember/array';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'identifier': [
+  identifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'namespace': [
+  namespace: [
     validator('presence', {
-      presence: true
-    })
-  ]
+      presence: true,
+    }),
+  ],
 });
 
 export default Component.extend({
-
   /**
    * mdEditor class for input and edit of mdJSON 'externalIdentifiers' object.
    * The class manages the maintenance of an array of phone externalIdentifiers.
@@ -52,7 +48,6 @@ export default Component.extend({
     init() {
       this._super(...arguments);
       this.set('service', A());
-    }
-  })
-
+    },
+  }),
 });

@@ -8,12 +8,9 @@ export default Component.extend({
   },*/
   actions: {
     toggleSidebar() {
-      $('#md-wrapper')
-        .toggleClass('toggled');
+      $('#md-wrapper').toggleClass('toggled');
       //hack to force reflow
-      $('#md-navbar-main-collapse ul')
-        .hide()
-        .show(0);
-    }
-  }
+      $('#md-navbar-main-collapse ul').hide().show(0);
+    },
+  },
 });

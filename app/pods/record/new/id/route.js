@@ -5,7 +5,7 @@ export default Route.extend({
   model(params) {
     let record = this.store.peekRecord('record', params.record_id);
 
-    if(record) {
+    if (record) {
       return record;
     }
 
@@ -27,7 +27,7 @@ export default Route.extend({
 
     // If we are leaving the Route we verify if the model is in
     // 'isDeleted' state, which means it wasn't saved to the metadata.
-    if(model && model.isDeleted) {
+    if (model && model.isDeleted) {
       // We call DS#unloadRecord() which removes it from the store
       this.store.unloadRecord(model);
     }
@@ -54,8 +54,8 @@ export default Route.extend({
   // },
 
   actions: {
-    willTransition: function(transition) {
-      if(transition.targetName === 'record.new.index') {
+    willTransition: function (transition) {
+      if (transition.targetName === 'record.new.index') {
         transition.abort();
         return true;
       }
@@ -64,11 +64,11 @@ export default Route.extend({
       var model = this.currentRouteModel();
       // If we are leaving the Route we verify if the model is in
       // 'isNew' state, which means it wasn't saved to the backend.
-      if(model && model.get('isNew')) {
+      if (model && model.get('isNew')) {
         transition.abort();
         //let contexts = transition.intent.contexts;
         // We call DS#destroyRecord() which removes it from the store
-        model.destroyRecord().then(()=>  transition.retry());
+        model.destroyRecord().then(() => transition.retry());
         //transition.abort();
 
         // if(contexts && contexts.length > 0) {
@@ -97,9 +97,10 @@ export default Route.extend({
     },
 
     error(error) {
-      if(error instanceof NotFoundError) {
-        this.flashMessages
-          .warning('No record found! Re-directing to new record...');
+      if (error instanceof NotFoundError) {
+        this.flashMessages.warning(
+          'No record found! Re-directing to new record...'
+        );
         // redirect to new
         this.replaceWith('record.new');
       } else {
@@ -117,6 +118,5 @@ export default Route.extend({
     //   this.profile
     //     .set('active', profile);
     // }
-  }
-
+  },
 });

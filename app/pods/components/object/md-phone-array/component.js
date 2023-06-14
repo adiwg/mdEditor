@@ -1,27 +1,23 @@
 import Component from '@ember/component';
 import EmObject from '@ember/object';
 import { A } from '@ember/array';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'phoneNumber': [
+  phoneNumber: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
+      ignoreBlank: true,
     }),
     validator('format', {
       type: 'phone',
       isWarning: true,
-      message: 'This field should be a valid phone number.'
-    })
-  ]
+      message: 'This field should be a valid phone number.',
+    }),
+  ],
 });
 
 export default Component.extend({
-
   /**
    * mdEditor class for input and edit of mdJSON 'phone' object.
    * The class manages the maintenance of an array of phone objects.
@@ -44,7 +40,6 @@ export default Component.extend({
     init() {
       this._super(...arguments);
       this.set('service', A());
-    }
-  })
-
+    },
+  }),
 });

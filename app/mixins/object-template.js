@@ -32,12 +32,13 @@ export default Mixin.create({
     let value = object || {};
     let Template = this.templateClass;
 
-    if(Template) {
+    if (Template) {
       let owner = getOwner(this);
 
-      return merge(Template.create(owner.ownerInjection(), defaults || {}),
-        value);
-
+      return merge(
+        Template.create(owner.ownerInjection(), defaults || {}),
+        value
+      );
     }
 
     return object;
@@ -53,18 +54,19 @@ export default Mixin.create({
   applyTemplateArray(propertyName, defaults) {
     let property = this.get(propertyName);
 
-    if(isArray(property)) {
+    if (isArray(property)) {
       let Template = this.templateClass;
-      if(Template) {
+      if (Template) {
         let owner = getOwner(this);
 
         run.once(this, () => {
           property.forEach((item, idx, items) => {
             //items.removeAt(idx);
 
-            let newItem = assign(Template.create(owner.ownerInjection(),
-                defaults || {}),
-              item);
+            let newItem = assign(
+              Template.create(owner.ownerInjection(), defaults || {}),
+              item
+            );
 
             //items.insertAt(idx, newItem);
             items.set(`${idx}`, newItem);
@@ -79,5 +81,5 @@ export default Mixin.create({
     }
 
     return this.get(propertyName);
-  }
+  },
 });

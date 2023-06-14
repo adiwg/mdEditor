@@ -1,8 +1,6 @@
 import { computed, get, defineProperty } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
-import {
-  warn
-} from '@ember/debug';
+import { warn } from '@ember/debug';
 import { isArray, A } from '@ember/array';
 
 export default Table.extend({
@@ -27,27 +25,29 @@ export default Table.extend({
    * @extends models-table
    */
   init() {
-
     this.dataColumns = this.dataColumns || [];
     this.filteringIgnoreCase = this.filteringIgnoreCase || true;
     this.multipleSelect = this.multipleSelect || true;
 
-    defineProperty(this, 'columns', computed('dataColumns', 'checkColumn',
-      function () {
+    defineProperty(
+      this,
+      'columns',
+      computed('dataColumns', 'checkColumn', function () {
         let chk = this.checkColumn;
         let action = this.actionsColumn;
         let cols = A().concat(this.dataColumns);
 
-        if(chk) {
+        if (chk) {
           cols = [chk].concat(cols);
         }
 
-        if(action) {
+        if (action) {
           cols.push(action);
         }
 
         return cols;
-      }));
+      })
+    );
 
     this._super(...arguments);
   },
@@ -105,13 +105,12 @@ export default Table.extend({
    * @required
    */
   checkColumn: computed(function () {
-
     return {
       component: 'components/md-models-table/components/check',
       disableFiltering: true,
       mayBeHidden: false,
       componentForSortCell: 'components/md-models-table/components/check-all',
-      className: 'text-center'
+      className: 'text-center',
     };
   }),
 
@@ -130,13 +129,14 @@ export default Table.extend({
     return {
       title: 'Actions',
       className: 'md-actions-column',
-      component: all ?
-        'control/md-record-table/buttons' :
-        'control/md-record-table/buttons/show',
+      component: all
+        ? 'control/md-record-table/buttons'
+        : 'control/md-record-table/buttons/show',
       disableFiltering: !all,
-      componentForFilterCell: all ?
-        'control/md-record-table/buttons/filter' : null,
-      showSlider: this.showSlider
+      componentForFilterCell: all
+        ? 'control/md-record-table/buttons/filter'
+        : null,
+      showSlider: this.showSlider,
     };
   }),
 
@@ -144,19 +144,16 @@ export default Table.extend({
     get() {
       let prop = this.selectProperty;
 
-      return this.data
-        .filterBy(prop)
-        .toArray();
-
+      return this.data.filterBy(prop).toArray();
     },
     set(k, v) {
-      if(!isArray(v)) {
+      if (!isArray(v)) {
         warn('`selectedItems` must be an array.', false, {
-          id: '#emt-selectedItems-array'
+          id: '#emt-selectedItems-array',
         });
       }
       return A(v);
-    }
+    },
   }),
 
   /**
@@ -187,14 +184,12 @@ export default Table.extend({
       //this._super(...arguments);
       let selectedItems = this.selectedItems;
       let data = this.data;
-      const allSelectedBefore = get(selectedItems, 'length') === get(data,
-        'length');
-      this.selectedItems
-        .clear();
+      const allSelectedBefore =
+        get(selectedItems, 'length') === get(data, 'length');
+      this.selectedItems.clear();
 
-      if(!allSelectedBefore) {
-        this.selectedItems
-          .pushObjects(data.toArray());
+      if (!allSelectedBefore) {
+        this.selectedItems.pushObjects(data.toArray());
       }
       this.userInteractionObserver();
 
@@ -202,12 +197,12 @@ export default Table.extend({
       let prop = this.selectProperty;
       //let data = get(this, 'data');
 
-      if(get(selected, 'length')) {
+      if (get(selected, 'length')) {
         selected.setEach(prop, true);
       } else {
         data.setEach(prop, false);
       }
       this.select(null, null, selected);
-    }
-  }
+    },
+  },
 });

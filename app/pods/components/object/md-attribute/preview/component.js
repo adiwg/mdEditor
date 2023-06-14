@@ -1,8 +1,6 @@
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
-import {
-  Validations
-} from '../component';
+import { Validations } from '../component';
 
 export default Component.extend(Validations, {
   tagName: '',
@@ -10,5 +8,5 @@ export default Component.extend(Validations, {
   codeName: alias('model.codeName'),
   dataType: alias('model.dataType'),
   definition: alias('model.definition'),
-  allowNull: alias('model.allowNull')
+  allowNull: alias('model.allowNull'),
 });

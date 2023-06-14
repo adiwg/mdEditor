@@ -47,60 +47,90 @@ export default Component.extend({
     let model = this.model;
     let path = this.path;
 
-    if(isNone(model) !== isNone(path)) {
+    if (isNone(model) !== isNone(path)) {
       assert(
         `You must supply both model and path to ${this.toString()} or neither.`
       );
     }
 
-    if(!isBlank(model)) {
-      if(this.get(`model.${path}`) === undefined) {
-        debug(
-          `model.${path} is undefined in ${this.toString()}.`
-        );
+    if (!isBlank(model)) {
+      if (this.get(`model.${path}`) === undefined) {
+        debug(`model.${path} is undefined in ${this.toString()}.`);
         //Ember.run.once(()=>model.set(path, ""));
       }
 
       defineProperty(this, 'value', alias(`model.${path}`));
 
-      defineProperty(this, 'validation', alias(
-        `model.validations.attrs.${path}`).readOnly());
+      defineProperty(
+        this,
+        'validation',
+        alias(`model.validations.attrs.${path}`).readOnly()
+      );
 
-      defineProperty(this, 'required', computed(
-        'validation.options.presence.{presence,disabled}',
-        'disabled',
-        function() {
-          return !this.disabled &&
-            this.get('validation.options.presence.presence') &&
-            !this.get('validation.options.presence.disabled');
-        }).readOnly());
+      defineProperty(
+        this,
+        'required',
+        computed(
+          'validation.options.presence.{presence,disabled}',
+          'disabled',
+          function () {
+            return (
+              !this.disabled &&
+              this.get('validation.options.presence.presence') &&
+              !this.get('validation.options.presence.disabled')
+            );
+          }
+        ).readOnly()
+      );
 
-      defineProperty(this, 'notValidating', not(
-        'validation.isValidating').readOnly());
+      defineProperty(
+        this,
+        'notValidating',
+        not('validation.isValidating').readOnly()
+      );
 
       defineProperty(this, 'hasContent', notEmpty('value').readOnly());
 
-      defineProperty(this, 'hasWarnings', notEmpty(
-        'validation.warnings').readOnly());
+      defineProperty(
+        this,
+        'hasWarnings',
+        notEmpty('validation.warnings').readOnly()
+      );
 
-      defineProperty(this, 'isValid', and('hasContent',
-        'validation.isTruelyValid').readOnly());
+      defineProperty(
+        this,
+        'isValid',
+        and('hasContent', 'validation.isTruelyValid').readOnly()
+      );
 
-      defineProperty(this, 'shouldDisplayValidations', or(
-        'showValidations', 'didValidate',
-        'hasContent').readOnly());
+      defineProperty(
+        this,
+        'shouldDisplayValidations',
+        or('showValidations', 'didValidate', 'hasContent').readOnly()
+      );
 
-      defineProperty(this, 'showErrorClass', and('notValidating',
+      defineProperty(
+        this,
+        'showErrorClass',
+        and(
+          'notValidating',
+          'showErrorMessage',
+          'hasContent',
+          'validation'
+        ).readOnly()
+      );
+
+      defineProperty(
+        this,
         'showErrorMessage',
-        'hasContent', 'validation').readOnly());
+        and('shouldDisplayValidations', 'validation.isInvalid').readOnly()
+      );
 
-      defineProperty(this, 'showErrorMessage', and(
-        'shouldDisplayValidations',
-        'validation.isInvalid').readOnly());
-
-      defineProperty(this, 'showWarningMessage', and(
-        'shouldDisplayValidations',
-        'hasWarnings', 'isValid').readOnly());
+      defineProperty(
+        this,
+        'showWarningMessage',
+        and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly()
+      );
     }
   },
 
@@ -267,7 +297,7 @@ export default Component.extend({
    * @type String
    * @default 'Select one option'
    */
-  placeholder: "Select one option",
+  placeholder: 'Select one option',
 
   /**
    * Form label for select list
@@ -278,7 +308,7 @@ export default Component.extend({
    */
   label: null,
 
-  ariaLabel: computed('label', function() {
+  ariaLabel: computed('label', function () {
     return this.label;
   }),
 
@@ -310,9 +340,8 @@ export default Component.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: computed('create', function() {
-    return this.create ? 'power-select-with-create' :
-      'power-select';
+  theComponent: computed('create', function () {
+    return this.create ? 'power-select-with-create' : 'power-select';
   }),
 
   /**
@@ -329,16 +358,15 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function() {
+  selectedItem: computed('value', function () {
     let value = this.value;
 
     return DS.PromiseObject.create({
-      promise: this.codelist
-        .then(function(arr) {
-          return arr.find((item) => {
-            return item['codeId'] === value;
-          });
-        })
+      promise: this.codelist.then(function (arr) {
+        return arr.find((item) => {
+          return item['codeId'] === value;
+        });
+      }),
     });
   }),
 
@@ -351,13 +379,13 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseArray
    */
-  codelist: computed('objectArray', function() {
+  codelist: computed('objectArray', function () {
     const objArray = this.objectArray;
-    let inList = new Promise(function(resolve, reject) {
+    let inList = new Promise(function (resolve, reject) {
       // succeed
       resolve(objArray);
       // or reject
-      reject(new Error('Couldn\'t create a promise.'));
+      reject(new Error("Couldn't create a promise."));
     });
     let codeId = this.valuePath;
     let codeName = this.namePath;
@@ -367,23 +395,23 @@ export default Component.extend({
     let outList = A();
 
     return DS.PromiseArray.create({
-      promise: inList.then(function(arr) {
-        arr.forEach(function(item) {
+      promise: inList.then(function (arr) {
+        arr.forEach(function (item) {
           let newObject = {
             codeId: get(item, codeId),
             codeName: get(item, codeName),
             tooltip: false,
-            icon: icons.get(item[codeName].toString()) || icons.get(
-              defaultIcon)
+            icon:
+              icons.get(item[codeName].toString()) || icons.get(defaultIcon),
           };
-          if(tooltip) {
+          if (tooltip) {
             newObject.tooltip = get(item, tooltip);
           }
           outList.pushObject(newObject);
         });
 
         return outList;
-      })
+      }),
     });
   }),
 
@@ -399,7 +427,7 @@ export default Component.extend({
     return {
       codeId: code,
       codeName: code,
-      tooltip: false
+      tooltip: false,
     };
   },
 
@@ -422,10 +450,8 @@ export default Component.extend({
     create(selected) {
       let code = this.createCode(selected);
 
-      this.codelist
-        .pushObject(code);
+      this.codelist.pushObject(code);
       this.setValue(code);
-    }
-  }
-
+    },
+  },
 });

@@ -1,12 +1,7 @@
 import { oneWay } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  computed,
-  get
-} from '@ember/object';
-import {
-  inject as service
-} from '@ember/service';
+import { computed, get } from '@ember/object';
+import { inject as service } from '@ember/service';
 import $ from 'jquery';
 
 export default Component.extend({
@@ -50,8 +45,14 @@ export default Component.extend({
   cleaner: service(),
 
   classNames: ['md-card', 'card'],
-  classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card',
-    'maximizable', 'fullScreen', 'required', 'muted', 'borderColor'
+  classNameBindings: [
+    'shadow:box-shadow--4dp',
+    'scroll:scroll-card',
+    'maximizable',
+    'fullScreen',
+    'required',
+    'muted',
+    'borderColor',
   ],
   attributeBindings: ['data-spy'],
 
@@ -66,9 +67,8 @@ export default Component.extend({
    * @requires elementId
    */
   cardId: computed('elementId', function () {
-      return 'card-' + this.elementId;
-    })
-    .readOnly(),
+    return 'card-' + this.elementId;
+  }).readOnly(),
 
   /**
    * The card title.
@@ -259,7 +259,7 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    if(this.collapsible) {
+    if (this.collapsible) {
       let card = this.$();
       let body = this.$(' > .card-collapse');
       let offset = this.offset || 0;
@@ -276,19 +276,25 @@ export default Component.extend({
         // if(scrolledY) {
         //   window.scroll(0, scrolledY - offset);
         // }
-        $('html,body').animate({
-          scrollTop: card.offset().top - offset
-        }, 'slow');
+        $('html,body').animate(
+          {
+            scrollTop: card.offset().top - offset,
+          },
+          'slow'
+        );
       });
     }
 
     let content = this.content;
 
-    if(content !== null) {
-      let empty = content ? Object.keys(this.cleaner.clean(content, {
-          preserveArrays: false
-        })).length ===
-        0 : true;
+    if (content !== null) {
+      let empty = content
+        ? Object.keys(
+            this.cleaner.clean(content, {
+              preserveArrays: false,
+            })
+          ).length === 0
+        : true;
 
       this.set('collapsed', empty);
     }
@@ -298,12 +304,13 @@ export default Component.extend({
     toggleFullScreen() {
       let val = this.toggleProperty('fullScreen');
 
-      $(this.element).parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-        'full-screen', val);
+      $(this.element)
+        .parents('.liquid-child,.liquid-container, .md-card')
+        .toggleClass('full-screen', val);
       $('body').toggleClass('slider', val);
     },
     spotlight(id) {
       this.spotlight.setTarget(id);
-    }
-  }
+    },
+  },
 });

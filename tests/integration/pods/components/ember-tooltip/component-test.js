@@ -4,11 +4,10 @@ import { render } from '@ember/test-helpers';
 import hbs from 'htmlbars-inline-precompile';
 import { assertTooltipContent } from 'ember-tooltips/test-support';
 
-
-module('Integration | Component | ember-tooltip', function(hooks) {
+module('Integration | Component | ember-tooltip', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 

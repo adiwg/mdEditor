@@ -3,25 +3,28 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | layout/md footer', function(hooks) {
+module('Integration | Component | layout/md footer', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
     this.set('settings', {
       data: {
-        autoSave: false
-      }
-    })
+        autoSave: false,
+      },
+    });
 
     await render(hbs`{{layout/md-footer settings=settings}}`);
 
-    assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Report|Issue|AutoSave:|Off|');
+    assert.equal(
+      find('.md-footer')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Report|Issue|AutoSave:|Off|'
+    );
 
-      this.set('settings.data.autoSave', true);
+    this.set('settings.data.autoSave', true);
     // Template block usage:
     await render(hbs`
       {{#layout/md-footer settings=settings}}
@@ -29,7 +32,11 @@ module('Integration | Component | layout/md footer', function(hooks) {
       {{/layout/md-footer}}
     `);
 
-    assert.equal(find('.md-footer').textContent.replace(/[ \n]+/g, '|').trim(),
-      '|Report|Issue|AutoSave:|On|template|block|text|');
+    assert.equal(
+      find('.md-footer')
+        .textContent.replace(/[ \n]+/g, '|')
+        .trim(),
+      '|Report|Issue|AutoSave:|On|template|block|text|'
+    );
   });
 });

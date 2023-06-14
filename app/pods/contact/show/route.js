@@ -6,39 +6,33 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 export default Route.extend(ScrollTo, {
   flashMessages: service(),
 
-  model: function(params) {
-    let rec= this.store.peekRecord('contact', params.contact_id);
+  model: function (params) {
+    let rec = this.store.peekRecord('contact', params.contact_id);
     return rec;
   },
 
   actions: {
-    saveContact: function() {
+    saveContact: function () {
       let model = this.currentRouteModel();
 
-      model
-        .save()
-        .then(() => {
-          //this.refresh();
-          //this.setModelHash();
-          this.flashMessages
-            .success(`Saved Contact: ${model.get('title')}`);
+      model.save().then(() => {
+        //this.refresh();
+        //this.setModelHash();
+        this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
 
-          //this.transitionTo('contacts');
-        });
+        //this.transitionTo('contacts');
+      });
     },
 
-    destroyContact: function() {
+    destroyContact: function () {
       let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Contact: ${model.get('title')}`);
-          this.replaceWith('contacts');
-        });
+      model.destroyRecord().then(() => {
+        this.flashMessages.success(`Deleted Contact: ${model.get('title')}`);
+        this.replaceWith('contacts');
+      });
     },
 
-    cancelContact: function() {
+    cancelContact: function () {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Contact: ${model.get('title')}`;
 
@@ -53,18 +47,16 @@ export default Route.extend(ScrollTo, {
         return;
       }
 
-      model
-        .reload()
-        .then(() => {
-          this.flashMessages.warning(message);
-        });
+      model.reload().then(() => {
+        this.flashMessages.warning(message);
+      });
     },
 
-    copyContact: function() {
-
-      this.flashMessages
-        .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);
+    copyContact: function () {
+      this.flashMessages.success(
+        `Copied Contact: ${this.currentRouteModel().get('title')}`
+      );
       this.transitionTo('contact.new.id', copy(this.currentRouteModel()));
-    }
-  }
+    },
+  },
 });

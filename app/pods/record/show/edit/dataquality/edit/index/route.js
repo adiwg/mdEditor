@@ -7,9 +7,13 @@ export default Route.extend(ScrollTo, {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit.main'));
-    this.controller.set('dataQualityId', get(this.controllerFor(
-      'record.show.edit.dataquality.edit'), 'dataQualityId'));
-  }
+    this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
+    this.controller.set(
+      'dataQualityId',
+      get(
+        this.controllerFor('record.show.edit.dataquality.edit'),
+        'dataQualityId'
+      )
+    );
+  },
 });

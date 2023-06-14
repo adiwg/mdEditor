@@ -27,11 +27,15 @@ export default Component.extend({
    */
 
   showDelete: computed('settings.showDelete', 'allowDelete', function () {
-    return isEmpty(this.allowDelete) ? this.settings.data.showDelete : this.allowDelete;
+    return isEmpty(this.allowDelete)
+      ? this.settings.data.showDelete
+      : this.allowDelete;
   }),
 
   showCopy: computed('settings.showDelete', 'allowCopy', function () {
-    return isEmpty(this.allowCopy) ? this.settings.data.showCopy : this.allowCopy;
+    return isEmpty(this.allowCopy)
+      ? this.settings.data.showCopy
+      : this.allowCopy;
   }),
 
   actions: {
@@ -49,7 +53,6 @@ export default Component.extend({
 
     copy: function () {
       this.doCopy();
-
-    }
-  }
+    },
+  },
 });

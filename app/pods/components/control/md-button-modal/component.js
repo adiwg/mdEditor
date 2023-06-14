@@ -69,6 +69,6 @@ export default Component.extend({
     confirm() {
       this.onConfirm();
       this.toggleProperty('isShowingModal');
-    }
-  }
+    },
+  },
 });

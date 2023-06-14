@@ -3,11 +3,10 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | layout/md card', function(hooks) {
+module('Integration | Component | layout/md card', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
 
@@ -26,7 +25,11 @@ module('Integration | Component | layout/md card', function(hooks) {
       {{/layout/md-card}}
     `);
 
-    assert.equal(find('.md-card').textContent.trim(), 'template block text', 'block');
+    assert.equal(
+      find('.md-card').textContent.trim(),
+      'template block text',
+      'block'
+    );
 
     await render(hbs`
       {{#layout/md-card title="foo" collapsed=true collapsible=true}}

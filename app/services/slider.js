@@ -1,7 +1,5 @@
 import Service, { inject as service } from '@ember/service';
-import {
-  observer
-} from '@ember/object';
+import { observer } from '@ember/object';
 
 export default Service.extend({
   init() {
@@ -23,12 +21,12 @@ export default Service.extend({
   onClose() {},
 
   toggleSlider(state) {
-    if(state === undefined) {
+    if (state === undefined) {
       this.toggleProperty('showSlider');
 
       return;
     }
 
     this.set('showSlider', !!state);
-  }
+  },
 });

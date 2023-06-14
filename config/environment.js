@@ -3,7 +3,7 @@ module.exports = function (environment) {
   let deployTarget = process.env.DEPLOY_TARGET;
   let ENV = {
     contentSecurityPolicy: {
-      'style-src': "'self' 'unsafe-inline'"
+      'style-src': "'self' 'unsafe-inline'",
     },
     hinting: false,
     modulePrefix: 'mdeditor',
@@ -22,17 +22,17 @@ module.exports = function (environment) {
       },
     },
     'ember-local-storage': {
-      fileExport: true
+      fileExport: true,
     },
 
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
       repository: 'https://github.com/adiwg/mdEditor',
-      defaultProfileId: 'org.adiwg.profile.full'
+      defaultProfileId: 'org.adiwg.profile.full',
     },
     'ember-load': {
-      loadingIndicatorClass: 'md-load-indicator'
+      loadingIndicatorClass: 'md-load-indicator',
     },
 
     'ember-toggle': {
@@ -48,7 +48,7 @@ module.exports = function (environment) {
       // flash message defaults
       timeout: 5000,
       extendedTimeout: 1500,
-      preventDuplicates: true
+      preventDuplicates: true,
       //sticky: true
     },
     'ember-cli-bootstrap-datetimepicker': {
@@ -61,9 +61,9 @@ module.exports = function (environment) {
         next: 'fa fa-angle-double-right',
         close: 'fa fa-times',
         clear: 'fa fa-trash',
-        today: 'fa fa-home'
-      }
-    }
+        today: 'fa fa-home',
+      },
+    },
   };
 
   if (environment === 'development') {
@@ -80,8 +80,8 @@ module.exports = function (environment) {
     ENV.locationType = 'none';
 
     ENV['ember-local-storage'] = {
-      namespace: 'test'
-    }
+      namespace: 'test',
+    };
 
     // keep test console output quieter
     ENV.APP.LOG_ACTIVE_GENERATION = false;

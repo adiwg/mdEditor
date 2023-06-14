@@ -1,84 +1,65 @@
-import {
-  notEmpty,
-  alias
-} from '@ember/object/computed';
+import { notEmpty, alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  getWithDefault,
-  get,
-  set,
-  computed
-} from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
+import { getWithDefault, get, set, computed } from '@ember/object';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-const timeUnit = [{
+const timeUnit = [
+  {
     name: 'year',
-    value: 'year'
+    value: 'year',
   },
   {
     name: 'month',
-    value: 'month'
+    value: 'month',
   },
   {
     name: 'day',
-    value: 'day'
+    value: 'day',
   },
   {
     name: 'hour',
-    value: 'hour'
+    value: 'hour',
   },
   {
     name: 'minute',
-    value: 'minute'
+    value: 'minute',
   },
   {
     name: 'second',
-    value: 'second'
-  }
+    value: 'second',
+  },
 ];
 
-const durationUnit = [
-  'years',
-  'months',
-  'days',
-  'hours',
-  'minutes',
-  'seconds'
-];
+const durationUnit = ['years', 'months', 'days', 'hours', 'minutes', 'seconds'];
 
 const Validations = buildValidations({
-  'intervalAmount': [
+  intervalAmount: [
     validator('presence', {
       presence: true,
       //disabled: computed.notEmpty('model.endDateTime'),
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'startDateTime': [
+  startDateTime: [
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.endDateTime'),
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'endDateTime': [
+  endDateTime: [
     validator('date', {
       onOrAfter: alias('model.startDateTime'),
-      isWarning: true
+      isWarning: true,
     }),
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.startDateTime'),
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -95,8 +76,7 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'periodName', getWithDefault(model,
-        'periodName', []));
+      set(model, 'periodName', getWithDefault(model, 'periodName', []));
       set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
       set(model, 'duration', getWithDefault(model, 'duration', {}));
       // set(model, 'presentationForm', getWithDefault(model,
@@ -125,7 +105,7 @@ export default Component.extend(Validations, {
         set(this, 'model.startDateTime', value);
         return value;
       });
-    }
+    },
   }),
   endDateTime: computed('model.endDateTime', {
     get() {
@@ -136,12 +116,11 @@ export default Component.extend(Validations, {
         set(this, 'model.endDateTime', value);
         return value;
       });
-    }
+    },
   }),
   intervalAmount: alias('model.timeInterval.interval'),
   identifier: alias('model.identifier.identifier'),
 
   timeUnit: timeUnit,
-  durationUnit: durationUnit
-
+  durationUnit: durationUnit,
 });

@@ -12,7 +12,7 @@ export default Service.extend({
   metadata: 'file-code-o',
   initiative: 'checklist',
   sample: 'flask',
-  'document': 'file-o',
+  document: 'file-o',
   repository: 'database',
   aggregate: 'sitemap',
   collection: 'files-o',
@@ -36,5 +36,5 @@ export default Service.extend({
   defaultFile: 'file-o',
   defaultList: 'caret-right',
   individuals: 'user',
-  organizations: 'users'
+  organizations: 'users',
 });

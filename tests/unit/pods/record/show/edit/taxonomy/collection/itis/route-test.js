@@ -1,11 +1,16 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 
-module('Unit | Route | record/show/edit/taxonomy/collection/itis', function(hooks) {
-  setupTest(hooks);
+module(
+  'Unit | Route | record/show/edit/taxonomy/collection/itis',
+  function (hooks) {
+    setupTest(hooks);
 
-  test('it exists', function(assert) {
-    let route = this.owner.lookup('route:record/show/edit/taxonomy/collection/itis');
-    assert.ok(route);
-  });
-});
+    test('it exists', function (assert) {
+      let route = this.owner.lookup(
+        'route:record/show/edit/taxonomy/collection/itis'
+      );
+      assert.ok(route);
+    });
+  }
+);

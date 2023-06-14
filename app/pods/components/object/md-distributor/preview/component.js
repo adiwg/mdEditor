@@ -7,5 +7,5 @@ export default Component.extend({
     this.tagName = this.isTable ? 'td' : 'div';
   },
 
-  classNames: ['property']
+  classNames: ['property'],
 });

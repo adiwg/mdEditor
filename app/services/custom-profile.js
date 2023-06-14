@@ -14,9 +14,7 @@ import config from 'mdeditor/config/environment';
  * @readOnly
  */
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 /**
@@ -69,8 +67,8 @@ export default Service.extend({
       id: itm.namespace + '.' + itm.identifier,
       title: itm.title,
       description: itm.description,
-      definition: itm
-    }
+      definition: itm,
+    };
   }),
 
   /**
@@ -101,11 +99,11 @@ export default Service.extend({
     return this.profiles.reduce(function (map, profile) {
       let alt = get(profile, 'definition.alternateId');
 
-      if(isEmpty(alt)) {
+      if (isEmpty(alt)) {
         return map;
       }
 
-      alt.forEach(a => map[a] = profile.id);
+      alt.forEach((a) => (map[a] = profile.id));
 
       return map;
     }, {});
@@ -156,32 +154,34 @@ export default Service.extend({
    */
   getActiveProfile() {
     const active = this.active;
-    const profile = active && typeof active === 'string' ? active :
-      defaultProfileId;
+    const profile =
+      active && typeof active === 'string' ? active : defaultProfileId;
     const selected = this.mapById[profile];
 
-    if(selected) {
+    if (selected) {
       return selected;
     }
 
     const alternate = this.mapById[this.mapByAltId[profile]];
 
-    if(alternate) {
-      this.flashMessages
-        .info(
-          `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`, {
-            sticky: true
-          }
-        );
+    if (alternate) {
+      this.flashMessages.info(
+        `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`,
+        {
+          sticky: true,
+        }
+      );
 
       return alternate;
     }
 
-    this.flashMessages
-      .warning(`Profile "${active}" not found. Using default profile.`, {
-        sticky: true
-      });
+    this.flashMessages.warning(
+      `Profile "${active}" not found. Using default profile.`,
+      {
+        sticky: true,
+      }
+    );
 
     return this.defaultProfile;
-  }
+  },
 });

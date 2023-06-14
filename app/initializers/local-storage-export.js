@@ -4,44 +4,52 @@ import { assign } from '@ember/polyfills';
 import { run } from '@ember/runloop';
 import { singularize } from 'ember-inflector';
 
-const exportSelected = function(store, types, options) {
+const exportSelected = function (store, types, options) {
   // merge defaults
-  options = merge({
-    json: true,
-    download: false,
-    filename: 'ember-data.json',
-    filterIds: null
-  }, options || {});
+  options = merge(
+    {
+      json: true,
+      download: false,
+      filename: 'ember-data.json',
+      filterIds: null,
+    },
+    options || {}
+  );
 
   let json, data;
-  let filter = typeof options.filterIds === 'object' ? options.filterIds :
-    null;
+  let filter = typeof options.filterIds === 'object' ? options.filterIds : null;
 
   // collect data
-  data = types.reduce((records, type) => {
-    const adapter = store.adapterFor(singularize(type));
-    const url = adapter.buildURL(type),
-      exportData = adapter._handleGETRequest(url);
+  data = types.reduce(
+    (records, type) => {
+      const adapter = store.adapterFor(singularize(type));
+      const url = adapter.buildURL(type),
+        exportData = adapter._handleGETRequest(url);
 
-    records.data = records.data.concat(exportData.filter(itm => filter[
-      singularize(type)].indexOf(itm.id) !== -1));
-    return records;
-  }, {
-    data: []
-  });
+      records.data = records.data.concat(
+        exportData.filter(
+          (itm) => filter[singularize(type)].indexOf(itm.id) !== -1
+        )
+      );
+      return records;
+    },
+    {
+      data: [],
+    }
+  );
 
-  if(options.json || options.download) {
+  if (options.json || options.download) {
     json = JSON.stringify(data);
   }
 
-  if(options.json) {
+  if (options.json) {
     data = json;
   }
 
-  if(options.download) {
+  if (options.download) {
     window.saveAs(
       new Blob([json], {
-        type: 'application/json;charset=utf-8'
+        type: 'application/json;charset=utf-8',
       }),
       options.filename
     );
@@ -56,12 +64,12 @@ export function initialize() {
   Store.reopen({
     exportSelectedData(types, options) {
       return exportSelected(this, types, options);
-    }
+    },
   });
 }
 
 export default {
   name: 'local-storage-export',
   after: 'ember-data',
-  initialize: initialize
+  initialize: initialize,
 };

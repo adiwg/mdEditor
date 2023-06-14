@@ -17,17 +17,25 @@ export default Component.extend({
     selectItem(item) {
       // item.set('_animate', true);
       // item.set('_selected', true);
-      later(this, function () {
-        this.selected.pushObject(item);
-        this.record.save();
-      }, 250);
+      later(
+        this,
+        function () {
+          this.selected.pushObject(item);
+          this.record.save();
+        },
+        250
+      );
     },
     deselectItem(item) {
       // item.set('_selected', false);
-      later(this, function () {
-        this.selected.removeObject(item);
-        this.record.save();
-      }, 250);
+      later(
+        this,
+        function () {
+          this.selected.removeObject(item);
+          this.record.save();
+        },
+        250
+      );
     },
-  }
+  },
 });

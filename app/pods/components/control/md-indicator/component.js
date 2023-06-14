@@ -33,19 +33,20 @@ export default Component.extend({
 
     this._super(...arguments);
 
-    if(options) {
+    if (options) {
       Object.assign(this, options);
       //this.classNames.concat(options.classNames);
     }
 
     this.popoverHideDelay = this.popoverHideDelay || 500;
-    this.popperContainer = this.popperContainer || "body";
+    this.popperContainer = this.popperContainer || 'body';
     this.icon = this.icon || 'sticky-note';
     this.event = this.event || 'hover';
     this.title = this.title || 'Note';
     this.type = this.type || 'default';
-    this.classNames = ['md-indicator', `md-${this.type}`].concat(this
-      .classNames);
+    this.classNames = ['md-indicator', `md-${this.type}`].concat(
+      this.classNames
+    );
   },
 
   /**
@@ -158,5 +159,5 @@ export default Component.extend({
 
       return acc;
     }, {});
-  })
+  }),
 });

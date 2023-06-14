@@ -1,7 +1,5 @@
 import Component from '@ember/component';
-import {
-  inject as service
-} from '@ember/service';
+import { inject as service } from '@ember/service';
 
 export default Component.extend({
   classNames: ['md-row-body'],
@@ -22,6 +20,5 @@ export default Component.extend({
   collapse() {
     this.element.classList.add('fade-out-fast');
     this.collapseRow(this.index, this.record);
-
-  }
+  },
 });

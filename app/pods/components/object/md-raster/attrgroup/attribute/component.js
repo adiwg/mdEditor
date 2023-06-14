@@ -5,15 +5,15 @@ import { get, set, getWithDefault } from '@ember/object';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { decamelize } from '@ember/string';
 import Attribute from 'mdjson-schemas/resources/js/attribute';
-import { validator, buildValidations } from "ember-cp-validations";
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'attrIdentifier': [
+  attrIdentifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const params = {
@@ -55,15 +55,14 @@ export default Component.extend(Validations, {
    */
 
   init() {
-    this.params = Object.keys(params).map(p => {
+    this.params = Object.keys(params).map((p) => {
       return {
         property: p,
-        label: ucWords([decamelize(p).replace(/_/g,
-          ' ')], {
-          force: false
+        label: ucWords([decamelize(p).replace(/_/g, ' ')], {
+          force: false,
         }),
         type: params[p],
-        description: get(Attribute, `properties.${p}.description`)
+        description: get(Attribute, `properties.${p}.description`),
       };
     });
 
@@ -76,16 +75,31 @@ export default Component.extend(Validations, {
     let model = getWithDefault(this, 'model', []) || [];
 
     once(this, function () {
-      set(model, 'attributeIdentifier', getWithDefault(model,
-        'attributeIdentifier', []));
-      set(model, 'bandBoundaryDefinition', getWithDefault(model,
-      'bandBoundaryDefinition', []));
-      set(model, 'transferFunctionType', getWithDefault(model,
-        'transferFunctionType', []));
-      set(model, 'transmittedPolarization', getWithDefault(model,
-        'transmittedPolarization', []));
-      set(model, 'detectedPolarization', getWithDefault(model,
-        'detectedPolarization', []));
+      set(
+        model,
+        'attributeIdentifier',
+        getWithDefault(model, 'attributeIdentifier', [])
+      );
+      set(
+        model,
+        'bandBoundaryDefinition',
+        getWithDefault(model, 'bandBoundaryDefinition', [])
+      );
+      set(
+        model,
+        'transferFunctionType',
+        getWithDefault(model, 'transferFunctionType', [])
+      );
+      set(
+        model,
+        'transmittedPolarization',
+        getWithDefault(model, 'transmittedPolarization', [])
+      );
+      set(
+        model,
+        'detectedPolarization',
+        getWithDefault(model, 'detectedPolarization', [])
+      );
     });
   },
 

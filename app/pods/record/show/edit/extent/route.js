@@ -12,48 +12,64 @@ export default Route.extend({
     set(info, 'extent', getWithDefault(info, 'extent', A()));
 
     get(info, 'extent').forEach((itm) => {
-      set(itm, 'geographicExtent', getWithDefault(itm,
-        'geographicExtent', A()));
-      set(itm, 'geographicExtent.0', getWithDefault(itm,
-        'geographicExtent.0', {}));
-      set(itm, 'geographicExtent.0.boundingBox', getWithDefault(itm,
-        'geographicExtent.0.boundingBox', {}));
-      set(itm, 'geographicExtent.0.identifier', getWithDefault(itm,
-        'geographicExtent.0.identifier', {}));
-      set(itm, 'verticalExtent', getWithDefault(itm, 'verticalExtent',
-        A()));
-      set(itm, 'temporalExtent', getWithDefault(itm, 'temporalExtent',
-        A()));
+      set(
+        itm,
+        'geographicExtent',
+        getWithDefault(itm, 'geographicExtent', A())
+      );
+      set(
+        itm,
+        'geographicExtent.0',
+        getWithDefault(itm, 'geographicExtent.0', {})
+      );
+      set(
+        itm,
+        'geographicExtent.0.boundingBox',
+        getWithDefault(itm, 'geographicExtent.0.boundingBox', {})
+      );
+      set(
+        itm,
+        'geographicExtent.0.identifier',
+        getWithDefault(itm, 'geographicExtent.0.identifier', {})
+      );
+      set(itm, 'verticalExtent', getWithDefault(itm, 'verticalExtent', A()));
+      set(itm, 'temporalExtent', getWithDefault(itm, 'temporalExtent', A()));
     });
     return model;
   },
 
   actions: {
     addExtent() {
-      let extents = this.currentRouteModel()
-        .get('json.metadata.resourceInfo.extent');
+      let extents = this.currentRouteModel().get(
+        'json.metadata.resourceInfo.extent'
+      );
 
       extents.pushObject({
         description: null,
-        geographicExtent: [{
-          description: null,
-          containsData: true,
-          boundingBox: {},
-          geographicElement: A(),
-          identifier: {}
-        }],
+        geographicExtent: [
+          {
+            description: null,
+            containsData: true,
+            boundingBox: {},
+            geographicElement: A(),
+            identifier: {},
+          },
+        ],
         verticalExtent: A(),
-        temporalExtent: A()
+        temporalExtent: A(),
       });
 
-      $("html, body").animate({
-        scrollTop: $(document).height()
-      }, "slow");
-
+      $('html, body').animate(
+        {
+          scrollTop: $(document).height(),
+        },
+        'slow'
+      );
     },
     deleteExtent(id) {
-      let extents = this.currentRouteModel()
-        .get('json.metadata.resourceInfo.extent');
+      let extents = this.currentRouteModel().get(
+        'json.metadata.resourceInfo.extent'
+      );
       let extent = extents[id];
 
       extents.removeObject(extent);
@@ -64,6 +80,6 @@ export default Route.extend({
     },
     toList() {
       this.transitionTo(this.routeName);
-    }
-  }
+    },
+  },
 });

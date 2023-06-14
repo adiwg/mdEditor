@@ -5,8 +5,8 @@ import { copy } from 'ember-copy';
 export default Route.extend({
   flashMessages: service(),
 
-  model: function(params) {
-    let rec= this.store.peekRecord('dictionary', params.dictionary_id);
+  model: function (params) {
+    let rec = this.store.peekRecord('dictionary', params.dictionary_id);
     return rec;
   },
 
@@ -14,29 +14,26 @@ export default Route.extend({
     const name = model.get('title');
 
     const crumb = {
-      title: name
+      title: name,
     };
 
     this.set('breadCrumb', crumb);
   },
 
   actions: {
-    destroyDictionary: function() {
+    destroyDictionary: function () {
       let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Dictionary: ${model.get('title')}`);
-          this.replaceWith('dictionaries');
-        });
+      model.destroyRecord().then(() => {
+        this.flashMessages.success(`Deleted Dictionary: ${model.get('title')}`);
+        this.replaceWith('dictionaries');
+      });
     },
 
-    copyDictionary: function() {
-
-      this.flashMessages
-        .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
+    copyDictionary: function () {
+      this.flashMessages.success(
+        `Copied Dictionary: ${this.currentRouteModel().get('title')}`
+      );
       this.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
-    }
-  }
+    },
+  },
 });

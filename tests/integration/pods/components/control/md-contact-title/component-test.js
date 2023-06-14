@@ -4,11 +4,10 @@ import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 import createContact from 'mdeditor/tests/helpers/create-contact';
 
-module('Integration | Component | control/md contact title', function(hooks) {
+module('Integration | Component | control/md contact title', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.on('myAction', function(val) { ... });
     var store = this.owner.lookup('service:store');
@@ -27,6 +26,9 @@ module('Integration | Component | control/md contact title', function(hooks) {
       </div>
     `);
 
-    assert.equal(find('.test1').textContent.trim(), 'template block text Contact0');
+    assert.equal(
+      find('.test1').textContent.trim(),
+      'template block text Contact0'
+    );
   });
 });

@@ -1,14 +1,6 @@
-import {
-  find,
-  render
-} from '@ember/test-helpers';
-import {
-  module,
-  test
-} from 'qunit';
-import {
-  setupRenderingTest
-} from 'ember-qunit';
+import { find, render } from '@ember/test-helpers';
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
 module('Integration | Component | sb tree label', function (hooks) {
@@ -19,7 +11,8 @@ module('Integration | Component | sb tree label', function (hooks) {
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     this.set('model', {
-      definition: 'Final report outlining the Data Management Strategy for the Science Agency.',
+      definition:
+        'Final report outlining the Data Management Strategy for the Science Agency.',
       hideCheck: false,
       icon: 'android',
       id: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8',
@@ -34,10 +27,13 @@ module('Integration | Component | sb tree label', function (hooks) {
       sbParentIdObj: undefined,
       sortOrder: 0,
       type: 'application',
-      uuid: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8'
-    })
-    await render(hbs `{{sb-tree-label model=model}}`);
+      uuid: '4ebb8fe5-f88f-49a4-9964-ff5395e234b8',
+    });
+    await render(hbs`{{sb-tree-label model=model}}`);
 
-    assert.equal(find('.tree-cell').innerText.trim(), 'Data Management Strategy : test Parent Id: None --');
+    assert.equal(
+      find('.tree-cell').innerText.trim(),
+      'Data Management Strategy : test Parent Id: None --'
+    );
   });
 });

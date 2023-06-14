@@ -59,25 +59,28 @@ export default Table.extend({
 
       let editItem = this.editItem;
       let items = this.items;
-      let itm = typeOf(Template) === 'class' ? Template.create(owner.ownerInjection()) :
-        EmberObject.create({});
+      let itm =
+        typeOf(Template) === 'class'
+          ? Template.create(owner.ownerInjection())
+          : EmberObject.create({});
 
-      if(isBlank(editItem)) {
-        assert(
-          `You must supply an editItem method to ${this.toString()}.`
-        );
+      if (isBlank(editItem)) {
+        assert(`You must supply an editItem method to ${this.toString()}.`);
       }
 
       items.pushObject(itm);
 
-      if(this.editOnAdd) {
-        editItem(items.indexOf(itm), this.routeParams,
-          `${this.scrollToId}-${this.items.length - 1}`);
+      if (this.editOnAdd) {
+        editItem(
+          items.indexOf(itm),
+          this.routeParams,
+          `${this.scrollToId}-${this.items.length - 1}`
+        );
       }
     },
 
     editItem: function (items, index, scrollTo) {
       this.editItem(index, this.routeParams, scrollTo);
-    }
-  }
+    },
+  },
 });

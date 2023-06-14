@@ -2,7 +2,6 @@ import mdObject from 'mdeditor/utils/md-object';
 import { module, test } from 'qunit';
 
 module('Unit | Utility | md-object', function () {
-
   // Replace this with your real tests.
   test('it works', function (assert) {
     assert.equal(mdObject.isEmpty({}), true);

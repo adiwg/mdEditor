@@ -3,16 +3,15 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
 
-module('Integration | Component | control/md status', function(hooks) {
+module('Integration | Component | control/md status', function (hooks) {
   setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
-
+  test('it renders', async function (assert) {
     // Set any properties with this.set('myProperty', 'value');
-    this.set('model',{
+    this.set('model', {
       hasDirtyHash: true,
-      hasSchemaErrors: false
-    })
+      hasSchemaErrors: false,
+    });
     // Handle any actions with this.on('myAction', function(val) { ... });
 
     await render(hbs`{{control/md-status model=model}}`);

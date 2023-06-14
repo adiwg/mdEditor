@@ -10,34 +10,39 @@ export default Route.extend(ScrollTo, {
     return this.setupModel();
   },
 
-
   setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor('dictionary.show.edit.citation.index'));
-    this.controllerFor('dictionary.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controller.set(
+      'parentModel',
+      this.modelFor('dictionary.show.edit.citation.index')
+    );
+    this.controllerFor('dictionary.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
     let identifierId = this.identifierId;
     let model = this.modelFor('dictionary.show.edit.citation');
     let identifiers = model.get('json.dataDictionary.citation.identifier');
-    let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+    let identifier =
+      identifierId && isArray(identifiers)
+        ? identifiers.get(identifierId)
+        : undefined;
 
     //make sure the identifier exists
     if (isEmpty(identifier)) {
-      this.flashMessages
-        .warning('No identifier found! Re-directing to citation...');
+      this.flashMessages.warning(
+        'No identifier found! Re-directing to citation...'
+      );
       this.replaceWith('dictionary.show.edit.citation.index');
 
       return;
     }
 
     return identifier;
-  }
+  },
 });

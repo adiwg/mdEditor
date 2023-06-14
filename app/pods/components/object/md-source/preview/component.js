@@ -4,8 +4,10 @@ import { alias } from '@ember/object/computed';
 //   Validations
 // } from '../component';
 
-export default Component.extend(/*Validations,*/ {
-  tagName: '',
-  model: alias('item'),
-  name: alias('model.description')
-});
+export default Component.extend(
+  /*Validations,*/ {
+    tagName: '',
+    model: alias('item'),
+    name: alias('model.description'),
+  }
+);

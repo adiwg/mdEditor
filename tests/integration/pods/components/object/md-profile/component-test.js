@@ -12,20 +12,22 @@ module('Integration | Component | object/md-profile', function (hooks) {
     // Handle any actions with this.set('myAction', function(val) { ... });
     this.model = createProfile(1)[0];
 
-    await render(hbs `{{object/md-profile record=model}}`);
+    await render(hbs`{{object/md-profile record=model}}`);
 
-    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(
+      this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       '|URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|'
     );
 
     // Template block usage:
-    await render(hbs `
+    await render(hbs`
       {{#object/md-profile record=model}}
         template block text
       {{/object/md-profile}}
     `);
 
-    assert.equal(this.element.textContent.replace(/[ \n]+/g, '|').trim(),
+    assert.equal(
+      this.element.textContent.replace(/[ \n]+/g, '|').trim(),
       '|URL|Alias|Version|0.0.0|Update|Available|(0.0.1)|Title|Minimal|Description|A|Minimalist|Profile|Identifier|minimal|Namespace|org.adiwg.profile|'
     );
   });

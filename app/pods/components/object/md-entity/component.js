@@ -1,47 +1,37 @@
 import Component from '@ember/component';
-import {
-  A
-} from '@ember/array';
+import { A } from '@ember/array';
 import EmberObject, { set, computed, getWithDefault, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
-import {
-  assert
-} from '@ember/debug';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { assert } from '@ember/debug';
 
-import {
-  Template as Attribute
-} from '../md-attribute/component';
+import { Template as Attribute } from '../md-attribute/component';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import uuidV4 from "uuid/v4";
+import { validator, buildValidations } from 'ember-cp-validations';
+import uuidV4 from 'uuid/v4';
 
 const Validations = buildValidations({
-  'codeName': [
+  codeName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'definition': [
+  definition: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
   init() {
     this._super(...arguments);
-    assert(`You must supply a dictionary for ${this.toString()}.`, this.dictionary);
+    assert(
+      `You must supply a dictionary for ${this.toString()}.`,
+      this.dictionary
+    );
   },
 
   didReceiveAttrs() {
@@ -52,13 +42,19 @@ export default Component.extend(Validations, {
     once(this, function () {
       set(model, 'entityId', getWithDefault(model, 'entityId', uuidV4()));
       set(model, 'alias', getWithDefault(model, 'alias', []));
-      set(model, 'primaryKeyAttributeCodeName', getWithDefault(model,
-        'primaryKeyAttributeCodeName', []));
+      set(
+        model,
+        'primaryKeyAttributeCodeName',
+        getWithDefault(model, 'primaryKeyAttributeCodeName', [])
+      );
       set(model, 'index', getWithDefault(model, 'index', []));
       set(model, 'attribute', getWithDefault(model, 'attribute', []));
       set(model, 'foreignKey', getWithDefault(model, 'foreignKey', []));
-      set(model, 'entityReference', getWithDefault(model,
-        'entityReference', []));
+      set(
+        model,
+        'entityReference',
+        getWithDefault(model, 'entityReference', [])
+      );
     });
   },
 
@@ -89,68 +85,74 @@ export default Component.extend(Validations, {
 
   tagName: 'form',
 
-  foreignKeyTemplate: EmberObject.extend(buildValidations({
-    'referencedEntityCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ],
-    'localAttributeCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      }),
-      validator('array-required', {
-        track: []
-      })
-    ],
-    'referencedAttributeCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      }),
-      validator('array-required', {
-        track: []
-      })
-    ]
-  }), {
-    init() {
-      this._super(...arguments);
-      this.set('localAttributeCodeName', []);
-      this.set('referencedAttributeCodeName', []);
+  foreignKeyTemplate: EmberObject.extend(
+    buildValidations({
+      referencedEntityCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+      localAttributeCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+        validator('array-required', {
+          track: [],
+        }),
+      ],
+      referencedAttributeCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+        validator('array-required', {
+          track: [],
+        }),
+      ],
+    }),
+    {
+      init() {
+        this._super(...arguments);
+        this.set('localAttributeCodeName', []);
+        this.set('referencedAttributeCodeName', []);
+      },
     }
-  }),
+  ),
 
-  indexTemplate: EmberObject.extend(buildValidations({
-    'codeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ],
-    'allowDuplicates': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      })
-    ],
-    'attributeCodeName': [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true
-      }),
-      validator('array-required', {
-        track: []
-      })
-    ]
-  }), {
-    init() {
-      this._super(...arguments);
-      this.set('attributeCodeName', []);
-      this.set('allowDuplicates', false);
+  indexTemplate: EmberObject.extend(
+    buildValidations({
+      codeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+      allowDuplicates: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+      ],
+      attributeCodeName: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+        validator('array-required', {
+          track: [],
+        }),
+      ],
+    }),
+    {
+      init() {
+        this._super(...arguments);
+        this.set('attributeCodeName', []);
+        this.set('allowDuplicates', false);
+      },
     }
-  }),
+  ),
 
   attributeTemplate: Attribute,
   //entityId: alias('model.entityId'),
@@ -161,62 +163,58 @@ export default Component.extend(Validations, {
 
   attributeList: computed('attributes.{@each.codeName,[]}', function () {
     let attr = get(this, 'model.attribute');
-    if(attr) {
+    if (attr) {
       return attr.map((attr) => {
         return {
           codeId: get(attr, 'codeName'),
           codeName: get(attr, 'codeName'),
-          tooltip: get(attr, 'definition')
+          tooltip: get(attr, 'definition'),
         };
       });
     }
     return [];
   }),
 
-  entityList: computed('entities.{@each.entityId,@each.codeName}',
-    function () {
-      return this.entities
-        .map((attr) => {
-          if(get(attr, 'entityId')) {
-            return {
-              codeId: get(attr, 'entityId'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
-            };
-          }
-        });
-    }),
+  entityList: computed('entities.{@each.entityId,@each.codeName}', function () {
+    return this.entities.map((attr) => {
+      if (get(attr, 'entityId')) {
+        return {
+          codeId: get(attr, 'entityId'),
+          codeName: get(attr, 'codeName'),
+          tooltip: get(attr, 'definition'),
+        };
+      }
+    });
+  }),
 
-   /**
-    * The passed down editCitation method.
-    *
-    * @method editCitation
-    * @param {Number} id
-    * @required
-    */
+  /**
+   * The passed down editCitation method.
+   *
+   * @method editCitation
+   * @param {Number} id
+   * @required
+   */
 
-   /**
-    * The passed down editAttribute method.
-    *
-    * @method editAttribute
-    * @param {Number} id
-    * @required
-    */
+  /**
+   * The passed down editAttribute method.
+   *
+   * @method editAttribute
+   * @param {Number} id
+   * @required
+   */
 
   actions: {
     getEntityAttributes(id) {
-      let entity = A(this.get('dictionary.entity'))
-        .findBy('entityId', id);
+      let entity = A(this.get('dictionary.entity')).findBy('entityId', id);
 
-      if(entity) {
-        let a = get(entity, 'attribute')
-          .map((attr) => {
-            return {
-              codeId: get(attr, 'codeName'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
-            };
-          });
+      if (entity) {
+        let a = get(entity, 'attribute').map((attr) => {
+          return {
+            codeId: get(attr, 'codeName'),
+            codeName: get(attr, 'codeName'),
+            tooltip: get(attr, 'definition'),
+          };
+        });
 
         return a;
       }
@@ -224,12 +222,12 @@ export default Component.extend(Validations, {
       return [];
     },
 
-    editCitation(id){
+    editCitation(id) {
       this.editCitation(id);
     },
 
-    editAttribute(id){
+    editAttribute(id) {
       this.editAttribute(id);
-    }
-  }
+    },
+  },
 });

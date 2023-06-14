@@ -24,7 +24,7 @@ export default Component.extend({
    * @type {String}
    * @default "left"
    */
-   tipSide: 'left',
+  tipSide: 'left',
 
   /**
    * Class to add to tooltip
@@ -33,7 +33,7 @@ export default Component.extend({
    * @type {String}
    * @default ""
    */
-   tipClass: '',
+  tipClass: '',
 
   /**
    * The function to call when action is confirmed.
@@ -45,11 +45,11 @@ export default Component.extend({
 
   //click handler, sets button state
   click(evt) {
-    if(!this.propagateClick) {
+    if (!this.propagateClick) {
       evt.stopPropagation();
     }
 
-    if(this.isShowingConfirm) {
+    if (this.isShowingConfirm) {
       this.onConfirm();
       this.set('isShowingConfirm', false);
     } else {
@@ -59,5 +59,5 @@ export default Component.extend({
 
   blur() {
     this.set('isShowingConfirm', false);
-  }
+  },
 });

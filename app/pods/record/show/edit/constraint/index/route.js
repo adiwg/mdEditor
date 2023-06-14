@@ -9,11 +9,10 @@ export default Route.extend({
     set(model, 'constraint', getWithDefault(model, 'constraint', []));
   },
 
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
-  }
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+  },
 });

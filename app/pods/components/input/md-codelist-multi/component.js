@@ -61,9 +61,10 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: computed('create', function() {
-    return this.create ? 'power-select-multiple-with-create' :
-      'power-select-multiple';
+  theComponent: computed('create', function () {
+    return this.create
+      ? 'power-select-multiple-with-create'
+      : 'power-select-multiple';
   }),
 
   /**
@@ -91,7 +92,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function() {
+  selectedItem: computed('value', function () {
     let value = this.value;
     let codelist = this.codelist;
 
@@ -111,7 +112,7 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: computed('value', 'filterId', 'mapped', function() {
+  codelist: computed('value', 'filterId', 'mapped', function () {
     let codelist = this.mapped;
     let value = this.value;
     let create = this.create;
@@ -145,8 +146,7 @@ export default MdCodelist.extend({
     //power-select-with-create always sends a single object onCreate
     //we need to add that object to the selectedItem array
     if (this.create && !isArray(selected)) {
-      sel = this.selectedItem
-        .compact();
+      sel = this.selectedItem.compact();
       sel.pushObject(selected);
     } else {
       sel = selected;
@@ -154,5 +154,5 @@ export default MdCodelist.extend({
 
     this.set('value', sel.mapBy('codeId'));
     this.change();
-  }
+  },
 });

@@ -10,34 +10,38 @@ export default Route.extend(ScrollTo, {
     return this.setupModel();
   },
 
-
   setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+    });
   },
 
   setupModel() {
     let identifierId = this.identifierId;
     let model = this.modelFor('record.show.edit.main');
-    let identifiers = model.get('json.metadata.resourceInfo.citation.identifier');
-    let identifier = identifierId && isArray(identifiers) ? identifiers.get(identifierId) : undefined;
+    let identifiers = model.get(
+      'json.metadata.resourceInfo.citation.identifier'
+    );
+    let identifier =
+      identifierId && isArray(identifiers)
+        ? identifiers.get(identifierId)
+        : undefined;
 
     //make sure the identifier exists
     if (isEmpty(identifier)) {
-      this.flashMessages
-        .warning('No identifier found! Re-directing to citation...');
+      this.flashMessages.warning(
+        'No identifier found! Re-directing to citation...'
+      );
       this.replaceWith('record.show.edit.main.citation');
 
       return;
     }
 
     return identifier;
-  }
+  },
 });

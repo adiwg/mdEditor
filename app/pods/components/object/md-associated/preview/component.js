@@ -20,28 +20,33 @@ export default Component.extend({
    */
   muted: true,
 
-  citation: computed('item', 'item.mdRecordId', function() {
-    if(!this.get('item.mdRecordId')) {
+  citation: computed('item', 'item.mdRecordId', function () {
+    if (!this.get('item.mdRecordId')) {
       return this.get('item.resourceCitation');
     }
 
     let store = this.store;
-    let linked = store.peekAll('record')
+    let linked = store
+      .peekAll('record')
       .filterBy('recordId', get(this, 'item.mdRecordId'))
       .get('firstObject.json.metadata.resourceInfo.citation');
 
     return linked || this.get('item.resourceCitation');
   }),
 
-  metadataIdentifier: computed('item.{metadataCitation.identifier,mdRecordId}', function() {
-    if(!this.get('item.mdRecordId')) {
-      return this.get('item.metadataCitation.identifier.0');
+  metadataIdentifier: computed(
+    'item.{metadataCitation.identifier,mdRecordId}',
+    function () {
+      if (!this.get('item.mdRecordId')) {
+        return this.get('item.metadataCitation.identifier.0');
+      }
+
+      let store = this.store;
+
+      return store
+        .peekAll('record')
+        .filterBy('recordId', get(this, 'item.mdRecordId'))
+        .get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
     }
-
-    let store = this.store;
-
-    return store.peekAll('record')
-      .filterBy('recordId', get(this, 'item.mdRecordId'))
-      .get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
-  }),
+  ),
 });

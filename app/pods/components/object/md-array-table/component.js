@@ -26,10 +26,9 @@ export default Component.extend(Template, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if(this.value) {
+    if (this.value) {
       this.applyTemplateArray('value');
     }
-
   },
 
   attributeBindings: ['data-spy'],
@@ -102,7 +101,7 @@ export default Component.extend(Template, {
    * @type {Boolean}
    * @default false
    */
-  shadow:true,
+  shadow: true,
 
   /**
    * Indicates whether at least one item is required is required in the value
@@ -164,7 +163,7 @@ export default Component.extend(Template, {
   columnArray: computed('columns', function () {
     let columns = this.columns;
 
-    return (typeof columns === 'string') ? columns.split(',') : null;
+    return typeof columns === 'string' ? columns.split(',') : null;
   }),
 
   /**
@@ -194,9 +193,9 @@ export default Component.extend(Template, {
     let isCollapsed = this.isCollapsed;
     let value = this.arrayValues;
 
-    if(isCollapsed !== undefined) {
+    if (isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(isArray(value) && get(value, 'length') > 0) {
+    } else if (isArray(value) && get(value, 'length') > 0) {
       return false;
     } else {
       return true;
@@ -240,17 +239,21 @@ export default Component.extend(Template, {
   pillColor: computed('value.[]', 'required', function () {
     let count = this.get('value.length') || 0;
     let required = this.required;
-    return (count === 0) ? required ? 'label-danger' : 'label-warning' :
-      'label-info';
+    return count === 0
+      ? required
+        ? 'label-danger'
+        : 'label-warning'
+      : 'label-info';
   }),
 
   alertTipMessage: computed('tipModel', 'tipPath', 'errorMessage', function () {
-    if(this.errorMessage) {
+    if (this.errorMessage) {
       return this.errorMessage;
     }
 
-    return this.tipModel ? this.tipModel.get(
-      `validations.attrs.${this.tipPath}.message`) : null;
+    return this.tipModel
+      ? this.tipModel.get(`validations.attrs.${this.tipPath}.message`)
+      : null;
   }),
 
   onChange() {},
@@ -263,12 +266,12 @@ export default Component.extend(Template, {
   valueChanged() {
     run.schedule('afterRender', this, function () {
       let panel = this.$('.panel-collapse');
-      let input = this.$('.panel-collapse tbody tr:last-of-type input')
-        .first();
+      let input = this.$('.panel-collapse tbody tr:last-of-type input').first();
 
-      if(panel.hasClass('in')) {
+      if (panel.hasClass('in')) {
         input.focus();
-      } else { //add a one-time listener to wait until panel is open
+      } else {
+        //add a one-time listener to wait until panel is open
         panel.one('shown.bs.collapse', function () {
           input.focus();
         });
@@ -284,17 +287,20 @@ export default Component.extend(Template, {
       const Template = this.templateClass;
       const owner = getOwner(this);
 
-      this.arrayValues.pushObject(typeOf(Template) === 'class' ? Template
-        .create(owner.ownerInjection()) : { value: null });
+      this.arrayValues.pushObject(
+        typeOf(Template) === 'class'
+          ? Template.create(owner.ownerInjection())
+          : { value: null }
+      );
       //this.templateAsObject ? {} : null);
       this.valueChanged();
     },
 
     deleteItem: function (item, idx) {
-      if(this.arrayValues.length > idx) {
+      if (this.arrayValues.length > idx) {
         this.arrayValues.removeAt(idx);
       }
       this.valueChanged();
-    }
-  }
+    },
+  },
 });

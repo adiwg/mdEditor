@@ -14,20 +14,30 @@ export default Route.extend(ScrollTo, {
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    set(info, 'keyword', !info.hasOwnProperty('keyword') ? A() :
-      A(
-        info.keyword));
+    set(
+      info,
+      'keyword',
+      !info.hasOwnProperty('keyword') ? A() : A(info.keyword)
+    );
 
     //check to see if custom list
     info.keyword.forEach((k) => {
       set(k, 'thesaurus', getWithDefault(k, 'thesaurus', {}));
-      set(k, 'thesaurus.identifier', getWithDefault(k,
-        'thesaurus.identifier', [{
-          identifier: 'custom'
-        }]));
+      set(
+        k,
+        'thesaurus.identifier',
+        getWithDefault(k, 'thesaurus.identifier', [
+          {
+            identifier: 'custom',
+          },
+        ])
+      );
       set(k, 'thesaurus.date', getWithDefault(k, 'thesaurus.date', [{}]));
-      set(k, 'thesaurus.onlineResource', getWithDefault(k,
-        'thesaurus.onlineResource', [{}]));
+      set(
+        k,
+        'thesaurus.onlineResource',
+        getWithDefault(k, 'thesaurus.onlineResource', [{}])
+      );
     });
 
     return model;
@@ -39,19 +49,22 @@ export default Route.extend(ScrollTo, {
     },
     addThesaurus() {
       let the = this.currentRouteModel().get(
-        'json.metadata.resourceInfo.keyword');
+        'json.metadata.resourceInfo.keyword'
+      );
 
-      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+      $('html, body').animate({ scrollTop: $(document).height() }, 'slow');
 
       the.pushObject({
         keyword: [],
         keywordType: 'theme',
         thesaurus: {
-          identifier: [{
-            identifier: null
-          }]
+          identifier: [
+            {
+              identifier: null,
+            },
+          ],
         },
-        fullPath: true
+        fullPath: true,
       });
 
       this.controller.set('refresh', the.get('length'));
@@ -59,7 +72,8 @@ export default Route.extend(ScrollTo, {
     },
     deleteThesaurus(id) {
       let the = this.currentRouteModel().get(
-        'json.metadata.resourceInfo.keyword');
+        'json.metadata.resourceInfo.keyword'
+      );
       the.removeAt(id);
       this.controller.set('refresh', the.get('length'));
     },
@@ -67,15 +81,14 @@ export default Route.extend(ScrollTo, {
       this.transitionTo('record.show.edit.keywords.thesaurus', id);
     },
     selectThesaurus(selected, thesaurus) {
-      if(selected) {
-        set(thesaurus, 'thesaurus', copy(selected.citation,
-          true));
-        if(selected.keywordType) {
+      if (selected) {
+        set(thesaurus, 'thesaurus', copy(selected.citation, true));
+        if (selected.keywordType) {
           set(thesaurus, 'keywordType', selected.keywordType);
         }
       } else {
         set(thesaurus, 'thesaurus.identifier.0.identifier', 'custom');
       }
     },
-  }
+  },
 });

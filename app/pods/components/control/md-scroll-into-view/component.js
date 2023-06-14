@@ -8,11 +8,12 @@ export default Component.extend({
     this._super(...arguments);
 
     let el = document.getElementById(this.elementId);
-    let boundary = document.querySelector(`#${this.elementId}`).closest(
-      `.md-scroll-into-view:not(#${this.elementId})`);
+    let boundary = document
+      .querySelector(`#${this.elementId}`)
+      .closest(`.md-scroll-into-view:not(#${this.elementId})`);
 
     scrollIntoView(el, {
-      block: boundary ? 'center': 'nearest',
+      block: boundary ? 'center' : 'nearest',
       behavior: 'smooth',
       //boundary: boundary
     });

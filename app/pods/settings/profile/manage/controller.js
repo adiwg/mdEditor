@@ -8,31 +8,39 @@ export default Controller.extend({
   flashMessages: service(),
 
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'uri',
-    title: 'URL',
-    break: true
-  }, {
-    propertyName: 'description',
-    title: 'Description',
-    truncate: true,
-    isHidden: true
-  }],
+  columns: [
+    {
+      propertyName: 'title',
+      title: 'Title',
+    },
+    {
+      propertyName: 'uri',
+      title: 'URL',
+      break: true,
+    },
+    {
+      propertyName: 'description',
+      title: 'Description',
+      truncate: true,
+      isHidden: true,
+    },
+  ],
 
-  columnSets: [{
-    label: 'URL',
-    showColumns: ['title', 'uri']
-  }],
+  columnSets: [
+    {
+      label: 'URL',
+      showColumns: ['title', 'uri'],
+    },
+  ],
 
-  badges: [{
-    type: 'info',
-    icon: 'info-circle',
-    tip: 'Update available.',
-    isVisible: 'hasUpdate'
-  }],
+  badges: [
+    {
+      type: 'info',
+      icon: 'info-circle',
+      tip: 'Update available.',
+      isVisible: 'hasUpdate',
+    },
+  ],
 
   definition: null,
 
@@ -45,8 +53,10 @@ export default Controller.extend({
    * @category computed
    * @requires definition.validations.isInvalid,task.isRunning
    */
-  disableSave: or('definition.validations.attrs.uri.isInvalid',
-    'task.isRunning'),
+  disableSave: or(
+    'definition.validations.attrs.uri.isInvalid',
+    'task.isRunning'
+  ),
 
   checkForUpdates: task(function* () {
     yield this.profile.checkForUpdates.perform(this.model);
@@ -62,24 +72,27 @@ export default Controller.extend({
     saveDefinition() {
       let definition = this.definition;
 
-      return definition.save().then(rec => {
-        let fetched = this.profile.fetchDefinition.perform(rec.uri);
+      return definition
+        .save()
+        .then((rec) => {
+          let fetched = this.profile.fetchDefinition.perform(rec.uri);
 
-        this.set('task', fetched);
+          this.set('task', fetched);
 
-        fetched.then(val => {
-          if(val) {
-            definition.set('config', val);
-            definition.set('remoteVersion', val.version);
+          fetched.then((val) => {
+            if (val) {
+              definition.set('config', val);
+              definition.set('remoteVersion', val.version);
 
-            this.flashMessages.success(
-              `Downloaded profile definition: ${val.title}.`);
-          }
+              this.flashMessages.success(
+                `Downloaded profile definition: ${val.title}.`
+              );
+            }
+          });
+        })
+        .catch((e) => {
+          this.flashMessages.warning(e.message);
         });
-      }).catch(e => {
-        this.flashMessages.warning(e.message);
-      });
-
     },
 
     cancelEdit() {
@@ -91,6 +104,6 @@ export default Controller.extend({
 
     toProfile() {
       this.transitionToRoute('settings.profile');
-    }
-  }
+    },
+  },
 });

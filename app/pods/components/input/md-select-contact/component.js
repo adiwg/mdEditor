@@ -90,14 +90,13 @@ export default Select.extend({
    * @category computed
    * @requires contacts.[]
    */
-  mapped: computed('contacts.mapped.[]','contactType', function () {
+  mapped: computed('contacts.mapped.[]', 'contactType', function () {
     let type = this.contactType;
 
-    if(!['individuals','organizations'].includes(type)){
+    if (!['individuals', 'organizations'].includes(type)) {
       return this.contacts.get('contactsCodes');
     }
 
-    return this.contacts
-      .get(type + 'Codes');
-  })
+    return this.contacts.get(type + 'Codes');
+  }),
 });

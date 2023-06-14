@@ -9,34 +9,43 @@ export default Route.extend(ScrollTo, {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
-    defineProperty(this.controller, 'refreshSpy', alias(
-      'model.json.metadata.resourceDistribution.length'));
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    defineProperty(
+      this.controller,
+      'refreshSpy',
+      alias('model.json.metadata.resourceDistribution.length')
+    );
   },
 
   actions: {
     addDistribution() {
-      let dists = this.currentRouteModel()
-        .get('json.metadata.resourceDistribution');
+      let dists = this.currentRouteModel().get(
+        'json.metadata.resourceDistribution'
+      );
 
       dists.pushObject({});
 
-      $("html, body").animate({
-        scrollTop: $(document).height()
-      }, "slow");
-
+      $('html, body').animate(
+        {
+          scrollTop: $(document).height(),
+        },
+        'slow'
+      );
     },
     editDistributor(id, routeParams, scrollToId) {
       this.setScrollTo(scrollToId);
-      this.transitionTo('record.show.edit.distribution.distributor',
-        routeParams, id);
+      this.transitionTo(
+        'record.show.edit.distribution.distributor',
+        routeParams,
+        id
+      );
     },
     deleteDistribution(id) {
       let dists = this.currentRouteModel().get(
-        'json.metadata.resourceDistribution');
+        'json.metadata.resourceDistribution'
+      );
 
       dists.removeAt(id);
-    }
-  }
+    },
+  },
 });

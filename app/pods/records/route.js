@@ -1,19 +1,21 @@
 import Route from '@ember/routing/route';
-import {
-  inject as service
-} from '@ember/service';
+import { inject as service } from '@ember/service';
 
-const columns = [{
-  propertyName: 'title',
-  title: 'Title'
-}, {
-  propertyName: 'defaultType',
-  title: 'Resource Type',
-  filterWithSelect: true
-}, {
-  propertyName: 'recordId',
-  title: 'ID'
-}]
+const columns = [
+  {
+    propertyName: 'title',
+    title: 'Title',
+  },
+  {
+    propertyName: 'defaultType',
+    title: 'Resource Type',
+    filterWithSelect: true,
+  },
+  {
+    propertyName: 'recordId',
+    title: 'ID',
+  },
+];
 
 export default Route.extend({
   slider: service(),
@@ -38,6 +40,6 @@ export default Route.extend({
       slider.toggleSlider(true);
 
       return false;
-    }
-  }
+    },
+  },
 });

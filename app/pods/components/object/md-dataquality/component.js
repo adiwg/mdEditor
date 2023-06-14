@@ -9,9 +9,13 @@ export default Component.extend({
 
     let model = get(this, 'model');
 
-    once(function() {
+    once(function () {
       set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'systemIdentifier', getWithDefault(model, 'systemIdentifier', {uid: uuidV4()}))
+      set(
+        model,
+        'systemIdentifier',
+        getWithDefault(model, 'systemIdentifier', { uid: uuidV4() })
+      );
     });
   },
 
@@ -19,12 +23,11 @@ export default Component.extend({
 
   actions: {
     addStandaloneQualityReport() {
-      set(this.model, 'standaloneQualityReport', { abstract: "" });
+      set(this.model, 'standaloneQualityReport', { abstract: '' });
     },
 
     deleteStandaloneQualityReport() {
       set(this.model, 'standaloneQualityReport', undefined);
-    }
-  }
-
+    },
+  },
 });

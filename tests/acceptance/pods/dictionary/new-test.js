@@ -1,26 +1,19 @@
 import { module, test } from 'qunit';
-import {
-  visit,
-  currentURL,
-  find,
-  findAll,
-  fillIn
-} from '@ember/test-helpers';
+import { visit, currentURL, find, findAll, fillIn } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import { selectChoose } from 'ember-power-select/test-support';
 
-
-module('Acceptance | pods/dictionary/new', function(hooks) {
+module('Acceptance | pods/dictionary/new', function (hooks) {
   setupApplicationTest(hooks);
 
-  test('visiting /pods/dictionary/new', async function(assert) {
+  test('visiting /pods/dictionary/new', async function (assert) {
     await visit('/dictionary/new');
     assert.ok(currentURL().match(/dictionary\/new\/[a-z0-9]+/));
     //change route to prevent error during teardown
     await visit('/');
   });
 
-  test('test new dictionary initial page conditions', async function(assert) {
+  test('test new dictionary initial page conditions', async function (assert) {
     assert.expect(4);
     await visit('/dictionary/new');
     assert.equal(find('.md-input-input input').value, '');
@@ -31,7 +24,7 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
     await visit('/');
   });
 
-  test('test new dictionary completed form', async function(assert) {
+  test('test new dictionary completed form', async function (assert) {
     assert.expect(4);
     await visit('/dictionary/new');
     await fillIn('.md-input-input input', 'Dictionary Name');
@@ -44,7 +37,7 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
     await visit('/');
   });
 
-  test('test new dictionary missing dictionary name', async function(assert) {
+  test('test new dictionary missing dictionary name', async function (assert) {
     assert.expect(2);
     await visit('/dictionary/new');
     await selectChoose('div.md-select', 'aggregate');
@@ -54,7 +47,7 @@ module('Acceptance | pods/dictionary/new', function(hooks) {
     await visit('/');
   });
 
-  test('test new dictionary missing data resource type', async function(assert) {
+  test('test new dictionary missing data resource type', async function (assert) {
     assert.expect(2);
     await visit('/dictionary/new');
     await fillIn('.md-input-input input', 'Dictionary Name');

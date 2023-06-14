@@ -15,26 +15,26 @@ export default Service.extend({
 
   contacts: A(),
 
-  organizations: computed('contacts.[]', function() {
+  organizations: computed('contacts.[]', function () {
     let orgs = this.contacts.filterBy('json.isOrganization');
 
     return orgs;
   }),
 
-  individuals: computed('contacts.[]', function() {
+  individuals: computed('contacts.[]', function () {
     let ind = this.contacts.rejectBy('json.isOrganization');
 
     return ind;
   }),
 
-  organizationsCodes: computed('contactsCodes.[]', function() {
-    let orgs = this.contactsCodes.filterBy('icon','users');
+  organizationsCodes: computed('contactsCodes.[]', function () {
+    let orgs = this.contactsCodes.filterBy('icon', 'users');
 
     return orgs;
   }),
 
-  individualsCodes: computed('contactsCodes.[]', function() {
-    let ind = this.contactsCodes.rejectBy('icon','users');
+  individualsCodes: computed('contactsCodes.[]', function () {
+    let ind = this.contactsCodes.rejectBy('icon', 'users');
 
     return ind;
   }),
@@ -47,7 +47,7 @@ export default Service.extend({
    * @category computed
    * @requires mdCodeName
    */
-  contactsCodes: computed('contacts.@each.name', function() {
+  contactsCodes: computed('contacts.@each.name', function () {
     //let codeId = this.get('valuePath');
     //let codeName = this.get('namePath');
     //let tooltip = this.get('tooltipPath');
@@ -56,16 +56,16 @@ export default Service.extend({
     let defaultIcon = this.defaultIcon;
     let mdCodelist = this.contacts.sortBy('title');
 
-    mdCodelist.forEach(function(item) {
+    mdCodelist.forEach(function (item) {
       let newObject = EmberObject.create({
         codeId: item.get('contactId'),
         codeName: item.get('title'),
         tooltip: item.get('combinedName'),
-        icon: item.get('icon') || icons.get(defaultIcon)
+        icon: item.get('icon') || icons.get(defaultIcon),
       });
       codelist.pushObject(newObject);
     });
 
     return codelist;
-  })
+  }),
 });

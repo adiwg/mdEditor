@@ -9,9 +9,12 @@ export default Component.extend({
 
     let model = this.model;
 
-    once(function() {
-      set(model, 'mediumSpecification', getWithDefault(model,
-        'mediumSpecification', {}));
+    once(function () {
+      set(
+        model,
+        'mediumSpecification',
+        getWithDefault(model, 'mediumSpecification', {})
+      );
       set(model, 'identifier', getWithDefault(model, 'identifier', {}));
       set(model, 'mediumFormat', getWithDefault(model, 'mediumFormat', []));
     });
@@ -25,5 +28,5 @@ export default Component.extend({
    * @type {String}
    */
 
-  title: alias('model.mediumSpecification.title')
+  title: alias('model.mediumSpecification.title'),
 });

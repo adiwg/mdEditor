@@ -2,36 +2,36 @@ import Component from '@ember/component';
 import { once } from '@ember/runloop';
 import { set, getWithDefault } from '@ember/object';
 import { alias, notEmpty, not } from '@ember/object/computed';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'distributor': [
+  distributor: [
     validator('array-required', {
       track: ['distributor'],
       disabled: notEmpty('model.description'),
-      message: 'At least one distributor is required if description is empty.'
-    })
+      message: 'At least one distributor is required if description is empty.',
+    }),
   ],
-  'description': [
+  description: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
       disabled: notEmpty('model.distributor'),
-      message: 'A description is required if a distributor is not entered.'
-    })
-  ]
+      message: 'A description is required if a distributor is not entered.',
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    once(this, function() {
-      set(this.model, 'distributor',
-        getWithDefault(this.model, 'distributor', []));
+    once(this, function () {
+      set(
+        this.model,
+        'distributor',
+        getWithDefault(this.model, 'distributor', [])
+      );
     });
   },
 
@@ -79,17 +79,19 @@ export default Component.extend(Validations, {
   tagName: 'section',
   distributor: alias('model.distributor'),
   description: alias('model.description'),
-  distributorRequired: not('validations.attrs.distributor.options.array-required.disabled'),
+  distributorRequired: not(
+    'validations.attrs.distributor.options.array-required.disabled'
+  ),
 
   actions: {
-    editDistributor(index){
+    editDistributor(index) {
       this.editDistributor(index);
     },
-    deleteDistribution(index){
+    deleteDistribution(index) {
       this.deleteDistribution(index);
     },
-    addDistribution(){
+    addDistribution() {
       this.addDistribution();
     },
-  }
+  },
 });

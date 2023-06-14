@@ -3,18 +3,15 @@ import Component from '@ember/component';
 import { getWithDefault, get, set, computed } from '@ember/object';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'associationType': [
+  associationType: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -25,13 +22,19 @@ export default Component.extend(Validations, {
 
     let model = this.model;
 
-    once(this, function() {
+    once(this, function () {
       set(model, 'scope', getWithDefault(model, 'scope', {}));
       set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'resourceCitation', getWithDefault(model,
-        'resourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model,
-        'metadataCitation', {}));
+      set(
+        model,
+        'resourceCitation',
+        getWithDefault(model, 'resourceCitation', {})
+      );
+      set(
+        model,
+        'metadataCitation',
+        getWithDefault(model, 'metadataCitation', {})
+      );
     });
   },
 
@@ -56,26 +59,27 @@ export default Component.extend(Validations, {
 
   associationType: alias('model.associationType'),
 
-  linkedRecord: computed('model.mdRecordId', function() {
+  linkedRecord: computed('model.mdRecordId', function () {
     let store = this.store;
 
-    return store.peekAll('record')
+    return store
+      .peekAll('record')
       .filterBy('recordId', get(this, 'model.mdRecordId'))
       .get('firstObject');
   }),
 
   linkedAssociation: computed(
     'linkedRecord.json.metadata.associatedResource.[]',
-    function() {
+    function () {
       let ar = this.get('linkedRecord.json.metadata.associatedResource');
 
-      if(!ar) {
+      if (!ar) {
         return null;
       }
 
-      return ar.findBy(
-        'mdRecordId', this.recordId);
-    }),
+      return ar.findBy('mdRecordId', this.recordId);
+    }
+  ),
 
   linkedAssociationType: computed('linkedAssociation.associationType', {
     get() {
@@ -85,13 +89,16 @@ export default Component.extend(Validations, {
       let assoc = this.linkedAssociation;
       let model = this.linkedRecord;
 
-      if(!assoc) {
-        set(model, 'json.metadata.associatedResource', getWithDefault(model,
-          'json.metadata.associatedResource', []));
+      if (!assoc) {
+        set(
+          model,
+          'json.metadata.associatedResource',
+          getWithDefault(model, 'json.metadata.associatedResource', [])
+        );
 
         model.get('json.metadata.associatedResource').pushObject({
           mdRecordId: this.recordId,
-          associationType: value
+          associationType: value,
         });
 
         model.notifyPropertyChange('hasDirtyHash');
@@ -103,10 +110,10 @@ export default Component.extend(Validations, {
       model.notifyPropertyChange('hasDirtyHash');
 
       return value;
-    }
+    },
   }),
 
   editLinked(record) {
     return record;
-  }
+  },
 });
