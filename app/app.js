@@ -25,22 +25,20 @@ import {
 } from '@ember/debug';
 import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from './config/environment';
+import config from 'mdeditor/config/environment';
 
-let App;
 let events = {
   // add support for the blur event
   blur: 'blur'
 }
 
 //Ember.MODEL_FACTORY_INJECTIONS = true;
-
-App = Application.extend({
-  modulePrefix: config.modulePrefix,
-  podModulePrefix: config.podModulePrefix,
-  Resolver,
-  customEvents: events
-});
+export default class App extends Application {
+  modulePrefix = config.modulePrefix;
+  podModulePrefix = config.podModulePrefix;
+  Resolver = Resolver;
+  customEvents = events;
+}
 
 // window.mdProfile = {
 //   // record:{},contact:{},dictionary:{}
@@ -97,7 +95,6 @@ Component.reopen({
     }
   }
 });
-export default App;
 
 /**
 * Models for the mdEditor data store

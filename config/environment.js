@@ -1,8 +1,7 @@
 'use strict';
-
-module.exports = function(environment) {
-  var deployTarget = process.env.DEPLOY_TARGET;
-  var ENV = {
+module.exports = function (environment) {
+  let deployTarget = process.env.DEPLOY_TARGET;
+  let ENV = {
     contentSecurityPolicy: {
       'style-src': "'self' 'unsafe-inline'"
     },
@@ -19,8 +18,8 @@ module.exports = function(environment) {
       },
       EXTEND_PROTOTYPES: {
         // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
+        Date: false,
+      },
     },
     'ember-local-storage': {
       fileExport: true
