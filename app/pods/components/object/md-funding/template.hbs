@@ -1,41 +1,41 @@
 {{#object/md-object-table
   items=model.allocation
-  header="Allocation"
-  data-spy="Allocation"
+  header='Allocation'
+  data-spy='Allocation'
   shadow=true
-  buttonText="Add Allocation"
+  buttonText='Add Allocation'
   ellipsis=true
-  attributes="amount,currency,matching"
-  profilePath= (concat profilePath ".allocation")
+  attributes='amount,currency,matching'
+  profilePath=(concat profilePath '.allocation')
   collapsible=false
   isCollapsed=false
-  tipPath="allocation"
+  tipPath='allocation'
   tipModel=this
-  required=(v-get this "allocation" "isInvalid")
-  verticalButtons=true as |editing|
+  required=(v-get this 'allocation' 'isInvalid')
+  verticalButtons=true
+  as |editing|
 }}
 
   {{object/md-allocation
     model=editing
-    profilePath=(concat profilePath ".allocation")
+    profilePath=(concat profilePath '.allocation')
   }}
 
 {{/object/md-object-table}}
 
-
 {{#if model.timePeriod}}
   {{object/md-time-period
     model=model.timePeriod
-    required=(v-get this "timePeriod" "isInvalid")
-    profilePath=(concat profilePath ".timePeriod")
+    required=(v-get this 'timePeriod' 'isInvalid')
+    profilePath=(concat profilePath '.timePeriod')
   }}
 {{/if}}
 
 {{input/md-textarea
   maxlength=500
   value=model.description
-  label="Description"
-  data-spy="Description"
-  placeholder="Description: Less than 500 characters"
-  profilePath=(concat profilePath ".description")
+  label='Description'
+  data-spy='Description'
+  placeholder='Description: Less than 500 characters'
+  profilePath=(concat profilePath '.description')
 }}

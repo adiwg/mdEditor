@@ -1,51 +1,73 @@
-<div class="row">
+<div class='row'>
 
-  <div class="col-sm-{{if model.files "9" "12"}} col-xxl-{{if model.files "10" "12"}}">
+  <div
+    class='col-sm-{{if model.files "9" "12"}}
+      col-xxl-{{if model.files "10" "12"}}'
+  >
 
-    <h3 class="text-info">Import Data</h3>
+    <h3 class='text-info'>Import Data</h3>
     {{#if model.preview}}
-      <h3>{{capitalize (singularize model.preview.model.type)}}: {{model.preview.model.id}}</h3>
-      {{control/md-json-viewer class="md-import-preview" json=model.preview.json modal=false}}
+      <h3>{{capitalize (singularize model.preview.model.type)}}:
+        {{model.preview.model.id}}</h3>
+      {{control/md-json-viewer
+        class='md-import-preview'
+        json=model.preview.json
+        modal=false
+      }}
     {{else}}
       {{#unless model.files}}
-        {{#file-picker class="md-file-picker md-import-picker" fileLoaded="readData" preview=false accept=".json,.xml" readAs="readAsText"}}
-          <button type="button" class="btn btn-lg btn-info btn-block">
-            <p>{{fa-icon "bullseye"}} Click or Drop a file here to import data.</p>
-            <hr>
-            {{#unless isTranslating}}
-            <div class="inline-block text-left small">
-              These file formats are supported: <br>
-              <ul>
-                <li>mdEditor (.json)</li>
-                <li>mdJSON (.json)</li>
-                <li>FGDC CSDGM (.xml)</li>
-              </ul>
-            </div>
-            {{else}}
-              {{fa-icon "spinner" spin=true}} Translating to mdJSON. Please wait... <br>
+        <FilePicker
+          @class='md-file-picker md-import-picker'
+          @fileLoaded='readData'
+          @preview={{false}}
+          @accept='.json,.xml'
+          @readAs='readAsText'
+        >
+          <button type='button' class='btn btn-lg btn-info btn-block'>
+            <p>{{fa-icon 'bullseye'}}
+              Click or Drop a file here to import data.</p>
+            <hr />
+            {{#if isTranslating}}
+              {{fa-icon 'spinner' spin=true}}
+              Translating to mdJSON. Please wait...
+              <br />
               {{!-- <small>Using <a href={{apiURL}}>{{apiURL}}</a> for translation.</small> --}}
-            {{/unless}}
+            {{else}}
+              <div class='inline-block text-left small'>
+                These file formats are supported:
+                <br />
+                <ul>
+                  <li>mdEditor (.json)</li>
+                  <li>mdJSON (.json)</li>
+                  <li>FGDC CSDGM (.xml)</li>
+                </ul>
+              </div>
+            {{/if}}
           </button>
-        {{/file-picker}}
-        <hr>
+        </FilePicker>
+        <hr />
         <h3>Import mdJSON from Online URL</h3>
-        <div class="row">
-          <div class="col-xxl-6">
-            <div class="input-group input-group-lg">
+        <div class='row'>
+          <div class='col-xxl-6'>
+            <div class='input-group input-group-lg'>
               {{input
-                type="url"
+                type='url'
                 value=importUri
-                placeholder="Enter online link to mdJSON"
-                class="form-control"
+                placeholder='Enter online link to mdJSON'
+                class='form-control'
               }}
-              <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button" {{action (route-action "readFromUri")}}>
-                    {{#if isLoading}}
-                      {{fa-icon "spinner" spin=true}}
-                    {{else}}
-                      {{fa-icon "cloud-download"}}
-                    {{/if}}
-                    Import</button>
+              <span class='input-group-btn'>
+                <button
+                  class='btn btn-primary'
+                  type='button'
+                  {{action (route-action 'readFromUri')}}
+                >
+                  {{#if isLoading}}
+                    {{fa-icon 'spinner' spin=true}}
+                  {{else}}
+                    {{fa-icon 'cloud-download'}}
+                  {{/if}}
+                  Import</button>
               </span>
             </div>
           </div>
@@ -85,53 +107,69 @@
             </table>
           </div>
         </div> --}}
-        {{#layout/md-card
-          title=(capitalize key)
-          titleIcon=(compute (route-action "getIcon" key))
-          collapsible=true
-          collapsed=false
-          data-spy=(capitalize key)
-          shadow=true
-        }}
-        {{!-- <h3>{{section.meta.title}}</h3> --}}
-        {{control/md-record-table
-          data=item
-          dataColumns=(compute (route-action "getColumns") key)
-          actionsColumn=false
-          selectProperty="meta.export"
-          showColumnsDropdown=(not-eq key "settings")
-          showComponentFooter=(not-eq key "settings")
-          showGlobalFilter=(not-eq key "settings")
-          showPageSize=(not-eq key "settings")
-          useFilteringByColumns=(not-eq key "settings")
-        }}
-        {{/layout/md-card}}
+        <Layout::MdCard
+          @title={{capitalize key}}
+          @titleIcon={{compute (route-action 'getIcon' key)}}
+          @collapsible={{true}}
+          @collapsed={{false}}
+          @data-spy={{capitalize key}}
+          @shadow={{true}}
+        >
+          {{!-- <h3>{{section.meta.title}}</h3> --}}
+          {{control/md-record-table
+            data=item
+            dataColumns=(compute (route-action 'getColumns') key)
+            actionsColumn=false
+            selectProperty='meta.export'
+            showColumnsDropdown=(not-eq key 'settings')
+            showComponentFooter=(not-eq key 'settings')
+            showGlobalFilter=(not-eq key 'settings')
+            showPageSize=(not-eq key 'settings')
+            useFilteringByColumns=(not-eq key 'settings')
+          }}
+        </Layout::MdCard>
       {{/each-in}}
     {{/if}}
   </div>
 
   {{#if model.files}}
-    <div class="md-control-sidebar col-sm-3 col-xxl-2 no-nav">
+    <div class='md-control-sidebar col-sm-3 col-xxl-2 no-nav'>
       {{#if model.preview}}
-        <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "closePreview"}}>{{fa-icon "arrow-left"}} Close Preview</button>
-        {{else if model.files}}
-        <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
-        <button type="button" class="btn btn-lg btn-danger btn-block md-btn-responsive" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
-        <div class="btn-fake btn-block">
+        <button
+          type='button'
+          class='btn btn-lg btn-primary btn-block md-btn-responsive'
+          {{action 'closePreview'}}
+        >{{fa-icon 'arrow-left'}} Close Preview</button>
+      {{else if model.files}}
+        <button
+          type='button'
+          class='btn btn-lg btn-success btn-block md-btn-responsive'
+          {{action 'importData'}}
+        >{{fa-icon 'sign-in'}} Click to Import Data</button>
+        <button
+          type='button'
+          class='btn btn-lg btn-danger btn-block md-btn-responsive'
+          {{action 'cancelImport'}}
+        >{{fa-icon 'times'}} Cancel Import</button>
+        <div class='btn-fake btn-block'>
           {{x-toggle
             value=model.merge
             onToggle=(action (mut model.merge))
             showLabels=true
-            onLabel="Merge"
-            offLabel="Replace"
-            size="medium"
-            theme="default"
+            onLabel='Merge'
+            offLabel='Replace'
+            size='medium'
+            theme='default'
           }}
         </div>
-        <hr>
-        {{control/md-scroll-spy offset=130 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+        <hr />
+        {{control/md-scroll-spy
+          offset=130
+          scrollInit=scrollTo
+          setScrollTo=(route-action 'setScrollTo')
+        }}
       {{/if}}
-      </div>
+    </div>
   {{/if}}
 
 </div>

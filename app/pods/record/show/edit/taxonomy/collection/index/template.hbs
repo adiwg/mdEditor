@@ -1,4 +1,4 @@
-<h4 class="section-header">
+<h4 class='section-header'>
   Editing Taxonomy Collection #{{collectionId}}
   {{control/md-status model=parentModel}}
 </h4>
@@ -6,37 +6,46 @@
 {{object/md-taxonomy/collection
   model=model
   id=collectionId
-  profilePath="record.taxonomy.collection"
-  editSystem=(route-action "editSystem")
+  profilePath='record.taxonomy.collection'
+  editSystem=(route-action 'editSystem')
 }}
 
 {{to-elsewhere
-  named="md-subbar-buttons"
-  send=(component "control/md-button"
-    text="Add New Taxa"
-    icon="plus"
-    class="btn-info btn-lg"
-    click=(route-action "addTaxa")
+  named='md-subbar-buttons'
+  send=(component
+    'control/md-button'
+    text='Add New Taxa'
+    icon='plus'
+    class='btn-info btn-lg'
+    click=(route-action 'addTaxa')
   )
 }}
 {{to-elsewhere
-  named="md-subbar-buttons"
-  send=(component "control/md-button"
-    text="Add Taxa from ITIS"
-    icon="plus"
-    class="btn-success btn-lg"
-    click=(route-action "addITIS")
+  named='md-subbar-buttons'
+  send=(component
+    'control/md-button'
+    text='Add Taxa from ITIS'
+    icon='plus'
+    class='btn-success btn-lg'
+    click=(route-action 'addITIS')
   )
 }}
 {{to-elsewhere
-  named="md-subbar-buttons"
-  send=(component "control/md-button"
-    text="Back to List"
-    icon="arrow-left"
-    class="btn-primary btn-lg"
-    click=(route-action "toList")
+  named='md-subbar-buttons'
+  send=(component
+    'control/md-button'
+    text='Back to List'
+    icon='arrow-left'
+    class='btn-primary btn-lg'
+    click=(route-action 'toList')
   )
 }}
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

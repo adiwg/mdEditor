@@ -1,47 +1,59 @@
 {{#unless showAlert}}
-  <div class="panel panel-default {{if shadow "box-shadow--4dp"}}">
-    <div class="panel-heading">
-      <h3 class="panel-title md-panel-chevron">
-        <a data-toggle="collapse" aria-expanded={{if collapsed "false" "true"}}
-            class={{if collapsed "collapsed"}}
-            href="#{{panelId}}" aria-controls="#{{panelId}}">
-            <span class="fa"></span> {{unless pluralTitle (pluralize title) pluralTitle}}
-            <div class="label label-pill {{pillColor}}"> {{value.length}} </div>
+  <div class='panel panel-default {{if shadow "box-shadow--4dp"}}'>
+    <div class='panel-heading'>
+      <h3 class='panel-title md-panel-chevron'>
+        <a
+          data-toggle='collapse'
+          aria-expanded={{if collapsed 'false' 'true'}}
+          class={{if collapsed 'collapsed'}}
+          href='#{{panelId}}'
+          aria-controls='#{{panelId}}'
+        >
+          <span class='fa'></span>
+          {{unless pluralTitle (pluralize title) pluralTitle}}
+          <div class='label label-pill {{pillColor}}'> {{value.length}} </div>
         </a>
-        <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info pull-right"
-            {{action "addItem"}}>
-            {{fa-icon "plus"}} Add
+        <button
+          type='button'
+          id='{{panelId}}-btn'
+          class='btn btn-xs btn-info pull-right'
+          {{action 'addItem'}}
+        >
+          {{fa-icon 'plus'}}
+          Add
         </button>
       </h3>
     </div>
 
-    <div id={{panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
-      <div class="panel-body {{if responsive "table-responsive"}}">
+    <div id={{panelId}} class='panel-collapse {{if collapsed "collapse" "in"}}'>
+      <div class='panel-body {{if responsive "table-responsive"}}'>
         {{! template-lint-disable table-groups }}
-        <table class="table table-striped table-hover fadeIn md-table-align-middle">
+        <table
+          class='table table-striped table-hover fadeIn md-table-align-middle'
+        >
           {{#if columnArray}}
-              <thead>
-                <tr>
-                  {{#unless hideIndex}}
+            <thead>
+              <tr>
+                {{#unless hideIndex}}
                   <th>#</th>
-                  {{/unless}}
-                  {{#each columnArray as |prop|}}
+                {{/unless}}
+                {{#each columnArray as |prop|}}
                   <th>{{uc-words prop}}</th>
-                  {{/each}}
-                  <th></th>
-                </tr>
-              </thead>
+                {{/each}}
+                <th></th>
+              </tr>
+            </thead>
           {{/if}}
           <tbody>
             {{#each arrayValues as |item index|}}
               <tr>
                 {{#unless hideIndex}}
-                <td>{{index}}</td>
+                  <td>{{index}}</td>
                 {{/unless}}
                 {{#layout/md-object-container
-                  title="Attribute Group"
+                  title='Attribute Group'
                   index=index
-                  profilePath=(concat profilePath ".attributeGroup")
+                  profilePath=(concat profilePath '.attributeGroup')
                   deleteItem=deleteAttrGroup
                 }}
                   {{input/md-codelist-multi
@@ -52,52 +64,58 @@
                     tooltip=true
                     icon=false
                     data-spy=false
-                    mdCodeName="coverageContentType"
+                    mdCodeName='coverageContentType'
                     closeOnSelect=false
-                    placeholder="Specific type of information represented in the cell"
-                    label="Attribute Content Type"
-                    profilePath=(concat profilePath ".atttributeContentType")
+                    placeholder='Specific type of information represented in the cell'
+                    label='Attribute Content Type'
+                    profilePath=(concat profilePath '.atttributeContentType')
                   }}
                   {{object/md-objectroute-table
-                    attributes="attributeDescription"
+                    attributes='attributeDescription'
                     items=item.attribute
-                    header="Attribute"
+                    header='Attribute'
                     shadow=false
-                    buttonText="Add Attribute"
+                    buttonText='Add Attribute'
                     ellipsis=false
-                    previewTemplateTable="object/md-raster/attrgroup/attribute/preview"
+                    previewTemplateTable='object/md-raster/attrgroup/attribute/preview'
                     editItem=editAttribute
-                    profilePath=(concat profilePath ".attribute")
+                    profilePath=(concat profilePath '.attribute')
                     verticalButtons=true
                     hideIndex=false
                     condensed=false
                     editOnAdd=true
                     data-spy=false
                     routeParams=index
-                    scrollToId=(concat "md-raster-attrgroup-attribute-" index)
+                    scrollToId=(concat 'md-raster-attrgroup-attribute-' index)
                   }}
                 {{/layout/md-object-container}}
               </tr>
-              {{else}}
+            {{else}}
               <tr>
                 <td colspan={{add-em (if hideIndex 1 2) columnArray.length}}>
-                  <button type="button" id="{{panelId}}-btn" class="btn btn-xs btn-info"
-                    {{action "addItem"}}>
-                    {{fa-icon "plus"}} Add {{title}}
+                  <button
+                    type='button'
+                    id='{{panelId}}-btn'
+                    class='btn btn-xs btn-info'
+                    {{action 'addItem'}}
+                  >
+                    {{fa-icon 'plus'}}
+                    Add
+                    {{title}}
                   </button>
                 </td>
               </tr>
-              {{/each}}
+            {{/each}}
           </tbody>
         </table>
       </div>
     </div>
-</div>
+  </div>
 {{else}}
   {{control/md-alert-table
     title=title
     required=required
-    addItem=(action "addItem")
+    addItem=(action 'addItem')
     target=arrayValues
     tipMessage=alertTipMessage
   }}

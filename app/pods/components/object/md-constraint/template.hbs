@@ -1,37 +1,40 @@
 {{input/md-select
-  label="Constraint Type"
+  label='Constraint Type'
   showValidations=true
   model=this
-  path="type"
-  valuePath="value"
-  namePath="name"
+  path='type'
+  valuePath='value'
+  namePath='name'
   objectArray=typeOptions
   tooltip=true
-  tooltipPath="tip"
+  tooltipPath='tip'
   searchEnabled=false
-  placeholder="The type of constraint."
-  profilePath=(concat profilePath ".type")
+  placeholder='The type of constraint.'
+  profilePath=(concat profilePath '.type')
 }}
 
 {{#object/md-simple-array-table
-  title="Use Limitations"
+  title='Use Limitations'
   data-spy=false
   plain=false
   required=useRequired
-  profilePath=(concat profilePath ".useLimitation")
-  value=model.useLimitation as |val|
+  profilePath=(concat profilePath '.useLimitation')
+  value=model.useLimitation
+  as |val|
 }}
   <td>
-    {{input/md-textarea value=val.item.value
-     placeholder="Describe Limitation affecting the fitness for use of the resource or metadata. For example, \"not to be used for navigation\"."}}
+    {{input/md-textarea
+      value=val.item.value
+      placeholder='Describe Limitation affecting the fitness for use of the resource or metadata. For example, "not to be used for navigation".'
+    }}
   </td>
 {{/object/md-simple-array-table}}
 
 {{#layout/md-card
-  title="Legal"
+  title='Legal'
   collapsible=true
   required=legalRequired
-  profilePath=(concat profilePath ".legal")
+  profilePath=(concat profilePath '.legal')
   data-spy=false
   shadow=true
 }}
@@ -53,28 +56,28 @@
 
   {{input/md-codelist-multi
     value=model.legal.accessConstraint
-    label="Access Constraints"
+    label='Access Constraints'
     create=false
     tooltip=true
     icon=false
-    mdCodeName="restriction"
+    mdCodeName='restriction'
     closeOnSelect=false
-    profilePath=(concat profilePath ".legal.accessConstraint")
-    placeholder="Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource."
+    profilePath=(concat profilePath '.legal.accessConstraint')
+    placeholder='Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource.'
   }}
 
   {{input/md-codelist-multi
     value=model.legal.useConstraint
-    label="Use Constraints"
+    label='Use Constraints'
     create=false
     tooltip=true
     icon=false
-    mdCodeName="restriction"
+    mdCodeName='restriction'
     closeOnSelect=false
-    profilePath=(concat profilePath ".legal.useConstraint")
-    placeholder="Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource."
+    profilePath=(concat profilePath '.legal.useConstraint')
+    placeholder='Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource.'
   }}
-{{!--
+  {{!--
   {{#layout/md-card shadow=false}}
     {{#object/md-simple-array-table
       title="Use Constraint"
@@ -92,15 +95,19 @@
 
   {{#layout/md-card shadow=false}}
     {{#object/md-simple-array-table
-      title="Other Constraint"
+      title='Other Constraint'
       data-spy=false
       plain=true
-      profilePath=(concat profilePath ".legal.otherConstraint")
-      value=model.legal.otherConstraint as |val|
+      profilePath=(concat profilePath '.legal.otherConstraint')
+      value=model.legal.otherConstraint
+      as |val|
     }}
       <td>
-        {{input/md-textarea value=val.item.value rows=3
-         placeholder="Other restrictions and legal prerequisites for accessing and using the resource."}}
+        {{input/md-textarea
+          value=val.item.value
+          rows=3
+          placeholder='Other restrictions and legal prerequisites for accessing and using the resource.'
+        }}
       </td>
     {{/object/md-simple-array-table}}
   {{/layout/md-card}}
@@ -108,53 +115,53 @@
 {{/layout/md-card}}
 
 {{#layout/md-card
-  title="Security"
+  title='Security'
   collapsible=true
   required=securityRequired
-  profilePath=(concat profilePath ".security")
+  profilePath=(concat profilePath '.security')
   data-spy=false
   shadow=true
 }}
   {{input/md-codelist
-     label="Classification"
-     mdCodeName="classification"
-     showValidations=true
-     model=this
-     path="classification"
-     placeholder="Name of the handling restrictions on the resource or metadata."
-     profilePath=(concat profilePath ".security.classification")
+    label='Classification'
+    mdCodeName='classification'
+    showValidations=true
+    model=this
+    path='classification'
+    placeholder='Name of the handling restrictions on the resource or metadata.'
+    profilePath=(concat profilePath '.security.classification')
   }}
   {{input/md-input
     value=model.security.classificationSystem
-    label="Classification System Name"
-    placeholder="Enter name of the classification system."
-    profilePath=(concat profilePath ".security.classificationSystem")
+    label='Classification System Name'
+    placeholder='Enter name of the classification system.'
+    profilePath=(concat profilePath '.security.classificationSystem')
   }}
   {{input/md-textarea
     value=model.security.userNote
-    placeholder="Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource."
-    label="Note"
-    profilePath=(concat profilePath ".security.note")
+    placeholder='Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource.'
+    label='Note'
+    profilePath=(concat profilePath '.security.note')
   }}
   {{input/md-textarea
     value=model.security.handlingDescription
-    placeholder="Enter additional information about the restrictions on handling the resource."
-    label="Handling Description"
-    profilePath=(concat profilePath ".security.handlingDescription")
+    placeholder='Enter additional information about the restrictions on handling the resource.'
+    label='Handling Description'
+    profilePath=(concat profilePath '.security.handlingDescription')
   }}
 {{/layout/md-card}}
 
 {{object/md-party-array
-  title="Responsible Party"
+  title='Responsible Party'
   value=model.responsibleParty
-  profilePath=(concat profilePath ".responsibleParty")
+  profilePath=(concat profilePath '.responsibleParty')
 }}
 
 {{object/md-graphic-array
   model=model.graphic
-  button-text="Add Graphic"
-  label="Graphic or Logo"
-  profilePath=(concat profilePath ".graphic")
+  button-text='Add Graphic'
+  label='Graphic or Logo'
+  profilePath=(concat profilePath '.graphic')
 }}
 
 {{yield}}

@@ -1,112 +1,112 @@
 {{#layout/md-card
-  title="Time Period"
+  title='Time Period'
   collapsible=true
   collapsed=collapsed
-  data-spy="Time Period"
+  data-spy='Time Period'
   required=required
   shadow=true
   content=model
 }}
 
-  {{#layout/md-card shadow=false
-    profilePath=(concat profilePath ".dateRange")
+  {{#layout/md-card
+    shadow=false
+    profilePath=(concat profilePath '.dateRange')
     muted=false
     plain=true
   }}
     {{input/md-date-range
       startDateTime=startDateTime
       endDateTime=endDateTime
-      profilePath=(concat profilePath ".dateRange")
+      profilePath=(concat profilePath '.dateRange')
     }}
   {{/layout/md-card}}
 
   {{input/md-input
-   value=identifier
-   label="Identifier"
-   placeholder="Enter a unique identifier for the time period."
-   required=false
-   profilePath=(concat profilePath ".identifier")
- }}
-
-  {{input/md-textarea
-      value=model.description
-      profilePath=(concat profilePath ".description")
-      label="Description"
-      placeholder="A brief description providing relevant information about the time period."
+    value=identifier
+    label='Identifier'
+    placeholder='Enter a unique identifier for the time period.'
+    required=false
+    profilePath=(concat profilePath '.identifier')
   }}
 
-  {{#layout/md-card shadow=false
-    profilePath=(concat profilePath ".periodName")
+  {{input/md-textarea
+    value=model.description
+    profilePath=(concat profilePath '.description')
+    label='Description'
+    placeholder='A brief description providing relevant information about the time period.'
+  }}
+
+  {{#layout/md-card
+    shadow=false
+    profilePath=(concat profilePath '.periodName')
     muted=false
     plain=true
   }}
 
-    {{#object/md-simple-array-table title="Time Period Name"
-      data-spy=false
-      plain=true
-      value=model.periodName as |val|
+    {{#object/md-simple-array-table
+      title='Time Period Name' data-spy=false plain=true value=model.periodName
+      as |val|
     }}
       <td>
-        {{input/md-input value=val.item.value
-         placeholder="Enter Name"}}
+        {{input/md-input value=val.item.value placeholder='Enter Name'}}
       </td>
     {{/object/md-simple-array-table}}
   {{/layout/md-card}}
 
   {{#layout/md-card
     shadow=false
-    profilePath=(concat profilePath ".interval")
+    profilePath=(concat profilePath '.interval')
     muted=false
     plain=true
   }}
-    <div class="form-inline">
-      <label class="text-info">Interval</label>
+    <div class='form-inline'>
+      <label class='text-info'>Interval</label>
       {{input/md-input
-        type="number"
+        type='number'
         model=this
-        valuePath="intervalAmount"
-        step="0.01"
-        label="Interval Amount"
-        placeholder="Enter amount of time for the interval."
-        profilePath=(concat profilePath ".interval.intervalAmount")
+        valuePath='intervalAmount'
+        step='0.01'
+        label='Interval Amount'
+        placeholder='Enter amount of time for the interval.'
+        profilePath=(concat profilePath '.interval.intervalAmount')
         showValidations=true
       }}
       {{input/md-select
         create=false
         objectArray=timeUnit
-        valuePath="value"
-        namePath="name"
-        label="Time Unit"
+        valuePath='value'
+        namePath='name'
+        label='Time Unit'
         required=true
         tooltip=false
         icon=false
         allowClear=true
         value=model.timeInterval.units
-        profilePath=(concat profilePath ".interval.units")
-        placeholder="Choose unit of time"
+        profilePath=(concat profilePath '.interval.units')
+        placeholder='Choose unit of time'
       }}
     </div>
   {{/layout/md-card}}
 
   {{#layout/md-card
     shadow=false
-    profilePath=(concat profilePath ".duration")
+    profilePath=(concat profilePath '.duration')
     muted=false
     plain=true
     bodyIsRow=true
   }}
-    <label class="text-info col-sm-2">Duration</label>
-    <div class="col-sm-10">
-      <div class="row">
+    <label class='text-info col-sm-2'>Duration</label>
+    <div class='col-sm-10'>
+      <div class='row'>
         {{#each durationUnit as |unit|}}
           {{input/md-input
-            class="col-sm-6 col-md-4 col-lg-2"
-            valuePath=(concat "duration." unit)
+            class='col-sm-6 col-md-4 col-lg-2'
+            valuePath=(concat 'duration.' unit)
             model=model
-            type="number"
+            type='number'
             label=(uc-words unit)
-            placeholder=(concat "Enter " unit)
-            profilePath=(concat profilePath ".duration." unit)
+            placeholder=(concat 'Enter ' unit)
+            profilePath=(concat profilePath '.duration.' unit)
           }}
         {{/each}}
       </div>

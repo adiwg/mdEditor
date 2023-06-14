@@ -1,4 +1,11 @@
-<span {{action "toggleAllSelection"}} role="button" class="center-block
-{{if (is-equal selectedItems.length data.length)
-  themeInstance.select-all-rows themeInstance.deselect-all-rows}}">
+<span
+  {{action 'toggleAllSelection'}}
+  role='button'
+  class='center-block
+    {{if
+      (is-equal selectedItems.length data.length)
+      themeInstance.select-all-rows
+      themeInstance.deselect-all-rows
+    }}'
+>
 </span>

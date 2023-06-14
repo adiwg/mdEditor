@@ -1,29 +1,29 @@
 {{input/md-input
- model=record
- valuePath="uri"
- label="URL"
- placeholder="Enter URL of the profile."
- showValidations=true
+  model=record
+  valuePath='uri'
+  label='URL'
+  placeholder='Enter URL of the profile.'
+  showValidations=true
 }}
 
 {{input/md-input
- value=record.alias
- label="Alias"
- placeholder="Enter an alternative title."
- showValidations=true
+  value=record.alias
+  label='Alias'
+  placeholder='Enter an alternative title.'
+  showValidations=true
 }}
 
-<div class="form-group">
-  <label class="">Version</label>
-  <div class="">
-    <span>{{if record.localVersion record.localVersion "--"}}</span>
+<div class='form-group'>
+  <label class=''>Version</label>
+  <div class=''>
+    <span>{{if record.localVersion record.localVersion '--'}}</span>
     {{#if record.hasUpdate}}
-    <span class="label label-pill label-info">Update Available ({{record.remoteVersion}})</span>
+      <span class='label label-pill label-info'>Update Available ({{record.remoteVersion}})</span>
     {{/if}}
   </div>
 </div>
 
-<hr>
+<hr />
 
 {{object/md-profile/preview record=record}}
 {{yield}}

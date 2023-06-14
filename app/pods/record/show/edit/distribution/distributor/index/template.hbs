@@ -1,13 +1,16 @@
-<h4 class="section-header">
-  Editing Distributor #{{distributorId}} in <span class="text-success">Distribution #{{distributionId}}</span>
+<h4 class='section-header'>
+  Editing Distributor #{{distributorId}}
+  in
+  <span class='text-success'>Distribution #{{distributionId}}</span>
   {{#control/md-button-confirm
-    class="btn btn-xs btn-danger"
-    onConfirm=(route-action "deleteDistributor")
-    tooltip="Delete Distributor?"
-    tipClass="danger"
-    tipSide="bottom"
+    class='btn btn-xs btn-danger'
+    onConfirm=(route-action 'deleteDistributor')
+    tooltip='Delete Distributor?'
+    tipClass='danger'
+    tipSide='bottom'
   }}
-    {{fa-icon "times"}} Delete
+    {{fa-icon 'times'}}
+    Delete
   {{/control/md-button-confirm}}
   {{control/md-status model=parentModel}}
 </h4>
@@ -15,19 +18,27 @@
 {{object/md-distributor
   model=model
   distributorId=distributorId
-  profilePath="record.distribution.distributor"
-  editTransferOption=(route-action "editTransferOption")
+  profilePath='record.distribution.distributor'
+  editTransferOption=(route-action 'editTransferOption')
 }}
 
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
-    text="Back to Distribution List"
-    icon="arrow-left"
-    type="primary"
-    route="record.show.edit.distribution"
+  named='md-subbar-extra'
+  send=(component
+    'control/subbar-link'
+    text='Back to Distribution List'
+    icon='arrow-left'
+    type='primary'
+    route='record.show.edit.distribution'
   )
 }}
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    refresh=refresh
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

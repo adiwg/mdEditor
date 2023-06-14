@@ -1,11 +1,16 @@
-<button type="button" class="close huge-text" aria-label="Close" {{action "toggleVisibility"}}>
+<button
+  type='button'
+  class='close huge-text'
+  aria-label='Close'
+  {{action 'toggleVisibility'}}
+>
   Close
-  {{fa-icon "caret-right"}}
+  {{fa-icon 'caret-right'}}
 </button>
-<section class="md-slider-body">
+<section class='md-slider-body'>
   {{#from-elsewhere name=name as |slider|}}
-    <h3 class="text-info">{{slider.title}}</h3>
-    <hr>
+    <h3 class='text-info'>{{slider.title}}</h3>
+    <hr />
     {{component slider.body}}
   {{/from-elsewhere}}
 </section>

@@ -1,19 +1,27 @@
 <section>
-    {{leaflet-table
-        layers=(get model (concat "json.metadata.resourceInfo.extent." extentId ".geographicExtent.0.geographicElement"))
-        setFeatureGroup=(route-action "setFeatureGroup")
-        handleResize=(route-action "handleResize")}}
+  {{leaflet-table
+    layers=(get
+      model
+      (concat
+        'json.metadata.resourceInfo.extent.'
+        extentId
+        '.geographicExtent.0.geographicElement'
+      )
+    )
+    setFeatureGroup=(route-action 'setFeatureGroup')
+    handleResize=(route-action 'handleResize')
+  }}
 </section>
 
-
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-spatial"
+  named='md-subbar-extra'
+  send=(component
+    'control/subbar-spatial'
     actionContext=this
-    zoomAll=(route-action "zoomAll")
-    deleteAllFeatures=(route-action "deleteAllFeatures")
-    exportGeoJSON=(route-action "exportGeoJSON")
-    uploadData=(route-action "uploadData")
-    toList=(route-action "toList")
+    zoomAll=(route-action 'zoomAll')
+    deleteAllFeatures=(route-action 'deleteAllFeatures')
+    exportGeoJSON=(route-action 'exportGeoJSON')
+    uploadData=(route-action 'uploadData')
+    toList=(route-action 'toList')
   )
 }}

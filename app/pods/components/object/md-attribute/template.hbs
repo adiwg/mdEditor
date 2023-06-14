@@ -1,27 +1,31 @@
-{{#layout/md-card title="Attribute Information" collapsible=true collapsed=false
-  profilePath=(concat profilePath ".information") data-spy="Attribute Information"
+{{#layout/md-card
+  title='Attribute Information'
+  collapsible=true
+  collapsed=false
+  profilePath=(concat profilePath '.information')
+  data-spy='Attribute Information'
   required=true
 }}
-  {{#with (concat profilePath ".information") as |profilePath|}}
+  {{#with (concat profilePath '.information') as |profilePath|}}
     {{input/md-input
       model=this
-      valuePath="codeName"
-      placeholder="The code used to identify this attribute, e.g.the column name."
-      label="Code Name"
-      data-spy="Code Name"
-      profilePath=(concat profilePath ".codeName")
-      class="md-embedded"
+      valuePath='codeName'
+      placeholder='The code used to identify this attribute, e.g.the column name.'
+      label='Code Name'
+      data-spy='Code Name'
+      profilePath=(concat profilePath '.codeName')
+      class='md-embedded'
     }}
 
     {{input/md-textarea
       value=this.definition
       required=true
       autoresize=true
-      placeholder="A brief description of the attribute."
-      label="Definition"
-      data-spy="Definition"
+      placeholder='A brief description of the attribute.'
+      label='Definition'
+      data-spy='Definition'
       embedded=true
-      profilePath=(concat profilePath ".definition")
+      profilePath=(concat profilePath '.definition')
     }}
 
     {{!-- {{input/md-input
@@ -40,57 +44,60 @@
       icon=false
       allowClear=true
       showValidations=true
-      mdCodeName="dataType"
+      mdCodeName='dataType'
       model=this
-      path="dataType"
-      placeholder="The datatype for the attribute(column)."
-      label="Data Type"
-      data-spy="Data Type"
-      profilePath=(concat profilePath ".dataType")
-      class="md-embedded"
+      path='dataType'
+      placeholder='The datatype for the attribute(column).'
+      label='Data Type'
+      data-spy='Data Type'
+      profilePath=(concat profilePath '.dataType')
+      class='md-embedded'
     }}
 
     {{input/md-boolean
-      label="Allow Null?"
+      label='Allow Null?'
       required=true
-      text="Allow null values"
+      text='Allow null values'
       value=model.allowNull
-      profilePath=(concat profilePath ".allowNull")
+      profilePath=(concat profilePath '.allowNull')
     }}
 
     {{input/md-input
       value=model.commonName
-      placeholder="Enter a short common(alternate) name for the attribute."
-      label="Common Name"
-      profilePath=(concat profilePath ".commonName")
-      data-spy="Common Name"
-      class="md-embedded"
+      placeholder='Enter a short common(alternate) name for the attribute.'
+      label='Common Name'
+      profilePath=(concat profilePath '.commonName')
+      data-spy='Common Name'
+      class='md-embedded'
     }}
 
     {{input/md-codelist
-     label="Domain"
-     value=model.domainId
-     mapped=domainList
-     create=false
-     tooltip=true
-     placeholder="Select or enter the domain for this attribute."
-     profilePath=(concat profilePath ".domain")
-     data-spy="Domain"
-     class="md-embedded"
+      label='Domain'
+      value=model.domainId
+      mapped=domainList
+      create=false
+      tooltip=true
+      placeholder='Select or enter the domain for this attribute.'
+      profilePath=(concat profilePath '.domain')
+      data-spy='Domain'
+      class='md-embedded'
     }}
 
     {{#object/md-simple-array-table
-      title="Alias"
+      title='Alias'
       required=false
       plain=true
-      profilePath=(concat profilePath ".alias")
-      data-spy="Alias"
-      class="md-embedded"
-      value=model.alias as |val|
+      profilePath=(concat profilePath '.alias')
+      data-spy='Alias'
+      class='md-embedded'
+      value=model.alias
+      as |val|
     }}
       <td>
-          {{input/md-input value=val.item.value
-          placeholder="Alternate names used to identify this attribute."}}
+        {{input/md-input
+          value=val.item.value
+          placeholder='Alternate names used to identify this attribute.'
+        }}
       </td>
     {{/object/md-simple-array-table}}
 
@@ -105,113 +112,115 @@
     {{input/md-input
       value=model.units
       placeholder="A unit-of-measure for the attribute, e.g. 'meter', 'atmosphere', 'liter'"
-      label="Units"
-      profilePath=(concat profilePath ".units")
+      label='Units'
+      profilePath=(concat profilePath '.units')
     }}
 
     {{input/md-input
-      type="number"
-      step=".1"
+      type='number'
+      step='.1'
       model=model
-      valuePath="unitsResolution"
-      placeholder="The smallest unit increment for the attribute value."
-      label="Units Resolution"
-      profilePath=(concat profilePath ".unitsResolution")
+      valuePath='unitsResolution'
+      placeholder='The smallest unit increment for the attribute value.'
+      label='Units Resolution'
+      profilePath=(concat profilePath '.unitsResolution')
     }}
 
     {{input/md-boolean
-      label="Case Sensitive?"
+      label='Case Sensitive?'
       required=true
-      text="Is the attribute content case sensitive?"
+      text='Is the attribute content case sensitive?'
       value=model.isCaseSensitive
-      profilePath=(concat profilePath ".caseSensitive")
+      profilePath=(concat profilePath '.caseSensitive')
     }}
 
     {{input/md-input
-      type="number"
+      type='number'
       model=model
-      valuePath="fieldWidth"
-      placeholder="The number of characters allowed in the attribute value."
-      label="Field Width"
-      profilePath=(concat profilePath ".fieldWidth")
+      valuePath='fieldWidth'
+      placeholder='The number of characters allowed in the attribute value.'
+      label='Field Width'
+      profilePath=(concat profilePath '.fieldWidth')
     }}
 
     {{input/md-input
       value=model.missingValue
-      placeholder="The code which represents missing data."
-      label="Missing Value"
-      profilePath=(concat profilePath ".missingValue")
+      placeholder='The code which represents missing data.'
+      label='Missing Value'
+      profilePath=(concat profilePath '.missingValue')
     }}
 
     {{input/md-input
       value=model.minValue
-      placeholder="The minimum value permissible for this attribute."
-      label="Minimum Value"
-      profilePath=(concat profilePath ".minValue")
+      placeholder='The minimum value permissible for this attribute.'
+      label='Minimum Value'
+      profilePath=(concat profilePath '.minValue')
     }}
 
     {{input/md-input
       value=model.maxValue
-      placeholder="The maximum value permissible for this attribute."
-      label="Maximum Value"
-      profilePath=(concat profilePath ".maxValue")
+      placeholder='The maximum value permissible for this attribute.'
+      label='Maximum Value'
+      profilePath=(concat profilePath '.maxValue')
     }}
   {{/with}}
 {{/layout/md-card}}
 
 {{#object/md-array-table
-  columns="Min Value, Max Value"
+  columns='Min Value, Max Value'
   value=model.valueRange
-  title="Value Range"
+  title='Value Range'
   plain=false
   templateClass=rangeTemplate
-  profilePath=(concat profilePath ".valueRange")
-  data-spy="Value Range" as |rg|
+  profilePath=(concat profilePath '.valueRange')
+  data-spy='Value Range'
+  as |rg|
 }}
   <td>
     {{input/md-input
-     model=rg.item
-     valuePath="minRangeValue"
-     placeholder="The least value that the attribute can be assigned."
-     profilePath=(concat profilePath ".minValue")
-     showValidations=true
+      model=rg.item
+      valuePath='minRangeValue'
+      placeholder='The least value that the attribute can be assigned.'
+      profilePath=(concat profilePath '.minValue')
+      showValidations=true
     }}
   </td>
   <td>
     {{input/md-input
-     model=rg.item
-     valuePath="maxRangeValue"
-     placeholder="The greatest value that the attribute can be assigned."
-     profilePath=(concat profilePath ".maxValue")
-     showValidations=true
+      model=rg.item
+      valuePath='maxRangeValue'
+      placeholder='The greatest value that the attribute can be assigned.'
+      profilePath=(concat profilePath '.maxValue')
+      showValidations=true
     }}
   </td>
 {{/object/md-array-table}}
 
 {{#object/md-object-table
- items=model.timePeriod
- header="Time Period"
- data-spy="Time Period"
- buttonText="Add Time Period"
- ellipsis=true
- profilePath=(concat profilePath ".timePeriod")
- attributes="startDateTime,endDateTime" as |tm|
+  items=model.timePeriod
+  header='Time Period'
+  data-spy='Time Period'
+  buttonText='Add Time Period'
+  ellipsis=true
+  profilePath=(concat profilePath '.timePeriod')
+  attributes='startDateTime,endDateTime'
+  as |tm|
 }}
   {{object/md-timePeriod
     model=tm
-    profilePath=(concat profilePath ".timePeriod")
+    profilePath=(concat profilePath '.timePeriod')
   }}
 {{/object/md-object-table}}
 
 {{#layout/md-card
-  title="Attribute Reference"
-  profilePath=(concat profilePath ".attributeReference")
+  title='Attribute Reference'
+  profilePath=(concat profilePath '.attributeReference')
   shadow=true
   collapsible=true
   collapsed=true
 }}
   {{object/md-citation
-    profilePath=(concat profilePath ".attributeReference")
+    profilePath=(concat profilePath '.attributeReference')
     model=model.attributeReference
     simpleIdentifier=true
   }}

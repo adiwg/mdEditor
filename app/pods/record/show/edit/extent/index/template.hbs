@@ -1,4 +1,4 @@
-<h4 class="section-header">
+<h4 class='section-header'>
   Editing Extents
   {{control/md-status model=model}}
 </h4>
@@ -6,33 +6,46 @@
 <section>
   {{#each model.json.metadata.resourceInfo.extent as |extent index|}}
     {{object/md-extent
-      title="Extent"
+      title='Extent'
       extent=extent
       index=index
-      profilePath="record.extent"
-      deleteExtent=(route-action "deleteExtent")
-      editFeatures=(route-action "editFeatures")
-      addExtent=(route-action "addExtent")
+      profilePath='record.extent'
+      deleteExtent=(route-action 'deleteExtent')
+      editFeatures=(route-action 'editFeatures')
+      addExtent=(route-action 'addExtent')
     }}
-    {{!-- deleteExtent=(route-action "deleteExtent")
-    editExtent=(route-action "editExtent") --}}
+    {{! deleteExtent=(route-action "deleteExtent")
+    editExtent=(route-action "editExtent") }}
   {{else}}
-    <h3 class="alert alert-info">No Extents found.
-      <button type="button" class="btn btn-lg btn-success" {{action (route-action "addExtent")}}>
-        {{fa-icon "plus"}} Add Extent</button>
+    <h3 class='alert alert-info'>No Extents found.
+      <button
+        type='button'
+        class='btn btn-lg btn-success'
+        {{action (route-action 'addExtent')}}
+      >
+        {{fa-icon 'plus'}}
+        Add Extent</button>
     </h3>
   {{/each}}
 </section>
 
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/md-button"
-  text="Add Extent"
-  icon="plus"
-  class="btn-lg btn-success"
-  click=(route-action "addExtent")
+  named='md-subbar-extra'
+  send=(component
+    'control/md-button'
+    text='Add Extent'
+    icon='plus'
+    class='btn-lg btn-success'
+    click=(route-action 'addExtent')
   )
 }}
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  refresh=refreshSpy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    refresh=refreshSpy
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

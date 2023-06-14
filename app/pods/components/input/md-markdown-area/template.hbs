@@ -1,18 +1,23 @@
 {{#if label}}
-    <label class="md-card-chevron">
-      {{#if collapsible}}
-        <a role="button" data-toggle="collapse" href="#{{concat "md-" elementId}}"
-          aria-expanded={{if collapsed "false" "true"}}
-          class={{if collapsed "collapsed"}} aria-controls={{concat "md-" elementId}}>
-        <span class="fa"></span>
+  <label class='md-card-chevron'>
+    {{#if collapsible}}
+      <a
+        role='button'
+        data-toggle='collapse'
+        href='#{{concat "md-" elementId}}'
+        aria-expanded={{if collapsed 'false' 'true'}}
+        class={{if collapsed 'collapsed'}}
+        aria-controls={{concat 'md-' elementId}}
+      >
+        <span class='fa'></span>
         {{label}}
-        </a>
-      {{else}}
-        {{label}}
-      {{/if}}
-    </label>
+      </a>
+    {{else}}
+      {{label}}
+    {{/if}}
+  </label>
 {{/if}}
-<div id={{concat "md-" elementId}} class={{if collapsed "collapse" "in"}}>
+<div id={{concat 'md-' elementId}} class={{if collapsed 'collapse' 'in'}}>
   {{simple-mde
     value=value
     options=options

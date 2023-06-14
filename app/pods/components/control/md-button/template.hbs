@@ -8,5 +8,9 @@
 {{/if}}
 
 {{#if tooltip}}
-  {{ember-tooltip tooltipClass=(concat "ember-tooltip md-tooltip " tipClass) text=tooltip side=tipSide}}
+  {{ember-tooltip
+    tooltipClass=(concat 'ember-tooltip md-tooltip ' tipClass)
+    text=tooltip
+    side=tipSide
+  }}
 {{/if}}

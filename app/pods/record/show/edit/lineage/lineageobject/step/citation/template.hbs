@@ -1,19 +1,31 @@
-<h4 class="section-header">Editing Step #{{stepId}} Citation
-  {{control/md-status model=(compute (route-action "parentModel"))}}
+<h4 class='section-header'>Editing Step #{{stepId}}
+  Citation
+  {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
 {{#with model as |citation|}}
-    <div class="">
-      {{object/md-citation
-        model=citation
-        profilePath="record.lineage.processStep.reference"
-        simpleIdentifier=true        
-      }}
-      {{outlet}}
-    </div>
+  <div class=''>
+    {{object/md-citation
+      model=citation
+      profilePath='record.lineage.processStep.reference'
+      simpleIdentifier=true
+    }}
+    {{outlet}}
+  </div>
 {{/with}}
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link" text=(concat "Back to Step #" stepId) icon="arrow-left" click=(route-action "goBack"))
+  named='md-subbar-extra'
+  send=(component
+    'control/subbar-link'
+    text=(concat 'Back to Step #' stepId)
+    icon='arrow-left'
+    click=(route-action 'goBack')
+  )
 }}
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

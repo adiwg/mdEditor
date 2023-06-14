@@ -1,11 +1,12 @@
 {{#object/md-array-table
-  columns="Repository, Collection Title"
+  columns='Repository, Collection Title'
   value=value
   plain=plain
   data-spy=data-spy
-  title="Metadata Repository"
+  title='Metadata Repository'
   profile=profile
-  templateClass=repositoryTemplate as |meta|
+  templateClass=repositoryTemplate
+  as |meta|
 }}
   <td>
     {{input/md-codelist
@@ -13,19 +14,19 @@
       create=true
       tooltip=true
       icon=false
-      mdCodeName="metadataRepository"
+      mdCodeName='metadataRepository'
       closeOnSelect=true
-      placeholder="Select or enter a repository."
-      profilePath=(concat profilePath ".repository")
-      change=(action "lookupTitle" meta.item)
+      placeholder='Select or enter a repository.'
+      profilePath=(concat profilePath '.repository')
+      change=(action 'lookupTitle' meta.item)
     }}
   </td>
   <td>
     {{input/md-input
-      type="text"
+      type='text'
       value=meta.item.citation.title
-      profilePath=(concat profilePath ".collectionTitle")
-      placeholder="Text string used to identify a set of resources in the repository."
+      profilePath=(concat profilePath '.collectionTitle')
+      placeholder='Text string used to identify a set of resources in the repository.'
     }}
   </td>
   {{yield}}

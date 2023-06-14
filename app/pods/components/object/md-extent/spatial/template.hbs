@@ -1,90 +1,112 @@
 {{#layout/md-card
-title="Geographic Extent"
-collapsible=true
-collapsed=false
-data-spy=false
-shadow=false
-spotlightEnabled=false
-plain=true
-bodyIsRow=true
-class="card-lighter"
-profilePath=profilePath
+  title='Geographic Extent'
+  collapsible=true
+  collapsed=false
+  data-spy=false
+  shadow=false
+  spotlightEnabled=false
+  plain=true
+  bodyIsRow=true
+  class='card-lighter'
+  profilePath=profilePath
 }}
-  <div class="col-sm-6">
-    <div class="row">
-      <div class="col-xxxl-6">
+  <div class='col-sm-6'>
+    <div class='row'>
+      <div class='col-xxxl-6'>
         <label>Bounding Box</label>
-        {{#object/md-bbox model=bbox profilePath=(concat profilePath ".bbox")}}
-        <div class="card-footer">
-          <button type="button" class="btn btn-primary" {{action "calculateBox"}} disabled={{if (is-empty geographicElement) true}}>
-            {{fa-icon "calculator"}} Calculate
-          </button>
-          {{#control/md-button-confirm
-            class="btn btn-danger"
-            onConfirm=(action "clearBox")
-            disabled=(unless hasBbox true)
-          }}
-            {{fa-icon "trash"}} Clear
-          {{/control/md-button-confirm}}
-        </div>
+        {{#object/md-bbox model=bbox profilePath=(concat profilePath '.bbox')}}
+          <div class='card-footer'>
+            <button
+              type='button'
+              class='btn btn-primary'
+              {{action 'calculateBox'}}
+              disabled={{if (is-empty geographicElement) true}}
+            >
+              {{fa-icon 'calculator'}}
+              Calculate
+            </button>
+            {{#control/md-button-confirm
+              class='btn btn-danger'
+              onConfirm=(action 'clearBox')
+              disabled=(unless hasBbox true)
+            }}
+              {{fa-icon 'trash'}}
+              Clear
+            {{/control/md-button-confirm}}
+          </div>
         {{/object/md-bbox}}
       </div>
-      <div class="col-xxxl-6 md-extent-description">
+      <div class='col-xxxl-6 md-extent-description'>
         {{input/md-textarea
           value=geographicExtent.description
           rows=5
           maxHeight=300
-          placeholder="Description of geographic extent"
-          label="Description"
-          profilePath=(concat profilePath ".description")
+          placeholder='Description of geographic extent'
+          label='Description'
+          profilePath=(concat profilePath '.description')
         }}
         {{input/md-boolean
-          label="Contains Data"
-          text="The geographic extent contains some or all of the data"
+          label='Contains Data'
+          text='The geographic extent contains some or all of the data'
           value=geographicExtent.containsData
-          profilePath=(concat profilePath ".containsData")
+          profilePath=(concat profilePath '.containsData')
         }}
       </div>
     </div>
   </div>
-  <div class="col-sm-6 md-extent-map">
+  <div class='col-sm-6 md-extent-map'>
     {{#if showMap}}
-      <p class="btn-toolbar">
-        <button type="button" class="btn btn-md btn-success" {{action "editFeatures" index}}>
-        {{fa-icon "pencil"}} Edit Features</button>
-        {{#control/md-button-confirm class="btn btn-danger" onConfirm=(action "deleteFeatures")}}
-          {{fa-icon "trash"}} Clear Features
+      <p class='btn-toolbar'>
+        <button
+          type='button'
+          class='btn btn-md btn-success'
+          {{action 'editFeatures' index}}
+        >
+          {{fa-icon 'pencil'}}
+          Edit Features</button>
+        {{#control/md-button-confirm
+          class='btn btn-danger' onConfirm=(action 'deleteFeatures')
+        }}
+          {{fa-icon 'trash'}}
+          Clear Features
         {{/control/md-button-confirm}}
       </p>
       {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(action setupMap)}}
-        {{!-- Specify child layer components here --}}
-        {{#layer-group name="Terrain" baselayer=true default=true}}
-          {{tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+        {{! Specify child layer components here }}
+        {{#layer-group name='Terrain' baselayer=true default=true}}
+          {{tile-layer
+            url='//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png'
+            attribution=mapAttribution
+          }}
         {{/layer-group}}
 
         {{#if geographicElement.length}}
-        {{#feature-group name="Features" default=true}}
-          {{#each geographicElement as |l|}}
-            {{geojson-layer geoJSON=l}}
-          {{/each}}
-        {{/feature-group}}
+          {{#feature-group name='Features' default=true}}
+            {{#each geographicElement as |l|}}
+              {{geojson-layer geoJSON=l}}
+            {{/each}}
+          {{/feature-group}}
         {{/if}}
 
-
         {{#if bboxPoly}}
-          {{#feature-group name="Bounding Box" default=true}}
-              {{polygon-layer locations=bboxPoly color="#29abe0" fillOpacity=0}}
+          {{#feature-group name='Bounding Box' default=true}}
+            {{polygon-layer locations=bboxPoly color='#29abe0' fillOpacity=0}}
           {{/feature-group}}
         {{/if}}
 
         {{layer-control}}
       {{/leaflet-map}}
     {{else}}
-      <div class="alert alert-info">
+      <div class='alert alert-info'>
         No Features to display.
-        <button type="button" class="btn btn-md btn-success md-btn-responsive" {{action "editFeatures" index}}>
-          {{fa-icon "pencil"}} Add Features</button>
+        <button
+          type='button'
+          class='btn btn-md btn-success md-btn-responsive'
+          {{action 'editFeatures' index}}
+        >
+          {{fa-icon 'pencil'}}
+          Add Features</button>
       </div>
     {{/if}}
   </div>
-  {{/layout/md-card}}
+{{/layout/md-card}}
