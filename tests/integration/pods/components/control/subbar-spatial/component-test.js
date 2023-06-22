@@ -1,4 +1,10 @@
-import { click, doubleClick, find, findAll, render } from '@ember/test-helpers';
+import {
+  click,
+  doubleClick,
+  find,
+  findAll,
+  render
+} from '@ember/test-helpers';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';

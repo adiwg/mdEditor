@@ -1,6 +1,11 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import EmberObject, { computed, getWithDefault, get, set } from '@ember/object';
+import EmberObject, {
+  computed,
+  getWithDefault,
+  get,
+  set
+} from '@ember/object';
 import { once } from '@ember/runloop';
 
 // const Validations = buildValidations({

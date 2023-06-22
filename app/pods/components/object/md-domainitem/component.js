@@ -1,5 +1,9 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get } from '@ember/object';
+import EmberObject, {
+  set,
+  getWithDefault,
+  get
+} from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 

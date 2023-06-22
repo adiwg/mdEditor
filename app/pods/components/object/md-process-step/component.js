@@ -1,5 +1,9 @@
 import Component from '@ember/component';
-import EmberObject, { getWithDefault, get, set } from '@ember/object';
+import EmberObject, {
+  getWithDefault,
+  get,
+  set
+} from '@ember/object';
 import { once } from '@ember/runloop';
 
 export default Component.extend({

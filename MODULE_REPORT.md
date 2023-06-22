@@ -3,7 +3,7 @@
 
 **Global**: `Ember.libraries`
 
-**Location**: `app/services/mdjson.js` at line 20
+**Location**: `app/services/mdjson.js` at line 10
 
 ```js
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
@@ -17,7 +17,7 @@ const validator = new Ajv({
 
 **Global**: `Ember.libraries`
 
-**Location**: `app/services/profile.js` at line 18
+**Location**: `app/services/profile.js` at line 15
 
 ```js
 import mdprofiles from 'mdprofiles';

@@ -1,6 +1,10 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import EmObject, { computed, defineProperty, get } from '@ember/object';
+import EmObject, {
+  computed,
+  defineProperty,
+  get
+} from '@ember/object';
 import moment from 'moment';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { singularize } from 'ember-inflector';

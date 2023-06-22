@@ -1,7 +1,10 @@
 import { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
-import EmberObject, { computed, getWithDefault } from '@ember/object';
+import EmberObject, {
+  computed,
+  getWithDefault
+} from '@ember/object';
 import { Copyable } from 'ember-copy';
 import uuidV4 from 'uuid/v4';
 import Model from 'mdeditor/models/base';

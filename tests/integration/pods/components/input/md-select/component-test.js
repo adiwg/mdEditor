@@ -1,4 +1,9 @@
-import { find, findAll, render, triggerEvent } from '@ember/test-helpers';
+import {
+  find,
+  findAll,
+  render,
+  triggerEvent
+} from '@ember/test-helpers';
 import EmberObject from '@ember/object';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';

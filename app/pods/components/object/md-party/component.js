@@ -1,5 +1,10 @@
 import Component from '@ember/component';
-import EmberObject, { computed, get, getWithDefault, set } from '@ember/object';
+import EmberObject, {
+  computed,
+  get,
+  getWithDefault,
+  set
+} from '@ember/object';
 import { A } from '@ember/array';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';

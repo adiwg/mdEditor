@@ -1,7 +1,12 @@
 import Route from '@ember/routing/route';
 import { max, min, equal, not, gt } from '@ember/object/computed';
 import { typeOf, isPresent, isBlank } from '@ember/utils';
-import EmberObject, { get, getWithDefault, set, computed } from '@ember/object';
+import EmberObject, {
+  get,
+  getWithDefault,
+  set,
+  computed
+} from '@ember/object';
 import uuidV4 from 'uuid/v4';
 
 export default Route.extend({

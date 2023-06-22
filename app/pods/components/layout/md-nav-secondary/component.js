@@ -1,5 +1,9 @@
 import Component from '@ember/component';
-import EmberObject, { computed, get, defineProperty } from '@ember/object';
+import EmberObject, {
+  computed,
+  get,
+  defineProperty
+} from '@ember/object';
 import { alias } from '@ember/object/computed';
 import { inject as service } from '@ember/service';
 import ResizeAware from 'ember-resize/mixins/resize-aware';

@@ -1,5 +1,9 @@
 import Route from '@ember/routing/route';
-import EmberObject, { get, set, getWithDefault } from '@ember/object';
+import EmberObject, {
+  get,
+  set,
+  getWithDefault
+} from '@ember/object';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 

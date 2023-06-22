@@ -4,7 +4,12 @@ import Route from '@ember/routing/route';
 import jquery from 'jquery';
 import { A, isArray } from '@ember/array';
 import { assign } from '@ember/polyfills';
-import EmObject, { computed, set, get, getWithDefault } from '@ember/object';
+import EmObject, {
+  computed,
+  set,
+  get,
+  getWithDefault
+} from '@ember/object';
 import Base from 'ember-local-storage/adapters/base';
 import uuidV4 from 'uuid/v4';
 import ScrollTo from 'mdeditor/mixins/scroll-to';

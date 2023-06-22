@@ -1,5 +1,10 @@
 import Service from '@ember/service';
-import { get, getWithDefault, set, setProperties } from '@ember/object';
+import {
+  get,
+  getWithDefault,
+  set,
+  setProperties
+} from '@ember/object';
 import { isArray, A } from '@ember/array';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
 

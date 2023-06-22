@@ -1,6 +1,10 @@
 import Service, { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
-import EmberObject, { getWithDefault, get, set } from '@ember/object';
+import EmberObject, {
+  getWithDefault,
+  get,
+  set
+} from '@ember/object';
 import Ember from 'ember';
 import Ajv from 'ajv';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
