@@ -1,6 +1,6 @@
-{{#if setScrollTo}}
+{{#if this.setScrollTo}}
   <ul class='nav nav-pills nav-stacked'>
-    {{#each links as |link|}}
+    {{#each this.links as |link|}}
       <li class={{if link.embedded 'md-embedded'}}>
         <a href='#{{link.id}}' onclick={{action 'clickLink'}}>{{link.text}}</a>
       </li>

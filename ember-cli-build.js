@@ -34,10 +34,12 @@ module.exports = function (defaults) {
 
     autoImport: {
       webpack: {
-        node: {
-          http: true,
-          //https: true
-        },
+        resolve: {
+          fallback: {
+            http: false,
+            https: false,
+          }
+        }
       },
     },
 
