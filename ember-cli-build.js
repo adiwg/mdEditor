@@ -37,10 +37,10 @@ module.exports = function (defaults) {
         resolve: {
           fallback: {
             http: false,
-            https: false,
+            https: false
           }
-        }
-      },
+        },
+      }
     },
 
     'ember-models-table': {
