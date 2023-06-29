@@ -13,7 +13,7 @@ module.exports = function(environment) {
     rootURL: '/',
     locationType: 'auto',
     vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies-dynamic.json',
-    profilesListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@feature/nggdpp-profiles/resources/profiles-list.json',
+    profilesListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@feature/nggdpp-profiles/resources/profiles-list-nggdpp-dq.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
