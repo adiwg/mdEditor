@@ -36,7 +36,8 @@ export default Component.extend({
       .map((k) => {
         return EmberObject.create({
           id: k.citation.identifier[0].identifier,
-          label: k.label || k.citation.title || 'Keywords'
+          label: k.label || k.citation.title || 'Keywords',
+          tooltipText: k.citation.description || null,
         });
       });
 
