@@ -147,7 +147,7 @@
     "qunit-dom": "^0.9.0",
     "sass": "^1.26.3",
     "scroll-into-view-if-needed": "^2.2.20",
-    "semver": "^6.3.0",
+    "semver": "^7.5.2",
     "shapefile": "^0.6.2",
     "static-module": "3.0.3",
     "stylelint": "^14.14.0",
