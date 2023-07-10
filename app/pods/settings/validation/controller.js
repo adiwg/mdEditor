@@ -83,6 +83,7 @@ export default Controller.extend({
         .save()
         .then((rec) => {
           let fetched = this.schemas.fetchSchemas.perform(rec.uri);
+          console.log(fetched)
 
           this.set('task', fetched);
 

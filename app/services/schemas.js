@@ -1,41 +1,40 @@
 import Service, { inject as service } from '@ember/service';
-import RefParser from 'json-schema-ref-parser';
+import RefParser from "json-schema-ref-parser";
+import JsonRefs from 'json-refs';
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
-import { filterBy } from '@ember/object/computed';
 import {
   // isAjaxError,
   isNotFoundError,
   // isForbiddenError
 } from 'ember-ajax/errors';
 import semver from 'semver';
+import classic from 'ember-classic-decorator';
 
-const parser = new RefParser();
-
-export default Service.extend({
-  init() {
-    this._super(...arguments);
-
-    /**
-     * Instance of JSON Schema $Ref Parser
-     *
-     * @method parser
-     * @protected
-     * @return {Object}
-     */
-    this.parser = parser;
+let parser = new RefParser();
+@classic
+export default class SchemaService extends Service {
+  constructor() {
+    super(...arguments);
 
     this.schemas = this.store.peekAll('schema');
-  },
-  store: service(),
-  flashMessages: service(),
-  globalSchemas: filterBy('schemas', 'isGlobal'),
-  fetchSchemas: task(function* (url) {
+  }
+
+  @service store;
+  @service flashMessages;
+
+  get globalSchemas() {
+    return this.schemas.filterBy('isGlobal');
+  }
+
+  @task({ drop: true })
+  * fetchSchemas(url) {
     yield timeout(1000);
 
-    return yield this.parser.resolve(url).then(($refs) => {
+    return yield RefParser.resolve(url)
+    .then(($refs) => {
       let paths = $refs.paths();
-      let values = parser.$refs.values();
+      let values = RefParser.$refs.values();
 
       return paths.map((path) => {
         return {
@@ -44,19 +43,10 @@ export default Service.extend({
         };
       });
     });
-  }).drop(),
+  }
 
-  // compileSchemas(schemas) {
-  //   let ajv = ajvErrors(new Ajv(options));
-  //
-  //
-  //   ajv.addMetaSchema(draft4);
-  //   ajv.addSchema(schemas);
-  //
-  //   return ajv;
-  // },
-
-  checkForUpdates: task(function* (records) {
+  @task({ drop: true })
+  * checkForUpdates(records) {
     yield timeout(1000);
 
     yield all(
@@ -92,5 +82,5 @@ export default Service.extend({
           });
       })
     );
-  }).drop(),
-});
+  }
+}

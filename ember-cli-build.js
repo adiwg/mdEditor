@@ -34,12 +34,12 @@ module.exports = function (defaults) {
 
     autoImport: {
       webpack: {
-        resolve: {
+        resolve : {
           fallback: {
-            http: false,
-            https: false
+            "path": require.resolve("path-browserify"),
+            "querystring": require.resolve("querystring-es3")
           }
-        },
+        }
       }
     },
 
