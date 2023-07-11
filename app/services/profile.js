@@ -1,23 +1,11 @@
+/* eslint-disable ember/no-assignment-of-untracked-properties-used-in-tracking-contexts */
+/* eslint-disable ember/no-classic-classes */
 import { union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import { isNotFoundError } from 'ember-ajax/errors';
 import request from 'ember-ajax/request';
 import { all, task, timeout } from 'ember-concurrency';
 import semver from 'semver';
-
-function adaptProfile(profile) {
-  return {
-    identifier: profile.identifier,
-    namespace: profile.namespace,
-    alternateId: profile.alternateId,
-    title: profile.title,
-    description: profile.description,
-    version: profile.version,
-    components: profile.components,
-    nav: profile.nav,
-    vocabularies: profile.vocabularies
-  }
-}
 
 /**
  * Profile service
@@ -32,8 +20,8 @@ export default Service.extend({
   init() {
     this._super(...arguments);
     this.coreProfiles = this.store.peekAll('profile').toArray().map((record) => {
-      return adaptProfile(record);
-   });
+      return record.toJSON();
+    });
   },
 
   profiles: union('coreProfiles'),
