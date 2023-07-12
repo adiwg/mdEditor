@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
-import calculatePosition from 'ember-basic-dropdown/utils/calculate-position';
+import calculatePosition from 'ember-basic-dropdown/utils/calculate-position'
 
 export default Component.extend({
   /**
