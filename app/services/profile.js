@@ -1,11 +1,11 @@
 import { union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
+import axios from 'axios';
 import { isNotFoundError } from 'ember-ajax/errors';
 import request from 'ember-ajax/request';
 import { all, task, timeout } from 'ember-concurrency';
-import semver from 'semver';
-import axios from 'axios';
 import ENV from 'mdeditor/config/environment';
+import semver from 'semver';
 
 /**
  * Profile service
