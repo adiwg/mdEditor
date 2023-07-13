@@ -23,7 +23,6 @@ export default Service.extend({
 
   profiles: union('coreProfiles'),
   flashMessages: service(),
-  store: service(),
 
   loadProfiles: task(function* () {
     this.coreProfiles = [];
