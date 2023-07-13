@@ -11,7 +11,7 @@ export default Route.extend({
     }
   },
 
-  profileService: service('profile'),
+  profile: service(),
 
   model() {
     return this.profileService.loadProfiles.perform();
