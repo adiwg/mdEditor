@@ -19,10 +19,13 @@ import ENV from 'mdeditor/config/environment';
 export default Service.extend({
   init() {
     this._super(...arguments);
+
+    this.profileRecords = this.store.peekAll('profile');
   },
 
-  profiles: union('coreProfiles'),
+  profiles: union('profileRecords', 'coreProfiles'),
   flashMessages: service(),
+  store: service(),
 
   loadProfiles: task(function* () {
     this.coreProfiles = [];
