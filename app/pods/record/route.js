@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
 
 export default Route.extend({
   init() {
@@ -10,10 +9,4 @@ export default Route.extend({
       linkable: false
     }
   },
-
-  profile: service(),
-
-  model() {
-    return this.profile.loadProfiles.perform();
-  }
 });
