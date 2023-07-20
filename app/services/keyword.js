@@ -12,6 +12,15 @@ let service = EmberObject.create({
       .find(function(t) {
         return t.citation.identifier[0].identifier === id;
       });
+  },
+  loadVocabularies() {
+    if (ENV.vocabulariesUrl) {
+      axios.get(ENV.vocabulariesUrl).then((response) => {
+        response.data.forEach((vocabulary) => {
+          service.get('thesaurus').pushObject(vocabulary);
+        });
+      });
+    }
   }
 });
 
@@ -45,13 +54,5 @@ service.get('thesaurus')
     keywordType: 'isoTopicCategory',
     label: 'ISO Topic Category'
   });
-
-  if (ENV.vocabulariesUrl) {
-    axios.get(ENV.vocabulariesUrl).then((response) => {
-      response.data.forEach((vocabulary) => {
-        service.get('thesaurus').pushObject(vocabulary);
-      });
-    });
-  }
-
+  
 export default Service.extend(service);

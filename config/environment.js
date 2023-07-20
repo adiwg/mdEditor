@@ -11,8 +11,9 @@ module.exports = function(environment) {
     podModulePrefix: 'mdeditor/pods',
     environment: environment,
     rootURL: '/',
-    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies.json',
     locationType: 'auto',
+    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@dev/resources/vocabularies.json',
+    profilesListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@dev/resources/profiles-list-dev.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
