@@ -41,7 +41,7 @@ module('Integration | Component | input/md select thesaurus', function(hooks) {
 
     // test dummy for the external profile action
     this.set('selectThesaurus', (id) => {
-      assert.equal(id.citation.identifier[0].identifier, '1eb0ea0a-312c-4d74-8d42-6f1ad758f999',
+      assert.equal(id.citation.identifier[0].identifier, 'ISO 19115 Topic Category',
         'submitted value is passed to external action');
     });
 
