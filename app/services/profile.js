@@ -1,20 +1,11 @@
-import Service, { inject as service } from '@ember/service';
-import Ember from 'ember';
-import request from 'ember-ajax/request';
-import { task, all, timeout } from 'ember-concurrency';
-// import { computed } from '@ember/object';
 import { union } from '@ember/object/computed';
-import {
-  // isAjaxError,
-  isNotFoundError,
-  // isForbiddenError
-} from 'ember-ajax/errors';
+import Service, { inject as service } from '@ember/service';
+import axios from 'axios';
+import { isNotFoundError } from 'ember-ajax/errors';
+import request from 'ember-ajax/request';
+import { all, task, timeout } from 'ember-concurrency';
+import ENV from 'mdeditor/config/environment';
 import semver from 'semver';
-import mdprofiles from 'mdprofiles';
-
-Ember.libraries.register('mdProfiles', mdprofiles.version);
-
-const coreProfiles = mdprofiles.asArray();
 
 /**
  * Profile service
@@ -30,13 +21,32 @@ export default Service.extend({
     this._super(...arguments);
 
     this.profileRecords = this.store.peekAll('profile');
-    //this.customProfiles = this.get('store').peekAll('custom-profile');
-    this.coreProfiles = coreProfiles;
   },
 
   profiles: union('profileRecords', 'coreProfiles'),
   flashMessages: service(),
   store: service(),
+
+  loadProfiles: task(function* () {
+    this.coreProfiles = [];
+    if (ENV.profilesListUrl) {
+      try {
+        let profilesListResponse = yield axios.get(ENV.profilesListUrl);
+        let profilesList = profilesListResponse.data;
+        let promiseArray = [];
+        profilesList.forEach((profileItem) => {
+          promiseArray.push(axios.get(profileItem.url));
+        });
+        let responseArray = yield Promise.all(promiseArray);
+        for (let response of responseArray) {
+          this.coreProfiles.push(response.data);
+        }
+      } catch (e) {
+        // handle error as needed
+        console.error(e);
+      }
+    }
+  }).restartable(),
 
   /**
    * Task that fetches the definition. Returns a Promise the yields the response.
