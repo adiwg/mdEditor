@@ -10,17 +10,6 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@apidevtools/json-schema-ref-parser@^10.1.0":
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/@apidevtools/json-schema-ref-parser/-/json-schema-ref-parser-10.1.0.tgz#bf54494039a56fa7f77fed17dc6f01dfde50f64c"
-  integrity sha512-3e+viyMuXdrcK8v5pvP+SDoAQ77FH6OyRmuK48SZKmdHJRFm87RsSs8qm6kP39a/pOPURByJw+OXzQIqcfmKtA==
-  dependencies:
-    "@jsdevtools/ono" "^7.1.3"
-    "@types/json-schema" "^7.0.11"
-    "@types/lodash.clonedeep" "^4.5.7"
-    js-yaml "^4.1.0"
-    lodash.clonedeep "^4.5.0"
-
 "@babel/code-frame@7.0.0-beta.44":
   version "7.0.0-beta.44"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0-beta.44.tgz#2a02643368de80916162be70865c97774f3adbd9"
@@ -1757,11 +1746,6 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@jsdevtools/ono@^7.1.3":
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/@jsdevtools/ono/-/ono-7.1.3.tgz#9df03bbd7c696a5c58885c34aa06da41c8543796"
-  integrity sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==
-
 "@lezer/common@^1.0.0":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@lezer/common/-/common-1.0.3.tgz#1808f70e2b0a7b1fdcbaf5c074723d2d4ed1e4c5"
@@ -2003,22 +1987,10 @@
     "@types/minimatch" "*"
     "@types/node" "*"
 
-"@types/json-schema@*", "@types/json-schema@^7.0.11", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
+"@types/json-schema@*", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.8", "@types/json-schema@^7.0.9":
   version "7.0.12"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.12.tgz#d70faba7039d5fca54c83c7dbab41051d2b6f6cb"
   integrity sha512-Hr5Jfhc9eYOQNPYO5WLDq/n4jqijdHNlDXjuAQkkt+mWdQR+XJToOHrsD4cPaMXpn6KO7y2+wM8AZEs8VpBLVA==
-
-"@types/lodash.clonedeep@^4.5.7":
-  version "4.5.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash.clonedeep/-/lodash.clonedeep-4.5.7.tgz#0e119f582ed6f9e6b373c04a644651763214f197"
-  integrity sha512-ccNqkPptFIXrpVqUECi60/DFxjNKsfoQxSQsgcBJCX/fuX1wgyQieojkcWH/KpE3xzLoWN/2k+ZeGqIN3paSvw==
-  dependencies:
-    "@types/lodash" "*"
-
-"@types/lodash@*":
-  version "4.14.195"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.195.tgz#bafc975b252eb6cea78882ce8a7b6bf22a6de632"
-  integrity sha512-Hwx9EUgdwf2GLarOjQp5ZH8ZmblzcbTBC2wtQWNKARBSxM9ezRIAUpeDTgoQRAFB0+8CNWXVA9+MaSOzOF3nPg==
 
 "@types/mdast@^3.0.0":
   version "3.0.11"
@@ -4711,6 +4683,11 @@ call-bind@^1.0.0, call-bind@^1.0.2:
   dependencies:
     function-bind "^1.1.1"
     get-intrinsic "^1.0.2"
+
+call-me-maybe@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/call-me-maybe/-/call-me-maybe-1.0.2.tgz#03f964f19522ba643b1b0693acb9152fe2074baa"
+  integrity sha512-HpX65o1Hnr9HH25ojC1YGs7HCQLq0GCOibSaWER0eNpgJ/Z1MZv2mTc7+xh6WOPxbRVcmgbv4hGU+uSQ/2xFZQ==
 
 callsites@^3.0.0, callsites@^3.1.0:
   version "3.1.0"
@@ -10442,6 +10419,15 @@ json-refs@^3.0.15:
     slash "^3.0.0"
     uri-js "^4.2.2"
 
+json-schema-ref-parser@^7.1.4:
+  version "7.1.4"
+  resolved "https://registry.yarnpkg.com/json-schema-ref-parser/-/json-schema-ref-parser-7.1.4.tgz#abb3f2613911e9060dc2268477b40591753facf0"
+  integrity sha512-AD7bvav0vak1/63w3jH8F7eHId/4E4EPdMAEZhGxtjktteUv9dnNB/cJy6nVnMyoTPBJnLwFK6tiQPSTeleCtQ==
+  dependencies:
+    call-me-maybe "^1.0.1"
+    js-yaml "^3.13.1"
+    ono "^6.0.0"
+
 json-schema-traverse@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
@@ -12121,6 +12107,11 @@ onetime@^5.1.0, onetime@^5.1.2:
   integrity sha512-kbpaSSGJTWdAY5KPVeMOKXSrPtr8C8C7wodJbcsd51jRnmD+GZu8Y0VoU6Dm5Z4vWr0Ig/1NKuWRKf7j5aaYSg==
   dependencies:
     mimic-fn "^2.1.0"
+
+ono@^6.0.0:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/ono/-/ono-6.0.1.tgz#1bc14ffb8af1e5db3f7397f75b88e4a2d64bbd71"
+  integrity sha512-5rdYW/106kHqLeG22GE2MHKq+FlsxMERZev9DCzQX1zwkxnFwBivSn5i17a5O/rDmOJOdf4Wyt80UZljzx9+DA==
 
 optimist@0.3.x:
   version "0.3.7"
@@ -14247,6 +14238,16 @@ stream-http@^2.7.2:
     readable-stream "^2.3.6"
     to-arraybuffer "^1.0.0"
     xtend "^4.0.0"
+
+stream-http@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/stream-http/-/stream-http-3.2.0.tgz#1872dfcf24cb15752677e40e5c3f9cc1926028b5"
+  integrity sha512-Oq1bLqisTyK3TSCXpPbT4sdeYNdmyZJv1LxpEm2vu1ZhK89kSE5YXwZc3cWk0MagGaKriBh9mCFbVGtO+vY29A==
+  dependencies:
+    builtin-status-codes "^3.0.0"
+    inherits "^2.0.4"
+    readable-stream "^3.6.0"
+    xtend "^4.0.2"
 
 stream-shift@^1.0.0:
   version "1.0.1"

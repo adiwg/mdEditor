@@ -37,7 +37,8 @@ module.exports = function (defaults) {
         resolve : {
           fallback: {
             "path": require.resolve("path-browserify"),
-            "querystring": require.resolve("querystring-es3")
+            "querystring": require.resolve("querystring-es3"),
+            "http": require.resolve("stream-http"),
           }
         }
       }

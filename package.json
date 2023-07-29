@@ -55,7 +55,8 @@
     "ember-named-blocks-polyfill": "^0.2.5",
     "fs.promises": "^0.1.2",
     "json-refs": "^3.0.15",
-    "querystring-es3": "^0.2.1"
+    "querystring-es3": "^0.2.1",
+    "stream-http": "^3.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
