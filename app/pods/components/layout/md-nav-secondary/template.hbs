@@ -14,14 +14,14 @@
         )
       }}
     {{else}}
-      {{layout/md-nav-secondary/link
-        isStaticLinks=isStaticLinks
-        link=link
-        index=index
-        model=model
-        nav=this
-        navWidth=navWidth
-      }}
+      <Layout::MdNavSecondary::Link
+        @isStaticLinks={{isStaticLinks}}
+        @link={{link}}
+        @index={{index}}
+        @model={{model}}
+        @nav={{this}}
+        @navWidth={{navWidth}}
+      />
     {{/if}}
   {{/each}}
 
