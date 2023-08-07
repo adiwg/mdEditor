@@ -72,7 +72,7 @@ export default class SettingsRoute extends Route {
   @action
   resetMdTranslatorAPI() {
     let url = get(Setting, 'attributes').get('mdTranslatorAPI').options.defaultValue;
-    let model = get(this.controller, 'model');
+    let model = this.modelFor('settings.main');
 
     model.set('mdTranslatorAPI', url);
   }
