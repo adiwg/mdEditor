@@ -11,6 +11,7 @@ Router.map(function () {
   this.route('export');
   this.route('import');
   this.route('translate');
+  this.route('publish', function () { });
   this.route('help');
   this.route('settings', function() {
     this.route('validation');
