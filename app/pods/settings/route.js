@@ -37,7 +37,6 @@ export default class SettingsRoute extends Route {
       tip: 'Custom validation settings'
     }]
     controller.set('links', links);
-
   }
 
   @action
