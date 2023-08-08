@@ -6,14 +6,13 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
       'style-src': "'self' 'unsafe-inline'"
     },
-    hinting: false,
     modulePrefix: 'mdeditor',
     podModulePrefix: 'mdeditor/pods',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
-    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@dev/resources/vocabularies.json',
-    profilesListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@dev/resources/profiles-list-dev.json',
+    vocabulariesUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies.json',
+    profilesListUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/profiles-list.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
