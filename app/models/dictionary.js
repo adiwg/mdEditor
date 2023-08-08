@@ -135,11 +135,7 @@ export default Model.extend(Validations, Copyable, {
 
   assignId(force) {
     if(force || !this.dictionaryId) {
-      if (this.get('json.dataDictionary.dictionaryId')) {
-        this.set('json.dictionaryId', this.get('json.dataDictionary.dictionaryId'))
-      } else {
-        this.set('json.dictionaryId', uuidV4());
-      }
+      this.set('json.dictionaryId', uuidV4());
     }
   },
 
