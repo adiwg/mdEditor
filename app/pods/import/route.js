@@ -1,34 +1,23 @@
-import {
-  inject as service
-} from '@ember/service';
-import {
-  or
-} from '@ember/object/computed';
+import { A, isArray } from '@ember/array';
+import EmObject, { computed, get, getWithDefault, set } from '@ember/object';
+import { or } from '@ember/object/computed';
+import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
-import jquery from 'jquery';
-import {
-  A,
-  isArray
-} from '@ember/array';
-import {
-  assign
-} from '@ember/polyfills';
-import EmObject, {
-  computed,
-  set,
-  get,
-  getWithDefault
-} from '@ember/object';
+import { inject as service } from '@ember/service';
 import Base from 'ember-local-storage/adapters/base';
-import uuidV4 from "uuid/v4";
+import jquery from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
-import {
-  JsonDefault as Contact
-} from 'mdeditor/models/contact';
-import {
-  allSettled,
-  Promise
-} from 'rsvp';
+import { JsonDefault as Contact } from 'mdeditor/models/contact';
+import { Promise, allSettled } from 'rsvp';
+import uuidV4 from "uuid/v4";
+
+function fixLiabilityTypo(data) {
+  const resource = data.json[0].metadata.resourceDistribution[0];
+  if ('liablityStatement' in resource) {
+    resource.liabilityStatement = resource.liablityStatement;
+    delete resource.liablityStatement;
+  }
+}
 
 const generateIdForRecord = Base.create()
   .generateIdForRecord;
@@ -329,9 +318,9 @@ export default Route.extend(ScrollTo, {
           }
         })
         .then((data) => {
+          fixLiabilityTypo(data);
           //determine file type and map
           cmp.mapJSON(data);
-
         })
         .catch((reason) => {
           //catch any errors
@@ -345,7 +334,6 @@ export default Route.extend(ScrollTo, {
         });
 
     },
-
     readFromUri() {
       let uri = this.controller.get('importUri');
       let controller = this.controller;
