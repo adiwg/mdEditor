@@ -1,7 +1,3 @@
-/* eslint-disable ember/no-get */
-/* eslint-disable ember/no-actions-hash */
-/* eslint-disable ember/require-computed-property-dependencies */
-/* eslint-disable ember/no-classic-classes */
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import EmObject, { computed, defineProperty } from '@ember/object';
