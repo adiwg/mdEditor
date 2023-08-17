@@ -31,8 +31,15 @@ export default Service.extend({
     this.coreProfiles = [];
     if (ENV.profilesListUrl) {
       try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const secondaryUrl = urlParams.get('loadProfilesFrom');
         let profilesListResponse = yield axios.get(ENV.profilesListUrl);
         let profilesList = profilesListResponse.data;
+        if (secondaryUrl) {
+          console.log('found secondary url', secondaryUrl);
+          let secondaryProfilesListResponse = yield axios.get(secondaryUrl);
+          profilesList = profilesList.concat(secondaryProfilesListResponse.data);
+        }
         let promiseArray = [];
         profilesList.forEach((profileItem) => {
           promiseArray.push(axios.get(profileItem.url));
@@ -59,13 +66,10 @@ export default Service.extend({
   fetchDefinition: task(function* (uri) {
     try {
       yield timeout(1000);
-
       let response = yield request(uri);
-
       if(response && !semver.valid(response.version)) {
         throw new Error("Invalid version");
       }
-
       return response;
     } catch (error) {
       if(isNotFoundError(error)) {
@@ -92,7 +96,6 @@ export default Service.extend({
    */
   checkForUpdates: task(function* (records) {
     yield timeout(1000);
-
     yield all(records.map(itm => {
       if(itm.validations.attrs.uri.isInvalid) {
         this.flashMessages
@@ -101,7 +104,6 @@ export default Service.extend({
           );
         return;
       }
-
       return request(itm.uri).then(response => {
         // `response` is the data from the server
         if(semver.valid(response.version)) {
@@ -109,7 +111,6 @@ export default Service.extend({
         } else {
           throw new Error("Invalid version");
         }
-
         return response;
       }).catch(error => {
         if(isNotFoundError(error)) {
@@ -118,10 +119,7 @@ export default Service.extend({
               `Could not load definition for "${itm.title}". Definition not found.`
             );
         } else {
-          this.flashMessages
-            .danger(
-              `Could not load definition for "${itm.title}". Error: ${error.message}`
-            );
+          this.flashMessages.danger(`Could not load definition for "${itm.title}". Error: ${error.message}`);
         }
       });
     }));
