@@ -84,7 +84,7 @@ export default Component.extend({
         return EmberObject.create({
           id: k.citation.identifier[0].identifier,
           label: k.label || k.citation.title || 'Keywords',
-          tooltipText: k.citation.description || null,
+          tooltipText: k.citation.description || 'No description available.',
         });
       })
       .sort((a, b) => {
