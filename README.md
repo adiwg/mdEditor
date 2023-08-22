@@ -26,7 +26,7 @@ You will need the following things properly installed on your computer.
 
 - [Git][git]
 - [Node.js][node]
-  - Supported versions:`v10` or `v12`.
+  - Supported versions: `v16`.
   - **Apple Silicon Users**:  if you experience problems building or running try Node v14.
 - [Yarn][yarn] installed globally
 - [Google Chrome][chrome]

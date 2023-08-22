@@ -133,23 +133,13 @@ export default Model.extend(Validations, Copyable, {
     return errors;
   }),
 
-  assignId(force) {
-    if(force || !this.dictionaryId) {
-      if (this.get('json.dataDictionary.dictionaryId')) {
-        this.set('json.dictionaryId', this.get('json.dataDictionary.dictionaryId'))
-      } else {
-        this.set('json.dictionaryId', uuidV4());
-      }
-    }
-  },
-
   copy() {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
-
+    console.log(json)
     json.set('dataDictionary.citation.title', `Copy of ${name}`);
-    this.assignId(true);
+    json.set('dictionaryId', uuidV4());
 
     return this.store.createRecord('dictionary', {
       json: json
