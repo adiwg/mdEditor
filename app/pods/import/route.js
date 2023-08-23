@@ -337,6 +337,7 @@ export default Route.extend(ScrollTo, {
         .then((data) => {
           //determine file type and map
           cmp.mapJSON(data);
+
         })
         .catch((reason) => {
           //catch any errors
@@ -350,6 +351,7 @@ export default Route.extend(ScrollTo, {
         });
 
     },
+    
     readFromUri() {
       let uri = this.controller.get('importUri');
       let controller = this.controller;
