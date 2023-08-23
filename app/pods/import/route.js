@@ -11,12 +11,28 @@ import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
 import uuidV4 from "uuid/v4";
 
-function fixLiabilityTypo(data) {
-  const resource = data.json[0].metadata.resourceDistribution[0];
-  if ('liablityStatement' in resource) {
-    resource.liabilityStatement = resource.liablityStatement;
-    delete resource.liablityStatement;
-  }
+function fixLiabilityTypo(files) {
+  // Iterate through the records array
+  files.records.forEach((record) => {
+    // Access the JSON string
+    const jsonString = record.get('attributes.json');
+    // Parse the JSON string into a JavaScript object
+    const jsonObject = JSON.parse(jsonString);
+    // Check if the path exists and iterate through the resourceDistribution array
+    if (jsonObject.metadata && jsonObject.metadata.resourceDistribution) {
+      jsonObject.metadata.resourceDistribution.forEach((distribution) => {
+        // Check for the misspelled key and rename it
+        if (distribution.liablityStatement) {
+          distribution.liabilityStatement = distribution.liablityStatement;
+          delete distribution.liablityStatement;
+        }
+      });
+      // Convert the modified object back to a JSON string
+      const updatedJsonString = JSON.stringify(jsonObject);
+      // Update the Ember object with the new JSON string
+      record.set('attributes.json', updatedJsonString);
+    }
+  });
 }
 
 const generateIdForRecord = Base.create()
@@ -150,6 +166,8 @@ export default Route.extend(ScrollTo, {
       files = this.mapMdJSON(data);
     }
 
+    fixLiabilityTypo(files);
+
     route.currentRouteModel()
       .set('files', files);
 
@@ -268,7 +286,6 @@ export default Route.extend(ScrollTo, {
             this.ajax.request(url, {
                 type: 'POST',
                 data: {
-                  //file: JSON.stringify(cleaner.clean(json)),
                   file: file.data,
                   reader: 'fgdc',
                   writer: 'mdJson',
@@ -318,7 +335,6 @@ export default Route.extend(ScrollTo, {
           }
         })
         .then((data) => {
-          fixLiabilityTypo(data);
           //determine file type and map
           cmp.mapJSON(data);
         })
