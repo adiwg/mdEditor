@@ -351,7 +351,7 @@ export default Route.extend(ScrollTo, {
         });
 
     },
-    
+
     readFromUri() {
       let uri = this.controller.get('importUri');
       let controller = this.controller;
