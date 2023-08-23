@@ -34,8 +34,6 @@ export default Route.extend(ScrollTo, {
   mdjson: service(),
   settings: service(),
   model() {
-    //const store = this.get('store');
-
     return EmObject.create({
       records: this.modelFor('application'),
       settings: this.get('settings.data')
