@@ -1,4 +1,4 @@
-FROM node:14 as build
+FROM node:16 as build
 WORKDIR /src
 
 COPY package.json /src/.
