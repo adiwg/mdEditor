@@ -1,7 +1,9 @@
-import Service, { inject as service } from '@ember/service';
 import { computed, get } from '@ember/object';
-import { union, map } from '@ember/object/computed';
+import { map, union } from '@ember/object/computed';
+import Service, { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
+import axios from 'axios';
+import { task } from 'ember-concurrency';
 import config from 'mdeditor/config/environment';
 
 /**
@@ -183,5 +185,33 @@ export default Service.extend({
       });
 
     return this.defaultProfile;
-  }
+  },
+
+  loadCustomProfilesFromUrl: task(function * () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const secondaryUrl = urlParams.get('loadProfilesFrom');
+    if (secondaryUrl) {
+      let promiseArray = [];
+      let secondaryProfilesListResponse = yield axios.get(secondaryUrl);
+      let profilesList = secondaryProfilesListResponse.data;
+      profilesList.forEach((profileItem) => {
+        promiseArray.push(axios.get(profileItem.url));
+      });
+      let responseArray = yield Promise.all(promiseArray);
+      for (let response of responseArray) {
+        console.log('response.data', response.data);
+        const {data}= response;
+        const profile = {
+          uri: data.uri,
+          alias: data.alias,
+          title: data.title,
+          description: data.description,
+          profileId: data.identifier,
+          vocabularies: data.vocabularies || [],
+        };
+        console.log('profile', profile);
+        this.store.createRecord('custom-profile', profile).save();
+      }
+    }
+  }),
 });

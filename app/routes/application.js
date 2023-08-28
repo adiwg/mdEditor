@@ -37,6 +37,7 @@ export default Route.extend({
   router: service(),
   keyword: service(),
   profile: service(),
+  customProfile: service('custom-profile'),
 
   /**
    * Models for sidebar navigation
@@ -112,7 +113,8 @@ export default Route.extend({
     }
     let loadVocabulariesPromise = this.keyword.loadVocabularies();
     let loadProfilesPromise = this.profile.loadProfiles.perform();
-    return Promise.all([loadVocabulariesPromise, loadProfilesPromise]);
+    let loadCustomProfilesPromise = this.customProfile.loadCustomProfilesFromUrl.perform();
+    return Promise.all([loadVocabulariesPromise, loadProfilesPromise, loadCustomProfilesPromise]);
   },
 
   setupController(controller, model) {
