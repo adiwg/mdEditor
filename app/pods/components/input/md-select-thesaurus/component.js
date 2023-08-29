@@ -34,7 +34,7 @@ export default Component.extend({
     let profileConfig = this.profile.profiles.find((p) => {
       return p.id === this.recordProfile;
     });
-    let vocabularies = profileConfig.definition.vocabularies;
+    let vocabularies = profileConfig.vocabularies;
 
     let defaultVocabularies = [
       {
