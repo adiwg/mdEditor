@@ -199,18 +199,8 @@ export default Service.extend({
       });
       let responseArray = yield Promise.all(promiseArray);
       for (let response of responseArray) {
-        console.log('response.data', response.data);
         const {data}= response;
-        const profile = {
-          uri: data.uri,
-          alias: data.alias,
-          title: data.title,
-          description: data.description,
-          profileId: data.identifier,
-          vocabularies: data.vocabularies || [],
-        };
-        console.log('profile', profile);
-        this.store.createRecord('custom-profile', profile).save();
+        this.store.createRecord('custom-profile', {config: data}).save();
       }
     }
   }),
