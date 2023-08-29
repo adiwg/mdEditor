@@ -101,11 +101,8 @@ export default Model.extend(Validations, {
   components: alias('config.components'),
   nav: alias('config.nav'),
   hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
-  // definition: computed('profileId', function() {
-  //   return this.definitions.profiles.findBy('identifier', this.profileId);
-  // }),
 
-  vocabularies: attr(),
+  vocabularies: alias('config.vocabularies'),
 
   /* eslint-disable ember/no-observers */
   updateSettings: observer('hasDirtyAttributes', 'title', 'uri', 'alias',
