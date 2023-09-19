@@ -6,12 +6,13 @@ import { singularize } from 'ember-inflector';
 
 const exportSelected = function(store, types, options) {
   // merge defaults
-  options = merge({
+  options = {
     json: true,
     download: false,
     filename: 'ember-data.json',
-    filterIds: null
-  }, options || {});
+    filterIds: null,
+    ...options || {}
+  }
 
   let json, data;
   let filter = typeof options.filterIds === 'object' ? options.filterIds :
