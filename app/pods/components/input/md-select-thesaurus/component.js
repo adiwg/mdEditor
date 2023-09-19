@@ -93,10 +93,12 @@ export default Component.extend({
 
     list.unshift(EmberObject.create({
       id: 'custom',
-      label: 'Custom Thesaurus'
+      label: 'Custom Thesaurus',
+      tooltipText: "Select this option to use a custom thesaurus that you define yourself. This allows you to use your own set of keywords and categories that are specific to your project."
     }));
     return list;
   }),
+
   actions: {
     update(id, thesaurus) {
       let selected = this.keyword.findById(id);
