@@ -19,7 +19,6 @@ import semver from 'semver';
 export default Service.extend({
   init() {
     this._super(...arguments);
-
     this.profileRecords = this.store.peekAll('profile');
   },
 
@@ -29,11 +28,12 @@ export default Service.extend({
 
   loadProfiles: task(function* () {
     this.coreProfiles = [];
-    if (ENV.profilesListUrl) {
+    if (ENV.profilesBaseUrl) {
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const secondaryUrl = urlParams.get('loadProfilesFrom');
-        let profilesListResponse = yield axios.get(ENV.profilesListUrl);
+        const profilesListUrl = `${ENV.profilesBaseUrl}${ENV.manifestPath}`;
+        let profilesListResponse = yield axios.get(profilesListUrl);
         let profilesList = profilesListResponse.data;
         if (secondaryUrl) {
           console.log('found secondary url', secondaryUrl);

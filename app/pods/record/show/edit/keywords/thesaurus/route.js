@@ -4,12 +4,13 @@ import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import axios from 'axios';
+import ENV from 'mdeditor/config/environment';
 
 export default Route.extend({
   keyword: service(),
+
   model(params) {
     this.set('thesaurusId', params.thesaurus_id);
-
     return this.setupModel();
   },
 
@@ -20,18 +21,22 @@ export default Route.extend({
     let thesaurus = model.get('json.metadata.resourceInfo.keyword')
       .get(thesaurusId);
 
+    console.log('setup model, thesaurusId:', thesaurusId, 'thesaurus:', thesaurus, 'model:', model);
+
     //make sure the thesaurus still exists
     if(isEmpty(thesaurus)) {
+      console.log('No thesaurus found! Re-directing to list...')
       this.flashMessages
         .warning('No thesaurus found! Re-directing to list...');
       this.replaceWith('record.show.edit.keywords');
-
       return;
     }
 
     let selectedThesaurus = this.keyword.findById(thesaurus.thesaurus.identifier[0].identifier);
-    if (selectedThesaurus.dynamicLoad) {
-      return axios.get(selectedThesaurus.keywordsUrl).then((response) => {
+    console.log('found selectedThesaurus:', selectedThesaurus);
+    if (selectedThesaurus && selectedThesaurus.keywords === null) {
+      console.log('Loading keywords from', selectedThesaurus);
+      return axios.get(`${ENV.keywordsBaseUrl}${selectedThesaurus.keywordsUrl}`).then((response) => {
         if(!isArray(thesaurus.keyword)) {
           set(thesaurus, 'keyword', A());
         }
