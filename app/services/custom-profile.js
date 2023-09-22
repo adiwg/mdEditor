@@ -193,13 +193,10 @@ export default Service.extend({
         newDefinition.set('config', data);
         newDefinition.set('remoteVersion', data.version);
         newDefinition.set('alias', data.title);
-        newDefinition.toJSON();
         newDefinition.save();
-        const profileObject = {
-          title: data.title,
-          description: data.description,
-        }
-        const newProfile = this.store.createRecord('custom-profile', profileObject);
+        const newProfile = this.store.createRecord('custom-profile');
+        newProfile.set('config', data);
+        newProfile.set('profileId', data.identifier);
         newProfile.save();
       });
     }
