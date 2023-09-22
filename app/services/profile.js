@@ -20,6 +20,7 @@ export default Service.extend({
   init() {
     this._super(...arguments);
     this.profileRecords = this.store.peekAll('profile');
+    this.coreProfiles = [];
   },
 
   profiles: union('profileRecords', 'coreProfiles'),
@@ -27,31 +28,15 @@ export default Service.extend({
   store: service(),
 
   loadProfiles: task(function* () {
-    this.coreProfiles = [];
-    if (ENV.profilesBaseUrl) {
-      try {
-        const urlParams = new URLSearchParams(window.location.search);
-        const secondaryUrl = urlParams.get('loadProfilesFrom');
-        const profilesListUrl = `${ENV.profilesBaseUrl}${ENV.manifestPath}`;
-        let profilesListResponse = yield axios.get(profilesListUrl);
-        let profilesList = profilesListResponse.data;
-        if (secondaryUrl) {
-          console.log('found secondary url', secondaryUrl);
-          let secondaryProfilesListResponse = yield axios.get(secondaryUrl);
-          profilesList = profilesList.concat(secondaryProfilesListResponse.data);
-        }
-        let promiseArray = [];
-        profilesList.forEach((profileItem) => {
-          promiseArray.push(axios.get(profileItem.url));
-        });
-        let responseArray = yield Promise.all(promiseArray);
-        for (let response of responseArray) {
-          this.coreProfiles.push(response.data);
-        }
-      } catch (e) {
-        // handle error as needed
-        console.error(e);
-      }
+    if (!ENV.profilesBaseUrl) return;
+    try {
+      const profilesListUrl = `${ENV.profilesBaseUrl}${ENV.manifestPath}`;
+      const { data: profilesList } = yield axios.get(profilesListUrl);
+      const promiseArray = profilesList.map(profileItem => axios.get(profileItem.url));
+      const responseArray = yield Promise.all(promiseArray);
+      this.coreProfiles = responseArray.map(response => response.data);
+    } catch (e) {
+      console.error(e);
     }
   }).restartable(),
 

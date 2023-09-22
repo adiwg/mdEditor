@@ -33,7 +33,6 @@ const {
 export default Service.extend({
   init() {
     this._super(...arguments);
-
     this.customProfiles = this.store.peekAll('custom-profile');
   },
   flashMessages: service(),
@@ -86,7 +85,6 @@ export default Service.extend({
   mapById: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;
-
       return map;
     }, {});
   }),
@@ -102,13 +100,10 @@ export default Service.extend({
   mapByAltId: computed('profiles.[]', function () {
     return this.profiles.reduce(function (map, profile) {
       let alt = get(profile, 'definition.alternateId');
-
       if(isEmpty(alt)) {
         return map;
       }
-
       alt.forEach(a => map[a] = profile.id);
-
       return map;
     }, {});
   }),
@@ -161,13 +156,10 @@ export default Service.extend({
     const profile = active && typeof active === 'string' ? active :
       defaultProfileId;
     const selected = this.mapById[profile];
-
     if(selected) {
       return selected;
     }
-
     const alternate = this.mapById[this.mapByAltId[profile]];
-
     if(alternate) {
       this.flashMessages
         .info(
@@ -175,15 +167,12 @@ export default Service.extend({
             sticky: true
           }
         );
-
       return alternate;
     }
-
     this.flashMessages
       .warning(`Profile "${active}" not found. Using default profile.`, {
         sticky: true
       });
-
     return this.defaultProfile;
   },
 
@@ -191,17 +180,28 @@ export default Service.extend({
     const urlParams = new URLSearchParams(window.location.search);
     const secondaryUrl = urlParams.get('loadProfilesFrom');
     if (secondaryUrl) {
-      let promiseArray = [];
       let secondaryProfilesListResponse = yield axios.get(secondaryUrl);
       let profilesList = secondaryProfilesListResponse.data;
-      profilesList.forEach((profileItem) => {
-        promiseArray.push(axios.get(profileItem.url));
+      profilesList.forEach(async (profileItem) => {
+        const definitionObject = {
+          uri: profileItem.url,
+          alias: profileItem.name,
+        }
+        const newDefinition = this.store.createRecord('profile', definitionObject);
+        const definitionResponse = await axios.get(profileItem.url);
+        const { data } = definitionResponse;
+        newDefinition.set('config', data);
+        newDefinition.set('remoteVersion', data.version);
+        newDefinition.set('alias', data.title);
+        newDefinition.toJSON();
+        newDefinition.save();
+        const profileObject = {
+          title: data.title,
+          description: data.description,
+        }
+        const newProfile = this.store.createRecord('custom-profile', profileObject);
+        newProfile.save();
       });
-      let responseArray = yield Promise.all(promiseArray);
-      for (let response of responseArray) {
-        const {data}= response;
-        this.store.createRecord('custom-profile', {config: data}).save();
-      }
     }
   }),
 });
