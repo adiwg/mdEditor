@@ -92,6 +92,7 @@ export default Model.extend(Validations, {
   altDescription: attr('string'),
   remoteVersion: attr('string'),
   config: attr('json'),
+  profileId: attr('string'),
 
   title: or('alias', 'config.title'),
   identifier: alias('config.identifier'),
