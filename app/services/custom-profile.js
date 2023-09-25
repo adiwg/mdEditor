@@ -176,29 +176,58 @@ export default Service.extend({
     return this.defaultProfile;
   },
 
-  loadCustomProfilesFromUrl: task(function * () {
+  async loadCustomProfilesFromUrl(url) {
+    console.log('loadCustomProfilesFromUrl', url);
+
+    if (!url) {
+      console.log('no url');
+      return;
+    }
+
+    const existingProfileDefinitions = this.store.peekAll('profile');
+    const existingCustomProfiles = this.store.peekAll('custom-profile');
+
+    console.log('existingProfileDefinitions', existingProfileDefinitions);
+    console.log('existingCustomProfiles', existingCustomProfiles);
+
+    existingProfileDefinitions.forEach((item) => {
+      console.log('item', item);
+    });
+
+    existingCustomProfiles.forEach((item) => {
+      console.log('item', item);
+    });
+
+    const response = await axios.get(url);
+    if (!response.data) {
+      console.log('no data');
+      return;
+    }
+    const profilesList = response.data;
+    
+    profilesList.forEach(async (profileItem) => {
+      const definitionResponse = await axios.get(profileItem.url);
+      const { data } = definitionResponse;
+
+      const newDefinition = this.store.createRecord('profile');
+      newDefinition.set('config', data);
+      newDefinition.set('uri', profileItem.url);
+      newDefinition.set('alias', data.title);
+      newDefinition.set('remoteVersion', data.version);
+      newDefinition.save();
+
+      const newProfile = this.store.createRecord('custom-profile');
+      newProfile.set('config', data);
+      newProfile.set('profileId', data.identifier);
+      newProfile.save();
+    });
+
+    console.log('loaded custom profiles');
+  },
+
+  async loadProfilesFromQueryParam() {
     const urlParams = new URLSearchParams(window.location.search);
     const secondaryUrl = urlParams.get('loadProfilesFrom');
-    if (secondaryUrl) {
-      let secondaryProfilesListResponse = yield axios.get(secondaryUrl);
-      let profilesList = secondaryProfilesListResponse.data;
-      profilesList.forEach(async (profileItem) => {
-        const definitionObject = {
-          uri: profileItem.url,
-          alias: profileItem.name,
-        }
-        const newDefinition = this.store.createRecord('profile', definitionObject);
-        const definitionResponse = await axios.get(profileItem.url);
-        const { data } = definitionResponse;
-        newDefinition.set('config', data);
-        newDefinition.set('remoteVersion', data.version);
-        newDefinition.set('alias', data.title);
-        newDefinition.save();
-        const newProfile = this.store.createRecord('custom-profile');
-        newProfile.set('config', data);
-        newProfile.set('profileId', data.identifier);
-        newProfile.save();
-      });
-    }
-  }),
+    return await this.loadCustomProfilesFromUrl(secondaryUrl);
+  }
 });

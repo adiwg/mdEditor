@@ -111,9 +111,9 @@ export default Route.extend({
           ));
         });
     }
-    let loadVocabulariesPromise = this.keyword.loadVocabularies();
-    let loadProfilesPromise = this.profile.loadProfiles.perform();
-    let loadCustomProfilesPromise = this.customProfile.loadCustomProfilesFromUrl.perform();
+    const loadVocabulariesPromise = this.keyword.loadVocabularies();
+    const loadProfilesPromise = this.profile.loadProfiles();
+    const loadCustomProfilesPromise = this.customProfile.loadProfilesFromQueryParam();
     return Promise.all([loadVocabulariesPromise, loadProfilesPromise, loadCustomProfilesPromise]);
   },
 

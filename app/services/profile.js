@@ -27,18 +27,18 @@ export default Service.extend({
   flashMessages: service(),
   store: service(),
 
-  loadProfiles: task(function* () {
+  async loadProfiles() {
     if (!ENV.profilesBaseUrl) return;
     try {
       const profilesListUrl = `${ENV.profilesBaseUrl}${ENV.manifestPath}`;
-      const { data: profilesList } = yield axios.get(profilesListUrl);
+      const { data: profilesList } = await axios.get(profilesListUrl);
       const promiseArray = profilesList.map(profileItem => axios.get(profileItem.url));
-      const responseArray = yield Promise.all(promiseArray);
+      const responseArray = await Promise.all(promiseArray);
       this.coreProfiles = responseArray.map(response => response.data);
     } catch (e) {
       console.error(e);
     }
-  }).restartable(),
+  },
 
   /**
    * Task that fetches the definition. Returns a Promise the yields the response.
