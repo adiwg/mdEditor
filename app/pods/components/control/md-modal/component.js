@@ -74,7 +74,7 @@ export default Component.extend({
    * @method closeModal
    */
   closeModal() {
-    this.set('isShowing', false);
+    this.toggleProperty('isShowing');
   },
 
   /**

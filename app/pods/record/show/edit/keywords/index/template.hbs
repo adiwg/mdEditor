@@ -16,6 +16,7 @@
             <strong>{{concat "Thesaurus #" index}}</strong>
           </h4>
           {{input/md-select-thesaurus class="md-keywords-select"
+          recordProfile=model.profile
           thesaurus=thesaurus
           selectThesaurus=(route-action "selectThesaurus")
           value=thesaurus.thesaurus.identifier.0.identifier

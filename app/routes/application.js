@@ -35,6 +35,8 @@ export default Route.extend({
   spotlight: service(),
   slider: service(),
   router: service(),
+  keyword: service(),
+  profile: service(),
 
   /**
    * Models for sidebar navigation
@@ -108,6 +110,9 @@ export default Route.extend({
           ));
         });
     }
+    let loadVocabulariesPromise = this.keyword.loadVocabularies();
+    let loadProfilesPromise = this.profile.loadProfiles.perform();
+    return Promise.all([loadVocabulariesPromise, loadProfilesPromise]);
   },
 
   setupController(controller, model) {
