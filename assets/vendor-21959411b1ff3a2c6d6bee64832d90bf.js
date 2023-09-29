@@ -4529,10 +4529,10 @@ var r=Error(e)
 this.stack=r.stack},n.DOMException.prototype=Object.create(Error.prototype),n.DOMException.prototype.constructor=n.DOMException}function D(e,t){return new r((function(r,o){var s=new w(e,t)
 if(s.signal&&s.signal.aborted)return o(new n.DOMException("Aborted","AbortError"))
 var l=new XMLHttpRequest
-function c(){l.abort()}if(l.onload=function(){var e,t,n={status:l.status,statusText:l.statusText,headers:(e=l.getAllResponseHeaders()||"",t=new f,e.replace(/\r?\n[\t ]+/g," ").split("\r").map((function(e){return 0===e.indexOf("\n")?e.substr(1,e.length):e})).forEach((function(e){var r=e.split(":"),n=r.shift().trim()
+function c(){l.abort()}if(l.onload=function(){var e,t,n={statusText:l.statusText,headers:(e=l.getAllResponseHeaders()||"",t=new f,e.replace(/\r?\n[\t ]+/g," ").split("\r").map((function(e){return 0===e.indexOf("\n")?e.substr(1,e.length):e})).forEach((function(e){var r=e.split(":"),n=r.shift().trim()
 if(n){var i=r.join(":").trim()
 try{t.append(n,i)}catch(o){console.warn("Response "+o.message)}}})),t)}
-n.url="responseURL"in l?l.responseURL:n.headers.get("X-Request-URL")
+s.url.startsWith("file://")&&(l.status<200||l.status>599)?n.status=200:n.status=l.status,n.url="responseURL"in l?l.responseURL:n.headers.get("X-Request-URL")
 var i="response"in l?l.response:l.responseText
 setTimeout((function(){r(new x(i,n))}),0)},l.onerror=function(){setTimeout((function(){o(new TypeError("Network request failed"))}),0)},l.ontimeout=function(){setTimeout((function(){o(new TypeError("Network request failed"))}),0)},l.onabort=function(){setTimeout((function(){o(new n.DOMException("Aborted","AbortError"))}),0)},l.open(s.method,function(e){try{return""===e&&i.location.href?i.location.href:e}catch(t){return e}}(s.url),!0),"include"===s.credentials?l.withCredentials=!0:"omit"===s.credentials&&(l.withCredentials=!1),"responseType"in l&&(a?l.responseType="blob":u&&(l.responseType="arraybuffer")),t&&"object"==typeof t.headers&&!(t.headers instanceof f||i.Headers&&t.headers instanceof i.Headers)){var d=[]
 Object.getOwnPropertyNames(t.headers).forEach((function(e){d.push(h(e)),l.setRequestHeader(e,p(t.headers[e]))})),s.headers.forEach((function(e,t){-1===d.indexOf(t)&&l.setRequestHeader(t,e)}))}else s.headers.forEach((function(e,t){l.setRequestHeader(t,e)}))
@@ -13284,7 +13284,7 @@ Ember.set(r,n,Ember.getWithDefault(r,n,i)),Ember.get(r,n).pushObject({authority:
 Ember.set(r,n,Ember.getWithDefault(r,n,{title:"Parent Metadata"})),Ember.set(r,i,Ember.getWithDefault(r,i,o)),Ember.get(r,i).pushObject({authority:{date:[{date:(0,t.default)().toISOString(),dateType:"published",description:"Published using mdEditor"}],title:"ScienceBase"},identifier:e,namespace:"gov.sciencebase.catalog",description:"Identifier imported from ScienceBase during publication"})},updateSbParentId(){let e=Ember.get(this,"_record"),r=Ember.get(e,"json.metadata.metadataInfo.parentMetadata.identifier").findBy("namespace","gov.sciencebase.catalog")
 r&&Ember.set(r,"authority",{date:[{date:(0,t.default)().toISOString(),dateType:"published",description:"Published using mdEditor"}],title:"ScienceBase"})},addChildren(e){let t=e.filter((e=>{let t=e.get("parentIds")
 return!!t&&t.findBy("identifier",Ember.get(this,"id"))})).map((e=>this.constructor.create({_record:e,config:this.get("config")})))
-return Ember.set(this,"children",t),t},publish(e){let n=this,i=n.get("sbId"),o=this.get("config.rootURI"),s=this.get("config.defaultParent"),a="project"===n.get("type")?o+"project":o+"product",l=i?"/"+i:"",u={data:{parentid:n.get("sbParentId")||n.get("parentNode.sbId")||s,mdjson:n.get("_record.formatted"),type:"records"}}
+return Ember.set(this,"children",t),t},publish(e){let n=this,i=n.get("sbId"),o=this.get("config.rootURI"),s=this.get("config.defaultParent"),a="project"===n.get("type")?o+"project":o+"product",l=i?"/"+i:"",u={data:{parentid:n.get("sbParentId")||n.get("parentNode.sbId")||s,community_id:n.get("sbParentId")||n.get("parentNode.sbId")||s,mdjson:n.get("_record.formatted"),type:"records"}}
 return n.setProperties({isLoading:!0,"_record._xhrError":!1,result:null}),n.notifyPropertyChange("isLoading"),r.default.ajax(a+l+e,{type:i?"PUT":"POST",data:JSON.stringify(u),contentType:"application/json; charset=utf-8",dataType:"json",context:this}).then((function(r){if(Ember.set(n,"isLoading",!1),r.id){if(i){if(i!==r.id){let e="Publishing error! ScienceBase identifier mismatch!"
 throw Ember.set(n,"_record._xhrError",[e]),new Error(e)}}else n.addSbId(r.id)
 n.get("sbParentId")?n.updateSbParentId():n.addSbParentId(r.parentId)
@@ -14206,7 +14206,7 @@ var G=this.search||""
 this.path=F+G}return this.href=this.format(),this},i.prototype.format=function(){var e=this.auth||""
 e&&(e=(e=encodeURIComponent(e)).replace(/%3A/i,":"),e+="@")
 var t=this.protocol||"",r=this.pathname||"",n=this.hash||"",i=!1,o=""
-this.host?i=e+this.host:this.hostname&&(i=e+(-1===this.hostname.indexOf(":")?this.hostname:"["+this.hostname+"]"),this.port&&(i+=":"+this.port)),this.query&&"object"==typeof this.query&&Object.keys(this.query).length&&(o=y.stringify(this.query))
+this.host?i=e+this.host:this.hostname&&(i=e+(-1===this.hostname.indexOf(":")?this.hostname:"["+this.hostname+"]"),this.port&&(i+=":"+this.port)),this.query&&"object"==typeof this.query&&Object.keys(this.query).length&&(o=y.stringify(this.query,{arrayFormat:"repeat",encodeValuesOnly:!0,addQueryPrefix:!1}))
 var s=this.search||o&&"?"+o||""
 return t&&":"!==t.substr(-1)&&(t+=":"),this.slashes||(!t||g[t])&&!1!==i?(i="//"+(i||""),r&&"/"!==r.charAt(0)&&(r="/"+r)):i||(i=""),n&&"#"!==n.charAt(0)&&(n="#"+n),s&&"?"!==s.charAt(0)&&(s="?"+s),t+i+(r=r.replace(/[?#]/g,(function(e){return encodeURIComponent(e)})))+(s=s.replace("#","%23"))+n},i.prototype.resolve=function(e){return this.resolveObject(b(e,!1,!0)).format()},i.prototype.resolveObject=function(e){if("string"==typeof e){var t=new i
 t.parse(e,!1,!0),e=t}for(var r=new i,n=Object.keys(this),o=0;o<n.length;o++){var s=n[o]
