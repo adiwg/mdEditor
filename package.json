@@ -171,5 +171,8 @@
       "lib/ember-leaflet-table",
       "lib/mdeditor-sciencebase"
     ]
+  },
+  "dependencies": {
+    "keycloak-js": "^22.0.3"
   }
 }
