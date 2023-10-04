@@ -12,7 +12,7 @@ module.exports = function(environment) {
     rootURL: '/',
     locationType: 'auto',
     manifestPath: 'resources/manifest.json',
-    keywordsBaseUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@27-develop-version-302/',
+    keywordsBaseUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@develop/',
     profilesBaseUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@38-deprecate-creation-of-npm-mdprofiles-package/',
     EmberENV: {
       FEATURES: {
