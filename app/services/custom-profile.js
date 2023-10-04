@@ -3,7 +3,6 @@ import { map, union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import axios from 'axios';
-import { task } from 'ember-concurrency';
 import config from 'mdeditor/config/environment';
 
 /**
@@ -177,52 +176,41 @@ export default Service.extend({
   },
 
   async loadCustomProfilesFromUrl(url) {
-    console.log('loadCustomProfilesFromUrl', url);
-
     if (!url) {
       console.log('no url');
       return;
     }
-
-    const existingProfileDefinitions = this.store.peekAll('profile');
-    const existingCustomProfiles = this.store.peekAll('custom-profile');
-
-    console.log('existingProfileDefinitions', existingProfileDefinitions);
-    console.log('existingCustomProfiles', existingCustomProfiles);
-
-    existingProfileDefinitions.forEach((item) => {
-      console.log('item', item);
-    });
-
-    existingCustomProfiles.forEach((item) => {
-      console.log('item', item);
-    });
-
+    const existingProfileDefinitions = await this.store.findAll('profile');
+    const existingIdentifiers = new Set(existingProfileDefinitions.map(p => p.identifier));
+    const existingCustomProfiles = await this.store.findAll('custom-profile');
+    const customIdentifiers = new Set(existingCustomProfiles.map(p => p.profileId));
     const response = await axios.get(url);
     if (!response.data) {
       console.log('no data');
       return;
     }
     const profilesList = response.data;
-    
-    profilesList.forEach(async (profileItem) => {
+    for (const profileItem of profilesList) {
       const definitionResponse = await axios.get(profileItem.url);
       const { data } = definitionResponse;
-
-      const newDefinition = this.store.createRecord('profile');
-      newDefinition.set('config', data);
-      newDefinition.set('uri', profileItem.url);
-      newDefinition.set('alias', data.title);
-      newDefinition.set('remoteVersion', data.version);
-      newDefinition.save();
-
-      const newProfile = this.store.createRecord('custom-profile');
-      newProfile.set('config', data);
-      newProfile.set('profileId', data.identifier);
-      newProfile.save();
-    });
-
-    console.log('loaded custom profiles');
+      let profileDefinitionExists = existingIdentifiers.has(data.identifier);
+      let customProfileExists = customIdentifiers.has(data.identifier);
+      if (!profileDefinitionExists) {
+        const newDefinition = this.store.createRecord('profile');
+        newDefinition.set('config', data);
+        newDefinition.set('uri', profileItem.url);
+        newDefinition.set('alias', data.title);
+        newDefinition.set('remoteVersion', data.version);
+        await newDefinition.save();
+        existingIdentifiers.add(data.identifier);
+      }
+      if (!customProfileExists) {
+        const newProfile = this.store.createRecord('custom-profile');
+        newProfile.set('config', data);
+        newProfile.set('profileId', data.identifier);
+        await newProfile.save();
+      }
+    }
   },
 
   async loadProfilesFromQueryParam() {
