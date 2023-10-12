@@ -17,38 +17,53 @@ let service = EmberObject.create({
       });
   },
 
-  async loadVocabularies() {
-    if (ENV.keywordsBaseUrl) {
-      try {
-        const manifestUrl = `${ENV.keywordsBaseUrl}${ENV.manifestPath}`;
-        const response = await axios.get(manifestUrl);
-        this.manifest = response.data;
-        const promises = this.manifest.map((vocabulary) => {
-          return axios.get(`${ENV.keywordsBaseUrl}${vocabulary.citationUrl}`);
-        });
-        const responses = await Promise.all(promises);
-        responses.forEach((response, index) => {
-          const thesaurus = response.data;
-          if (thesaurus && thesaurus.citation) {
-            thesaurus.keywords = null;
-            thesaurus.keywordsUrl = this.manifest[index].keywordsUrl;
-            this.thesaurus.pushObject(thesaurus);
-          }
-        });
-      } catch (error) {
-        console.error(error);
-      }
+  async addThesaurus(thesaurus) {
+    let keywords = null;
+    if (thesaurus.keywordsUrl) {
+      const response = await axios.get(`${thesaurus.keywordsUrl}`);
+      keywords = response.data;
     }
-  }
+    if (keywords && keywords.length > 0) {
+      thesaurus.keywords = keywords;
+    }
+    this.thesaurus.pushObject(thesaurus);
+  },
+
+  async loadThesauri() {
+    if (!ENV.thesauriManifestUrl) return;
+    try {
+      const response = await axios.get(ENV.thesauriManifestUrl);
+      this.manifest = response.data;
+      const promises = this.manifest.map((thesaurus) => {
+        if (!thesaurus.url) return;
+        return axios.get(`${thesaurus.url}`);
+      });
+      const responses = await Promise.all(promises);
+      for (const [index, response] of responses.entries()) {
+        if (!response) continue;
+        const thesaurus = response.data;
+        await this.addThesaurus(thesaurus);
+        this.manifest[index].identifier = thesaurus.citation.identifier[0].identifier;
+        this.manifest[index].isDefault = true;
+      }
+      this.manifest.pushObject({
+        identifier: 'ISO 19115 Topic Category',
+        name: 'ISO 19115 Topic Category',
+        isDefault: true,
+        url: null
+      });
+      // const customProfiles = this.store.peekAll('custom-profile');
+    } catch (error) {
+      console.error(error);
+    }
+  },
 });
 
-let isoKeywords = ISO.codelist.map((topic) => {
-  return {
-    label: topic.codeName,
-    definition: topic.description,
-    uuid: topic.code
-  };
-});
+const isoKeywords = ISO.codelist.map((topic) => ({
+  label: topic.codeName,
+  definition: topic.description,
+  uuid: topic.code
+}));
 
 service.get('thesaurus')
   .pushObject({
@@ -68,7 +83,8 @@ service.get('thesaurus')
     },
     keywords: isoKeywords,
     keywordType: 'isoTopicCategory',
-    label: 'ISO Topic Category'
+    label: 'ISO Topic Category',
+    keywordsUrl: null
   });
   
 export default Service.extend(service);

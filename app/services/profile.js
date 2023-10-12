@@ -27,14 +27,14 @@ export default Service.extend({
   flashMessages: service(),
   store: service(),
 
-  async loadProfiles() {
-    if (!ENV.profilesBaseUrl) return;
+  async loadCoreProfiles() {
+    if (!ENV.profilesManifestUrl) return;
     try {
-      const profilesListUrl = `${ENV.profilesBaseUrl}${ENV.manifestPath}`;
-      const { data: profilesList } = await axios.get(profilesListUrl);
-      const promiseArray = profilesList.map(profileItem => axios.get(profileItem.url));
-      const responseArray = await Promise.all(promiseArray);
-      this.coreProfiles = responseArray.map(response => response.data);
+      const response = await axios.get(ENV.profilesManifestUrl);
+      const profilesList = response.data;
+      const promises = profilesList.map(profileItem => axios.get(profileItem.url));
+      const responses = await Promise.all(promises);
+      this.coreProfiles = responses.map(response => response.data);
     } catch (e) {
       console.error(e);
     }

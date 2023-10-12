@@ -37,6 +37,7 @@ export default Service.extend({
   flashMessages: service(),
   store: service(),
   definitions: service('profile'),
+  keyword: service(),
 
   /**
    * String identifying the active profile
@@ -175,41 +176,70 @@ export default Service.extend({
     return this.defaultProfile;
   },
 
+  async createNewProfileDefinition(profileConfig, uri) {
+    const newDefinition = this.store.createRecord('profile');
+    newDefinition.set('config', profileConfig);
+    newDefinition.set('uri', uri);
+    newDefinition.set('alias', profileConfig.title);
+    newDefinition.set('remoteVersion', profileConfig.version);
+    await newDefinition.save();
+  },
+
+  async createNewCustomProfile(profileConfig) {
+    const newProfile = this.store.createRecord('custom-profile');
+    newProfile.set('config', profileConfig);
+    newProfile.set('profileId', profileConfig.identifier);
+    await newProfile.save();
+  },
+
   async loadCustomProfilesFromUrl(url) {
-    if (!url) {
-      console.log('no url');
-      return;
-    }
     const existingProfileDefinitions = await this.store.findAll('profile');
     const existingIdentifiers = new Set(existingProfileDefinitions.map(p => p.identifier));
+    
     const existingCustomProfiles = await this.store.findAll('custom-profile');
     const customIdentifiers = new Set(existingCustomProfiles.map(p => p.profileId));
+    // const customVocabularies = new Set(existingCustomProfiles.map(p => p.vocabularies).flat()
+    
+    if (!url) return;
     const response = await axios.get(url);
     if (!response.data) {
       console.log('no data');
       return;
     }
+
+    const vocabularies = [];
     const profilesList = response.data;
     for (const profileItem of profilesList) {
       const definitionResponse = await axios.get(profileItem.url);
       const { data } = definitionResponse;
-      let profileDefinitionExists = existingIdentifiers.has(data.identifier);
-      let customProfileExists = customIdentifiers.has(data.identifier);
+      vocabularies.push(...data.vocabularies);
+      const profileDefinitionExists = existingIdentifiers.has(data.identifier);
+      const customProfileExists = customIdentifiers.has(data.identifier);
       if (!profileDefinitionExists) {
-        const newDefinition = this.store.createRecord('profile');
-        newDefinition.set('config', data);
-        newDefinition.set('uri', profileItem.url);
-        newDefinition.set('alias', data.title);
-        newDefinition.set('remoteVersion', data.version);
-        await newDefinition.save();
+        await this.createNewProfileDefinition(data, profileItem.url);
         existingIdentifiers.add(data.identifier);
       }
       if (!customProfileExists) {
-        const newProfile = this.store.createRecord('custom-profile');
-        newProfile.set('config', data);
-        newProfile.set('profileId', data.identifier);
-        await newProfile.save();
+        await this.createNewCustomProfile(data);
+        customIdentifiers.add(data.identifier);
       }
+    }
+
+    let uniqueVocabularies = vocabularies.filter((vocabulary, index, self) =>
+      index === self.findIndex((v) => ( v.url === vocabulary.url ))
+    );
+    uniqueVocabularies = uniqueVocabularies.filter((vocabulary) => (
+      !this.keyword.manifest.find((item) => item.url === vocabulary.url)
+    ));
+    const promises = uniqueVocabularies.map((vocabulary) => {
+      if (!vocabulary.url) return;
+      return axios.get(`${vocabulary.url}`);
+    });
+    const responses = await Promise.all(promises);
+    for (const response of responses) {
+      if (!response) return;
+      const thesaurus = response.data;
+      await this.keyword.addThesaurus(thesaurus);
     }
   },
 
