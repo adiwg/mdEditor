@@ -1,21 +1,59 @@
-import { A } from '@ember/array';
-import EmberObject from '@ember/object';
 import Service from '@ember/service';
+import { A } from '@ember/array';
 import axios from 'axios';
 import ISO from 'mdcodes/resources/js/iso_topicCategory';
 import ENV from 'mdeditor/config/environment';
 
-let service = EmberObject.create({
-  thesaurus: A(),
+export default class KeywordService extends Service {
+  thesaurus = A([]);
+  manifest = null;
 
-  manifest: null,
+  constructor() {
+    super(...arguments);
+    this.thesaurus.pushObject(this.generateIsoTopicCategory());
+    // Any other initialization code can go here.
+  }
+
+  generateIsoTopicCategory() {
+    const isoKeywords = ISO.codelist.map((topic) => ({
+      label: topic.codeName,
+      definition: topic.description,
+      uuid: topic.code,
+    }));
+
+    return {
+      citation: {
+        date: [
+          {
+            date: '2014-04',
+            dateType: 'revision',
+          },
+        ],
+        title: 'ISO 19115 Topic Category',
+        edition: 'ISO 19115-1:2014',
+        onlineResource: [
+          {
+            uri: 'https://doi.org/10.18123/D6RP4M',
+          },
+        ],
+        identifier: [
+          {
+            identifier: 'ISO 19115 Topic Category',
+          },
+        ],
+      },
+      keywords: isoKeywords,
+      keywordType: 'isoTopicCategory',
+      label: 'ISO Topic Category',
+      keywordsUrl: null,
+    };
+  }
 
   findById(id) {
-    return this.thesaurus
-      .find(function(t) {
-        return t.citation.identifier[0].identifier === id;
-      });
-  },
+    return this.thesaurus.find((t) => {
+      return t.citation.identifier[0].identifier === id;
+    });
+  }
 
   async addThesaurus(thesaurus) {
     let keywords = null;
@@ -27,7 +65,7 @@ let service = EmberObject.create({
       thesaurus.keywords = keywords;
     }
     this.thesaurus.pushObject(thesaurus);
-  },
+  }
 
   async loadThesauri() {
     if (!ENV.thesauriManifestUrl) return;
@@ -50,41 +88,10 @@ let service = EmberObject.create({
         identifier: 'ISO 19115 Topic Category',
         name: 'ISO 19115 Topic Category',
         isDefault: true,
-        url: null
+        url: null,
       });
-      // const customProfiles = this.store.peekAll('custom-profile');
     } catch (error) {
       console.error(error);
     }
-  },
-});
-
-const isoKeywords = ISO.codelist.map((topic) => ({
-  label: topic.codeName,
-  definition: topic.description,
-  uuid: topic.code
-}));
-
-service.get('thesaurus')
-  .pushObject({
-    citation: {
-      date: [{
-        date: '2014-04',
-        dateType: 'revision'
-      }],
-      title: 'ISO 19115 Topic Category',
-      edition: 'ISO 19115-1:2014',
-      onlineResource: [{
-        uri: 'https://doi.org/10.18123/D6RP4M'
-      }],
-      identifier: [{
-        identifier: 'ISO 19115 Topic Category'
-      }]
-    },
-    keywords: isoKeywords,
-    keywordType: 'isoTopicCategory',
-    label: 'ISO Topic Category',
-    keywordsUrl: null
-  });
-  
-export default Service.extend(service);
+  }
+}
