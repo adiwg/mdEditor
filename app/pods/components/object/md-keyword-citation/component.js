@@ -42,11 +42,12 @@ export default Component.extend(Validations, {
       return this.get('model.thesaurus.onlineResource.0.uri');
     },
     set(key, value) {
-      let ol = this.get('model.thesaurus.onlineResource');
-      if (!isArray(ol)) {
-        this.set('model.thesaurus.onlineResource', [{}]);
+      let onlineResourceArray = this.get('model.thesaurus.onlineResource');
+      if (!Array.isArray(onlineResourceArray)) {
+        onlineResourceArray = [{}];
       }
-      this.set('model.thesaurus.onlineResource.0.uri', value);
+      onlineResourceArray[0].uri = value;
+      this.set('model.thesaurus.onlineResource', onlineResourceArray);
       return value;
     }
   }),
