@@ -41,7 +41,7 @@ module('Integration | Component | object/md distribution', function (hooks) {
     assert.equal(find('section').textContent.replace(/[\s\n]+/g,
         '|')
       .trim(),
-      '|Distribution|#|Delete|Description|Liablity|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|'
+      '|Distribution|#|Delete|Description|Liability|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|'
     );
 
     // Template block usage:
@@ -54,7 +54,7 @@ module('Integration | Component | object/md distribution', function (hooks) {
     assert.equal(find('section').textContent.replace(/[\s\n]+/g,
         '|')
       .trim(),
-      '|Distribution|#|Delete|Description|Liablity|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|',
+      '|Distribution|#|Delete|Description|Liability|Statement|Distributors|2|Add|OK|#|Contacts|0|role|(|)|More...|Delete|1|role|(|)|More...|Delete|',
       'block and list');
   });
 
