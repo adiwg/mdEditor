@@ -43,13 +43,13 @@ Object.keys(Schemas)
 
 const unImplemented = [
   'metadata.metadataInfo.otherMetadataLocale',
-  'metadata.resourceInfo.spatialRepresentation', [
-    'metadata.resourceInfo.extent',
-    'verticalExtent'
-  ],
-  ['metadata.resourceInfo.extent',
-    'temporalExtent'
-  ],
+  // 'metadata.resourceInfo.spatialRepresentation', [
+  //   'metadata.resourceInfo.extent',
+  //   'verticalExtent'
+  // ],
+  // ['metadata.resourceInfo.extent',
+  //   'temporalExtent'
+  // ],
   'metadata.resourceInfo.coverageDescription',
   //'metadata.resourceInfo.taxonomy',
   'metadata.resourceInfo.otherResourceLocale',
