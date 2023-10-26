@@ -103,7 +103,7 @@ export default Model.extend(Validations, {
   nav: alias('config.nav'),
   hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
 
-  vocabularies: alias('config.vocabularies'),
+  thesauri: alias('config.thesauri'),
 
   /* eslint-disable ember/no-observers */
   updateSettings: observer('hasDirtyAttributes', 'title', 'uri', 'alias',
