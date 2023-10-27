@@ -10702,7 +10702,7 @@ mdast-util-to-string@^2.0.0:
   resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-2.0.0.tgz#b8cfe6a713e1091cb5b728fc48885a4767f8b97b"
   integrity sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==
 
-mdcodes@^2.8.4:
+mdcodes@2.8.4:
   version "2.8.4"
   resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.8.4.tgz#8aff3cbcfa5d2070415ab99180542debefd04c09"
   integrity sha512-0q8eYfs46bCFIzMMLeEjS/6hR1faqSR9DEEfLo6YU89YKWZoVNzU2q4A7Zq5d07GX+jDuCc40+hohD6b+TlvlQ==
@@ -10711,10 +10711,10 @@ mdcodes@^2.8.4:
     glob "^7.1.0"
     rimraf "^2.6.2"
 
-mdjson-schemas@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.8.0.tgz#d8569cea452f546dc074e515a7a23f415db0b55d"
-  integrity sha512-Z24Qv/2/02oHh4FnkBD6k7mI+vZx2XIMFVr7WQNok4A2OjR6DblR3YO6i/vSWJgo7QiEJFS55fKiMQYpF9QfUg==
+mdjson-schemas@2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.8.1.tgz#809131dce1e172ac81f035611f98276bc41635c8"
+  integrity sha512-VfYeSCLo3mCFmd17csplpk4QmZEubOZ64odv+ZzDow+pjzJgXeqMV9EYZFuEKxXc65ioahi5OMXotcvNaHi4tg==
 
 mdn-data@2.0.30:
   version "2.0.30"
