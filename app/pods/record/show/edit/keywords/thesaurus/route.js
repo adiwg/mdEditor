@@ -23,7 +23,6 @@ export default Route.extend({
 
     //make sure the thesaurus still exists
     if(isEmpty(thesaurus)) {
-      console.log('No thesaurus found! Re-directing to list...')
       this.flashMessages
         .warning('No thesaurus found! Re-directing to list...');
       this.replaceWith('record.show.edit.keywords');
