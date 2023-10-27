@@ -31,26 +31,28 @@ export default Component.extend({
   selectThesaurus() {},
 
   thesaurusList: computed('keyword.thesaurus.[]', 'profile.profiles', 'recordProfile', function () {
-    // const profileConfig = this.profile.profiles.find((p) => {
-    //   return p.id === this.recordProfile;
-    // });
-    // const profileThesauri = profileConfig.vocabularies;
+    const profileConfig = this.profile.profiles.find((p) => {
+      return p.id === this.recordProfile;
+    });
+    const profileThesauri = profileConfig.thesauri;
     const list = this.keyword
       .thesaurus
-      // .filter((k) => {
-      //   if (profileThesauri && profileThesauri.length > 0) {
-      //     return profileThesauri.some((v) => {
-      //       return v.id === k.citation.identifier[0].identifier;
-      //     });
-      //   } else {
-      //     return this.keyword.manifest;
-      //   }
-      // })
+      .filter((k) => {
+        if (profileThesauri && profileThesauri.length > 0) {
+          return profileThesauri.some((v) => {
+            const manifestEntry = this.keyword.manifest.find((t) => t.url === v.url);
+            if (!manifestEntry) return false;
+            return manifestEntry.identifier === k.citation.identifier[0].identifier;
+          });
+        } else {
+          return k.isDefault;
+        }
+      })
       .map((k) => {
         return EmberObject.create({
           id: k.citation.identifier[0].identifier,
           label: k.label || k.citation.title || 'Keywords',
-          // tooltipText: k.citation.description || 'No description available.',
+          tooltipText: k.citation.description || 'No description available.',
         });
       })
       .sort((a, b) => {
@@ -60,7 +62,7 @@ export default Component.extend({
     list.unshift(EmberObject.create({
       id: 'custom',
       label: 'Custom Thesaurus',
-      // tooltipText: "Select this option to use a custom thesaurus that you define yourself. This allows you to use your own set of keywords and categories that are specific to your project."
+      tooltipText: "Select this option to use a custom thesaurus that you define yourself. This allows you to use your own set of keywords and categories that are specific to your project."
     }));
     return list;
   }),
