@@ -32,7 +32,7 @@ const {
 export default Service.extend({
   init() {
     this._super(...arguments);
-    this.customProfiles = this.store.peekAll('custom-profile');
+    this.customProfiles = this.store.findAll('custom-profile');
   },
   flashMessages: service(),
   store: service(),
@@ -193,24 +193,21 @@ export default Service.extend({
   },
 
   async loadCustomProfilesFromUrl(url) {
+    if (!url) return;
     const existingProfileDefinitions = await this.store.findAll('profile');
     const existingIdentifiers = new Set(existingProfileDefinitions.map(p => p.identifier));
-    
     const existingCustomProfiles = await this.store.findAll('custom-profile');
     const customIdentifiers = new Set(existingCustomProfiles.map(p => p.profileId));
-    
-    if (!url) return;
     const response = await axios.get(url);
-    if (!response.data) {
+    const profilesList = response.data;
+    if (!profilesList) {
       console.log('no data');
       return;
     }
-
     const thesauri = [];
-    const profilesList = response.data;
     for (const profileItem of profilesList) {
       const definitionResponse = await axios.get(profileItem.url);
-      const { data } = definitionResponse;
+      const data = definitionResponse.data;
       thesauri.push(...data.thesauri);
       const profileDefinitionExists = existingIdentifiers.has(data.identifier);
       const customProfileExists = customIdentifiers.has(data.identifier);
@@ -223,23 +220,21 @@ export default Service.extend({
         customIdentifiers.add(data.identifier);
       }
     }
-
-    let uniqueThesauri = thesauri.filter((vocabulary, index, self) =>
-      index === self.findIndex((v) => ( v.url === vocabulary.url ))
+    let uniqueThesauri = thesauri.filter((thesaurus, index, self) =>
+      index === self.findIndex((v) => ( v.url === thesaurus.url ))
     );
-    uniqueThesauri = uniqueThesauri.filter((vocabulary) => (
-      !this.keyword.manifest.find((item) => item.url === vocabulary.url)
-    ));
-    const promises = uniqueThesauri.map((vocabulary) => {
-      if (!vocabulary.url) return;
-      return axios.get(`${vocabulary.url}`);
+    uniqueThesauri = uniqueThesauri.filter((thesaurus) => {
+      const existingThesaurus = this.keyword.manifest.find((t) => t.url === thesaurus.url);
+      return !existingThesaurus;
     });
-    const responses = await Promise.all(promises);
-    for (const response of responses) {
-      if (!response) return;
-      const thesaurus = response.data;
-      await this.keyword.addThesaurus(thesaurus);
-    }
+    uniqueThesauri.forEach(async (thesaurus) => {
+      const response = await axios.get(thesaurus.url);
+      const thesaurusData = response.data;
+      thesaurus.identifier = thesaurusData.citation.identifier[0].identifier;
+      console.log('thesaurus', thesaurus);
+      this.keyword.manifest.push(thesaurus);
+      await this.keyword.addThesaurus(thesaurusData);
+    });
   },
 
   async loadProfilesFromQueryParam() {
