@@ -11,8 +11,8 @@ module.exports = function(environment) {
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
-    thesauriManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@temp/test2/resources/manifest-develop.json',
-    profilesManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@develop/resources/manifest.json',
+    thesauriManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/manifest.json',
+    profilesManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/manifest.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
