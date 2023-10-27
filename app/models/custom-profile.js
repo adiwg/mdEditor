@@ -102,6 +102,10 @@ export default Model.extend(Validations, {
   components: alias('config.components'),
   nav: alias('config.nav'),
   hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
+  
+  definition: computed('profileId', function() {
+    return this.definitions.profiles.findBy('identifier', this.profileId);
+  }),
 
   thesauri: alias('config.thesauri'),
 
