@@ -11,7 +11,6 @@ export default Route.extend({
 
   model(params) {
     this.set('thesaurusId', params.thesaurus_id);
-    
     return this.setupModel();
   },
 
