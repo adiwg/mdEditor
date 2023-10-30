@@ -113,15 +113,12 @@ export default Service.extend({
   isLoading: false,
 
   sendQuery(searchString, kingdom, limit = 50) {
-    let formatted = searchString.replace(/(-| )/g, '*');
-    let titleized = titleize(searchString.replace(/(-)/g, '#')).replace(/( |#)/g, '*');
-    let titleized2 = titleize(searchString).replace(/( )/g, '*');
+    const formatted = searchString.replace(/(-| )/g, '*');
+    const titleized = titleize(searchString.replace(/(-)/g, '#')).replace(/( |#)/g, '*');
+    const titleized2 = titleize(searchString).replace(/( )/g, '*');
 
-    const mdTranslatorAPIURL = new URL(this.settings.data.get('mdTranslatorAPI'))
-    const host = mdTranslatorAPIURL.hostname;
-    const port = mdTranslatorAPIURL.port;
-
-    let url = '//' + host + (port === '' ? port : ':' + port) + proxy +
+    const mdTranslatorApiUrl = this.settings.data.get('itisProxyUrl');
+    const url = mdTranslatorApiUrl + proxy +
       `&rows=${limit}&q=` +
       `(vernacular:*${formatted}*~0.5%20OR%20vernacular:*${titleized}*~0.5%20OR%20vernacular:*${titleized2}*~0.5` +
       `%20OR%20nameWOInd:${formatted}*~0.5%20OR%20nameWOInd:*${titleized}*~0.5` +
@@ -174,13 +171,13 @@ export default Service.extend({
       vernacular,
       usage: status
     } = doc;
-    let taxonomy = this.parseRanks(ranks, this.parseHierarchyTSN(
+    const taxonomy = this.parseRanks(ranks, this.parseHierarchyTSN(
       hierarchyTSN));
-    let common = this.parseVernacular(vernacular);
+      const common = this.parseVernacular(vernacular);
 
     if(common) {
       taxonomy.forEach(i => {
-        let taxa = i.findBy('tsn', tsn);
+        const taxa = i.findBy('tsn', tsn);
 
         if(taxa) {
           set(taxa, 'common', common.mapBy('name'));

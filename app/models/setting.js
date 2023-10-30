@@ -6,7 +6,9 @@ import EmberObject, { observer } from "@ember/object";
 
 const defaultValues = {
   // mdTranslatorAPI: 'https://api.sciencebase.gov/mdTranslator/api/v3/translator',
+  // itisProxyUrl: 'https://api.sciencebase.gov/mdTranslator',
   mdTranslatorAPI: 'https://dev-mdtranslator.mdeditor.org/api/v3/translator',
+  itisProxyUrl: 'https://dev-mdtranslator.mdeditor.org',
   fiscalStartMonth: '10'
 };
 
@@ -72,6 +74,9 @@ const theModel = Model.extend({
   }),
   mdTranslatorAPI: attr('string', {
     defaultValue: defaultValues.mdTranslatorAPI
+  }),
+  itisProxyUrl: attr('string', {
+    defaultValue: defaultValues.itisProxyUrl
   }),
   fiscalStartMonth: attr('string', {
     defaultValue: defaultValues.fiscalStartMonth
