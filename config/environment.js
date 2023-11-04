@@ -92,7 +92,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'staging') {
-    ENV.rootURL = '/mdEditor';
+    ENV.rootURL = '/';
     ENV.locationType = 'hash';
   }
 
@@ -100,6 +100,12 @@ module.exports = function(environment) {
     //ENV.rootURL = '/mdEditor';
     ENV.locationType = 'hash';
   }
+
+  if (environment === 'local') {
+    ENV.rootURL = '/mdEditor';
+    ENV.locationType = 'hash';
+  }
+
 
   if (deployTarget === 'dev') {
     ENV.rootURL = '/';
