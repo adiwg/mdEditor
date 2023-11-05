@@ -103,12 +103,6 @@ module.exports = function(environment) {
     ENV.locationType = 'hash';
   }
 
-  if (environment === 'local') {
-    ENV.rootURL = '/mdEditor';
-    ENV.locationType = 'hash';
-  }
-
-
   if (deployTarget === 'dev') {
     ENV.rootURL = '/';
     ENV.locationType = 'hash';
