@@ -1,7 +1,6 @@
 {
   "name": "mdeditor",
-  "version": "1.0.3-hotfix",
-  "private": true,
+  "version": "1.0.3",
   "description": "A web application for authoring and editing metadata.",
   "repository": {
     "type": "git",
