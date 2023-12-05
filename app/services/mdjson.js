@@ -119,15 +119,8 @@ export default Service.extend({
 
       let dicts = this.store.peekAll('dictionary').filterBy(
         'dictionaryId');
-
       ids.forEach((id) => {
         let record = dicts.findBy('dictionaryId', id);
-
-        // dictionaryId is important, but it's not in "dataDictionary" - I feel like it
-        // should be included so the id can be stable when importing/exporting
-        //
-        // fixes https://github.com/adiwg/mdTranslator/issues/238
-        record.set('json.dataDictionary.dictionaryId', id);
 
         if(record) {
           arr.pushObject(record.get('json.dataDictionary'));
@@ -248,6 +241,7 @@ export default Service.extend({
   validateDictionary(dictionary) {
     validator.validate('dataDictionary', dictionary.get('cleanJson').dataDictionary);
 
+    console.log(validator)
     return validator;
   }
 });
