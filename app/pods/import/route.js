@@ -13,7 +13,7 @@ import uuidV4 from "uuid/v4";
 
 function fixLiabilityTypo(files) {
   // Iterate through the records array
-  files.records.forEach((record) => {
+  files.records?.forEach((record) => {
     // Access the JSON string
     const jsonString = record.get('attributes.json');
     // Parse the JSON string into a JavaScript object
