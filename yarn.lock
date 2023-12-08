@@ -9995,9 +9995,9 @@ jsonify@^0.0.1:
   integrity sha512-2/Ki0GcmuqSrgFyelQq9M05y7PS0mEwuIzrf3f1fPqkVDVRvZrPZtVSMHxdgo8Aq0sxAOb/cr2aqqA3LeWHVPg==
 
 keycloak-js@^22.0.3:
-  version "22.0.3"
-  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-22.0.3.tgz#c3f9d7ad415d3cbd8f5fa01c5c8c1aedaca58ba3"
-  integrity sha512-QV96sDngWMlJ8Mq5l+A0BNuzZqJT+d8UM9vvGsPXFT+TDfPjXuFjtrpHH26X6YMY3JaCvH2mH9PXb3DGvEkuOw==
+  version "22.0.5"
+  resolved "https://registry.yarnpkg.com/keycloak-js/-/keycloak-js-22.0.5.tgz#8264cec1ff27015e1e53310e108cef3f796a5809"
+  integrity sha512-a7ZwCZeHl8tpeJBy102tZtAnHslDUOA1Nf/sHNF3HYLchKpwoDuaitwIUiS2GnNUe+tlNKLlCqZS+Mi5K79m1w==
   dependencies:
     base64-js "^1.5.1"
     js-sha256 "^0.9.0"
