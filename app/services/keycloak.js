@@ -1,17 +1,17 @@
 import Service from '@ember/service';
 import Keycloak from 'keycloak-js';
 
-const keycloakConfig = {
-  realm: "Sciencebase-B",
-  clientId: "mdeditor",
-  url: "https://www.sciencebase.gov/auth/admin/master/console/#"
-};
-
 // const keycloakConfig = {
 //   realm: "Sciencebase-B",
 //   clientId: "mdeditor",
-//   url: "https://www.sciencebase.gov/auth"
+//   url: "https://www.sciencebase.gov/auth/admin/master/console/#"
 // };
+
+const keycloakConfig = {
+  realm: "Sciencebase-B",
+  clientId: "mdeditor",
+  url: "https://www.sciencebase.gov/auth"
+};
 
 export default Service.extend({
   keycloak: null,
@@ -26,7 +26,18 @@ export default Service.extend({
 
   async initializeKeycloak() {
     try {
-      await this.keycloak.init({ onLoad: 'login-required' });
+      await this.keycloak.init({ 
+        onLoad: 'login-required'
+        // below are some additional options that have been attempted
+        //
+        // onLoad: 'check-sso',
+        // flow: 'standard',
+        // token: localStorage.getItem('kc_token'),
+        // refreshToken: localStorage.getItem('kc_refresh_token'),
+        // idToken: localStorage.getItem('kc_id_token'),
+        // timeSkew: parseInt(localStorage.getItem('kc_timeskew'), 10) || 0,
+        // checkLoginIframe: false,
+      });
       this.isInitialized = true;
       console.log('Keycloak Initialized');
     } catch (error) {
