@@ -246,8 +246,14 @@ export default Service.extend({
   },
 
   async loadProfilesFromQueryParam() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const secondaryUrl = urlParams.get("loadProfilesFrom");
-    return await this.loadCustomProfilesFromUrl(secondaryUrl);
+    const secondaryUrl = new URLSearchParams(
+      window.location.hash.substring(window.location.hash.indexOf("?") + 1) ||
+        window.location.search
+    ).get("loadProfilesFrom");
+    if (secondaryUrl) {
+      return await this.loadCustomProfilesFromUrl(secondaryUrl);
+    } else {
+      return null;
+    }
   },
 });
