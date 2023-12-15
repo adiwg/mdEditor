@@ -1,9 +1,9 @@
-import { computed, get } from '@ember/object';
-import { map, union } from '@ember/object/computed';
-import Service, { inject as service } from '@ember/service';
-import { isEmpty } from '@ember/utils';
-import axios from 'axios';
-import config from 'mdeditor/config/environment';
+import { computed, get } from "@ember/object";
+import { map, union } from "@ember/object/computed";
+import Service, { inject as service } from "@ember/service";
+import { isEmpty } from "@ember/utils";
+import axios from "axios";
+import config from "mdeditor/config/environment";
 
 /**
  * The default profile identifier
@@ -15,9 +15,7 @@ import config from 'mdeditor/config/environment';
  * @readOnly
  */
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 /**
@@ -32,11 +30,11 @@ const {
 export default Service.extend({
   init() {
     this._super(...arguments);
-    this.customProfiles = this.store.findAll('custom-profile');
+    this.customProfiles = this.store.findAll("custom-profile");
   },
   flashMessages: service(),
   store: service(),
-  definitions: service('profile'),
+  definitions: service("profile"),
   keyword: service(),
 
   /**
@@ -55,7 +53,7 @@ export default Service.extend({
    * @category computed
    * @required customProfiles,coreProfiles
    */
-  profiles: union('customProfiles', 'coreProfiles'),
+  profiles: union("customProfiles", "coreProfiles"),
 
   /**
    * Array of available coreProfile definitions
@@ -65,13 +63,13 @@ export default Service.extend({
    * @category computed
    * @required definitions.coreProfiles
    */
-  coreProfiles: map('definitions.coreProfiles', function (itm) {
+  coreProfiles: map("definitions.coreProfiles", function (itm) {
     return {
-      id: itm.namespace + '.' + itm.identifier,
+      id: itm.namespace + "." + itm.identifier,
       title: itm.title,
       description: itm.description,
-      definition: itm
-    }
+      definition: itm,
+    };
   }),
 
   /**
@@ -82,7 +80,7 @@ export default Service.extend({
    * @category computed
    * @required profiles.[]
    */
-  mapById: computed('profiles.[]', function () {
+  mapById: computed("profiles.[]", function () {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;
       return map;
@@ -97,13 +95,13 @@ export default Service.extend({
    * @category computed
    * @required profiles.[]
    */
-  mapByAltId: computed('profiles.[]', function () {
+  mapByAltId: computed("profiles.[]", function () {
     return this.profiles.reduce(function (map, profile) {
-      let alt = get(profile, 'definition.alternateId');
-      if(isEmpty(alt)) {
+      let alt = get(profile, "definition.alternateId");
+      if (isEmpty(alt)) {
         return map;
       }
-      alt.forEach(a => map[a] = profile.id);
+      alt.forEach((a) => (map[a] = profile.id));
       return map;
     }, {});
   }),
@@ -116,7 +114,7 @@ export default Service.extend({
    * @category computed
    * @required mapById
    */
-  defaultProfile: computed('mapById', function () {
+  defaultProfile: computed("mapById", function () {
     return this.mapById[defaultProfileId];
   }),
 
@@ -128,8 +126,8 @@ export default Service.extend({
    * @category computed
    * @required active
    */
-  activeComponents: computed('active', function () {
-    let comp = get(this.getActiveProfile(), 'definition.components');
+  activeComponents: computed("active", function () {
+    let comp = get(this.getActiveProfile(), "definition.components");
     return comp || this.defaultProfile.definition.components;
   }),
 
@@ -141,7 +139,7 @@ export default Service.extend({
    * @category computed
    * @required active
    */
-  activeSchemas: computed('active', function () {
+  activeSchemas: computed("active", function () {
     return this.getActiveProfile().schemas;
   }),
 
@@ -153,62 +151,70 @@ export default Service.extend({
    */
   getActiveProfile() {
     const active = this.active;
-    const profile = active && typeof active === 'string' ? active :
-      defaultProfileId;
+    const profile =
+      active && typeof active === "string" ? active : defaultProfileId;
     const selected = this.mapById[profile];
-    if(selected) {
+    if (selected) {
       return selected;
     }
     const alternate = this.mapById[this.mapByAltId[profile]];
-    if(alternate) {
-      this.flashMessages
-        .info(
-          `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`, {
-            sticky: true
-          }
-        );
+    if (alternate) {
+      this.flashMessages.info(
+        `"${active}" identified as an alternate profile. Using "${alternate.title}" profile. To make this permanent, select "${alternate.title}" from the Profile list.`,
+        {
+          sticky: true,
+        }
+      );
       return alternate;
     }
-    this.flashMessages
-      .warning(`Profile "${active}" not found. Using default profile.`, {
-        sticky: true
-      });
+    this.flashMessages.warning(
+      `Profile "${active}" not found. Using default profile.`,
+      {
+        sticky: true,
+      }
+    );
     return this.defaultProfile;
   },
 
   async createNewProfileDefinition(profileConfig, uri) {
-    const newDefinition = this.store.createRecord('profile');
-    newDefinition.set('config', profileConfig);
-    newDefinition.set('uri', uri);
-    newDefinition.set('alias', profileConfig.title);
-    newDefinition.set('remoteVersion', profileConfig.version);
+    const newDefinition = this.store.createRecord("profile");
+    newDefinition.set("config", profileConfig);
+    newDefinition.set("uri", uri);
+    newDefinition.set("alias", profileConfig.title);
+    newDefinition.set("remoteVersion", profileConfig.version);
     await newDefinition.save();
   },
 
   async createNewCustomProfile(profileConfig) {
-    const newProfile = this.store.createRecord('custom-profile');
-    newProfile.set('config', profileConfig);
-    newProfile.set('profileId', profileConfig.identifier);
+    const newProfile = this.store.createRecord("custom-profile");
+    newProfile.set("config", profileConfig);
+    newProfile.set("profileId", profileConfig.identifier);
     await newProfile.save();
   },
 
   async loadCustomProfilesFromUrl(url) {
     if (!url) return;
-    const existingProfileDefinitions = await this.store.findAll('profile');
-    const existingIdentifiers = new Set(existingProfileDefinitions.map(p => p.identifier));
-    const existingCustomProfiles = await this.store.findAll('custom-profile');
-    const customIdentifiers = new Set(existingCustomProfiles.map(p => p.profileId));
+    const existingProfileDefinitions = await this.store.findAll("profile");
+    const existingIdentifiers = new Set(
+      existingProfileDefinitions.map((p) => p.identifier)
+    );
+    const existingCustomProfiles = await this.store.findAll("custom-profile");
+    const customIdentifiers = new Set(
+      existingCustomProfiles.map((p) => p.profileId)
+    );
     const response = await axios.get(url);
     const profilesList = response.data;
     if (!profilesList) {
-      console.log('no data');
+      console.log("no data");
       return;
     }
     const thesauri = [];
     for (const profileItem of profilesList) {
       const definitionResponse = await axios.get(profileItem.url);
-      const data = definitionResponse.data;
-      thesauri.push(...data.thesauri);
+      const { data } = definitionResponse;
+      if (data?.thesauri?.length > 0) {
+        thesauri.push(...data.thesauri);
+      }
       const profileDefinitionExists = existingIdentifiers.has(data.identifier);
       const customProfileExists = customIdentifiers.has(data.identifier);
       if (!profileDefinitionExists) {
@@ -220,18 +226,20 @@ export default Service.extend({
         customIdentifiers.add(data.identifier);
       }
     }
-    let uniqueThesauri = thesauri.filter((thesaurus, index, self) =>
-      index === self.findIndex((v) => ( v.url === thesaurus.url ))
+    let uniqueThesauri = thesauri.filter(
+      (thesaurus, index, self) =>
+        index === self.findIndex((v) => v.url === thesaurus.url)
     );
     uniqueThesauri = uniqueThesauri.filter((thesaurus) => {
-      const existingThesaurus = this.keyword.manifest.find((t) => t.url === thesaurus.url);
+      const existingThesaurus = this.keyword.manifest.find(
+        (t) => t.url === thesaurus.url
+      );
       return !existingThesaurus;
     });
     uniqueThesauri.forEach(async (thesaurus) => {
       const response = await axios.get(thesaurus.url);
       const thesaurusData = response.data;
       thesaurus.identifier = thesaurusData.citation.identifier[0].identifier;
-      console.log('thesaurus', thesaurus);
       this.keyword.manifest.push(thesaurus);
       await this.keyword.addThesaurus(thesaurusData);
     });
@@ -239,7 +247,7 @@ export default Service.extend({
 
   async loadProfilesFromQueryParam() {
     const urlParams = new URLSearchParams(window.location.search);
-    const secondaryUrl = urlParams.get('loadProfilesFrom');
+    const secondaryUrl = urlParams.get("loadProfilesFrom");
     return await this.loadCustomProfilesFromUrl(secondaryUrl);
-  }
+  },
 });
