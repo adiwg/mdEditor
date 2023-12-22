@@ -1,54 +1,80 @@
-{{#each model as |report index|}}
-  {{#layout/md-card
-    title="Report"
-    collapsible=true
-    collapsed=false
-    data-spy="Report"
-    deleteAction=(action "deleteReport" index)
-    spotlightEnabled=false
+{{input/md-codelist
+  create=true
+  label="Report Type"
+  tooltip=true
+  icon=false
+  disable=false
+  allowClear=true
+  showValidations=true
+  mdCodeName="dataQualityElement"
+  path="type"
+  model=this
+  placeholder="Select Report Type"
+  profilePath=(concat profilePath ".type")
+  class=(if (v-get this "isInvalid") "required")
+}}
+
+{{input/md-input
+  label="Standalone Report Detail Reference"
+  value=model.standaloneQualityReportDetails
+  disabled=false
+}}
+
+{{#if model.qualityMeasure}}
+  <div>quality measure</div>
+{{/if}}
+
+{{#if model.evaluationMethod}}
+  <div>evaluation method</div>
+{{/if}}
+
+{{#object/md-object-table
+  items=model.quantitativeResult
+  header="Quantitative Result"
+  buttonText="Add Quantitative Result"
+  ellipsis=true
+  profilePath=(concat profilePath ".quantitativeResult")
+  attributes="dateTime,value,valueUnits,valueRecordType"
+  as |editing|
+}}
+  <div>quantitativeResult</div>
+{{/object/md-object-table}}
+
+{{#object/md-object-table
+  items=model.descriptiveResult
+  header="Descriptive Result"
+  buttonText="Add Descriptive Result"
+  ellipsis=true
+  profilePath=(concat profilePath ".descriptiveResult")
+  attributes="dateTime,statement"
+  as |editing|
+}}
+  {{object/md-quality-report/descriptive-result
+    model=editing
+    profilePath=(concat profilePath ".descriptiveResult")
   }}
-    {{input/md-codelist
-      label="Report Type"
-      value=report.type
-      create=true
-      tooltip=true
-      mdCodeName="dataQualityType"
-      closeOnSelect=true
-      placeholder="Select DQ Type"
-    }}
+{{/object/md-object-table}}
 
-    {{#each report.descriptiveResult as |descriptiveResult descriptiveResultIndex|}}
-      {{object/md-quality-report/descriptive-result
-        model=descriptiveResult
-        remove=(action "removeFromReport" "descriptiveResult" index descriptiveResultIndex)
-      }}
-    {{/each}}
-    <button class="btn btn-success btn-md" {{action "addToReport" "descriptiveResult" index}}>
-      <i class="fa fa-plus"/>
-      Add Descriptive Result
-    </button>
+{{#object/md-object-table
+  items=model.conformanceResult
+  header="Conformance Result"
+  buttonText="Add Conformance Result"
+  ellipsis=true
+  profilePath=(concat profilePath ".conformanceResult")
+  attributes="specification,title,explanation,pass"
+  as |editing|
+}}
+  <div>conformanceResult</div>
+{{/object/md-object-table}}
 
-
-    {{#if report.qualityMeasure}}
-      {{#layout/md-card}}
-        <h3>Quality Measure</h3>
-        <label>Description</label>
-        {{input/md-textarea value=report.qualityMeasure.description}}
-      {{/layout/md-card}}
-    {{else}}
-      <button class="btn btn-success btn-md" {{action "addQualityMeasureToReport" index}}>
-        <i class="fa fa-plus"/>
-        Add Quality Measure
-      </button>
-    {{/if}}
-  {{/layout/md-card}}
-{{/each}}
-
-<div class="row">
-  <div class="col-md-6">
-    <button class="btn btn-success btn-md" {{action "addReport"}}>
-      <i class="fa fa-plus"/>
-      Add Report
-    </button>
-  </div>
-</div>
+{{#object/md-object-table
+  items=model.coverageResult
+  header="Coverage Result"
+  buttonText="Add Coverage Result"
+  ellipsis=true
+  profilePath=(concat profilePath ".coverageResult")
+  attributes="coverageType,coverageDescription"
+  as |editing|
+}}
+  <div>coverageResult</div>
+{{/object/md-object-table}}

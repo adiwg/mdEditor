@@ -1,57 +1,49 @@
-import Component from '@ember/component';
-
-import { set } from '@ember/object'
+import Component from "@ember/component";
+import { once } from "@ember/runloop";
+import { alias } from "@ember/object/computed";
+import { set, getWithDefault } from "@ember/object";
 
 export default Component.extend({
-  actions: {
-    deleteReport(index) {
-      set(this, 'model', this.model.slice(index));
-    },
-    addReport() {
-      if (this.model == null) {
-        set(this, 'model', [{}]);
-      } else {
-        set(this, 'model', [...this.model, {}])
-      }
-    },
+  didReceiveAttrs() {
+    this._super(...arguments);
 
-    addToReport(objectKey, index) {
-      set(this, 'model', this.model.map((item, i) =>
-        i === index ? {
-          ...item,
-          [objectKey]: [
-            ...(item[objectKey] || []),
-            {}
-          ]
-        } : item
-      ));
-    },
+    let model = this.model;
 
-    removeFromReport(objectKey, reportIndex, objectIndex) {
-      set(this, 'model', this.model.map((item, i) =>
-        i === reportIndex ? {
-          ...item,
-          [objectKey]: item[objectKey].filter((item, i) => i !== objectIndex)
-        } : item
-      ));
-    },
-
-    addQualityMeasureToReport(index) {
-      set(this, 'model', this.model.map((item, i) =>
-        i === index ? {
-          ...item,
-          qualityMeasure: {}
-        } : item
-      ));
-    },
-
-    removeQualityMeasureFromReport(index) {
-      set(this, 'model', this.model.map((item, i) =>
-        i === index ? {
-          ...item,
-          qualityMeasure: undefined
-        } : item
-      ));
+    if (model) {
+      once(this, function () {
+        set(
+          model,
+          "qualityMeasure",
+          getWithDefault(model, "qualityMeasure", {})
+        );
+        set(
+          model,
+          "evaluationMethod",
+          getWithDefault(model, "evaluationMethod", {})
+        );
+        set(
+          model,
+          "quantitativeResult",
+          getWithDefault(model, "quantitativeResult", [])
+        );
+        set(
+          model,
+          "descriptiveResult",
+          getWithDefault(model, "descriptiveResult", [])
+        );
+        set(
+          model,
+          "conformanceResult",
+          getWithDefault(model, "conformanceResult", [])
+        );
+        set(
+          model,
+          "coverageResult",
+          getWithDefault(model, "coverageResult", [])
+        );
+      });
     }
-  }
-})
+  },
+
+  type: alias("model.type"),
+});

@@ -1,11 +1,5 @@
-{{#layout/md-card
-  title="Descriptive Result"
-  deleteAction=(action "remove")
-  spotlightEnabled=false
+{{input/md-input
+  value=model.statement
+  label="Statement"
+  placeholder="Enter statement"
 }}
-  <label>statement</label>
-  {{input/md-textarea value=model.statement}}
-
-  <label>datetime</label>
-  {{input/md-datetime value=model.datetime}}
-{{/layout/md-card}}
