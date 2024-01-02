@@ -20,13 +20,49 @@
   disabled=false
 }}
 
-{{#if model.qualityMeasure}}
-  <div>quality measure</div>
-{{/if}}
+{{#layout/md-card
+  collapsible=true
+  title="Quality Measure"
+  profilePath=(concat profilePath ".qualityMeasure")
+  data-spy=(if data-spy "Quality Measure")
+  content=model.qualityMeasure
+}}
+  {{input/md-input
+    value=model.qualityMeasure.description
+    placeholder="Enter description."
+    label="Description"
+    profilePath=(concat profilePath ".qualityMeasure.description")
+  }}
+{{/layout/md-card}}
 
-{{#if model.evaluationMethod}}
-  <div>evaluation method</div>
-{{/if}}
+{{#layout/md-card
+  collapsible=true
+  title="Evaluation Method"
+  profilePath=(concat profilePath ".evaluationMethod")
+  data-spy=(if data-spy "Evaluation Method")
+  content=model.evaluationMethod
+}}
+  {{input/md-input
+    value=model.evaluationMethod.type
+    placeholder="Enter the type."
+    label="Type"
+    profilePath=(concat profilePath ".evaluationMethod.type")
+  }}
+
+  {{input/md-input
+    value=model.evaluationMethod.dateTime
+    placeholder="Enter the dateTime."
+    label="Date Time"
+    profilePath=(concat profilePath ".evaluationMethod.dateTime")
+  }}
+
+  {{input/md-input
+    value=model.evaluationMethod.methodDescription
+    placeholder="Enter description."
+    label="Method Description"
+    profilePath=(concat profilePath ".evaluationMethod.methodDescription")
+  }}
+{{/layout/md-card}}
 
 {{#object/md-object-table
   items=model.quantitativeResult
@@ -37,7 +73,10 @@
   attributes="dateTime,value,valueUnits,valueRecordType"
   as |editing|
 }}
-  <div>quantitativeResult</div>
+  {{object/md-quality-report/quantitative-result
+    model=editing
+    profilePath=(concat profilePath ".quantitativeResult")
+  }}
 {{/object/md-object-table}}
 
 {{#object/md-object-table
@@ -61,10 +100,13 @@
   buttonText="Add Conformance Result"
   ellipsis=true
   profilePath=(concat profilePath ".conformanceResult")
-  attributes="specification,title,explanation,pass"
+  attributes="dateTime,explanation,pass"
   as |editing|
 }}
-  <div>conformanceResult</div>
+  {{object/md-quality-report/conformance-result
+    model=editing
+    profilePath=(concat profilePath ".conformanceResult")
+  }}
 {{/object/md-object-table}}
 
 {{#object/md-object-table
@@ -73,8 +115,11 @@
   buttonText="Add Coverage Result"
   ellipsis=true
   profilePath=(concat profilePath ".coverageResult")
-  attributes="coverageType,coverageDescription"
+  attributes="dateTime,spatialRepresentationType,resultFile"
   as |editing|
 }}
-  <div>coverageResult</div>
+  {{object/md-quality-report/coverage-result
+    model=editing
+    profilePath=(concat profilePath ".coverageResult")
+  }}
 {{/object/md-object-table}}
