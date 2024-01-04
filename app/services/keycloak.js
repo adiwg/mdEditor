@@ -1,16 +1,10 @@
-import Service from '@ember/service';
-import Keycloak from 'keycloak-js';
-
-// const keycloakConfig = {
-//   realm: "Sciencebase-B",
-//   clientId: "mdeditor",
-//   url: "https://www.sciencebase.gov/auth/admin/master/console/#"
-// };
+import Service from "@ember/service";
+import Keycloak from "keycloak-js";
 
 const keycloakConfig = {
-  realm: "Sciencebase-B",
+  realm: "ScienceBase-B",
   clientId: "mdeditor",
-  url: "https://www.sciencebase.gov/auth"
+  url: "https://www.sciencebase.gov/auth",
 };
 
 export default Service.extend({
@@ -18,7 +12,7 @@ export default Service.extend({
   isInitialized: false,
 
   init() {
-    console.log('keycloak init');
+    console.log("keycloak init");
     this._super(...arguments);
     this.keycloak = new Keycloak(keycloakConfig);
     this.initializeKeycloak();
@@ -26,8 +20,8 @@ export default Service.extend({
 
   async initializeKeycloak() {
     try {
-      await this.keycloak.init({ 
-        onLoad: 'login-required'
+      await this.keycloak.init({
+        onLoad: "login-required",
         // below are some additional options that have been attempted
         //
         // onLoad: 'check-sso',
@@ -39,14 +33,14 @@ export default Service.extend({
         // checkLoginIframe: false,
       });
       this.isInitialized = true;
-      console.log('Keycloak Initialized');
+      console.log("Keycloak Initialized");
     } catch (error) {
-      console.error('Error initializing Keycloak:', error);
+      console.error("Error initializing Keycloak:", error);
     }
   },
 
   async login() {
-    console.log('keycloak login');
+    console.log("keycloak login");
     if (!this.isInitialized) {
       await this.initializeKeycloak();
     }
@@ -54,9 +48,9 @@ export default Service.extend({
   },
 
   async logout() {
-    console.log('keycloak logout');
+    console.log("keycloak logout");
     if (this.isInitialized) {
       return this.keycloak.logout();
     }
-  }
+  },
 });
