@@ -227,4 +227,7 @@ Router.map(function () {
     path: '/*path'
   });
   this.route('error');
+  this.route('auth', function() {
+    this.route('callback');
+  });
 });

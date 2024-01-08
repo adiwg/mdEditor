@@ -19,21 +19,25 @@ export default Service.extend({
   },
 
   async initializeKeycloak() {
+    if (this.isInitialized) {
+      return;
+    }
     try {
       await this.keycloak.init({
-        onLoad: "login-required",
+        // onLoad: "login-required",
         // below are some additional options that have been attempted
         //
-        // onLoad: 'check-sso',
-        // flow: 'standard',
-        // token: localStorage.getItem('kc_token'),
-        // refreshToken: localStorage.getItem('kc_refresh_token'),
-        // idToken: localStorage.getItem('kc_id_token'),
-        // timeSkew: parseInt(localStorage.getItem('kc_timeskew'), 10) || 0,
-        // checkLoginIframe: false,
+        onLoad: "check-sso",
+        // flow: "standard",
+        // token: localStorage.getItem("kc_token"),
+        // refreshToken: localStorage.getItem("kc_refresh_token"),
+        // idToken: localStorage.getItem("kc_id_token"),
+        // timeSkew: parseInt(localStorage.getItem("kc_timeskew"), 10) || 0,
+        checkLoginIframe: false,
       });
       this.isInitialized = true;
       console.log("Keycloak Initialized");
+      console.log(this.keycloak.token);
     } catch (error) {
       console.error("Error initializing Keycloak:", error);
     }
@@ -41,9 +45,10 @@ export default Service.extend({
 
   async login() {
     console.log("keycloak login");
-    if (!this.isInitialized) {
-      await this.initializeKeycloak();
-    }
+    // if (!this.isInitialized) {
+    //   await this.initializeKeycloak();
+    // }
+    // console.log("login disabled");
     return this.keycloak.login();
   },
 
