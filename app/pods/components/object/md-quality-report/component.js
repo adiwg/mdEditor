@@ -64,4 +64,20 @@ export default Component.extend({
 
   reportType: alias("model.type"),
   evaluationType: alias("model.evaluationMethod.type"),
+  methodType: alias("model.evaluationMethod.evaluationMethodType"),
+
+  actions: {
+    addEvaluationProcedure() {
+      set(this.model.evaluationMethod, "evaluationProcedure", {});
+    },
+    deleteEvaluationProcedure() {
+      set(this.model.evaluationMethod, "evaluationProcedure", undefined);
+    },
+    addQualityMeasureIdentifier() {
+      set(this.model.qualityMeasure, "identifier", {});
+    },
+    deleteQualityMeasureIdentifier() {
+      set(this.model.qualityMeasure, "identifier", undefined);
+    },
+  },
 });

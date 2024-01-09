@@ -28,26 +28,54 @@
   data-spy=(if data-spy "Quality Measure")
   content=model.qualityMeasure
 }}
-  {{!-- {{object/md-identifier-object-table
-    model=model.qualityMeasure.identifier
+  {{#if model.qualityMeasure.identifier}}
+    {{#layout/md-card
+      title="Identifier"
+      collapsible=true
+      collapsed=false
+      spotlightEnabled=false
+      deleteAction=(action "deleteQualityMeasureIdentifier")
+    }}
+      {{object/md-identifier
+        model=model.qualityMeasure.identifier
+        profilePath=(concat profilePath ".qualityMeasure.identifier")
+        short=true
+      }}
+    {{/layout/md-card}}
+  {{else}}
+    <div class="md-object-table box-shadow--4dp">
+      <div class="alert md-alert-table alert-info">
+        <h4>No Identifier Found
+          <button
+            class="btn btn-success btn-md"
+            {{action "addQualityMeasureIdentifier"}}
+          >
+            <i class="fa fa-plus" />
+            Add Identifier
+          </button>
+        </h4>
+      </div>
+    </div>
+  {{/if}}
+  {{!-- {{#layout/md-card
+    collapsible=true
+    title="Identifier"
     profilePath=(concat profilePath ".qualityMeasure.identifier")
-    data-spy=(if data-spy "Identifier")
-    visibility=true
-    short=true
-    class=(if embedded "md-embedded")
-  }} --}}
-  {{object/md-identifier
-    model=model.qualityMeasure.identifier
-    short=true
-    profilePath=(concat profilePath ".qualityMeasure.identifier")
+    content=model.qualityMeasure.identifier
   }}
+    {{object/md-identifier
+      model=model.qualityMeasure.identifier
+      short=true
+      profilePath=(concat profilePath ".qualityMeasure.identifier")
+    }}
+  {{/layout/md-card}} --}}
   {{input/md-input
     value=qualityMeasureName
     placeholder="Enter the name."
     label="Name"
     profilePath=(concat profilePath ".qualityMeasure.name")
   }}
-  {{! <div>Name required if identifier not provided</div> }}
+  <div>Name required if identifier not provided</div>
   {{input/md-textarea
     value=model.qualityMeasure.description
     placeholder="Enter description."
@@ -78,6 +106,21 @@
     profilePath=(concat profilePath ".evaluationMethod.type")
     class=(if (v-get this "isInvalid") "required")
   }}
+  {{input/md-codelist
+    create=true
+    label="Method Type"
+    tooltip=true
+    icon=false
+    disable=false
+    allowClear=true
+    showValidations=true
+    mdCodeName="dataQualityElement"
+    path="methodType"
+    model=this
+    placeholder="Select Method Type"
+    profilePath=(concat profilePath ".evaluationMethod.evaluationMethodType")
+    class=(if (v-get this "isInvalid") "required")
+  }}
   {{input/md-input
     value=model.evaluationMethod.dateTime
     placeholder="Enter the dateTime."
@@ -86,9 +129,66 @@
   }}
   {{input/md-textarea
     value=model.evaluationMethod.methodDescription
-    placeholder="Enter description."
-    label="Method Description"
+    placeholder="Description of the evaluation method."
+    label="Description"
     profilePath=(concat profilePath ".evaluationMethod.methodDescription")
+  }}
+  {{#if model.evaluationMethod.evaluationProcedure}}
+    {{#layout/md-card
+      title="Evaluation Procedure"
+      required=true
+      collapsible=true
+      collapsed=false
+      spotlightEnabled=false
+      deleteAction=(action "deleteEvaluationProcedure")
+    }}
+      {{object/md-citation
+        model=model.evaluationMethod.evaluationProcedure
+        profilePath=(concat profilePath ".evaluationMethod.evaluationProcedure")
+        simpleIdentifier=true
+      }}
+    {{/layout/md-card}}
+  {{else}}
+    <div class="md-object-table box-shadow--4dp">
+      <div class="alert md-alert-table alert-info">
+        <h4>No Evaluation Procedure Found
+          <button
+            class="btn btn-success btn-md"
+            {{action "addEvaluationProcedure"}}
+          >
+            <i class="fa fa-plus" />
+            Add Evaluation Procedure
+          </button>
+        </h4>
+      </div>
+    </div>
+  {{/if}}
+
+  {{! reference document (array - referenceDocument) }}
+
+  {{input/md-textarea
+    value=model.evaluationMethod.deductiveSource
+    placeholder="Information on which data are used as sources in deductive evaluation method.​"
+    label="Deductive Source"
+    profilePath=(concat profilePath ".evaluationMethod.deductiveSource")
+  }}
+  {{input/md-textarea
+    value=model.evaluationMethod.samplingScheme
+    placeholder="Information of the type of sampling scheme and description of the sampling procedure."
+    label="Sampling Scheme"
+    profilePath=(concat profilePath ".evaluationMethod.samplingScheme")
+  }}
+  {{input/md-textarea
+    value=model.evaluationMethod.lotDescription
+    placeholder="Information of how lots are defined.​"
+    label="Lot Description"
+    profilePath=(concat profilePath ".evaluationMethod.lotDescription")
+  }}
+  {{input/md-textarea
+    value=model.evaluationMethod.samplingRatio
+    placeholder="Information on how many samples on average are extracted for inspection from each lot of population."
+    label="Sampling Ratio"
+    profilePath=(concat profilePath ".evaluationMethod.samplingRatio")
   }}
 {{/layout/md-card}}
 
