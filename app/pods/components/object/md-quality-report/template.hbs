@@ -151,9 +151,21 @@
       </div>
     </div>
   {{/if}}
-
-  {{! reference document (array - referenceDocument) }}
-
+  {{#object/md-object-table
+    items=model.evaluationMethod.referenceDocument
+    header="Reference Document"
+    buttonText="Add Reference Document"
+    ellipsis=true
+    profilePath=(concat profilePath ".evaluationMethod.referenceDocument")
+    attributes="title,identifier,identifierCode"
+    as |editing|
+  }}
+    {{object/md-citation
+      model=editing
+      profilePath=(concat profilePath ".evaluationMethod.referenceDocument")
+      simpleIdentifier=true
+    }}
+  {{/object/md-object-table}}
   {{input/md-textarea
     value=model.evaluationMethod.deductiveSource
     placeholder="Information on which data are used as sources in deductive evaluation method.​"
