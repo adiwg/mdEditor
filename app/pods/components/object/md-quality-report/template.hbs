@@ -109,7 +109,7 @@
     profilePath=(concat profilePath ".evaluationMethod.evaluationMethodType")
     class=(if (v-get this "isInvalid") "required")
   }}
-  {{#layout/md-card}}
+  <div class="row">
     <label class="col-sm-2 control-label">Dates</label>
     {{input/md-datetime
       date=evaluationMethodStartDateTime
@@ -123,7 +123,7 @@
       profilePath=(concat profilePath ".evaluationMethod.dateTime")
       label="End Date"
     }}
-  {{/layout/md-card}}
+  </div>
   {{input/md-textarea
     value=model.evaluationMethod.methodDescription
     placeholder="Description of the evaluation method."
@@ -215,7 +215,7 @@
   buttonText="Add Quantitative Result"
   ellipsis=true
   profilePath=(concat profilePath ".quantitativeResult")
-  attributes="dateTime,value,valueUnits,valueRecordType"
+  attributes="scope.scopeCode,value,valueUnits"
   as |editing|
 }}
   {{object/md-quality-report/quantitative-result
