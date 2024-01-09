@@ -7,17 +7,18 @@
   allowClear=true
   showValidations=true
   mdCodeName="dataQualityElement"
-  path="type"
+  path="reportType"
   model=this
   placeholder="Select Report Type"
   profilePath=(concat profilePath ".type")
   class=(if (v-get this "isInvalid") "required")
 }}
 
-{{input/md-input
-  label="Standalone Report Detail Reference"
+{{input/md-textarea
   value=model.standaloneQualityReportDetails
-  disabled=false
+  placeholder="Enter detail reference."
+  label="Standalone Report Detail Reference"
+  profilePath=(concat profilePath ".standaloneQualityReportDetails")
 }}
 
 {{#layout/md-card
@@ -27,7 +28,27 @@
   data-spy=(if data-spy "Quality Measure")
   content=model.qualityMeasure
 }}
+  {{!-- {{object/md-identifier-object-table
+    model=model.qualityMeasure.identifier
+    profilePath=(concat profilePath ".qualityMeasure.identifier")
+    data-spy=(if data-spy "Identifier")
+    visibility=true
+    short=true
+    class=(if embedded "md-embedded")
+  }} --}}
+  {{object/md-identifier
+    model=model.qualityMeasure.identifier
+    short=true
+    profilePath=(concat profilePath ".qualityMeasure.identifier")
+  }}
   {{input/md-input
+    value=qualityMeasureName
+    placeholder="Enter the name."
+    label="Name"
+    profilePath=(concat profilePath ".qualityMeasure.name")
+  }}
+  {{! <div>Name required if identifier not provided</div> }}
+  {{input/md-textarea
     value=model.qualityMeasure.description
     placeholder="Enter description."
     label="Description"
@@ -42,21 +63,28 @@
   data-spy=(if data-spy "Evaluation Method")
   content=model.evaluationMethod
 }}
-  {{input/md-input
-    value=model.evaluationMethod.type
-    placeholder="Enter the type."
-    label="Type"
+  {{input/md-codelist
+    create=true
+    label="Evaluation Type"
+    tooltip=true
+    icon=false
+    disable=false
+    allowClear=true
+    showValidations=true
+    mdCodeName="dataQualityElement"
+    path="evaluationType"
+    model=this
+    placeholder="Select Evaluation Type"
     profilePath=(concat profilePath ".evaluationMethod.type")
+    class=(if (v-get this "isInvalid") "required")
   }}
-
   {{input/md-input
     value=model.evaluationMethod.dateTime
     placeholder="Enter the dateTime."
     label="Date Time"
     profilePath=(concat profilePath ".evaluationMethod.dateTime")
   }}
-
-  {{input/md-input
+  {{input/md-textarea
     value=model.evaluationMethod.methodDescription
     placeholder="Enter description."
     label="Method Description"
@@ -109,7 +137,14 @@
   }}
 {{/object/md-object-table}}
 
-{{#object/md-object-table
+{{! 
+The code below is ready to go for adding the cover result array.
+All it needs is to be uncommented. However, the coverage result object
+itself still needs to be implemented. It only has a patial implementation
+done so far.
+}}
+
+{{!-- {{#object/md-object-table
   items=model.coverageResult
   header="Coverage Result"
   buttonText="Add Coverage Result"
@@ -122,4 +157,4 @@
     model=editing
     profilePath=(concat profilePath ".coverageResult")
   }}
-{{/object/md-object-table}}
+{{/object/md-object-table}} --}}
