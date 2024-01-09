@@ -12,7 +12,20 @@ export default Component.extend({
     if (model) {
       once(this, function () {
         set(model, "scope", getWithDefault(model, "scope", {}));
+        set(model, "pass", getWithDefault(model, "pass", false));
       });
     }
+  },
+
+  name: "",
+  scopeCode: alias("model.scope.scopeCode"),
+
+  actions: {
+    addSpecification() {
+      set(this.model, "specification", {});
+    },
+    deleteSpecification() {
+      set(this.model, "specification", null);
+    },
   },
 });
