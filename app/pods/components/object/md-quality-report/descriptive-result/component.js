@@ -15,4 +15,8 @@ export default Component.extend({
       });
     }
   },
+
+  name: "",
+
+  scopeCode: alias("model.scope.scopeCode"),
 });
