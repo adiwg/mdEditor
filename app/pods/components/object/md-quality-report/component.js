@@ -20,7 +20,7 @@ export default Component.extend({
         set(
           model,
           "evaluationMethod",
-          getWithDefault(model, "evaluationMethod", {})
+          getWithDefault(model, "evaluationMethod", { dateTime: [] })
         );
         set(
           model,
@@ -48,15 +48,54 @@ export default Component.extend({
 
   qualityMeasureName: computed("model.qualityMeasure.name.[]", {
     get() {
-      let nameArray = this.get("model.qualityMeasure.name");
+      const nameArray = this.get("model.qualityMeasure.name");
       return nameArray && nameArray.length > 0 ? nameArray[0] : null;
     },
     set(key, value) {
-      let nameArray = this.get("model.qualityMeasure.name");
+      const nameArray = this.get("model.qualityMeasure.name");
       if (nameArray && nameArray.length > 0) {
         nameArray[0] = value;
       } else {
         this.set("model.qualityMeasure.name", [value]);
+      }
+      return value;
+    },
+  }),
+
+  evaluationMethodStartDateTime: computed(
+    "model.evaluationMethod.dateTime.[]",
+    {
+      get() {
+        const dateTimeArray = this.get("model.evaluationMethod.dateTime");
+        return dateTimeArray && dateTimeArray.length > 0
+          ? dateTimeArray[0]
+          : null;
+      },
+      set(key, value) {
+        const dateTimeArray = this.get("model.evaluationMethod.dateTime");
+        if (dateTimeArray && dateTimeArray.length > 0) {
+          dateTimeArray[0] = value;
+        } else {
+          this.set("model.evaluationMethod.dateTime", [value]);
+        }
+        return value;
+      },
+    }
+  ),
+
+  evaluationMethodEndDateTime: computed("model.evaluationMethod.dateTime.[]", {
+    get() {
+      const dateTimeArray = this.get("model.evaluationMethod.dateTime");
+      return dateTimeArray && dateTimeArray.length > 1
+        ? dateTimeArray[1]
+        : null;
+    },
+    set(key, value) {
+      const dateTimeArray = this.get("model.evaluationMethod.dateTime");
+      if (dateTimeArray && dateTimeArray.length > 1) {
+        dateTimeArray[1] = value;
+      } else {
+        this.set("model.evaluationMethod.dateTime", [null, value]);
       }
       return value;
     },

@@ -109,12 +109,21 @@
     profilePath=(concat profilePath ".evaluationMethod.evaluationMethodType")
     class=(if (v-get this "isInvalid") "required")
   }}
-  {{input/md-input
-    value=model.evaluationMethod.dateTime
-    placeholder="Enter the dateTime."
-    label="Date Time"
-    profilePath=(concat profilePath ".evaluationMethod.dateTime")
-  }}
+  {{#layout/md-card}}
+    <label class="col-sm-2 control-label">Dates</label>
+    {{input/md-datetime
+      date=evaluationMethodStartDateTime
+      class="col-xxl-4 col-md-10 col-sm-4"
+      profilePath=(concat profilePath ".evaluationMethod.dateTime")
+      label="Start Date"
+    }}
+    {{input/md-datetime
+      date=evaluationMethodEndDateTime
+      class="col-xxl-4 col-md-10 col-sm-4"
+      profilePath=(concat profilePath ".evaluationMethod.dateTime")
+      label="End Date"
+    }}
+  {{/layout/md-card}}
   {{input/md-textarea
     value=model.evaluationMethod.methodDescription
     placeholder="Description of the evaluation method."
@@ -166,30 +175,38 @@
       simpleIdentifier=true
     }}
   {{/object/md-object-table}}
-  {{input/md-textarea
-    value=model.evaluationMethod.deductiveSource
-    placeholder="Information on which data are used as sources in deductive evaluation method.​"
-    label="Deductive Source"
-    profilePath=(concat profilePath ".evaluationMethod.deductiveSource")
+  {{#layout/md-card
+    collapsible=true collapsed=true title="Indirect Evaluation"
   }}
-  {{input/md-textarea
-    value=model.evaluationMethod.samplingScheme
-    placeholder="Information of the type of sampling scheme and description of the sampling procedure."
-    label="Sampling Scheme"
-    profilePath=(concat profilePath ".evaluationMethod.samplingScheme")
+    {{input/md-textarea
+      value=model.evaluationMethod.deductiveSource
+      placeholder="Information on which data are used as sources in deductive evaluation method.​"
+      label="Deductive Source"
+      profilePath=(concat profilePath ".evaluationMethod.deductiveSource")
+    }}
+  {{/layout/md-card}}
+  {{#layout/md-card
+    collapsible=true collapsed=true title="Sample Based Inspection"
   }}
-  {{input/md-textarea
-    value=model.evaluationMethod.lotDescription
-    placeholder="Information of how lots are defined.​"
-    label="Lot Description"
-    profilePath=(concat profilePath ".evaluationMethod.lotDescription")
-  }}
-  {{input/md-textarea
-    value=model.evaluationMethod.samplingRatio
-    placeholder="Information on how many samples on average are extracted for inspection from each lot of population."
-    label="Sampling Ratio"
-    profilePath=(concat profilePath ".evaluationMethod.samplingRatio")
-  }}
+    {{input/md-textarea
+      value=model.evaluationMethod.samplingScheme
+      placeholder="Information of the type of sampling scheme and description of the sampling procedure."
+      label="Sampling Scheme"
+      profilePath=(concat profilePath ".evaluationMethod.samplingScheme")
+    }}
+    {{input/md-textarea
+      value=model.evaluationMethod.lotDescription
+      placeholder="Information of how lots are defined.​"
+      label="Lot Description"
+      profilePath=(concat profilePath ".evaluationMethod.lotDescription")
+    }}
+    {{input/md-textarea
+      value=model.evaluationMethod.samplingRatio
+      placeholder="Information on how many samples on average are extracted for inspection from each lot of population."
+      label="Sampling Ratio"
+      profilePath=(concat profilePath ".evaluationMethod.samplingRatio")
+    }}
+  {{/layout/md-card}}
 {{/layout/md-card}}
 
 {{#object/md-object-table
