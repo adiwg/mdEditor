@@ -2,12 +2,7 @@ import Service from "@ember/service";
 import Keycloak from "keycloak-js";
 import { action, set } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
-
-const keycloakConfig = {
-  realm: "ScienceBase-B",
-  clientId: "catalog",
-  url: "https://www.sciencebase.gov/auth",
-};
+import ENV from "mdeditor/config/environment";
 
 export default class KeycloakService extends Service {
   keycloak = null;
@@ -18,7 +13,7 @@ export default class KeycloakService extends Service {
 
   constructor() {
     super(...arguments);
-    this.keycloak = new Keycloak(keycloakConfig);
+    this.keycloak = new Keycloak(ENV.keycloakConfig);
     this.initializeKeycloak();
   }
 
