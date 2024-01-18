@@ -1,25 +1,43 @@
 <div class="row">
   <div class="col-sm-9">
-    {{sb-tree labelComponent="sb-tree-label" model=model selected=selected select=(action "selectRecord")}}
+    {{sb-tree
+      labelComponent="sb-tree-label"
+      model=model
+      selected=selected
+      select=(action "selectRecord")
+    }}
   </div>
   <div class="col-sm-3">
     <div class="md-control-sidebar">
-      {{#if isLoadingCreds}}
+      {{#if keycloak.isLoggingIn}}
         <div class="text-info">
           Logging in...
           {{fa-icon "spinner" spin=true size=3}}
         </div>
       {{else}}
-        {{#unless credInfo}}
-          <h4 class="text-info">Login to ScienceBase</h4>
-          <button
-            type="button"
-            class="btn btn-lg btn-primary"
-            {{action "login"}}
-          >
-            Login with Keycloak
-          </button>
+        {{#unless keycloak.isAuthenticated}}
+          {{#if keycloak.isInitialized}}
+            <button
+              type="button"
+              class="btn btn-lg btn-primary"
+              {{action "login"}}
+            >
+              Login to ScienceBase
+            </button>
+          {{else}}
+            <div class="text-info">
+              Initializing...
+              {{fa-icon "spinner" spin=true size=3}}
+            </div>
+          {{/if}}
         {{else}}
+          <div class="card">
+            <div class="card-block">
+              Logged in as
+              {{keycloak.username}}
+            </div>
+          </div>
+          <hr />
           <button
             type="button"
             class="btn btn-lg btn-primary"
@@ -28,12 +46,6 @@
           >
             Publish
           </button>
-          <hr>
-          <div class="card">
-            <div class="card-block">
-              Logged in as: {{credInfo.username}}
-            </div>
-          </div>
         {{/unless}}
       {{/if}}
     </div>

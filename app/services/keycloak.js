@@ -1,22 +1,26 @@
 import Service from "@ember/service";
 import Keycloak from "keycloak-js";
+import { action, set } from "@ember/object";
+import { tracked } from "@glimmer/tracking";
 
 const keycloakConfig = {
   realm: "ScienceBase-B",
-  clientId: "mdeditor",
+  clientId: "catalog",
   url: "https://www.sciencebase.gov/auth",
 };
 
-export default Service.extend({
-  keycloak: null,
-  isInitialized: false,
+export default class KeycloakService extends Service {
+  keycloak = null;
+  @tracked isInitialized = false;
+  @tracked isLoggingIn = false;
+  @tracked isAuthenticated = false;
+  @tracked username = null;
 
-  init() {
-    console.log("keycloak init");
-    this._super(...arguments);
+  constructor() {
+    super(...arguments);
     this.keycloak = new Keycloak(keycloakConfig);
     this.initializeKeycloak();
-  },
+  }
 
   async initializeKeycloak() {
     if (this.isInitialized) {
@@ -24,38 +28,30 @@ export default Service.extend({
     }
     try {
       await this.keycloak.init({
-        // onLoad: "login-required",
-        // below are some additional options that have been attempted
-        //
         onLoad: "check-sso",
-        // flow: "standard",
-        // token: localStorage.getItem("kc_token"),
-        // refreshToken: localStorage.getItem("kc_refresh_token"),
-        // idToken: localStorage.getItem("kc_id_token"),
-        // timeSkew: parseInt(localStorage.getItem("kc_timeskew"), 10) || 0,
+        flow: "standard",
+        pkceMethod: "S256",
         checkLoginIframe: false,
+        tokenMinValidity: 30,
       });
-      this.isInitialized = true;
-      console.log("Keycloak Initialized");
-      console.log(this.keycloak.token);
+      set(this, "isInitialized", true);
+      if (this.keycloak.authenticated) {
+        set(this, "isAuthenticated", true);
+        const profile = await this.keycloak.loadUserProfile();
+        const profileUser = profile.username;
+        set(this, "username", profileUser);
+      }
     } catch (error) {
       console.error("Error initializing Keycloak:", error);
     }
-  },
+  }
 
+  @action
   async login() {
-    console.log("keycloak login");
-    // if (!this.isInitialized) {
-    //   await this.initializeKeycloak();
-    // }
-    // console.log("login disabled");
-    return this.keycloak.login();
-  },
-
-  async logout() {
-    console.log("keycloak logout");
-    if (this.isInitialized) {
-      return this.keycloak.logout();
+    if (this.isLoggingIn) {
+      return;
     }
-  },
-});
+    set(this, "isLoggingIn", true);
+    return this.keycloak.login();
+  }
+}
