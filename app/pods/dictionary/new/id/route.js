@@ -3,14 +3,8 @@ import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  model: function (params) {
-    let record = this.store.peekRecord('dictionary', params.dictionary_id);
-
-    if (record) {
-      return record;
-    }
-
-    return this.store.findRecord('dictionary', params.dictionary_id);
+  model: async function (params) {
+    return await this.store.peekRecord('dictionary', params.dictionary_id);
   },
 
   breadCrumb: null,

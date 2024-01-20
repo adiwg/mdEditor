@@ -1,4 +1,5 @@
-import Model, { attr, hasMany } from '@ember-data/model';
+import { attr, hasMany } from '@ember-data/model';
+import { Model } from 'ember-pouch';
 import { computed, observer } from '@ember/object';
 import { or, alias, notEmpty } from '@ember/object/computed';
 import { once } from '@ember/runloop';

@@ -2,14 +2,8 @@ import { NotFoundError } from '@ember-data/adapter/error';
 import Route from '@ember/routing/route';
 
 export default Route.extend({
-  model(params) {
-    let record = this.store.peekRecord('record', params.record_id);
-
-    if(record) {
-      return record;
-    }
-
-    return this.store.findRecord('record', params.record_id);
+  async model(params) {
+    return await this.store.peekRecord('record', params.record_id);
   },
 
   breadCrumb: null,

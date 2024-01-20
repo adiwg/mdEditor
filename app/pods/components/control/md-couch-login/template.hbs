@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-sm-4">
+    <div class="md-control-sidebar">
+    {{#if isLoadingCreds}}
+      <div class="text-info">
+        Logging in...
+        {{fa-icon "spinner" spin=true size=3}}
+      </div>
+    {{else}}
+      {{#unless this.couch.loggedIn}}
+        <div class="=form">
+          <h4 class="text-info">Login to CouchDB</h4>
+          {{input/md-input type="text" value=this.remoteUrl label="CouchDB URL"}}
+          {{input/md-input type="text" value=this.remoteName label="CouchDB Name"}}
+          {{input/md-input type="text" value=this.username label="Username"}}
+          {{input/md-input type="password" value=this.password label="Password"}}
+          <button type="button"
+            class="btn btn-lg btn-success"
+            {{action "login"}}>Login</button>
+        </div>
+        {{else}}
+          <div class="card">
+            <div class="card-block">
+              Logged in as: {{this.couch.username}}
+            </div>
+          </div>
+          <hr>
+          <div class="couch-actions">
+            <button type="button"
+              class="btn btn-lg btn-primary"
+              {{action "push"}}>Push</button>
+            <button type="button"
+              class="btn btn-lg btn-primary"
+              {{action "pull"}}>Pull</button>
+            <button type="button"
+              class="btn btn-lg btn-primary"
+              {{action "sync"}}>Sync</button>
+          </div>
+          <hr>
+      {{/unless}}
+    {{/if}}
+    </div>
+  </div>
+</div>

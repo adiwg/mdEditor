@@ -1,4 +1,11 @@
-import Adapter
-from 'ember-local-storage/adapters/adapter';
+import PouchDB from 'ember-pouch/pouchdb';
+import auth from 'pouchdb-authentication';
+import { Adapter } from 'ember-pouch';
 
-export default Adapter.extend({});
+PouchDB.plugin(auth);
+
+const db = new PouchDB('md-pouch');
+
+export default class ApplicationAdapter extends Adapter {
+  db = db;
+}
