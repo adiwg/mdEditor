@@ -32,7 +32,7 @@
     "start": "ember serve",
     "test": "ember try:each --skip-cleanup=true"
   },
-  "homepage": "https://github.com/adiwg/mdEditor",
+  "homepage": "https://jwaspin.com",
   "bugs": {
     "url": "https://github.com/adiwg/mdEditor/issues"
   },
@@ -134,6 +134,7 @@
     "eslint-plugin-qunit": "^7.3.0",
     "font-awesome": "~4.7.0",
     "geojson-coords": "0.0.0",
+    "gh-pages": "^6.1.1",
     "jquery-jsonview": "^1.2.3",
     "json-schema-ref-parser": "^7.1.4",
     "keycloak-js": "^22.0.3",
