@@ -10,7 +10,7 @@ module.exports = function (environment) {
     podModulePrefix: "mdeditor/pods",
     environment: environment,
     rootURL: "/",
-    locationType: "auto",
+    locationType: "history",
     vocabulariesUrl:
       "https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/vocabularies.json",
     profilesListUrl:
@@ -83,7 +83,7 @@ module.exports = function (environment) {
   if (environment === "test") {
     // Testem prefers this...
     ENV.rootURL = "/";
-    ENV.locationType = "none";
+    ENV.locationType = "history";
 
     ENV["ember-local-storage"] = {
       namespace: "test",
@@ -99,11 +99,11 @@ module.exports = function (environment) {
 
   if (environment === "staging") {
     ENV.rootURL = "/";
-    ENV.locationType = "hash";
+    ENV.locationType = "history";
   }
 
   if (environment === "production") {
-    ENV.locationType = "hash";
+    ENV.locationType = "history";
     ENV.keycloakConfig = {
       realm: "ScienceBase",
       clientId: "catalog",
@@ -113,7 +113,7 @@ module.exports = function (environment) {
 
   if (deployTarget === "dev") {
     ENV.rootURL = "/";
-    ENV.locationType = "hash";
+    ENV.locationType = "history";
   }
   return ENV;
 };
