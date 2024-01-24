@@ -23,7 +23,6 @@
     "lint:js": "eslint .",
     "lint:sass": "stylelint 'app/styles/**/*.scss'",
     "lint:sass:fix": "stylelint 'app/styles/**/*.scss' --fix",
-    "ember": "ember",
     "format": "npm-run-all format:*",
     "format:hbs": "prettier --write 'app/**/*.hbs'",
     "format:js": "prettier --write '{app,config,stories,tests}/**/*.js' *.js",
