@@ -33,7 +33,7 @@
     "test": "ember try:each --skip-cleanup=true",
     "deploy": "gh-pages -d dist"
   },
-  "homepage": "https://jwaspin.com",
+  "homepage": "https://github.com/adiwg/mdEditor",
   "bugs": {
     "url": "https://github.com/adiwg/mdEditor/issues"
   },
