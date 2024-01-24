@@ -1,48 +1,32 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>mdEditor</title>
-    <meta
-      name="description"
-      content="The mdEditor is a web application that allows users to author and edit metadata for projects and datasets."
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="The mdEditor is a web application that allows users to author and edit metadata for projects and datasets.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     {{content-for "head"}}
-    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css" />
-    <link rel="stylesheet" href="{{rootURL}}assets/mdeditor.css" />
-    <link
-      rel="apple-touch-icon-precomposed"
-      sizes="144x144"
-      href="{{rootURL}}apple-touch-icon-144x144.png"
-    />
-    <link
-      rel="apple-touch-icon-precomposed"
-      sizes="152x152"
-      href="{{rootURL}}apple-touch-icon-152x152.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      href="{{rootURL}}favicon-32x32.png"
-      sizes="32x32"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      href="{{rootURL}}favicon-16x16.png"
-      sizes="16x16"
-    />
-    <meta
-      name="application-name"
-      content="mdEditor - the friendly metadata editor"
-    />
+
+    <link rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link rel="stylesheet" href="{{rootURL}}assets/mdeditor.css">
+
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{rootURL}}apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="{{rootURL}}apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="{{rootURL}}favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="{{rootURL}}favicon-16x16.png" sizes="16x16" />
+    <meta name="application-name" content="mdEditor - the friendly metadata editor"/>
     <meta name="msapplication-TileColor" content="#FFFFFF" />
-    <meta
-      name="msapplication-TileImage"
-      content="{{rootURL}}mstile-144x144.png"
-    />
+    <meta name="msapplication-TileImage" content="{{rootURL}}mstile-144x144.png" />
+
+    <!-- Redirect Script -->
+    <!-- <script type="text/javascript">
+      if(document.location.host + document.location.pathname === 'www.adiwg.org/mdEditor/') {
+        document.location.replace('https://go.mdeditor.org');
+      }
+    </script> -->
+
     {{content-for "head-footer"}}
   </head>
   <body>
@@ -54,10 +38,7 @@
           <div></div>
         </div>
       </div>
-      <h3>
-        Loading <span class="text-primary">mdEditor</span>...might take a few
-        seconds ;)
-      </h3>
+      <h3>Loading <span class="text-primary">mdEditor</span>...might take a few seconds ;)</h3>
     </div>
 
     <script src="{{rootURL}}assets/vendor.js"></script>
