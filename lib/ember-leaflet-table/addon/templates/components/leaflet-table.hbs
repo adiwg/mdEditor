@@ -24,60 +24,57 @@
 
     {{layer-control}}
   {{/leaflet-draw}}
-  {{#unless formData}}
-  <h4 class="table-title">Feature Properties</h4>
-  {{#feature-table data=layers
-    columnComponents=(hash
+
+  {{#if formData}}
+    <h4 class="table-title">Edit Feature Properties
+      <button class="btn btn-xs btn-info pull-right" {{action "closeForm" }} title="Close Form" type='button'>
+        <span class="fa fa-check"></span> OK
+      </button>
+    </h4>
+    {{feature-form model=formData}}
+  {{else}}
+    <h4 class="table-title">Feature Properties</h4>
+    {{#feature-table data=layers
+      columnComponents=(hash
       leaflet-table-row-actions=(component "leaflet-table-row-actions"
       showForm=(action "showForm")
       zoomTo=(action "zoomTo")
       deleteFeature=(action "deleteFeature")
-    ))
-    showGlobalFilter=false
-    showColumnsDropdown=false
-    pageSize=10 as |ft|
-  }}
-    {{!-- {{ft.global-filter}}
-    {{ft.columns-dropdown}} --}}
-      {{#ft.Table as |table|}}
-        {{table.Header}}
-        {{#table.Body as |body|}}
-          {{#if body.allColumnsAreHidden}}
-            {{body.ColumnsHidden}}
+      ))
+      showGlobalFilter=false
+      showColumnsDropdown=false
+      pageSize=10 as |ft|
+    }}
+      {{#ft.table as |table|}}
+        {{table.header}}
+        {{#table.body as |body|}}
+          {{#if body.body.allColumnsAreHidden}}
+              {{body.columns-hidden}}
           {{else}}
             {{#if body.visibleContent.length}}
-            {{!-- {{debugger}} --}}
-              {{#each body.visibleContent as |record index|}}
-                {{body.row record=record
-                  index=index
-                  showForm=(action "showForm")
-                  zoomTo=(action "zoomTo")
-                  deleteFeature=(action "deleteFeature")
-                }}
-                {{#if (exists-in body.expandedItems record)}}
-                  {{body.RowExpand
-                    expandedRowComponent=expandedRowComponent
-                    record=record
-                    index=index
+                {{#each body.visibleContent as |record index|}}
+                  {{body.row record=record index=index
+                    showForm=(action "showForm")
+                    zoomTo=(action "zoomTo")
+                    deleteFeature=(action "deleteFeature")
                   }}
-                {{/if}}
-              {{/each}}
+                    {{#if (exists-in body.expandedItems record)}}
+                      {{body.row-expand
+                        expandedRowComponent=expandedRowComponent
+                        record=record
+                        index=index
+                      }}
+                    {{/if}}
+                {{/each}}
             {{else}}
               {{body.no-data}}
             {{/if}}
           {{/if}}
-        {{/table.Body}}
-        {{table.Tooter}}
-      {{/ft.Table}}
-    {{ft.Footer}}
-  {{/feature-table}}
-  {{else}}
-  <h4 class="table-title">Edit Feature Properties
-      <button class="btn btn-xs btn-info pull-right" {{action "closeForm"}} title="Close Form">
-        <span class="fa fa-check"></span> OK
-      </button>
-  </h4>
-  {{feature-form model=formData}}
-  {{/unless}}
+        {{/table.body}}
+        {{table.footer}}
+      {{/ft.table}}
+      {{ft.footer}}
+    {{/feature-table}}
+  {{/if}}
   {{yield}}
 {{/file-picker}}
