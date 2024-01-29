@@ -1,5 +1,13 @@
 .couch-actions {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: space-between;
+
+  button {
+    margin: 10px;
+
+    span {
+      padding-right: 0.5em;
+    }
+  }
 }

@@ -28,15 +28,39 @@
           <div class="couch-actions">
             <button type="button"
               class="btn btn-lg btn-primary"
-              {{action "push"}}>Push</button>
+              {{action "push"}}
+            >
+              <span class="fa fa-upload"></span>
+              Push
+            </button>
             <button type="button"
               class="btn btn-lg btn-primary"
-              {{action "pull"}}>Pull</button>
+              {{action "pull"}}
+            >
+              <span class="fa fa-download"></span>
+              Pull
+            </button>
             <button type="button"
               class="btn btn-lg btn-primary"
-              {{action "sync"}}>Sync</button>
+              {{action "sync"}}
+            >
+              <span class="fa fa-retweet"></span>
+              Sync
+            </button>
           </div>
           <hr>
+          {{#if this.couch.replicationState}}
+            <div class="text-info">
+              {{this.couch.replicationState}}...
+              {{fa-icon "spinner" spin=true size=3}}
+            </div>
+          {{/if}}
+          {{#if this.couch.replicationMessage}}
+            <div class="text-info">
+              {{this.couch.replicationMessage}}
+              {{fa-icon "check" size=3}}
+            </div>
+          {{/if}}
       {{/unless}}
     {{/if}}
     </div>

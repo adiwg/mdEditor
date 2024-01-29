@@ -12,6 +12,9 @@ export default class CouchService extends Service {
   // DB instance data
   local = null;
   remote = null;
+  // DB data Loading state
+  @tracked replicationState = null;
+  @tracked replicationMessage = null;
 
   @action
   async login(remoteUrl, remoteName, username, password) {
@@ -32,9 +35,11 @@ export default class CouchService extends Service {
 
   @action
   push() {
+    this.replicationState = 'Pushing';
     this.local.replicate.to(this.remote)
       .on('complete', () => {
-        console.log('complete!');
+        this.displayMessage(this.replicationState);
+        this.replicationState = null;
       })
       .on('error', (err) => {
         console.log(err);
@@ -43,9 +48,11 @@ export default class CouchService extends Service {
 
   @action
   pull() {
+    this.replicationState = 'Pulling';
     this.local.replicate.from(this.remote)
       .on('complete', () => {
-        console.log('complete!');
+        this.displayMessage(this.replicationState);
+        this.replicationState = null;
       })
       .on('error', (err) => {
         console.log(err);
@@ -54,12 +61,21 @@ export default class CouchService extends Service {
 
   @action
   sync() {
+    this.replicationState = 'Syncing';
     this.couch.sync(this.remote)
       .on('complete', () => {
-        console.log('complete!');
+        this.displayMessage(this.replicationState);
+        this.replicationState = null;
       })
       .on('error', (err) => {
         console.log(err);
       })
+  }
+
+  displayMessage(type) {
+    this.replicationMessage = `Done ${type}`;
+    setTimeout(() => {
+      this.replicationMessage = null;
+    }, 2000);
   }
 }
