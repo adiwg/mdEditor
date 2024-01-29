@@ -1,5 +1,4 @@
-import { attr } from '@ember-data/model';
-import { Model } from 'ember-pouch';
+import Model, { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
