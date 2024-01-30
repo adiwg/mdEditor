@@ -5,10 +5,12 @@ import PouchDB from 'ember-pouch/pouchdb';
 
 export default class CouchService extends Service {
   @service store;
+  @service flashMessages;
 
   // Logged in state
   @tracked loggedIn = false;
   @tracked username = null;
+  @tracked remoteName = null;
   // DB instance data
   localDb = null;
   remoteDb = null;
@@ -35,21 +37,22 @@ export default class CouchService extends Service {
         }
       }
     } catch(e) {
-      console.log(e);
+      this.handleError(e);
     }
   }
 
   @action
   async login(remoteUrl, remoteName, username, password) {
     try {
+      this.setRemoteDb(remoteUrl, remoteName);
       const user = await this.remoteDb.login(username, password);
       if (user.ok) {
         this.setLoggedInUser(user.name);
         this.setCouch(remoteUrl, remoteName);
-        this.setRemoteDb(remoteUrl, remoteName);
+        this.flashMessages.success(`Logged in as ${this.username}`);
       }
     } catch(e) {
-      console.log(e);
+      this.handleError(e);
     }
   }
 
@@ -58,11 +61,13 @@ export default class CouchService extends Service {
     try {
       await this.remoteDb.logout();
       this.loggedIn = false;
+      this.flashMessages.success(`Logged out ${this.username}`);
       this.username = null;
+      this.remoteName = null;
       this.remoteDb = null;
       this.couch = null;
     } catch(e) {
-      console.log(e);
+      this.handleError(e);
     }
   }
 
@@ -87,17 +92,24 @@ export default class CouchService extends Service {
         await couch.save();
       }
     } catch(e) {
-      console.log(e);
+      this.handleError(e);
     }
   }
 
   setRemoteDb(remoteUrl, remoteName) {
     this.remoteDb = new PouchDB(`${remoteUrl}/${remoteName}`);
+    this.remoteName = this.remoteDb.name;
   }
 
   setLoggedInUser(name) {
     this.username = name;
     this.loggedIn = true;
+  }
+
+  handleError(e) {
+    console.error(e);
+    const errMsg = e.message || e.reason || e.name || e.error;
+    this.flashMessages.danger(`Error${errMsg ? `: ${errMsg}` : ''}`);
   }
 
   @action
@@ -109,7 +121,7 @@ export default class CouchService extends Service {
         this.replicationState = null;
       })
       .on('error', (err) => {
-        console.log(err);
+        this.handleError(err);
       })
   }
 
@@ -122,7 +134,7 @@ export default class CouchService extends Service {
         this.replicationState = null;
       })
       .on('error', (err) => {
-        console.log(err);
+        this.handleError(err);
       })
   }
 
@@ -135,7 +147,7 @@ export default class CouchService extends Service {
         this.replicationState = null;
       })
       .on('error', (err) => {
-        console.log(err);
+        this.handleError(err);
       })
   }
 
