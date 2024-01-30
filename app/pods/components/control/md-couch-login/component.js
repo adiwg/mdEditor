@@ -7,15 +7,24 @@ export default class CouchLoginComponent extends Component {
   @service couch;
 
   // User data
-  username = null;
-  password = null;
+  @tracked username = null;
+  @tracked password = null;
   // DB data
-  remoteUrl = null;
-  remoteName = null;
+  @tracked remoteUrl = null;
+  @tracked remoteName = null;
 
   @action
   login() {
     this.couch.login(this.remoteUrl, this.remoteName, this.username, this.password);
+    this.username = null;
+    this.password = null;
+    this.remoteUrl = null;
+    this.remoteName = null;
+  }
+
+  @action
+  logout() {
+    this.couch.logout();
   }
 
   @action

@@ -8,20 +8,34 @@
       </div>
     {{else}}
       {{#unless this.couch.loggedIn}}
-        <div class="=form">
-          <h4 class="text-info">Login to CouchDB</h4>
-          {{input/md-input type="text" value=this.remoteUrl label="CouchDB URL"}}
-          {{input/md-input type="text" value=this.remoteName label="CouchDB Name"}}
-          {{input/md-input type="text" value=this.username label="Username"}}
-          {{input/md-input type="password" value=this.password label="Password"}}
-          <button type="button"
-            class="btn btn-lg btn-success"
-            {{action "login"}}>Login</button>
+        <div class="couch-login-form">
+          <div class="form">
+            <h4 class="text-info">Login to CouchDB</h4>
+            {{input/md-input type="text" value=this.remoteUrl label="CouchDB URL"}}
+            {{input/md-input type="text" value=this.remoteName label="CouchDB Name"}}
+            {{input/md-input type="text" value=this.username label="Username"}}
+            {{input/md-input type="password" value=this.password label="Password"}}
+            <button type="button"
+              class="btn btn-lg btn-success"
+              {{action "login"}}>Login</button>
+          </div>
         </div>
         {{else}}
-          <div class="card">
-            <div class="card-block">
-              Logged in as: {{this.couch.username}}
+          <div class="couch-login-status">
+            <div class="card">
+              <div class="couch-login-block">
+                <div class="couch-logged-in">
+                Logged in as: {{this.couch.username}}
+                </div>
+                <div class="couch-logout">
+                  <button type="button"
+                    class="btn btn-xs btn-danger"
+                    {{action "logout"}}
+                  >
+                    Log out
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <hr>

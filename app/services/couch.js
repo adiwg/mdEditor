@@ -53,6 +53,19 @@ export default class CouchService extends Service {
     }
   }
 
+  @action
+  async logout() {
+    try {
+      await this.remoteDb.logout();
+      this.loggedIn = false;
+      this.username = null;
+      this.remoteDb = null;
+      this.couch = null;
+    } catch(e) {
+      console.log(e);
+    }
+  }
+
   async getCouch() {
     const store = await this.store.findAll('couch');
     const couch = store.get('firstObject');
