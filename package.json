@@ -1,6 +1,6 @@
 {
   "name": "mdeditor",
-  "version": "1.2.0-beta.3",
+  "version": "1.2.0-dev",
   "description": "A web application for authoring and editing metadata.",
   "repository": {
     "type": "git",
