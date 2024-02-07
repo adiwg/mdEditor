@@ -6,7 +6,7 @@ contributing to the project.
 
 ## Exploring Ember.js Octane and Native JavaScript
 
-We encourage contributors to not onl upgrade the existing Ember application but also considering leveraging the latest features and best practices introduced in newer versions, especially Ember Octane and Native JavaScript.
+We encourage contributors to not only upgrade the existing Ember application but also considering leveraging the latest features and best practices introduced in newer versions, especially Ember Octane and Native JavaScript.
 
 ### Ember Octane
 
