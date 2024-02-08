@@ -70,12 +70,12 @@ export default Component.extend({
       type: 'text/html',
       tip: 'HTML "human-readable" and printable report of the metadata content'
     }, {
-      name: 'ISO 19115-1',
-      value: 'iso19115_1',
+      name: 'ISO 19115-3',
+      value: 'iso19115_3',
       type: 'application/xml',
       tip: 'International Standards Organization Geographic Information - Metadata 19115-1:2014'
     }, {
-      name: 'ISO 19115-2',
+      name: 'ISO 19115-2/19139 (deprecated)',
       value: 'iso19115_2',
       type: 'application/xml',
       tip: 'International Standards Organization Geographic Information - Metadata 19115-2:2009'
