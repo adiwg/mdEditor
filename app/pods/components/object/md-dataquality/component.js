@@ -9,8 +9,6 @@ export default Component.extend({
 
     let model = get(this, "model");
 
-    console.log("md-dataquality didReceiveAttrs", model);
-
     once(function () {
       set(model, "scope", getWithDefault(model, "scope", {}));
       set(
