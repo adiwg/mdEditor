@@ -1,7 +1,7 @@
-import Component from "@ember/component";
-import { once } from "@ember/runloop";
-import { alias } from "@ember/object/computed";
-import { set, getWithDefault } from "@ember/object";
+import Component from '@ember/component';
+import { once } from '@ember/runloop';
+import { alias } from '@ember/object/computed';
+import { set, getWithDefault } from '@ember/object';
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -11,21 +11,21 @@ export default Component.extend({
 
     if (model) {
       once(this, function () {
-        set(model, "scope", getWithDefault(model, "scope", {}));
-        set(model, "pass", getWithDefault(model, "pass", false));
+        set(model, 'scope', getWithDefault(model, 'scope', {}));
+        set(model, 'pass', getWithDefault(model, 'pass', false));
       });
     }
   },
 
-  name: "",
-  scopeCode: alias("model.scope.scopeCode"),
+  name: '',
+  scopeCode: alias('model.scope.scopeCode'),
 
   actions: {
     addSpecification() {
-      set(this.model, "specification", {});
+      set(this.model, 'specification', {});
     },
     deleteSpecification() {
-      set(this.model, "specification", null);
+      set(this.model, 'specification', null);
     },
   },
 });
