@@ -70,10 +70,11 @@
               {{fa-icon "spinner" spin=true size=3}}
             </div>
           {{/if}}
-          {{#if this.couch.replicationMessage}}
+          {{#if this.couch.replicationInfo}}
             <div class="text-info">
-              {{this.couch.replicationMessage}}
-              {{fa-icon "check" size=3}}
+              <p><strong>Document write failures: </strong>{{this.couch.replicationInfo.doc_write_failures}}</p>
+              <p><strong>Documents read: </strong>{{this.couch.replicationInfo.docs_read}}</p>
+              <p><strong>Documents written: </strong>{{this.couch.replicationInfo.docs_written}}</p>
             </div>
           {{/if}}
       {{/unless}}

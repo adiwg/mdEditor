@@ -17,6 +17,7 @@ export default class CouchService extends Service {
   // DB data Loading state
   @tracked replicationState = null;
   @tracked replicationMessage = null;
+  @tracked replicationInfo = null;
   // Couch model data
   couch = null;
 
@@ -116,9 +117,9 @@ export default class CouchService extends Service {
   push() {
     this.replicationState = 'Pushing';
     this.localDb.replicate.to(this.remoteDb)
-      .on('complete', () => {
-        this.displayMessage(this.replicationState);
+      .on('complete', (info) => {
         this.replicationState = null;
+        this.replicationInfo = info;
       })
       .on('error', (err) => {
         this.handleError(err);
@@ -129,9 +130,10 @@ export default class CouchService extends Service {
   pull() {
     this.replicationState = 'Pulling';
     this.localDb.replicate.from(this.remoteDb)
-      .on('complete', () => {
-        this.displayMessage(this.replicationState);
+      .on('complete', (info) => {
+        console.log('pull complete info: ', info);
         this.replicationState = null;
+        this.replicationInfo = info;
       })
       .on('error', (err) => {
         this.handleError(err);
@@ -142,19 +144,13 @@ export default class CouchService extends Service {
   sync() {
     this.replicationState = 'Syncing';
     this.localDb.sync(this.remoteDb)
-      .on('complete', () => {
-        this.displayMessage(this.replicationState);
+      .on('complete', (info) => {
+        console.log('sync complete info: ', info);
         this.replicationState = null;
+        this.replicationInfo = info;
       })
       .on('error', (err) => {
         this.handleError(err);
       })
-  }
-
-  displayMessage(type) {
-    this.replicationMessage = `Done ${type}`;
-    setTimeout(() => {
-      this.replicationMessage = null;
-    }, 2000);
   }
 }
