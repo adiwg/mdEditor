@@ -1,10 +1,42 @@
 # Contributing to mdEditor
 
 The mdEditor project openly welcomes contributions (bug reports, bug fixes, code
-enhancements/features, etc.).  This document will outline some guidelines on
+enhancements/features, etc.).  This document will outline some guidelines **on**
 contributing to the project.
 
-## Style Guide rules
+## Exploring Ember.js Octane and Native JavaScript
+
+We encourage contributors to not only upgrade the existing Ember application but also considering leveraging the latest features and best practices introduced in newer versions, especially Ember Octane and Native JavaScript.
+
+### Ember Octane
+
+[Ember Octane](https://emberjs.com/editions/octane/) is the latest edition of Ember.js, designed to provide a more modern and enjoyable developer experience. It introduces several improvements, including a more explicit and component-centric structure, Glimmer components, and simplified syntax.
+
+When making contributions, please consider the following:
+
+1. **Glimmer Components:** Explore the use of Glimmer components instead of classic components. Glimmer components offer improved performance and a more efficient rendering engine.
+
+2. **Modifiers and Helpers:** Utilize the new Octane-friendly modifiers and helpers for a cleaner and more maintainable codebase.
+
+3. **Angle Bracket Invocation:** Transition to angle bracket component invocation syntax, a key feature of Octane. This syntax improves readability and aligns with modern web component standards.
+
+### Native JavaScript
+
+Ember has been progressively embracing modern JavaScript features and syntax. When making contributions, consider leveraging native JavaScript features introduced in recent Ember versions:
+
+1. **Decorators:** Take advantage of JavaScript decorators for defining computed properties, actions, and other decorators in Ember classes.
+
+2. **Async/Await:** Utilize async/await syntax for cleaner and more readable asynchronous code in your Ember application.
+
+3. **Native Classes:** Explore the use of native JavaScript classes for defining Ember components and services, providing a more idiomatic JavaScript experience.
+
+### Updating Documentation
+
+If you choose to adopt Ember Octane or leverage Native JavaScript features, please update relevant documentation or create new documentation to help fellow contributors and maintainers understand the changes.
+
+Remember that while embracing these new features can bring several benefits, it's essential to consider the impact on existing code and the overall project. Discuss major architectural changes with maintainers and the community to ensure alignment with project goals.
+
+Thank you for contributing to the continuous improvement of our Ember application!
 
 TBD - work in progress, see [#11](https://github.com/adiwg/mdEditor/issues/11). Should follow [Ember.js JavaScript Style Guide](https://github.com/emberjs/ember.js/blob/master/STYLEGUIDE.md) at a minimum.
 
