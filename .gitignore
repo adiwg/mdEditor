@@ -29,3 +29,4 @@ jsconfig.json
 /package.json.ember-try
 
 .DS_Store
+.vscode

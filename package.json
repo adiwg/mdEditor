@@ -29,7 +29,8 @@
     "format:sass": "prettier --write app/**/*.scss",
     "lint:js:fix": "eslint . --fix",
     "start": "ember serve",
-    "test": "ember try:each --skip-cleanup=true"
+    "test": "ember try:each --skip-cleanup=true",
+    "deploy": "gh-pages -d dist"
   },
   "homepage": "https://github.com/adiwg/mdEditor",
   "bugs": {
@@ -133,8 +134,10 @@
     "eslint-plugin-qunit": "^7.3.0",
     "font-awesome": "~4.7.0",
     "geojson-coords": "0.0.0",
+    "gh-pages": "^6.1.1",
     "jquery-jsonview": "^1.2.3",
     "json-schema-ref-parser": "^7.1.4",
+    "keycloak-js": "^22.0.3",
     "leaflet": "~1.6.0",
     "leaflet-draw": "~1.0.4",
     "liquid-fire": "~0.31.0",
