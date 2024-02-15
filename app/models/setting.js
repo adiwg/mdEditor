@@ -2,14 +2,14 @@ import Model, { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { run } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import EmberObject, { observer } from "@ember/object";
+import EmberObject, { observer } from '@ember/object';
 
 const defaultValues = {
-  mdTranslatorAPI: 'https://api.sciencebase.gov/mdTranslator/api/v3/translator',
-  itisProxyUrl: 'https://api.sciencebase.gov/mdTranslator',
-  // mdTranslatorAPI: 'https://dev-mdtranslator.mdeditor.org/api/v3/translator',
-  // itisProxyUrl: 'https://dev-mdtranslator.mdeditor.org',
-  fiscalStartMonth: '10'
+  // mdTranslatorAPI: 'https://api.sciencebase.gov/mdTranslator/api/v3/translator',
+  // itisProxyUrl: 'https://api.sciencebase.gov/mdTranslator',
+  mdTranslatorAPI: 'http://23.23.4.125:3001/api/v3/translator',
+  itisProxyUrl: 'https://dev-mdtranslator.mdeditor.org',
+  fiscalStartMonth: '10',
 };
 
 const theModel = Model.extend({
@@ -35,81 +35,75 @@ const theModel = Model.extend({
   },
   //cleaner: inject.service(),
   compressOnSave: attr('boolean', {
-    defaultValue: true
+    defaultValue: true,
   }),
   showSplash: attr('boolean', {
-    defaultValue: true
+    defaultValue: true,
   }),
   keepSettings: attr('boolean', {
-    defaultValue: true
+    defaultValue: true,
   }),
   autoSave: attr('boolean', {
-    defaultValue: false
+    defaultValue: false,
   }),
   showDelete: attr('boolean', {
-    defaultValue: false
+    defaultValue: false,
   }),
   showCopy: attr('boolean', {
-    defaultValue: false
+    defaultValue: false,
   }),
   lastVersion: attr('string', {
-    defaultValue: ''
+    defaultValue: '',
   }),
   dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
-    }
+    },
   }),
   characterSet: attr('string', {
-    defaultValue: 'UTF-8'
+    defaultValue: 'UTF-8',
   }),
   country: attr('string', {
-    defaultValue: 'USA'
+    defaultValue: 'USA',
   }),
   language: attr('string', {
-    defaultValue: 'eng'
+    defaultValue: 'eng',
   }),
   importUriBase: attr('string', {
-    defaultValue: ''
+    defaultValue: '',
   }),
   mdTranslatorAPI: attr('string', {
-    defaultValue: defaultValues.mdTranslatorAPI
+    defaultValue: defaultValues.mdTranslatorAPI,
   }),
   itisProxyUrl: attr('string', {
-    defaultValue: defaultValues.itisProxyUrl
+    defaultValue: defaultValues.itisProxyUrl,
   }),
   fiscalStartMonth: attr('string', {
-    defaultValue: defaultValues.fiscalStartMonth
+    defaultValue: defaultValues.fiscalStartMonth,
   }),
   repositoryDefaults: attr('json'),
   publishOptions: attr('json', {
     defaultValue: function () {
       return EmberObject.create();
-    }
+    },
   }),
   customSchemas: attr('json', {
     defaultValue: function () {
       return [];
-    }
+    },
   }),
   locale: alias('defaultLocale'),
 
   wasLoaded() {
-    this.settings
-      .setup();
+    this.settings.setup();
   },
-  updateSettings: observer('hasDirtyAttributes',
-    function () {
-      if(this.hasDirtyAttributes) {
-        run.once(this, function () {
-          this.save();
-        });
-      }
-    })
+  updateSettings: observer('hasDirtyAttributes', function () {
+    if (this.hasDirtyAttributes) {
+      run.once(this, function () {
+        this.save();
+      });
+    }
+  }),
 });
 
-export {
-  defaultValues,
-  theModel as
-  default
-};
+export { defaultValues, theModel as default };
