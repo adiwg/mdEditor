@@ -11,7 +11,14 @@ export default Route.extend({
    * @return {Object}
    */
   model: async function(params) {
-    return await this.store.peekRecord('contact', params.contact_id);
+    let record = this.store.peekRecord('contact', params.contact_id);
+
+    if (record) {
+      return record;
+    }
+
+    return this.store.findRecord('contact', params.contact_id);
+
   },
 
   /**

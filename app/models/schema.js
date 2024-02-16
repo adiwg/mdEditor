@@ -1,5 +1,4 @@
-import { attr } from '@ember-data/model';
-import { Model } from 'ember-pouch';
+import Model, { attr } from '@ember-data/model';
 import { once } from '@ember/runloop';
 import { computed, observer } from '@ember/object';
 import { or } from '@ember/object/computed';
