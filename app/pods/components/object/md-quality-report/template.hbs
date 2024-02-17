@@ -1,56 +1,53 @@
 {{input/md-codelist
+  value=model.type
+  label='Report Type'
+  required=true
   create=true
-  label="Report Type"
   tooltip=true
   icon=false
-  disable=false
-  allowClear=true
-  showValidations=true
-  mdCodeName="dataQualityElement"
-  path="reportType"
-  model=this
-  placeholder="Select Report Type"
-  profilePath=(concat profilePath ".type")
-  class=(if (v-get this "isInvalid") "required")
+  mdCodeName='dataQualityElement'
+  placeholder='Select Report Type'
+  profilePath=(concat profilePath '.type')
+  class=(if (v-get this 'isInvalid') 'required')
 }}
 
-{{input/md-textarea
+{{!-- {{input/md-textarea
   value=model.standaloneQualityReportDetails
   placeholder="Enter detail reference."
   label="Standalone Report Detail Reference"
   profilePath=(concat profilePath ".standaloneQualityReportDetails")
-}}
+}} --}}
 
 {{#layout/md-card
   collapsible=true
-  title="Quality Measure"
-  profilePath=(concat profilePath ".qualityMeasure")
-  data-spy=(if data-spy "Quality Measure")
+  title='Quality Measure'
+  profilePath=(concat profilePath '.qualityMeasure')
+  data-spy=(if data-spy 'Quality Measure')
   content=model.qualityMeasure
 }}
   {{#if model.qualityMeasure.identifier}}
     {{#layout/md-card
-      title="Identifier"
+      title='Identifier'
       collapsible=true
       collapsed=false
       spotlightEnabled=false
-      deleteAction=(action "deleteQualityMeasureIdentifier")
+      deleteAction=(action 'deleteQualityMeasureIdentifier')
     }}
       {{object/md-identifier
         model=model.qualityMeasure.identifier
-        profilePath=(concat profilePath ".qualityMeasure.identifier")
+        profilePath=(concat profilePath '.qualityMeasure.identifier')
         short=true
       }}
     {{/layout/md-card}}
   {{else}}
-    <div class="md-object-table box-shadow--4dp">
-      <div class="alert md-alert-table alert-info">
+    <div class='md-object-table box-shadow--4dp'>
+      <div class='alert md-alert-table alert-info'>
         <h4>No Identifier Found
           <button
-            class="btn btn-success btn-md"
-            {{action "addQualityMeasureIdentifier"}}
+            class='btn btn-success btn-md'
+            {{action 'addQualityMeasureIdentifier'}}
           >
-            <i class="fa fa-plus" />
+            <i class='fa fa-plus' />
             Add Identifier
           </button>
         </h4>
@@ -59,101 +56,101 @@
   {{/if}}
   {{input/md-input
     value=qualityMeasureName
-    placeholder="Enter the name."
-    label="Name"
-    profilePath=(concat profilePath ".qualityMeasure.name")
+    placeholder='Enter the name.'
+    label='Name'
+    profilePath=(concat profilePath '.qualityMeasure.name')
   }}
   <div>Name required if identifier not provided</div>
   {{input/md-textarea
     value=model.qualityMeasure.description
-    placeholder="Enter description."
-    label="Description"
-    profilePath=(concat profilePath ".qualityMeasure.description")
+    placeholder='Enter description.'
+    label='Description'
+    profilePath=(concat profilePath '.qualityMeasure.description')
   }}
 {{/layout/md-card}}
 
 {{#layout/md-card
   collapsible=true
-  title="Evaluation Method"
-  profilePath=(concat profilePath ".evaluationMethod")
-  data-spy=(if data-spy "Evaluation Method")
+  title='Evaluation Method'
+  profilePath=(concat profilePath '.evaluationMethod')
+  data-spy=(if data-spy 'Evaluation Method')
   content=model.evaluationMethod
 }}
   {{input/md-codelist
     create=true
-    label="Evaluation Type"
+    label='Evaluation Type'
     tooltip=true
     icon=false
     disable=false
     allowClear=true
     showValidations=true
-    mdCodeName="evaluationMethod"
-    path="evaluationType"
+    mdCodeName='evaluationMethod'
+    path='evaluationType'
     model=this
-    placeholder="Select Evaluation Type"
-    profilePath=(concat profilePath ".evaluationMethod.type")
-    class=(if (v-get this "isInvalid") "required")
+    placeholder='Select Evaluation Type'
+    profilePath=(concat profilePath '.evaluationMethod.type')
+    class=(if (v-get this 'isInvalid') 'required')
   }}
   {{input/md-codelist
     create=true
-    label="Method Type"
+    label='Method Type'
     tooltip=true
     icon=false
     disable=false
     allowClear=true
     showValidations=true
-    mdCodeName="evaluationMethodTypeCode"
-    path="methodType"
+    mdCodeName='evaluationMethodTypeCode'
+    path='methodType'
     model=this
-    placeholder="Select Method Type"
-    profilePath=(concat profilePath ".evaluationMethod.evaluationMethodType")
-    class=(if (v-get this "isInvalid") "required")
+    placeholder='Select Method Type'
+    profilePath=(concat profilePath '.evaluationMethod.evaluationMethodType')
+    class=(if (v-get this 'isInvalid') 'required')
   }}
-  <div class="row">
-    <label class="col-sm-2 control-label">Dates</label>
+  <div class='row'>
+    <label class='col-sm-2 control-label'>Dates</label>
     {{input/md-datetime
       date=evaluationMethodStartDateTime
-      class="col-xxl-4 col-md-10 col-sm-4"
-      profilePath=(concat profilePath ".evaluationMethod.dateTime")
-      label="Start Date"
+      class='col-xxl-4 col-md-10 col-sm-4'
+      profilePath=(concat profilePath '.evaluationMethod.dateTime')
+      label='Start Date'
     }}
     {{input/md-datetime
       date=evaluationMethodEndDateTime
-      class="col-xxl-4 col-md-10 col-sm-4"
-      profilePath=(concat profilePath ".evaluationMethod.dateTime")
-      label="End Date"
+      class='col-xxl-4 col-md-10 col-sm-4'
+      profilePath=(concat profilePath '.evaluationMethod.dateTime')
+      label='End Date'
     }}
   </div>
   {{input/md-textarea
     value=model.evaluationMethod.methodDescription
-    placeholder="Description of the evaluation method."
-    label="Description"
-    profilePath=(concat profilePath ".evaluationMethod.methodDescription")
+    placeholder='Description of the evaluation method.'
+    label='Description'
+    profilePath=(concat profilePath '.evaluationMethod.methodDescription')
   }}
   {{#if model.evaluationMethod.evaluationProcedure}}
     {{#layout/md-card
-      title="Evaluation Procedure"
+      title='Evaluation Procedure'
       required=true
       collapsible=true
       collapsed=false
       spotlightEnabled=false
-      deleteAction=(action "deleteEvaluationProcedure")
+      deleteAction=(action 'deleteEvaluationProcedure')
     }}
       {{object/md-citation
         model=model.evaluationMethod.evaluationProcedure
-        profilePath=(concat profilePath ".evaluationMethod.evaluationProcedure")
+        profilePath=(concat profilePath '.evaluationMethod.evaluationProcedure')
         simpleIdentifier=true
       }}
     {{/layout/md-card}}
   {{else}}
-    <div class="md-object-table box-shadow--4dp">
-      <div class="alert md-alert-table alert-info">
+    <div class='md-object-table box-shadow--4dp'>
+      <div class='alert md-alert-table alert-info'>
         <h4>No Evaluation Procedure Found
           <button
-            class="btn btn-success btn-md"
-            {{action "addEvaluationProcedure"}}
+            class='btn btn-success btn-md'
+            {{action 'addEvaluationProcedure'}}
           >
-            <i class="fa fa-plus" />
+            <i class='fa fa-plus' />
             Add Evaluation Procedure
           </button>
         </h4>
@@ -162,95 +159,95 @@
   {{/if}}
   {{#object/md-object-table
     items=model.evaluationMethod.referenceDocument
-    header="Reference Document"
-    buttonText="Add Reference Document"
+    header='Reference Document'
+    buttonText='Add Reference Document'
     ellipsis=true
-    profilePath=(concat profilePath ".evaluationMethod.referenceDocument")
-    attributes="title,identifier,identifierCode"
+    profilePath=(concat profilePath '.evaluationMethod.referenceDocument')
+    attributes='title,identifier,identifierCode'
     as |editing|
   }}
     {{object/md-citation
       model=editing
-      profilePath=(concat profilePath ".evaluationMethod.referenceDocument")
+      profilePath=(concat profilePath '.evaluationMethod.referenceDocument')
       simpleIdentifier=true
     }}
   {{/object/md-object-table}}
   {{#layout/md-card
-    collapsible=true collapsed=true title="Indirect Evaluation"
+    collapsible=true collapsed=true title='Indirect Evaluation'
   }}
     {{input/md-textarea
       value=model.evaluationMethod.deductiveSource
-      placeholder="Information on which data are used as sources in deductive evaluation method.​"
-      label="Deductive Source"
-      profilePath=(concat profilePath ".evaluationMethod.deductiveSource")
+      placeholder='Information on which data are used as sources in deductive evaluation method.​'
+      label='Deductive Source'
+      profilePath=(concat profilePath '.evaluationMethod.deductiveSource')
     }}
   {{/layout/md-card}}
   {{#layout/md-card
-    collapsible=true collapsed=true title="Sample Based Inspection"
+    collapsible=true collapsed=true title='Sample Based Inspection'
   }}
     {{input/md-textarea
       value=model.evaluationMethod.samplingScheme
-      placeholder="Information of the type of sampling scheme and description of the sampling procedure."
-      label="Sampling Scheme"
-      profilePath=(concat profilePath ".evaluationMethod.samplingScheme")
+      placeholder='Information of the type of sampling scheme and description of the sampling procedure.'
+      label='Sampling Scheme'
+      profilePath=(concat profilePath '.evaluationMethod.samplingScheme')
     }}
     {{input/md-textarea
       value=model.evaluationMethod.lotDescription
-      placeholder="Information of how lots are defined.​"
-      label="Lot Description"
-      profilePath=(concat profilePath ".evaluationMethod.lotDescription")
+      placeholder='Information of how lots are defined.​'
+      label='Lot Description'
+      profilePath=(concat profilePath '.evaluationMethod.lotDescription')
     }}
     {{input/md-textarea
       value=model.evaluationMethod.samplingRatio
-      placeholder="Information on how many samples on average are extracted for inspection from each lot of population."
-      label="Sampling Ratio"
-      profilePath=(concat profilePath ".evaluationMethod.samplingRatio")
+      placeholder='Information on how many samples on average are extracted for inspection from each lot of population.'
+      label='Sampling Ratio'
+      profilePath=(concat profilePath '.evaluationMethod.samplingRatio')
     }}
   {{/layout/md-card}}
 {{/layout/md-card}}
 
 {{#object/md-object-table
   items=model.quantitativeResult
-  header="Quantitative Result"
-  buttonText="Add Quantitative Result"
+  header='Quantitative Result'
+  buttonText='Add Quantitative Result'
   ellipsis=true
-  profilePath=(concat profilePath ".quantitativeResult")
-  attributes="scope.scopeCode,value,valueUnits"
+  profilePath=(concat profilePath '.quantitativeResult')
+  attributes='scope.scopeCode,value,valueUnits'
   as |editing|
 }}
   {{object/md-quality-report/quantitative-result
     model=editing
-    profilePath=(concat profilePath ".quantitativeResult")
+    profilePath=(concat profilePath '.quantitativeResult')
   }}
 {{/object/md-object-table}}
 
 {{#object/md-object-table
   items=model.descriptiveResult
-  header="Descriptive Result"
-  buttonText="Add Descriptive Result"
+  header='Descriptive Result'
+  buttonText='Add Descriptive Result'
   ellipsis=true
-  profilePath=(concat profilePath ".descriptiveResult")
-  attributes="scope.scopeCode,statement"
+  profilePath=(concat profilePath '.descriptiveResult')
+  attributes='scope.scopeCode,statement'
   as |editing|
 }}
   {{object/md-quality-report/descriptive-result
     model=editing
-    profilePath=(concat profilePath ".descriptiveResult")
+    profilePath=(concat profilePath '.descriptiveResult')
   }}
 {{/object/md-object-table}}
 
 {{#object/md-object-table
   items=model.conformanceResult
-  header="Conformance Result"
-  buttonText="Add Conformance Result"
+  header='Conformance Result'
+  buttonText='Add Conformance Result'
   ellipsis=true
-  profilePath=(concat profilePath ".conformanceResult")
-  attributes="scope.scopeCode,explanation,pass"
+  profilePath=(concat profilePath '.conformanceResult')
+  attributes='scope.scopeCode,explanation,pass'
   as |editing|
 }}
   {{object/md-quality-report/conformance-result
     model=editing
-    profilePath=(concat profilePath ".conformanceResult")
+    profilePath=(concat profilePath '.conformanceResult')
   }}
 {{/object/md-object-table}}
 
