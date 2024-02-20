@@ -57,10 +57,10 @@
   {{input/md-input
     value=qualityMeasureName
     placeholder='Enter the name.'
-    label='Name'
+    label='Name (required if no identifier)'
+    required=isNameRequired
     profilePath=(concat profilePath '.qualityMeasure.name')
   }}
-  <div>Name required if identifier not provided</div>
   {{input/md-textarea
     value=model.qualityMeasure.description
     placeholder='Enter description.'

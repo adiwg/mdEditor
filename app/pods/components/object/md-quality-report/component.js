@@ -46,6 +46,10 @@ export default Component.extend({
     }
   },
 
+  isNameRequired: computed('model.qualityMeasure.identifier', function () {
+    return !this.get('model.qualityMeasure.identifier');
+  }),
+
   qualityMeasureName: computed('model.qualityMeasure.name.[]', {
     get() {
       const nameArray = this.get('model.qualityMeasure.name');
