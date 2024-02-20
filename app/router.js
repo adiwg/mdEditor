@@ -14,7 +14,9 @@ Router.map(function () {
   this.route('publish', function () {
     this.route('sciencebase')
   });
-  this.route('sync');
+  this.route('sync', function () {
+    this.route('couch');
+  });
   this.route('help');
   this.route('settings', function() {
     this.route('validation');
