@@ -1,50 +1,50 @@
 {{input/md-codelist
   create=true
-  label="Scope"
+  label='Scope'
   tooltip=true
   icon=false
   disable=false
   allowClear=true
   showValidations=true
-  mdCodeName="scope"
-  path="scopeCode"
+  mdCodeName='scope'
+  path='scopeCode'
   model=this
-  placeholder="Select Scope"
-  profilePath=(concat profilePath ".scopeCode")
-  class=(if (v-get this "isInvalid") "required")
+  placeholder='Select Scope'
+  profilePath=(concat profilePath '.scopeCode')
+  class=(if (v-get this 'isInvalid') 'required')
 }}
-{{input/md-input value=name label="Name" placeholder="Enter name"}}
+{{input/md-input value=name label='Name' placeholder='Enter name'}}
 
-<div class="row">
+<div class='row'>
   {{input/md-datetime
     date=model.dateTime
-    class="col-xxl-4 col-md-10 col-sm-4"
-    profilePath=(concat profilePath ".dateTime")
-    label="Date"
+    class='col-xxl-4 col-md-10 col-sm-4'
+    profilePath=(concat profilePath '.dateTime')
+    label='Date'
   }}
 </div>
 
 {{#if model.specification}}
   {{#layout/md-card
-    title="Specification"
+    title='Specification'
     required=true
     collapsible=true
     collapsed=false
-    spotlightEnabled=false
-    deleteAction=(action "deleteSpecification")
+    deleteAction=(action 'deleteSpecification')
   }}
     {{object/md-citation
       model=model.specification
-      profilePath=(concat profilePath ".specification")
+      required=true
+      profilePath=(concat profilePath '.specification')
       simpleIdentifier=true
     }}
   {{/layout/md-card}}
 {{else}}
-  <div class="md-object-table box-shadow--4dp">
-    <div class="alert md-alert-table alert-info">
+  <div class='md-object-table box-shadow--4dp'>
+    <div class='alert md-alert-table alert-info'>
       <h4>No Specification Found
-        <button class="btn btn-success btn-md" {{action "addSpecification"}}>
-          <i class="fa fa-plus" />
+        <button class='btn btn-success btn-md' {{action 'addSpecification'}}>
+          <i class='fa fa-plus' />
           Add Specification
         </button>
       </h4>
@@ -54,16 +54,16 @@
 
 {{input/md-textarea
   value=model.explanation
-  label="Explanation"
-  placeholder="Enter explanation"
-  profilePath=(concat profilePath ".explanation")
+  label='Explanation'
+  placeholder='Enter explanation'
+  profilePath=(concat profilePath '.explanation')
 }}
 
 {{input/md-boolean
   value=model.pass
-  label="Conformance Result Passes"
-  profilePath=(concat profilePath ".pass")
-  showInfoText="The result passes conformance"
+  label='Conformance Result Passes'
+  profilePath=(concat profilePath '.pass')
+  showInfoText='The result passes conformance'
   infotip=true
-  placeholder="The result passes conformance"
+  placeholder='The result passes conformance'
 }}

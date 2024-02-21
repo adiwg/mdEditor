@@ -206,68 +206,70 @@
   {{/layout/md-card}}
 {{/layout/md-card}}
 
-{{#object/md-object-table
-  items=model.quantitativeResult
-  header='Quantitative Result'
-  buttonText='Add Quantitative Result'
-  ellipsis=true
-  profilePath=(concat profilePath '.quantitativeResult')
-  attributes='scope.scopeCode,value,valueUnits'
-  as |editing|
-}}
-  {{object/md-quality-report/quantitative-result
-    model=editing
+{{#layout/md-card collapsible=true title='Standard Reports' required=true}}
+  {{#object/md-object-table
+    items=model.quantitativeResult
+    header='Quantitative Result'
+    buttonText='Add Quantitative Result'
+    ellipsis=true
     profilePath=(concat profilePath '.quantitativeResult')
+    attributes='scope.scopeCode,value,valueUnits'
+    as |editing|
   }}
-{{/object/md-object-table}}
+    {{object/md-quality-report/quantitative-result
+      model=editing
+      profilePath=(concat profilePath '.quantitativeResult')
+    }}
+  {{/object/md-object-table}}
 
-{{#object/md-object-table
-  items=model.descriptiveResult
-  header='Descriptive Result'
-  buttonText='Add Descriptive Result'
-  ellipsis=true
-  profilePath=(concat profilePath '.descriptiveResult')
-  attributes='scope.scopeCode,statement'
-  as |editing|
-}}
-  {{object/md-quality-report/descriptive-result
-    model=editing
+  {{#object/md-object-table
+    items=model.descriptiveResult
+    header='Descriptive Result'
+    buttonText='Add Descriptive Result'
+    ellipsis=true
     profilePath=(concat profilePath '.descriptiveResult')
+    attributes='scope.scopeCode'
+    as |editing|
   }}
-{{/object/md-object-table}}
+    {{object/md-quality-report/descriptive-result
+      model=editing
+      profilePath=(concat profilePath '.descriptiveResult')
+    }}
+  {{/object/md-object-table}}
 
-{{#object/md-object-table
-  items=model.conformanceResult
-  header='Conformance Result'
-  buttonText='Add Conformance Result'
-  ellipsis=true
-  profilePath=(concat profilePath '.conformanceResult')
-  attributes='scope.scopeCode,explanation,pass'
-  as |editing|
-}}
-  {{object/md-quality-report/conformance-result
-    model=editing
+  {{#object/md-object-table
+    items=model.conformanceResult
+    header='Conformance Result'
+    buttonText='Add Conformance Result'
+    ellipsis=true
     profilePath=(concat profilePath '.conformanceResult')
+    attributes='scope.scopeCode,pass'
+    as |editing|
   }}
-{{/object/md-object-table}}
+    {{object/md-quality-report/conformance-result
+      model=editing
+      profilePath=(concat profilePath '.conformanceResult')
+    }}
+  {{/object/md-object-table}}
 
-{{! 
-The code below is ready to go for adding the coverage result array.
-However, the coverage result object itself still needs to be implemented.
-A partial implementation has been completed so far.
-}}
+  {{! 
+  The code below is ready to go for adding the coverage result array.
+  However, the coverage result object itself still needs to be implemented.
+  A partial implementation has been completed so far.
+  }}
 
-{{!-- {{#object/md-object-table
-  items=model.coverageResult
-  header="Coverage Result"
-  buttonText="Add Coverage Result"
-  ellipsis=true
-  profilePath=(concat profilePath ".coverageResult")
-  attributes="dateTime,spatialRepresentationType,resultFile"
-  as |editing|
-}}
-  {{object/md-quality-report/coverage-result
-    model=editing
+  {{!-- {{#object/md-object-table
+    items=model.coverageResult
+    header="Coverage Result"
+    buttonText="Add Coverage Result"
+    ellipsis=true
     profilePath=(concat profilePath ".coverageResult")
+    attributes="dateTime,spatialRepresentationType,resultFile"
+    as |editing|
   }}
-{{/object/md-object-table}} --}}
+    {{object/md-quality-report/coverage-result
+      model=editing
+      profilePath=(concat profilePath ".coverageResult")
+    }}
+  {{/object/md-object-table}} --}}
+{{/layout/md-card}}

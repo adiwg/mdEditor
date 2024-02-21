@@ -1,49 +1,54 @@
 {{input/md-codelist
   create=true
-  label="Scope"
+  label='Scope'
   tooltip=true
   icon=false
   disable=false
   allowClear=true
   showValidations=true
-  mdCodeName="scope"
-  path="scopeCode"
+  mdCodeName='scope'
+  path='scopeCode'
   model=this
-  placeholder="Select Scope"
-  profilePath=(concat profilePath ".scopeCode")
-  class=(if (v-get this "isInvalid") "required")
+  placeholder='Select Scope'
+  profilePath=(concat profilePath '.scopeCode')
+  class=(if (v-get this 'isInvalid') 'required')
 }}
-{{input/md-input value=name label="Name" placeholder="Enter name"}}
+{{input/md-input value=name label='Name' placeholder='Enter name'}}
 
-<div class="row">
+<div class='row'>
   {{input/md-datetime
     date=model.dateTime
-    class="col-xxl-4 col-md-10 col-sm-4"
-    profilePath=(concat profilePath ".dateTime")
-    label="Date"
+    class='col-xxl-4 col-md-10 col-sm-4'
+    profilePath=(concat profilePath '.dateTime')
+    label='Date'
   }}
 </div>
 
-{{input/md-input type="number" value=quantitativeValue label="Value"}}
+{{input/md-input
+  type='number'
+  value=quantitativeValue
+  label='Value'
+  required=true
+}}
 
 {{input/md-codelist
   create=true
-  label="UOM"
+  label='UOM'
   tooltip=true
   icon=false
   disable=false
   allowClear=true
   showValidations=true
-  mdCodeName="unitsOfMeasure"
-  path="units"
+  mdCodeName='unitsOfMeasure'
+  path='units'
   model=this
-  placeholder="Select Units"
-  profilePath=(concat profilePath ".valueUnits")
-  class=(if (v-get this "isInvalid") "required")
+  placeholder='Select Units'
+  profilePath=(concat profilePath '.valueUnits')
+  class=(if (v-get this 'isInvalid') 'required')
 }}
 
 {{input/md-input
   value=model.valueRecordType
-  label="Value Record Type"
-  placeholder="Enter record type"
+  label='Value Record Type'
+  placeholder='Enter record type'
 }}
