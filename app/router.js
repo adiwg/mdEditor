@@ -16,6 +16,7 @@ Router.map(function () {
   });
   this.route('sync', function () {
     this.route('couch');
+    this.route('list');
   });
   this.route('help');
   this.route('settings', function() {
