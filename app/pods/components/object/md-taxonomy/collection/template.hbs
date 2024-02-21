@@ -9,31 +9,31 @@
 }} --}}
 
 {{object/md-objectroute-table
-  attributes="citation.title,modifications"
+  attributes='citation.title,modifications'
   items=model.taxonomicSystem
-  header="Taxonomic System"
+  header='Taxonomic System'
   shadow=true
   required=true
-  buttonText="Add system"
+  buttonText='Add system'
   ellipsis=true
-  previewTemplateTable="object/md-taxonomy/collection/system/preview"
+  previewTemplateTable='object/md-taxonomy/collection/system/preview'
   editItem=editSystem
-  profilePath=(concat profilePath ".taxonomicSystem")
+  profilePath=(concat profilePath '.taxonomicSystem')
   verticalButtons=true
   hideIndex=false
   condensed=false
   editOnAdd=false
   templateClass=systemTemplate
-  scrollToId="md-system"
-  data-spy="System"
+  scrollToId='md-system'
+  data-spy='System'
 }}
 
 {{#layout/md-card
-  title="Classification"
+  title='Classification'
   collapsible=true
   collapsed=false
-  profilePath=(concat profilePath ".classification")
-  data-spy="Classification"
+  profilePath=(concat profilePath '.classification')
+  data-spy='Classification'
   required=true
   shadow=true
   maximizable=true
@@ -42,65 +42,84 @@
 }}
   {{object/md-taxonomy/classification
     model=model.taxonomicClassification
-    profilePath=(concat profilePath ".classification")
+    profilePath=(concat profilePath '.classification')
   }}
 {{/layout/md-card}}
 
 {{object/md-party-array
-  title="Observer"
+  title='Observer'
   plain=false
   required=false
   value=model.observer
-  profilePath=(concat profilePath ".observer")
-  data-spy="Observer"
+  profilePath=(concat profilePath '.observer')
+  data-spy='Observer'
 }}
 
 {{input/md-textarea
   value=model.generalScope
   required=false
   autoresize=true
-  placeholder="Description of the range of taxa addressed in the data set or collection. For example, \"all vascular plants were identified to family or species.\""
-  label="General Scope"
-  data-spy="General Scope"
+  placeholder='Description of the range of taxa addressed in the data set or collection. For example, "all vascular plants were identified to family or species."'
+  label='General Scope'
+  data-spy='General Scope'
   embedded=false
-  profilePath=(concat profilePath ".generalScope")
+  profilePath=(concat profilePath '.generalScope')
 }}
 
 {{input/md-textarea
   value=this.identificationProcedure
   required=false
   autoresize=true
-  placeholder="Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc."
-  label="Identification Procedure"
-  data-spy="Procedure"
+  placeholder='Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc.'
+  label='Identification Procedure'
+  data-spy='Procedure'
   embedded=false
-  profilePath=(concat profilePath ".identificationProcedure")
+  profilePath=(concat profilePath '.identificationProcedure')
 }}
 
 {{input/md-textarea
   value=model.identificationCompleteness
   required=false
   autoresize=true
-  placeholder="Information concerning the proportions and treatment of unidentified materials; estimates of the importance, and identities of misidentifications, uncertain determinations, synonyms or other incorrect usages; taxa not well treated or requiring further work; and expertise of field workers."
-  label="Identification Completeness"
-  data-spy="Completeness"
+  placeholder='Information concerning the proportions and treatment of unidentified materials; estimates of the importance, and identities of misidentifications, uncertain determinations, synonyms or other incorrect usages; taxa not well treated or requiring further work; and expertise of field workers.'
+  label='Identification Completeness'
+  data-spy='Completeness'
   embedded=false
-  profilePath=(concat profilePath ".identificationCompleteness")
+  profilePath=(concat profilePath '.identificationCompleteness')
 }}
 
 {{#object/md-object-table
   items=model.voucher
-  header="Voucher"
-  data-spy="Voucher"
-  profilePath=(concat profilePath ".voucher")
-  buttonText="Add Voucher"
+  header='Vouchers'
+  data-spy='Voucher'
+  profilePath=(concat profilePath '.voucher')
+  buttonText='Add Voucher'
   ellipsis=true
-  attributes="specimen"
+  attributes='specimen'
   collapsible=true
   templateClass=voucherTemplate
   as |editing|
 }}
-  {{object/md-taxonomy/collection/voucher model=editing
-    profilePath=(concat profilePath ".voucher")
+  {{object/md-taxonomy/collection/voucher
+    model=editing
+    profilePath=(concat profilePath '.voucher')
+  }}
+{{/object/md-object-table}}
+
+{{#object/md-object-table
+  items=model.identificationReference
+  header='Identification References'
+  data-spy='Reference'
+  profilePath=(concat profilePath '.identificationReference')
+  buttonText='Add Reference'
+  ellipsis=true
+  attributes='title'
+  collapsible=true
+  templateClass=referenceTemplate
+  as |editing|
+}}
+  {{object/md-citation
+    model=editing
+    profilePath=(concat profilePath '.identificationReference')
   }}
 {{/object/md-object-table}}
