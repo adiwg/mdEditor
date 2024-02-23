@@ -22,7 +22,7 @@ export default class CouchService extends Service {
   couch = null;
 
   async setup() {
-    const adapter = this.store.adapterFor('application');
+    const adapter = this.store.adapterFor('pouch-base');
     this.localDb = adapter.db;
     // Check to see if they have a remote name and url saved
     // If they do, then getSession to see if their cookie is still valid

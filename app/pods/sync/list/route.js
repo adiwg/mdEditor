@@ -3,10 +3,22 @@ import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import RSVP from 'rsvp';
 import { guidFor } from '@ember/object/internals';
+import { inject as service } from '@ember/service';
+
+import { POUCH_TYPES } from 'mdeditor/services/pouch';
 
 export default class SyncListRoute extends Route {
-  async model() {
+  @service pouch;
 
+  async beforeModel() {
+    await this.pouch.loadOptions();
+    // TODO - This shouldn't be necessary. There's a race condition somewhere...
+    await this.store.findAll('pouch-record');
+    await this.store.findAll('pouch-contact');
+    await this.store.findAll('pouch-dictionary');
+  }
+
+  async model() {
     let promises = [
       this.store.peekAll('pouch-record', {
         reload: true
@@ -20,20 +32,23 @@ export default class SyncListRoute extends Route {
     ];
 
     const meta = A([EmberObject.create({
-      type: 'record',
+      type: POUCH_TYPES.RECORD,
       list: 'records',
       title: 'Metadata Records',
-      icon: 'file-o'
+      icon: 'file-o',
+      options: this.pouch.options[POUCH_TYPES.RECORD]
     }), EmberObject.create({
-      type: 'contact',
+      type: POUCH_TYPES.CONTACT,
       list: 'contacts',
       title: 'Contacts',
-      icon: 'users'
+      icon: 'users',
+      options: this.pouch.options[POUCH_TYPES.CONTACT]
     }), EmberObject.create({
-      type: 'dictionary',
+      type: POUCH_TYPES.DICTIONARY,
       list: 'dictionaries',
       title: 'Dictionaries',
-      icon: 'book'
+      icon: 'book',
+      options: this.pouch.options[POUCH_TYPES.DICTIONARY]
     })]);
 
     let mapFn = function (item, id) {

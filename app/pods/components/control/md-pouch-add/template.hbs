@@ -1,0 +1,34 @@
+<div class="sync-add-pouch-container">
+  {{#unless this.adding }}
+    <button
+      class="btn btn-lg btn-primary"
+      {{action "addNew" @section.meta.type }}
+    >
+      {{fa-icon "plus"}} Add new {{@section.meta.type}}
+    </button>
+  {{else}}
+    {{input/md-select
+      label=@section.meta.title
+      placeholder=@section.meta.title
+      showValidations=true
+      value=value
+      valuePath="id"
+      namePath="name"
+      objectArray=@section.meta.options
+    }}
+    <div class="pouch-action-buttons">
+      <button
+        class="btn btn-md btn-warning"
+        {{action "cancel" }}
+      >
+        {{fa-icon "undo"}} Cancel
+      </button>
+      <button
+        class="btn btn-md btn-success"
+        {{action "saveNew" @section.meta.type }}
+      >
+        {{fa-icon "floppy-o"}} Save
+      </button>
+    </div>
+  {{/unless}}
+</div>

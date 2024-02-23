@@ -24,6 +24,11 @@
        <h3>{{fa-icon section.meta.icon}} No <em>{{section.meta.title}}</em> found.</h3>
      </div>
     {{/if}}
+
+      {{control/md-pouch-add
+        section=section
+      }}
+
     {{/each}}
   </div>
 

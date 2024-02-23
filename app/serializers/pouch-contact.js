@@ -1,3 +1,3 @@
-import { Serializer } from 'ember-pouch';
+import Serializer from 'mdeditor/serializers/pouch-base';
 
 export default class PouchContactSerializer extends Serializer {}
