@@ -1,4 +1,4 @@
-import { attr } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
 import { Copyable } from 'ember-copy'
 import uuidV4 from "uuid/v4";
 import { alias } from '@ember/object/computed';
@@ -61,6 +61,9 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
+
+  pouchDictionary: belongsTo('pouch-dictionary'),
+
   /**
    * Dictionary model
    *

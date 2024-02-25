@@ -1,4 +1,4 @@
-import { hasMany, attr } from '@ember-data/model';
+import { hasMany, attr, belongsTo } from '@ember-data/model';
 import {
   alias,
   notEmpty
@@ -82,6 +82,8 @@ const JsonDefault = EmberObject.extend({
 });
 
 const Contact = Model.extend(Validations, Copyable, {
+
+  pouchContact: belongsTo('pouch-contact'),
   /**
    * Contact model
    *

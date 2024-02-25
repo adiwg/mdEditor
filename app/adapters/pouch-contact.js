@@ -1,3 +1,6 @@
-import PouchBaseAdapter from 'mdeditor/adapters/pouch-base';
+import { Adapter } from 'ember-pouch';
+import { initDb } from 'mdeditor/adapters/pouch-base';
 
-export default class PouchContactAdapter extends PouchBaseAdapter {}
+export default class PouchContactAdapter extends Adapter {
+  db = initDb();
+}

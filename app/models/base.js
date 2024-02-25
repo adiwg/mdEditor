@@ -1,4 +1,4 @@
-import Model from '@ember-data/model';
+import { Model } from 'ember-pouch';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';

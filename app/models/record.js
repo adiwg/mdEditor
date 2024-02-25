@@ -1,4 +1,4 @@
-import { attr } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
 import EmberObject, { computed, getWithDefault } from '@ember/object';
@@ -61,6 +61,9 @@ const Validations = buildValidations({
 });
 
 const Record = Model.extend(Validations, Copyable, {
+
+  pouchRecord: belongsTo('pouch-record'),
+
   /**
    * Record(metadata) model
    *
