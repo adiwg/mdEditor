@@ -123,6 +123,40 @@
   }}
 {{/layout/md-card}}
 
+{{#layout/md-card
+  title='Releasability'
+  collapsible=true
+  collapsed=true
+  required=false
+  profilePath=(concat profilePath '.releasability')
+}}
+  {{object/md-party-array
+    title='Addressee'
+    value=model.releasability.addressee
+    profilePath=(concat profilePath '.releasability.addressee')
+  }}
+  {{input/md-input
+    value=model.releasability.statement
+    label='Statement'
+    placeholder='Statement of the conditions under which the resource may be released.'
+    profilePath=(concat profilePath '.releasability.statement')
+  }}
+  {{#object/md-simple-array-table
+    data-spy=false
+    title='Dissemintation Constraint'
+    plain=true
+    value=model.releasability.disseminationConstraint
+    as |const|
+  }}
+    <td>
+      {{input/md-input
+        value=const.item.value
+        placeholder='Additional titles for the resource.'
+      }}
+    </td>
+  {{/object/md-simple-array-table}}
+{{/layout/md-card}}
+
 {{object/md-party-array
   title='Responsible Party'
   value=model.responsibleParty
@@ -148,8 +182,5 @@
     profilePath=(concat profilePath '.reference')
   }}
 {{/object/md-object-table}}
-
-{{!-- releasability --}}
-{{}}
 
 {{yield}}
