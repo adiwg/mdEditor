@@ -206,6 +206,15 @@ export default Service.extend({
       });
     }
 
+    const formattedTaxonAuthor = taxonAuthor
+      ?.replace(/\(/g, '')
+      ?.replace(/\)/g, '');
+    const classifier = formattedTaxonAuthor?.split(',')[0];
+    const createdDate = formattedTaxonAuthor
+      ?.split(',')[1]
+      ?.replace(/^\s+/, '');
+    const updatedDate = updateDate?.split(' ')[0];
+
     return Taxa.create({
       kingdom: kingdom,
       name: name,
@@ -214,8 +223,9 @@ export default Service.extend({
       taxonomy: taxonomy,
       common: common,
       status: status,
-      taxonAuthor: taxonAuthor,
-      updateDate: updateDate,
+      classifier: classifier,
+      createdDate: createdDate,
+      updatedDate: updatedDate,
     });
   },
   parseHierarchyTSN(tsn) {

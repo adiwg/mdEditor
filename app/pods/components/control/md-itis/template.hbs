@@ -82,8 +82,15 @@
                     </h4>
                     <p>
                       <div><strong>Updated:</strong>
-                        {{#if result.updateDate}}
-                          {{result.updateDate}}
+                        {{#if result.updatedDate}}
+                          {{result.updatedDate}}
+                        {{else}}
+                          <em class='text-muted'>unknown</em>
+                        {{/if}}
+                      </div>
+                      <div><strong>Published:</strong>
+                        {{#if result.createdDate}}
+                          {{result.createdDate}}
                         {{else}}
                           <em class='text-muted'>unknown</em>
                         {{/if}}
@@ -99,9 +106,9 @@
                           class='text-{{result.style}}'
                         >{{result.status}}</span>)
                       </div>
-                      <div><strong>Taxon Author:</strong>
-                        {{#if result.taxonAuthor}}
-                          {{result.taxonAuthor}}
+                      <div><strong>Classifier:</strong>
+                        {{#if result.classifier}}
+                          {{result.classifier}}
                         {{else}}
                           <em class='text-muted'>No author assigned.</em>
                         {{/if}}
