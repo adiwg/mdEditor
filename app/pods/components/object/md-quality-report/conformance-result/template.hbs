@@ -24,33 +24,16 @@
   }}
 </div>
 
-{{#if model.specification}}
-  {{#layout/md-card
-    title='Specification'
+{{#layout/md-card
+  title='Specification' required=true collapsible=true collapsed=true
+}}
+  {{object/md-citation
+    model=model.specification
     required=true
-    collapsible=true
-    collapsed=false
-    deleteAction=(action 'deleteSpecification')
+    profilePath=(concat profilePath '.specification')
+    simpleIdentifier=true
   }}
-    {{object/md-citation
-      model=model.specification
-      required=true
-      profilePath=(concat profilePath '.specification')
-      simpleIdentifier=true
-    }}
-  {{/layout/md-card}}
-{{else}}
-  <div class='md-object-table box-shadow--4dp'>
-    <div class='alert md-alert-table alert-info'>
-      <h4>No Specification Found
-        <button class='btn btn-success btn-md' {{action 'addSpecification'}}>
-          <i class='fa fa-plus' />
-          Add Specification
-        </button>
-      </h4>
-    </div>
-  </div>
-{{/if}}
+{{/layout/md-card}}
 
 {{input/md-textarea
   value=model.explanation
