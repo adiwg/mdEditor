@@ -60,37 +60,37 @@ export default class SyncListRoute extends Route {
 }
 
 const COLUMNS = {
-  record: [{
-    propertyName: 'data.json.title',
+  [POUCH_TYPES.RECORD]: [{
+    propertyName: 'title',
     title: 'Title'
   }, {
-    propertyName: 'data.json.defaultType',
+    propertyName: 'defaultType',
     title: 'Type'
   }, {
-    propertyName: 'data.json.recordId',
+    propertyName: 'recordId',
     title: 'ID'
   }, ],
-  contact: [{
-    propertyName: 'data.json.title',
+  [POUCH_TYPES.CONTACT]: [{
+    propertyName: 'title',
     title: 'Title'
   }, {
-    propertyName: 'data.json.defaultOrganization',
+    propertyName: 'defaultOrganization',
     title: 'Organization'
   }, {
-    propertyName: 'data.json.json.electronicMailAddress.firstObject',
+    propertyName: 'email',
     title: 'E-mail'
   }, {
-    propertyName: 'data.json.contactId',
+    propertyName: 'contactId',
     title: 'ID'
   }],
-  dictionary: [{
-    propertyName: 'data.json.title',
+  [POUCH_TYPES.DICTIONARY]: [{
+    propertyName: 'title',
     title: 'Title'
   }, {
-    propertyName: 'data.json.defaultType',
+    propertyName: 'defaultType', // Note: This doesn't currently point to anything on the model
     title: 'Type'
   }, {
-    propertyName: 'data.json.dictionaryId',
+    propertyName: 'dictionaryId',
     title: 'ID'
   }]
 }
