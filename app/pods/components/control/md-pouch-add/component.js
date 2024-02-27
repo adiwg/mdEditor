@@ -14,7 +14,7 @@ export default class MdPouchAddComponent extends Component {
   }
 
   @action
-  cancel() {
+  close() {
     this.adding = false;
     this.value = null;
   }
@@ -22,5 +22,6 @@ export default class MdPouchAddComponent extends Component {
   @action
   saveNew(type) {
     this.pouch.savePouchModel(type, this.value);
+    this.close();
   }
 }

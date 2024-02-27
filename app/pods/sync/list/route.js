@@ -59,6 +59,12 @@ export default class SyncListRoute extends Route {
   }
 }
 
+const ACTIONS_COLUMN = {
+  title: 'Actions',
+  className: 'md-actions-column',
+  component: 'control/md-pouch-record-table/buttons/delete',
+}
+
 const COLUMNS = {
   [POUCH_TYPES.RECORD]: [{
     propertyName: 'title',
@@ -69,7 +75,9 @@ const COLUMNS = {
   }, {
     propertyName: 'recordId',
     title: 'ID'
-  }, ],
+  },
+    ACTIONS_COLUMN
+  ],
   [POUCH_TYPES.CONTACT]: [{
     propertyName: 'title',
     title: 'Title'
@@ -82,7 +90,9 @@ const COLUMNS = {
   }, {
     propertyName: 'contactId',
     title: 'ID'
-  }],
+  },
+    ACTIONS_COLUMN
+  ],
   [POUCH_TYPES.DICTIONARY]: [{
     propertyName: 'title',
     title: 'Title'
@@ -92,5 +102,7 @@ const COLUMNS = {
   }, {
     propertyName: 'dictionaryId',
     title: 'ID'
-  }]
+  },
+    ACTIONS_COLUMN
+  ]
 }
