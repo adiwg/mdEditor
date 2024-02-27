@@ -112,10 +112,17 @@ export default Component.extend({
         description: 'Taxa imported from ITIS',
       };
 
+      const classifierDateObj = {
+        date: taxa[0].createdDate || null,
+        dateType: 'adopted',
+        description: taxa[0].classifier || 'unknown',
+      };
+
       allTaxa.forEach((itm) => this.itis.mergeTaxa(itm, classification));
 
       if (!system) {
         itisCitation.get('date').pushObject(dateObj);
+        itisCitation.get('date').pushObject(classifierDateObj);
         systems.pushObject({
           citation: itisCitation,
         });
