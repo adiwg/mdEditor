@@ -21,7 +21,7 @@ export default class MdPouchAddComponent extends Component {
 
   @action
   saveNew(type) {
-    this.pouch.savePouchModel(type, this.value);
+    this.pouch.createPouchModel(type, this.value);
     this.close();
   }
 }

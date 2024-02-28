@@ -6,7 +6,8 @@ export default class MdPouchRecordDeleteButtonComponent extends Component {
   @service pouch;
 
   @action
-  async delete(record) {
+  async delete() {
+    const { record } = this.args;
     await this.pouch.deletePouchModel(record)
   }
 }

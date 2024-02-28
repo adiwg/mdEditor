@@ -50,7 +50,7 @@ export default class PouchService extends Service {
       .map((item) => ({ id: item.id, name: item[NAME_KEYS[type]]}))
   }
 
-  async savePouchModel(type, id) {
+  async createPouchModel(type, id) {
     const record = await this.store.findRecord(type, id);
     const objId = record[ID_KEYS[type]];
     const pouchObjToSave = {
@@ -68,8 +68,8 @@ export default class PouchService extends Service {
   async deletePouchModel(pouchRecord) {
     // First delete pouch record
     await pouchRecord.destroyRecord();
-    // Then delete related record
-    const relatedRecord = await this.queryRelatedFromPouch(pouchRecord);
+    // Then remove related pouch record
+    const relatedRecord = await this.queryRelatedRecord(pouchRecord);
     if (relatedRecord) {
       relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = null;
       await relatedRecord.save();
@@ -77,10 +77,19 @@ export default class PouchService extends Service {
     await pouchRecord.unloadRecord();
   }
 
-  async queryRelatedFromPouch(record) {
-    const unPouchedType = unPouchPrefix(record.constructor.modelName);
-    const camelizedRel = Ember.String.camelize(record.constructor.modelName);
-    return await this.store.queryRecord(unPouchedType, { filter: { [camelizedRel]: record.id } });
+  async queryRelatedRecord(pouchRecord) {
+    const unPouchedType = unPouchPrefix(pouchRecord.constructor.modelName);
+    const camelizedRel = Ember.String.camelize(pouchRecord.constructor.modelName);
+    return await this.store.queryRecord(unPouchedType, { filter: { [camelizedRel]: pouchRecord.id } });
+  }
+
+  async createRelatedRecord(pouchRecord) {
+    // First create the related record
+    const unPouchedType = unPouchPrefix(pouchRecord.constructor.modelName);
+    const relatedRecord = this.store.createRecord(unPouchedType, { json: pouchRecord.json });
+    // Then add the related pouch record
+    relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = pouchRecord;
+    await relatedRecord.save();
   }
 
   async getOptions(type) {

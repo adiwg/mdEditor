@@ -62,7 +62,7 @@ export default class SyncListRoute extends Route {
 const ACTIONS_COLUMN = {
   title: 'Actions',
   className: 'md-actions-column',
-  component: 'control/md-pouch-record-table/buttons/delete',
+  component: 'control/md-pouch-record-table/buttons',
 }
 
 const COLUMNS = {
