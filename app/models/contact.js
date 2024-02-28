@@ -83,7 +83,7 @@ const JsonDefault = EmberObject.extend({
 
 const Contact = Model.extend(Validations, Copyable, {
 
-  pouchContact: belongsTo('pouch-contact'),
+  pouchContact: belongsTo('pouch-contact', { async: false }),
   /**
    * Contact model
    *

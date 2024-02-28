@@ -20,6 +20,14 @@ export const ID_KEYS = {
   [POUCH_TYPES.DICTIONARY]: 'dictionaryId'
 }
 
+export const POUCH_PREFIX = 'pouch-';
+
+export const pouchPrefix = (type) => `${POUCH_PREFIX}${type}`;
+
+export const camelizedPouchPrefix = (type) => Ember.String.camelize(pouchPrefix(type));
+
+export const unPouchPrefix = (pouchType) => pouchType.replace(POUCH_PREFIX, '');
+
 export default class PouchService extends Service {
   @service store;
   @tracked options = {};
@@ -34,22 +42,45 @@ export default class PouchService extends Service {
   }
 
   async mapOptions(type) {
-    const storeData = await this.store.peekAll(type);
-    return storeData.map((item) => {
-      return {
-        id: item.id,
-        name: item[NAME_KEYS[type]]
-      }
-    })
+    const storeData = await this.store.findAll(type, { reload: true });
+    await this.store.findAll(pouchPrefix(type)); // Need to load related records first
+    return storeData
+      // Filter out records that don't have associated pouch records
+      .filter((record) => !record[camelizedPouchPrefix(type)])
+      .map((item) => ({ id: item.id, name: item[NAME_KEYS[type]]}))
   }
 
   async savePouchModel(type, id) {
-    const obj = await this.store.peekRecord(type, id);
-    const objId = obj[ID_KEYS[type]];
-    const objToSave = { id: objId, json: obj.cleanJson };
-    // TODO - Refactor
-    const pouchModel = this.store.createRecord(`pouch-${type}`, objToSave);
+    const record = await this.store.findRecord(type, id);
+    const objId = record[ID_KEYS[type]];
+    const pouchObjToSave = {
+      id: objId,
+      json: record.cleanJson
+    };
+    // First save pouch record
+    const pouchModel = this.store.createRecord(pouchPrefix(type), pouchObjToSave);
     await pouchModel.save();
+    // Then save related record
+    record[camelizedPouchPrefix(type)] = pouchModel;
+    await record.save();
+  }
+
+  async deletePouchModel(pouchRecord) {
+    // First delete pouch record
+    await pouchRecord.destroyRecord();
+    // Then delete related record
+    const relatedRecord = await this.queryRelatedFromPouch(pouchRecord);
+    if (relatedRecord) {
+      relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = null;
+      await relatedRecord.save();
+    }
+    await pouchRecord.unloadRecord();
+  }
+
+  async queryRelatedFromPouch(record) {
+    const unPouchedType = unPouchPrefix(record.constructor.modelName);
+    const camelizedRel = Ember.String.camelize(record.constructor.modelName);
+    return await this.store.queryRecord(unPouchedType, { filter: { [camelizedRel]: record.id } });
   }
 
   async getOptions(type) {

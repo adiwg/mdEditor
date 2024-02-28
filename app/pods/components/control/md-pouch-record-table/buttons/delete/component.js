@@ -7,7 +7,6 @@ export default class MdPouchRecordDeleteButtonComponent extends Component {
 
   @action
   async delete(record) {
-    await record.destroyRecord();
-    await record.unloadRecord();
+    await this.pouch.deletePouchModel(record)
   }
 }

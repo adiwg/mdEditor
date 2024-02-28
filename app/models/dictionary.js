@@ -62,7 +62,7 @@ const JsonDefault = EmberObject.extend({
 
 export default Model.extend(Validations, Copyable, {
 
-  pouchDictionary: belongsTo('pouch-dictionary'),
+  pouchDictionary: belongsTo('pouch-dictionary', { async: false }),
 
   /**
    * Dictionary model
