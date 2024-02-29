@@ -32,16 +32,7 @@ export default class PouchService extends Service {
   @service store;
   @tracked options = {};
 
-  async loadOptions() {
-    // TODO - Refactor
-    const newOptions = {};
-    newOptions[POUCH_TYPES.RECORD] = await this.mapOptions(POUCH_TYPES.RECORD);
-    newOptions[POUCH_TYPES.CONTACT] = await this.mapOptions(POUCH_TYPES.CONTACT);
-    newOptions[POUCH_TYPES.DICTIONARY] = await this.mapOptions(POUCH_TYPES.DICTIONARY);
-    this.options = newOptions;
-  }
-
-  async mapOptions(type) {
+  async loadOptions(type) {
     const storeData = await this.store.findAll(type, { reload: true });
     await this.store.findAll(pouchPrefix(type)); // Need to load related records first
     return storeData

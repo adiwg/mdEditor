@@ -8,12 +8,6 @@ import { POUCH_TYPES } from 'mdeditor/services/pouch';
 export default class SyncListRoute extends Route {
   @service pouch;
 
-  async beforeModel() {
-    // TODO - This needs to be moved somewhere else, maybe into a controller
-    // It causes an error on navigating to/from this page
-    await this.pouch.loadOptions();
-  }
-
   async model() {
     let promises = [
       this.store.findAll('pouch-record', {
@@ -32,21 +26,18 @@ export default class SyncListRoute extends Route {
       list: 'records',
       title: 'PouchDB Metadata Records',
       icon: 'file-o',
-      options: this.pouch.options[POUCH_TYPES.RECORD],
       columns: COLUMNS[POUCH_TYPES.RECORD]
     }, {
       type: POUCH_TYPES.CONTACT,
       list: 'contacts',
       title: 'PouchDB Contacts',
       icon: 'users',
-      options: this.pouch.options[POUCH_TYPES.CONTACT],
       columns: COLUMNS[POUCH_TYPES.CONTACT]
     }, {
       type: POUCH_TYPES.DICTIONARY,
       list: 'dictionaries',
       title: 'PouchDB Dictionaries',
       icon: 'book',
-      options: this.pouch.options[POUCH_TYPES.DICTIONARY],
       columns: COLUMNS[POUCH_TYPES.DICTIONARY]
     }];
 

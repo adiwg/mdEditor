@@ -7,6 +7,15 @@ export default class MdPouchAddComponent extends Component {
   @service pouch;
   @tracked adding = false;
   @tracked value = null;
+  @tracked options = [];
+
+  constructor() {
+    super(...arguments);
+    const { section: { meta } } = this.args;
+    this.pouch.loadOptions(meta.type).then((options) => {
+      this.options = options;
+    })
+  }
 
   @action
   addNew(type) {
