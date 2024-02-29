@@ -50,7 +50,7 @@ export default class PouchService extends Service {
       .map((item) => ({ id: item.id, name: item[NAME_KEYS[type]]}))
   }
 
-  async createPouchModel(type, id) {
+  async createPouchRecord(type, id) {
     const record = await this.store.findRecord(type, id);
     const objId = record[ID_KEYS[type]];
     const pouchObjToSave = {
@@ -65,7 +65,12 @@ export default class PouchService extends Service {
     await record.save();
   }
 
-  async deletePouchModel(pouchRecord) {
+  async updatePouchRecord(pouchRecord, relatedRecord) {
+    pouchRecord.json = relatedRecord.cleanJson;
+    await pouchRecord.save();
+  }
+
+  async deletePouchRecord(pouchRecord) {
     // First delete pouch record
     await pouchRecord.destroyRecord();
     // Then remove related pouch record
@@ -90,6 +95,19 @@ export default class PouchService extends Service {
     // Then add the related pouch record
     relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = pouchRecord;
     await relatedRecord.save();
+  }
+
+  async updateRelatedRecord(pouchRecord, relatedRecord) {
+    relatedRecord.json = pouchRecord.json;
+    await relatedRecord.save();
+  }
+
+  checkIfPouchRecordChanged(pouchRecord, relatedRecord) {
+    // Pouch record stores data as a JSON object, so needs to be stringified
+    const stringifiedPouchRecord = JSON.stringify(pouchRecord.serialize().json);
+    // Related record stores data as a stringified JSON object, so compare it directly
+    const stringifiedRelatedRecord = relatedRecord.serialize().data.attributes.json;
+    return stringifiedPouchRecord === stringifiedRelatedRecord;
   }
 
   async getOptions(type) {

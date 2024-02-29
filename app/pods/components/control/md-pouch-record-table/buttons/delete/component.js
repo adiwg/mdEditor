@@ -8,6 +8,6 @@ export default class MdPouchRecordDeleteButtonComponent extends Component {
   @action
   async delete() {
     const { record } = this.args;
-    await this.pouch.deletePouchModel(record)
+    await this.pouch.deletePouchRecord(record)
   }
 }

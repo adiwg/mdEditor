@@ -9,6 +9,8 @@ export default class SyncListRoute extends Route {
   @service pouch;
 
   async beforeModel() {
+    // TODO - This needs to be moved somewhere else, maybe into a controller
+    // It causes an error on navigating to/from this page
     await this.pouch.loadOptions();
   }
 
@@ -28,21 +30,21 @@ export default class SyncListRoute extends Route {
     const meta = [{
       type: POUCH_TYPES.RECORD,
       list: 'records',
-      title: 'Metadata Records',
+      title: 'Sync Metadata Records',
       icon: 'file-o',
       options: this.pouch.options[POUCH_TYPES.RECORD],
       columns: COLUMNS[POUCH_TYPES.RECORD]
     }, {
       type: POUCH_TYPES.CONTACT,
       list: 'contacts',
-      title: 'Contacts',
+      title: 'Sync Contacts',
       icon: 'users',
       options: this.pouch.options[POUCH_TYPES.CONTACT],
       columns: COLUMNS[POUCH_TYPES.CONTACT]
     }, {
       type: POUCH_TYPES.DICTIONARY,
       list: 'dictionaries',
-      title: 'Dictionaries',
+      title: 'Sync Dictionaries',
       icon: 'book',
       options: this.pouch.options[POUCH_TYPES.DICTIONARY],
       columns: COLUMNS[POUCH_TYPES.DICTIONARY]
@@ -70,9 +72,6 @@ const COLUMNS = {
     propertyName: 'title',
     title: 'Title'
   }, {
-    propertyName: 'defaultType',
-    title: 'Type'
-  }, {
     propertyName: 'recordId',
     title: 'ID'
   },
@@ -82,12 +81,6 @@ const COLUMNS = {
     propertyName: 'title',
     title: 'Title'
   }, {
-    propertyName: 'defaultOrganization',
-    title: 'Organization'
-  }, {
-    propertyName: 'email',
-    title: 'E-mail'
-  }, {
     propertyName: 'contactId',
     title: 'ID'
   },
@@ -96,9 +89,6 @@ const COLUMNS = {
   [POUCH_TYPES.DICTIONARY]: [{
     propertyName: 'title',
     title: 'Title'
-  }, {
-    propertyName: 'defaultType', // Note: This doesn't currently point to anything on the model
-    title: 'Type'
   }, {
     propertyName: 'dictionaryId',
     title: 'ID'
