@@ -57,17 +57,17 @@ export default class PouchService extends Service {
       id: objId,
       json: record.cleanJson
     };
-    // First save pouch record
+    // First save related record
     const pouchModel = this.store.createRecord(pouchPrefix(type), pouchObjToSave);
-    await pouchModel.save();
-    // Then save related record
     record[camelizedPouchPrefix(type)] = pouchModel;
     await record.save();
+    // Then save pouch record
+    return await pouchModel.save();
   }
 
   async updatePouchRecord(pouchRecord, relatedRecord) {
     pouchRecord.json = relatedRecord.cleanJson;
-    await pouchRecord.save();
+    return await pouchRecord.save();
   }
 
   async deletePouchRecord(pouchRecord) {
@@ -79,7 +79,7 @@ export default class PouchService extends Service {
       relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = null;
       await relatedRecord.save();
     }
-    await pouchRecord.unloadRecord();
+    return await pouchRecord.unloadRecord();
   }
 
   async queryRelatedRecord(pouchRecord) {
@@ -94,12 +94,12 @@ export default class PouchService extends Service {
     const relatedRecord = this.store.createRecord(unPouchedType, { json: pouchRecord.json });
     // Then add the related pouch record
     relatedRecord[Ember.String.camelize(pouchRecord.constructor.modelName)] = pouchRecord;
-    await relatedRecord.save();
+    return await relatedRecord.save();
   }
 
   async updateRelatedRecord(pouchRecord, relatedRecord) {
     relatedRecord.json = pouchRecord.json;
-    await relatedRecord.save();
+    return await relatedRecord.save();
   }
 
   checkIfPouchRecordChanged(pouchRecord, relatedRecord) {
