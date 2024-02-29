@@ -1,6 +1,5 @@
 {{#unless this.relatedRecord}}
   <Control::MdPouchRecordTable::Buttons::Import @record={{@record}} />
-  {{else}}
-    <Control::MdPouchRecordTable::Buttons::Update @record={{@record}} @relatedRecord={{this.relatedRecord}} />
+{{else}}
+  <Control::MdPouchRecordTable::Buttons::Update @record={{@record}} @relatedRecord={{this.relatedRecord}} />
 {{/unless}}
-<Control::MdPouchRecordTable::Buttons::Delete @record={{@record}} />

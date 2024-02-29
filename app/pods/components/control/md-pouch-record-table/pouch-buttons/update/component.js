@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
-export default class MdPouchRecordUpdateButtonComponent extends Component {
+export default class MdPouchRecordPouchUpdateButtonComponent extends Component {
   @service pouch;
 
   @tracked updated = false;
@@ -17,7 +17,7 @@ export default class MdPouchRecordUpdateButtonComponent extends Component {
   @action
   async update() {
     const { record, relatedRecord } = this.args;
-    await this.pouch.updateRelatedRecord(record, relatedRecord);
+    await this.pouch.updatePouchRecord(record, relatedRecord);
     this.updated = true;
   }
 }

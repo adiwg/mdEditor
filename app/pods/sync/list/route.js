@@ -30,21 +30,21 @@ export default class SyncListRoute extends Route {
     const meta = [{
       type: POUCH_TYPES.RECORD,
       list: 'records',
-      title: 'Sync Metadata Records',
+      title: 'PouchDB Metadata Records',
       icon: 'file-o',
       options: this.pouch.options[POUCH_TYPES.RECORD],
       columns: COLUMNS[POUCH_TYPES.RECORD]
     }, {
       type: POUCH_TYPES.CONTACT,
       list: 'contacts',
-      title: 'Sync Contacts',
+      title: 'PouchDB Contacts',
       icon: 'users',
       options: this.pouch.options[POUCH_TYPES.CONTACT],
       columns: COLUMNS[POUCH_TYPES.CONTACT]
     }, {
       type: POUCH_TYPES.DICTIONARY,
       list: 'dictionaries',
-      title: 'Sync Dictionaries',
+      title: 'PouchDB Dictionaries',
       icon: 'book',
       options: this.pouch.options[POUCH_TYPES.DICTIONARY],
       columns: COLUMNS[POUCH_TYPES.DICTIONARY]
@@ -67,6 +67,12 @@ const ACTIONS_COLUMN = {
   component: 'control/md-pouch-record-table/buttons',
 }
 
+const POUCH_ACTIONS_COLUMN = {
+  title: 'Pouch Actions',
+  className: 'md-actions-column',
+  component: 'control/md-pouch-record-table/pouch-buttons',
+}
+
 const COLUMNS = {
   [POUCH_TYPES.RECORD]: [{
     propertyName: 'title',
@@ -75,7 +81,8 @@ const COLUMNS = {
     propertyName: 'recordId',
     title: 'ID'
   },
-    ACTIONS_COLUMN
+    ACTIONS_COLUMN,
+    POUCH_ACTIONS_COLUMN
   ],
   [POUCH_TYPES.CONTACT]: [{
     propertyName: 'title',
@@ -84,7 +91,8 @@ const COLUMNS = {
     propertyName: 'contactId',
     title: 'ID'
   },
-    ACTIONS_COLUMN
+    ACTIONS_COLUMN,
+    POUCH_ACTIONS_COLUMN
   ],
   [POUCH_TYPES.DICTIONARY]: [{
     propertyName: 'title',
@@ -93,6 +101,7 @@ const COLUMNS = {
     propertyName: 'dictionaryId',
     title: 'ID'
   },
-    ACTIONS_COLUMN
+    ACTIONS_COLUMN,
+    POUCH_ACTIONS_COLUMN
   ]
 }
