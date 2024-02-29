@@ -1,5 +1,4 @@
 import Service, { inject as service } from '@ember/service';
-import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 
 export const POUCH_TYPES = {
