@@ -26,19 +26,19 @@ export default class SyncListRoute extends Route {
       list: 'records',
       title: 'PouchDB Metadata Records',
       icon: 'file-o',
-      columns: COLUMNS[POUCH_TYPES.RECORD]
+      columns: COLUMNS
     }, {
       type: POUCH_TYPES.CONTACT,
       list: 'contacts',
       title: 'PouchDB Contacts',
       icon: 'users',
-      columns: COLUMNS[POUCH_TYPES.CONTACT]
+      columns: COLUMNS
     }, {
       type: POUCH_TYPES.DICTIONARY,
       list: 'dictionaries',
       title: 'PouchDB Dictionaries',
       icon: 'book',
-      columns: COLUMNS[POUCH_TYPES.DICTIONARY]
+      columns: COLUMNS
     }];
 
     let mapFn = function (item, id) {
@@ -66,35 +66,13 @@ const POUCH_ACTIONS_COLUMN = {
   component: 'control/md-pouch-record-table/pouch-buttons',
 }
 
-const COLUMNS = {
-  [POUCH_TYPES.RECORD]: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'recordId',
-    title: 'ID'
-  },
-    ACTIONS_COLUMN,
-    POUCH_ACTIONS_COLUMN
-  ],
-  [POUCH_TYPES.CONTACT]: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'contactId',
-    title: 'ID'
-  },
-    ACTIONS_COLUMN,
-    POUCH_ACTIONS_COLUMN
-  ],
-  [POUCH_TYPES.DICTIONARY]: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'dictionaryId',
-    title: 'ID'
-  },
-    ACTIONS_COLUMN,
-    POUCH_ACTIONS_COLUMN
-  ]
-}
+const COLUMNS = [{
+  propertyName: 'title',
+  title: 'Title'
+}, {
+  propertyName: 'id',
+  title: 'ID'
+},
+  ACTIONS_COLUMN,
+  POUCH_ACTIONS_COLUMN
+]
