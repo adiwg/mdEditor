@@ -43,7 +43,9 @@ export default class SyncListRoute extends Route {
 
     let mapFn = function (item, id) {
       meta[id].listId = guidFor(item);
-      item.meta = meta[id];
+      if (!item.meta) { // Avoid updating meta in case it's already set and being tracked
+        item.meta = meta[id];
+      }
 
       return item;
     };
