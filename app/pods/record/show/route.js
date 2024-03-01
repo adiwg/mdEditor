@@ -12,7 +12,10 @@ export default Route.extend({
 
     this.set('breadCrumb', crumb);
   },
-  model(params) {
+  async model(params) {
+    // TODO - Find a better way to load the single related record
+    // Needs to happen before the model is loaded in the route
+    await this.store.findAll('pouch-record');
     return this.store.peekRecord('record', params.record_id);
   },
 
