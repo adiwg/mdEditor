@@ -1,37 +1,34 @@
 {{#layout/md-object-container
-  title=title
-  index=index
-  deleteItem=deleteExtent
-  profilePath=profilePath
+  title=title index=index deleteItem=deleteExtent profilePath=profilePath
 }}
 
   {{input/md-textarea
     value=extent.description
     rows=3
     maxHeight=300
-    placeholder="Description of extent"
-    label="Extent Description"
+    placeholder='Description of extent'
+    label='Extent Description'
     isCollapsible=true
-    profilePath=(concat profilePath ".description")
+    profilePath=(concat profilePath '.description')
   }}
 
   {{object/md-extent/spatial
     extent=extent
     index=index
     editFeatures=editFeatures
-    profilePath=(concat profilePath ".geographic")
-  }}
-
-  {{object/md-extent/temporal
-    extent=extent
-    index=index
-    profilePath=(concat profilePath ".temporal")
+    profilePath=(concat profilePath '.geographic')
   }}
 
   {{object/md-extent/vertical
     extent=extent
     index=index
-    profilePath=(concat profilePath ".vertical")
+    profilePath=(concat profilePath '.vertical')
+  }}
+
+  {{object/md-extent/temporal
+    extent=extent
+    index=index
+    profilePath=(concat profilePath '.temporal')
   }}
 
 {{/layout/md-object-container}}
