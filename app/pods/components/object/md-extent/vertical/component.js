@@ -1,25 +1,17 @@
-/* global L */
 import Component from '@ember/component';
-import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { set, get } from '@ember/object';
+import { set, get, getWithDefault } from '@ember/object';
 
 export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
-    let extent = get(this, 'extent.verticalExtent.0');
-    let crsId = {
-      "referenceSystemType": "referenceSystemType",
-      "referenceSystemIdentifier": {
-        "identifier": "identifier"
-      }
-    }
-
-    once(this, function() {
-      set(extent, 'crsId', crsId);
+    let model = get(this, 'model');
+    once(this, function () {
+      set(model, 'description', getWithDefault(model, 'description', null));
+      set(model, 'minValue', getWithDefault(model, 'minValue', null));
+      set(model, 'maxValue', getWithDefault(model, 'maxValue', null));
+      set(model, 'crsId', getWithDefault(model, 'crsId', {}));
     });
-
+    return model;
   },
-
-  verticalExtent: alias('extent.verticalExtent.0')
 });
