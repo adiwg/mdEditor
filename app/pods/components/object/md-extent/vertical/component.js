@@ -12,6 +12,5 @@ export default Component.extend({
       set(model, 'maxValue', getWithDefault(model, 'maxValue', null));
       set(model, 'crsId', getWithDefault(model, 'crsId', {}));
     });
-    return model;
   },
 });
