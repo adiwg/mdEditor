@@ -1,0 +1,34 @@
+{{#layout/md-card
+title="Temporal Extent"
+collapsible=true
+collapsed=false
+data-spy=false
+shadow=false
+spotlightEnabled=false
+plain=true
+bodyIsRow=false
+class="card-lighter"
+profilePath=profilePath
+}}
+  <div class="col-sm-12">
+    <div class="col-sm-2">
+      {{input/md-datetime
+        date=temporalExtent.startDateTime
+        useCurrent=false
+        label="Start Date"
+        format="YYYY-MM-DD HH:mm:ss"
+        profilePath=(concat profilePath ".startDateTime")
+      }}
+    </div>
+    <div class="col-sm-2">
+      {{input/md-datetime
+        date=temporalExtent.endDateTime
+        useCurrent=false
+        label="End Date"
+        format="YYYY-MM-DD HH:mm:ss"
+        profilePath=(concat profilePath ".endDateTime")
+      }}
+      {{yield}}
+    </div>
+  </div>
+{{/layout/md-card}}

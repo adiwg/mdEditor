@@ -1,0 +1,36 @@
+{{#layout/md-card
+title="Vertical Extent"
+collapsible=false
+collapsed=false
+data-spy=false
+shadow=false
+profilePath=profilePath
+}}
+  <div class="col-sm-12">
+    <div class="col-sm-2">
+      {{input/md-input
+        type="number"
+        step="1"
+        model=this
+        valuePath="verticalExtent.minValue"
+        label="Min Value"
+        placeholder="0"
+        profilePath=(concat profilePath ".minValue")
+        showValidations=true
+      }}
+    </div>
+    <div class="col-sm-2">
+      {{input/md-input
+        type="number"
+        step="1"
+        model=this
+        valuePath="verticalExtent.maxValue"
+        label="Max Value"
+        placeholder="0"
+        profilePath=(concat profilePath ".maxValue")
+        showValidations=true
+      }}
+      {{yield}}
+    </div>
+  </div>
+{{/layout/md-card}}

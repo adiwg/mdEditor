@@ -21,4 +21,17 @@
     editFeatures=editFeatures
     profilePath=(concat profilePath ".geographic")
   }}
+
+  {{object/md-extent/temporal
+    extent=extent
+    index=index
+    profilePath=(concat profilePath ".temporal")
+  }}
+
+  {{object/md-extent/vertical
+    extent=extent
+    index=index
+    profilePath=(concat profilePath ".vertical")
+  }}
+
 {{/layout/md-object-container}}

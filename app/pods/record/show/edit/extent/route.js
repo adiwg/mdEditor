@@ -12,19 +12,25 @@ export default Route.extend({
     set(info, 'extent', getWithDefault(info, 'extent', A()));
 
     get(info, 'extent').forEach((itm) => {
-      set(itm, 'geographicExtent', getWithDefault(itm,
-        'geographicExtent', A()));
-      set(itm, 'geographicExtent.0', getWithDefault(itm,
-        'geographicExtent.0', {}));
-      set(itm, 'geographicExtent.0.boundingBox', getWithDefault(itm,
-        'geographicExtent.0.boundingBox', {}));
-      set(itm, 'geographicExtent.0.identifier', getWithDefault(itm,
-        'geographicExtent.0.identifier', {}));
-      set(itm, 'verticalExtent', getWithDefault(itm, 'verticalExtent',
-        A()));
-      set(itm, 'temporalExtent', getWithDefault(itm, 'temporalExtent',
-        A()));
+      set(itm, 'geographicExtent', getWithDefault(itm,'geographicExtent', A()));
+      set(itm, 'geographicExtent.0', getWithDefault(itm,'geographicExtent.0', {}));
+      set(itm, 'geographicExtent.0.boundingBox', getWithDefault(itm,'geographicExtent.0.boundingBox', {}));
+      set(itm, 'geographicExtent.0.identifier', getWithDefault(itm,'geographicExtent.0.identifier', {}));
+
+      set(itm, 'temporalExtent', getWithDefault(itm,'temporalExtent', A()));
+      set(itm, 'temporalExtent.0', getWithDefault(itm,'temporalExtent.0', {}));
+      set(itm, 'temporalExtent.0.startDateTime', getWithDefault(itm,'temporalExtent.0.startDateTime', {}));
+      set(itm, 'temporalExtent.0.endDateTime', getWithDefault(itm,'temporalExtent.0.endDateTime', {}));
+      set(itm, 'temporalExtent.0.timeInstant', getWithDefault(itm,'temporalExtent.0.timeInstant', {}));
+      set(itm, 'temporalExtent.0.timePeriod', getWithDefault(itm,'temporalExtent.0.timePeriod', {}));
+
+      set(itm, 'verticalExtent', getWithDefault(itm,'verticalExtent', A()));
+      set(itm, 'verticalExtent.0', getWithDefault(itm,'verticalExtent.0', {}));
+      set(itm, 'verticalExtent.0.minValue', getWithDefault(itm,'verticalExtent.0.minValue', {}));
+      set(itm, 'verticalExtent.0.maxValue', getWithDefault(itm,'verticalExtent.0.maxValue', {}));
+      set(itm, 'verticalExtent.0.crsId', getWithDefault(itm,'verticalExtent.0.crsId', {}));
     });
+
     return model;
   },
 
@@ -42,8 +48,17 @@ export default Route.extend({
           geographicElement: A(),
           identifier: {}
         }],
-        verticalExtent: A(),
-        temporalExtent: A()
+        temporalExtent: [{
+          startDateTime: {},
+          endDateTime: {},
+          timeInstant: {},
+          timePeriod: {}
+        }],
+        verticalExtent: [{
+          minValue: {},
+          maxValue: {},
+          crsId: {}
+        }],
       });
 
       $("html, body").animate({
