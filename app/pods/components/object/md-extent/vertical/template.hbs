@@ -1,36 +1,29 @@
-{{#layout/md-card
-title="Vertical Extent"
-collapsible=false
-collapsed=false
-data-spy=false
-shadow=false
-profilePath=profilePath
+{{input/md-textarea
+  value=model.description
+  rows=5
+  maxHeight=300
+  placeholder='Description of vertical extent'
+  label='Description'
+  profilePath=(concat profilePath '.description')
 }}
-  <div class="col-sm-12">
-    <div class="col-sm-2">
-      {{input/md-input
-        type="number"
-        step="1"
-        model=this
-        valuePath="verticalExtent.minValue"
-        label="Min Value"
-        placeholder="0"
-        profilePath=(concat profilePath ".minValue")
-        showValidations=true
-      }}
-    </div>
-    <div class="col-sm-2">
-      {{input/md-input
-        type="number"
-        step="1"
-        model=this
-        valuePath="verticalExtent.maxValue"
-        label="Max Value"
-        placeholder="0"
-        profilePath=(concat profilePath ".maxValue")
-        showValidations=true
-      }}
-      {{yield}}
-    </div>
-  </div>
-{{/layout/md-card}}
+{{input/md-input
+  type='number'
+  step='1'
+  model=this
+  valuePath='model.minValue'
+  label='Min Value'
+  placeholder='0'
+  profilePath=(concat profilePath '.minValue')
+  showValidations=true
+}}
+{{input/md-input
+  type='number'
+  step='1'
+  model=this
+  valuePath='model.maxValue'
+  label='Max Value'
+  placeholder='0'
+  profilePath=(concat profilePath '.maxValue')
+  showValidations=true
+}}
+{{object/md-srs model=model.crsId profilePath=(concat profilePath '.crsId')}}
