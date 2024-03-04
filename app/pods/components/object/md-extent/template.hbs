@@ -31,7 +31,6 @@
   }}
     {{object/md-extent/vertical
       model=editing
-      index=index
       profilePath=(concat profilePath '.verticalExtent')
     }}
   {{/object/md-object-table}}
@@ -46,9 +45,8 @@
     attributes='description'
     as |editing|
   }}
-    {{object/md-extent/temporal
+    {{object/md-time-period
       model=editing
-      index=index
       profilePath=(concat profilePath '.temporalExtent')
     }}
   {{/object/md-object-table}}
