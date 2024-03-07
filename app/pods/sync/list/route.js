@@ -7,6 +7,11 @@ import { POUCH_TYPES } from 'mdeditor/services/pouch';
 
 export default class SyncListRoute extends Route {
   @service pouch;
+  @service couch;
+
+  async beforeModel() {
+    await this.couch.setup();
+  }
 
   async model() {
     let promises = [
