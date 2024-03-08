@@ -1,5 +1,4 @@
 import Service, { inject as service } from '@ember/service';
-import { tracked } from '@glimmer/tracking';
 
 export const POUCH_TYPES = {
   RECORD: 'record',
@@ -29,7 +28,6 @@ export const unPouchPrefix = (pouchType) => pouchType.replace(POUCH_PREFIX, '');
 
 export default class PouchService extends Service {
   @service store;
-  @tracked options = {};
 
   async loadOptions(type) {
     const storeData = await this.store.findAll(type, { reload: true });
@@ -98,9 +96,5 @@ export default class PouchService extends Service {
     // Related record stores data as a stringified JSON object, so compare it directly
     const stringifiedRelatedRecord = relatedRecord.serialize().data.attributes.json;
     return stringifiedPouchRecord === stringifiedRelatedRecord;
-  }
-
-  async getOptions(type) {
-    return await this.store.peekAll(type);
   }
 }

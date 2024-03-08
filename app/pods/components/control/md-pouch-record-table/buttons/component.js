@@ -12,6 +12,6 @@ export default class MdPouchRecordTableButtonsComponent extends Component {
     const { record } = this.args;
     this.pouch.queryRelatedRecord(record).then((relatedRecord) => {
       this.relatedRecord = relatedRecord;
-    })
+    });
   }
 }

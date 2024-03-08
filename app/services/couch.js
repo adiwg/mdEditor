@@ -21,6 +21,9 @@ export default class CouchService extends Service {
   // Couch model data
   couch = null;
 
+  // Changes made to documents
+  @tracked lastUpdated = [];
+
   async setup() {
     const adapter = this.store.adapterFor('pouch-base');
     this.localDb = adapter.db;
@@ -130,8 +133,12 @@ export default class CouchService extends Service {
   pull() {
     this.replicationState = 'Pulling';
     this.localDb.replicate.from(this.remoteDb)
+      // For now, only listen for changes to local PouchDB database
+      .on('change', (info) => {
+        const { docs } = info;
+        this.lastUpdated = docs.map((doc) => this.extractPouchId(doc._id));
+      })
       .on('complete', (info) => {
-        console.log('pull complete info: ', info);
         this.replicationState = null;
         this.replicationInfo = info;
       })
@@ -145,12 +152,22 @@ export default class CouchService extends Service {
     this.replicationState = 'Syncing';
     this.localDb.sync(this.remoteDb)
       .on('complete', (info) => {
-        console.log('sync complete info: ', info);
         this.replicationState = null;
         this.replicationInfo = info;
       })
       .on('error', (err) => {
         this.handleError(err);
       })
+  }
+
+  // Helper function to take the raw pouchId (e.g. pouchRecord_2_USGS:ASC365)
+  // and extract its id ('USGS:ASC365')
+  async extractPouchId(rawId) {
+    const [ camelizedType ] = rawId.split('_');
+    const dasherizedType = Ember.String.dasherize(camelizedType);
+    const adapter = this.store.adapterFor(dasherizedType);
+    const relationalPouch = adapter.db.rel;
+    const { id } = relationalPouch.parseDocID(rawId);
+    return id;
   }
 }
