@@ -2,6 +2,7 @@ import Service, { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import PouchDB from 'ember-pouch/pouchdb';
+import { unPouchPrefix } from 'mdeditor/services/pouch';
 
 export default class CouchService extends Service {
   @service store;
@@ -21,12 +22,18 @@ export default class CouchService extends Service {
   // Couch model data
   couch = null;
 
-  // Changes made to documents
-  @tracked lastUpdated = [];
-
   async setup() {
     const adapter = this.store.adapterFor('pouch-base');
     this.localDb = adapter.db;
+
+    // TODO - Change listener needs some work
+    // this.changes = this.localDb.changes({
+    //   since: 'now',
+    //   live: true,
+    //   returnDocs: false,
+    // });
+    // this.changes.on('change', this.onChangeListener.bind(this))
+
     // Check to see if they have a remote name and url saved
     // If they do, then getSession to see if their cookie is still valid
     // If valid, then display remote url, remote name, and user name
@@ -43,6 +50,37 @@ export default class CouchService extends Service {
     } catch(e) {
       this.handleError(e);
     }
+  }
+
+  async onChangeListener(change) {
+    // First, check to see if there's a related model
+    const { type, id } = this.extractParsedIdAndType(change.id);
+    const dasherizedPouchType = Ember.String.dasherize(type);
+    const relatedRecordType = unPouchPrefix(dasherizedPouchType);
+    const relatedRecord = await this.store.queryRecord(relatedRecordType, { filter: { [type]: id } });
+    // If a document has been deleted, then delete the reference held by the related record
+    if (!!relatedRecord) {
+      const pouchRecord = await this.store.findRecord(dasherizedPouchType, id);
+      if (change.deleted) {
+        relatedRecord[type] = null;
+        await relatedRecord.save();
+        // If there is still a pouch record lying around, then unload it
+        if (!!pouchRecord) {
+          await pouchRecord.unloadRecord();
+        }
+      }
+    }
+    // TODO - If a document has been added, then add the reference to the related record
+  }
+
+  // Helper function to take the raw pouchId (e.g. pouchRecord_2_USGS:ASC365)
+  // and extract its id ('USGS:ASC365')
+  extractParsedIdAndType(rawId) {
+    const [ camelizedType ] = rawId.split('_');
+    const dasherizedType = Ember.String.dasherize(camelizedType);
+    const adapter = this.store.adapterFor(dasherizedType);
+    const relationalPouch = adapter.db.rel;
+    return relationalPouch.parseDocID(rawId);
   }
 
   @action
@@ -140,11 +178,6 @@ export default class CouchService extends Service {
   pull() {
     this.replicationState = 'Pulling';
     this.localDb.replicate.from(this.remoteDb)
-      // For now, only listen for changes to local PouchDB database
-      .on('change', (info) => {
-        const { docs } = info;
-        this.lastUpdated = docs.map((doc) => this.extractPouchId(doc._id));
-      })
       .on('complete', (info) => {
         this.replicationState = null;
         this.replicationInfo = info;
@@ -165,16 +198,5 @@ export default class CouchService extends Service {
       .on('error', (err) => {
         this.handleError(err);
       })
-  }
-
-  // Helper function to take the raw pouchId (e.g. pouchRecord_2_USGS:ASC365)
-  // and extract its id ('USGS:ASC365')
-  async extractPouchId(rawId) {
-    const [ camelizedType ] = rawId.split('_');
-    const dasherizedType = Ember.String.dasherize(camelizedType);
-    const adapter = this.store.adapterFor(dasherizedType);
-    const relationalPouch = adapter.db.rel;
-    const { id } = relationalPouch.parseDocID(rawId);
-    return id;
   }
 }
