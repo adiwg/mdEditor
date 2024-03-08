@@ -47,6 +47,7 @@ export default class CouchService extends Service {
 
   @action
   async login(remoteUrl, remoteName, username, password) {
+    remoteUrl = this.cleanDbUrl(remoteUrl);
     try {
       this.setRemoteDb(remoteUrl, remoteName);
       const user = await this.remoteDb.login(username, password);
@@ -98,6 +99,12 @@ export default class CouchService extends Service {
     } catch(e) {
       this.handleError(e);
     }
+  }
+
+  // Helper for removing the trailing slash from the remote db url
+  cleanDbUrl(url) {
+    const hasSlash = url.slice(-1) === '/';
+    return hasSlash ? url.substring(0, url.length - 1) : url;
   }
 
   setRemoteDb(remoteUrl, remoteName) {
