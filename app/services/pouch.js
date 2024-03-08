@@ -58,6 +58,9 @@ export default class PouchService extends Service {
     return await pouchRecord.save();
   }
 
+  // TODO - Need to add handling for when record gets deleted from the remote db
+  // the relationship on the related record needs to also get deleted
+
   async deletePouchRecord(pouchRecord) {
     // First delete pouch record
     await pouchRecord.destroyRecord();
