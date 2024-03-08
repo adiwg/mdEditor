@@ -9,10 +9,13 @@ export const initDb = function() {
 }
 
 export function unloadedDocumentChanged(obj) {
-  let recordTypeName = this.getRecordTypeName(this.store.modelFor(obj.type));
-  this.db.rel.find(recordTypeName, obj.id).then((doc) => {
-    this.store.pushPayload(recordTypeName, doc);
-  });
+  const recordTypeName = this.getRecordTypeName(this.store.modelFor(obj.type));
+  // Ignore any models other than the ones for the given adapter
+  if (recordTypeName === this.recordTypeName) {
+    this.db.rel.find(recordTypeName, obj.id).then((doc) => {
+      this.store.pushPayload(recordTypeName, doc);
+    });
+  }
 }
 
 /**
