@@ -52,26 +52,26 @@ export default class CouchService extends Service {
     }
   }
 
-  async onChangeListener(change) {
-    // First, check to see if there's a related model
-    const { type, id } = this.extractParsedIdAndType(change.id);
-    const dasherizedPouchType = Ember.String.dasherize(type);
-    const relatedRecordType = unPouchPrefix(dasherizedPouchType);
-    const relatedRecord = await this.store.queryRecord(relatedRecordType, { filter: { [type]: id } });
-    // If a document has been deleted, then delete the reference held by the related record
-    if (!!relatedRecord) {
-      const pouchRecord = await this.store.findRecord(dasherizedPouchType, id);
-      if (change.deleted) {
-        relatedRecord[type] = null;
-        await relatedRecord.save();
-        // If there is still a pouch record lying around, then unload it
-        if (!!pouchRecord) {
-          await pouchRecord.unloadRecord();
-        }
-      }
-    }
-    // TODO - If a document has been added, then add the reference to the related record
-  }
+  // async onChangeListener(change) {
+  //   // First, check to see if there's a related model
+  //   const { type, id } = this.extractParsedIdAndType(change.id);
+  //   const dasherizedPouchType = Ember.String.dasherize(type);
+  //   const relatedRecordType = unPouchPrefix(dasherizedPouchType);
+  //   const relatedRecord = await this.store.queryRecord(relatedRecordType, { filter: { [type]: id } });
+  //   // If a document has been deleted, then delete the reference held by the related record
+  //   if (!!relatedRecord) {
+  //     const pouchRecord = await this.store.findRecord(dasherizedPouchType, id);
+  //     if (change.deleted) {
+  //       relatedRecord[type] = null;
+  //       await relatedRecord.save();
+  //       // If there is still a pouch record lying around, then unload it
+  //       if (!!pouchRecord) {
+  //         await pouchRecord.unloadRecord();
+  //       }
+  //     }
+  //   }
+  //   // TODO - If a document has been added, then add the reference to the related record
+  // }
 
   // Helper function to take the raw pouchId (e.g. pouchRecord_2_USGS:ASC365)
   // and extract its id ('USGS:ASC365')
