@@ -38,15 +38,15 @@
 {{input/md-textarea
   value=model.explanation
   label='Explanation'
-  placeholder='Enter explanation'
+  placeholder='Textual expression of the quality result.'
   profilePath=(concat profilePath '.explanation')
 }}
 
 {{input/md-boolean
   value=model.pass
-  label='Conformance Result Passes'
+  label='Conformance Result'
   profilePath=(concat profilePath '.pass')
-  showInfoText='The result passes conformance'
-  infotip=true
-  placeholder='The result passes conformance'
+  showInfotip=true
+  placeholder='Indicates whether the result conforms to the specification.'
+  text=resultText
 }}
