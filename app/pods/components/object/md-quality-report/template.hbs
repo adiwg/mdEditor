@@ -13,7 +13,7 @@
 
 {{input/md-textarea
   value=model.standaloneQualityReportDetails
-  placeholder='Enter detail reference.'
+  placeholder='Clause in the standalone quality report where this data quality element or any related quality (original results in case of derivation or aggregation ) is described.'
   label='Standalone Report Detail Reference'
   profilePath=(concat profilePath '.standaloneQualityReportDetails')
 }}
@@ -56,14 +56,14 @@
   {{/if}}
   {{input/md-input
     value=qualityMeasureName
-    placeholder='Enter the name.'
+    placeholder='Name of test applied'
     label='Name (required if no identifier)'
     required=isNameRequired
     profilePath=(concat profilePath '.qualityMeasure.name')
   }}
   {{input/md-textarea
     value=model.qualityMeasure.description
-    placeholder='Enter description.'
+    placeholder='Description of the measure.'
     label='Description'
     profilePath=(concat profilePath '.qualityMeasure.description')
   }}
@@ -177,10 +177,18 @@
   }}
     {{input/md-textarea
       value=model.evaluationMethod.deductiveSource
-      placeholder='Information on which data are used as sources in deductive evaluation method.​'
+      placeholder='Information on which data are used as sources in deductive evaluation method.'
       label='Deductive Source'
+      required=true
       profilePath=(concat profilePath '.evaluationMethod.deductiveSource')
     }}
+    <div>
+      <p>
+        <span class='required' />
+        Deductive Source required for IndirectEvaluation method, not used by
+        other methods
+      </p>
+    </div>
   {{/layout/md-card}}
   {{#layout/md-card
     collapsible=true collapsed=true title='Sample Based Inspection'
@@ -189,24 +197,34 @@
       value=model.evaluationMethod.samplingScheme
       placeholder='Information of the type of sampling scheme and description of the sampling procedure.'
       label='Sampling Scheme'
+      required=true
       profilePath=(concat profilePath '.evaluationMethod.samplingScheme')
     }}
     {{input/md-textarea
       value=model.evaluationMethod.lotDescription
-      placeholder='Information of how lots are defined.​'
+      placeholder='Information of how lots are defined.'
       label='Lot Description'
+      required=true
       profilePath=(concat profilePath '.evaluationMethod.lotDescription')
     }}
     {{input/md-textarea
       value=model.evaluationMethod.samplingRatio
       placeholder='Information on how many samples on average are extracted for inspection from each lot of population.'
       label='Sampling Ratio'
+      required=true
       profilePath=(concat profilePath '.evaluationMethod.samplingRatio')
     }}
+    <div>
+      <p>
+        <span class='required' />
+        Sampled Based Inspection required for SampleBasedInspection method, not
+        used by other methods.
+      </p>
+    </div>
   {{/layout/md-card}}
 {{/layout/md-card}}
 
-{{#layout/md-card collapsible=true title='Standard Reports' required=true}}
+{{#layout/md-card collapsible=true title='Results' required=true}}
   {{#object/md-object-table
     items=model.quantitativeResult
     header='Quantitative Result'
@@ -243,7 +261,7 @@
     buttonText='Add Conformance Result'
     ellipsis=true
     profilePath=(concat profilePath '.conformanceResult')
-    attributes='scope.scopeCode,pass'
+    attributes='scope.scopeCode'
     as |editing|
   }}
     {{object/md-quality-report/conformance-result
