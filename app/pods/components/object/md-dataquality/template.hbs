@@ -1,18 +1,20 @@
 {{#layout/md-card}}
   <div class='row'>
-    <div class='col-md-6'>
+    <div class='col-md-8'>
       {{input/md-input
         label='System Generated UID'
         value=model.systemIdentifier.uid
         disabled=true
       }}
     </div>
-    <div class='col-md-6'>
+  </div>
+  <div class='row'>
+    <div class='col-md-8'>
       {{input/md-input label='Title' value=model.systemIdentifier.label}}
     </div>
   </div>
   <div class='row'>
-    <div class='col-md-6'>
+    <div class='col-md-8'>
       {{input/md-codelist
         value=model.scope.scopeCode
         label='Scope'
