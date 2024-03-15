@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     app:
-        image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME
+        image: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
         networks:
             - default
             - proxy_default
