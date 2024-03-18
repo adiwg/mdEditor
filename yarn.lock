@@ -10881,10 +10881,10 @@ mdast-util-to-string@^2.0.0:
   resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-2.0.0.tgz#b8cfe6a713e1091cb5b728fc48885a4767f8b97b"
   integrity sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==
 
-mdcodes@2.9.0:
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.9.0.tgz#53cbe959599580e3dfb9dc87f4ef79bd1a0153d3"
-  integrity sha512-24iuNavhH5dL1VR4u2v60GOnI7X5Rm+4aLQGLDXQGHosy+MlIHdPs0RB9jfxJMSc01/y177gdqQlK2f0TA5cYQ==
+mdcodes@2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.9.1.tgz#0168a249b9dee3f20ef70472df8e2ecc4ca4cfdc"
+  integrity sha512-lTYXEoPTcXqnF2YVm3RbqPkZoj5Rqntnx76nf4a9R5bCPsdPhGOP0nYx+n7K5kyZhIW5QrayefyPEaYdyZptxw==
   dependencies:
     buildify "github:powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7"
     glob "^7.1.0"
