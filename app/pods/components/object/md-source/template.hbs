@@ -1,96 +1,94 @@
 {{input/md-input
-   value=model.sourceId
-   model=null
-   valuePath=null
-   label="Source ID"
-   data-spy="Source ID"
-   placeholder="Enter unique identifer for the source."
-   required=false
-   profilePath=(concat profilePath ".sourceId")
- }}
+  value=model.sourceId
+  model=null
+  valuePath=null
+  label='Source ID'
+  data-spy='Source ID'
+  placeholder='Enter unique identifer for the source.'
+  required=false
+  profilePath=(concat profilePath '.sourceId')
+}}
 
 {{input/md-textarea
   value=model.description
   required=true
-  profilePath=(concat profilePath ".description")
-  label="Description"
-  placeholder="Description of the source."
-  data-spy="Source Description"
+  profilePath=(concat profilePath '.description')
+  label='Description'
+  placeholder='Description of the source.'
+  data-spy='Source Description'
   showValidations=true
 }}
 
 {{input/md-codelist
   value=model.scope.scopeCode
-  label="Scope"
+  label='Scope'
   create=true
   tooltip=true
   icon=true
-  mdCodeName="scope"
+  mdCodeName='scope'
   closeOnSelect=false
-  placeholder="Select type of resource."
-  profilePath=(concat profilePath ".scope")
-  data-spy="Scope"
+  placeholder='Select type of resource.'
+  profilePath=(concat profilePath '.scope')
+  data-spy='Scope'
 }}
 
 {{#layout/md-card
-  title="Source Citation"
+  title='Source Citation'
   collapsible=true
-  profilePath=(concat profilePath ".sourceCitation")
-  data-spy="Source Citation"
+  profilePath=(concat profilePath '.sourceCitation')
+  data-spy='Source Citation'
   shadow=true
   content=model.sourceCitation
 }}
   {{object/md-citation
     model=model.sourceCitation
-    simpleIdentifier=true
-    profilePath=(concat profilePath ".sourceCitation")
-    embedded=true
+    profilePath=(concat profilePath '.sourceCitation')
     data-spy=false
   }}
 {{/layout/md-card}}
 
 {{#object/md-object-table
   items=model.metadataCitation
-  header="Metadata Citation"
-  data-spy="Metadata Citation"
-  buttonText="Add Citation"
-  previewTemplate=""
-  profilePath=(concat profilePath ".metadataCitation")
-  attributes="title" as |editing|
+  header='Metadata Citation'
+  data-spy='Metadata Citation'
+  buttonText='Add Citation'
+  previewTemplate=''
+  profilePath=(concat profilePath '.metadataCitation')
+  attributes='title'
+  as |editing|
 }}
   {{object/md-citation
     model=editing
     simpleIdentifier=true
     data-spy=false
     embedded=true
-    profilePath=(concat profilePath ".metadataCitation")
+    profilePath=(concat profilePath '.metadataCitation')
   }}
 {{/object/md-object-table}}
 
-
 {{#layout/md-card
-  title="Spatial Reference System"
+  title='Spatial Reference System'
   collapsible=true
-  profilePath=(concat profilePath ".referenceSystem")
-  data-spy="Spatial Reference System"
+  profilePath=(concat profilePath '.referenceSystem')
+  data-spy='Spatial Reference System'
   shadow=true
   content=model.referenceSystem
 }}
   {{object/md-srs
     model=model.referenceSystem
-    profilePath=(concat profilePath ".referenceSystem")
+    profilePath=(concat profilePath '.referenceSystem')
   }}
 {{/layout/md-card}}
 
 {{#layout/md-card
- title="Spatial Resolution"
- collapsible=true
- data-spy="Spatial Resolution"
- profilePath=(concat profilePath ".spatialResolution")
- content=model.spatialResolution
+  title='Spatial Resolution'
+  collapsible=true
+  data-spy='Spatial Resolution'
+  profilePath=(concat profilePath '.spatialResolution')
+  content=model.spatialResolution
 }}
   {{object/md-spatial-resolution
     model=model.spatialResolution
-    profilePath=(concat profilePath ".spatialResolution")
+    profilePath=(concat profilePath '.spatialResolution')
   }}
 {{/layout/md-card}}
