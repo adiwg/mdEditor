@@ -142,7 +142,7 @@
     "leaflet-draw": "~1.0.4",
     "liquid-fire": "~0.31.0",
     "loader.js": "^4.7.0",
-    "mdcodes": "2.9.1",
+    "mdcodes": "2.9.2",
     "mdjson-schemas": "2.9.1",
     "moment": "^2",
     "moment-timezone": "^0.5.27",
