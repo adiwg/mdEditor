@@ -2,16 +2,20 @@ import Service, { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import PouchDB from 'ember-pouch/pouchdb';
-import { unPouchPrefix } from 'mdeditor/services/pouch';
+
+export const READONLY_ROLE = 'readonly';
 
 export default class CouchService extends Service {
   @service store;
   @service flashMessages;
 
-  // Logged in state
+  // Logged in user state
   @tracked loggedIn = false;
   @tracked username = null;
+  @tracked roles = [];
+  // Remote DB info
   @tracked remoteName = null;
+  @tracked remoteUrl = null;
   // DB instance data
   localDb = null;
   remoteDb = null;
@@ -21,6 +25,14 @@ export default class CouchService extends Service {
   @tracked replicationInfo = null;
   // Couch model data
   couch = null;
+
+  get rolesDisplay() {
+    return this.roles.join(', ');
+  }
+
+  get isReadOnly() {
+    return this.roles.includes(READONLY_ROLE);
+  }
 
   async setup() {
     const adapter = this.store.adapterFor('pouch-base');
@@ -44,7 +56,7 @@ export default class CouchService extends Service {
         this.setRemoteDb(this.couch.remoteUrl, this.couch.remoteName);
         const session = await this.remoteDb.getSession();
         if (session.userCtx.name) {
-          this.setLoggedInUser(session.userCtx.name);
+          this.setLoggedInUser(session.userCtx);
         }
       }
     } catch(e) {
@@ -90,7 +102,7 @@ export default class CouchService extends Service {
       this.setRemoteDb(remoteUrl, remoteName);
       const user = await this.remoteDb.login(username, password);
       if (user.ok) {
-        this.setLoggedInUser(user.name);
+        this.setLoggedInUser(user);
         this.setCouch(remoteUrl, remoteName);
         this.flashMessages.success(`Logged in as ${this.username}`);
       }
@@ -106,7 +118,9 @@ export default class CouchService extends Service {
       this.loggedIn = false;
       this.flashMessages.success(`Logged out ${this.username}`);
       this.username = null;
+      this.roles = [];
       this.remoteName = null;
+      this.remoteUrl = null;
       this.remoteDb = null;
       this.couch = null;
     } catch(e) {
@@ -147,11 +161,13 @@ export default class CouchService extends Service {
 
   setRemoteDb(remoteUrl, remoteName) {
     this.remoteDb = new PouchDB(`${remoteUrl}/${remoteName}`);
-    this.remoteName = this.remoteDb.name;
+    this.remoteName = remoteName;
+    this.remoteUrl = remoteUrl;
   }
 
-  setLoggedInUser(name) {
-    this.username = name;
+  setLoggedInUser(user) {
+    this.username = user.name;
+    this.roles = user.roles;
     this.loggedIn = true;
   }
 
