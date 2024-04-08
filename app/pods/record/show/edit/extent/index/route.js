@@ -7,7 +7,10 @@ export default Route.extend(ScrollTo, {
   setupController(controller, model) {
     this._super(controller, model);
 
-    defineProperty(this.controller, 'refreshSpy', alias(
-      'model.json.metadata.resourceInfo.extent.length'));
-  }
+    defineProperty(
+      this.controller,
+      'refreshSpy',
+      alias('model.json.metadata.resourceInfo.extent.length')
+    );
+  },
 });

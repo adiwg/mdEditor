@@ -1,0 +1,32 @@
+{{input/md-codelist
+  create=true
+  label='Scope'
+  tooltip=true
+  icon=false
+  disable=false
+  allowClear=true
+  showValidations=true
+  mdCodeName='scope'
+  path='scopeCode'
+  model=this
+  placeholder='Select Scope'
+  profilePath=(concat profilePath '.scopeCode')
+  class=(if (v-get this 'isInvalid') 'required')
+}}
+{{input/md-input value=name label='Name' placeholder='Enter name'}}
+
+<div class='row'>
+  {{input/md-datetime
+    date=model.dateTime
+    class='col-xxl-4 col-md-10 col-sm-4'
+    profilePath=(concat profilePath '.dateTime')
+    label='Date'
+  }}
+</div>
+
+{{input/md-textarea
+  value=model.statement
+  label='Statement'
+  placeholder='Textual expression of the quality result.'
+  required=true
+}}
