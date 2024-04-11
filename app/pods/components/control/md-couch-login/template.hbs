@@ -42,15 +42,13 @@
       </div>
       <hr>
       <div class="couch-actions">
-        {{#unless this.couch.isReadOnly}}
-          <button type="button"
-            class="btn btn-lg btn-primary"
-            {{action "push"}}
-          >
-            <span class="fa fa-upload"></span>
-            Push
-          </button>
-        {{/unless}}
+        <button type="button"
+          class="btn btn-lg btn-primary"
+          {{action "push"}}
+        >
+          <span class="fa fa-upload"></span>
+          Push
+        </button>
         <button type="button"
           class="btn btn-lg btn-primary"
           {{action "pull"}}

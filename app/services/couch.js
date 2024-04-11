@@ -3,8 +3,6 @@ import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
 import PouchDB from 'ember-pouch/pouchdb';
 
-export const READONLY_ROLE = 'readonly';
-
 export default class CouchService extends Service {
   @service store;
   @service flashMessages;
@@ -28,10 +26,6 @@ export default class CouchService extends Service {
 
   get rolesDisplay() {
     return this.roles.join(', ');
-  }
-
-  get isReadOnly() {
-    return this.roles.includes(READONLY_ROLE);
   }
 
   async setup() {
