@@ -1,12 +1,28 @@
 <td>
-    {{input/md-datetime
-      valuePath="date"
-      model=this
-      showValidations=true
-      required=true
-      forceDateOutput=true
-      profilePath=(concat profilePath ".date")
-    }}
+  {{input/md-select
+    showValidations=true
+    model=this
+    path="measureType"
+    valuePath="value"
+    namePath="name"
+    objectArray=precisionOptions
+    tooltip=true
+    tooltipPath="tip"
+    searchEnabled=false
+    disabled=measureDisabled
+    placeholder="Date Precision"
+    profilePath=(concat profilePath ".measure.type")
+  }}
+</td>
+<td>
+  {{input/md-datetime
+    valuePath="date"
+    model=this
+    showValidations=true
+    required=true
+    forceDateOutput=true
+    profilePath=(concat profilePath ".date")
+  }}
 </td>
 <td>
   {{input/md-codelist

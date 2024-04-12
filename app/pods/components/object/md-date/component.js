@@ -1,32 +1,31 @@
-import { alias } from '@ember/object/computed';
-import Component from '@ember/component';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { alias } from "@ember/object/computed";
+import Component from "@ember/component";
+import { validator, buildValidations } from "ember-cp-validations";
 
 const Validations = buildValidations({
-  date: validator('presence', {
+  date: validator("presence", {
     presence: true,
-    ignoreBlank: true
+    ignoreBlank: true,
   }),
-  dateType: validator('presence', {
+  dateType: validator("presence", {
     presence: true,
-    ignoreBlank: true
-  })
+    ignoreBlank: true,
+  }),
 });
 
 export default Component.extend(Validations, {
   init() {
     this._super(...arguments);
 
-    // if(isNone(get(this, 'model'))) {
-    //   set(this, 'model', {});
-    // }
+    this.set("precisionOptions", [
+      { value: "Year", name: "Year" },
+      { value: "Month", name: "Month" },
+      { value: "Day", name: "Day" },
+      { value: "Time", name: "Time" },
+    ]);
   },
 
-  tagName:'',
-  date: alias('model.date'),
-  dateType: alias('model.dateType')
-
+  tagName: "",
+  date: alias("model.date"),
+  dateType: alias("model.dateType"),
 });
