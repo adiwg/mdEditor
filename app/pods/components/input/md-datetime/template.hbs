@@ -1,35 +1,42 @@
 {{#if label}}
   <label>{{label}}</label>
 {{/if}}
-<div class="md-input-input">
+
+<div class='md-input-input'>
   {{bs-datetimepicker
-      date=_date
-      format=format
-      extraFormats=extraFormats
-      dateIcon="fa fa-calendar"
-      icons=calendarIcons
-      placeholder=placeholder
-      showClear=showClear
-      useCurrent=useCurrent
-      textFieldRequired=required
-      showTodayButton=showTodayButton
-      change=change
+    date=_date
+    format=format
+    extraFormats=extraFormats
+    dateIcon='fa fa-calendar'
+    timeIcon='fa fa-clock-o'
+    icons=calendarIcons
+    placeholder=placeholder
+    showClear=showClear
+    useCurrent=useCurrent
+    textFieldRequired=required
+    showTodayButton=showTodayButton
+    change=change
   }}
-  <span class="md-inputgroup-error">
+
+  <span class='md-inputgroup-error'>
     {{#if showErrorMessage}}
-      <span class="md-error">
-        {{fa-icon "exclamation-circle"}}
-        {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
-            {{v-get model valuePath "message"}}
+      <span class='md-error'>
+        {{fa-icon 'exclamation-circle'}}
+        {{#ember-tooltip
+          side='right' tooltipClass='ember-tooltip md-tooltip danger'
+        }}
+          {{v-get model valuePath 'message'}}
         {{/ember-tooltip}}
       </span>
     {{/if}}
 
     {{#if showWarningMessage}}
-      <span class="md-warning">
-        {{fa-icon "exclamation-triangle"}}
-        {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip warning"}}
-        {{v-get model valuePath "warningMessage"}}
+      <span class='md-warning'>
+        {{fa-icon 'exclamation-triangle'}}
+        {{#ember-tooltip
+          side='right' tooltipClass='ember-tooltip md-tooltip warning'
+        }}
+          {{v-get model valuePath 'warningMessage'}}
         {{/ember-tooltip}}
       </span>
     {{/if}}
