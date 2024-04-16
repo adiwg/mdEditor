@@ -35,11 +35,15 @@ module.exports = function (defaults) {
 
     autoImport: {
       webpack: {
-        node: {
-          http: true,
-          //https: true
+        resolve: {
+          fallback: {
+            "path": require.resolve("path-browserify"),
+            "http": require.resolve("http-browserify"),
+            "https": require.resolve("https-browserify"),
+            "stream": require.resolve("stream-browserify"),
+          }
         }
-      }
+      },
     },
 
     'ember-models-table': {

@@ -25,7 +25,7 @@ import {
 } from '@ember/debug';
 // import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
-import config from './config/environment';
+import config from 'mdeditor/config/environment';
 
 let events = {
   // add support for the blur event
