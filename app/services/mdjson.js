@@ -220,7 +220,6 @@ export default Service.extend({
       dictionary.get('cleanJson').dataDictionary
     );
 
-    console.log(validator);
     return validator;
   },
 });

@@ -1,6 +1,6 @@
 {
   "name": "mdeditor",
-  "version": "1.5.0-beta.3",
+  "version": "1.5.0-beta.4",
   "description": "A web application for authoring and editing metadata.",
   "repository": {
     "type": "git",
@@ -147,7 +147,7 @@
     "moment": "^2",
     "moment-timezone": "^0.5.27",
     "object-hash": "^2.0.1",
-    "papaparse": "^4.6.3",
+    "papaparse": "^5.4.0",
     "prettier": "^2.7.1",
     "qunit-dom": "^0.9.2",
     "sass": "^1.26.3",
