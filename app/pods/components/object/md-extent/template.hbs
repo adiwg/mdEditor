@@ -6,48 +6,48 @@
     value=extent.description
     rows=3
     maxHeight=300
-    placeholder='Description of extent'
-    label='Extent Description'
+    placeholder="Description of extent"
+    label="Extent Description"
     isCollapsible=true
-    profilePath=(concat profilePath '.description')
+    profilePath=(concat profilePath ".description")
   }}
 
   {{object/md-extent/spatial
     extent=extent
     index=index
     editFeatures=editFeatures
-    profilePath=(concat profilePath '.geographic')
+    profilePath=(concat profilePath ".geographic")
   }}
 
   {{#object/md-object-table
     items=extent.verticalExtent
-    header='Vertical Extents'
-    buttonText='Add Vertical Extent'
+    header="Vertical Extents"
+    buttonText="Add Vertical Extent"
     ellipsis=true
     required=false
-    profilePath=(concat profilePath '.verticalExtent')
-    attributes='description,minValue,maxValue'
+    profilePath=(concat profilePath ".vertical")
+    attributes="description,minValue,maxValue"
     as |editing|
   }}
     {{object/md-extent/vertical
       model=editing
-      profilePath=(concat profilePath '.verticalExtent')
+      profilePath=(concat profilePath ".vertical")
     }}
   {{/object/md-object-table}}
 
   {{#object/md-object-table
     items=extent.temporalExtent
-    header='Temporal Extents'
-    buttonText='Add Temporal Extent'
+    header="Temporal Extents"
+    buttonText="Add Temporal Extent"
     ellipsis=true
     required=false
-    profilePath=(concat profilePath '.temporalExtent')
-    attributes='description'
+    profilePath=(concat profilePath ".temporal")
+    attributes="description"
     as |editing|
   }}
     {{object/md-time-period
       model=editing
-      profilePath=(concat profilePath '.temporalExtent')
+      profilePath=(concat profilePath ".temporal")
     }}
   {{/object/md-object-table}}
 
