@@ -3,7 +3,10 @@
   {{control/md-status model=this.parentModel}}
 </h4>
 
-{{object/md-funding model=this.model profilePath='record.funding.fundingPeriod'}}
+{{object/md-funding
+  model=this.model
+  profilePath='record.funding.fundingPeriod'
+}}
 
 {{to-elsewhere
   named='md-subbar-extra'

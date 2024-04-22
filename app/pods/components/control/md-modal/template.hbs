@@ -1,15 +1,15 @@
 {{#if this.isShowing}}
-  {{#modal-dialog
-    onClose=(action 'closeModal')
-    targetAttachment='middle center'
-    attachment='middle center'
-    translucentOverlay=true
-    containerClass='md-modal-container'
-    overlayClass='md-modal-overlay'
-    tetherTarget=this.target
-    renderInPlace=this.renderInPlace
-    tagName='div'
-  }}
+  <ModalDialog
+    @onClose={{action 'closeModal'}}
+    @targetAttachment='middle center'
+    @attachment='middle center'
+    @translucentOverlay={{true}}
+    @containerClass='md-modal-container'
+    @overlayClass='md-modal-overlay'
+    @tetherTarget={{this.target}}
+    @renderInPlace={{this.renderInPlace}}
+    @tagName='div'
+  >
     <button
       type='button'
       {{action 'closeModal'}}
@@ -41,5 +41,5 @@
         >Cancel</button>
       {{/if}}
     </div>
-  {{/modal-dialog}}
+  </ModalDialog>
 {{/if}}

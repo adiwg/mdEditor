@@ -27,7 +27,9 @@
     named='md-slider-error'
     send=(hash
       title=(concat 'Viewing errors for: ' this.errorTarget.title)
-      body=(component 'control/md-errors' errors=this.errorTarget.hasSchemaErrors)
+      body=(component
+        'control/md-errors' errors=this.errorTarget.hasSchemaErrors
+      )
     )
   }}
 {{/if}}

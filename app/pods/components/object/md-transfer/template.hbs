@@ -74,7 +74,9 @@
     {{input/md-input
       value=format.item.compressionMethod
       placeholder='Compression Method'
-      profilePath=(concat this.profilePath '.distributionFormat.compressionMethod')
+      profilePath=(concat
+        this.profilePath '.distributionFormat.compressionMethod'
+      )
     }}
   </td>
   <td>

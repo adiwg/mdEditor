@@ -16,10 +16,14 @@
   {{/if}}
 
   {{#if this.route}}
-    {{#link-to
-      this.route
-      class=(concat 'btn btn-lg btn-' this.btnType ' btn-block md-btn-responsive')
-    }} {{fa-icon this.icon}} {{this.text}}{{/link-to}}
+    <LinkTo
+      @route={{this.route}}
+      class={{concat
+        'btn btn-lg btn-'
+        this.btnType
+        ' btn-block md-btn-responsive'
+      }}
+    > {{fa-icon this.icon}} {{this.text}}</LinkTo>
   {{/if}}
 
   {{yield}}

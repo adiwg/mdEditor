@@ -18,7 +18,11 @@
 
   <div class='btn-group btn-group-sm'>
     {{#if this.editItem}}
-      <button type='button' class='btn btn-success' {{action this.editItem this.index}}>
+      <button
+        type='button'
+        class='btn btn-success'
+        {{action this.editItem this.index}}
+      >
         {{fa-icon 'pencil'}}
         Edit</button>
     {{/if}}

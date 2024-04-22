@@ -13,7 +13,9 @@
       }}
     </a></span>
   <span>AutoSave:
-    <span class={{if this.settings.data.autoSave 'text-success' 'text-warning'}}>
+    <span
+      class={{if this.settings.data.autoSave 'text-success' 'text-warning'}}
+    >
       {{if this.settings.data.autoSave 'On' 'Off'}}</span>
   </span>
   {{yield}}

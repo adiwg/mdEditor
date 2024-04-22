@@ -28,7 +28,9 @@
 
 {{to-elsewhere
   named='dictionary-nav'
-  send=(component 'input/md-select-profile' value=this.model.profile record=this.model)
+  send=(component
+    'input/md-select-profile' value=this.model.profile record=this.model
+  )
 }}
 
 {{#if this.model}}

@@ -88,7 +88,9 @@
         }}
           {{#with
             (filter-by
-              this.currentGroupingPropertyName groupedValue this.groupedArrangedContent
+              this.currentGroupingPropertyName
+              groupedValue
+              this.groupedArrangedContent
             )
             as |groupedItems|
           }}

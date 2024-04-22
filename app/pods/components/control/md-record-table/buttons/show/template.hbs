@@ -1,8 +1,8 @@
-{{#link-to
-  (concat this.record.constructor.modelName '.show')
-  this.record.id
+<LinkTo
+  @route={{concat this.record.constructor.modelName '.show'}}
+  @model={{this.record.id}}
   class='btn btn-sm btn-info'
-}}
+>
   {{fa-icon 'eye'}}
   Show
-{{/link-to}}
+</LinkTo>

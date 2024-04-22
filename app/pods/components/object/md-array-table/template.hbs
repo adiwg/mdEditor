@@ -3,7 +3,9 @@
     <label class='show'>
       <span class='fa'></span>
       {{unless this.pluralTitle (pluralize this.title) this.pluralTitle}}
-      <div class='label label-pill {{this.pillColor}}'> {{this.value.length}} </div>
+      <div class='label label-pill {{this.pillColor}}'>
+        {{this.value.length}}
+      </div>
       <button
         type='button'
         id='{{this.panelId}}-btn'
@@ -37,7 +39,9 @@
               {{#unless this.hideIndex}}
                 <td>{{index}}</td>
               {{/unless}}
-              {{yield (hash item=item index=index profilePath=this.profilePath)}}
+              {{yield
+                (hash item=item index=index profilePath=this.profilePath)
+              }}
               <td>
                 <div class='md-button-column'>
                   {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
@@ -56,7 +60,12 @@
             </tr>
           {{else}}
             <tr>
-              <td colspan={{add-em (if this.hideIndex 1 2) this.columnArray.length}}>
+              <td
+                colspan={{add-em
+                  (if this.hideIndex 1 2)
+                  this.columnArray.length
+                }}
+              >
                 <button
                   type='button'
                   id='{{this.panelId}}-btn'
@@ -87,7 +96,9 @@
           >
             <span class='fa'></span>
             {{unless this.pluralTitle (pluralize this.title) this.pluralTitle}}
-            <div class='label label-pill {{this.pillColor}}'> {{this.value.length}} </div>
+            <div class='label label-pill {{this.pillColor}}'>
+              {{this.value.length}}
+            </div>
           </a>
           <button
             type='button'
@@ -129,7 +140,9 @@
                   {{#unless this.hideIndex}}
                     <td>{{index}}</td>
                   {{/unless}}
-                  {{yield (hash item=item index=index profilePath=this.profilePath)}}
+                  {{yield
+                    (hash item=item index=index profilePath=this.profilePath)
+                  }}
                   <td>
                     <div class='md-button-column'>
                       {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
@@ -137,7 +150,9 @@
                                           </button> --}}
                       {{#control/md-button-confirm
                         class='btn btn-xs btn-danger'
-                        disabled=(if this.simple (if item.value null 'disabled'))
+                        disabled=(if
+                          this.simple (if item.value null 'disabled')
+                        )
                         onConfirm=(action 'deleteItem' item index)
                       }}
                         <span class='fa fa-times'></span>
@@ -148,7 +163,12 @@
                 </tr>
               {{else}}
                 <tr>
-                  <td colspan={{add-em (if this.hideIndex 1 2) this.columnArray.length}}>
+                  <td
+                    colspan={{add-em
+                      (if this.hideIndex 1 2)
+                      this.columnArray.length
+                    }}
+                  >
                     <button
                       type='button'
                       id='{{this.panelId}}-btn'

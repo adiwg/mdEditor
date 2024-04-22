@@ -11,7 +11,9 @@
         >
           <span class='fa'></span>
           {{unless this.pluralTitle (pluralize this.title) this.pluralTitle}}
-          <div class='label label-pill {{this.pillColor}}'> {{this.value.length}} </div>
+          <div class='label label-pill {{this.pillColor}}'>
+            {{this.value.length}}
+          </div>
         </a>
         <button
           type='button'
@@ -25,7 +27,10 @@
       </h3>
     </div>
 
-    <div id={{this.panelId}} class='panel-collapse {{if this.collapsed "collapse" "in"}}'>
+    <div
+      id={{this.panelId}}
+      class='panel-collapse {{if this.collapsed "collapse" "in"}}'
+    >
       <div class='panel-body {{if this.responsive "table-responsive"}}'>
         {{! template-lint-disable table-groups }}
         <table
@@ -68,7 +73,9 @@
                     closeOnSelect=false
                     placeholder='Specific type of information represented in the cell'
                     label='Attribute Content Type'
-                    profilePath=(concat this.profilePath '.atttributeContentType')
+                    profilePath=(concat
+                      this.profilePath '.atttributeContentType'
+                    )
                   }}
                   {{object/md-objectroute-table
                     attributes='attributeDescription'
@@ -92,7 +99,12 @@
               </tr>
             {{else}}
               <tr>
-                <td colspan={{add-em (if this.hideIndex 1 2) this.columnArray.length}}>
+                <td
+                  colspan={{add-em
+                    (if this.hideIndex 1 2)
+                    this.columnArray.length
+                  }}
+                >
                   <button
                     type='button'
                     id='{{this.panelId}}-btn'

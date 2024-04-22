@@ -10,7 +10,9 @@
 <section>
   <div class='section-header'>
     <h4 class='md-table-title'>
-      {{#liquid-if this.schema use='fade' growDuration=100 class='inline-block'}}
+      {{#liquid-if
+        this.schema use='fade' growDuration=100 class='inline-block'
+      }}
         {{#if this.schema.isNew}}
           Add Schema
         {{else if this.schema}}

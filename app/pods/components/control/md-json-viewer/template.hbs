@@ -1,13 +1,13 @@
 {{#if this.modal}}
-  {{#modal-dialog
-    onClose=(action 'closeModal')
-    translucentOverlay=true
-    containerClass='md-jsmodal-container'
-    overlayClass='md-modal-overlay'
-    attachment='top center'
-    targetAttachment='top center'
-    tetherTarget='html'
-  }}
+  <ModalDialog
+    @onClose={{action 'closeModal'}}
+    @translucentOverlay={{true}}
+    @containerClass='md-jsmodal-container'
+    @overlayClass='md-modal-overlay'
+    @attachment='top center'
+    @targetAttachment='top center'
+    @tetherTarget='html'
+  >
     <button
       type='button'
       {{action 'closeModal'}}
@@ -20,7 +20,7 @@
       </span>
     </button>
     <div class='md-viewer-body'></div>
-  {{/modal-dialog}}
+  </ModalDialog>
 {{else}}
   <div class='well'>
     <div class='btn-toolbar md-viewer-controls pull-right'>

@@ -16,7 +16,9 @@
     {{#if this.route}}
       {{#if this.models.length}}
         {{#link-to
-          route=this.route models=this.models class=(concat 'btn btn-sm btn-' this.type)
+          route=this.route
+          models=this.models
+          class=(concat 'btn btn-sm btn-' this.type)
         }}
           {{this.linkText}}
         {{/link-to}}

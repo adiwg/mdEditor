@@ -22,7 +22,8 @@
   <div class='clearfix'></div>
   <dl class='dl-horizontal col-lg-12'>
     {{#control/md-definition
-      title='Dates' profilePath=(concat this.profilePath '.basicInformation.dates')
+      title='Dates'
+      profilePath=(concat this.profilePath '.basicInformation.dates')
     }}
       {{#each this.citation.date as |date|}}
         {{moment-format date.date 'YYYY-MM-DD'}}

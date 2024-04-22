@@ -104,7 +104,9 @@
     path='methodType'
     model=this
     placeholder='Select Method Type'
-    profilePath=(concat this.profilePath '.evaluationMethod.evaluationMethodType')
+    profilePath=(concat
+      this.profilePath '.evaluationMethod.evaluationMethodType'
+    )
     class=(if (v-get this 'isInvalid') 'required')
   }}
   <div class='row'>
@@ -139,7 +141,9 @@
     }}
       {{object/md-citation
         model=this.model.evaluationMethod.evaluationProcedure
-        profilePath=(concat this.profilePath '.evaluationMethod.evaluationProcedure')
+        profilePath=(concat
+          this.profilePath '.evaluationMethod.evaluationProcedure'
+        )
         simpleIdentifier=true
       }}
     {{/layout/md-card}}
@@ -169,7 +173,9 @@
   }}
     {{object/md-citation
       model=editing
-      profilePath=(concat this.profilePath '.evaluationMethod.referenceDocument')
+      profilePath=(concat
+        this.profilePath '.evaluationMethod.referenceDocument'
+      )
       simpleIdentifier=true
     }}
   {{/object/md-object-table}}

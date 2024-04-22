@@ -1,5 +1,9 @@
 <span
-  class={{if this.isSelected this.themeInstance.select-row this.themeInstance.deselect-row}}
+  class={{if
+    this.isSelected
+    this.themeInstance.select-row
+    this.themeInstance.deselect-row
+  }}
   onclick={{action 'clickOnRow' this.index this.record}}
   role='checkbox'
 ></span>

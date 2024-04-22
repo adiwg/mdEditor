@@ -234,7 +234,9 @@
       doDelete=(route-action 'destroyContact')
       doCopy=(route-action 'copyContact')
     }}
-      {{#link-to 'contact.show.edit' this.model.id class='btn btn-lg btn-success'}}
+      {{#link-to
+        'contact.show.edit' this.model.id class='btn btn-lg btn-success'
+      }}
         {{fa-icon 'pencil'}}
         Edit{{/link-to}}
     {{/control/md-crud-buttons}}

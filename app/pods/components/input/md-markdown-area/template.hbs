@@ -17,7 +17,10 @@
     {{/if}}
   </label>
 {{/if}}
-<div id={{concat 'md-' this.elementId}} class={{if this.collapsed 'collapse' 'in'}}>
+<div
+  id={{concat 'md-' this.elementId}}
+  class={{if this.collapsed 'collapse' 'in'}}
+>
   {{simple-mde
     value=this.value
     options=this.options

@@ -1,5 +1,7 @@
 {{#unless this.showAlert}}
-  <div class='md-object-table panel panel-default {{if this.editing "editing"}}'>
+  <div
+    class='md-object-table panel panel-default {{if this.editing "editing"}}'
+  >
     <div class='panel-heading'>
       <h3 class='panel-title md-panel-chevron'>
         {{#if this.collapsible}}
@@ -13,7 +15,9 @@
           >
             <span class='fa'></span>
             {{this.header}}
-            <div class='label label-pill {{this.pillColor}}'> {{this.items.length}} </div>
+            <div class='label label-pill {{this.pillColor}}'>
+              {{this.items.length}}
+            </div>
           </a>
         {{else}}
           {{this.header}}
@@ -33,7 +37,8 @@
         </button>
         <button
           type='button'
-          class='btn btn-xs btn-info pull-right {{unless this.editing "hidden"}}'
+          class='btn btn-xs btn-info pull-right
+            {{unless this.editing "hidden"}}'
           {{action 'cancelEdit'}}
         >
           <span class='fa fa-check'></span>
@@ -42,7 +47,10 @@
       </h3>
     </div>
 
-    <div id={{this.panelId}} class='panel-collapse {{if this.collapsed "collapse" "in"}}'>
+    <div
+      id={{this.panelId}}
+      class='panel-collapse {{if this.collapsed "collapse" "in"}}'
+    >
       {{#if this.editing}}
         {{#control/md-scroll-into-view}}
           <div class='panel-body object-editor'>
@@ -84,7 +92,13 @@
             {{/unless}}
             <tbody>
               {{#each this.items as |item index|}}
-                <tr id={{if this.scrollToId (concat this.scrollToId '-' index) ''}}>
+                <tr
+                  id={{if
+                    this.scrollToId
+                    (concat this.scrollToId '-' index)
+                    ''
+                  }}
+                >
                   {{#unless this.hideIndex}}
                     <td class='md-table-index'>
                       {{index}}
@@ -139,7 +153,11 @@
                             'editItem'
                             this.items
                             index
-                            (if this.scrollToId (concat this.scrollToId '-' index) null)
+                            (if
+                              this.scrollToId
+                              (concat this.scrollToId '-' index)
+                              null
+                            )
                           }}
                         >
                           {{fa-icon 'pencil'}}
@@ -200,7 +218,12 @@
                 </tr>
               {{else}}
                 <tr>
-                  <td colspan={{add-em this.attrArray.length (if this.hideIndex 1 2)}}>
+                  <td
+                    colspan={{add-em
+                      this.attrArray.length
+                      (if this.hideIndex 1 2)
+                    }}
+                  >
                     <button
                       type='button'
                       id='{{this.panelId}}-btn'

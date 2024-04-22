@@ -6,7 +6,9 @@
 <div class='card-block'>
   {{#if this.profile}}
     <h4 class='tab-header'>
-      {{#liquid-if this.profile use='fade' growDuration=100 class='inline-block'}}
+      {{#liquid-if
+        this.profile use='fade' growDuration=100 class='inline-block'
+      }}
         {{#if this.profile.isNew}}
           Add Profile
         {{else}}

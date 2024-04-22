@@ -1,15 +1,15 @@
-{{control/md-record-table
-  class='md-edit-table'
-  actionsColumn=this.actionsColumn
-  selectRowOnClick=this.selectRowOnClick
-  data=this.data
-  dataColumns=this.dataColumns
-  expandedItems=this.expandedItems
-  columnSets=this.columnSets
-  pageSize=this.pageSize
-  expandedRowComponent=(component
+<Control::MdRecordTable
+  @class='md-edit-table'
+  @actionsColumn={{this.actionsColumn}}
+  @selectRowOnClick={{this.selectRowOnClick}}
+  @data={{this.data}}
+  @dataColumns={{this.dataColumns}}
+  @expandedItems={{this.expandedItems}}
+  @columnSets={{this.columnSets}}
+  @pageSize={{this.pageSize}}
+  @expandedRowComponent={{component
     'md-models-table/components/row-body'
     spotlighted=this.spotlightRow
     rowBodyComponent=this.rowBodyComponent
-  )
-}}
+  }}
+/>

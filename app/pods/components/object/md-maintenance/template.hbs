@@ -26,7 +26,9 @@
   }}
 {{/layout/md-card}}
 
-{{#layout/md-card shadow=false profilePath=(concat this.profilePath '.contact')}}
+{{#layout/md-card
+  shadow=false profilePath=(concat this.profilePath '.contact')
+}}
   {{object/md-party-array
     title='Contact'
     data-spy='Contacts'
@@ -42,7 +44,11 @@
 
 {{#layout/md-card shadow=false profilePath=(concat this.profilePath '.note')}}
   {{#object/md-simple-array-table
-    title='Notes' required=false plain=true class='md-embedded' value=this.model.note
+    title='Notes'
+    required=false
+    plain=true
+    class='md-embedded'
+    value=this.model.note
     as |val|
   }}
     <td>

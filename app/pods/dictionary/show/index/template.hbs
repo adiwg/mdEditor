@@ -27,7 +27,10 @@
               title='Dictionary Id'
               text=this.model.json.dictionaryId
             }}
-            {{control/md-definition title='Dictionary Title' text=this.model.title}}
+            {{control/md-definition
+              title='Dictionary Title'
+              text=this.model.title
+            }}
             {{control/md-definition
               title='Subject'
               text=(if dictionary.subject (join ', ' dictionary.subject))

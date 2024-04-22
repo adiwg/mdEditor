@@ -51,7 +51,8 @@
           </button>
 
           {{#control/md-button-confirm
-            class='btn btn-xs btn-danger' onConfirm=(action 'deleteTaxa' this.model)
+            class='btn btn-xs btn-danger'
+            onConfirm=(action 'deleteTaxa' this.model)
           }}
             {{fa-icon 'times'}}
             Delete

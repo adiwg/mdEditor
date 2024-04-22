@@ -1,4 +1,4 @@
-{{control/md-record-table/buttons/show record=this.record}}
+<Control::MdRecordTable::Buttons::Show @record={{this.record}} />
 <button
   type='button'
   class='btn btn-sm btn-success'
@@ -7,28 +7,34 @@
   {{fa-icon 'pencil'}}
   Edit
 </button>
-{{#control/md-button-confirm
-  class='btn btn-sm btn-danger'
-  onConfirm=(action 'deleteItem' this.record this.index this.isSelected this.clickOnRow)
-}}
+<Control::MdButtonConfirm
+  @class='btn btn-sm btn-danger'
+  @onConfirm={{action
+    'deleteItem'
+    this.record
+    this.index
+    this.isSelected
+    this.clickOnRow
+  }}
+>
   <span class='fa fa-times'></span>
   Delete
-{{/control/md-button-confirm}}
+</Control::MdButtonConfirm>
 {{!-- {{#control/md-button-modal class="btn btn-sm btn-danger" message="<h1>Do
 you really want to delete this contact?</h1>Be sure this contact is
 not referenced by a metadata record or dictionary or it's deletion
 may cause those records to fail validation." onConfirm=(route-action "deleteItem" record)}}
   <span class="fa fa-times"></span> Delete
 {{/control/md-button-modal}} --}}
-{{control/md-json-button
-  class='btn-sm btn-primary'
-  json=this.record.cleanJson
-  title=this.record.title
-}}
-{{control/md-status
-  model=this.record
-  isBtn=true
-  hideSlider=true
-  showSlider=(action 'showSlider' this.record)
-}}
+<Control::MdJsonButton
+  @class='btn-sm btn-primary'
+  @json={{this.record.cleanJson}}
+  @title={{this.record.title}}
+/>
+<Control::MdStatus
+  @model={{this.record}}
+  @isBtn={{true}}
+  @hideSlider={{true}}
+  @showSlider={{action 'showSlider' this.record}}
+/>
 {{yield}}

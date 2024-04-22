@@ -2,7 +2,9 @@
   {{#if btn.confirm}}
     {{#control/md-button-confirm
       class=(concat 'btn btn-sm btn-' btn.type)
-      onConfirm=(action btn.action this.column this.index this.record target=btn.target)
+      onConfirm=(action
+        btn.action this.column this.index this.record target=btn.target
+      )
     }}
       <span class='fa fa-{{btn.icon}}'></span>
       {{btn.title}}
@@ -11,7 +13,13 @@
     <button
       type='button'
       class='btn btn-sm btn-{{btn.type}}'
-      onclick={{action btn.action this.column this.index this.record target=btn.target}}
+      onclick={{action
+        btn.action
+        this.column
+        this.index
+        this.record
+        target=btn.target
+      }}
     >
       {{fa-icon btn.icon}}
       {{btn.title}}
