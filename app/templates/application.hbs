@@ -1,8 +1,9 @@
-{{head-layout}}
+<HeadLayout />
 
+{{! Navbar }}
 <div class='md-message-container'>
   <div class='md-message-wrapper'>
-    {{#each flashMessages.queue as |flash|}}
+    {{#each this.flashMessages.queue as |flash|}}
       <FlashMessage @flash={{flash}} as |component flash|>
         {{flash.message}}
         {{#if flash.showProgress}}
@@ -33,15 +34,15 @@
 
   {{! Slider }}
   <Layout::MdSlider
-    @visible={{slider.showSlider}}
-    @fromName={{slider.fromName}}
-    @onClose={{slider.onClose}}
-    @context={{slider.context}}
+    @visible={{this.slider.showSlider}}
+    @fromName={{this.slider.fromName}}
+    @onClose={{this.slider.onClose}}
+    @context={{this.slider.context}}
   />
   {{! /#slider }}
 
   {{! Sidebar }}
-  <Layout::MdNavSidebar @items={{model}} />
+  <Layout::MdNavSidebar @items={{this.model}} />
   {{! /#sidebar-wrapper }}
 
   {{! Page Content }}
@@ -63,7 +64,7 @@
 <EmberLoadRemover />
 
 <Control::MdModal
-  @isShowing={{settings.data.showSplash}}
+  @isShowing={{this.settings.data.showSplash}}
   @showConfirm={{true}}
   @confirmLabel='OK'
 >
@@ -76,8 +77,10 @@
     <LinkTo @route='settings'>Settings</LinkTo>) when reporting bugs or issues.
     If you are having problems, you might want to
     <LinkTo @route='settings'> clear your localstorage.</LinkTo>
-    <strong style='color: red;'>CAUTION: Clearing your localstorage will delete
-      all records.</strong>
+    <strong class='brand-danger'>
+      CAUTION: Clearing your localstorage will delete
+      all records.
+    </strong>
   </p>
   <p>
     Current Version:
@@ -85,8 +88,8 @@
   </p>
 </Control::MdModal>
 
-{{#if spotlight.show}}
+{{#if this.spotlight.show}}
   <Control::MdSpotlight />
 {{/if}}
 
-<Control::MdScrollSpy @scrollInit='top' @routeName={{currentRoute}} />
+<Control::MdScrollSpy @scrollInit='top' @routeName={{this.currentRoute}} />
