@@ -13,8 +13,8 @@
       <label class='col-sm-3 control-label'>Contact Type</label>
       <div class='col-sm-9 col-sm-offset-'>
         {{input/md-toggle
-          value=model.json.isOrganization
-          onToggle=(action (mut model.json.isOrganization))
+          value=this.model.json.isOrganization
+          onToggle=(action (mut this.model.json.isOrganization))
           showLabels=true
           onLabel='Organization'
           offLabel='Individual'
@@ -27,7 +27,7 @@
       <label
         class='col-sm-3 control-label
           {{if
-            (v-get model "json.contactId" "options.presence.presence")
+            (v-get this.model "json.contactId" "options.presence.presence")
             "required"
           }}'
       >Contact ID</label>
@@ -35,7 +35,7 @@
       <div class='col-sm-9'>
         {{input/md-input
           valuePath='json.contactId'
-          model=model
+          model=this.model
           placeholder='Enter an ID for this contact'
         }}
       </div>
@@ -44,31 +44,31 @@
       <label
         class='col-sm-3 control-label
           {{unless
-            (v-get model "json.name" "options.presence.disabled")
+            (v-get this.model "json.name" "options.presence.disabled")
             "required"
           }}'
       >Name</label>
       <div class='col-sm-9'>
         {{input/md-input
           valuePath='json.name'
-          model=model
+          model=this.model
           placeholder='Enter a name for this contact'
         }}
       </div>
     </div>
-    {{#unless model.json.isOrganization}}
+    {{#unless this.model.json.isOrganization}}
       <div class='form-group'>
         <label
           class='col-sm-3 control-label
             {{unless
-              (v-get model "json.positionName" "options.presence.disabled")
+              (v-get this.model "json.positionName" "options.presence.disabled")
               "required"
             }}'
         >Position Name</label>
         <div class='col-sm-9'>
           {{input/md-input
             valuePath='json.positionName'
-            model=model
+            model=this.model
             placeholder='Enter a name for this position'
           }}
         </div>
@@ -80,7 +80,7 @@
           <button
             type='submit'
             class='btn btn-success md-form-save'
-            disabled={{v-get model 'isInvalid'}}
+            disabled={{v-get this.model 'isInvalid'}}
           >Save</button>
           <button
             type='button'

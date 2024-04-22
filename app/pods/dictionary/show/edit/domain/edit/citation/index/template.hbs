@@ -1,8 +1,8 @@
 <h4 class='section-header'>Editing Reference
-  <span class='small'>for Domain <em>{{model.codeName}}</em></span>
-  {{control/md-status model=parentModel}}
+  <span class='small'>for Domain <em>{{this.model.codeName}}</em></span>
+  {{control/md-status model=this.parentModel}}
 </h4>
-{{#with model.domainReference as |citation|}}
+{{#with this.model.domainReference as |citation|}}
   {{object/md-citation
     class=''
     model=citation
@@ -26,7 +26,7 @@
   named='md-scroll-spy-dict-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

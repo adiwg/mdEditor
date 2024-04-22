@@ -1,17 +1,17 @@
 <h4 class='section-header'>
   Editing Domain
-  {{#if model.codeName}}
-    <em>{{model.codeName}}</em>
+  {{#if this.model.codeName}}
+    <em>{{this.model.codeName}}</em>
   {{else}}
-    #{{domainId}}
+    #{{this.domainId}}
   {{/if}}
-  <span class='small'>for <em>{{parentModel.title}}</em></span>
-  {{control/md-status model=parentModel}}
+  <span class='small'>for <em>{{this.parentModel.title}}</em></span>
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-domain
   class=''
-  model=model
+  model=this.model
   profilePath='dictionary.domain'
   editCitation=(route-action 'editCitation')
   editDomainItem=(route-action 'editDomainItem')
@@ -31,7 +31,7 @@
   named='md-scroll-spy-dict-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

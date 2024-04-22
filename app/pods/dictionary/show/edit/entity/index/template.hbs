@@ -1,11 +1,11 @@
 <h4 class='section-header'>
   Editing Entities
-  <span class='small'>for <em>{{model.title}}</em></span>
-  {{control/md-status model=model}}
+  <span class='small'>for <em>{{this.model.title}}</em></span>
+  {{control/md-status model=this.model}}
 </h4>
 
 {{object/md-objectroute-table
-  items=model.json.dataDictionary.entity
+  items=this.model.json.dataDictionary.entity
   header='Entity'
   shadow=true
   buttonText='Add Entity'

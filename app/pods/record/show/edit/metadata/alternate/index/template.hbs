@@ -2,7 +2,7 @@
   Alternate Metadata Reference
   {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
-{{#with model as |citation|}}
+{{#with this.model as |citation|}}
   <div class='row'>
     {{object/md-citation
       class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'
@@ -26,7 +26,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

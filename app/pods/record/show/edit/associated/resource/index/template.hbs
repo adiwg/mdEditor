@@ -1,11 +1,11 @@
 <h4 class='section-header'>
-  Editing Associated Resource #{{resourceId}}
-  {{control/md-status model=parentModel}}
+  Editing Associated Resource #{{this.resourceId}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-associated
-  model=model
-  recordId=parentModel.recordId
+  model=this.model
+  recordId=this.parentModel.recordId
   profilePath='record.associated'
   editLinked=(route-action 'editLinked')
 }}
@@ -24,7 +24,7 @@
 {{to-elsewhere
   named='md-slider-content'
   send=(hash
-    title=(concat 'Click row to select a resource: ' model.associationType)
+    title=(concat 'Click row to select a resource: ' this.model.associationType)
     body=(component
       'control/md-select-table'
       select=(route-action 'insertResource')
@@ -38,7 +38,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

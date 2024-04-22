@@ -1,20 +1,20 @@
 <div class='row md-no-spotlight'>
   <div class='col-sm-9 col-md-offset-1'>
     <h3>
-      {{#if model.defaultLogo}}
+      {{#if this.model.defaultLogo}}
         <img
-          src={{model.defaultLogo}}
+          src={{this.model.defaultLogo}}
           class='img-responsive inline-block md-logo-preview'
           alt='Responsive image'
         />
       {{else}}
-        {{fa-icon model.icon class='text-muted'}}
+        {{fa-icon this.model.icon class='text-muted'}}
       {{/if}}
 
       Viewing
-      {{model.type}}
+      {{this.model.type}}
       Contact:
-      {{model.title}}
+      {{this.model.title}}
       {{!-- <span class="text-danger">
             {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
@@ -23,35 +23,35 @@
               }}
             {{/if}}
           </span> --}}
-      {{control/md-status model=model}}
+      {{control/md-status model=this.model}}
     </h3>
     {{#layout/md-card
       shadow=false muted=true title='Basic Information' bodyIsRow=true
     }}
       <dl class='dl-horizontal col-lg-6'>
-        {{control/md-definition title='Contact Id' text=model.contactId}}
-        {{control/md-definition title='Contact Name' text=model.name}}
+        {{control/md-definition title='Contact Id' text=this.model.contactId}}
+        {{control/md-definition title='Contact Name' text=this.model.name}}
 
-        {{#unless model.json.isOrganization}}
+        {{#unless this.model.json.isOrganization}}
           {{control/md-definition
             title='Position'
-            text=model.json.positionName
+            text=this.model.json.positionName
           }}
         {{/unless}}
 
         {{control/md-definition
           title='Contact Type'
-          text=model.json.contactType
+          text=this.model.json.contactType
         }}
         {{control/md-definition
           title='Contact Instructions'
-          text=model.json.contactInstructions
+          text=this.model.json.contactInstructions
         }}
 
       </dl>
       <dl class='dl-horizontal col-lg-6'>
         {{#control/md-definition title='Organizations'}}
-          {{#each model.json.memberOfOrganization as |orgId|}}
+          {{#each this.model.json.memberOfOrganization as |orgId|}}
             {{control/md-contact-link contactId=orgId}}<br />
           {{else}}
             <em class='text-muted'>No organizations assigned.</em>
@@ -75,7 +75,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each model.json.phone as |ph|}}
+                {{#each this.model.json.phone as |ph|}}
                   <tr>
                     <td>{{get-dash ph 'phoneName'}}</td>
                     <td>
@@ -103,7 +103,7 @@
 
         {{#layout/md-card shadow=false muted=true title='E-mail' class=''}}
           <ul class='list-unstyled'>
-            {{#each model.json.electronicMailAddress as |email|}}
+            {{#each this.model.json.electronicMailAddress as |email|}}
               <li><a
                   href='mailto:{{email}}'
                   target='_blank'
@@ -124,7 +124,7 @@
           shadow=false muted=true title='Availability' class=''
         }}
           <ul class='list-unstyled'>
-            {{#each model.json.hoursOfService as |hours|}}
+            {{#each this.model.json.hoursOfService as |hours|}}
               <li>{{hours}}</li>
             {{else}}
               <li><em class='text-muted'>No information provided.</em></li>
@@ -140,9 +140,9 @@
           shadow=false
           muted=true
           title='Address'
-          bodyIsRow=model.json.address.length
+          bodyIsRow=this.model.json.address.length
         }}
-          {{#each model.json.address as |address|}}
+          {{#each this.model.json.address as |address|}}
             <div class='col-lg-6'>
               <div class='card'>
                 <div class='card-block'>
@@ -166,7 +166,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each model.json.onlineResource as |ol|}}
+                {{#each this.model.json.onlineResource as |ol|}}
                   <tr>
                     <td>{{get-dash ol 'name'}}</td>
                     <td>
@@ -199,7 +199,7 @@
           shadow=false
           muted=true
           title='External Identifiers'
-          bodyIsRow=model.json.externalIdentifier.length
+          bodyIsRow=this.model.json.externalIdentifier.length
         }}
           <div class='table-responsive'>
             <table class='table'>
@@ -210,7 +210,7 @@
                 </tr>
               </thead>
               <tbody>
-                {{#each model.json.externalIdentifier as |ei|}}
+                {{#each this.model.json.externalIdentifier as |ei|}}
                   <tr>
                     <td>{{ei.identifier}}</td>
                     <td>{{ei.namespace}}</td>
@@ -228,13 +228,13 @@
   </div>
   <div class='md-control-sidebar col-sm-2 no-nav'>
     {{#control/md-crud-buttons
-      model=model
+      model=this.model
       allowCopy=true
       allowDelete=true
       doDelete=(route-action 'destroyContact')
       doCopy=(route-action 'copyContact')
     }}
-      {{#link-to 'contact.show.edit' model.id class='btn btn-lg btn-success'}}
+      {{#link-to 'contact.show.edit' this.model.id class='btn btn-lg btn-success'}}
         {{fa-icon 'pencil'}}
         Edit{{/link-to}}
     {{/control/md-crud-buttons}}
@@ -243,7 +243,7 @@
       {{fa-icon 'list'}}
       Show List{{/link-to}}
     {{control/md-scroll-spy
-      scrollInit=scrollTo
+      scrollInit=this.scrollTo
       setScrollTo=(route-action 'setScrollTo')
     }}
   </div>

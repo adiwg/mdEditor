@@ -1,7 +1,7 @@
-<h4 class='section-header'>Editing Source #{{sourceId}}
+<h4 class='section-header'>Editing Source #{{this.sourceId}}
   {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
-{{#with model as |source|}}
+{{#with this.model as |source|}}
   <div class=''>
     {{object/md-source model=source profilePath='record.lineage.source'}}
     {{outlet}}
@@ -20,7 +20,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

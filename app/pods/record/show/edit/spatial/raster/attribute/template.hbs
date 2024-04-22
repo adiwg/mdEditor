@@ -1,9 +1,9 @@
 <h4 class='section-header'>
-  Editing Attribute #{{attributeId}}
+  Editing Attribute #{{this.attributeId}}
   in
-  <span class='text-success'>Attribute Group #{{attrGroupId}}</span>
+  <span class='text-success'>Attribute Group #{{this.attrGroupId}}</span>
   in
-  <span class='text-primary'>Raster Description #{{rasterId}}</span>
+  <span class='text-primary'>Raster Description #{{this.rasterId}}</span>
 
   {{#control/md-button-confirm
     class='btn btn-xs btn-danger'
@@ -16,11 +16,11 @@
     Delete
   {{/control/md-button-confirm}}
 
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-raster/attrgroup/attribute
-  model=model
+  model=this.model
   profilePath='record.spatial.coverageDescription.attributeGroup.attribute'
 }}
 
@@ -38,8 +38,8 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    refresh=refresh
-    scrollInit=scrollTo
+    refresh=this.refresh
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

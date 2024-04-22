@@ -4,7 +4,7 @@
   </div>
   <div class='md-control-sidebar col-sm-2 hidden-print'>
     {{control/md-crud-buttons
-      model=model
+      model=this.model
       doSave=(route-action 'saveRecord')
       doCancel=(route-action 'cancelRecord')
       doDelete=(route-action 'destroyRecord')
@@ -31,12 +31,12 @@
 
 {{to-elsewhere
   named='record-nav'
-  send=(component 'input/md-select-profile' value=model.profile record=model)
+  send=(component 'input/md-select-profile' value=this.model.profile record=this.model)
 }}
 
-{{#if model}}
+{{#if this.model}}
   {{to-elsewhere
     named='nav-secondary'
-    send=(component 'layout/md-nav-secondary' model=model)
+    send=(component 'layout/md-nav-secondary' model=this.model)
   }}
 {{/if}}

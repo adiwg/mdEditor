@@ -1,9 +1,9 @@
 <h4 class='section-header'>
-  Editing Data Quality #{{dataQualityId}}
-  {{control/md-status model=parentModel}}
+  Editing Data Quality #{{this.dataQualityId}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
-{{object/md-dataquality model=model profilePath='record.dataquality'}}
+{{object/md-dataquality model=this.model profilePath='record.dataquality'}}
 
 {{to-elsewhere
   named='md-subbar-extra'
@@ -18,7 +18,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

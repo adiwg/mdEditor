@@ -16,7 +16,7 @@
         class='control-label
           {{if
             (v-get
-              model
+              this.model
               "json.dataDictionary.citation.title"
               "options.presence.presence"
             )
@@ -26,7 +26,7 @@
       <div class=''>
         {{input/md-input
           valuePath='json.dataDictionary.citation.title'
-          model=model
+          model=this.model
           showValidations=true
           placeholder='Enter a title for the dictionary'
         }}
@@ -39,11 +39,11 @@
           create=true
           tooltip=true
           icon=true
-          disabled=disabled
+          disabled=this.disabled
           allowClear=true
           mdCodeName='scope'
           showValidations=true
-          model=model
+          model=this.model
           path='json.dataDictionary.subject'
           placeholder='Choose type(s) of resource'
         }}
@@ -55,7 +55,7 @@
           <button
             type='submit'
             class='btn btn-success md-form-save'
-            disabled={{v-get model 'isInvalid'}}
+            disabled={{v-get this.model 'isInvalid'}}
           >Save</button>
           <button
             type='button'

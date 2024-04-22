@@ -1,12 +1,12 @@
 <h4 class='section-header'>
   Editing Spatial Information
-  {{control/md-status model=model}}
+  {{control/md-status model=this.model}}
 </h4>
 
-{{#with model.json.metadata.resourceInfo as |resourceInfo|}}
+{{#with this.model.json.metadata.resourceInfo as |resourceInfo|}}
   {{object/md-spatial-info
     model=resourceInfo
     profilePath='record.spatial'
-    parentModel=model
+    parentModel=this.model
   }}
 {{/with}}

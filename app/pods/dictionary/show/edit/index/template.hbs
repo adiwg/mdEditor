@@ -1,9 +1,9 @@
-{{#with model.json.dataDictionary as |resource|}}
+{{#with this.model.json.dataDictionary as |resource|}}
   <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
     <h4 class='section-header'>
       Editing
-      <em>{{model.title}}</em>
-      {{control/md-status model=model}}
+      <em>{{this.model.title}}</em>
+      {{control/md-status model=this.model}}
     </h4>
     {{#layout/md-card
       title='Basic Information'
@@ -14,7 +14,7 @@
       required=true
     }}
       {{input/md-input
-        value=model.title
+        value=this.model.title
         placeholder='Enter the title for the dictionary.'
         label='Title'
         required=true
@@ -29,11 +29,11 @@
           label='Subject'
           tooltip=true
           icon=true
-          disabled=disabled
+          disabled=this.disabled
           allowClear=true
           mdCodeName='scope'
           showValidations=true
-          model=model
+          model=this.model
           path='json.dataDictionary.subject'
           placeholder='Choose type(s) of resource'
           profilePath='dictionary.main.basicInformation.subject'
@@ -114,7 +114,7 @@
   named='md-scroll-spy-dict-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

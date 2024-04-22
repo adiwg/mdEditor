@@ -13,7 +13,7 @@
   >
     <div class='form-group'>
       <label class='control-label'>Record ID</label>
-      <div class='text-muted'>{{model.recordId}}</div>
+      <div class='text-muted'>{{this.model.recordId}}</div>
       {{!-- <div class="">
               {{input/md-input
               valuePath="recordId"
@@ -26,7 +26,7 @@
         class='control-label
           {{if
             (v-get
-              model
+              this.model
               "json.metadata.resourceInfo.citation.title"
               "options.presence.presence"
             )
@@ -36,7 +36,7 @@
       <div class=''>
         {{input/md-input
           valuePath='json.metadata.resourceInfo.citation.title'
-          model=model
+          model=this.model
           profilePath='record.new.title'
           placeholder='Enter a title for the record'
         }}
@@ -49,7 +49,7 @@
 
           {{object/md-resource-type-array
             plain=true
-            value=model.json.metadata.resourceInfo.resourceType
+            value=this.model.json.metadata.resourceInfo.resourceType
             required=true
             profilePath='record.new'
           }}
@@ -62,7 +62,7 @@
           <button
             type='submit'
             class='btn btn-success md-form-save'
-            disabled={{v-get model 'isInvalid'}}
+            disabled={{v-get this.model 'isInvalid'}}
           >Save</button>
           <button
             type='button'

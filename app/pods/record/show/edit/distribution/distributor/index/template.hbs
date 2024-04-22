@@ -1,7 +1,7 @@
 <h4 class='section-header'>
-  Editing Distributor #{{distributorId}}
+  Editing Distributor #{{this.distributorId}}
   in
-  <span class='text-success'>Distribution #{{distributionId}}</span>
+  <span class='text-success'>Distribution #{{this.distributionId}}</span>
   {{#control/md-button-confirm
     class='btn btn-xs btn-danger'
     onConfirm=(route-action 'deleteDistributor')
@@ -12,12 +12,12 @@
     {{fa-icon 'times'}}
     Delete
   {{/control/md-button-confirm}}
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-distributor
-  model=model
-  distributorId=distributorId
+  model=this.model
+  distributorId=this.distributorId
   profilePath='record.distribution.distributor'
   editTransferOption=(route-action 'editTransferOption')
 }}
@@ -37,8 +37,8 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    refresh=refresh
-    scrollInit=scrollTo
+    refresh=this.refresh
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

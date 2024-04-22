@@ -1,9 +1,9 @@
 <h3 class='text-info'>{{fa-icon 'book'}} Dictionaries</h3>
 
-{{#if model.length}}
+{{#if this.model.length}}
   {{#layout/md-card collapsible=true collapsed=false shadow=true}}
     {{control/md-record-table
-      data=model
+      data=this.model
       dataColumns=(compute (route-action 'getColumns'))
       allActions=true
       selectProperty='_selectedFromList'
@@ -22,12 +22,12 @@
 {{/if}}
 
 {{outlet}}
-{{#if errorTarget}}
+{{#if this.errorTarget}}
   {{to-elsewhere
     named='md-slider-error'
     send=(hash
-      title=(concat 'Viewing errors for: ' errorTarget.title)
-      body=(component 'control/md-errors' errors=errorTarget.hasSchemaErrors)
+      title=(concat 'Viewing errors for: ' this.errorTarget.title)
+      body=(component 'control/md-errors' errors=this.errorTarget.hasSchemaErrors)
     )
   }}
 {{/if}}

@@ -1,13 +1,13 @@
 <h4 class='col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header'>
   Editing Metadata Identifier:
-  {{model.identifier}}
-  {{control/md-status model=parentModel}}
+  {{this.model.identifier}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 <div class='row'>
   {{object/md-identifier
     class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'
-    model=model
+    model=this.model
     profilePath='record.metadata.metadataIdentifier'
     confirmIdentifier=true
     data-spy='Metadata Identifier'
@@ -28,7 +28,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

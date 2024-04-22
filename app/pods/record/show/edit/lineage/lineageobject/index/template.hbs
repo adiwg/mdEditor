@@ -1,10 +1,10 @@
 <h4 class='section-header'>
-  Editing Lineage #{{lineageId}}
-  {{control/md-status model=parentModel}}
+  Editing Lineage #{{this.lineageId}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-lineage
-  model=model
+  model=this.model
   profilePath='record.lineage'
   ellipsis=true
   editCitation=(route-action 'editCitation')
@@ -25,7 +25,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

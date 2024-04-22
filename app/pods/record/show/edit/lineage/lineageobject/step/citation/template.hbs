@@ -1,8 +1,8 @@
-<h4 class='section-header'>Editing Step #{{stepId}}
+<h4 class='section-header'>Editing Step #{{this.stepId}}
   Citation
   {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
-{{#with model as |citation|}}
+{{#with this.model as |citation|}}
   <div class=''>
     {{object/md-citation
       model=citation
@@ -16,7 +16,7 @@
   named='md-subbar-extra'
   send=(component
     'control/subbar-link'
-    text=(concat 'Back to Step #' stepId)
+    text=(concat 'Back to Step #' this.stepId)
     icon='arrow-left'
     click=(route-action 'goBack')
   )
@@ -25,7 +25,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

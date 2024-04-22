@@ -1,8 +1,8 @@
-<h4 class='section-header'>Editing Taxonomic System #{{systemId}}
+<h4 class='section-header'>Editing Taxonomic System #{{this.systemId}}
   {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
 
-{{#with model as |system|}}
+{{#with this.model as |system|}}
   <div class=''>
     {{object/md-taxonomy/collection/system
       model=system
@@ -25,7 +25,7 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
 }}

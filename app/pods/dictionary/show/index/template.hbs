@@ -1,12 +1,12 @@
 <div class='row md-no-spotlight'>
-  {{#with model.json.dataDictionary as |dictionary|}}
+  {{#with this.model.json.dataDictionary as |dictionary|}}
     <div class='col-sm-9 col-md-offset-1'>
       <h3>
         {{fa-icon 'book' class='text-muted'}}
 
         Viewing Dictionary:
-        {{model.title}}
-        {{control/md-status model=model}}
+        {{this.model.title}}
+        {{control/md-status model=this.model}}
       </h3>
 
       {{#layout/md-card
@@ -25,9 +25,9 @@
           <dl class='dl-horizontal col-xxl-6'>
             {{control/md-definition
               title='Dictionary Id'
-              text=model.json.dictionaryId
+              text=this.model.json.dictionaryId
             }}
-            {{control/md-definition title='Dictionary Title' text=model.title}}
+            {{control/md-definition title='Dictionary Title' text=this.model.title}}
             {{control/md-definition
               title='Subject'
               text=(if dictionary.subject (join ', ' dictionary.subject))
@@ -207,14 +207,14 @@
 
   <div class='md-control-sidebar col-sm-2 no-nav'>
     {{#control/md-crud-buttons
-      model=model
+      model=this.model
       allowCopy=true
       allowDelete=true
       doDelete=(route-action 'destroyDictionary')
       doCopy=(route-action 'copyDictionary')
     }}
       {{#link-to
-        'dictionary.show.edit' model.id class='btn btn-lg btn-success'
+        'dictionary.show.edit' this.model.id class='btn btn-lg btn-success'
       }}
         {{fa-icon 'pencil'}}
         Edit{{/link-to}}
@@ -224,7 +224,7 @@
       {{fa-icon 'list'}}
       Show List{{/link-to}}
     {{control/md-scroll-spy
-      scrollInit=scrollTo
+      scrollInit=this.scrollTo
       setScrollTo=(route-action 'setScrollTo')
     }}
   </div>

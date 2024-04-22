@@ -1,10 +1,10 @@
 <h4 class='section-header'>
   Editing Data Quality
-  {{control/md-status model=parentModel}}
+  {{control/md-status model=this.parentModel}}
 </h4>
 
 {{object/md-objectroute-table
-  items=model.json.metadata.dataQuality
+  items=this.model.json.metadata.dataQuality
   header='Data Quality'
   shadow=true
   buttonText='Add Quality Object'

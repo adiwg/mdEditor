@@ -1,10 +1,10 @@
-{{#with model.json.metadata.resourceInfo as |resource|}}
+{{#with this.model.json.metadata.resourceInfo as |resource|}}
   <div class='row'>
     <form class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
       <h4 class='section-header'>
         Editing
-        <em>{{model.title}}</em>
-        {{control/md-status model=model}}
+        <em>{{this.model.title}}</em>
+        {{control/md-status model=this.model}}
       </h4>
       {{#layout/md-card
         title='Basic Information'
@@ -25,7 +25,7 @@
             <div class='input-group input-group-md'>
               {{input/md-input
                 valuePath='recordId'
-                model=model
+                model=this.model
                 placeholder='Assigned Record ID'
                 disabled=true
               }}
@@ -47,7 +47,7 @@
         {{/layout/md-wrap}}
 
         {{input/md-input
-          value=model.title
+          value=this.model.title
           placeholder='Enter the title for the resource.'
           label='Title'
           required=true
@@ -118,7 +118,7 @@
           value=resource.pointOfContact
           profilePath='record.main.pointOfContact'
           tipPath='json.metadata.resourceInfo.pointOfContact'
-          tipModel=model
+          tipModel=this.model
         }}
       {{/if}}
 
@@ -235,8 +235,8 @@
   named='md-scroll-spy-record-edit'
   send=(component
     'control/md-scroll-spy'
-    scrollInit=scrollTo
+    scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
-    refresh=model.profile
+    refresh=this.model.profile
   )
 }}
