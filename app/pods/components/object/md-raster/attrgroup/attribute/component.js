@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { get, set, getWithDefault } from '@ember/object';
+import { get, set } from '@ember/object';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { decamelize } from '@ember/string';
 import Attribute from 'mdjson-schemas/resources/js/attribute';
@@ -73,19 +73,14 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = getWithDefault(this, 'model', []) || [];
+    let model = (get(this, 'model') !== undefined ? get(this, 'model') : []) || [];
 
     once(this, function () {
-      set(model, 'attributeIdentifier', getWithDefault(model,
-        'attributeIdentifier', []));
-      set(model, 'bandBoundaryDefinition', getWithDefault(model,
-      'bandBoundaryDefinition', []));
-      set(model, 'transferFunctionType', getWithDefault(model,
-        'transferFunctionType', []));
-      set(model, 'transmittedPolarization', getWithDefault(model,
-        'transmittedPolarization', []));
-      set(model, 'detectedPolarization', getWithDefault(model,
-        'detectedPolarization', []));
+      set(model, 'attributeIdentifier', get(model, 'attributeIdentifier') !== undefined ? get(model, 'attributeIdentifier') : []);
+      set(model, 'bandBoundaryDefinition', get(model, 'bandBoundaryDefinition') !== undefined ? get(model, 'bandBoundaryDefinition') : []);
+      set(model, 'transferFunctionType', get(model, 'transferFunctionType') !== undefined ? get(model, 'transferFunctionType') : []);
+      set(model, 'transmittedPolarization', get(model, 'transmittedPolarization') !== undefined ? get(model, 'transmittedPolarization') : []);
+      set(model, 'detectedPolarization', get(model, 'detectedPolarization') !== undefined ? get(model, 'detectedPolarization') : []);
     });
   },
 

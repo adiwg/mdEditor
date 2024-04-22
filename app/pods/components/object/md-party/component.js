@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, { computed, get, getWithDefault, set } from '@ember/object';
+import EmberObject, { computed, get, set } from '@ember/object';
 import {
   A
 } from '@ember/array';
@@ -74,8 +74,8 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'party', getWithDefault(model, 'party', []));
-      set(model, 'role', getWithDefault(model, 'role', null));
+      set(model, 'party', get(model, 'party') !== undefined ? get(model, 'party') : []);
+      set(model, 'role', get(model, 'role') !== undefined ? get(model, 'role') : null);
     });
   },
 

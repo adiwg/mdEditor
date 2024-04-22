@@ -1,6 +1,6 @@
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
-import { set, getWithDefault } from '@ember/object';
+import { set, get } from '@ember/object';
 import { alias, notEmpty, not } from '@ember/object/computed';
 import {
   validator,
@@ -31,7 +31,7 @@ export default Component.extend(Validations, {
 
     once(this, function() {
       set(this.model, 'distributor',
-        getWithDefault(this.model, 'distributor', []));
+        get(this.model, 'distributor') !== undefined ? get(this.model, 'distributor') : []);
     });
   },
 

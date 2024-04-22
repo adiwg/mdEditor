@@ -5,21 +5,15 @@
 
 import Component from '@ember/component';
 
-import {
-  computed,
-  setProperties,
-  getWithDefault,
-  get,
-  set
-} from '@ember/object';
+import { computed, setProperties, get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 const formatMaint = function(model) {
   setProperties(model, {
-    'date': getWithDefault(model, 'date', []),
-    'scope': getWithDefault(model, 'scope', []),
-    'note': getWithDefault(model, 'note', []),
-    'contact': getWithDefault(model, 'contact', [])
+    'date': get(model, 'date') !== undefined ? get(model, 'date') : [],
+    'scope': get(model, 'scope') !== undefined ? get(model, 'scope') : [],
+    'note': get(model, 'note') !== undefined ? get(model, 'note') : [],
+    'contact': get(model, 'contact') !== undefined ? get(model, 'contact') : []
   });
 
   return model;
@@ -62,7 +56,7 @@ const theComp = Component.extend({
     this._super(...arguments);
 
     once(this, function() {
-      this.set('model', getWithDefault(this, 'model', {}));
+      this.set('model', get(this, 'model') !== undefined ? get(this, 'model') : {});
       formatMaint(this.model);
     });
   },

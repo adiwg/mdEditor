@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { getWithDefault, get, set } from '@ember/object';
+import { get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import uuidV4 from 'uuid/v4';
 
@@ -10,13 +10,13 @@ export default Component.extend({
     let model = get(this, 'model');
 
     once(function () {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
+      set(model, 'scope', get(model, 'scope') !== undefined ? get(model, 'scope') : {});
       set(
         model,
         'systemIdentifier',
-        getWithDefault(model, 'systemIdentifier', { uid: uuidV4() })
+        get(model, 'systemIdentifier') !== undefined ? get(model, 'systemIdentifier') : { uid: uuidV4() }
       );
-      set(model, 'report', getWithDefault(model, 'report', []));
+      set(model, 'report', get(model, 'report') !== undefined ? get(model, 'report') : []);
     });
   },
 

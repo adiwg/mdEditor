@@ -2,12 +2,7 @@ import Component from '@ember/component';
 import {
   inject as service
 } from '@ember/service';
-import {
-  computed,
-  set,
-  get,
-  getWithDefault
-} from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import {
   or
 } from '@ember/object/computed';
@@ -98,10 +93,8 @@ export default Component.extend({
       let taxonomy = this.taxonomy;
       let itisCitation = this.get('itis.citation');
 
-      let classification = set(taxonomy, 'taxonomicClassification', getWithDefault(taxonomy,
-        'taxonomicClassification', []));
-      let systems= set(taxonomy, 'taxonomicSystem', getWithDefault(taxonomy,
-        'taxonomicSystem', [{citation:{}}]));
+      let classification = set(taxonomy, 'taxonomicClassification', get(taxonomy, 'taxonomicClassification') !== undefined ? get(taxonomy, 'taxonomicClassification') : []);
+      let systems= set(taxonomy, 'taxonomicSystem', get(taxonomy, 'taxonomicSystem') !== undefined ? get(taxonomy, 'taxonomicSystem') : [{citation:{}}]);
       let system = systems.findBy('citation.title', get(itisCitation,'title'));
 
       let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
@@ -120,7 +113,7 @@ export default Component.extend({
           citation: itisCitation
         });
       } else {
-        let citation = set(system, 'citation', getWithDefault(system,'citation', {}));
+        let citation = set(system, 'citation', get(system, 'citation') !== undefined ? get(system, 'citation') : {});
         formatCitation(citation);
 
         let date = A(get(citation, 'date'));

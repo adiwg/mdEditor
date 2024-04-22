@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { A } from '@ember/array';
-import { getWithDefault, set } from '@ember/object';
+import { set, get } from '@ember/object';
 import { copy } from 'ember-copy';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
@@ -20,14 +20,12 @@ export default Route.extend(ScrollTo, {
 
     //check to see if custom list
     info.keyword.forEach((k) => {
-      set(k, 'thesaurus', getWithDefault(k, 'thesaurus', {}));
-      set(k, 'thesaurus.identifier', getWithDefault(k,
-        'thesaurus.identifier', [{
+      set(k, 'thesaurus', get(k, 'thesaurus') !== undefined ? get(k, 'thesaurus') : {});
+      set(k, 'thesaurus.identifier', get(k, 'thesaurus.identifier') !== undefined ? get(k, 'thesaurus.identifier') : [{
           identifier: 'custom'
-        }]));
-      set(k, 'thesaurus.date', getWithDefault(k, 'thesaurus.date', [{}]));
-      set(k, 'thesaurus.onlineResource', getWithDefault(k,
-        'thesaurus.onlineResource', [{}]));
+        }]);
+      set(k, 'thesaurus.date', get(k, 'thesaurus.date') !== undefined ? get(k, 'thesaurus.date') : [{}]);
+      set(k, 'thesaurus.onlineResource', get(k, 'thesaurus.onlineResource') !== undefined ? get(k, 'thesaurus.onlineResource') : [{}]);
     });
 
     return model;

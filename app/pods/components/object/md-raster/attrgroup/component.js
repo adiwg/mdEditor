@@ -1,7 +1,7 @@
 import Table from '../../md-array-table/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { get, set, getWithDefault } from '@ember/object';
+import { get, set } from '@ember/object';
 import { validator, buildValidations } from "ember-cp-validations";
 
 const Validations = buildValidations({
@@ -39,10 +39,8 @@ export default Table.extend(Validations,{
 
     if(model) {
       once(this, function () {
-        set(model, 'attributeContentType', getWithDefault(model,
-          'attributeContentType', []));
-        set(model, 'attribute', getWithDefault(model,
-          'attribute', []));
+        set(model, 'attributeContentType', get(model, 'attributeContentType') !== undefined ? get(model, 'attributeContentType') : []);
+        set(model, 'attribute', get(model, 'attribute') !== undefined ? get(model, 'attribute') : []);
       });
     }
   },

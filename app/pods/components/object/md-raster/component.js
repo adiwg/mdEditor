@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { get, set, getWithDefault } from '@ember/object';
+import { get, set } from '@ember/object';
 import { validator, buildValidations } from "ember-cp-validations";
 
 const Validations = buildValidations({
@@ -49,12 +49,9 @@ export default Component.extend(Validations, {
 
       if (model) {
         once(this, function () {
-          set(model, 'attributeGroup', getWithDefault(model,
-            'attributeGroup', []));
-          set(model, 'imageDescription', getWithDefault(model,
-            'imageDescription', {}));
-          set(model, 'processingLevelCode', getWithDefault(model,
-            'processingLevelCode', {}));
+          set(model, 'attributeGroup', get(model, 'attributeGroup') !== undefined ? get(model, 'attributeGroup') : []);
+          set(model, 'imageDescription', get(model, 'imageDescription') !== undefined ? get(model, 'imageDescription') : {});
+          set(model, 'processingLevelCode', get(model, 'processingLevelCode') !== undefined ? get(model, 'processingLevelCode') : {});
         })
       }
     },

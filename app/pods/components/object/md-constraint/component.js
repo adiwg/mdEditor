@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { equal, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { computed, set, getWithDefault, get } from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
@@ -28,31 +28,31 @@ export default Component.extend(Validations, {
     console.log('constraint model', model);
 
     once(this, function () {
-      set(model, 'useLimitation', getWithDefault(model, 'useLimitation', []));
-      set(model, 'graphic', getWithDefault(model, 'graphic', []));
+      set(model, 'useLimitation', get(model, 'useLimitation') !== undefined ? get(model, 'useLimitation') : []);
+      set(model, 'graphic', get(model, 'graphic') !== undefined ? get(model, 'graphic') : []);
       set(
         model,
         'responsibleParty',
-        getWithDefault(model, 'responsibleParty', [])
+        get(model, 'responsibleParty') !== undefined ? get(model, 'responsibleParty') : []
       );
       set(
         model,
         'legal',
-        getWithDefault(model, 'legal', {
+        get(model, 'legal') !== undefined ? get(model, 'legal') : {
           accessConstraint: [],
           useConstraint: [],
           otherConstraint: [],
-        })
+        }
       );
-      set(model, 'security', getWithDefault(model, 'security', {}));
+      set(model, 'security', get(model, 'security') !== undefined ? get(model, 'security') : {});
       set(
         model,
         'releasability',
-        getWithDefault(model, 'releasability', {
+        get(model, 'releasability') !== undefined ? get(model, 'releasability') : {
           addressee: [],
           statement: '',
           dissemiantionConstraint: [],
-        })
+        }
       );
     });
   },

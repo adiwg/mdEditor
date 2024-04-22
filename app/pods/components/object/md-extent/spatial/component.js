@@ -1,14 +1,7 @@
 /* global L */
 import Component from '@ember/component';
 import { or, alias } from '@ember/object/computed';
-import {
-  set,
-  get,
-  getWithDefault,
-  setProperties,
-  observer,
-  computed
-} from '@ember/object';
+import { set, get, setProperties, observer, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
 import { once } from '@ember/runloop';
 
@@ -23,7 +16,7 @@ export default Component.extend({
     let geo = get(this, 'extent.geographicExtent.0');
 
     once(function () {
-      set(geo, 'boundingBox', getWithDefault(geo, 'boundingBox', {}));
+      set(geo, 'boundingBox', get(geo, 'boundingBox') !== undefined ? get(geo, 'boundingBox') : {});
     });
   },
 

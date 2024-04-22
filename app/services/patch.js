@@ -1,10 +1,5 @@
 import Service from '@ember/service';
-import {
-  get,
-  getWithDefault,
-  set,
-  setProperties
-} from '@ember/object';
+import { get, set, setProperties } from '@ember/object';
 import {
   isArray,
   A
@@ -49,8 +44,7 @@ export default Service.extend({
 
             if(isArray(source)) {
               source.forEach(src => {
-                set(src, 'description', getWithDefault(src,
-                  'description', get(src, 'value')));
+                set(src, 'description', get(src, 'description') !== undefined ? get(src, 'description') : get(src, 'value'));
                 set(src, 'value', null);
               });
               record.save().then(function () {
@@ -66,8 +60,7 @@ export default Service.extend({
 
                 if(isArray(source)) {
                   source.forEach(src => {
-                    set(src, 'description', getWithDefault(src,
-                      'description', get(src, 'value')));
+                    set(src, 'description', get(src, 'description') !== undefined ? get(src, 'description') : get(src, 'value'));
                     set(src, 'value', null);
                   });
                   record.save().then(function () {
@@ -241,8 +234,7 @@ export default Service.extend({
             let titles = get(itm, 'citation.titles');
 
             if(titles) {
-              set(itm, 'citation.title', getWithDefault(itm,
-                'citation.titles', get(itm, 'title')));
+              set(itm, 'citation.title', get(itm, 'citation.titles') !== undefined ? get(itm, 'citation.titles') : get(itm, 'title'));
               set(itm, 'citation.titles', null);
               record.save().then(function () {
                 record.notifyPropertyChange('currentHash');

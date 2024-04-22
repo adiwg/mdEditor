@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import {
   A
 } from '@ember/array';
-import EmberObject, { set, computed, getWithDefault, get } from '@ember/object';
+import EmberObject, { set, computed, get } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -50,15 +50,13 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'entityId', getWithDefault(model, 'entityId', uuidV4()));
-      set(model, 'alias', getWithDefault(model, 'alias', []));
-      set(model, 'primaryKeyAttributeCodeName', getWithDefault(model,
-        'primaryKeyAttributeCodeName', []));
-      set(model, 'index', getWithDefault(model, 'index', []));
-      set(model, 'attribute', getWithDefault(model, 'attribute', []));
-      set(model, 'foreignKey', getWithDefault(model, 'foreignKey', []));
-      set(model, 'entityReference', getWithDefault(model,
-        'entityReference', []));
+      set(model, 'entityId', get(model, 'entityId') !== undefined ? get(model, 'entityId') : uuidV4());
+      set(model, 'alias', get(model, 'alias') !== undefined ? get(model, 'alias') : []);
+      set(model, 'primaryKeyAttributeCodeName', get(model, 'primaryKeyAttributeCodeName') !== undefined ? get(model, 'primaryKeyAttributeCodeName') : []);
+      set(model, 'index', get(model, 'index') !== undefined ? get(model, 'index') : []);
+      set(model, 'attribute', get(model, 'attribute') !== undefined ? get(model, 'attribute') : []);
+      set(model, 'foreignKey', get(model, 'foreignKey') !== undefined ? get(model, 'foreignKey') : []);
+      set(model, 'entityReference', get(model, 'entityReference') !== undefined ? get(model, 'entityReference') : []);
     });
   },
 

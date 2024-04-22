@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { getWithDefault, get, set } from '@ember/object';
+import { get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 
@@ -10,10 +10,9 @@ export default Component.extend({
     let model = this.model;
 
     once(function() {
-      set(model, 'mediumSpecification', getWithDefault(model,
-        'mediumSpecification', {}));
-      set(model, 'identifier', getWithDefault(model, 'identifier', {}));
-      set(model, 'mediumFormat', getWithDefault(model, 'mediumFormat', []));
+      set(model, 'mediumSpecification', get(model, 'mediumSpecification') !== undefined ? get(model, 'mediumSpecification') : {});
+      set(model, 'identifier', get(model, 'identifier') !== undefined ? get(model, 'identifier') : {});
+      set(model, 'mediumFormat', get(model, 'mediumFormat') !== undefined ? get(model, 'mediumFormat') : []);
     });
   },
   tagName: 'form',

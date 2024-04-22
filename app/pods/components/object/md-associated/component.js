@@ -1,6 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, get, set, computed } from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
 import {
@@ -26,12 +26,10 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function() {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'resourceCitation', getWithDefault(model,
-        'resourceCitation', {}));
-      set(model, 'metadataCitation', getWithDefault(model,
-        'metadataCitation', {}));
+      set(model, 'scope', get(model, 'scope') !== undefined ? get(model, 'scope') : {});
+      set(model, 'resourceType', get(model, 'resourceType') !== undefined ? get(model, 'resourceType') : []);
+      set(model, 'resourceCitation', get(model, 'resourceCitation') !== undefined ? get(model, 'resourceCitation') : {});
+      set(model, 'metadataCitation', get(model, 'metadataCitation') !== undefined ? get(model, 'metadataCitation') : {});
     });
   },
 
@@ -86,8 +84,7 @@ export default Component.extend(Validations, {
       let model = this.linkedRecord;
 
       if(!assoc) {
-        set(model, 'json.metadata.associatedResource', getWithDefault(model,
-          'json.metadata.associatedResource', []));
+        set(model, 'json.metadata.associatedResource', get(model, 'json.metadata.associatedResource') !== undefined ? get(model, 'json.metadata.associatedResource') : []);
 
         model.get('json.metadata.associatedResource').pushObject({
           mdRecordId: this.recordId,

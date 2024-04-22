@@ -1,5 +1,5 @@
 import { A, isArray } from '@ember/array';
-import EmObject, { computed, get, getWithDefault, set } from '@ember/object';
+import EmObject, { computed, get, set } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
@@ -77,9 +77,9 @@ export default Route.extend(ScrollTo, {
 
     switch(record.type) {
     case 'records':
-      return getWithDefault(json, 'metadata.resourceInfo.citation.title', 'NO TITLE');
+      return get(json, 'metadata.resourceInfo.citation.title') !== undefined ? get(json, 'metadata.resourceInfo.citation.title') : 'NO TITLE';
     case 'dictionaries':
-      return getWithDefault(json, 'dataDictionary.citation.title', 'NO TITLE');
+      return get(json, 'dataDictionary.citation.title') !== undefined ? get(json, 'dataDictionary.citation.title') : 'NO TITLE';
     case 'contacts':
       return json.name || 'NO NAME';
     case 'schemas':

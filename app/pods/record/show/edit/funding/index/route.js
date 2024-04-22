@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import EmberObject, { get, getWithDefault, set } from '@ember/object';
+import EmberObject, { get, set } from '@ember/object';
 import { A } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
@@ -8,7 +8,7 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'funding', A(getWithDefault(model, 'funding', [])));
+    set(model, 'funding', A(get(model, 'funding') !== undefined ? get(model, 'funding') : []));
   },
 
   setupController: function() {

@@ -2,12 +2,7 @@ import {
   alias
 } from '@ember/object/computed';
 import Component from '@ember/component';
-import EmberObject, {
-  computed,
-  getWithDefault,
-  get,
-  set
-} from '@ember/object';
+import EmberObject, { computed, get, set } from '@ember/object';
 import {
   once
 } from '@ember/runloop';
@@ -47,12 +42,10 @@ export default Component.extend({
     let model = this.model;
 
     once(function () {
-      set(model, 'onlineOption', getWithDefault(model, 'onlineOption', []));
-      set(model, 'offlineOption', getWithDefault(model, 'offlineOption', []));
-      set(model, 'transferFrequency', getWithDefault(model,
-        'transferFrequency', {}));
-      set(model, 'distributionFormat', getWithDefault(model,
-        'distributionFormat', []));
+      set(model, 'onlineOption', get(model, 'onlineOption') !== undefined ? get(model, 'onlineOption') : []);
+      set(model, 'offlineOption', get(model, 'offlineOption') !== undefined ? get(model, 'offlineOption') : []);
+      set(model, 'transferFrequency', get(model, 'transferFrequency') !== undefined ? get(model, 'transferFrequency') : {});
+      set(model, 'distributionFormat', get(model, 'distributionFormat') !== undefined ? get(model, 'distributionFormat') : []);
       // set(model, 'presentationForm', getWithDefault(model,
       //   'presentationForm', []));
       // set(model, 'onlineResource', getWithDefault(model,

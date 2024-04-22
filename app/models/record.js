@@ -1,7 +1,7 @@
 import { attr } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
-import EmberObject, { computed, getWithDefault } from '@ember/object';
+import EmberObject, { computed, get } from '@ember/object';
 import { Copyable } from 'ember-copy';
 import uuidV4 from "uuid/v4";
 import Model from 'mdeditor/models/base';
@@ -247,8 +247,7 @@ const Record = Model.extend(Validations, Copyable, {
     let name = current.metadata.resourceInfo.citation.title;
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
-    json.set('metadata.resourceInfo.resourceType', getWithDefault(json,
-      'metadata.resourceInfo.resourceType', [{}]));
+    json.set('metadata.resourceInfo.resourceType', get(json, 'metadata.resourceInfo.resourceType') !== undefined ? get(json, 'metadata.resourceInfo.resourceType') : [{}]);
     json.set('metadata.metadataInfo.metadataIdentifier', {
       identifier: uuidV4(),
       namespace: 'urn:uuid'

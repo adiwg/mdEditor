@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 import uuidV4 from "uuid/v4";
-import EmberObject, { get, computed, defineProperty, getWithDefault, set } from '@ember/object';
+import EmberObject, { get, computed, defineProperty, set } from '@ember/object';
 
 export default Route.extend({
   init() {
@@ -24,7 +24,7 @@ export default Route.extend({
       .findBy('modelName', 'dictionary');
     let rec = this.modelFor('record.show.edit');
 
-    set(rec, 'json.mdDictionary', getWithDefault(rec, 'json.mdDictionary', []));
+    set(rec, 'json.mdDictionary', get(rec, 'json.mdDictionary') !== undefined ? get(rec, 'json.mdDictionary') : []);
     let selected = rec.get('json.mdDictionary');
 
     return dicts.map(dict => {

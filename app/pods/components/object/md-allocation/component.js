@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
+import { set, get } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -29,9 +29,9 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function() {
-      set(model, 'currency', getWithDefault(model, 'currency', 'USD'));
-      set(model, 'onlineResource', getWithDefault(model, 'onlineResource', []));
-      set(model, 'responsibleParty', getWithDefault(model, 'responsibleParty', []));
+      set(model, 'currency', get(model, 'currency') !== undefined ? get(model, 'currency') : 'USD');
+      set(model, 'onlineResource', get(model, 'onlineResource') !== undefined ? get(model, 'onlineResource') : []);
+      set(model, 'responsibleParty', get(model, 'responsibleParty') !== undefined ? get(model, 'responsibleParty') : []);
     });
   },
   /**

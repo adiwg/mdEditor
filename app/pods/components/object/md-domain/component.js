@@ -1,9 +1,5 @@
 import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
+import { set, get } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -45,10 +41,9 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'domainId', getWithDefault(model, 'domainId', uuidV4()));
-      set(model, 'domainItem', getWithDefault(model, 'domainItem', []));
-      set(model, 'domainReference', getWithDefault(model,
-        'domainReference', {}));
+      set(model, 'domainId', get(model, 'domainId') !== undefined ? get(model, 'domainId') : uuidV4());
+      set(model, 'domainItem', get(model, 'domainItem') !== undefined ? get(model, 'domainItem') : []);
+      set(model, 'domainReference', get(model, 'domainReference') !== undefined ? get(model, 'domainReference') : {});
     });
   },
 

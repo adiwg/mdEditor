@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { getWithDefault, get } from '@ember/object';
+import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
@@ -24,8 +24,7 @@ export default Route.extend(ScrollTo, {
 
     //make sure the identifier exists
     model.set('json.metadata.metadataInfo.metadataIdentifier',
-      getWithDefault(model,
-        'json.metadata.metadataInfo.metadataIdentifier', {}));
+      get(model, 'json.metadata.metadataInfo.metadataIdentifier') !== undefined ? get(model, 'json.metadata.metadataInfo.metadataIdentifier') : {});
 
     return get(model,
       'json.metadata.metadataInfo.metadataIdentifier');

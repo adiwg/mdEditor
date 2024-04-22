@@ -11,7 +11,7 @@ import {
   isPresent,
   isBlank
 } from '@ember/utils';
-import EmberObject, { get, getWithDefault, set, computed } from '@ember/object';
+import EmberObject, { get, set, computed } from '@ember/object';
 import uuidV4 from "uuid/v4";
 
 export default Route.extend({
@@ -136,13 +136,12 @@ export default Route.extend({
       let dataDictionary = this.get('controller.model.json.dataDictionary');
 
       if(get(data,'domains.length')) {
-        set(dataDictionary,'domain', getWithDefault(dataDictionary,
-          'domain', []));
+        set(dataDictionary,'domain', get(dataDictionary, 'domain') !== undefined ? get(dataDictionary, 'domain') : []);
 
         set(dataDictionary, 'domain', get(dataDictionary, 'domain').concat(data.domains));
       }
 
-      set(dataDictionary,'entity', getWithDefault(dataDictionary, 'entity', []));
+      set(dataDictionary,'entity', get(dataDictionary, 'entity') !== undefined ? get(dataDictionary, 'entity') : []);
       set(entity, 'attribute', data.attributes);
       get(dataDictionary, 'entity').push(entity);
 

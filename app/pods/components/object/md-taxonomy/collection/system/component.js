@@ -1,9 +1,5 @@
 import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
+import { set, get } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -31,8 +27,7 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'citation', getWithDefault(model,
-        'citation', {}));
+      set(model, 'citation', get(model, 'citation') !== undefined ? get(model, 'citation') : {});
     });
   },
 

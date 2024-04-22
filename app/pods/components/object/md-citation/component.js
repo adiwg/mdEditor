@@ -1,23 +1,17 @@
 import Component from '@ember/component';
-import { getWithDefault, set } from '@ember/object';
+import { set, get } from '@ember/object';
 import { once } from '@ember/runloop';
 
 const formatCitation = function(model) {
-  set(model, 'responsibleParty', getWithDefault(model,
-    'responsibleParty', []));
-  set(model, 'date', getWithDefault(model,
-    'date', []));
-  set(model, 'alternateTitle', getWithDefault(model,
-    'alternateTitle', []));
-  set(model, 'presentationForm', getWithDefault(model,
-    'presentationForm', []));
-  set(model, 'onlineResource', getWithDefault(model,
-    'onlineResource', []));
-  set(model, 'identifier', getWithDefault(model, 'identifier', []));
-  set(model, 'otherCitationDetails', getWithDefault(model,
-    'otherCitationDetails', []));
-  set(model, 'graphic', getWithDefault(model, 'graphic', []));
-  set(model, 'series', getWithDefault(model, 'series', {}));
+  set(model, 'responsibleParty', get(model, 'responsibleParty') !== undefined ? get(model, 'responsibleParty') : []);
+  set(model, 'date', get(model, 'date') !== undefined ? get(model, 'date') : []);
+  set(model, 'alternateTitle', get(model, 'alternateTitle') !== undefined ? get(model, 'alternateTitle') : []);
+  set(model, 'presentationForm', get(model, 'presentationForm') !== undefined ? get(model, 'presentationForm') : []);
+  set(model, 'onlineResource', get(model, 'onlineResource') !== undefined ? get(model, 'onlineResource') : []);
+  set(model, 'identifier', get(model, 'identifier') !== undefined ? get(model, 'identifier') : []);
+  set(model, 'otherCitationDetails', get(model, 'otherCitationDetails') !== undefined ? get(model, 'otherCitationDetails') : []);
+  set(model, 'graphic', get(model, 'graphic') !== undefined ? get(model, 'graphic') : []);
+  set(model, 'series', get(model, 'series') !== undefined ? get(model, 'series') : {});
 
   return model;
 };
@@ -46,7 +40,7 @@ const theComp = Component.extend({
     //let model = getWithDefault(this, 'model', {}) || {};
 
     once(this, function() {
-      this.set('model', getWithDefault(this, 'model', {}));
+      this.set('model', get(this, 'model') !== undefined ? get(this, 'model') : {});
       formatCitation(this.model);
     });
   },

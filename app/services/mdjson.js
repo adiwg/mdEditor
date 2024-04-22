@@ -1,6 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
-import EmberObject, { getWithDefault, get, set } from '@ember/object';
+import EmberObject, { get, set } from '@ember/object';
 import Ember from 'ember';
 import Ajv from 'ajv';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
@@ -61,10 +61,10 @@ export default Service.extend({
           let info = get(record, 'json.metadata.metadataInfo') || {};
           let metadata = {
             title: `Metadata for ${get(record, 'title')}`,
-            responsibleParty: getWithDefault(info, 'metadataContact', []),
-            date: getWithDefault(info, 'metadataDate', []),
-            onlineResource: getWithDefault(info, 'metadataOnlineResource', []),
-            identifier: [getWithDefault(info, 'metadataIdentifier', {})],
+            responsibleParty: get(info, 'metadataContact') !== undefined ? get(info, 'metadataContact') : [],
+            date: get(info, 'metadataDate') !== undefined ? get(info, 'metadataDate') : [],
+            onlineResource: get(info, 'metadataOnlineResource') !== undefined ? get(info, 'metadataOnlineResource') : [],
+            identifier: [get(info, 'metadataIdentifier') !== undefined ? get(info, 'metadataIdentifier') : {}],
           };
 
           let citation =

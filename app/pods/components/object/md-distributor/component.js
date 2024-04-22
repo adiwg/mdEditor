@@ -1,6 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, get, set, computed } from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import { once } from '@ember/runloop';
 import {
   validator,
@@ -27,16 +27,14 @@ export default Component.extend(Validations, {
 
     let model = this.model;
 
-    once(this, function() {
-      set(model, 'contact', getWithDefault(model, 'contact', {
-        role: null,
-        party: []
-      }));
-      set(model, 'orderProcess', A(getWithDefault(model,
-        'orderProcess', [{}])));
-      set(model, 'transferOption', A(getWithDefault(
-        model, 'transferOption', [{}])));
-    });
+   once(this, function() {
+  set(model, 'contact', model.contact ? model.contact : {
+    role: null,
+    party: []
+  });
+  set(model, 'orderProcess', A(model.orderProcess ? model.orderProcess : [{}]));
+  set(model, 'transferOption', A(model.transferOption ? model.transferOption : [{}]));
+});
   },
 
   tagName: 'form',

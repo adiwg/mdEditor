@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import { isEmpty } from '@ember/utils';
 import { or, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get, computed } from '@ember/object';
+import { set, get, computed } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -64,7 +64,7 @@ export default Component.extend(Validations, {
 
     if(model) {
       once(this, function () {
-        set(model, 'measure', getWithDefault(model, 'measure', {}));
+        set(model, 'measure', get(model, 'measure') !== undefined ? get(model, 'measure') : {});
       });
     }
   },

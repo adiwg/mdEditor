@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get } from '@ember/object';
+import EmberObject, { set, get } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -61,14 +61,11 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'taxonomicClassification', getWithDefault(model,
-        'taxonomicClassification', []));
-      set(model, 'taxonomicSystem', getWithDefault(model,
-        'taxonomicSystem', []));
-      set(model, 'identificationReference', getWithDefault(model,
-        'identificationReference', []));
-      set(model, 'observer', getWithDefault(model, 'observer', []));
-      set(model, 'voucher', getWithDefault(model, 'voucher', []));
+      set(model, 'taxonomicClassification', get(model, 'taxonomicClassification') !== undefined ? get(model, 'taxonomicClassification') : []);
+      set(model, 'taxonomicSystem', get(model, 'taxonomicSystem') !== undefined ? get(model, 'taxonomicSystem') : []);
+      set(model, 'identificationReference', get(model, 'identificationReference') !== undefined ? get(model, 'identificationReference') : []);
+      set(model, 'observer', get(model, 'observer') !== undefined ? get(model, 'observer') : []);
+      set(model, 'voucher', get(model, 'voucher') !== undefined ? get(model, 'voucher') : []);
     });
   },
   voucherTemplate: Voucher,

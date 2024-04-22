@@ -1,4 +1,4 @@
-import EmberObject, { getWithDefault, set } from '@ember/object';
+import EmberObject, { set, get } from '@ember/object';
 import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
@@ -40,8 +40,8 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'repository', getWithDefault(model, 'repository', {}));
-      set(model, 'specimen', getWithDefault(model, 'specimen', null));
+      set(model, 'repository', get(model, 'repository') !== undefined ? get(model, 'repository') : {});
+      set(model, 'specimen', get(model, 'specimen') !== undefined ? get(model, 'specimen') : null);
     });
   },
 

@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { set, get, getWithDefault } from '@ember/object';
+import { set, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   once
@@ -12,24 +12,15 @@ export default Route.extend(ScrollTo, {
     let model = get(m, 'json.metadata.metadataInfo');
 
     once(this, () => {
-      set(model, 'metadataContact', getWithDefault(model,
-        'metadataContact', []));
-      set(model, 'metadataDate', getWithDefault(model, 'metadataDate',
-        []));
-      set(model, 'metadataMaintenance', getWithDefault(model,
-        'metadataMaintenance', {}));
-      set(model, 'metadataOnlineResource', getWithDefault(model,
-        'metadataOnlineResource', []));
-      set(model, 'defaultMetadataLocale', getWithDefault(model,
-        'defaultMetadataLocale', {}));
-      set(model, 'metadataIdentifier', getWithDefault(model,
-        'metadataIdentifier', {}));
-      set(model, 'parentMetadata', getWithDefault(model,
-        'parentMetadata', {}));
-      set(model, 'alternateMetadataReference', getWithDefault(model,
-        'alternateMetadataReference', []));
-      set(m, 'json.metadataRepository', getWithDefault(m,
-        'json.metadataRepository', []));
+      set(model, 'metadataContact', get(model, 'metadataContact') !== undefined ? get(model, 'metadataContact') : []);
+      set(model, 'metadataDate', get(model, 'metadataDate') !== undefined ? get(model, 'metadataDate') : []);
+      set(model, 'metadataMaintenance', get(model, 'metadataMaintenance') !== undefined ? get(model, 'metadataMaintenance') : {});
+      set(model, 'metadataOnlineResource', get(model, 'metadataOnlineResource') !== undefined ? get(model, 'metadataOnlineResource') : []);
+      set(model, 'defaultMetadataLocale', get(model, 'defaultMetadataLocale') !== undefined ? get(model, 'defaultMetadataLocale') : {});
+      set(model, 'metadataIdentifier', get(model, 'metadataIdentifier') !== undefined ? get(model, 'metadataIdentifier') : {});
+      set(model, 'parentMetadata', get(model, 'parentMetadata') !== undefined ? get(model, 'parentMetadata') : {});
+      set(model, 'alternateMetadataReference', get(model, 'alternateMetadataReference') !== undefined ? get(model, 'alternateMetadataReference') : []);
+      set(m, 'json.metadataRepository', get(m, 'json.metadataRepository') !== undefined ? get(m, 'json.metadataRepository') : []);
     });
   },
 

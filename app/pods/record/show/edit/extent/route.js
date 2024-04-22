@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { getWithDefault, set } from '@ember/object';
+import { set, get } from '@ember/object';
 import $ from 'jquery';
 
 export default Route.extend({
@@ -8,7 +8,7 @@ export default Route.extend({
     let json = model.get('json');
     let resourceInfo = json.metadata.resourceInfo;
 
-    set(resourceInfo, 'extent', getWithDefault(resourceInfo, 'extent', []));
+    set(resourceInfo, 'extent', get(resourceInfo, 'extent') !== undefined ? get(resourceInfo, 'extent') : []);
 
     return model;
   },

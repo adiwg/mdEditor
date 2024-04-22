@@ -1,6 +1,6 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, get, set } from '@ember/object';
+import { get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 import {
   validator,
@@ -23,8 +23,8 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function() {
-      set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
-      set(model, 'citation', A(getWithDefault(model, 'citation', [{}])));
+      set(model, 'resourceType', get(model, 'resourceType') !== undefined ? get(model, 'resourceType') : []);
+      set(model, 'citation', A(get(model, 'citation') !== undefined ? get(model, 'citation') : [{}]));
     });
   },
 

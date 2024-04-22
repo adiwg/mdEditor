@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import EmberObject, { get, set, getWithDefault } from '@ember/object';
+import EmberObject, { get, set } from '@ember/object';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
@@ -8,7 +8,7 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
-    set(model, 'taxonomy', getWithDefault(model, 'taxonomy', []));
+    set(model, 'taxonomy', get(model, 'taxonomy') !== undefined ? get(model, 'taxonomy') : []);
   },
 
   setupController: function () {

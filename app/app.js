@@ -13,8 +13,6 @@ import Resolver from 'ember-resolver';
 import {
   computed,
   defineProperty,
-  getWithDefault,
-  get,
   //set
 } from '@ember/object';
 import {
@@ -88,8 +86,7 @@ Component.reopen({
             return isVisible;
           }
 
-          return getWithDefault(profile.activeComponents, path,
-            isVisible);
+         return (profile.activeComponents && profile.activeComponents[path]) ? profile.activeComponents[path] : isVisible;
         }));
     }
   }

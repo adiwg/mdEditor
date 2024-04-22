@@ -1,9 +1,5 @@
 import Route from '@ember/routing/route';
-import {
-  getWithDefault,
-  get,
-  set
-} from '@ember/object';
+import { get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 export default Route.extend({
@@ -14,7 +10,7 @@ export default Route.extend({
 
     once(this, ()=>{
 
-      set(model, 'entity', getWithDefault(model, 'entity', []));
+      set(model, 'entity', get(model, 'entity') !== undefined ? get(model, 'entity') : []);
     });
   },
 

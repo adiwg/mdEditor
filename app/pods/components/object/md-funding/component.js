@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { computed, set, getWithDefault, get } from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { once } from '@ember/runloop';
@@ -49,8 +49,8 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allocation', getWithDefault(model, 'allocation', []));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
+      set(model, 'allocation', get(model, 'allocation') !== undefined ? get(model, 'allocation') : []);
+      set(model, 'timePeriod', get(model, 'timePeriod') !== undefined ? get(model, 'timePeriod') : {});
     });
   },
   /**

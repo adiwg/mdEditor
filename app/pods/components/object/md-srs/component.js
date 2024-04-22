@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 import { alias, notEmpty } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
+import { set, get } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -32,7 +32,7 @@ export default Component.extend(Validations, {
 
     if(model){
     once(this, function() {
-      set(model, 'referenceSystemIdentifier', getWithDefault(model, 'referenceSystemIdentifier', {}));
+      set(model, 'referenceSystemIdentifier', get(model, 'referenceSystemIdentifier') !== undefined ? get(model, 'referenceSystemIdentifier') : {});
     });
   }
   },

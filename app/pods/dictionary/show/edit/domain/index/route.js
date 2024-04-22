@@ -1,12 +1,12 @@
 import Route from '@ember/routing/route';
-import { getWithDefault, get, set } from '@ember/object';
+import { get, set } from '@ember/object';
 
 export default Route.extend({
   afterModel(m) {
     this._super(...arguments);
 
     let model = get(m, 'json.dataDictionary');
-    set(model, 'domain', getWithDefault(model, 'domain', []));
+    set(model, 'domain', get(model, 'domain') !== undefined ? get(model, 'domain') : []);
   },
 
   setupController: function() {

@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get, computed } from '@ember/object';
+import EmberObject, { set, get, computed } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -58,11 +58,11 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allowNull', getWithDefault(model, 'allowNull', false));
-      set(model, 'reference', getWithDefault(model, 'reference', {}));
-      set(model, 'alias', getWithDefault(model, 'alias', []));
-      set(model, 'valueRange', getWithDefault(model, 'valueRange', []));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', []));
+      set(model, 'allowNull', get(model, 'allowNull') !== undefined ? get(model, 'allowNull') : false);
+      set(model, 'reference', get(model, 'reference') !== undefined ? get(model, 'reference') : {});
+      set(model, 'alias', get(model, 'alias') !== undefined ? get(model, 'alias') : []);
+      set(model, 'valueRange', get(model, 'valueRange') !== undefined ? get(model, 'valueRange') : []);
+      set(model, 'timePeriod', get(model, 'timePeriod') !== undefined ? get(model, 'timePeriod') : []);
     });
   },
 

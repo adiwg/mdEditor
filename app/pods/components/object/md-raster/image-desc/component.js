@@ -3,7 +3,7 @@ import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 // import { decamelize } from '@ember/string';
 // import { ucWords } from 'mdeditor/helpers/uc-words';
-import { set, getWithDefault, get } from '@ember/object';
+import { set, get } from '@ember/object';
 // import ImageDescription from 'mdjson-schemas/resources/js/imageDescription';
 import {
   validator,
@@ -50,12 +50,11 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    // let model = getWithDefault(this, 'model', {}) || {};
     let model = this.model
 
     if (model) {
       once(this, function () {
-        set(model, 'imageQualityCode', getWithDefault(model, 'imageQualityCode', {}));
+        set(model, 'imageQualityCode', get(model, 'imageQualityCode') !== undefined ? get(model, 'imageQualityCode') : {});
       })
     }
   },

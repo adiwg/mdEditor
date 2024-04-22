@@ -3,12 +3,7 @@ import {
   alias
 } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  getWithDefault,
-  get,
-  set,
-  computed
-} from '@ember/object';
+import { get, set, computed } from '@ember/object';
 import {
   once
 } from '@ember/runloop';
@@ -95,15 +90,14 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'periodName', getWithDefault(model,
-        'periodName', []));
-      set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
-      set(model, 'duration', getWithDefault(model, 'duration', {}));
+      set(model, 'periodName', get(model, 'periodName') !== undefined ? get(model, 'periodName') : []);
+      set(model, 'timeInterval', get(model, 'timeInterval') !== undefined ? get(model, 'timeInterval') : {});
+      set(model, 'duration', get(model, 'duration') !== undefined ? get(model, 'duration') : {});
       // set(model, 'presentationForm', getWithDefault(model,
       //   'presentationForm', []));
       // set(model, 'onlineResource', getWithDefault(model,
       //   'onlineResource', []));
-      set(model, 'identifier', getWithDefault(model, 'identifier', {}));
+      set(model, 'identifier', get(model, 'identifier') !== undefined ? get(model, 'identifier') : {});
       // set(model, 'graphic', getWithDefault(model, 'graphic', []));
     });
   },

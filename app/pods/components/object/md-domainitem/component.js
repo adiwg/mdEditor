@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault, get } from '@ember/object';
+import EmberObject, { set, get } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -49,8 +49,7 @@ const theComp = Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'reference', getWithDefault(model,
-        'reference', {}));
+      set(model, 'reference', get(model, 'reference') !== undefined ? get(model, 'reference') : {});
     });
   },
 

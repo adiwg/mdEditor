@@ -2,7 +2,7 @@ import Component from '@ember/component';
 import {
   htmlSafe
 } from '@ember/string';
-import { computed, getWithDefault } from '@ember/object';
+import { computed, get } from '@ember/object';
 import {
   alias
 } from '@ember/object/computed';
@@ -41,10 +41,8 @@ export default Component.extend(Validations, {
     this._super(...arguments);
 
     once(this, function () {
-      this.set('model.commonName', getWithDefault(this,
-        'model.commonName', []));
-      this.set('model.subClassification', getWithDefault(this,
-        'model.subClassification', []));
+      this.set('model.commonName', get(this, 'model.commonName') !== undefined ? get(this, 'model.commonName') : []);
+      this.set('model.subClassification', get(this, 'model.subClassification') !== undefined ? get(this, 'model.subClassification') : []);
     });
   },
   didInsertElement() {
