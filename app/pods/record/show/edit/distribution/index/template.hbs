@@ -1,4 +1,4 @@
-<h4 class="section-header">
+<h4 class='section-header'>
   Editing Distribution
   {{control/md-status model=parentModel}}
 </h4>
@@ -7,27 +7,36 @@
   {{object/md-distribution
     model=dist
     index=index
-    profilePath="record.distribution"
-    addDistribution=(route-action "addDistribution")
-    deleteDistribution=(route-action "deleteDistribution")
-    editDistributor=(route-action "editDistributor")
+    profilePath='record.distribution'
+    addDistribution=(route-action 'addDistribution')
+    deleteDistribution=(route-action 'deleteDistribution')
+    editDistributor=(route-action 'editDistributor')
   }}
 {{else}}
-  <h3 class="alert alert-info">No distribution sections found.
-    <button type="button" class="btn btn-success" {{action "addDistribution"}}>
-      {{fa-icon "plus"}} Add Distribution Section</button>
+  <h3 class='alert alert-info'>No distribution sections found.
+    <button type='button' class='btn btn-success' {{action 'addDistribution'}}>
+      {{fa-icon 'plus'}}
+      Add Distribution Section</button>
   </h3>
 {{/each}}
 
 {{to-elsewhere
-  named="md-subbar-buttons"
-  send=(component "control/md-button"
-    text="Add Distribution"
-    icon="plus"
-    class="btn-success btn-lg"
-    click=(route-action "addDistribution")
+  named='md-subbar-buttons'
+  send=(component
+    'control/md-button'
+    text='Add Distribution'
+    icon='plus'
+    class='btn-success btn-lg'
+    click=(route-action 'addDistribution')
   )
 }}
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  refresh=refreshSpy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    refresh=refreshSpy
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

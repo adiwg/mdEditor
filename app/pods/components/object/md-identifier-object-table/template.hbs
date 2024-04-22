@@ -1,20 +1,16 @@
 {{#object/md-object-table
   items=model
   header=label
-  buttonText="Add Identifier"
+  buttonText='Add Identifier'
   ellipsis=ellipsis
   templateClass=templateClass
   attributes=attributes
- as |editing|
+  as |editing|
 }}
 
-{{object/md-identifier
-  model=editing
-  short=short
-  profilePath=profilePath
-}}
+  {{object/md-identifier model=editing short=short profilePath=profilePath}}
 
-{{!-- {{input/md-input
+  {{!-- {{input/md-input
   value=editing.identifier
   placeholder="Enter the identifier for the resource."
   label="Identifier"

@@ -1,20 +1,32 @@
-<h4 class="section-header">
-  Editing Alternate Identifier: {{model.identifier}}
-  {{control/md-status model=(compute (route-action "parentModel"))}}
+<h4 class='section-header'>
+  Editing Alternate Identifier:
+  {{model.identifier}}
+  {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
 
-<div class="">
+<div class=''>
   {{object/md-identifier
     model=model
-    profilePath="record.lineage.citation.identifier"
-    data-spy="Identifier"
+    profilePath='record.lineage.citation.identifier'
+    data-spy='Identifier'
   }}
   {{outlet}}
 </div>
 
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link" text="Back to Lineage Citation" icon="arrow-left" click=(route-action "goBack"))
+  named='md-subbar-extra'
+  send=(component
+    'control/subbar-link'
+    text='Back to Lineage Citation'
+    icon='arrow-left'
+    click=(route-action 'goBack')
+  )
 }}
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

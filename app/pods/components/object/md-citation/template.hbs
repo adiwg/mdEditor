@@ -1,153 +1,179 @@
-{{#layout/md-card title="Basic Information" collapsible=true collapsed=false
-  profilePath=(concat profilePath ".basicInformation")
-  data-spy=(if data-spy "Basic Information")
-  class=(if embedded "md-embedded")
+{{#layout/md-card
+  title='Basic Information'
+  collapsible=true
+  collapsed=false
+  profilePath=(concat profilePath '.basicInformation')
+  data-spy=(if data-spy 'Basic Information')
+  class=(if embedded 'md-embedded')
   shadow=(if embedded false true)
   required=true
 }}
 
   {{input/md-input
     value=model.title
-    placeholder="Enter the title for the resource."
-    label="Title"
+    placeholder='Enter the title for the resource.'
+    label='Title'
     required=true
-    profilePath=(concat profilePath ".basicInformation.title")
-    data-spy=(if data-spy "Title")
-    class="md-embedded"
+    profilePath=(concat profilePath '.basicInformation.title')
+    data-spy=(if data-spy 'Title')
+    class='md-embedded'
   }}
 
-  {{#layout/md-card shadow=false profilePath=(concat profilePath ".basicInformation.alternateTitle")}}
+  {{#layout/md-card
+    shadow=false
+    profilePath=(concat profilePath '.basicInformation.alternateTitle')
+  }}
     {{#object/md-simple-array-table
       data-spy=false
-      title="Alternate Title"
+      title='Alternate Title'
       plain=true
-      value=model.alternateTitle as |alt| }}
-        <td>
-            {{input/md-input value=alt.item.value placeholder="Additional titles for the resource."}}
-        </td>
+      value=model.alternateTitle
+      as |alt|
+    }}
+      <td>
+        {{input/md-input
+          value=alt.item.value
+          placeholder='Additional titles for the resource.'
+        }}
+      </td>
     {{/object/md-simple-array-table}}
   {{/layout/md-card}}
 
-  {{#layout/md-card shadow=false profilePath=(concat profilePath ".basicInformation.dates")
-    data-spy=(if data-spy "Dates")
-    class="md-embedded"
+  {{#layout/md-card
+    shadow=false
+    profilePath=(concat profilePath '.basicInformation.dates')
+    data-spy=(if data-spy 'Dates')
+    class='md-embedded'
   }}
     {{object/md-date-array
       value=model.date
       plain=true
       data-spy=false
-      profilePath=(concat profilePath ".basicInformation.dates")}}
+      profilePath=(concat profilePath '.basicInformation.dates')
+    }}
   {{/layout/md-card}}
-
 
   {{#unless embedded}}
     {{input/md-input
       value=model.edition
-      placeholder="Enter the edition."
-      label="Edition"
-      profilePath=(concat profilePath ".basicInformation.edition")
+      placeholder='Enter the edition.'
+      label='Edition'
+      profilePath=(concat profilePath '.basicInformation.edition')
     }}
 
     {{input/md-codelist-multi
       value=model.presentationForm
-      label="Presentation Form"
+      label='Presentation Form'
       create=true
       tooltip=true
       icon=false
-      mdCodeName="presentationForm"
+      mdCodeName='presentationForm'
       closeOnSelect=false
-      placeholder="Select or enter one or more forms."
-      profilePath=(concat profilePath ".basicInformation.presentationForm")
+      placeholder='Select or enter one or more forms.'
+      profilePath=(concat profilePath '.basicInformation.presentationForm')
     }}
   {{/unless}}
 
 {{/layout/md-card}}
 
 {{object/md-party-array
-  title="Responsible Party"
-  data-spy=(if data-spy "Responsible Parties")
-  class=(if embedded "md-embedded")
-  collapsible=true collapsed=false
+  title='Responsible Party'
+  data-spy=(if data-spy 'Responsible Parties')
+  class=(if embedded 'md-embedded')
+  collapsible=true
+  collapsed=false
   required=false
   value=model.responsibleParty
-  profilePath=(concat profilePath ".responsibleParty")
+  profilePath=(concat profilePath '.responsibleParty')
 }}
 
-{{object/md-online-resource-array model=model.onlineResource
-  profilePath=(concat profilePath ".onlineResource")
-  class=(if embedded "md-embedded")
-  data-spy=(if data-spy "Online Resource")
+{{object/md-online-resource-array
+  model=model.onlineResource
+  profilePath=(concat profilePath '.onlineResource')
+  class=(if embedded 'md-embedded')
+  data-spy=(if data-spy 'Online Resource')
 }}
 
-
-{{object/md-identifier-array model=model.identifier
-  profilePath=(concat profilePath ".identifier") data-spy=(if data-spy "Identifier")
+{{object/md-identifier-array
+  model=model.identifier
+  profilePath=(concat profilePath '.identifier')
+  data-spy=(if data-spy 'Identifier')
   editItem=editIdentifier
-  class=(if embedded "md-embedded")
+  class=(if embedded 'md-embedded')
   visibility=(if simpleIdentifier false true)
 }}
 
-{{object/md-identifier-object-table model=model.identifier
-  profilePath=(concat profilePath ".identifierSimple") data-spy=(if data-spy "Identifier")
+{{object/md-identifier-object-table
+  model=model.identifier
+  profilePath=(concat profilePath '.identifierSimple')
+  data-spy=(if data-spy 'Identifier')
   visibility=(if simpleIdentifier true false)
   short=shortIdentifier
-  class=(if embedded "md-embedded")
+  class=(if embedded 'md-embedded')
 }}
 
-{{object/md-identifier-object-table model=model.identifier
-  profilePath=(concat profilePath ".identifierShort") data-spy=(if data-spy "Identifier")
+{{object/md-identifier-object-table
+  model=model.identifier
+  profilePath=(concat profilePath '.identifierShort')
+  data-spy=(if data-spy 'Identifier')
   visibility=false
   short=true
-  class=(if embedded "md-embedded")
+  class=(if embedded 'md-embedded')
 }}
 
 {{#unless embedded}}
-  {{#layout/md-card collapsible=true title="Series" profilePath=(concat profilePath ".series")
-    data-spy=(if data-spy "Series")
+  {{#layout/md-card
+    collapsible=true
+    title='Series'
+    profilePath=(concat profilePath '.series')
+    data-spy=(if data-spy 'Series')
     content=model.series
   }}
     {{input/md-input
       value=model.series.seriesName
-      placeholder="Enter the name for the series."
-      label="Name"
-      profilePath=(concat profilePath ".series.name")
+      placeholder='Enter the name for the series.'
+      label='Name'
+      profilePath=(concat profilePath '.series.name')
     }}
 
     {{input/md-input
       value=model.series.seriesIssue
-      placeholder="Enter the issue for the series."
-      label="Issue"
-      profilePath=(concat profilePath ".series.issue")
+      placeholder='Enter the issue for the series.'
+      label='Issue'
+      profilePath=(concat profilePath '.series.issue')
     }}
 
     {{input/md-input
       value=model.series.issuePage
-      placeholder="Enter the page(s) for the issue."
-      label="Page"
-      profilePath=(concat profilePath ".series.page")
+      placeholder='Enter the page(s) for the issue.'
+      label='Page'
+      profilePath=(concat profilePath '.series.page')
     }}
   {{/layout/md-card}}
 
   {{#object/md-simple-array-table
-    title="Other Details"
+    title='Other Details'
     required=false
     plain=false
-    data-spy=(if data-spy "Other Details")
-    profilePath=(concat profilePath ".otherCitationDetails")
-    value=model.otherCitationDetails as |val|
+    data-spy=(if data-spy 'Other Details')
+    profilePath=(concat profilePath '.otherCitationDetails')
+    value=model.otherCitationDetails
+    as |val|
   }}
     <td>
-        {{input/md-textarea value=val.item.value
-        placeholder="Enter additional detail about the citation."}}
+      {{input/md-textarea
+        value=val.item.value
+        placeholder='Enter additional detail about the citation.'
+      }}
     </td>
   {{/object/md-simple-array-table}}
 
   {{object/md-graphic-array
     model=model.graphic
-    data-spy=(if data-spy "Graphic")
-    button-text="Add Graphic"
-    label="Graphic"
-    profilePath=(concat profilePath ".graphic")
+    data-spy=(if data-spy 'Graphic')
+    button-text='Add Graphic'
+    label='Graphic'
+    profilePath=(concat profilePath '.graphic')
   }}
 {{/unless}}
 

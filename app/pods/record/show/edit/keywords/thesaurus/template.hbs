@@ -1,57 +1,79 @@
-<div class="lead">Editing Thesaurus #{{model.id}}
-  <small class="text-muted">{{model.thesaurus.citation.title}}</small>
+<div class='lead'>Editing Thesaurus #{{model.id}}
+  <small class='text-muted'>{{model.thesaurus.citation.title}}</small>
 </div>
-<div class="row">
-  <div class="col-md-6">
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active">
-        <a href="#md-keyword-tree" aria-controls="md-keyword-tree" role="tab" data-toggle="tab">Tree</a>
+<div class='row'>
+  <div class='col-md-6'>
+    <ul class='nav nav-tabs' role='tablist'>
+      <li role='presentation' class='active'>
+        <a
+          href='#md-keyword-tree'
+          aria-controls='md-keyword-tree'
+          role='tab'
+          data-toggle='tab'
+        >Tree</a>
       </li>
-      <li role="presentation">
-        <a href="#md-keyword-search" aria-controls="md-keyword-search" role="tab" data-toggle="tab">Search</a>
+      <li role='presentation'>
+        <a
+          href='#md-keyword-search'
+          aria-controls='md-keyword-search'
+          role='tab'
+          data-toggle='tab'
+        >Search</a>
       </li>
     </ul>
-    <div class="tab-content">
-      <div role="tabpanel" class="md-keyword-tree tab-pane fade in active" id="md-keyword-tree">
+    <div class='tab-content'>
+      <div
+        role='tabpanel'
+        class='md-keyword-tree tab-pane fade in active'
+        id='md-keyword-tree'
+      >
         {{tree-view
           model=model.thesaurus.keywords
-          selected=(get model.model (concat model.path ".keyword"))
-          select=(route-action "selectKeyword")
+          selected=(get model.model (concat model.path '.keyword'))
+          select=(route-action 'selectKeyword')
           disableCheck=true
         }}
       </div>
-      <div role="tabpanel" class="tab-pane fade" id="md-keyword-search">
+      <div role='tabpanel' class='tab-pane fade' id='md-keyword-search'>
         {{tree-search
           model=model.thesaurus.keywords
-          selected=(get model.model (concat model.path ".keyword"))
-          select=(route-action "selectKeyword")
+          selected=(get model.model (concat model.path '.keyword'))
+          select=(route-action 'selectKeyword')
         }}
       </div>
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class='col-md-6'>
     <div>
-      <h4 class="inline-block">Selected Keywords</h4>
-      <div class="checkbox pull-right">
+      <h4 class='inline-block'>Selected Keywords</h4>
+      <div class='checkbox pull-right'>
         <label>
-          <input type="checkbox" name="fullPath" checked={{model.keywords.fullPath}}
-            onChange={{route-action "changeFullPath"}}>
-            Full Path
+          <input
+            type='checkbox'
+            name='fullPath'
+            checked={{model.keywords.fullPath}}
+            onChange={{route-action 'changeFullPath'}}
+          />
+          Full Path
         </label>
       </div>
     </div>
-    {{object/md-keyword-list model=(get model.model model.path)
-      deleteKeyword=(route-action "removeKeyword") editThesaurus=false}}
+    {{object/md-keyword-list
+      model=(get model.model model.path)
+      deleteKeyword=(route-action 'removeKeyword')
+      editThesaurus=false
+    }}
   </div>
 </div>
 
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
-    text="Back to List"
-    icon="list"
-    type="primary"
-    route="record.show.edit.keywords"
+  named='md-subbar-extra'
+  send=(component
+    'control/subbar-link'
+    text='Back to List'
+    icon='list'
+    type='primary'
+    route='record.show.edit.keywords'
   )
 }}

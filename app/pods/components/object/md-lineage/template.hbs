@@ -1,65 +1,68 @@
 {{input/md-textarea
   value=model.statement
-  profilePath=(concat profilePath ".statement")
-  label="Statement"
-  placeholder="A general statement of the actions taken to verify, transform, repair, and integrate the resource."
-  data-spy="Statement"
+  profilePath=(concat profilePath '.statement')
+  label='Statement'
+  placeholder='A general statement of the actions taken to verify, transform, repair, and integrate the resource.'
+  data-spy='Statement'
   required=true
   autoresize=true
   maxrows=25
 }}
 
 {{object/md-objectroute-table
-  attributes="description"
+  attributes='description'
   items=model.processStep
-  header="Process Step"
-  buttonText="Add Step"
+  header='Process Step'
+  buttonText='Add Step'
   ellipsis=false
-  previewTemplateTable="object/md-process-step/preview"
+  previewTemplateTable='object/md-process-step/preview'
   templateClass=stepTemplateClass
   editItem=editProcessStep
-  profilePath=(concat profilePath ".processStep")
+  profilePath=(concat profilePath '.processStep')
   verticalButtons=true
   hideIndex=false
   condensed=false
   editOnAdd=false
-  scrollToId="md-process-step"
-  data-spy="Process Step"
+  scrollToId='md-process-step'
+  data-spy='Process Step'
 }}
 
 {{object/md-objectroute-table
-  attributes="description"
+  attributes='description'
   items=model.source
-  header="Source"
+  header='Source'
   shadow=true
-  buttonText="Add Source"
+  buttonText='Add Source'
   ellipsis=false
-  previewTemplateTable="object/md-source/preview"
+  previewTemplateTable='object/md-source/preview'
   editItem=editSource
-  profilePath=(concat profilePath ".source")
+  profilePath=(concat profilePath '.source')
   verticalButtons=true
   hideIndex=false
   condensed=false
   editOnAdd=false
-  scrollToId="md-source"
-  data-spy="Source"
+  scrollToId='md-source'
+  data-spy='Source'
 }}
 
-{{object/md-citation-array model=model.citation
-  profilePath=(concat profilePath ".citation") data-spy="Lineage Citation"
-  editItem=editCitation label="Citation"
+{{object/md-citation-array
+  model=model.citation
+  profilePath=(concat profilePath '.citation')
+  data-spy='Lineage Citation'
+  editItem=editCitation
+  label='Citation'
 }}
 
 {{input/md-codelist
   value=model.scope.scopeCode
-  label="Scope"
+  label='Scope'
   create=true
   tooltip=true
   icon=true
-  mdCodeName="scope"
+  mdCodeName='scope'
   closeOnSelect=false
-  placeholder="Select type of resource."
-  profilePath=(concat profilePath ".scope")
-  data-spy="Scope"
+  placeholder='Select type of resource.'
+  profilePath=(concat profilePath '.scope')
+  data-spy='Scope'
 }}
 {{yield}}

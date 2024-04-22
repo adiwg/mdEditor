@@ -1,18 +1,25 @@
-<h4 class="section-header">
+<h4 class='section-header'>
   Editing Funding Period #{{allocationId}}
   {{control/md-status model=parentModel}}
 </h4>
 
-{{object/md-funding model=model profilePath="record.funding.fundingPeriod"}}
+{{object/md-funding model=model profilePath='record.funding.fundingPeriod'}}
 
 {{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
-    text="Back to Funding List"
-    icon="arrow-left"
-    route="record.show.edit.funding"
+  named='md-subbar-extra'
+  send=(component
+    'control/subbar-link'
+    text='Back to Funding List'
+    icon='arrow-left'
+    route='record.show.edit.funding'
   )
 }}
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+{{to-elsewhere
+  named='md-scroll-spy-record-edit'
+  send=(component
+    'control/md-scroll-spy'
+    scrollInit=scrollTo
+    setScrollTo=(route-action 'setScrollTo')
+  )
+}}

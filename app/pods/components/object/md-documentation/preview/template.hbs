@@ -1,21 +1,21 @@
 {{#with item as |model|}}
-  <dl class="dl-horizontal">
+  <dl class='dl-horizontal'>
     <dt>
-      <h4 class="text-info">Document #{{index}}</h4>
+      <h4 class='text-info'>Document #{{index}}</h4>
     </dt>
     <dd></dd>
-    {{#control/md-definition title="Resource Type(s)" }}
-        {{#each model.resourceType as |type|}}
-            {{type.type}}:
-            {{#if type.name}}
-                {{type.name}}
-            {{else}}
-                <em>Not named</em>
-            {{/if}}
-            <br>
-            {{else}}
-                <em class="text-muted">No types assigned!</em>
-        {{/each}}
+    {{#control/md-definition title='Resource Type(s)'}}
+      {{#each model.resourceType as |type|}}
+        {{type.type}}:
+        {{#if type.name}}
+          {{type.name}}
+        {{else}}
+          <em>Not named</em>
+        {{/if}}
+        <br />
+      {{else}}
+        <em class='text-muted'>No types assigned!</em>
+      {{/each}}
     {{/control/md-definition}}
   </dl>
 

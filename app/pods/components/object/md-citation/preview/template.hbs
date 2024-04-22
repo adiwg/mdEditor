@@ -1,16 +1,29 @@
-{{#layout/md-card title=title collapsible=true collapsed=false
-  profilePath=profilePath required=required muted=muted
+{{#layout/md-card
+  title=title
+  collapsible=true
+  collapsed=false
+  profilePath=profilePath
+  required=required
+  muted=muted
   spotlightEnabled=spotlightEnabled
-  btnText="Edit" btnClass="success" btnAction=(action editCitation (dasherize title)) btnIcon="pencil"
+  btnText='Edit'
+  btnClass='success'
+  btnAction=(action editCitation (dasherize title))
+  btnIcon='pencil'
 }}
 
-{{object/md-citation/preview/body citation=citation profilePath=profilePath}}
+  {{object/md-citation/preview/body citation=citation profilePath=profilePath}}
 
-{{yield}}
-<div class="card-footer">
-  <button type="button" name="button" class="btn btn-success pull-right"
-    {{action (action editCitation (dasherize title))}}>
-    {{fa-icon "pencil"}} Edit Citation
-  </button>
-</div>
+  {{yield}}
+  <div class='card-footer'>
+    <button
+      type='button'
+      name='button'
+      class='btn btn-success pull-right'
+      {{action (action editCitation (dasherize title))}}
+    >
+      {{fa-icon 'pencil'}}
+      Edit Citation
+    </button>
+  </div>
 {{/layout/md-card}}

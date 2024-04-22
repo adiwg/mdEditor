@@ -1,64 +1,88 @@
 {{#object/md-object-table
   items=model
   header=label
-  buttonText="Add Address"
-  previewTemplate="object/md-address/md-address-block"
+  buttonText='Add Address'
+  previewTemplate='object/md-address/md-address-block'
   templateClass=templateClass
-  attributes=attributes as |address|
+  attributes=attributes
+  as |address|
 }}
 
-{{!-- Editing: {{address.name}} --}}
+  {{!-- Editing: {{address.name}} --}}
 
-<div class="form-group">
-    <label class="required">Address Type</label>
+  <div class='form-group'>
+    <label class='required'>Address Type</label>
     {{input/md-codelist-multi
-    model=address
-    path="addressType"
-    create=true tooltip=true icon=false mdCodeName="addressType"
-    required=true
-    showValidations=true
-    placeholder="Select or enter one or more types"}}
-</div>
+      model=address
+      path='addressType'
+      create=true
+      tooltip=true
+      icon=false
+      mdCodeName='addressType'
+      required=true
+      showValidations=true
+      placeholder='Select or enter one or more types'
+    }}
+  </div>
 
-{{#object/md-simple-array-table
-  title="Street Line"
-  required=false
-  plain=true
-  value=address.deliveryPoint as |line|
-}}
-  <td>
-      {{input/md-input value=line.item.value
-      placeholder="Enter street address"}}
-  </td>
-{{/object/md-simple-array-table}}
+  {{#object/md-simple-array-table
+    title='Street Line' required=false plain=true value=address.deliveryPoint
+    as |line|
+  }}
+    <td>
+      {{input/md-input
+        value=line.item.value
+        placeholder='Enter street address'
+      }}
+    </td>
+  {{/object/md-simple-array-table}}
 
-<div class="row">
-    {{input/md-input value=address.city class="col-md-6"
-    placeholder="City Name" label="City"}}
+  <div class='row'>
+    {{input/md-input
+      value=address.city
+      class='col-md-6'
+      placeholder='City Name'
+      label='City'
+    }}
 
-    {{input/md-input value=address.administrativeArea class="col-md-6"
-    placeholder="State or Province" label="State/Province"}}
+    {{input/md-input
+      value=address.administrativeArea
+      class='col-md-6'
+      placeholder='State or Province'
+      label='State/Province'
+    }}
 
-    {{input/md-input value=address.postalCode class="col-md-6"
-    placeholder="Zip or Postal Code" label="Postal Code"}}
+    {{input/md-input
+      value=address.postalCode
+      class='col-md-6'
+      placeholder='Zip or Postal Code'
+      label='Postal Code'
+    }}
 
     {{!-- {{input/md-input value=address.country
     placeholder="Country Name" label="Country"}} --}}
 
-    <div class="form-group col-md-6">
-        <label>Country</label>
-        {{input/md-codelist
+    <div class='form-group col-md-6'>
+      <label>Country</label>
+      {{input/md-codelist
         value=address.country
-        namePath="description"
-        tooltipPath="codeName"
-        width="175px"
-        create=false tooltip=true icon=false mdCodeName="countries"
-        placeholder="Enter a country code"}}
+        namePath='description'
+        tooltipPath='codeName'
+        width='175px'
+        create=false
+        tooltip=true
+        icon=false
+        mdCodeName='countries'
+        placeholder='Enter a country code'
+      }}
     </div>
-</div>
+  </div>
 
-{{input/md-textarea value=address.description
-placeholder="Address description" label="Description"}}
+  {{input/md-textarea
+    value=address.description
+    placeholder='Address description'
+    label='Description'
+  }}
 
 {{/object/md-object-table}}
 {{yield}}

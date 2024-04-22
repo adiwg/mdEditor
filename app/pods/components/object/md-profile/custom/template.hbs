@@ -1,83 +1,94 @@
 {{input/md-input
   model=record
-  valuePath="title"
-  label="Title"
-  placeholder="Enter a short title for the profile."
+  valuePath='title'
+  label='Title'
+  placeholder='Enter a short title for the profile.'
   showValidations=true
 }}
 
 {{input/md-textarea
- model=record
- valuePath="description"
- label="Description"
- placeholder="Enter a description of the profile."
- showValidations=true
+  model=record
+  valuePath='description'
+  label='Description'
+  placeholder='Enter a description of the profile.'
+  showValidations=true
 }}
 
 {{input/md-select
- model=record
- path="profileId"
- label="Profile Definition"
- valuePath="identifier"
- namePath="title"
- placeholder="Select the profile definition."
- objectArray=definitions.profiles
- searchEnabled=true
- showValidations=true
- allowClear=true
- setValue=(action "setValue")
+  model=record
+  path='profileId'
+  label='Profile Definition'
+  valuePath='identifier'
+  namePath='title'
+  placeholder='Select the profile definition.'
+  objectArray=definitions.profiles
+  searchEnabled=true
+  showValidations=true
+  allowClear=true
+  setValue=(action 'setValue')
 }}
 
-<div class="row">
-  <div class="col-md-6">
-    <div class="card md-card">
-      <div class="card-header">
-        <h4 class="card-title">
+<div class='row'>
+  <div class='col-md-6'>
+    <div class='card md-card'>
+      <div class='card-header'>
+        <h4 class='card-title'>
           Select Schemas
         </h4>
       </div>
-      <div class="card-block no-padding">
-        <div class="list-group no-margin md-itis-taxalist">
+      <div class='card-block no-padding'>
+        <div class='list-group no-margin md-itis-taxalist'>
           {{#each notSelected as |schema|}}
-          {{#liquid-unless (contains schema selected) class=(concat "list-group-item " (if schema "md-itis-unselected")) enableGrowth=true shrinkDelay=500}}
-              <div class="media list-group-item">
-                <div class="media-body">
-                  <h4 class="media-heading">
+            {{#liquid-unless
+              (contains schema selected)
+              class=(concat 'list-group-item ' (if schema 'md-itis-unselected'))
+              enableGrowth=true
+              shrinkDelay=500
+            }}
+              <div class='media list-group-item'>
+                <div class='media-body'>
+                  <h4 class='media-heading'>
                     {{schema.title}}
                   </h4>
                   <p>
                     <div><strong>Type:</strong> {{schema.formattedType}}</div>
-                    <div><strong>Description:</strong> {{schema.description}}</div>
-                    <div><strong>Global?:</strong> {{schema.formattedGlobal}}</div>
+                    <div><strong>Description:</strong>
+                      {{schema.description}}</div>
+                    <div><strong>Global?:</strong>
+                      {{schema.formattedGlobal}}</div>
                   </p>
                 </div>
-                <div class="media-right media-middle">
-                  <button type="button" class="btn btn-success btn-lg btn-block" {{action "selectItem" schema}}>Add</button>
+                <div class='media-right media-middle'>
+                  <button
+                    type='button'
+                    class='btn btn-success btn-lg btn-block'
+                    {{action 'selectItem' schema}}
+                  >Add</button>
                 </div>
               </div>
             {{/liquid-unless}}
-            {{else}}
-              <div class="list-group-item">
-                <p class="list-group-item-text">
-                  No schemas avialable.
-                </p>
-              </div>
+          {{else}}
+            <div class='list-group-item'>
+              <p class='list-group-item-text'>
+                No schemas avialable.
+              </p>
+            </div>
           {{/each}}
         </div>
       </div>
     </div>
   </div>
-  {{!-- Selected --}}
-  <div class="col-md-6">
-    <div class="card md-card hd-success card-inverse card-outline-success">
-      <div class="card-header">
-        <h4 class="card-title">
+  {{! Selected }}
+  <div class='col-md-6'>
+    <div class='card md-card hd-success card-inverse card-outline-success'>
+      <div class='card-header'>
+        <h4 class='card-title'>
           Schemas Selected
           {{!-- <small class="text-white">{{selected.length}}</small> --}}
         </h4>
       </div>
-      <div class="card-block no-padding">
-        <div class="list-group no-margin md-itis-selectedlist">
+      <div class='card-block no-padding'>
+        <div class='list-group no-margin md-itis-selectedlist'>
           {{!-- {{#liquid-if selected.length use="fade"}}
           <div class="list-group-item">
             <p class="list-group-item-text">
@@ -86,26 +97,37 @@
           </div>
           {{/liquid-if}} --}}
           {{#each selected as |schema|}}
-            {{#liquid-if (contains schema selected) class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
-              <div class="media">
-                <div class="media-body">
-                  <h4 class="media-heading">
+            {{#liquid-if
+              (contains schema selected)
+              class='list-group-item md-itis-selected'
+              enableGrowth=true
+              shrinkDelay=500
+            }}
+              <div class='media'>
+                <div class='media-body'>
+                  <h4 class='media-heading'>
                     {{schema.title}}
                   </h4>
                   <p>
                     <div><strong>Type:</strong> {{schema.formattedType}}</div>
-                    <div><strong>Description:</strong> {{schema.description}}</div>
-                    <div><strong>Global?:</strong> {{schema.formattedGlobal}}</div>
+                    <div><strong>Description:</strong>
+                      {{schema.description}}</div>
+                    <div><strong>Global?:</strong>
+                      {{schema.formattedGlobal}}</div>
                   </p>
                 </div>
-                <div class="media-left media-middle">
-                  <button type="button" class="btn btn-danger btn-lg btn-block" {{action "deselectItem" schema}}>Remove</button>
+                <div class='media-left media-middle'>
+                  <button
+                    type='button'
+                    class='btn btn-danger btn-lg btn-block'
+                    {{action 'deselectItem' schema}}
+                  >Remove</button>
                 </div>
               </div>
             {{/liquid-if}}
           {{else}}
-            <div class="list-group-item">
-              <p class="list-group-item-text">
+            <div class='list-group-item'>
+              <p class='list-group-item-text'>
                 Select schemas from the list.
               </p>
             </div>

@@ -1,25 +1,34 @@
 {{#if isProcessing}}
-  <h3>{{fa-icon "spinner" spin=true}} Processing...
-  <button class="btn btn-info" type="button" {{action "stopParsing"}}>
-      {{fa-icon "cross" spin=true}}
-    Stop</button>
+  <h3>{{fa-icon 'spinner' spin=true}}
+    Processing...
+    <button class='btn btn-info' type='button' {{action 'stopParsing'}}>
+      {{fa-icon 'cross' spin=true}}
+      Stop</button>
   </h3>
-  <div class="progress">
-    <div class="progress-bar" role="progressbar"
-    {{! template-lint-disable no-inline-styles }}
-    aria-valuenow={{progress}} aria-valuemin="0" aria-valuemax="100" style={{barWidth}}>
-      <span class="sr-only">{{progress}}% Complete</span>
+  <div class='progress'>
+    <div
+      class='progress-bar'
+      role='progressbar'
+      {{! template-lint-disable no-inline-styles }}
+      aria-valuenow={{progress}}
+      aria-valuemin='0'
+      aria-valuemax='100'
+      style={{barWidth}}
+    >
+      <span class='sr-only'>{{progress}}% Complete</span>
     </div>
   </div>
 {{else}}
   {{#file-picker
-    class="md-file-picker md-import-picker"
-    fileLoaded="readData"
+    class='md-file-picker md-import-picker'
+    fileLoaded='readData'
     preview=false
-    accept=".csv,.txt"
-    readAs="readAsText"
+    accept='.csv,.txt'
+    readAs='readAsText'
   }}
-    <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}}
+    <button type='button' class='btn btn-lg btn-info btn-block'>{{fa-icon
+        'bullseye'
+      }}
       Click or Drop a CSV here.</button>
   {{/file-picker}}
   {{!-- <hr>

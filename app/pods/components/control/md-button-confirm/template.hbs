@@ -1,11 +1,16 @@
-{{#liquid-if isShowingConfirm use="toDown"}}
-  <i class="fa fa-question"></i> Confirm
+{{#liquid-if isShowingConfirm use='toDown'}}
+  <i class='fa fa-question'></i>
+  Confirm
 {{else}}
   {{yield}}
 {{/liquid-if}}
 
 {{#if isShowingConfirm}}
   {{#if tooltip}}
-    {{ember-tooltip tooltipClass=(concat "ember-tooltip md-tooltip " tipClass) text=tooltip side=tipSide}}
+    {{ember-tooltip
+      tooltipClass=(concat 'ember-tooltip md-tooltip ' tipClass)
+      text=tooltip
+      side=tipSide
+    }}
   {{/if}}
 {{/if}}
