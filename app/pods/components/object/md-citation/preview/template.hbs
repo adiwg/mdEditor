@@ -1,21 +1,21 @@
-{{#layout/md-card
-  title=this.title
-  collapsible=true
-  collapsed=false
-  profilePath=this.profilePath
-  required=this.required
-  muted=this.muted
-  spotlightEnabled=this.spotlightEnabled
-  btnText='Edit'
-  btnClass='success'
-  btnAction=(action this.editCitation (dasherize this.title))
-  btnIcon='pencil'
-}}
+<Layout::MdCard
+  @title={{this.title}}
+  @collapsible={{true}}
+  @collapsed={{false}}
+  @profilePath={{this.profilePath}}
+  @required={{this.required}}
+  @muted={{this.muted}}
+  @spotlightEnabled={{this.spotlightEnabled}}
+  @btnText='Edit'
+  @btnClass='success'
+  @btnAction={{action this.editCitation (dasherize this.title)}}
+  @btnIcon='pencil'
+>
 
-  {{object/md-citation/preview/body
-    citation=this.citation
-    profilePath=this.profilePath
-  }}
+  <Object::MdCitation::Preview::Body
+    @citation={{this.citation}}
+    @profilePath={{this.profilePath}}
+  />
 
   {{yield}}
   <div class='card-footer'>
@@ -29,4 +29,4 @@
       Edit Citation
     </button>
   </div>
-{{/layout/md-card}}
+</Layout::MdCard>

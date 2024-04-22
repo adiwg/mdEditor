@@ -1,37 +1,37 @@
 <div class='col-md-4'>
 
-  {{#layout/md-card
-    title='Options'
-    class='md-translator-options'
-    spotlightEnabled=false
-    block=false
-  }}
+  <Layout::MdCard
+    @title='Options'
+    @class='md-translator-options'
+    @spotlightEnabled={{false}}
+    @block={{false}}
+  >
     <form {{action 'translate' on='submit'}}>
       <div class='card-block'>
-        {{input/md-select
-          label='Choose Format'
-          value=this.writer
-          valuePath='value'
-          namePath='name'
-          objectArray=this.writerOptions
-          tooltip=true
-          tooltipPath='tip'
-          searchEnabled=false
-          change=(action 'clearResult')
-        }}
+        <Input::MdSelect
+          @label='Choose Format'
+          @value={{this.writer}}
+          @valuePath='value'
+          @namePath='name'
+          @objectArray={{this.writerOptions}}
+          @tooltip={{true}}
+          @tooltipPath='tip'
+          @searchEnabled={{false}}
+          @change={{action 'clearResult'}}
+        />
         <div class='form-group'>
           <label>Force Valid Ouput?</label>
           <div class='form-control'>
             <div class='inline-block'>
-              {{input/md-toggle
-                value=this.forceValid
-                onToggle=(action (mut this.forceValid))
-                showLabels=true
-                onLabel='Yes'
-                offLabel='No'
-                size='medium'
-                theme='form'
-              }}
+              <Input::MdToggle
+                @value={{this.forceValid}}
+                @onToggle={{action (mut this.forceValid)}}
+                @showLabels={{true}}
+                @onLabel='Yes'
+                @offLabel='No'
+                @size='medium'
+                @theme='form'
+              />
             </div>
           </div>
         </div>
@@ -39,21 +39,25 @@
           <label>Show Empty Tags?</label>
           <div class='form-control'>
             <div class='inline-block'>
-              {{input/md-toggle
-                value=this.showAllTags
-                onToggle=(action (mut this.showAllTags))
-                showLabels=true
-                onLabel='Yes'
-                offLabel='No'
-                size='medium'
-                theme='form'
-              }}
+              <Input::MdToggle
+                @value={{this.showAllTags}}
+                @onToggle={{action (mut this.showAllTags)}}
+                @showLabels={{true}}
+                @onLabel='Yes'
+                @offLabel='No'
+                @size='medium'
+                @theme='form'
+              />
             </div>
           </div>
         </div>
       </div>
       <div class='card-footer'>
-        {{control/md-status model=this.model isBtn=true bntSize='lg'}}
+        <Control::MdStatus
+          @model={{this.model}}
+          @isBtn={{true}}
+          @bntSize='lg'
+        />
         <button
           type='submit'
           class='btn btn-lg btn-primary pull-right'
@@ -64,29 +68,29 @@
         </button>
       </div>
     </form>
-  {{/layout/md-card}}
+  </Layout::MdCard>
 
 </div>
 <div class='col-md-7'>
   {{#if this.isLoading}}
-    {{control/md-spinner size=5 text='Translating...'}}
+    <Control::MdSpinner @size={{5}} @text='Translating...' />
   {{/if}}
 
   {{#if this.messages}}
-    {{#layout/md-card
-      title=(concat 'Translation ' this.errorTitle)
-      class=(concat
+    <Layout::MdCard
+      @title={{concat 'Translation ' this.errorTitle}}
+      @class={{concat
         'card-inverse card-outline-'
         this.errorClass
         ' md-translator-error '
         this.errorClass
-      )
-      scroll=false
-      maximizable=true
-      titleIcon='exclamation'
-      spotlightEnabled=false
-      collapsible=true
-    }}
+      }}
+      @scroll={{false}}
+      @maximizable={{true}}
+      @titleIcon='exclamation'
+      @spotlightEnabled={{false}}
+      @collapsible={{true}}
+    >
       <h4 class='text-{{this.errorClass}}'>{{this.errorSubTitle}}</h4>
       <ul class='list-group'>
         {{#each this.messages as |message|}}
@@ -111,28 +115,28 @@
           {{/with}}
         {{/each}}
       </ul>
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{/if}}
 
   {{#if this.xhrError}}
-    {{#layout/md-card
-      title='mdTranslator Error'
-      spotlightEnabled=false
-      class='card-inverse card-outline-danger md-translator-error danger'
-      scroll=false
-      maximizable=true
-      titleIcon='exclamation'
-    }}
+    <Layout::MdCard
+      @title='mdTranslator Error'
+      @spotlightEnabled={{false}}
+      @class='card-inverse card-outline-danger md-translator-error danger'
+      @scroll={{false}}
+      @maximizable={{true}}
+      @titleIcon='exclamation'
+    >
       <p>{{this.xhrError}}</p>
       <p>An error occurred during the translation. The incident has been logged.
         If the problem persists, please contact techincal support.</p>
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{/if}}
 
   {{#if this.result}}
-    {{#layout/md-card
-      title='Result'
-      class=(if
+    <Layout::MdCard
+      @title='Result'
+      @class={{if
         this.messages
         (concat
           'card-inverse card-outline-'
@@ -142,12 +146,12 @@
           ' md-translator-preview'
         )
         'md-translator-preview'
-      )
-      scroll=false
-      maximizable=true
-      titleIcon='check'
-      spotlightEnabled=false
-    }}
+      }}
+      @scroll={{false}}
+      @maximizable={{true}}
+      @titleIcon='check'
+      @spotlightEnabled={{false}}
+    >
       {{#if this.isHtml}}
         <iframe
           srcdoc={{this.result}}
@@ -157,21 +161,21 @@
         >
         </iframe>
       {{else}}
-        {{input/md-textarea
-          rows=20
-          class='md-translator-area'
-          placeholder=''
-          value=this.result
-        }}
+        <Input::MdTextarea
+          @rows={{20}}
+          @class='md-translator-area'
+          @placeholder=''
+          @value={{this.result}}
+        />
       {{/if}}
 
       <div class='card-footer text-right'>
         {{#if this.isJson}}
-          {{control/md-json-button
-            class='btn-lg btn-primary'
-            json=this.result
-            disabled=(if this.result false true)
-          }}
+          <Control::MdJsonButton
+            @class='btn-lg btn-primary'
+            @json={{this.result}}
+            @disabled={{if this.result false true}}
+          />
 
           <button
             type='button'
@@ -194,7 +198,7 @@
           Save Result
         </button>
       </div>
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{/if}}
 </div>
 {{yield}}

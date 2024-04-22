@@ -1,9 +1,9 @@
 <ul id='md-navbar-secondary' class='nav nav-pills' role='navigation'>
   {{#each this.sortedLinks as |link index|}}
     {{#if (and this.hasOverflow link.isOverflow)}}
-      {{to-elsewhere
-        named='secondary-nav-menu'
-        send=(component
+      <ToElsewhere
+        @named='secondary-nav-menu'
+        @send={{component
           'layout/md-nav-secondary/link'
           isStaticLinks=this.isStaticLinks
           link=link
@@ -11,17 +11,17 @@
           model=this.model
           nav=this
           navWidth=this.navWidth
-        )
-      }}
+        }}
+      />
     {{else}}
-      {{layout/md-nav-secondary/link
-        isStaticLinks=this.isStaticLinks
-        link=link
-        index=index
-        model=this.model
-        nav=this
-        navWidth=this.navWidth
-      }}
+      <Layout::MdNavSecondary::Link
+        @isStaticLinks={{this.isStaticLinks}}
+        @link={{link}}
+        @index={{index}}
+        @model={{this.model}}
+        @nav={{this}}
+        @navWidth={{this.navWidth}}
+      />
     {{/if}}
   {{/each}}
 
@@ -36,7 +36,7 @@
         aria-expanded='false'
       >More <span class='caret'></span></a>
       <ul class='dropdown-menu'>
-        {{multiple-from-elsewhere name='secondary-nav-menu'}}
+        <MultipleFromElsewhere @name='secondary-nav-menu' />
       </ul>
     </li>
   {{/if}}

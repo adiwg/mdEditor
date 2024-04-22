@@ -1,4 +1,9 @@
-{{#layout/md-card collapsible=false collapsed=false shadow=true block=false}}
+<Layout::MdCard
+  @collapsible={{false}}
+  @collapsed={{false}}
+  @shadow={{true}}
+  @block={{false}}
+>
 
   {{!-- <form {{action collapseRow index record on="submit"}}> --}}
   <form>
@@ -35,7 +40,7 @@
           class='tab-pane fade in active'
           id={{concat this.elementId '-form'}}
         >
-          {{object/md-schema/form record=this.record}}
+          <Object::MdSchema::Form @record={{this.record}} />
         </div>
         <div
           role='tabpanel'
@@ -63,4 +68,4 @@
       </button>
 </div> --}}
   </form>
-{{/layout/md-card}}
+</Layout::MdCard>

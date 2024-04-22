@@ -1,24 +1,27 @@
 <h4 class='section-header'>
   Editing Data Quality #{{this.dataQualityId}}
-  {{control/md-status model=this.parentModel}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{object/md-dataquality model=this.model profilePath='record.dataquality'}}
+<Object::MdDataquality
+  @model={{this.model}}
+  @profilePath='record.dataquality'
+/>
 
-{{to-elsewhere
-  named='md-subbar-extra'
-  send=(component
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{component
     'control/subbar-link'
     text='Back to Data Quality List'
     icon='arrow-left'
     route='record.show.edit.dataquality'
-  )
-}}
-{{to-elsewhere
-  named='md-scroll-spy-record-edit'
-  send=(component
+  }}
+/>
+<ToElsewhere
+  @named='md-scroll-spy-record-edit'
+  @send={{component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
-  )
-}}
+  }}
+/>

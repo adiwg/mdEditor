@@ -52,7 +52,7 @@
       class='panel-collapse {{if this.collapsed "collapse" "in"}}'
     >
       {{#if this.editing}}
-        {{#control/md-scroll-into-view}}
+        <Control::MdScrollIntoView>
           <div class='panel-body object-editor'>
             {{yield this.saveItem}}
             <hr />
@@ -65,7 +65,7 @@
               OK
             </button>
           </div>
-        {{/control/md-scroll-into-view}}
+        </Control::MdScrollIntoView>
       {{else}}
         <div
           class='panel-body
@@ -166,13 +166,17 @@
                         {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
                                   <span class="fa fa-times"></span> Delete
                               </button> --}}
-                        {{#control/md-button-confirm
-                          class=(concat 'btn btn-' this.btnSize ' btn-danger')
-                          onConfirm=(action 'deleteItem' this.items index)
-                        }}
+                        <Control::MdButtonConfirm
+                          @class={{concat
+                            'btn btn-'
+                            this.btnSize
+                            ' btn-danger'
+                          }}
+                          @onConfirm={{action 'deleteItem' this.items index}}
+                        >
                           <span class='fa fa-times'></span>
                           Delete
-                        {{/control/md-button-confirm}}
+                        </Control::MdButtonConfirm>
 
                       </div>
 
@@ -200,12 +204,12 @@
                         {{#if item.validations.isInvalid}}
                           <span class='md-error'>
                             {{fa-icon 'exclamation-circle' fixedWidth=true}}
-                            {{#ember-tooltip
-                              side='right'
-                              tooltipClass='ember-tooltip md-tooltip danger'
-                            }}
+                            <EmberTooltip
+                              @side='right'
+                              @tooltipClass='ember-tooltip md-tooltip danger'
+                            >
                               This item has errors.
-                            {{/ember-tooltip}}
+                            </EmberTooltip>
                           </span>
                         {{else}}
                           <span class='md-error'>
@@ -258,24 +262,24 @@
     </div>
   </div>
 {{else}}
-  {{control/md-alert-table
-    title=this.header
-    required=this.required
-    addItem=(action 'addItem')
-    target=this.items
-    tipMessage=this.alertTipMessage
-  }}
+  <Control::MdAlertTable
+    @title={{this.header}}
+    @required={{this.required}}
+    @addItem={{action 'addItem'}}
+    @target={{this.items}}
+    @tipMessage={{this.alertTipMessage}}
+  />
 {{/unless}}
 
 {{#if this.addSubbar}}
-  {{to-elsewhere
-    named=this.addSubbar
-    send=(component
+  <ToElsewhere
+    @named={{this.addSubbar}}
+    @send={{component
       'control/subbar-link'
       clickText=this.buttonText
       clickIcon='plus'
       clickType='success'
       click=(action 'addItem')
-    )
-  }}
+    }}
+  />
 {{/if}}

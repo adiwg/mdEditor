@@ -5,41 +5,41 @@
   in
   <span class='text-primary'>Raster Description #{{this.rasterId}}</span>
 
-  {{#control/md-button-confirm
-    class='btn btn-xs btn-danger'
-    onConfirm=(route-action 'deleteAttribute')
-    tooltip='Delete Attribute?'
-    tipClass='danger'
-    tipSide='bottom'
-  }}
+  <Control::MdButtonConfirm
+    @class='btn btn-xs btn-danger'
+    @onConfirm={{route-action 'deleteAttribute'}}
+    @tooltip='Delete Attribute?'
+    @tipClass='danger'
+    @tipSide='bottom'
+  >
     {{fa-icon 'times'}}
     Delete
-  {{/control/md-button-confirm}}
+  </Control::MdButtonConfirm>
 
-  {{control/md-status model=this.parentModel}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{object/md-raster/attrgroup/attribute
-  model=this.model
-  profilePath='record.spatial.coverageDescription.attributeGroup.attribute'
-}}
+<Object::MdRaster::Attrgroup::Attribute
+  @model={{this.model}}
+  @profilePath='record.spatial.coverageDescription.attributeGroup.attribute'
+/>
 
-{{to-elsewhere
-  named='md-subbar-buttons'
-  send=(component
+<ToElsewhere
+  @named='md-subbar-buttons'
+  @send={{component
     'control/md-button'
     text='Back to Attribute Group'
     icon='arrow-left'
     class='btn-primary btn-lg'
     click=(route-action 'backToAttrGroup')
-  )
-}}
-{{to-elsewhere
-  named='md-scroll-spy-record-edit'
-  send=(component
+  }}
+/>
+<ToElsewhere
+  @named='md-scroll-spy-record-edit'
+  @send={{component
     'control/md-scroll-spy'
     refresh=this.refresh
     scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
-  )
-}}
+  }}
+/>

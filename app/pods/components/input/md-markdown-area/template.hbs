@@ -21,14 +21,14 @@
   id={{concat 'md-' this.elementId}}
   class={{if this.collapsed 'collapse' 'in'}}
 >
-  {{simple-mde
-    value=this.value
-    options=this.options
-    maxlength=this.maxlength
-    spellcheck=true
-    disabled=this.disabled
-    change=(if this.change this.change (action (mut this.value)))
-    currentEditor=this.editor
-  }}
+  <SimpleMde
+    @value={{this.value}}
+    @options={{this.options}}
+    @maxlength={{this.maxlength}}
+    @spellcheck={{true}}
+    @disabled={{this.disabled}}
+    @change={{if this.change this.change (action (mut this.value))}}
+    @currentEditor={{this.editor}}
+  />
 </div>
 {{yield}}

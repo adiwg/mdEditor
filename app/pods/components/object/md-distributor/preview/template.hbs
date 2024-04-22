@@ -7,7 +7,7 @@
       (
       {{#each party.party as |contact index|}}
         {{if index ', '}}
-        {{control/md-contact-link contactId=contact.contactId}}
+        <Control::MdContactLink @contactId={{contact.contactId}} />
       {{else}}
         <em class='text-muted'>No Contacts assigned.</em>
       {{/each}}

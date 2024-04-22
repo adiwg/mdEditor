@@ -8,45 +8,47 @@
     <label>{{this.label}}</label>
   {{/if}}
   {{#if this.showInfotip}}
-    {{control/md-infotip text=this.placeholder}}
+    <Control::MdInfotip @text={{this.placeholder}} />
   {{/if}}
 {{/if}}
 
 {{#liquid-if this.isExpanded enableGrowth=true}}
   <div class='md-input-input'>
-    {{textarea
-      value=this.value
-      placeholder=this.placeholder
-      required=this.required
-      maxlength=this.maxlength
-      autoresize=this.autoresize
-      didInsertElement=this._didInsertArea
-      rows=this.rows
-      max-rows=this.maxrows
-      max-width=this.maxwidth
-      max-height=this.maxheight
-      class=this.inputClass
-    }}
+    <Textarea
+      @value={{this.value}}
+      placeholder={{this.placeholder}}
+      required={{this.required}}
+      @maxlength={{this.maxlength}}
+      @autoresize={{this.autoresize}}
+      @didInsertElement={{this._didInsertArea}}
+      @rows={{this.rows}}
+      @max-rows={{this.maxrows}}
+      @max-width={{this.maxwidth}}
+      @max-height={{this.maxheight}}
+      class={{this.inputClass}}
+    />
     <span class='md-input-error'>
       {{#if this.showErrorMessage}}
         <span class='md-error'>
           {{fa-icon 'exclamation-circle'}}
-          {{#ember-tooltip
-            side='right' tooltipClass='ember-tooltip md-tooltip danger'
-          }}
+          <EmberTooltip
+            @side='right'
+            @tooltipClass='ember-tooltip md-tooltip danger'
+          >
             {{v-get this.model this.valuePath 'message'}}
-          {{/ember-tooltip}}
+          </EmberTooltip>
         </span>
       {{/if}}
 
       {{#if this.showWarningMessage}}
         <span class='md-warning'>
           {{fa-icon 'exclamation-triangle'}}
-          {{#ember-tooltip
-            side='right' tooltipClass='ember-tooltip md-tooltip warning'
-          }}
+          <EmberTooltip
+            @side='right'
+            @tooltipClass='ember-tooltip md-tooltip warning'
+          >
             {{v-get this.model this.valuePath 'warningMessage'}}
-          {{/ember-tooltip}}
+          </EmberTooltip>
         </span>
       {{/if}}
     </span>

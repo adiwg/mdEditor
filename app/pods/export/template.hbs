@@ -7,21 +7,24 @@
           <hr />
         {{/if}}
 
-        {{#layout/md-card
-          title=section.meta.title
-          titleIcon=section.meta.icon
-          collapsible=true
-          collapsed=false
-          data-spy=section.meta.title
-          shadow=true
-        }}
+        <Layout::MdCard
+          @title={{section.meta.title}}
+          @titleIcon={{section.meta.icon}}
+          @collapsible={{true}}
+          @collapsed={{false}}
+          @data-spy={{section.meta.title}}
+          @shadow={{true}}
+        >
           {{!-- <h3>{{section.meta.title}}</h3> --}}
-          {{control/md-record-table
-            data=section
-            dataColumns=(compute (route-action 'getColumns') section.meta.type)
-          }}
+          <Control::MdRecordTable
+            @data={{section}}
+            @dataColumns={{compute
+              (route-action 'getColumns')
+              section.meta.type
+            }}
+          />
 
-        {{/layout/md-card}}
+        </Layout::MdCard>
       {{else}}
         <div class='alert alert-info'>
           <h3>{{fa-icon section.meta.icon}}
@@ -64,21 +67,21 @@
     </div>
     <hr />
     <label class='center-block text-center'>Include Settings?</label>
-    {{x-toggle
-      value=this.model.settings._selected
-      onToggle=(action (mut this.model.settings._selected))
-      showLabels=true
-      onLabel='Yes'
-      offLabel='No'
-      size='medium'
-      theme='form'
-    }}
+    <XToggle
+      @value={{this.model.settings._selected}}
+      @onToggle={{action (mut this.model.settings._selected)}}
+      @showLabels={{true}}
+      @onLabel='Yes'
+      @offLabel='No'
+      @size='medium'
+      @theme='form'
+    />
     <hr />
-    {{control/md-scroll-spy
-      offset=130
-      scrollInit=this.scrollTo
-      setScrollTo=(route-action 'setScrollTo')
-    }}
+    <Control::MdScrollSpy
+      @offset={{130}}
+      @scrollInit={{this.scrollTo}}
+      @setScrollTo={{route-action 'setScrollTo'}}
+    />
   </div>
 </div>
 {{outlet}}

@@ -38,14 +38,14 @@
           <tr>
             <td>{{get-dash alloc 'amount'}}</td>
             <td>{{get-dash alloc 'currency'}}</td>
-            <td>{{control/md-contact-title
-                contactId=alloc.sourceId
-                default='--'
-              }}</td>
-            <td>{{control/md-contact-title
-                contactId=alloc.recipientId
-                default='--'
-              }}</td>
+            <td><Control::MdContactTitle
+                @contactId={{alloc.sourceId}}
+                @default='--'
+              /></td>
+            <td><Control::MdContactTitle
+                @contactId={{alloc.recipientId}}
+                @default='--'
+              /></td>
             <td>{{get-dash alloc 'matching'}}</td>
           </tr>
         {{else}}

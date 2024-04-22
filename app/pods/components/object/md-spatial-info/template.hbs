@@ -1,60 +1,60 @@
-{{input/md-codelist-multi
-  value=this.model.spatialRepresentationType
-  create=true
-  tooltip=true
-  icon=false
-  mdCodeName='spatialRepresentation'
-  closeOnSelect=false
-  placeholder='Select method used to represent geographic information'
-  label='Spatial Representation Type'
-  profilePath=(concat this.profilePath '.spatialRepresentationType')
-}}
+<Input::MdCodelistMulti
+  @value={{this.model.spatialRepresentationType}}
+  @create={{true}}
+  @tooltip={{true}}
+  @icon={{false}}
+  @mdCodeName='spatialRepresentation'
+  @closeOnSelect={{false}}
+  @placeholder='Select method used to represent geographic information'
+  @label='Spatial Representation Type'
+  @profilePath={{concat this.profilePath '.spatialRepresentationType'}}
+/>
 
-{{#object/md-object-table
-  items=this.model.spatialReferenceSystem
-  header='Spatial Reference System'
-  buttonText='Add Reference System'
-  ellipsis=true
-  profilePath=(concat this.profilePath '.spatialReferenceSystem')
-  attributes='referenceSystemType,referenceSystemIdentifier.identifier'
+<Object::MdObjectTable
+  @items={{this.model.spatialReferenceSystem}}
+  @header='Spatial Reference System'
+  @buttonText='Add Reference System'
+  @ellipsis={{true}}
+  @profilePath={{concat this.profilePath '.spatialReferenceSystem'}}
+  @attributes='referenceSystemType,referenceSystemIdentifier.identifier'
   as |editing|
-}}
-  {{object/md-srs
-    model=editing
-    profilePath=(concat this.profilePath '.spatialReferenceSystem')
-  }}
-{{/object/md-object-table}}
+>
+  <Object::MdSrs
+    @model={{editing}}
+    @profilePath={{concat this.profilePath '.spatialReferenceSystem'}}
+  />
+</Object::MdObjectTable>
 
-{{#object/md-object-table
-  items=this.model.spatialResolution
-  header='Spatial Resolution'
-  buttonText='Add Spatial Resolution'
-  ellipsis=true
-  profilePath=(concat this.profilePath '.spatialResolution')
-  attributes='scaleFactor,levelOfDetail,measure.type'
+<Object::MdObjectTable
+  @items={{this.model.spatialResolution}}
+  @header='Spatial Resolution'
+  @buttonText='Add Spatial Resolution'
+  @ellipsis={{true}}
+  @profilePath={{concat this.profilePath '.spatialResolution'}}
+  @attributes='scaleFactor,levelOfDetail,measure.type'
   as |editing|
-}}
-  {{object/md-spatial-resolution
-    model=editing
-    profilePath=(concat this.profilePath '.spatialResolution')
-  }}
-{{/object/md-object-table}}
+>
+  <Object::MdSpatialResolution
+    @model={{editing}}
+    @profilePath={{concat this.profilePath '.spatialResolution'}}
+  />
+</Object::MdObjectTable>
 
-{{object/md-objectroute-table
-  attributes=' '
-  items=this.model.coverageDescription
-  header='Raster Description'
-  shadow=true
-  buttonText='Add Raster Description'
-  ellipsis=false
-  previewTemplate='object/md-raster/preview'
-  editItem=(action 'editRaster')
-  verticalButtons=true
-  profilePath=(concat this.profilePath '.coverageDescription')
-  hideIndex=false
-  condensed=false
-  editOnAdd=false
-  data-spy='Raster Descriptions'
-  addSubbar='md-subbar-extra'
-}}
+<Object::MdObjectrouteTable
+  @attributes=' '
+  @items={{this.model.coverageDescription}}
+  @header='Raster Description'
+  @shadow={{true}}
+  @buttonText='Add Raster Description'
+  @ellipsis={{false}}
+  @previewTemplate='object/md-raster/preview'
+  @editItem={{action 'editRaster'}}
+  @verticalButtons={{true}}
+  @profilePath={{concat this.profilePath '.coverageDescription'}}
+  @hideIndex={{false}}
+  @condensed={{false}}
+  @editOnAdd={{false}}
+  @data-spy='Raster Descriptions'
+  @addSubbar='md-subbar-extra'
+/>
 {{yield}}

@@ -1,34 +1,34 @@
 <td>
-  {{input/md-datetime
-    valuePath='date'
-    model=this
-    showValidations=true
-    required=true
-    forceDateOutput=true
-    profilePath=(concat this.profilePath '.date')
-  }}
+  <Input::MdDatetime
+    @valuePath='date'
+    @model={{this}}
+    @showValidations={{true}}
+    @required={{true}}
+    @forceDateOutput={{true}}
+    @profilePath={{concat this.profilePath '.date'}}
+  />
 </td>
 <td>
-  {{input/md-codelist
-    create=true
-    required=true
-    tooltip=true
-    icon=false
-    disabled=this.disabled
-    allowClear=true
-    showValidations=true
-    mdCodeName='dateType'
-    profilePath=(concat this.profilePath '.dateType')
-    path='dateType'
-    model=this
-    placeholder='Choose date type'
-  }}
+  <Input::MdCodelist
+    @create={{true}}
+    @required={{true}}
+    @tooltip={{true}}
+    @icon={{false}}
+    @disabled={{this.disabled}}
+    @allowClear={{true}}
+    @showValidations={{true}}
+    @mdCodeName='dateType'
+    @profilePath={{concat this.profilePath '.dateType'}}
+    @path='dateType'
+    @model={{this}}
+    @placeholder='Choose date type'
+  />
 </td>
 <td>
-  {{input/md-input
-    value=this.model.description
-    profilePath=(concat this.profilePath '.description')
-    placeholder='Describe the date.'
-  }}
+  <Input::MdInput
+    @value={{this.model.description}}
+    @profilePath={{concat this.profilePath '.description'}}
+    @placeholder='Describe the date.'
+  />
 </td>
 {{yield}}

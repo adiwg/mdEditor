@@ -3,41 +3,43 @@
 {{/if}}
 
 <div class='md-input-input'>
-  {{bs-datetimepicker
-    date=this._date
-    format=this.format
-    extraFormats=this.extraFormats
-    dateIcon='fa fa-calendar'
-    timeIcon='fa fa-clock-o'
-    icons=this.calendarIcons
-    placeholder=this.placeholder
-    showClear=this.showClear
-    useCurrent=this.useCurrent
-    textFieldRequired=this.required
-    showTodayButton=this.showTodayButton
-    change=this.change
-  }}
+  <BsDatetimepicker
+    @date={{this._date}}
+    @format={{this.format}}
+    @extraFormats={{this.extraFormats}}
+    @dateIcon='fa fa-calendar'
+    @timeIcon='fa fa-clock-o'
+    @icons={{this.calendarIcons}}
+    @placeholder={{this.placeholder}}
+    @showClear={{this.showClear}}
+    @useCurrent={{this.useCurrent}}
+    @textFieldRequired={{this.required}}
+    @showTodayButton={{this.showTodayButton}}
+    @change={{this.change}}
+  />
 
   <span class='md-inputgroup-error'>
     {{#if this.showErrorMessage}}
       <span class='md-error'>
         {{fa-icon 'exclamation-circle'}}
-        {{#ember-tooltip
-          side='right' tooltipClass='ember-tooltip md-tooltip danger'
-        }}
+        <EmberTooltip
+          @side='right'
+          @tooltipClass='ember-tooltip md-tooltip danger'
+        >
           {{v-get this.model this.valuePath 'message'}}
-        {{/ember-tooltip}}
+        </EmberTooltip>
       </span>
     {{/if}}
 
     {{#if this.showWarningMessage}}
       <span class='md-warning'>
         {{fa-icon 'exclamation-triangle'}}
-        {{#ember-tooltip
-          side='right' tooltipClass='ember-tooltip md-tooltip warning'
-        }}
+        <EmberTooltip
+          @side='right'
+          @tooltipClass='ember-tooltip md-tooltip warning'
+        >
           {{v-get this.model this.valuePath 'warningMessage'}}
-        {{/ember-tooltip}}
+        </EmberTooltip>
       </span>
     {{/if}}
   </span>

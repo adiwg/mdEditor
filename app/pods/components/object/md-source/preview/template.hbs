@@ -1,8 +1,8 @@
 <td>
-  {{input/md-textarea
-    value=this.model.description
-    profilePath=(concat this.profilePath '.description')
-    placeholder='A brief description about the source dataset used in creating the data.'
-    maxrows=7
-  }}
+  <Input::MdTextarea
+    @value={{this.model.description}}
+    @profilePath={{concat this.profilePath '.description'}}
+    @placeholder='A brief description about the source dataset used in creating the data.'
+    @maxrows={{7}}
+  />
 </td>

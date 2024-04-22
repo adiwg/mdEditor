@@ -57,12 +57,13 @@
           </button>
         {{/if}}
         {{#if this.deleteAction}}
-          {{#control/md-button-confirm
-            class='btn btn-danger btn-xs' onConfirm=(action this.deleteAction)
-          }}
+          <Control::MdButtonConfirm
+            @class='btn btn-danger btn-xs'
+            @onConfirm={{action this.deleteAction}}
+          >
             {{fa-icon 'times'}}
             Delete
-          {{/control/md-button-confirm}}
+          </Control::MdButtonConfirm>
         {{/if}}
         {{#if this.spotlightEnabled}}
           <button

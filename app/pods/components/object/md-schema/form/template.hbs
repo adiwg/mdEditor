@@ -1,18 +1,18 @@
-{{input/md-input
-  model=this.record
-  valuePath='title'
-  label='Title'
-  placeholder='Enter title for schema.'
-  showValidations=true
-}}
+<Input::MdInput
+  @model={{this.record}}
+  @valuePath='title'
+  @label='Title'
+  @placeholder='Enter title for schema.'
+  @showValidations={{true}}
+/>
 
-{{input/md-input
-  model=this.record
-  valuePath='uri'
-  label='URL'
-  placeholder='Enter URL of root schema.'
-  showValidations=true
-}}
+<Input::MdInput
+  @model={{this.record}}
+  @valuePath='uri'
+  @label='URL'
+  @placeholder='Enter URL of root schema.'
+  @showValidations={{true}}
+/>
 
 <div class='form-group flex'>
   <label>Version</label>
@@ -22,40 +22,40 @@
   {{/if}}
 </div>
 
-{{input/md-textarea
-  model=this.record
-  valuePath='description'
-  label='Description'
-  placeholder='Enter a description of the schema.'
-  showValidations=true
-}}
+<Input::MdTextarea
+  @model={{this.record}}
+  @valuePath='description'
+  @label='Description'
+  @placeholder='Enter a description of the schema.'
+  @showValidations={{true}}
+/>
 
-{{input/md-select
-  model=this.record
-  path='schemaType'
-  label='Type'
-  valuePath='value'
-  namePath='name'
-  placeholder='Select the record type for schema.'
-  objectArray=this.typeOptions
-  searchEnabled=false
-  showValidations=true
-}}
+<Input::MdSelect
+  @model={{this.record}}
+  @path='schemaType'
+  @label='Type'
+  @valuePath='value'
+  @namePath='name'
+  @placeholder='Select the record type for schema.'
+  @objectArray={{this.typeOptions}}
+  @searchEnabled={{false}}
+  @showValidations={{true}}
+/>
 
 {{#liquid-unless this.record.isNew use='toDown'}}
   <div class='form-group from-group-inlne'>
     <label>Apply Globally?</label>
     <div class='form-control'>
       <div class='inline-block'>
-        {{input/md-toggle
-          value=this.record.isGlobal
-          onToggle=(action (mut this.record.isGlobal))
-          showLabels=true
-          onLabel='Yes'
-          offLabel='No'
-          size='medium'
-          theme='form'
-        }}
+        <Input::MdToggle
+          @value={{this.record.isGlobal}}
+          @onToggle={{action (mut this.record.isGlobal)}}
+          @showLabels={{true}}
+          @onLabel='Yes'
+          @offLabel='No'
+          @size='medium'
+          @theme='form'
+        />
       </div>
     </div>
   </div>

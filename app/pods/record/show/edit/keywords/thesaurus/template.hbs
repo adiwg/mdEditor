@@ -27,19 +27,19 @@
         class='md-keyword-tree tab-pane fade in active'
         id='md-keyword-tree'
       >
-        {{tree-view
-          model=this.model.thesaurus.keywords
-          selected=(get this.model.model (concat this.model.path '.keyword'))
-          select=(route-action 'selectKeyword')
-          disableCheck=true
-        }}
+        <TreeView
+          @model={{this.model.thesaurus.keywords}}
+          @selected={{get this.model.model (concat this.model.path '.keyword')}}
+          @select={{route-action 'selectKeyword'}}
+          @disableCheck={{true}}
+        />
       </div>
       <div role='tabpanel' class='tab-pane fade' id='md-keyword-search'>
-        {{tree-search
-          model=this.model.thesaurus.keywords
-          selected=(get this.model.model (concat this.model.path '.keyword'))
-          select=(route-action 'selectKeyword')
-        }}
+        <TreeSearch
+          @model={{this.model.thesaurus.keywords}}
+          @selected={{get this.model.model (concat this.model.path '.keyword')}}
+          @select={{route-action 'selectKeyword'}}
+        />
       </div>
     </div>
   </div>
@@ -59,21 +59,21 @@
         </label>
       </div>
     </div>
-    {{object/md-keyword-list
-      model=(get this.model.model this.model.path)
-      deleteKeyword=(route-action 'removeKeyword')
-      editThesaurus=false
-    }}
+    <Object::MdKeywordList
+      @model={{get this.model.model this.model.path}}
+      @deleteKeyword={{route-action 'removeKeyword'}}
+      @editThesaurus={{false}}
+    />
   </div>
 </div>
 
-{{to-elsewhere
-  named='md-subbar-extra'
-  send=(component
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{component
     'control/subbar-link'
     text='Back to List'
     icon='list'
     type='primary'
     route='record.show.edit.keywords'
-  )
-}}
+  }}
+/>

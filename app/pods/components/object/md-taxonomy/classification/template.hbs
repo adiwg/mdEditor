@@ -1,13 +1,13 @@
 {{#each (sort-by 'order' this.model) as |class index|}}
-  {{object/md-taxonomy/classification/taxon
-    model=class
-    parentItem=this.parentItem
-    top=(unless this.parentItem this.model)
-    index=index
-    dragging=this.dragging
-    preview=this.preview
-    profilePath=(concat this.profilePath '.taxon')
-  }}
+  <Object::MdTaxonomy::Classification::Taxon
+    @model={{class}}
+    @parentItem={{this.parentItem}}
+    @top={{unless this.parentItem this.model}}
+    @index={{index}}
+    @dragging={{this.dragging}}
+    @preview={{this.preview}}
+    @profilePath={{concat this.profilePath '.taxon'}}
+  />
 {{else}}
   <div class='alert alert-info no-margin'>
     <h3>No <span class='required'>Classification</span> found.</h3>

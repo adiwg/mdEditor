@@ -4,7 +4,10 @@
   .construction { width: 50vh; min-width:240px; font-size:5vh; border: 2vh solid
   #333333; margin: 10vh auto; padding: 3vh; border-radius: 5vh; }
 </style>
-{{#layout/md-card class='construction card-inverse card-warning' shadow=false}}
+<Layout::MdCard
+  @class='construction card-inverse card-warning'
+  @shadow={{false}}
+>
   <div class='text-center'>
     <div>
       {{fa-icon 'exclamation-triangle' size=2}}
@@ -13,4 +16,4 @@
       <b>Page Under <br />Construction</b>
     </div>
   </div>
-{{/layout/md-card}}
+</Layout::MdCard>

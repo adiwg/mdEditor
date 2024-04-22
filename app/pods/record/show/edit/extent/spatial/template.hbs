@@ -1,21 +1,21 @@
 <section>
-  {{leaflet-table
-    layers=(get
+  <LeafletTable
+    @layers={{get
       this.model
       (concat
         'json.metadata.resourceInfo.extent.'
         this.extentId
         '.geographicExtent.0.geographicElement'
       )
-    )
-    setFeatureGroup=(route-action 'setFeatureGroup')
-    handleResize=(route-action 'handleResize')
-  }}
+    }}
+    @setFeatureGroup={{route-action 'setFeatureGroup'}}
+    @handleResize={{route-action 'handleResize'}}
+  />
 </section>
 
-{{to-elsewhere
-  named='md-subbar-extra'
-  send=(component
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{component
     'control/subbar-spatial'
     actionContext=this
     zoomAll=(route-action 'zoomAll')
@@ -23,5 +23,5 @@
     exportGeoJSON=(route-action 'exportGeoJSON')
     uploadData=(route-action 'uploadData')
     toList=(route-action 'toList')
-  )
-}}
+  }}
+/>

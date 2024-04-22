@@ -28,12 +28,13 @@
     {{/if}}
 
     {{#if this.deleteItem}}
-      {{#control/md-button-confirm
-        class='btn btn-danger' onConfirm=(action this.deleteItem this.index)
-      }}
+      <Control::MdButtonConfirm
+        @class='btn btn-danger'
+        @onConfirm={{action this.deleteItem this.index}}
+      >
         {{fa-icon 'times'}}
         Delete
-      {{/control/md-button-confirm}}
+      </Control::MdButtonConfirm>
     {{/if}}
   </div>
 </div>

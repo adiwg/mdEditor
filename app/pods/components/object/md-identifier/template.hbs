@@ -12,54 +12,54 @@
   class='md-embedded'
 }}
 
-{{input/md-codelist
-  label='Namespace'
-  data-spy=(if this.data-spy 'Namespace')
-  class='md-embedded'
-  placeholder='Select or type a namespace for the identifier.'
-  create=true
-  required=false
-  tooltip=true
-  icon=false
-  disabled=this.disabled
-  allowClear=true
-  mdCodeName='namespace'
-  valuePath='code'
-  value=this.model.namespace
-  profilePath=(concat this.profilePath '.namespace')
-}}
+<Input::MdCodelist
+  @label='Namespace'
+  @data-spy={{if this.data-spy 'Namespace'}}
+  @class='md-embedded'
+  @placeholder='Select or type a namespace for the identifier.'
+  @create={{true}}
+  @required={{false}}
+  @tooltip={{true}}
+  @icon={{false}}
+  @disabled={{this.disabled}}
+  @allowClear={{true}}
+  @mdCodeName='namespace'
+  @valuePath='code'
+  @value={{this.model.namespace}}
+  @profilePath={{concat this.profilePath '.namespace'}}
+/>
 
 {{#liquid-unless this.isCollapsed}}
-  {{input/md-input
-    value=this.model.version
-    placeholder='Enter the version for the identifier.'
-    label='Version'
-    profilePath=(concat this.profilePath '.version')
-  }}
+  <Input::MdInput
+    @value={{this.model.version}}
+    @placeholder='Enter the version for the identifier.'
+    @label='Version'
+    @profilePath={{concat this.profilePath '.version'}}
+  />
 
-  {{input/md-textarea
-    value=this.model.description
-    profilePath=(concat this.profilePath '.description')
-    label='Description'
-    placeholder='Enter a description of the identifier.'
-  }}
+  <Input::MdTextarea
+    @value={{this.model.description}}
+    @profilePath={{concat this.profilePath '.description'}}
+    @label='Description'
+    @placeholder='Enter a description of the identifier.'
+  />
 
   {{#unless this.short}}
-    {{#layout/md-card
-      title='Authority'
-      shadow=true
-      collapsible=true
-      data-spy=(if this.data-spy 'Authority')
-      content=this.model.authority
-    }}
-      {{object/md-citation
-        model=this.model.authority
-        profilePath=(concat this.profilePath '.authority')
-        embedded=true
-        data-spy=this.data-spy
-        simpleIdentifier=true
-      }}
-    {{/layout/md-card}}
+    <Layout::MdCard
+      @title='Authority'
+      @shadow={{true}}
+      @collapsible={{true}}
+      @data-spy={{if this.data-spy 'Authority'}}
+      @content={{this.model.authority}}
+    >
+      <Object::MdCitation
+        @model={{this.model.authority}}
+        @profilePath={{concat this.profilePath '.authority'}}
+        @embedded={{true}}
+        @data-spy={{this.data-spy}}
+        @simpleIdentifier={{true}}
+      />
+    </Layout::MdCard>
   {{/unless}}
 {{/liquid-unless}}
 

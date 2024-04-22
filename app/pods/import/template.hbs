@@ -9,20 +9,20 @@
     {{#if this.model.preview}}
       <h3>{{capitalize (singularize this.model.preview.model.type)}}:
         {{this.model.preview.model.id}}</h3>
-      {{control/md-json-viewer
-        class='md-import-preview'
-        json=this.model.preview.json
-        modal=false
-      }}
+      <Control::MdJsonViewer
+        @class='md-import-preview'
+        @json={{this.model.preview.json}}
+        @modal={{false}}
+      />
     {{else}}
       {{#unless this.model.files}}
-        {{#file-picker
-          class='md-file-picker md-import-picker'
-          fileLoaded='readData'
-          preview=false
-          accept='.json,.xml'
-          readAs='readAsText'
-        }}
+        <FilePicker
+          @class='md-file-picker md-import-picker'
+          @fileLoaded='readData'
+          @preview={{false}}
+          @accept='.json,.xml'
+          @readAs='readAsText'
+        >
           <button type='button' class='btn btn-lg btn-info btn-block'>
             <p>{{fa-icon 'bullseye'}}
               Click or Drop a file here to import data.</p>
@@ -44,18 +44,18 @@
               {{!-- <small>Using <a href={{apiURL}}>{{apiURL}}</a> for translation.</small> --}}
             {{/unless}}
           </button>
-        {{/file-picker}}
+        </FilePicker>
         <hr />
         <h3>Import mdJSON from Online URL</h3>
         <div class='row'>
           <div class='col-xxl-6'>
             <div class='input-group input-group-lg'>
-              {{input
-                type='url'
-                value=this.importUri
+              <Input
+                @type='url'
+                @value={{this.importUri}}
                 placeholder='Enter online link to mdJSON'
                 class='form-control'
-              }}
+              />
               <span class='input-group-btn'>
                 <button
                   class='btn btn-primary'
@@ -107,27 +107,27 @@
             </table>
           </div>
         </div> --}}
-        {{#layout/md-card
-          title=(capitalize key)
-          titleIcon=(compute (route-action 'getIcon' key))
-          collapsible=true
-          collapsed=false
-          data-spy=(capitalize key)
-          shadow=true
-        }}
+        <Layout::MdCard
+          @title={{capitalize key}}
+          @titleIcon={{compute (route-action 'getIcon' key)}}
+          @collapsible={{true}}
+          @collapsed={{false}}
+          @data-spy={{capitalize key}}
+          @shadow={{true}}
+        >
           {{!-- <h3>{{section.meta.title}}</h3> --}}
-          {{control/md-record-table
-            data=item
-            dataColumns=(compute (route-action 'getColumns') key)
-            actionsColumn=false
-            selectProperty='meta.export'
-            showColumnsDropdown=(not-eq key 'settings')
-            showComponentFooter=(not-eq key 'settings')
-            showGlobalFilter=(not-eq key 'settings')
-            showPageSize=(not-eq key 'settings')
-            useFilteringByColumns=(not-eq key 'settings')
-          }}
-        {{/layout/md-card}}
+          <Control::MdRecordTable
+            @data={{item}}
+            @dataColumns={{compute (route-action 'getColumns') key}}
+            @actionsColumn={{false}}
+            @selectProperty='meta.export'
+            @showColumnsDropdown={{not-eq key 'settings'}}
+            @showComponentFooter={{not-eq key 'settings'}}
+            @showGlobalFilter={{not-eq key 'settings'}}
+            @showPageSize={{not-eq key 'settings'}}
+            @useFilteringByColumns={{not-eq key 'settings'}}
+          />
+        </Layout::MdCard>
       {{/each-in}}
     {{/if}}
   </div>
@@ -152,22 +152,22 @@
           {{action 'cancelImport'}}
         >{{fa-icon 'times'}} Cancel Import</button>
         <div class='btn-fake btn-block'>
-          {{x-toggle
-            value=this.model.merge
-            onToggle=(action (mut this.model.merge))
-            showLabels=true
-            onLabel='Merge'
-            offLabel='Replace'
-            size='medium'
-            theme='default'
-          }}
+          <XToggle
+            @value={{this.model.merge}}
+            @onToggle={{action (mut this.model.merge)}}
+            @showLabels={{true}}
+            @onLabel='Merge'
+            @offLabel='Replace'
+            @size='medium'
+            @theme='default'
+          />
         </div>
         <hr />
-        {{control/md-scroll-spy
-          offset=130
-          scrollInit=this.scrollTo
-          setScrollTo=(route-action 'setScrollTo')
-        }}
+        <Control::MdScrollSpy
+          @offset={{130}}
+          @scrollInit={{this.scrollTo}}
+          @setScrollTo={{route-action 'setScrollTo'}}
+        />
       {{/if}}
     </div>
   {{/if}}

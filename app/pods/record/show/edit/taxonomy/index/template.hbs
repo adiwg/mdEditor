@@ -1,17 +1,17 @@
 <h4 class='section-header'>
   Editing Taxonomy
-  {{control/md-status model=this.parentModel}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
 {{!-- {{object/md-distribution model=model profilePath="record.distribution"}} --}}
 
 {{#each this.model.json.metadata.resourceInfo.taxonomy as |collection index|}}
-  {{object/md-taxonomy
-    model=collection
-    index=index
-    scrollTo=this.scrollTo
-    record=this.model
-  }}
+  <Object::MdTaxonomy
+    @model={{collection}}
+    @index={{index}}
+    @scrollTo={{this.scrollTo}}
+    @record={{this.model}}
+  />
 {{else}}
   <h3 class='alert alert-info'>No taxonomic collections found.
     <button
@@ -24,23 +24,23 @@
   </h3>
 {{/each}}
 
-{{to-elsewhere
-  named='md-subbar-extra'
-  send=(component
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{component
     'control/md-button'
     text='Add Collection'
     icon='plus'
     class='btn-success btn-lg'
     click=(route-action 'addCollection')
-  )
-}}
+  }}
+/>
 
-{{to-elsewhere
-  named='md-scroll-spy-record-edit'
-  send=(component
+<ToElsewhere
+  @named='md-scroll-spy-record-edit'
+  @send={{component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
     refresh=this.model.json.metadata.resourceInfo.taxonomy.length
-  )
-}}
+  }}
+/>

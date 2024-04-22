@@ -55,47 +55,51 @@
                 {{#unless this.hideIndex}}
                   <td>{{index}}</td>
                 {{/unless}}
-                {{#layout/md-object-container
-                  title='Attribute Group'
-                  index=index
-                  profilePath=(concat this.profilePath '.attributeGroup')
-                  deleteItem=this.deleteAttrGroup
-                }}
-                  {{input/md-codelist-multi
-                    value=item.attributeContentType
-                    showValidations=true
-                    required=true
-                    create=true
-                    tooltip=true
-                    icon=false
-                    data-spy=false
-                    mdCodeName='coverageContentType'
-                    closeOnSelect=false
-                    placeholder='Specific type of information represented in the cell'
-                    label='Attribute Content Type'
-                    profilePath=(concat
-                      this.profilePath '.atttributeContentType'
-                    )
-                  }}
-                  {{object/md-objectroute-table
-                    attributes='attributeDescription'
-                    items=item.attribute
-                    header='Attribute'
-                    shadow=false
-                    buttonText='Add Attribute'
-                    ellipsis=false
-                    previewTemplateTable='object/md-raster/attrgroup/attribute/preview'
-                    editItem=this.editAttribute
-                    profilePath=(concat this.profilePath '.attribute')
-                    verticalButtons=true
-                    hideIndex=false
-                    condensed=false
-                    editOnAdd=true
-                    data-spy=false
-                    routeParams=index
-                    scrollToId=(concat 'md-raster-attrgroup-attribute-' index)
-                  }}
-                {{/layout/md-object-container}}
+                <Layout::MdObjectContainer
+                  @title='Attribute Group'
+                  @index={{index}}
+                  @profilePath={{concat this.profilePath '.attributeGroup'}}
+                  @deleteItem={{this.deleteAttrGroup}}
+                >
+                  <Input::MdCodelistMulti
+                    @value={{item.attributeContentType}}
+                    @showValidations={{true}}
+                    @required={{true}}
+                    @create={{true}}
+                    @tooltip={{true}}
+                    @icon={{false}}
+                    @data-spy={{false}}
+                    @mdCodeName='coverageContentType'
+                    @closeOnSelect={{false}}
+                    @placeholder='Specific type of information represented in the cell'
+                    @label='Attribute Content Type'
+                    @profilePath={{concat
+                      this.profilePath
+                      '.atttributeContentType'
+                    }}
+                  />
+                  <Object::MdObjectrouteTable
+                    @attributes='attributeDescription'
+                    @items={{item.attribute}}
+                    @header='Attribute'
+                    @shadow={{false}}
+                    @buttonText='Add Attribute'
+                    @ellipsis={{false}}
+                    @previewTemplateTable='object/md-raster/attrgroup/attribute/preview'
+                    @editItem={{this.editAttribute}}
+                    @profilePath={{concat this.profilePath '.attribute'}}
+                    @verticalButtons={{true}}
+                    @hideIndex={{false}}
+                    @condensed={{false}}
+                    @editOnAdd={{true}}
+                    @data-spy={{false}}
+                    @routeParams={{index}}
+                    @scrollToId={{concat
+                      'md-raster-attrgroup-attribute-'
+                      index
+                    }}
+                  />
+                </Layout::MdObjectContainer>
               </tr>
             {{else}}
               <tr>
@@ -124,11 +128,11 @@
     </div>
   </div>
 {{else}}
-  {{control/md-alert-table
-    title=this.title
-    required=this.required
-    addItem=(action 'addItem')
-    target=this.arrayValues
-    tipMessage=this.alertTipMessage
-  }}
+  <Control::MdAlertTable
+    @title={{this.title}}
+    @required={{this.required}}
+    @addItem={{action 'addItem'}}
+    @target={{this.arrayValues}}
+    @tipMessage={{this.alertTipMessage}}
+  />
 {{/unless}}

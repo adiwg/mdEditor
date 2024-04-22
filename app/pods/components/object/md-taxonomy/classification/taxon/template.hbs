@@ -50,21 +50,21 @@
             Edit
           </button>
 
-          {{#control/md-button-confirm
-            class='btn btn-xs btn-danger'
-            onConfirm=(action 'deleteTaxa' this.model)
-          }}
+          <Control::MdButtonConfirm
+            @class='btn btn-xs btn-danger'
+            @onConfirm={{action 'deleteTaxa' this.model}}
+          >
             {{fa-icon 'times'}}
             Delete
-          {{/control/md-button-confirm}}
+          </Control::MdButtonConfirm>
 
-          {{control/md-button
-            class='btn-xs btn-info'
-            icon='plus'
-            text='Add Child'
-            responsive=false
-            click=(action 'addChild')
-          }}
+          <Control::MdButton
+            @class='btn-xs btn-info'
+            @icon='plus'
+            @text='Add Child'
+            @responsive={{false}}
+            @click={{action 'addChild'}}
+          />
         </div>
       {{/unless}}
     {{/unless}}
@@ -75,48 +75,48 @@
       <div class='md-taxon-form'>
         <form class='card form' {{action 'toggleEditing' on='submit'}}>
           <div class='card-block row form-inline'>
-            {{input/md-input
-              class='col-lg-4'
-              label='Taxonomic Level'
-              model=this
-              valuePath='taxonomicLevel'
-              showValidations=true
-              placeholder='Enter the rank of the taxon'
-              profilePath=(concat this.profilePath '.taxonomicLevel')
-            }}
-            {{input/md-input
-              class='col-lg-4'
-              label='Taxonomic Name'
-              model=this
-              valuePath='taxonomicName'
-              showValidations=true
-              placeholder='Enter the name of the taxon'
-              profilePath=(concat this.profilePath '.taxonomicName')
-            }}
-            {{input/md-input
-              class='col-lg-4'
-              label='Taxonomic ID'
-              value=this.taxonomicSystemId
-              placeholder='Enter the id assigned to the taxon'
-              profilePath=(concat this.profilePath '.taxonomicSystemId')
-            }}
+            <Input::MdInput
+              @class='col-lg-4'
+              @label='Taxonomic Level'
+              @model={{this}}
+              @valuePath='taxonomicLevel'
+              @showValidations={{true}}
+              @placeholder='Enter the rank of the taxon'
+              @profilePath={{concat this.profilePath '.taxonomicLevel'}}
+            />
+            <Input::MdInput
+              @class='col-lg-4'
+              @label='Taxonomic Name'
+              @model={{this}}
+              @valuePath='taxonomicName'
+              @showValidations={{true}}
+              @placeholder='Enter the name of the taxon'
+              @profilePath={{concat this.profilePath '.taxonomicName'}}
+            />
+            <Input::MdInput
+              @class='col-lg-4'
+              @label='Taxonomic ID'
+              @value={{this.taxonomicSystemId}}
+              @placeholder='Enter the id assigned to the taxon'
+              @profilePath={{concat this.profilePath '.taxonomicSystemId'}}
+            />
           </div>
           <div class='card-block'>
-            {{#object/md-simple-array-table
-              title='Common Name'
-              required=false
-              plain=true
-              profilePath=(concat this.profilePath '.commonName')
-              value=this.model.commonName
+            <Object::MdSimpleArrayTable
+              @title='Common Name'
+              @required={{false}}
+              @plain={{true}}
+              @profilePath={{concat this.profilePath '.commonName'}}
+              @value={{this.model.commonName}}
               as |val|
-            }}
+            >
               <td>
-                {{input/md-input
-                  value=val.item.value
-                  placeholder='Enter value'
-                }}
+                <Input::MdInput
+                  @value={{val.item.value}}
+                  @placeholder='Enter value'
+                />
               </td>
-            {{/object/md-simple-array-table}}
+            </Object::MdSimpleArrayTable>
           </div>
 
           <footer class='card-footer text-right'>
@@ -139,12 +139,12 @@
 
 {{#with this.collapsible}}
   {{#liquid-unless this.collapse class='list-group-item'}}
-    {{object/md-taxonomy/classification
-      model=this.model.subClassification
-      parentItem=this
-      dragging=this.dragging
-      preview=this.preview
-      profilePath=this.profilePath
-    }}
+    <Object::MdTaxonomy::Classification
+      @model={{this.model.subClassification}}
+      @parentItem={{this}}
+      @dragging={{this.dragging}}
+      @preview={{this.preview}}
+      @profilePath={{this.profilePath}}
+    />
   {{/liquid-unless}}
 {{/with}}

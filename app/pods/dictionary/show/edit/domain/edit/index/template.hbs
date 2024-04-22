@@ -6,32 +6,32 @@
     #{{this.domainId}}
   {{/if}}
   <span class='small'>for <em>{{this.parentModel.title}}</em></span>
-  {{control/md-status model=this.parentModel}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{object/md-domain
-  class=''
-  model=this.model
-  profilePath='dictionary.domain'
-  editCitation=(route-action 'editCitation')
-  editDomainItem=(route-action 'editDomainItem')
-}}
+<Object::MdDomain
+  @class=''
+  @model={{this.model}}
+  @profilePath='dictionary.domain'
+  @editCitation={{route-action 'editCitation'}}
+  @editDomainItem={{route-action 'editDomainItem'}}
+/>
 
-{{to-elsewhere
-  named='md-subbar-extra'
-  send=(component
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{component
     'control/subbar-link'
     text='Back to Domains'
     icon='arrow-left'
     route='dictionary.show.edit.domain.index'
-  )
-}}
+  }}
+/>
 
-{{to-elsewhere
-  named='md-scroll-spy-dict-edit'
-  send=(component
+<ToElsewhere
+  @named='md-scroll-spy-dict-edit'
+  @send={{component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
-  )
-}}
+  }}
+/>

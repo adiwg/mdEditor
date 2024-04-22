@@ -1,25 +1,28 @@
 <h4 class='section-header'>
   Editing Additional Document #{{this.citationId}}
-  {{control/md-status model=this.parentModel}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{object/md-documentation model=this.model profilePath='record.documents'}}
+<Object::MdDocumentation
+  @model={{this.model}}
+  @profilePath='record.documents'
+/>
 
-{{to-elsewhere
-  named='md-subbar-extra'
-  send=(component
+<ToElsewhere
+  @named='md-subbar-extra'
+  @send={{component
     'control/subbar-link'
     text='Back to Document List'
     icon='arrow-left'
     route='record.show.edit.documents'
-  )
-}}
+  }}
+/>
 
-{{to-elsewhere
-  named='md-scroll-spy-record-edit'
-  send=(component
+<ToElsewhere
+  @named='md-scroll-spy-record-edit'
+  @send={{component
     'control/md-scroll-spy'
     scrollInit=this.scrollTo
     setScrollTo=(route-action 'setScrollTo')
-  )
-}}
+  }}
+/>

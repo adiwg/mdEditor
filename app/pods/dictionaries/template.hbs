@@ -1,35 +1,35 @@
 <h3 class='text-info'>{{fa-icon 'book'}} Dictionaries</h3>
 
 {{#if this.model.length}}
-  {{#layout/md-card collapsible=true collapsed=false shadow=true}}
-    {{control/md-record-table
-      data=this.model
-      dataColumns=(compute (route-action 'getColumns'))
-      allActions=true
-      selectProperty='_selectedFromList'
-      showSlider=(route-action 'showSlider')
-    }}
-  {{/layout/md-card}}
+  <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
+    <Control::MdRecordTable
+      @data={{this.model}}
+      @dataColumns={{compute (route-action 'getColumns')}}
+      @allActions={{true}}
+      @selectProperty='_selectedFromList'
+      @showSlider={{route-action 'showSlider'}}
+    />
+  </Layout::MdCard>
 {{else}}
   <div class='alert alert-info'>
     <h3>No Dictionaries found.
-      {{#link-to 'dictionary.new' class='btn btn-success btn-lg'}}
+      <LinkTo @route='dictionary.new' class='btn btn-success btn-lg'>
         {{fa-icon 'plus'}}
         Create a Dictionary
-      {{/link-to}}
+      </LinkTo>
     </h3>
   </div>
 {{/if}}
 
 {{outlet}}
 {{#if this.errorTarget}}
-  {{to-elsewhere
-    named='md-slider-error'
-    send=(hash
+  <ToElsewhere
+    @named='md-slider-error'
+    @send={{hash
       title=(concat 'Viewing errors for: ' this.errorTarget.title)
       body=(component
         'control/md-errors' errors=this.errorTarget.hasSchemaErrors
       )
-    )
-  }}
+    }}
+  />
 {{/if}}

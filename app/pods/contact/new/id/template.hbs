@@ -12,15 +12,15 @@
     <div class='form-group'>
       <label class='col-sm-3 control-label'>Contact Type</label>
       <div class='col-sm-9 col-sm-offset-'>
-        {{input/md-toggle
-          value=this.model.json.isOrganization
-          onToggle=(action (mut this.model.json.isOrganization))
-          showLabels=true
-          onLabel='Organization'
-          offLabel='Individual'
-          size='large'
-          theme='form'
-        }}
+        <Input::MdToggle
+          @value={{this.model.json.isOrganization}}
+          @onToggle={{action (mut this.model.json.isOrganization)}}
+          @showLabels={{true}}
+          @onLabel='Organization'
+          @offLabel='Individual'
+          @size='large'
+          @theme='form'
+        />
       </div>
     </div>
     <div class='form-group'>
@@ -33,11 +33,11 @@
       >Contact ID</label>
 
       <div class='col-sm-9'>
-        {{input/md-input
-          valuePath='json.contactId'
-          model=this.model
-          placeholder='Enter an ID for this contact'
-        }}
+        <Input::MdInput
+          @valuePath='json.contactId'
+          @model={{this.model}}
+          @placeholder='Enter an ID for this contact'
+        />
       </div>
     </div>
     <div class='form-group'>
@@ -49,11 +49,11 @@
           }}'
       >Name</label>
       <div class='col-sm-9'>
-        {{input/md-input
-          valuePath='json.name'
-          model=this.model
-          placeholder='Enter a name for this contact'
-        }}
+        <Input::MdInput
+          @valuePath='json.name'
+          @model={{this.model}}
+          @placeholder='Enter a name for this contact'
+        />
       </div>
     </div>
     {{#unless this.model.json.isOrganization}}
@@ -66,11 +66,11 @@
             }}'
         >Position Name</label>
         <div class='col-sm-9'>
-          {{input/md-input
-            valuePath='json.positionName'
-            model=this.model
-            placeholder='Enter a name for this position'
-          }}
+          <Input::MdInput
+            @valuePath='json.positionName'
+            @model={{this.model}}
+            @placeholder='Enter a name for this position'
+          />
         </div>
       </div>
     {{/unless}}
