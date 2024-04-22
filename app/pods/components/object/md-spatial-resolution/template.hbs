@@ -4,10 +4,10 @@
   valuePath='scaleFactor'
   label='Scale Factor'
   placeholder='Enter the geographic(map) scale for the resource.'
-  profilePath=(concat profilePath '.scaleFactor')
+  profilePath=(concat this.profilePath '.scaleFactor')
   showValidations=true
-  disabled=scaleDisabled
-  class=(if (v-get model 'scaleFactor' 'isInvalid') 'required')
+  disabled=this.scaleDisabled
+  class=(if (v-get this.model 'scaleFactor' 'isInvalid') 'required')
 }}
 
 {{input/md-input
@@ -17,9 +17,9 @@
   label='Level Of Detail'
   placeholder='Enter description of the spatial resolution of the resource.'
   showValidations=true
-  disabled=levelDisabled
-  profilePath=(concat profilePath '.levelOfDetail')
-  class=(if (v-get model 'levelOfDetail' 'isInvalid') 'required')
+  disabled=this.levelDisabled
+  profilePath=(concat this.profilePath '.levelOfDetail')
+  class=(if (v-get this.model 'levelOfDetail' 'isInvalid') 'required')
 }}
 
 {{#layout/md-card
@@ -27,11 +27,11 @@
   collapsed=false
   data-spy=false
   shadow=false
-  profilePath=(concat profilePath '.measure')
-  class=(if measureDisabled 'text-muted')
+  profilePath=(concat this.profilePath '.measure')
+  class=(if this.measureDisabled 'text-muted')
 }}
   <label
-    class='text-info {{if (v-get model "measure" "isInvalid") "required"}}'
+    class='text-info {{if (v-get this.model "measure" "isInvalid") "required"}}'
   >Measure</label>
   {{input/md-select
     label='Measure Type'
@@ -40,13 +40,13 @@
     path='measureType'
     valuePath='value'
     namePath='name'
-    objectArray=typeOptions
+    objectArray=this.typeOptions
     tooltip=true
     tooltipPath='tip'
     searchEnabled=false
-    disabled=measureDisabled
+    disabled=this.measureDisabled
     placeholder='The type of measurement.'
-    profilePath=(concat profilePath '.measure.type')
+    profilePath=(concat this.profilePath '.measure.type')
   }}
   {{input/md-input
     type='number'
@@ -55,9 +55,9 @@
     valuePath='measureValue'
     label='Value'
     placeholder='Enter the number of units in the measurement.'
-    profilePath=(concat profilePath '.measure.value')
+    profilePath=(concat this.profilePath '.measure.value')
     showValidations=true
-    disabled=measureDisabled
+    disabled=this.measureDisabled
   }}
   {{input/md-input
     model=this
@@ -65,8 +65,8 @@
     label='Units'
     placeholder='Type of units to associated with the value.'
     showValidations=true
-    disabled=measureDisabled
-    profilePath=(concat profilePath '.measure.units')
+    disabled=this.measureDisabled
+    profilePath=(concat this.profilePath '.measure.units')
   }}
 {{/layout/md-card}}
 

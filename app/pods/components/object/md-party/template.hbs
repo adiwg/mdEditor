@@ -5,11 +5,11 @@
   create=true
   tooltip=true
   icon=false
-  disabled=disabled
+  disabled=this.disabled
   mdCodeName='role'
   showValidations=true
   placeholder='Select or enter a role'
-  profilePath=(if profilePath (concat profilePath '.role'))
+  profilePath=(if this.profilePath (concat this.profilePath '.role'))
 }}
 {{input/md-select-contacts
   label='Contacts'
@@ -19,5 +19,5 @@
   icon=true
   tooltip=true
   showValidations=true
-  profilePath=(if profilePath (concat profilePath '.contacts'))
+  profilePath=(if this.profilePath (concat this.profilePath '.contacts'))
 }}

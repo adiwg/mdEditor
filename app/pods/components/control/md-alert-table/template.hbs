@@ -1,25 +1,25 @@
 <h4>No
-  <span class={{if required 'required'}}>{{title}}</span>
+  <span class={{if this.required 'required'}}>{{this.title}}</span>
   found.
   <button
     type='button'
     class='btn btn-success btn-md'
-    {{action 'addItem' target}}
+    {{action 'addItem' this.target}}
   >
     {{fa-icon 'plus'}}
     Add
-    {{singularize title}}
+    {{singularize this.title}}
   </button>
   {{yield}}
 </h4>
 <h4>
-  {{#if tipMessage}}
-    <span class='md-{{tipType}}'>
-      {{fa-icon tipIcon}}
+  {{#if this.tipMessage}}
+    <span class='md-{{this.tipType}}'>
+      {{fa-icon this.tipIcon}}
       {{#ember-tooltip
-        side='right' tooltipClass=(concat 'ember-tooltip md-tooltip ' tipType)
+        side='right' tooltipClass=(concat 'ember-tooltip md-tooltip ' this.tipType)
       }}
-        {{tipMessage}}
+        {{this.tipMessage}}
       {{/ember-tooltip}}
     </span>
   {{/if}}

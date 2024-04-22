@@ -8,19 +8,19 @@
   plain=true
   bodyIsRow=true
   class='card-lighter'
-  profilePath=profilePath
+  profilePath=this.profilePath
 }}
   <div class='col-sm-6'>
     <div class='row'>
       <div class='col-xxxl-6'>
         <label>Bounding Box</label>
-        {{#object/md-bbox model=bbox profilePath=(concat profilePath '.bbox')}}
+        {{#object/md-bbox model=this.bbox profilePath=(concat this.profilePath '.bbox')}}
           <div class='card-footer'>
             <button
               type='button'
               class='btn btn-primary'
               {{action 'calculateBox'}}
-              disabled={{if (is-empty geographicElement) true}}
+              disabled={{if (is-empty this.geographicElement) true}}
             >
               {{fa-icon 'calculator'}}
               Calculate
@@ -28,7 +28,7 @@
             {{#control/md-button-confirm
               class='btn btn-danger'
               onConfirm=(action 'clearBox')
-              disabled=(unless hasBbox true)
+              disabled=(unless this.hasBbox true)
             }}
               {{fa-icon 'trash'}}
               Clear
@@ -38,29 +38,29 @@
       </div>
       <div class='col-xxxl-6 md-extent-description'>
         {{input/md-textarea
-          value=geographicExtent.description
+          value=this.geographicExtent.description
           rows=5
           maxHeight=300
           placeholder='Description of geographic extent'
           label='Description'
-          profilePath=(concat profilePath '.description')
+          profilePath=(concat this.profilePath '.description')
         }}
         {{input/md-boolean
           label='Contains Data'
           text='The geographic extent contains some or all of the data'
-          value=geographicExtent.containsData
-          profilePath=(concat profilePath '.containsData')
+          value=this.geographicExtent.containsData
+          profilePath=(concat this.profilePath '.containsData')
         }}
       </div>
     </div>
   </div>
   <div class='col-sm-6 md-extent-map'>
-    {{#if showMap}}
+    {{#if this.showMap}}
       <p class='btn-toolbar'>
         <button
           type='button'
           class='btn btn-md btn-success'
-          {{action 'editFeatures' index}}
+          {{action 'editFeatures' this.index}}
         >
           {{fa-icon 'pencil'}}
           Edit Features</button>
@@ -71,7 +71,7 @@
           Clear Features
         {{/control/md-button-confirm}}
       </p>
-      {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(action setupMap)}}
+      {{#leaflet-map lat=0 lng=0 zoom=2 maxZoom=18 onLoad=(action this.setupMap)}}
         {{! Specify child layer components here }}
         {{#layer-group name='Terrain' baselayer=true default=true}}
 
@@ -81,22 +81,22 @@
 
           {{tile-layer
             url='//tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png'
-            attribution=mapAttribution
+            attribution=this.mapAttribution
           }}
 
         {{/layer-group}}
 
-        {{#if geographicElement.length}}
+        {{#if this.geographicElement.length}}
           {{#feature-group name='Features' default=true}}
-            {{#each geographicElement as |l|}}
+            {{#each this.geographicElement as |l|}}
               {{geojson-layer geoJSON=l}}
             {{/each}}
           {{/feature-group}}
         {{/if}}
 
-        {{#if bboxPoly}}
+        {{#if this.bboxPoly}}
           {{#feature-group name='Bounding Box' default=true}}
-            {{polygon-layer locations=bboxPoly color='#29abe0' fillOpacity=0}}
+            {{polygon-layer locations=this.bboxPoly color='#29abe0' fillOpacity=0}}
           {{/feature-group}}
         {{/if}}
 
@@ -108,7 +108,7 @@
         <button
           type='button'
           class='btn btn-md btn-success md-btn-responsive'
-          {{action 'editFeatures' index}}
+          {{action 'editFeatures' this.index}}
         >
           {{fa-icon 'pencil'}}
           Add Features</button>

@@ -1,15 +1,15 @@
-{{control/md-record-table/buttons/show record=record}}
+{{control/md-record-table/buttons/show record=this.record}}
 <button
   type='button'
   class='btn btn-sm btn-success'
-  onclick={{action 'editItem' record}}
+  onclick={{action 'editItem' this.record}}
 >
   {{fa-icon 'pencil'}}
   Edit
 </button>
 {{#control/md-button-confirm
   class='btn btn-sm btn-danger'
-  onConfirm=(action 'deleteItem' record index isSelected clickOnRow)
+  onConfirm=(action 'deleteItem' this.record this.index this.isSelected this.clickOnRow)
 }}
   <span class='fa fa-times'></span>
   Delete
@@ -22,13 +22,13 @@ may cause those records to fail validation." onConfirm=(route-action "deleteItem
 {{/control/md-button-modal}} --}}
 {{control/md-json-button
   class='btn-sm btn-primary'
-  json=record.cleanJson
-  title=record.title
+  json=this.record.cleanJson
+  title=this.record.title
 }}
 {{control/md-status
-  model=record
+  model=this.record
   isBtn=true
   hideSlider=true
-  showSlider=(action 'showSlider' record)
+  showSlider=(action 'showSlider' this.record)
 }}
 {{yield}}

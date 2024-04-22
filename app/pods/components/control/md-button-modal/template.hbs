@@ -1,11 +1,11 @@
 {{yield}}
 {{#control/md-modal
-  isShowing=isShowingModal
+  isShowing=this.isShowingModal
   closeModal=(action 'cancel')
-  target=target
-  renderInPlace=renderInPlace
+  target=this.target
+  renderInPlace=this.renderInPlace
 }}
-  {{html-safe message}}
+  {{html-safe this.message}}
   <div class='md-modal-buttons pull-right'>
     <button
       type='button'

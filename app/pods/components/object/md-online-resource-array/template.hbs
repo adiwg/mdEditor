@@ -1,21 +1,21 @@
 {{#object/md-object-table
-  items=model
-  header=label
-  shadow=shadow
+  items=this.model
+  header=this.label
+  shadow=this.shadow
   buttonText='Add Resource'
-  ellipsis=ellipsis
-  previewTemplate=previewTemplate
-  profilePath=profilePath
-  templateClass=templateClass
-  attributes=attributes
+  ellipsis=this.ellipsis
+  previewTemplate=this.previewTemplate
+  profilePath=this.profilePath
+  templateClass=this.templateClass
+  attributes=this.attributes
   as |editing|
 }}
   {{!-- Editing: {{editing.name}} --}}
 
   {{object/md-online-resource
-    imagePicker=imagePicker
+    imagePicker=this.imagePicker
     model=editing
-    profilePath=profilePath
+    profilePath=this.profilePath
   }}
 
 {{/object/md-object-table}}

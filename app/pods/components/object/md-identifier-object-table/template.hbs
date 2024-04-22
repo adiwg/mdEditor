@@ -1,14 +1,14 @@
 {{#object/md-object-table
-  items=model
-  header=label
+  items=this.model
+  header=this.label
   buttonText='Add Identifier'
-  ellipsis=ellipsis
-  templateClass=templateClass
-  attributes=attributes
+  ellipsis=this.ellipsis
+  templateClass=this.templateClass
+  attributes=this.attributes
   as |editing|
 }}
 
-  {{object/md-identifier model=editing short=short profilePath=profilePath}}
+  {{object/md-identifier model=editing short=this.short profilePath=this.profilePath}}
 
   {{!-- {{input/md-input
   value=editing.identifier

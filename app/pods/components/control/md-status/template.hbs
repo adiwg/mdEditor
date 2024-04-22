@@ -1,8 +1,8 @@
-{{#if model.hasDirtyHash}}
+{{#if this.model.hasDirtyHash}}
   <span role='button' class='md-status-icon' onclick={{action 'saveRecord'}}>
     {{fa-icon
       'exclamation-circle'
-      class=(if isBtn (concat 'btn btn-danger btn-' btnSize) 'md-error')
+      class=(if this.isBtn (concat 'btn btn-danger btn-' this.btnSize) 'md-error')
     }}
     {{ember-tooltip
       text='This record has been modified! Cick to save.'
@@ -12,11 +12,11 @@
   </span>
 {{/if}}
 
-{{#if model.hasSchemaErrors}}
+{{#if this.model.hasSchemaErrors}}
   <span role='button' class='md-status-icon' onclick={{action 'showSlider'}}>
     {{fa-icon
       'exclamation-triangle'
-      class=(if isBtn (concat 'btn btn-warning btn-' btnSize) 'md-warning')
+      class=(if this.isBtn (concat 'btn btn-warning btn-' this.btnSize) 'md-warning')
     }}
     {{ember-tooltip
       text='This record has errors! Click to view.'
@@ -26,12 +26,12 @@
   </span>
 {{/if}}
 
-{{#unless hideSlider}}
+{{#unless this.hideSlider}}
   {{to-elsewhere
     named='md-slider-error'
     send=(hash
-      title=(concat 'Viewing errors for: ' model.title)
-      body=(component 'control/md-errors' errors=model.schemaErrors)
+      title=(concat 'Viewing errors for: ' this.model.title)
+      body=(component 'control/md-errors' errors=this.model.schemaErrors)
     )
   }}
 {{/unless}}

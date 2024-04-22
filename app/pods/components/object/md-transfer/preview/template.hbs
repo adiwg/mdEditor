@@ -1,5 +1,5 @@
-{{#with item as |t|}}
-  {{#if isTable}}
+{{#with this.item as |t|}}
+  {{#if this.isTable}}
     <td>{{t.transferSize}}</td>
     <td>{{if
         t.onlineOption.length

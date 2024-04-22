@@ -9,7 +9,7 @@
   showClear=true
   format='YYYY-MM-DD HH:mm:ss'
   placeholder='Enter start dateTime'
-  profilePath=(concat profilePath '.start')
+  profilePath=(concat this.profilePath '.start')
 }}
 {{input/md-datetime
   class='end'
@@ -21,12 +21,12 @@
   label='End Date'
   format='YYYY-MM-DD HH:mm:ss'
   placeholder='Enter end dateTime'
-  profilePath=(concat profilePath '.end')
+  profilePath=(concat this.profilePath '.end')
 }}
 {{control/md-fiscalyear
   start='start'
   end='end'
   context=this
-  profilePath=(concat profilePath '.fiscalyear')
+  profilePath=(concat this.profilePath '.fiscalyear')
 }}
 {{yield}}

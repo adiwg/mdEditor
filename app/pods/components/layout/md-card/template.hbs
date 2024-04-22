@@ -1,75 +1,75 @@
-{{#if title}}
+{{#if this.title}}
   <div
     class='card-header text-info
-      {{if plain "bg-white border-bottom-0 rounded-sm"}}
-      {{if collapsed "border-0"}}
-      {{borderColor}}'
+      {{if this.plain "bg-white border-bottom-0 rounded-sm"}}
+      {{if this.collapsed "border-0"}}
+      {{this.borderColor}}'
   >
     <h4 class='card-title md-card-chevron'>
-      {{#if isCollapsible}}
-        {{#if titleIcon}}
+      {{#if this.isCollapsible}}
+        {{#if this.titleIcon}}
           <a
             role='button'
             data-toggle='collapse'
-            href='#{{cardId}}'
-            aria-expanded={{if collapsed 'false' 'true'}}
-            class='text-info {{if collapsed "collapsed"}}'
-            aria-controls={{panelId}}
+            href='{{this.cardId}}'
+            aria-expanded={{if this.collapsed 'false' 'true'}}
+            class='text-info {{if this.collapsed "collapsed"}}'
+            aria-controls={{this.panelId}}
           >
-            {{fa-icon titleIcon}}
-            {{title}}
+            {{fa-icon this.titleIcon}}
+            {{this.title}}
             <span class='fa'></span>
           </a>
         {{else}}
           <a
             role='button'
             data-toggle='collapse'
-            href='#{{cardId}}'
-            aria-expanded={{if collapsed 'false' 'true'}}
-            class='text-info {{if collapsed "collapsed"}}'
-            aria-controls={{panelId}}
+            href='{{this.cardId}}'
+            aria-expanded={{if this.collapsed 'false' 'true'}}
+            class='text-info {{if this.collapsed "collapsed"}}'
+            aria-controls={{this.panelId}}
           >
             <span class='fa'></span>
-            {{title}}
+            {{this.title}}
           </a>
         {{/if}}
       {{else}}
-        {{#if titleIcon}}
-          {{fa-icon titleIcon}}
+        {{#if this.titleIcon}}
+          {{fa-icon this.titleIcon}}
         {{/if}}
-        {{title}}
+        {{this.title}}
       {{/if}}
-      {{#if maximizable}}
+      {{#if this.maximizable}}
         <a role='button' class='pull-right md-card-maximize hidden-print'>
-          {{fa-icon windowIcon size=1 click=(action 'toggleFullScreen')}}
+          {{fa-icon this.windowIcon size=1 click=(action 'toggleFullScreen')}}
         </a>
       {{/if}}
       <div class='btn-group hidden-print pull-right'>
-        {{#if btnText}}
+        {{#if this.btnText}}
           <button
             type='button'
             name='button'
-            class='btn btn-{{if btnClass btnClass "primary"}} btn-xs'
-            {{action btnAction}}
+            class='btn btn-{{if this.btnClass this.btnClass "primary"}} btn-xs'
+            {{action this.btnAction}}
           >
-            {{fa-icon btnIcon}}
-            {{btnText}}
+            {{fa-icon this.btnIcon}}
+            {{this.btnText}}
           </button>
         {{/if}}
-        {{#if deleteAction}}
+        {{#if this.deleteAction}}
           {{#control/md-button-confirm
-            class='btn btn-danger btn-xs' onConfirm=(action deleteAction)
+            class='btn btn-danger btn-xs' onConfirm=(action this.deleteAction)
           }}
             {{fa-icon 'times'}}
             Delete
           {{/control/md-button-confirm}}
         {{/if}}
-        {{#if spotlightEnabled}}
+        {{#if this.spotlightEnabled}}
           <button
             type='button'
             name='button'
             class='btn btn-info btn-xs md-btn-spotlight'
-            {{action 'spotlight' elementId}}
+            {{action 'spotlight' this.elementId}}
           >
             {{fa-icon 'circle'}}
           </button>
@@ -79,13 +79,13 @@
   </div>
 {{/if}}
 <div
-  id={{cardId}}
+  id={{this.cardId}}
   class='card-collapse
-    {{if collapsed "collapse" "in"}}
-    {{if bodyIsRow "row"}}
-    {{if block "card-block"}}
-    {{if flex "card-flex"}}
-    {{if plain "border-top"}}'
+    {{if this.collapsed "collapse" "in"}}
+    {{if this.bodyIsRow "row"}}
+    {{if this.block "card-block"}}
+    {{if this.flex "card-flex"}}
+    {{if this.plain "border-top"}}'
 >
   {{yield}}
 </div>

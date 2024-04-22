@@ -4,14 +4,14 @@
   <form>
     <ul class='nav nav-tabs' role='tablist'>
       <li role='presentation' class='active'><a
-          href={{concat '#' elementId '-form'}}
+          href={{concat '#' this.elementId '-form'}}
           aria-controls='form'
           role='tab'
           data-toggle='tab'
         >Info</a></li>
       <li role='presentation'>
         <a
-          href={{concat '#' elementId '-schema'}}
+          href={{concat '#' this.elementId '-schema'}}
           aria-controls='schemas'
           role='tab'
           data-toggle='tab'
@@ -20,10 +20,10 @@
           <div
             class={{concat
               'inline-block label label-pill label-'
-              (unless record.customSchemas.length 'warning' 'info')
+              (unless this.record.customSchemas.length 'warning' 'info')
             }}
           >
-            {{record.customSchemas.length}}
+            {{this.record.customSchemas.length}}
           </div>
         </a>
       </li>
@@ -33,17 +33,17 @@
         <div
           role='tabpanel'
           class='tab-pane fade in active'
-          id={{concat elementId '-form'}}
+          id={{concat this.elementId '-form'}}
         >
-          {{object/md-schema/form record=record}}
+          {{object/md-schema/form record=this.record}}
         </div>
         <div
           role='tabpanel'
           class='tab-pane fade'
-          id={{concat elementId '-schema'}}
+          id={{concat this.elementId '-schema'}}
         >
           <ul class='list-group'>
-            {{#each record.customSchemas as |s|}}
+            {{#each this.record.customSchemas as |s|}}
               <li class='list-group-item'>{{s.id}}</li>
             {{/each}}
           </ul>

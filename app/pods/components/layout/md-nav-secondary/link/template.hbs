@@ -1,27 +1,27 @@
 {{!-- {{#if link.isOverflow}} --}}
-{{#if isStaticLinks}}
-  {{#link-to link.target class='link.class'}}{{link.title}}
-    {{#if link.tip}}
+{{#if this.isStaticLinks}}
+  {{#link-to this.link.target class='link.class'}}{{this.link.title}}
+    {{#if this.link.tip}}
       {{#ember-tooltip
         effect='slide'
         side='bottom'
         delay=500
         tooltipClass='ember-tooltip md-tooltip info'
       }}
-        {{link.tip}}
+        {{this.link.tip}}
       {{/ember-tooltip}}
     {{/if}}
   {{/link-to}}
 {{else}}
-  {{#link-to link.target model class='link.class'}}{{link.title}}
-    {{#if link.tip}}
+  {{#link-to this.link.target this.model class='link.class'}}{{this.link.title}}
+    {{#if this.link.tip}}
       {{#ember-tooltip
         effect='slide'
         side='bottom'
         delay=500
         tooltipClass='ember-tooltip md-tooltip info'
       }}
-        {{link.tip}}
+        {{this.link.tip}}
         {{!-- {{link.isOverflow}} --}}
       {{/ember-tooltip}}
     {{/if}}

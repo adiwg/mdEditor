@@ -1,5 +1,5 @@
 {{input/md-input
-  model=record
+  model=this.record
   valuePath='title'
   label='Title'
   placeholder='Enter a short title for the profile.'
@@ -7,7 +7,7 @@
 }}
 
 {{input/md-textarea
-  model=record
+  model=this.record
   valuePath='description'
   label='Description'
   placeholder='Enter a description of the profile.'
@@ -15,13 +15,13 @@
 }}
 
 {{input/md-select
-  model=record
+  model=this.record
   path='profileId'
   label='Profile Definition'
   valuePath='identifier'
   namePath='title'
   placeholder='Select the profile definition.'
-  objectArray=definitions.profiles
+  objectArray=this.definitions.profiles
   searchEnabled=true
   showValidations=true
   allowClear=true
@@ -38,9 +38,9 @@
       </div>
       <div class='card-block no-padding'>
         <div class='list-group no-margin md-itis-taxalist'>
-          {{#each notSelected as |schema|}}
+          {{#each this.notSelected as |schema|}}
             {{#liquid-unless
-              (contains schema selected)
+              (contains schema this.selected)
               class=(concat 'list-group-item ' (if schema 'md-itis-unselected'))
               enableGrowth=true
               shrinkDelay=500
@@ -96,9 +96,9 @@
             </p>
           </div>
           {{/liquid-if}} --}}
-          {{#each selected as |schema|}}
+          {{#each this.selected as |schema|}}
             {{#liquid-if
-              (contains schema selected)
+              (contains schema this.selected)
               class='list-group-item md-itis-selected'
               enableGrowth=true
               shrinkDelay=500

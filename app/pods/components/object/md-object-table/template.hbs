@@ -1,39 +1,39 @@
-{{#unless showAlert}}
-  <div class='md-object-table panel panel-default {{if editing "editing"}}'>
+{{#unless this.showAlert}}
+  <div class='md-object-table panel panel-default {{if this.editing "editing"}}'>
     <div class='panel-heading'>
       <h3 class='panel-title md-panel-chevron'>
-        {{#if collapsible}}
+        {{#if this.collapsible}}
           <a
             role='button'
             data-toggle='collapse'
-            href='#{{unless editing panelId}}'
-            aria-expanded={{if collapsed 'false' 'true'}}
-            class={{if collapsed 'collapsed'}}
-            aria-controls={{panelId}}
+            href='{{unless this.editing this.panelId}}'
+            aria-expanded={{if this.collapsed 'false' 'true'}}
+            class={{if this.collapsed 'collapsed'}}
+            aria-controls={{this.panelId}}
           >
             <span class='fa'></span>
-            {{header}}
-            <div class='label label-pill {{pillColor}}'> {{items.length}} </div>
+            {{this.header}}
+            <div class='label label-pill {{this.pillColor}}'> {{this.items.length}} </div>
           </a>
         {{else}}
-          {{header}}
-          <label class='label label-pill {{pillColor}}'>
-            {{items.length}}
+          {{this.header}}
+          <label class='label label-pill {{this.pillColor}}'>
+            {{this.items.length}}
           </label>
         {{/if}}
 
         <button
           type='button'
-          id='{{panelId}}-btn'
-          class='btn btn-xs btn-info pull-right {{if editing "hidden"}}'
-          {{action 'addItem' items}}
+          id='{{this.panelId}}-btn'
+          class='btn btn-xs btn-info pull-right {{if this.editing "hidden"}}'
+          {{action 'addItem' this.items}}
         >
           {{fa-icon 'plus'}}
           Add
         </button>
         <button
           type='button'
-          class='btn btn-xs btn-info pull-right {{unless editing "hidden"}}'
+          class='btn btn-xs btn-info pull-right {{unless this.editing "hidden"}}'
           {{action 'cancelEdit'}}
         >
           <span class='fa fa-check'></span>
@@ -42,11 +42,11 @@
       </h3>
     </div>
 
-    <div id={{panelId}} class='panel-collapse {{if collapsed "collapse" "in"}}'>
-      {{#if editing}}
+    <div id={{this.panelId}} class='panel-collapse {{if this.collapsed "collapse" "in"}}'>
+      {{#if this.editing}}
         {{#control/md-scroll-into-view}}
           <div class='panel-body object-editor'>
-            {{yield saveItem}}
+            {{yield this.saveItem}}
             <hr />
             <button
               type='button'
@@ -61,21 +61,21 @@
       {{else}}
         <div
           class='panel-body
-            {{if condensed "condensed"}}
-            {{if responsive "table-responsive"}}'
+            {{if this.condensed "condensed"}}
+            {{if this.responsive "table-responsive"}}'
         >
           {{! template-lint-disable table-groups }}
           <table
             class='table table-striped table-hover fadeIn
-              {{if ellipsis "ellipsis"}}'
+              {{if this.ellipsis "ellipsis"}}'
           >
-            {{#unless previewTemplate}}
+            {{#unless this.previewTemplate}}
               <thead>
                 <tr>
-                  {{#unless hideIndex}}
+                  {{#unless this.hideIndex}}
                     <th>#</th>
                   {{/unless}}
-                  {{#each attrTitleArray as |prop|}}
+                  {{#each this.attrTitleArray as |prop|}}
                     <th>{{prop}}</th>
                   {{/each}}
                   <th></th>
@@ -83,30 +83,30 @@
               </thead>
             {{/unless}}
             <tbody>
-              {{#each items as |item index|}}
-                <tr id={{if scrollToId (concat scrollToId '-' index) ''}}>
-                  {{#unless hideIndex}}
+              {{#each this.items as |item index|}}
+                <tr id={{if this.scrollToId (concat this.scrollToId '-' index) ''}}>
+                  {{#unless this.hideIndex}}
                     <td class='md-table-index'>
                       {{index}}
                     </td>
                   {{/unless}}
-                  {{#if previewTemplateTable}}
+                  {{#if this.previewTemplateTable}}
                     {{component
-                      previewTemplateTable
+                      this.previewTemplateTable
                       item=item
                       index=index
-                      profilePath=profilePath
+                      profilePath=this.profilePath
                       isTable=true
                     }}
-                  {{else if previewTemplate}}
+                  {{else if this.previewTemplate}}
                     <td class='property'>{{component
-                        previewTemplate
+                        this.previewTemplate
                         item=item
                         index=index
-                        profilePath=profilePath
+                        profilePath=this.profilePath
                       }}</td>
                   {{else}}
-                    {{#each attrArray as |prop|}}
+                    {{#each this.attrArray as |prop|}}
                       {{#if (get item prop)}}
                         <td class='property'><div class='wrap'>{{get
                               item
@@ -119,8 +119,8 @@
                   {{/if}}
                   <td
                     class='md-row-actions
-                      {{if verticalButtons "vertical"}}
-                      {{alignButtons}}'
+                      {{if this.verticalButtons "vertical"}}
+                      {{this.alignButtons}}'
                   >
                     <div
                       class='btn-toolbar'
@@ -128,29 +128,29 @@
                       aria-label='Row Toolbar'
                     >
                       <div
-                        class='btn-group{{if verticalButtons "-vertical"}}'
+                        class='btn-group{{if this.verticalButtons "-vertical"}}'
                         role='group'
                         aria-label='Action Buttons'
                       >
                         <button
                           type='button'
-                          class='btn btn-{{btnSize}} btn-success'
+                          class='btn btn-{{this.btnSize}} btn-success'
                           {{action
                             'editItem'
-                            items
+                            this.items
                             index
-                            (if scrollToId (concat scrollToId '-' index) null)
+                            (if this.scrollToId (concat this.scrollToId '-' index) null)
                           }}
                         >
                           {{fa-icon 'pencil'}}
-                          {{if editBtnText editBtnText 'Edit'}}
+                          {{if this.editBtnText this.editBtnText 'Edit'}}
                         </button>
                         {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
                                   <span class="fa fa-times"></span> Delete
                               </button> --}}
                         {{#control/md-button-confirm
-                          class=(concat 'btn btn-' btnSize ' btn-danger')
-                          onConfirm=(action 'deleteItem' items index)
+                          class=(concat 'btn btn-' this.btnSize ' btn-danger')
+                          onConfirm=(action 'deleteItem' this.items index)
                         }}
                           <span class='fa fa-times'></span>
                           Delete
@@ -159,11 +159,11 @@
                       </div>
 
                       <div
-                        class='btn-group{{if verticalButtons "-vertical"}}'
+                        class='btn-group{{if this.verticalButtons "-vertical"}}'
                         role='group'
                         aria-label='Row Note'
                       >
-                        {{#each noteComponents as |note|}}
+                        {{#each this.noteComponents as |note|}}
                           {{#if note.component}}
                             {{component
                               note.component
@@ -175,7 +175,7 @@
                         {{/each}}
                       </div>
                       <div
-                        class='btn-group{{if verticalButtons "-vertical"}}'
+                        class='btn-group{{if this.verticalButtons "-vertical"}}'
                         role='group'
                         aria-label='Row Error'
                       >
@@ -200,15 +200,15 @@
                 </tr>
               {{else}}
                 <tr>
-                  <td colspan={{add-em attrArray.length (if hideIndex 1 2)}}>
+                  <td colspan={{add-em this.attrArray.length (if this.hideIndex 1 2)}}>
                     <button
                       type='button'
-                      id='{{panelId}}-btn'
+                      id='{{this.panelId}}-btn'
                       class='btn btn-xs btn-info'
-                      {{action 'addItem' items}}
+                      {{action 'addItem' this.items}}
                     >
                       {{fa-icon 'plus'}}
-                      {{buttonText}}
+                      {{this.buttonText}}
                     </button>
                   </td>
                 </tr>
@@ -216,17 +216,17 @@
             </tbody>
           </table>
         </div>
-        {{#if showFooter}}
+        {{#if this.showFooter}}
           <div class='panel-footer text-right'>
             <button
               type='button'
-              id='{{panelId}}-btn'
-              class='btn btn-sm btn-info {{if editing "hidden"}}'
-              {{action 'addItem' items}}
+              id='{{this.panelId}}-btn'
+              class='btn btn-sm btn-info {{if this.editing "hidden"}}'
+              {{action 'addItem' this.items}}
             >
               {{fa-icon 'plus'}}
               Add
-              {{header}}
+              {{this.header}}
             </button>
           </div>
         {{/if}}
@@ -236,20 +236,20 @@
   </div>
 {{else}}
   {{control/md-alert-table
-    title=header
-    required=required
+    title=this.header
+    required=this.required
     addItem=(action 'addItem')
-    target=items
-    tipMessage=alertTipMessage
+    target=this.items
+    tipMessage=this.alertTipMessage
   }}
 {{/unless}}
 
-{{#if addSubbar}}
+{{#if this.addSubbar}}
   {{to-elsewhere
-    named=addSubbar
+    named=this.addSubbar
     send=(component
       'control/subbar-link'
-      clickText=buttonText
+      clickText=this.buttonText
       clickIcon='plus'
       clickType='success'
       click=(action 'addItem')

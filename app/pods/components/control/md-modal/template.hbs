@@ -6,8 +6,8 @@
     translucentOverlay=true
     containerClass='md-modal-container'
     overlayClass='md-modal-overlay'
-    tetherTarget=target
-    renderInPlace=renderInPlace
+    tetherTarget=this.target
+    renderInPlace=this.renderInPlace
     tagName='div'
   }}
     <button
@@ -23,17 +23,17 @@
     </button>
     <div class='md-modal-body'>
       {{yield}}
-      {{html-safe message}}
+      {{html-safe this.message}}
     </div>
     <div class='md-modal-buttons pull-right'>
-      {{#if showConfirm}}
+      {{#if this.showConfirm}}
         <button
           type='button'
           class='btn btn-success'
           {{action 'confirm'}}
-        >{{confirmLabel}}</button>
+        >{{this.confirmLabel}}</button>
       {{/if}}
-      {{#if showCancel}}
+      {{#if this.showCancel}}
         <button
           type='button'
           class='btn btn-warning'

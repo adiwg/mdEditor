@@ -1,7 +1,7 @@
 <div class='md-preview-image text-center'>
-  {{#if item.uri}}
+  {{#if this.item.uri}}
     <img
-      src={{item.uri}}
+      src={{this.item.uri}}
       class='img-responsive img-thumbnail'
       alt='Image Preview'
     />
@@ -13,13 +13,13 @@
   <dt>Name</dt>
   <dd>
     <div class='wrap'>{{html-safe
-        (if item.name item.name '<em>Not Defined</em>')
+        (if this.item.name this.item.name '<em>Not Defined</em>')
       }}</div>
   </dd>
   <dt>URI</dt>
   <dd>
     <div class='wrap'>{{html-safe
-        (if item.uri item.uri '<em>Not Defined</em>')
+        (if this.item.uri this.item.uri '<em>Not Defined</em>')
       }}</div>
   </dd>
 </dl>
