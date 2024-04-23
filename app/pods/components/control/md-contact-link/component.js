@@ -61,11 +61,9 @@ export default LinkComponent.extend({
    * @requires contactId
    */
   contact: computed('contactId', function () {
-      let rec = this.store
+      return this.store
         .peekAll('contact')
         .findBy('json.contactId', this.contactId);
-
-      return rec;
     })
     .readOnly()
 });

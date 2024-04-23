@@ -42,6 +42,7 @@ export default Route.extend(ScrollTo, {
   flashMessages: service(),
   jsonvalidator: service(),
   settings: service(),
+  store: service(),
   ajax: service(),
 
   init() {

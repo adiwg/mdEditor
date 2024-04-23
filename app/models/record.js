@@ -16,6 +16,7 @@ const {
     defaultProfileId
   }
 } = config;
+import { inject as service } from '@ember/service';
 
 const Validations = buildValidations({
   'recordId': validator(
@@ -71,6 +72,7 @@ const Record = Model.extend(Validations, Copyable, {
    * @submodule data-models
    */
 
+  store: service('store'),
   profile: attr('string', {
     defaultValue: defaultProfileId
   }),

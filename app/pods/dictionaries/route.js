@@ -14,6 +14,7 @@ const columns = [{
 }];
 
 export default Route.extend({
+  store: service(),
   slider: service(),
   model() {
     //return this.store.peekAll('contact');

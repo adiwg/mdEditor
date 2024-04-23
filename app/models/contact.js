@@ -94,6 +94,7 @@ const Contact = Model.extend(Validations, Copyable, {
    * @submodule data-models
    */
 
+  store: service('store'),
   contactsService: service('contacts'),
   contacts: hasMany('contact', {
     inverse: 'organizations'

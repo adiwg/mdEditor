@@ -37,6 +37,7 @@ export default Route.extend({
   router: service(),
   keyword: service(),
   profile: service(),
+  store: service(),
 
   /**
    * Models for sidebar navigation

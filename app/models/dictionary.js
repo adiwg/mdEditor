@@ -9,7 +9,7 @@ import {
 } from 'ember-cp-validations';
 import EmberObject, { computed } from '@ember/object';
 import config from 'mdeditor/config/environment';
-
+import { inject as service } from '@ember/service';
 const {
   APP: {
     defaultProfileId
@@ -77,6 +77,7 @@ export default Model.extend(Validations, Copyable, {
     this.on('didLoad', this, this.assignId);
   },
 
+  store: service('store'),
   profile: attr('string', {
     defaultValue: defaultProfileId
   }),

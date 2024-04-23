@@ -3,6 +3,8 @@ import { A } from '@ember/array';
 import EmberObject, { computed } from '@ember/object';
 
 export default Service.extend({
+  store: service(),
+
   init() {
     this._super(...arguments);
 
@@ -10,8 +12,6 @@ export default Service.extend({
 
     this.set('contacts', store.peekAll('contact'));
   },
-
-  store: service(),
 
   contacts: A(),
 

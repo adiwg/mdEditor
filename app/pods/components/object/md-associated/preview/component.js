@@ -25,8 +25,7 @@ export default Component.extend({
       return this.get('item.resourceCitation');
     }
 
-    let store = this.store;
-    let linked = store.peekAll('record')
+    let linked = this.store.peekAll('record')
       .filterBy('recordId', get(this, 'item.mdRecordId'))
       .get('firstObject.json.metadata.resourceInfo.citation');
 
@@ -38,9 +37,7 @@ export default Component.extend({
       return this.get('item.metadataCitation.identifier.0');
     }
 
-    let store = this.store;
-
-    return store.peekAll('record')
+    return this.store.peekAll('record')
       .filterBy('recordId', get(this, 'item.mdRecordId'))
       .get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
   }),

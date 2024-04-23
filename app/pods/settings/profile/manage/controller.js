@@ -4,6 +4,7 @@ import { task } from 'ember-concurrency';
 import { or } from '@ember/object/computed';
 
 export default Controller.extend({
+  store: service(),
   profile: service(),
   flashMessages: service(),
 

@@ -1,8 +1,10 @@
 import { NotFoundError } from '@ember-data/adapter/error';
 import { computed } from '@ember/object';
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
+  store: service(),
   model: function (params) {
     let record = this.store.peekRecord('dictionary', params.dictionary_id);
 

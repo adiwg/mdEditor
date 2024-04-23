@@ -29,6 +29,8 @@ const {
  * @class custom-profile
  */
 export default Service.extend({
+  store: service(),
+
   init() {
     this._super(...arguments);
 

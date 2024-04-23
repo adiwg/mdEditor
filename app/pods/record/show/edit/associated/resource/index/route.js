@@ -16,7 +16,7 @@ const sliderColumns = [{
 
 export default Route.extend(ScrollTo, {
   slider: service(),
-
+  store: service(),
   sliderColumns: sliderColumns,
   setupController: function() {
     // Call _super for default behavior

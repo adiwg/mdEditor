@@ -31,6 +31,7 @@ const fixLiabilityTypo = async (store) => {
 }
 
 export default Route.extend(ScrollTo, {
+  store: service(),
   mdjson: service(),
   settings: service(),
   model() {

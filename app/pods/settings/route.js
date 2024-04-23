@@ -6,19 +6,10 @@ import { get, action } from '@ember/object';
 
 @classic
 export default class SettingsRoute extends Route {
-  @service
-  settings;
-
-  @service
-  publish;
-
-  /**
-   * The profile service
-   *
-   * @return {Ember.Service} profile
-   */
-  @service
-  profile;
+  @service settings;
+  @service publish;
+  @service store;
+  @service profile;
 
   setupController(controller, model) {
     super.setupController(controller, model);

@@ -5,6 +5,7 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
   flashMessages: service(),
+  store: service(),
 
   model: function(params) {
     let rec= this.store.peekRecord('contact', params.contact_id);

@@ -2,6 +2,7 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 
 export default Controller.extend({
+  store: service(),
   customProfiles: service('custom-profile'),
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
   columns: [{

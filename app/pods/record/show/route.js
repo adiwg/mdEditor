@@ -1,8 +1,10 @@
 import Route from '@ember/routing/route';
 import { copy } from 'ember-copy';
+import { inject as service } from '@ember/service';
 
 export default Route.extend({
   //breadCrumb: {},
+  store: service(),
   afterModel(model) {
     const name = model.get('title');
 

@@ -55,9 +55,7 @@ export default Component.extend(Validations, {
   associationType: alias('model.associationType'),
 
   linkedRecord: computed('model.mdRecordId', function() {
-    let store = this.store;
-
-    return store.peekAll('record')
+    return this.store.peekAll('record')
       .filterBy('recordId', get(this, 'model.mdRecordId'))
       .get('firstObject');
   }),
