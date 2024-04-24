@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 import EmberObject, { set, get } from '@ember/object';
 import config from 'mdeditor/config/environment';
@@ -11,15 +12,19 @@ const {
   environment
 } = config;
 
-export default Service.extend({
-  store: service(),
-  data: 'null',
+@classic
+export default class SettingsService extends Service {
+  @service
+  store;
+
+  data = 'null';
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.setup();
-  },
+  }
+
   setup() {
     let me = this;
     let settings;
@@ -54,10 +59,11 @@ export default Service.extend({
         }
 
       });
-  },
-  repositoryTemplate: EmberObject.extend({
+  }
+
+  repositoryTemplate = EmberObject.extend({
     init() {
-      this._super(...arguments);
+      super.init(...arguments);
     }
-  })
-});
+  });
+}

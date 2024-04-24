@@ -1,6 +1,7 @@
+import classic from 'ember-classic-decorator';
+import { map, union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
-import { computed, get } from '@ember/object';
-import { union, map } from '@ember/object/computed';
+import { get, computed } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import config from 'mdeditor/config/environment';
 
@@ -28,17 +29,25 @@ const {
  * @submodule service
  * @class custom-profile
  */
-export default Service.extend({
-  store: service(),
+@classic
+export default class CustomProfileService extends Service {
+  @service
+  store;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.customProfiles = this.store.peekAll('custom-profile');
-  },
-  flashMessages: service(),
-  store: service(),
-  definitions: service('profile'),
+  }
+
+  @service
+  flashMessages;
+
+  @service
+  store;
+
+  @service('profile')
+  definitions;
 
   /**
    * String identifying the active profile
@@ -46,7 +55,7 @@ export default Service.extend({
    * @property active
    * @type {String}
    */
-  active: null,
+  active = null;
 
   /**
    * Array of all available profiles
@@ -56,7 +65,8 @@ export default Service.extend({
    * @category computed
    * @required customProfiles,coreProfiles
    */
-  profiles: union('customProfiles', 'coreProfiles'),
+  @union('customProfiles', 'coreProfiles')
+  profiles;
 
   /**
    * Array of available coreProfile definitions
@@ -66,14 +76,15 @@ export default Service.extend({
    * @category computed
    * @required definitions.coreProfiles
    */
-  coreProfiles: map('definitions.coreProfiles', function (itm) {
+  @map('definitions.coreProfiles', function (itm) {
     return {
       id: itm.namespace + '.' + itm.identifier,
       title: itm.title,
       description: itm.description,
       definition: itm
     }
-  }),
+  })
+  coreProfiles;
 
   /**
    * Available profiles mapped by profile id
@@ -83,13 +94,14 @@ export default Service.extend({
    * @category computed
    * @required profiles.[]
    */
-  mapById: computed('profiles.[]', function () {
+  @computed('profiles.[]')
+  get mapById() {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;
 
       return map;
     }, {});
-  }),
+  }
 
   /**
    * Available profiles mapped by profile alternate id
@@ -99,7 +111,8 @@ export default Service.extend({
    * @category computed
    * @required profiles.[]
    */
-  mapByAltId: computed('profiles.[]', function () {
+  @computed('profiles.[]')
+  get mapByAltId() {
     return this.profiles.reduce(function (map, profile) {
       let alt = get(profile, 'definition.alternateId');
 
@@ -111,7 +124,7 @@ export default Service.extend({
 
       return map;
     }, {});
-  }),
+  }
 
   /**
    * The defaultProfile definition
@@ -121,9 +134,10 @@ export default Service.extend({
    * @category computed
    * @required mapById
    */
-  defaultProfile: computed('mapById', function () {
+  @computed('mapById')
+  get defaultProfile() {
     return this.mapById[defaultProfileId];
-  }),
+  }
 
   /**
    * The current component profile definition
@@ -133,10 +147,11 @@ export default Service.extend({
    * @category computed
    * @required active
    */
-  activeComponents: computed('active', function () {
+  @computed('active')
+  get activeComponents() {
     let comp = get(this.getActiveProfile(), 'definition.components');
     return comp || this.defaultProfile.definition.components;
-  }),
+  }
 
   /**
    * The currently active schemas
@@ -146,9 +161,10 @@ export default Service.extend({
    * @category computed
    * @required active
    */
-  activeSchemas: computed('active', function () {
+  @computed('active')
+  get activeSchemas() {
     return this.getActiveProfile().schemas;
-  }),
+  }
 
   /**
    * Get the active profile.
@@ -186,4 +202,4 @@ export default Service.extend({
 
     return this.defaultProfile;
   }
-});
+}

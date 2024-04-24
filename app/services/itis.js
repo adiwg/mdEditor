@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 import EmberObject, { get, set, computed } from '@ember/object';
 import titleize from 'ember-cli-string-helpers/utils/titleize';
@@ -16,17 +17,20 @@ const proxy =
   '&sort=score%20desc,nameWOInd%20asc' +
   '&fl=hierarchySoFarWRanks,hierarchyTSN,kingdom,rank,vernacular,tsn,nameWOInd,usage';
 
-const Taxa = EmberObject.extend({
-  style: computed('status', function () {
+@classic
+class Taxa extends EmberObject {
+  @computed('status')
+  get style() {
     let status = this.status;
     return status === 'valid' || status === 'accepted' ? 'success' :
       'danger';
-  })
-});
+  }
+}
 
-export default Service.extend({
+@classic
+export default class ItisService extends Service {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.kingdoms = {
       "class": "gov.usgs.itis.itis_service.metadata.SvcKingdomNameList",
@@ -105,12 +109,18 @@ export default Service.extend({
         }]
       }]
     })
-  },
+  }
 
-  settings: service(),
-  ajax: service(),
-  flashMessages: service(),
-  isLoading: false,
+  @service
+  settings;
+
+  @service
+  ajax;
+
+  @service
+  flashMessages;
+
+  isLoading = false;
 
   sendQuery(searchString, kingdom, limit = 50) {
     const formatted = searchString.replace(/(-| )/g, '*');
@@ -159,7 +169,8 @@ export default Service.extend({
       this.flashMessages
         .danger('An error occured during the ITIS query request.');
     });
-  },
+  }
+
   parseDoc(doc) {
     let {
       hierarchySoFarWRanks: ranks,
@@ -194,10 +205,12 @@ export default Service.extend({
       common: common,
       status: status
     });
-  },
+  }
+
   parseHierarchyTSN(tsn) {
     return tsn.map(t => t.slice(1, t.length - 1).split('$'));
-  },
+  }
+
   parseVernacular(vernacular) {
     if(!vernacular) {
       return null;
@@ -211,7 +224,8 @@ export default Service.extend({
         language: v[1]
       };
     });
-  },
+  }
+
   parseRanks(ranks, tsn) {
     return ranks.map((itm, i) => {
       let split = itm.split('$');
@@ -231,7 +245,8 @@ export default Service.extend({
         };
       });
     });
-  },
+  }
+
   getBranch(taxon, branches) {
     let branch = branches.filterBy('taxonomicLevel', taxon.rank).findBy(
       'taxonomicName', taxon.value);
@@ -248,7 +263,8 @@ export default Service.extend({
     }
 
     return branch;
-  },
+  }
+
   mergeTaxa(taxa, tree) {
     taxa.reduce((tree, taxon) => {
       let branch = this.getBranch(taxon, tree);
@@ -261,4 +277,4 @@ export default Service.extend({
       return get(branch, 'subClassification');
     }, tree);
   }
-});
+}

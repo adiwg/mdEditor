@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import { A } from '@ember/array';
 import EmberObject from '@ember/object';
@@ -54,5 +55,6 @@ service.get('thesaurus')
     keywordType: 'isoTopicCategory',
     label: 'ISO Topic Category'
   });
-  
-export default Service.extend(service);
+
+@classic
+export default class KeywordService extends Service.extend(service) {}
