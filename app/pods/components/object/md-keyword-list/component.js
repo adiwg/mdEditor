@@ -8,11 +8,9 @@ import $ from 'jquery';
  */
 
 export default Component.extend({
-  readOnly: computed('model.thesaurus.identifier.0.identifier',
-    function () {
-      return this.get('model.thesaurus.identifier.0.identifier') !==
-        'custom';
-    }),
+  readOnly: computed('model.thesaurus.identifier.0.identifier', function () {
+    return this.get('model.thesaurus.identifier.0.identifier') !== 'custom';
+  }),
 
   actions: {
     addKeyword(model) {
@@ -24,5 +22,5 @@ export default Component.extend({
     hideThesaurus(el) {
       $(el).closest('.md-keywords-container').toggleClass('hide-thesaurus');
     },
-  }
+  },
 });

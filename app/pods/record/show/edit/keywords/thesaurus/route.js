@@ -14,25 +14,26 @@ export default Route.extend({
   },
 
   setupModel() {
-    let thesaurusId = this.thesaurusId || this.controller.get(
-      'thesaurusId');
+    let thesaurusId = this.thesaurusId || this.controller.get('thesaurusId');
     let model = this.modelFor('record.show.edit.keywords');
-    let thesaurus = model.get('json.metadata.resourceInfo.keyword')
+    let thesaurus = model
+      .get('json.metadata.resourceInfo.keyword')
       .get(thesaurusId);
 
     //make sure the thesaurus still exists
-    if(isEmpty(thesaurus)) {
-      this.flashMessages
-        .warning('No thesaurus found! Re-directing to list...');
+    if (isEmpty(thesaurus)) {
+      this.flashMessages.warning('No thesaurus found! Re-directing to list...');
       this.replaceWith('record.show.edit.keywords');
 
       return;
     }
 
-    let selectedThesaurus = this.keyword.findById(thesaurus.thesaurus.identifier[0].identifier);
+    let selectedThesaurus = this.keyword.findById(
+      thesaurus.thesaurus.identifier[0].identifier,
+    );
     if (selectedThesaurus.dynamicLoad) {
       return axios.get(selectedThesaurus.keywordsUrl).then((response) => {
-        if(!isArray(thesaurus.keyword)) {
+        if (!isArray(thesaurus.keyword)) {
           set(thesaurus, 'keyword', A());
         }
         set(selectedThesaurus, 'keywords', response.data);
@@ -41,11 +42,11 @@ export default Route.extend({
           keywords: thesaurus,
           model: model,
           path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
-          thesaurus: selectedThesaurus
+          thesaurus: selectedThesaurus,
         });
-      })
+      });
     } else {
-      if(!isArray(thesaurus.keyword)) {
+      if (!isArray(thesaurus.keyword)) {
         set(thesaurus, 'keyword', A());
       }
       return EmberObject.create({
@@ -53,7 +54,7 @@ export default Route.extend({
         keywords: thesaurus,
         model: model,
         path: `json.metadata.resourceInfo.keyword.${thesaurusId}`,
-        thesaurus: selectedThesaurus
+        thesaurus: selectedThesaurus,
       });
     }
   },
@@ -62,26 +63,24 @@ export default Route.extend({
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controllerFor('record.show.edit')
-      .setProperties({
-        onCancel: this.setupModel,
-        cancelScope: this,
-        thesaurusId: this.thesaurusId
-      });
+    this.controllerFor('record.show.edit').setProperties({
+      onCancel: this.setupModel,
+      cancelScope: this,
+      thesaurusId: this.thesaurusId,
+    });
   },
 
   actions: {
     selectKeyword(node, path) {
       let model = this.currentRouteModel();
-      let keywords = model.get('model')
-        .get(model.get('path'));
+      let keywords = model.get('model').get(model.get('path'));
       let kw = keywords.keyword;
       let target = kw.findBy('identifier', node.uuid);
 
-      if(node.isSelected && target === undefined) {
+      if (node.isSelected && target === undefined) {
         let pathStr = '';
 
-        if(isArray(path)) {
+        if (isArray(path)) {
           pathStr = path.reduce(function (prev, item) {
             prev = prev ? `${prev} > ${item.label}` : item.label;
 
@@ -91,10 +90,8 @@ export default Route.extend({
 
         kw.pushObject({
           identifier: node.uuid,
-          keyword: keywords.fullPath && pathStr ?
-            pathStr : node.label,
-          path: pathStr.split(' > ')
-            .slice(0, pathStr.length - 1)
+          keyword: keywords.fullPath && pathStr ? pathStr : node.label,
+          path: pathStr.split(' > ').slice(0, pathStr.length - 1),
         });
       } else {
         kw.removeObject(target);
@@ -105,21 +102,20 @@ export default Route.extend({
     },
     changeFullPath(evt) {
       let model = this.currentRouteModel();
-      let keywords = model.get('model')
-        .get(model.get('path'));
+      let keywords = model.get('model').get(model.get('path'));
       let kw = get(keywords, 'keyword');
       let val = evt.target.checked;
 
       set(keywords, 'fullPath', val);
 
       kw.forEach(function (curr) {
-        if(val) {
+        if (val) {
           set(curr, 'keyword', curr.path.join(' > '));
         } else {
           let words = curr.keyword.split(' > ');
           set(curr, 'keyword', words[words.length - 1]);
         }
       });
-    }
-  }
+    },
+  },
 });

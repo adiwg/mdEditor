@@ -15,32 +15,44 @@ export default Component.extend({
         set(
           model,
           'qualityMeasure',
-          get(model, 'qualityMeasure') !== undefined ? get(model, 'qualityMeasure') : { name: [] }
+          get(model, 'qualityMeasure') !== undefined
+            ? get(model, 'qualityMeasure')
+            : { name: [] },
         );
         set(
           model,
           'evaluationMethod',
-          get(model, 'evaluationMethod') !== undefined ? get(model, 'evaluationMethod') : { dateTime: [] }
+          get(model, 'evaluationMethod') !== undefined
+            ? get(model, 'evaluationMethod')
+            : { dateTime: [] },
         );
         set(
           model,
           'quantitativeResult',
-          get(model, 'quantitativeResult') !== undefined ? get(model, 'quantitativeResult') : []
+          get(model, 'quantitativeResult') !== undefined
+            ? get(model, 'quantitativeResult')
+            : [],
         );
         set(
           model,
           'descriptiveResult',
-          get(model, 'descriptiveResult') !== undefined ? get(model, 'descriptiveResult') : []
+          get(model, 'descriptiveResult') !== undefined
+            ? get(model, 'descriptiveResult')
+            : [],
         );
         set(
           model,
           'conformanceResult',
-          get(model, 'conformanceResult') !== undefined ? get(model, 'conformanceResult') : []
+          get(model, 'conformanceResult') !== undefined
+            ? get(model, 'conformanceResult')
+            : [],
         );
         set(
           model,
           'coverageResult',
-          get(model, 'coverageResult') !== undefined ? get(model, 'coverageResult') : []
+          get(model, 'coverageResult') !== undefined
+            ? get(model, 'coverageResult')
+            : [],
         );
       });
     }
@@ -84,7 +96,7 @@ export default Component.extend({
         }
         return value;
       },
-    }
+    },
   ),
 
   evaluationMethodEndDateTime: computed('model.evaluationMethod.dateTime.[]', {

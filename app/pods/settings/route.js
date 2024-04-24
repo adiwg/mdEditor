@@ -14,19 +14,23 @@ export default class SettingsRoute extends Route {
   setupController(controller, model) {
     super.setupController(controller, model);
 
-    const links = [{
-      title: 'Main',
-      target: 'settings.main',
-      tip: 'Main application settings'
-    }, {
-      title: 'Profiles',
-      target: 'settings.profile',
-      tip: 'Custom profile settings'
-    }, {
-      title: 'Validation',
-      target: 'settings.validation',
-      tip: 'Custom validation settings'
-    }]
+    const links = [
+      {
+        title: 'Main',
+        target: 'settings.main',
+        tip: 'Main application settings',
+      },
+      {
+        title: 'Profiles',
+        target: 'settings.profile',
+        tip: 'Custom profile settings',
+      },
+      {
+        title: 'Validation',
+        target: 'settings.validation',
+        tip: 'Custom validation settings',
+      },
+    ];
     controller.set('links', links);
   }
 
@@ -37,9 +41,10 @@ export default class SettingsRoute extends Route {
     window.localStorage.clear();
 
     if (this.settings.data.keepSettings) {
-
-      window.localStorage.setItem('index-settings',
-        `["settings-${data.data.id}"]`);
+      window.localStorage.setItem(
+        'index-settings',
+        `["settings-${data.data.id}"]`,
+      );
       this.store.pushPayload('setting', data);
 
       let rec = this.store.peekRecord('setting', data.data.id);
@@ -62,7 +67,8 @@ export default class SettingsRoute extends Route {
 
   @action
   resetMdTranslatorAPI() {
-    let url = get(Setting, 'attributes').get('mdTranslatorAPI').options.defaultValue;
+    let url = get(Setting, 'attributes').get('mdTranslatorAPI').options
+      .defaultValue;
     let model = this.modelFor('settings.main');
 
     model.set('mdTranslatorAPI', url);

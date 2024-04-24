@@ -2,23 +2,20 @@ import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { get, set, computed } from '@ember/object';
 import { once } from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 import { A } from '@ember/array';
 
 const Validations = buildValidations({
-  'role': [
+  role: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'contacts': validator('length', {
+  contacts: validator('length', {
     min: 1,
-    message: 'At least one contact is required.'
-  })
+    message: 'At least one contact is required.',
+  }),
 });
 
 export default Component.extend(Validations, {
@@ -27,14 +24,28 @@ export default Component.extend(Validations, {
 
     let model = this.model;
 
-   once(this, function() {
-  set(model, 'contact', model.contact ? model.contact : {
-    role: null,
-    party: []
-  });
-  set(model, 'orderProcess', A(model.orderProcess ? model.orderProcess : [{}]));
-  set(model, 'transferOption', A(model.transferOption ? model.transferOption : [{}]));
-});
+    once(this, function () {
+      set(
+        model,
+        'contact',
+        model.contact
+          ? model.contact
+          : {
+              role: null,
+              party: [],
+            },
+      );
+      set(
+        model,
+        'orderProcess',
+        A(model.orderProcess ? model.orderProcess : [{}]),
+      );
+      set(
+        model,
+        'transferOption',
+        A(model.transferOption ? model.transferOption : [{}]),
+      );
+    });
   },
 
   tagName: 'form',
@@ -65,17 +76,17 @@ export default Component.extend(Validations, {
     set(key, value) {
       let map = value.map((itm) => {
         return {
-          contactId: itm
+          contactId: itm,
         };
       });
       set(this, 'model.contact.party', map);
       return value;
-    }
+    },
   }),
 
   actions: {
-    editTransferOption(index){
+    editTransferOption(index) {
       this.editTransferOption(index);
-    }
-  }
+    },
+  },
 });

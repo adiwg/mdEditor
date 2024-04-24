@@ -5,5 +5,5 @@ export default Component.extend({
   tagName: 'footer',
   classNames: ['md-footer'],
 
-  settings: service()
+  settings: service(),
 });

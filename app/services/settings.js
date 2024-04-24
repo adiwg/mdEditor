@@ -6,10 +6,8 @@ import { defaultValues } from 'mdeditor/models/setting';
 import { isEmpty } from '@ember/utils';
 
 const {
-  APP: {
-    version
-  },
-  environment
+  APP: { version },
+  environment,
 } = config;
 
 @classic
@@ -30,40 +28,46 @@ export default class SettingsService extends Service {
     let settings;
     let store = this.store;
 
-    store
-      .findAll('setting')
-      .then(function (s) {
-        let rec = s.get('firstObject');
+    store.findAll('setting').then(function (s) {
+      let rec = s.get('firstObject');
 
-        settings = rec ? rec : store.createRecord('setting');
+      settings = rec ? rec : store.createRecord('setting');
 
-        if(settings.get('lastVersion') !== version) {
-          settings.set('showSplash', environment !== 'test');
-          settings.set('lastVersion', version);
-        }
+      if (settings.get('lastVersion') !== version) {
+        settings.set('showSplash', environment !== 'test');
+        settings.set('lastVersion', version);
+      }
 
-        set(settings, 'repositoryDefaults', get(settings, 'repositoryDefaults') !== undefined ? get(settings, 'repositoryDefaults') : []);
+      set(
+        settings,
+        'repositoryDefaults',
+        get(settings, 'repositoryDefaults') !== undefined
+          ? get(settings, 'repositoryDefaults')
+          : [],
+      );
 
-        //update mdTranslatorAPI if default is being used
-        let isDefaultAPI = isEmpty(settings.get('mdTranslatorAPI')) || settings.get('mdTranslatorAPI').match(
-          'https://mdtranslator.herokuapp.com/api/v(.)/translator');
+      //update mdTranslatorAPI if default is being used
+      let isDefaultAPI =
+        isEmpty(settings.get('mdTranslatorAPI')) ||
+        settings
+          .get('mdTranslatorAPI')
+          .match('https://mdtranslator.herokuapp.com/api/v(.)/translator');
 
-        if(isDefaultAPI) {
-          settings.set('mdTranslatorAPI', defaultValues.mdTranslatorAPI);
-        }
+      if (isDefaultAPI) {
+        settings.set('mdTranslatorAPI', defaultValues.mdTranslatorAPI);
+      }
 
-        settings.notifyPropertyChange('hasDirtyAttributes');
+      settings.notifyPropertyChange('hasDirtyAttributes');
 
-        if(!(me.get('isDestroyed') || me.get('isDestroying'))) {
-          me.set('data', settings);
-        }
-
-      });
+      if (!(me.get('isDestroyed') || me.get('isDestroying'))) {
+        me.set('data', settings);
+      }
+    });
   }
 
   repositoryTemplate = EmberObject.extend({
     init() {
       super.init(...arguments);
-    }
+    },
   });
 }

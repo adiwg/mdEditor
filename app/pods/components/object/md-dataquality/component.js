@@ -10,13 +10,23 @@ export default Component.extend({
     let model = get(this, 'model');
 
     once(function () {
-      set(model, 'scope', get(model, 'scope') !== undefined ? get(model, 'scope') : {});
+      set(
+        model,
+        'scope',
+        get(model, 'scope') !== undefined ? get(model, 'scope') : {},
+      );
       set(
         model,
         'systemIdentifier',
-        get(model, 'systemIdentifier') !== undefined ? get(model, 'systemIdentifier') : { uid: uuidV4() }
+        get(model, 'systemIdentifier') !== undefined
+          ? get(model, 'systemIdentifier')
+          : { uid: uuidV4() },
       );
-      set(model, 'report', get(model, 'report') !== undefined ? get(model, 'report') : []);
+      set(
+        model,
+        'report',
+        get(model, 'report') !== undefined ? get(model, 'report') : [],
+      );
     });
   },
 

@@ -9,7 +9,7 @@ export default Component.extend({
    * @default "Citation"
    * @required
    */
-  title: "Citation",
+  title: 'Citation',
 
   /**
    * Indicates if object is required.
@@ -41,6 +41,6 @@ export default Component.extend({
   actions: {
     editCitation(scrollTo) {
       this.editCitation(scrollTo);
-    }
-  }
+    },
+  },
 });

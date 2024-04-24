@@ -6,6 +6,12 @@ export default Route.extend({
     this._super(...arguments);
 
     let model = get(m, 'json.metadata');
-    set(model, 'resourceDistribution', get(model, 'resourceDistribution') !== undefined ? get(model, 'resourceDistribution') : []);
+    set(
+      model,
+      'resourceDistribution',
+      get(model, 'resourceDistribution') !== undefined
+        ? get(model, 'resourceDistribution')
+        : [],
+    );
   },
 });

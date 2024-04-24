@@ -33,12 +33,13 @@ export default Component.extend({
 
     const oldEditorSetOption = editor.codemirror.setOption;
 
-    editor.codemirror.setOption = function(option, value) {
+    editor.codemirror.setOption = function (option, value) {
       oldEditorSetOption.apply(this, arguments);
 
-      if(option === 'fullScreen') {
-        $el.parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-          'full-screen', value);
+      if (option === 'fullScreen') {
+        $el
+          .parents('.liquid-child,.liquid-container, .md-card')
+          .toggleClass('full-screen', value);
       }
     };
   },
@@ -53,7 +54,7 @@ export default Component.extend({
     this._super(...arguments);
 
     run.once(this, () => {
-      if(isNone(this.value)) {
+      if (isNone(this.value)) {
         set(this, 'value', '');
       }
     });
@@ -112,20 +113,23 @@ export default Component.extend({
    * @category computed
    * @requires placeholder
    */
-  options: computed('placeholder', function() {
+  options: computed('placeholder', function () {
     return {
       placeholder: this.placeholder,
-      status: [{
-        className: 'length',
-        defaultValue: (el) => {
-          el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+      status: [
+        {
+          className: 'length',
+          defaultValue: (el) => {
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+          },
+          onUpdate: (el) => {
+            el.innerHTML = `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
+          },
         },
-        onUpdate: (el) => {
-          el.innerHTML =
-            `<span class="length md-${this.errorClass}">length: ${this.length}</span>`;
-        }
-      }, 'lines', 'words', 'cursor']
+        'lines',
+        'words',
+        'cursor',
+      ],
     };
   }),
 
@@ -141,11 +145,9 @@ export default Component.extend({
    * @category computed
    * @requires value
    */
-  length: computed('value', function() {
-      return this.value ? this.value
-        .length : 0;
-    })
-    .readOnly(),
+  length: computed('value', function () {
+    return this.value ? this.value.length : 0;
+  }).readOnly(),
 
   /**
    * Returns string indicating error or warning based on maxlength.
@@ -155,23 +157,22 @@ export default Component.extend({
    * @category computed
    * @requires value|maxlength
    */
-  errorClass: computed('value', 'maxlength', function() {
+  errorClass: computed('value', 'maxlength', function () {
     let length = this.length;
     let max = this.maxlength;
 
-    if(this.required && length < 1) {
+    if (this.required && length < 1) {
       return 'error';
     }
 
-    if(!max || length <= max - 25) {
+    if (!max || length <= max - 25) {
       return '';
     }
 
-    if(length > max) {
+    if (length > max) {
       return 'error';
-    } else if(length + 25 > max) {
+    } else if (length + 25 > max) {
       return 'warning';
     }
-
-  })
+  }),
 });

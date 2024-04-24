@@ -11,6 +11,6 @@ export default Component.extend({
     },
     deleteReportReference() {
       set(this.model, 'reportReference', undefined);
-    }
-  }
+    },
+  },
 });

@@ -13,7 +13,7 @@ module('Integration | Component | leaflet table row actions', function (hooks) {
     this.showForm = function () {};
     this.deleteFeature = function () {};
 
-    await render(hbs `{{leaflet-table-row-actions
+    await render(hbs`{{leaflet-table-row-actions
       zoomTo=zoomTo
       showForm=showForm
       deleteFeature=deleteFeature

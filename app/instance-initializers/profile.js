@@ -6,5 +6,5 @@ export function initialize(appInstance) {
 
 export default {
   name: 'profile',
-  initialize
+  initialize,
 };

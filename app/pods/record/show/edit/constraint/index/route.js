@@ -6,14 +6,17 @@ export default Route.extend({
     this._super(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
-    set(model, 'constraint', get(model, 'constraint') !== undefined ? get(model, 'constraint') : []);
+    set(
+      model,
+      'constraint',
+      get(model, 'constraint') !== undefined ? get(model, 'constraint') : [],
+    );
   },
 
-  setupController: function() {
+  setupController: function () {
     // Call _super for default behavior
     this._super(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
-  }
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
+  },
 });

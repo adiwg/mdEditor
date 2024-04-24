@@ -22,19 +22,18 @@ export default class CodelistService extends Service {
     let codelist = this;
 
     //remap codelist names to be more generic
-    Object.keys(codes)
-      .forEach(function (key) {
-        if(key === 'default') {
-          return;
-        }
+    Object.keys(codes).forEach(function (key) {
+      if (key === 'default') {
+        return;
+      }
 
-        const list = codes[key];
-        const name = key.replace(/^iso_|adiwg_/, '');
+      const list = codes[key];
+      const name = key.replace(/^iso_|adiwg_/, '');
 
-        codelist[name] = list;
-        //remove deprecated codes
-        codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
-      });
+      codelist[name] = list;
+      //remove deprecated codes
+      codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
+    });
   }
 
   /**
@@ -60,9 +59,9 @@ export default class CodelistService extends Service {
         return {
           code: itm.id,
           codeName: itm.title,
-          description: itm.description
+          description: itm.description,
         };
-      })
+      }),
     };
   }
 
@@ -78,8 +77,8 @@ export default class CodelistService extends Service {
   get codeOverrides() {
     return {
       scope: {
-        dataset: "geographicDataset"
-      }
-    }
+        dataset: 'geographicDataset',
+      },
+    };
   }
 }

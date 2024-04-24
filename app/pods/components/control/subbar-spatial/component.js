@@ -17,5 +17,5 @@ export default Component.extend({
     toList() {
       this.toList();
     },
-  }
+  },
 });

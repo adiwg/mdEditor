@@ -4,25 +4,28 @@ module.exports = {
   root: true,
   parser: '@babel/eslint-parser',
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 'latest',
     sourceType: 'module',
     ecmaFeatures: {
       legacyDecorators: true,
     },
+    // This is specific babel-config. If grows consider creating a babel config file
+    requireConfigFile: false,
+    babelOptions: {
+      plugins: [
+        ['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }],
+      ],
+    },
   },
   plugins: ['ember'],
-  extends: [
-    'eslint:recommended',
-    'plugin:ember/recommended',
-    'plugin:prettier/recommended',
-  ],
+  extends: ['eslint:recommended', 'plugin:ember/recommended', 'prettier'],
   env: {
     browser: true,
   },
   rules: {
     //'ember/new-module-imports': 'off',
     'no-console': 1,
-    'ember/no-observers': 1
+    'ember/no-observers': 1,
   },
   overrides: [
     // node files

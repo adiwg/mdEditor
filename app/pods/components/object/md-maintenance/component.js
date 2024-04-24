@@ -8,12 +8,12 @@ import Component from '@ember/component';
 import { computed, setProperties, get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
-const formatMaint = function(model) {
+const formatMaint = function (model) {
   setProperties(model, {
-    'date': get(model, 'date') !== undefined ? get(model, 'date') : [],
-    'scope': get(model, 'scope') !== undefined ? get(model, 'scope') : [],
-    'note': get(model, 'note') !== undefined ? get(model, 'note') : [],
-    'contact': get(model, 'contact') !== undefined ? get(model, 'contact') : []
+    date: get(model, 'date') !== undefined ? get(model, 'date') : [],
+    scope: get(model, 'scope') !== undefined ? get(model, 'scope') : [],
+    note: get(model, 'note') !== undefined ? get(model, 'note') : [],
+    contact: get(model, 'contact') !== undefined ? get(model, 'contact') : [],
   });
 
   return model;
@@ -55,8 +55,11 @@ const theComp = Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    once(this, function() {
-      this.set('model', get(this, 'model') !== undefined ? get(this, 'model') : {});
+    once(this, function () {
+      this.set(
+        'model',
+        get(this, 'model') !== undefined ? get(this, 'model') : {},
+      );
       formatMaint(this.model);
     });
   },
@@ -69,17 +72,13 @@ const theComp = Component.extend({
     set(key, value) {
       let map = value.map((itm) => {
         return {
-          scopeCode: itm
+          scopeCode: itm,
         };
       });
       set(this, 'model.scope', map);
       return value;
-    }
-  })
+    },
+  }),
 });
 
-export {
-  formatMaint,
-  theComp as
-  default
-};
+export { formatMaint, theComp as default };

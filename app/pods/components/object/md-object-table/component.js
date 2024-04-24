@@ -1,9 +1,6 @@
 import { gt } from '@ember/object/computed';
 import Component from '@ember/component';
-import EmberObject, {
-  get,
-  computed
-} from '@ember/object';
+import EmberObject, { get, computed } from '@ember/object';
 import { typeOf, isEmpty } from '@ember/utils';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { getOwner } from '@ember/application';
@@ -14,7 +11,6 @@ import Template from 'mdeditor/mixins/object-template';
 //import InViewportMixin from 'ember-in-viewport';
 
 export default Component.extend(Template, {
-
   /**
    * mdEditor class for managing a table of similar mdJSON objects
    * for selection for edit or deletion.
@@ -57,7 +53,7 @@ export default Component.extend(Template, {
   didUpdateAttrs() {
     this._super(...arguments);
 
-    if(this.editing !== 'adding') this.set('editing', false);
+    if (this.editing !== 'adding') this.set('editing', false);
   },
 
   /**
@@ -151,7 +147,7 @@ export default Component.extend(Template, {
    * @type String
    * @default Add
    */
-  buttonText: "Add",
+  buttonText: 'Add',
 
   /**
    * Render the row actions vertically.
@@ -244,9 +240,9 @@ export default Component.extend(Template, {
     let isCollapsed = this.isCollapsed;
     let value = this.items;
 
-    if(isCollapsed !== undefined) {
+    if (isCollapsed !== undefined) {
       return isCollapsed;
-    } else if(value && value.length > 0) {
+    } else if (value && value.length > 0) {
       return false;
     } else {
       return true;
@@ -289,22 +285,16 @@ export default Component.extend(Template, {
   attrArray: computed('attributes', function () {
     let attr = this.attributes;
 
-    return attr
-      ? attr.split(',').map(itm => itm.split(':')[0])
-      : null;
+    return attr ? attr.split(',').map((itm) => itm.split(':')[0]) : null;
   }),
 
   attrTitleArray: computed('attributes', function () {
-    return this.attributes.split(',')
-      .map(function (item) {
-        let title = item.trim().split('.').get('lastObject').split(
-          ':');
-        return title.length === 1 ? ucWords(
-          [title[0]
-            .dasherize()
-            .replace(/-/g,' ')
-          ], { force: false }) : title[1];
-      });
+    return this.attributes.split(',').map(function (item) {
+      let title = item.trim().split('.').get('lastObject').split(':');
+      return title.length === 1
+        ? ucWords([title[0].dasherize().replace(/-/g, ' ')], { force: false })
+        : title[1];
+    });
   }),
 
   editing: false,
@@ -312,14 +302,13 @@ export default Component.extend(Template, {
   pillColor: computed('items.[]', function () {
     let count = this.get('items.length') || 0;
 
-    return (count > 0) ? 'label-info' : 'label-warning';
+    return count > 0 ? 'label-info' : 'label-warning';
   }),
 
-  alertTipMessage: computed('tipModel', 'tipPath', 'errorMessage',
-    function () {
-      if (this.errorMessage) {
-        return this.errorMessage;
-      }
+  alertTipMessage: computed('tipModel', 'tipPath', 'errorMessage', function () {
+    if (this.errorMessage) {
+      return this.errorMessage;
+    }
 
     return this.tipModel
       ? this.tipModel.get(`validations.attrs.${this.tipPath}.message`)
@@ -330,11 +319,11 @@ export default Component.extend(Template, {
     deleteItem: function (items, index) {
       let last = Object.keys(items.get('lastObject'));
 
-      if(isEmpty(last)) {
+      if (isEmpty(last)) {
         items.replace();
       }
 
-      if(items.length === 0) return;
+      if (items.length === 0) return;
 
       items.removeAt(index);
     },
@@ -344,9 +333,10 @@ export default Component.extend(Template, {
       const owner = getOwner(this);
       const spotlight = this.spotlight;
 
-      let itm = typeOf(Template) === 'class'
-        ? Template.create(owner.ownerInjection())
-        :EmberObject.create({});
+      let itm =
+        typeOf(Template) === 'class'
+          ? Template.create(owner.ownerInjection())
+          : EmberObject.create({});
 
       let items = this.items;
 
@@ -370,6 +360,6 @@ export default Component.extend(Template, {
 
       this.set('editing', false);
       spotlight.close();
-    }
-  }
+    },
+  },
 });

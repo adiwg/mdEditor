@@ -5,9 +5,7 @@ import { set, get, setProperties, observer, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
 import { once } from '@ember/runloop';
 
-const {
-  isNaN: isNan
-} = Number;
+const { isNaN: isNan } = Number;
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -16,7 +14,11 @@ export default Component.extend({
     let geo = get(this, 'extent.geographicExtent.0');
 
     once(function () {
-      set(geo, 'boundingBox', get(geo, 'boundingBox') !== undefined ? get(geo, 'boundingBox') : {});
+      set(
+        geo,
+        'boundingBox',
+        get(geo, 'boundingBox') !== undefined ? get(geo, 'boundingBox') : {},
+      );
     });
   },
 
@@ -24,17 +26,21 @@ export default Component.extend({
     return isNone(val) || isNan(val);
   },
 
-  bboxPoly: computed('bbox',
+  bboxPoly: computed(
+    'bbox',
     'bbox.{northLatitude,southLatitude,eastLongitude,westLongitude}',
     function () {
       let bbox = this.bbox;
 
-      if(!bbox) {
+      if (!bbox) {
         return null;
       }
 
-      if(this.isTrulyNone(bbox.southLatitude) || this.isTrulyNone(bbox.westLongitude) ||
-        this.isTrulyNone(bbox.northLatitude) || this.isTrulyNone(bbox.eastLongitude)
+      if (
+        this.isTrulyNone(bbox.southLatitude) ||
+        this.isTrulyNone(bbox.westLongitude) ||
+        this.isTrulyNone(bbox.northLatitude) ||
+        this.isTrulyNone(bbox.eastLongitude)
       ) {
         return null;
       }
@@ -43,17 +49,18 @@ export default Component.extend({
         [bbox.southLatitude, bbox.westLongitude],
         [bbox.northLatitude, bbox.westLongitude],
         [bbox.northLatitude, bbox.eastLongitude],
-        [bbox.southLatitude, bbox.eastLongitude]
+        [bbox.southLatitude, bbox.eastLongitude],
       ];
-    }),
+    },
+  ),
 
   bboxPolyObserver: observer('bboxPoly', function () {
     let map = this.map;
     let bbox = this.bboxPoly;
 
-    if(map && bbox) {
+    if (map && bbox) {
       this.setupMap({
-        target: map
+        target: map,
       });
     }
   }),
@@ -61,7 +68,7 @@ export default Component.extend({
   bbox: alias('extent.geographicExtent.0.boundingBox'),
   geographicExtent: alias('extent.geographicExtent.0'),
   hasBbox: or(
-    'extent.geographicExtent.0.boundingBox.{northLatitude,southLatitude,eastLongitude,westLongitude}'
+    'extent.geographicExtent.0.boundingBox.{northLatitude,southLatitude,eastLongitude,westLongitude}',
   ),
   geographicElement: alias('extent.geographicExtent.0.geographicElement'),
   showMap: or('bboxPoly', 'geographicElement'),
@@ -71,8 +78,9 @@ export default Component.extend({
     let bbox = this.bboxPoly;
     let features;
 
-    features = bbox ? geo.concat([L.rectangle(bbox).toGeoJSON()]) : [].concat(
-      geo);
+    features = bbox
+      ? geo.concat([L.rectangle(bbox).toGeoJSON()])
+      : [].concat(geo);
 
     let bounds = L.geoJson(features).getBounds();
 
@@ -88,7 +96,7 @@ export default Component.extend({
     calculateBox() {
       let geo = this.geographicElement;
 
-      if(!(geo && geo.length)) {
+      if (!(geo && geo.length)) {
         return null;
       }
 
@@ -99,7 +107,7 @@ export default Component.extend({
         northLatitude: bounds.getNorth(),
         southLatitude: bounds.getSouth(),
         eastLongitude: bounds.getEast(),
-        westLongitude: bounds.getWest()
+        westLongitude: bounds.getWest(),
       });
     },
     clearBox() {
@@ -107,7 +115,7 @@ export default Component.extend({
         northLatitude: null,
         southLatitude: null,
         eastLongitude: null,
-        westLongitude: null
+        westLongitude: null,
       });
     },
     editFeatures(index) {
@@ -116,6 +124,6 @@ export default Component.extend({
 
     deleteFeatures() {
       this.deleteFeatures();
-    }
-  }
+    },
+  },
 });

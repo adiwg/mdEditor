@@ -41,5 +41,5 @@ export default Component.extend({
    * @type {String}
    * @default  'Not Defined'
    */
-  empty: 'Not Defined'
+  empty: 'Not Defined',
 });

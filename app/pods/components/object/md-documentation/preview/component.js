@@ -10,5 +10,5 @@ export default Component.extend({
    * @type {Boolean}
    * @default "true"
    */
-  muted: true
+  muted: true,
 });

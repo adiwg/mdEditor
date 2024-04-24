@@ -2,16 +2,62 @@ import Component from '@ember/component';
 import { set, get } from '@ember/object';
 import { once } from '@ember/runloop';
 
-const formatCitation = function(model) {
-  set(model, 'responsibleParty', get(model, 'responsibleParty') !== undefined ? get(model, 'responsibleParty') : []);
-  set(model, 'date', get(model, 'date') !== undefined ? get(model, 'date') : []);
-  set(model, 'alternateTitle', get(model, 'alternateTitle') !== undefined ? get(model, 'alternateTitle') : []);
-  set(model, 'presentationForm', get(model, 'presentationForm') !== undefined ? get(model, 'presentationForm') : []);
-  set(model, 'onlineResource', get(model, 'onlineResource') !== undefined ? get(model, 'onlineResource') : []);
-  set(model, 'identifier', get(model, 'identifier') !== undefined ? get(model, 'identifier') : []);
-  set(model, 'otherCitationDetails', get(model, 'otherCitationDetails') !== undefined ? get(model, 'otherCitationDetails') : []);
-  set(model, 'graphic', get(model, 'graphic') !== undefined ? get(model, 'graphic') : []);
-  set(model, 'series', get(model, 'series') !== undefined ? get(model, 'series') : {});
+const formatCitation = function (model) {
+  set(
+    model,
+    'responsibleParty',
+    get(model, 'responsibleParty') !== undefined
+      ? get(model, 'responsibleParty')
+      : [],
+  );
+  set(
+    model,
+    'date',
+    get(model, 'date') !== undefined ? get(model, 'date') : [],
+  );
+  set(
+    model,
+    'alternateTitle',
+    get(model, 'alternateTitle') !== undefined
+      ? get(model, 'alternateTitle')
+      : [],
+  );
+  set(
+    model,
+    'presentationForm',
+    get(model, 'presentationForm') !== undefined
+      ? get(model, 'presentationForm')
+      : [],
+  );
+  set(
+    model,
+    'onlineResource',
+    get(model, 'onlineResource') !== undefined
+      ? get(model, 'onlineResource')
+      : [],
+  );
+  set(
+    model,
+    'identifier',
+    get(model, 'identifier') !== undefined ? get(model, 'identifier') : [],
+  );
+  set(
+    model,
+    'otherCitationDetails',
+    get(model, 'otherCitationDetails') !== undefined
+      ? get(model, 'otherCitationDetails')
+      : [],
+  );
+  set(
+    model,
+    'graphic',
+    get(model, 'graphic') !== undefined ? get(model, 'graphic') : [],
+  );
+  set(
+    model,
+    'series',
+    get(model, 'series') !== undefined ? get(model, 'series') : {},
+  );
 
   return model;
 };
@@ -39,8 +85,11 @@ const theComp = Component.extend({
 
     //let model = getWithDefault(this, 'model', {}) || {};
 
-    once(this, function() {
-      this.set('model', get(this, 'model') !== undefined ? get(this, 'model') : {});
+    once(this, function () {
+      this.set(
+        'model',
+        get(this, 'model') !== undefined ? get(this, 'model') : {},
+      );
       formatCitation(this.model);
     });
   },
@@ -89,11 +138,7 @@ const theComp = Component.extend({
    * @type {Boolean}
    * @default "false"
    */
-  simpleIdentifier: false
+  simpleIdentifier: false,
 });
 
-export {
-  formatCitation,
-  theComp as
-  default
-};
+export { formatCitation, theComp as default };

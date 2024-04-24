@@ -1,25 +1,12 @@
 import Component from '@ember/component';
-import {
-  inject as service
-} from '@ember/service';
+import { inject as service } from '@ember/service';
 import { computed, set, get } from '@ember/object';
-import {
-  or
-} from '@ember/object/computed';
-import {
-  isArray,
-  A
-} from '@ember/array';
-import {
-  later
-} from '@ember/runloop';
-import {
-  assert
-} from '@ember/debug';
+import { or } from '@ember/object/computed';
+import { isArray, A } from '@ember/array';
+import { later } from '@ember/runloop';
+import { assert } from '@ember/debug';
 import moment from 'moment';
-import {
-  formatCitation
-} from '../../object/md-citation/component';
+import { formatCitation } from '../../object/md-citation/component';
 
 export default Component.extend({
   init() {
@@ -56,19 +43,20 @@ export default Component.extend({
     this.set('isLoading', true);
     this.set('searchResult', null);
 
-    itis.sendQuery(this.searchString, this.kingdom, this.limit).then(response => {
+    itis
+      .sendQuery(this.searchString, this.kingdom, this.limit)
+      .then((response) => {
+        if (!response) {
+          return;
+        }
 
-      if(!response) {
-        return;
-      }
+        let docs = response.response.docs;
+        let data = docs.map((doc) => itis.parseDoc(doc));
 
-      let docs = response.response.docs;
-      let data = docs.map(doc => itis.parseDoc(doc));
-
-      this.set('searchResult', data);
-      this.set('total', response.response.numFound);
-      this.set('isLoading', false);
-    });
+        this.set('searchResult', data);
+        this.set('total', response.response.numFound);
+        this.set('isLoading', false);
+      });
   },
   actions: {
     search() {
@@ -77,56 +65,82 @@ export default Component.extend({
     selectItem(item) {
       item.set('animate', true);
       item.set('selected', true);
-      later(this, function () {
-        this.searchResult.removeObject(item);
-        this.selected.pushObject(item);
-      }, 250);
+      later(
+        this,
+        function () {
+          this.searchResult.removeObject(item);
+          this.selected.pushObject(item);
+        },
+        250,
+      );
     },
     deselectItem(item) {
       item.set('selected', false);
-      later(this, function () {
-        this.selected.removeObject(item);
-        this.searchResult.pushObject(item);
-      }, 250);
+      later(
+        this,
+        function () {
+          this.selected.removeObject(item);
+          this.searchResult.pushObject(item);
+        },
+        250,
+      );
     },
     importTaxa(taxa) {
       let taxonomy = this.taxonomy;
       let itisCitation = this.get('itis.citation');
 
-      let classification = set(taxonomy, 'taxonomicClassification', get(taxonomy, 'taxonomicClassification') !== undefined ? get(taxonomy, 'taxonomicClassification') : []);
-      let systems= set(taxonomy, 'taxonomicSystem', get(taxonomy, 'taxonomicSystem') !== undefined ? get(taxonomy, 'taxonomicSystem') : [{citation:{}}]);
-      let system = systems.findBy('citation.title', get(itisCitation,'title'));
+      let classification = set(
+        taxonomy,
+        'taxonomicClassification',
+        get(taxonomy, 'taxonomicClassification') !== undefined
+          ? get(taxonomy, 'taxonomicClassification')
+          : [],
+      );
+      let systems = set(
+        taxonomy,
+        'taxonomicSystem',
+        get(taxonomy, 'taxonomicSystem') !== undefined
+          ? get(taxonomy, 'taxonomicSystem')
+          : [{ citation: {} }],
+      );
+      let system = systems.findBy('citation.title', get(itisCitation, 'title'));
 
-      let allTaxa = taxa.reduce((acc, itm) => acc.pushObjects(itm.taxonomy), []);
+      let allTaxa = taxa.reduce(
+        (acc, itm) => acc.pushObjects(itm.taxonomy),
+        [],
+      );
       let today = moment().format('YYYY-MM-DD');
       let dateObj = {
         date: today,
         dateType: 'transmitted',
-        description: 'Taxa imported from ITIS'
+        description: 'Taxa imported from ITIS',
       };
 
-      allTaxa.forEach(itm => this.itis.mergeTaxa(itm, classification));
+      allTaxa.forEach((itm) => this.itis.mergeTaxa(itm, classification));
 
-      if(!system) {
+      if (!system) {
         itisCitation.get('date').pushObject(dateObj);
         systems.pushObject({
-          citation: itisCitation
+          citation: itisCitation,
         });
       } else {
-        let citation = set(system, 'citation', get(system, 'citation') !== undefined ? get(system, 'citation') : {});
+        let citation = set(
+          system,
+          'citation',
+          get(system, 'citation') !== undefined ? get(system, 'citation') : {},
+        );
         formatCitation(citation);
 
         let date = A(get(citation, 'date'));
 
-        if(!date.findBy('date', today)) {
+        if (!date.findBy('date', today)) {
           date.pushObject(dateObj);
         }
       }
 
-      this.flashMessages
-        .success(
-          `Successfully imported ${ allTaxa.length } taxa from ITIS.`
-        );
-    }
-  }
+      this.flashMessages.success(
+        `Successfully imported ${allTaxa.length} taxa from ITIS.`,
+      );
+    },
+  },
 });

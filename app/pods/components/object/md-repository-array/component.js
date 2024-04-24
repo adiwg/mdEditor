@@ -9,17 +9,16 @@ export default Component.extend({
       this._super(...arguments);
 
       this.set('citation', {});
-    }
+    },
   }),
   actions: {
     lookupTitle(value) {
       let defs = this.get('settings.data.repositoryDefaults');
       let titles = defs.filterBy('repository', value.repository);
 
-      if(get(titles, 'length')) {
-
+      if (get(titles, 'length')) {
         set(value, 'citation.title', get(titles.objectAt(0), 'title'));
       }
-    }
-  }
+    },
+  },
 });

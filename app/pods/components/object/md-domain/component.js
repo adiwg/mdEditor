@@ -1,37 +1,30 @@
 import Component from '@ember/component';
 import { set, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import uuidV4 from "uuid/v4";
+import { validator, buildValidations } from 'ember-cp-validations';
+import uuidV4 from 'uuid/v4';
 
 const Validations = buildValidations({
-  'domainId': [
+  domainId: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'codeName': [
+  codeName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'description': [
+  description: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -41,9 +34,25 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'domainId', get(model, 'domainId') !== undefined ? get(model, 'domainId') : uuidV4());
-      set(model, 'domainItem', get(model, 'domainItem') !== undefined ? get(model, 'domainItem') : []);
-      set(model, 'domainReference', get(model, 'domainReference') !== undefined ? get(model, 'domainReference') : {});
+      set(
+        model,
+        'domainId',
+        get(model, 'domainId') !== undefined
+          ? get(model, 'domainId')
+          : uuidV4(),
+      );
+      set(
+        model,
+        'domainItem',
+        get(model, 'domainItem') !== undefined ? get(model, 'domainItem') : [],
+      );
+      set(
+        model,
+        'domainReference',
+        get(model, 'domainReference') !== undefined
+          ? get(model, 'domainReference')
+          : {},
+      );
     });
   },
 
@@ -64,32 +73,32 @@ export default Component.extend(Validations, {
    * @required
    */
 
-   /**
-    * The passed down editDomainItem method.
-    *
-    * @method editDomainItem
-    * @param {Number} index
-    * @required
-    */
+  /**
+   * The passed down editDomainItem method.
+   *
+   * @method editDomainItem
+   * @param {Number} index
+   * @required
+   */
 
-   /**
-    * The passed down editCitation method.
-    *
-    * @method editCitation
-    * @param {String} scrollTo
-    * @required
-    */
+  /**
+   * The passed down editCitation method.
+   *
+   * @method editCitation
+   * @param {String} scrollTo
+   * @required
+   */
 
   tagName: 'form',
   domainId: alias('model.domainId'),
   codeName: alias('model.codeName'),
   description: alias('model.description'),
   actions: {
-    editDomainItem(id){
+    editDomainItem(id) {
       this.editDomainItem(id);
     },
-    editCitation(scrollTo){
+    editCitation(scrollTo) {
       this.editCitation(scrollTo);
-    }
-  }
+    },
+  },
 });

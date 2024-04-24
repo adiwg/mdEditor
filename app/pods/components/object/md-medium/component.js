@@ -9,10 +9,26 @@ export default Component.extend({
 
     let model = this.model;
 
-    once(function() {
-      set(model, 'mediumSpecification', get(model, 'mediumSpecification') !== undefined ? get(model, 'mediumSpecification') : {});
-      set(model, 'identifier', get(model, 'identifier') !== undefined ? get(model, 'identifier') : {});
-      set(model, 'mediumFormat', get(model, 'mediumFormat') !== undefined ? get(model, 'mediumFormat') : []);
+    once(function () {
+      set(
+        model,
+        'mediumSpecification',
+        get(model, 'mediumSpecification') !== undefined
+          ? get(model, 'mediumSpecification')
+          : {},
+      );
+      set(
+        model,
+        'identifier',
+        get(model, 'identifier') !== undefined ? get(model, 'identifier') : {},
+      );
+      set(
+        model,
+        'mediumFormat',
+        get(model, 'mediumFormat') !== undefined
+          ? get(model, 'mediumFormat')
+          : [],
+      );
     });
   },
   tagName: 'form',
@@ -24,5 +40,5 @@ export default Component.extend({
    * @type {String}
    */
 
-  title: alias('model.mediumSpecification.title')
+  title: alias('model.mediumSpecification.title'),
 });

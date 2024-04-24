@@ -2,24 +2,21 @@ import Component from '@ember/component';
 import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { set, get } from '@ember/object';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'amount': [
+  amount: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'currency': [
+  currency: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -28,10 +25,26 @@ export default Component.extend(Validations, {
 
     let model = this.model;
 
-    once(this, function() {
-      set(model, 'currency', get(model, 'currency') !== undefined ? get(model, 'currency') : 'USD');
-      set(model, 'onlineResource', get(model, 'onlineResource') !== undefined ? get(model, 'onlineResource') : []);
-      set(model, 'responsibleParty', get(model, 'responsibleParty') !== undefined ? get(model, 'responsibleParty') : []);
+    once(this, function () {
+      set(
+        model,
+        'currency',
+        get(model, 'currency') !== undefined ? get(model, 'currency') : 'USD',
+      );
+      set(
+        model,
+        'onlineResource',
+        get(model, 'onlineResource') !== undefined
+          ? get(model, 'onlineResource')
+          : [],
+      );
+      set(
+        model,
+        'responsibleParty',
+        get(model, 'responsibleParty') !== undefined
+          ? get(model, 'responsibleParty')
+          : [],
+      );
     });
   },
   /**
@@ -55,5 +68,5 @@ export default Component.extend(Validations, {
   'data-spy': 'Allocation',
   tagName: 'form',
   amount: alias('model.amount'),
-  currency: alias('model.currency')
+  currency: alias('model.currency'),
 });

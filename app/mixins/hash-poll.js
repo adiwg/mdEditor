@@ -3,21 +3,12 @@
  * @submodule mixins
  */
 
-import {
-  inject as service
-} from '@ember/service';
+import { inject as service } from '@ember/service';
 
-import {
-  Promise
-} from 'rsvp';
+import { Promise } from 'rsvp';
 import Mixin from '@ember/object/mixin';
-import {
-  on
-} from '@ember/object/evented';
-import {
-  task,
-  timeout
-} from 'ember-concurrency';
+import { on } from '@ember/object/evented';
+import { task, timeout } from 'ember-concurrency';
 
 export const pollInterval = 750; // time in milliseconds
 
@@ -27,7 +18,7 @@ export default Mixin.create({
   afterModel(model) {
     this._super(...arguments);
 
-    if(this.get('settings.data.autoSave')) {
+    if (this.get('settings.data.autoSave')) {
       model.set('jsonRevert', model.serialize().data.attributes.json);
     }
 
@@ -44,7 +35,7 @@ export default Mixin.create({
     const model = this.currentRouteModel();
 
     return new Promise(function (resolve) {
-      if(model) {
+      if (model) {
         model.notifyPropertyChange('currentHash');
       }
       resolve(true);
@@ -52,9 +43,9 @@ export default Mixin.create({
   },
 
   pollTask: task(function* () {
-    while(true) {
+    while (true) {
       yield this.poll();
       yield timeout(pollInterval);
     }
-  }).restartable()
+  }).restartable(),
 });

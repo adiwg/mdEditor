@@ -15,9 +15,15 @@ export default Component.extend({
         set(
           model,
           'scope',
-          get(model, 'scope') !== undefined ? get(model, 'scope') : { scopeDescription: [] }
+          get(model, 'scope') !== undefined
+            ? get(model, 'scope')
+            : { scopeDescription: [] },
         );
-        set(model, 'value', get(model, 'value') !== undefined ? get(model, 'value') : []);
+        set(
+          model,
+          'value',
+          get(model, 'value') !== undefined ? get(model, 'value') : [],
+        );
       });
     }
   },

@@ -25,7 +25,7 @@ export default class SliderService extends Service {
   onClose() {}
 
   toggleSlider(state) {
-    if(state === undefined) {
+    if (state === undefined) {
       this.toggleProperty('showSlider');
 
       return;

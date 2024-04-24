@@ -4,7 +4,7 @@ import { htmlSafe } from '@ember/string';
 
 const marked = window.marked;
 
-export function mdMarkdown(params /*, hash*/ ) {
+export function mdMarkdown(params /*, hash*/) {
   marked.setOptions({
     renderer: new marked.Renderer(),
     gfm: true,
@@ -13,10 +13,10 @@ export function mdMarkdown(params /*, hash*/ ) {
     pedantic: false,
     sanitize: false,
     smartLists: true,
-    smartypants: false
+    smartypants: false,
   });
 
-  if(params[0]) {
+  if (params[0]) {
     return htmlSafe(marked(params[0]));
   }
 

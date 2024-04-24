@@ -3,11 +3,10 @@ import { A } from '@ember/array';
 import Component from '@ember/component';
 
 export default Component.extend({
-
   init() {
     this._super(...arguments);
 
-    if(!this.model) {
+    if (!this.model) {
       this.set('model', A());
     }
   },
@@ -67,6 +66,6 @@ export default Component.extend({
     init() {
       this._super(...arguments);
       //this.set('authority', {});
-    }
-  })
+    },
+  }),
 });

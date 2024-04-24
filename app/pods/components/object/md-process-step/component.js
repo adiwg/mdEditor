@@ -8,8 +8,12 @@ export default Component.extend({
 
     let model = this.model;
 
-    once(this, function() {
-      set(model, 'timePeriod', get(model, 'timePeriod') !== undefined ? get(model, 'timePeriod') : {});
+    once(this, function () {
+      set(
+        model,
+        'timePeriod',
+        get(model, 'timePeriod') !== undefined ? get(model, 'timePeriod') : {},
+      );
     });
   },
 
@@ -18,14 +22,44 @@ export default Component.extend({
 
     let model = this.model;
 
-    once(this, function() {
-      set(model, 'stepId', get(model, 'stepId') !== undefined ? get(model, 'stepId') : this.itemId);
-      set(model, 'timePeriod', get(model, 'timePeriod') !== undefined ? get(model, 'timePeriod') : {});
-      set(model, 'scope', get(model, 'scope') !== undefined ? get(model, 'scope') : {});
-      set(model, 'reference', get(model, 'reference') !== undefined ? get(model, 'reference') : []);
-      set(model, 'processor', get(model, 'processor') !== undefined ? get(model, 'processor') : []);
-      set(model, 'stepSource', get(model, 'stepSource') !== undefined ? get(model, 'stepSource') : []);
-      set(model, 'stepProduct', get(model, 'stepProduct') !== undefined ? get(model, 'stepProduct') : []);
+    once(this, function () {
+      set(
+        model,
+        'stepId',
+        get(model, 'stepId') !== undefined ? get(model, 'stepId') : this.itemId,
+      );
+      set(
+        model,
+        'timePeriod',
+        get(model, 'timePeriod') !== undefined ? get(model, 'timePeriod') : {},
+      );
+      set(
+        model,
+        'scope',
+        get(model, 'scope') !== undefined ? get(model, 'scope') : {},
+      );
+      set(
+        model,
+        'reference',
+        get(model, 'reference') !== undefined ? get(model, 'reference') : [],
+      );
+      set(
+        model,
+        'processor',
+        get(model, 'processor') !== undefined ? get(model, 'processor') : [],
+      );
+      set(
+        model,
+        'stepSource',
+        get(model, 'stepSource') !== undefined ? get(model, 'stepSource') : [],
+      );
+      set(
+        model,
+        'stepProduct',
+        get(model, 'stepProduct') !== undefined
+          ? get(model, 'stepProduct')
+          : [],
+      );
     });
   },
 
@@ -48,5 +82,5 @@ export default Component.extend({
    * @required
    */
 
-  sourceTemplate: EmberObject.extend()
+  sourceTemplate: EmberObject.extend(),
 });

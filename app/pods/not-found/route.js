@@ -4,7 +4,7 @@ import Route from '@ember/routing/route';
 export default Route.extend({
   model(params) {
     return EmberObject.create({
-      path: params.path
+      path: params.path,
     });
   },
 
@@ -13,15 +13,15 @@ export default Route.extend({
 
     this.breadCrumb = {
       title: 'Page Not Found',
-      linkable: false
+      linkable: false,
     };
   },
 
   redirect() {
     var url = this.router.location.formatURL('/not-found');
 
-    if(window.location.pathname !== url) {
+    if (window.location.pathname !== url) {
       this.transitionTo('/not-found');
     }
-  }
+  },
 });

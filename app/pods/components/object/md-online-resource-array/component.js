@@ -1,21 +1,14 @@
-import {
-  once
-} from '@ember/runloop';
-import {
-  Validations
-} from '../md-online-resource/component';
+import { once } from '@ember/runloop';
+import { Validations } from '../md-online-resource/component';
 import EmberObject, { computed } from '@ember/object';
-import {
-  A
-} from '@ember/array';
+import { A } from '@ember/array';
 import Component from '@ember/component';
 
 export default Component.extend({
-
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if(!this.model) {
+    if (!this.model) {
       once(this, () => this.set('model', A()));
     }
   },
@@ -102,8 +95,9 @@ export default Component.extend({
    * @requires imagePicker
    */
   previewTemplate: computed('imagePicker', function () {
-    return this.imagePicker ?
-      "object/md-online-resource-array/md-image-preview" : null;
+    return this.imagePicker
+      ? 'object/md-online-resource-array/md-image-preview'
+      : null;
   }),
 
   /**
@@ -116,6 +110,6 @@ export default Component.extend({
     init() {
       this._super(...arguments);
       //this.set('uri', null);
-    }
-  })
+    },
+  }),
 });

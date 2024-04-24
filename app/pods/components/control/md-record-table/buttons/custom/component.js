@@ -8,25 +8,25 @@ export default Component.extend({
    * @type {String}
    */
 
-   /**
-    * Text to display in the button.
-    *
-    * @property column.buttonConfig.title
-    * @type {String}
-    */
+  /**
+   * Text to display in the button.
+   *
+   * @property column.buttonConfig.title
+   * @type {String}
+   */
 
-   /**
-    * The record passed to the component.
-    *
-    * @property record
-    * @type {Object}
-    */
+  /**
+   * The record passed to the component.
+   *
+   * @property record
+   * @type {Object}
+   */
 
-    /**
-     * Action to run on button click
-     *
-     * @property column.buttonConfig.action
-     * @param {Object} record The row record
-     */
-    action() {}
+  /**
+   * Action to run on button click
+   *
+   * @property column.buttonConfig.action
+   * @param {Object} record The row record
+   */
+  action() {},
 });

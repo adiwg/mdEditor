@@ -5,15 +5,15 @@ import { get, set } from '@ember/object';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { decamelize } from '@ember/string';
 import Attribute from 'mdjson-schemas/resources/js/attribute';
-import { validator, buildValidations } from "ember-cp-validations";
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'attrIdentifier': [
+  attrIdentifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const params = {
@@ -55,15 +55,14 @@ export default Component.extend(Validations, {
    */
 
   init() {
-    this.params = Object.keys(params).map(p => {
+    this.params = Object.keys(params).map((p) => {
       return {
         property: p,
-        label: ucWords([decamelize(p).replace(/_/g,
-          ' ')], {
-          force: false
+        label: ucWords([decamelize(p).replace(/_/g, ' ')], {
+          force: false,
         }),
         type: params[p],
-        description: get(Attribute, `properties.${p}.description`)
+        description: get(Attribute, `properties.${p}.description`),
       };
     });
 
@@ -73,14 +72,45 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    let model = (get(this, 'model') !== undefined ? get(this, 'model') : []) || [];
+    let model =
+      (get(this, 'model') !== undefined ? get(this, 'model') : []) || [];
 
     once(this, function () {
-      set(model, 'attributeIdentifier', get(model, 'attributeIdentifier') !== undefined ? get(model, 'attributeIdentifier') : []);
-      set(model, 'bandBoundaryDefinition', get(model, 'bandBoundaryDefinition') !== undefined ? get(model, 'bandBoundaryDefinition') : []);
-      set(model, 'transferFunctionType', get(model, 'transferFunctionType') !== undefined ? get(model, 'transferFunctionType') : []);
-      set(model, 'transmittedPolarization', get(model, 'transmittedPolarization') !== undefined ? get(model, 'transmittedPolarization') : []);
-      set(model, 'detectedPolarization', get(model, 'detectedPolarization') !== undefined ? get(model, 'detectedPolarization') : []);
+      set(
+        model,
+        'attributeIdentifier',
+        get(model, 'attributeIdentifier') !== undefined
+          ? get(model, 'attributeIdentifier')
+          : [],
+      );
+      set(
+        model,
+        'bandBoundaryDefinition',
+        get(model, 'bandBoundaryDefinition') !== undefined
+          ? get(model, 'bandBoundaryDefinition')
+          : [],
+      );
+      set(
+        model,
+        'transferFunctionType',
+        get(model, 'transferFunctionType') !== undefined
+          ? get(model, 'transferFunctionType')
+          : [],
+      );
+      set(
+        model,
+        'transmittedPolarization',
+        get(model, 'transmittedPolarization') !== undefined
+          ? get(model, 'transmittedPolarization')
+          : [],
+      );
+      set(
+        model,
+        'detectedPolarization',
+        get(model, 'detectedPolarization') !== undefined
+          ? get(model, 'detectedPolarization')
+          : [],
+      );
     });
   },
 

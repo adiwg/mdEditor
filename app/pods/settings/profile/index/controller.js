@@ -5,18 +5,22 @@ export default Controller.extend({
   store: service(),
   customProfiles: service('custom-profile'),
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
-  columns: [{
-    propertyName: 'title',
-    title: 'Title'
-  }, {
-    propertyName: 'definition.title',
-    title: 'Definition'
-  }, {
-    propertyName: 'description',
-    title: 'Description',
-    truncate: true,
-    isHidden: false
-  }],
+  columns: [
+    {
+      propertyName: 'title',
+      title: 'Title',
+    },
+    {
+      propertyName: 'definition.title',
+      title: 'Definition',
+    },
+    {
+      propertyName: 'description',
+      title: 'Description',
+      truncate: true,
+      isHidden: false,
+    },
+  ],
 
   // columnSets: [],
   //
@@ -37,7 +41,6 @@ export default Controller.extend({
       let profile = this.profile;
 
       return profile.save();
-
     },
 
     cancelEdit() {
@@ -48,6 +51,6 @@ export default Controller.extend({
     },
     manageDefinitions() {
       this.transitionToRoute('settings.profile.manage');
-    }
-  }
+    },
+  },
 });

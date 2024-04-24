@@ -8,15 +8,15 @@ module('Integration | Component | control/md-indicator', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    assert.expect(2)
+    assert.expect(2);
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
     this.set('values', {
       foo: 'This',
-      bar: 'warning'
-    })
+      bar: 'warning',
+    });
 
-    await render(hbs `{{control/md-indicator
+    await render(hbs`{{control/md-indicator
       icon="sticky-note"
       title="Hello"
       note="\${foo} is a \${bar}"

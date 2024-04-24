@@ -5,5 +5,5 @@ export default Route.extend({
   publish: service('publish'),
   model: function () {
     return this.get('publish.catalogs');
-  }
+  },
 });

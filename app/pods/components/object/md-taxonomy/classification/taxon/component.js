@@ -1,54 +1,55 @@
 import Component from '@ember/component';
-import {
-  htmlSafe
-} from '@ember/string';
+import { htmlSafe } from '@ember/string';
 import { computed, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  inject as service
-} from '@ember/service';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { alias } from '@ember/object/computed';
+import { inject as service } from '@ember/service';
+import { validator, buildValidations } from 'ember-cp-validations';
 import { once } from '@ember/runloop';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 const Validations = buildValidations({
-  'taxonomicName': [
+  taxonomicName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'taxonomicLevel': [
+  taxonomicLevel: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
   init() {
     this._super(...arguments);
 
-    this.collapse = (this.preview && !this.parentItem);
+    this.collapse = this.preview && !this.parentItem;
   },
   didReceiveAttrs() {
     this._super(...arguments);
 
     once(this, function () {
-      this.set('model.commonName', get(this, 'model.commonName') !== undefined ? get(this, 'model.commonName') : []);
-      this.set('model.subClassification', get(this, 'model.subClassification') !== undefined ? get(this, 'model.subClassification') : []);
+      this.set(
+        'model.commonName',
+        get(this, 'model.commonName') !== undefined
+          ? get(this, 'model.commonName')
+          : [],
+      );
+      this.set(
+        'model.subClassification',
+        get(this, 'model.subClassification') !== undefined
+          ? get(this, 'model.subClassification')
+          : [],
+      );
     });
   },
   didInsertElement() {
     this._super(...arguments);
 
-    if(this.model._edit) {
+    if (this.model._edit) {
       this.startEditing();
       this.set('model._edit', false);
     }
@@ -73,8 +74,7 @@ export default Component.extend(Validations, {
   }),
 
   collapsible: computed('model.subClassification.[]', function () {
-    return this.get(
-      'model.subClassification.length');
+    return this.get('model.subClassification.length');
   }),
 
   taxonomicLevel: alias('model.taxonomicLevel'),
@@ -101,8 +101,7 @@ export default Component.extend(Validations, {
   },
 
   deleteTaxa(taxa) {
-    let parent = this.top || this.get(
-      'parentItem.model.subClassification');
+    let parent = this.top || this.get('parentItem.model.subClassification');
 
     parent.removeObject(taxa);
   },
@@ -111,7 +110,7 @@ export default Component.extend(Validations, {
     this.get('model.subClassification').pushObject({
       commonName: [],
       subClassification: [],
-      _edit: true
+      _edit: true,
     });
   },
 
@@ -124,7 +123,7 @@ export default Component.extend(Validations, {
       this.deleteTaxa(taxa);
     },
     toggleEditing() {
-      if(this.isEditing) {
+      if (this.isEditing) {
         this.spotlight.close();
         this.set('isEditing', false);
         return;
@@ -133,6 +132,6 @@ export default Component.extend(Validations, {
     },
     addChild() {
       this.addChild();
-    }
-  }
+    },
+  },
 });

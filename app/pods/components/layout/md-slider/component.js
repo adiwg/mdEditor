@@ -1,7 +1,5 @@
 import Component from '@ember/component';
-import {
-  computed
-} from '@ember/object';
+import { computed } from '@ember/object';
 import $ from 'jquery';
 
 export default Component.extend({
@@ -10,8 +8,7 @@ export default Component.extend({
   visible: false,
 
   didReceiveAttrs() {
-    $('body')
-      .toggleClass('slider', this.visible === true);
+    $('body').toggleClass('slider', this.visible === true);
   },
 
   fromName: null,
@@ -24,16 +21,15 @@ export default Component.extend({
     toggleVisibility() {
       this.toggleProperty('visible');
 
-      if(!this.visible) {
+      if (!this.visible) {
         let context = this.get('context.isDestroying');
 
         this.set('fromName', null);
 
-        if(!context) {
-          this.onClose
-            .call(this);
+        if (!context) {
+          this.onClose.call(this);
         }
       }
-    }
-  }
+    },
+  },
 });

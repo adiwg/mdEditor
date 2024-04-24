@@ -2,18 +2,15 @@ import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { get, set } from '@ember/object';
 import { once } from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 import { A } from '@ember/array';
 
 const Validations = buildValidations({
-  'resourceType': [
+  resourceType: [
     validator('array-required', {
-      track: ['type']
-    })
-  ]
+      track: ['type'],
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -22,9 +19,19 @@ export default Component.extend(Validations, {
 
     let model = this.model;
 
-    once(this, function() {
-      set(model, 'resourceType', get(model, 'resourceType') !== undefined ? get(model, 'resourceType') : []);
-      set(model, 'citation', A(get(model, 'citation') !== undefined ? get(model, 'citation') : [{}]));
+    once(this, function () {
+      set(
+        model,
+        'resourceType',
+        get(model, 'resourceType') !== undefined
+          ? get(model, 'resourceType')
+          : [],
+      );
+      set(
+        model,
+        'citation',
+        A(get(model, 'citation') !== undefined ? get(model, 'citation') : [{}]),
+      );
     });
   },
 
@@ -48,5 +55,5 @@ export default Component.extend(Validations, {
    */
 
   citation: alias('model.citation'),
-  resourceType: alias('model.resourceType')
+  resourceType: alias('model.resourceType'),
 });

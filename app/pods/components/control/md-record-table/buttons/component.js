@@ -7,7 +7,7 @@ export default Component.extend({
 
   actions: {
     deleteItem(item, index, isSelected, clickOnRow) {
-      if(isSelected) {
+      if (isSelected) {
         clickOnRow(index, item);
       }
 
@@ -23,12 +23,12 @@ export default Component.extend({
 
     showSlider(rec, evt) {
       this.column.showSlider(rec, evt);
-    }
+    },
   },
 
   _deleteItem(item) {
     item.destroyRecord().then(() => {
       item.unloadRecord();
     });
-  }
+  },
 });

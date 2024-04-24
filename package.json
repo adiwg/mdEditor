@@ -20,7 +20,7 @@
     "lint:fix": "npm-run-all --aggregate-output --continue-on-error --parallel lint:*:fix",
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
-    "lint:js": "eslint . --cache",
+    "lint:js": "eslint .",
     "lint:sass": "stylelint 'app/styles/**/*.scss'",
     "lint:sass:fix": "stylelint 'app/styles/**/*.scss' --fix",
     "format": "npm-run-all format:*",
@@ -52,6 +52,7 @@
     "edition": "octane"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.21.0",
     "@ember/jquery": "^0.6.0",
     "@ember/optional-features": "^2.0.0",
     "@ember/render-modifiers": "^2.1.0",
@@ -167,7 +168,14 @@
     "text-encoding": "^0.7.0",
     "uuid": "^3.3.3",
     "validator": "^12.1.0",
-    "webpack": "^5.0.0"
+    "webpack": "^5.0.0",
+    "@apidevtools/json-schema-ref-parser": "^11.6.0",
+    "@babel/core": "7.24.4",
+    "@babel/eslint-parser": "^7.24.1",
+    "http-browserify": "^1.7.0",
+    "https-browserify": "^1.0.0",
+    "path-browserify": "^1.0.1",
+    "stream-browserify": "^3.0.0"
   },
   "config": {
     "commitizen": {
@@ -180,14 +188,5 @@
       "lib/ember-leaflet-table",
       "lib/mdeditor-sciencebase"
     ]
-  },
-  "dependencies": {
-    "@apidevtools/json-schema-ref-parser": "^11.6.0",
-    "@babel/core": "7.24.4",
-    "@babel/eslint-parser": "^7.24.1",
-    "http-browserify": "^1.7.0",
-    "https-browserify": "^1.0.0",
-    "path-browserify": "^1.0.1",
-    "stream-browserify": "^3.0.0"
   }
 }

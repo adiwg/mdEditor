@@ -68,10 +68,23 @@ export default class MdjsonService extends Service {
           let info = get(record, 'json.metadata.metadataInfo') || {};
           let metadata = {
             title: `Metadata for ${get(record, 'title')}`,
-            responsibleParty: get(info, 'metadataContact') !== undefined ? get(info, 'metadataContact') : [],
-            date: get(info, 'metadataDate') !== undefined ? get(info, 'metadataDate') : [],
-            onlineResource: get(info, 'metadataOnlineResource') !== undefined ? get(info, 'metadataOnlineResource') : [],
-            identifier: [get(info, 'metadataIdentifier') !== undefined ? get(info, 'metadataIdentifier') : {}],
+            responsibleParty:
+              get(info, 'metadataContact') !== undefined
+                ? get(info, 'metadataContact')
+                : [],
+            date:
+              get(info, 'metadataDate') !== undefined
+                ? get(info, 'metadataDate')
+                : [],
+            onlineResource:
+              get(info, 'metadataOnlineResource') !== undefined
+                ? get(info, 'metadataOnlineResource')
+                : [],
+            identifier: [
+              get(info, 'metadataIdentifier') !== undefined
+                ? get(info, 'metadataIdentifier')
+                : {},
+            ],
           };
 
           let citation =
@@ -82,12 +95,12 @@ export default class MdjsonService extends Service {
           set(
             ref,
             'resourceCitation',
-            EmberObject.create(formatCitation(citation))
+            EmberObject.create(formatCitation(citation)),
           );
           set(
             ref,
             'metadataCitation',
-            EmberObject.create(formatCitation(metadata))
+            EmberObject.create(formatCitation(metadata)),
           );
           set(ref, 'resourceType', resourceType);
           set(ref, 'mdRecordId', null);
@@ -224,7 +237,7 @@ export default class MdjsonService extends Service {
   validateDictionary(dictionary) {
     validator.validate(
       'dataDictionary',
-      dictionary.get('cleanJson').dataDictionary
+      dictionary.get('cleanJson').dataDictionary,
     );
 
     return validator;

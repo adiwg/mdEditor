@@ -9,7 +9,7 @@ export default Route.extend({
     const name = model.get('title');
 
     const crumb = {
-      title: name
+      title: name,
     };
 
     this.set('breadCrumb', crumb);
@@ -21,20 +21,16 @@ export default Route.extend({
   actions: {
     destroyRecord: function () {
       let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Record: ${model.get('title')}`);
-          this.replaceWith('records');
-        });
+      model.destroyRecord().then(() => {
+        this.flashMessages.success(`Deleted Record: ${model.get('title')}`);
+        this.replaceWith('records');
+      });
     },
     copyRecord: function () {
-
-      this.flashMessages
-        .success(
-          `Copied Record: ${this.currentRouteModel().get('title')}`);
+      this.flashMessages.success(
+        `Copied Record: ${this.currentRouteModel().get('title')}`,
+      );
       this.transitionTo('record.new.id', copy(this.currentRouteModel()));
-    }
-  }
+    },
+  },
 });

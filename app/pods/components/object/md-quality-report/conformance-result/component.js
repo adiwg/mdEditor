@@ -11,9 +11,23 @@ export default Component.extend({
 
     if (model) {
       once(this, function () {
-        set(model, 'scope', get(model, 'scope') !== undefined ? get(model, 'scope') : {});
-        set(model, 'pass', get(model, 'pass') !== undefined ? get(model, 'pass') : false);
-        set(model, 'specification', get(model, 'specification') !== undefined ? get(model, 'specification') : {});
+        set(
+          model,
+          'scope',
+          get(model, 'scope') !== undefined ? get(model, 'scope') : {},
+        );
+        set(
+          model,
+          'pass',
+          get(model, 'pass') !== undefined ? get(model, 'pass') : false,
+        );
+        set(
+          model,
+          'specification',
+          get(model, 'specification') !== undefined
+            ? get(model, 'specification')
+            : {},
+        );
       });
     }
   },

@@ -20,6 +20,6 @@ export default Component.extend({
   actions: {
     addItem(target) {
       this.addItem(target);
-    }
-  }
+    },
+  },
 });

@@ -29,23 +29,18 @@ export default Route.extend(HashPoll, DoCancel, {
     saveDictionary: function () {
       let model = this.currentRouteModel();
 
-      model
-        .save()
-        .then(() => {
-          this.flashMessages
-            .success(`Saved Dictionary: ${model.get('title')}`);
-
-        });
+      model.save().then(() => {
+        this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
+      });
     },
     cancelDictionary: function () {
       let model = this.currentRouteModel();
-      let message =
-        `Cancelled changes to Dictionary: ${model.get('title')}`;
+      let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
 
-      if(this.get('settings.data.autoSave')) {
+      if (this.get('settings.data.autoSave')) {
         let json = model.get('jsonRevert');
 
-        if(json) {
+        if (json) {
           model.set('json', JSON.parse(json));
           this.doCancel();
 
@@ -55,13 +50,10 @@ export default Route.extend(HashPoll, DoCancel, {
         return;
       }
 
-      model
-        .reload()
-        .then(() => {
-          this.doCancel();
-          this.flashMessages
-            .warning(message);
-        });
+      model.reload().then(() => {
+        this.doCancel();
+        this.flashMessages.warning(message);
+      });
     },
-  }
+  },
 });

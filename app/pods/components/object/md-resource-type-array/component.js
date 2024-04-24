@@ -1,21 +1,17 @@
 import Component from '@ember/component';
 import EmObject from '@ember/object';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'type': [
+  type: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend({
-
   /**
    * mdEditor class for input and edit of mdJSON 'phone' object.
    * The class manages the maintenance of an array of phone objects.
@@ -37,7 +33,6 @@ export default Component.extend({
   templateClass: EmObject.extend(Validations, {
     init() {
       this._super(...arguments);
-    }
-  })
-
+    },
+  }),
 });

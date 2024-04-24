@@ -1,15 +1,8 @@
-import {
-  inject as service
-} from '@ember/service';
-import {
-  set,
-  computed
-} from '@ember/object';
+import { inject as service } from '@ember/service';
+import { set, computed } from '@ember/object';
 import Component from '@ember/component';
 import $ from 'jquery';
-import {
-  A
-} from '@ember/array';
+import { A } from '@ember/array';
 
 export default Component.extend({
   /**
@@ -60,10 +53,10 @@ export default Component.extend({
   links: computed('refresh', 'profile.active', function () {
     let liquid = '';
 
-    if($('.liquid-spy').length) {
-      liquid = $('.liquid-spy .liquid-child:first > .liquid-container').length ?
-        '.liquid-spy .liquid-child:first > .liquid-container:last ' :
-        '.liquid-spy ';
+    if ($('.liquid-spy').length) {
+      liquid = $('.liquid-spy .liquid-child:first > .liquid-container').length
+        ? '.liquid-spy .liquid-child:first > .liquid-container:last '
+        : '.liquid-spy ';
       liquid += '.liquid-child:first ';
     }
 
@@ -76,7 +69,7 @@ export default Component.extend({
       links.pushObject({
         id: $link.attr('id'),
         text: $link.attr('data-spy'),
-        embedded: $link.hasClass('md-embedded')
+        embedded: $link.hasClass('md-embedded'),
       });
     });
 
@@ -97,7 +90,7 @@ export default Component.extend({
     e.preventDefault();
     this.scroll(targetId);
 
-    if((typeof setScrollTo === 'function')) {
+    if (typeof setScrollTo === 'function') {
       setScrollTo($target.text().dasherize());
     }
   },
@@ -108,11 +101,10 @@ export default Component.extend({
    * @method setupSpy
    */
   setupSpy() {
-    $('body')
-      .scrollspy({
-        target: '.md-scroll-spy',
-        offset: this.offset
-      });
+    $('body').scrollspy({
+      target: '.md-scroll-spy',
+      offset: this.offset,
+    });
   },
 
   /**
@@ -125,24 +117,24 @@ export default Component.extend({
 
     let data = $('body').data('bs.scrollspy');
 
-    if(data) {
+    if (data) {
       set(data, 'options.offset', this.offset);
     }
     this.setupSpy();
 
     let init = this.scrollInit;
 
-    if(!init || init === 'top') {
+    if (!init || init === 'top') {
       this.scroll();
     } else {
       let link = this.links.find((link) => {
         return init === link.text.dasherize();
       });
 
-      if(link) {
+      if (link) {
         this.scroll('#' + link.id);
       } else {
-        if($('#' + init)) {
+        if ($('#' + init)) {
           this.scroll('#' + init);
         } else {
           this.scroll();
@@ -154,7 +146,7 @@ export default Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
 
-    if(!this.setScrollTo) {
+    if (!this.setScrollTo) {
       this.scroll();
     }
   },
@@ -169,13 +161,13 @@ export default Component.extend({
   scroll(id, hilite) {
     let $anchor = $(id);
 
-    if($anchor.length === 0) {
+    if ($anchor.length === 0) {
       $('html, body').scrollTop(0 - this.offset);
       return;
     }
     $('html, body').scrollTop($anchor.offset().top - this.offset);
 
-    if(hilite) {
+    if (hilite) {
       $('[href="' + id + '"]')
         .closest('li')
         .addClass('active');
@@ -184,12 +176,11 @@ export default Component.extend({
     $anchor.removeClass('md-flash');
     void $anchor[0].offsetWidth;
     $anchor.addClass('md-flash');
-
   },
 
   actions: {
     clickLink(e) {
       this.clickLink(e);
-    }
-  }
+    },
+  },
 });

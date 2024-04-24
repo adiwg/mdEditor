@@ -2,18 +2,18 @@ import Table from '../../md-array-table/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
 import { get, set } from '@ember/object';
-import { validator, buildValidations } from "ember-cp-validations";
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'attrCntType': [
+  attrCntType: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
-export default Table.extend(Validations,{
+export default Table.extend(Validations, {
   /**
    * mdEditor class for input and edit of mdJSON 'coverageDescription.attributeGroup' object.
    * The class manages the maintenance of an array of attributeGroup objects.
@@ -37,10 +37,20 @@ export default Table.extend(Validations,{
 
     let model = this.model;
 
-    if(model) {
+    if (model) {
       once(this, function () {
-        set(model, 'attributeContentType', get(model, 'attributeContentType') !== undefined ? get(model, 'attributeContentType') : []);
-        set(model, 'attribute', get(model, 'attribute') !== undefined ? get(model, 'attribute') : []);
+        set(
+          model,
+          'attributeContentType',
+          get(model, 'attributeContentType') !== undefined
+            ? get(model, 'attributeContentType')
+            : [],
+        );
+        set(
+          model,
+          'attribute',
+          get(model, 'attribute') !== undefined ? get(model, 'attribute') : [],
+        );
       });
     }
   },
@@ -59,14 +69,14 @@ export default Table.extend(Validations,{
   tagName: 'form',
 
   actions: {
-     /**
-      * 'editAttribute' is an crud action for the 'attributeGroup' object that transitions users to
-      * the 'attribute' route for editing.
-      * @method editAttribute
-      * @param {Number} index
-      */
+    /**
+     * 'editAttribute' is an crud action for the 'attributeGroup' object that transitions users to
+     * the 'attribute' route for editing.
+     * @method editAttribute
+     * @param {Number} index
+     */
     editAttribute(index) {
-      this.editAttribute(index)
+      this.editAttribute(index);
     },
     /**
      * 'deleteAttribute' is an crud action for the 'attributeGroup' object that deletes 'attribute' objects.
@@ -74,7 +84,7 @@ export default Table.extend(Validations,{
      * @param {Number} index
      */
     deleteAttrGroup(index) {
-      this.deleteAttrGroup(index)
+      this.deleteAttrGroup(index);
     },
     /**
      * 'addAttrGroup' is an crud action for the 'attributeGroup' object that adds 'attribute' objects.
@@ -82,8 +92,8 @@ export default Table.extend(Validations,{
      */
     addAttrGroup() {
       this.addAttrGroup();
-    }
-  }
+    },
+  },
 });
 
 export { Validations };

@@ -1,10 +1,7 @@
 import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import { get, set, setProperties } from '@ember/object';
-import {
-  isArray,
-  A
-} from '@ember/array';
+import { isArray, A } from '@ember/array';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
 
 @classic
@@ -12,41 +9,47 @@ export default class PatchService extends Service {
   applyModelPatch(record) {
     let type = record.constructor.modelName;
 
-    switch(type) {
-    case 'contact':
-      record.get('json.address')
-        .forEach(itm => {
+    switch (type) {
+      case 'contact':
+        record.get('json.address').forEach((itm) => {
           let oldAdm = get(itm, 'adminstrativeArea');
 
-          if(oldAdm) {
+          if (oldAdm) {
             set(itm, 'administrativeArea', oldAdm);
             set(itm, 'adminstrativeArea', null);
           }
         });
 
-      record.set('json.memberOfOrganization', A(record.get(
-        'json.memberOfOrganization')).uniq());
+        record.set(
+          'json.memberOfOrganization',
+          A(record.get('json.memberOfOrganization')).uniq(),
+        );
 
-      if(record.get('json.externalIdentifier') == null) {
-        record.set('json.externalIdentifier', A());
-      }
-      record.save().then(function () {
-        record.notifyPropertyChange('currentHash');
-      });
+        if (record.get('json.externalIdentifier') == null) {
+          record.set('json.externalIdentifier', A());
+        }
+        record.save().then(function () {
+          record.notifyPropertyChange('currentHash');
+        });
 
-      break;
-    case 'record':
-      {
+        break;
+      case 'record': {
         //fix lineage
         let lineage = record.get('json.metadata.resourceLineage');
 
-        if(isArray(lineage)) {
-          lineage.forEach(itm => {
+        if (isArray(lineage)) {
+          lineage.forEach((itm) => {
             let source = get(itm, 'source');
 
-            if(isArray(source)) {
-              source.forEach(src => {
-                set(src, 'description', get(src, 'description') !== undefined ? get(src, 'description') : get(src, 'value'));
+            if (isArray(source)) {
+              source.forEach((src) => {
+                set(
+                  src,
+                  'description',
+                  get(src, 'description') !== undefined
+                    ? get(src, 'description')
+                    : get(src, 'value'),
+                );
                 set(src, 'value', null);
               });
               record.save().then(function () {
@@ -56,13 +59,19 @@ export default class PatchService extends Service {
 
             let step = get(itm, 'processStep');
 
-            if(isArray(step)) {
-              step.forEach(step => {
+            if (isArray(step)) {
+              step.forEach((step) => {
                 let source = get(step, 'stepSource');
 
-                if(isArray(source)) {
-                  source.forEach(src => {
-                    set(src, 'description', get(src, 'description') !== undefined ? get(src, 'description') : get(src, 'value'));
+                if (isArray(source)) {
+                  source.forEach((src) => {
+                    set(
+                      src,
+                      'description',
+                      get(src, 'description') !== undefined
+                        ? get(src, 'description')
+                        : get(src, 'value'),
+                    );
                     set(src, 'value', null);
                   });
                   record.save().then(function () {
@@ -76,22 +85,23 @@ export default class PatchService extends Service {
         //fix taxonomy
         let taxonomy = record.get('json.metadata.resourceInfo.taxonomy');
 
-        if(taxonomy) {
-          if(!isArray(taxonomy)) {
+        if (taxonomy) {
+          if (!isArray(taxonomy)) {
             taxonomy = [taxonomy];
             record.set('json.metadata.resourceInfo.taxonomy', taxonomy);
           }
 
-          taxonomy.forEach(itm => {
+          taxonomy.forEach((itm) => {
             let classification = get(itm, 'taxonomicClassification');
 
-            if(classification && !isArray(classification)) {
+            if (classification && !isArray(classification)) {
               let fixNames = (taxon) => {
                 taxon.taxonomicName = taxon.taxonomicName || taxon.latinName;
-                taxon.taxonomicLevel = taxon.taxonomicLevel || taxon.taxonomicRank;
+                taxon.taxonomicLevel =
+                  taxon.taxonomicLevel || taxon.taxonomicRank;
 
-                if(isArray(taxon.subClassification)) {
-                  taxon.subClassification.forEach(t => fixNames(t));
+                if (isArray(taxon.subClassification)) {
+                  taxon.subClassification.forEach((t) => fixNames(t));
                 }
               };
 
@@ -100,12 +110,12 @@ export default class PatchService extends Service {
 
               let refs = get(itm, 'identificationReference');
 
-              if(isArray(refs)) {
+              if (isArray(refs)) {
                 let fixedRefs = [];
 
-                refs.forEach(ref => {
+                refs.forEach((ref) => {
                   fixedRefs.pushObject({
-                    "identifier": [ref]
+                    identifier: [ref],
                   });
                 });
                 set(itm, 'identificationReference', fixedRefs);
@@ -116,60 +126,55 @@ export default class PatchService extends Service {
 
         //fix srs identifiers
         let srs = record.get(
-          'json.metadata.resourceInfo.spatialReferenceSystem');
+          'json.metadata.resourceInfo.spatialReferenceSystem',
+        );
 
-        if(srs) {
-          srs.forEach(itm => {
-            let projObj = get(itm,
-              'referenceSystemParameterSet.projection');
-            let geoObj = get(itm,
-              'referenceSystemParameterSet.geodetic');
-            let vertObj = get(itm,
-              'referenceSystemParameterSet.verticalDatum');
+        if (srs) {
+          srs.forEach((itm) => {
+            let projObj = get(itm, 'referenceSystemParameterSet.projection');
+            let geoObj = get(itm, 'referenceSystemParameterSet.geodetic');
+            let vertObj = get(itm, 'referenceSystemParameterSet.verticalDatum');
 
-            if(projObj) {
-              let {
-                projection,
-                projectionName,
-                projectionIdentifier
-              } = projObj;
+            if (projObj) {
+              let { projection, projectionName, projectionIdentifier } =
+                projObj;
 
-              if(!projectionIdentifier || projection) {
+              if (!projectionIdentifier || projection) {
                 set(projObj, 'projectionIdentifier', {
                   identifier: projection,
-                  name: projectionName
+                  name: projectionName,
                 });
 
                 setProperties(projObj, {
                   projection: null,
-                  projectionName: null
+                  projectionName: null,
                 });
               }
             }
 
-            if(geoObj && (geoObj.datumName || geoObj.ellipsoidName)) {
-              if(geoObj.datumName) {
-                set(geoObj,'datumIdentifier', {
-                  identifier: geoObj.datumName
+            if (geoObj && (geoObj.datumName || geoObj.ellipsoidName)) {
+              if (geoObj.datumName) {
+                set(geoObj, 'datumIdentifier', {
+                  identifier: geoObj.datumName,
                 });
               }
 
-              if(geoObj.ellipsoidName) {
-                set(geoObj,'ellipsoidIdentifier', {
-                  identifier: geoObj.ellipsoidName
+              if (geoObj.ellipsoidName) {
+                set(geoObj, 'ellipsoidIdentifier', {
+                  identifier: geoObj.ellipsoidName,
                 });
               }
 
               setProperties(geoObj, {
                 datumName: null,
-                ellipsoidName: null
+                ellipsoidName: null,
               });
             }
 
-            if(vertObj && vertObj.datumName) {
-              if(vertObj.datumName) {
-                set(vertObj,'datumIdentifier', {
-                  identifier: vertObj.datumName
+            if (vertObj && vertObj.datumName) {
+              if (vertObj.datumName) {
+                set(vertObj, 'datumIdentifier', {
+                  identifier: vertObj.datumName,
                 });
               }
 
@@ -179,26 +184,34 @@ export default class PatchService extends Service {
         }
 
         //fix transfer format edition
-        let distribution = record.get(
-          'json.metadata.resourceDistribution');
+        let distribution = record.get('json.metadata.resourceDistribution');
 
-        if(distribution) {
-          distribution.forEach(itm => {
-            if(itm.distributor) {
-              itm.distributor.forEach(itm => {
-                if(itm.transferOption) {
-                  itm.transferOption.forEach(itm => {
-                    if(itm.distributionFormat) {
-                      itm.distributionFormat.forEach(format => {
-                        if(format.amendmentNumber && format.formatSpecification &&
-                          !format.formatSpecification.edition) {
-                          set(format, 'formatSpecification.edition',
-                            format.amendmentNumber);
+        if (distribution) {
+          distribution.forEach((itm) => {
+            if (itm.distributor) {
+              itm.distributor.forEach((itm) => {
+                if (itm.transferOption) {
+                  itm.transferOption.forEach((itm) => {
+                    if (itm.distributionFormat) {
+                      itm.distributionFormat.forEach((format) => {
+                        if (
+                          format.amendmentNumber &&
+                          format.formatSpecification &&
+                          !format.formatSpecification.edition
+                        ) {
+                          set(
+                            format,
+                            'formatSpecification.edition',
+                            format.amendmentNumber,
+                          );
                           return;
                         }
-                        if(format.amendmentNumber && !format.formatSpecification) {
+                        if (
+                          format.amendmentNumber &&
+                          !format.formatSpecification
+                        ) {
                           set(format, 'formatSpecification', {
-                            edition: format.amendmentNumber
+                            edition: format.amendmentNumber,
                           });
                           return;
                         }
@@ -212,14 +225,13 @@ export default class PatchService extends Service {
         }
 
         //fix allocation comment
-        let funding = record.get(
-          'json.metadata.funding');
+        let funding = record.get('json.metadata.funding');
 
-        if(funding) {
-          funding.forEach(itm => {
-            if(itm.allocation) {
-              itm.allocation.forEach(itm => {
-                if(itm.description && !itm.comment) {
+        if (funding) {
+          funding.forEach((itm) => {
+            if (itm.allocation) {
+              itm.allocation.forEach((itm) => {
+                if (itm.description && !itm.comment) {
                   set(itm, 'comment', itm.description);
                   set(itm, 'description', null);
                 }
@@ -231,12 +243,18 @@ export default class PatchService extends Service {
         //fix metadataRepository title
         let repo = record.get('json.metadataRepository');
 
-        if(isArray(repo)) {
-          repo.forEach(itm => {
+        if (isArray(repo)) {
+          repo.forEach((itm) => {
             let titles = get(itm, 'citation.titles');
 
-            if(titles) {
-              set(itm, 'citation.title', get(itm, 'citation.titles') !== undefined ? get(itm, 'citation.titles') : get(itm, 'title'));
+            if (titles) {
+              set(
+                itm,
+                'citation.title',
+                get(itm, 'citation.titles') !== undefined
+                  ? get(itm, 'citation.titles')
+                  : get(itm, 'title'),
+              );
               set(itm, 'citation.titles', null);
               record.save().then(function () {
                 record.notifyPropertyChange('currentHash');

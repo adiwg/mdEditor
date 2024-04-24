@@ -73,6 +73,6 @@ export default Table.extend({
       let sel = this.selectedItems;
 
       this.select(sel);
-    }
-  }
+    },
+  },
 });

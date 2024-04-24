@@ -6,7 +6,7 @@ export default Route.extend({
 
     this.breadCrumb = {
       title: 'New',
-      linkable: false
-    }
+      linkable: false,
+    };
   },
 });

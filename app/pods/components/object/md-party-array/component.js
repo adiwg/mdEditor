@@ -1,7 +1,5 @@
 import Component from '@ember/component';
-import {
-  Template
-} from '../md-party/component';
+import { Template } from '../md-party/component';
 
 export default Component.extend({
   attributeBindings: ['data-spy'],
@@ -12,5 +10,5 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: Template
+  templateClass: Template,
 });

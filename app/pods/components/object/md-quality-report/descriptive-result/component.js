@@ -11,7 +11,11 @@ export default Component.extend({
 
     if (model) {
       once(this, function () {
-        set(model, 'scope', get(model, 'scope') !== undefined ? get(model, 'scope') : {});
+        set(
+          model,
+          'scope',
+          get(model, 'scope') !== undefined ? get(model, 'scope') : {},
+        );
       });
     }
   },

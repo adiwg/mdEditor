@@ -7,10 +7,28 @@ export default Component.extend({
     this._super(...arguments);
     let model = get(this, 'model');
     once(this, function () {
-      set(model, 'description', get(model, 'description') !== undefined ? get(model, 'description') : null);
-      set(model, 'minValue', get(model, 'minValue') !== undefined ? get(model, 'minValue') : null);
-      set(model, 'maxValue', get(model, 'maxValue') !== undefined ? get(model, 'maxValue') : null);
-      set(model, 'crsId', get(model, 'crsId') !== undefined ? get(model, 'crsId') : {});
+      set(
+        model,
+        'description',
+        get(model, 'description') !== undefined
+          ? get(model, 'description')
+          : null,
+      );
+      set(
+        model,
+        'minValue',
+        get(model, 'minValue') !== undefined ? get(model, 'minValue') : null,
+      );
+      set(
+        model,
+        'maxValue',
+        get(model, 'maxValue') !== undefined ? get(model, 'maxValue') : null,
+      );
+      set(
+        model,
+        'crsId',
+        get(model, 'crsId') !== undefined ? get(model, 'crsId') : {},
+      );
     });
   },
 });
