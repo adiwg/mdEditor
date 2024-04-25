@@ -9,7 +9,7 @@ export default Theme.extend({
   'nav-prev': 'fa fa-backward',
   'nav-next': 'fa fa-forward',
   'nav-last': 'fa fa-fast-forward',
-  'caret': 'fa fa-caret-down',
+  caret: 'fa fa-caret-down',
   'select-row': 'fa fa-fw fa-check-square-o',
   'deselect-row': 'fa fa-fw fa-square-o',
   'select-all-rows': 'fa fa-fw fa-check-square-o',
@@ -26,5 +26,5 @@ export default Theme.extend({
   expandedRow: 'expanded-row',
   expandRow: 'expand-row md-collapsible-content',
   table: 'table table-striped table-bordered table-condensed table-hover',
-  selectRowOnExpandClick: false
+  selectRowOnExpandClick: false,
 });

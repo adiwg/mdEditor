@@ -1,8 +1,8 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { computed, get } from '@ember/object';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { set, getWithDefault } from '@ember/object';
+import { set } from '@ember/object';
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -15,32 +15,44 @@ export default Component.extend({
         set(
           model,
           'qualityMeasure',
-          getWithDefault(model, 'qualityMeasure', { name: [] })
+          get(model, 'qualityMeasure') !== undefined
+            ? get(model, 'qualityMeasure')
+            : { name: [] },
         );
         set(
           model,
           'evaluationMethod',
-          getWithDefault(model, 'evaluationMethod', { dateTime: [] })
+          get(model, 'evaluationMethod') !== undefined
+            ? get(model, 'evaluationMethod')
+            : { dateTime: [] },
         );
         set(
           model,
           'quantitativeResult',
-          getWithDefault(model, 'quantitativeResult', [])
+          get(model, 'quantitativeResult') !== undefined
+            ? get(model, 'quantitativeResult')
+            : [],
         );
         set(
           model,
           'descriptiveResult',
-          getWithDefault(model, 'descriptiveResult', [])
+          get(model, 'descriptiveResult') !== undefined
+            ? get(model, 'descriptiveResult')
+            : [],
         );
         set(
           model,
           'conformanceResult',
-          getWithDefault(model, 'conformanceResult', [])
+          get(model, 'conformanceResult') !== undefined
+            ? get(model, 'conformanceResult')
+            : [],
         );
         set(
           model,
           'coverageResult',
-          getWithDefault(model, 'coverageResult', [])
+          get(model, 'coverageResult') !== undefined
+            ? get(model, 'coverageResult')
+            : [],
         );
       });
     }
@@ -84,7 +96,7 @@ export default Component.extend({
         }
         return value;
       },
-    }
+    },
   ),
 
   evaluationMethodEndDateTime: computed('model.evaluationMethod.dateTime.[]', {

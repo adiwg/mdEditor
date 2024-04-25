@@ -7,6 +7,6 @@ export default Component.extend({
     clickOnRow(index, record, event) {
       this.clickOnRow(index, record);
       event.stopPropagation();
-    }
-  }
+    },
+  },
 });

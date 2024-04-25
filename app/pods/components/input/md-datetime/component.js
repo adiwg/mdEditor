@@ -27,7 +27,7 @@ export default Component.extend({
 
     if (isBlank(model) !== isBlank(valuePath)) {
       assert(
-        `You must supply both model and valuePath to ${this.toString()} or neither.`
+        `You must supply both model and valuePath to ${this.toString()} or neither.`,
       );
     }
 
@@ -48,7 +48,7 @@ export default Component.extend({
             let formatted = this.formatValue(value, `model.${valuePath}`);
             return formatted;
           },
-        })
+        }),
       );
 
       // ... (other property definitions related to model and validation)
@@ -65,7 +65,7 @@ export default Component.extend({
             let formatted = this.formatValue(value, 'date');
             return formatted;
           },
-        })
+        }),
       );
     }
   },

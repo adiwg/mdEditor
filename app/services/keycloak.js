@@ -1,8 +1,8 @@
-import Service from "@ember/service";
-import Keycloak from "keycloak-js";
-import { action, set } from "@ember/object";
-import { tracked } from "@glimmer/tracking";
-import ENV from "mdeditor/config/environment";
+import Service from '@ember/service';
+import Keycloak from 'keycloak-js';
+import { action, set } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import ENV from 'mdeditor/config/environment';
 
 export default class KeycloakService extends Service {
   keycloak = null;
@@ -23,21 +23,21 @@ export default class KeycloakService extends Service {
     }
     try {
       await this.keycloak.init({
-        onLoad: "check-sso",
-        flow: "standard",
-        pkceMethod: "S256",
+        onLoad: 'check-sso',
+        flow: 'standard',
+        pkceMethod: 'S256',
         checkLoginIframe: false,
         tokenMinValidity: 30,
       });
-      set(this, "isInitialized", true);
+      set(this, 'isInitialized', true);
       if (this.keycloak.authenticated) {
-        set(this, "isAuthenticated", true);
+        set(this, 'isAuthenticated', true);
         const profile = await this.keycloak.loadUserProfile();
         const profileUser = profile.username;
-        set(this, "username", profileUser);
+        set(this, 'username', profileUser);
       }
     } catch (error) {
-      console.error("Error initializing Keycloak:", error);
+      console.error('Error initializing Keycloak:', error);
     }
   }
 
@@ -46,7 +46,7 @@ export default class KeycloakService extends Service {
     if (this.isLoggingIn) {
       return;
     }
-    set(this, "isLoggingIn", true);
+    set(this, 'isLoggingIn', true);
     return this.keycloak.login();
   }
 }

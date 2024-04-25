@@ -48,5 +48,5 @@ export default Identifier.extend({
    * @type {Boolean}
    * @default false
    */
-  visibility: false
+  visibility: false,
 });

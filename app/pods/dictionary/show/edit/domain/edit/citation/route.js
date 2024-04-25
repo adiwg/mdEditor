@@ -5,7 +5,7 @@ export default Route.extend({
     this._super(...arguments);
 
     this.breadCrumb = {
-      title: 'Reference'
-    }
-  }
+      title: 'Reference',
+    };
+  },
 });

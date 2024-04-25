@@ -3,20 +3,17 @@ import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 // import { decamelize } from '@ember/string';
 // import { ucWords } from 'mdeditor/helpers/uc-words';
-import { set, getWithDefault, get } from '@ember/object';
+import { set, get } from '@ember/object';
 // import ImageDescription from 'mdjson-schemas/resources/js/imageDescription';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'imgQualCodeIdentifier': [
+  imgQualCodeIdentifier: [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-    })
-  ]
+    }),
+  ],
 });
 
 // const params = {
@@ -50,13 +47,18 @@ export default Component.extend(Validations, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    // let model = getWithDefault(this, 'model', {}) || {};
-    let model = this.model
+    let model = this.model;
 
     if (model) {
       once(this, function () {
-        set(model, 'imageQualityCode', getWithDefault(model, 'imageQualityCode', {}));
-      })
+        set(
+          model,
+          'imageQualityCode',
+          get(model, 'imageQualityCode') !== undefined
+            ? get(model, 'imageQualityCode')
+            : {},
+        );
+      });
     }
   },
   /**
@@ -76,5 +78,5 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  imgQualCodeIdentifier: alias('model.imageQualityCode.identifier')
+  imgQualCodeIdentifier: alias('model.imageQualityCode.identifier'),
 });

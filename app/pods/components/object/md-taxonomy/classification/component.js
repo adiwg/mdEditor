@@ -4,5 +4,5 @@ export default Component.extend({
   tagName: 'ul',
   classNames: ['list-group', 'md-classification'],
   dragging: null,
-  preview: false
+  preview: false,
 });

@@ -47,7 +47,7 @@ export default Component.extend({
     let newFontSize = currentFontSizeNum * factor;
 
     el.animate({
-      'font-size': `${newFontSize}px`
+      'font-size': `${newFontSize}px`,
     });
   },
 
@@ -55,18 +55,15 @@ export default Component.extend({
     let json = this.json;
     let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 
-    $('.md-viewer-body')
-      .JSONView(out);
+    $('.md-viewer-body').JSONView(out);
   },
 
   actions: {
     collapse() {
-      this.$('.md-viewer-body')
-        .JSONView('collapse');
+      this.$('.md-viewer-body').JSONView('collapse');
     },
     expand() {
-      this.$('.md-viewer-body')
-        .JSONView('expand');
+      this.$('.md-viewer-body').JSONView('expand');
     },
     zoomin() {
       let body = this.$('.md-viewer-body');
@@ -78,6 +75,6 @@ export default Component.extend({
     },
     closeModal() {
       this.close();
-    }
-  }
+    },
+  },
 });

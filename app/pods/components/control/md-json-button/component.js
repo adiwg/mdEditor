@@ -1,10 +1,6 @@
 import Component from '@ember/component';
-import {
-  inject
-} from '@ember/service';
-import {
-  computed
-} from '@ember/object';
+import { inject } from '@ember/service';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   slider: inject(),
@@ -24,7 +20,7 @@ export default Component.extend({
 
   click(evt) {
     //this.set('preview', true);
-    if(!this.propagateClick) {
+    if (!this.propagateClick) {
       evt.stopPropagation();
     }
     this.showSlider();
@@ -51,6 +47,6 @@ export default Component.extend({
     },
     showSlider() {
       this.showSlider();
-    }
-  }
+    },
+  },
 });

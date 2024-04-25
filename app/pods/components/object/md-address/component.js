@@ -58,6 +58,6 @@ export default Component.extend({
 
       this.set('addressType', A());
       this.set('deliveryPoint', A());
-    }
-  })
+    },
+  }),
 });

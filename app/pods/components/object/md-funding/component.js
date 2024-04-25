@@ -1,46 +1,51 @@
 import Component from '@ember/component';
-import { computed, set, getWithDefault, get } from '@ember/object';
+import { computed, set, get } from '@ember/object';
 import { alias, notEmpty } from '@ember/object/computed';
 import { isPresent } from '@ember/utils';
 import { once } from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
-const Validations = buildValidations({
-  'allocation': [
-    validator('array-required', {
-      track: ['allocation'],
-      disabled: computed(
-        'model.timePeriod.{startDateTime,endDateTime}',
-        function () {
-          let tp = this.model.timePeriod;
+const Validations = buildValidations(
+  {
+    allocation: [
+      validator('array-required', {
+        track: ['allocation'],
+        disabled: computed(
+          'model.timePeriod.{startDateTime,endDateTime}',
+          function () {
+            let tp = this.model.timePeriod;
 
-          return isPresent(tp) && (tp.startDateTime || tp.endDateTime);
-        })
-    })
-  ],
-  'timePeriod': {
-    disabled: notEmpty('model.allocation'),
-    validators: [
-      validator('presence', {
-        presence: true,
-        ignoreBlank: true,
+            return isPresent(tp) && (tp.startDateTime || tp.endDateTime);
+          },
+        ),
       }),
-      validator('inline', {
-        dependentKeys:['model.timePeriod.startDateTime', 'model.timePeriod.endDateTime'],
-        validate(value, options, model) {
-          return model.get('timePeriod.startDateTime') || model.get(
-              'timePeriod.endDateTime') ? true :
-            'Time Period should have one of Start Date or End Date.';
-        }
-      })
-    ]
-  }
-}, {
-  message: 'Either an Allocation or valid Time Period is required.'
-});
+    ],
+    timePeriod: {
+      disabled: notEmpty('model.allocation'),
+      validators: [
+        validator('presence', {
+          presence: true,
+          ignoreBlank: true,
+        }),
+        validator('inline', {
+          dependentKeys: [
+            'model.timePeriod.startDateTime',
+            'model.timePeriod.endDateTime',
+          ],
+          validate(value, options, model) {
+            return model.get('timePeriod.startDateTime') ||
+              model.get('timePeriod.endDateTime')
+              ? true
+              : 'Time Period should have one of Start Date or End Date.';
+          },
+        }),
+      ],
+    },
+  },
+  {
+    message: 'Either an Allocation or valid Time Period is required.',
+  },
+);
 
 export default Component.extend(Validations, {
   didReceiveAttrs() {
@@ -49,8 +54,16 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'allocation', getWithDefault(model, 'allocation', []));
-      set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
+      set(
+        model,
+        'allocation',
+        get(model, 'allocation') !== undefined ? get(model, 'allocation') : [],
+      );
+      set(
+        model,
+        'timePeriod',
+        get(model, 'timePeriod') !== undefined ? get(model, 'timePeriod') : {},
+      );
     });
   },
   /**
@@ -72,5 +85,5 @@ export default Component.extend(Validations, {
 
   tagName: 'form',
   allocation: alias('model.allocation'),
-  timePeriod: alias('model.timePeriod')
+  timePeriod: alias('model.timePeriod'),
 });

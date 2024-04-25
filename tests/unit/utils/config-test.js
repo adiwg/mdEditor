@@ -1,9 +1,9 @@
 import config from 'mdeditor/utils/config';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | config', function() {
+module('Unit | Utility | config', function () {
   // Replace this with your real tests.
-  test('it works', function(assert) {
+  test('it works', function (assert) {
     let result = config.name;
     assert.equal(result, 'ScienceBase');
   });

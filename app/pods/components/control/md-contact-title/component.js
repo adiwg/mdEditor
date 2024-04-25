@@ -34,11 +34,8 @@ export default Component.extend({
    * @requires contactId
    */
   contact: computed('contactId', function () {
-      let rec = this.store
-        .peekAll('contact')
-        .findBy('json.contactId', this.contactId);
-
-      return rec;
-    })
-    .readOnly()
+    return this.store
+      .peekAll('contact')
+      .findBy('json.contactId', this.contactId);
+  }).readOnly(),
 });

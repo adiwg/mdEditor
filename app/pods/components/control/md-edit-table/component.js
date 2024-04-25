@@ -1,8 +1,6 @@
 import Component from 'mdeditor/pods/components/control/md-record-table/component';
 //import Component from '@ember/component';
-import {
-  computed
-} from '@ember/object';
+import { computed } from '@ember/object';
 
 export default Component.extend({
   /**
@@ -32,18 +30,18 @@ export default Component.extend({
   spotlightRow: true,
 
   /**
-  * Array of button configs to add to action column
-  *
-  * @property actionButtons
-  * @type {[Object]}
-  */
+   * Array of button configs to add to action column
+   *
+   * @property actionButtons
+   * @type {[Object]}
+   */
 
   /**
-  * Array of badge configs to add to action column
-  *
-  * @property actionBadges
-  * @type {[Object]}
-  */
+   * Array of badge configs to add to action column
+   *
+   * @property actionBadges
+   * @type {[Object]}
+   */
 
   /**
    * Column configs for the action column.
@@ -55,24 +53,27 @@ export default Component.extend({
    * @required
    */
   actionsColumn: computed('actionButtons', function () {
-    let btns = [{
-      title: 'Edit',
-      type: 'success',
-      icon: 'pencil',
-      // action: this.actions.editRow,
-      action: "editRow",
-      target: this
-    }, {
-      title: 'Delete',
-      type: 'danger',
-      icon: 'times',
-      confirm: true,
-      //action: this.actions.deleteRow,
-      action: "deleteRow",
-      target: this
-    }]
+    let btns = [
+      {
+        title: 'Edit',
+        type: 'success',
+        icon: 'pencil',
+        // action: this.actions.editRow,
+        action: 'editRow',
+        target: this,
+      },
+      {
+        title: 'Delete',
+        type: 'danger',
+        icon: 'times',
+        confirm: true,
+        //action: this.actions.deleteRow,
+        action: 'deleteRow',
+        target: this,
+      },
+    ];
 
-    if(this.actionButtons) {
+    if (this.actionButtons) {
       btns.push(this.actionButtons);
     }
 
@@ -84,22 +85,22 @@ export default Component.extend({
       disableSorting: true,
       mayBeHidden: false,
       buttons: btns,
-      badges: this.actionBadges
+      badges: this.actionBadges,
     };
   }),
 
-  editRow(index, record){
-    this.send('expandRow',index, record);
+  editRow(index, record) {
+    this.send('expandRow', index, record);
   },
 
-actions: {
-  // body
-  editRow(col, index, record, evt){
-    evt.stopPropagation();
-    this.editRow(index, record);
+  actions: {
+    // body
+    editRow(col, index, record, evt) {
+      evt.stopPropagation();
+      this.editRow(index, record);
+    },
+    deleteRow(col, index, record) {
+      record.destroyRecord();
+    },
   },
-  deleteRow(col, index, record){
-    record.destroyRecord();
-  }
-}
 });

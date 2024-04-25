@@ -1,9 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, {
-  getWithDefault,
-  get,
-  set
-} from '@ember/object';
+import EmberObject, { get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 export default Component.extend({
@@ -12,11 +8,29 @@ export default Component.extend({
 
     let model = this.model;
 
-    once(function() {
-      set(model, 'scope', getWithDefault(model, 'scope', {}));
-      set(model, 'citation', getWithDefault(model, 'citation', []));
-      set(model, 'processStep', getWithDefault(model, 'processStep', []));
-      set(model, 'source', getWithDefault(model, 'source', []));
+    once(function () {
+      set(
+        model,
+        'scope',
+        get(model, 'scope') !== undefined ? get(model, 'scope') : {},
+      );
+      set(
+        model,
+        'citation',
+        get(model, 'citation') !== undefined ? get(model, 'citation') : [],
+      );
+      set(
+        model,
+        'processStep',
+        get(model, 'processStep') !== undefined
+          ? get(model, 'processStep')
+          : [],
+      );
+      set(
+        model,
+        'source',
+        get(model, 'source') !== undefined ? get(model, 'source') : [],
+      );
     });
   },
 
@@ -49,8 +63,8 @@ export default Component.extend({
     init() {
       this._super(...arguments);
       this.set('timePeriod', {});
-    }
+    },
   }),
 
-  sourceTemplate: EmberObject.extend()
+  sourceTemplate: EmberObject.extend(),
 });

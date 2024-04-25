@@ -63,16 +63,16 @@ export default Component.extend({
   tipClass: '',
 
   /**
-  * Render with wrapped text. Defaults to true if text.length is > 12 or
-  * contains spaces.
-  *
-  * @property responsive
-  * @type {Boolean}
-  * @default "false"
-  * @category computed
-  * @requires text
-  */
-  responsive: computed('text', function() {
+   * Render with wrapped text. Defaults to true if text.length is > 12 or
+   * contains spaces.
+   *
+   * @property responsive
+   * @type {Boolean}
+   * @default "false"
+   * @category computed
+   * @requires text
+   */
+  responsive: computed('text', function () {
     return this.text.length > 12 || this.text.indexOf(' ') > 0;
   }),
 });

@@ -4,6 +4,6 @@ export default Component.extend({
   actions: {
     toggleAllSelection() {
       this.toggleAllSelection();
-    }
-  }
+    },
+  },
 });

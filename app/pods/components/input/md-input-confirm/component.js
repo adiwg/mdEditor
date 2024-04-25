@@ -19,7 +19,7 @@ export default Input.extend({
 
   disabled: true,
 
-  isDisabled: computed('disabled', function(){
+  isDisabled: computed('disabled', function () {
     return this.disabled;
   }),
 
@@ -28,8 +28,8 @@ export default Input.extend({
       this.set('disabled', false);
       this.element.querySelector('input').focus();
     },
-    inputBlur(){
+    inputBlur() {
       this.set('disabled', true);
-    }
-  }
+    },
+  },
 });

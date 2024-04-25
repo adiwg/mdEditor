@@ -1,5 +1,5 @@
-{{#unless readOnly}}
-  <table class="table table-striped table-hover fadeIn">
+{{#unless this.readOnly}}
+  <table class='table table-striped table-hover fadeIn'>
     <thead>
       <tr>
         <th>Keyword</th>
@@ -8,44 +8,58 @@
       </tr>
     </thead>
     <tbody>
-      {{#each model.keyword as |keyword|}}
+      {{#each this.model.keyword as |keyword|}}
         <tr>
           <td>
-            {{input/md-input
-              value=keyword.keyword
-              placeholder="Keyword"
-              profilePath=(concat profilePath ".keyword.keyword")
-            }}
+            <Input::MdInput
+              @value={{keyword.keyword}}
+              @placeholder='Keyword'
+              @profilePath={{concat this.profilePath '.keyword.keyword'}}
+            />
           </td>
           <td>
-            {{input/md-input
-              value=keyword.identifier
-              placeholder="Unique identifier"
-              profilePath=(concat profilePath ".keyword.identifier")
-            }}
+            <Input::MdInput
+              @value={{keyword.identifier}}
+              @placeholder='Unique identifier'
+              @profilePath={{concat this.profilePath '.keyword.identifier'}}
+            />
           </td>
           <td>
-            <div class="md-button-column">
-              <button class="btn btn-xs btn-danger" {{action "deleteKeyword" model.keyword keyword}}>
-                <span class="fa fa-times"></span> Delete
+            <div class='md-button-column'>
+              <button
+                class='btn btn-xs btn-danger'
+                {{action 'deleteKeyword' this.model.keyword keyword}}
+              >
+                <span class='fa fa-times'></span>
+                Delete
               </button>
             </div>
           </td>
         </tr>
-{{else}}
-  <tr>
-    <td colspan="3">
-      Add some keywords.
-    </td>
-  </tr>
+      {{else}}
+        <tr>
+          <td colspan='3'>
+            Add some keywords.
+          </td>
+        </tr>
       {{/each}}
       <tr>
-        <td colspan="3">
-          <button type="button" class="btn btn-xs btn-success" {{action "addKeyword" model.keyword}}>
-            {{fa-icon "plus"}} Add Keyword
+        <td colspan='3'>
+          <button
+            type='button'
+            class='btn btn-xs btn-success'
+            {{action 'addKeyword' this.model.keyword}}
+          >
+            {{fa-icon 'plus'}}
+            Add Keyword
           </button>
-          <button type="button" class="btn btn-xs btn-info" {{action "hideThesaurus" this.element}}>
-            {{fa-icon "eye"}} Toggle Thesaurus
+          <button
+            type='button'
+            class='btn btn-xs btn-info'
+            {{action 'hideThesaurus' this.element}}
+          >
+            {{fa-icon 'eye'}}
+            Toggle Thesaurus
           </button>
         </td>
       </tr>
@@ -53,23 +67,32 @@
   </table>
 {{else}}
 
-  <ul class="list-group">
-    {{#each model.keyword as |keyword|}}
-      <li class="list-group-item">
-        <button class="btn btn-xs btn-danger pull-right" {{action "deleteKeyword" model.keyword keyword}}>
-          <span class="fa fa-times"></span> Delete
+  <ul class='list-group'>
+    {{#each this.model.keyword as |keyword|}}
+      <li class='list-group-item'>
+        <button
+          class='btn btn-xs btn-danger pull-right'
+          {{action 'deleteKeyword' this.model.keyword keyword}}
+        >
+          <span class='fa fa-times'></span>
+          Delete
         </button>
         {{keyword.keyword}}
       </li>
-{{else}}
-    <li class="list-group-item">Add some keywords.</li>
+    {{else}}
+      <li class='list-group-item'>Add some keywords.</li>
     {{/each}}
-    {{#if editThesaurus}}
-    <li class="list-group-item">
-      <button type="button" class="btn btn-block btn-success" {{action editThesaurus listId}}>
-        {{fa-icon "pencil"}} Edit keywords.
-      </button>
-    </li>
+    {{#if this.editThesaurus}}
+      <li class='list-group-item'>
+        <button
+          type='button'
+          class='btn btn-block btn-success'
+          {{action this.editThesaurus this.listId}}
+        >
+          {{fa-icon 'pencil'}}
+          Edit keywords.
+        </button>
+      </li>
     {{/if}}
   </ul>
 {{/unless}}

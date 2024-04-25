@@ -8,11 +8,11 @@ export default Route.extend({
       model.pushObject(k);
     },
     deleteKeyword(model, obj) {
-      if(typeof obj === 'number') {
+      if (typeof obj === 'number') {
         model.removeAt(obj);
       } else {
         model.removeObject(obj);
       }
     },
-  }
+  },
 });

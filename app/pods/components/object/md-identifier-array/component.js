@@ -1,16 +1,13 @@
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import {
-  Validations
-} from '../md-identifier/component';
+import { Validations } from '../md-identifier/component';
 
 export default Component.extend({
-
   init() {
     this._super(...arguments);
 
-    if(!this.model) {
+    if (!this.model) {
       this.set('model', A());
     }
   },
@@ -71,6 +68,6 @@ export default Component.extend({
     init() {
       this._super(...arguments);
       this.set('authority', {});
-    }
-  })
+    },
+  }),
 });

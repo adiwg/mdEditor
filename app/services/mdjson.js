@@ -1,6 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
-import EmberObject, { getWithDefault, get, set } from '@ember/object';
+import EmberObject, { get, set } from '@ember/object';
 import Ember from 'ember';
 import Ajv from 'ajv';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
@@ -36,10 +37,16 @@ const unImplemented = [
   'metadata.resourceInfo.otherResourceLocale',
 ];
 
-export default Service.extend({
-  cleaner: service(),
-  contacts: service(),
-  store: service(),
+@classic
+export default class MdjsonService extends Service {
+  @service
+  cleaner;
+
+  @service
+  contacts;
+
+  @service
+  store;
 
   injectCitations(json) {
     let assoc = json.metadata.associatedResource;
@@ -61,10 +68,23 @@ export default Service.extend({
           let info = get(record, 'json.metadata.metadataInfo') || {};
           let metadata = {
             title: `Metadata for ${get(record, 'title')}`,
-            responsibleParty: getWithDefault(info, 'metadataContact', []),
-            date: getWithDefault(info, 'metadataDate', []),
-            onlineResource: getWithDefault(info, 'metadataOnlineResource', []),
-            identifier: [getWithDefault(info, 'metadataIdentifier', {})],
+            responsibleParty:
+              get(info, 'metadataContact') !== undefined
+                ? get(info, 'metadataContact')
+                : [],
+            date:
+              get(info, 'metadataDate') !== undefined
+                ? get(info, 'metadataDate')
+                : [],
+            onlineResource:
+              get(info, 'metadataOnlineResource') !== undefined
+                ? get(info, 'metadataOnlineResource')
+                : [],
+            identifier: [
+              get(info, 'metadataIdentifier') !== undefined
+                ? get(info, 'metadataIdentifier')
+                : {},
+            ],
           };
 
           let citation =
@@ -75,12 +95,12 @@ export default Service.extend({
           set(
             ref,
             'resourceCitation',
-            EmberObject.create(formatCitation(citation))
+            EmberObject.create(formatCitation(citation)),
           );
           set(
             ref,
             'metadataCitation',
-            EmberObject.create(formatCitation(metadata))
+            EmberObject.create(formatCitation(metadata)),
           );
           set(ref, 'resourceType', resourceType);
           set(ref, 'mdRecordId', null);
@@ -91,7 +111,7 @@ export default Service.extend({
         set(ref, 'mdRecordId', null);
       });
     }
-  },
+  }
 
   injectDictionaries(rec, json) {
     let ids = rec.get('json.mdDictionary') || [];
@@ -109,7 +129,7 @@ export default Service.extend({
     }
 
     set(json, 'dataDictionary', arr);
-  },
+  }
 
   formatRecord(rec, asText) {
     let _contacts = [];
@@ -200,26 +220,26 @@ export default Service.extend({
     }
 
     return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(json);
-  },
+  }
 
   validateRecord(record) {
     validator.validate('schema', this.formatRecord(record));
 
     return validator;
-  },
+  }
 
   validateContact(contact) {
     validator.validate('contact', contact.get('cleanJson'));
 
     return validator;
-  },
+  }
 
   validateDictionary(dictionary) {
     validator.validate(
       'dataDictionary',
-      dictionary.get('cleanJson').dataDictionary
+      dictionary.get('cleanJson').dataDictionary,
     );
 
     return validator;
-  },
-});
+  }
+}

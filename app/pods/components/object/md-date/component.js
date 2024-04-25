@@ -1,19 +1,16 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
   date: validator('presence', {
     presence: true,
-    ignoreBlank: true
+    ignoreBlank: true,
   }),
   dateType: validator('presence', {
     presence: true,
-    ignoreBlank: true
-  })
+    ignoreBlank: true,
+  }),
 });
 
 export default Component.extend(Validations, {
@@ -25,8 +22,7 @@ export default Component.extend(Validations, {
     // }
   },
 
-  tagName:'',
+  tagName: '',
   date: alias('model.date'),
-  dateType: alias('model.dateType')
-
+  dateType: alias('model.dateType'),
 });

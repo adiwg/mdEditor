@@ -5,11 +5,11 @@
   block=false
 }}
 {{yield}} --}}
-{{#if (v-get record "config" "isInvalid")}}
-  <div class="alert alert-danger" role="alert">{{fa-icon "exclamation"}}
-    {{v-get record "config" "message"}}
+{{#if (v-get this.record 'config' 'isInvalid')}}
+  <div class='alert alert-danger' role='alert'>{{fa-icon 'exclamation'}}
+    {{v-get this.record 'config' 'message'}}
   </div>
 {{/if}}
 
-{{object/md-profile/form record=record}}
+<Object::MdProfile::Form @record={{this.record}} />
 {{!-- {{/layout/md-card}} --}}

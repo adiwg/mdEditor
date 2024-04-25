@@ -10,30 +10,27 @@ import { set, get, computed } from '@ember/object';
 import { once } from '@ember/runloop';
 //import moment from 'moment';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'start': [
+  start: [
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.end'),
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'end': [
+  end: [
     validator('date', {
       onOrAfter: alias('model.start'),
-      isWarning: true
+      isWarning: true,
     }),
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.start'),
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -88,11 +85,11 @@ export default Component.extend(Validations, {
       return dt === undefined ? null : dt;
     },
     set(key, value) {
-      once(this, function() {
+      once(this, function () {
         set(this, 'startDateTime', value);
         return value;
       });
-    }
+    },
   }),
   end: computed('endDateTime', {
     get() {
@@ -100,10 +97,10 @@ export default Component.extend(Validations, {
       return dt === undefined ? null : dt;
     },
     set(key, value) {
-      once(this, function() {
+      once(this, function () {
         set(this, 'endDateTime', value);
         return value;
       });
-    }
+    },
   }),
 });

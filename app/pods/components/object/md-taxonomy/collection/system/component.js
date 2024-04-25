@@ -1,27 +1,16 @@
 import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { set, get } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'citation': [
+  citation: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -31,8 +20,11 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'citation', getWithDefault(model,
-        'citation', {}));
+      set(
+        model,
+        'citation',
+        get(model, 'citation') !== undefined ? get(model, 'citation') : {},
+      );
     });
   },
 
@@ -54,5 +46,5 @@ export default Component.extend(Validations, {
    */
 
   tagName: 'form',
-  citation: alias('model.citation')
+  citation: alias('model.citation'),
 });

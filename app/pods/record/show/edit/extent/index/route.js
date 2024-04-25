@@ -10,7 +10,7 @@ export default Route.extend(ScrollTo, {
     defineProperty(
       this.controller,
       'refreshSpy',
-      alias('model.json.metadata.resourceInfo.extent.length')
+      alias('model.json.metadata.resourceInfo.extent.length'),
     );
   },
 });

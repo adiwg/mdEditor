@@ -9,7 +9,7 @@ export default Route.extend(HashPoll, DoCancel, {
 
     this.breadCrumb = {
       title: 'Edit',
-      linkable: false
+      linkable: false,
     };
   },
 
@@ -30,46 +30,39 @@ export default Route.extend(HashPoll, DoCancel, {
   },
 
   actions: {
-
     saveRecord: function () {
       let model = this.currentRouteModel();
-      model
-        .save()
-        .then(() => {
-          this.flashMessages.success(
-            `Saved Record: ${model.get('title')}`);
-        });
+      model.save().then(() => {
+        this.flashMessages.success(`Saved Record: ${model.get('title')}`);
+      });
     },
 
     cancelRecord: function () {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
 
-      if(this.get('settings.data.autoSave')) {
+      if (this.get('settings.data.autoSave')) {
         let json = model.get('jsonRevert');
 
-        if(json) {
+        if (json) {
           model.set('json', JSON.parse(json));
 
           this.doCancel();
 
-          this.flashMessages
-            .warning(message);
+          this.flashMessages.warning(message);
         }
 
         return;
       }
 
-      model
-        .reload()
-        .then(() => {
-          this.doCancel();
-          this.flashMessages.warning(message);
-        });
+      model.reload().then(() => {
+        this.doCancel();
+        this.flashMessages.warning(message);
+      });
     },
 
     getContext() {
       return this;
-    }
-  }
+    },
+  },
 });

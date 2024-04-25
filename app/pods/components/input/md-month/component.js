@@ -9,5 +9,5 @@ export default DateTimePicker.extend({
   }),
   showClear: false,
   useCurrent: false,
-  showTodayButton:false
+  showTodayButton: false,
 });

@@ -1,8 +1,8 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { computed, get } from '@ember/object';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { set, getWithDefault } from '@ember/object';
+import { set } from '@ember/object';
 
 export default Component.extend({
   didReceiveAttrs() {
@@ -15,9 +15,15 @@ export default Component.extend({
         set(
           model,
           'scope',
-          getWithDefault(model, 'scope', { scopeDescription: [] })
+          get(model, 'scope') !== undefined
+            ? get(model, 'scope')
+            : { scopeDescription: [] },
         );
-        set(model, 'value', getWithDefault(model, 'value', []));
+        set(
+          model,
+          'value',
+          get(model, 'value') !== undefined ? get(model, 'value') : [],
+        );
       });
     }
   },
