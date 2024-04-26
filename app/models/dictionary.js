@@ -140,7 +140,6 @@ export default Model.extend(Validations, Copyable, {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
-    console.log(json)
     json.set('dataDictionary.citation.title', `Copy of ${name}`);
     json.set('dictionaryId', uuidV4());
 

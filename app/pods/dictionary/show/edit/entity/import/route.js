@@ -158,33 +158,31 @@ export default Route.extend({
 
       set(this, 'controller.processed', false);
 
-      set(this, 'controller.columns', data.meta.fields.reduce(function (map,
-        obj) {
+      set(this, 'controller.columns', data.meta.fields.reduce(function (map, obj) {
         let type = typeOf(data.data[0][obj]);
 
-        set(map, obj, template.create({
+        // Use bracket notation to set the property
+        map[obj] = template.create({
           dataType: type,
           domain: [],
           importName: obj,
           importType: typer(type)
-        }));
+        });
+
         return map;
       }, EmberObject.create({})));
     },
     reduceData(data) {
-      let columns = Object.keys(this.get('controller.columns'));
+      let columns = this.get('controller.columns');
+      let columnNames = Object.keys(columns);
 
-      columns.forEach((columnName) => {
-        let path = 'controller.columns.' + columnName + '.domain';
-        let existing = get(this, path);
+      columnNames.forEach((columnName) => {
+        let existing = columns[columnName].domain || [];
 
-        // if(get(existing,'length' )<= get(this,'maxDomain')){
         let unique = [...new Set(data.map(item => item[columnName]))];
 
-        set(this, path, [...new Set([...existing, ...unique])]);
-        // }
-      });
-
+        columns[columnName].domain = [...new Set([...existing, ...unique])];
+    });
     },
     processComplete() {
       let columns = this.get('controller.columns');
