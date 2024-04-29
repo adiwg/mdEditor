@@ -83,7 +83,6 @@ export default Component.extend({
   showClear: true,
 
   formatValue(value, target) {
-    console.log("format", this.format);
     if (isBlank(value)) {
       once(this, "setTargetToNull", target);
       return value;
