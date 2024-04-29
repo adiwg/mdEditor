@@ -3,13 +3,10 @@
   <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
     <Control::MdRecordTable
       @data={{this.model}}
-      @dataColumns={{compute
-        (route-action 'getColumns')
-        this.section.meta.type
-      }}
+      @dataColumns={{compute this.getColumns this.section.meta.type}}
       @allActions={{true}}
       @selectProperty='_selectedFromList'
-      @showSlider={{route-action 'showSlider'}}
+      @showSlider={{this.showSlider}}
     />
   </Layout::MdCard>
 {{else}}
