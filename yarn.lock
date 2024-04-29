@@ -10804,19 +10804,19 @@ mdast-util-to-string@^2.0.0:
   resolved "https://registry.yarnpkg.com/mdast-util-to-string/-/mdast-util-to-string-2.0.0.tgz#b8cfe6a713e1091cb5b728fc48885a4767f8b97b"
   integrity sha512-AW4DRS3QbBayY/jJmD8437V1Gombjf8RSOUCMFBuo5iHi58AGEgVCKQ+ezHkZZDpAQS75hcBMpLqjpJTjtUL7w==
 
-mdcodes@2.9.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.9.2.tgz#cb496ed14cea32acede6dd4747544951c7b23afe"
-  integrity sha512-EqN+8JXNyceOlltAfPndCHN/yyi02FJQnnrnf/MXb/WnHKf3dBJTtWWJYOvS8/XYFXc80wVozA0Idtkk/7YS1g==
+mdcodes@2.9.3-beta.3:
+  version "2.9.3-beta.3"
+  resolved "https://registry.yarnpkg.com/mdcodes/-/mdcodes-2.9.3-beta.3.tgz#d1b9f3e192949640e792b2708164dfc78e12eab5"
+  integrity sha512-x/Xq76IlxvCfGkuVEHF1Jq3yp1ke/jQGCmwcX6aqxAi/4EZjgDpNZBwVxZs17kHn2BT8BAaJFN1sEWD2WKu66w==
   dependencies:
     buildify "github:powmedia/buildify#20458a121411f759dcc5ec1b441695eb7fc2b3b7"
     glob "^7.1.0"
     rimraf "^2.6.2"
 
-mdjson-schemas@2.9.1:
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.9.1.tgz#ed14d54c7c0ffab36f7cde004d437e638dedaa10"
-  integrity sha512-zHOdiGPNRfv5SY0Yo9cpe+sx6TlWyo6aIbtI4BNa7cb2paQZgJ6AYnMjZCtNCemm82fC92Tg6i+sJaahIPfKIg==
+mdjson-schemas@2.9.2-beta.3:
+  version "2.9.2-beta.3"
+  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.9.2-beta.3.tgz#8d8d3f69609f50c61e21d7a9828b82220b6ec543"
+  integrity sha512-htmpdAz3smohWEKlNehXZUtn9GUY2VO26VZc3eYiZ4iRdOuCcrleRz2Qtz3n1yPnomwC8VVcRuF21KXBndUyMA==
 
 mdn-data@2.0.30:
   version "2.0.30"
