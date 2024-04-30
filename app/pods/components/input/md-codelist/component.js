@@ -40,13 +40,16 @@ export default Select.extend({
     this._super(...arguments);
 
     //define cp using a dynamic dependent property
-    defineProperty(this, 'mdCodelist',
+    defineProperty(
+      this,
+      'mdCodelist',
       computed(`mdCodes.${this.mdCodeName}.codelist.[]`, function () {
-        return this.mdCodes
-          .get(this.mdCodeName)
-          .codelist
-          //.uniqBy(codeName)
-          .sortBy(this.namePath);
+        console.log('should disable sort?', this.disableSort);
+        const codelist = this.mdCodes.get(this.mdCodeName).codelist;
+        if (this.disableSort) {
+          return codelist;
+        }
+        return codelist.sortBy(this.namePath);
       })
     );
   },
@@ -118,7 +121,7 @@ export default Select.extend({
    * @type String
    * @default 'Select one option'
    */
-  placeholder: "Select one option",
+  placeholder: 'Select one option',
 
   /**
    * Form label for select list
@@ -141,10 +144,9 @@ export default Select.extend({
   selectedItem: computed('value', function () {
     let value = this.value;
 
-    return this.codelist
-      .find((item) => {
-        return item['codeId'] === value;
-      });
+    return this.codelist.find((item) => {
+      return item['codeId'] === value;
+    });
   }),
 
   // mdCodelist: computed('mdCodeName', function() {
@@ -176,11 +178,12 @@ export default Select.extend({
     this.mdCodelist.forEach((item) => {
       let newObject = {
         codeId: item[codeId],
-        codeName: this.mdCodes.get(
-            `codeOverrides.${this.mdCodeName}.${item[codeName]}`) ||
-          item[codeName],
+        codeName:
+          this.mdCodes.get(
+            `codeOverrides.${this.mdCodeName}.${item[codeName]}`
+          ) || item[codeName],
         tooltip: item[tooltip],
-        icon: icons.get(item[codeName]) || icons.get(defaultIcon)
+        icon: icons.get(item[codeName]) || icons.get(defaultIcon),
       };
       codelist.pushObject(newObject);
     });
@@ -203,10 +206,10 @@ export default Select.extend({
     let create = this.create;
     let filter = this.filterId;
 
-    if(value) {
-      if(create) {
+    if (value) {
+      if (create) {
         let found = codelist.findBy('codeId', value);
-        if(found === undefined) {
+        if (found === undefined) {
           let newObject = this.createCode(value);
           codelist.pushObject(newObject);
         }
@@ -227,7 +230,7 @@ export default Select.extend({
     return {
       codeId: code,
       codeName: code,
-      description: 'Undefined'
+      description: 'Undefined',
     };
   },
 
@@ -259,7 +262,6 @@ export default Select.extend({
       let code = this.createCode(selected);
 
       this.setValue(code);
-    }
-  }
-
+    },
+  },
 });
