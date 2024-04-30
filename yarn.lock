@@ -10813,10 +10813,10 @@ mdcodes@2.9.3-beta.3:
     glob "^7.1.0"
     rimraf "^2.6.2"
 
-mdjson-schemas@2.9.2-beta.3:
-  version "2.9.2-beta.3"
-  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.9.2-beta.3.tgz#8d8d3f69609f50c61e21d7a9828b82220b6ec543"
-  integrity sha512-htmpdAz3smohWEKlNehXZUtn9GUY2VO26VZc3eYiZ4iRdOuCcrleRz2Qtz3n1yPnomwC8VVcRuF21KXBndUyMA==
+mdjson-schemas@2.9.2-beta.19:
+  version "2.9.2-beta.19"
+  resolved "https://registry.yarnpkg.com/mdjson-schemas/-/mdjson-schemas-2.9.2-beta.19.tgz#5be4501ec3afce4889ab3ec11a89eeaf215cbd71"
+  integrity sha512-MaMY05EhKGb3nzEbdu91svRJ2VmgyEcEcaxkoFw98LW5CvJCIZHlwz+n8GJGzpPdiqM6gn6kFpZ5xicjPM4+Rw==
 
 mdn-data@2.0.30:
   version "2.0.30"
