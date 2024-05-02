@@ -44,7 +44,6 @@ export default Select.extend({
       this,
       'mdCodelist',
       computed(`mdCodes.${this.mdCodeName}.codelist.[]`, function () {
-        console.log('should disable sort?', this.disableSort);
         const codelist = this.mdCodes.get(this.mdCodeName).codelist;
         if (this.disableSort) {
           return codelist;
