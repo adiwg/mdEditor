@@ -3,14 +3,14 @@ import { set } from '@ember/object';
 
 export default Component.extend({
   actions: {
-    deleteQualityEvaluationReportInformation() {
-      this.deleteQualityEvaluationReportInformation();
+    deleteStandaloneQualityReport() {
+      this.deleteStandaloneQualityReport();
     },
     addReportReference() {
       set(this.model, 'reportReference', {});
     },
     deleteReportReference() {
       set(this.model, 'reportReference', undefined);
-    },
-  },
+    }
+  }
 });

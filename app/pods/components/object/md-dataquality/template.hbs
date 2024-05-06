@@ -47,23 +47,21 @@
   }}
 {{/object/md-object-table}}
 
-{{#if model.qualityEvaluationReportInformation}}
-  {{object/md-quality-evaluation-report
-    model=model.qualityEvaluationReportInformation
-    deleteQualityEvaluationReportInformation=(action
-      'deleteQualityEvaluationReportInformation'
-    )
+{{#if model.standaloneQualityReport}}
+  {{object/md-standalone-quality-report
+    model=model.standaloneQualityReport
+    deleteStandaloneQualityReport=(action 'deleteStandaloneQualityReport')
   }}
 {{else}}
   <div class='md-object-table box-shadow--4dp'>
     <div class='alert md-alert-table alert-info'>
-      <h4>No Quality Evaluation Report Found
+      <h4>No Standalone Report Found
         <button
           class='btn btn-success btn-md'
-          {{action 'addQualityEvaluationReportInformation'}}
+          {{action 'addStandaloneQualityReport'}}
         >
           <i class='fa fa-plus' />
-          Add Quality Evaluation Report
+          Add Standalone Report
         </button>
       </h4>
     </div>

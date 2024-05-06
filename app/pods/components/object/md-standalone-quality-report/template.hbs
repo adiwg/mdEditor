@@ -1,11 +1,11 @@
 {{#layout/md-card
-  title='Quality Evaluation Report'
+  title='Standalone Report'
   collapsible=true
   collapsed=false
-  profilePath='record.dataquality.qualityEvaluationReportInformation'
-  data-spy='Quality Evaluation Report'
+  profilePath='record.dataquality.standalonequalityreport'
+  data-spy='Standalone Report'
   spotlightEnabled=false
-  deleteAction=(action 'deleteQualityEvaluationReportInformation')
+  deleteAction=(action 'deleteStandaloneQualityReport')
 }}
   <div class='row'>
     <div class='col-lg-12'>
@@ -15,7 +15,7 @@
             required=true
             label='Abstract'
             value=model.abstract
-            placeholder='Abstract for the associated quality evaluation quality report.'
+            placeholder='Abstract for the associated standalone quality report.'
           }}
         </div>
       </form>
@@ -39,13 +39,8 @@
     {{/layout/md-card}}
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
-      <div
-        class='alert md-alert-table alert-info'
-        style='background: #f2dede; color: #a94442'
-      >
-        <h4>No
-          <span class='required'>Report Reference</span>
-          found.
+      <div class='alert md-alert-table alert-info'>
+        <h4>No Report Reference Found
           <button
             class='btn btn-success btn-md'
             {{action 'addReportReference'}}

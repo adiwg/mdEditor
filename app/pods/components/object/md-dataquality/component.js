@@ -23,12 +23,12 @@ export default Component.extend({
   tagName: 'form',
 
   actions: {
-    addQualityEvaluationReportInformation() {
-      set(this.model, 'qualityEvaluationReportInformation', { abstract: '' });
+    addStandaloneQualityReport() {
+      set(this.model, 'standaloneQualityReport', { abstract: '' });
     },
 
-    deleteQualityEvaluationReportInformation() {
-      set(this.model, 'qualityEvaluationReportInformation', undefined);
+    deleteStandaloneQualityReport() {
+      set(this.model, 'standaloneQualityReport', undefined);
     },
   },
 });
