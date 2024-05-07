@@ -25,13 +25,13 @@
     buttonText='Add Vertical Extent'
     ellipsis=true
     required=false
-    profilePath=(concat profilePath '.verticalExtent')
+    profilePath=(concat profilePath '.vertical')
     attributes='description,minValue,maxValue'
     as |editing|
   }}
     {{object/md-extent/vertical
       model=editing
-      profilePath=(concat profilePath '.verticalExtent')
+      profilePath=(concat profilePath '.vertical')
     }}
   {{/object/md-object-table}}
 
@@ -41,13 +41,13 @@
     buttonText='Add Temporal Extent'
     ellipsis=true
     required=false
-    profilePath=(concat profilePath '.temporalExtent')
+    profilePath=(concat profilePath '.temporal')
     attributes='description'
     as |editing|
   }}
     {{object/md-time-period
       model=editing
-      profilePath=(concat profilePath '.temporalExtent')
+      profilePath=(concat profilePath '.temporal')
     }}
   {{/object/md-object-table}}
 
