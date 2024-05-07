@@ -1,0 +1,32 @@
+name: Deploy to GitHub Pages
+
+on:
+  pull_request_target:
+    types:
+      - closed
+    branches:
+      - master
+
+jobs:
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '16'
+    
+    - name: Install Dependencies
+      run: yarn
+
+    - name: Build
+      run: yarn build
+
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist
