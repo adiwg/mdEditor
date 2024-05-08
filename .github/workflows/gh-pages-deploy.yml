@@ -20,10 +20,14 @@ jobs:
         node-version: '16'
     
     - name: Install Dependencies
-      run: npm install
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: install
 
     - name: Build
-      run: npm run build
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: build
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
