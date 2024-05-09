@@ -83,6 +83,12 @@ export default Component.extend({
         tip: 'USGS ScienceBase metadata format',
       },
       {
+        name: 'Simple HTML (MS Word compatible)',
+        value: 'simple_html',
+        type: 'text/html',
+        tip: 'HTML "human-readable" and printable report of the metadata content',
+      },
+      {
         name: 'DCAT-US',
         value: 'dcat_us',
         type: 'application/json',
