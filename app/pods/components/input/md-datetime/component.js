@@ -1,14 +1,18 @@
+/* eslint-disable ember/no-classic-components */
+/* eslint-disable ember/require-tagless-components */
+/* eslint-disable ember/no-classic-classes */
 /**
  * @module mdeditor
  * @submodule components-input
  */
 
-import Component from '@ember/component';
-import { isBlank } from '@ember/utils';
-import { get, set, computed, defineProperty } from '@ember/object';
-import { once } from '@ember/runloop';
-import { assert, debug } from '@ember/debug';
-import moment from 'moment';
+import Component from "@ember/component";
+import { isBlank } from "@ember/utils";
+import { get, set, computed, defineProperty } from "@ember/object";
+import { once } from "@ember/runloop";
+import { assert, debug } from "@ember/debug";
+import moment from "moment";
+import dayjs from "dayjs";
 
 export default Component.extend({
   /**
@@ -38,11 +42,11 @@ export default Component.extend({
 
       defineProperty(
         this,
-        '_date',
+        "_date",
         computed(`model.${valuePath}`, {
           get() {
             let val = get(this, `model.${valuePath}`);
-            return val ? moment(val, this.get('altFormat' || null)) : null;
+            return val ? moment(val, this.get("altFormat" || null)) : null;
           },
           set(key, value) {
             let formatted = this.formatValue(value, `model.${valuePath}`);
@@ -50,73 +54,67 @@ export default Component.extend({
           },
         })
       );
-
-      // ... (other property definitions related to model and validation)
     } else {
       defineProperty(
         this,
-        '_date',
-        computed('date', {
+        "_date",
+        computed("date", {
           get() {
             let val = this.date;
-            return val ? moment(val, this.get('altFormat' || null)) : null;
+            return val ? moment(val, this.get("altFormat" || null)) : null;
           },
           set(key, value) {
-            let formatted = this.formatValue(value, 'date');
+            let formatted = this.formatValue(value, "date");
             return formatted;
           },
         })
       );
     }
   },
-  classNames: ['md-datetime', 'md-input-input'],
-  classNameBindings: ['label:form-group', 'required'],
+  classNames: ["md-datetime", "md-input-input"],
+  classNameBindings: ["label:form-group", "required"],
 
   date: null,
-  format: 'YYYY-MM-DD HH:mm:ss', // Change the format to include time
-  placeholder: 'Enter date and time',
+  format: "YYYY-MM-DD HH:mm:ss",
+  placeholder: "Enter date and time",
   label: null,
-  useCurrent: 'day',
+  useCurrent: "day",
   showTodayButton: true,
   showClear: true,
 
   formatValue(value, target) {
     if (isBlank(value)) {
-      once(this, function () {
-        set(this, target, null);
-      });
+      once(this, "setTargetToNull", target);
       return value;
     }
 
-    let mom = moment(value);
+    let formattedDate = dayjs(value).format(this.format); // Use the format directly
 
-    if (this.altFormat) {
-      let alt = mom.format(this.altFormat);
-      once(this, function () {
-        set(this, target, alt);
-      });
-      return alt;
+    if (formattedDate !== this.get(target)) {
+      once(this, "updateFormattedDate", formattedDate, target);
     }
 
-    if (mom && mom.toISOString() !== this.get(target)) {
-      once(this, function () {
-        set(this, target, mom.toISOString());
-      });
-    }
+    return formattedDate;
+  },
 
-    return mom;
+  setTargetToNull(target) {
+    set(this, target, null);
+  },
+
+  updateFormattedDate(formattedDate, target) {
+    set(this, target, formattedDate);
   },
 
   calendarIcons: computed(function () {
     return {
-      time: 'fa fa-clock-o',
-      date: 'fa fa-calendar',
-      up: 'fa fa-chevron-up',
-      down: 'fa fa-chevron-down',
-      previous: 'fa fa-angle-double-left',
-      next: 'fa fa-angle-double-right',
-      close: 'fa fa-times',
-      clear: 'fa fa-trash',
+      time: "fa fa-clock-o",
+      date: "fa fa-calendar",
+      up: "fa fa-chevron-up",
+      down: "fa fa-chevron-down",
+      previous: "fa fa-angle-double-left",
+      next: "fa fa-angle-double-right",
+      close: "fa fa-times",
+      clear: "fa fa-trash",
     };
   }),
 });
