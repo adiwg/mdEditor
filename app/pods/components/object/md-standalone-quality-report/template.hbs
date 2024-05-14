@@ -39,8 +39,13 @@
     {{/layout/md-card}}
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
-      <div class='alert md-alert-table alert-info'>
-        <h4>No Report Reference Found
+      <div
+        class='alert md-alert-table alert-info'
+        style='background: #f2dede; color: #a94442'
+      >
+        <h4>No
+          <span class='required'>Report Reference</span>
+          found.
           <button
             class='btn btn-success btn-md'
             {{action 'addReportReference'}}
