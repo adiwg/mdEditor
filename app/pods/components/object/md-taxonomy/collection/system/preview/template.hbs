@@ -1,14 +1,14 @@
 <td>
   {{input/md-input
     model=this
-    valuePath="title"
-    placeholder="Descriptive name for the collection taxonomic system."
-    profilePath=(concat profilePath ".citation.title")
+    valuePath='title'
+    placeholder='Descriptive name for the collection taxonomic system.'
+    profilePath=(concat profilePath '.citation.title')
     showValidations=true
     required=true
   }}
 </td>
-<td>
+{{!-- <td>
   {{input/md-textarea
     value=model.modifications
     profilePath=(concat profilePath ".modifications")
@@ -16,4 +16,4 @@
     maxrows=3
     rows=2
   }}
-</td>
+</td> --}}
