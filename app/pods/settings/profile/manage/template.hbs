@@ -39,7 +39,7 @@
             {{/if}}
             {{#if this.task.isRunning}}
               <small>...downloading definition</small>
-              {{fa-icon 'spinner' spin=true}}
+              <FlightIcon @name='running' />
             {{/if}}
           {{/liquid-if}}
           <hr />

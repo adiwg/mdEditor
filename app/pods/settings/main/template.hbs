@@ -1,14 +1,14 @@
 <div class='section-header'>
   <h3>
-    {{#layout/md-wrap data-spy='Version'}}
+    <Layout::MdWrap @data-spy='Version'>
       <small class='small'><b>md<span class='md-icon-mdeditor'></span>ditor</b>
         Version:
         {{control/md-repo-link}}</small>
-    {{/layout/md-wrap}}
+    </Layout::MdWrap>
   </h3>
 </div>
 
-{{#layout/md-card title='General Settings' data-spy='General'}}
+<Layout::MdCard @title='General Settings' @data-spy='General'>
   <form class='form-horizontal'>
     <div class='form-group'>
       <label class='col-sm-3 co-xxl-2 control-label'>Auto Save</label>
@@ -65,7 +65,7 @@
             click=(action (mut this.showStorageModal) true)
           }}
           {{control/md-modal
-            message='<h4 class="text-danger"><span class="fa fa-exclamation-circle"></span> <strong>Are you
+            message='<h4 class="text-danger"><FlightIcon @name="alert-circle" /><strong>Are you
             sure?</strong></h4> Clicking <strong class="text-danger">Confirm</strong> will delete ALL records in
         your browser cache. Have you made a backup?'
             confirm=(route-action 'clearLocalStorage')
@@ -84,9 +84,9 @@
       </div>
     </div>
   </form>
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#layout/md-card title='Defaults' shadow=true}}
+<Layout::MdCard @title='Defaults' @shadow={{true}}>
   <div class='form-group'>
     <div class='col-md-4'>
       {{input/md-codelist
@@ -162,16 +162,16 @@
 
   <div class='clearfix'></div>
   <hr />
-  {{#object/md-array-table
-    columns='Repository, Collection Title'
-    value=this.model.repositoryDefaults
-    plain=true
-    title='Metadata Repository'
-    templateClass=this.settings.repositoryTemplate
-    onChange=(route-action 'save')
-    data-spy='Metadata Repository'
+  <Object::MdArrayTable
+    @columns='Repository, Collection Title'
+    @value={{this.model.repositoryDefaults}}
+    @plain={{true}}
+    @title='Metadata Repository'
+    @templateClass={{this.settings.repositoryTemplate}}
+    @onChange={{route-action 'save'}}
+    @data-spy='Metadata Repository'
     as |meta|
-  }}
+  >
     <td>
       {{input/md-codelist
         value=meta.item.repository
@@ -192,10 +192,10 @@
         change=(route-action 'save')
       }}
     </td>
-  {{/object/md-array-table}}
-{{/layout/md-card}}
+  </Object::MdArrayTable>
+</Layout::MdCard>
 
-{{#layout/md-card title='Date Settings' data-spy='Dates'}}
+<Layout::MdCard @title='Date Settings' @data-spy='Dates'>
   <div class='col-md-4'>
     {{input/md-month
       date=this.model.fiscalStartMonth
@@ -205,25 +205,25 @@
       placeholder='Select month.'
     }}
   </div>
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#layout/md-card title='Publishing Settings' data-spy='Publishing'}}
+<Layout::MdCard @title='Publishing Settings' @data-spy='Publishing'>
   {{#each (compute (route-action 'catalogs')) as |catalog|}}
-    {{#layout/md-card
-      title=catalog.name
-      collapsible=true
-      collapsed=false
-      shadow=false
-      class='md-embedded'
-    }}
+    <Layout::MdCard
+      @title={{catalog.name}}
+      @collapsible={{true}}
+      @collapsed={{false}}
+      @shadow={{false}}
+      @class='md-embedded'
+    >
       {{component
         catalog.settingsComponent
         model=this.model.publishOptions
         save=(route-action 'save')
       }}
-    {{/layout/md-card}}
+    </Layout::MdCard>
   {{/each}}
-{{/layout/md-card}}
+</Layout::MdCard>
 {{outlet}}
 
 {{to-elsewhere

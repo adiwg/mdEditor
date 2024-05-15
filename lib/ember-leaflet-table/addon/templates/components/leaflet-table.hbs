@@ -1,80 +1,120 @@
-{{#file-picker class="map-file-picker" fileLoaded="readData" progressValue=progress selectOnClick=false preview=false accept=fileTypes readAs="readAsArrayBuffer" }}
-  <div class="map-dropzone-target">
-    <span><i class="fa fa-bullseye"></i> Drop Here!</span>
+<FilePicker
+  @class='map-file-picker'
+  @fileLoaded='readData'
+  @progressValue={{progress}}
+  @selectOnClick={{false}}
+  @preview={{false}}
+  @accept={{fileTypes}}
+  @readAs='readAsArrayBuffer'
+>
+  <div class='map-dropzone-target'>
+    <span><FlightIcon @name='target' /> Drop Here!</span>
   </div>
-  {{#leaflet-draw lat=lat lng=lng zoom=zoom onLoad=(action "setup") editLayers=layers closeForm=(action "closeForm") showForm=(action "showForm")}}
-    {{!-- Specify child layer components here --}}
-    {{#layer-group name="Terrain" baselayer=true default=true}}
+  <LeafletDraw
+    @lat={{lat}}
+    @lng={{lng}}
+    @zoom={{zoom}}
+    @onLoad={{action 'setup'}}
+    @editLayers={{layers}}
+    @closeForm={{action 'closeForm'}}
+    @showForm={{action 'showForm'}}
+  >
+    {{! Specify child layer components here }}
+    <LayerGroup @name='Terrain' @baselayer={{true}} @default={{true}}>
 
-      {{!-- tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution --}}
+      {{! tile-layer url="http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.png" attribution=mapAttribution }}
 
-      {{!-- tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution --}}
+      {{! tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution }}
 
-      {{tile-layer url="//tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png" attribution=mapAttribution}}
+      {{tile-layer
+        url='//tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png'
+        attribution=mapAttribution
+      }}
 
-    {{/layer-group}}
+    </LayerGroup>
 
-    {{geojson-layer geoJSON=worldOverlay stroke=false color="#555555" fillOpacity=0.1}}
+    {{geojson-layer
+      geoJSON=worldOverlay
+      stroke=false
+      color='#555555'
+      fillOpacity=0.1
+    }}
 
-    {{#feature-group name="Extents" default=true setFeatureGroup=setFeatureGroup}}
+    <FeatureGroup
+      @name='Extents'
+      @default={{true}}
+      @setFeatureGroup={{setFeatureGroup}}
+    >
       {{#each layers as |l|}}
         {{lgeojson-layer geoJSON=l draw=true editLayers=layers}}
       {{/each}}
-    {{/feature-group}}
+    </FeatureGroup>
 
     {{layer-control}}
-  {{/leaflet-draw}}
+  </LeafletDraw>
 
   {{#if formData}}
-    <h4 class="table-title">Edit Feature Properties
-      <button class="btn btn-xs btn-info pull-right" {{action "closeForm" }} title="Close Form" type='button'>
-        <span class="fa fa-check"></span> OK
+    <h4 class='table-title'>Edit Feature Properties
+      <button
+        class='btn btn-xs btn-info pull-right'
+        {{action 'closeForm'}}
+        title='Close Form'
+        type='button'
+      >
+        <FlightIcon @name='target' />
+        OK
       </button>
     </h4>
     {{feature-form model=formData}}
   {{else}}
-    <h4 class="table-title">Feature Properties</h4>
-    {{#feature-table data=layers
-      columnComponents=(hash
-      leaflet-table-row-actions=(component "leaflet-table-row-actions"
-      showForm=(action "showForm")
-      zoomTo=(action "zoomTo")
-      deleteFeature=(action "deleteFeature")
-      ))
-      showGlobalFilter=false
-      showColumnsDropdown=false
-      pageSize=10 as |ft|
-    }}
-      {{#ft.table as |table|}}
+    <h4 class='table-title'>Feature Properties</h4>
+    <FeatureTable
+      @data={{layers}}
+      @columnComponents={{hash
+        leaflet-table-row-actions=(component
+          'leaflet-table-row-actions'
+          showForm=(action 'showForm')
+          zoomTo=(action 'zoomTo')
+          deleteFeature=(action 'deleteFeature')
+        )
+      }}
+      @showGlobalFilter={{false}}
+      @showColumnsDropdown={{false}}
+      @pageSize={{10}}
+      as |ft|
+    >
+      <ft.table as |table|>
         {{table.header}}
-        {{#table.body as |body|}}
+        <table.body as |body|>
           {{#if body.body.allColumnsAreHidden}}
-              {{body.columns-hidden}}
+            {{body.columns-hidden}}
           {{else}}
             {{#if body.visibleContent.length}}
-                {{#each body.visibleContent as |record index|}}
-                  {{body.row record=record index=index
-                    showForm=(action "showForm")
-                    zoomTo=(action "zoomTo")
-                    deleteFeature=(action "deleteFeature")
+              {{#each body.visibleContent as |record index|}}
+                {{body.row
+                  record=record
+                  index=index
+                  showForm=(action 'showForm')
+                  zoomTo=(action 'zoomTo')
+                  deleteFeature=(action 'deleteFeature')
+                }}
+                {{#if (exists-in body.expandedItems record)}}
+                  {{body.row-expand
+                    expandedRowComponent=expandedRowComponent
+                    record=record
+                    index=index
                   }}
-                    {{#if (exists-in body.expandedItems record)}}
-                      {{body.row-expand
-                        expandedRowComponent=expandedRowComponent
-                        record=record
-                        index=index
-                      }}
-                    {{/if}}
-                {{/each}}
+                {{/if}}
+              {{/each}}
             {{else}}
               {{body.no-data}}
             {{/if}}
           {{/if}}
-        {{/table.body}}
+        </table.body>
         {{table.footer}}
-      {{/ft.table}}
+      </ft.table>
       {{ft.footer}}
-    {{/feature-table}}
+    </FeatureTable>
   {{/if}}
   {{yield}}
-{{/file-picker}}
+</FilePicker>

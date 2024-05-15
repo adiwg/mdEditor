@@ -69,6 +69,7 @@
 
   &.card-inverse .md-card-maximize {
     color: $body-bg;
+    cursor: pointer;
 
     &:hover {
       color: darken($body-bg, 10);

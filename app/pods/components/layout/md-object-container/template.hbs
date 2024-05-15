@@ -3,7 +3,6 @@
     <a
       class='btn-collapse'
       data-toggle='collapse'
-      aria-expanded='true'
       href={{concat '#' this.elementId '-collapse'}}
       aria-controls={{concat this.elementId '-collapse'}}
     >
@@ -23,7 +22,7 @@
         class='btn btn-success'
         {{action this.editItem this.index}}
       >
-        {{fa-icon 'pencil'}}
+        <FlightIcon @name='pencil-tool' />
         Edit</button>
     {{/if}}
 
@@ -32,7 +31,7 @@
         @class='btn btn-danger'
         @onConfirm={{action this.deleteItem this.index}}
       >
-        {{fa-icon 'times'}}
+        <FlightIcon @name='x' />
         Delete
       </Control::MdButtonConfirm>
     {{/if}}

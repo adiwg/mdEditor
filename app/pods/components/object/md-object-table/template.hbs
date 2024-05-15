@@ -32,7 +32,7 @@
           class='btn btn-xs btn-info pull-right {{if this.editing "hidden"}}'
           {{action 'addItem' this.items}}
         >
-          {{fa-icon 'plus'}}
+          <FlightIcon @name='plus' />
           Add
         </button>
         <button
@@ -41,7 +41,7 @@
             {{unless this.editing "hidden"}}'
           {{action 'cancelEdit'}}
         >
-          <span class='fa fa-check'></span>
+          <FlightIcon @name='check' />
           OK
         </button>
       </h3>
@@ -61,7 +61,7 @@
               class='btn btn-xs btn-info'
               {{action 'cancelEdit'}}
             >
-              <span class='fa fa-check'></span>
+              <FlightIcon @name='check' />
               OK
             </button>
           </div>
@@ -160,12 +160,9 @@
                             )
                           }}
                         >
-                          {{fa-icon 'pencil'}}
+                          <FlightIcon @name='pencil-tool' />
                           {{if this.editBtnText this.editBtnText 'Edit'}}
                         </button>
-                        {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
-                                  <span class="fa fa-times"></span> Delete
-                              </button> --}}
                         <Control::MdButtonConfirm
                           @class={{concat
                             'btn btn-'
@@ -174,7 +171,7 @@
                           }}
                           @onConfirm={{action 'deleteItem' this.items index}}
                         >
-                          <span class='fa fa-times'></span>
+                          <FlightIcon @name='x' />
                           Delete
                         </Control::MdButtonConfirm>
 
@@ -203,7 +200,7 @@
                       >
                         {{#if item.validations.isInvalid}}
                           <span class='md-error'>
-                            {{fa-icon 'exclamation-circle' fixedWidth=true}}
+                            <FlightIcon @name='alert-circle' />
                             <EmberTooltip
                               @side='right'
                               @tooltipClass='ember-tooltip md-tooltip danger'
@@ -234,7 +231,7 @@
                       class='btn btn-xs btn-info'
                       {{action 'addItem' this.items}}
                     >
-                      {{fa-icon 'plus'}}
+                      <FlightIcon @name='plus' />
                       {{this.buttonText}}
                     </button>
                   </td>
@@ -251,7 +248,7 @@
               class='btn btn-sm btn-info {{if this.editing "hidden"}}'
               {{action 'addItem' this.items}}
             >
-              {{fa-icon 'plus'}}
+              <FlightIcon @name='plus' />
               Add
               {{this.header}}
             </button>

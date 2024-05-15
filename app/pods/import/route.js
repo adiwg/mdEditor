@@ -48,10 +48,10 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     this.icons = {
-      records: 'file',
-      dictionaries: 'book',
+      records: 'file-text',
+      dictionaries: 'docs',
       contacts: 'users',
-      settings: 'gear',
+      settings: 'settings'
     };
   },
   setupController(controller, model) {

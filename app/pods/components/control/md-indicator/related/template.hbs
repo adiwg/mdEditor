@@ -1,16 +1,16 @@
-{{#control/md-indicator
-  title=this.title
-  icon=this.icon
-  type=this.type
-  note=this.note
-  event=this.event
-  values=this.values
-  route=this.route
-  model=this.model
-  linkText=this.linkText
-  popoverHideDelay=this.popoverHideDelay
-  popperContainer=this.popperContainer
-}}
+<Control::MdIndicator
+  @title={{this.title}}
+  @icon={{this.icon}}
+  @type={{this.type}}
+  @note={{this.note}}
+  @event={{this.event}}
+  @values={{this.values}}
+  @route={{this.route}}
+  @model={{this.model}}
+  @linkText={{this.linkText}}
+  @popoverHideDelay={{this.popoverHideDelay}}
+  @popperContainer={{this.popperContainer}}
+>
 
   <h4>
     {{#if this.route}}
@@ -29,4 +29,4 @@
       {{/if}}
     {{/if}}
   </h4>
-{{/control/md-indicator}}
+</Control::MdIndicator>

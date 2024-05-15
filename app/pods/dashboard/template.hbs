@@ -7,11 +7,11 @@
       >
         <div class='card-block'>
           <div class='card-title row'>
-            <div class='col-xs-3'>
-              {{fa-icon 'file-text' size=5}}
+            <div class='col-xs-2'>
+              <FlightIcon @name='file-text' @stretched={{true}} />
             </div>
-            <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{this.model.[0].length}}</div>
+            <div class='col-xs-10 text-right'>
+              <div class='huge-text'>{{get this.model '0.length'}}</div>
               <div>Records</div>
             </div>
           </div>
@@ -22,7 +22,7 @@
               View Records
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <FlightIcon @name='arrow-right' />
             </div>
 
           </div>
@@ -36,11 +36,11 @@
       >
         <div class='card-block'>
           <div class='card-title row'>
-            <div class='col-xs-3'>
-              {{fa-icon 'users' size=5}}
+            <div class='col-xs-2'>
+              <FlightIcon @name='users' @stretched={{true}} />
             </div>
-            <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{this.model.[1].length}}</div>
+            <div class='col-xs-10 text-right'>
+              <div class='huge-text'>{{get this.model '1.length'}}</div>
               <div>Contacts</div>
             </div>
           </div>
@@ -51,7 +51,7 @@
               View Contacts
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <FlightIcon @name='arrow-right' />
             </div>
 
           </div>
@@ -65,11 +65,11 @@
       >
         <div class='card-block'>
           <div class='card-title row'>
-            <div class='col-xs-3'>
-              {{fa-icon 'book' size=5}}
+            <div class='col-xs-2'>
+              <FlightIcon @name='docs' @stretched={{true}} />
             </div>
-            <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{this.model.[2].length}}</div>
+            <div class='col-xs-10 text-right'>
+              <div class='huge-text'>{{get this.model '2.length'}}</div>
               <div>Dictionaries</div>
             </div>
           </div>
@@ -80,7 +80,7 @@
               View Dictionaries
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <FlightIcon @name='arrow-right' />
             </div>
 
           </div>

@@ -24,7 +24,7 @@ let createDictionary = function (total) {
         },
       },
       title: 'My Dictionary' + i,
-      icon: 'book',
+      icon: 'docs',
     });
 
     dictionaries.push(dictionary);

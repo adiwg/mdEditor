@@ -1,52 +1,52 @@
-<div class="row">
-  <div class="col-sm-9">
+<div class='row'>
+  <div class='col-sm-9'>
     {{sb-tree
-      labelComponent="sb-tree-label"
+      labelComponent='sb-tree-label'
       model=model
       selected=selected
-      select=(action "selectRecord")
+      select=(action 'selectRecord')
     }}
   </div>
-  <div class="col-sm-3">
-    <div class="md-control-sidebar">
+  <div class='col-sm-3'>
+    <div class='md-control-sidebar'>
       {{#if keycloak.isLoggingIn}}
-        <div class="text-info">
+        <div class='text-info'>
           Logging in...
-          {{fa-icon "spinner" spin=true size=3}}
+          <FlightIcon @name='running' />
         </div>
       {{else}}
-        {{#unless keycloak.isAuthenticated}}
-          {{#if keycloak.isInitialized}}
-            <button
-              type="button"
-              class="btn btn-lg btn-primary"
-              {{action "login"}}
-            >
-              Login to ScienceBase
-            </button>
-          {{else}}
-            <div class="text-info">
-              Initializing...
-              {{fa-icon "spinner" spin=true size=3}}
-            </div>
-          {{/if}}
-        {{else}}
-          <div class="card">
-            <div class="card-block">
+        {{#if keycloak.isAuthenticated}}
+          <div class='card'>
+            <div class='card-block'>
               Logged in as
               {{keycloak.username}}
             </div>
           </div>
           <hr />
           <button
-            type="button"
-            class="btn btn-lg btn-primary"
+            type='button'
+            class='btn btn-lg btn-primary'
             disabled={{if canPublish false true}}
-            {{action "publish"}}
+            {{action 'publish'}}
           >
             Publish
           </button>
-        {{/unless}}
+        {{else}}
+          {{#if keycloak.isInitialized}}
+            <button
+              type='button'
+              class='btn btn-lg btn-primary'
+              {{action 'login'}}
+            >
+              Login to ScienceBase
+            </button>
+          {{else}}
+            <div class='text-info'>
+              Initializing...
+              <FlightIcon @name='running' />
+            </div>
+          {{/if}}
+        {{/if}}
       {{/if}}
     </div>
   </div>

@@ -1,6 +1,7 @@
 <div class='row'>
   <div class='col-xxl-11 col-xxxl-10 col-xxl-offset-1'>
-    <h3 class='text-info'>{{fa-icon 'book'}}
+    <h3 class='text-info'>
+      <FlightIcon @name='docs' />
       Dictionaries
       <span class='small'>for <em>{{this.parentModel.title}}</em></span>
       <Control::MdStatus @model={{this.parentModel}} />
@@ -39,7 +40,7 @@
                   @class='btn btn btn-danger pull-right'
                   @onConfirm={{route-action 'remove' item}}
                 >
-                  <span class='fa fa-times'></span>
+                  <FlightIcon @name='x' />
                   Remove
                 </Control::MdButtonConfirm>
               </h4>
@@ -68,7 +69,7 @@
       <div class='alert alert-info'>
         <h3>No Dictionaries found.
           <LinkTo @route='dictionary.new' class='btn btn-success btn-lg'>
-            {{fa-icon 'plus'}}
+            <FlightIcon @name='plus' />
             Create a Dictionary
           </LinkTo>
         </h3>

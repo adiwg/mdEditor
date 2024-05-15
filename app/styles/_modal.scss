@@ -74,6 +74,15 @@
   z-index: 1101;
 }
 
+.md-btn-spotlight {
+  fill: $brand-info;
+  cursor: pointer;
+
+  &:hover {
+    fill: darken($brand-info, 10);
+  }
+}
+
 .md-no-spotlight {
   .md-btn-spotlight {
     display: none;

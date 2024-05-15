@@ -25,7 +25,7 @@
               {{action 'calculateBox'}}
               disabled={{if (is-empty this.geographicElement) true}}
             >
-              {{fa-icon 'calculator'}}
+              <FlightIcon @name='grid-alt' />
               Calculate
             </button>
             <Control::MdButtonConfirm
@@ -33,7 +33,7 @@
               @onConfirm={{action 'clearBox'}}
               @disabled={{unless this.hasBbox true}}
             >
-              {{fa-icon 'trash'}}
+              <FlightIcon @name='trash' />
               Clear
             </Control::MdButtonConfirm>
           </div>
@@ -65,13 +65,13 @@
           class='btn btn-md btn-success'
           {{action 'editFeatures' this.index}}
         >
-          {{fa-icon 'pencil'}}
+          <FlightIcon @name='pencil-tool' />
           Edit Features</button>
         <Control::MdButtonConfirm
           @class='btn btn-danger'
           @onConfirm={{action 'deleteFeatures'}}
         >
-          {{fa-icon 'trash'}}
+          <FlightIcon @name='trash' />
           Clear Features
         </Control::MdButtonConfirm>
       </p>
@@ -124,7 +124,7 @@
           class='btn btn-md btn-success md-btn-responsive'
           {{action 'editFeatures' this.index}}
         >
-          {{fa-icon 'pencil'}}
+          <FlightIcon @name='pencil-tool' />
           Add Features</button>
       </div>
     {{/if}}

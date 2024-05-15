@@ -22,15 +22,6 @@ export default Component.extend({
    */
 
   /**
-   * Tooltip text
-   *
-   * @property tip
-   * @type {String}
-   * @default 'info-circle'
-   */
-  icon: 'info-circle',
-
-  /**
    * Tooltip delay
    *
    * @property tip

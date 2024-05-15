@@ -71,7 +71,7 @@
       class='plain-link'
       {{action (toggle 'collapse' this)}}
     >
-      {{fa-icon (if this.isCollapsed 'caret-down' 'caret-up')}}
+      <FlightIcon @name={{if this.isCollapsed 'chevron-down' 'chevron-up'}} />
       {{if this.isCollapsed 'More' 'Less'}}
     </a>
   </p>

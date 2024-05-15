@@ -9,7 +9,7 @@
   @btnText='Edit'
   @btnClass='success'
   @btnAction={{action this.editCitation (dasherize this.title)}}
-  @btnIcon='pencil'
+  @btnIcon='pencil-tool'
 >
 
   <Object::MdCitation::Preview::Body
@@ -25,7 +25,7 @@
       class='btn btn-success pull-right'
       {{action (action this.editCitation (dasherize this.title))}}
     >
-      {{fa-icon 'pencil'}}
+      <FlightIcon @name='pencil-tool' />
       Edit Citation
     </button>
   </div>

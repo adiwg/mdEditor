@@ -3,13 +3,13 @@
   class='btn btn-lg btn-info btn-block md-btn-responsive'
   {{action 'doImport' target=this.actionContext}}
 >
-  {{fa-icon 'sign-in'}}
+  <FlightIcon @name='sign-in' />
   Do Import</button>
 <button
   type='button'
   class='btn btn-lg btn-danger btn-block md-btn-responsive'
   {{action 'cancelImport' target=this.actionContext}}
 >
-  {{fa-icon 'times'}}
+  <FlightIcon @name='x' />
   Cancel Import</button>
 {{yield}}

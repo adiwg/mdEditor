@@ -5,9 +5,9 @@
       ></span>ditor</a><span
       class='md-app-version {{this.prerelease}}'
     >v{{this.version}}</span>
-    <a class='md-btn-help pull-right' href='#' {{action 'toggleHelp'}}>{{fa-icon
-        (if this.showHelp 'list' 'question-circle')
-      }}</a>
+    <a class='md-btn-help pull-right' href='#' {{action 'toggleHelp'}}>
+      <FlightIcon @name={{if this.showHelp 'list' 'help'}} @size='24' />
+    </a>
   </li>
   {{#liquid-if this.showHelp use='fade' enableGrowth=false}}
     <this.md-help />
@@ -15,7 +15,7 @@
     <li id='md-sidebar-lists'>
       <div class='panel-group'>
         {{#each this.items as |class|}}
-          {{#with class.meta as |meta|}}
+          {{#let class.meta as |meta|}}
             <div class='panel'>
               <div class='panel-heading clearfix' id='{{meta.listId}}-heading'>
                 <div
@@ -27,10 +27,10 @@
                     @route={{concat meta.type '.new'}}
                     class='btn btn-primary btn-xs'
                   >
-                    {{fa-icon 'plus'}}
+                    <FlightIcon @name='plus' />
                   </LinkTo>
                   <LinkTo @route={{meta.list}} class='btn btn-primary btn-xs'>
-                    <span class='fa fa-list'></span>
+                    <FlightIcon @name='list' />
                   </LinkTo>
                 </div>
                 <h4 class='panel-title bg-primary'>
@@ -69,10 +69,9 @@
                           @disabledWhen={{record.isNew}}
                           @draggable='false'
                         >
-                          {{fa-icon 'pencil'}}
+                          <FlightIcon @name='pencil-tool' />
                         </LinkTo>
                       </div>
-                      {{!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> --}}
                       <LinkTo
                         @route={{concat meta.type '.show'}}
                         @model={{record}}
@@ -88,7 +87,7 @@
                             class='fa-fw'
                           />
                         {{else}}
-                          <span class='fa fa-{{record.icon}} fa-fw'></span>
+                          <FlightIcon @name={{record.icon}} />
                         {{/if}}
                         {{record.title}}
                       </LinkTo>
@@ -97,7 +96,7 @@
                 </div>
               </div>
             </div>
-          {{/with}}
+          {{/let}}
         {{/each}}
       </div>
     </li>

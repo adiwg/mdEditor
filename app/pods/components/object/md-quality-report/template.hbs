@@ -45,9 +45,10 @@
         <h4>No Identifier Found
           <button
             class='btn btn-success btn-md'
+            type='button'
             {{action 'addQualityMeasureIdentifier'}}
           >
-            <i class='fa fa-plus' />
+            <FlightIcon @name='plus' />
             Add Identifier
           </button>
         </h4>
@@ -158,9 +159,10 @@
         <h4>No Evaluation Procedure Found
           <button
             class='btn btn-success btn-md'
+            type='button'
             {{action 'addEvaluationProcedure'}}
           >
-            <i class='fa fa-plus' />
+            <FlightIcon @name='plus' />
             Add Evaluation Procedure
           </button>
         </h4>
@@ -299,7 +301,7 @@
     />
   </Object::MdObjectTable>
 
-  {{! 
+  {{!
   The code below is ready to go for adding the coverage result array.
   However, the coverage result object itself still needs to be implemented.
   A partial implementation has been completed so far.

@@ -10,7 +10,7 @@
         target=btn.target
       }}
     >
-      <span class='fa fa-{{btn.icon}}'></span>
+      <FlightIcon @name={{btn.icon}} />
       {{btn.title}}
     </Control::MdButtonConfirm>
   {{else}}
@@ -25,7 +25,7 @@
         target=btn.target
       }}
     >
-      {{fa-icon btn.icon}}
+      <FlightIcon @name={{btn.icon}} />
       {{btn.title}}
     </button>
   {{/if}}
@@ -34,7 +34,7 @@
 <div class='btn-group text-center' role='group' aria-label='Row Error'>
   {{#if this.record.validations.isInvalid}}
     <span class='md-error'>
-      {{fa-icon 'exclamation-circle' fixedWidth=true}}
+      <FlightIcon @name='alert-circle' />
       <EmberTooltip
         @side='right'
         @tooltipClass='ember-tooltip md-tooltip danger'
@@ -44,7 +44,7 @@
     </span>
   {{else if this.record.validations.hasWarnings}}
     <span class='md-warning'>
-      {{fa-icon 'exclamation-triangle' fixedWidth=true}}
+      <FlightIcon @name='alert-triangle' />
       <EmberTooltip
         @side='right'
         @tooltipClass='ember-tooltip md-tooltip warning'
@@ -56,7 +56,7 @@
   {{#each this.column.badges as |badge|}}
     {{#if (get this.record badge.isVisible)}}
       <span class='md-{{badge.type}}'>
-        {{fa-icon badge.icon fixedWidth=true}}
+        <FlightIcon @name={{badge.icon}} />
         <EmberTooltip
           @side='right'
           @tooltipClass={{concat 'ember-tooltip md-tooltip ' badge.type}}
@@ -65,8 +65,4 @@
       </span>
     {{/if}}
   {{/each}}
-  {{!-- {{else}}
-  <span class="md-error">
-    <span class="fa fa-fw"></span>
-  </span> --}}
 </div>

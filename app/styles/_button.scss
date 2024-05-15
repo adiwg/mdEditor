@@ -4,7 +4,16 @@
 
 .btn {
   transition: background-color .25s ease;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.5em;
 }
+
+// .btn-info, .btn-success, .btn-warning, .btn-danger {
+//   display: inline-flex;
+
+// }
 
 .md-button-confirm {
   min-width: 7em;

@@ -82,7 +82,7 @@
   </td>
   <td>
     <Input::MdInput
-      @value={{format.item.formatSpecification.onlineResource.firstObject.uri}}
+      @value={{get format.item.formatSpecification.onlineResource '0.uri'}}
       @placeholder='On-line information about the format'
       @profilePath={{concat this.profilePath '.distributionFormat.url'}}
     />

@@ -1,9 +1,10 @@
 {{#if this.label}}
   {{#if this.isCollapsible}}
-    <label role='button' {{action (toggle 'isExpanded' this)}}>
-      {{fa-icon (if this.isExpanded 'caret-up' 'caret-down')}}
-      {{this.label}}
-    </label>
+    <FlightIcon
+      @name={{if this.isExpanded 'chevron-up' 'chevron-down'}}
+      {{action (toggle 'isExpanded' this)}}
+    />
+    {{this.label}}
   {{else}}
     <label>{{this.label}}</label>
   {{/if}}
@@ -18,10 +19,10 @@
       @value={{this.value}}
       placeholder={{this.placeholder}}
       required={{this.required}}
-      @maxlength={{this.maxlength}}
+      maxlength={{this.maxlength}}
       @autoresize={{this.autoresize}}
       @didInsertElement={{this._didInsertArea}}
-      @rows={{this.rows}}
+      rows={{this.rows}}
       @max-rows={{this.maxrows}}
       @max-width={{this.maxwidth}}
       @max-height={{this.maxheight}}
@@ -30,7 +31,7 @@
     <span class='md-input-error'>
       {{#if this.showErrorMessage}}
         <span class='md-error'>
-          {{fa-icon 'exclamation-circle'}}
+          <FlightIcon @name='alert-circle' />
           <EmberTooltip
             @side='right'
             @tooltipClass='ember-tooltip md-tooltip danger'
@@ -42,7 +43,7 @@
 
       {{#if this.showWarningMessage}}
         <span class='md-warning'>
-          {{fa-icon 'exclamation-triangle'}}
+          <FlightIcon @name='alert-triangle' />
           <EmberTooltip
             @side='right'
             @tooltipClass='ember-tooltip md-tooltip warning'

@@ -11,13 +11,6 @@ export default Component.extend({
    * @constructor
    */
 
-  tagName: 'button',
-  classNames: ['md-button btn'],
-  classNameBindings: ['responsive:md-btn-responsive'],
-  attributeBindings: ['type', 'disabled'],
-  type: 'button',
-  disabled: null,
-
   /**
    * Button text
    *

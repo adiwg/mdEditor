@@ -15,7 +15,7 @@ export default Component.extend({
     return this.required ? 'danger' : 'info';
   }),
   tipIcon: computed('required', function () {
-    return this.required ? 'exclamation-circle' : 'info-circle';
+    return this.required ? 'alert-circle' : 'info';
   }),
   actions: {
     addItem(target) {

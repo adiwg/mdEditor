@@ -13,10 +13,6 @@
     line-height: 40px;
     text-indent: 0;
 
-    .fa {
-      text-indent: 0;
-    }
-
     [class^='icon-'] {
       text-indent: 0;
     }
@@ -47,11 +43,12 @@
   > .sidebar-brand {
     background-color: $navbar-inverse-bg;
     border-top: 1px solid $body-bg;
-    display: none;
-    font-size: 18px;
-    height: 52.5px;
+    display: inline-flex;
+
+    font-size: 3rem;
+    // height: 52.5px;
     line-height: 52.5px;
-    padding: 0 10px;
+    // padding:10px 10px;
     position: fixed;
     top: 0;
     width: #{$sidebar-width}px;
@@ -67,6 +64,7 @@
     }
 
     .md-app-version {
+      margin-left: 6px;
       color: $brand-info;
       font-size: 11px;
       font-variant: small-caps;

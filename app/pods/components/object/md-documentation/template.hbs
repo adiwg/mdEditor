@@ -7,7 +7,7 @@
     @profilePath={{concat this.profilePath '.resourceType'}}
   />
 </div>
-{{#with this.model.citation.firstObject as |citation|}}
+{{#with (get this.model.citation '0') as |citation|}}
   <Object::MdCitation
     @model={{citation}}
     @profilePath={{concat this.profilePath '.citation'}}

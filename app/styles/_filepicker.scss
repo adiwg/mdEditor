@@ -10,14 +10,14 @@
 
 .md-file-picker {
   button {
-    font-size: 4vw;
+    font-size: 3vw;
     min-height: 20rem;
     transition-duration: 1s;
     transition-property: background-color, color;
     white-space: normal;
 
     @media (min-width: $grid-float-breakpoint) {
-      font-size: 3vw;
+      font-size: 2vw;
     }
   }
 

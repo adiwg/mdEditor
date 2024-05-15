@@ -10,11 +10,10 @@
       id={{concat 'thesaurus-container-' index}}
     >
       <div class='md-keywords-header'>
-        {{#if thesaurus.thesaurus.identifier.[0].identifier}}
+        {{#if (get thesaurus.thesaurus.identifier '0.identifier')}}
           <a
             class='md-keywords-collapse inline-block'
             data-toggle='collapse'
-            aria-expanded='true'
             href='#thesaurus-{{index}}'
             aria-controls='thesaurus-{{index}}'
           >
@@ -29,20 +28,20 @@
           @recordProfile={{this.model.profile}}
           @thesaurus={{thesaurus}}
           @selectThesaurus={{route-action 'selectThesaurus'}}
-          @value={{thesaurus.thesaurus.identifier.[0].identifier}}
+          @value={{get thesaurus.thesaurus.identifier '0.identifier'}}
           @disabled={{thesaurus.keyword.length}}
         />
         <Control::MdButtonConfirm
           @class='btn btn-sm btn-danger'
           @onConfirm={{route-action 'deleteThesaurus' index}}
         >
-          {{fa-icon 'times'}}
+          <FlightIcon @name='x' />
           Delete
         </Control::MdButtonConfirm>
       </div>
       <div id='thesaurus-{{index}}' class='md-keywords-body collapse in'>
 
-        {{#with thesaurus.thesaurus.identifier.[0].identifier}}
+        {{#with (get thesaurus.thesaurus.identifier '0.identifier')}}
           <hr />
           <div class='row'>
             <div class='md-keywords-thesaurus col-md-6 col-lg-7'>
@@ -72,7 +71,7 @@
         class='btn btn-success'
         {{action (route-action 'addThesaurus')}}
       >
-        {{fa-icon 'plus'}}
+        <FlightIcon @name='plus' />
         Add Thesaurus</button>
     </h3>
   {{/each}}

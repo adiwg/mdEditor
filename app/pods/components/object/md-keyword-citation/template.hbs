@@ -65,7 +65,7 @@
         <Input::MdInput
           @class='col-sm-10'
           @type='url'
-          @value={{thesaurus.onlineResource.[0].uri}}
+          @value={{get thesaurus.onlineResource '0.uri'}}
           @showValidations={{true}}
           @placeholder='Enter online link'
           @profilePath={{concat this.profilePath '.onlineResourceUrl'}}

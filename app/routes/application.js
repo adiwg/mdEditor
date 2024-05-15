@@ -61,7 +61,7 @@ export default Route.extend({
         type: 'record',
         list: 'records',
         title: 'Metadata Records',
-        icon: 'file-o',
+        icon: 'file-text',
       }),
       EmberObject.create({
         type: 'contact',
@@ -73,7 +73,7 @@ export default Route.extend({
         type: 'dictionary',
         list: 'dictionaries',
         title: 'Dictionaries',
-        icon: 'book',
+        icon: 'docs',
       }),
     ]);
 

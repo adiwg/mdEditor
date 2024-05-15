@@ -22,7 +22,7 @@
       <ul class='nav navbar-nav'>
         <li>
           <LinkTo @route='dashboard'>
-            <span class='fa fa-dashboard'></span>
+            <FlightIcon @name='dashboard' />
             <span class='md-nav-text'>Dashboard</span>
             <EmberTooltip
               @text='Dashboard'
@@ -33,7 +33,7 @@
         </li>
         <li>
           <LinkTo @route='export'>
-            <span class='fa fa-sign-out'></span>
+            <FlightIcon @name='sign-out' />
             <span class='md-nav-text'>Export</span>
             <EmberTooltip
               @text='Export'
@@ -44,7 +44,7 @@
         </li>
         <li>
           <LinkTo @route='import'>
-            <span class='fa fa-sign-in'></span>
+            <FlightIcon @name='sign-in' />
             <span class='md-nav-text'>Import</span>
             <EmberTooltip
               @text='Import'
@@ -55,7 +55,7 @@
         </li>
         <li>
           <LinkTo @route='publish'>
-            <span class='fa fa-share-square-o'></span>
+            <FlightIcon @name='share' />
             <span class='md-nav-text'>Publish</span>
             <EmberTooltip
               @text='Publish'
@@ -69,7 +69,7 @@
       <ul class='nav navbar-nav navbar-right'>
         <li>
           <LinkTo @route='settings'>
-            <span class='fa fa-gear'></span>
+            <FlightIcon @name='settings' />
             <span class='md-nav-text nav-settings'>Settings</span>
             <EmberTooltip
               @text='Settings'

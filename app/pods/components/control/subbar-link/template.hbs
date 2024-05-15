@@ -12,7 +12,10 @@
         btn-block md-btn-responsive'
       click={{this.click}}
       disabled={{this.disabled}}
-    >{{fa-icon this.clickButtonIcon}} {{this.clickTxt}}</button>
+    >
+      <FlightIcon @name={{this.clickButtonIcon}} />
+      {{this.clickTxt}}
+    </button>
   {{/if}}
 
   {{#if this.route}}
@@ -23,7 +26,10 @@
         this.btnType
         ' btn-block md-btn-responsive'
       }}
-    > {{fa-icon this.icon}} {{this.text}}</LinkTo>
+    >
+      <FlightIcon @name={{this.icon}} />
+      {{this.text}}
+    </LinkTo>
   {{/if}}
 
   {{yield}}

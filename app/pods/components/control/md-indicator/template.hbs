@@ -1,4 +1,4 @@
-{{fa-icon this.icon fixedWidth=true}}
+<FlightIcon @name={{this.icon}} />
 
 <EmberPopover
   @popoverHideDelay={{this.popoverHideDelay}}
@@ -9,7 +9,7 @@
   {{#if this.title}}
     <h4 class='title'>
       {{#if this.icon}}
-        {{fa-icon this.icon}}
+        <FlightIcon @name={{this.icon}} />
       {{/if}}
       {{this.title}}
     </h4>

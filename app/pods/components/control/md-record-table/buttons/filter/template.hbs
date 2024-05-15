@@ -3,7 +3,7 @@
     @class='btn btn-danger btn-block'
     @onConfirm={{action 'deleteSelected' this.selectedItems}}
   >
-    <span class='fa fa-times'></span>
+    <FaIcon @icon='x' />
     Delete Selected
   </Control::MdButtonConfirm>
 {{/if}}

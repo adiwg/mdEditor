@@ -1,21 +1,5 @@
 <h3 class='section-header'>Generate Entity from CSV</h3>
-{{#unless this.processed}}
-  <Control::MdImportCsv
-    @beforeFirstChunk={{route-action 'processData'}}
-    @processChunk={{route-action 'reduceData'}}
-    @processComplete={{route-action 'processComplete'}}
-  />
-  <ToElsewhere
-    @named='md-subbar-extra'
-    @send={{component
-      'control/md-button'
-      text='Back to Entity'
-      icon='arrow-left'
-      class='btn-primary btn-lg btn-block md-button-responsive'
-      click=(route-action 'goToEntity')
-    }}
-  />
-{{else}}
+{{#if this.processed}}
   <form class='form'>
     <Input::MdInput
       @value={{this.entity.entityId}}
@@ -70,7 +54,7 @@
               <tr>
                 <td><Input
                     @type='checkbox'
-                    @name='import'
+                    name='import'
                     @checked={{row.import}}
                   /></td>
                 <td class='text-nowrap'>
@@ -100,7 +84,7 @@
                 <td>
                   <Input
                     @type='checkbox'
-                    @name='hasDomain'
+                    name='hasDomain'
                     @checked={{row.hasDomain}}
                   />
                   <span
@@ -110,16 +94,16 @@
                 <td>
                   <Input
                     @type='checkbox'
-                    @name='allowNull'
+                    name='allowNull'
                     @checked={{row.allowNull}}
                   />
                 </td>
                 <td class='text-nowrap'>
                   <Input
                     @type='checkbox'
-                    @name='range'
+                    name='range'
                     @checked={{row.range}}
-                    @disabled={{row.disableRange}}
+                    disabled={{row.disableRange}}
                   />
                   {{#if row.isNumber}}
                     ({{round row.min decimals=2}}/{{round row.max decimals=2}})
@@ -128,7 +112,7 @@
                 <td class='text-nowrap'>
                   <div class='pull-right'>
                     <button type='button' class='btn btn-xs btn-info'>
-                      <span class='fa fa-eye'></span>
+                      <FlightIcon @name='eye' />
                       Example
 
                       <EmberPopover
@@ -155,7 +139,23 @@
       </div>
     </div>
   </Layout::MdCard>
-{{/unless}}
+{{else}}
+  <Control::MdImportCsv
+    @beforeFirstChunk={{route-action 'processData'}}
+    @processChunk={{route-action 'reduceData'}}
+    @processComplete={{route-action 'processComplete'}}
+  />
+  <ToElsewhere
+    @named='md-subbar-extra'
+    @send={{component
+      'control/md-button'
+      text='Back to Entity'
+      icon='arrow-left'
+      class='btn-primary btn-lg btn-block md-button-responsive'
+      click=(route-action 'goToEntity')
+    }}
+  />
+{{/if}}
 
 {{#if this.processed}}
   <ToElsewhere

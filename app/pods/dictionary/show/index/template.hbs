@@ -2,8 +2,7 @@
   {{#with this.model.json.dataDictionary as |dictionary|}}
     <div class='col-sm-9 col-md-offset-1'>
       <h3>
-        {{fa-icon 'book' class='text-muted'}}
-
+        <FlightIcon @name='docs' />
         Viewing Dictionary:
         {{this.model.title}}
         <Control::MdStatus @model={{this.model}} />
@@ -18,7 +17,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'dictionary.show.edit'}}
-        @btnIcon='pencil'
+        @btnIcon='pencil-tool'
         @data-spy='Main'
       >
         <div class='row'>
@@ -114,7 +113,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'dictionary.show.edit.domain'}}
-        @btnIcon='pencil'
+        @btnIcon='pencil-tool'
         @data-spy='Domains'
       >
         {{#if dictionary.domain}}
@@ -164,7 +163,7 @@
         @btnText='Edit'
         @btnClass='success'
         @btnAction={{route-action 'linkTo' 'dictionary.show.edit.entity'}}
-        @btnIcon='pencil'
+        @btnIcon='pencil-tool'
         @data-spy='Entities'
       >
         {{#if dictionary.entity}}
@@ -221,12 +220,12 @@
         @model={{this.model.id}}
         class='btn btn-lg btn-success'
       >
-        {{fa-icon 'pencil'}}
+        <FlightIcon @name='pencil-tool' />
         Edit</LinkTo>
     </Control::MdCrudButtons>
     <hr />
     <LinkTo @route='dictionaries' class='btn btn-lg btn-primary btn-block'>
-      {{fa-icon 'list'}}
+      <FlightIcon @name='list' />
       Show List</LinkTo>
     <Control::MdScrollSpy
       @scrollInit={{this.scrollTo}}

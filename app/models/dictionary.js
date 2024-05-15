@@ -91,7 +91,7 @@ export default Model.extend(Validations, Copyable, {
   title: alias('json.dataDictionary.citation.title'),
   dictionaryId: alias('json.dictionaryId'),
 
-  icon: 'book',
+  icon: 'docs',
 
   /**
    * A list of schema errors return by the validator.

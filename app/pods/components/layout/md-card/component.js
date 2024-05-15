@@ -249,7 +249,7 @@ export default Component.extend({
   }),
 
   windowIcon: computed('fullScreen', function () {
-    return this.fullScreen ? 'compress' : 'expand';
+    return this.fullScreen ? 'minimize' : 'maximize';
   }),
 
   isCollapsible: computed('fullScreen', 'collapsible', function () {

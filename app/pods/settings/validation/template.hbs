@@ -1,6 +1,3 @@
-{{!-- <div class="alert alert-warning" role="alert">{{fa-icon "exclamation"}}
-    This section is under development.
-</div> --}}
 <div class='section-header'>
   <h3>
     Custom Validation Schemas
@@ -20,7 +17,7 @@
         {{/if}}
         {{#if this.task.isRunning}}
           <small>...downloading schemas</small>
-          {{fa-icon 'spinner' spin=true}}
+          <FlightIcon @name='running' />
         {{/if}}
       {{else}}
         Manage Schemas

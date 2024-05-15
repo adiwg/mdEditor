@@ -57,7 +57,7 @@ export default Component.extend({
       {
         title: 'Edit',
         type: 'success',
-        icon: 'pencil',
+        icon: 'pencil-tool',
         // action: this.actions.editRow,
         action: 'editRow',
         target: this,

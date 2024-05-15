@@ -10,7 +10,7 @@
       class='btn btn-lg btn-success'
       disabled={{if this.model.hasDirtyHash false true}}
     >
-      <i class='fa fa-floppy-o'></i>
+      <Flighticon @name='save' />
       Save
     </button>
     <button
@@ -19,13 +19,13 @@
       class='btn btn-lg btn-warning'
       disabled={{if this.model.canRevert false true}}
     >
-      <i class='fa fa-undo'></i>
+      <FlightIcon @name='x-square' />
       Cancel
     </button>
   {{/if}}
   {{#if this.showCopy}}
     <button type='button' {{action 'copy'}} class='btn btn-lg btn-info'>
-      <i class='fa fa-clone'></i>
+      <FlightIcon @name='duplicate' />
       Copy
     </button>
   {{/if}}
@@ -36,7 +36,7 @@
       @tooltip='Permanently delete this record?'
       @tipClass='danger'
     >
-      <span class='fa fa-times'></span>
+      <FlightIcon @name='trash' />
       Delete
     </Control::MdButtonConfirm>
   {{/if}}

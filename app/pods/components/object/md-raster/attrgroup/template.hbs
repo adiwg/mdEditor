@@ -1,10 +1,17 @@
-{{#unless this.showAlert}}
+{{#if this.showAlert}}
+  <Control::MdAlertTable
+    @title={{this.title}}
+    @required={{this.required}}
+    @addItem={{action 'addItem'}}
+    @target={{this.arrayValues}}
+    @tipMessage={{this.alertTipMessage}}
+  />
+{{else}}
   <div class='panel panel-default {{if this.shadow "box-shadow--4dp"}}'>
     <div class='panel-heading'>
       <h3 class='panel-title md-panel-chevron'>
         <a
           data-toggle='collapse'
-          aria-expanded={{if this.collapsed 'false' 'true'}}
           class={{if this.collapsed 'collapsed'}}
           href='{{this.panelId}}'
           aria-controls='{{this.panelId}}'
@@ -21,7 +28,7 @@
           class='btn btn-xs btn-info pull-right'
           {{action 'addItem'}}
         >
-          {{fa-icon 'plus'}}
+          <FlightIcon @name='plus' />
           Add
         </button>
       </h3>
@@ -115,7 +122,7 @@
                     class='btn btn-xs btn-info'
                     {{action 'addItem'}}
                   >
-                    {{fa-icon 'plus'}}
+                    <FlightIcon @name='plus' />
                     Add
                     {{this.title}}
                   </button>
@@ -127,12 +134,4 @@
       </div>
     </div>
   </div>
-{{else}}
-  <Control::MdAlertTable
-    @title={{this.title}}
-    @required={{this.required}}
-    @addItem={{action 'addItem'}}
-    @target={{this.arrayValues}}
-    @tipMessage={{this.alertTipMessage}}
-  />
-{{/unless}}
+{{/if}}

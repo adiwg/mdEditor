@@ -7,8 +7,8 @@
     @date={{this._date}}
     @format={{this.format}}
     @extraFormats={{this.extraFormats}}
-    @dateIcon='fa fa-calendar'
-    @timeIcon='fa fa-clock-o'
+    @dateIcon='calendar'
+    @timeIcon='clock'
     @icons={{this.calendarIcons}}
     @placeholder={{this.placeholder}}
     @showClear={{this.showClear}}
@@ -21,7 +21,7 @@
   <span class='md-inputgroup-error'>
     {{#if this.showErrorMessage}}
       <span class='md-error'>
-        {{fa-icon 'exclamation-circle'}}
+        <FlightIcon @name='alert-circle' />
         <EmberTooltip
           @side='right'
           @tooltipClass='ember-tooltip md-tooltip danger'
@@ -33,7 +33,7 @@
 
     {{#if this.showWarningMessage}}
       <span class='md-warning'>
-        {{fa-icon 'exclamation-triangle'}}
+        <FlightIcon @name='alert-triangle' />
         <EmberTooltip
           @side='right'
           @tooltipClass='ember-tooltip md-tooltip warning'

@@ -1,4 +1,12 @@
-{{#unless this.showAlert}}
+{{#if this.showAlert}}
+  <Control::MdAlertTable
+    @title={{this.title}}
+    @required={{this.required}}
+    @addItem={{action 'addItem'}}
+    @target={{this.arrayValues}}
+    @tipMessage={{this.alertTipMessage}}
+  />
+{{else}}
   {{#if this.plain}}
     <label class='show'>
       <span class='fa'></span>
@@ -12,7 +20,7 @@
         class='btn btn-xs btn-info pull-right'
         {{action 'addItem' this.value}}
       >
-        {{fa-icon 'plus'}}
+        <FlightIcon @name='plus' />
         Add
         {{this.title}}
       </button>
@@ -44,15 +52,12 @@
               }}
               <td>
                 <div class='md-button-column'>
-                  {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
-                                <span class="fa fa-times"></span> Delete
-                            </button> --}}
                   <Control::MdButtonConfirm
                     @class='btn btn-xs btn-danger'
                     @disabled={{if this.simple (if item.value 'disabled')}}
                     @onConfirm={{action 'deleteItem' this.value index}}
                   >
-                    <span class='fa fa-times'></span>
+                    <FlightIcon @name='x' />
                     Delete
                   </Control::MdButtonConfirm>
                 </div>
@@ -72,7 +77,7 @@
                   class='btn btn-xs btn-info'
                   {{action 'addItem' this.value}}
                 >
-                  {{fa-icon 'plus'}}
+                  <FlightIcon @name='plus' />
                   Add
                   {{this.title}}
                 </button>
@@ -89,7 +94,6 @@
         <h3 class='panel-title md-panel-chevron'>
           <a
             data-toggle='collapse'
-            aria-expanded={{if this.collapsed 'false' 'true'}}
             class={{if this.collapsed 'collapsed'}}
             href='{{this.panelId}}'
             aria-controls='{{this.panelId}}'
@@ -106,7 +110,7 @@
             class='btn btn-xs btn-info pull-right'
             {{action 'addItem'}}
           >
-            {{fa-icon 'plus'}}
+            <FlightIcon @name='plus' />
             Add
           </button>
         </h3>
@@ -145,15 +149,12 @@
                   }}
                   <td>
                     <div class='md-button-column'>
-                      {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
-                                              <span class="fa fa-times"></span> Delete
-                                          </button> --}}
                       <Control::MdButtonConfirm
                         @class='btn btn-xs btn-danger'
                         @disabled={{if this.simple (if item.value 'disabled')}}
                         @onConfirm={{action 'deleteItem' item index}}
                       >
-                        <span class='fa fa-times'></span>
+                        <FlightIcon @name='x' />
                         Delete
                       </Control::MdButtonConfirm>
                     </div>
@@ -173,7 +174,7 @@
                       class='btn btn-xs btn-info'
                       {{action 'addItem'}}
                     >
-                      {{fa-icon 'plus'}}
+                      <FlightIcon @name='plus' />
                       Add
                       {{this.title}}
                     </button>
@@ -187,12 +188,4 @@
 
     </div>
   {{/if}}
-{{else}}
-  <Control::MdAlertTable
-    @title={{this.title}}
-    @required={{this.required}}
-    @addItem={{action 'addItem'}}
-    @target={{this.arrayValues}}
-    @tipMessage={{this.alertTipMessage}}
-  />
-{{/unless}}
+{{/if}}

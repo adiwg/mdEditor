@@ -1,10 +1,10 @@
-{{#with this.column.buttonConfig as |c|}}
+{{#let this.column.buttonConfig as |c|}}
   <button
     type='button'
     class='btn btn-sm btn-{{if c.style c.style "primary"}}'
     onclick={{action c.action this.record}}
   >
-    {{fa-icon 'binoculars'}}
+    <FlightIcon @name='search' />
     {{c.title}}
   </button>
-{{/with}}
+{{/let}}

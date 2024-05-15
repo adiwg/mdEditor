@@ -1,7 +1,7 @@
-{{#if hasBlock}}
+{{#if (has-block)}}
   {{yield}}
 {{else}}
-  <span class='fa fa-{{icon}}'></span>
+  <FlightIcon @name={{this.icon}} />
   {{this.text}}
 {{/if}}
 

@@ -60,7 +60,7 @@
   @data-spy='Transfer Options'
 />
 
-{{#with this.model.orderProcess.firstObject as |order|}}
+{{#with (get this.model.orderProcess '0') as |order|}}
   <Layout::MdCard
     @shadow={{false}}
     @muted={{false}}

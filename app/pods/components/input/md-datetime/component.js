@@ -109,14 +109,14 @@ export default Component.extend({
 
   calendarIcons: computed(function () {
     return {
-      time: 'fa fa-clock-o',
-      date: 'fa fa-calendar',
-      up: 'fa fa-chevron-up',
-      down: 'fa fa-chevron-down',
-      previous: 'fa fa-angle-double-left',
-      next: 'fa fa-angle-double-right',
-      close: 'fa fa-times',
-      clear: 'fa fa-trash',
+      time: 'clock',
+      date: 'calendar',
+      up: 'chevron-up',
+      down: 'chevron-down',
+      previous: 'chevron-left',
+      next: 'chevron-right',
+      close: 'x',
+      clear: 'trash',
     };
   }),
 });

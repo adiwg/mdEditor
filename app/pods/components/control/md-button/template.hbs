@@ -1,16 +1,23 @@
-{{#if (has-block)}}
-  {{yield}}
-{{else}}
-  {{#if this.icon}}
-    {{fa-icon this.icon spin=this.iconSpin}}
+<button
+  class='md-button btn {{if this.responsive "md-btn-responsive"}}'
+  type='button'
+  disabled='null'
+>
+  {{#if (has-block)}}
+    {{yield}}
+  {{else}}
+    {{#if this.icon}}
+      <FlightIcon @name={{this.icon}} />
+    {{/if}}
+    {{this.text}}
   {{/if}}
-  {{this.text}}
-{{/if}}
 
-{{#if this.tooltip}}
-  <EmberTooltip
-    @tooltipClass={{concat 'ember-tooltip md-tooltip ' this.tipClass}}
-    @text={{this.tooltip}}
-    @side={{this.tipSide}}
-  />
-{{/if}}
+  {{#if this.tooltip}}
+    <EmberTooltip
+      @tooltipClass={{concat 'ember-tooltip md-tooltip ' this.tipClass}}
+      @text={{this.tooltip}}
+      @side={{this.tipSide}}
+    />
+  {{/if}}
+</button>
+{

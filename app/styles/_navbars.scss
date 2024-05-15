@@ -143,6 +143,13 @@
   border-right-color: lighten($gray-base, 27);
 }
 
+.nav > li > a {
+  display: inline-flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 0.25em;
+}
+
 .nav > li > a:focus {
   background-color: inherit;
   color: $brand-primary;

@@ -8,7 +8,7 @@
         id='md-btn-tour'
         class='btn btn-xs btn-success pull-right'
       >
-        <span class='fa fa-bus'></span>
+        <FlightIcon @name='rocket' />
         Tour
       </button></h3>
   </div>
@@ -29,18 +29,18 @@
       rel='noopener noreferrer'
       class='external btn btn-lg btn-success btn-block md-btn-responsive'
     >
-      {{fa-icon 'book'}}
+      <FlightIcon @name='docs' />
       View User Manual
     </a>
   </p>
   {{! TODO: Once we subscribe service that will allow us to mail out updates, we will need to update this. }}
-  {{!-- <p>
+  {{! <p>
     If you would like to receive announcements regarding the mdEditor, join our email list!
   </p>
   <p>
     <a href="https://sourceforge.net/projects/mdtoolkit/lists/mdtoolkit-announce" target="_blank" rel="noopener noreferrer" class="external btn btn-lg btn-info btn-block md-btn-responsive">
-      {{fa-icon "envelope"}} Join Email list
+      <FlightIcon @name='mail' /> Join Email list
     </a>
-  </p> --}}
+  </p> }}
 </div>
 {{yield}}

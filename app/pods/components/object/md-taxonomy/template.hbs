@@ -15,7 +15,7 @@
           class='btn btn-md btn-success btn-block md-btn-responsive'
           {{action 'editCollection' this.index}}
         >
-          {{fa-icon 'pencil'}}
+          <FlightIcon @name='pencil-tool' />
           Edit Collection</button>
       </div>
       <div class='col-sm-6'>
@@ -24,7 +24,7 @@
           class='btn btn-md btn-danger btn-block md-btn-responsive'
           {{action 'deleteCollection' this.index}}
         >
-          {{fa-icon 'times'}}
+          <FlightIcon @name='x' />
           Delete Collection</button>
       </div>
     </div>

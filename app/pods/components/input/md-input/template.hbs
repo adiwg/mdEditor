@@ -13,17 +13,17 @@
     placeholder={{this.placeholder}}
     required={{this.required}}
     @type={{this.type}}
-    @step={{this.step}}
-    @maxlength={{this.maxlength}}
+    step={{this.step}}
+    maxlength={{this.maxlength}}
     class={{this.inputClass}}
-    @disabled={{this.disabled}}
-    @change={{this.change}}
+    disabled={{this.disabled}}
+    @change{{this.change}}
   />
 
   <span class='md-input-error'>
     {{#if this.showErrorMessage}}
       <span class='md-error'>
-        {{fa-icon 'exclamation-circle'}}
+        <FlightIcon @name='alert-circle' />
         <EmberTooltip
           @side='right'
           @tooltipClass='ember-tooltip md-tooltip danger'
@@ -35,7 +35,7 @@
 
     {{#if this.showWarningMessage}}
       <span class='md-warning'>
-        {{fa-icon 'exclamation-triangle'}}
+        <FlightIcon @name='alert-triangle' />
         <EmberTooltip
           @side='right'
           @tooltipClass='ember-tooltip md-tooltip warning'

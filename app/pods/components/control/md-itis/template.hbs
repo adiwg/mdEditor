@@ -32,9 +32,9 @@
       disabled={{if this.searchString false true}}
     >
       {{#if this.isLoading}}
-        {{fa-icon 'spinner' spin=true}}
+        <FlightIcon @name='loading' />
       {{else}}
-        {{fa-icon 'search'}}
+        <FlightIcon @name='search' />
         <EmberTooltip
           @text='Click to send search request'
           @tooltipClass='ember-tooltip md-tooltip info'
@@ -48,7 +48,8 @@
 
 {{#if this.notFound}}
   <div class='alert alert-warning'>
-    <h5>{{fa-icon 'exclamation-triangle'}}
+    <h5>
+      <FlightIcon @name='alert-triangle' />
       No taxa matched the search. Please try again.</h5>
   </div>
 {{/if}}

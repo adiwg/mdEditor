@@ -63,7 +63,7 @@
           class='btn btn-lg btn-primary pull-right'
           disabled={{if this.writer false true}}
         >
-          {{fa-icon 'retweet'}}
+          <FlightIcon @name='webhook' />
           Translate
         </button>
       </div>
@@ -87,29 +87,33 @@
       }}
       @scroll={{false}}
       @maximizable={{true}}
-      @titleIcon='exclamation'
+      @titleIcon='plus'
       @spotlightEnabled={{false}}
       @collapsible={{true}}
     >
       <h4 class='text-{{this.errorClass}}'>{{this.errorSubTitle}}</h4>
       <ul class='list-group'>
         {{#each this.messages as |message|}}
-          {{#with (compute (action 'errorClass') message.[0]) as |errorClass|}}
+          {{#with
+            (compute (action 'errorClass') (get message '0'))
+            as |errorClass|
+          }}
             <li class='list-group-item'>
               <div class=''>
                 <h4 class='list-group-item-heading'>
-                  <span
-                    class='label label-{{errorClass}}'
-                  >{{message.[0]}}</span>
-                  {{message.[2]}}
+                  <span class='label label-{{errorClass}}'>{{get
+                      message
+                      '0'
+                    }}</span>
+                  {{get message '2'}}
                 </h4>
               </div>
               <div class=''>
-                <span
-                  class='label label-pill
-                    {{if message.[3] "label-primary" "label-default"}}'
-                >{{message.[1]}}</span>
-                {{compute (action 'formatMessage' message.[3])}}
+                <span class='label label-pill {{if message "3"}}'>{{get
+                    message
+                    '1'
+                  }}</span>
+                {{compute (action 'formatMessage' (get message '3'))}}
               </div>
             </li>
           {{/with}}
@@ -125,7 +129,7 @@
       @class='card-inverse card-outline-danger md-translator-error danger'
       @scroll={{false}}
       @maximizable={{true}}
-      @titleIcon='exclamation'
+      @titleIcon='alert-circle'
     >
       <p>{{this.xhrError}}</p>
       <p>An error occurred during the translation. The incident has been logged.
@@ -183,7 +187,7 @@
             {{action 'prettifyJson'}}
             disabled={{if this.result false true}}
           >
-            {{fa-icon 'align-left'}}
+            <FlightIcon @name='align-left' />
             Format
           </button>
         {{/if}}
@@ -194,7 +198,7 @@
           {{action 'saveResult'}}
           disabled={{if this.result false true}}
         >
-          {{fa-icon 'floppy-o'}}
+          <FlightIcon @name='save' />
           Save Result
         </button>
       </div>

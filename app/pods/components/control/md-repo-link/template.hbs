@@ -1,5 +1,6 @@
-{{#if hasBlock}}
+{{#if (has-block)}}
   {{yield}}
 {{else}}
-  {{this.version}}{{fa-icon 'github'}}
+  {{this.version}}
+  <FlightIcon @name='github' />
 {{/if}}

@@ -1,8 +1,9 @@
 {{#if this.isProcessing}}
-  <h3>{{fa-icon 'spinner' spin=true}}
+  <h3>
+    <FlightIcon @name='loading' />
     Processing...
     <button class='btn btn-info' type='button' {{action 'stopParsing'}}>
-      {{fa-icon 'cross' spin=true}}
+      <FlightIcon @name='stop-circle' />
       Stop</button>
   </h3>
   <div class='progress'>
@@ -26,10 +27,10 @@
     @accept='.csv,.txt'
     @readAs='readAsText'
   >
-    <button type='button' class='btn btn-lg btn-info btn-block'>{{fa-icon
-        'bullseye'
-      }}
-      Click or Drop a CSV here.</button>
+    <button type='button' class='btn btn-lg btn-info btn-block'>
+      <FlightIcon @name='target' />
+      Click or Drop a CSV here.
+    </button>
   </FilePicker>
   {{!-- <hr>
   <h3>Import from Online URL</h3>
@@ -45,9 +46,9 @@
         <span class="input-group-btn">
             <button class="btn btn-info" type="button" {{action "readFromUri"}}>
               {{#if isLoading}}
-                {{fa-icon "spinner" spin=true}}
+                <FlightIcon @name='loading' />
               {{else}}
-                {{fa-icon "cloud-download"}}
+                <FlightIcon @name='cloud-download' />
               {{/if}}
               Import</button>
         </span>

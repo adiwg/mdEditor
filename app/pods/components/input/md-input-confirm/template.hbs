@@ -6,9 +6,9 @@
     placeholder={{this.placeholder}}
     required={{this.required}}
     @type={{this.type}}
-    @maxlength={{this.maxlength}}
+    maxlength={{this.maxlength}}
     class={{this.inputClass}}
-    @disabled={{this.isDisabled}}
+    disabled={{this.isDisabled}}
     @blur={{action 'inputBlur'}}
   />
   {{#if this.disabled}}
@@ -17,7 +17,7 @@
         @class='btn btn-warning'
         @onConfirm={{action 'allowEdit'}}
       >
-        {{fa-icon 'pencil'}}
+        <FlightIcon @name='edit' />
         Edit
         {{#if this.confirmTip}}
           <EmberTooltip>

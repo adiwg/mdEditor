@@ -29,7 +29,10 @@
           role='button'
           class='plain-link'
           {{action (toggle 'showMore' this)}}
-        > {{fa-icon 'caret-up'}} Less</a>
+        >
+          <FlightIcon @name='chevron-up' />
+          Less
+        </a>
       </p>
     {{else}}
       <p class='text-right'>
@@ -38,7 +41,10 @@
           role='button'
           class='plain-link'
           {{action (toggle 'showMore' this)}}
-        >{{fa-icon 'caret-down'}} More</a>
+        >
+          <FlightIcon @name='chevron-down' />
+          More
+        </a>
       </p>
     {{/if}}
   {{/if}}

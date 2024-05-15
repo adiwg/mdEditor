@@ -8,7 +8,7 @@
           alt='Responsive image'
         />
       {{else}}
-        {{fa-icon this.model.icon class='text-muted'}}
+        <FlightIcon @name={{this.model.icon}} class='text-muted' />
       {{/if}}
 
       Viewing
@@ -17,7 +17,7 @@
       {{this.model.title}}
       {{!-- <span class="text-danger">
             {{#if model.hasDirtyHash}}
-              {{fa-icon "exclamation-circle"}}
+              <FlightIcon @name='alert-circle' />
               {{ember-tooltip text='This record has been modified!' side="right"
                 tooltipClass="ember-tooltip md-tooltip danger"
               }}
@@ -263,12 +263,12 @@
         @model={{this.model.id}}
         class='btn btn-lg btn-success'
       >
-        {{fa-icon 'pencil'}}
+        <FlightIcon @name='pencil-tool' />
         Edit</LinkTo>
     </Control::MdCrudButtons>
     <hr />
     <LinkTo @route='contacts' class='btn btn-lg btn-primary btn-block'>
-      {{fa-icon 'list'}}
+      <FlightIcon @name='list' />
       Show List</LinkTo>
     <Control::MdScrollSpy
       @scrollInit={{this.scrollTo}}

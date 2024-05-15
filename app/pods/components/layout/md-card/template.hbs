@@ -16,7 +16,7 @@
             class='text-info {{if this.collapsed "collapsed"}}'
             aria-controls={{this.panelId}}
           >
-            {{fa-icon this.titleIcon}}
+            <FlightIcon @name={{this.titleIcon}} />
             {{this.title}}
             <span class='fa'></span>
           </a>
@@ -35,14 +35,14 @@
         {{/if}}
       {{else}}
         {{#if this.titleIcon}}
-          {{fa-icon this.titleIcon}}
+          <FlightIcon @name={{this.titleIcon}} />
         {{/if}}
         {{this.title}}
       {{/if}}
       {{#if this.maximizable}}
-        <a role='button' class='pull-right md-card-maximize hidden-print'>
-          {{fa-icon this.windowIcon size=1 click=(action 'toggleFullScreen')}}
-        </a>
+        <span class='pull-right md-card-maximize hidden-print'>
+          <FlightIcon @name={{this.windowIcon}} {{action 'toggleFullScreen'}} />
+        </span>
       {{/if}}
       <div class='btn-group hidden-print pull-right'>
         {{#if this.btnText}}
@@ -52,7 +52,7 @@
             class='btn btn-{{if this.btnClass this.btnClass "primary"}} btn-xs'
             {{action this.btnAction}}
           >
-            {{fa-icon this.btnIcon}}
+            <FlightIcon @name={{this.btnIcon}} />
             {{this.btnText}}
           </button>
         {{/if}}
@@ -61,19 +61,17 @@
             @class='btn btn-danger btn-xs'
             @onConfirm={{action this.deleteAction}}
           >
-            {{fa-icon 'times'}}
+            <FlightIcon @name='x' />
             Delete
           </Control::MdButtonConfirm>
         {{/if}}
         {{#if this.spotlightEnabled}}
-          <button
-            type='button'
-            name='button'
-            class='btn btn-info btn-xs md-btn-spotlight'
+          <FlightIcon
+            @name='circle-dot'
+            @size='24'
+            class='md-btn-spotlight'
             {{action 'spotlight' this.elementId}}
-          >
-            {{fa-icon 'circle'}}
-          </button>
+          />
         {{/if}}
       </div>
     </h4>

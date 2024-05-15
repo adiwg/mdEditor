@@ -8,7 +8,7 @@
         onClick={{action 'toggleCollapse'}}
         style={{this.padding}}
       >
-        {{fa-icon (if this.collapse 'folder' 'folder-open') fixedWidth=true}}
+        <FlightIcon @name={{if this.collapse 'folder-plus' 'folder-minus'}} />
         <strong class='text-success'>{{this.taxonomicLevel}}</strong>
       </div>
     {{else}}
@@ -43,18 +43,18 @@
         <div class='md-taxon-btn'>
           <button
             class='btn btn-xs btn-success'
+            type='button'
             {{action 'toggleEditing' this.elementId}}
           >
             {{!-- <button class="btn btn-xs btn-success" {{action (toggle "isEditing" this)}}> --}}
-            {{fa-icon 'pencil'}}
-            Edit
+            <FlightIcon @name='pencil-tool' />
           </button>
 
           <Control::MdButtonConfirm
             @class='btn btn-xs btn-danger'
             @onConfirm={{action 'deleteTaxa' this.model}}
           >
-            {{fa-icon 'times'}}
+            <FlightIcon @name='x' />
             Delete
           </Control::MdButtonConfirm>
 
@@ -126,7 +126,7 @@
               {{action 'toggleEditing' this.elementId}}
             >
               {{!-- <button class="btn btn-xs btn-info" {{action (toggle "isEditing" this)}}> --}}
-              {{fa-icon 'check'}}
+              <FlightIcon @name='check' />
               OK
             </button>
           </footer>

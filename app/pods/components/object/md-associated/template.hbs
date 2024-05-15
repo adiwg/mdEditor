@@ -29,42 +29,7 @@
   @profilePath={{concat this.profilePath '.initiativeType'}}
 />
 
-{{#unless this.model.mdRecordId}}
-  <div class='form-group'>
-    <Object::MdResourceTypeArray
-      @plain={{false}}
-      @value={{this.model.resourceType}}
-      @required={{true}}
-      @data-spy='Resource Types'
-      @profilePath={{concat this.profilePath '.resourceType'}}
-    />
-  </div>
-
-  {{#with this.model.resourceCitation as |citation|}}
-    <Object::MdCitation
-      @model={{citation}}
-      @profilePath={{concat this.profilePath '.resourceCitation'}}
-      @simpleIdentifier={{true}}
-    />
-  {{/with}}
-
-  <Layout::MdCard
-    @title='Metadata Citation'
-    @profilePath={{concat this.profilePath '.metadataCitation'}}
-    @shadow={{true}}
-    @collapsible={{true}}
-    @collapsed={{true}}
-  >
-    {{#with this.model.metadataCitation as |metdata|}}
-      <Object::MdCitation
-        @model={{metdata}}
-        @profilePath={{concat this.profilePath '.metadataCitation'}}
-        @embedded={{true}}
-        @simpleIdentifier={{true}}
-      />
-    {{/with}}
-  </Layout::MdCard>
-{{else}}
+{{#if this.model.mdRecordId}}
 
   <Layout::MdCard
     @title='Linked Record'
@@ -76,7 +41,7 @@
     @btnText='Edit'
     @btnClass={{concat 'success' (unless this.linkedRecord 'disabled')}}
     @btnAction={{action this.editLinked this.linkedRecord}}
-    @btnIcon='pencil'
+    @btnIcon='pencil-tool'
   >
     <div class='card-block'>
       {{#if this.linkedRecord}}
@@ -117,8 +82,10 @@
       {{else}}
         <div class='card card-inverse card-danger'>
           <div class='card-block'>
-            <h4 class='card-title'>{{fa-icon 'exclamation-triangle'}}
-              Linked record is missing!</h4>
+            <h4 class='card-title'>
+              <FlightIcon @name='alert-triangle' />
+              Linked record is missing!
+            </h4>
             <p class='card-text'>Cannot find the linked record with id
               <em>{{this.model.mdRecordId}}</em>.</p>
           </div>
@@ -158,6 +125,41 @@
 
   </Layout::MdCard>
 
-{{/unless}}
+{{else}}
+  <div class='form-group'>
+    <Object::MdResourceTypeArray
+      @plain={{false}}
+      @value={{this.model.resourceType}}
+      @required={{true}}
+      @data-spy='Resource Types'
+      @profilePath={{concat this.profilePath '.resourceType'}}
+    />
+  </div>
+
+  {{#with this.model.resourceCitation as |citation|}}
+    <Object::MdCitation
+      @model={{citation}}
+      @profilePath={{concat this.profilePath '.resourceCitation'}}
+      @simpleIdentifier={{true}}
+    />
+  {{/with}}
+
+  <Layout::MdCard
+    @title='Metadata Citation'
+    @profilePath={{concat this.profilePath '.metadataCitation'}}
+    @shadow={{true}}
+    @collapsible={{true}}
+    @collapsed={{true}}
+  >
+    {{#with this.model.metadataCitation as |metdata|}}
+      <Object::MdCitation
+        @model={{metdata}}
+        @profilePath={{concat this.profilePath '.metadataCitation'}}
+        @embedded={{true}}
+        @simpleIdentifier={{true}}
+      />
+    {{/with}}
+  </Layout::MdCard>
+{{/if}}
 
 {{yield}}
