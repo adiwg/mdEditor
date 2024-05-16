@@ -3,7 +3,7 @@ import RSVP from 'rsvp';
 import { guidFor } from '@ember/object/internals';
 import { inject as service } from '@ember/service';
 
-import { POUCH_TYPES } from 'mdeditor/services/pouch';
+import { PouchMeta } from 'mdeditor/services/pouch';
 
 export default class SyncListRoute extends Route {
   @service pouch;
@@ -26,25 +26,8 @@ export default class SyncListRoute extends Route {
       })
     ];
 
-    const meta = [{
-      type: POUCH_TYPES.RECORD,
-      list: 'records',
-      title: 'PouchDB Metadata Records',
-      icon: 'file-o',
-      columns: COLUMNS
-    }, {
-      type: POUCH_TYPES.CONTACT,
-      list: 'contacts',
-      title: 'PouchDB Contacts',
-      icon: 'users',
-      columns: COLUMNS
-    }, {
-      type: POUCH_TYPES.DICTIONARY,
-      list: 'dictionaries',
-      title: 'PouchDB Dictionaries',
-      icon: 'book',
-      columns: COLUMNS
-    }];
+    const meta = new PouchMeta();
+    meta.forEach(pm => pm.columns = COLUMNS);
 
     let mapFn = function (item, id) {
       meta[id].listId = guidFor(item);

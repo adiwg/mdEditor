@@ -6,6 +6,12 @@ export const POUCH_TYPES = {
   DICTIONARY: 'dictionary'
 }
 
+export const TITLE_LABELS = {
+  [POUCH_TYPES.RECORD]: 'Metadata Records',
+  [POUCH_TYPES.CONTACT]: 'Contacts',
+  [POUCH_TYPES.DICTIONARY]: 'Dictionaries'
+}
+
 export const NAME_KEYS = {
   [POUCH_TYPES.RECORD]: 'title',
   [POUCH_TYPES.CONTACT]: 'name',
@@ -17,7 +23,6 @@ export const ID_KEYS = {
   [POUCH_TYPES.CONTACT]: 'contactId',
   [POUCH_TYPES.DICTIONARY]: 'dictionaryId'
 }
-
 export const POUCH_PREFIX = 'pouch-';
 
 export const pouchPrefix = (type) => `${POUCH_PREFIX}${type}`;
@@ -29,13 +34,17 @@ export const unPouchPrefix = (pouchType) => pouchType.replace(POUCH_PREFIX, '');
 export default class PouchService extends Service {
   @service store;
 
-  async loadOptions(type) {
+  async loadFilteredOptions(type) {
     const storeData = await this.store.findAll(type, { reload: true });
     await this.store.findAll(pouchPrefix(type)); // Need to load related records first
     return storeData
       // Filter out records that don't have associated pouch records
       .filter((record) => !record[camelizedPouchPrefix(type)])
-      .map((item) => ({ id: item.id, name: item[NAME_KEYS[type]]}))
+  }
+
+  async loadSelectOptions(type) {
+      const options =  await this.loadFilteredOptions(type);
+      return options.map((item) => ({ id: item.id, name: item[NAME_KEYS[type]]}));
   }
 
   async createPouchRecord(type, id) {
@@ -100,4 +109,27 @@ export default class PouchService extends Service {
     const stringifiedRelatedRecord = relatedRecord.serialize().data.attributes.json;
     return stringifiedPouchRecord === stringifiedRelatedRecord;
   }
+}
+
+
+export const PouchMeta = function() {
+  return [{
+    type: POUCH_TYPES.RECORD,
+    list: 'records',
+    title: TITLE_LABELS[POUCH_TYPES.RECORD],
+    pouchTitle: `Pouch ${TITLE_LABELS[POUCH_TYPES.RECORD]}`,
+    icon: 'file-o',
+  }, {
+    type: POUCH_TYPES.CONTACT,
+    list: 'contacts',
+    title: TITLE_LABELS[POUCH_TYPES.CONTACT],
+    pouchTitle: `Pouch ${TITLE_LABELS[POUCH_TYPES.CONTACT]}`,
+    icon: 'users',
+  }, {
+    type: POUCH_TYPES.DICTIONARY,
+    list: 'dictionaries',
+    title: TITLE_LABELS[POUCH_TYPES.DICTIONARY],
+    pouchTitle: `Pouch ${TITLE_LABELS[POUCH_TYPES.DICTIONARY]}`,
+    icon: 'book',
+  }];
 }

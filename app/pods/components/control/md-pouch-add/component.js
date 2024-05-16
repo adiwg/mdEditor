@@ -12,7 +12,7 @@ export default class MdPouchAddComponent extends Component {
   constructor() {
     super(...arguments);
     const { section: { meta } } = this.args;
-    this.pouch.loadOptions(meta.type).then((options) => {
+    this.pouch.loadSelectOptions(meta.type).then((options) => {
       this.options = options;
     })
   }
