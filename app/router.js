@@ -15,8 +15,10 @@ Router.map(function () {
     this.route('sciencebase')
   });
   this.route('sync', function () {
-    this.route('couch');
     this.route('list');
+    this.route('import', {
+      path: 'import/:import_id'
+    });
   });
   this.route('help');
   this.route('settings', function() {
