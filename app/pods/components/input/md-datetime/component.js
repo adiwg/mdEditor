@@ -1,6 +1,3 @@
-/* eslint-disable ember/no-classic-components */
-/* eslint-disable ember/require-tagless-components */
-/* eslint-disable ember/no-classic-classes */
 /**
  * @module mdeditor
  * @submodule components-input
