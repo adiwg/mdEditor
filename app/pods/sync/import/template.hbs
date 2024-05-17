@@ -26,9 +26,13 @@
   </div>
   <div class="md-control-sidebar col-sm-2 no-nav">
     <div class="btn-group-vertical center-block" role="group" aria-label="Import Button Controls">
-      <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{ action "importAllData" @model }}>
+      <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{ action "importAllData" @model }}
+        disabled={{this.pouch.bulkAdding}}
+      >
         {{fa-icon "sign-out"}} Import All</button>
-      <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{ action "importSelectedData" @model }}>
+      <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{ action "importSelectedData" @model }}
+        disabled={{this.pouch.bulkAdding}}
+      >
         {{fa-icon "check-square-o"}} Import Selected</button>
     </div>
   </div>

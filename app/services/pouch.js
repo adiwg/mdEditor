@@ -1,5 +1,7 @@
 import Service, { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
+import RSVP from 'rsvp';
+import { guidFor } from '@ember/object/internals';
 
 export const POUCH_TYPES = {
   RECORD: 'record',
@@ -36,19 +38,56 @@ export default class PouchService extends Service {
   @service store;
   @service flashMessages;
   @service router;
-  @tracked adding;
+  @tracked bulkAdding = false;
+  @tracked pouchModels = null;
+  @tracked options = {};
+
+  async setup() {
+    this.pouchModels = await this.loadPouchModels();
+    await this.setupOptions();
+  }
+
+  async setupOptions() {
+    const promises = this.pouchModels.map(async (pm) => {
+      const options = await this.loadFilteredOptions(pm.meta.type);
+      this.options[pm.meta.type] = options;
+    });
+    await Promise.all(promises);
+  }
+
+  async loadPouchModels() {
+    let promises = [
+      this.store.findAll('pouch-record', {
+        reload: true
+      }),
+      this.store.findAll('pouch-contact', {
+        reload: true
+      }),
+      this.store.findAll('pouch-dictionary', {
+        reload: true
+      })
+    ];
+
+    const meta = new PouchMeta();
+    meta.forEach(pm => pm.columns = COLUMNS);
+
+    let mapFn = function (item, id) {
+      meta[id].listId = guidFor(item);
+      if (!item.meta) { // Avoid updating meta in case it's already set and being tracked
+        item.meta = meta[id];
+      }
+
+      return item;
+    };
+
+    return await RSVP.map(promises, mapFn);
+  }
 
   async loadFilteredOptions(type) {
     const storeData = await this.store.findAll(type, { reload: true });
-    await this.store.findAll(pouchPrefix(type)); // Need to load related records first
     return storeData
       // Filter out records that don't have associated pouch records
       .filter((record) => !record[camelizedPouchPrefix(type)])
-  }
-
-  async loadSelectOptions(type) {
-      const options =  await this.loadFilteredOptions(type);
-      return options.map((item) => ({ id: item.id, name: item[NAME_KEYS[type]]}));
   }
 
   async createPouchRecord(type, id) {
@@ -67,6 +106,7 @@ export default class PouchService extends Service {
   }
 
   async bulkCreatePouchRecords(meta, records) {
+    this.bulkAdding = true;
     const promises = records.map(async (record) => {
       try {
         return await this.createPouchRecord(meta.type, record.id);
@@ -76,6 +116,7 @@ export default class PouchService extends Service {
     });
     const created = await Promise.all(promises);
     this.handleBulkSave(meta, created);
+    this.bulkAdding = false;
   }
 
   handleBulkSave(meta, records) {
@@ -139,6 +180,29 @@ export default class PouchService extends Service {
     return stringifiedPouchRecord === stringifiedRelatedRecord;
   }
 }
+
+const ACTIONS_COLUMN = {
+  title: 'Actions',
+  className: 'md-actions-column',
+  component: 'control/md-pouch-record-table/buttons',
+}
+
+const POUCH_ACTIONS_COLUMN = {
+  title: 'Pouch Actions',
+  className: 'md-actions-column',
+  component: 'control/md-pouch-record-table/pouch-buttons',
+}
+
+const COLUMNS = [{
+  propertyName: 'title',
+  title: 'Title'
+}, {
+  propertyName: 'id',
+  title: 'ID'
+},
+  ACTIONS_COLUMN,
+  POUCH_ACTIONS_COLUMN
+]
 
 
 export const PouchMeta = function() {

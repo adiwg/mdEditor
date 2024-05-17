@@ -1,9 +1,5 @@
 import Route from '@ember/routing/route';
-import RSVP from 'rsvp';
-import { guidFor } from '@ember/object/internals';
 import { inject as service } from '@ember/service';
-
-import { PouchMeta } from 'mdeditor/services/pouch';
 
 export default class SyncListRoute extends Route {
   @service pouch;
@@ -11,56 +7,11 @@ export default class SyncListRoute extends Route {
 
   async beforeModel() {
     await this.couch.setup();
+    await this.pouch.setup();
   }
 
   async model() {
-    let promises = [
-      this.store.findAll('pouch-record', {
-        reload: true
-      }),
-      this.store.findAll('pouch-contact', {
-        reload: true
-      }),
-      this.store.findAll('pouch-dictionary', {
-        reload: true
-      })
-    ];
-
-    const meta = new PouchMeta();
-    meta.forEach(pm => pm.columns = COLUMNS);
-
-    let mapFn = function (item, id) {
-      meta[id].listId = guidFor(item);
-      if (!item.meta) { // Avoid updating meta in case it's already set and being tracked
-        item.meta = meta[id];
-      }
-
-      return item;
-    };
-
-    return await RSVP.map(promises, mapFn);
+    return this.pouch.pouchModels;
   }
 }
 
-const ACTIONS_COLUMN = {
-  title: 'Actions',
-  className: 'md-actions-column',
-  component: 'control/md-pouch-record-table/buttons',
-}
-
-const POUCH_ACTIONS_COLUMN = {
-  title: 'Pouch Actions',
-  className: 'md-actions-column',
-  component: 'control/md-pouch-record-table/pouch-buttons',
-}
-
-const COLUMNS = [{
-  propertyName: 'title',
-  title: 'Title'
-}, {
-  propertyName: 'id',
-  title: 'ID'
-},
-  ACTIONS_COLUMN,
-  POUCH_ACTIONS_COLUMN
-]

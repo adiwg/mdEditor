@@ -1,17 +1,19 @@
 <div class="sync-add-pouch-container">
   {{#unless this.adding }}
-    <div class="sync-add-buttons-container">
-      <button
-        class="btn btn-lg btn-primary"
-        {{action "addNew" @section.meta.type }}
-      >
-        {{fa-icon "plus"}} Add new {{@section.meta.type}}
-      </button>
-      <LinkTo @route="sync.import" @model={{@section.meta.type}} class="btn btn-lg btn-primary">
-        <span class="fa fa-sign-in"></span>
-        <span>Bulk import new {{@section.meta.list}}</span>
-      </LinkTo>
-    </div>
+    {{#if this.options.length}}
+      <div class="sync-add-buttons-container">
+        <button
+          class="btn btn-lg btn-primary"
+          {{action "addNew" @section.meta.type }}
+        >
+          {{fa-icon "plus"}} Add new {{@section.meta.type}}
+        </button>
+        <LinkTo @route="sync.import" @model={{@section.meta.type}} class="btn btn-lg btn-primary">
+          <span class="fa fa-sign-in"></span>
+          <span>Bulk import new {{@section.meta.list}}</span>
+        </LinkTo>
+      </div>
+    {{/if}}
   {{else}}
     {{input/md-select
       label=@section.meta.title
@@ -19,7 +21,7 @@
       showValidations=true
       value=value
       valuePath="id"
-      namePath="name"
+      namePath="title"
       objectArray=this.options
     }}
     <div class="pouch-action-buttons">

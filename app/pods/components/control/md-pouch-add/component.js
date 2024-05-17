@@ -5,16 +5,16 @@ import { tracked } from '@glimmer/tracking';
 
 export default class MdPouchAddComponent extends Component {
   @service pouch;
-  @tracked adding = false;
   @tracked value = null;
+  @tracked adding = false;
   @tracked options = [];
 
   constructor() {
     super(...arguments);
     const { section: { meta } } = this.args;
-    this.pouch.loadSelectOptions(meta.type).then((options) => {
-      this.options = options;
-    })
+    if (this.pouch.options && this.pouch.options[meta.type]) {
+      this.options = this.pouch.options[meta.type];
+    }
   }
 
   @action
