@@ -1,4 +1,5 @@
 import Service, { inject as service } from '@ember/service';
+import { tracked } from '@glimmer/tracking';
 
 export const POUCH_TYPES = {
   RECORD: 'record',
@@ -33,6 +34,9 @@ export const unPouchPrefix = (pouchType) => pouchType.replace(POUCH_PREFIX, '');
 
 export default class PouchService extends Service {
   @service store;
+  @service flashMessages;
+  @service router;
+  @tracked adding;
 
   async loadFilteredOptions(type) {
     const storeData = await this.store.findAll(type, { reload: true });
@@ -60,6 +64,31 @@ export default class PouchService extends Service {
     await record.save();
     // Then save pouch record
     return await pouchModel.save();
+  }
+
+  async bulkCreatePouchRecords(meta, records) {
+    const promises = records.map(async (record) => {
+      try {
+        return await this.createPouchRecord(meta.type, record.id);
+      } catch(e) {
+        return false;
+      }
+    });
+    const created = await Promise.all(promises);
+    this.handleBulkSave(meta, created);
+  }
+
+  handleBulkSave(meta, records) {
+    let errorCount = 0;
+    let successCount = 0;
+    records.forEach(r => r ? successCount++ : errorCount++);
+    this.router.transitionTo('sync.list');
+    if (!!successCount) {
+      this.flashMessages.success(`Successfully imported ${successCount} ${meta.list}`);
+    }
+    if (!!errorCount) {
+      this.flashMessages.danger(`Error importing ${errorCount} ${meta.list}`);
+    }
   }
 
   async updatePouchRecord(pouchRecord, relatedRecord) {
