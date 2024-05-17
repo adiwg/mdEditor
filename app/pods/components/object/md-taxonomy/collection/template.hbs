@@ -89,8 +89,27 @@
 }}
 
 {{#object/md-object-table
+  items=model.identificationReference
+  required=false
+  header='Identification Reference'
+  data-spy='Identification Reference'
+  profilePath=(concat profilePath '.identificationReference')
+  buttonText='Add Reference'
+  ellipsis=true
+  attributes='title'
+  collapsible=true
+  as |editing|
+}}
+  {{object/md-citation
+    model=editing
+    profilePath=(concat profilePath '.identificationReference')
+    simpleIdentifier=true
+  }}
+{{/object/md-object-table}}
+
+{{#object/md-object-table
   items=model.voucher
-  header='Vouchers'
+  header='Voucher'
   data-spy='Voucher'
   profilePath=(concat profilePath '.voucher')
   buttonText='Add Voucher'
@@ -103,23 +122,5 @@
   {{object/md-taxonomy/collection/voucher
     model=editing
     profilePath=(concat profilePath '.voucher')
-  }}
-{{/object/md-object-table}}
-
-{{#object/md-object-table
-  items=model.identificationReference
-  header='Identification References'
-  data-spy='Reference'
-  profilePath=(concat profilePath '.identificationReference')
-  buttonText='Add Reference'
-  ellipsis=true
-  attributes='title'
-  collapsible=true
-  templateClass=referenceTemplate
-  as |editing|
-}}
-  {{object/md-citation
-    model=editing
-    profilePath=(concat profilePath '.identificationReference')
   }}
 {{/object/md-object-table}}

@@ -111,12 +111,9 @@ export default Component.extend({
         dateType: 'transmitted',
         description: 'Taxa imported from ITIS',
       };
-
-      const classifierDateObj = {
-        date: taxa[0].createdDate || null,
-        dateType: 'adopted',
-        description: taxa[0].classifier || 'unknown',
-      };
+      itisCitation.otherCitationDetails = [
+        `Retrieved from the Integrated Taxonomic Information System on-line database, https://www.itis.gov on ${today}.`,
+      ];
 
       allTaxa.forEach((itm) => this.itis.mergeTaxa(itm, classification));
 
