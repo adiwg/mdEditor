@@ -72,7 +72,7 @@ export default Component.extend({
   classNameBindings: ['label:form-group', 'required'],
 
   date: null,
-  format: 'YYYY-MM-DD HH:mm:ss',
+  format: 'YYYY-MM-DDTHH:mm:ssZ',
   placeholder: 'Enter date and time',
   label: null,
   useCurrent: 'day',
@@ -85,7 +85,12 @@ export default Component.extend({
       return value;
     }
 
-    let formattedDate = dayjs(value).format(this.format); // Use the format directly
+    let formattedDate;
+    if (this.precision === 'Time') {
+      formattedDate = dayjs(value).format('YYYY-MM-DDTHH:mm:ss[Z]');
+    } else {
+      formattedDate = dayjs(value).format(this.format);
+    }
 
     if (formattedDate !== this.get(target)) {
       once(this, 'updateFormattedDate', formattedDate, target);
