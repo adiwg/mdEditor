@@ -6,10 +6,14 @@ export default Route.extend({
     let record = this.store.peekRecord('record', params.record_id);
 
     if(record) {
+      record.set('recordId', params.record_id)
       return record;
     }
 
-    return this.store.findRecord('record', params.record_id);
+    return this.store.findRecord('record', params.record_id).then((record) => {
+      record.set('recordId', params.record_id);
+      return record;
+    });
   },
 
   breadCrumb: null,

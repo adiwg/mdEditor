@@ -7,10 +7,14 @@ export default Route.extend({
     let record = this.store.peekRecord('dictionary', params.dictionary_id);
 
     if (record) {
+      record.set('dictionaryId', params.dictionary_id);
       return record;
     }
 
-    return this.store.findRecord('dictionary', params.dictionary_id);
+    return this.store.findRecord('dictionary', params.dictionary_id).then((record) => {
+      record.set('dictionaryId', params.dictionary_id);
+      return record;
+    });
   },
 
   breadCrumb: null,
