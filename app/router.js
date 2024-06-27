@@ -148,6 +148,7 @@ Router.map(function () {
               }, function () {});
             });
           });
+          this.route('acquisitions');
         });
         this.route('translate');
       }
