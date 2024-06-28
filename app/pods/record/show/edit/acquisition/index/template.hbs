@@ -1,0 +1,19 @@
+<h4 class='section-header'>
+  Editing Acquisitions
+  {{control/md-status model=parentModel}}
+</h4>
+
+{{object/md-objectroute-table
+  items=model.json.metadata.acquisition
+  header='Acquisitions'
+  shadow=true
+  buttonText='Add Acquisition Object'
+  ellipsis=false
+  previewTemplate='object/md-acquisition/preview'
+  profilePath='record.acquisition'
+  editItem=(route-action 'editAcquisition')
+  hideIndex=true
+  condensed=true
+  verticalButtons=true
+  addSubbar='md-subbar-extra'
+}}

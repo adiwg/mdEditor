@@ -1,0 +1,50 @@
+<dl class='dl-horizontal col-lg-12'>
+  <dt>
+    <h4 class='text-info'>Acquisition #{{index}}</h4>
+  </dt>
+  <dd></dd>
+  {{control/md-definition
+    title='Scope Code'
+    text=(word-limit item.scope.scopeCode wordLength=20)
+  }}
+</dl>
+
+<dl class='dl-horizontal col-lg-12'>
+  {{#control/md-definition title='Platforms'}}
+    {{#each item.platform as |plat i|}}
+      {{#if (lt i showLimit)}}
+        <p>
+          <span class='text-info'>{{if
+              plat.platformId
+              plat.platformId
+              i
+            }}</span>:
+          {{word-limit plat.description limit=20 wordLength=20}}
+        </p>
+      {{/if}}
+    {{else}}
+      <em class='text-muted'>No platforms.</em>
+    {{/each}}
+  {{/control/md-definition}}
+  {{#if item.platform.length}}
+    {{#if showMore}}
+      <p class='text-right'>
+        <a
+          type='button'
+          role='button'
+          class='plain-link'
+          {{action (toggle 'showMore' this)}}
+        > {{fa-icon 'caret-up'}} Less</a>
+      </p>
+    {{else}}
+      <p class='text-right'>
+        <a
+          type='button'
+          role='button'
+          class='plain-link'
+          {{action (toggle 'showMore' this)}}
+        >{{fa-icon 'caret-down'}} More</a>
+      </p>
+    {{/if}}
+  {{/if}}
+</dl>

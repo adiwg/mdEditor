@@ -1,0 +1,29 @@
+{{input/md-codelist
+  value=model.scope.scopeCode
+  label='Scope'
+  create=true
+  tooltip=true
+  icon=true
+  mdCodeName='scope'
+  closeOnSelect=false
+  placeholder='Select type of resource.'
+  profilePath=(concat profilePath '.scope')
+  data-spy='Scope'
+}}
+
+{{object/md-objectroute-table
+  attributes='description'
+  items=model.platform
+  header='Platform'
+  buttonText='Add Platform'
+  ellipsis=false
+  previewTemplateTable='object/md-platform/preview'
+  editItem=editPlatform
+  profilePath=(concat profilePath '.platform')
+  verticalButtons=true
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId='md-platform'
+  data-spy='Platform'
+}}
