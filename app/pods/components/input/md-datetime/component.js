@@ -9,6 +9,7 @@ import { get, set, computed, defineProperty } from '@ember/object';
 import { once } from '@ember/runloop';
 import { assert, debug } from '@ember/debug';
 import moment from 'moment';
+import dayjs from 'dayjs';
 
 export default Component.extend({
   /**
@@ -50,8 +51,6 @@ export default Component.extend({
           },
         })
       );
-
-      // ... (other property definitions related to model and validation)
     } else {
       defineProperty(
         this,
@@ -73,7 +72,7 @@ export default Component.extend({
   classNameBindings: ['label:form-group', 'required'],
 
   date: null,
-  format: 'YYYY-MM-DD HH:mm:ss', // Change the format to include time
+  format: 'YYYY-MM-DDTHH:mm:ssZ',
   placeholder: 'Enter date and time',
   label: null,
   useCurrent: 'day',
@@ -82,29 +81,30 @@ export default Component.extend({
 
   formatValue(value, target) {
     if (isBlank(value)) {
-      once(this, function () {
-        set(this, target, null);
-      });
+      once(this, 'setTargetToNull', target);
       return value;
     }
 
-    let mom = moment(value);
-
-    if (this.altFormat) {
-      let alt = mom.format(this.altFormat);
-      once(this, function () {
-        set(this, target, alt);
-      });
-      return alt;
+    let formattedDate;
+    if (this.precision === 'Time') {
+      formattedDate = dayjs(value).format('YYYY-MM-DDTHH:mm:ss[Z]');
+    } else {
+      formattedDate = dayjs(value).format(this.format);
     }
 
-    if (mom && mom.toISOString() !== this.get(target)) {
-      once(this, function () {
-        set(this, target, mom.toISOString());
-      });
+    if (formattedDate !== this.get(target)) {
+      once(this, 'updateFormattedDate', formattedDate, target);
     }
 
-    return mom;
+    return formattedDate;
+  },
+
+  setTargetToNull(target) {
+    set(this, target, null);
+  },
+
+  updateFormattedDate(formattedDate, target) {
+    set(this, target, formattedDate);
   },
 
   calendarIcons: computed(function () {

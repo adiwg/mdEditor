@@ -1,4 +1,17 @@
 <td>
+  {{input/md-select
+    showValidations=true
+    valuePath="value"
+    namePath="name"
+    model=this
+    path="selectedPrecision"
+    objectArray=precisionOptions
+    searchEnabled=false
+    placeholder="Date Precision"
+  }}
+</td>
+<td>
+  {{#if (eq selectedPrecision "Time")}}
     {{input/md-datetime
       valuePath="date"
       model=this
@@ -7,6 +20,40 @@
       forceDateOutput=true
       profilePath=(concat profilePath ".date")
     }}
+  {{else if (eq selectedPrecision "Day")}}
+    {{input/md-datetime
+      valuePath="date"
+      model=this
+      showValidations=true
+      required=true
+      forceDateOutput=true
+      format="YYYY-MM-DD"
+      placeholder="Enter date"
+      profilePath=(concat profilePath ".date")
+    }}
+  {{else if (eq selectedPrecision "Month")}}
+    {{input/md-datetime
+      valuePath="date"
+      model=this
+      showValidations=true
+      required=true
+      forceDateOutput=true
+      format="YYYY-MM"
+      placeholder="Enter Year/Month"
+      profilePath=(concat profilePath ".date")
+    }}
+  {{else if (eq selectedPrecision "Year")}}
+    {{input/md-datetime
+      valuePath="date"
+      model=this
+      showValidations=true
+      required=true
+      forceDateOutput=true
+      format="YYYY"
+      placeholder="Enter Year"
+      profilePath=(concat profilePath ".date")
+    }}
+  {{/if}}
 </td>
 <td>
   {{input/md-codelist
