@@ -28,7 +28,7 @@ export default Route.extend({
   },
 
   setupModel() {
-    let acquisitionId = get(this, 'acquisitionId');
+    let acquisitionId = this.acquisitionId;
     let model = this.modelFor('record.show.edit');
     let objects = model.get('json.metadata.acquisition');
     let acquisition =

@@ -15,16 +15,16 @@ export default Route.extend(ScrollTo, {
       )
     );
   },
-  // actions: {
-  //   editPlatform(index) {
-  //     this.transitionTo(
-  //       'record.show.edit.acquisition.edit.platform',
-  //       index
-  //     ).then(
-  //       function () {
-  //         this.setScrollTo('platform');
-  //       }.bind(this)
-  //     );
-  //   },
-  // },
+  actions: {
+    editPlatform(index) {
+      this.transitionTo(
+        'record.show.edit.acquisition.edit.platform',
+        index
+      ).then(
+        function () {
+          this.setScrollTo('platform');
+        }.bind(this)
+      );
+    },
+  },
 });

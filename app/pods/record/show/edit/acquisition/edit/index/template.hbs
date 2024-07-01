@@ -3,27 +3,6 @@
   {{control/md-status model=parentModel}}
 </h4>
 
-{{object/md-acquisition model=model profilePath='record.acquisition'}}
-
-{{to-elsewhere
-  named='md-subbar-extra'
-  send=(component
-    'control/subbar-link'
-    text='Back to Acquisitions List'
-    icon='arrow-left'
-    route='record.show.edit.acquisition'
-  )
-}}
-{{to-elsewhere
-  named='md-scroll-spy-record-edit'
-  send=(component
-    'control/md-scroll-spy'
-    scrollInit=scrollTo
-    setScrollTo=(route-action 'setScrollTo')
-  )
-}}
-
-{{!-- 
 {{object/md-acquisition
   model=model
   profilePath='record.acquisition'
@@ -47,4 +26,4 @@
     scrollInit=scrollTo
     setScrollTo=(route-action 'setScrollTo')
   )
-}} --}}
+}}
