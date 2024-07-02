@@ -1,13 +1,20 @@
-{{input/md-input
-  value=model.platformId
-  model=null
-  valuePath=null
-  label='Platform ID'
-  data-spy='Platform ID'
-  placeholder='Enter unique identifer for the platform.'
-  required=false
+{{#layout/md-card
+  title='Platform ID'
+  collapsible=false
   profilePath=(concat profilePath '.platformId')
+  data-spy='Platform ID'
+  shadow=true
+  required=true
 }}
+  {{input/md-input
+    value=model.platformId
+    model=null
+    valuePath=null
+    placeholder='Enter unique identifer for the platform.'
+    required=true
+    profilePath=(concat profilePath '.platformId')
+  }}
+{{/layout/md-card}}
 
 {{#layout/md-card
   title='Platform Citation'
@@ -16,6 +23,7 @@
   data-spy='Platform Citation'
   shadow=true
   content=model.citation
+  collapsed=true
 }}
   {{object/md-citation
     model=model.citation
@@ -24,3 +32,53 @@
     simpleIdentifier=true
   }}
 {{/layout/md-card}}
+
+{{#layout/md-card
+  title='Platform Identifier'
+  collapsible=true
+  profilePath=(concat profilePath '.identifier')
+  data-spy='Platform Identifier'
+  shadow=true
+  required=true
+}}
+  {{object/md-identifier
+    model=model.identifier
+    profilePath=(concat profilePath '.identifier')
+    collapsible=true
+  }}
+{{/layout/md-card}}
+
+{{#layout/md-card
+  title='Platform Description'
+  collapsible=false
+  profilePath=(concat profilePath '.description')
+  data-spy='Platform Description'
+  shadow=true
+  required=true
+}}
+  {{input/md-textarea
+    value=model.description
+    required=true
+    autoresize=true
+    placeholder='A brief description of the platform.'
+    profilePath=(concat profilePath '.description')
+    data-spy='Description'
+  }}
+{{/layout/md-card}}
+{{!-- 
+{{object/md-objectroute-table
+  attributes='instrumentType'
+  items=model.instrument
+  header='Instruments'
+  buttonText='Add Instrument'
+  ellipsis=false
+  previewTemplateTable='object/md-instrument/preview'
+  editItem=editInstrument
+  profilePath=(concat profilePath '.instrument')
+  verticalButtons=true
+  hideIndex=false
+  condensed=false
+  editOnAdd=false
+  scrollToId='md-instrument'
+  data-spy='Instrument'
+}} --}}

@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
+// import { computed } from '@ember/object';
 
 export default Route.extend({
   model(params) {
@@ -13,10 +14,18 @@ export default Route.extend({
     return this.setupModel();
   },
 
+  // breadCrumb: computed('platformId', function () {
+  //   return {
+  //     title: 'Platform ' + this.platformId,
+  //     linkable: true,
+  //   };
+  // }),
+
   setupController: function () {
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
+    // this.controller.set('platformId', this.platformId);
     this.controllerFor('record.show.edit').setProperties({
       onCancel: this.setupModel,
       cancelScope: this,

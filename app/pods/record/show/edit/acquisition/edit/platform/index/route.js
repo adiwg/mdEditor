@@ -14,6 +14,16 @@ export default Route.extend(ScrollTo, {
   },
 
   actions: {
+    // editInstrument(index) {
+    //   this.transitionTo(
+    //     'record.show.edit.acquisition.edit.platform.instrument',
+    //     index
+    //   ).then(
+    //     function () {
+    //       this.setScrollTo('instrument');
+    //     }.bind(this)
+    //   );
+    // },
     goBack() {
       this.transitionTo('record.show.edit.acquisition.edit');
     },
