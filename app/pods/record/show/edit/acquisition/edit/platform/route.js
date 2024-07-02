@@ -14,7 +14,6 @@ export default Route.extend({
   },
 
   setupController: function () {
-    // Call _super for default behavior
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
@@ -34,7 +33,6 @@ export default Route.extend({
     let platform =
       platformId && isArray(platforms) ? platforms.get(platformId) : undefined;
 
-    //make sure the identifier exists
     if (isEmpty(platform)) {
       this.flashMessages.warning('No platform found! Re-directing...');
       this.replaceWith('record.show.edit.acquisition.edit');

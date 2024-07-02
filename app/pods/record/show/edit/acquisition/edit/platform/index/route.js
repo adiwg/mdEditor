@@ -3,10 +3,9 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
   setupController: function (controller) {
-    // Call _super for default behavior
     this._super(...arguments);
 
-    let sourceId = this.paramsFor(
+    let platformId = this.paramsFor(
       'record.show.edit.acquisition.edit.platform'
     ).platform_id;
 

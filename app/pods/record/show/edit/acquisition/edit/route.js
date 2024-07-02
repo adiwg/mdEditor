@@ -1,12 +1,12 @@
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { computed } from '@ember/object';
 
 export default Route.extend({
   breadCrumb: computed('acquisitionId', function () {
     return {
-      title: get(this, 'acquisitionId'),
+      title: this.acquisitionId,
       linkable: true,
     };
   }),
@@ -20,7 +20,7 @@ export default Route.extend({
   setupController: function () {
     this._super(...arguments);
 
-    this.controller.set('acquisitionId', get(this, 'acquisitionId'));
+    this.controller.set('acquisitionId', this.acquisitionId);
     this.controllerFor('record.show.edit').setProperties({
       onCancel: this.setupModel,
       cancelScope: this,
@@ -37,7 +37,7 @@ export default Route.extend({
         : undefined;
 
     if (isEmpty(acquisition)) {
-      get(this, 'flashMessages').warning(
+      this.flashMessages.warning(
         'No Acquisition object found! Re-directing to list...'
       );
       this.replaceWith('record.show.edit.acquisition');

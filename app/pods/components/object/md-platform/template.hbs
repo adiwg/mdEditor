@@ -24,28 +24,3 @@
     simpleIdentifier=true
   }}
 {{/layout/md-card}}
-
-{{#layout/md-card
-  title='Platform Identifier'
-  collapsible=true
-  profilePath=(concat profilePath '.identifier')
-  data-spy='Platform Identifier'
-  shadow=true
-  content=model.identifier
-}}
-  {{object/md-identifier
-    model=model.identifier
-    profilePath=(concat profilePath '.identifier')
-    data-spy=false
-  }}
-{{/layout/md-card}}
-
-{{input/md-textarea
-  value=model.description
-  required=true
-  profilePath=(concat profilePath '.description')
-  label='Description'
-  placeholder='Description of the platform.'
-  data-spy='Platform Description'
-  showValidations=true
-}}
