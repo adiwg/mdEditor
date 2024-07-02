@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import EmberObject, { set, getWithDefault } from '@ember/object';
+import { set, getWithDefault } from '@ember/object';
 import { once } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
 import uuidV4 from 'uuid/v4';
@@ -20,25 +20,18 @@ export default Component.extend(Validations, {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'platformId', getWithDefault(model, 'platformId', uuidV4()));
+      set(
+        model,
+        'instrumentId',
+        getWithDefault(model, 'instrumentId', uuidV4())
+      );
       set(model, 'citation', getWithDefault(model, 'citation', {}));
       set(model, 'identifier', getWithDefault(model, 'identifier', {}));
+      set(model, 'instrumentType', getWithDefault(model, 'instrumentType', ''));
       set(model, 'description', getWithDefault(model, 'description', ''));
-      // set(model, 'sponsor', getWithDefault(model, 'sponsor', []));
-      set(model, 'instrument', getWithDefault(model, 'instrument', []));
+      // set(model, 'mountedOn', getWithDefault(model, 'mountedOn', {}));
       // set(model, 'history', getWithDefault(model, 'history', []));
+      // set(model, 'hostId', getWithDefault(model, 'hostId', {}));
     });
   },
-
-  init() {
-    this._super(...arguments);
-
-    if (!this.model) {
-      this.set('model', []);
-    }
-  },
-
-  tagName: 'form',
-
-  sourceTemplate: EmberObject.extend(),
 });

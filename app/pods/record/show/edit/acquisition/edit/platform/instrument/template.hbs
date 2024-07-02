@@ -1,19 +1,21 @@
 <h4 class='section-header'>Editing Platform #{{platformId}}
+  Instrument
   {{control/md-status model=(compute (route-action 'parentModel'))}}
 </h4>
-
-{{object/md-platform
-  model=model
-  profilePath='record.acquisition.platform'
-  itemId=platformId
-  editInstrument=(route-action 'editInstrument')
-}}
-
+{{#with model as |instrument|}}
+  <div class=''>
+    {{object/md-instrument
+      model=instrument
+      profilePath='record.acquisition.platform.instrument'
+    }}
+    {{outlet}}
+  </div>
+{{/with}}
 {{to-elsewhere
   named='md-subbar-extra'
   send=(component
     'control/subbar-link'
-    text='Back to Acquisition Object'
+    text=(concat 'Back to Platform #' platformId)
     icon='arrow-left'
     click=(route-action 'goBack')
   )

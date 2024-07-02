@@ -1,26 +1,26 @@
 {{#layout/md-card
-  title='Platform ID'
+  title='Instrument ID'
   collapsible=false
-  profilePath=(concat profilePath '.platformId')
-  data-spy='Platform ID'
+  profilePath=(concat profilePath '.instrumentId')
+  data-spy='Instrument ID'
   shadow=true
   required=true
 }}
   {{input/md-input
-    value=model.platformId
+    value=model.instrumentId
     model=null
     valuePath=null
-    placeholder='Enter unique identifer for the platform.'
+    placeholder='Enter unique identifer for the instrument.'
     required=true
-    profilePath=(concat profilePath '.platformId')
+    profilePath=(concat profilePath '.instrumentId')
   }}
 {{/layout/md-card}}
 
 {{#layout/md-card
-  title='Platform Citation'
+  title='Instrument Citation'
   collapsible=true
   profilePath=(concat profilePath '.citation')
-  data-spy='Platform Citation'
+  data-spy='Instrument Citation'
   shadow=true
   content=model.citation
   collapsed=true
@@ -34,10 +34,10 @@
 {{/layout/md-card}}
 
 {{#layout/md-card
-  title='Platform Identifier'
+  title='Instrument Identifier'
   collapsible=true
   profilePath=(concat profilePath '.identifier')
-  data-spy='Platform Identifier'
+  data-spy='Instrument Identifier'
   shadow=true
   required=true
 }}
@@ -49,36 +49,35 @@
 {{/layout/md-card}}
 
 {{#layout/md-card
-  title='Platform Description'
+  title='Instrument Type'
+  collapsible=false
+  profilePath=(concat profilePath '.instrumentType')
+  data-spy='Instrument Type'
+  shadow=true
+  required=false
+}}
+  {{input/md-input
+    value=model.instrumentType
+    required=true
+    autoresize=true
+    placeholder='instrument type'
+    profilePath=(concat profilePath '.instrumentType')
+  }}
+{{/layout/md-card}}
+
+{{#layout/md-card
+  title='Instrument Description'
   collapsible=false
   profilePath=(concat profilePath '.description')
-  data-spy='Platform Description'
+  data-spy='Instrument Description'
   shadow=true
-  required=true
+  required=false
 }}
   {{input/md-textarea
     value=model.description
     required=true
     autoresize=true
-    placeholder='A brief description of the platform.'
+    placeholder='A brief description of the instrument.'
     profilePath=(concat profilePath '.description')
-    data-spy='Description'
   }}
 {{/layout/md-card}}
-
-{{object/md-objectroute-table
-  attributes='instrumentType'
-  items=model.instrument
-  header='Instruments'
-  buttonText='Add Instrument'
-  ellipsis=false
-  previewTemplateTable='object/md-instrument/preview'
-  editItem=editInstrument
-  profilePath=(concat profilePath '.instrument')
-  verticalButtons=true
-  hideIndex=false
-  condensed=false
-  editOnAdd=false
-  scrollToId='md-instrument'
-  data-spy='Instrument'
-}}
