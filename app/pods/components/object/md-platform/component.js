@@ -24,9 +24,9 @@ export default Component.extend(Validations, {
       set(model, 'citation', getWithDefault(model, 'citation', {}));
       set(model, 'identifier', getWithDefault(model, 'identifier', {}));
       set(model, 'description', getWithDefault(model, 'description', ''));
-      set(model, 'sponsor', getWithDefault(model, 'sponsor', []));
+      // set(model, 'sponsor', getWithDefault(model, 'sponsor', []));
       set(model, 'instrument', getWithDefault(model, 'instrument', []));
-      set(model, 'history', getWithDefault(model, 'history', []));
+      // set(model, 'history', getWithDefault(model, 'history', []));
     });
   },
 });
