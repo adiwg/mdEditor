@@ -88,12 +88,6 @@ export default Component.extend({
         type: 'text/html',
         tip: 'HTML "human-readable" and printable report of the metadata content',
       },
-      {
-        name: 'DCAT-US',
-        value: 'dcat_us',
-        type: 'application/json',
-        tip: 'US Federal Data Catalog Metadata',
-      },
     ];
   }),
 

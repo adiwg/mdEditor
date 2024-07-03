@@ -6,37 +6,114 @@
 import { notEmpty, alias } from '@ember/object/computed';
 
 import Component from '@ember/component';
-import { set, get, computed } from '@ember/object';
+import { set, computed } from '@ember/object';
+import { observer } from '@ember/object';
 import { once } from '@ember/runloop';
-//import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+dayjs.extend(utc);
+
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'start': [
+  start: [
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.end'),
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'end': [
+  end: [
     validator('date', {
       onOrAfter: alias('model.start'),
-      isWarning: true
+      isWarning: true,
     }),
     validator('presence', {
       presence: true,
       disabled: notEmpty('model.start'),
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
+  init() {
+    this._super(...arguments);
+
+    this.set('precisionOptions', [
+      { value: 'Year', name: 'Year' },
+      { value: 'Month', name: 'Month' },
+      { value: 'Day', name: 'Day' },
+      { value: 'Time', name: 'Time' },
+    ]);
+
+    this.setPrecisionBasedOnDate();
+  },
+
+  selectedPrecision: null,
+  selectedFormat: 'YYYY-MM-DDTHH:mm:ssZ',
+
+  selectedPrecisionChanged: observer('selectedPrecision', function () {
+    const startDate = this.start;
+    const endDate = this.end;
+    let newStartDate, newEndDate;
+
+    switch (this.selectedPrecision) {
+      case 'Year':
+        this.set('selectedFormat', 'YYYY');
+        if (startDate) newStartDate = dayjs(startDate).format('YYYY');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY');
+        break;
+      case 'Month':
+        this.set('selectedFormat', 'YYYY-MM');
+        if (startDate) newStartDate = dayjs(startDate).format('YYYY-MM');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY-MM');
+        break;
+      case 'Day':
+        this.set('selectedFormat', 'YYYY-MM-DD');
+        if (startDate) newStartDate = dayjs(startDate).format('YYYY-MM-DD');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY-MM-DD');
+        break;
+      case 'Time':
+      default:
+        this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
+        if (startDate)
+          newStartDate = dayjs(startDate).format('YYYY-MM-DDTHH:mm:ssZ');
+        if (endDate) newEndDate = dayjs(endDate).format('YYYY-MM-DDTHH:mm:ssZ');
+        break;
+    }
+
+    if (newStartDate !== startDate) {
+      this.set('start', newStartDate);
+    }
+    if (newEndDate !== endDate) {
+      this.set('end', newEndDate);
+    }
+  }),
+
+  setPrecisionBasedOnDate() {
+    const date = this.start;
+    if (!date) {
+      this.set('selectedPrecision', 'Year');
+      this.set('selectedFormat', 'YYYY');
+      return;
+    }
+    if (/^\d{4}$/.test(date)) {
+      this.set('selectedPrecision', 'Year');
+      this.set('selectedFormat', 'YYYY');
+    } else if (/^\d{4}-\d{2}$/.test(date)) {
+      this.set('selectedPrecision', 'Month');
+      this.set('selectedFormat', 'YYYY-MM');
+    } else if (/^\d{4}-\d{2}-\d{2}$/.test(date)) {
+      this.set('selectedPrecision', 'Day');
+      this.set('selectedFormat', 'YYYY-MM-DD');
+    } else {
+      this.set('selectedPrecision', 'Time');
+      this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
+    }
+  },
+
   /**
    * Date range with start date and end date fields.
    *
@@ -71,7 +148,18 @@ export default Component.extend(Validations, {
    * @default moment().hour(0).second(0).minute(0)
    * @required
    */
-  //startDateTime: moment().hour(0).second(0).minute(0),
+  start: computed('startDateTime', {
+    get() {
+      let dt = this.startDateTime;
+      return dt === undefined ? null : dt;
+    },
+    set(key, value) {
+      once(this, function () {
+        set(this, 'startDateTime', value);
+        return value;
+      });
+    },
+  }),
 
   /**
    * The value for the end datetime
@@ -81,29 +169,16 @@ export default Component.extend(Validations, {
    * @default moment().hour(0).second(0).minute(0)
    * @required
    */
-  //  endDateTime: moment().hour(0).second(0).minute(0)
-  start: computed('startDateTime', {
-    get() {
-      let dt = this.startDateTime;
-      return dt === undefined ? null : dt;
-    },
-    set(key, value) {
-      once(this, function() {
-        set(this, 'startDateTime', value);
-        return value;
-      });
-    }
-  }),
   end: computed('endDateTime', {
     get() {
       let dt = this.endDateTime;
       return dt === undefined ? null : dt;
     },
     set(key, value) {
-      once(this, function() {
+      once(this, function () {
         set(this, 'endDateTime', value);
         return value;
       });
-    }
+    },
   }),
 });
