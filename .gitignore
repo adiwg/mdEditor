@@ -32,3 +32,5 @@ jsconfig.json
 
 .DS_Store
 .vscode
+
+.yarn/*

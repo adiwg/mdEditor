@@ -35,9 +35,12 @@ module.exports = function (defaults) {
 
     autoImport: {
       webpack: {
-        node: {
-          http: true,
-          //https: true
+        resolve: {
+          alias: {
+            'http': 'stream-http',
+            'https': 'https-browserify',
+            'path': 'path-browserify',
+          },
         },
       },
     },
