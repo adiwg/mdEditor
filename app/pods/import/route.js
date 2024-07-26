@@ -111,8 +111,6 @@ export default Route.extend(ScrollTo, {
                 );
               }
               break;
-
-            // Add more cases as needed
           }
         }
       },
