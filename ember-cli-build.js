@@ -12,12 +12,12 @@ module.exports = function (defaults) {
         'node_modules/bootstrap-3-card/sass',
         // 'node_modules/select2/src/scss',
         // 'node_modules/select2-bootstrap-theme/src',
-        'node_modules/jquery-jsonview/src'
-      ]
+        'node_modules/jquery-jsonview/src',
+      ],
     },
 
     'ember-math-helpers': {
-      only: ['round']
+      only: ['round'],
     },
 
     fingerprint: {
@@ -29,22 +29,25 @@ module.exports = function (defaults) {
         'images/marker-shadow.png',
         'images/spritesheet-2x.png',
         'images/spritesheet.png',
-        'worker'
-      ]
+        'worker',
+      ],
     },
 
     autoImport: {
       webpack: {
-        node: {
-          http: true,
-          //https: true
-        }
-      }
+        resolve: {
+          alias: {
+            'http': 'stream-http',
+            'https': 'https-browserify',
+            'path': 'path-browserify',
+          },
+        },
+      },
     },
 
     'ember-models-table': {
-      includeDefaultCss: true
-    }
+      includeDefaultCss: true,
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -65,18 +68,21 @@ module.exports = function (defaults) {
     'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js'
   );
   app.import(
-    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js');
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/collapse.js'
+  );
   app.import(
-    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js');
-  app.import(
-    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
+    'node_modules/bootstrap-sass/assets/javascripts/bootstrap/dropdown.js'
+  );
+  app.import('node_modules/bootstrap-sass/assets/javascripts/bootstrap/tab.js');
   app.import(
     'node_modules/bootstrap-sass/assets/javascripts/bootstrap/scrollspy.js'
   );
   //jquery-jsonview
   app.import('node_modules/jquery-jsonview/dist/jquery.jsonview.js');
   //papaparse for worker
-  app.import('node_modules/papaparse/papaparse.js', { outputFile: 'assets/workers/worker_papaparse.js' });
+  app.import('node_modules/papaparse/papaparse.js', {
+    outputFile: 'assets/workers/worker_papaparse.js',
+  });
   //marked
   app.import('node_modules/marked/marked.min.js');
 

@@ -1,5 +1,5 @@
 import Service, { inject as service } from '@ember/service';
-import RefParser from 'json-schema-ref-parser';
+import $RefParser from "@apidevtools/json-schema-ref-parser";
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
 import { filterBy } from '@ember/object/computed';
@@ -9,8 +9,6 @@ import {
   // isForbiddenError
 } from 'ember-ajax/errors';
 import semver from 'semver';
-
-const parser = new RefParser();
 
 export default Service.extend({
   init() {
@@ -23,8 +21,6 @@ export default Service.extend({
      * @protected
      * @return {Object}
      */
-    this.parser = parser;
-
     this.schemas = this.store.peekAll('schema');
   },
   store: service(),
@@ -33,7 +29,9 @@ export default Service.extend({
   fetchSchemas: task(function* (url) {
     yield timeout(1000);
 
-    return yield this.parser.resolve(url).then($refs => {
+    const parser = new $RefParser(); // Use $RefParser directly here
+
+    return yield parser.resolve(url).then($refs => {
       let paths = $refs.paths();
       let values = parser.$refs.values();
 
