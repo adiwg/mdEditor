@@ -51,7 +51,7 @@ export default Component.extend(Validations, {
         getWithDefault(model, 'releasability', {
           addressee: [],
           statement: '',
-          dissemiantionConstraint: [],
+          disseminationConstraint: [],
         })
       );
     });

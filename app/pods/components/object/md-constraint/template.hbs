@@ -146,12 +146,19 @@
     title='Dissemintation Constraint'
     plain=true
     value=model.releasability.disseminationConstraint
+    profilePath=(concat profilePath '.releasability.disseminationConstraint')
     as |const|
   }}
     <td>
-      {{input/md-input
-        value=const.item.value
-        placeholder='Additional titles for the resource.'
+      {{input/md-codelist
+        model=const.item
+        create=false
+        mdCodeName='restriction'
+        profilePath=(concat
+          profilePath '.releasability.disseminationConstraint'
+        )
+        placeholder='Restrictions on the release of the resource.'
+        path='value'
       }}
     </td>
   {{/object/md-simple-array-table}}
