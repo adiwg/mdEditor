@@ -13,7 +13,7 @@
           {{concat "Edit " profile.title}}
         {{/if}}
       {{/liquid-if}}
-      <hr>
+      <hr />
     </h4>
   {{/if}}
 
@@ -21,13 +21,15 @@
     {{#if profile.isNew}}
       {{object/md-profile/custom record=profile}}
     {{else if profile}}
-    {{#if profile.validations.hasWarnings}}
-      <div class="alert alert-warning" role="alert">{{fa-icon "exclamation-triangle"}}
-        {{#each profile.validations.warningMessages as |message|}}
-          <span>{{message}} </span>
-        {{/each}}
-      </div>
-    {{/if}}
+      {{#if profile.validations.hasWarnings}}
+        <div class="alert alert-warning" role="alert">{{fa-icon
+            "exclamation-triangle"
+          }}
+          {{#each profile.validations.warningMessages as |message|}}
+            <span>{{message}} </span>
+          {{/each}}
+        </div>
+      {{/if}}
       {{object/md-profile/custom record=profile}}
     {{/if}}
   {{else}}
@@ -47,42 +49,63 @@
   {{#if profile.isNew}}
     {{to-elsewhere
       named="md-subbar-settings"
-      send=(component "control/md-button"
-      text=(if profile.isNew "Save Profile" "Update Profile")
-      icon="floppy-o"
-      disabled=disableSave
-      class="btn-success btn-lg"
-      click=(action "saveProfile")
+      send=(component
+        "control/md-button"
+        text=(if profile.isNew "Save Profile" "Update Profile")
+        icon="floppy-o"
+        disabled=disableSave
+        class="btn-success btn-lg"
+        click=(action "saveProfile")
       )
     }}
   {{/if}}
-    {{to-elsewhere
+  {{to-elsewhere
     named="md-subbar-settings"
-    send=(component "control/md-button"
-    text=(if profile.isNew "Cancel" "Back to List")
-    icon=(if profile.isNew "undo" "arrow-left")
-    class=(if profile.isNew "btn-warning btn-lg" "btn-primary btn-lg")
-    click=(action "cancelEdit")
+    send=(component
+      "control/md-button"
+      text=(if profile.isNew "Cancel" "Back to List")
+      icon=(if profile.isNew "undo" "arrow-left")
+      class=(if profile.isNew "btn-warning btn-lg" "btn-primary btn-lg")
+      click=(action "cancelEdit")
     )
   }}
 {{else}}
   {{to-elsewhere
     named="md-subbar-settings"
-    send=(component "control/md-button"
-    text="Add Profile"
-    icon="plus"
-    class="btn-success btn-lg"
-    click=(action "addProfile")
-    disabled=(if profile true)
+    send=(component
+      "control/md-button"
+      text="Add Profile"
+      icon="plus"
+      class="btn-success btn-lg"
+      click=(action "addProfile")
+      disabled=(if profile true)
     )
   }}
   {{to-elsewhere
     named="md-subbar-settings"
-    send=(component "control/md-button"
-    text= "Manage Definitions"
-    icon="gear"
-    class="btn-primary btn-lg"
-    click=(action "manageDefinitions")
+    send=(component
+      "control/md-button"
+      text="Manage Definitions"
+      icon="gear"
+      class="btn-primary btn-lg"
+      click=(action "manageDefinitions")
     )
   }}
 {{/if}}
+
+{{! Add text box and button to load profiles from a URL }}
+<div class="card-block">
+  <div class="form-group">
+    <label for="profileUrl">Load Profile[s] from URL</label>
+    {{input
+      id="profileUrl"
+      type="text"
+      value=profileUrl
+      class="form-control"
+      placeholder="Enter URL"
+    }}
+  </div>
+  <button class="btn btn-primary" {{action "loadProfilesFromUrl"}}>
+    Load Profile[s]
+  </button>
+</div>

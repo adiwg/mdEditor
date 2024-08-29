@@ -1,16 +1,14 @@
-import $ from 'jquery';
-import { A } from '@ember/array';
-import Route from '@ember/routing/route';
-import EmberObject from '@ember/object';
-import { guidFor } from '@ember/object/internals';
-import RSVP from 'rsvp';
-import { inject as service } from '@ember/service';
-import config from 'mdeditor/config/environment';
+import $ from "jquery";
+import { A } from "@ember/array";
+import Route from "@ember/routing/route";
+import EmberObject from "@ember/object";
+import { guidFor } from "@ember/object/internals";
+import RSVP from "rsvp";
+import { inject as service } from "@ember/service";
+import config from "mdeditor/config/environment";
 
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 const console = window.console;
@@ -19,12 +17,12 @@ export default Route.extend({
   init() {
     this._super(...arguments);
 
-    $(window).bind('beforeunload', (evt) => {
+    $(window).bind("beforeunload", (evt) => {
       let dirty = this.currentRouteModel().filter(function (itm) {
-        return itm.filterBy('hasDirtyHash').length;
+        return itm.filterBy("hasDirtyHash").length;
       }).length;
 
-      let message = 'Are you sure you want to leave unsaved work?';
+      let message = "Are you sure you want to leave unsaved work?";
 
       evt.returnValue = dirty ? message : undefined;
 
@@ -37,7 +35,7 @@ export default Route.extend({
   router: service(),
   keyword: service(),
   profile: service(),
-  customProfile: service('custom-profile'),
+  customProfile: service("custom-profile"),
 
   /**
    * Models for sidebar navigation
@@ -45,55 +43,60 @@ export default Route.extend({
    * @return {Ember.RSVP.hash}
    */
   model() {
-    let promises = [this.store.findAll('record', {
-        reload: true
+    let promises = [
+      this.store.findAll("record", {
+        reload: true,
       }),
-      this.store.findAll('contact', {
-        reload: true
+      this.store.findAll("contact", {
+        reload: true,
       }),
-      this.store.findAll('dictionary', {
-        reload: true
-      })
+      this.store.findAll("dictionary", {
+        reload: true,
+      }),
     ];
 
-    let meta = A([EmberObject.create({
-      type: 'record',
-      list: 'records',
-      title: 'Metadata Records',
-      icon: 'file-o'
-    }), EmberObject.create({
-      type: 'contact',
-      list: 'contacts',
-      title: 'Contacts',
-      icon: 'users'
-    }), EmberObject.create({
-      type: 'dictionary',
-      list: 'dictionaries',
-      title: 'Dictionaries',
-      icon: 'book'
-    })]);
+    let meta = A([
+      EmberObject.create({
+        type: "record",
+        list: "records",
+        title: "Metadata Records",
+        icon: "file-o",
+      }),
+      EmberObject.create({
+        type: "contact",
+        list: "contacts",
+        title: "Contacts",
+        icon: "users",
+      }),
+      EmberObject.create({
+        type: "dictionary",
+        list: "dictionaries",
+        title: "Dictionaries",
+        icon: "book",
+      }),
+    ]);
 
     let idx = 0;
 
     let mapFn = function (item) {
-
-      meta[idx].set('listId', guidFor(item));
-      item.set('meta', meta[idx]);
+      meta[idx].set("listId", guidFor(item));
+      item.set("meta", meta[idx]);
       idx = ++idx;
 
       return item;
     };
 
-    return RSVP.map(promises, mapFn).then(result => {
-      let profiles = [this.store.findAll('profile', {
-          reload: true
+    return RSVP.map(promises, mapFn).then((result) => {
+      let profiles = [
+        this.store.findAll("profile", {
+          reload: true,
         }),
-        this.store.findAll('schema', {
-          reload: true
+        this.store.findAll("schema", {
+          reload: true,
         }),
-        this.store.findAll('custom-profile', {
-          reload: true
-        })
+        this.store.findAll("custom-profile", {
+          reload: true,
+        }),
       ];
 
       return RSVP.all(profiles).then(() => result);
@@ -103,26 +106,27 @@ export default Route.extend({
   },
 
   beforeModel() {
-    if(!defaultProfileId) {
-      this.router.replaceWith('error')
-        .then(function (route) {
-          route.controller.set('lastError', new Error(
+    if (!defaultProfileId) {
+      this.router.replaceWith("error").then(function (route) {
+        route.controller.set(
+          "lastError",
+          new Error(
             'A default profile ID is not set in "config/environment/APP"'
-          ));
-        });
+          )
+        );
+      });
     }
     const loadThesauriPromise = this.keyword.loadThesauri();
     const loadProfilesPromise = this.profile.loadCoreProfiles();
-    const loadCustomProfilesPromise = this.customProfile.loadProfilesFromQueryParam();
-    return Promise.all([loadThesauriPromise, loadProfilesPromise, loadCustomProfilesPromise]);
+    return Promise.all([loadThesauriPromise, loadProfilesPromise]);
   },
 
   setupController(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
     // Implement your custom setup after
-    controller.set('spotlight', this.spotlight);
-    controller.set('slider', this.slider);
+    controller.set("spotlight", this.spotlight);
+    controller.set("slider", this.slider);
   },
 
   /**
@@ -135,18 +139,16 @@ export default Route.extend({
     error(error) {
       console.error(error);
 
-      if(error.status === 404) {
-        return this.transitionTo('not-found');
+      if (error.status === 404) {
+        return this.transitionTo("not-found");
       }
 
-      return this.replaceWith('error')
-        .then(function (route) {
-          route.controller.set('lastError', error);
-        });
+      return this.replaceWith("error").then(function (route) {
+        route.controller.set("lastError", error);
+      });
     },
     didTransition() {
-      this.controller.set('currentRoute', this.router.get(
-        'currentRouteName'));
-    }
-  }
+      this.controller.set("currentRoute", this.router.get("currentRouteName"));
+    },
+  },
 });

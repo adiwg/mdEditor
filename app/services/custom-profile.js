@@ -245,15 +245,15 @@ export default Service.extend({
     });
   },
 
-  async loadProfilesFromQueryParam() {
-    const secondaryUrl = new URLSearchParams(
-      window.location.hash.substring(window.location.hash.indexOf("?") + 1) ||
-        window.location.search
-    ).get("loadProfilesFrom");
-    if (secondaryUrl) {
-      return await this.loadCustomProfilesFromUrl(secondaryUrl);
-    } else {
-      return null;
-    }
-  },
+  // async loadProfilesFromQueryParam() {
+  //   const secondaryUrl = new URLSearchParams(
+  //     window.location.hash.substring(window.location.hash.indexOf("?") + 1) ||
+  //       window.location.search
+  //   ).get("loadProfilesFrom");
+  //   if (secondaryUrl) {
+  //     return await this.loadCustomProfilesFromUrl(secondaryUrl);
+  //   } else {
+  //     return null;
+  //   }
+  // },
 });
