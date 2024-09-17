@@ -1,21 +1,108 @@
-{{#each errors as |error|}}
+{{!-- <h3>Default Validation Errors</h3>
+{{#each defaultErrors as |error idx|}}
+  <section>
+    <li class='list-group-item {{if (mod idx 2) "list-group-item-warning"}}'>
+      <div class='media'>
+        <div class='media-left media-middle'>
+          <span
+            class='label label-{{if error.path "warning" "danger"}}'
+          >{{idx}}</span>
+        </div>
+        <div class='media-body'>
+          <h4 class='media-heading'>{{error.heading}}</h4>
+          <p>{{error.message}}</p>
+          <p>{{error.path}}</p>
+        </div>
+      </div>
+    </li>
+  </section>
+{{/each}} --}}
+
+{{#each formattedErrors as |error|}}
   <section>
     <h3>{{error.title}}</h3>
-    <ul class="list-group">
+    <ul class='list-group'>
       {{#each error.errors as |err idx|}}
-        <li class="list-group-item {{if (mod idx 2) "list-group-item-warning"}}">
-          <div class="media">
-            <div class="media-left media-middle">
-                <span class="label label-{{if err.dataPath "warning" "danger"}}">{{idx}}</span>
+        <section>
+          <li
+            class='list-group-item {{if (mod idx 2) "list-group-item-warning"}}'
+          >
+            <div class='media'>
+              <div class='media-left media-middle'>
+                <span
+                  class='label label-{{if err.path "warning" "danger"}}'
+                >{{idx}}</span>
+              </div>
+              <div class='media-body'>
+                <h4 class='media-heading'>{{err.heading}}</h4>
+                <p>{{err.message}}</p>
+                <p>{{err.path}}</p>
+              </div>
             </div>
-            <div class="media-body">
-              <h4 class="media-heading">{{err.message}}</h4> {{err.dataPath}}
+          </li>
+        </section>
+        {{!-- <li
+          class='list-group-item {{if (mod idx 2) "list-group-item-warning"}}'
+        >
+          <div class='media'>
+            <div class='media-left media-middle'>
+              <span
+                class='label label-{{if err.dataPath "warning" "danger"}}'
+              >{{idx}}</span>
+            </div>
+            <div class='media-body'>
+
+              <!-- Dynamic Heading Based on err.keyword -->
+              <h4 class='media-heading'>
+                {{#if (eq err.keyword 'required')}}
+                  A required field is missing:
+                  {{err.params.missingProperty}}:
+                  {{err.message}}
+                {{else if (eq err.keyword 'minItems')}}
+                  Too few items provided:
+                  {{err.message}}
+                {{else if (eq err.keyword 'maxItems')}}
+                  Too many items provided:
+                  {{err.message}}
+                {{else if (eq err.keyword 'errorMessage')}}
+                  Custom Error:
+                  {{err.message}}
+                {{else}}
+                  Error:{{err.keyword}}:
+                  {{err.message}}
+                {{/if}}
+              </h4>
+
+              <p>Keyword: {{err.keyword}}</p>
+              <p>Data Path: {{err.dataPath}}</p>
+              <p>Schema Path: {{err.schemaPath}}</p>
+
+              <!-- Display Description if available -->
+              {{#if err.parentSchema.description}}
+                <p>Description: {{err.parentSchema.description}}</p>
+              {{/if}}
+
+              {{#if err.parentSchema}}
+                <p>parentSchema:</p>
+                {{#if err.parentSchema.errorMessage}}
+                  <p>errorMessage:</p>
+                  {{#if err.parentSchema.errorMessage.required}}
+                    <p>required:</p>
+                    {{#each
+                      (object-each err.parentSchema.errorMessage.required)
+                      as |pair|
+                    }}
+                      <p>{{pair.key}}: {{pair.value}}</p>
+                    {{/each}}
+                  {{/if}}
+                {{/if}}
+              {{/if}}
             </div>
           </div>
-        </li>
+        </li> --}}
       {{/each}}
-  </ul>
-</section>
+    </ul>
+  </section>
 {{/each}}
 
 {{yield}}

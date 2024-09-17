@@ -1,0 +1,1015 @@
+[
+  {
+    "title": "Default Record Validation",
+    "errors": [
+      {
+        "keyword": "minItems",
+        "dataPath": "/contact",
+        "schemaPath": "#/properties/contact/minItems",
+        "params": {
+          "limit": 1
+        },
+        "message": "should NOT have fewer than 1 items"
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/metadataInfo",
+        "schemaPath": "#/required",
+        "params": {
+          "missingProperty": "metadataContact"
+        },
+        "message": "should have required property 'metadataContact'",
+        "data": {
+          "metadataIdentifier": {
+            "identifier": "8043369a-4f8e-48f9-9235-f87f7d0045ae",
+            "namespace": "urn:uuid"
+          },
+          "defaultMetadataLocale": {
+            "language": "eng",
+            "characterSet": "UTF-8",
+            "country": "USA"
+          }
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo",
+        "schemaPath": "#/required",
+        "params": {
+          "missingProperty": "abstract"
+        },
+        "message": "should have required property 'abstract'",
+        "data": {
+          "resourceType": [
+            {
+              "type": "awardInfo",
+              "name": "fdasfdsaf"
+            }
+          ],
+          "citation": {
+            "title": "asdfasdfasdf"
+          },
+          "defaultResourceLocale": {
+            "language": "eng",
+            "characterSet": "UTF-8",
+            "country": "USA"
+          },
+          "extent": [
+            {
+              "geographicExtent": [
+                {
+                  "containsData": true
+                }
+              ]
+            }
+          ],
+          "keyword": [
+            {
+              "keywordType": "theme",
+              "fullPath": true,
+              "thesaurus": {
+                "identifier": [
+                  {
+                    "identifier": "custom"
+                  }
+                ]
+              }
+            }
+          ],
+          "resourceMaintenance": [
+            {
+              "frequency": "continual"
+            }
+          ]
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo",
+        "schemaPath": "#/required",
+        "params": {
+          "missingProperty": "status"
+        },
+        "message": "should have required property 'status'",
+        "data": {
+          "resourceType": [
+            {
+              "type": "awardInfo",
+              "name": "fdasfdsaf"
+            }
+          ],
+          "citation": {
+            "title": "asdfasdfasdf"
+          },
+          "defaultResourceLocale": {
+            "language": "eng",
+            "characterSet": "UTF-8",
+            "country": "USA"
+          },
+          "extent": [
+            {
+              "geographicExtent": [
+                {
+                  "containsData": true
+                }
+              ]
+            }
+          ],
+          "keyword": [
+            {
+              "keywordType": "theme",
+              "fullPath": true,
+              "thesaurus": {
+                "identifier": [
+                  {
+                    "identifier": "custom"
+                  }
+                ]
+              }
+            }
+          ],
+          "resourceMaintenance": [
+            {
+              "frequency": "continual"
+            }
+          ]
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo",
+        "schemaPath": "#/required",
+        "params": {
+          "missingProperty": "pointOfContact"
+        },
+        "message": "should have required property 'pointOfContact'",
+        "data": {
+          "resourceType": [
+            {
+              "type": "awardInfo",
+              "name": "fdasfdsaf"
+            }
+          ],
+          "citation": {
+            "title": "asdfasdfasdf"
+          },
+          "defaultResourceLocale": {
+            "language": "eng",
+            "characterSet": "UTF-8",
+            "country": "USA"
+          },
+          "extent": [
+            {
+              "geographicExtent": [
+                {
+                  "containsData": true
+                }
+              ]
+            }
+          ],
+          "keyword": [
+            {
+              "keywordType": "theme",
+              "fullPath": true,
+              "thesaurus": {
+                "identifier": [
+                  {
+                    "identifier": "custom"
+                  }
+                ]
+              }
+            }
+          ],
+          "resourceMaintenance": [
+            {
+              "frequency": "continual"
+            }
+          ]
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo/extent/0/geographicExtent/0",
+        "schemaPath": "#/anyOf/0/required",
+        "params": {
+          "missingProperty": "identifier"
+        },
+        "message": "should have required property 'identifier'",
+        "data": {
+          "containsData": true
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo/extent/0/geographicExtent/0",
+        "schemaPath": "#/anyOf/1/required",
+        "params": {
+          "missingProperty": "boundingBox"
+        },
+        "message": "should have required property 'boundingBox'",
+        "data": {
+          "containsData": true
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo/extent/0/geographicExtent/0",
+        "schemaPath": "#/anyOf/2/required",
+        "params": {
+          "missingProperty": "geographicElement"
+        },
+        "message": "should have required property 'geographicElement'",
+        "data": {
+          "containsData": true
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo/extent/0/geographicExtent/0",
+        "schemaPath": "#/anyOf/3/required",
+        "params": {
+          "missingProperty": "description"
+        },
+        "message": "should have required property 'description'",
+        "data": {
+          "containsData": true
+        }
+      },
+      {
+        "keyword": "anyOf",
+        "dataPath": "/metadata/resourceInfo/extent/0/geographicExtent/0",
+        "schemaPath": "#/anyOf",
+        "params": {},
+        "message": "should match some schema in anyOf",
+        "data": {
+          "containsData": true
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo/keyword/0",
+        "schemaPath": "#/required",
+        "params": {
+          "missingProperty": "keyword"
+        },
+        "message": "should have required property 'keyword'",
+        "data": {
+          "keywordType": "theme",
+          "fullPath": true,
+          "thesaurus": {
+            "identifier": [
+              {
+                "identifier": "custom"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/resourceInfo/keyword/0/thesaurus",
+        "schemaPath": "#/required",
+        "params": {
+          "missingProperty": "title"
+        },
+        "message": "should have required property 'title'",
+        "data": {
+          "identifier": [
+            {
+              "identifier": "custom"
+            }
+          ]
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/dataQuality/0/report/0",
+        "schemaPath": "#/anyOf/0/required",
+        "params": {
+          "missingProperty": "quantitativeResult"
+        },
+        "message": "should have required property 'quantitativeResult'",
+        "data": {
+          "type": "DQ_RelativeInternalPositionalAccuracy"
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/dataQuality/0/report/0",
+        "schemaPath": "#/anyOf/1/required",
+        "params": {
+          "missingProperty": "descriptiveResult"
+        },
+        "message": "should have required property 'descriptiveResult'",
+        "data": {
+          "type": "DQ_RelativeInternalPositionalAccuracy"
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/dataQuality/0/report/0",
+        "schemaPath": "#/anyOf/2/required",
+        "params": {
+          "missingProperty": "conformanceResult"
+        },
+        "message": "should have required property 'conformanceResult'",
+        "data": {
+          "type": "DQ_RelativeInternalPositionalAccuracy"
+        }
+      },
+      {
+        "keyword": "required",
+        "dataPath": "/metadata/dataQuality/0/report/0",
+        "schemaPath": "#/anyOf/3/required",
+        "params": {
+          "missingProperty": "coverageResult"
+        },
+        "message": "should have required property 'coverageResult'",
+        "data": {
+          "type": "DQ_RelativeInternalPositionalAccuracy"
+        }
+      },
+      {
+        "keyword": "anyOf",
+        "dataPath": "/metadata/dataQuality/0/report/0",
+        "schemaPath": "#/anyOf",
+        "params": {},
+        "message": "should match some schema in anyOf",
+        "data": {
+          "type": "DQ_RelativeInternalPositionalAccuracy"
+        }
+      }
+    ]
+  },
+  {
+    "title": "AK Region Project Schema",
+    "errors": [
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo/resourceType/0/type",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/resourceType/items/properties/type/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "const",
+              "dataPath": "/metadata/resourceInfo/resourceType/0/type",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/resourceType/items/properties/type/const",
+              "params": {
+                "allowedValue": "project"
+              },
+              "message": "should be equal to constant",
+              "schema": "project",
+              "parentSchema": {
+                "const": "project",
+                "errorMessage": {
+                  "const": "Resource type for project must be listed as 'project' in the 'Resource Types' section under the 'Main' tab. If you are creating a record for a data product, please select a different mdEditor profile."
+                }
+              },
+              "data": "awardInfo"
+            }
+          ]
+        },
+        "message": "Resource type for project must be listed as 'project' in the 'Resource Types' section under the 'Main' tab. If you are creating a record for a data product, please select a different mdEditor profile.",
+        "schema": {
+          "const": "Resource type for project must be listed as 'project' in the 'Resource Types' section under the 'Main' tab. If you are creating a record for a data product, please select a different mdEditor profile."
+        },
+        "parentSchema": {
+          "const": "project",
+          "errorMessage": {
+            "const": "Resource type for project must be listed as 'project' in the 'Resource Types' section under the 'Main' tab. If you are creating a record for a data product, please select a different mdEditor profile."
+          }
+        },
+        "data": "awardInfo"
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo/citation",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/citation/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/resourceInfo/citation",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/citation/required",
+              "params": {
+                "missingProperty": "date"
+              },
+              "message": "should have required property 'date'",
+              "data": {
+                "title": "asdfasdfasdf"
+              }
+            }
+          ]
+        },
+        "message": "At least one date (e.g. award, start, revision) must be provided in the 'Citation' section under the 'Main' tab.",
+        "data": {
+          "title": "asdfasdfasdf"
+        }
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo/citation",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/citation/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/resourceInfo/citation",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/citation/required",
+              "params": {
+                "missingProperty": "responsibleParty"
+              },
+              "message": "should have required property 'responsibleParty'",
+              "data": {
+                "title": "asdfasdfasdf"
+              }
+            }
+          ]
+        },
+        "message": "At least one Responsible Party associated with the project's citation must be provided in the 'Citation' section under the 'Main' tab."
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo/keyword/0",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/keyword/items/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/resourceInfo/keyword/0",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/properties/keyword/items/required",
+              "params": {
+                "missingProperty": "keyword"
+              },
+              "message": "should have required property 'keyword'"
+            }
+          ]
+        },
+        "message": "At least one keyword must be provided from each selected thesaurus under the 'Keywords' tab."
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/resourceInfo",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/required",
+              "params": {
+                "missingProperty": "status"
+              },
+              "message": "should have required property 'status'"
+            }
+          ]
+        },
+        "message": "The current project status must be provided in the 'Basic Information' section under the 'Main' tab. Status must be one of: 'completed', 'onGoing', 'proposed', or 'accepted'"
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/resourceInfo",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/required",
+              "params": {
+                "missingProperty": "pointOfContact"
+              },
+              "message": "should have required property 'pointOfContact'"
+            }
+          ]
+        },
+        "message": "Project personnel must be provided in the 'Point of Contact' section under the 'Main' tab."
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/resourceInfo",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/required",
+              "params": {
+                "missingProperty": "abstract"
+              },
+              "message": "should have required property 'abstract'",
+              "data": {
+                "resourceType": [
+                  {
+                    "type": "awardInfo",
+                    "name": "fdasfdsaf"
+                  }
+                ],
+                "citation": {
+                  "title": "asdfasdfasdf"
+                },
+                "defaultResourceLocale": {
+                  "language": "eng",
+                  "characterSet": "UTF-8",
+                  "country": "USA"
+                },
+                "extent": [
+                  {
+                    "geographicExtent": [
+                      {
+                        "containsData": true
+                      }
+                    ]
+                  }
+                ],
+                "keyword": [
+                  {
+                    "keywordType": "theme",
+                    "fullPath": true,
+                    "thesaurus": {
+                      "identifier": [
+                        {
+                          "identifier": "custom"
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "resourceMaintenance": [
+                  {
+                    "frequency": "continual"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "message": "Project abstract must be provided in the 'Description' section under the 'Main' tab. Abstracts should summarize the project's purpose and goals."
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/resourceInfo",
+        "schemaPath": "#/properties/metadata/properties/resourceInfo/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/resourceInfo",
+              "schemaPath": "#/properties/metadata/properties/resourceInfo/required",
+              "params": {
+                "missingProperty": "timePeriod"
+              },
+              "message": "should have required property 'timePeriod'"
+            }
+          ]
+        },
+        "message": "Project time period must be provided in the 'Time Period' section under the 'Main' tab. At least a project start date and/or a project end date must be provided."
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/metadataInfo",
+        "schemaPath": "#/properties/metadata/properties/metadataInfo/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/metadataInfo",
+              "schemaPath": "#/properties/metadata/properties/metadataInfo/required",
+              "params": {
+                "missingProperty": "metadataStatus"
+              },
+              "message": "should have required property 'metadataStatus'",
+              "schema": ["metadataStatus", "metadataDate", "metadataContact"],
+              "parentSchema": {
+                "properties": {
+                  "metadataDate": {
+                    "items": {
+                      "required": ["date", "dateType"],
+                      "errorMessage": {
+                        "required": {
+                          "date": "At least a creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                          "dateType": "A date type must be provided for dates associated with the metadata in the 'Basic Information' section under the 'Metadata' tab. At least one date should have the type 'creation'."
+                        }
+                      }
+                    },
+                    "contains": {
+                      "properties": {
+                        "dateType": {
+                          "const": "creation",
+                          "errorMessage": {
+                            "const": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab."
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "metadataContact": {
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "author",
+                              "errorMessage": "At least one metadata contact must have the role 'author' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "pointOfContact",
+                              "errorMessage": "At least one metadata contact must have the role 'pointOfContact' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "items": {
+                      "required": ["role", "party"],
+                      "errorMessage": {
+                        "required": {
+                          "role": "A role must be provided in the 'Metadata Contacts' section under the 'Metadata' tab.",
+                          "party": "A contact must be provided in the 'Metadata Contacts' section under the 'Metadata' tab."
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "metadataStatus",
+                  "metadataDate",
+                  "metadataContact"
+                ],
+                "errorMessage": {
+                  "required": {
+                    "metadataStatus": "The status of the metadata (e.g. onGoing, completed), must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                    "metadataDate": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                    "metadataContact": "An author and a pointOfContact for the metadata must be provided in the 'Metadata Contact' section under the 'Metadata' tab."
+                  }
+                }
+              },
+              "data": {
+                "metadataIdentifier": {
+                  "identifier": "8043369a-4f8e-48f9-9235-f87f7d0045ae",
+                  "namespace": "urn:uuid"
+                },
+                "defaultMetadataLocale": {
+                  "language": "eng",
+                  "characterSet": "UTF-8",
+                  "country": "USA"
+                }
+              }
+            }
+          ]
+        },
+        "message": "The status of the metadata (e.g. onGoing, completed), must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+        "schema": {
+          "required": {
+            "metadataStatus": "The status of the metadata (e.g. onGoing, completed), must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+            "metadataDate": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+            "metadataContact": "An author and a pointOfContact for the metadata must be provided in the 'Metadata Contact' section under the 'Metadata' tab."
+          }
+        },
+        "parentSchema": {
+          "properties": {
+            "metadataDate": {
+              "items": {
+                "required": ["date", "dateType"],
+                "errorMessage": {
+                  "required": {
+                    "date": "At least a creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                    "dateType": "A date type must be provided for dates associated with the metadata in the 'Basic Information' section under the 'Metadata' tab. At least one date should have the type 'creation'."
+                  }
+                }
+              },
+              "contains": {
+                "properties": {
+                  "dateType": {
+                    "const": "creation",
+                    "errorMessage": {
+                      "const": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab."
+                    }
+                  }
+                }
+              }
+            },
+            "metadataContact": {
+              "allOf": [
+                {
+                  "contains": {
+                    "properties": {
+                      "role": {
+                        "const": "author",
+                        "errorMessage": "At least one metadata contact must have the role 'author' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                      }
+                    }
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "role": {
+                        "const": "pointOfContact",
+                        "errorMessage": "At least one metadata contact must have the role 'pointOfContact' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                      }
+                    }
+                  }
+                }
+              ],
+              "items": {
+                "required": ["role", "party"],
+                "errorMessage": {
+                  "required": {
+                    "role": "A role must be provided in the 'Metadata Contacts' section under the 'Metadata' tab.",
+                    "party": "A contact must be provided in the 'Metadata Contacts' section under the 'Metadata' tab."
+                  }
+                }
+              }
+            }
+          },
+          "required": ["metadataStatus", "metadataDate", "metadataContact"],
+          "errorMessage": {
+            "required": {
+              "metadataStatus": "The status of the metadata (e.g. onGoing, completed), must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+              "metadataDate": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+              "metadataContact": "An author and a pointOfContact for the metadata must be provided in the 'Metadata Contact' section under the 'Metadata' tab."
+            }
+          }
+        },
+        "data": {
+          "metadataIdentifier": {
+            "identifier": "8043369a-4f8e-48f9-9235-f87f7d0045ae",
+            "namespace": "urn:uuid"
+          },
+          "defaultMetadataLocale": {
+            "language": "eng",
+            "characterSet": "UTF-8",
+            "country": "USA"
+          }
+        }
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/metadataInfo",
+        "schemaPath": "#/properties/metadata/properties/metadataInfo/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/metadataInfo",
+              "schemaPath": "#/properties/metadata/properties/metadataInfo/required",
+              "params": {
+                "missingProperty": "metadataDate"
+              },
+              "message": "should have required property 'metadataDate'",
+              "schema": {
+                "metadataDate": {
+                  "items": {
+                    "required": ["date", "dateType"],
+                    "errorMessage": {
+                      "required": {
+                        "date": "At least a creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                        "dateType": "A date type must be provided for dates associated with the metadata in the 'Basic Information' section under the 'Metadata' tab. At least one date should have the type 'creation'."
+                      }
+                    }
+                  },
+                  "contains": {
+                    "properties": {
+                      "dateType": {
+                        "const": "creation",
+                        "errorMessage": {
+                          "const": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab."
+                        }
+                      }
+                    }
+                  }
+                },
+                "metadataContact": {
+                  "allOf": [
+                    {
+                      "contains": {
+                        "properties": {
+                          "role": {
+                            "const": "author",
+                            "errorMessage": "At least one metadata contact must have the role 'author' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "contains": {
+                        "properties": {
+                          "role": {
+                            "const": "pointOfContact",
+                            "errorMessage": "At least one metadata contact must have the role 'pointOfContact' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                          }
+                        }
+                      }
+                    }
+                  ],
+                  "items": {
+                    "required": ["role", "party"],
+                    "errorMessage": {
+                      "required": {
+                        "role": "A role must be provided in the 'Metadata Contacts' section under the 'Metadata' tab.",
+                        "party": "A contact must be provided in the 'Metadata Contacts' section under the 'Metadata' tab."
+                      }
+                    }
+                  }
+                }
+              },
+              "parentSchema": {
+                "properties": {
+                  "metadataDate": {
+                    "items": {
+                      "required": ["date", "dateType"],
+                      "errorMessage": {
+                        "required": {
+                          "date": "At least a creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                          "dateType": "A date type must be provided for dates associated with the metadata in the 'Basic Information' section under the 'Metadata' tab. At least one date should have the type 'creation'."
+                        }
+                      }
+                    },
+                    "contains": {
+                      "properties": {
+                        "dateType": {
+                          "const": "creation",
+                          "errorMessage": {
+                            "const": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab."
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "metadataContact": {
+                    "allOf": [
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "author",
+                              "errorMessage": "At least one metadata contact must have the role 'author' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "contains": {
+                          "properties": {
+                            "role": {
+                              "const": "pointOfContact",
+                              "errorMessage": "At least one metadata contact must have the role 'pointOfContact' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                            }
+                          }
+                        }
+                      }
+                    ],
+                    "items": {
+                      "required": ["role", "party"],
+                      "errorMessage": {
+                        "required": {
+                          "role": "A role must be provided in the 'Metadata Contacts' section under the 'Metadata' tab.",
+                          "party": "A contact must be provided in the 'Metadata Contacts' section under the 'Metadata' tab."
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": [
+                  "metadataStatus",
+                  "metadataDate",
+                  "metadataContact"
+                ],
+                "errorMessage": {
+                  "required": {
+                    "metadataStatus": "The status of the metadata (e.g. onGoing, completed), must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                    "metadataDate": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                    "metadataContact": "An author and a pointOfContact for the metadata must be provided in the 'Metadata Contact' section under the 'Metadata' tab."
+                  }
+                }
+              },
+              "data": {
+                "metadataIdentifier": {
+                  "identifier": "8043369a-4f8e-48f9-9235-f87f7d0045ae",
+                  "namespace": "urn:uuid"
+                },
+                "defaultMetadataLocale": {
+                  "language": "eng",
+                  "characterSet": "UTF-8",
+                  "country": "USA"
+                }
+              }
+            }
+          ]
+        },
+        "message": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+        "schema": {
+          "required": {
+            "metadataStatus": "The status of the metadata (e.g. onGoing, completed), must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+            "metadataDate": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+            "metadataContact": "An author and a pointOfContact for the metadata must be provided in the 'Metadata Contact' section under the 'Metadata' tab."
+          }
+        },
+        "parentSchema": {
+          "properties": {
+            "metadataDate": {
+              "items": {
+                "required": ["date", "dateType"],
+                "errorMessage": {
+                  "required": {
+                    "date": "At least a creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+                    "dateType": "A date type must be provided for dates associated with the metadata in the 'Basic Information' section under the 'Metadata' tab. At least one date should have the type 'creation'."
+                  }
+                }
+              },
+              "contains": {
+                "properties": {
+                  "dateType": {
+                    "const": "creation",
+                    "errorMessage": {
+                      "const": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab."
+                    }
+                  }
+                }
+              }
+            },
+            "metadataContact": {
+              "allOf": [
+                {
+                  "contains": {
+                    "properties": {
+                      "role": {
+                        "const": "author",
+                        "errorMessage": "At least one metadata contact must have the role 'author' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                      }
+                    }
+                  }
+                },
+                {
+                  "contains": {
+                    "properties": {
+                      "role": {
+                        "const": "pointOfContact",
+                        "errorMessage": "At least one metadata contact must have the role 'pointOfContact' under the 'Metadata Contacts' section of the 'Metadata' tab."
+                      }
+                    }
+                  }
+                }
+              ],
+              "items": {
+                "required": ["role", "party"],
+                "errorMessage": {
+                  "required": {
+                    "role": "A role must be provided in the 'Metadata Contacts' section under the 'Metadata' tab.",
+                    "party": "A contact must be provided in the 'Metadata Contacts' section under the 'Metadata' tab."
+                  }
+                }
+              }
+            }
+          },
+          "required": ["metadataStatus", "metadataDate", "metadataContact"],
+          "errorMessage": {
+            "required": {
+              "metadataStatus": "The status of the metadata (e.g. onGoing, completed), must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+              "metadataDate": "A creation date for the metadata must be provided in the 'Basic Information' section under the 'Metadata' tab.",
+              "metadataContact": "An author and a pointOfContact for the metadata must be provided in the 'Metadata Contact' section under the 'Metadata' tab."
+            }
+          }
+        },
+        "data": {
+          "metadataIdentifier": {
+            "identifier": "8043369a-4f8e-48f9-9235-f87f7d0045ae",
+            "namespace": "urn:uuid"
+          },
+          "defaultMetadataLocale": {
+            "language": "eng",
+            "characterSet": "UTF-8",
+            "country": "USA"
+          }
+        }
+      },
+      {
+        "keyword": "errorMessage",
+        "dataPath": "/metadata/metadataInfo",
+        "schemaPath": "#/properties/metadata/properties/metadataInfo/errorMessage",
+        "params": {
+          "errors": [
+            {
+              "keyword": "required",
+              "dataPath": "/metadata/metadataInfo",
+              "schemaPath": "#/properties/metadata/properties/metadataInfo/required",
+              "params": {
+                "missingProperty": "metadataContact"
+              },
+              "message": "should have required property 'metadataContact'"
+            }
+          ]
+        },
+        "message": "An author and a pointOfContact for the metadata must be provided in the 'Metadata Contact' section under the 'Metadata' tab."
+      }
+    ]
+  }
+]
