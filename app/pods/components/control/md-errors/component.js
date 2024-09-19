@@ -1,49 +1,34 @@
+// component.js
+
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
 
 export default Component.extend({
   router: service(),
+  slider: service(),
   classNames: ['md-error-list'],
 
   init() {
     this._super(...arguments);
 
-    // Initialize titles and errors
-    this.defaultTitle = this.errors[0]?.title || 'Validation Errors';
-    this.defaultErrors = this.errors[0]?.errors || [];
-
-    // Check if there's a second array of errors (customErrors)
-    if (this.errors.length > 1) {
-      this.customTitle = this.errors[1].title || 'Custom Errors';
-      this.customErrors = this.errors[1].errors || [];
-    }
+    console.log('Errors:', this.errors);
 
     this.formattedErrors = [];
 
-    if (this.defaultErrors.length > 0) {
-      // Process the default errors to group related errors
-      let processedDefaultErrors = this.processErrors(this.defaultErrors);
+    // Process each error group (default and custom)
+    this.errors.forEach((errorGroup) => {
+      let title = errorGroup.title || 'Validation Errors';
+      let errors = errorGroup.errors || [];
+
+      // Preprocess and transform errors
+      let transformedErrors = this.transformErrors(errors);
 
       this.formattedErrors.push({
-        title: this.defaultTitle,
-        errors: processedDefaultErrors.map((error) =>
-          this.translateError(error)
-        ),
+        title: title,
+        errors: transformedErrors,
       });
-    }
-
-    if (this.customErrors && this.customErrors.length > 0) {
-      // Process the custom errors to group related errors
-      let processedCustomErrors = this.processErrors(this.customErrors);
-
-      this.formattedErrors.push({
-        title: this.customTitle,
-        errors: processedCustomErrors.map((error) =>
-          this.translateError(error)
-        ),
-      });
-    }
+    });
   },
 
   // Extract the record ID from the current URL
@@ -53,72 +38,206 @@ export default Component.extend({
     return match ? match[1] : null;
   }),
 
-  // Function to process errors and group anyOf related errors
-  processErrors(errors) {
+  // Function to preprocess and transform errors
+  transformErrors(errors) {
+    // First, group any 'anyOf' errors with their related errors
+    let groupedErrors = this.groupAnyOfErrors(errors);
+
+    // Transform each error into a consistent format
+    return groupedErrors.map((error) => this.handleError(error));
+  },
+
+  // Group 'anyOf' errors with their related errors
+  groupAnyOfErrors(errors) {
     let groupedErrors = [];
-    let anyOfErrors = new Map(); // Map to store anyOf errors by their dataPath
-    let processedErrors = new Set(); // Keep track of errors that have been processed
+    let processedErrors = new Set();
 
     errors.forEach((error) => {
-      if (
-        error.keyword === 'anyOf' ||
-        (error.keyword === 'errorMessage' && error.params?.errors)
-      ) {
-        // Use dataPath as the key to group errors
-        let key = error.dataPath;
-
-        // Initialize or overwrite any existing entry for this dataPath
-        anyOfErrors.set(key, {
-          error: error,
-          subErrors: [],
-        });
+      if (processedErrors.has(error)) {
+        return;
       }
-    });
 
-    errors.forEach((error) => {
-      if (error.keyword === 'required') {
-        // Check if this required error is part of an anyOf or errorMessage error
-        let parentSchemaPath = error.schemaPath.replace(/\/\d+\/required$/, '');
-        let key = error.dataPath;
+      if (error.keyword === 'anyOf') {
+        // Find related errors (e.g., 'required') with the same dataPath
+        let relatedErrors = errors.filter(
+          (e) =>
+            e !== error &&
+            e.dataPath === error.dataPath &&
+            !processedErrors.has(e)
+        );
 
-        if (anyOfErrors.has(key)) {
-          // This error is part of an anyOf or errorMessage error
-          anyOfErrors.get(key).subErrors.push(error);
-          processedErrors.add(error);
-        } else {
-          // Not part of anyOf, include in groupedErrors
-          groupedErrors.push(error);
-        }
+        error.relatedErrors = relatedErrors;
+
+        groupedErrors.push(error);
+
+        // Mark related errors as processed
+        relatedErrors.forEach((e) => processedErrors.add(e));
       } else if (error.keyword === 'errorMessage') {
-        // Handle errorMessage keyword
-        let nestedErrors = error.params.errors || [];
-        nestedErrors.forEach((nestedError) => {
-          // Recursively process nested errors
-          nestedError.dataPath = nestedError.dataPath || error.dataPath;
-          nestedError.schemaPath = nestedError.schemaPath || error.schemaPath;
-          errors.push(nestedError);
-        });
-        processedErrors.add(error);
-      } else if (error.keyword !== 'anyOf') {
-        // Include other errors not part of anyOf
-        if (!processedErrors.has(error)) {
-          groupedErrors.push(error);
-        }
+        // Handle 'errorMessage' errors separately
+        groupedErrors.push(error);
+      } else if (!processedErrors.has(error)) {
+        groupedErrors.push(error);
       }
-      // Do not include individual required errors that are part of anyOf
-    });
 
-    // Now, collect the grouped anyOf or errorMessage errors
-    anyOfErrors.forEach((group) => {
-      let error = group.error;
-      error.subErrors = group.subErrors;
-      groupedErrors.push(error);
+      processedErrors.add(error);
     });
 
     return groupedErrors;
   },
 
-  // Function to map data paths to endpoints
+  // Main error handling function
+  handleError(error) {
+    // If the error is an 'errorMessage', extract the actual error
+    if (error.keyword === 'errorMessage') {
+      return this.handleErrorMessageError(error);
+    }
+
+    // Use the appropriate handler based on the keyword
+    let handler = this.errorHandlers[error.keyword] || this.handleUnknownError;
+    return handler.call(this, error);
+  },
+
+  // Handler for 'errorMessage' errors
+  handleErrorMessageError(error) {
+    let actualError = error.params.errors[0];
+    // Use the actual keyword for the type
+    actualError.dataPath = actualError.dataPath || error.dataPath;
+
+    let transformedError = this.handleError(actualError);
+
+    // Use the message from the original 'errorMessage' error
+    transformedError.message = error.message || transformedError.message;
+
+    return transformedError;
+  },
+
+  // Handlers for different error types
+  errorHandlers: {
+    required(error) {
+      let missingProperty = error.params.missingProperty;
+      let propertyName = this.getPropertyName(error.dataPath);
+
+      return {
+        type: 'required',
+        header: `Required Field: ${missingProperty}`,
+        messages: [
+          `The '${missingProperty}' field is required in ${propertyName}.`,
+        ],
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+
+    minItems(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+      let limit = error.params.limit;
+
+      return {
+        type: 'minItems',
+        header: `Minimum Items Required for ${propertyName}`,
+        messages: [
+          `Should not have fewer than ${limit} items in ${propertyName}.`,
+        ],
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+
+    contains(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+
+      return {
+        type: 'contains',
+        header: `Contains Error in ${propertyName}`,
+        messages: [error.message],
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+
+    const(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+
+      return {
+        type: 'const',
+        header: `Constant Value Mismatch in ${propertyName}`,
+        messages: [error.message],
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+
+    anyOf(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+      let messages = [];
+
+      if (error.relatedErrors && error.relatedErrors.length > 0) {
+        // Transform related errors
+        messages = error.relatedErrors.map((e) => {
+          let transformed = this.handleError(e);
+          return transformed.messages[0];
+        });
+      } else {
+        messages.push(error.message);
+      }
+
+      return {
+        type: 'anyOf',
+        header: `One of Multiple Fields Required in ${propertyName}`,
+        messages: messages,
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+  },
+
+  // Handler for unknown error types
+  handleUnknownError(error) {
+    let propertyName = this.getPropertyName(error.dataPath);
+
+    return {
+      type: error.keyword,
+      header: `Validation Error in ${propertyName}`,
+      messages: [error.message],
+      path: error.dataPath,
+      url: this.mapDataPathToEndpoint(error.dataPath),
+    };
+  },
+
+  // Helper function to extract a human-readable property name from the dataPath
+  getPropertyName(dataPath) {
+    if (!dataPath) {
+      return 'the record';
+    }
+
+    // Convert dataPath to a human-readable form
+    let pathSegments = dataPath.split('/').filter((segment) => segment);
+
+    // Map known segments to friendly names
+    let friendlyNames = {
+      metadata: 'Metadata',
+      metadataInfo: 'Metadata',
+      resourceInfo: 'Main',
+      contact: 'Contacts',
+      keyword: 'Keywords',
+      extent: 'Extent',
+      taxonomy: 'Taxonomy',
+      constraint: 'Constraints',
+      associatedResource: 'Associated Resources',
+    };
+
+    let propertyName = pathSegments
+      .map((segment) => friendlyNames[segment] || segment)
+      .join(' > ');
+
+    if (propertyName.startsWith('Metadata > ')) {
+      propertyName = propertyName.replace('Metadata > ', '');
+    }
+
+    return propertyName;
+  },
+
+  // Map data paths to endpoints for the 'Go To Error' button
   mapDataPathToEndpoint(dataPath) {
     const recordId = this.recordId;
 
@@ -158,38 +277,32 @@ export default Component.extend({
             // Include index if present
             if (pathSegments[2] && !isNaN(pathSegments[2])) {
               index = pathSegments[2];
+            } else {
+              // When index is missing, default to index 0
+              index = '0';
             }
             break;
           case 'constraint':
             endpoint = 'constraint';
             // Do not include index for constraint
             break;
+          case 'citation':
+          case 'abstract':
+          case 'timePeriod':
+          case 'status':
+          case 'pointOfContact':
+            endpoint = 'main';
+            break;
           default:
-            // For other resourceInfo properties, stay on main
             endpoint = 'main';
             break;
         }
       } else {
         endpoint = 'main';
       }
-    } else if (pathSegments[0] === 'dataQuality') {
-      endpoint = 'dataquality';
-      // Include index if present
-      if (pathSegments[1] && !isNaN(pathSegments[1])) {
-        index = pathSegments[1];
-      }
-    } else if (pathSegments[0] === 'associatedResource') {
-      endpoint = 'associated';
-      // Include index if present
-      if (pathSegments[1] && !isNaN(pathSegments[1])) {
-        index = pathSegments[1];
-      }
-    } else if (pathSegments[0] === 'funding') {
-      endpoint = 'funding';
-      // Include index if present
-      if (pathSegments[1] && !isNaN(pathSegments[1])) {
-        index = pathSegments[1];
-      }
+    } else if (pathSegments[0] === 'contact') {
+      // Special case for contacts
+      return '/contacts';
     } else {
       // Other cases, stay on main or handle as needed
       endpoint = 'main';
@@ -207,76 +320,15 @@ export default Component.extend({
     return url;
   },
 
-  // Function to translate the error object
-  translateError(error) {
-    const errorObj = {
-      type: error.keyword,
-      heading: '',
-      message: '',
-      path: error.dataPath || '',
-      endpoint: '',
-      subErrors: [], // For grouping related errors
-    };
-
-    errorObj.endpoint = this.mapDataPathToEndpoint(error.dataPath);
-
-    // Construct the error message and other properties
-    switch (error.keyword) {
-      case 'required':
-        // Process required errors not part of anyOf
-        errorObj.heading = 'Required Field';
-        const x = error.dataPath ? error.dataPath.split('/').pop() : 'Metadata';
-        const y = error.params.missingProperty;
-        errorObj.message = `${x} should have required property '${y}'`;
-        break;
-      case 'anyOf':
-        errorObj.heading = 'Validation Error';
-        const fieldName = error.dataPath
-          ? error.dataPath.split('/').pop()
-          : 'Field';
-        errorObj.message = `${fieldName} requires at least one of the following properties:`;
-
-        // Use subErrors collected during processing
-        if (error.subErrors && error.subErrors.length > 0) {
-          errorObj.subErrors = error.subErrors.map((subError) => {
-            if (subError.keyword === 'required') {
-              return { message: `- ${subError.params.missingProperty}` };
-            } else {
-              return { message: `- ${subError.message}` };
-            }
-          });
-        }
-        break;
-      case 'errorMessage':
-        // Handle custom error messages
-        const nestedErrors = error.params.errors || [];
-        if (nestedErrors.length > 0) {
-          const nestedError = nestedErrors[0];
-          // Recursively translate the nested error
-          const translatedNestedError = this.translateError(nestedError);
-          errorObj.heading = translatedNestedError.heading;
-          errorObj.message = translatedNestedError.message;
-          errorObj.subErrors = translatedNestedError.subErrors;
-          errorObj.path = translatedNestedError.path;
-          errorObj.endpoint = translatedNestedError.endpoint;
-        } else {
-          // If no nested errors, use the error message
-          errorObj.heading = 'Validation Error';
-          errorObj.message = error.message;
-        }
-        break;
-      default:
-        errorObj.heading = 'Validation Error';
-        errorObj.message = error.message;
-        break;
-    }
-
-    return errorObj;
+  closeSlider() {
+    this.slider.set('fromName', 'md-slider-error');
+    this.slider.toggleSlider(false);
   },
 
   actions: {
-    navigateToEndpoint(endpoint) {
-      this.router.transitionTo(endpoint);
+    navigateToEndpoint(url) {
+      this.closeSlider();
+      this.router.transitionTo(url);
     },
   },
 });

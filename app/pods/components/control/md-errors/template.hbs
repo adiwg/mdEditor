@@ -1,34 +1,30 @@
-{{#each formattedErrors as |error|}}
+<!-- template.hbs -->
+{{#each formattedErrors as |errorGroup|}}
   <section>
-    <h3>{{error.title}}</h3>
+    <h3>{{errorGroup.title}}</h3>
     <ul class='list-group'>
-      {{#each error.errors as |err idx|}}
+      {{#each errorGroup.errors as |err idx|}}
         <li
           class='list-group-item {{if (mod idx 2) "list-group-item-warning"}}'
         >
           <div class='media'>
             <div class='media-left media-middle'>
-              <span
-                class='label label-{{if err.path "warning" "danger"}}'
-              >{{idx}}</span>
+              <span class='label label-{{if err.path "warning" "danger"}}'>{{inc
+                  idx
+                }}</span>
             </div>
             <div class='media-body'>
-              <h4 class='media-heading'>{{err.heading}}</h4>
-              <p>{{err.message}}</p>
-              {{#if err.subErrors}}
-                <ul>
-                  {{#each err.subErrors as |subError|}}
-                    <li>{{subError.message}}</li>
-                  {{/each}}
-                </ul>
-              {{/if}}
+              <h4 class='media-heading'>{{err.header}}</h4>
+              {{#each err.messages as |message|}}
+                <p>{{message}}</p>
+              {{/each}}
               {{#if err.path}}
-                <p>Path: {{err.path}}</p>
+                <p><strong>Schema Path:</strong> {{err.path}}</p>
               {{/if}}
               <!-- Add the "Go To Error" button below the existing content -->
               <button
                 class='btn btn-default btn-xs'
-                onclick={{action 'navigateToEndpoint' err.endpoint}}
+                onclick={{action 'navigateToEndpoint' err.url}}
               >
                 Go To Error
               </button>
