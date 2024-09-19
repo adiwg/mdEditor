@@ -58,11 +58,11 @@ export default Component.extend({
       }
 
       if (error.keyword === 'anyOf' || error.keyword === 'oneOf') {
-        // Find related errors (e.g., 'required') with the same dataPath
+        // Find all errors related to this anyOf/oneOf, including nested ones
         let relatedErrors = errors.filter(
           (e) =>
             e !== error &&
-            e.dataPath === error.dataPath &&
+            e.dataPath.startsWith(error.dataPath) &&
             !processedErrors.has(e)
         );
 
@@ -72,9 +72,6 @@ export default Component.extend({
 
         // Mark related errors as processed
         relatedErrors.forEach((e) => processedErrors.add(e));
-      } else if (error.keyword === 'errorMessage') {
-        // Handle 'errorMessage' errors separately
-        groupedErrors.push(error);
       } else if (!processedErrors.has(error)) {
         groupedErrors.push(error);
       }
@@ -235,7 +232,10 @@ export default Component.extend({
       return {
         type: 'not',
         header: `Invalid Value in ${propertyName}`,
-        messages: [error.message],
+        messages: [
+          error.message,
+          'Details are limited for this error. Resolving related errors might fix this issue.',
+        ],
         path: error.dataPath,
         url: this.mapDataPathToEndpoint(error.dataPath),
       };
