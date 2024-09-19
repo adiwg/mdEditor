@@ -40,14 +40,14 @@ export default Component.extend({
 
   // Function to preprocess and transform errors
   transformErrors(errors) {
-    // First, group any 'anyOf' errors with their related errors
+    // First, group any 'anyOf' or 'oneOf' errors with their related errors
     let groupedErrors = this.groupAnyOfErrors(errors);
 
     // Transform each error into a consistent format
     return groupedErrors.map((error) => this.handleError(error));
   },
 
-  // Group 'anyOf' errors with their related errors
+  // Group 'anyOf' and 'oneOf' errors with their related errors
   groupAnyOfErrors(errors) {
     let groupedErrors = [];
     let processedErrors = new Set();
@@ -57,7 +57,7 @@ export default Component.extend({
         return;
       }
 
-      if (error.keyword === 'anyOf') {
+      if (error.keyword === 'anyOf' || error.keyword === 'oneOf') {
         // Find related errors (e.g., 'required') with the same dataPath
         let relatedErrors = errors.filter(
           (e) =>
@@ -106,7 +106,7 @@ export default Component.extend({
     let transformedError = this.handleError(actualError);
 
     // Use the message from the original 'errorMessage' error
-    transformedError.message = error.message || transformedError.message;
+    transformedError.messages = [error.message || transformedError.message];
 
     return transformedError;
   },
@@ -189,6 +189,73 @@ export default Component.extend({
         url: this.mapDataPathToEndpoint(error.dataPath),
       };
     },
+
+    // Handler for 'type' keyword
+    type(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+      let expectedType = error.params.type;
+
+      return {
+        type: 'type',
+        header: `Invalid Type in ${propertyName}`,
+        messages: [`Expected type '${expectedType}' in ${propertyName}.`],
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+
+    // Handler for 'oneOf' keyword
+    oneOf(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+      let messages = [];
+
+      if (error.relatedErrors && error.relatedErrors.length > 0) {
+        // Transform related errors
+        messages = error.relatedErrors.map((e) => {
+          let transformed = this.handleError(e);
+          return transformed.messages[0];
+        });
+      } else {
+        messages.push(error.message);
+      }
+
+      return {
+        type: 'oneOf',
+        header: `One of Multiple Schemas Must Be Valid in ${propertyName}`,
+        messages: messages,
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+
+    // Handler for 'not' keyword
+    not(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+
+      return {
+        type: 'not',
+        header: `Invalid Value in ${propertyName}`,
+        messages: [error.message],
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
+
+    // Handler for 'enum' keyword
+    enum(error) {
+      let propertyName = this.getPropertyName(error.dataPath);
+      let allowedValues = error.params.allowedValues.join(', ');
+
+      return {
+        type: 'enum',
+        header: `Invalid Value in ${propertyName}`,
+        messages: [
+          `Value should be one of the allowed values: ${allowedValues}.`,
+        ],
+        path: error.dataPath,
+        url: this.mapDataPathToEndpoint(error.dataPath),
+      };
+    },
   },
 
   // Handler for unknown error types
@@ -224,6 +291,12 @@ export default Component.extend({
       taxonomy: 'Taxonomy',
       constraint: 'Constraints',
       associatedResource: 'Associated Resources',
+      citation: 'Citation',
+      abstract: 'Abstract',
+      timePeriod: 'Time Period',
+      status: 'Status',
+      pointOfContact: 'Point of Contact',
+      type: 'Type',
     };
 
     let propertyName = pathSegments
