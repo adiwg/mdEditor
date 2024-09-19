@@ -52,7 +52,8 @@ export default Component.extend({
     let groupedErrors = [];
     let processedErrors = new Set();
 
-    for (let i = 0; i < errors.length; i++) {
+    // Process errors from end to start
+    for (let i = errors.length - 1; i >= 0; i--) {
       let error = errors[i];
 
       if (processedErrors.has(error)) {
@@ -65,7 +66,7 @@ export default Component.extend({
         // Get the schemaPath of the anyOf/oneOf error
         let schemaPath = error.schemaPath;
 
-        // Look back at preceding errors
+        // Collect preceding errors that are related to this anyOf/oneOf error
         for (let j = i - 1; j >= 0; j--) {
           let prevError = errors[j];
 
@@ -73,9 +74,9 @@ export default Component.extend({
             continue;
           }
 
-          // Check if the previous error's schemaPath starts with the anyOf/oneOf schemaPath
+          // If the prevError's schemaPath starts with the anyOf/oneOf's schemaPath
           if (prevError.schemaPath.startsWith(schemaPath + '/')) {
-            relatedErrors.unshift(prevError); // Use unshift to maintain order
+            relatedErrors.unshift(prevError);
             processedErrors.add(prevError);
           } else {
             // Stop if we reach an error that is not related
@@ -84,11 +85,11 @@ export default Component.extend({
         }
 
         error.relatedErrors = relatedErrors;
-        groupedErrors.push(error);
+        groupedErrors.unshift(error);
         processedErrors.add(error);
       } else {
         if (!processedErrors.has(error)) {
-          groupedErrors.push(error);
+          groupedErrors.unshift(error);
           processedErrors.add(error);
         }
       }
@@ -195,7 +196,7 @@ export default Component.extend({
 
       return {
         type: 'anyOf',
-        header: `One of Multiple Fields Required in ${propertyName}`,
+        header: `At Least 1 of Multiple Fields Required in ${propertyName}`,
         messages: messages,
         path: error.dataPath,
         url: this.mapDataPathToEndpoint(error.dataPath),
@@ -343,79 +344,59 @@ export default Component.extend({
     }
 
     let endpoint = 'main'; // default endpoint
-    let extraPath = ''; // any extra path to append
-    let index = null;
 
     // Now process the path segments
-    if (pathSegments[0] === 'resourceInfo') {
+    if (pathSegments[0] === 'metadataInfo') {
+      endpoint = 'metadata';
+    } else if (pathSegments[0] === 'resourceInfo') {
       // Handle resourceInfo
       if (pathSegments[1]) {
         switch (pathSegments[1]) {
+          case 'citation':
+            endpoint += '/citation';
+            break;
           case 'extent':
             endpoint = 'extent';
-            // Do not include index for extent
+            break;
+          case 'constraint':
+            endpoint = 'constraint';
+            break;
+          case 'spatialReferenceSystem':
+          case 'spatialResolution':
+            endpoint = 'spatial';
             break;
           case 'taxonomy':
             endpoint = 'taxonomy';
-            // Include index if present
             if (pathSegments[2] && !isNaN(pathSegments[2])) {
-              index = pathSegments[2];
+              endpoint += `/${pathSegments[2]}`;
             }
             break;
           case 'keyword':
             endpoint = 'keywords';
-            extraPath = 'thesaurus';
-            // Include index if present
             if (pathSegments[2] && !isNaN(pathSegments[2])) {
-              index = pathSegments[2];
-            } else {
-              // When index is missing, default to index 0
-              index = '0';
+              endpoint += `/thesaurus/${pathSegments[2]}`;
             }
             break;
-          case 'constraint':
-            endpoint = 'constraint';
-            // Do not include index for constraint
-            break;
-          case 'citation':
-          case 'abstract':
-          case 'timePeriod':
-          case 'status':
-          case 'pointOfContact':
-            endpoint = 'main';
-            break;
-          default:
-            endpoint = 'main';
-            break;
         }
-      } else {
-        endpoint = 'main';
       }
     } else if (pathSegments[0] === 'contact') {
-      // Special case for contacts
       return '/contacts';
     } else if (pathSegments[0] === 'dataQuality') {
       endpoint = 'dataquality';
-      // Include index if present
-      if (pathSegments[1] && !isNaN(pathSegments[1])) {
-        index = pathSegments[1];
-      } else {
-        index = '0'; // Default to the first data quality item
-      }
-    } else {
-      // Other cases, stay on main or handle as needed
-      endpoint = 'main';
+    } else if (pathSegments[0] === 'associatedResource') {
+      endpoint = 'associated';
+    } else if (pathSegments[0] === 'resourceDistribution') {
+      endpoint = 'distribution';
+    } else if (pathSegments[0] === 'funding') {
+      endpoint = 'funding';
+    } else if (pathSegments[0] === 'additionalDocumentation') {
+      endpoint = 'documents';
+    } else if (pathSegments[0] === 'resourceLineage') {
+      endpoint = 'lineage';
     }
 
     // Build the URL
     let url = `/record/${recordId}/edit/${endpoint}`;
-    if (extraPath) {
-      url += `/${extraPath}`;
-    }
-    if (index !== null && endpoint !== 'extent') {
-      url += `/${index}`;
-    }
-
     return url;
   },
 
