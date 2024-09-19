@@ -40,44 +40,59 @@ export default Component.extend({
 
   // Function to preprocess and transform errors
   transformErrors(errors) {
-    // First, group any 'anyOf' or 'oneOf' errors with their related errors
-    let groupedErrors = this.groupAnyOfErrors(errors);
+    // First, group compound errors (anyOf, oneOf, etc.) with their related errors
+    let groupedErrors = this.groupCompoundErrors(errors);
 
     // Transform each error into a consistent format
     return groupedErrors.map((error) => this.handleError(error));
   },
 
-  // Group 'anyOf' and 'oneOf' errors with their related errors
-  groupAnyOfErrors(errors) {
+  // Group compound errors (anyOf, oneOf, etc.) with their related errors
+  groupCompoundErrors(errors) {
     let groupedErrors = [];
     let processedErrors = new Set();
 
-    errors.forEach((error) => {
+    for (let i = 0; i < errors.length; i++) {
+      let error = errors[i];
+
       if (processedErrors.has(error)) {
-        return;
+        continue;
       }
 
       if (error.keyword === 'anyOf' || error.keyword === 'oneOf') {
-        // Find all errors related to this anyOf/oneOf, including nested ones
-        let relatedErrors = errors.filter(
-          (e) =>
-            e !== error &&
-            e.dataPath.startsWith(error.dataPath) &&
-            !processedErrors.has(e)
-        );
+        let relatedErrors = [];
+
+        // Get the schemaPath of the anyOf/oneOf error
+        let schemaPath = error.schemaPath;
+
+        // Look back at preceding errors
+        for (let j = i - 1; j >= 0; j--) {
+          let prevError = errors[j];
+
+          if (processedErrors.has(prevError)) {
+            continue;
+          }
+
+          // Check if the previous error's schemaPath starts with the anyOf/oneOf schemaPath
+          if (prevError.schemaPath.startsWith(schemaPath + '/')) {
+            relatedErrors.unshift(prevError); // Use unshift to maintain order
+            processedErrors.add(prevError);
+          } else {
+            // Stop if we reach an error that is not related
+            break;
+          }
+        }
 
         error.relatedErrors = relatedErrors;
-
         groupedErrors.push(error);
-
-        // Mark related errors as processed
-        relatedErrors.forEach((e) => processedErrors.add(e));
-      } else if (!processedErrors.has(error)) {
-        groupedErrors.push(error);
+        processedErrors.add(error);
+      } else {
+        if (!processedErrors.has(error)) {
+          groupedErrors.push(error);
+          processedErrors.add(error);
+        }
       }
-
-      processedErrors.add(error);
-    });
+    }
 
     return groupedErrors;
   },
@@ -297,6 +312,9 @@ export default Component.extend({
       status: 'Status',
       pointOfContact: 'Point of Contact',
       type: 'Type',
+      dataQuality: 'Data Quality',
+      report: 'Report',
+      // Add more mappings as needed
     };
 
     let propertyName = pathSegments
@@ -376,6 +394,14 @@ export default Component.extend({
     } else if (pathSegments[0] === 'contact') {
       // Special case for contacts
       return '/contacts';
+    } else if (pathSegments[0] === 'dataQuality') {
+      endpoint = 'dataquality';
+      // Include index if present
+      if (pathSegments[1] && !isNaN(pathSegments[1])) {
+        index = pathSegments[1];
+      } else {
+        index = '0'; // Default to the first data quality item
+      }
     } else {
       // Other cases, stay on main or handle as needed
       endpoint = 'main';
@@ -386,7 +412,7 @@ export default Component.extend({
     if (extraPath) {
       url += `/${extraPath}`;
     }
-    if (index !== null && endpoint !== 'constraint' && endpoint !== 'extent') {
+    if (index !== null && endpoint !== 'extent') {
       url += `/${index}`;
     }
 
