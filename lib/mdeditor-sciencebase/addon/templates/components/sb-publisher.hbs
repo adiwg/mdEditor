@@ -9,45 +9,38 @@
   </div>
   <div class="col-sm-3">
     <div class="md-control-sidebar">
-      {{#if keycloak.isLoggingIn}}
-        <div class="text-info">
-          Logging in...
-          {{fa-icon "spinner" spin=true size=3}}
-        </div>
+      {{#unless hasToken}}
+        {{input/md-input
+          value=this.rawToken
+          placeholder="Enter ScienceBase token"
+        }}
+        <button
+          style="margin-top: 5px;"
+          type="button"
+          class="btn btn-lg btn-primary"
+          {{action "addToken"}}
+        >
+          Add token
+        </button>
       {{else}}
-        {{#unless keycloak.isAuthenticated}}
-          {{#if keycloak.isInitialized}}
-            <button
-              type="button"
-              class="btn btn-lg btn-primary"
-              {{action "login"}}
-            >
-              Login to ScienceBase
-            </button>
-          {{else}}
-            <div class="text-info">
-              Initializing...
-              {{fa-icon "spinner" spin=true size=3}}
-            </div>
-          {{/if}}
-        {{else}}
-          <div class="card">
-            <div class="card-block">
-              Logged in as
-              {{keycloak.username}}
-            </div>
+        {{#if userName}}
+        <div class="card">
+          <div class="card-block">
+            Token added for
+            {{userName}}
           </div>
-          <hr />
-          <button
-            type="button"
-            class="btn btn-lg btn-primary"
-            disabled={{if canPublish false true}}
-            {{action "publish"}}
-          >
-            Publish
-          </button>
-        {{/unless}}
-      {{/if}}
+        </div>
+        <hr />
+        {{/if}}
+        <button
+          type="button"
+          class="btn btn-lg btn-primary"
+          disabled={{if canPublish false true}}
+          {{action "publish"}}
+        >
+          Publish
+        </button>
+      {{/unless}}
     </div>
   </div>
 </div>
