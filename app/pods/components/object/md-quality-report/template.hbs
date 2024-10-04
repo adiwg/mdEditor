@@ -2,6 +2,7 @@
   value=model.type
   label='Report Type'
   required=true
+  disableSort=true
   create=true
   tooltip=true
   icon=false
@@ -130,7 +131,7 @@
   }}
   {{#if model.evaluationMethod.evaluationProcedure}}
     {{#layout/md-card
-      title='Evaluation Procedure'
+      title='Evaluation Procedure Reference'
       required=true
       collapsible=true
       collapsed=false
@@ -146,13 +147,13 @@
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
       <div class='alert md-alert-table alert-info'>
-        <h4>No Evaluation Procedure Found
+        <h4>No Evaluation Procedure Reference Found
           <button
             class='btn btn-success btn-md'
             {{action 'addEvaluationProcedure'}}
           >
             <i class='fa fa-plus' />
-            Add Evaluation Procedure
+            Add Evaluation Procedure Reference
           </button>
         </h4>
       </div>

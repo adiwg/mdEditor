@@ -1,45 +1,42 @@
 import Component from '@ember/component';
 import { readOnly, alias } from '@ember/object/computed';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'north': [
+  north: [
     validator('number', {
       allowNone: false,
       gte: -90,
-      lte: 90
-    })
+      lte: 90,
+    }),
   ],
-  'south': [
+  south: [
     validator('number', {
       allowNone: false,
       gte: -90,
-      lte: 90
+      lte: 90,
     }),
     validator('number', {
-      lte: readOnly('model.north')
-    })
+      lte: readOnly('model.north'),
+    }),
   ],
-  'east': [
+  east: [
     validator('number', {
       allowNone: false,
       gte: -180,
-      lte: 180
-    })
+      lte: 180,
+    }),
   ],
-  'west': [
+  west: [
     validator('number', {
       allowNone: false,
       gte: -180,
-      lte: 180
+      lte: 180,
     }),
     validator('number', {
-      lte: readOnly('model.east')
-    })
-  ]
+      lte: readOnly('model.east'),
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -48,7 +45,10 @@ export default Component.extend(Validations, {
   north: alias('model.northLatitude'),
   south: alias('model.southLatitude'),
   east: alias('model.eastLongitude'),
-  west: alias('model.westLongitude')
+  west: alias('model.westLongitude'),
+  minimumAltitude: alias('model.minimumAltitude'),
+  maximumAltitude: alias('model.maximumAltitude'),
+  unitsOfAltitude: alias('model.unitsOfAltitude'),
 
   // btnText: computed('isTruelyValid', function() {
   //   let text = this.get('validations.isTruelyValid') ? ''
