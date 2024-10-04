@@ -1,23 +1,24 @@
 /* eslint-disable ember/no-actions-hash */
 /* eslint-disable ember/no-classic-classes */
-import Controller from "@ember/controller";
-import { inject as service } from "@ember/service";
+import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
+import { set } from '@ember/object';
 
 export default Controller.extend({
-  customProfile: service("custom-profile"),
+  customProfile: service('custom-profile'),
   /* eslint-disable ember/avoid-leaking-state-in-ember-objects */
   columns: [
     {
-      propertyName: "title",
-      title: "Title",
+      propertyName: 'title',
+      title: 'Title',
     },
     {
-      propertyName: "definition.title",
-      title: "Definition",
+      propertyName: 'definition.title',
+      title: 'Definition',
     },
     {
-      propertyName: "description",
-      title: "Description",
+      propertyName: 'description',
+      title: 'Description',
       truncate: true,
       isHidden: false,
     },
@@ -25,10 +26,10 @@ export default Controller.extend({
 
   actions: {
     addProfile() {
-      this.set("profile", this.store.createRecord("custom-profile"));
+      this.set('profile', this.store.createRecord('custom-profile'));
     },
     editProfile(index, record) {
-      this.set("profile", record);
+      this.set('profile', record);
     },
     saveProfile() {
       let profile = this.profile;
@@ -39,11 +40,11 @@ export default Controller.extend({
     cancelEdit() {
       let record = this.profile;
 
-      this.set("profile", null);
+      this.set('profile', null);
       record.rollbackAttributes();
     },
     manageDefinitions() {
-      this.transitionToRoute("settings.profile.manage");
+      this.transitionToRoute('settings.profile.manage');
     },
 
     async loadProfilesFromUrl() {
@@ -51,8 +52,8 @@ export default Controller.extend({
       if (!loadFromUrl) return;
       const loadProfilesPromise =
         this.customProfile.loadCustomProfilesFromUrl(loadFromUrl);
-      this.profileUrl = null;
       await Promise.all([loadProfilesPromise]);
+      set(this, 'profileUrl', null);
     },
   },
 });
