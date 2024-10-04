@@ -1,35 +1,22 @@
 import Component from '@ember/component';
-import {
-  equal,
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
-import {
-  computed,
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { equal, alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { computed, set, getWithDefault, get } from '@ember/object';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'classification': [
+  classification: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'type': [
+  type: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 export default Component.extend(Validations, {
@@ -38,17 +25,35 @@ export default Component.extend(Validations, {
 
     let model = this.model;
 
+    console.log('constraint model', model);
+
     once(this, function () {
       set(model, 'useLimitation', getWithDefault(model, 'useLimitation', []));
       set(model, 'graphic', getWithDefault(model, 'graphic', []));
-      set(model, 'responsibleParty', getWithDefault(model,
-        'responsibleParty', []));
-      set(model, 'legal', getWithDefault(model, 'legal', {
-        accessConstraint: [],
-        useConstraint: [],
-        otherConstraint: []
-      }));
+      set(
+        model,
+        'responsibleParty',
+        getWithDefault(model, 'responsibleParty', [])
+      );
+      set(
+        model,
+        'legal',
+        getWithDefault(model, 'legal', {
+          accessConstraint: [],
+          useConstraint: [],
+          otherConstraint: [],
+        })
+      );
       set(model, 'security', getWithDefault(model, 'security', {}));
+      set(
+        model,
+        'releasability',
+        getWithDefault(model, 'releasability', {
+          addressee: [],
+          statement: '',
+          disseminationConstraint: [],
+        })
+      );
     });
   },
   /**
@@ -75,22 +80,21 @@ export default Component.extend(Validations, {
   securityRequired: equal('type', 'security'),
   legalRequired: equal('type', 'legal'),
   classification: alias('model.security.classification'),
-  // measureUnit: alias('model.measure.unitOfMeasure'),
-  // measurePresent: or('measureType','measureUnit','measureValue'),
 
   typeOptions: computed(function () {
-    return [{
+    return [
+      {
         name: 'use',
-        value: 'use'
+        value: 'use',
       },
       {
         name: 'legal',
-        value: 'legal'
+        value: 'legal',
       },
       {
         name: 'security',
-        value: 'security'
-      }
-    ]
-  })
+        value: 'security',
+      },
+    ];
+  }),
 });

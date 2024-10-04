@@ -1,0 +1,55 @@
+{{input/md-codelist
+  create=true
+  label='Scope'
+  tooltip=true
+  icon=false
+  disable=false
+  allowClear=true
+  showValidations=true
+  mdCodeName='scope'
+  path='scopeCode'
+  model=this
+  placeholder='Select Scope'
+  profilePath=(concat profilePath '.scopeCode')
+  class=(if (v-get this 'isInvalid') 'required')
+}}
+
+{{input/md-input value=model.name label='Name' placeholder='Enter name'}}
+
+<div class='row'>
+  {{input/md-datetime
+    date=model.dateTime
+    class='col-xxl-4 col-md-10 col-sm-4'
+    profilePath=(concat profilePath '.dateTime')
+    label='Date'
+  }}
+</div>
+
+{{input/md-input
+  type='number'
+  value=quantitativeValue
+  label='Value'
+  required=true
+}}
+
+{{input/md-codelist
+  create=true
+  label='UOM'
+  tooltip=true
+  icon=false
+  disable=false
+  allowClear=true
+  showValidations=true
+  mdCodeName='unitsOfMeasure'
+  path='units'
+  model=this
+  placeholder='Select Units'
+  profilePath=(concat profilePath '.valueUnits')
+  class=(if (v-get this 'isInvalid') 'required')
+}}
+
+{{input/md-input
+  value=model.valueRecordType
+  label='Value Record Type'
+  placeholder='Enter record type'
+}}

@@ -1,32 +1,47 @@
-<label class="text-info required">Dates</label>
-{{input/md-datetime
-  class="start"
-  valuePath="start"
-  model=this
-  showValidations=true
-  forceDateOutput=true
-  label="Start Date"
-  showClear=true
-  format="YYYY-MM-DD HH:mm:ss"
-  placeholder="Enter start dateTime"
-  profilePath=(concat profilePath ".start")
-}}
-{{input/md-datetime
-  class="end"
-  valuePath="end"
-  model=this
-  showValidations=true
-  forceDateOutput=true
-  showClear=true
-  label="End Date"
-  format="YYYY-MM-DD HH:mm:ss"
-  placeholder="Enter end dateTime"
-  profilePath=(concat profilePath ".end")
-}}
-{{control/md-fiscalyear
-  start="start"
-  end="end"
-  context=this
-  profilePath=(concat profilePath ".fiscalyear")
-}}
+<label class='text-info required'>Dates</label>
+<div style='display:flex; flex-direction: row; width: 100%; gap: 15px;'>
+  <div style='padding-bottom: 10px; width: 100px; margin-right: 25px;'>
+    {{input/md-select
+      showValidations=true
+      valuePath='value'
+      namePath='name'
+      label='Precision'
+      model=this
+      path='selectedPrecision'
+      objectArray=precisionOptions
+      searchEnabled=false
+      placeholder='Date Precision'
+    }}
+  </div>
+  {{input/md-datetime
+    class='start'
+    valuePath='start'
+    model=this
+    showValidations=true
+    forceDateOutput=true
+    label='Start Date'
+    showClear=true
+    format=selectedFormat
+    placeholder='Enter start dateTime'
+    profilePath=(concat profilePath '.start')
+  }}
+  {{input/md-datetime
+    class='end'
+    valuePath='end'
+    model=this
+    showValidations=true
+    forceDateOutput=true
+    showClear=true
+    label='End Date'
+    format=selectedFormat
+    placeholder='Enter end dateTime'
+    profilePath=(concat profilePath '.end')
+  }}
+  {{control/md-fiscalyear
+    start='start'
+    end='end'
+    context=this
+    profilePath=(concat profilePath '.fiscalyear')
+  }}
+</div>
 {{yield}}

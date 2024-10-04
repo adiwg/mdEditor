@@ -52,17 +52,6 @@ const Validations = buildValidations({
     isWarning: true,
     message: 'No schemas have been assigned.',
   }),
-  // 'uri': [
-  // validator('presence', {
-  //   presence: true,
-  //   ignoreBlank: true
-  // }),
-  // validator('format', {
-  //   regex: regex,
-  //   isWarning: false,
-  //   message: 'This field should be a valid, resolvable URL.'
-  // })
-  // ]
 });
 
 export default Model.extend(Validations, {
