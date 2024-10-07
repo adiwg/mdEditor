@@ -1,4 +1,4 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 import { computed, observer } from '@ember/object';
 import { or, alias, notEmpty } from '@ember/object/computed';
 import { once } from '@ember/runloop';
@@ -87,7 +87,7 @@ export default Model.extend(Validations, {
   components: alias('config.components'),
   nav: alias('config.nav'),
   hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
-
+  schemas: hasMany('schemas'),
   definition: computed('profileId', function () {
     return this.definitions.profiles.findBy('identifier', this.profileId);
   }),
