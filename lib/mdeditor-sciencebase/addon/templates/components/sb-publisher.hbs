@@ -18,16 +18,19 @@
           style="margin-top: 5px;"
           type="button"
           class="btn btn-lg btn-primary"
+          disabled={{if rawToken false true}}
           {{action "addToken"}}
         >
           Add token
         </button>
       {{else}}
-        {{#if userName}}
+        {{#if tokenService.token}}
         <div class="card">
           <div class="card-block">
             Token added for
-            {{userName}}
+            {{tokenService.userName}}
+            Expires
+            {{moment-format tokenService.expiry 'LLL'}}
           </div>
         </div>
         <hr />
