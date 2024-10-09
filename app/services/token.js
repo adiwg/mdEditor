@@ -2,6 +2,8 @@ import Service, { inject as service } from '@ember/service';
 import { action } from "@ember/object";
 import { tracked } from "@glimmer/tracking";
 
+const SB_TOKEN_KEY = 'sbToken';
+
 export default class TokenService extends Service {
   @service flashMessages;
 
@@ -9,17 +11,32 @@ export default class TokenService extends Service {
   @tracked userName = null;
   @tracked expiry = null;
 
+  setup() {
+    const storedToken = window.sessionStorage.getItem(SB_TOKEN_KEY);
+    if (storedToken) {
+      const addedToken = this.addToken(storedToken);
+      if (!addedToken) {
+        window.sessionStorage.removeItem(SB_TOKEN_KEY);
+      }
+    }
+  }
+
   @action
   addToken(rawToken) {
     const parsed = this.parseToken(rawToken);
     if (parsed) {
-      this.token = parsed.token;
-      this.userName = parsed.userName;
-      this.expiry = parsed.expiry;
+      if (this.isExpired(parsed.expiry)) {
+        this.flashMessages.danger('Token is expired');
+      } else {
+        this.token = parsed.token;
+        this.userName = parsed.userName;
+        this.expiry = parsed.expiry;
+        window.sessionStorage.setItem(SB_TOKEN_KEY, rawToken);
+      }
     } else {
-      this.flashMessages.danger('Invalid token');
+      this.flashMessages.danger('Token is invalid');
     }
-    return parsed;
+    return this.token;
   }
 
   parseToken(rawToken) {
@@ -46,7 +63,7 @@ export default class TokenService extends Service {
         const expiry = parsedRefresh.exp;
         if (!!expiry) {
           parsedValues.expiry = new Date(expiry * 1000);
-          parsedValues.token = parsedRefresh;
+          parsedValues.token = refresh_token;
         }
       }
       
@@ -55,6 +72,10 @@ export default class TokenService extends Service {
       return parsedValues;
     }
     return false;
+  }
+
+  isExpired(expiry) {
+    return expiry < new Date();
   }
 
   parseTokenPayload(token) {
