@@ -1,0 +1,105 @@
+<ul class='sidebar-nav'>
+  <li class='sidebar-brand'>
+    <a class='sidebar-brand-link' href='#' {{action 'toggleSidebar'}}>md<span
+        class='md-icon-mdeditor'
+      ></span>ditor</a><span
+      class='md-app-version {{this.prerelease}}'
+    >v{{this.version}}</span>
+    <a class='md-btn-help pull-right' href='#' {{action 'toggleHelp'}}>
+      <FlightIcon @name={{if this.showHelp 'list' 'help'}} @size='24' />
+    </a>
+  </li>
+  {{#liquid-if this.showHelp use='fade' enableGrowth=false}}
+    <this.md-help />
+  {{else}}
+    <li id='md-sidebar-lists'>
+      <div class='panel-group'>
+        {{#each this.items as |class|}}
+          {{#let class.meta as |meta|}}
+          {{log meta}}
+            <div class='panel'>
+              <div class='panel-heading clearfix' id='{{meta.listId}}-heading'>
+                <div
+                  class='btn-group btn-group-xs pull-right'
+                  role='group'
+                  aria-label='...'
+                >
+                  <LinkTo
+                    @route={{concat meta.type '.new'}}
+                    class='btn btn-primary btn-xs'
+                  >
+                    <FlightIcon @name='plus' />
+                  </LinkTo>
+                  <LinkTo @route={{meta.list}} class='btn btn-primary btn-xs'>
+                    <FlightIcon @name='list' />
+                  </LinkTo>
+                </div>
+                <h4 class='panel-title bg-primary'>
+                  <a
+                    class=''
+                    data-toggle='collapse'
+                    aria-expanded='true'
+                    href='#{{meta.listId}}'
+                    aria-controls={{meta.listId}}
+                  >
+                    <FlightIcon @name={{meta.icon}} />
+                    {{meta.title}}
+                    ({{class.length}})
+                  </a>
+                </h4>
+              </div>
+              <div
+                class='panel-collapse collapse in'
+                role='tabpanel'
+                aria-expanded='true'
+                id={{meta.listId}}
+                aria-labelledby='{{meta.listId}}-heading'
+              >
+                <div class='list-group'>
+                  {{#each class as |record|}}
+                    <div class='list-group-item' draggable='true'>
+                      <div
+                        class='btn-group btn-group-xs pull-right'
+                        role='group'
+                        aria-label='Navigation Buttons'
+                      >
+                        <LinkTo
+                          @route={{concat meta.type '.show.edit'}}
+                          @model={{record}}
+                          class={{concat 'btn btn-' record.status}}
+                          @disabledWhen={{record.isNew}}
+                          @draggable='false'
+                        >
+                          <FlightIcon @name='pencil-tool' />
+                        </LinkTo>
+                      </div>
+                      <LinkTo
+                        @route={{concat meta.type '.show'}}
+                        @model={{record}}
+                        class='sidebar-row'
+                        @disabledWhen={{record.isNew}}
+                        @activeClass={{concat 'active text-' record.status}}
+                        @draggable='false'
+                      >
+                        {{#if record.defaultLogo}}
+                          <img
+                            src={{record.defaultLogo}}
+                            alt='logo'
+                            class='fa-fw'
+                          />
+                        {{else}}
+                          <FlightIcon @name={{record.icon}} />
+                        {{/if}}
+                        {{record.title}}
+                      </LinkTo>
+                    </div>
+                  {{/each}}
+                </div>
+              </div>
+            </div>
+          {{/let}}
+        {{/each}}
+      </div>
+    </li>
+  {{/liquid-if}}
+</ul>

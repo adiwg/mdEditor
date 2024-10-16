@@ -7,4 +7,8 @@ export default class IndexRoute extends Route {
   redirect() {
     this.transitionTo('dashboard');
   }
+
+  // currentRouteModel() {
+  //   return this.modelFor(this.routeName);
+  // }
 }

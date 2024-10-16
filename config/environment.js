@@ -7,7 +7,6 @@ module.exports = function (environment) {
       'style-src': "'self' 'unsafe-inline'",
     },
     modulePrefix: 'mdeditor',
-    podModulePrefix: 'mdeditor/pods',
     environment: environment,
     rootURL: '/',
     locationType: 'history',

@@ -137,6 +137,13 @@
         line-height: 40px;
         padding-left: 10px;
         color: $body-bg;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .flight-icon {
+          margin-right: 4px;
+        }
 
         &:hover {
           //background-color: darken($brand-primary, 12%);
@@ -158,6 +165,9 @@
     border-top: 0 none;
 
     .list-group-item {
+      display: flex;
+      align-items: center;
+      margin-right: 8px;
       line-height: 40px;
       overflow: hidden;
       padding: 0;
@@ -177,8 +187,10 @@
 
   a.sidebar-row {
     max-width: #{$sidebar-width - 55}px;
-    padding-left: 10px;
-    display: block;
+    padding-left: 1px;
+    display: flex;
+    align-items: center;
+
 
     &.active {
       &.text-warning {

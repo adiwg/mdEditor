@@ -5,7 +5,7 @@ import EmberObject, { get, set } from '@ember/object';
 import Ember from 'ember';
 import Ajv from 'ajv';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
-import { formatCitation } from 'mdeditor/pods/components/object/md-citation/component';
+import { formatCitation } from 'mdeditor/components/object/md-citation/component';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
 
 Ember.libraries.register('mdJson-schemas', Schemas.schema.version);

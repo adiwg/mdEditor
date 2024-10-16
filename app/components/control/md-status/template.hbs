@@ -1,0 +1,45 @@
+{{#if this.model.hasDirtyHash}}
+  <span role='button' class='md-status-icon' onclick={{action 'saveRecord'}}>
+    <FlightIcon
+      @name='alert-circle'
+      @class={{if
+        this.isBtn
+        (concat 'btn btn-danger btn-' this.btnSize)
+        'md-error'
+      }}
+    />
+    <EmberTooltip
+      @text='This record has been modified! Cick to save.'
+      @side='top'
+      @tooltipClass='ember-tooltip md-tooltip danger'
+    />
+  </span>
+{{/if}}
+
+{{#if this.model.hasSchemaErrors}}
+  <span role='button' class='md-status-icon' onclick={{action 'showSlider'}}>
+    <FlightIcon
+      @name='alert-triangle'
+      @class={{if
+        this.isBtn
+        (concat 'btn btn-warning btn-' this.btnSize)
+        'md-error'
+      }}
+    />
+    <EmberTooltip
+      @text='This record has errors! Click to view.'
+      @side='right'
+      @tooltipClass='ember-tooltip md-tooltip warning'
+    />
+  </span>
+{{/if}}
+
+{{#unless this.hideSlider}}
+  <ToElsewhere
+    @named='md-slider-error'
+    @send={{hash
+      title=(concat 'Viewing errors for: ' this.model.title)
+      body=(component 'control/md-errors' errors=this.model.schemaErrors)
+    }}
+  />
+{{/unless}}
