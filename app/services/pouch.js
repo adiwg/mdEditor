@@ -73,7 +73,8 @@ export default class PouchService extends Service {
 
     let mapFn = function (item, id) {
       meta[id].listId = guidFor(item);
-      if (!item.meta) { // Avoid updating meta in case it's already set and being tracked
+      // Avoid updating meta in case it's already set and being tracked
+      if (!item.meta) {
         item.meta = meta[id];
       }
 
@@ -85,8 +86,8 @@ export default class PouchService extends Service {
 
   async loadFilteredOptions(type) {
     const storeData = await this.store.findAll(type, { reload: true });
+    // Filter out records that don't have associated pouch records
     return storeData
-      // Filter out records that don't have associated pouch records
       .filter((record) => !record[camelizedPouchPrefix(type)])
   }
 
@@ -136,9 +137,6 @@ export default class PouchService extends Service {
     pouchRecord.json = relatedRecord.cleanJson;
     return await pouchRecord.save();
   }
-
-  // TODO - Need to add handling for when record gets deleted from the remote db
-  // the relationship on the related record needs to also get deleted
 
   async deletePouchRecord(pouchRecord) {
     // First delete pouch record

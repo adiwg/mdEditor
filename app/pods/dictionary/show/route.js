@@ -6,8 +6,8 @@ export default Route.extend({
   flashMessages: service(),
 
   async model(params) {
-    // TODO - Find a better way to load the single related record
-    // Needs to happen before the model is loaded in the route
+    // Finding pouch-dictionary records needs to happen first
+    // to load them into the store as related dictionary records
     await this.store.findAll('pouch-dictionary');
     return this.store.peekRecord('dictionary', params.dictionary_id);
   },

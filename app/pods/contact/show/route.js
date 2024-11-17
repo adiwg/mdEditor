@@ -8,8 +8,8 @@ export default Route.extend(ScrollTo, {
   pouch: service(),
 
   async model(params) {
-    // TODO - Find a better way to load the single related record
-    // Needs to happen before the model is loaded in the route
+    // Finding pouch-contact records needs to happen first
+    // to load them into the store as related contact records
     await this.store.findAll('pouch-contact');
     return this.store.peekRecord('contact', params.contact_id);
   },
