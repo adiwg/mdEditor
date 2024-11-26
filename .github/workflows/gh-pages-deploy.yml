@@ -1,32 +1,60 @@
 name: Deploy to GitHub Pages
 
 on:
-  pull_request_target:
-    types:
-      - closed
+  push:
     branches:
       - master
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '16'
-    
-    - name: Install Dependencies
-      run: yarn
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
 
-    - name: Build
-      run: yarn build
+      - name: Install Dependencies
+        run: yarn install
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
+      - name: Build
+        run: yarn build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+
+      - name: Create Tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Fetch existing tags
+          git fetch --tags
+          # Determine the latest tag
+          latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` || echo "v0.0.0")
+          echo "Latest tag: $latest_tag"
+          # Calculate the next version
+          IFS='.' read -ra VERSION <<< "${latest_tag/v/}"
+          major=${VERSION[0]}
+          minor=${VERSION[1]}
+          patch=${VERSION[2]}
+          patch=$((patch + 1))
+          next_version="v$major.$minor.$patch"
+          echo "Next version: $next_version"
+          # Create and push the tag
+          git tag $next_version
+          git push origin $next_version
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        with:
+          tag_name: $next_version
+          release_name: Release $next_version
+          body: |
+            Automated release for version $next_version.
+          draft: false
+          prerelease: false
