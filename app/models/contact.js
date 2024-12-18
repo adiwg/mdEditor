@@ -13,8 +13,6 @@ import EmberObject, {
 import {
   Copyable
 } from 'ember-copy'
-import uuidV4 from 'uuid/v4';
-import Validator from 'validator';
 import Model from 'mdeditor/models/base';
 import {
   validator,
@@ -37,7 +35,7 @@ const Validations = buildValidations({
       message: "Name should not be only white-space."
     }),
     validator('presence', {
-      disabled: notEmpty('model.json.positionName'),
+      disabled: notEmpty('model.json.name'),
       presence: true
     })
   ],
@@ -49,7 +47,7 @@ const Validations = buildValidations({
       message: "Position Name should not be only white-space."
     }),
     validator('presence', {
-      disabled: notEmpty('model.json.name'),
+      disabled: notEmpty('model.json.postiionName'),
       presence: true
     })
   ],
@@ -63,10 +61,10 @@ const JsonDefault = EmberObject.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
-      'contactId': uuidV4(),
+      'contactId': null,
       'isOrganization': false,
       'name': null,
-      //'positionName': null,
+      'positionName': null,
       'memberOfOrganization': [],
       'logoGraphic': [],
       'phone': [],
@@ -75,8 +73,6 @@ const JsonDefault = EmberObject.extend({
       'externalIdentifier': [],
       'onlineResource': [],
       'hoursOfService': [],
-      //'contactInstructions': null,
-      //'contactType': null;
     });
   }
 });
@@ -148,37 +144,6 @@ const Contact = Model.extend(Validations, Copyable, {
 
       return json.name || (json.isOrganization ? null : json.positionName);
     }),
-
-  // /**
-  //  * The formatted display string for the contact
-  //  *
-  //  * @property title
-  //  * @type {String}
-  //  * @readOnly
-  //  * @category computed
-  //  * @requires json.name, json.positionName
-  //  */
-  // updateMembers: Ember.observer('json.memberOfOrganization.[]',
-  //   function () {
-  //     //const me = this;
-  //     const json = this.get('json');
-  //     const value = json.memberOfOrganization;
-  //
-  //     let store = this.get('store');
-  //     let contacts = store.peekAll('contact');
-  //     let organizations = this.get('organizations')
-  //       .clear();
-  //
-  //     value.forEach(function (id) {
-  //       let rec = contacts.findBy('json.contactId', id);
-  //
-  //       if(rec) {
-  //         organizations.pushObject(rec);
-  //       }
-  //       //rec.get('contacts').pushObject(me);
-  //     });
-  //
-  //   }),
 
   /**
    * The type of contact
@@ -319,26 +284,6 @@ const Contact = Model.extend(Validations, Copyable, {
     }),
 
   /**
-   * The trimmed varsion of the contactId.
-   *
-   * @property shortId
-   * @type {String}
-   * @readOnly
-   * @category computed
-   * @requires json.contactId
-   */
-  shortId: computed('json.contactId', function () {
-    const contactId = this.get('json.contactId');
-    if(contactId && Validator.isUUID(contactId)) {
-      let index = contactId.indexOf('-');
-
-      return contactId.substring(0, index);
-    }
-
-    return contactId;
-  }),
-
-  /**
    * A list of schema errors return by the validator.
    *
    * @property schemaErrors
@@ -395,7 +340,7 @@ const Contact = Model.extend(Validations, Copyable, {
       isOrganization: isOrganization,
       name: name ? `Copy of ${name}` : null,
       positionName: name ? positionName : `Copy of ${positionName}`,
-      contactId: uuidV4()
+      contactId: null,
     });
 
     return this.store.createRecord('contact', {
