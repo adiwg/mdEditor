@@ -26,8 +26,14 @@ You will need the following things properly installed on your computer.
 
 - [Git][git]
 - [Node.js][node]
-  - Supported versions: `v16`.
+  - Supported versions: `v18`.
   - **Apple Silicon Users**:  if you experience problems building or running try Node v14.
+  - We are now using Yarn V4. Here are the steps in setting it up.
+    - Make sure that you have Node Version 18 doesn't matter the minor semantic changes.
+    - Enable corepack by using the `corepack enable` command.
+    - Remove `node_modules` folder
+    - Run `yarn` to install packages again using Yarn V4.
+    - All other commands are the same.
 - [Yarn][yarn] installed globally
 - [Google Chrome][chrome]
 - [Firefox][firefox]

@@ -107,7 +107,7 @@ export default Route.extend(ScrollTo, {
         this.store.exportData(
           modelTypes, {
             download: true,
-            filename: `mdeditor-${moment().format('YYYYMMDD-HHMMSS')}.json`
+            filename: `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
           }
         );
       });
@@ -124,7 +124,7 @@ export default Route.extend(ScrollTo, {
             new Blob([JSON.stringify(records)], {
               type: 'application/json;charset=utf-8'
             }),
-            `mdjson-${moment().format('YYYYMMDD-HHMMSS')}.json`
+            `mdjson-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
           );
 
         } else {
@@ -146,7 +146,7 @@ export default Route.extend(ScrollTo, {
           this.store.exportSelectedData(
             modelTypes, {
               download: true,
-              filename: `mdeditor-${moment().format('YYYYMMDD-HHMMSS')}.json`,
+              filename: `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`,
               filterIds: filterIds
             }
           );
