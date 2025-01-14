@@ -1,39 +1,16 @@
-import { A, isArray } from "@ember/array";
-import EmObject, { computed, get, getWithDefault, set } from "@ember/object";
-import { or } from "@ember/object/computed";
-import { assign } from "@ember/polyfills";
-import Route from "@ember/routing/route";
-import { inject as service } from "@ember/service";
-import Base from "ember-local-storage/adapters/base";
-import jquery from "jquery";
-import ScrollTo from "mdeditor/mixins/scroll-to";
-import { JsonDefault as Contact } from "mdeditor/models/contact";
-import { Promise, allSettled } from "rsvp";
-import uuidV4 from "uuid/v4";
-
-function fixLiabilityTypo(files) {
-  // Iterate through the records array
-  files.records?.forEach((record) => {
-    // Access the JSON string
-    const jsonString = record.get("attributes.json");
-    // Parse the JSON string into a JavaScript object
-    const jsonObject = JSON.parse(jsonString);
-    // Check if the path exists and iterate through the resourceDistribution array
-    if (jsonObject.metadata && jsonObject.metadata.resourceDistribution) {
-      jsonObject.metadata.resourceDistribution.forEach((distribution) => {
-        // Check for the misspelled key and rename it
-        if (distribution.liablityStatement) {
-          distribution.liabilityStatement = distribution.liablityStatement;
-          delete distribution.liablityStatement;
-        }
-      });
-      // Convert the modified object back to a JSON string
-      const updatedJsonString = JSON.stringify(jsonObject);
-      // Update the Ember object with the new JSON string
-      record.set("attributes.json", updatedJsonString);
-    }
-  });
-}
+import { A, isArray } from '@ember/array';
+import EmObject, { computed, get, getWithDefault, set } from '@ember/object';
+import { or } from '@ember/object/computed';
+import { assign } from '@ember/polyfills';
+import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
+import Base from 'ember-local-storage/adapters/base';
+import jquery from 'jquery';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { JsonDefault as Contact } from 'mdeditor/models/contact';
+import { Promise, allSettled } from 'rsvp';
+import { v4 } from 'uuid';
+import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 
 const generateIdForRecord = Base.create().generateIdForRecord;
 
@@ -47,18 +24,18 @@ export default Route.extend(ScrollTo, {
     this._super(...arguments);
 
     this.icons = {
-      records: "file",
-      dictionaries: "book",
-      contacts: "users",
-      settings: "gear",
+      records: 'file',
+      dictionaries: 'book',
+      contacts: 'users',
+      settings: 'gear',
     };
   },
   setupController(controller, model) {
     // Call _super for default behavior
     this._super(controller, model);
     // Implement your custom setup after
-    controller.set("importUri", this.get("settings.data.importUriBase"));
-    controller.set("apiURL", this.apiURL);
+    controller.set('importUri', this.get('settings.data.importUriBase'));
+    controller.set('apiURL', this.apiURL);
   },
 
   model() {
@@ -68,35 +45,31 @@ export default Route.extend(ScrollTo, {
     });
   },
 
-  apiURL: or("settings.data.mdTranslatorAPI", "defaultAPI"),
+  apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
 
   getTitle(record) {
     let raw = record.attributes.json;
     let json = raw ? JSON.parse(raw) : null;
 
     switch (record.type) {
-      case "records":
+      case 'records':
         return getWithDefault(
           json,
-          "metadata.resourceInfo.citation.title",
-          "NO TITLE"
+          'metadata.resourceInfo.citation.title',
+          'NO TITLE'
         );
-      case "dictionaries":
+      case 'dictionaries':
         return getWithDefault(
           json,
-          "dataDictionary.citation.title",
-          "NO TITLE"
+          'dataDictionary.citation.title',
+          'NO TITLE'
         );
-      case "contacts":
-        return json.name || "NO NAME";
-      case "schemas":
-        return record.attributes.title || "NO TITLE";
-      case "profiles":
-        return record.attributes.alias || "NO TITLE";
-      case "custom-profiles":
-        return record.attributes.title || "NO TITLE";
+      case 'contacts':
+        return json.name || 'NO NAME';
+      case 'schemas':
+        return record.attributes.title || 'NO TITLE';
       default:
-        return "N/A";
+        return 'N/A';
     }
   },
 
@@ -106,8 +79,40 @@ export default Route.extend(ScrollTo, {
     let template = EmObject.extend({
       init() {
         this._super(...arguments);
+        if (this.attributes.json) {
+          const json = JSON.parse(this.attributes.json);
 
-        set(this, "id", generateIdForRecord());
+          switch (this.type) {
+            case 'contacts':
+              if (json.contactId) {
+                set(this, 'id', json.contactId.substring(0, 8));
+              }
+              break;
+
+            case 'dictionaries':
+              if (json.dataDictionary) {
+                set(this, 'id', v4().substring(0, 8));
+              }
+              break;
+
+            case 'records':
+              if (
+                json.metadata &&
+                json.metadata.metadataInfo &&
+                json.metadata.metadataInfo.metadataIdentifier
+              ) {
+                set(
+                  this,
+                  'id',
+                  json.metadata.metadataInfo.metadataIdentifier.identifier.substring(
+                    0,
+                    8
+                  )
+                );
+              }
+              break;
+          }
+        }
       },
       attributes: computed(function () {
         return {
@@ -125,16 +130,16 @@ export default Route.extend(ScrollTo, {
             attributes: {
               json: JSON.stringify(assign(Contact.create(), item)),
             },
-            type: "contacts",
+            type: 'contacts',
           })
         );
       });
     }
 
-    if (get(json, "metadata.metadataInfo.metadataIdentifier") === undefined) {
+    if (get(json, 'metadata.metadataInfo.metadataIdentifier') === undefined) {
       json.metadata.metadataInfo.metadataIdentifier = {
         identifier: uuidV4(),
-        namespace: "urn:uuid",
+        namespace: 'urn:uuid',
       };
     }
 
@@ -144,7 +149,7 @@ export default Route.extend(ScrollTo, {
           json: JSON.stringify(json),
           //profile: 'full'
         },
-        type: "records",
+        type: 'records',
       })
     );
 
@@ -157,7 +162,7 @@ export default Route.extend(ScrollTo, {
                 dataDictionary: item,
               }),
             },
-            type: "dictionaries",
+            type: 'dictionaries',
           })
         );
       });
@@ -179,9 +184,9 @@ export default Route.extend(ScrollTo, {
 
     fixLiabilityTypo(files);
 
-    route.currentRouteModel().set("files", files);
+    route.currentRouteModel().set('files', files);
 
-    route.currentRouteModel().set("data", json.data);
+    route.currentRouteModel().set('data', json.data);
   },
 
   mapMdJSON(data) {
@@ -195,7 +200,7 @@ export default Route.extend(ScrollTo, {
       map = map.concat(this.formatMdJSON(data.json));
     }
 
-    set(data, "json.data", map);
+    set(data, 'json.data', map);
 
     return this.mapRecords(map);
   },
@@ -218,8 +223,8 @@ export default Route.extend(ScrollTo, {
 
   mapEditorJSON(data) {
     let { file, json } = data;
-    let jv = get(this, "jsonvalidator.validator");
-    let valid = jv.validate("jsonapi", json);
+    let jv = get(this, 'jsonvalidator.validator');
+    let valid = jv.validate('jsonapi', json);
 
     if (!valid) {
       throw new Error(`${file.name} is not a valid mdEditor file.`);
@@ -233,27 +238,27 @@ export default Route.extend(ScrollTo, {
 
     return [
       {
-        propertyName: "meta.title",
-        title: "Title",
+        propertyName: 'meta.title',
+        title: 'Title',
       },
       {
-        propertyName: "attributes.date-updated",
-        title: "Last Updated",
+        propertyName: 'attributes.date-updated',
+        title: 'Last Updated',
       },
       {
-        propertyName: "id",
-        title: "ID",
+        propertyName: 'id',
+        title: 'ID',
       },
       {
-        title: "Actions",
-        component: "control/md-record-table/buttons/custom",
+        title: 'Actions',
+        component: 'control/md-record-table/buttons/custom',
         disableFiltering: true,
         buttonConfig: {
-          title: "Preview JSON",
+          title: 'Preview JSON',
           action(model) {
             route.showPreview.call(route, model);
           },
-          iconPath: "meta.icon",
+          iconPath: 'meta.icon',
         },
       },
     ];
@@ -267,7 +272,7 @@ export default Route.extend(ScrollTo, {
       json.json = JSON.parse(model.attributes.json);
     }
 
-    this.currentRouteModel().set("preview", {
+    this.currentRouteModel().set('preview', {
       model: model,
       json: json,
     });
@@ -288,24 +293,24 @@ export default Route.extend(ScrollTo, {
 
       new Promise((resolve, reject) => {
         if (file.type.match(/.*\/xml$/)) {
-          set(controller, "isTranslating", true);
+          set(controller, 'isTranslating', true);
           this.flashMessages.info(`Translation service provided by ${url}.`);
 
           this.ajax
             .request(url, {
-              type: "POST",
+              type: 'POST',
               data: {
                 file: file.data,
-                reader: "fgdc",
-                writer: "mdJson",
-                validate: "normal",
-                format: "json",
+                reader: 'fgdc',
+                writer: 'mdJson',
+                validate: 'normal',
+                format: 'json',
               },
               context: cmp,
             })
             .then(
               function (response) {
-                set(controller, "isTranslating", false);
+                set(controller, 'isTranslating', false);
 
                 if (response.success) {
                   resolve({
@@ -322,7 +327,7 @@ export default Route.extend(ScrollTo, {
                 );
               },
               (response) => {
-                set(controller, "isTranslating", false);
+                set(controller, 'isTranslating', false);
 
                 reject(
                   `mdTranslator Server error: ${response.status}: ${response.statusText}. Is your file valid FGDC CSDGM XML?`
@@ -348,26 +353,26 @@ export default Route.extend(ScrollTo, {
         })
         .catch((reason) => {
           //catch any errors
-          get(cmp, "flashMessages").danger(reason);
+          get(cmp, 'flashMessages').danger(reason);
           return false;
         })
         .finally(() => {
-          jquery(".import-file-picker input:file").val("");
+          jquery('.import-file-picker input:file').val('');
         });
     },
 
     readFromUri() {
-      let uri = this.controller.get("importUri");
+      let uri = this.controller.get('importUri');
       let controller = this.controller;
       let route = this;
 
-      set(controller, "isLoading", true);
+      set(controller, 'isLoading', true);
 
       this.ajax
         .request(uri, {
-          type: "GET",
+          type: 'GET',
           context: this,
-          dataType: "text",
+          dataType: 'text',
           crossDomain: true,
         })
         .then(function (response) {
@@ -393,74 +398,58 @@ export default Route.extend(ScrollTo, {
               })
               .catch((reason) => {
                 //catch any errors
-                get(controller, "flashMessages").danger(reason);
+                get(controller, 'flashMessages').danger(reason);
                 return false;
               })
               .finally(() => {
-                set(controller, "isLoading", false);
-                jquery(".md-import-picker input:file").val("");
+                set(controller, 'isLoading', false);
+                jquery('.md-import-picker input:file').val('');
               });
           } else {
-            set(controller, "errors", response.messages);
-            get(controller, "flashMessages").danger("Import error!");
+            set(controller, 'errors', response.messages);
+            get(controller, 'flashMessages').danger('Import error!');
           }
         })
         .catch((response) => {
           let error = ` Error retrieving the mdJSON: ${response.status}: ${response.statusText}`;
 
-          set(controller, "xhrError", error);
-          set(controller, "isLoading", false);
-          get(controller, "flashMessages").danger(error);
+          set(controller, 'xhrError', error);
+          set(controller, 'isLoading', false);
+          get(controller, 'flashMessages').danger(error);
         });
     },
     importData() {
       let store = this.store;
       let data = {
         data: this.currentRouteModel()
-          .get("data")
-          .filterBy("meta.export")
-          .rejectBy("type", "settings"),
+          .get('data')
+          .filterBy('meta.export')
+          .rejectBy('type', 'settings'),
       };
-
-      data.data.map((item) => {
-        let config;
-        if (item.attributes.config) {
-          config = JSON.parse(item.attributes.config);
-        }
-        if (!item.attributes.alias) {
-          item.attributes.alias =
-            item.attributes.title || config?.title || "NONE";
-        }
-        if (!item.attributes["alt-description"]) {
-          item.attributes["alt-description"] =
-            item.attributes.description || config?.description || "NONE";
-        }
-        return item;
-      });
 
       store
         .importData(data, {
-          truncate: !this.currentRouteModel().get("merge"),
+          truncate: !this.currentRouteModel().get('merge'),
           json: false,
         })
         .then(() => {
           this.flashMessages.success(
             `Imported data. Records were
               ${
-                this.currentRouteModel().get("merge") ? "merged" : "replaced"
+                this.currentRouteModel().get('merge') ? 'merged' : 'replaced'
               }.`,
             {
               extendedTimeout: 1500,
             }
           );
-          //this.transitionTo('dashboard');
+          this.transitionTo('dashboard');
         });
 
       let settingService = this.settings;
       let newSettings = this.currentRouteModel()
-        .get("data")
-        .filterBy("meta.export")
-        .findBy("type", "settings");
+        .get('data')
+        .filterBy('meta.export')
+        .findBy('type', 'settings');
 
       if (newSettings) {
         let settings = {
@@ -468,7 +457,7 @@ export default Route.extend(ScrollTo, {
         };
         let destroys = [];
 
-        store.findAll("setting").forEach((rec) => {
+        store.findAll('setting').forEach((rec) => {
           destroys.pushObject(rec.destroyRecord());
         });
 
@@ -487,10 +476,10 @@ export default Route.extend(ScrollTo, {
       }
     },
     closePreview() {
-      this.currentRouteModel().set("preview", false);
+      this.currentRouteModel().set('preview', false);
     },
     cancelImport() {
-      this.currentRouteModel().set("files", false);
+      this.currentRouteModel().set('files', false);
     },
   },
 });
