@@ -1,6 +1,5 @@
 import { attr, belongsTo } from '@ember-data/model';
 import { Copyable } from 'ember-copy'
-import uuidV4 from "uuid/v4";
 import { alias } from '@ember/object/computed';
 import Model from 'mdeditor/models/base';
 import {
@@ -40,7 +39,7 @@ const JsonDefault = EmberObject.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
-      dictionaryId: uuidV4(),
+      dictionaryId: null,
       dataDictionary: {
         citation: {
           title: null,
@@ -141,7 +140,7 @@ export default Model.extend(Validations, Copyable, {
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
     json.set('dataDictionary.citation.title', `Copy of ${name}`);
-    json.set('dictionaryId', uuidV4());
+    json.set('dictionaryId', null);
 
     return this.store.createRecord('dictionary', {
       json: json

@@ -3,7 +3,6 @@ import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
 import EmberObject, { computed, getWithDefault } from '@ember/object';
 import { Copyable } from 'ember-copy';
-import uuidV4 from "uuid/v4";
 import Model from 'mdeditor/models/base';
 import {
   validator,
@@ -88,7 +87,7 @@ const Record = Model.extend(Validations, Copyable, {
         metadata: {
           metadataInfo: {
             metadataIdentifier: {
-              identifier: uuidV4(),
+              identifier: null,
               namespace: 'urn:uuid'
             },
             metadataContact: [],
@@ -253,7 +252,7 @@ const Record = Model.extend(Validations, Copyable, {
     json.set('metadata.resourceInfo.resourceType', getWithDefault(json,
       'metadata.resourceInfo.resourceType', [{}]));
     json.set('metadata.metadataInfo.metadataIdentifier', {
-      identifier: uuidV4(),
+      identifier: null,
       namespace: 'urn:uuid'
     });
 

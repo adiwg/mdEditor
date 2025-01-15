@@ -14,11 +14,14 @@ export default Route.extend({
     let record = this.store.peekRecord('contact', params.contact_id);
 
     if (record) {
+      record.set('contactId', record.get('uuid'));
       return record;
     }
 
-    return this.store.findRecord('contact', params.contact_id);
-
+    return this.store.findRecord('contact', params.contact_id).then((record) => {
+      record.set('contactId', record.get('uuid'));
+      return record;
+    });
   },
 
   /**
