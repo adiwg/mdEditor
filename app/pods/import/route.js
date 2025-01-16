@@ -211,6 +211,8 @@ export default Route.extend(ScrollTo, {
         map[item.type] = [];
       }
 
+      console.log(item);
+
       item.meta = {};
       item.meta.title = this.getTitle(item);
       item.meta.icon = this.icons[item.type];
@@ -221,20 +223,42 @@ export default Route.extend(ScrollTo, {
     }, {});
   },
 
-  mapEditorJSON(data) {
-    let { file, json } = data;
-    let jv = get(this, 'jsonvalidator.validator');
-    let valid = jv.validate('jsonapi', json);
-
-    if (!valid) {
+  mapEditorJSON({ file, json }) {
+    const validator = this.jsonvalidator.validator;
+    if (!validator.validate('jsonapi', json)) {
       throw new Error(`${file.name} is not a valid mdEditor file.`);
     }
+
+    // Ensure dictionaryId is inside dataDictionary
+    json.data.forEach((record) => {
+      if (record.type === 'dictionaries' && record.attributes.json) {
+        let jsonData = JSON.parse(record.attributes.json);
+        if (
+          jsonData.dataDictionary &&
+          record.attributes.dictionaryId &&
+          !jsonData.dataDictionary.dictionaryId
+        ) {
+          set(
+            jsonData.dataDictionary,
+            'dictionaryId',
+            record.attributes.dictionaryId
+          );
+          delete record.attributes.dictionaryId;
+          record.attributes.json = JSON.stringify(jsonData);
+        }
+      }
+    });
 
     return this.mapRecords(json.data);
   },
 
+  //TODO: fix propertyName id for dataDictionary
   columns: computed(function () {
     let route = this;
+
+    // Log the route and any relevant data
+    console.log('Route:', route);
+    console.log('Current Route Model:', route.currentRouteModel());
 
     return [
       {

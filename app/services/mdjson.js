@@ -103,9 +103,7 @@ export default Service.extend({
         let record = dicts.findBy('dictionaryId', id);
 
         if (record) {
-          let dataDictionary = record.get('json.dataDictionary');
-          dataDictionary.dictionaryId = id; // Add dictionaryId to dataDictionary
-          arr.pushObject(dataDictionary);
+          arr.pushObject(record.get('json.dataDictionary'));
         }
       });
     }
