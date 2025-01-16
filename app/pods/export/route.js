@@ -143,10 +143,12 @@ export default Route.extend(ScrollTo, {
   actions: {
     exportData() {
       fixLiabilityTypo(this.store).then(() => {
-        this.store.exportData(modelTypes, {
-          download: true,
-          filename: `mdeditor-${moment().format('YYYYMMDD-HHMMSS')}.json`,
-        });
+        this.store.exportData(
+          modelTypes, {
+            download: true,
+            filename: `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
+          }
+        );
       });
     },
     exportSelectedData(asMdjson) {
@@ -163,7 +165,7 @@ export default Route.extend(ScrollTo, {
             new Blob([JSON.stringify(records)], {
               type: 'application/json;charset=utf-8',
             }),
-            `mdjson-${moment().format('YYYYMMDD-HHMMSS')}.json`
+            `mdjson-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
           );
         } else {
           let filterIds = {};
@@ -185,12 +187,13 @@ export default Route.extend(ScrollTo, {
               .peekAll('custom-profile')
               .mapBy('id');
           }
-
-          this.store.exportSelectedData(modelTypes, {
-            download: true,
-            filename: `mdeditor-${moment().format('YYYYMMDD-HHMMSS')}.json`,
-            filterIds: filterIds,
-          });
+          this.store.exportSelectedData(
+            modelTypes, {
+              download: true,
+              filename: `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`,
+              filterIds: filterIds
+            }
+          );
         }
       });
     },
