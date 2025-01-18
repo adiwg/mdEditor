@@ -1,4 +1,4 @@
-import { attr } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
 import { Copyable } from 'ember-copy'
 import { alias } from '@ember/object/computed';
 import Model from 'mdeditor/models/base';
@@ -60,6 +60,9 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
+
+  pouchDictionary: belongsTo('pouch-dictionary', { async: false }),
+
   /**
    * Dictionary model
    *
