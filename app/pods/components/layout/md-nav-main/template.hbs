@@ -42,6 +42,13 @@
             {{ember-tooltip text="Publish" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
           {{/link-to}}
         </li>
+        <li>
+          {{#link-to "sync"}}
+            <span class="fa fa-retweet"></span>
+            <span class="md-nav-text">Sync</span>
+            {{ember-tooltip text="Sync" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
+          {{/link-to}}
+        </li>
         {{yield}}
       </ul>
       <ul class="nav navbar-nav navbar-right">
