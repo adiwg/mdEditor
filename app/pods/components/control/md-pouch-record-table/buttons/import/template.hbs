@@ -1,0 +1,9 @@
+{{#unless this.imported}}
+  <button type="button"
+    class="btn btn-sm btn-primary"
+    {{on 'click' this.import}}
+  >
+    <span class="fa fa-sign-out"></span>
+    Import
+  </button>
+{{/unless}}

@@ -1,0 +1,37 @@
+.sync-add-pouch-container {
+  margin-bottom: 20px;
+  
+  .pouch-action-buttons {
+    margin-top: 10px;
+  }
+
+  .sync-add-buttons-container {
+    button {
+      margin: 0 10px 0 10px;
+    }
+  }
+}
+
+.couch-actions {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+
+  button {
+    margin: 10px;
+
+    span {
+      padding-right: 0.5em;
+    }
+  }
+}
+
+.couch-login-status {
+  .couch-login-block {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+  }
+}

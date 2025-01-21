@@ -10,7 +10,7 @@ export default Route.extend({
    * @chainable
    * @return {Object}
    */
-  model: function(params) {
+  model: async function(params) {
     let record = this.store.peekRecord('contact', params.contact_id);
 
     if (record) {
