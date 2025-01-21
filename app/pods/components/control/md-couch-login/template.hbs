@@ -1,0 +1,74 @@
+{{#if isLoadingCreds}}
+  <div class="text-info">
+    Logging in...
+    {{fa-icon "spinner" spin=true size=3}}
+  </div>
+{{else}}
+  {{#unless this.couch.loggedIn}}
+    <div class="couch-login-form">
+      <div class="form">
+        <h4 class="text-info">Login to CouchDB</h4>
+        {{input/md-input type="text" value=this.remoteUrl label="CouchDB URL"}}
+        {{input/md-input type="text" value=this.remoteName label="CouchDB Name"}}
+        {{input/md-input type="text" value=this.username label="Username"}}
+        {{input/md-input type="password" value=this.password label="Password"}}
+        <button type="button"
+          class="btn btn-lg btn-success"
+          {{action "login"}}>Login</button>
+      </div>
+    </div>
+    {{else}}
+      <div class="couch-login-status">
+        <div class="card">
+          <div class="couch-login-block">
+            <div class="couch-logged-in">
+              <h4 class="text-info">User Info</h4>
+              <p><strong>Name:</strong> {{this.couch.username}}</p>
+              <p><strong>Roles:</strong> {{this.couch.rolesDisplay}}</p>
+              <h4 class="text-info">CouchDB Info</h4>
+              <p><strong>URL:</strong> {{this.couch.remoteUrl}}</p>
+              <p><strong>Name:</strong> {{this.couch.remoteName}}</p>
+            </div>
+            <div class="couch-logout">
+              <button type="button"
+                class="btn btn-xs btn-danger"
+                {{action "logout"}}
+              >
+                Log out
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="couch-actions">
+        <button type="button"
+          class="btn btn-lg btn-primary"
+          {{action "push"}}
+        >
+          <span class="fa fa-upload"></span>
+          Push
+        </button>
+        <button type="button"
+          class="btn btn-lg btn-primary"
+          {{action "pull"}}
+        >
+          <span class="fa fa-download"></span>
+          Pull
+        </button>
+      </div>
+      <hr>
+      {{#if this.couch.replicationState}}
+        <div class="text-info">
+          {{this.couch.replicationState}}...
+          {{fa-icon "spinner" spin=true size=3}}
+        </div>
+      {{/if}}
+      {{#if this.couch.replicationInfo}}
+        <div class="text-info">
+          <p><strong>Document write failures: </strong>{{this.couch.replicationInfo.doc_write_failures}}</p>
+          <p><strong>Documents written: </strong>{{this.couch.replicationInfo.docs_written}}</p>
+        </div>
+      {{/if}}
+  {{/unless}}
+{{/if}}
