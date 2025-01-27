@@ -72,13 +72,9 @@ export default Route.extend({
       icon: 'book'
     })]);
 
-    let idx = 0;
-
-    let mapFn = function (item) {
-
-      meta[idx].set('listId', guidFor(item));
-      item.set('meta', meta[idx]);
-      idx = ++idx;
+    let mapFn = function (item, id) {
+      meta[id].set('listId', guidFor(item));
+      item.set('meta', meta[id]);
 
       return item;
     };
