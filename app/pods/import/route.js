@@ -90,8 +90,12 @@ export default Route.extend(ScrollTo, {
               break;
 
             case 'dictionaries':
-              if (json.dataDictionary) {
-                set(this, 'id', v4().substring(0, 8));
+              if (json.dataDictionary.dictionaryId) {
+                set(
+                  this,
+                  'id',
+                  json.dataDictionary.dictionaryId.substring(0, 8)
+                );
               }
               break;
 

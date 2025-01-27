@@ -46,11 +46,11 @@ export default Route.extend({
       }
 
       return EmberObject.create({
-        id: json.dictionaryId,
+        id: json.dataDictionary.dictionaryId,
         title: get(data, 'citation.title'),
         description: data.description,
         subject: data.subject,
-        selected: selected.includes(json.dictionaryId),
+        selected: selected.includes(json.dataDictionary.dictionaryId),
       });
     });
   },
