@@ -92,7 +92,7 @@ export default Service.extend({
       });
     }
   },
-
+  //TODO: fix ghost injected dictionaries
   injectDictionaries(rec, json) {
     let ids = rec.get('json.mdDictionary') || [];
     let arr = [];

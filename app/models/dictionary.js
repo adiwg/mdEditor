@@ -2,61 +2,58 @@ import { attr, belongsTo } from '@ember-data/model';
 import { Copyable } from 'ember-copy'
 import { alias } from '@ember/object/computed';
 import Model from 'mdeditor/models/base';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 import EmberObject, { computed } from '@ember/object';
 import config from 'mdeditor/config/environment';
 
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 const Validations = buildValidations({
-  'json.dictionaryId': validator(
-    'presence', {
+  'json.dataDictionary.dictionaryId': validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  }),
+  'json.dataDictionary.citation.title': validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+  }),
+  'json.dataDictionary.subject': [
+    validator('presence', {
       presence: true,
       ignoreBlank: true,
     }),
-  'json.dataDictionary.citation.title': validator('presence', {
-    presence: true,
-    ignoreBlank: true
-  }),
-  'json.dataDictionary.subject': [validator('presence', {
-      presence: true,
-      ignoreBlank: true
-    }),
     validator('array-required', {
-      track: []
-    })
-  ]
+      track: [],
+    }),
+  ],
 });
 
 const JsonDefault = EmberObject.extend({
   init() {
     this._super(...arguments);
     this.setProperties({
-      dictionaryId: null,
       dataDictionary: {
+        dictionaryId: null,
+
         citation: {
           title: null,
-          date: [{
-            date: new Date()
-              .toISOString(),
-            dateType: 'creation'
-          }]
+          date: [
+            {
+              date: new Date().toISOString(),
+              dateType: 'creation',
+            },
+          ],
         },
         description: '',
         subject: [],
         responsibleParty: {},
         domain: [],
-        entity: []
+        entity: [],
       },
     });
-  }
+  },
 });
 
 export default Model.extend(Validations, Copyable, {
@@ -80,21 +77,21 @@ export default Model.extend(Validations, Copyable, {
   },
 
   profile: attr('string', {
-    defaultValue: defaultProfileId
+    defaultValue: defaultProfileId,
   }),
   json: attr('json', {
     defaultValue() {
       return JsonDefault.create();
-    }
+    },
   }),
   dateUpdated: attr('date', {
     defaultValue() {
       return new Date();
-    }
+    },
   }),
 
   title: alias('json.dataDictionary.citation.title'),
-  dictionaryId: alias('json.dictionaryId'),
+  dictionaryId: alias('json.dataDictionary.dictionaryId'),
 
   icon: 'book',
 
@@ -112,23 +109,23 @@ export default Model.extend(Validations, Copyable, {
     let errors = [];
     let result = mdjson.validateDictionary(this).errors;
 
-    if(result) {
+    if (result) {
       errors.pushObject({
         title: 'Default Dictionary Validation',
-        errors: result
+        errors: result,
       });
     }
 
-    this.customSchemas.forEach(schema => {
+    this.customSchemas.forEach((schema) => {
       const validator = schema.validator;
 
-      if(validator.validate(schema.rootSchema, this.cleanJson)) {
+      if (validator.validate(schema.rootSchema, this.cleanJson)) {
         return;
       }
 
       errors.pushObject({
         title: schema.title,
-        errors: validator.errors
+        errors: validator.errors,
       });
     });
 
@@ -140,10 +137,11 @@ export default Model.extend(Validations, Copyable, {
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
     json.set('dataDictionary.citation.title', `Copy of ${name}`);
-    json.set('dictionaryId', null);
+    //TODO:copy needs a new ID
+    json.set('dataDictionary.dictionaryId', null);
 
     return this.store.createRecord('dictionary', {
-      json: json
+      json: json,
     });
-  }
+  },
 });
