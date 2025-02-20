@@ -9,7 +9,7 @@ import jquery from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
-import { v4 } from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 
 const generateIdForRecord = Base.create().generateIdForRecord;
@@ -142,7 +142,7 @@ export default Route.extend(ScrollTo, {
 
     if (get(json, 'metadata.metadataInfo.metadataIdentifier') === undefined) {
       json.metadata.metadataInfo.metadataIdentifier = {
-        identifier: uuidV4(),
+        identifier: uuidv4(),
         namespace: 'urn:uuid',
       };
     }
