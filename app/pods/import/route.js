@@ -184,6 +184,7 @@ export default Route.extend(ScrollTo, {
     } else {
       //assume it's raw mdJSON for now
       files = this.mapMdJSON(data);
+      console.log('hello');
     }
 
     fixLiabilityTypo(files);
@@ -198,9 +199,25 @@ export default Route.extend(ScrollTo, {
 
     if (isArray(data.json)) {
       data.json.forEach((item) => {
+        // Check for mdDictionary and set dictionaryId in dataDictionary
+        if (item.mdDictionary && item.dataDictionary) {
+          item.dataDictionary.forEach((dictionary, index) => {
+            if (!dictionary.dictionaryId && item.mdDictionary[index]) {
+              dictionary.dictionaryId = item.mdDictionary[index];
+            }
+          });
+        }
         map = map.concat(this.formatMdJSON(item));
       });
     } else {
+      // Check for mdDictionary and set dictionaryId in dataDictionary
+      if (data.json.mdDictionary && data.json.dataDictionary) {
+        data.json.dataDictionary.forEach((dictionary, index) => {
+          if (!dictionary.dictionaryId && data.json.mdDictionary[index]) {
+            dictionary.dictionaryId = data.json.mdDictionary[index];
+          }
+        });
+      }
       map = map.concat(this.formatMdJSON(data.json));
     }
 
@@ -214,8 +231,6 @@ export default Route.extend(ScrollTo, {
       if (!map[item.type]) {
         map[item.type] = [];
       }
-
-      console.log(item);
 
       item.meta = {};
       item.meta.title = this.getTitle(item);
@@ -259,10 +274,6 @@ export default Route.extend(ScrollTo, {
   //TODO: fix propertyName id for dataDictionary
   columns: computed(function () {
     let route = this;
-
-    // Log the route and any relevant data
-    console.log('Route:', route);
-    console.log('Current Route Model:', route.currentRouteModel());
 
     return [
       {
