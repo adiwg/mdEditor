@@ -81,7 +81,7 @@ export default Route.extend(ScrollTo, {
         this._super(...arguments);
         if (this.attributes.json) {
           const json = JSON.parse(this.attributes.json);
-
+          console.log(this);
           switch (this.type) {
             case 'contacts':
               if (json.contactId) {
@@ -96,6 +96,13 @@ export default Route.extend(ScrollTo, {
                   'id',
                   json.dataDictionary.dictionaryId.substring(0, 8)
                 );
+              } else {
+                let uuid = uuidv4();
+                let shortId = uuid.split('-')[0];
+                json.dataDictionary.dictionaryId = uuid;
+                set(this, 'dictionaryId', uuid);
+                set(this, 'id', shortId);
+                this.attributes.json = JSON.stringify(json);
               }
               break;
 
@@ -199,25 +206,9 @@ export default Route.extend(ScrollTo, {
 
     if (isArray(data.json)) {
       data.json.forEach((item) => {
-        // Check for mdDictionary and set dictionaryId in dataDictionary
-        if (item.mdDictionary && item.dataDictionary) {
-          item.dataDictionary.forEach((dictionary, index) => {
-            if (!dictionary.dictionaryId && item.mdDictionary[index]) {
-              dictionary.dictionaryId = item.mdDictionary[index];
-            }
-          });
-        }
         map = map.concat(this.formatMdJSON(item));
       });
     } else {
-      // Check for mdDictionary and set dictionaryId in dataDictionary
-      if (data.json.mdDictionary && data.json.dataDictionary) {
-        data.json.dataDictionary.forEach((dictionary, index) => {
-          if (!dictionary.dictionaryId && data.json.mdDictionary[index]) {
-            dictionary.dictionaryId = data.json.mdDictionary[index];
-          }
-        });
-      }
       map = map.concat(this.formatMdJSON(data.json));
     }
 
@@ -225,6 +216,38 @@ export default Route.extend(ScrollTo, {
 
     return this.mapRecords(map);
   },
+
+  // mapMdJSON(data) {
+  //   let map = A();
+
+  //   if (isArray(data.json)) {
+  //     data.json.forEach((item) => {
+  //       // Check for mdDictionary and set dictionaryId in dataDictionary
+  //       if (item.mdDictionary && item.dataDictionary) {
+  //         item.dataDictionary.forEach((dictionary, index) => {
+  //           if (!dictionary.dictionaryId && item.mdDictionary[index]) {
+  //             dictionary.dictionaryId = item.mdDictionary[index];
+  //           }
+  //         });
+  //       }
+  //       map = map.concat(this.formatMdJSON(item));
+  //     });
+  //   } else {
+  //     // Check for mdDictionary and set dictionaryId in dataDictionary
+  //     if (data.json.mdDictionary && data.json.dataDictionary) {
+  //       data.json.dataDictionary.forEach((dictionary, index) => {
+  //         if (!dictionary.dictionaryId && data.json.mdDictionary[index]) {
+  //           dictionary.dictionaryId = data.json.mdDictionary[index];
+  //         }
+  //       });
+  //     }
+  //     map = map.concat(this.formatMdJSON(data.json));
+  //   }
+
+  //   set(data, 'json.data', map);
+
+  //   return this.mapRecords(map);
+  // },
 
   mapRecords(records) {
     return records.reduce((map, item) => {
@@ -254,14 +277,10 @@ export default Route.extend(ScrollTo, {
         let jsonData = JSON.parse(record.attributes.json);
         if (
           jsonData.dataDictionary &&
-          record.attributes.dictionaryId &&
+          jsonData.dictionaryId &&
           !jsonData.dataDictionary.dictionaryId
         ) {
-          set(
-            jsonData.dataDictionary,
-            'dictionaryId',
-            record.attributes.dictionaryId
-          );
+          set(jsonData.dataDictionary, 'dictionaryId', jsonData.dictionaryId);
           delete record.attributes.dictionaryId;
           record.attributes.json = JSON.stringify(jsonData);
         }
