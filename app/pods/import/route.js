@@ -81,7 +81,6 @@ export default Route.extend(ScrollTo, {
         this._super(...arguments);
         if (this.attributes.json) {
           const json = JSON.parse(this.attributes.json);
-          console.log(this);
           switch (this.type) {
             case 'contacts':
               if (json.contactId) {
@@ -191,7 +190,6 @@ export default Route.extend(ScrollTo, {
     } else {
       //assume it's raw mdJSON for now
       files = this.mapMdJSON(data);
-      console.log('hello');
     }
 
     fixLiabilityTypo(files);
