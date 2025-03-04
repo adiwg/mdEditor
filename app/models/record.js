@@ -1,9 +1,8 @@
-import { attr } from '@ember-data/model';
+import { attr, belongsTo } from '@ember-data/model';
 import { alias } from '@ember/object/computed';
 import { getOwner } from '@ember/application';
 import EmberObject, { computed, getWithDefault } from '@ember/object';
 import { Copyable } from 'ember-copy';
-import uuidV4 from 'uuid/v4';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';
@@ -55,6 +54,8 @@ const Validations = buildValidations({
 });
 
 const Record = Model.extend(Validations, Copyable, {
+  pouchRecord: belongsTo('pouch-record', { async: false }),
+
   /**
    * Record(metadata) model
    *
@@ -75,11 +76,10 @@ const Record = Model.extend(Validations, Copyable, {
           name: 'mdJson',
           version: '2.6.0',
         },
-        contact: [],
         metadata: {
           metadataInfo: {
             metadataIdentifier: {
-              identifier: uuidV4(),
+              identifier: null,
               namespace: 'urn:uuid',
             },
             metadataContact: [],
@@ -110,7 +110,6 @@ const Record = Model.extend(Validations, Copyable, {
           acquisition: [],
         },
         metadataRepository: [],
-        dataDictionary: [],
       });
 
       return obj;
@@ -247,7 +246,7 @@ const Record = Model.extend(Validations, Copyable, {
       getWithDefault(json, 'metadata.resourceInfo.resourceType', [{}])
     );
     json.set('metadata.metadataInfo.metadataIdentifier', {
-      identifier: uuidV4(),
+      identifier: null,
       namespace: 'urn:uuid',
     });
 

@@ -1,4 +1,4 @@
-import Model from '@ember-data/model';
+import { Model } from 'ember-pouch';
 import hash from 'object-hash';
 import { inject as service } from '@ember/service';
 import { computed, set, observer } from '@ember/object';
@@ -80,9 +80,7 @@ const Base = Model.extend({
   },
 
   isReady() {
-    let newHash = this.hashObject(JSON.parse(this.serialize()
-      .data.attributes
-      .json), true);
+    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes.json), true);
 
     // if the currentHash is undefined, the record is either new or hasn't had the
     // hash calculated yet
@@ -95,8 +93,7 @@ const Base = Model.extend({
     this._super(...arguments);
 
     //let record = model.record || this;
-    let json = JSON.parse(this.serialize()
-      .data.attributes.json);
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -105,8 +102,7 @@ const Base = Model.extend({
   wasLoaded() {
     this._super(...arguments);
 
-    let json = JSON.parse(this.serialize()
-      .data.attributes.json);
+    let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
@@ -152,9 +148,7 @@ const Base = Model.extend({
    * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
   hasDirtyHash: computed('currentHash', function () {
-    let newHash = this.hashObject(JSON.parse(this.serialize()
-      .data.attributes
-      .json), true);
+    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes.json), true);
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet

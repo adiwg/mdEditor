@@ -5,26 +5,21 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
   flashMessages: service(),
+  pouch: service(),
 
-  model: function(params) {
-    let rec= this.store.peekRecord('contact', params.contact_id);
-    return rec;
+  async model(params) {
+    // Finding pouch-contact records needs to happen first
+    // to load them into the store as related contact records
+    await this.store.findAll('pouch-contact');
+    return this.store.peekRecord('contact', params.contact_id);
   },
 
   actions: {
-    saveContact: function() {
-      let model = this.currentRouteModel();
-
-      model
-        .save()
-        .then(() => {
-          //this.refresh();
-          //this.setModelHash();
-          this.flashMessages
-            .success(`Saved Contact: ${model.get('title')}`);
-
-          //this.transitionTo('contacts');
-        });
+    saveContact: async function() {
+      const model = this.currentRouteModel();
+      await model.save();
+      await this.pouch.updatePouchRecord(model.pouchContact, model);
+      this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
     },
 
     destroyContact: function() {
