@@ -11,6 +11,8 @@ export default Route.extend(HashPoll, DoCancel, {
    */
   profile: service('custom-profile'),
 
+  pouch: service(),
+
   /**
    * The route activate hook, sets the profile.
    */
@@ -26,16 +28,11 @@ export default Route.extend(HashPoll, DoCancel, {
      *
      * @param  {String} profile The new profile.
      */
-    saveDictionary: function () {
-      let model = this.currentRouteModel();
-
-      model
-        .save()
-        .then(() => {
-          this.flashMessages
-            .success(`Saved Dictionary: ${model.get('title')}`);
-
-        });
+    saveDictionary: async function () {
+      const model = this.currentRouteModel();
+      await model.save();
+      await this.pouch.updatePouchRecord(model.pouchDictionary, model);
+      this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
     },
     cancelDictionary: function () {
       let model = this.currentRouteModel();

@@ -1,0 +1,35 @@
+<div class="row">
+  <div class="col-sm-10">
+    <h3 class="text-info">Bulk Import {{@model.meta.pouchTitle}}</h3>
+
+    {{#if @model.options.length}}
+      {{#layout/md-card
+        title=@model.meta.pouchTitle
+        titleIcon=@model.meta.icon
+        collapsible=true
+        collapsed=false
+        data-spy=@model.meta.pouchTitle
+        shadow=true
+      }}
+
+      {{control/md-record-table
+        data=@model.options
+        dataColumns=@model.meta.columns
+      }}
+
+      {{/layout/md-card}}
+    {{else}}
+      <div class="alert alert-info">
+        <h3>{{fa-icon @model.meta.icon}} No <em>{{@model.meta.title}}</em> found.</h3>
+      </div>
+    {{/if}}
+  </div>
+  <div class="md-control-sidebar col-sm-2 no-nav">
+    <div class="btn-group-vertical center-block" role="group" aria-label="Import Button Controls">
+      <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{ action "importSelectedData" @model }}
+        disabled={{this.pouch.bulkAdding}}
+      >
+        {{fa-icon "check-square-o"}} Import Selected</button>
+    </div>
+  </div>
+</div>

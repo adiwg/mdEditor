@@ -1,0 +1,9 @@
+{{#unless this.updated}}
+  <button type="button"
+    class="btn btn-sm btn-success"
+    {{on 'click' this.update}}
+  >
+    <span class="fa fa-sign-out"></span>
+    Update
+  </button>
+{{/unless}}
