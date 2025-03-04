@@ -5,12 +5,10 @@ import { inject as service } from '@ember/service';
 import EmberObject, { observer } from '@ember/object';
 
 const defaultValues = {
-  // mdTranslatorAPI: 'https://api.sciencebase.gov/mdTranslator/api/v3/translator',
-  // itisProxyUrl: 'https://api.sciencebase.gov/mdTranslator',
+  mdTranslatorAPI: 'https://api.sciencebase.gov/mdTranslator/api/v3/translator',
+  itisProxyUrl: 'https://api.sciencebase.gov/mdTranslator',
   // mdTranslatorAPI: 'https://dev-mdtranslator.mdeditor.org/api/v3/translator',
   // itisProxyUrl: 'https://dev-mdtranslator.mdeditor.org',
-  mdTranslatorAPI: 'http://23.23.4.125:3002/api/v3/translator',
-  itisProxyUrl: 'http://23.23.4.125:3002',
   fiscalStartMonth: '10',
 };
 
