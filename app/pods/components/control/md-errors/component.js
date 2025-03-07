@@ -400,7 +400,6 @@ export default Component.extend({
 
     // Build the URL
     let url = `/record/${recordId}/edit/${endpoint}`;
-    console.log('url', url);
     return url;
   },
 
