@@ -37,9 +37,7 @@ export default Component.extend({
   // Extract the record ID from the current URL
   recordId: computed('router.currentURL', function () {
     const url = this.router.currentURL;
-    // const match = url.match(/\/record\/([^\/]+)\//);
     const match = url.match(/\/record\/([^/]+)(?:\/|$)/);
-    console.log('Match:', match);
     return match ? match[1] : null;
   }),
 
@@ -339,7 +337,6 @@ export default Component.extend({
     const recordId = this.recordId;
 
     // Remove leading '/' and split the data path
-    console.log('Data Path:', dataPath);
     let pathSegments = dataPath.startsWith('/')
       ? dataPath.slice(1).split('/')
       : dataPath.split('/');
