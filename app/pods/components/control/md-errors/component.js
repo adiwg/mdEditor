@@ -143,12 +143,27 @@ export default Component.extend({
       let propertyName = this.getPropertyName(error.dataPath);
       let limit = error.params.limit;
 
+      console.log('minItems error:', error);
+
+      const message = `Should not have fewer than ${limit} items in ${propertyName}.`;
+      const messages = [message];
+
+      if (error.dataPath === '/contact') {
+        messages.push(
+          'If you already have contacts in your contacts list, you need to add a contact to this record to eliminate this error.'
+        );
+        messages.push(
+          'In this case, one of the below errors is also probably related to this error.'
+        );
+        messages.push(
+          'If you do not have any contacts, you need to create a contact and then add it to this record.'
+        );
+      }
+
       return {
         type: 'minItems',
         header: `Minimum Items Required for ${propertyName}`,
-        messages: [
-          `Should not have fewer than ${limit} items in ${propertyName}.`,
-        ],
+        messages,
         path: error.dataPath,
         url: this.mapDataPathToEndpoint(error.dataPath),
       };
