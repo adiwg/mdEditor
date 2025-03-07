@@ -143,8 +143,6 @@ export default Component.extend({
       let propertyName = this.getPropertyName(error.dataPath);
       let limit = error.params.limit;
 
-      console.log('minItems error:', error);
-
       const message = `Should not have fewer than ${limit} items in ${propertyName}.`;
       const messages = [message];
 
