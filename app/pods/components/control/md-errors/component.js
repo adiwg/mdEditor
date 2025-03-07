@@ -1,8 +1,3 @@
-/* eslint-disable ember/avoid-leaking-state-in-ember-objects */
-/* eslint-disable ember/require-tagless-components */
-/* eslint-disable ember/no-classic-classes */
-// component.js
-
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
 import { computed } from '@ember/object';
