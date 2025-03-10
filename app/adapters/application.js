@@ -3,6 +3,9 @@ import { v4 } from 'uuid';
 
 export default Adapter.extend({
   generateIdForRecord(store, type, inputProperties) {
+    if (inputProperties.id) {
+      return inputProperties.id;
+    }
     if (!inputProperties.uuid) {
       let uuid = v4();
       let shortId = uuid.split('-')[0];

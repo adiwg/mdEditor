@@ -1,10 +1,11 @@
 import { attr, belongsTo } from '@ember-data/model';
-import { Copyable } from 'ember-copy'
+import { Copyable } from 'ember-copy';
 import { alias } from '@ember/object/computed';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import EmberObject, { computed } from '@ember/object';
 import config from 'mdeditor/config/environment';
+import { v4 as uuidv4 } from 'uuid';
 
 const {
   APP: { defaultProfileId },
@@ -36,7 +37,6 @@ const JsonDefault = EmberObject.extend({
     this.setProperties({
       dataDictionary: {
         dictionaryId: null,
-
         citation: {
           title: null,
           date: [
@@ -57,7 +57,6 @@ const JsonDefault = EmberObject.extend({
 });
 
 export default Model.extend(Validations, Copyable, {
-
   pouchDictionary: belongsTo('pouch-dictionary', { async: false }),
 
   /**
@@ -136,12 +135,17 @@ export default Model.extend(Validations, Copyable, {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.dataDictionary.citation.title;
-    json.set('dataDictionary.citation.title', `Copy of ${name}`);
-    //TODO:copy needs a new ID
-    json.set('dataDictionary.dictionaryId', null);
+    let newUuid = uuidv4();
+    let shortId = newUuid.split('-')[0];
 
-    return this.store.createRecord('dictionary', {
+    json.set('dataDictionary.citation.title', `Copy of ${name}`);
+    json.set('dataDictionary.dictionaryId', newUuid);
+
+    let newDictionary = this.store.createRecord('dictionary', {
       json: json,
+      id: shortId,
     });
+
+    return newDictionary;
   },
 });

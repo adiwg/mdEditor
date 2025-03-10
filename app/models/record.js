@@ -6,6 +6,7 @@ import { Copyable } from 'ember-copy';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';
+import { v4 as uuidv4 } from 'uuid';
 
 const {
   APP: { defaultProfileId },
@@ -54,7 +55,6 @@ const Validations = buildValidations({
 });
 
 const Record = Model.extend(Validations, Copyable, {
-
   pouchRecord: belongsTo('pouch-record', { async: false }),
 
   /**
@@ -239,6 +239,8 @@ const Record = Model.extend(Validations, Copyable, {
     let current = this.cleanJson;
     let json = EmberObject.create(current);
     let name = current.metadata.resourceInfo.citation.title;
+    let newUuid = uuidv4();
+    let shortId = newUuid.split('-')[0];
 
     json.set('metadata.resourceInfo.citation.title', `Copy of ${name}`);
     json.set(
@@ -246,13 +248,16 @@ const Record = Model.extend(Validations, Copyable, {
       getWithDefault(json, 'metadata.resourceInfo.resourceType', [{}])
     );
     json.set('metadata.metadataInfo.metadataIdentifier', {
-      identifier: null,
+      identifier: newUuid,
       namespace: 'urn:uuid',
     });
 
-    return this.store.createRecord('record', {
+    let newRecord = this.store.createRecord('record', {
       json: json,
+      id: shortId,
     });
+
+    return newRecord;
   },
 });
 

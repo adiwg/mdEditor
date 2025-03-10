@@ -8273,7 +8273,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-bootstrap-datetimepicker@npm:~0.9.4":
+"ember-cli-bootstrap-datetimepicker@npm:~0.9":
   version: 0.9.4
   resolution: "ember-cli-bootstrap-datetimepicker@npm:0.9.4"
   dependencies:
@@ -15300,7 +15300,7 @@ __metadata:
     ember-cli: "npm:~3.15.2"
     ember-cli-app-version: "npm:^3.2.0"
     ember-cli-babel: "npm:^7.26.11"
-    ember-cli-bootstrap-datetimepicker: "npm:~0.9.4"
+    ember-cli-bootstrap-datetimepicker: "npm:~0.9"
     ember-cli-dependency-checker: "npm:^3.3.2"
     ember-cli-deploy: "npm:^1.0.2"
     ember-cli-deploy-build: "npm:^2.0.0"
