@@ -8363,7 +8363,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-bootstrap-datetimepicker@npm:~0.9.4":
+"ember-cli-bootstrap-datetimepicker@npm:~0.9":
   version: 0.9.4
   resolution: "ember-cli-bootstrap-datetimepicker@npm:0.9.4"
   dependencies:

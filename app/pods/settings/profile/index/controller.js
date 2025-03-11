@@ -34,6 +34,24 @@ export default Controller.extend({
     saveProfile() {
       let profile = this.profile;
 
+      // Ensure title and description are properly stored
+      // If config doesn't exist yet, create it
+      if (!profile.get('config')) {
+        profile.set('config', {});
+      }
+
+      // Ensure title is stored in the appropriate backing property
+      if (profile.get('title') && !profile.get('alias')) {
+        // If title is set but alias is not, store it in config.title
+        profile.set('config.title', profile.get('title'));
+      }
+
+      // Ensure description is stored in the appropriate backing property
+      if (profile.get('description') && !profile.get('altDescription')) {
+        // If description is set but altDescription is not, store it in config.description
+        profile.set('config.description', profile.get('description'));
+      }
+
       return profile.save();
     },
 
