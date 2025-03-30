@@ -71,11 +71,13 @@ export default Model.extend(Validations, {
   },
 
   definitions: service('profile'),
+
   uri: attr('string'),
   alias: attr('string'),
   title: attr('string'),
   description: attr('string'),
   profileId: attr('string'),
+  thesauri: attr({ defaultValue: () => [] }),
 
   profileTitle: or('alias', 'title'),
   identifier: alias('id').readOnly(),
@@ -84,8 +86,6 @@ export default Model.extend(Validations, {
   definition: computed('profileId', function () {
     return this.definitions.profiles.findBy('identifier', this.profileId);
   }),
-
-  thesauri: alias('config.thesauri'),
 
   /* eslint-disable ember/no-observers */
   updateSettings: observer(
