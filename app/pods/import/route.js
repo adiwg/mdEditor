@@ -68,6 +68,10 @@ export default Route.extend(ScrollTo, {
         return json.name || 'NO NAME';
       case 'schemas':
         return record.attributes.title || 'NO TITLE';
+      case 'custom-profiles':
+        return record.attributes.title || 'NO TITLE';
+      case 'profiles':
+        return record.attributes.alias || 'NO TITLE';
       default:
         return 'N/A';
     }
@@ -126,8 +130,7 @@ export default Route.extend(ScrollTo, {
       },
       attributes: computed(function () {
         return {
-          json: null, //,
-          //date-updated: '2017-05-18T21:21:34.446Z'
+          json: null,
         };
       }),
       type: null,
@@ -214,38 +217,6 @@ export default Route.extend(ScrollTo, {
 
     return this.mapRecords(map);
   },
-
-  // mapMdJSON(data) {
-  //   let map = A();
-
-  //   if (isArray(data.json)) {
-  //     data.json.forEach((item) => {
-  //       // Check for mdDictionary and set dictionaryId in dataDictionary
-  //       if (item.mdDictionary && item.dataDictionary) {
-  //         item.dataDictionary.forEach((dictionary, index) => {
-  //           if (!dictionary.dictionaryId && item.mdDictionary[index]) {
-  //             dictionary.dictionaryId = item.mdDictionary[index];
-  //           }
-  //         });
-  //       }
-  //       map = map.concat(this.formatMdJSON(item));
-  //     });
-  //   } else {
-  //     // Check for mdDictionary and set dictionaryId in dataDictionary
-  //     if (data.json.mdDictionary && data.json.dataDictionary) {
-  //       data.json.dataDictionary.forEach((dictionary, index) => {
-  //         if (!dictionary.dictionaryId && data.json.mdDictionary[index]) {
-  //           dictionary.dictionaryId = data.json.mdDictionary[index];
-  //         }
-  //       });
-  //     }
-  //     map = map.concat(this.formatMdJSON(data.json));
-  //   }
-
-  //   set(data, 'json.data', map);
-
-  //   return this.mapRecords(map);
-  // },
 
   mapRecords(records) {
     return records.reduce((map, item) => {
