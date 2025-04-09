@@ -31,7 +31,7 @@ export default Route.extend(HashPoll, DoCancel, {
     saveDictionary: async function () {
       const model = this.currentRouteModel();
       await model.save();
-      await this.pouch.updatePouchRecord(model.pouchDictionary, model);
+      await this.pouch.updatePouchRecord(model);
       this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
     },
     cancelDictionary: function () {

@@ -33,6 +33,7 @@ const Base = Model.extend({
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
+  pouch: service(),
 
   /**
    * The hash for the clean record.
@@ -56,16 +57,16 @@ const Base = Model.extend({
     }
   }),
 
-  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
+  observeAutoSave: observer('hasDirtyHash',
     function () {
       if(this.isNew || this.isEmpty) {
         return;
       }
 
-      if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
-          this.hasDirtyAttributes)) {
-        once(this, function () {
-          this.save();
+      if(this.get('settings.data.autoSave') && this.hasDirtyHash) {
+        once(this, async function () {
+          await this.save();
+          await this.pouch.updatePouchRecord(this);
         });
       }
     }),
@@ -156,7 +157,7 @@ const Base = Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if(this.currentHash !== newHash || this.hasDirtyAttributes) {
+    if((this.currentHash !== newHash) || this.hasDirtyAttributes) {
       return true;
     }
 

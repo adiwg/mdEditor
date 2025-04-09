@@ -133,9 +133,22 @@ export default class PouchService extends Service {
     }
   }
 
-  async updatePouchRecord(pouchRecord, relatedRecord) {
-    pouchRecord.json = relatedRecord.cleanJson;
-    return await pouchRecord.save();
+  async updatePouchRecord(relatedRecord) {
+    let pouchRecord;
+    if (relatedRecord.pouchRecord) {
+      pouchRecord = relatedRecord.pouchRecord;
+    }
+    if (relatedRecord.pouchContact) {
+      pouchRecord = relatedRecord.pouchContact;
+    }
+    if (relatedRecord.pouchDictionary) {
+      pouchRecord = relatedRecord.pouchDictionary;
+    }
+    // Only update the pouch record if one exists
+    if (!!pouchRecord) {
+      pouchRecord.json = relatedRecord.cleanJson;
+      return await pouchRecord.save();
+    }
   }
 
   async deletePouchRecord(pouchRecord) {
