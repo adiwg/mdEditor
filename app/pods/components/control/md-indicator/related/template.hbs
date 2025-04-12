@@ -11,17 +11,16 @@
   popoverHideDelay=popoverHideDelay
   popperContainer=popperContainer
 }}
-
   <h4>
     {{#if route}}
       {{#if models.length}}
-        {{#link-to route=route models=models class=(concat "btn btn-sm btn-" type)}}
+        <LinkTo @route={{route}} @models={{models}} class="btn btn-sm btn-{{type}}">
           {{linkText}}
-        {{/link-to}}
+        </LinkTo>
       {{else}}
-        {{#link-to route class=(concat "btn btn-sm btn-" type)}}
+        <LinkTo @route={{route}} class="btn btn-sm btn-{{type}}">
           {{linkText}}
-        {{/link-to}}
+        </LinkTo>
       {{/if}}
     {{/if}}
   </h4>

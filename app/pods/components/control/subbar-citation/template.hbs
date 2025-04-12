@@ -8,6 +8,5 @@
       side="left"
     }}
   </button>
-  {{#link-to route class="btn btn-lg btn-primary btn-block md-btn-responsive" }} {{fa-icon icon}} {{text}}{{/link-to}}
-  {{yield}}
+  <LinkTo @route={{this.route}} class="btn btn-lg btn-primary btn-block md-btn-responsive">{{fa-icon this.icon}} {{this.text}}</LinkTo>  {{yield}}
 </div>

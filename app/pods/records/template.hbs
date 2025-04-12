@@ -16,10 +16,9 @@
 {{else}}
   <div class="alert alert-info">
     <h3>No Metadata Records found.
-      {{#link-to "record.new" class="btn btn-success btn-lg" }}
+      <LinkTo @route="record.new" class="btn btn-success btn-lg">
         {{fa-icon "plus"}} Create a Metadata Record
-      {{/link-to}}
-    </h3>
+      </LinkTo>    </h3>
   </div>
 {{/if}}
 

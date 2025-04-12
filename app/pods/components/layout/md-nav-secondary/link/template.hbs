@@ -1,6 +1,6 @@
 {{!-- {{#if link.isOverflow}} --}}
   {{#if isStaticLinks}}
-    {{#link-to link.target class="link.class" }}{{link.title}}
+    <LinkTo @route={{link.target}} class={{link.class}}>{{link.title}}
       {{#if link.tip}}
         {{#ember-tooltip
           effect="slide"
@@ -11,9 +11,9 @@
       {{link.tip}}
         {{/ember-tooltip}}
       {{/if}}
-    {{/link-to}}
+    </LinkTo>
   {{else}}
-    {{#link-to link.target model class="link.class" }}{{link.title}}
+    <LinkTo @route={{link.target}} @model={{model}} class={{link.class}}>{{link.title}}
       {{#if link.tip}}
         {{#ember-tooltip
           effect="slide"
@@ -25,6 +25,6 @@
           {{!-- {{link.isOverflow}} --}}
         {{/ember-tooltip}}
       {{/if}}
-    {{/link-to}}
+    </LinkTo>
   {{/if}}
 {{!-- {{/if}} --}}

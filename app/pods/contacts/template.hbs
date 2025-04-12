@@ -16,10 +16,9 @@
 {{else}}
 <div class="alert alert-info">
   <h3>No Contacts found.
-    {{#link-to "contact.new" class="btn btn-success btn-lg" }}
+    <LinkTo @route="contact.new" class="btn btn-success btn-lg">
       {{fa-icon "plus"}} Create a Contact
-    {{/link-to}}
-  </h3>
+    </LinkTo>  </h3>
 </div>
 {{/if}}
 

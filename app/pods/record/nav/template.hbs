@@ -1,15 +1,8 @@
 <li>
-  {{#link-to "record.show.translate"}}
+  <LinkTo @route="record.show.translate">
     <span class="fa fa-retweet"></span>
     <span class="md-nav-text">Translate</span>
     {{ember-tooltip text="Translate" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
-  {{/link-to}}
+  </LinkTo>
 </li>
-{{!-- <li>
-  {{#link-to "publish"}}
-    <span class="fa fa-share-square-o"></span>
-    <span class="md-nav-text">Publish</span>
-    {{ember-tooltip text="Publish" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
-  {{/link-to}}
-</li> --}}
 {{outlet}}
