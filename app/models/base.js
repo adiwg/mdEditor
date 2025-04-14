@@ -66,10 +66,10 @@ const Base = Model.extend({
       if(this.get('settings.data.autoSave') && this.hasDirtyHash) {
         once(this, async function () {
           await this.save();
-          await this.pouch.updatePouchRecord(this);
         });
       }
-    }),
+    }
+  ),
 
   applyPatch() {
     once(this, function () {
@@ -98,6 +98,9 @@ const Base = Model.extend({
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
+
+    // Pouch handling
+    this.pouch.updatePouchRecord(this);
   },
 
   wasLoaded() {

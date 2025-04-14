@@ -7,10 +7,7 @@ export default Route.extend(ScrollTo, {
   flashMessages: service(),
   pouch: service(),
 
-  async model(params) {
-    // Finding pouch-contact records needs to happen first
-    // to load them into the store as related contact records
-    await this.store.findAll('pouch-contact');
+  model(params) {
     return this.store.peekRecord('contact', params.contact_id);
   },
 
