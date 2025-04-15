@@ -57,15 +57,16 @@ const Base = Model.extend({
     }
   }),
 
-  observeAutoSave: observer('hasDirtyHash',
+  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
     function () {
       if(this.isNew || this.isEmpty) {
         return;
       }
 
-      if(this.get('settings.data.autoSave') && this.hasDirtyHash) {
-        once(this, async function () {
-          await this.save();
+      if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
+          this.hasDirtyAttributes)) {
+        once(this, function () {
+          this.save();
         });
       }
     }
