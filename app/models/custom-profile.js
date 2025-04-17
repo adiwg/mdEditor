@@ -1,9 +1,8 @@
-import Model, { attr } from '@ember-data/model';
+import Model, { attr, hasMany } from '@ember-data/model';
 import { computed, observer } from '@ember/object';
 import { or, alias, notEmpty } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { inject as service } from '@ember/service';
-import { checkVersion } from 'mdeditor/models/schema';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 // [{
@@ -72,27 +71,21 @@ export default Model.extend(Validations, {
   },
 
   definitions: service('profile'),
+
   uri: attr('string'),
   alias: attr('string'),
-  altDescription: attr('string'),
-  remoteVersion: attr('string'),
-  config: attr('json'),
+  title: attr('string'),
+  description: attr('string'),
   profileId: attr('string'),
+  thesauri: attr({ defaultValue: () => [] }),
 
-  title: or('alias', 'config.title'),
-  identifier: alias('config.identifier'),
-  namespace: alias('config.namespace'),
-  description: or('altDescription', 'config.description'),
-  localVersion: alias('config.version'),
-  components: alias('config.components'),
-  nav: alias('config.nav'),
-  hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
-
+  profileTitle: or('alias', 'title'),
+  identifier: alias('id').readOnly(),
+  components: alias('profile.components').readOnly(),
+  schemas: hasMany('schemas'),
   definition: computed('profileId', function () {
     return this.definitions.profiles.findBy('identifier', this.profileId);
   }),
-
-  thesauri: alias('config.thesauri'),
 
   /* eslint-disable ember/no-observers */
   updateSettings: observer(
