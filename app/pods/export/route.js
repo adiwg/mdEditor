@@ -125,6 +125,9 @@ export default Route.extend(ScrollTo, {
           item.attributes.json = JSON.stringify(jsonData);
         }
 
+        // Remove all PouchDB relationships
+        delete item.relationships;
+
         return item;
       });
 
