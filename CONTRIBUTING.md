@@ -1,14 +1,40 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Contributing to mdEditor](#contributing-to-mdeditor)
+- [Exploring Ember.js Octane and Native JavaScript](#exploring-emberjs-octane-and-native-javascript)
+  - [Ember Octane](#ember-octane)
+  - [Native JavaScript](#native-javascript)
+  - [Updating Documentation](#updating-documentation)
+- [GitHub and Workflows](#github-and-workflows)
+  - [Git Workflow: Branching model](#git-workflow-branching-model)
+    - [Creating new branches](#creating-new-branches)
+    - [Develop, Release, and Master](#develop-release-and-master)
+      - [Develop](#develop)
+      - [Release](#release)
+      - [Master](#master)
+    - [Unit Tests](#unit-tests)
+    - [Deleting branches](#deleting-branches)
+  - [Milestone and Issue Tracking](#milestone-and-issue-tracking)
+  - [Commit Messages](#commit-messages)
+  - [Semantic Versioning](#semantic-versioning)
+- [Coding conventions](#coding-conventions)
+  - [User specified default values](#user-specified-default-values)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 # Contributing to mdEditor
 
 The mdEditor project openly welcomes contributions (bug reports, bug fixes, code
 enhancements/features, etc.).  This document will outline some guidelines **on**
 contributing to the project.
 
-## Exploring Ember.js Octane and Native JavaScript
+# Exploring Ember.js Octane and Native JavaScript
 
 We encourage contributors to not only upgrade the existing Ember application but also considering leveraging the latest features and best practices introduced in newer versions, especially Ember Octane and Native JavaScript.
 
-### Ember Octane
+## Ember Octane
 
 [Ember Octane](https://emberjs.com/editions/octane/) is the latest edition of Ember.js, designed to provide a more modern and enjoyable developer experience. It introduces several improvements, including a more explicit and component-centric structure, Glimmer components, and simplified syntax.
 
@@ -20,7 +46,7 @@ When making contributions, please consider the following:
 
 3. **Angle Bracket Invocation:** Transition to angle bracket component invocation syntax, a key feature of Octane. This syntax improves readability and aligns with modern web component standards.
 
-### Native JavaScript
+## Native JavaScript
 
 Ember has been progressively embracing modern JavaScript features and syntax. When making contributions, consider leveraging native JavaScript features introduced in recent Ember versions:
 
@@ -30,7 +56,7 @@ Ember has been progressively embracing modern JavaScript features and syntax. Wh
 
 3. **Native Classes:** Explore the use of native JavaScript classes for defining Ember components and services, providing a more idiomatic JavaScript experience.
 
-### Updating Documentation
+## Updating Documentation
 
 If you choose to adopt Ember Octane or leverage Native JavaScript features, please update relevant documentation or create new documentation to help fellow contributors and maintainers understand the changes.
 
@@ -38,9 +64,8 @@ Remember that while embracing these new features can bring several benefits, it'
 
 Thank you for contributing to the continuous improvement of our Ember application!
 
-TBD - work in progress, see [#11](https://github.com/adiwg/mdEditor/issues/11). Should follow [Ember.js JavaScript Style Guide](https://github.com/emberjs/ember.js/blob/master/STYLEGUIDE.md) at a minimum.
 
-## GitHub
+# GitHub and Workflows
 
 Code, tests, documentation, wiki and issue tracking are all managed on GitHub. Make sure you have a [GitHub account](https://github.com/signup/free).
 
@@ -136,3 +161,28 @@ See also: #456, #789
 ## Semantic Versioning
 
 Releases follow rules outlined by [http://semver.org/](http://semver.org/)
+
+
+# Coding conventions
+
+TBD - work in progress, see [#11](https://github.com/adiwg/mdEditor/issues/11). Should follow [Ember.js JavaScript Style Guide](https://github.com/emberjs/ember.js/blob/master/STYLEGUIDE.md) at a minimum.
+
+
+## User specified default values
+User supplied default URLs will generally be entered without trailing slashes. Code that makes use of user defined settings should assume that any values entered by a user, do not contain trailing slashes. Path separators must be provided by the code.
+
+Yes:
+```
+User-setting: https://api.sciencebase.gov/sbmd-service
+
+Code:
+   VAR1 = User-setting + "/mdjson"
+```
+
+No:
+```
+User-setting: https://api.sciencebase.gov/sbmd-service/
+
+Code:
+   VAR1 = User-setting + "mdjson"
+```
