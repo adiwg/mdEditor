@@ -7,7 +7,7 @@
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
-              {{fa-icon 'file-text' size=5}}
+              <Hds::Icon @name="file-text" class="icon-xl" />
             </div>
             <div class='col-xs-9 text-right'>
               <div class='huge-text'>{{model.0.length}}</div>
@@ -21,7 +21,7 @@
               View Records
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <Hds::Icon @name="arrow-right" />
             </div>
           </div>
         </LinkTo>
@@ -34,7 +34,7 @@
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
-              {{fa-icon 'users' size=5}}
+              <Hds::Icon @name="users" class="icon-xl" />
             </div>
             <div class='col-xs-9 text-right'>
               <div class='huge-text'>{{model.1.length}}</div>
@@ -48,7 +48,7 @@
               View Contacts
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <Hds::Icon @name="arrow-right" />
             </div>
           </div>
         </LinkTo>
@@ -59,7 +59,7 @@
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
-              {{fa-icon 'book' size=5}}
+               <Hds::Icon @name="collections" class="icon-xl" />
             </div>
             <div class='col-xs-9 text-right'>
               <div class='huge-text'>{{model.2.length}}</div>
@@ -73,7 +73,7 @@
               View Dictionaries
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <Hds::Icon @name="arrow-right" />
             </div>
           </div>
         </LinkTo>
@@ -84,7 +84,8 @@
   <div class='row'>
     <div class='col-xs-12 col-md-6 col-md-offset-3'>
       <h2 class='text-center'>
-        <b><span class='logo huge-text'>md<span
+        <b>
+          <span class='logo huge-text'>md<span
               class='md-icon-mdeditor'
             ></span>ditor</span></b>
       </h2>

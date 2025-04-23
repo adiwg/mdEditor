@@ -144,14 +144,6 @@
           //background-color: darken($brand-primary, 12%);
           color: lighten($brand-primary, 46.5%);
         }
-
-        span::before {
-          content: '\f106';
-        }
-
-        &.collapsed span::before {
-          content: '\f107';
-        }
       }
     }
   }

@@ -1,8 +1,12 @@
+@use "@hashicorp/design-system-components";
+
 //** Point at which the navbar becomes uncollapsed.
 $grid-float-breakpoint: 532px !default;
 $sidebar-width: 300;
 
 @import 'bootstrap_custom';
+
+
 
 $md-nav-background: lighten($gray-darker, 4);
 $md-text-info-dark: darken($brand-info, 5);
@@ -50,6 +54,10 @@ $white: #fff;
 @import 'collapse';
 @import 'alert';
 @import 'borders';
+@import '_icon_sizing';
+// @import 'helios_tokens';
+// Import new Helios sidebar styles
+@import 'helios_sidebar';
 
 @import 'flex';
 
@@ -58,6 +66,7 @@ $white: #fff;
 @import 'ember-modal-dialog/ember-modal-appearance';
 //simple-mde
 @import 'simple-mde';
+
 
 //full-screen fix for liquid-fire
 .liquid-child.full-screen,

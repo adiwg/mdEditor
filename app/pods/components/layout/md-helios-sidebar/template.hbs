@@ -1,0 +1,165 @@
+<div class='helios-sidebar-container'>
+  <Hds::SideNav
+    isCollapsible={{true}}
+    @isCollapsed={{this.isCollapsed}}
+    @hasA11yRefocus={{false}}
+  >
+    <:header>
+      <Hds::SideNav::Header>
+        <:logo>
+          <a
+            class='helios-sidebar-brand'
+            href='#'
+            {{on 'click' this.toggleSidebar}}
+          >
+            <span class='md-text-prefix'>md</span><span
+              class='md-icon-mdeditor'
+            ></span><span class='md-text-suffix'>ditor</span>
+            <span
+              class='md-app-version {{this.prerelease}}'
+            >v{{this.version}}</span>
+          </a>
+        </:logo>
+        <:actions>
+          <button
+            class='helios-sidebar-help-button'
+            type='button'
+            {{on 'click' this.toggleHelp}}
+          >
+            {{#if this.showHelp}}
+              <Hds::Icon @name='list' @size='24' />
+            {{else}}
+              <Hds::Icon @name='help' @size='24' />
+            {{/if}}
+          </button>
+        </:actions>
+      </Hds::SideNav::Header>
+    </:header>
+    <:body>
+      {{#if this.showHelp}}
+        <div class='md-help-sidebar-content'>
+          <div class='page-header'>
+            <h3>Help <small>Main</small></h3>
+            <Hds::Button @text='Tour' @icon='provider' size='small' disabled />
+          </div>
+          <p>
+            The mdEditor is a web application that allows users to author and
+            edit metadata for projects and datasets. The primary design goal is
+            to develop an editor that will allow creation and management of
+            archival quality metadata without requiring extensive knowledge of
+            metadata standards.
+          </p>
+          <p>
+            A comprehensive User Manual is available. The manual includes a
+            tutorial, reference, and best practices.
+          </p>
+          <Hds::Button
+            @text='View User Manual'
+            @icon='docs'
+            size='large'
+            @isFullWidth={{true}}
+            @href='https://guide.mdeditor.org/'
+            @isHrefExternal={{true}}
+          />
+        </div>
+      {{else}}
+        <nav class='helios-sidebar-nav' aria-label='sidebar navigation'>
+          <ul role='list' class='helios-sidebar-list'>
+            {{#each @items as |class|}}
+              {{#with class.meta as |meta|}}
+                <li class='helios-sidebar-category'>
+                  <div class='helios-sidebar-category-header'>
+                    <button
+                      aria-controls='{{meta.listId}}-content'
+                      aria-expanded='{{if
+                        (this.isPanelCollapsed meta.listId)
+                        "false"
+                        "true"
+                      }}'
+                      type='button'
+                      {{on 'click' (fn this.togglePanel meta.listId)}}
+                    >
+                      {{meta.title}}
+                      ({{class.length}})
+                      <Hds::Icon
+                        @name={{if
+                          (this.isPanelCollapsed meta.listId)
+                          'chevron-down'
+                          'chevron-up'
+                        }}
+                      />
+                    </button>
+
+                    <div class='helios-sidebar-actions'>
+                      <LinkTo
+                        @route={{concat meta.type '.new'}}
+                        class='helios-sidebar-action-button'
+                      >
+                        <Hds::Icon @name='plus' @size='16' />
+                      </LinkTo>
+                      <LinkTo
+                        @route={{meta.list}}
+                        class='helios-sidebar-action-button'
+                      >
+                        <Hds::Icon @name='list' @size='16' />
+                      </LinkTo>
+                    </div>
+                  </div>
+
+                  <ul
+                    role='list'
+                    id='{{meta.listId}}-content'
+                    class='helios-sidebar-items
+                      {{if (this.isPanelCollapsed meta.listId) "collapsed"}}'
+                  >
+                    {{#each class as |record|}}
+                      <li class='helios-sidebar-item'>
+                        <LinkTo
+                          @route={{concat meta.type '.show'}}
+                          @model={{record}}
+                          class='helios-sidebar-link
+                            {{if record.isNew "disabled"}}'
+                          @activeClass='active'
+                          draggable='false'
+                        >
+                          <div class='helios-sidebar-record-content'>
+                            {{#if record.defaultLogo}}
+                              <img
+                                src={{record.defaultLogo}}
+                                alt=''
+                                class='helios-sidebar-icon'
+                              />
+                            {{else}}
+                              <Hds::Icon
+                                @name={{record.icon}}
+                                @size='16'
+                                class='helios-sidebar-icon'
+                              />
+                            {{/if}}
+                            <span
+                              class='helios-sidebar-text'
+                            >{{record.title}}</span>
+                          </div>
+                          <div class='helios-sidebar-separator'></div>
+                          <LinkTo
+                            @route={{concat meta.type '.show.edit'}}
+                            @model={{record}}
+                            class='helios-sidebar-edit-action {{record.status}}'
+                            @disabled={{record.isNew}}
+                            draggable='false'
+                          >
+                            <Hds::Icon @name='pencil-tool' @size='16' />
+                          </LinkTo>
+                        </LinkTo>
+                      </li>
+                    {{/each}}
+                  </ul>
+                </li>
+              {{/with}}
+            {{/each}}
+          </ul>
+        </nav>
+      {{/if}}
+    </:body>
+  </Hds::SideNav>
+</div>

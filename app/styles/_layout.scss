@@ -67,6 +67,12 @@ body {
   }
 }
 
+#md-page-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .md-sidebar-wrapper {
   @include transition(all .5s ease);
   background: $body-bg none repeat scroll 0 0;

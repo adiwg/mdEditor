@@ -31,3 +31,7 @@ jsconfig.json
 
 .DS_Store
 .vscode
+.yarn/*
+"!.yarn/releases"
+"!.yarn/plugins"
+".pnp.*"

@@ -29,23 +29,53 @@
   {{page-title title replace=false}}
 </MdTitle>
 
-<div id='md-wrapper' class=''>
+<div>
+  <Hds::AppFrame as |Frame|>
+    <Frame.Sidebar>
+      <Layout::MdHeliosSidebar @items={{@model}} />
+    </Frame.Sidebar>
+    <Frame.Main>
+      {{outlet}}
+      {{!-- <div id='md-page-content-wrapper'>
+       <div id='md-navbars'>
+        <Layout::MdNavMain>
+          <FromElsewhere @name='nav-main' />
+        </Layout::MdNavMain>
+        <Layout::MdBreadcrumb />
+        <FromElsewhere @name='nav-secondary' />
+      </div>
+      <div id='md-page-content'>
+        {{outlet}}
+       </div>
+      </div> --}}
+    </Frame.Main>
+    <Frame.Footer>
+      <Layout::MdFooter @class='hidden-print' />
+    </Frame.Footer>
+  </Hds::AppFrame>
+</div>
+
+{{!-- <div id='md-wrapper' class=''> --}}
 
   {{! Slider }}
-  <Layout::MdSlider
+  {{!-- <Layout::MdSlider
     @visible={{slider.showSlider}}
     @fromName={{slider.fromName}}
     @onClose={{slider.onClose}}
     @context={{slider.context}}
-  />
+  /> --}}
   {{! /#slider }}
 
   {{! Sidebar }}
-  <Layout::MdNavSidebar @items={{model}} />
+  {{!-- <Layout::MdHeliosSidebar @items={{@model}} /> --}}
+  {{! /#sidebar }}
+
+  {{! Sidebar Wrapper }}
+  {{!-- <Layout::MdNavSidebar @items={{model}} /> --}}
   {{! /#sidebar-wrapper }}
 
   {{! Page Content }}
-  <div id='md-page-content-wrapper'>
+  {{!-- <div id='md-page-content-wrapper'>
     <div id='md-navbars'>
       <Layout::MdNavMain>
         <FromElsewhere @name='nav-main' />
@@ -56,10 +86,10 @@
     <div id='md-page-content' class='container-fluid'>
       {{outlet}}
     </div>
-  </div>
+  </div> --}}
   {{! /#page-content-wrapper }}
-  <Layout::MdFooter @class='hidden-print' />
-</div>
+  {{!-- <Layout::MdFooter @class='hidden-print' />
+</div> --}}
 <EmberLoadRemover />
 
 <Control::MdModal
