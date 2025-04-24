@@ -3,7 +3,6 @@ import { alias } from '@ember/object/computed';
 import { Validations } from '../component';
 
 export default Component.extend(Validations, {
-
   /**
    * mdEditor class for input and edit of mdJSON 'coverageDescription' object.
    * The class manages the maintenance of an array of raster objects.
@@ -24,7 +23,7 @@ export default Component.extend(Validations, {
    * @requires alias
    * @default "alias('model.coverageName')"
    */
-  name: alias('model.coverageName'),
+  name: alias('item.coverageName'),
 
   /**
    * 'description' is the alias for 'coverageDescription' used in the validations for the
@@ -35,5 +34,5 @@ export default Component.extend(Validations, {
    * @requires alias
    * @default "alias('model.coverageDescription')"
    */
-  description: alias('model.coverageDescription')
+  description: alias('item.coverageDescription'),
 });

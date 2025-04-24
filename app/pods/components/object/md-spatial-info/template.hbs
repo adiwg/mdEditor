@@ -32,7 +32,6 @@
   {{object/md-spatial-resolution model=editing profilePath=(concat profilePath ".spatialResolution")}}
 {{/object/md-object-table}}
 
-
 {{object/md-objectroute-table
   attributes=" "
   items=model.coverageDescription
@@ -46,7 +45,9 @@
   profilePath=(concat profilePath ".coverageDescription")
   hideIndex=false
   condensed=false
-  editOnAdd=false
+  editOnAdd=true
+  routeParams=index
+  scrollToId=(concat "md-raster-" rasterId)
   data-spy="Raster Descriptions"
   addSubbar="md-subbar-extra"
 }}
