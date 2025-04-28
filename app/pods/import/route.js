@@ -59,10 +59,12 @@ export default Route.extend(ScrollTo, {
           'NO TITLE'
         );
       case 'dictionaries':
+        // Check both possible paths for the dictionary title
         return getWithDefault(
           json,
           'dataDictionary.citation.title',
-          'NO TITLE'
+          // If not found, try the direct path
+          getWithDefault(json, 'citation.title', 'NO TITLE')
         );
       case 'contacts':
         return json.name || 'NO NAME';
@@ -76,7 +78,6 @@ export default Route.extend(ScrollTo, {
         return 'N/A';
     }
   },
-
   formatMdJSON(json) {
     let { contact, dataDictionary } = json;
     let data = A();
@@ -240,25 +241,42 @@ export default Route.extend(ScrollTo, {
       throw new Error(`${file.name} is not a valid mdEditor file.`);
     }
 
-    // Ensure dictionaryId is inside dataDictionary
+    // Ensure dictionaries have the correct structure
     json.data.forEach((record) => {
       if (record.type === 'dictionaries' && record.attributes.json) {
         let jsonData = JSON.parse(record.attributes.json);
+
+        // Case 1: dictionaryId is at root but should be in dataDictionary
         if (
           jsonData.dataDictionary &&
           jsonData.dictionaryId &&
           !jsonData.dataDictionary.dictionaryId
         ) {
           set(jsonData.dataDictionary, 'dictionaryId', jsonData.dictionaryId);
-          delete record.attributes.dictionaryId;
+          delete jsonData.dictionaryId;
           record.attributes.json = JSON.stringify(jsonData);
+        }
+
+        // Case 2: The entire dictionary structure is at root level (no dataDictionary wrapper)
+        // Check if it has dictionary properties but no dataDictionary property
+        else if (
+          !jsonData.dataDictionary &&
+          (jsonData.citation ||
+            jsonData.dictionaryId ||
+            jsonData.entity ||
+            jsonData.domain)
+        ) {
+          // Create a dataDictionary wrapper and move all properties inside it
+          const newData = {
+            dataDictionary: { ...jsonData },
+          };
+          record.attributes.json = JSON.stringify(newData);
         }
       }
     });
 
     return this.mapRecords(json.data);
   },
-
   //TODO: fix propertyName id for dataDictionary
   columns: computed(function () {
     let route = this;
