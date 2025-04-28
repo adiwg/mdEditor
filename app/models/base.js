@@ -33,6 +33,7 @@ const Base = Model.extend({
   patch: service(),
   clean: service('cleaner'),
   mdjson: service('mdjson'),
+  pouch: service(),
 
   /**
    * The hash for the clean record.
@@ -68,7 +69,8 @@ const Base = Model.extend({
           this.save();
         });
       }
-    }),
+    }
+  ),
 
   applyPatch() {
     once(this, function () {
@@ -97,6 +99,9 @@ const Base = Model.extend({
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
+
+    // Pouch handling
+    this.pouch.updatePouchRecord(this);
   },
 
   wasLoaded() {
@@ -156,7 +161,7 @@ const Base = Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if(this.currentHash !== newHash || this.hasDirtyAttributes) {
+    if((this.currentHash !== newHash) || this.hasDirtyAttributes) {
       return true;
     }
 

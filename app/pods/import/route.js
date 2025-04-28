@@ -472,6 +472,13 @@ export default Route.extend(ScrollTo, {
           .rejectBy('type', 'settings'),
       };
 
+      // Remove all PouchDB relationships
+      data.data.forEach((record) => {
+        if (record.relationships) {
+          delete record.relationships;
+        }
+      });
+
       store
         .importData(data, {
           truncate: !this.currentRouteModel().get('merge'),

@@ -16,8 +16,8 @@ export default class MdPouchRecordPouchUpdateButtonComponent extends Component {
 
   @action
   async update() {
-    const { record, relatedRecord } = this.args;
-    await this.pouch.updatePouchRecord(record, relatedRecord);
+    const { record } = this.args;
+    await this.pouch.updatePouchRecord(record);
     this.updated = true;
   }
 }
