@@ -1,15 +1,15 @@
 <h4 class="section-header">Editing Source #{{sourceId}}
   {{control/md-status model=(compute (route-action "parentModel"))}}
 </h4>
-{{#with model as |source|}}
+{{#let this.model as |source|}}
     <div class="">
-      {{object/md-source
-        model=source
-        profilePath="record.lineage.source"
-      }}
+      <Object::MdSource
+        @model={{source}}
+        @profilePath="record.lineage.source"
+      />
       {{outlet}}
     </div>
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link" text="Back to Lineage Object" icon="arrow-left" click=(route-action "goBack"))

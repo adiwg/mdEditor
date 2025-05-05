@@ -106,8 +106,8 @@
 </div>
 </div>
 
-  {{#with collapsible}}
-    {{#liquid-unless collapse class="list-group-item"}}
-      {{object/md-taxonomy/classification model=model.subClassification parentItem=this dragging=dragging preview=preview profilePath=profilePath}}
+  {{#let this.collapsible as |_collapsible|}}
+    {{#liquid-unless this.collapse class="list-group-item"}}
+      <Object::MdTaxonomy::Classification @model={{this.model.subClassification}} @parentItem={{this}} @dragging={{this.dragging}} @preview={{this.preview}} @profilePath={{this.profilePath}} />
     {{/liquid-unless}}
-  {{/with}}
+  {{/let}}

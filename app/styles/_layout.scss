@@ -137,6 +137,8 @@ body {
   width: 100%;
 }
 
+// TODO: remove this when page wrapper is complete
+
 #md-page-content {
   //display: none;
   padding-top: 90px;
@@ -276,4 +278,18 @@ body {
     }
   }
 
+  .md-main-container{
+    padding: 2rem;
+  }
+}
+
+.hds-breadcrumb__list {
+  padding: 0px 20px;
+  .hds-breadcrumb__icon {
+    height: 16px;
+    width: 16px;
+  }
+  .hds-breadcrumb__text {
+    font-size: 1.5rem;
+  }
 }

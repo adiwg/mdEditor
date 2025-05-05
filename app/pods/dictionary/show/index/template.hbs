@@ -1,5 +1,5 @@
 <div class="row md-no-spotlight">
-  {{#with model.json.dataDictionary as |dictionary|}}
+  {{#let model.json.dataDictionary as |dictionary|}}
   <div class="col-sm-9 col-md-offset-1">
     <h3>
       {{fa-icon "book" class="text-muted"}}
@@ -83,7 +83,7 @@
       {{/if}}
     {{/layout/md-card}}
   </div>
-  {{/with}}
+  {{/let}}
 
   <div class="md-control-sidebar col-sm-2 no-nav">
     {{#control/md-crud-buttons

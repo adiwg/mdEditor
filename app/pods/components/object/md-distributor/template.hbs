@@ -27,20 +27,6 @@
   {{/if}}
 </div>
 
-{{!-- {{#with model.transferOption.firstObject as |opt|}}
-  {{#layout/md-card
-    shadow=false
-    muted=false
-    title="Transfer Options"
-    plain=true
-    collapsible=true
-    collapsed=false
-    bodyIsRow=false
-  }}
-    {{object/md-transfer model=opt profilePath=(concat profilePath ".transferOption")}}
-  {{/layout/md-card}}
-{{/with}} --}}
-
 {{object/md-objectroute-table
   attributes="Size(MB),online?,offline?,format?"
   items=model.transferOption
@@ -60,16 +46,16 @@
   data-spy="Transfer Options"
 }}
 
-{{#with model.orderProcess.firstObject as |order|}}
-  {{#layout/md-card shadow=false
-    muted=false
-    title="Order Process"
-    plain=true
-    collapsible=true
-    collapsed=false
-    bodyIsRow=false
-    profilePath=(concat profilePath ".orderProcess")
-  }}
+{{#let this.model.orderProcess.firstObject as |order|}}
+  <Layout::MdCard @shadow={{false}}
+    @muted={{false}}
+    @title="Order Process"
+    @plain={{true}}
+    @collapsible={{true}}
+    @collapsed={{false}}
+    @bodyIsRow={{false}}
+    @profilePath={{concat this.profilePath ".orderProcess"}}
+  >
     {{!-- <label class="text-info col-sm-2">Order Process</label>
     <div class="col-sm-10"> --}}
     {{input/md-textarea
@@ -77,7 +63,7 @@
       placeholder="Describe the fees and terms for retrieving the resource, including monetary units."
       label="Fees"
       autoresize=false
-      profilePath=(concat profilePath ".orderProcess.fees")
+      profilePath=(concat this.profilePath ".orderProcess.fees")
       embedded=true
       data-spy="Fees"
     }}
@@ -85,23 +71,22 @@
       date=order.plannedAvailability
       placeholder="Date when the resource will be avialable"
       label="Planned Availability"
-      profilePath=(concat profilePath ".orderProcess.plannedAvailability")
+      profilePath=(concat this.profilePath ".orderProcess.plannedAvailability")
     }}
     {{input/md-textarea
       value=order.orderingInstructions
       maxheight=100
       placeholder="Describe general instructions for obtaining the resource"
       label="Ordering Instructions"
-      profilePath=(concat profilePath ".orderProcess.orderingInstructions")
+      profilePath=(concat this.profilePath ".orderProcess.orderingInstructions")
     }}
     {{input/md-textarea
       value=order.turnaround
       autoresize=false
       placeholder="Describe the typical turnaround time for the filling of an order"
       label="Turnaround"
-      profilePath=(concat profilePath ".orderProcess.turnaround")
+      profilePath=(concat this.profilePath ".orderProcess.turnaround")
     }}
   {{!-- </div> --}}
-  {{/layout/md-card}}
-{{/with}}
-{{yield}}
+  </Layout::MdCard>
+{{/let}}{{yield}}

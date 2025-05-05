@@ -1,77 +1,77 @@
-{{#with model.thesaurus as |thesaurus|}}
+{{#let this.model.thesaurus as |thesaurus|}}
   <form class="md-keyword-citation form-horizontal">
-    <fieldset disabled={{disabled}}>
+    <fieldset disabled={{this.disabled}}>
       <div class="form-group">
         <label class="col-sm-2 control-label required">Title</label>
-        {{input/md-input
+        <Input::MdInput
           class="col-sm-10"
           placeholder="Enter title"
           valuePath="title"
-          model=this
-          showValidations=true
-          required=true
-          profilePath=(concat profilePath ".title")
-        }}
+          @model={{this}}
+          @showValidations={{true}}
+          @required={{true}}
+          @profilePath={{concat this.profilePath ".title"}}
+        />
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">Date</label>
-        {{input/md-datetime
-          date=date
+        <Input::MdDatetime
+          @date={{this.date}}
           class="col-xxl-4 col-md-10 col-sm-4"
-          profilePath=(concat profilePath ".date")
-        }}
+          @profilePath={{concat this.profilePath ".date"}}
+        />
         <div class="form-group clearfix visible-md-block visible-lg-block" />
         <label class="col-sm-2 control-label">Date Type</label>
-        {{input/md-codelist
+        <Input::MdCodelist
           class="col-xxl-4 col-md-10 col-sm-4"
-          create=false
-          tooltip=true
-          icon=false
-          disabled=disabled
-          allowClear=true
-          mdCodeName="dateType"
-          value=dateType
-          placeholder="Choose date type"
-          profilePath=(concat profilePath ".dateType")
-        }}
+          @create={{false}}
+          @tooltip={{true}}
+          @icon={{false}}
+          @disabled={{this.disabled}}
+          @allowClear={{true}}
+          @mdCodeName="dateType"
+          @value={{this.dateType}}
+          @placeholder="Choose date type"
+          @profilePath={{concat this.profilePath ".dateType"}}
+        />
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">Type</label>
-        {{input/md-codelist
+        <Input::MdCodelist
           class="col-xxl-5 col-lg-7 col-sm-10"
-          create=true
-          tooltip=true
-          icon=false
-          disabled=disabled
-          allowClear=true
-          mdCodeName="keywordType"
-          value=model.keywordType
-          placeholder="Choose keyword type"
-          profilePath=(concat profilePath ".keywordType")
-        }}
+          @create={{true}}
+          @tooltip={{true}}
+          @icon={{false}}
+          @disabled={{this.disabled}}
+          @allowClear={{true}}
+          @mdCodeName="keywordType"
+          @value={{this.model.keywordType}}
+          @placeholder="Choose keyword type"
+          @profilePath={{concat this.profilePath ".keywordType"}}
+        />
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">Edition</label>
-        {{input/md-input
+        <Input::MdInput
           class="col-sm-10"
-          placeholder="Enter edition or version"
-          value=thesaurus.edition
-          required=false
-          profilePath=(concat profilePath ".edition")
-        }}
+          @placeholder="Enter edition or version"
+          @value={{thesaurus.edition}}
+          @required={{false}}
+          @profilePath={{concat this.profilePath ".edition"}}
+        />
       </div>
       <div class="form-group">
         <label class="col-sm-2 control-label">URL</label>
-        {{input/md-input
+        <Input::MdInput
           class="col-sm-10"
-          type="url"
-          value=thesaurus.onlineResource.0.uri
-          showValidations=true
-          placeholder="Enter online link"
-          profilePath=(concat profilePath ".onlineResourceUrl")
-        }}
+          @type="url"
+          @value={{thesaurus.onlineResource.0.uri}}
+          @showValidations={{true}}
+          @placeholder="Enter online link"
+          @profilePath={{concat this.profilePath ".onlineResourceUrl"}}
+        />
       </div>
     </fieldset>
   </form>
-{{/with}}
-{{yield}}
+{{/let}}
+{{yield}}{{yield}}

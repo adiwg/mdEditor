@@ -78,8 +78,8 @@
       }}
         <h4 class="text-{{errorClass}}">{{errorSubTitle}}</h4>
         <ul class="list-group">
-          {{#each messages as |message|}}
-            {{#with (compute (action "errorClass") message.[0]) as |errorClass|}}
+          {{#each this.messages as |message|}}
+            {{#let (compute (fn this.errorClass message.[0])) as |errorClass|}}
               <li class="list-group-item">
                 <div class="">
                   <h4 class="list-group-item-heading">
@@ -89,13 +89,12 @@
                 </div>
                 <div class="">
                   <span class="label label-pill {{if message.[3] "label-primary" "label-default"}}">{{message.[1]}}</span>
-                  {{compute (action "formatMessage" message.[3])}}
+                  {{compute (fn this.formatMessage message.[3])}}
                 </div>
               </li>
-            {{/with}}
+            {{/let}}
           {{/each}}
-        </ul>
-      {{/layout/md-card}}
+        </ul>      {{/layout/md-card}}
     {{/if}}
 
     {{#if xhrError}}

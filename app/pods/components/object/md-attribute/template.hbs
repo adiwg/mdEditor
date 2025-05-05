@@ -2,7 +2,7 @@
   profilePath=(concat profilePath ".information") data-spy="Attribute Information"
   required=true
 }}
-  {{#with (concat profilePath ".information") as |profilePath|}}
+  {{#let (concat profilePath ".information") as |profilePath|}}
     {{input/md-input
       model=this
       valuePath="codeName"
@@ -23,16 +23,6 @@
       embedded=true
       profilePath=(concat profilePath ".definition")
     }}
-
-    {{!-- {{input/md-input
-      model=this
-      valuePath="dataType"
-      placeholder="The datatype for the attribute(column)."
-      label="Data Type"
-      data-spy="Data Type"
-      profilePath=(concat profilePath ".dataType")
-      class="md-embedded"
-    }} --}}
 
     {{input/md-codelist
       create=true
@@ -94,14 +84,6 @@
       </td>
     {{/object/md-simple-array-table}}
 
-    {{!-- {{input/md-boolean
-      label="Allow Many?"
-      required=true
-      text="Allow multiple values?"
-      value=model.allowMany
-      profilePath=(concat profilePath ".allowMany")
-    }} --}}
-
     {{input/md-input
       value=model.units
       placeholder="A unit-of-measure for the attribute, e.g. 'meter', 'atmosphere', 'liter'"
@@ -156,9 +138,66 @@
       label="Maximum Value"
       profilePath=(concat profilePath ".maxValue")
     }}
-  {{/with}}
+  {{/let}}
 {{/layout/md-card}}
 
+{{#object/md-array-table
+  columns="Min Value, Max Value"
+  value=model.valueRange
+  title="Value Range"
+  plain=false
+  templateClass=rangeTemplate
+  profilePath=(concat profilePath ".valueRange")
+  data-spy="Value Range" as |rg|
+}}
+  <td>
+    {{input/md-input
+     model=rg.item
+     valuePath="minRangeValue"
+     placeholder="The least value that the attribute can be assigned."
+     profilePath=(concat profilePath ".minValue")
+     showValidations=true
+    }}
+  </td>
+  <td>
+    {{input/md-input
+     model=rg.item
+     valuePath="maxRangeValue"
+     placeholder="The greatest value that the attribute can be assigned."
+     profilePath=(concat profilePath ".maxValue")
+     showValidations=true
+    }}
+  </td>
+{{/object/md-array-table}}
+
+{{#object/md-object-table
+ items=model.timePeriod
+ header="Time Period"
+ data-spy="Time Period"
+ buttonText="Add Time Period"
+ ellipsis=true
+ profilePath=(concat profilePath ".timePeriod")
+ attributes="startDateTime,endDateTime" as |tm|
+}}
+  {{object/md-timePeriod
+    model=tm
+    profilePath=(concat profilePath ".timePeriod")
+  }}
+{{/object/md-object-table}}
+
+{{#layout/md-card
+  title="Attribute Reference"
+  profilePath=(concat profilePath ".attributeReference")
+  shadow=true
+  collapsible=true
+  collapsed=true
+}}
+  {{object/md-citation
+    profilePath=(concat profilePath ".attributeReference")
+    model=model.attributeReference
+    simpleIdentifier=true
+  }}
+{{/layout/md-card}}
 {{#object/md-array-table
   columns="Min Value, Max Value"
   value=model.valueRange

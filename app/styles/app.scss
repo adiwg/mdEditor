@@ -12,6 +12,8 @@ $md-nav-background: lighten($gray-darker, 4);
 $md-text-info-dark: darken($brand-info, 5);
 $white: #fff;
 
+@import 'helios_overrides';
+
 @import 'background';
 @import 'col_xxl';
 @import 'col_xxxl';
@@ -61,9 +63,9 @@ $white: #fff;
 
 @import 'flex';
 
-//modals
-@import 'ember-modal-dialog/ember-modal-structure';
-@import 'ember-modal-dialog/ember-modal-appearance';
+// //modals
+// @import 'ember-modal-dialog/ember-modal-structure';
+// @import 'ember-modal-dialog/ember-modal-appearance';
 //simple-mde
 @import 'simple-mde';
 

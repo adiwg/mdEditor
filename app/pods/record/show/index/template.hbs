@@ -1,4 +1,4 @@
-{{#with model.json.metadata.resourceInfo as |resource|}}
+{{#let model.json.metadata.resourceInfo as |resource|}}
 <div class="row md-no-spotlight">
     <div class="col-sm-9 col-md-offset-1">
         <h3>
@@ -131,7 +131,7 @@
 
         {{/layout/md-card}}
 
-        {{outlet}}
+{{outlet}}
     </div>
     <div class="md-control-sidebar col-sm-2 hidden-print no-nav">
       {{#control/md-crud-buttons
@@ -153,4 +153,4 @@
       {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=model.profile}}
     </div>
 </div>
-{{/with}}
+{{/let}}

@@ -1,31 +1,41 @@
-{{#if modal}}
-  {{#modal-dialog
-      onClose=(action "closeModal")
-      translucentOverlay=true
-      containerClass="md-jsmodal-container"
-      overlayClass="md-modal-overlay"
-      attachment="top center"
-      targetAttachment="top center"
-      tetherTarget="html"
-  }}
-    <button type="button" {{action "closeModal"}} class="md-modal-close" aria-label="Close">
-      <span class="fa-stack">
-          <i class="fa fa-circle fa-stack-2x"></i>
-          <i class="fa fa-times fa-stack-1x fa-inverse"></i>
-      </span>
-    </button>
-    <div class="md-viewer-body"></div>
-  {{/modal-dialog}}
+{{#if this.modal}}
+  <Hds::Modal
+    @isOpen={{true}}
+    @onClose={{this.closeModal}}
+    @size="large"
+    as |modal|
+  >
+    <modal.Header>
+      <h2>JSON Viewer</h2>
+    </modal.Header>
+
+    <modal.Body>
+      <div class="md-viewer-body"></div>
+    </modal.Body>
+
+    <modal.Footer>
+      <div class="btn-toolbar md-viewer-controls">
+        <div class="btn-group" role="group" aria-label="JSON viewer controls">
+          <Hds::Button @text="Expand All" @icon="plus" @onClick={{this.expand}} />
+          <Hds::Button @text="Collapse All" @icon="minus" @onClick={{this.collapse}} @color="secondary" />
+        </div>
+        <div class="btn-group" role="group" aria-label="JSON viewer zoom controls">
+          <Hds::Button @text="Zoom In" @icon="search" @onClick={{this.zoomin}} />
+          <Hds::Button @text="Zoom Out" @icon="search-minus" @onClick={{this.zoomout}} @color="secondary" />
+        </div>
+      </div>
+    </modal.Footer>
+  </Hds::Modal>
 {{else}}
   <div class="well">
     <div class="btn-toolbar md-viewer-controls pull-right">
       <div class="btn-group-vertical" role="group" aria-label="JSON viewer controls">
-        <button type="button" class="btn btn-primary" {{action "expand"}} title="Expand All">{{fa-icon "plus"}}</button>
-        <button type="button" class="btn btn-default" {{action "collapse"}} title="Collapse All">{{fa-icon "minus"}}</button>
+        <button type="button" class="btn btn-primary" {{on "click" this.expand}} title="Expand All">{{fa-icon "plus"}}</button>
+        <button type="button" class="btn btn-default" {{on "click" this.collapse}} title="Collapse All">{{fa-icon "minus"}}</button>
       </div>
       <div class="btn-group-vertical" role="group" aria-label="JSON viewer controls">
-        <button type="button" class="btn btn-primary" {{action "zoomin"}} title="Zoom in">{{fa-icon "search"}}</button>
-        <button type="button" class="btn btn-default" {{action "zoomout"}} title="Zoom Out">{{fa-icon "search-minus"}}</button>
+        <button type="button" class="btn btn-primary" {{on "click" this.zoomin}} title="Zoom in">{{fa-icon "search"}}</button>
+        <button type="button" class="btn btn-default" {{on "click" this.zoomout}} title="Zoom Out">{{fa-icon "search-minus"}}</button>
       </div>
     </div>
     <div class="md-viewer-body">

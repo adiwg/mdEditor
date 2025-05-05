@@ -13,7 +13,7 @@
   templateClass=templateClass as |type|
 }}
   <td>
-    {{#with type.item as |item|}}
+    {{#let type.item as |item|}}
     {{input/md-codelist
       create=true
       tooltip=true
@@ -25,7 +25,7 @@
       profilePath=(concat profilePath ".resourceType")
       model=item
       path="type" placeholder="Choose type of resource" }}
-      {{/with}}
+      {{/let}}
   </td>
   <td>
     {{input/md-input value=type.item.name profilePath=(concat profilePath ".name")

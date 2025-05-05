@@ -1,13 +1,42 @@
-{{yield}}
-  {{#control/md-modal
-    isShowing = isShowingModal
-    closeModal=(action "cancel")
-    target=target
-    renderInPlace=renderInPlace
-  }}
-    {{html-safe message}}
-    <div class="md-modal-buttons pull-right">
-      <button type="button" class="btn btn-danger" {{action "confirm"}}>Confirm</button>
-      <button type="button" class="btn btn-primary" {{action "cancel"}}>Cancel</button>
-    </div>
-  {{/control/md-modal}}
+<Hds::Button
+  @text={{@formButtonText}}
+  @size={{@formButtonSize}}
+  @color={{@formButtonColor}}
+  @icon={{@formButtonIcon}}
+  @iconPosition={{@formButtonIconPosition}}
+  @isIconOnly={{@formButtonIsIconOnly}}
+  @isFullWidth={{@formButtonIsFullWidth}}
+  {{on "click" (fn this.activateModal "formModalActive")}}
+/>
+{{#if this.formModalActive}}
+  <Hds::Modal
+    id="md-button-form-modal"
+    @onClose={{fn this.deactivateModal "formModalActive"}}
+    as |M|
+  >
+    <M.Header>
+      {{html-safe @formTitle}}
+    </M.Header>
+    <M.Body>
+      <p class="hds-typography-body-300 hds-foreground-primary">{{html-safe @formContent}}</p>
+    </M.Body>
+    <M.Footer>
+      <Hds::ButtonSet>
+        <Hds::Button
+          type="button"
+          @color="primary"
+          @icon={{@confirmButtonIcon}}
+          @text={{@confirmButtonText}}
+          {{on "click" this.confirm}}
+        />
+        <Hds::Button
+          type="button"
+          @color="secondary"
+          @icon={{@cancelButtonIcon}}
+          @text={{@cancelButtonText}}
+          {{on "click" this.cancel}}
+        />
+      </Hds::ButtonSet>
+    </M.Footer>
+  </Hds::Modal>
+{{/if}}

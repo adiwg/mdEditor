@@ -5,12 +5,6 @@
 {{#control/md-button-confirm class="btn btn-sm btn-danger" onConfirm=(action "deleteItem" record index isSelected clickOnRow)}}
   <span class="fa fa-times"></span> Delete
 {{/control/md-button-confirm}}
-{{!-- {{#control/md-button-modal class="btn btn-sm btn-danger" message="<h1>Do
-you really want to delete this contact?</h1>Be sure this contact is
-not referenced by a metadata record or dictionary or it's deletion
-may cause those records to fail validation." onConfirm=(route-action "deleteItem" record)}}
-  <span class="fa fa-times"></span> Delete
-{{/control/md-button-modal}} --}}
 {{control/md-json-button class="btn-sm btn-primary" json=record.cleanJson title=record.title}}
 {{control/md-status
   model=record

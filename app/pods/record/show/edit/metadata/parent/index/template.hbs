@@ -1,17 +1,17 @@
 <h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Parent Metadata Citation
   {{control/md-status model=model}}
 </h4>
-{{#with model.json.metadata.metadataInfo.parentMetadata as |citation|}}
+{{#let this.model.json.metadata.metadataInfo.parentMetadata as |citation|}}
     <div class="row">
-      {{object/md-citation
+      <Object::MdCitation
         class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
-        model=citation
-        profilePath="record.metadata.parentMetadata"
-        editIdentifier=(route-action "editIdentifier")
-      }}
+        @model={{citation}}
+        @profilePath="record.metadata.parentMetadata"
+        @editIdentifier={{route-action "editIdentifier"}}
+      />
       {{outlet}}
     </div>
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link" text="Back to Metadata" icon="arrow-left"

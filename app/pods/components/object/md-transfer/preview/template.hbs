@@ -1,5 +1,5 @@
-{{#with item as |t|}}
-  {{#if isTable}}
+{{#let @item as |t|}}
+  {{#if this.isTable}}
     <td>{{t.transferSize}}</td>
     <td>{{if t.onlineOption.length (concat "yes(" t.onlineOption.length ")") "no"}}</td>
     <td>{{if t.offlineOption.length (concat "yes(" t.offlineOption.length ")") "no"}}</td>
@@ -7,4 +7,4 @@
   {{else}}
     {{yield t}}
   {{/if}}
-{{/with}}
+{{/let}}

@@ -1,8 +1,9 @@
 import $ from 'jquery';
 import Component from '@ember/component';
 import { typeOf } from '@ember/utils';
+import { action } from '@ember/object';
 
-export default Component.extend({
+export default class MdJsonViewerComponent extends Component {
   /**
    * JSON viewer
    *
@@ -11,7 +12,7 @@ export default Component.extend({
    * @submodule components-control
    */
 
-  classNames: 'md-json-viewer',
+  classNames = 'md-json-viewer';
 
   /**
    * True to render in modal dialog
@@ -19,7 +20,7 @@ export default Component.extend({
    * @property modal
    * @type {Boolean}
    */
-  modal: true,
+  modal = true;
 
   /**
    * Element selector or element that serves as the reference for modal position
@@ -27,7 +28,7 @@ export default Component.extend({
    * @property target
    * @type {String}
    */
-  target: 'html',
+  target = 'html';
 
   /**
    * Object or string to render as JSON in viewer
@@ -35,11 +36,11 @@ export default Component.extend({
    * @property json
    * @type {Object|String}
    */
-  json: 'No json supplied',
+  json = 'No json supplied';
 
   close() {
     this.set('modal', false);
-  },
+  }
 
   setFontSize(el, factor) {
     let currentFontSize = el.css('font-size');
@@ -47,37 +48,41 @@ export default Component.extend({
     let newFontSize = currentFontSizeNum * factor;
 
     el.animate({
-      'font-size': `${newFontSize}px`
+      'font-size': `${newFontSize}px`,
     });
-  },
+  }
 
   didInsertElement() {
     let json = this.json;
     let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 
-    $('.md-viewer-body')
-      .JSONView(out);
-  },
-
-  actions: {
-    collapse() {
-      this.$('.md-viewer-body')
-        .JSONView('collapse');
-    },
-    expand() {
-      this.$('.md-viewer-body')
-        .JSONView('expand');
-    },
-    zoomin() {
-      let body = this.$('.md-viewer-body');
-      this.setFontSize(body, 1.1);
-    },
-    zoomout() {
-      let body = this.$('.md-viewer-body');
-      this.setFontSize(body, 0.9);
-    },
-    closeModal() {
-      this.close();
-    }
+    $('.md-viewer-body').JSONView(out);
   }
-});
+
+  @action
+  collapse() {
+    this.$('.md-viewer-body').JSONView('collapse');
+  }
+
+  @action
+  expand() {
+    this.$('.md-viewer-body').JSONView('expand');
+  }
+
+  @action
+  zoomin() {
+    let body = this.$('.md-viewer-body');
+    this.setFontSize(body, 1.1);
+  }
+
+  @action
+  zoomout() {
+    let body = this.$('.md-viewer-body');
+    this.setFontSize(body, 0.9);
+  }
+
+  @action
+  closeModal() {
+    this.close();
+  }
+}

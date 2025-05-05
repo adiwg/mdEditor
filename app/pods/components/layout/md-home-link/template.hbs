@@ -1,0 +1,11 @@
+<LinkTo @route={{@route}}  class="hds-side-nav__home-link" aria-label={{@ariaLabel}}>
+  {{#if (has-block)}}
+    {{yield}}
+  {{else if @svgContent}}
+    <div class="hds-side-nav-header__home-link-icon">
+      {{{@svgContent}}}
+    </div>
+  {{else if @icon}}
+    <Hds::Icon @name={{@icon}} @size="24" />
+  {{/if}}
+</LinkTo>

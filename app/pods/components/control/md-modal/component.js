@@ -1,6 +1,8 @@
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import { htmlSafe } from '@ember/template';
 
-export default Component.extend({
+export default class MdModalComponent extends Component {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -14,19 +16,17 @@ export default Component.extend({
 
   /**
    * Whether to display the modal
-   *
    * @property isShowing
    * @type {Boolean}
    */
-  isShowing: false,
+  isShowing = false;
 
   /**
    * Text to display in the modal.
-   * Note: This string is NOT escaped in the template.
-   *
    * @property message
    * @type {String}
    */
+  message = null;
 
   /**
    * Element selector or element that serves as the reference for modal position
@@ -34,15 +34,14 @@ export default Component.extend({
    * @property target
    * @type {String}
    */
-  target: 'viewport',
+  target = 'viewport';
 
   /**
    * Whether to display the confirm button
-   *
    * @property showConfirm
    * @type {Boolean}
    */
-  showConfirm: false,
+  showConfirm = false;
 
   /**
    * Whether to render in place
@@ -50,77 +49,61 @@ export default Component.extend({
    * @property renderInPlace
    * @type {Boolean}
    */
-  renderInPlace: false,
+  renderInPlace = false;
 
   /**
    * Whether to display the cancel button
-   *
    * @property showCancel
    * @type {Boolean}
    */
-  showCancel: false,
+  showCancel = false;
 
   /**
    * Label for the confirm button
-   *
    * @property confirmLabel
    * @type {String}
    */
-  confirmLabel: 'OK',
+  confirmLabel = 'OK';
 
   /**
    * Close action callback
-   *
-   * @method closeModal
    */
   closeModal() {
-    this.toggleProperty('isShowing');
-  },
+    this.set('isShowing', false);
+  }
 
   /**
    * Confirm action callback
-   * @method confirm
    */
   confirm() {
+    console.log('confirm');
+    // Call the onConfirm callback if it exists
+    if (typeof this.onConfirm === 'function') {
+      this.onConfirm();
+    }
     this.closeModal();
-  },
+  }
 
   /**
    * Cancel action callback
-   *
-   * @method cancel
    */
   cancel() {
-    console.log('cancel')
     this.closeModal();
-  },
-
-  actions: {
-    /**
-     * Close modal action
-     *
-     * @method action.closeModal
-     */
-    closeModal() {
-      this.closeModal();
-    },
-
-    /**
-     * confirm action
-     *
-     * @method action.confirm
-     */
-    confirm() {
-      this.confirm();
-    },
-
-    /**
-     * Cancel action
-     *
-     * @method action.cancel
-     */
-    cancel() {
-      this.cancel();
-    }
   }
-});
+
+  @action
+  handleClose() {
+    this.closeModal();
+  }
+
+  @action
+  handleConfirm() {
+    console.log('handleConfirm');
+    this.confirm();
+  }
+
+  @action
+  handleCancel() {
+    this.cancel();
+  }
+}

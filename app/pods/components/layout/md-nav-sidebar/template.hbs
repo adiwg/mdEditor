@@ -8,13 +8,13 @@
     {{else}}
     <li id="md-sidebar-lists">
       <div class="panel-group">
-        {{#each items as |class|}}
-          {{#with class.meta as |meta|}}
+        {{#each this.items as |class|}}
+          {{#let class.meta as |meta|}}
             <div class="panel">
               <div class="panel-heading clearfix" id="{{meta.listId}}-heading">
                 <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
                   <LinkTo @route={{concat meta.type ".new"}} class="btn btn-primary btn-xs">
-                    {{fa-icon "plus"}}
+                    <Hds::Icon @name="plus" />
                   </LinkTo>
                   <LinkTo @route={{meta.list}} class="btn btn-primary btn-xs">
                     <span class="fa fa-list"></span>
@@ -39,7 +39,7 @@
                           @disabled={{record.isNew}}
                           draggable="false"
                         >
-                          {{fa-icon "pencil"}}
+                          <Hds::Icon @name="pencil-tool" />
                         </LinkTo>
                       </div>
                       {{!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> --}}
@@ -52,7 +52,7 @@
                         draggable="false"
                       >
                           {{#if record.defaultLogo}}
-                            <img src={{record.defaultLogo}} alt="logo" class="fa-fw">
+                            <img src={{record.defaultLogo}} class="fa-fw">
                           {{else}}
                             <span class="fa fa-{{record.icon}} fa-fw"></span>
                           {{/if}}
@@ -63,7 +63,7 @@
                 </div>
               </div>
             </div>
-          {{/with}}
+          {{/let}}
         {{/each}}
       </div>
     </li>

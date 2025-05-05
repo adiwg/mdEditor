@@ -2,15 +2,15 @@
   <span class="small">for <em>{{model.title}}</em></span>
   {{control/md-status model=model}}
 </h4>
-{{#with model as |citation|}}
-  {{object/md-citation
+{{#let this.model as |citation|}}
+  <Object::MdCitation
     class=""
-    model=citation
-    profilePath="dictionary.entity.entityReference"
-    editIdentifier=(route-action "editIdentifier")
-  }}
+    @model={{citation}}
+    @profilePath="dictionary.entity.entityReference"
+    @editIdentifier={{route-action "editIdentifier"}}
+  />
   {{outlet}}
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link"

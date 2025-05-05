@@ -1,16 +1,16 @@
 <h4 class="section-header">Editing Citation
   {{control/md-status model=(compute (route-action "parentModel"))}}
 </h4>
-{{#with model as |citation|}}
+{{#let this.model as |citation|}}
     <div class="">
-      {{object/md-citation
-        model=citation
-        profilePath="record.lineage.citation"
-        editIdentifier=(route-action "editIdentifier")
-      }}
+      <Object::MdCitation
+        @model={{citation}}
+        @profilePath="record.lineage.citation"
+        @editIdentifier={{route-action "editIdentifier"}}
+      />
       {{outlet}}
     </div>
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link" text="Back to Lineage Object" icon="arrow-left" click=(route-action "goBack"))

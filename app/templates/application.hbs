@@ -29,72 +29,24 @@
   {{page-title title replace=false}}
 </MdTitle>
 
-<div>
-  <Hds::AppFrame as |Frame|>
-    <Frame.Sidebar>
-      <Layout::MdHeliosSidebar @items={{@model}} />
-    </Frame.Sidebar>
-    <Frame.Main>
-      {{outlet}}
-      {{!-- <div id='md-page-content-wrapper'>
-       <div id='md-navbars'>
-        <Layout::MdNavMain>
-          <FromElsewhere @name='nav-main' />
-        </Layout::MdNavMain>
-        <Layout::MdBreadcrumb />
-        <FromElsewhere @name='nav-secondary' />
-      </div>
-      <div id='md-page-content'>
-        {{outlet}}
-       </div>
-      </div> --}}
-    </Frame.Main>
-    <Frame.Footer>
-      <Layout::MdFooter @class='hidden-print' />
-    </Frame.Footer>
-  </Hds::AppFrame>
-</div>
+<Hds::AppFrame as |Frame|>
+  <Frame.Sidebar>
+    <Layout::MdHeliosSidebar @items={{@model}} />
+  </Frame.Sidebar>
+  <Frame.Main>
+   <Layout::MdBreadcrumb::Container />
+    {{outlet}}
+  </Frame.Main>
+  <Frame.Footer>
+    <Layout::MdFooter @class='hidden-print' />
+  </Frame.Footer>
+</Hds::AppFrame>
 
-{{!-- <div id='md-wrapper' class=''> --}}
-
-  {{! Slider }}
-  {{!-- <Layout::MdSlider
-    @visible={{slider.showSlider}}
-    @fromName={{slider.fromName}}
-    @onClose={{slider.onClose}}
-    @context={{slider.context}}
-  /> --}}
-  {{! /#slider }}
-
-  {{! Sidebar }}
-  {{!-- <Layout::MdHeliosSidebar @items={{@model}} /> --}}
-  {{! /#sidebar }}
-
-  {{! Sidebar Wrapper }}
-  {{!-- <Layout::MdNavSidebar @items={{model}} /> --}}
-  {{! /#sidebar-wrapper }}
-
-  {{! Page Content }}
-  {{!-- <div id='md-page-content-wrapper'>
-    <div id='md-navbars'>
-      <Layout::MdNavMain>
-        <FromElsewhere @name='nav-main' />
-      </Layout::MdNavMain>
-      <Layout::MdBreadcrumb />
-      <FromElsewhere @name='nav-secondary' />
-    </div>
-    <div id='md-page-content' class='container-fluid'>
-      {{outlet}}
-    </div>
-  </div> --}}
-  {{! /#page-content-wrapper }}
-  {{!-- <Layout::MdFooter @class='hidden-print' />
-</div> --}}
 <EmberLoadRemover />
 
 <Control::MdModal
   @isShowing={{settings.data.showSplash}}
-  @showConfirm={{true}}
+  {{!-- @showConfirm={{true}} --}}
   @confirmLabel='OK'
 >
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}

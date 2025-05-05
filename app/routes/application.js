@@ -8,9 +8,7 @@ import { inject as service } from '@ember/service';
 import config from 'mdeditor/config/environment';
 
 const {
-  APP: {
-    defaultProfileId
-  }
+  APP: { defaultProfileId },
 } = config;
 
 const console = window.console;
@@ -44,38 +42,42 @@ export default Route.extend({
    * @return {Ember.RSVP.hash}
    */
   model() {
-    let promises = [this.store.findAll('record', {
-        reload: true
+    let promises = [
+      this.store.findAll('record', {
+        reload: true,
       }),
       this.store.findAll('contact', {
-        reload: true
+        reload: true,
       }),
       this.store.findAll('dictionary', {
-        reload: true
-      })
+        reload: true,
+      }),
     ];
 
-    let meta = A([EmberObject.create({
-      type: 'record',
-      list: 'records',
-      title: 'Metadata Records',
-      icon: 'file-o'
-    }), EmberObject.create({
-      type: 'contact',
-      list: 'contacts',
-      title: 'Contacts',
-      icon: 'users'
-    }), EmberObject.create({
-      type: 'dictionary',
-      list: 'dictionaries',
-      title: 'Dictionaries',
-      icon: 'book'
-    })]);
+    let meta = A([
+      EmberObject.create({
+        type: 'record',
+        list: 'records',
+        title: 'Metadata Records',
+        icon: 'file-o',
+      }),
+      EmberObject.create({
+        type: 'contact',
+        list: 'contacts',
+        title: 'Contacts',
+        icon: 'users',
+      }),
+      EmberObject.create({
+        type: 'dictionary',
+        list: 'dictionaries',
+        title: 'Dictionaries',
+        icon: 'book',
+      }),
+    ]);
 
     let idx = 0;
 
     let mapFn = function (item) {
-
       meta[idx].set('listId', guidFor(item));
       item.set('meta', meta[idx]);
       idx = ++idx;
@@ -83,16 +85,17 @@ export default Route.extend({
       return item;
     };
 
-    return RSVP.map(promises, mapFn).then(result => {
-      let profiles = [this.store.findAll('profile', {
-          reload: true
+    return RSVP.map(promises, mapFn).then((result) => {
+      let profiles = [
+        this.store.findAll('profile', {
+          reload: true,
         }),
         this.store.findAll('schema', {
-          reload: true
+          reload: true,
         }),
         this.store.findAll('custom-profile', {
-          reload: true
-        })
+          reload: true,
+        }),
       ];
 
       return RSVP.all(profiles).then(() => result);
@@ -102,13 +105,15 @@ export default Route.extend({
   },
 
   beforeModel() {
-    if(!defaultProfileId) {
-      this.router.replaceWith('error')
-        .then(function (route) {
-          route.controller.set('lastError', new Error(
+    if (!defaultProfileId) {
+      this.router.replaceWith('error').then(function (route) {
+        route.controller.set(
+          'lastError',
+          new Error(
             'A default profile ID is not set in "config/environment/APP"'
-          ));
-        });
+          )
+        );
+      });
     }
     let loadVocabulariesPromise = this.keyword.loadVocabularies();
     let loadProfilesPromise = this.profile.loadProfiles.perform();
@@ -133,18 +138,16 @@ export default Route.extend({
     error(error) {
       console.error(error);
 
-      if(error.status === 404) {
+      if (error.status === 404) {
         return this.transitionTo('not-found');
       }
 
-      return this.replaceWith('error')
-        .then(function (route) {
-          route.controller.set('lastError', error);
-        });
+      return this.replaceWith('error').then(function (route) {
+        route.controller.set('lastError', error);
+      });
     },
     didTransition() {
-      this.controller.set('currentRoute', this.router.get(
-        'currentRouteName'));
-    }
-  }
+      this.controller.set('currentRoute', this.router.get('currentRouteName'));
+    },
+  },
 });

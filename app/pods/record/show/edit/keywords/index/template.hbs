@@ -28,7 +28,7 @@
         </div>
         <div id="thesaurus-{{index}}" class="md-keywords-body collapse in">
 
-        {{#with thesaurus.thesaurus.identifier.0.identifier}}
+        {{#let thesaurus.thesaurus.identifier.0.identifier as |identifier|}}
           <hr>
           <div class="row">
             <div class="md-keywords-thesaurus col-md-6 col-lg-7">
@@ -46,7 +46,7 @@
               }}
             </div>
           </div>
-        {{/with}}
+        {{/let}}
         </div>
       </div>
         {{else}}

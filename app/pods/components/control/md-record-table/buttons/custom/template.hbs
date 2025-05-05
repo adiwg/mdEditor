@@ -1,5 +1,5 @@
-{{#with column.buttonConfig as |c|}}
-  <button type="button" class="btn btn-sm btn-{{if c.style c.style "primary"}}" onclick={{action c.action record}}>
-    {{fa-icon "binoculars"}} {{c.title}}
+{{#let this.column.buttonConfig as |c|}}
+  <button type="button" class="btn btn-sm btn-{{if c.style c.style "primary"}}" {{on "click" (fn c.action this.record)}}>
+    <Hds::Icon @name="search" /> {{c.title}}
   </button>
-{{/with}}
+{{/let}}

@@ -1,14 +1,43 @@
 .hds-app-frame__sidebar {
   height: 100vh !important;
+  height: 100%;
 }
 
-.hds-side-nav-header__logo-container {
-  flex-grow: 1;
+.hds-dropdown-list-item--variant-title {
+  font-size: var(--token-typography-display-500-font-size)
 }
 
-.hds-side-nav__wrapper-body {
+.hds-dropdown-list-item--variant-description {
+  font-size: var(--token-typography-display-400-font-size)
+}
+
+.hds-dropdown__footer--with-divider {
+  .md-help-sidebar-action {
+    height: 40px;
+    .hds-button_icon {
+      height: 40px;
+    }
+    .hds-button__text {
+      font-size: 16px;
+    }
+  }
+}
+
+.hds-side-nav__wrapper {
   overflow: hidden;
-  // padding: 0;
+  height: 100%;
+}
+
+.hds-side-nav-body__primary_nav {
+  .hds-side-nav__list-item-text {
+    font-size: var(--token-typography-display-300-font-size);
+  }
+}
+
+.hds-side-nav-footer{
+  .hds-text {
+    font-size: var(--token-typography-display-300-font-size);
+  }
 }
 
 
@@ -16,40 +45,38 @@
 .helios-sidebar {
 
   &-container {
-    // .hds-side-nav__list-item-text {
-    //   font-size: 16px;
-    // }S
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100%;
+    margin: 0 0 0px;
+    background-color: $gray-darker;
   }
 
-  &-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px;
-    border-bottom: 1px solid var(--token-color-border-primary);
-  }
+  // TODO: brand needs help
   &-brand {
     font-size: 18px;
     font-weight: 600;
     text-decoration: none;
     display: flex;
     align-items: center;
-    color: var(--token-color-foreground-primary-high-contrast);
 
-    &:hover {
-      color: var(--token-color-foreground-primary);
+    .md-text-prefix, .md-text-suffix {
+      color: $navbar-inverse-link-color;
     }
-
     .md-app-version {
+      color: $brand-info;
       font-size: 11px;
-      margin-left: 4px;
+      font-variant: small-caps;
+      padding-left: 3px;
+      position: relative;
+      top: -7px;
 
       &.alpha {
-        color: var(--token-color-palette-red-300);
+        color: $brand-danger;
       }
 
       &.beta {
-        color: var(--token-color-palette-yellow-300);
+        color: $brand-warning;
       }
     }
 
@@ -61,31 +88,32 @@
         display: none;
       }
 
-      /* Center the icon when text is hidden */
       .md-icon-mdeditor {
         margin: 0;
       }
     }
+    &:hover {
+      background: none repeat scroll 0 0;
+      color: $body-bg;
+    }
   }
+
   &-help-button {
     background: none;
     border: none;
-    color: var(--token-color-foreground-primary);
+    color: $navbar-inverse-link-color;
     cursor: pointer;
     padding: 4px;
 
     &:hover {
-      color: var(--token-color-foreground-primary-high-contrast);
+     color: $body-bg
     }
   }
+  // end of brand
   &-nav {
     flex: 1;
-    overflow-y: auto;
+    height: 100%;
     padding: 8px 0;
-  }
-
-  &-filter {
-    padding: 0 16px 8px;
   }
 
   &-list {
@@ -93,45 +121,75 @@
     padding: 0;
     margin: 0;
   }
-
   &-category {
-    margin-bottom: 8px;
+    border-image: none;
+    border-radius: 0;
+    border-style: solid none none;
+    border-width: 1px 0 0;
 
     &-header {
+      background-color: $brand-primary;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 8px 4px;
-
+      height: 40px;
+      color: $body-bg;
 
       button {
+        height: 100%;
         background: none;
         border: none;
-        color: var(--token-color-foreground-primary);
+        color: $body-bg;
         font-weight: 600;
         font-size: 14px;
         text-align: left;
         cursor: pointer;
         display: flex;
         align-items: center;
-        justify-content: space-between;
         width: 100%;
 
         &:hover {
-          color: var(--token-color-foreground-primary-high-contrast);
+          background-color: darken($brand-primary, 12%);
+          color: lighten($brand-primary, 46.5%);
         }
       }
     }
   }
-  &-action-button {
-    background: none;
-    border: none;
-    color: var(--token-color-foreground-primary);
-    cursor: pointer;
-    padding: 4px;
+
+  &-actions {
+    display: flex;
+    gap: 4;
+    height: 100%;
+    background-color: darken($brand-primary, 6%);
+    align-items: center;
 
     &:hover {
-      color: var(--token-color-foreground-primary-high-contrast);
+      background-color: darken($brand-primary, 12%);
+    }
+
+    // Add the nested selector from the other block
+    .helios-sidebar-action-button {
+      color: $body-bg;
+
+      &:hover {
+        color: lighten($brand-primary, 46.5%);
+      }
+    }
+  }
+
+  &-action-button {
+    font-size: 16px;
+    width: 38px;
+    height: 40px;
+    margin: 0;
+    padding: 9px;
+    text-indent: 0;
+    color: $body-bg;
+    border: 0 none;
+    border-radius: 0;
+    background-color: darken($brand-primary, 6%);
+
+    &:hover {
+      background-color: darken($brand-primary, 12%);
     }
   }
 
@@ -148,10 +206,11 @@
   &-item {
     display: flex;
     align-items: center;
-    min-width: 200px; // Set a minimum width for consistency
+    min-width: 200px;
+    background-color: $body-bg; // Set a minimum width for consistency
 
     &:hover {
-      background-color: var(--token-color-surface-primary-hover);
+      background-color: lighten($brand-primary, 46.5);
     }
   }
 
@@ -160,17 +219,29 @@
     align-items: center;
     justify-content: space-between; // Space between content and edit icon
     padding: 8px 16px;
-    color: var(--token-color-foreground-primary);
+    color: lighten($gray-dark, 40);
     text-decoration: none;
     width: 100%;
 
     &:hover {
-      color: var(--token-color-foreground-primary-high-contrast);
+      color: $body-bg;
     }
 
     &.active {
-      background-color: var(--token-color-surface-primary-active);
+      background-color: lighten($brand-primary, 46.5);
       color: var(--token-color-foreground-primary-high-contrast);
+
+      &.text-warning {
+        color: darken($brand-warning, 15);
+      }
+
+      &.text-danger {
+        color: darken($brand-danger, 15);
+      }
+
+      &.text-success {
+        color: darken($brand-success, 15);
+      }
     }
 
     &.disabled {
@@ -202,7 +273,7 @@
   &-separator {
     width: 1px;
     height: 16px;
-    background-color: var(--token-color-border-primary);
+    background-color: $gray-light;
     margin: 0 8px;
   }
 
@@ -231,40 +302,6 @@
     &.success {
       color: var(--token-color-palette-green-300);
     }
-  }
-
-  &-item-actions {
-    display: flex;
-    padding-right: 8px;
-  }
-
-  &-item-action {
-    background: none;
-    border: none;
-    color: var(--token-color-foreground-primary);
-    cursor: pointer;
-    padding: 4px;
-
-    &:hover {
-      color: var(--token-color-foreground-primary-high-contrast);
-    }
-
-    &.warning {
-      color: var(--token-color-palette-yellow-300);
-    }
-
-    &.danger {
-      color: var(--token-color-palette-red-300);
-    }
-
-    &.success {
-      color: var(--token-color-palette-green-300);
-    }
-  }
-
-  &-actions {
-    display: flex;
-    gap: 4
   }
 }
 // Help content styles
