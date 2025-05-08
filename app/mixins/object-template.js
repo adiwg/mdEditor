@@ -53,6 +53,7 @@ export default Mixin.create({
    * @return {Array}
    */
   applyTemplateArray(propertyName, defaults) {
+    console.log(propertyName);
     let property = this.get(propertyName);
     let Template = this.templateClass;
 
@@ -73,5 +74,37 @@ export default Mixin.create({
     }
 
     return property;
+  },
+  // TODO: 'This is a hack to get the template to work with the object-template mixin.  It is not a good solution.'
+  applyObjectTemplateArray(propertyName, defaults) {
+    let property = this.get(propertyName);
+
+    if (isArray(property)) {
+      let Template = this.templateClass;
+      if (Template) {
+        let owner = getOwner(this);
+
+        run.once(this, () => {
+          property.forEach((item, idx, items) => {
+            //items.removeAt(idx);
+
+            let newItem = assign(
+              Template.create(owner.ownerInjection(), defaults || {}),
+              item
+            );
+
+            //items.insertAt(idx, newItem);
+            items.set(`${idx}`, newItem);
+          });
+          this.notifyPropertyChange(propertyName);
+        });
+      }
+    } else {
+      run.once(this, () => {
+        this.set(propertyName, A());
+      });
+    }
+
+    return this.get(propertyName);
   },
 });
