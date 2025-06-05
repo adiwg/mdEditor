@@ -23,19 +23,23 @@ export default class SettingsRoute extends Route {
   setupController(controller, model) {
     super.setupController(controller, model);
 
-    const links = [{
-      title: 'Main',
-      target: 'settings.main',
-      tip: 'Main application settings'
-    }, {
-      title: 'Profiles',
-      target: 'settings.profile',
-      tip: 'Custom profile settings'
-    }, {
-      title: 'Validation',
-      target: 'settings.validation',
-      tip: 'Custom validation settings'
-    }]
+    const links = [
+      {
+        title: 'Main',
+        target: 'settings.main',
+        tip: 'Main application settings',
+      },
+      {
+        title: 'Profiles',
+        target: 'settings.profile',
+        tip: 'Custom profile settings',
+      },
+      {
+        title: 'Validation',
+        target: 'settings.validation',
+        tip: 'Custom validation settings',
+      },
+    ];
     controller.set('links', links);
   }
 
@@ -46,9 +50,10 @@ export default class SettingsRoute extends Route {
     window.localStorage.clear();
 
     if (this.settings.data.keepSettings) {
-
-      window.localStorage.setItem('index-settings',
-        `["settings-${data.data.id}"]`);
+      window.localStorage.setItem(
+        'index-settings',
+        `["settings-${data.data.id}"]`
+      );
       this.store.pushPayload('setting', data);
 
       let rec = this.store.peekRecord('setting', data.data.id);
@@ -70,10 +75,17 @@ export default class SettingsRoute extends Route {
   }
 
   @action
-  resetMdTranslatorAPI() {
-    let url = get(Setting, 'attributes').get('mdTranslatorAPI').options.defaultValue;
+  deriveItisProxyUrl() {
     let model = this.modelFor('settings.main');
+    const mdTranslatorAPI = model.get('mdTranslatorAPI');
 
-    model.set('mdTranslatorAPI', url);
+    if (mdTranslatorAPI) {
+      // Extract the base URL by removing the API path
+      // This will convert https://api.sciencebase.gov/mdTranslator/api/v3/translator
+      // to https://api.sciencebase.gov/mdTranslator
+      const baseUrl = mdTranslatorAPI.replace(/\/api\/v\d+\/translator$/, '');
+
+      model.set('itisProxyUrl', baseUrl);
+    }
   }
 }

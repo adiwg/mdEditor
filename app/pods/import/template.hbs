@@ -136,3 +136,20 @@
 
 </div>
 {{outlet}}
+
+{{#control/md-modal
+  isShowing=showApiModal
+  showConfirm=true
+  confirmLabel="Go to Settings"
+  showCancel=true
+  confirm=(route-action "goToSettings")
+  cancel=(action (mut showApiModal) false)
+}}
+  <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
+    mdTranslator API URL required.
+  </div>
+  <p>
+    Please go to <LinkTo @route='settings'>Settings > Main</LinkTo> and configure the
+    mdTranslator API URL before importing.
+  </p>
+{{/control/md-modal}}

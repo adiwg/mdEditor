@@ -21,10 +21,10 @@
     </div>
     <div class="md-modal-buttons pull-right">
       {{#if showConfirm}}
-        <button type="button" class="btn btn-success" {{action "confirm"}}>{{confirmLabel}}</button>
+        <button type="button" class="btn btn-success" {{on "click" this.confirm}}>{{this.confirmLabel}}</button>
       {{/if}}
-      {{#if showCancel}}
-        <button type="button" class="btn btn-warning" {{action "cancel"}}>Cancel</button>
+      {{#if this.showCancel}}
+        <button type="button" class="btn btn-warning" {{on "click" this.cancel}}>Cancel</button>
       {{/if}}
     </div>
   {{/modal-dialog}}
