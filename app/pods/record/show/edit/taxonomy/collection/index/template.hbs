@@ -40,3 +40,22 @@
 
 {{to-elsewhere named="md-scroll-spy-record-edit"
   send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+
+
+{{#control/md-modal
+  isShowing=showItisModal
+  showConfirm=true
+  confirmLabel="Go to Settings"
+  showCancel=true
+  confirm=(route-action "goToSettings")
+  cancel=(action (mut showItisModal) false)
+
+}}
+<div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
+    ITIS Proxy URL is required.
+  </div>
+  <p>
+    Please go to <LinkTo @route='settings'>Settings > Main</LinkTo> and configure the
+    ITIS Proxy URL to add taxonomy from ITIS.
+  </p>
+{{/control/md-modal}}

@@ -61,11 +61,11 @@
   <Layout::MdFooter @class='hidden-print' />
 </div>
 <EmberLoadRemover />
-
 <Control::MdModal
-  @isShowing={{settings.data.showSplash}}
+  @isShowing={{this.settings.data.showSplash}}
   @showConfirm={{true}}
   @confirmLabel='OK'
+  @confirm={{action (mut this.settings.data.showSplash) false}}
 >
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
     Update Alert</div>
@@ -76,7 +76,7 @@
     <LinkTo @route='settings'>Settings</LinkTo>) when reporting bugs or issues.
     If you are having problems, you might want to
     <LinkTo @route='settings'> clear your localstorage.</LinkTo>
-    <strong style='color: red;'>CAUTION: Clearing your localstorage will delete
+    <strong class="text-danger">CAUTION: Clearing your localstorage will delete
       all records.</strong>
   </p>
   <p>
@@ -84,7 +84,6 @@
     <span class='text-info'><Control::MdRepoLink /></span>
   </p>
 </Control::MdModal>
-
 {{#if spotlight.show}}
   <Control::MdSpotlight />
 {{/if}}

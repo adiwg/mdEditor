@@ -138,16 +138,25 @@ shadow=true
   </div>
   <hr class="col-md-12">
   <div class="col-md-8">
-    <label>mdTranslator API URL</label>
-    <div class="input-group">
-      {{input/md-input
+    {{input/md-input
+      label="mdTranslator API URL"
       type="url"
       value=model.mdTranslatorAPI
       placeholder="URL for the ADIwg Metadata Translator."
+    }}
+  </div>
+   <hr class="col-md-12">
+   <div class="col-md-8">
+    <label>Itis Proxy URL</label>
+    <div class="input-group">
+      {{input/md-input
+      type="url"
+      value=model.itisProxyUrl
+      placeholder="URL for the ITIS Proxy."
       }}
       <span class="input-group-btn">
-        <button class="btn btn-warning" type="button" {{action "resetMdTranslatorAPI" }}>Default
-          {{ember-tooltip tooltipClass="ember-tooltip md-tooltip info" text="Reset to default"}}
+        <button class="btn btn-info" type="button" {{action "deriveItisProxyUrl"}}>Derive from API URL
+          {{ember-tooltip tooltipClass="ember-tooltip md-tooltip info" text="Derive ITIS Proxy URL from mdTranslator API URL"}}
         </button>
       </span>
     </div>

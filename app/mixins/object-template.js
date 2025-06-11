@@ -53,7 +53,6 @@ export default Mixin.create({
    * @return {Array}
    */
   applyTemplateArray(propertyName, defaults) {
-    console.log(propertyName);
     let property = this.get(propertyName);
     let Template = this.templateClass;
 
