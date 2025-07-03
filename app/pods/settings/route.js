@@ -88,4 +88,33 @@ export default class SettingsRoute extends Route {
       model.set('itisProxyUrl', baseUrl);
     }
   }
+
+  @action
+  getPublishOptions(catalogName) {
+    let model = this.modelFor('settings.main');
+    let publishOptions = model.get('publishOptions') || [];
+    
+    // Find existing settings for this catalog
+    let catalogSettings = publishOptions.find(options => options.catalog === catalogName);
+    
+    // If no settings exist for this catalog, create a default entry
+    if (!catalogSettings) {
+      catalogSettings = { catalog: catalogName };
+      
+      // Initialize default properties based on catalog type
+      if (catalogName === 'CouchDB') {
+        catalogSettings['couchdb-url'] = '';
+        catalogSettings['couchdb-database'] = '';
+        catalogSettings['couchdb-username'] = '';
+      } else if (catalogName === 'ScienceBase') {
+        catalogSettings['sb-defaultParent'] = '';
+        catalogSettings['sb-publishEndpoint'] = '';
+      }
+      
+      publishOptions.pushObject(catalogSettings);
+      model.set('publishOptions', publishOptions);
+    }
+    
+    return catalogSettings;
+  }
 }

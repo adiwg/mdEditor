@@ -79,7 +79,7 @@ const theModel = Model.extend({
   repositoryDefaults: attr('json'),
   publishOptions: attr('json', {
     defaultValue: function () {
-      return EmberObject.create();
+      return [];
     },
   }),
   customSchemas: attr('json', {
