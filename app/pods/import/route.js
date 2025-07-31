@@ -19,6 +19,7 @@ export default Route.extend(ScrollTo, {
   jsonvalidator: service(),
   settings: service(),
   ajax: service(),
+  apiValidator: service(),
 
   init() {
     this._super(...arguments);
@@ -324,12 +325,8 @@ export default Route.extend(ScrollTo, {
   },
 
   checkApiConfiguration() {
-    // Check if mdTranslatorAPI is configured
-    if (
-      this.get('settings.data.mdTranslatorAPI') === null ||
-      this.get('settings.data.mdTranslatorAPI') === undefined ||
-      this.get('settings.data.mdTranslatorAPI') === ''
-    ) {
+    // Check if mdTranslatorAPI is configured using the service
+    if (!this.apiValidator.isApiConfigured()) {
       // Show modal to alert user
       console.log('mdTranslator API is not configured');
       this.controller.set('showApiModal', true);

@@ -23,6 +23,7 @@ export default Component.extend({
   mdjson: service(),
   settings: service(),
   ajax: service(),
+  apiValidator: service(),
 
   /**
    * Indicates whether empty tags should be written to the translated output
@@ -130,6 +131,9 @@ export default Component.extend({
   isJson: equal('writerType', 'json'),
   defaultAPI: defaultValues.mdTranslatorAPI,
   apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+  isApiConfigured: computed('settings.data.mdTranslatorAPI', function () {
+    return this.apiValidator.isApiConfigured();
+  }),
   isHtml: computed('writerType', function () {
     //IE does not supoprt srcdoc, so default to non-html display
     return (
@@ -148,6 +152,14 @@ export default Component.extend({
 
   actions: {
     translate() {
+      // Check if API is configured before proceeding
+      if (!this.apiValidator.isApiConfigured()) {
+        this.flashMessages.danger(
+          'mdTranslator API URL is not configured. Please configure it in Settings.'
+        );
+        return;
+      }
+
       let mdjson = this.mdjson;
       let url = this.apiURL;
       let cmp = this;
@@ -257,6 +269,11 @@ export default Component.extend({
             .trim()
             .replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
         : 'context not provided';
+    },
+    goToSettings() {
+      // This action should be handled by the parent route/controller
+      // We'll send the action up the component hierarchy
+      this.sendAction('goToSettings');
     },
   },
 });
