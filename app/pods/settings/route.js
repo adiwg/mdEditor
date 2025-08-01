@@ -78,7 +78,7 @@ export default class SettingsRoute extends Route {
   deriveItisProxyUrl() {
     let model = this.modelFor('settings.main');
     const mdTranslatorAPI = model.get('mdTranslatorAPI');
-
+    console.log(mdTranslatorAPI);
     if (mdTranslatorAPI) {
       // Extract the base URL by removing the API path
       // This will convert https://api.sciencebase.gov/mdTranslator/api/v3/translator
@@ -93,14 +93,22 @@ export default class SettingsRoute extends Route {
   getPublishOptions(catalogName) {
     let model = this.modelFor('settings.main');
     let publishOptions = model.get('publishOptions') || [];
-    
+
+    // Ensure publishOptions is always an array
+    if (!Array.isArray(publishOptions)) {
+      publishOptions = [];
+      model.set('publishOptions', publishOptions);
+    }
+
     // Find existing settings for this catalog
-    let catalogSettings = publishOptions.find(options => options.catalog === catalogName);
-    
+    let catalogSettings = publishOptions.find(
+      (options) => options.catalog === catalogName
+    );
+
     // If no settings exist for this catalog, create a default entry
     if (!catalogSettings) {
       catalogSettings = { catalog: catalogName };
-      
+
       // Initialize default properties based on catalog type
       if (catalogName === 'CouchDB') {
         catalogSettings['couchdb-url'] = '';
@@ -110,11 +118,11 @@ export default class SettingsRoute extends Route {
         catalogSettings['sb-defaultParent'] = '';
         catalogSettings['sb-publishEndpoint'] = '';
       }
-      
+
       publishOptions.pushObject(catalogSettings);
       model.set('publishOptions', publishOptions);
     }
-    
+
     return catalogSettings;
   }
 }
