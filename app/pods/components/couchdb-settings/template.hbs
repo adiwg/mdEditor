@@ -1,7 +1,7 @@
 <div class="form">
   {{input/md-input
-    label="CouchDB URL"
-    value=(get @model "couchdb-url")
+    label="Publisher Endpoint"
+    value=@model.publisherEndpoint
     placeholder="Enter the CouchDB server URL (e.g., https://mycouch.example.com)"
     change=@save
   }}

@@ -9,6 +9,19 @@ const defaultValues = {
   // mdTranslatorAPI: 'https://dev-mdtranslator.mdeditor.org/api/v3/translator',
   // itisProxyUrl: 'https://dev-mdtranslator.mdeditor.org',
   fiscalStartMonth: '10',
+  publishOptions: [
+    {
+      publisher: 'ScienceBase',
+      publisherEndpoint: '',
+      'sb-defaultParent': '',
+    },
+    {
+      publisher: 'CouchDB',
+      publisherEndpoint: '',
+      'couchdb-database': '',
+      'couchdb-username': '',
+    },
+  ],
 };
 
 const theModel = Model.extend({
@@ -79,7 +92,7 @@ const theModel = Model.extend({
   repositoryDefaults: attr('json'),
   publishOptions: attr('json', {
     defaultValue: function () {
-      return [];
+      return defaultValues.publishOptions.slice(); // Return a copy of the default array
     },
   }),
   customSchemas: attr('json', {

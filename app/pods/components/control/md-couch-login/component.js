@@ -26,12 +26,19 @@ export default class CouchLoginComponent extends Component {
   loadDefaults() {
     if (this.settings.data && !this.couch.loggedIn) {
       const publishOptions = this.settings.data.publishOptions || [];
-      const couchdbSettings = publishOptions.find(option => option.catalog === 'CouchDB');
-      
+      // Support both legacy 'catalog' field and new 'publisher' field
+      const couchdbSettings = publishOptions.find(
+        (option) =>
+          option.catalog === 'CouchDB' || option.publisher === 'CouchDB'
+      );
+
       if (couchdbSettings) {
         // Only set defaults if fields are empty to avoid overwriting user input
         if (!this.remoteUrl) {
-          this.remoteUrl = couchdbSettings['couchdb-url'] || null;
+          this.remoteUrl =
+            couchdbSettings.publisherEndpoint ||
+            couchdbSettings['couchdb-url'] ||
+            null;
         }
         if (!this.remoteName) {
           this.remoteName = couchdbSettings['couchdb-database'] || null;
@@ -46,19 +53,24 @@ export default class CouchLoginComponent extends Component {
   get settingsAvailable() {
     // Non-reactive getter to check if settings are loaded
     const hasSettings = !!this.settings.data;
-    
+
     // Schedule defaults loading for next run loop to avoid revalidation
     if (hasSettings && !this.couch.loggedIn && !this._defaultsScheduled) {
       this._defaultsScheduled = true;
       scheduleOnce('afterRender', this, 'loadDefaults');
     }
-    
+
     return hasSettings;
   }
 
   @action
   login() {
-    this.couch.login(this.remoteUrl, this.remoteName, this.username, this.password);
+    this.couch.login(
+      this.remoteUrl,
+      this.remoteName,
+      this.username,
+      this.password
+    );
     this.username = null;
     this.password = null;
     this.remoteUrl = null;

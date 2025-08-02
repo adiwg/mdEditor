@@ -2,7 +2,7 @@ import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import Setting from 'mdeditor/models/setting';
-import { get, action } from '@ember/object';
+import { get, set, action } from '@ember/object';
 
 @classic
 export default class SettingsRoute extends Route {
@@ -101,26 +101,96 @@ export default class SettingsRoute extends Route {
     }
 
     // Find existing settings for this catalog
+    // Support both legacy 'catalog' field and new 'publisher' field
     let catalogSettings = publishOptions.find(
-      (options) => options.catalog === catalogName
+      (options) =>
+        options.catalog === catalogName || options.publisher === catalogName
     );
 
     // If no settings exist for this catalog, create a default entry
     if (!catalogSettings) {
-      catalogSettings = { catalog: catalogName };
+      catalogSettings = {
+        publisher: catalogName, // Use new 'publisher' field
+        publisherEndpoint: '', // Add new 'publisherEndpoint' field
+      };
 
       // Initialize default properties based on catalog type
       if (catalogName === 'CouchDB') {
-        catalogSettings['couchdb-url'] = '';
+        catalogSettings.publisherEndpoint = '';
         catalogSettings['couchdb-database'] = '';
         catalogSettings['couchdb-username'] = '';
       } else if (catalogName === 'ScienceBase') {
         catalogSettings['sb-defaultParent'] = '';
-        catalogSettings['sb-publishEndpoint'] = '';
+        catalogSettings.publisherEndpoint =
+          'https://api.sciencebase.gov/sbmd-service/';
       }
 
       publishOptions.pushObject(catalogSettings);
       model.set('publishOptions', publishOptions);
+    } else if (catalogSettings.catalog && !catalogSettings.publisher) {
+      // Migrate legacy 'catalog' field to new 'publisher' field
+      set(catalogSettings, 'publisher', catalogSettings.catalog);
+      delete catalogSettings.catalog;
+
+      // Migrate legacy endpoint fields to publisherEndpoint
+      if (!catalogSettings.publisherEndpoint) {
+        if (catalogSettings['sb-publishEndpoint']) {
+          // Migrate ScienceBase endpoint
+          set(
+            catalogSettings,
+            'publisherEndpoint',
+            catalogSettings['sb-publishEndpoint']
+          );
+          delete catalogSettings['sb-publishEndpoint'];
+        } else if (catalogSettings['couchdb-url']) {
+          // Migrate CouchDB endpoint
+          set(
+            catalogSettings,
+            'publisherEndpoint',
+            catalogSettings['couchdb-url']
+          );
+          delete catalogSettings['couchdb-url'];
+        } else {
+          // Set default based on publisher type
+          set(
+            catalogSettings,
+            'publisherEndpoint',
+            catalogName === 'ScienceBase'
+              ? 'https://api.sciencebase.gov/sbmd-service/'
+              : ''
+          );
+        }
+      }
+
+      model.set('publishOptions', publishOptions);
+    } else {
+      // Handle cases where publisher exists but we need to migrate endpoint fields
+      if (catalogSettings.publisher && !catalogSettings.publisherEndpoint) {
+        if (catalogSettings['sb-publishEndpoint']) {
+          set(
+            catalogSettings,
+            'publisherEndpoint',
+            catalogSettings['sb-publishEndpoint']
+          );
+          delete catalogSettings['sb-publishEndpoint'];
+        } else if (catalogSettings['couchdb-url']) {
+          set(
+            catalogSettings,
+            'publisherEndpoint',
+            catalogSettings['couchdb-url']
+          );
+          delete catalogSettings['couchdb-url'];
+        } else {
+          set(
+            catalogSettings,
+            'publisherEndpoint',
+            catalogSettings.publisher === 'ScienceBase'
+              ? 'https://api.sciencebase.gov/sbmd-service/'
+              : ''
+          );
+        }
+        model.set('publishOptions', publishOptions);
+      }
     }
 
     return catalogSettings;
