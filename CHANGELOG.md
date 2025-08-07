@@ -1,5 +1,66 @@
 # Changelog
 
+## v1.3.0-rc.5
+
+### New features
+  - Allow user to set default CouchDB parameters [#756](https://github.com/adiwg/mdEditor/issues/756)
+
+### Updates
+
+  - Refactor default mdTranslator and itisProxy URLs [#725](https://github.com/adiwg/mdEditor/issues/725)
+  - Refactor publish-options in user settings to support multiple endpoints [#726](https://github.com/adiwg/mdEditor/issues/726)
+  - Derive itisProxyUrl from the mdTranslatorAPI value [#736](https://github.com/adiwg/mdEditor/issues/736)
+  - Remove the default mdTranslatorAPI value from the setting.js file [#737](https://github.com/adiwg/mdEditor/issues/737)
+  - Remove trailing slash from publishing endpoint specified in user settings [#751](https://github.com/adiwg/mdEditor/issues/751)
+  - Expose the `itis-proxy-url` as a user setting [#762](https://github.com/adiwg/mdEditor/issues/762)
+  - Refactor ScienceBase user setting to support updated "publish-options" schema [#764](https://github.com/adiwg/mdEditor/issues/764)
+
+### Bug fixes
+
+  - Trap for missing mdTranslator API URL [#738](https://github.com/adiwg/mdEditor/issues/738)
+  - Save button not activated when copying record [#748](https://github.com/adiwg/mdEditor/issues/748)
+  
+### Associated Pull requests
+
+  - https://github.com/adiwg/mdEditor/pull/763
+  - https://github.com/adiwg/mdEditor/pull/765
+  - https://github.com/adiwg/mdEditor/pull/766
+  - https://github.com/adiwg/mdEditor/pull/767
+
+## v1.3.0-rc.4 (2025-05-08)
+
+### Bug fixes
+
+  - Contacts not displayed by metadata records [#759](https://github.com/adiwg/mdEditor/issues/759)
+
+
+## v1.3.0-rc.3 (2025-04-28)
+
+### Updates
+  - Open ScienceBase Manager in new window [#745](https://github.com/adiwg/mdEditor/issues/745)
+  - Update CONTRIBUTING.md - no trailing slash for user specified settings [#752](https://github.com/adiwg/mdEditor/issues/752)
+
+### Bug fixes
+  - Adding a data distribution causes save and cancel buttons to become unresponsive [#610](https://github.com/adiwg/mdEditor/issues/610)
+  - If AutoSave is On, record edits not synced to Pouch [#711](https://github.com/adiwg/mdEditor/issues/711)
+  - Form data not committed to datastore [#712](https://github.com/adiwg/mdEditor/issues/)
+  - Manually saving a record throws error updatePouchRecord [#723](https://github.com/adiwg/mdEditor/issues/723)
+  - Cannot save new metadata record with multiple resource types [#743](https://github.com/adiwg/mdEditor/issues/743)
+  - Custom schemas do not import [#734](https://github.com/adiwg/mdEditor/issues/734)
+  - Profiles do not load properly from mdEditor-json file and cause unresponsive browser [#740](https://github.com/adiwg/mdEditor/issues/740)
+  - After publishing a record to ScienceBase, Pouch record is not updated with latest published date and time [#742](https://github.com/adiwg/mdEditor/issues/742)
+  - Entering Raster Description throws console error and can not be saved [#744](https://github.com/adiwg/mdEditor/issues/744)
+  - Records from imported mdEditor file are not shown in Pouch [#750](https://github.com/adiwg/mdEditor/issues/750)
+  - Dictionary records do not import [#754](https://github.com/adiwg/mdEditor/issues/754)
+
+
+# This is when we weren't really good at summarizing changes!
+
+## v1.2.1 (2024-02-18)
+
+  - https://github.com/adiwg/mdEditor/commits/v1.2.1
+
+
 ## [v0.10.0](https://github.com/adiwg/mdEditor/tree/v0.10.0)
 
 [Full Changelog](https://github.com/adiwg/mdEditor/compare/v0.9.0...v0.10.0)
