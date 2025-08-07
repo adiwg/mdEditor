@@ -19,6 +19,7 @@ export default Route.extend(ScrollTo, {
   jsonvalidator: service(),
   settings: service(),
   ajax: service(),
+  apiValidator: service(),
 
   init() {
     this._super(...arguments);
@@ -324,12 +325,8 @@ export default Route.extend(ScrollTo, {
   },
 
   checkApiConfiguration() {
-    // Check if mdTranslatorAPI is configured
-    if (
-      this.get('settings.data.mdTranslatorAPI') === null ||
-      this.get('settings.data.mdTranslatorAPI') === undefined ||
-      this.get('settings.data.mdTranslatorAPI') === ''
-    ) {
+    // Check if mdTranslatorAPI is configured using the service
+    if (!this.apiValidator.isApiConfigured()) {
       // Show modal to alert user
       console.log('mdTranslator API is not configured');
       this.controller.set('showApiModal', true);
@@ -356,16 +353,15 @@ export default Route.extend(ScrollTo, {
       let cmp = this;
 
       new Promise((resolve, reject) => {
-        // Check API configuration first
-        if (!this.checkApiConfiguration()) {
-          reject(
-            'mdTranslator API URL is not configured. Please configure it in Settings.'
-          );
-          return;
-        }
-
-        // Then check file type specifics
+        // Check file type first
         if (file.type.match(/.*\/xml$/)) {
+          // Check API configuration for XML files only
+          if (!this.checkApiConfiguration()) {
+            reject(
+              'mdTranslator API URL is not configured. Please configure it in Settings.'
+            );
+            return;
+          }
           // If it's XML, proceed with XML translation
           set(controller, 'isTranslating', true);
           this.flashMessages.info(`Translation service provided by ${url}.`);
@@ -440,14 +436,6 @@ export default Route.extend(ScrollTo, {
       let uri = this.controller.get('importUri');
       let controller = this.controller;
       let route = this;
-
-      // Check API configuration first
-      if (!this.checkApiConfiguration()) {
-        this.flashMessages.danger(
-          'mdTranslator API URL is not configured. Please configure it in Settings.'
-        );
-        return;
-      }
 
       set(controller, 'isLoading', true);
 
