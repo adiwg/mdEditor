@@ -12,7 +12,8 @@ Router.map(function () {
   this.route('import');
   this.route('translate');
   this.route('publish', function () {
-    this.route('sciencebase')
+    this.route('sciencebase');
+    this.route('couchdb');
   });
   this.route('sync', function () {
     this.route('list');
