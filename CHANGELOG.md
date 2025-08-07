@@ -25,6 +25,7 @@
   - https://github.com/adiwg/mdEditor/pull/763
   - https://github.com/adiwg/mdEditor/pull/765
   - https://github.com/adiwg/mdEditor/pull/766
+  - https://github.com/adiwg/mdEditor/pull/767
 
 ## v1.3.0-rc.4 (2025-05-08)
 
