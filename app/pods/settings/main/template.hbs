@@ -218,7 +218,7 @@ collapsed=false
 shadow=false
 class="md-embedded"
 }}
-{{component catalog.settingsComponent model=model.publishOptions save=(route-action "save")}}
+{{component catalog.settingsComponent model=(compute (route-action "getPublishOptions") catalog.name) save=(route-action "save")}}
 {{/layout/md-card}}
 {{/each}}
 {{/layout/md-card}}

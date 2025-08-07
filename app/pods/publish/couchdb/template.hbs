@@ -1,0 +1,36 @@
+<div class="page-header text-info">
+  <h3>{{@model.name}} <small>Sync records with CouchDB</small></h3>
+</div>
+
+<div class="couchdb-publish-instructions">
+  <div class="alert alert-info">
+    <h4><span class="fa fa-info-circle"></span> About CouchDB Sync</h4>
+    <p>
+      CouchDB uses a sync mechanism rather than traditional publishing. 
+      You can synchronize your mdEditor records with a CouchDB database 
+      to share data across devices or with team members.
+    </p>
+  </div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="panel-title">How to sync with CouchDB:</h4>
+    </div>
+    <div class="panel-body">
+      <ol>
+        <li><strong>Configure default settings</strong>: Set up your CouchDB connection defaults in 
+          <LinkTo @route="settings.main">Settings → Publishing Settings → CouchDB</LinkTo>
+        </li>
+        <li><strong>Go to the Sync page</strong>: Navigate to the Sync section to manage your CouchDB connections</li>
+        <li><strong>Login and sync</strong>: Connect to your CouchDB instance and synchronize your records</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="text-center" style="margin-top: 20px;">
+    <LinkTo @route="sync.list" class="btn btn-lg btn-primary">
+      <span class="fa fa-database"></span>
+      Go to Sync
+    </LinkTo>
+  </div>
+</div>

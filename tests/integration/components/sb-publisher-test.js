@@ -25,7 +25,7 @@ module("Integration | Component | sb publisher", function (hooks) {
       "settings",
       EmberObject.create({
         data: {
-          publishOptions: {},
+          publishOptions: [],
         },
       })
     );
