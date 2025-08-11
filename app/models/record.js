@@ -72,10 +72,13 @@ const Record = Model.extend(Validations, Copyable, {
   }),
   json: attr('json', {
     defaultValue() {
+      const mdjsonService = getOwner(this).lookup('service:mdjson');
+      const schemaVersion = mdjsonService.getSchemaVersion();
+
       const obj = EmberObject.create({
         schema: {
           name: 'mdJson',
-          version: '2.6.0',
+          version: schemaVersion,
         },
         metadata: {
           metadataInfo: {
