@@ -259,6 +259,12 @@ const Record = Model.extend(Validations, Copyable, {
 
     return newRecord;
   },
+
+  // Override save to ensure dateUpdated is set
+  save() {
+    this.set('dateUpdated', new Date());
+    return this._super(...arguments);
+  },
 });
 
 Object.defineProperty(Record.prototype, '_formatted', {

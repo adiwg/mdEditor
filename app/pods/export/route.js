@@ -103,13 +103,26 @@ export default Route.extend(ScrollTo, {
   }),
 
   // TODO: refactor this method to inclucde {attributes: {json: {}, dateUpdate:''}} in the modelTypes array
-  processExportData(exportData) {
+  processExportData(exportData, options = {}) {
     let resultObject;
+    const { excludeTimestamps = false } = options;
 
     try {
       resultObject = JSON.parse(exportData._result);
 
       resultObject.data = resultObject.data.map((item) => {
+        // Remove dateUpdated only for mdJSON exports (pure metadata format)
+        // mdEditor exports include timestamps for external system compatibility
+        if (excludeTimestamps) {
+          if (item.attributes && item.attributes.dateUpdated) {
+            delete item.attributes.dateUpdated;
+          }
+          // Also check for the serialized version with hyphens
+          if (item.attributes && item.attributes['date-updated']) {
+            delete item.attributes['date-updated'];
+          }
+        }
+
         if (item.type === 'dictionaries' && item.attributes?.json) {
           // Parse the 'json' string to access the dictionary
 
@@ -183,6 +196,7 @@ export default Route.extend(ScrollTo, {
   actions: {
     exportData() {
       fixLiabilityTypo(this.store).then(() => {
+        // mdEditor export - include timestamps for external systems
         const modifiedData = this.processExportData(
           this.store.exportData(modelTypes)
         );
@@ -198,6 +212,7 @@ export default Route.extend(ScrollTo, {
     exportSelectedData(asMdjson) {
       fixLiabilityTypo(this.store).then(() => {
         if (asMdjson) {
+          // mdJSON export - pure metadata format without timestamps
           let records = this.store
             .peekAll('record')
             .filterBy('_selected')
@@ -210,6 +225,7 @@ export default Route.extend(ScrollTo, {
             `mdjson-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
           );
         } else {
+          // mdEditor export - include timestamps for external systems
           let filterIds = {};
 
           modelTypes.forEach((type) => {

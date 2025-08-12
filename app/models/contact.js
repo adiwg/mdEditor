@@ -329,6 +329,12 @@ const Contact = Model.extend(Validations, Copyable, {
 
     return newContact;
   },
+
+  // Override save to ensure dateUpdated is set
+  save() {
+    this.set('dateUpdated', new Date());
+    return this._super(...arguments);
+  },
 });
 
 export { Contact as default, JsonDefault };

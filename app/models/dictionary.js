@@ -148,4 +148,10 @@ export default Model.extend(Validations, Copyable, {
 
     return newDictionary;
   },
+
+  // Override save to ensure dateUpdated is set
+  save() {
+    this.set('dateUpdated', new Date());
+    return this._super(...arguments);
+  },
 });
