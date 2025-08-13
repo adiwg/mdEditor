@@ -81,6 +81,12 @@ export default Route.extend(ScrollTo, {
   },
   formatMdJSON(json) {
     let { contact, dataDictionary } = json;
+
+    // Remove mdDictionary array from mdJSON as it should not be there according to mdJSON schema
+    if (json.mdDictionary) {
+      delete json.mdDictionary;
+    }
+
     let data = A();
     let template = EmObject.extend({
       init() {
@@ -156,6 +162,17 @@ export default Route.extend(ScrollTo, {
         identifier: uuidv4(),
         namespace: 'urn:uuid',
       };
+    }
+
+    // Extract dictionaryId values from dataDictionary array and populate mdDictionary array
+    if (dataDictionary && dataDictionary.length > 0) {
+      let mdDictionaryIds = dataDictionary
+        .filter((dict) => dict.dictionaryId)
+        .map((dict) => dict.dictionaryId);
+
+      if (mdDictionaryIds.length > 0) {
+        json.mdDictionary = mdDictionaryIds;
+      }
     }
 
     data.pushObject(
