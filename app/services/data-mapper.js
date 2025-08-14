@@ -1,27 +1,35 @@
 import Service from '@ember/service';
 import { A, isArray } from '@ember/array';
-import uuidV4 from "uuid/v4";
+import EmObject from '@ember/object';
+import uuidV4 from 'uuid/v4';
 import { assign } from '@ember/polyfills';
 import { fixLiabilityTypo } from 'mdeditor/utils/fix-liability-typo';
 import { getWithDefault } from '@ember/object';
 
 export default class DataMapperService extends Service {
-
   getTitle(record) {
     let raw = record.attributes.json;
     let json = raw ? JSON.parse(raw) : null;
 
-    switch(record.type) {
-    case 'records':
-      return getWithDefault(json, 'metadata.resourceInfo.citation.title', 'NO TITLE');
-    case 'dictionaries':
-      return getWithDefault(json, 'dataDictionary.citation.title', 'NO TITLE');
-    case 'contacts':
-      return json.name || 'NO NAME';
-    case 'schemas':
-      return record.attributes.title || 'NO TITLE';
-    default:
-      return 'N/A';
+    switch (record.type) {
+      case 'records':
+        return getWithDefault(
+          json,
+          'metadata.resourceInfo.citation.title',
+          'NO TITLE'
+        );
+      case 'dictionaries':
+        return getWithDefault(
+          json,
+          'dataDictionary.citation.title',
+          'NO TITLE'
+        );
+      case 'contacts':
+        return json.name || 'NO NAME';
+      case 'schemas':
+        return record.attributes.title || 'NO TITLE';
+      default:
+        return 'N/A';
     }
   }
 
@@ -29,39 +37,57 @@ export default class DataMapperService extends Service {
     const { contact, dataDictionary, metadata } = json;
     const data = A();
 
+    // Define Template class similar to import route
+    const Template = EmObject.extend({
+      attributes: null,
+      type: null,
+    });
+
     if (contact) {
       contact.forEach((item) => {
-        data.pushObject(new Template({
-          attributes: {
-            json: JSON.stringify(assign({}, item))
-          },
-          type: 'contacts'
-        }));
+        data.pushObject(
+          Template.create({
+            attributes: {
+              json: JSON.stringify(assign({}, item)),
+            },
+            type: 'contacts',
+          })
+        );
       });
     }
 
     if (!metadata.metadataInfo.metadataIdentifier) {
       metadata.metadataInfo.metadataIdentifier = {
         identifier: uuidV4(),
-        namespace: 'urn:uuid'
+        namespace: 'urn:uuid',
       };
     }
 
-    data.pushObject(new Template({
-      attributes: {
-        json: JSON.stringify(json)
-      },
-      type: 'records'
-    }));
+    // Create a clean copy of json without contact and dataDictionary arrays
+    // These are handled separately as individual entities
+    let cleanJson = { ...json };
+    delete cleanJson.contact;
+    delete cleanJson.dataDictionary;
+
+    data.pushObject(
+      Template.create({
+        attributes: {
+          json: JSON.stringify(cleanJson),
+        },
+        type: 'records',
+      })
+    );
 
     if (dataDictionary) {
       dataDictionary.forEach((item) => {
-        data.pushObject(new Template({
-          attributes: {
-            json: JSON.stringify({ dataDictionary: item })
-          },
-          type: 'dictionaries'
-        }));
+        data.pushObject(
+          Template.create({
+            attributes: {
+              json: JSON.stringify({ dataDictionary: item }),
+            },
+            type: 'dictionaries',
+          })
+        );
       });
     }
 
@@ -73,17 +99,17 @@ export default class DataMapperService extends Service {
       // Initialize the type array if it doesn't exist
       if (!accumulatedRecords[item.type]) {
         accumulatedRecords[item.type] = [];
-    }
+      }
 
-    // Use optional chaining and nullish coalescing for safer access and assignment
-    const meta = {
-      title: this.getTitle(item),
-      icon: this.icons[item.type] ?? 'defaultIcon',
-      export: true,
-    };
+      // Use optional chaining and nullish coalescing for safer access and assignment
+      const meta = {
+        title: this.getTitle(item),
+        icon: this.icons[item.type] ?? 'defaultIcon',
+        export: true,
+      };
 
-    // Create a new item with meta and add it to the type-specific array
-    accumulatedRecords[item.type].push(EmObject.create({ ...item, meta }));
+      // Create a new item with meta and add it to the type-specific array
+      accumulatedRecords[item.type].push(EmObject.create({ ...item, meta }));
 
       return accumulatedRecords;
     }, {});
@@ -114,14 +140,14 @@ export default class DataMapperService extends Service {
 
   mapJSON({ json: { data }, route }) {
     // Determine the mapping function based on data type
-    let files = isArray(data) ? this.mapEditorJSON({ json: { data }, route }) : this.mapMdJSON({ json: { data }, route });
+    let files = isArray(data)
+      ? this.mapEditorJSON({ json: { data }, route })
+      : this.mapMdJSON({ json: { data }, route });
 
     // Fix a common typo in liability field
     fixLiabilityTypo(files);
 
     // Update the current route model with new files and data
-    route.currentRouteModel()
-      .set('files', files)
-      .set('data', data);
+    route.currentRouteModel().set('files', files).set('data', data);
   }
 }

@@ -158,10 +158,16 @@ export default Route.extend(ScrollTo, {
       };
     }
 
+    // Create a clean copy of json without contact and dataDictionary arrays
+    // These are handled separately as individual entities
+    let cleanJson = { ...json };
+    delete cleanJson.contact;
+    delete cleanJson.dataDictionary;
+
     data.pushObject(
       template.create({
         attributes: {
-          json: JSON.stringify(json),
+          json: JSON.stringify(cleanJson),
           //profile: 'full'
         },
         type: 'records',
