@@ -171,7 +171,7 @@ export default Route.extend(ScrollTo, {
         .map((dict) => dict.dictionaryId);
 
       if (mdDictionaryIds.length > 0) {
-        json.mdDictionary = mdDictionaryIds;
+        json = { ...json, mdDictionary: mdDictionaryIds };
       }
     }
 
