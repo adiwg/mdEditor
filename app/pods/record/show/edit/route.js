@@ -14,6 +14,7 @@ export default Route.extend(HashPoll, DoCancel, {
   },
 
   pouch: service(),
+  settings: service(), // Add settings service injection
 
   /**
    * The profile service
@@ -48,7 +49,9 @@ export default Route.extend(HashPoll, DoCancel, {
         if (json) {
           model.set('json', JSON.parse(json));
 
-          this.doCancel();
+          // Set the model on the controller before calling cancelForm
+          this.controller.set('model', model);
+          this.send('cancelForm');
 
           this.flashMessages.warning(message);
         }
@@ -57,7 +60,9 @@ export default Route.extend(HashPoll, DoCancel, {
       }
 
       model.reload().then(() => {
-        this.doCancel();
+        // Set the model on the controller before calling cancelForm
+        this.controller.set('model', model);
+        this.send('cancelForm');
         this.flashMessages.warning(message);
       });
     },

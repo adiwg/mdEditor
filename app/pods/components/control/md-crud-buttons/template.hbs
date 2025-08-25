@@ -1,7 +1,7 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="CRUD Button Controls">
-  {{#if doSave}}
+  {{#if displaySaveButtons}}
       <button type="submit" {{action "save"}} class="btn btn-lg btn-success"
-      disabled={{if model.hasDirtyHash false true}}>
+      disabled={{saveButtonDisabled}}>
         <i class="fa fa-floppy-o"></i> Save
       </button>
       <button type="button" {{action "cancel"}} class="btn btn-lg btn-warning"

@@ -108,7 +108,13 @@ export default Route.extend(ScrollTo, {
     const { excludeTimestamps = false } = options;
 
     try {
-      resultObject = JSON.parse(exportData._result);
+      // Handle different types of exportData to make more robust
+      let dataString =
+        typeof exportData._result === 'string'
+          ? exportData._result
+          : JSON.stringify(exportData._result || {});
+
+      resultObject = JSON.parse(dataString);
 
       resultObject.data = resultObject.data.map((item) => {
         // Remove dateUpdated only for mdJSON exports (pure metadata format)
@@ -124,59 +130,80 @@ export default Route.extend(ScrollTo, {
         }
 
         if (item.type === 'dictionaries' && item.attributes?.json) {
-          // Parse the 'json' string to access the dictionary
+          // Safely parse the 'json' string to access the dictionary
+          try {
+            let jsonData =
+              typeof item.attributes.json === 'string'
+                ? JSON.parse(item.attributes.json)
+                : item.attributes.json;
 
-          let jsonData = JSON.parse(item.attributes.json);
+            // Remove the `dataDictionary` wrapper if it exists
+            if (jsonData.dataDictionary) {
+              jsonData = { ...jsonData, ...jsonData.dataDictionary };
+              delete jsonData.dataDictionary;
+            }
 
-          // Remove the `dataDictionary` wrapper if it exists
-          if (jsonData.dataDictionary) {
-            jsonData = { ...jsonData, ...jsonData.dataDictionary };
-            delete jsonData.dataDictionary;
+            // Update the item's 'json' string
+            item.attributes.json = JSON.stringify(jsonData);
+          } catch (err) {
+            console.error('Error processing dictionary JSON:', err);
           }
-
-          // Update the item's 'json' string
-          item.attributes.json = JSON.stringify(jsonData);
         }
 
         // Handle settings migration from 'catalog' to 'publisher' in publishOptions
         if (item.type === 'settings' && item.attributes?.publishOptions) {
           let publishOptions = item.attributes.publishOptions;
 
+          // Handle publishOptions that might be a string or array
+          if (typeof publishOptions === 'string') {
+            try {
+              publishOptions = JSON.parse(publishOptions);
+            } catch (err) {
+              console.error('Error parsing publishOptions:', err);
+              publishOptions = [];
+            }
+          }
+
           // Migrate legacy 'catalog' field to new 'publisher' field for each publish option
-          publishOptions = publishOptions.map((option) => {
-            if (option.catalog && !option.publisher) {
-              option.publisher = option.catalog;
-              delete option.catalog;
-            }
+          publishOptions = Array.isArray(publishOptions)
+            ? publishOptions.map((option) => {
+                if (option.catalog && !option.publisher) {
+                  option.publisher = option.catalog;
+                  delete option.catalog;
+                }
 
-            // Migrate legacy endpoint fields to publisherEndpoint
-            if (!option.publisherEndpoint) {
-              if (option['sb-publishEndpoint']) {
-                option.publisherEndpoint = option['sb-publishEndpoint'];
-                delete option['sb-publishEndpoint'];
-              } else if (option['couchdb-url']) {
-                option.publisherEndpoint = option['couchdb-url'];
-                delete option['couchdb-url'];
-              } else {
-                option.publisherEndpoint =
-                  option.publisher === 'ScienceBase'
-                    ? 'https://api.sciencebase.gov/sbmd-service/'
-                    : '';
-              }
-            } else {
-              // Remove old fields even if publisherEndpoint exists
-              if (option['sb-publishEndpoint']) {
-                delete option['sb-publishEndpoint'];
-              }
-              if (option['couchdb-url']) {
-                delete option['couchdb-url'];
-              }
-            }
+                // Migrate legacy endpoint fields to publisherEndpoint
+                if (!option.publisherEndpoint) {
+                  if (option['sb-publishEndpoint']) {
+                    option.publisherEndpoint = option['sb-publishEndpoint'];
+                    delete option['sb-publishEndpoint'];
+                  } else if (option['couchdb-url']) {
+                    option.publisherEndpoint = option['couchdb-url'];
+                    delete option['couchdb-url'];
+                  } else {
+                    option.publisherEndpoint =
+                      option.publisher === 'ScienceBase'
+                        ? 'https://api.sciencebase.gov/sbmd-service/'
+                        : '';
+                  }
+                } else {
+                  // Remove old fields even if publisherEndpoint exists
+                  if (option['sb-publishEndpoint']) {
+                    delete option['sb-publishEndpoint'];
+                  }
+                  if (option['couchdb-url']) {
+                    delete option['couchdb-url'];
+                  }
+                }
 
-            return option;
-          });
+                return option;
+              })
+            : [];
 
-          item.attributes.publishOptions = publishOptions;
+          item.attributes.publishOptions =
+            typeof publishOptions === 'object'
+              ? JSON.stringify(publishOptions)
+              : publishOptions;
         }
 
         // Remove all PouchDB relationships
@@ -195,67 +222,109 @@ export default Route.extend(ScrollTo, {
 
   actions: {
     exportData() {
-      fixLiabilityTypo(this.store).then(() => {
-        // mdEditor export - include timestamps for external systems
-        const modifiedData = this.processExportData(
-          this.store.exportData(modelTypes)
-        );
-        window.saveAs(
-          new Blob([modifiedData._result], {
-            type: 'application/json;charset=utf-8',
-          }),
-          `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
-        );
-      });
+      fixLiabilityTypo(this.store)
+        .then(() => {
+          try {
+            // mdEditor export - include timestamps for external systems
+            const modifiedData = this.processExportData(
+              this.store.exportData(modelTypes)
+            );
+
+            const exportResult =
+              typeof modifiedData._result === 'string'
+                ? modifiedData._result
+                : JSON.stringify(modifiedData._result || {});
+
+            window.saveAs(
+              new Blob([exportResult], {
+                type: 'application/json;charset=utf-8',
+              }),
+              `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
+            );
+          } catch (error) {
+            console.error('Error in exportData:', error);
+            alert('There was an error exporting data. Please try again.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error fixing liability typo:', error);
+          alert('There was an error preparing the export. Please try again.');
+        });
     },
 
     exportSelectedData(asMdjson) {
-      fixLiabilityTypo(this.store).then(() => {
-        if (asMdjson) {
-          // mdJSON export - pure metadata format without timestamps
-          let records = this.store
-            .peekAll('record')
-            .filterBy('_selected')
-            .map((item) => this.mdjson.formatRecord(item));
+      fixLiabilityTypo(this.store)
+        .then(() => {
+          try {
+            if (asMdjson) {
+              // mdJSON export - pure metadata format without timestamps
+              let records = this.store
+                .peekAll('record')
+                .filterBy('_selected')
+                .map((item) => {
+                  try {
+                    return this.mdjson.formatRecord(item);
+                  } catch (err) {
+                    console.error('Error formatting record:', err);
+                    return null;
+                  }
+                })
+                .filter(Boolean); // Remove any null records from failed formatting
 
-          window.saveAs(
-            new Blob([JSON.stringify(records)], {
-              type: 'application/json;charset=utf-8',
-            }),
-            `mdjson-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
-          );
-        } else {
-          // mdEditor export - include timestamps for external systems
-          let filterIds = {};
+              window.saveAs(
+                new Blob([JSON.stringify(records)], {
+                  type: 'application/json;charset=utf-8',
+                }),
+                `mdjson-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
+              );
+            } else {
+              // mdEditor export - include timestamps for external systems
+              let filterIds = {};
 
-          modelTypes.forEach((type) => {
-            let singularType = singularize(type);
-            filterIds[singularType] = this.store
-              .peekAll(singularType)
-              .filterBy('_selected')
-              .mapBy('id');
-          });
+              modelTypes.forEach((type) => {
+                let singularType = singularize(type);
+                filterIds[singularType] = this.store
+                  .peekAll(singularType)
+                  .filterBy('_selected')
+                  .mapBy('id');
+              });
 
-          // Export schemas with settings
-          if (filterIds.setting.length) {
-            filterIds.schema = this.store.peekAll('schema').mapBy('id');
-            filterIds.profile = this.store.peekAll('profile').mapBy('id');
-            filterIds['custom-profile'] = this.store
-              .peekAll('custom-profile')
-              .mapBy('id');
+              // Export schemas with settings
+              if (filterIds.setting.length) {
+                filterIds.schema = this.store.peekAll('schema').mapBy('id');
+                filterIds.profile = this.store.peekAll('profile').mapBy('id');
+                filterIds['custom-profile'] = this.store
+                  .peekAll('custom-profile')
+                  .mapBy('id');
+              }
+
+              const modifiedSelectedData = this.processExportData(
+                this.store.exportSelectedData(modelTypes, { filterIds })
+              );
+
+              const exportResult =
+                typeof modifiedSelectedData._result === 'string'
+                  ? modifiedSelectedData._result
+                  : JSON.stringify(modifiedSelectedData._result || {});
+
+              window.saveAs(
+                new Blob([exportResult], {
+                  type: 'application/json;charset=utf-8',
+                }),
+                `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
+              );
+            }
+          } catch (error) {
+            console.error('Error in exportSelectedData:', error);
+            alert(
+              'There was an error exporting selected data. Please try again.'
+            );
           }
-          const modifiedSelectedData = this.processExportData(
-            this.store.exportSelectedData(modelTypes, { filterIds })
-          );
-
-          window.saveAs(
-            new Blob([modifiedSelectedData._result], {
-              type: 'application/json;charset=utf-8',
-            }),
-            `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
-          );
-        }
-      });
+        })
+        .catch((error) => {
+          console.error('Error fixing liability typo:', error);
+          alert('There was an error preparing the export. Please try again.');
+        });
     },
 
     getColumns(type) {
