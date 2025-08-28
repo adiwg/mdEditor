@@ -66,6 +66,7 @@ const Base = Model.extend({
       if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
           this.hasDirtyAttributes)) {
         once(this, function () {
+          this.updateTimestamp();
           this.save();
         });
       }
@@ -102,6 +103,11 @@ const Base = Model.extend({
 
     // Pouch handling
     this.pouch.updatePouchRecord(this);
+  },
+
+  updateTimestamp() {
+    // Update dateUpdated to current timestamp when record is manually saved
+    this.set('dateUpdated', new Date());
   },
 
   wasLoaded() {

@@ -35,6 +35,7 @@ export default Route.extend(HashPoll, DoCancel, {
 
     saveRecord: async function () {
       const model = this.currentRouteModel();
+      model.updateTimestamp();
       await model.save();
       this.flashMessages.success(`Saved Record: ${model.get('title')}`);
     },

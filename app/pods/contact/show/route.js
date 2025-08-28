@@ -14,6 +14,7 @@ export default Route.extend(ScrollTo, {
   actions: {
     saveContact: async function() {
       const model = this.currentRouteModel();
+      model.updateTimestamp();
       await model.save();
       await this.pouch.updatePouchRecord(model);
       this.flashMessages.success(`Saved Contact: ${model.get('title')}`);

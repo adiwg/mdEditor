@@ -30,6 +30,7 @@ export default Route.extend(HashPoll, DoCancel, {
      */
     saveDictionary: async function () {
       const model = this.currentRouteModel();
+      model.updateTimestamp();
       await model.save();
       this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
     },
