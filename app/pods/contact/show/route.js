@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { copy } from 'ember-copy';
 import { inject as service } from '@ember/service';
+import EmberObject from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
@@ -39,7 +40,7 @@ export default Route.extend(ScrollTo, {
         let json = model.get('jsonRevert');
 
         if (json) {
-          model.set('json', JSON.parse(json));
+          model.set('json', EmberObject.create(JSON.parse(json)));
           this.flashMessages.warning(message);
         }
 

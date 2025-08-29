@@ -1,5 +1,6 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import EmberObject from '@ember/object';
 import HashPoll from 'mdeditor/mixins/hash-poll';
 import DoCancel from 'mdeditor/mixins/cancel';
 
@@ -43,7 +44,7 @@ export default Route.extend(HashPoll, DoCancel, {
         let json = model.get('jsonRevert');
 
         if(json) {
-          model.set('json', JSON.parse(json));
+          model.set('json', EmberObject.create(JSON.parse(json)));
           this.doCancel();
 
           this.flashMessages.warning(message);
