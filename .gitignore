@@ -34,3 +34,4 @@ jsconfig.json
 .vscode
 
 .yarn/*
+yarn.lock.ember-try

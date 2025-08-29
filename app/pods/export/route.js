@@ -201,7 +201,7 @@ export default Route.extend(ScrollTo, {
           let records = this.store
             .peekAll('record')
             .filterBy('_selected')
-            .map((item) => this.mdjson.formatRecord(item));
+            .map((item) => this.mdjson.formatRecord(item, false, false));
 
           window.saveAs(
             new Blob([JSON.stringify(records)], {
