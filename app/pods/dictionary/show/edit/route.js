@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import EmberObject from '@ember/object';
+import { scheduleOnce } from '@ember/runloop';
 import HashPoll from 'mdeditor/mixins/hash-poll';
 import DoCancel from 'mdeditor/mixins/cancel';
 
@@ -45,7 +46,16 @@ export default Route.extend(HashPoll, DoCancel, {
 
         if(json) {
           model.set('json', EmberObject.create(JSON.parse(json)));
+          
           this.doCancel();
+          
+          // Revert the dateUpdated field after any route refresh operations
+          let originalDateUpdated = model.get('dateUpdatedRevert');
+          if(originalDateUpdated) {
+            scheduleOnce('afterRender', this, function() {
+              model.set('dateUpdated', originalDateUpdated);
+            });
+          }
 
           this.flashMessages.warning(message);
         }

@@ -41,6 +41,13 @@ export default Route.extend(ScrollTo, {
 
         if (json) {
           model.set('json', EmberObject.create(JSON.parse(json)));
+          
+          // Also revert the dateUpdated field to its original value
+          let originalDateUpdated = model.get('dateUpdatedRevert');
+          if(originalDateUpdated) {
+            model.set('dateUpdated', originalDateUpdated);
+          }
+          
           this.flashMessages.warning(message);
         }
 
