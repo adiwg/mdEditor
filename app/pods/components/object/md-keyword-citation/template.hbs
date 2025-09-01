@@ -1,4 +1,4 @@
-{{#let model.thesaurus as |thesaurus|}}
+{{#with model.thesaurus as |thesaurus|}}
   <form class="md-keyword-citation form-horizontal">
     <fieldset disabled={{disabled}}>
       <div class="form-group">
@@ -73,5 +73,5 @@
       </div>
     </fieldset>
   </form>
-{{/let}}
+{{/with}}
 {{yield}}

@@ -1,7 +1,7 @@
 <h4 class="section-header">Editing Source #{{sourceId}}
   {{control/md-status model=(compute (route-action "parentModel"))}}
 </h4>
-{{#let model as |source|}}
+{{#with model as |source|}}
     <div class="">
       {{object/md-source
         model=source
@@ -9,7 +9,7 @@
       }}
       {{outlet}}
     </div>
-{{/let}}
+{{/with}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link" text="Back to Lineage Object" icon="arrow-left" click=(route-action "goBack"))

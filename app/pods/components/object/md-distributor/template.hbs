@@ -27,7 +27,7 @@
   {{/if}}
 </div>
 
-{{!-- {{#let model.transferOption.firstObject as |opt|}}
+{{!-- {{#with model.transferOption.firstObject as |opt|}}
   {{#layout/md-card
     shadow=false
     muted=false
@@ -39,7 +39,7 @@
   }}
     {{object/md-transfer model=opt profilePath=(concat profilePath ".transferOption")}}
   {{/layout/md-card}}
-{{/let}} --}}
+{{/with}} --}}
 
 {{object/md-objectroute-table
   attributes="Size(MB),online?,offline?,format?"
@@ -60,7 +60,7 @@
   data-spy="Transfer Options"
 }}
 
-{{#let model.orderProcess.firstObject as |order|}}
+{{#with model.orderProcess.firstObject as |order|}}
   {{#layout/md-card shadow=false
     muted=false
     title="Order Process"
@@ -103,5 +103,5 @@
     }}
   {{!-- </div> --}}
   {{/layout/md-card}}
-{{/let}}
+{{/with}}
 {{yield}}

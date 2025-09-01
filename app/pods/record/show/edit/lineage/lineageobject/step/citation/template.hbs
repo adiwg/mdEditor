@@ -1,7 +1,7 @@
 <h4 class="section-header">Editing Step #{{stepId}} Citation
   {{control/md-status model=(compute (route-action "parentModel"))}}
 </h4>
-{{#let model as |citation|}}
+{{#with model as |citation|}}
     <div class="">
       {{object/md-citation
         model=citation
@@ -10,7 +10,7 @@
       }}
       {{outlet}}
     </div>
-{{/let}}
+{{/with}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link" text=(concat "Back to Step #" stepId) icon="arrow-left" click=(route-action "goBack"))

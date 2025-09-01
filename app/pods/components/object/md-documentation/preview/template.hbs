@@ -1,4 +1,4 @@
-{{#let item as |model|}}
+{{#with item as |model|}}
   <dl class="dl-horizontal">
     <dt>
       <h4 class="text-info">Document #{{index}}</h4>
@@ -20,4 +20,4 @@
   </dl>
 
   {{object/md-citation/preview/body citation=(object-at 0 model.citation)}}
-{{/let}}
+{{/with}}

@@ -9,7 +9,7 @@
     <li id="md-sidebar-lists">
       <div class="panel-group">
         {{#each items as |class|}}
-          {{#let class.meta as |meta|}}
+          {{#with class.meta as |meta|}}
             <div class="panel">
               <div class="panel-heading clearfix" id="{{meta.listId}}-heading">
                 <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
@@ -57,7 +57,7 @@
                 </div>
               </div>
             </div>
-          {{/let}}
+          {{/with}}
         {{/each}}
       </div>
     </li>

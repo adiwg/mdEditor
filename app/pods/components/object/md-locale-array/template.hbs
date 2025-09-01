@@ -8,7 +8,7 @@
      data-spy=false
      templateClass=templateClass as |locale|
    }}
-   {{#let locale.item as |item|}}
+   {{#with locale.item as |item|}}
      <td>
        {{input/md-codelist
          path="language"
@@ -46,5 +46,5 @@
          placeholder="Select country code."
        }}
      </td>
-    {{/let}}
+    {{/with}}
 {{/object/md-array-table}}
