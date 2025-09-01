@@ -1,8 +1,8 @@
 "use strict";
 
 module.exports = function (environment) {
-  var deployTarget = process.env.DEPLOY_TARGET;
-  var ENV = {
+  let deployTarget = process.env.DEPLOY_TARGET;
+  let ENV = {
     contentSecurityPolicy: {
       "style-src": "'self' 'unsafe-inline'",
     },
