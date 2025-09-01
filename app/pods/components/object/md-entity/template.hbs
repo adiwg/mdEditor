@@ -1,248 +1,61 @@
-{{#layout/md-card title="Entity Information" collapsible=true collapsed=false
-  profilePath=(concat profilePath ".information") data-spy="Entity Information"
-  required=true
-}}
+<Layout::MdCard @title="Entity Information" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".information"}} @data-spy="Entity Information" @required={{true}}>
 
-  {{input/md-input
-    value=model.entityId
-    placeholder="Enter the identifier for the entity."
-    label="Entity Identifier"
-    profilePath=(concat profilePath ".identifier")
-    data-spy="Identifier"
-    class="md-embedded"
-  }}
+  <Input::MdInput @value={{model.entityId}} @placeholder={{t "placeholders.entity.identifier"}} @label="Entity Identifier" @profilePath={{concat profilePath ".identifier"}} @data-spy="Identifier" @class="md-embedded" />
 
-  {{input/md-input
-    model=this
-    valuePath="codeName"
-    placeholder="Enter the name used to refer to the entity in schema definitions or application software."
-    label="Code Name"
-    data-spy="Code Name"
-    profilePath=(concat profilePath ".codeName")
-    class="md-embedded"
-  }}
+  <Input::MdInput @model={{this}} @valuePath="codeName" @placeholder={{t "placeholders.entity.codeName"}} @label="Code Name" @data-spy="Code Name" @profilePath={{concat profilePath ".codeName"}} @class="md-embedded" />
 
-  {{input/md-textarea
-    value=model.definition
-    required=true
-    autoresize=true
-    placeholder="A brief description of the entity."
-    label="Definition"
-    data-spy="Definition"
-    embedded=true
-    profilePath=(concat profilePath ".definition")
-  }}
+  <Input::MdTextarea @value={{model.definition}} @required={{true}} @autoresize={{true}} @placeholder={{t "placeholders.entity.definition"}} @label="Definition" @data-spy="Definition" @embedded={{true}} @profilePath={{concat profilePath ".definition"}} />
 
-  {{input/md-input
-    value=model.commonName
-    placeholder="Enter a short common name for the entity."
-    label="Common Name"
-    profilePath=(concat profilePath ".commonName")
-    data-spy="Common Name"
-    class="md-embedded"
-  }}
+  <Input::MdInput @value={{model.commonName}} @placeholder="Enter a short common name for the entity." @label="Common Name" @profilePath={{concat profilePath ".commonName"}} @data-spy="Common Name" @class="md-embedded" />
 
-  {{#object/md-simple-array-table
-    title="Alias"
-    required=false
-    plain=true
-    profilePath=(concat profilePath ".alias")
-    data-spy="Alias"
-    class="md-embedded"
-    value=model.alias as |val|
-  }}
+  <Object::MdSimpleArrayTable @title="Alias" @required={{false}} @plain={{true}} @profilePath={{concat profilePath ".alias"}} @data-spy="Alias" @class="md-embedded" @value={{model.alias}} as |val|>
     <td>
-      {{input/md-input value=val.item.value
-        placeholder="Alternate names used to identify this entity."}}
+      <Input::MdInput @value={{val.item.value}} @placeholder="Alternate names used to identify this entity." />
     </td>
-  {{/object/md-simple-array-table}}
+  </Object::MdSimpleArrayTable>
 
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{object/md-objectroute-table
-  attributes="Attribute Name,Data Type, Definition, Allow Null?"
-  items=model.attribute
-  header="Attributes"
-  shadow=true
-  buttonText="Add Attribute"
-  ellipsis=fallse
-  previewTemplateTable="object/md-attribute/preview"
-  noteComponents=(array (hash
-    component="control/md-indicator/related"
-    options=(hash
-      icon="list"
-      title="Domain"
-      note="The attribute <em>${model.codeName}</em> has an associated domain: <strong>${related.codeName}</strong>."
-      parent=dictionary
-      path="domain"
-      relatedId="domainId"
-      route="dictionary.show.edit.domain.edit"
-      routeIdPaths=(array "relatedIndex")
-      linkText="Go to Domain")
-    )
-  )
-  editItem=(action "editAttribute")
-  verticalButtons=false
-  profilePath=profilePath
-  hideIndex=false
-  condensed=false
-  responsive=true
-  editOnAdd=false
-  scrollToId="md-attribute"
-  data-spy="Attributes"
-  templateClass=attributeTemplate
-}}
+<Object::MdObjectrouteTable @attributes="Attribute Name,Data Type, Definition, Allow Null?" @items={{model.attribute}} @header="Attributes" @shadow={{true}} @buttonText="Add Attribute" @ellipsis={{fallse}} @previewTemplateTable="object/md-attribute/preview" @noteComponents={{array (hash component="control/md-indicator/related" options=(hash icon="list" title="Domain" note="The attribute <em>${model.codeName}</em> has an associated domain: <strong>${related.codeName}</strong>." parent=dictionary path="domain" relatedId="domainId" route="dictionary.show.edit.domain.edit" routeIdPaths=(array "relatedIndex") linkText="Go to Domain"))}} @editItem={{action "editAttribute"}} @verticalButtons={{false}} @profilePath={{profilePath}} @hideIndex={{false}} @condensed={{false}} @responsive={{true}} @editOnAdd={{false}} @scrollToId="md-attribute" @data-spy="Attributes" @templateClass={{attributeTemplate}} />
 
-{{#layout/md-card
-  title="Entity Structure"
-  collapsible=true
-  collapsed=false
-  profilePath=(concat profilePath ".structure")
-  data-spy="Entity Structure"
-}}
+<Layout::MdCard @title="Entity Structure" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".structure"}} @data-spy="Entity Structure">
 
-  {{input/md-input
-    value=model.fieldSeparatorCharacter
-    placeholder="The character which indicates the end of data field contents."
-    label="Field Separator Character"
-    profilePath=(concat profilePath ".structure.fieldSeparatorCharacter")
-    class="md-embedded"
-  }}
+  <Input::MdInput @value={{model.fieldSeparatorCharacter}} @placeholder="The character which indicates the end of data field contents." @label="Field Separator Character" @profilePath={{concat profilePath ".structure.fieldSeparatorCharacter"}} @class="md-embedded" />
 
-  {{input/md-input
-      type="number"
-      step=1
-      model=model
-      valuePath="numberOfHeaderLines"
-      placeholder="The number of lines at the beginning of the file."
-      label="# Header Lines"
-      profilePath=(concat profilePath ".structure.numberOfHeaderLines")
-      class="md-embedded"
-  }}
+  <Input::MdInput @type="number" @step={{1}} @model={{model}} @valuePath="numberOfHeaderLines" @placeholder="The number of lines at the beginning of the file." @label="# Header Lines" @profilePath={{concat profilePath ".structure.numberOfHeaderLines"}} @class="md-embedded" />
 
-  {{input/md-input
-    value=model.quoteCharacter
-    placeholder="Character used to quote fields in the data representation."
-    label="Quote Character"
-    profilePath=(concat profilePath ".structure.quoteCharacter")
-    class="md-embedded"
-  }}
+  <Input::MdInput @value={{model.quoteCharacter}} @placeholder="Character used to quote fields in the data representation." @label="Quote Character" @profilePath={{concat profilePath ".structure.quoteCharacter"}} @class="md-embedded" />
 
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#layout/md-card
-  title="Entity Keys"
-  collapsible=true
-  collapsed=false
-  profilePath=(concat profilePath ".keys")
-  data-spy="Entity Keys"
-}}
+<Layout::MdCard @title="Entity Keys" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".keys"}} @data-spy="Entity Keys">
 
-  {{input/md-codelist-multi
-   label="Primary Key Attributes"
-   value=model.primaryKeyAttributeCodeName
-   mapped=attributeList
-   create=true
-   tooltip=true
-   placeholder="The codeNames of the attributes that compose the primary key."
-   profilePath=(concat profilePath ".keys.primaryKey")
-   data-spy="Primary"
-   class="md-embedded"
-  }}
+  <Input::MdCodelistMulti @label="Primary Key Attributes" @value={{model.primaryKeyAttributeCodeName}} @mapped={{attributeList}} @create={{true}} @tooltip={{true}} @placeholder="The codeNames of the attributes that compose the primary key." @profilePath={{concat profilePath ".keys.primaryKey"}} @data-spy="Primary" @class="md-embedded" />
 
-  {{#object/md-array-table
-    columns="Local Attributes,Referenced Entity,Referenced Attributes"
-    value=model.foreignKey
-    title="Foreign Key"
-    class="md-embedded"
-    plain=true
-    responsive=true
-    templateClass=foreignKeyTemplate
-    profilePath=(concat profilePath ".keys.foreignKey")
-    data-spy="Foreign" as |fk|
-  }}
+  <Object::MdArrayTable @columns="Local Attributes,Referenced Entity,Referenced Attributes" @value={{model.foreignKey}} @title="Foreign Key" @class="md-embedded" @plain={{true}} @responsive={{true}} @templateClass={{foreignKeyTemplate}} @profilePath={{concat profilePath ".keys.foreignKey"}} @data-spy="Foreign" as |fk|>
     <td>
-      {{input/md-codelist-multi
-       model=fk.item
-       path="localAttributeCodeName"
-       mapped=attributeList
-       create=true
-       tooltip=true
-       placeholder="Select the local(child) attributes that compose the foreign key."
-       profilePath=(concat profilePath ".localAttributes")
-       showValidations=true
-      }}
+      <Input::MdCodelistMulti @model={{fk.item}} @path="localAttributeCodeName" @mapped={{attributeList}} @create={{true}} @tooltip={{true}} @placeholder="Select the local(child) attributes that compose the foreign key." @profilePath={{concat profilePath ".localAttributes"}} @showValidations={{true}} />
     </td>
     <td>
-      {{input/md-codelist
-        model=fk.item
-        mapped=entityList
-        create=true
-        path="referencedEntityCodeName"
-        placeholder="Select the referenced (or parent) entity."
-        showValidations=true
-      }}
+      <Input::MdCodelist @model={{fk.item}} @mapped={{entityList}} @create={{true}} @path="referencedEntityCodeName" @placeholder="Select the referenced (or parent) entity." @showValidations={{true}} />
     </td>
     <td>
-      {{input/md-codelist-multi
-       model=fk.item
-       path="referencedAttributeCodeName"
-       mapped=(compute (action "getEntityAttributes") fk.item.referencedEntityCodeName)
-       create=true
-       tooltip=true
-       placeholder="Select the referenced(parent) attributes that compose the foreign key."
-       profilePath=(concat profilePath ".referencedAttributes")
-       showValidations=true
-      }}
+      <Input::MdCodelistMulti @model={{fk.item}} @path="referencedAttributeCodeName" @mapped={{compute (action "getEntityAttributes") fk.item.referencedEntityCodeName}} @create={{true}} @tooltip={{true}} @placeholder="Select the referenced(parent) attributes that compose the foreign key." @profilePath={{concat profilePath ".referencedAttributes"}} @showValidations={{true}} />
     </td>
-  {{/object/md-array-table}}
+  </Object::MdArrayTable>
 
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#object/md-array-table
-  columns="Name,Attributes,Duplicates?"
-  value=model.index
-  title="Entity Index"
-  class="md-embedded"
-  responsive=true
-  templateClass=indexTemplate
-  profilePath=(concat profilePath ".index")
-  data-spy="Entity Indexes" as |itm|
-}}
+<Object::MdArrayTable @columns="Name,Attributes,Duplicates?" @value={{model.index}} @title="Entity Index" @class="md-embedded" @responsive={{true}} @templateClass={{indexTemplate}} @profilePath={{concat profilePath ".index"}} @data-spy="Entity Indexes" as |itm|>
   <td>
-    {{input/md-input
-      model=itm.item
-      valuePath="codeName"
-      placeholder="Name of the index."
-      showValidations=true
-      profilePath=(concat profilePath ".index.name")
-    }}
+    <Input::MdInput @model={{itm.item}} @valuePath="codeName" @placeholder="Name of the index." @showValidations={{true}} @profilePath={{concat profilePath ".index.name"}} />
   </td>
   <td>
-    {{input/md-codelist-multi
-     model=itm.item
-     path="attributeCodeName"
-     mapped=attributeList
-     create=true
-     tooltip=true
-     placeholder="Select or enter the attributes that compose the index key."
-     profilePath=(concat profilePath ".index.attributes")
-     showValidations=true
-    }}
+    <Input::MdCodelistMulti @model={{itm.item}} @path="attributeCodeName" @mapped={{attributeList}} @create={{true}} @tooltip={{true}} @placeholder="Select or enter the attributes that compose the index key." @profilePath={{concat profilePath ".index.attributes"}} @showValidations={{true}} />
   </td>
   <td class="text-center">
-    {{input/md-boolean
-      required=true
-      value=itm.item.allowDuplicates
-      profilePath=(concat profilePath ".index.allowDuplicates")
-    }}
+    <Input::MdBoolean @required={{true}} @value={{itm.item.allowDuplicates}} @profilePath={{concat profilePath ".index.allowDuplicates"}} />
   </td>
-{{/object/md-array-table}}
+</Object::MdArrayTable>
 
-{{object/md-citation-array
-  model=model.entityReference
-  profilePath=(concat profilePath ".entityReference")
-  data-spy="Entity Reference"
-  editItem=(action "editCitation")
-  label="Entity Reference"
-}}
+<Object::MdCitationArray @model={{model.entityReference}} @profilePath={{concat profilePath ".entityReference"}} @data-spy="Entity Reference" @editItem={{action "editCitation"}} @label="Entity Reference" />

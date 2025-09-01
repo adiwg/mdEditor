@@ -16,37 +16,35 @@
               }}
             {{/if}}
           </span> --}}
-          {{control/md-status model=model}}
+          <Control::MdStatus @model={{model}} />
     </h3>
-    {{#layout/md-card shadow=false muted=true title="Basic Information" bodyIsRow=true}}
+    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Basic Information" @bodyIsRow={{true}}>
         <dl class="dl-horizontal col-lg-6">
-          {{control/md-definition title="Contact Id" text=model.contactId}}
-          {{control/md-definition title="Contact Name" text=model.name}}
+          <Control::MdDefinition @title="Contact Id" @text={{model.contactId}} />
+          <Control::MdDefinition @title="Contact Name" @text={{model.name}} />
 
           {{#unless model.json.isOrganization}}
-            {{control/md-definition title="Position" text=model.json.positionName}}
+            <Control::MdDefinition @title="Position" @text={{model.json.positionName}} />
           {{/unless}}
 
-          {{control/md-definition title="Contact Type" text=model.json.contactType}}
-          {{control/md-definition title="Contact Instructions" text=model.json.contactInstructions}}
+          <Control::MdDefinition @title="Contact Type" @text={{model.json.contactType}} />
+          <Control::MdDefinition @title="Contact Instructions" @text={{model.json.contactInstructions}} />
 
         </dl>
         <dl class="dl-horizontal col-lg-6">
-          {{#control/md-definition title="Organizations"}}
+          <Control::MdDefinition @title="Organizations">
             {{#each model.json.memberOfOrganization as |orgId|}}
-              {{control/md-contact-link
-                contactId=orgId
-              }}<br>
+              <Control::MdContactLink @contactId={{orgId}} /><br>
               {{else}}
                 <em class="text-muted">No organizations assigned.</em>
             {{/each}}
-          {{/control/md-definition}}
+          </Control::MdDefinition>
         </dl>
-    {{/layout/md-card}}
+    </Layout::MdCard>
 
     <div class="row">
     <div class="col-md-6 col-xxl-4">
-    {{#layout/md-card shadow=false muted=true title="Phone" class="card-table"}}
+    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Phone" @class="card-table">
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -63,7 +61,7 @@
                 <td>
                   {{#if ph.phoneNumber}}
                     <a href="tel:{{ph.phoneNumber}}">{{ph.phoneNumber}}
-                      {{ember-tooltip text="Click to call."}}
+                      <EmberTooltip @text="Click to call." />
                     </a>
                   {{else}}
                     --
@@ -79,26 +77,26 @@
           </tbody>
         </table>
       </div>
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
     <div class="col-md-6 col-xxl-4">
 
-      {{#layout/md-card shadow=false muted=true title="E-mail" class=""}}
+      <Layout::MdCard @shadow={{false}} @muted={{true}} @title="E-mail" @class="">
       <ul class="list-unstyled">
         {{#each model.json.electronicMailAddress as |email|}}
           <li><a href="mailto:{{email}}" target="_blank" rel="noopener noreferrer">{{email}}
-            {{ember-tooltip text="Click to send e-mail."}}
+            <EmberTooltip @text="Click to send e-mail." />
           </a></li>
         {{else}}
           <li><em class="text-muted">No e-mails assigned.</em></li>
         {{/each}}
       </ul>
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
     <div class="clearfix hidden-xxl"></div>
     <div class="col-md-6 col-xxl-4">
 
-      {{#layout/md-card shadow=false muted=true title="Availability" class=""}}
+      <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Availability" @class="">
       <ul class="list-unstyled">
         {{#each model.json.hoursOfService as |hours|}}
           <li>{{hours}}</li>
@@ -106,28 +104,28 @@
           <li><em class="text-muted">No information provided.</em></li>
         {{/each}}
       </ul>
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
     </div>
 
     <div class="row">
     <div class="col-md-6">
-    {{#layout/md-card shadow=false muted=true title="Address" bodyIsRow=model.json.address.length}}
+    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Address" @bodyIsRow={{model.json.address.length}}>
         {{#each model.json.address as |address|}}
           <div class="col-lg-6">
             <div class="card">
               <div class="card-block">
-                {{object/md-address/md-address-block item=address}}
+                <Object::MdAddress::MdAddressBlock @item={{address}} />
               </div>
             </div>
           </div>
         {{else}}
             <em>No addresses provided.</em>
         {{/each}}
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
     <div class="col-md-6">
-      {{#layout/md-card shadow=false muted=true title="Online Resource"}}
+      <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Online Resource">
         <div class="table-responsive">
           <table class="table">
             <thead>
@@ -156,13 +154,13 @@
             </tbody>
           </table>
         </div>
-      {{/layout/md-card}}
+      </Layout::MdCard>
     </div>
     </div>
 
     <div class="row">
       <div class="col-md-6">
-        {{#layout/md-card shadow=false muted=true title="External Identifiers" bodyIsRow=model.json.externalIdentifier.length}}
+        <Layout::MdCard @shadow={{false}} @muted={{true}} @title="External Identifiers" @bodyIsRow={{model.json.externalIdentifier.length}}>
           <div class="table-responsive">
             <table class="table">
               <thead>
@@ -183,25 +181,19 @@
         </tbody>
       </table>
     </div>
-        {{/layout/md-card}}
+        </Layout::MdCard>
       </div>
     </div>
 
   </div>
   <div class="md-control-sidebar col-sm-2 no-nav">
-    {{#control/md-crud-buttons
-      model=model
-      allowCopy=true
-      allowDelete=true
-      doDelete=(route-action "destroyContact")
-      doCopy=(route-action "copyContact")
-    }}
-      {{#link-to "contact.show.edit" model.id class="btn btn-lg btn-success" }}
-        {{fa-icon "pencil"}} Edit{{/link-to}}
-    {{/control/md-crud-buttons}}
+    <Control::MdCrudButtons @model={{model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyContact"}} @doCopy={{route-action "copyContact"}}>
+      <LinkTo @route="contact.show.edit" @model={{model.id}} class="btn btn-lg btn-success">
+        {{fa-icon "pencil"}} Edit</LinkTo>
+    </Control::MdCrudButtons>
     <hr>
-    {{#link-to "contacts" class="btn btn-lg btn-primary btn-block" }}
-    {{fa-icon "list"}} Show List{{/link-to}}
-    {{control/md-scroll-spy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+    <LinkTo @route="contacts" class="btn btn-lg btn-primary btn-block">
+    {{fa-icon "list"}} Show List</LinkTo>
+    <Control::MdScrollSpy @scrollInit={{scrollTo}} @setScrollTo={{route-action "setScrollTo"}} />
   </div>
 </div>

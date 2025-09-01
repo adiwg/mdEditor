@@ -8,98 +8,50 @@
                 tooltipClass="ember-tooltip md-tooltip danger"
               }}
             {{/if}} --}}
-            {{control/md-status model=model}}
+            <Control::MdStatus @model={{model}} />
           </span>
         </h3>
         <form>
-            {{input/md-input-confirm
-              valuePath="json.contactId"
-              model=model
-              data-spy="Contact ID"
-              confirmTip="Note! Editing the Contact ID may break links. Be aware."
-              placeholder="User assigned Contact ID" label="Contact ID"}}
+            <Input::MdInputConfirm @valuePath="json.contactId" @model={{model}} @data-spy="Contact ID" @confirmTip="Note! Editing the Contact ID may break links. Be aware." @placeholder={{t "placeholders.contact.id"}} @label="Contact ID" />
 
-            {{input/md-input
-              valuePath="json.name"
-              model=model
-              placeholder=(concat model.type " Name")
-              label=(concat model.type " Name")}}
+            <Input::MdInput @valuePath="json.name" @model={{model}} @placeholder={{concat model.type " Name"}} @label={{concat model.type " Name"}} />
 
             {{#unless model.json.isOrganization}}
-                {{input/md-input
-                  valuePath="json.positionName"
-                  model=model
-                  placeholder="Position Name" label="Position Name"}}
+                <Input::MdInput @valuePath="json.positionName" @model={{model}} @placeholder={{t "placeholders.contact.positionName"}} @label="Position Name" />
             {{/unless}}
 
-            {{input/md-codelist
-              value=model.json.contactType label="Contact Type"
-              create=false tooltip=true icon=false mdCodeName="entityType"
-              placeholder="Select a contact type"
-            }}
+            <Input::MdCodelist @value={{model.json.contactType}} @label="Contact Type" @create={{false}} @tooltip={{true}} @icon={{false}} @mdCodeName="entityType" @placeholder="Select a contact type" />
 
-            {{input/md-select-contacts
-                label="Member Of Organization"
-                placeholder="Pick organization(s) this contact belongs to"
-                value=model.json.memberOfOrganization
-                contactType="organizations"
-                icon=true
-                tooltip=false
-                defaultIcon="organizations"
-                filterId=model.json.contactId
-              }}
+            <Input::MdSelectContacts @label="Member Of Organization" @placeholder="Pick organization(s) this contact belongs to" @value={{model.json.memberOfOrganization}} @contactType="organizations" @icon={{true}} @tooltip={{false}} @defaultIcon="organizations" @filterId={{model.json.contactId}} />
 
-            {{object/md-contact-identifier-array value=model.json.externalIdentifier data-spy="ExternalIdentifiers"}}
+            <Object::MdContactIdentifierArray @value={{model.json.externalIdentifier}} @data-spy="ExternalIdentifiers" />
 
-            {{object/md-phone-array value=model.json.phone data-spy="Phone"}}
+            <Object::MdPhoneArray @value={{model.json.phone}} @data-spy="Phone" />
 
-           {{#object/md-simple-array-table data-spy="E-mail"
-              title="E-mail Address"
-              required=false
-              value=model.json.electronicMailAddress as |email|
-            }}
+           <Object::MdSimpleArrayTable @data-spy="E-mail" @title="E-mail Address" @required={{false}} @value={{model.json.electronicMailAddress}} as |email|>
               <td>
-                  {{input/md-input value=email.item.value
-                  placeholder="Enter valid e-mail address"}}
+                  <Input::MdInput @value={{email.item.value}} @placeholder="Enter valid e-mail address" />
               </td>
-            {{/object/md-simple-array-table}}
+            </Object::MdSimpleArrayTable>
 
-            {{object/md-address model=model.json.address  data-spy="Address"}}
+            <Object::MdAddress @model={{model.json.address}} @data-spy="Address" />
 
-            {{object/md-online-resource-array model=model.json.onlineResource
-              profilePath="contact"
-              data-spy="Online Resource"}}
+            <Object::MdOnlineResourceArray @model={{model.json.onlineResource}} @profilePath="contact" @data-spy="Online Resource" />
 
-            {{object/md-graphic-array
-              model=model.json.logoGraphic data-spy="Logo"
-              button-text="Add Logo"
-              label="Logo"
-              profilePath="contact"
-            }}
+            <Object::MdGraphicArray @model={{model.json.logoGraphic}} @data-spy="Logo" @button-text="Add Logo" @label="Logo" @profilePath="contact" />
 
-            {{#object/md-simple-array-table data-spy="Availability"
-              title="Available Time"
-              value=model.json.hoursOfService as |hour|
-            }}
+            <Object::MdSimpleArrayTable @data-spy="Availability" @title="Available Time" @value={{model.json.hoursOfService}} as |hour|>
               <td>
-                  {{input/md-input value=hour.item.value
-                  placeholder="Describe time when contact is avaiable"}}
+                  <Input::MdInput @value={{hour.item.value}} @placeholder="Describe time when contact is avaiable" />
               </td>
-            {{/object/md-simple-array-table}}
+            </Object::MdSimpleArrayTable>
 
-            {{input/md-textarea value=model.json.contactInstructions data-spy="Instructions"
-            placeholder="Supplemental Contact Instructions" label="Contact Instructions"}}
+            <Input::MdTextarea @value={{model.json.contactInstructions}} @data-spy="Instructions" @placeholder={{t "placeholders.contact.instructions"}} @label="Contact Instructions" />
         </form>
     </div>
       <div class="md-control-sidebar col-sm-2 no-nav">
-          {{control/md-crud-buttons
-              model=model
-              doSave=(route-action "saveContact")
-              doCancel=(route-action "cancelContact")
-              doDelete=(route-action "destroyContact")
-              doCopy=(route-action "copyContact")
-          }}
-          {{control/md-scroll-spy}}
+          <Control::MdCrudButtons @model={{model}} @doSave={{route-action "saveContact"}} @doCancel={{route-action "cancelContact"}} @doDelete={{route-action "destroyContact"}} @doCopy={{route-action "copyContact"}} />
+          <Control::MdScrollSpy />
 
       </div>
 </div>

@@ -1,0 +1,25 @@
+# Placeholder text for form inputs
+placeholders:
+  constraint:
+    useLimitation: "Describe Limitation affecting the fitness for use of the resource or metadata. For example, 'not to be used for navigation'."
+    type: "The type of constraint."
+  taxonomy:
+    generalScope: "Description of the range of taxa addressed in the data set or collection. For example, 'all vascular plants were identified to family or species.'"
+    procedure: "Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc."
+    completeness: "Information concerning the proportions and treatment of unidentified materials; estimates of the importance, and identities of misidentifications, uncertain determinations, synonyms or other incorrect usages; taxa not well treated or requiring further work; and expertise of field workers."
+    specimen: "Description of the type of specimen collected (e.g. 'herbarium specimens', 'blood samples', 'photographs', 'individuals', or 'batches')."
+    modifications: "Description of any modifications or exceptions made to the classification by the observer."
+  record:
+    title: "Enter the title for the resource."
+  contact:
+    id: "User assigned Contact ID"
+    positionName: "Position Name"
+    instructions: "Supplemental Contact Instructions"
+  entity:
+    identifier: "Enter the identifier for the entity."
+    codeName: "Enter the name used to refer to the entity in schema definitions or application software."
+    definition: "A brief description of the entity."
+  citation:
+    title: "Enter the title for the resource."
+    edition: "Enter the edition."
+    seriesName: "Enter the name for the series."

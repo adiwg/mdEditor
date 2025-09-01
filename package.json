@@ -99,6 +99,7 @@
     "ember-fetch": "^8.1.1",
     "ember-font-awesome": "^3.1.1",
     "ember-in-viewport": "^3.10.3",
+    "ember-intl": "^7.3.1",
     "ember-leaflet": "~4.0.2",
     "ember-leaflet-layer-control": "~0.2.1",
     "ember-load": "0.0.17",
