@@ -1,7 +1,7 @@
 <h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Citation
   {{control/md-status model=model}}
 </h4>
-{{#with model.json.metadata.resourceInfo.citation as |citation|}}
+{{#let model.json.metadata.resourceInfo.citation as |citation|}}
     <div class="row">
       {{object/md-citation
         class="col-xxl-11 col-xxxl-10 col-xxl-offset-1"
@@ -11,7 +11,7 @@
       }}
       {{outlet}}
     </div>
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link" text="Back to Main" icon="arrow-left" route="record.show.edit.main")

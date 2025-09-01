@@ -2,14 +2,14 @@
   {{control/md-status model=(compute (route-action "parentModel"))}}
 </h4>
 
-{{#with model as |system|}}
+{{#let model as |system|}}
     <div class="">
       {{object/md-taxonomy/collection/system
         model=system
         profilePath="record.taxonomy.collection.taxonomicSystem"
       }}
     </div>
-{{/with}}
+{{/let}}
 
 {{to-elsewhere
   named="md-subbar-extra"

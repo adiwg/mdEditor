@@ -74,7 +74,7 @@
     themeInstance=themeInstance
   )
 as |tb|}}
-  {{#if hasBlock}}
+  {{#if has-block}}
     {{yield tb}}
   {{else}}
     {{#if allColumnsAreHidden}}
@@ -155,9 +155,9 @@ as |tb|}}
                     }}
                   {{/if}}
                 {{/if}}
-              {{/with}}
-            {{/with}}
-          {{/with}}
+              {{/let}}
+            {{/let}}
+          {{/let}}
         {{else}}
           {{component tb.no-data}}
         {{/each}}
@@ -183,4 +183,4 @@ as |tb|}}
       {{/if}}
     {{/if}}
   {{/if}}
-{{/with}}
+{{/let}}

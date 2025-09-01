@@ -2,7 +2,7 @@
   <span class="small">for Domain <em>{{model.codeName}}</em></span>
   {{control/md-status model=parentModel}}
 </h4>
-{{#with model.domainReference as |citation|}}
+{{#let model.domainReference as |citation|}}
   {{object/md-citation
     class=""
     model=citation
@@ -11,7 +11,7 @@
     editIdentifier=(route-action "editIdentifier")
   }}
   {{outlet}}
-{{/with}}
+{{/let}}
 {{to-elsewhere
   named="md-subbar-extra"
   send=(component "control/subbar-link"

@@ -85,7 +85,7 @@
         <h4 class="text-{{errorClass}}">{{errorSubTitle}}</h4>
         <ul class="list-group">
           {{#each messages as |message|}}
-            {{#with (compute (action "errorClass") message.[0]) as |errorClass|}}
+            {{#let (compute (action "errorClass") message.[0]) as |errorClass|}}
               <li class="list-group-item">
                 <div class="">
                   <h4 class="list-group-item-heading">
@@ -98,7 +98,7 @@
                   {{compute (action "formatMessage" message.[3])}}
                 </div>
               </li>
-            {{/with}}
+            {{/let}}
           {{/each}}
         </ul>
       {{/layout/md-card}}

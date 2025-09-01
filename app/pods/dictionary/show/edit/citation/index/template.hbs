@@ -2,7 +2,7 @@
   <span class="small">for <em>{{model.title}}</em></span>
   {{control/md-status model=model}}
 </h4>
-{{#with model.json.dataDictionary.citation as |citation|}}
+{{#let model.json.dataDictionary.citation as |citation|}}
   {{object/md-citation
     class=""
     model=citation
@@ -10,7 +10,7 @@
     editIdentifier=(route-action "editIdentifier")
   }}
   {{outlet}}
-{{/with}}
+{{/let}}
 
 {{to-elsewhere named="md-scroll-spy-dict-edit"
   send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}

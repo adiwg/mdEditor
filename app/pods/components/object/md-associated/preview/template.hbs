@@ -1,4 +1,4 @@
-{{#with item as |model|}}
+{{#let item as |model|}}
   <dl class="dl-horizontal">
     <dt>
       <h4 class="text-info">Resource #{{index}}</h4>
@@ -25,11 +25,11 @@
 
   <dl class="dl-horizontal col-lg-12">
   {{#control/md-definition title="Metadata Identifier"}}
-    {{#with metadataIdentifier as |meta|}}
+    {{#let metadataIdentifier as |meta|}}
       {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
     {{else}}
       <em class="text-muted">No metadata identifier assigned.</em>
-    {{/with}}
+    {{/let}}
   {{/control/md-definition}}
 </dl>
-{{/with}}
+{{/let}}

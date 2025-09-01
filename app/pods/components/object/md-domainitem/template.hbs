@@ -28,7 +28,7 @@
   showValidations=true
 }}
 
-{{#with model.reference as |citation|}}
+{{#let model.reference as |citation|}}
   {{#layout/md-card
     title="Item Reference"
     collapsible=true
@@ -44,4 +44,4 @@
       embedded=true
     }}
   {{/layout/md-card}}
-{{/with}}
+{{/let}}

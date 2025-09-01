@@ -2,7 +2,7 @@
   profilePath=(concat profilePath ".information") data-spy="Attribute Information"
   required=true
 }}
-  {{#with (concat profilePath ".information") as |profilePath|}}
+  {{#let (concat profilePath ".information") as |profilePath|}}
     {{input/md-input
       model=this
       valuePath="codeName"
@@ -156,7 +156,7 @@
       label="Maximum Value"
       profilePath=(concat profilePath ".maxValue")
     }}
-  {{/with}}
+  {{/let}}
 {{/layout/md-card}}
 
 {{#object/md-array-table
