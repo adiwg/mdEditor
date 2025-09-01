@@ -4,7 +4,7 @@
   {{/if}}
 
   {{#if route}}
-    {{#link-to route class=(concat "btn btn-lg btn-" btnType " btn-block md-btn-responsive") }} {{fa-icon icon}} {{text}}{{/link-to}}
+    <LinkTo @route={{route}} class={{concat "btn btn-lg btn-" btnType " btn-block md-btn-responsive"}}> {{fa-icon icon}} {{text}}</LinkTo>
   {{/if}}
 
   {{yield}}

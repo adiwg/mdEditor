@@ -1,12 +1,12 @@
 <li>
-  {{#link-to "record.show.translate" model}}
+  <LinkTo @route="record.show.translate" @model={{model}}>
     <span class="fa fa-retweet"></span>
     <span class="md-nav-text">Translate</span>
-    {{ember-tooltip text="Translate" side="bottom" tooltipClass="ember-tooltip md-nav-tip"}}
-  {{/link-to}}
+    <EmberTooltip @text="Translate" @side="bottom" @tooltipClass="ember-tooltip md-nav-tip" />
+  </LinkTo>
 </li>
 <li class="divider-vertical">
 </li>
 <li>
-{{from-elsewhere name="record-nav"}}
+<FromElsewhere @name="record-nav" />
 </li>

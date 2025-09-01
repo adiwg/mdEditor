@@ -1,32 +1,8 @@
-{{input/md-input
-  model=record
-  valuePath="title"
-  label="Title"
-  placeholder="Enter a short title for the profile."
-  showValidations=true
-}}
+<Input::MdInput @model={{record}} @valuePath="title" @label="Title" @placeholder="Enter a short title for the profile." @showValidations={{true}} />
 
-{{input/md-textarea
- model=record
- valuePath="description"
- label="Description"
- placeholder="Enter a description of the profile."
- showValidations=true
-}}
+<Input::MdTextarea @model={{record}} @valuePath="description" @label="Description" @placeholder="Enter a description of the profile." @showValidations={{true}} />
 
-{{input/md-select
- model=record
- path="profileId"
- label="Profile Definition"
- valuePath="identifier"
- namePath="title"
- placeholder="Select the profile definition."
- objectArray=definitions.profiles
- searchEnabled=true
- showValidations=true
- allowClear=true
- setValue=(action "setValue")
-}}
+<Input::MdSelect @model={{record}} @path="profileId" @label="Profile Definition" @valuePath="identifier" @namePath="title" @placeholder="Select the profile definition." @objectArray={{definitions.profiles}} @searchEnabled={{true}} @showValidations={{true}} @allowClear={{true}} @setValue={{action "setValue"}} />
 
 <div class="row">
   <div class="col-md-6">

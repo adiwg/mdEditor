@@ -1,23 +1,2 @@
-{{input/md-codelist
-  label="Role"
-  path="role"
-  model=this
-  create=true
-  tooltip=true
-  icon=false
-  disabled=disabled
-  mdCodeName="role"
-  showValidations=true
-  placeholder="Select or enter a role"
-  profilePath=(if profilePath (concat profilePath ".role"))
-}}
-{{input/md-select-contacts
-    label="Contacts"
-    placeholder="Select one or more contacts"
-    model=this
-    path="_contacts"
-    icon=true
-    tooltip=true
-    showValidations=true
-    profilePath=(if profilePath (concat profilePath ".contacts"))
-}}
+<Input::MdCodelist @label="Role" @path="role" @model={{this}} @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @mdCodeName="role" @showValidations={{true}} @placeholder="Select or enter a role" @profilePath={{if profilePath (concat profilePath ".role")}} />
+<Input::MdSelectContacts @label="Contacts" @placeholder="Select one or more contacts" @model={{this}} @path="_contacts" @icon={{true}} @tooltip={{true}} @showValidations={{true}} @profilePath={{if profilePath (concat profilePath ".contacts")}} />

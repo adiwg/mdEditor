@@ -1,73 +1,15 @@
 
-{{#layout/md-card title="Domain Information" collapsible=true collapsed=false
-  profilePath=(concat profilePath ".information") data-spy="Domain Information"
-  required=true
-}}
-  {{input/md-input
-    model=this
-    valuePath="domainId"
-    placeholder="Enter the identifier for the domain."
-    label="Domain Identifier"
-    profilePath=(concat profilePath ".information.identifier")
-    data-spy="Identifier"
-    class="md-embedded"
-  }}
+<Layout::MdCard @title="Domain Information" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".information"}} @data-spy="Domain Information" @required={{true}}>
+  <Input::MdInput @model={{this}} @valuePath="domainId" @placeholder="Enter the identifier for the domain." @label="Domain Identifier" @profilePath={{concat profilePath ".information.identifier"}} @data-spy="Identifier" @class="md-embedded" />
 
-  {{input/md-input
-    model=this
-    valuePath="codeName"
-    placeholder="Enter the name used to refer to the domain in schema definitions."
-    label="Code Name"
-    data-spy="Code Name"
-    profilePath=(concat profilePath ".information.codeName")
-    class="md-embedded"
-  }}
+  <Input::MdInput @model={{this}} @valuePath="codeName" @placeholder="Enter the name used to refer to the domain in schema definitions." @label="Code Name" @data-spy="Code Name" @profilePath={{concat profilePath ".information.codeName"}} @class="md-embedded" />
 
-  {{input/md-input
-    value=model.commonName
-    placeholder="Enter a short common name for the domain."
-    label="Common Name"
-    profilePath=(concat profilePath ".information.commonName")
-    data-spy="Common Name"
-    class="md-embedded"
-  }}
+  <Input::MdInput @value={{model.commonName}} @placeholder="Enter a short common name for the domain." @label="Common Name" @profilePath={{concat profilePath ".information.commonName"}} @data-spy="Common Name" @class="md-embedded" />
 
-  {{input/md-textarea
-    value=model.description
-    required=true
-    autoresize=true
-    placeholder="A brief description of the domain."
-    label="Description"
-    data-spy="Description"
-    embedded=true
-    profilePath=(concat profilePath ".information.description")
-  }}
+  <Input::MdTextarea @value={{model.description}} @required={{true}} @autoresize={{true}} @placeholder="A brief description of the domain." @label="Description" @data-spy="Description" @embedded={{true}} @profilePath={{concat profilePath ".information.description"}} />
 
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{object/md-objectroute-table
-  attributes="Domain Item Name,Value,Definition"
-  items=model.domainItem
-  header="Domain Items"
-  shadow=true
-  buttonText="Add Item"
-  ellipsis=fallse
-  previewTemplateTable="object/md-domainitem/preview"
-  editItem=(action "editDomainItem")
-  verticalButtons=false
-  profilePath=profilePath
-  hideIndex=false
-  condensed=false
-  editOnAdd=false
-  scrollToId="md-domainitem"
-  data-spy="Domain Items"
-}}
+<Object::MdObjectrouteTable @attributes="Domain Item Name,Value,Definition" @items={{model.domainItem}} @header="Domain Items" @shadow={{true}} @buttonText="Add Item" @ellipsis={{fallse}} @previewTemplateTable="object/md-domainitem/preview" @editItem={{action "editDomainItem"}} @verticalButtons={{false}} @profilePath={{profilePath}} @hideIndex={{false}} @condensed={{false}} @editOnAdd={{false}} @scrollToId="md-domainitem" @data-spy="Domain Items" />
 
-{{object/md-citation/preview
-  title="Domain Reference"
-  profilePath=(concat profilePath ".domainReference")
-  citation=model.domainReference
-  muted=true
-  required=false
-  editCitation=(action "editCitation")
-}}
+<Object::MdCitation::Preview @title="Domain Reference" @profilePath={{concat profilePath ".domainReference"}} @citation={{model.domainReference}} @muted={{true}} @required={{false}} @editCitation={{action "editCitation"}} />

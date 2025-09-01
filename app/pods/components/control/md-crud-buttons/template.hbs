@@ -15,11 +15,10 @@
     </button>
   {{/if}}
   {{#if showDelete}}
-    {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete") tooltip="Permanently delete this record?" tipClass="danger"}}
+    <Control::MdButtonConfirm @class="btn btn-lg btn-danger" @onConfirm={{action "delete"}} @tooltip="Permanently delete this record?" @tipClass="danger">
       <span class="fa fa-times"></span> Delete
-    {{/control/md-button-confirm}}
+    </Control::MdButtonConfirm>
   {{/if}}
   {{yield}}
-  {{ember-tooltip tooltipClass="ember-tooltip md-tooltip primary"
-    text="Manage the record" side="top"}}
+  <EmberTooltip @tooltipClass="ember-tooltip md-tooltip primary" @text="Manage the record" @side="top" />
 </div>

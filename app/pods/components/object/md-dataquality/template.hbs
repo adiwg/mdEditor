@@ -1,57 +1,27 @@
-{{#layout/md-card}}
+<Layout::MdCard>
   <div class='row'>
     <div class='col-md-8'>
-      {{input/md-input
-        label='System Generated UID'
-        value=model.systemIdentifier.uid
-        disabled=true
-      }}
+      <Input::MdInput @label="System Generated UID" @value={{model.systemIdentifier.uid}} @disabled={{true}} />
     </div>
   </div>
   <div class='row'>
     <div class='col-md-8'>
-      {{input/md-input label='Title' value=model.systemIdentifier.label}}
+      <Input::MdInput @label="Title" @value={{model.systemIdentifier.label}} />
     </div>
   </div>
   <div class='row'>
     <div class='col-md-8'>
-      {{input/md-codelist
-        value=model.scope.scopeCode
-        label='Scope'
-        required=true
-        create=true
-        tooltip=true
-        icon=true
-        mdCodeName='scope'
-        placeholder='Select type of resource.'
-        profilePath=(concat profilePath '.scope')
-        data-spy='Scope'
-      }}
+      <Input::MdCodelist @value={{model.scope.scopeCode}} @label="Scope" @required={{true}} @create={{true}} @tooltip={{true}} @icon={{true}} @mdCodeName="scope" @placeholder="Select type of resource." @profilePath={{concat profilePath ".scope"}} @data-spy="Scope" />
     </div>
   </div>
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#object/md-object-table
-  items=model.report
-  header='Standard Reports'
-  buttonText='Add Report'
-  ellipsis=true
-  required=true
-  profilePath=(concat profilePath '.report')
-  attributes='type'
-  as |editing|
-}}
-  {{object/md-quality-report
-    model=editing
-    profilePath=(concat profilePath '.report')
-  }}
-{{/object/md-object-table}}
+<Object::MdObjectTable @items={{model.report}} @header="Standard Reports" @buttonText="Add Report" @ellipsis={{true}} @required={{true}} @profilePath={{concat profilePath ".report"}} @attributes="type" as |editing|>
+  <Object::MdQualityReport @model={{editing}} @profilePath={{concat profilePath ".report"}} />
+</Object::MdObjectTable>
 
 {{#if model.standaloneQualityReport}}
-  {{object/md-standalone-quality-report
-    model=model.standaloneQualityReport
-    deleteStandaloneQualityReport=(action 'deleteStandaloneQualityReport')
-  }}
+  <Object::MdStandaloneQualityReport @model={{model.standaloneQualityReport}} @deleteStandaloneQualityReport={{action "deleteStandaloneQualityReport"}} />
 {{else}}
   <div class='md-object-table box-shadow--4dp'>
     <div class='alert md-alert-table alert-info'>

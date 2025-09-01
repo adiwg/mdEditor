@@ -12,16 +12,10 @@
     </div>
   </div>
 {{else}}
-  {{#file-picker
-    class="md-file-picker md-import-picker"
-    fileLoaded="readData"
-    preview=false
-    accept=".csv,.txt"
-    readAs="readAsText"
-  }}
+  <FilePicker @class="md-file-picker md-import-picker" @fileLoaded="readData" @preview={{false}} @accept=".csv,.txt" @readAs="readAsText">
     <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}}
       Click or Drop a CSV here.</button>
-  {{/file-picker}}
+  </FilePicker>
   {{!-- <hr>
   <h3>Import from Online URL</h3>
   <div class="row">

@@ -3,10 +3,10 @@
       <h4 class="text-info">Lineage #{{index}}</h4>
     </dt>
     <dd></dd>
-    {{control/md-definition title="Statement" text=(word-limit item.statement wordLength=20)}}
+    <Control::MdDefinition @title="Statement" @text={{word-limit item.statement wordLength=20}} />
 </dl>
 <dl class="dl-horizontal col-lg-12">
-    {{#control/md-definition title="Process Step" }}
+    <Control::MdDefinition @title="Process Step">
         {{#each item.processStep as |step i|}}
           {{#if (lt i showLimit)}}
           <p>
@@ -16,7 +16,7 @@
         {{else}}
             <em class="text-muted">No process steps assigned.</em>
         {{/each}}
-    {{/control/md-definition}}
+    </Control::MdDefinition>
     {{#if item.processStep.length}}
       {{#if showMore}}
       <p class="text-right">

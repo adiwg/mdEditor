@@ -1,6 +1,6 @@
 <h4 class="section-header">
   Editing Keywords
-  {{control/md-status model=model}}
+  <Control::MdStatus @model={{model}} />
 </h4>
   <section>
     {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
@@ -15,16 +15,10 @@
           <h4 class="inline-block text-primary" code="">
             <strong>{{concat "Thesaurus #" index}}</strong>
           </h4>
-          {{input/md-select-thesaurus class="md-keywords-select"
-          recordProfile=model.profile
-          thesaurus=thesaurus
-          selectThesaurus=(route-action "selectThesaurus")
-          value=thesaurus.thesaurus.identifier.0.identifier
-          disabled=thesaurus.keyword.length }}
-          {{#control/md-button-confirm class="btn btn-sm btn-danger"
-            onConfirm=(route-action "deleteThesaurus" index)}}
+          <Input::MdSelectThesaurus @class="md-keywords-select" @recordProfile={{model.profile}} @thesaurus={{thesaurus}} @selectThesaurus={{route-action "selectThesaurus"}} @value={{thesaurus.thesaurus.identifier.0.identifier}} @disabled={{thesaurus.keyword.length}} />
+          <Control::MdButtonConfirm @class="btn btn-sm btn-danger" @onConfirm={{route-action "deleteThesaurus" index}}>
             {{fa-icon "times"}} Delete
-          {{/control/md-button-confirm}}
+          </Control::MdButtonConfirm>
         </div>
         <div id="thesaurus-{{index}}" class="md-keywords-body collapse in">
 
@@ -32,18 +26,10 @@
           <hr>
           <div class="row">
             <div class="md-keywords-thesaurus col-md-6 col-lg-7">
-              {{object/md-keyword-citation
-                model=thesaurus
-                profilePath="record.keywords.citation"
-              }}
+              <Object::MdKeywordCitation @model={{thesaurus}} @profilePath="record.keywords.citation" />
             </div>
             <div class="md-keywords-list col-md-6 col-lg-5">
-              {{object/md-keyword-list model=thesaurus listId=index
-                profilePath="record.keywords"
-                addKeyword=(route-action "addKeyword")
-                deleteKeyword=(route-action "deleteKeyword")
-                editThesaurus=(route-action "editThesaurus")
-              }}
+              <Object::MdKeywordList @model={{thesaurus}} @listId={{index}} @profilePath="record.keywords" @addKeyword={{route-action "addKeyword"}} @deleteKeyword={{route-action "deleteKeyword"}} @editThesaurus={{route-action "editThesaurus"}} />
             </div>
           </div>
         {{/with}}
@@ -59,15 +45,11 @@
 
   {{outlet}}
 
-  {{to-elsewhere
-    named="md-subbar-extra"
-    send=(component "control/md-button"
+  <ToElsewhere @named="md-subbar-extra" @send={{component "control/md-button"
     text="Add Thesaurus"
     icon="plus"
     class="btn-lg btn-success"
     click=(route-action "addThesaurus")
-    )
-  }}
+    }} />
 
-  {{to-elsewhere named="md-scroll-spy-record-edit"
-    send=(component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  <ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />

@@ -1,88 +1,24 @@
-{{input/md-input
-   value=model.stepId
-   model=null
-   valuePath=null
-   label="Step ID"
-   data-spy="Step ID"
-   placeholder="Enter an identifer for the step."
-   required=false
-   profilePath=(concat profilePath ".stepId")
- }}
+<Input::MdInput @value={{model.stepId}} @model={{null}} @valuePath={{null}} @label="Step ID" @data-spy="Step ID" @placeholder="Enter an identifer for the step." @required={{false}} @profilePath={{concat profilePath ".stepId"}} />
 
-{{input/md-textarea
-  value=model.description
-  required=true
-  profilePath=(concat profilePath ".description")
-  label="Description"
-  placeholder="Description of the process or methodology step."
-  data-spy="Step Description"
-  showValidations=true
-}}
+<Input::MdTextarea @value={{model.description}} @required={{true}} @profilePath={{concat profilePath ".description"}} @label="Description" @placeholder="Description of the process or methodology step." @data-spy="Step Description" @showValidations={{true}} />
 
-{{#object/md-array-table
-  columns="Description"
-  value=model.stepSource
-  title="Step Source"
-  templateClass=sourceTemplate
-  profilePath=(concat profilePath ".stepSource")
-  data-spy="Step Source" as |source|
-}}
+<Object::MdArrayTable @columns="Description" @value={{model.stepSource}} @title="Step Source" @templateClass={{sourceTemplate}} @profilePath={{concat profilePath ".stepSource"}} @data-spy="Step Source" as |source|>
   <td>
-    {{input/md-textarea
-      value=source.item.description
-      profilePath=(concat profilePath ".stepSource.description")
-      placeholder="Information about the source data used in the process step."
-    }}
+    <Input::MdTextarea @value={{source.item.description}} @profilePath={{concat profilePath ".stepSource.description"}} @placeholder="Information about the source data used in the process step." />
   </td>
-{{/object/md-array-table}}
+</Object::MdArrayTable>
 
-{{#object/md-array-table
-  columns="Description"
-  value=model.stepProduct
-  title="Step Product"
-  templateClass=sourceTemplate
-  profilePath=(concat profilePath ".stepProduct")
-  data-spy="Step Product" as |source|
-}}
+<Object::MdArrayTable @columns="Description" @value={{model.stepProduct}} @title="Step Product" @templateClass={{sourceTemplate}} @profilePath={{concat profilePath ".stepProduct"}} @data-spy="Step Product" as |source|>
   <td>
-    {{input/md-textarea
-      value=source.item.description
-      profilePath=(concat profilePath ".stepProduct.description")
-      placeholder="Information about an intermediate data set that (1) is significant in the opinion of the data producer, (2) is generated in the processing step, and (3) is used in later processing steps."
-    }}
+    <Input::MdTextarea @value={{source.item.description}} @profilePath={{concat profilePath ".stepProduct.description"}} @placeholder="Information about an intermediate data set that (1) is significant in the opinion of the data producer, (2) is generated in the processing step, and (3) is used in later processing steps." />
   </td>
-{{/object/md-array-table}}
+</Object::MdArrayTable>
 
-{{object/md-party-array
-  title="Processors"
-  data-spy="Processors"
-  class=(if embedded "md-embedded")
-  collapsible=true collapsed=false
-  required=false
-  value=model.processor
-  profilePath=(concat profilePath ".processor")
-}}
+<Object::MdPartyArray @title="Processors" @data-spy="Processors" @class={{if embedded "md-embedded"}} @collapsible={{true}} @collapsed={{false}} @required={{false}} @value={{model.processor}} @profilePath={{concat profilePath ".processor"}} />
 
-{{object/md-citation-array model=model.reference
-  profilePath=(concat profilePath ".stepReference") data-spy="Step Reference"
-  editItem=editCitation label="Step Reference"
-}}
+<Object::MdCitationArray @model={{model.reference}} @profilePath={{concat profilePath ".stepReference"}} @data-spy="Step Reference" @editItem={{editCitation}} @label="Step Reference" />
 
-{{object/md-time-period model=model.timePeriod
-  profilePath=(concat profilePath ".timePeriod") data-spy="Time Period"
-  label="Time Period"
-}}
+<Object::MdTimePeriod @model={{model.timePeriod}} @profilePath={{concat profilePath ".timePeriod"}} @data-spy="Time Period" @label="Time Period" />
 
-{{input/md-codelist
-  value=model.scope.scopeCode
-  label="Scope"
-  create=true
-  tooltip=true
-  icon=true
-  mdCodeName="scope"
-  closeOnSelect=false
-  placeholder="Select type of resource."
-  profilePath=(concat profilePath ".scope")
-  data-spy="Scope"
-}}
+<Input::MdCodelist @value={{model.scope.scopeCode}} @label="Scope" @create={{true}} @tooltip={{true}} @icon={{true}} @mdCodeName="scope" @closeOnSelect={{false}} @placeholder="Select type of resource." @profilePath={{concat profilePath ".scope"}} @data-spy="Scope" />
 {{yield}}

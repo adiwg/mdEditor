@@ -1,19 +1,7 @@
 <h4 class="section-header">
   Editing Domains
   <span class="small">for <em>{{model.title}}</em></span>
-  {{control/md-status model=model}}
+  <Control::MdStatus @model={{model}} />
 </h4>
 
-{{object/md-objectroute-table
-  items=model.json.dataDictionary.domain
-  header="Domain"
-  shadow=true
-  buttonText="Add Domain"
-  ellipsis=true
-  attributes="domainId,codeName,description"
-  editItem=(route-action "editDomain")
-  verticalButtons=true
-  profilePath="dictionary.domain"
-  hideIndex=false
-  condensed=false
-}}
+<Object::MdObjectrouteTable @items={{model.json.dataDictionary.domain}} @header="Domain" @shadow={{true}} @buttonText="Add Domain" @ellipsis={{true}} @attributes="domainId,codeName,description" @editItem={{route-action "editDomain"}} @verticalButtons={{true}} @profilePath="dictionary.domain" @hideIndex={{false}} @condensed={{false}} />

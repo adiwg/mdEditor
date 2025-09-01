@@ -1,67 +1,21 @@
-{{input/md-codelist
-  label="Frequency"
-  create=true
-  required=true
-  tooltip=true
-  icon=false
-  allowClear=true
-  showValidations=true
-  mdCodeName="maintenanceFrequency"
-  value=model.frequency
-  placeholder="Choose a value."
-  profilePath=(concat profilePath ".frequency")
-}}
+<Input::MdCodelist @label="Frequency" @create={{true}} @required={{true}} @tooltip={{true}} @icon={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="maintenanceFrequency" @value={{model.frequency}} @placeholder="Choose a value." @profilePath={{concat profilePath ".frequency"}} />
 
-{{#layout/md-card shadow=false profilePath=(concat profilePath ".dates")
-  data-spy="Dates"
-  class="md-embedded"
-}}
-  {{object/md-date-array
-    value=model.date
-    plain=true
-    data-spy=false
-    profilePath=(concat profilePath ".dates")
-  }}
-{{/layout/md-card}}
+<Layout::MdCard @shadow={{false}} @profilePath={{concat profilePath ".dates"}} @data-spy="Dates" @class="md-embedded">
+  <Object::MdDateArray @value={{model.date}} @plain={{true}} @data-spy={{false}} @profilePath={{concat profilePath ".dates"}} />
+</Layout::MdCard>
 
-{{#layout/md-card shadow=false profilePath=(concat profilePath ".contact")}}
-  {{object/md-party-array
-    title="Contact"
-    data-spy="Contacts"
-    collapsible=true collapsed=false
-    required=false
-    value=model.contact
-    class="md-embedded"
-    plain=true
-    profilePath=(concat profilePath ".contact")
-  }}
-{{/layout/md-card}}
+<Layout::MdCard @shadow={{false}} @profilePath={{concat profilePath ".contact"}}>
+  <Object::MdPartyArray @title="Contact" @data-spy="Contacts" @collapsible={{true}} @collapsed={{false}} @required={{false}} @value={{model.contact}} @class="md-embedded" @plain={{true}} @profilePath={{concat profilePath ".contact"}} />
+</Layout::MdCard>
 
-{{#layout/md-card shadow=false profilePath=(concat profilePath ".note")}}
-  {{#object/md-simple-array-table
-    title="Notes"
-    required=false
-    plain=true
-    class="md-embedded"
-    value=model.note as |val|
-  }}
+<Layout::MdCard @shadow={{false}} @profilePath={{concat profilePath ".note"}}>
+  <Object::MdSimpleArrayTable @title="Notes" @required={{false}} @plain={{true}} @class="md-embedded" @value={{model.note}} as |val|>
     <td>
-        {{input/md-textarea value=val.item.value
-        placeholder="Enter notes regarding the maintenance of the resource."}}
+        <Input::MdTextarea @value={{val.item.value}} @placeholder="Enter notes regarding the maintenance of the resource." />
     </td>
-  {{/object/md-simple-array-table}}
-{{/layout/md-card}}
+  </Object::MdSimpleArrayTable>
+</Layout::MdCard>
 
-{{input/md-codelist-multi
-  value=scopes
-  label="Scope"
-  create=true
-  tooltip=true
-  icon=true
-  mdCodeName="scope"
-  closeOnSelect=false
-  placeholder="Select type of resource."
-  profilePath=(concat profilePath ".scope")
-}}
+<Input::MdCodelistMulti @value={{scopes}} @label="Scope" @create={{true}} @tooltip={{true}} @icon={{true}} @mdCodeName="scope" @closeOnSelect={{false}} @placeholder="Select type of resource." @profilePath={{concat profilePath ".scope"}} />
 
 {{yield}}

@@ -1,79 +1,23 @@
-{{input/md-input
-  label="Medium Title"
-  value=model.mediumSpecification.title
-  placeholder="Name of the medium"
-  profilePath=(concat profilePath ".mediumTitle")
-}}
+<Input::MdInput @label="Medium Title" @value={{model.mediumSpecification.title}} @placeholder="Name of the medium" @profilePath={{concat profilePath ".mediumTitle"}} />
 
-{{#layout/md-card shadow=false
-  muted=false
-  profilePath=(concat profilePath ".storage")
-  plain=true}}
+<Layout::MdCard @shadow={{false}} @muted={{false}} @profilePath={{concat profilePath ".storage"}} @plain={{true}}>
 <div class="row">
   <label class="text-info col-md-2">Storage</label>
-  {{input/md-input
-    type="number"
-    value=model.density
-    step="0.01"
-    label="Density"
-    placeholder="Density at which the data are recorded."
-    profilePath=(concat profilePath ".storage.density")
-    class="col-md-3"
-  }}
+  <Input::MdInput @type="number" @value={{model.density}} @step="0.01" @label="Density" @placeholder="Density at which the data are recorded." @profilePath={{concat profilePath ".storage.density"}} @class="col-md-3" />
 
-  {{input/md-input
-    value=model.units
-    label="Density Units"
-    profilePath=(concat profilePath ".storage.units")
-    placeholder="Units of measure for the recording density."
-    class="col-md-3"
+  <Input::MdInput @value={{model.units}} @label="Density Units" @profilePath={{concat profilePath ".storage.units"}} @placeholder="Units of measure for the recording density." @class="col-md-3" />
 
-  }}
-
-  {{input/md-input
-    type="number"
-    value=model.numberOfVolumes
-    step="1"
-    label="Number Of Volumes"
-    placeholder="The number of volumes in the media resource."
-    profilePath=(concat profilePath ".storage.numberOfVolumes")
-    class="col-md-3"
-  }}
+  <Input::MdInput @type="number" @value={{model.numberOfVolumes}} @step="1" @label="Number Of Volumes" @placeholder="The number of volumes in the media resource." @profilePath={{concat profilePath ".storage.numberOfVolumes"}} @class="col-md-3" />
 </div>
 <div class="row">
-  {{input/md-codelist-multi
-    label="Storage Format"
-    value=model.mediumFormat
-    create=true
-    tooltip=true
-    icon=false
-    mdCodeName="mediumFormat"
-    closeOnSelect=false
-    placeholder="Method used to write to the medium."
-    class="col-md-10 col-md-offset-2"
-    profilePath=(concat profilePath ".storage.format")
-  }}
+  <Input::MdCodelistMulti @label="Storage Format" @value={{model.mediumFormat}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="mediumFormat" @closeOnSelect={{false}} @placeholder="Method used to write to the medium." @class="col-md-10 col-md-offset-2" @profilePath={{concat profilePath ".storage.format"}} />
 </div>
-{{/layout/md-card}}
+</Layout::MdCard>
 
-{{#layout/md-card shadow=false
-  muted=false
-  plain=true
-  profilePath=(concat profilePath ".identifier")
-}}
-  {{object/md-identifier
-    profilePath=(concat profilePath ".identifier")
-    short=true
-    model=model.identifier
-  }}
-{{/layout/md-card}}
+<Layout::MdCard @shadow={{false}} @muted={{false}} @plain={{true}} @profilePath={{concat profilePath ".identifier"}}>
+  <Object::MdIdentifier @profilePath={{concat profilePath ".identifier"}} @short={{true}} @model={{model.identifier}} />
+</Layout::MdCard>
 
-{{input/md-textarea
-  value=model.note
-  autoresize=false
-  placeholder="Describe other limitations or requirements for using the medium."
-  label="Note"
-  profilePath=(concat profilePath ".note")
-}}
+<Input::MdTextarea @value={{model.note}} @autoresize={{false}} @placeholder="Describe other limitations or requirements for using the medium." @label="Note" @profilePath={{concat profilePath ".note"}} />
 
 {{yield}}

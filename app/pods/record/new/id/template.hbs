@@ -22,12 +22,7 @@
             {{if (v-get model "json.metadata.resourceInfo.citation.title"
              "options.presence.presence") "required"}}">Record Title</label>
             <div class="">
-              {{input/md-input
-                valuePath="json.metadata.resourceInfo.citation.title"
-                model=model
-                profilePath="record.new.title"
-                placeholder="Enter a title for the record"
-              }}
+              <Input::MdInput @valuePath="json.metadata.resourceInfo.citation.title" @model={{model}} @profilePath="record.new.title" @placeholder="Enter a title for the record" />
             </div>
         </div>
         <div class="form-group clear">
@@ -35,12 +30,7 @@
             <div class="card">
             <div class="card-block">
 
-            {{object/md-resource-type-array
-              plain=true
-              value=model.json.metadata.resourceInfo.resourceType
-              required=true
-              profilePath="record.new"
-            }}
+            <Object::MdResourceTypeArray @plain={{true}} @value={{model.json.metadata.resourceInfo.resourceType}} @required={{true}} @profilePath="record.new" />
           </div>
           </div>
         </div>

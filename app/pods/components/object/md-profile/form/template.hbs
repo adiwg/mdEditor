@@ -1,17 +1,6 @@
-{{input/md-input
- model=record
- valuePath="uri"
- label="URL"
- placeholder="Enter URL of the profile."
- showValidations=true
-}}
+<Input::MdInput @model={{record}} @valuePath="uri" @label="URL" @placeholder="Enter URL of the profile." @showValidations={{true}} />
 
-{{input/md-input
- value=record.alias
- label="Alias"
- placeholder="Enter an alternative title."
- showValidations=true
-}}
+<Input::MdInput @value={{record.alias}} @label="Alias" @placeholder="Enter an alternative title." @showValidations={{true}} />
 
 <div class="form-group">
   <label class="">Version</label>
@@ -25,5 +14,5 @@
 
 <hr>
 
-{{object/md-profile/preview record=record}}
+<Object::MdProfile::Preview @record={{record}} />
 {{yield}}

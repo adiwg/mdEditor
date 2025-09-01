@@ -1,12 +1,4 @@
-{{#layout/md-card
-title=title
-collapsible=true
-collapsed=false
-profilePath="record.taxonomy"
-data-spy=(concat "Collection " index)
-shadow=true
-spotlightEnabled=false
-}}
+<Layout::MdCard @title={{title}} @collapsible={{true}} @collapsed={{false}} @profilePath="record.taxonomy" @data-spy={{concat "Collection " index}} @shadow={{true}} @spotlightEnabled={{false}}>
     <div class="card-buttons">
       <div class="row">
         <div class="col-sm-6">
@@ -20,19 +12,7 @@ spotlightEnabled=false
       </div>
     </div>
 
-    {{#layout/md-card
-      collapsible=true
-      collapsed=false
-      shadow=false
-      maximizable=false
-      spotlightEnabled=false
-      block=false
-      profilePath="record.taxonomy.classificationPreview"
-    }}
-      {{object/md-taxonomy/classification
-        model=model.taxonomicClassification
-        preview=true
-        profilePath="record.taxonomy.classificationPreview"
-      }}
-    {{/layout/md-card}}
-{{/layout/md-card}}
+    <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{false}} @maximizable={{false}} @spotlightEnabled={{false}} @block={{false}} @profilePath="record.taxonomy.classificationPreview">
+      <Object::MdTaxonomy::Classification @model={{model.taxonomicClassification}} @preview={{true}} @profilePath="record.taxonomy.classificationPreview" />
+    </Layout::MdCard>
+</Layout::MdCard>

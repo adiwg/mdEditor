@@ -4,7 +4,7 @@
       <h4 class="text-info">Document #{{index}}</h4>
     </dt>
     <dd></dd>
-    {{#control/md-definition title="Resource Type(s)" }}
+    <Control::MdDefinition @title="Resource Type(s)">
         {{#each model.resourceType as |type|}}
             {{type.type}}:
             {{#if type.name}}
@@ -16,8 +16,8 @@
             {{else}}
                 <em class="text-muted">No types assigned!</em>
         {{/each}}
-    {{/control/md-definition}}
+    </Control::MdDefinition>
   </dl>
 
-  {{object/md-citation/preview/body citation=(object-at 0 model.citation)}}
+  <Object::MdCitation::Preview::Body @citation={{object-at 0 model.citation}} />
 {{/with}}

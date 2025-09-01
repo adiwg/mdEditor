@@ -8,26 +8,20 @@
     </div> --}}
   </div>
   <div class="md-control-sidebar col-sm-2 hidden-print">
-    {{control/md-crud-buttons
-        model=model
-        doSave=(route-action "saveDictionary")
-        doCancel=(route-action "cancelDictionary")
-        doDelete=(route-action "destroyDictionary")
-        doCopy=(route-action "copyDictionary")
-    }}
+    <Control::MdCrudButtons @model={{model}} @doSave={{route-action "saveDictionary"}} @doCancel={{route-action "cancelDictionary"}} @doDelete={{route-action "destroyDictionary"}} @doCopy={{route-action "copyDictionary"}} />
     {{component subbar context=(route-action "getContext")}}
     <hr>
-    {{from-elsewhere name="md-subbar-extra"}}
+    <FromElsewhere @name="md-subbar-extra" />
 
-    {{#from-elsewhere name="md-scroll-spy-dict-edit" as |spy|}}
+    <FromElsewhere @name="md-scroll-spy-dict-edit" as |spy|>
         {{component spy offset=145}}
-    {{/from-elsewhere}}
+    </FromElsewhere>
     {{!-- {{control/md-scroll-spy offset=145 scrollInit=scrollTo}} --}}
   </div>
 </div>
 
-{{to-elsewhere named="dictionary-nav" send=(component "input/md-select-profile" value=model.profile record=model)}}
+<ToElsewhere @named="dictionary-nav" @send={{component "input/md-select-profile" value=model.profile record=model}} />
 
 {{#if model}}
-  {{to-elsewhere named="nav-secondary" send=(component "layout/md-nav-secondary" model=model)}}
+  <ToElsewhere @named="nav-secondary" @send={{component "layout/md-nav-secondary" model=model}} />
 {{/if}}

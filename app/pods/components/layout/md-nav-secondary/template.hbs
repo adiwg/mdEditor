@@ -1,25 +1,16 @@
 <ul id="md-navbar-secondary" class="nav nav-pills" role="navigation">
   {{#each sortedLinks as |link index|}}
     {{#if (and hasOverflow link.isOverflow)}}
-      {{to-elsewhere named="secondary-nav-menu"
-        send=(component "layout/md-nav-secondary/link"
+      <ToElsewhere @named="secondary-nav-menu" @send={{component "layout/md-nav-secondary/link"
           isStaticLinks=isStaticLinks
           link=link
           index=index
           model=model
           nav=this
           navWidth=navWidth
-        )
-      }}
+        }} />
     {{else}}
-      {{layout/md-nav-secondary/link
-        isStaticLinks=isStaticLinks
-        link=link
-        index=index
-        model=model
-        nav=this
-        navWidth=navWidth
-      }}
+      <Layout::MdNavSecondary::Link @isStaticLinks={{isStaticLinks}} @link={{link}} @index={{index}} @model={{model}} @nav={{this}} @navWidth={{navWidth}} />
     {{/if}}
   {{/each}}
 
@@ -27,7 +18,7 @@
     <li class="dropdown">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">More <span class="caret"></span></a>
       <ul class="dropdown-menu">
-        {{multiple-from-elsewhere name="secondary-nav-menu"}}
+        <MultipleFromElsewhere @name="secondary-nav-menu" />
       </ul>
     </li>
   {{/if}}

@@ -1,133 +1,30 @@
-{{#layout/md-card
-  collapsible=true
-  title="Image Quality Code"
-  collapsed=false
-  shadow=false
-  required=(v-get this "isInvalid")
-  profilePath=(concat profilePath ".imageQualityCode")
-  class="md-embedded"
-}}
-  {{object/md-identifier
-    model=model.imageQualityCode
-    profilePath=(concat profilePath ".imageQualityCode")
-    collapsed=true
-    collapsible=true
-    data-spy=false
-  }}
-{{/layout/md-card}}
+<Layout::MdCard @collapsible={{true}} @title="Image Quality Code" @collapsed={{false}} @shadow={{false}} @required={{v-get this "isInvalid"}} @profilePath={{concat profilePath ".imageQualityCode"}} @class="md-embedded">
+  <Object::MdIdentifier @model={{model.imageQualityCode}} @profilePath={{concat profilePath ".imageQualityCode"}} @collapsed={{true}} @collapsible={{true}} @data-spy={{false}} />
+</Layout::MdCard>
 
-{{#layout/md-wrap class="md-flex-col-275"}}
-  {{input/md-input
-    value=model.illuminationElevationAngle
-    type="number"
-    label="Illumination Elevation Angle"
-    infotip=true
-    data-spy="Illumination Elevation Angle"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Illumination elevation measured in degrees clockwise from the target plane at intersection of the optical line of sight
-    with the Earth’s surface. For images from a scanning device, refer to the centre pixel of the image."
-    profilePath=(concat profilePath ".illuminationElevationAngle")
-  }}
+<Layout::MdWrap @class="md-flex-col-275">
+  <Input::MdInput @value={{model.illuminationElevationAngle}} @type="number" @label="Illumination Elevation Angle" @infotip={{true}} @data-spy="Illumination Elevation Angle" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Illumination elevation measured in degrees clockwise from the target plane at intersection of the optical line of sight
+    with the Earth’s surface. For images from a scanning device, refer to the centre pixel of the image." @profilePath={{concat profilePath ".illuminationElevationAngle"}} />
 
-  {{input/md-input
-    value=model.illuminationAzimuthAngle
-    type="number"
-    label="Illumination Azimuth Angle"
-    infotip=true
-    data-spy="Illumination Azimuth Angle"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Illumination azimuth measured in degrees clockwise from true north at the time the image is taken. For images from a
-    scanning device, refer to the centre pixel of the image."
-    profilePath=(concat profilePath ".illuminationAzimuthAngle")
-  }}
+  <Input::MdInput @value={{model.illuminationAzimuthAngle}} @type="number" @label="Illumination Azimuth Angle" @infotip={{true}} @data-spy="Illumination Azimuth Angle" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Illumination azimuth measured in degrees clockwise from true north at the time the image is taken. For images from a
+    scanning device, refer to the centre pixel of the image." @profilePath={{concat profilePath ".illuminationAzimuthAngle"}} />
 
-  {{input/md-input
-    value=model.imagingCondition
-    label="Imaging Condition"
-    infotip=true
-    data-spy="Imaging condition"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Code which indicates conditions which may affect the image."
-    profilePath=(concat profilePath ".imagingCondition")
-  }}
+  <Input::MdInput @value={{model.imagingCondition}} @label="Imaging Condition" @infotip={{true}} @data-spy="Imaging condition" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Code which indicates conditions which may affect the image." @profilePath={{concat profilePath ".imagingCondition"}} />
 
-  {{input/md-input
-    value=model.cloudCoverPercent
-    type="number"
-    label="Cloud Cover Percent "
-    infotip=true
-    data-spy="Cloud Cover Percent"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Area of the dataset obscured by clouds, expressed as a percentage of the spatial extent."
-    profilePath=(concat profilePath ".cloudCoverPercent")
-  }}
+  <Input::MdInput @value={{model.cloudCoverPercent}} @type="number" @label="Cloud Cover Percent " @infotip={{true}} @data-spy="Cloud Cover Percent" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Area of the dataset obscured by clouds, expressed as a percentage of the spatial extent." @profilePath={{concat profilePath ".cloudCoverPercent"}} />
 
-  {{input/md-input
-    value=model.compressionQuantity
-    type="number"
-    label="Compression Quantity"
-    infotip=true
-    data-spy="Compression Quantity"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Count of the number of lossy compression cycles performed on the image."
-    profilePath=(concat profilePath ".compressionQuantity")
-  }}
+  <Input::MdInput @value={{model.compressionQuantity}} @type="number" @label="Compression Quantity" @infotip={{true}} @data-spy="Compression Quantity" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Count of the number of lossy compression cycles performed on the image." @profilePath={{concat profilePath ".compressionQuantity"}} />
 
-  {{input/md-input
-    value=model.triangulationIndicator
-    type="boolean"
-    label="Triangulation Indicator"
-    infotip=true
-    data-spy="Triangulation Indicator"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Indication of whether or not triangulation has been performed upon the image."
-    profilePath=(concat profilePath ".triangulationIndicator")
-  }}
+  <Input::MdInput @value={{model.triangulationIndicator}} @type="boolean" @label="Triangulation Indicator" @infotip={{true}} @data-spy="Triangulation Indicator" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Indication of whether or not triangulation has been performed upon the image." @profilePath={{concat profilePath ".triangulationIndicator"}} />
 
-  {{input/md-input
-    value=model.radiometricCalibrationAvailable
-    type="boolean"
-    label="Radiometric Calibration Available"
-    infotip=true
-    data-spy="Radiometric Calibration Available"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Indication of whether or not the radiometric calibration information for generating the radiometrically calibrated standard data product is available."
-    profilePath=(concat profilePath ".radiometricCalibrationAvailable")
-  }}
+  <Input::MdInput @value={{model.radiometricCalibrationAvailable}} @type="boolean" @label="Radiometric Calibration Available" @infotip={{true}} @data-spy="Radiometric Calibration Available" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Indication of whether or not the radiometric calibration information for generating the radiometrically calibrated standard data product is available." @profilePath={{concat profilePath ".radiometricCalibrationAvailable"}} />
 
-  {{input/md-input
-    value=model.cameraCalibrationAvailable
-    type="boolean"
-    label="Camera Calibration Available"
-    infotip=true
-    data-spy="Camera Calibration Available"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Indication of whether or not constants are available which allow for camera calibration corrections."
-    profilePath=(concat profilePath ".cameraCalibrationAvailable")
-  }}
+  <Input::MdInput @value={{model.cameraCalibrationAvailable}} @type="boolean" @label="Camera Calibration Available" @infotip={{true}} @data-spy="Camera Calibration Available" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Indication of whether or not constants are available which allow for camera calibration corrections." @profilePath={{concat profilePath ".cameraCalibrationAvailable"}} />
 
-  {{input/md-input
-    value=model.filmDistortionAvailable
-    type="boolean"
-    label="Film Distortion Available"
-    infotip=true
-    data-spy="Film Distortion Available"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Indication of whether or not Calibration Reseau information is available."
-    profilePath=(concat profilePath ".filmDistortionAvailable")
-  }}
+  <Input::MdInput @value={{model.filmDistortionAvailable}} @type="boolean" @label="Film Distortion Available" @infotip={{true}} @data-spy="Film Distortion Available" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Indication of whether or not Calibration Reseau information is available." @profilePath={{concat profilePath ".filmDistortionAvailable"}} />
 
-  {{input/md-input
-    value=model.lensDistortionAvailable
-    type="boolean"
-    label="Lens Distortion Available"
-    infotip=true
-    data-spy="Lens Distortion Available"
-    class="md-embedded col-lg-6 col-xxxl-4"
-    placeholder="Indication of whether or not lens aberration correction information is available."
-    profilePath=(concat profilePath ".lensDistortionAvailable")
-  }}
-{{/layout/md-wrap}}
+  <Input::MdInput @value={{model.lensDistortionAvailable}} @type="boolean" @label="Lens Distortion Available" @infotip={{true}} @data-spy="Lens Distortion Available" @class="md-embedded col-lg-6 col-xxxl-4" @placeholder="Indication of whether or not lens aberration correction information is available." @profilePath={{concat profilePath ".lensDistortionAvailable"}} />
+</Layout::MdWrap>
 
 {{! Need to get this to working properly. }}
 {{!-- {{#layout/md-wrap class="md-flex-col-275"}}

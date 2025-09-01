@@ -15,15 +15,7 @@
       </div>
     {{/if}}
   {{else}}
-    {{input/md-select
-      label=@section.meta.title
-      placeholder=@section.meta.title
-      showValidations=true
-      value=value
-      valuePath="id"
-      namePath="title"
-      objectArray=this.options
-    }}
+    <Input::MdSelect @label={{@section.meta.title}} @placeholder={{@section.meta.title}} @showValidations={{true}} @value={{value}} @valuePath="id" @namePath="title" @objectArray={{this.options}} />
     <div class="pouch-action-buttons">
       <button
         class="btn btn-md btn-warning"

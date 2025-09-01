@@ -25,7 +25,7 @@
 
     <div id={{panelId}} class="panel-collapse {{if collapsed "collapse" "in"}}">
       {{#if editing}}
-        {{#control/md-scroll-into-view}}
+        <Control::MdScrollIntoView>
           <div class="panel-body object-editor">
                 {{yield saveItem}}
                 <hr>
@@ -33,7 +33,7 @@
                     <span class="fa fa-check"></span> OK
                 </button>
           </div>
-        {{/control/md-scroll-into-view}}
+        </Control::MdScrollIntoView>
       {{else}}
         <div class="panel-body {{if condensed "condensed"}} {{if responsive "table-responsive"}}">
             {{! template-lint-disable table-groups }}
@@ -81,10 +81,9 @@
                               {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
                                   <span class="fa fa-times"></span> Delete
                               </button> --}}
-                              {{#control/md-button-confirm class=(concat "btn btn-" btnSize " btn-danger")
-                                onConfirm=(action "deleteItem" items index)}}
+                              <Control::MdButtonConfirm @class={{concat "btn btn-" btnSize " btn-danger"}} @onConfirm={{action "deleteItem" items index}}>
                                 <span class="fa fa-times"></span> Delete
-                              {{/control/md-button-confirm}}
+                              </Control::MdButtonConfirm>
 
                             </div>
 
@@ -99,9 +98,9 @@
                               {{#if item.validations.isInvalid}}
                               <span class="md-error">
                                 {{fa-icon "exclamation-circle" fixedWidth=true}}
-                                {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
+                                <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
                                 This item has errors.
-                                {{/ember-tooltip}}
+                                </EmberTooltip>
                               </span>
                               {{else}}
                               <span class="md-error">
@@ -138,23 +137,14 @@
     </div>
   </div>
 {{else}}
-  {{control/md-alert-table
-    title=header
-    required=required
-    addItem=(action "addItem")
-    target=items
-    tipMessage=alertTipMessage
-  }}
+  <Control::MdAlertTable @title={{header}} @required={{required}} @addItem={{action "addItem"}} @target={{items}} @tipMessage={{alertTipMessage}} />
 {{/unless}}
 
 {{#if addSubbar}}
-  {{to-elsewhere
-    named=addSubbar
-    send=(component "control/subbar-link"
+  <ToElsewhere @named={{addSubbar}} @send={{component "control/subbar-link"
     clickText=buttonText
     clickIcon="plus"
     clickType="success"
     click=(action "addItem")
-    )
-  }}
+    }} />
 {{/if}}

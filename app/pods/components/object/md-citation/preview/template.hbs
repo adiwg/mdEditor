@@ -1,10 +1,6 @@
-{{#layout/md-card title=title collapsible=true collapsed=false
-  profilePath=profilePath required=required muted=muted
-  spotlightEnabled=spotlightEnabled
-  btnText="Edit" btnClass="success" btnAction=(action editCitation (dasherize title)) btnIcon="pencil"
-}}
+<Layout::MdCard @title={{title}} @collapsible={{true}} @collapsed={{false}} @profilePath={{profilePath}} @required={{required}} @muted={{muted}} @spotlightEnabled={{spotlightEnabled}} @btnText="Edit" @btnClass="success" @btnAction={{action editCitation (dasherize title)}} @btnIcon="pencil">
 
-{{object/md-citation/preview/body citation=citation profilePath=profilePath}}
+<Object::MdCitation::Preview::Body @citation={{citation}} @profilePath={{profilePath}} />
 
 {{yield}}
 <div class="card-footer">
@@ -13,4 +9,4 @@
     {{fa-icon "pencil"}} Edit Citation
   </button>
 </div>
-{{/layout/md-card}}
+</Layout::MdCard>

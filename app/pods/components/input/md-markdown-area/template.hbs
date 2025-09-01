@@ -13,14 +13,6 @@
     </label>
 {{/if}}
 <div id={{concat "md-" elementId}} class={{if collapsed "collapse" "in"}}>
-  {{simple-mde
-    value=value
-    options=options
-    maxlength=maxlength
-    spellcheck=true
-    disabled=disabled
-    change=(if change change (action (mut value)))
-    currentEditor=editor
-  }}
+  <SimpleMde @value={{value}} @options={{options}} @maxlength={{maxlength}} @spellcheck={{true}} @disabled={{disabled}} @change={{if change change (action (mut value))}} @currentEditor={{editor}} />
 </div>
 {{yield}}

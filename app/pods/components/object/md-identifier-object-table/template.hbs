@@ -1,18 +1,6 @@
-{{#object/md-object-table
-  items=model
-  header=label
-  buttonText="Add Identifier"
-  ellipsis=ellipsis
-  templateClass=templateClass
-  attributes=attributes
- as |editing|
-}}
+<Object::MdObjectTable @items={{model}} @header={{label}} @buttonText="Add Identifier" @ellipsis={{ellipsis}} @templateClass={{templateClass}} @attributes={{attributes}} as |editing|>
 
-{{object/md-identifier
-  model=editing
-  short=short
-  profilePath=profilePath
-}}
+<Object::MdIdentifier @model={{editing}} @short={{short}} @profilePath={{profilePath}} />
 
 {{!-- {{input/md-input
   value=editing.identifier
@@ -50,4 +38,4 @@
   label="Description"
   placeholder="Enter a description of the identifier."
 }} --}}
-{{/object/md-object-table}}
+</Object::MdObjectTable>

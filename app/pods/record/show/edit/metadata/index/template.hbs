@@ -3,118 +3,52 @@
   <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
     <h4 class="section-header">
       Editing Metadata Information
-      {{control/md-status model=model}}
+      <Control::MdStatus @model={{model}} />
     </h4>
-    {{#layout/md-card title="Basic Information" collapsible=true collapsed=false
-      profilePath="record.metadata.basicInformation" data-spy="Basic Information"
-    }}
+    <Layout::MdCard @title="Basic Information" @collapsible={{true}} @collapsed={{false}} @profilePath="record.metadata.basicInformation" @data-spy="Basic Information">
 
-      {{input/md-codelist
-        value=metadata.metadataStatus label="Metadata Status"
-        create=true tooltip=true icon=false mdCodeName="progress"
-        placeholder="Select the current status"
-        profilePath="record.metadata.basicInformation.metadataStatus"
-        data-spy=false
-        class="md-embedded"
-      }}
+      <Input::MdCodelist @value={{metadata.metadataStatus}} @label="Metadata Status" @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="progress" @placeholder="Select the current status" @profilePath="record.metadata.basicInformation.metadataStatus" @data-spy={{false}} @class="md-embedded" />
 
-      {{#layout/md-card profilePath="record.metadata.basicInformation.metadataDates"
-        data-spy=false
-        shadow=false
-        class="md-embedded"
-      }}
-        {{object/md-date-array
-          value=metadata.metadataDate
-          plain=true
-          data-spy=false
-          profilePath="record.metadata.basicInformation.metadataDates"
-        }}
-      {{/layout/md-card}}
-    {{/layout/md-card}}
+      <Layout::MdCard @profilePath="record.metadata.basicInformation.metadataDates" @data-spy={{false}} @shadow={{false}} @class="md-embedded">
+        <Object::MdDateArray @value={{metadata.metadataDate}} @plain={{true}} @data-spy={{false}} @profilePath="record.metadata.basicInformation.metadataDates" />
+      </Layout::MdCard>
+    </Layout::MdCard>
 
-    {{object/md-party-array
-      title="Metadata Contact"
-      data-spy="Metadata Contacts"
-      collapsible=true collapsed=false
-      required=true
-      value=metadata.metadataContact
-      profilePath="record.metadata.metadataContacts"
-    }}
+    <Object::MdPartyArray @title="Metadata Contact" @data-spy="Metadata Contacts" @collapsible={{true}} @collapsed={{false}} @required={{true}} @value={{metadata.metadataContact}} @profilePath="record.metadata.metadataContacts" />
 
     {{#with model.json.metadata.metadataInfo.metadataIdentifier as |identifier|}}
-      {{#layout/md-card title="Metadata Identifier" collapsible=true collapsed=false
-        profilePath="record.metadata.metadataIdentifier" required=false
-        btnText="Edit" btnClass="success" btnAction=(route-action "editIdentifier") btnIcon="pencil"
-      }}
+      <Layout::MdCard @title="Metadata Identifier" @collapsible={{true}} @collapsed={{false}} @profilePath="record.metadata.metadataIdentifier" @required={{false}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "editIdentifier"}} @btnIcon="pencil">
       <div class="row">
         <dl class="dl-horizontal">
-          {{control/md-definition title="Identifier" text=identifier.identifier}}
+          <Control::MdDefinition @title="Identifier" @text={{identifier.identifier}} />
           {{!-- {{#control/md-definition title="Identifier"}}
           {{input/md-input value=identifier.identifier}}
           {{/control/md-definition}} --}}
-          {{control/md-definition title="Namespace" text=identifier.namespace}}
+          <Control::MdDefinition @title="Namespace" @text={{identifier.namespace}} />
         </dl>
       </div>
-      {{/layout/md-card}}
+      </Layout::MdCard>
     {{/with}}
 
-    {{object/md-citation/preview
-      profilePath="record.metadata.parentMetadata"
-      citation=metadata.parentMetadata
-      title="Parent Metadata"
-      muted=true
-      editCitation=(route-action "editParent")
-    }}
+    <Object::MdCitation::Preview @profilePath="record.metadata.parentMetadata" @citation={{metadata.parentMetadata}} @title="Parent Metadata" @muted={{true}} @editCitation={{route-action "editParent"}} />
 
-    {{object/md-repository-array
-      value=model.json.metadataRepository
-      data-spy="Metadata Repository"
-      profilePath="record.metadata.repositories"
-    }}
+    <Object::MdRepositoryArray @value={{model.json.metadataRepository}} @data-spy="Metadata Repository" @profilePath="record.metadata.repositories" />
 
-    {{object/md-online-resource-array
-      model=metadata.metadataOnlineResource
-      profilePath="record.metadata.onlineResource"
-      data-spy="Online Resources"
-    }}
+    <Object::MdOnlineResourceArray @model={{metadata.metadataOnlineResource}} @profilePath="record.metadata.onlineResource" @data-spy="Online Resources" />
 
-    {{#layout/md-card
-      title="Metadata Maintenance"
-      collapsible=true
-      content=metadata.metadataMaintenance
-      profilePath="record.metadata.maintenance"
-    }}
-      {{object/md-maintenance model=metadata.metadataMaintenance
-        profilePath="record.metadata.maintenance"
-      }}
-    {{/layout/md-card}}
+    <Layout::MdCard @title="Metadata Maintenance" @collapsible={{true}} @content={{metadata.metadataMaintenance}} @profilePath="record.metadata.maintenance">
+      <Object::MdMaintenance @model={{metadata.metadataMaintenance}} @profilePath="record.metadata.maintenance" />
+    </Layout::MdCard>
 
-    {{#layout/md-card
-      title="Default Metadata Locale"
-      shadow=true
-      data-spy="Default Locale"
-      profilePath="record.metadata.defaultLocale"
-      collapsible=true
-      content=metadata.defaultMetadataLocale
-    }}
-      {{object/md-locale
-        model=metadata.defaultMetadataLocale
-        profilePath="record.metadata.defaultLocale"
-      }}
-    {{/layout/md-card}}
+    <Layout::MdCard @title="Default Metadata Locale" @shadow={{true}} @data-spy="Default Locale" @profilePath="record.metadata.defaultLocale" @collapsible={{true}} @content={{metadata.defaultMetadataLocale}}>
+      <Object::MdLocale @model={{metadata.defaultMetadataLocale}} @profilePath="record.metadata.defaultLocale" />
+    </Layout::MdCard>
 
-    {{object/md-citation-array
-      model=metadata.alternateMetadataReference
-      profilePath="record.metadata.alternateMetadataReference"
-      data-spy="Alternate Metadata"
-      editItem=(route-action "editAlternate")
-      label="Alternate Metadata Reference"
-    }}
+    <Object::MdCitationArray @model={{metadata.alternateMetadataReference}} @profilePath="record.metadata.alternateMetadataReference" @data-spy="Alternate Metadata" @editItem={{route-action "editAlternate"}} @label="Alternate Metadata Reference" />
 
     {{outlet}}
   </form>
 </div>
 {{/with}}
 
-{{to-elsewhere named="md-scroll-spy-record-edit"
-  send=(component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />

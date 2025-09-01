@@ -5,25 +5,15 @@
     #{{domainId}}
   {{/if}}
   <span class="small">for <em>{{parentModel.title}}</em></span>
-  {{control/md-status model=parentModel}}
+  <Control::MdStatus @model={{parentModel}} />
 </h4>
 
-{{object/md-domain
-  class=""
-  model=model
-  profilePath="dictionary.domain"
-  editCitation=(route-action "editCitation")
-  editDomainItem=(route-action "editDomainItem")
-}}
+<Object::MdDomain @class="" @model={{model}} @profilePath="dictionary.domain" @editCitation={{route-action "editCitation"}} @editDomainItem={{route-action "editDomainItem"}} />
 
-{{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
+<ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link"
     text="Back to Domains"
     icon="arrow-left"
     route="dictionary.show.edit.domain.index"
-  )
-}}
+  }} />
 
-{{to-elsewhere named="md-scroll-spy-dict-edit"
-  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />

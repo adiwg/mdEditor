@@ -1,97 +1,29 @@
-{{#layout/md-card
-  collapsible=false
-  collapsed=false
-  profilePath=profilePath
-  data-spy=false
-  shadow=false
-}}
+<Layout::MdCard @collapsible={{false}} @collapsed={{false}} @profilePath={{profilePath}} @data-spy={{false}} @shadow={{false}}>
   <div class='row'>
     <div class='col-lg-6'>
-      {{input/md-input
-        type='number'
-        step='0.0001'
-        model=this
-        valuePath='north'
-        label='North'
-        placeholder='Enter north latitude.'
-        profilePath=(concat profilePath '.north')
-        showValidations=true
-      }}
-      {{input/md-input
-        type='number'
-        step='0.0001'
-        model=this
-        valuePath='east'
-        label='East'
-        placeholder='Enter east longitude.'
-        profilePath=(concat profilePath '.east')
-        showValidations=true
-      }}
+      <Input::MdInput @type="number" @step="0.0001" @model={{this}} @valuePath="north" @label="North" @placeholder="Enter north latitude." @profilePath={{concat profilePath ".north"}} @showValidations={{true}} />
+      <Input::MdInput @type="number" @step="0.0001" @model={{this}} @valuePath="east" @label="East" @placeholder="Enter east longitude." @profilePath={{concat profilePath ".east"}} @showValidations={{true}} />
     </div>
     <div class='col-lg-6'>
 
-      {{input/md-input
-        type='number'
-        step='0.0001'
-        model=this
-        valuePath='south'
-        label='South'
-        placeholder='Enter south latitude.'
-        profilePath=(concat profilePath '.south')
-        showValidations=true
-      }}
-      {{input/md-input
-        type='number'
-        step='0.0001'
-        model=this
-        valuePath='west'
-        label='West'
-        placeholder='Enter west longitude.'
-        profilePath=(concat profilePath '.west')
-        showValidations=true
-      }}
+      <Input::MdInput @type="number" @step="0.0001" @model={{this}} @valuePath="south" @label="South" @placeholder="Enter south latitude." @profilePath={{concat profilePath ".south"}} @showValidations={{true}} />
+      <Input::MdInput @type="number" @step="0.0001" @model={{this}} @valuePath="west" @label="West" @placeholder="Enter west longitude." @profilePath={{concat profilePath ".west"}} @showValidations={{true}} />
     </div>
   </div>
   <div class='row'>
     <div class='col-lg-6'>
-      {{input/md-input
-        type='number'
-        step='0.01'
-        model=this
-        valuePath='minimumAltitude'
-        label='Minimum Altitude'
-        placeholder='Enter minimum'
-        profilePath=(concat profilePath '.geographicExtent.minimumAltitude')
-        showValidations=true
-      }}
+      <Input::MdInput @type="number" @step="0.01" @model={{this}} @valuePath="minimumAltitude" @label="Minimum Altitude" @placeholder="Enter minimum" @profilePath={{concat profilePath ".geographicExtent.minimumAltitude"}} @showValidations={{true}} />
     </div>
     <div class='col-lg-6'>
-      {{input/md-input
-        type='number'
-        step='0.01'
-        model=this
-        valuePath='maximumAltitude'
-        label='Maximum Altitude'
-        placeholder='Enter maximum'
-        profilePath=(concat profilePath '.geographicExtent.maximumAltitude')
-        showValidations=true
-      }}
+      <Input::MdInput @type="number" @step="0.01" @model={{this}} @valuePath="maximumAltitude" @label="Maximum Altitude" @placeholder="Enter maximum" @profilePath={{concat profilePath ".geographicExtent.maximumAltitude"}} @showValidations={{true}} />
     </div>
   </div>
   <div class='row'>
     <div class='col-lg-12'>
-      {{input/md-input
-        type='text'
-        model=this
-        valuePath='unitsOfAltitude'
-        label='Units of Altitude'
-        placeholder='Enter units'
-        profilePath=(concat profilePath '.geographicExtent.unitsOfAltitude')
-        showValidations=true
-      }}
+      <Input::MdInput @type="text" @model={{this}} @valuePath="unitsOfAltitude" @label="Units of Altitude" @placeholder="Enter units" @profilePath={{concat profilePath ".geographicExtent.unitsOfAltitude"}} @showValidations={{true}} />
     </div>
   </div>
 
   {{yield}}
 
-{{/layout/md-card}}
+</Layout::MdCard>

@@ -1,21 +1,12 @@
 <h4 class="section-header">
   Editing Identifier: {{model.identifier}}
-  {{control/md-status model=parentModel}}
+  <Control::MdStatus @model={{parentModel}} />
 </h4>
 
 <div class="">
-  {{object/md-identifier
-    class=""
-    model=model
-    profilePath="dictionary.citation.identifier"
-    data-spy="Identifier"
-  }}
+  <Object::MdIdentifier @class="" @model={{model}} @profilePath="dictionary.citation.identifier" @data-spy="Identifier" />
   {{outlet}}
 </div>
 
-{{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link" text="Back to Citation" icon="arrow-left" route="dictionary.show.edit.citation")
-}}
-{{to-elsewhere named="md-scroll-spy-dict-edit"
-  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+<ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link" text="Back to Citation" icon="arrow-left" route="dictionary.show.edit.citation"}} />
+<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />

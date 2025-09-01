@@ -1,23 +1,14 @@
 <h4 class="section-header">Editing Reference
   <span class="small">for <em>{{model.title}}</em></span>
-  {{control/md-status model=model}}
+  <Control::MdStatus @model={{model}} />
 </h4>
 {{#let model as |citation|}}
-  {{object/md-citation
-    class=""
-    model=citation
-    profilePath="dictionary.entity.entityReference"
-    editIdentifier=(route-action "editIdentifier")
-  }}
+  <Object::MdCitation @class="" @model={{citation}} @profilePath="dictionary.entity.entityReference" @editIdentifier={{route-action "editIdentifier"}} />
   {{outlet}}
 {{/let}}
-{{to-elsewhere
-  named="md-subbar-extra"
-  send=(component "control/subbar-link"
+<ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link"
     text="Back to Entity"
     icon="arrow-left"
     click=(route-action "backToEntity")
-  )
-}}
-{{to-elsewhere named="md-scroll-spy-dict-edit"
-  send=(component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo"))}}
+  }} />
+<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />

@@ -38,45 +38,10 @@
                 {{#unless hideIndex}}
                 <td>{{index}}</td>
                 {{/unless}}
-                {{#layout/md-object-container
-                  title="Attribute Group"
-                  index=index
-                  profilePath=(concat profilePath ".attributeGroup")
-                  deleteItem=deleteAttrGroup
-                }}
-                  {{input/md-codelist-multi
-                    value=item.attributeContentType
-                    showValidations=true
-                    required=true
-                    create=true
-                    tooltip=true
-                    icon=false
-                    data-spy=false
-                    mdCodeName="coverageContentType"
-                    closeOnSelect=false
-                    placeholder="Specific type of information represented in the cell"
-                    label="Attribute Content Type"
-                    profilePath=(concat profilePath ".atttributeContentType")
-                  }}
-                  {{object/md-objectroute-table
-                    attributes="attributeDescription"
-                    items=item.attribute
-                    header="Attribute"
-                    shadow=false
-                    buttonText="Add Attribute"
-                    ellipsis=false
-                    previewTemplateTable="object/md-raster/attrgroup/attribute/preview"
-                    editItem=editAttribute
-                    profilePath=(concat profilePath ".attribute")
-                    verticalButtons=true
-                    hideIndex=false
-                    condensed=false
-                    editOnAdd=true
-                    data-spy=false
-                    routeParams=index
-                    scrollToId=(concat "md-raster-attrgroup-attribute-" index)
-                  }}
-                {{/layout/md-object-container}}
+                <Layout::MdObjectContainer @title="Attribute Group" @index={{index}} @profilePath={{concat profilePath ".attributeGroup"}} @deleteItem={{deleteAttrGroup}}>
+                  <Input::MdCodelistMulti @value={{item.attributeContentType}} @showValidations={{true}} @required={{true}} @create={{true}} @tooltip={{true}} @icon={{false}} @data-spy={{false}} @mdCodeName="coverageContentType" @closeOnSelect={{false}} @placeholder="Specific type of information represented in the cell" @label="Attribute Content Type" @profilePath={{concat profilePath ".atttributeContentType"}} />
+                  <Object::MdObjectrouteTable @attributes="attributeDescription" @items={{item.attribute}} @header="Attribute" @shadow={{false}} @buttonText="Add Attribute" @ellipsis={{false}} @previewTemplateTable="object/md-raster/attrgroup/attribute/preview" @editItem={{editAttribute}} @profilePath={{concat profilePath ".attribute"}} @verticalButtons={{true}} @hideIndex={{false}} @condensed={{false}} @editOnAdd={{true}} @data-spy={{false}} @routeParams={{index}} @scrollToId={{concat "md-raster-attrgroup-attribute-" index}} />
+                </Layout::MdObjectContainer>
               </tr>
               {{else}}
               <tr>
@@ -94,11 +59,5 @@
     </div>
 </div>
 {{else}}
-  {{control/md-alert-table
-    title=title
-    required=required
-    addItem=(action "addItem")
-    target=arrayValues
-    tipMessage=alertTipMessage
-  }}
+  <Control::MdAlertTable @title={{title}} @required={{required}} @addItem={{action "addItem"}} @target={{arrayValues}} @tipMessage={{alertTipMessage}} />
 {{/unless}}

@@ -1,29 +1,17 @@
 {{#if label}}<label>{{label}}</label>{{/if}}
 <div class={{if disabled "input-group"}}>
 
-{{input
-  value=value
-  placeholder=placeholder
-  required=required
-  type=type
-  maxlength=maxlength
-  class=inputClass
-  disabled=isDisabled
-  blur=(action "inputBlur")
-}}
+<Input @value={{value}} placeholder={{placeholder}} required={{required}} @type={{type}} @maxlength={{maxlength}} class={{inputClass}} @disabled={{isDisabled}} @blur={{action "inputBlur"}} />
   {{#if disabled}}
     <span class="input-group-btn">
-        {{#control/md-button-confirm
-          class="btn btn-warning"
-          onConfirm=(action "allowEdit")
-        }}
+        <Control::MdButtonConfirm @class="btn btn-warning" @onConfirm={{action "allowEdit"}}>
             {{fa-icon "pencil"}} Edit
             {{#if confirmTip}}
-              {{#ember-tooltip}}
+              <EmberTooltip>
                 {{confirmTip}}
-              {{/ember-tooltip}}
+              </EmberTooltip>
             {{/if}}
-        {{/control/md-button-confirm}}
+        </Control::MdButtonConfirm>
     </span>
   {{/if}}
 </div>

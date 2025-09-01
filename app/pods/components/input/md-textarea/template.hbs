@@ -8,7 +8,7 @@
     <label>{{label}}</label>
   {{/if}}
   {{#if showInfotip}}
-    {{control/md-infotip text=placeholder}}
+    <Control::MdInfotip @text={{placeholder}} />
   {{/if}}
 {{/if}}
 
@@ -32,22 +32,18 @@
       {{#if showErrorMessage}}
         <span class='md-error'>
           {{fa-icon 'exclamation-circle'}}
-          {{#ember-tooltip
-            side='right' tooltipClass='ember-tooltip md-tooltip danger'
-          }}
+          <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
             {{v-get model valuePath 'message'}}
-          {{/ember-tooltip}}
+          </EmberTooltip>
         </span>
       {{/if}}
 
       {{#if showWarningMessage}}
         <span class='md-warning'>
           {{fa-icon 'exclamation-triangle'}}
-          {{#ember-tooltip
-            side='right' tooltipClass='ember-tooltip md-tooltip warning'
-          }}
+          <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
             {{v-get model valuePath 'warningMessage'}}
-          {{/ember-tooltip}}
+          </EmberTooltip>
         </span>
       {{/if}}
     </span>

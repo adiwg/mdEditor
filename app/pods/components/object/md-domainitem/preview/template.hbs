@@ -1,27 +1,9 @@
 <td class="property">
-  {{input/md-input
-    model=this
-    valuePath="name"
-    placeholder="Descriptive name for the domain value."
-    profilePath=(concat profilePath ".domainItem.name")
-    showValidations=true
-  }}
+  <Input::MdInput @model={{this}} @valuePath="name" @placeholder="Descriptive name for the domain value." @profilePath={{concat profilePath ".domainItem.name"}} @showValidations={{true}} />
 </td>
 <td class="property">
-  {{input/md-input
-    model=this
-    valuePath="value"
-    placeholder="Value of the domain item."
-    profilePath=(concat profilePath ".domainItem.value")
-    showValidations=true
-  }}
+  <Input::MdInput @model={{this}} @valuePath="value" @placeholder="Value of the domain item." @profilePath={{concat profilePath ".domainItem.value"}} @showValidations={{true}} />
 </td>
 <td class="property">
-  {{input/md-input
-    model=this
-    valuePath="definition"
-    placeholder="A brief definition for the domain item."
-    profilePath=(concat profilePath ".domainItem.definition")
-    showValidations=true
-  }}
+  <Input::MdInput @model={{this}} @valuePath="definition" @placeholder="A brief definition for the domain item." @profilePath={{concat profilePath ".domainItem.definition"}} @showValidations={{true}} />
 </td>

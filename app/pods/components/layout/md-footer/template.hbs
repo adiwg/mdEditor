@@ -3,7 +3,7 @@
     href="https://github.com/adiwg/mdEditor/issues/new"
     target="_blank" rel="noopener noreferrer">{{fa-icon "github"}} Report Issue
 
-    {{ember-tooltip text="Report bugs, Request features - GitHub account required." side="top"}}
+    <EmberTooltip @text="Report bugs, Request features - GitHub account required." @side="top" />
   </a></span>
   <span>AutoSave:
       <span class={{if settings.data.autoSave "text-success" "text-warning"}}>

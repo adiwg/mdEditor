@@ -18,7 +18,7 @@
   {{#unless embedded}}
     <Input::MdInput @value={{model.edition}} @placeholder={{t "placeholders.citation.edition"}} @label="Edition" @profilePath={{concat profilePath ".basicInformation.edition"}} />
 
-    <Input::MdCodelistMulti @value={{model.presentationForm}} @label="Presentation Form" @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="presentationForm" @closeOnSelect={{false}} @placeholder="Select or enter one or more forms." @profilePath={{concat profilePath ".basicInformation.presentationForm"}} />
+    <Input::MdCodelistMulti @value={{model.presentationForm}} @label="Presentation Form" @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="presentationForm" @closeOnSelect={{false}} @placeholder={{t "placeholders.citation.presentationForm"}} @profilePath={{concat profilePath ".basicInformation.presentationForm"}} />
   {{/unless}}
 
 </Layout::MdCard>
@@ -38,9 +38,9 @@
   <Layout::MdCard @collapsible={{true}} @title="Series" @profilePath={{concat profilePath ".series"}} @data-spy={{if data-spy "Series"}} @content={{model.series}}>
     <Input::MdInput @value={{model.series.seriesName}} @placeholder={{t "placeholders.citation.seriesName"}} @label="Name" @profilePath={{concat profilePath ".series.name"}} />
 
-    <Input::MdInput @value={{model.series.seriesIssue}} @placeholder="Enter the issue for the series." @label="Issue" @profilePath={{concat profilePath ".series.issue"}} />
+    <Input::MdInput @value={{model.series.seriesIssue}} @placeholder={{t "placeholders.citation.seriesIssue"}} @label="Issue" @profilePath={{concat profilePath ".series.issue"}} />
 
-    <Input::MdInput @value={{model.series.issuePage}} @placeholder="Enter the page(s) for the issue." @label="Page" @profilePath={{concat profilePath ".series.page"}} />
+    <Input::MdInput @value={{model.series.issuePage}} @placeholder={{t "placeholders.citation.seriesPage"}} @label="Page" @profilePath={{concat profilePath ".series.page"}} />
   </Layout::MdCard>
 
   <Object::MdSimpleArrayTable @title="Other Details" @required={{false}} @plain={{false}} @data-spy={{if data-spy "Other Details"}} @profilePath={{concat profilePath ".otherCitationDetails"}} @value={{model.otherCitationDetails}} as |val|>

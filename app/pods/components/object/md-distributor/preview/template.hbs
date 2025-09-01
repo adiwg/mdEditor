@@ -6,7 +6,7 @@
         {{html-safe (if party.role party.role "<em>No Roles assigned.</em>")}}
         (
         {{#each party.party as |contact index|}}
-            {{if index ", "}} {{control/md-contact-link contactId=contact.contactId}}
+            {{if index ", "}} <Control::MdContactLink @contactId={{contact.contactId}} />
         {{else}}
             <em class="text-muted">No Contacts assigned.</em>
         {{/each}}

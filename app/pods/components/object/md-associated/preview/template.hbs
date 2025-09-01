@@ -6,30 +6,28 @@
     <dd></dd>
     <div class="row">
       <div class="col-xxl-6">
-        {{#control/md-definition title="Association Type" profilePath=(concat profilePath ".associationType")}}
+        <Control::MdDefinition @title="Association Type" @profilePath={{concat profilePath ".associationType"}}>
           {{model.associationType}}
           {{#if model.mdRecordId}}
             (<em>linked</em>)
           {{/if}}
-        {{/control/md-definition}}
+        </Control::MdDefinition>
       </div>
       <div class="col-xxl-6">
-        {{control/md-definition title="Initiative Type" text=model.initiativeType
-          profilePath=(concat profilePath ".initiativeType")
-        }}
+        <Control::MdDefinition @title="Initiative Type" @text={{model.initiativeType}} @profilePath={{concat profilePath ".initiativeType"}} />
       </div>
     </div>
   </dl>
 
-  {{object/md-citation/preview/body citation=citation profilePath=(concat profilePath ".resourceCitation")}}
+  <Object::MdCitation::Preview::Body @citation={{citation}} @profilePath={{concat profilePath ".resourceCitation"}} />
 
   <dl class="dl-horizontal col-lg-12">
-  {{#control/md-definition title="Metadata Identifier"}}
+  <Control::MdDefinition @title="Metadata Identifier">
     {{#with metadataIdentifier as |meta|}}
       {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
     {{else}}
       <em class="text-muted">No metadata identifier assigned.</em>
     {{/with}}
-  {{/control/md-definition}}
+  </Control::MdDefinition>
 </dl>
 {{/with}}

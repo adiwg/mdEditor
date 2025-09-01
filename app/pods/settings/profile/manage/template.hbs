@@ -32,20 +32,12 @@
 
       {{#liquid-if definition use="fade"}}
         {{#if definition.isNew}}
-          {{object/md-profile/form record=definition}}
+          <Object::MdProfile::Form @record={{definition}} />
         {{else if definition}}
-          {{object/md-profile record=definition}}
+          <Object::MdProfile @record={{definition}} />
         {{/if}}
       {{else}}
-        {{control/md-edit-table
-          data=model
-          dataColumns=columns
-          columnSets=columnSets
-          rowBodyComponent="object/md-profile/form"
-          pageSize=25
-          editRow=(action "editDefinition")
-          actionBadges=badges
-        }}
+        <Control::MdEditTable @data={{model}} @dataColumns={{columns}} @columnSets={{columnSets}} @rowBodyComponent="object/md-profile/form" @pageSize={{25}} @editRow={{action "editDefinition"}} @actionBadges={{badges}} />
       {{/liquid-if}}
     </div>
     <div role="tabpanel" class="tab-pane fade" id={{concat elementId "-core"}}>
@@ -58,7 +50,7 @@
             <h4 class="list-group-item-heading text-info-dark">{{core.title}}
               <hr>
             </h4>
-            {{object/md-profile/preview record=core class="list-group-item-text"}}
+            <Object::MdProfile::Preview @record={{core}} @class="list-group-item-text" />
           </div>
         {{/each}}
       </div>
@@ -67,56 +59,41 @@
 </div>
 
 {{#if definition}}
-  {{to-elsewhere
-    named="md-subbar-settings"
-    send=(component "control/md-button"
+  <ToElsewhere @named="md-subbar-settings" @send={{component "control/md-button"
     text=(if task.isRunning "Loading..." (if definition.isNew "Save Definition" "Update Definition"))
     icon=(if task.isRunning "spinner" "floppy-o")
     iconSpin=task.isRunning
     disabled=disableSave
     class="btn-success btn-lg"
     click=(action "saveDefinition")
-    )
-  }}
-    {{to-elsewhere
-    named="md-subbar-settings"
-    send=(component "control/md-button"
+    }} />
+    <ToElsewhere @named="md-subbar-settings" @send={{component "control/md-button"
     text=(if definition.isNew "Cancel" "Back")
     icon=(if definition.isNew "undo" "arrow-left")
     class=(if definition.isNew "btn-warning btn-lg" "btn-primary btn-lg")
     click=(action "cancelEdit")
-    )
-  }}
+    }} />
 {{else}}
-  {{to-elsewhere
-    named="md-subbar-settings"
-    send=(component "control/md-button"
+  <ToElsewhere @named="md-subbar-settings" @send={{component "control/md-button"
     text="Add Definition"
     icon="plus"
     class="btn-success btn-lg"
     click=(action "addDefinition")
     disabled=(if definition true)
-    )
-  }}
-  {{to-elsewhere
-    named="md-subbar-settings"
-    send=(component "control/md-button"
+    }} />
+  <ToElsewhere @named="md-subbar-settings" @send={{component "control/md-button"
     text=(if checkForUpdates.isRunning "Checking..." "Check for Updates")
     iconSpin=checkForUpdates.isRunning
     disabled=checkForUpdates.isRunning
     icon=(if checkForUpdates.isRunning "spinner" "check")
     class="btn-info btn-lg"
     click=(perform checkForUpdates)
-    )
-  }}
+    }} />
 
-  {{to-elsewhere
-    named="md-subbar-settings"
-    send=(component "control/md-button"
+  <ToElsewhere @named="md-subbar-settings" @send={{component "control/md-button"
     text= "Back to Profiles"
     icon="arrow-left"
     class="btn-primary btn-lg"
     click=(action "toProfile")
-    )
-  }}
+    }} />
 {{/if}}

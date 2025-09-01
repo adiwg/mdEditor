@@ -1,29 +1,20 @@
 <div class='row'>
   <dl class='dl-horizontal col-lg-12'>
-    {{control/md-definition
-      title='Title'
-      text=citation.title
-      profilePath=(concat profilePath '.basicInformation.title')
-    }}
+    <Control::MdDefinition @title="Title" @text={{citation.title}} @profilePath={{concat profilePath ".basicInformation.title"}} />
   </dl>
   <dl class='dl-horizontal col-lg-12'>
-    {{#control/md-definition
-      title='Alternate Titles'
-      profilePath=(concat profilePath '.basicInformation.alternateTitle')
-    }}
+    <Control::MdDefinition @title="Alternate Titles" @profilePath={{concat profilePath ".basicInformation.alternateTitle"}}>
       {{#each citation.alternateTitle as |title|}}
         {{title}}
         <br />
       {{else}}
         <em class='text-muted'>No alternate titles assigned.</em>
       {{/each}}
-    {{/control/md-definition}}
+    </Control::MdDefinition>
   </dl>
   <div class='clearfix'></div>
   <dl class='dl-horizontal col-lg-12'>
-    {{#control/md-definition
-      title='Dates' profilePath=(concat profilePath '.basicInformation.dates')
-    }}
+    <Control::MdDefinition @title="Dates" @profilePath={{concat profilePath ".basicInformation.dates"}}>
       {{#each citation.date as |date|}}
         {{moment-format date.date 'YYYY-MM-DD'}}
         ({{date.dateType}})
@@ -31,12 +22,10 @@
       {{else}}
         <em class='text-muted'>No dates assigned.</em>
       {{/each}}
-    {{/control/md-definition}}
+    </Control::MdDefinition>
   </dl>
   <dl class='dl-horizontal col-lg-12'>
-    {{#control/md-definition
-      title='Identifier' profilePath=(concat profilePath '.identifier')
-    }}
+    <Control::MdDefinition @title="Identifier" @profilePath={{concat profilePath ".identifier"}}>
       {{#each citation.identifier as |id|}}
         {{id.identifier}}
         {{if id.namespace (concat '(' id.namespace ')')}}
@@ -44,20 +33,17 @@
       {{else}}
         <em class='text-muted'>No identifiers assigned.</em>
       {{/each}}
-    {{/control/md-definition}}
+    </Control::MdDefinition>
   </dl>
   <div class='clearfix'></div>
   <dl class='dl-horizontal col-lg-12'>
-    {{#control/md-definition
-      title='Responsible Party'
-      profilePath=(concat profilePath '.responsibleParty')
-    }}
+    <Control::MdDefinition @title="Responsible Party" @profilePath={{concat profilePath ".responsibleParty"}}>
       {{#each citation.responsibleParty as |party|}}
         {{html-safe (if party.role party.role '<em>No Roles assigned.</em>')}}
         (
         {{#each party.party as |contact index|}}
           {{if index ', '}}
-          {{control/md-contact-link contactId=contact.contactId}}
+          <Control::MdContactLink @contactId={{contact.contactId}} />
         {{else}}
           <em class='text-muted'>No Contacts assigned.</em>
         {{/each}}
@@ -66,7 +52,7 @@
       {{else}}
         <em class='text-muted'>No responsibility assigned.</em>
       {{/each}}
-    {{/control/md-definition}}
+    </Control::MdDefinition>
   </dl>
   {{yield}}
 </div>

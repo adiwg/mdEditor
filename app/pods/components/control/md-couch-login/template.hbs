@@ -8,10 +8,10 @@
     <div class="couch-login-form">
       <div class="form">
         <h4 class="text-info">Login to CouchDB</h4>
-        {{input/md-input type="text" value=this.remoteUrl label="CouchDB URL"}}
-        {{input/md-input type="text" value=this.remoteName label="CouchDB Name"}}
-        {{input/md-input type="text" value=this.username label="Username"}}
-        {{input/md-input type="password" value=this.password label="Password"}}
+        <Input::MdInput @type="text" @value={{this.remoteUrl}} @label="CouchDB URL" />
+        <Input::MdInput @type="text" @value={{this.remoteName}} @label="CouchDB Name" />
+        <Input::MdInput @type="text" @value={{this.username}} @label="Username" />
+        <Input::MdInput @type="password" @value={{this.password}} @label="Password" />
         <button type="button"
           class="btn btn-lg btn-success"
           {{action "login"}}>Login</button>

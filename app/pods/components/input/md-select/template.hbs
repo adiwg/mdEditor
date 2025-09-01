@@ -31,10 +31,7 @@
             {{#if code.tooltip}}
             <span class="select-tip">
               <span class="badge tooltip">?
-                {{ember-tooltip
-                  text=code.tooltip
-                  side="right"
-                }}
+                <EmberTooltip @text={{code.tooltip}} @side="right" />
               </span>
             </span>
             {{/if}}
@@ -46,18 +43,18 @@
         {{#if showErrorMessage}}
           <span class="md-error">
             {{fa-icon "exclamation-circle"}}
-            {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip danger"}}
+            <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
                 {{v-get model path "message"}}
-            {{/ember-tooltip}}
+            </EmberTooltip>
           </span>
         {{/if}}
 
         {{#if showWarningMessage}}
           <span class="md-warning">
             {{fa-icon "exclamation-triangle"}}
-            {{#ember-tooltip side="right" tooltipClass="ember-tooltip md-tooltip warning"}}
+            <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
             {{v-get model path "warningMessage"}}
-            {{/ember-tooltip}}
+            </EmberTooltip>
           </span>
         {{/if}}
       </span>

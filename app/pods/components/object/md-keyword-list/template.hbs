@@ -11,18 +11,10 @@
       {{#each model.keyword as |keyword|}}
         <tr>
           <td>
-            {{input/md-input
-              value=keyword.keyword
-              placeholder="Keyword"
-              profilePath=(concat profilePath ".keyword.keyword")
-            }}
+            <Input::MdInput @value={{keyword.keyword}} @placeholder="Keyword" @profilePath={{concat profilePath ".keyword.keyword"}} />
           </td>
           <td>
-            {{input/md-input
-              value=keyword.identifier
-              placeholder="Unique identifier"
-              profilePath=(concat profilePath ".keyword.identifier")
-            }}
+            <Input::MdInput @value={{keyword.identifier}} @placeholder="Unique identifier" @profilePath={{concat profilePath ".keyword.identifier"}} />
           </td>
           <td>
             <div class="md-button-column">

@@ -5,18 +5,15 @@
 {{/if}}
 
 {{#if preview}}
-  {{control/md-json-viewer json=json modal=true close=(action "close")}}
+  <Control::MdJsonViewer @json={{json}} @modal={{true}} @close={{action "close"}} />
 {{/if}}
 
 {{#unless hideSlider}}
-  {{to-elsewhere
-    named="md-slider-json"
-    send=(hash
+  <ToElsewhere @named="md-slider-json" @send={{hash
       title=(concat "Viewing JSON for: " title)
       body=(component "control/md-json-viewer"
         modal=false
         json=json
       )
-    )
-  }}
+    }} />
 {{/unless}}

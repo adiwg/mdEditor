@@ -36,11 +36,9 @@
                             {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
                                 <span class="fa fa-times"></span> Delete
                             </button> --}}
-                            {{#control/md-button-confirm class="btn btn-xs btn-danger"
-                              disabled=(if simple (if item.value null "disabled"))
-                              onConfirm=(action "deleteItem" value index)}}
+                            <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @disabled={{if simple (if item.value  "disabled")}} @onConfirm={{action "deleteItem" value index}}>
                               <span class="fa fa-times"></span> Delete
-                            {{/control/md-button-confirm}}
+                            </Control::MdButtonConfirm>
                         </div>
                     </td>
                 </tr>
@@ -104,11 +102,9 @@
                                           {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
                                               <span class="fa fa-times"></span> Delete
                                           </button> --}}
-                                          {{#control/md-button-confirm class="btn btn-xs btn-danger"
-                                            disabled=(if simple (if item.value null "disabled"))
-                                            onConfirm=(action "deleteItem" item index)}}
+                                          <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @disabled={{if simple (if item.value  "disabled")}} @onConfirm={{action "deleteItem" item index}}>
                                             <span class="fa fa-times"></span> Delete
-                                          {{/control/md-button-confirm}}
+                                          </Control::MdButtonConfirm>
                                       </div>
                                   </td>
                               </tr>
@@ -130,11 +126,5 @@
       </div>
   {{/if}}
 {{else}}
-  {{control/md-alert-table
-    title=title
-    required=required
-    addItem=(action "addItem")
-    target=arrayValues
-    tipMessage=alertTipMessage
-  }}
+  <Control::MdAlertTable @title={{title}} @required={{required}} @addItem={{action "addItem"}} @target={{arrayValues}} @tipMessage={{alertTipMessage}} />
 {{/unless}}

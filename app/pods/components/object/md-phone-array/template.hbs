@@ -1,28 +1,11 @@
-{{#object/md-array-table
-  columns="Name,Number,Services"
-  title="Phone"
-  value=value
-  validation=validation
-  data-spy=null
-  templateClass=templateClass as |phone|
-}}
+<Object::MdArrayTable @columns="Name,Number,Services" @title="Phone" @value={{value}} @validation={{validation}} @data-spy={{null}} @templateClass={{templateClass}} as |phone|>
   <td>
-      {{input/md-input value=phone.item.phoneName
-      placeholder="Name or location or phone"}}
+      <Input::MdInput @value={{phone.item.phoneName}} @placeholder="Name or location or phone" />
   </td>
   <td>
-      {{input/md-input valuePath="phoneNumber" model=phone.item
-      showValidations=true
-      placeholder="Phone number"}}
+      <Input::MdInput @valuePath="phoneNumber" @model={{phone.item}} @showValidations={{true}} @placeholder="Phone number" />
   </td>
   <td>
-    {{input/md-codelist-multi
-      create=true
-      tooltip=true
-      icon=false
-      disabled=disabled
-      allowClear=true
-      mdCodeName="telephone"
-      value=phone.item.service placeholder="Choose phone type" }}
+    <Input::MdCodelistMulti @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @allowClear={{true}} @mdCodeName="telephone" @value={{phone.item.service}} @placeholder="Choose phone type" />
   </td>
-{{/object/md-array-table}}
+</Object::MdArrayTable>

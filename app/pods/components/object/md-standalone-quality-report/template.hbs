@@ -1,42 +1,18 @@
-{{#layout/md-card
-  title='Standalone Report'
-  collapsible=true
-  collapsed=false
-  profilePath='record.dataquality.standalonequalityreport'
-  data-spy='Standalone Report'
-  spotlightEnabled=false
-  deleteAction=(action 'deleteStandaloneQualityReport')
-}}
+<Layout::MdCard @title="Standalone Report" @collapsible={{true}} @collapsed={{false}} @profilePath="record.dataquality.standalonequalityreport" @data-spy="Standalone Report" @spotlightEnabled={{false}} @deleteAction={{action "deleteStandaloneQualityReport"}}>
   <div class='row'>
     <div class='col-lg-12'>
       <form>
         <div class='form-group'>
-          {{input/md-textarea
-            required=true
-            label='Abstract'
-            value=model.abstract
-            placeholder='Abstract for the associated standalone quality report.'
-          }}
+          <Input::MdTextarea @required={{true}} @label="Abstract" @value={{model.abstract}} @placeholder="Abstract for the associated standalone quality report." />
         </div>
       </form>
     </div>
   </div>
 
   {{#if model.reportReference}}
-    {{#layout/md-card
-      title='Report Reference'
-      required=true
-      collapsible=true
-      collapsed=false
-      spotlightEnabled=false
-      deleteAction=(action 'deleteReportReference')
-    }}
-      {{object/md-citation
-        model=model.reportReference
-        profilePath='record.dataquality.reportReference'
-        simpleIdentifier=true
-      }}
-    {{/layout/md-card}}
+    <Layout::MdCard @title="Report Reference" @required={{true}} @collapsible={{true}} @collapsed={{false}} @spotlightEnabled={{false}} @deleteAction={{action "deleteReportReference"}}>
+      <Object::MdCitation @model={{model.reportReference}} @profilePath="record.dataquality.reportReference" @simpleIdentifier={{true}} />
+    </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
       <div
@@ -57,4 +33,4 @@
       </div>
     </div>
   {{/if}}
-{{/layout/md-card}}
+</Layout::MdCard>

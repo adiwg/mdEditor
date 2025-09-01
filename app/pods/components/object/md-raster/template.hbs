@@ -1,63 +1,14 @@
-{{#layout/md-card}}
-  {{input/md-input
-    label="Name"
-    data-spy="Name"
-    value=model.coverageName
-    placeholder="The name(title) of the raster."
-    profilePath=(concat profilePath ".coverageName")
-    showValidations=true
-  }}
-  {{input/md-textarea
-    label="Description"
-    data-spy="Description"
-    value=model.coverageDescription
-    placeholder="A description of the raster"
-    profilePath=(concat profilePath ".coverageDescription")
-    showValidations=true
-  }}
-{{/layout/md-card}}
+<Layout::MdCard>
+  <Input::MdInput @label="Name" @data-spy="Name" @value={{model.coverageName}} @placeholder="The name(title) of the raster." @profilePath={{concat profilePath ".coverageName"}} @showValidations={{true}} />
+  <Input::MdTextarea @label="Description" @data-spy="Description" @value={{model.coverageDescription}} @placeholder="A description of the raster" @profilePath={{concat profilePath ".coverageDescription"}} @showValidations={{true}} />
+</Layout::MdCard>
 
-{{object/md-raster/attrgroup
-  hideIndex=true
-  value=model.attributeGroup
-  title="Attribute Groups"
-  editAttribute=editAttribute
-  deleteAttrGroup=deleteAttrGroup
-  data-spy=false
-  addAttrGroup=addAttrGroup
-  collapsible=true
-  collapsed=false
-  profilePath=(concat profilePath ".attributeGroup")
-}}
+<Object::MdRaster::Attrgroup @hideIndex={{true}} @value={{model.attributeGroup}} @title="Attribute Groups" @editAttribute={{editAttribute}} @deleteAttrGroup={{deleteAttrGroup}} @data-spy={{false}} @addAttrGroup={{addAttrGroup}} @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".attributeGroup"}} />
 
-{{#layout/md-card
-  collapsible=true
-  title="Processing Level Code"
-  collapsed=false
-  shadow=true
-  profilePath=(concat profilePath ".processingLevelCode")
-}}
-  {{object/md-identifier
-    model=model.processingLevelCode
-    profilePath=(concat profilePath ".processingLevelCode")
-    collapsed=true
-    collapsible=true
-    data-spy=false
-  }}
-{{/layout/md-card}}
+<Layout::MdCard @collapsible={{true}} @title="Processing Level Code" @collapsed={{false}} @shadow={{true}} @profilePath={{concat profilePath ".processingLevelCode"}}>
+  <Object::MdIdentifier @model={{model.processingLevelCode}} @profilePath={{concat profilePath ".processingLevelCode"}} @collapsed={{true}} @collapsible={{true}} @data-spy={{false}} />
+</Layout::MdCard>
 
-{{#layout/md-card
-  collapsible=true
-  title="Image Description"
-  collapsed=false
-  shadow=true
-  profilePath=(concat profilePath ".imageDescription")
-}}
-  {{object/md-raster/image-desc
-    model=model.imageDescription
-    profilePath=(concat profilePath ".imageDescription")
-    data-spy=false
-    collapsed=true
-    collapsible=true
-  }}
-{{/layout/md-card}}
+<Layout::MdCard @collapsible={{true}} @title="Image Description" @collapsed={{false}} @shadow={{true}} @profilePath={{concat profilePath ".imageDescription"}}>
+  <Object::MdRaster::ImageDesc @model={{model.imageDescription}} @profilePath={{concat profilePath ".imageDescription"}} @data-spy={{false}} @collapsed={{true}} @collapsible={{true}} />
+</Layout::MdCard>

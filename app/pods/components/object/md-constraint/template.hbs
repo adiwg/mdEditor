@@ -23,8 +23,8 @@
 </Layout::MdCard>
 
 <Layout::MdCard @title="Security" @collapsible={{true}} @collapsed={{true}} @required={{securityRequired}} @profilePath={{concat profilePath ".security"}} @data-spy={{false}} @shadow={{true}}>
-  <Input::MdCodelist @label="Classification" @mdCodeName="classification" @showValidations={{true}} @model={{this}} @path="classification" @placeholder="Name of the handling restrictions on the resource or metadata." @profilePath={{concat profilePath ".security.classification"}} />
-  <Input::MdInput @value={{model.security.classificationSystem}} @label="Classification System Name" @placeholder="Enter name of the classification system." @profilePath={{concat profilePath ".security.classificationSystem"}} />
+  <Input::MdCodelist @label="Classification" @mdCodeName="classification" @showValidations={{true}} @model={{this}} @path="classification" @placeholder={{t "placeholders.constraint.classification"}} @profilePath={{concat profilePath ".security.classification"}} />
+  <Input::MdInput @value={{model.security.classificationSystem}} @label="Classification System Name" @placeholder={{t "placeholders.constraint.classificationSystem"}} @profilePath={{concat profilePath ".security.classificationSystem"}} />
   <Input::MdTextarea @value={{model.security.userNote}} @placeholder="Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource." @label="Note" @profilePath={{concat profilePath ".security.note"}} />
   <Input::MdTextarea @value={{model.security.handlingDescription}} @placeholder="Enter additional information about the restrictions on handling the resource." @label="Handling Description" @profilePath={{concat profilePath ".security.handlingDescription"}} />
 </Layout::MdCard>

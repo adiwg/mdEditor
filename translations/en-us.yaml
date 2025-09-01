@@ -3,6 +3,8 @@ placeholders:
   constraint:
     useLimitation: "Describe Limitation affecting the fitness for use of the resource or metadata. For example, 'not to be used for navigation'."
     type: "The type of constraint."
+    classification: "Name of the handling restrictions on the resource or metadata."
+    classificationSystem: "Enter name of the classification system."
   taxonomy:
     generalScope: "Description of the range of taxa addressed in the data set or collection. For example, 'all vascular plants were identified to family or species.'"
     procedure: "Description of the methods used for taxonomic identification. Could include specimen processing, comparison with museum materials, keys, chemical or genetic analyses, etc."
@@ -15,6 +17,8 @@ placeholders:
     id: "User assigned Contact ID"
     positionName: "Position Name"
     instructions: "Supplemental Contact Instructions"
+  settings:
+    clearStorageMessage: "<h4 class='text-danger'><span class='fa fa-exclamation-circle'></span> <strong>Are you sure?</strong></h4> Clicking <strong class='text-danger'>Confirm</strong> will delete ALL records in your browser cache. Have you made a backup?"
   entity:
     identifier: "Enter the identifier for the entity."
     codeName: "Enter the name used to refer to the entity in schema definitions or application software."
@@ -23,3 +27,13 @@ placeholders:
     title: "Enter the title for the resource."
     edition: "Enter the edition."
     seriesName: "Enter the name for the series."
+    seriesIssue: "Enter the issue for the series."
+    seriesPage: "Enter the page(s) for the issue."
+    presentationForm: "Select or enter one or more forms."
+  address:
+    city: "City Name"
+    state: "State or Province"  
+    postalCode: "Zip or Postal Code"
+    country: "Country Name"
+    description: "Address description"
+
