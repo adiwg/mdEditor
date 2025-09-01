@@ -1,14 +1,14 @@
-{{#let model.json.dataDictionary as |resource|}}
+{{#let this.model.json.dataDictionary as |resource|}}
   <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
     <h4 class="section-header">
-      Editing <em>{{model.title}}</em>
-      <Control::MdStatus @model={{model}} />
+      Editing <em>{{this.model.title}}</em>
+      <Control::MdStatus @model={{this.model}} />
     </h4>
     <Layout::MdCard @title="Basic Information" @collapsible={{true}} @collapsed={{false}} @profilePath="dictionary.main.basicInformation" @data-spy="Basic Information" @required={{true}}>
-      <Input::MdInput @value={{model.title}} @placeholder="Enter the title for the dictionary." @label="Title" @required={{true}} @profilePath="dictionary.main.basicInformation.title" @data-spy="Title" @class="md-embedded" />
+      <Input::MdInput @value={{this.model.title}} @placeholder="Enter the title for the dictionary." @label="Title" @required={{true}} @profilePath="dictionary.main.basicInformation.title" @data-spy="Title" @class="md-embedded" />
 
       {{#if (is-array resource.subject)}}
-        <Input::MdCodelistMulti @create={{true}} @label="Subject" @tooltip={{true}} @icon={{true}} @disabled={{disabled}} @allowClear={{true}} @mdCodeName="scope" @showValidations={{true}} @model={{model}} @path="json.dataDictionary.subject" @placeholder="Choose type(s) of resource" @profilePath="dictionary.main.basicInformation.subject" @data-spy="Subject" @class="md-embedded" />
+        <Input::MdCodelistMulti @create={{true}} @label="Subject" @tooltip={{true}} @icon={{true}} @disabled={{this.disabled}} @allowClear={{true}} @mdCodeName="scope" @showValidations={{true}} @model={{this.model}} @path="json.dataDictionary.subject" @placeholder="Choose type(s) of resource" @profilePath="dictionary.main.basicInformation.subject" @data-spy="Subject" @class="md-embedded" />
       {{/if}}
 
       <Layout::MdCard @title="Responsible Party" @class="md-embedded" @required={{true}} @collapsible={{false}} @collapsed={{false}} @profilePath="dictionary.main.basicInformation.responsibleParty" @data-spy="Responsible Party" @shadow={{false}}>
@@ -34,4 +34,4 @@
   </form>
 {{/let}}
 
-<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

@@ -1,12 +1,12 @@
 <h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">
-  Editing Metadata Identifier: {{model.identifier}}
-  <Control::MdStatus @model={{parentModel}} />
+  Editing Metadata Identifier: {{this.model.identifier}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
 <div class="row">
-  <Object::MdIdentifier @class="col-xxl-11 col-xxxl-10 col-xxl-offset-1" @model={{model}} @profilePath="record.metadata.metadataIdentifier" @confirmIdentifier={{true}} @data-spy="Metadata Identifier" />
+  <Object::MdIdentifier @class="col-xxl-11 col-xxxl-10 col-xxl-offset-1" @model={{this.model}} @profilePath="record.metadata.metadataIdentifier" @confirmIdentifier={{true}} @data-spy="Metadata Identifier" />
   {{outlet}}
 </div>
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link" text="Back to Metadata" icon="arrow-left" route="record.show.edit.metadata"}} />
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

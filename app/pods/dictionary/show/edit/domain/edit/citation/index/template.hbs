@@ -1,8 +1,8 @@
 <h4 class="section-header">Editing Reference
-  <span class="small">for Domain <em>{{model.codeName}}</em></span>
-  <Control::MdStatus @model={{parentModel}} />
+  <span class="small">for Domain <em>{{this.model.codeName}}</em></span>
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
-{{#let model.domainReference as |citation|}}
+{{#let this.model.domainReference as |citation|}}
   <Object::MdCitation @class="" @model={{citation}} @profilePath="dictionary.domain.domainReference" @simpleIdentifier={{false}} @editIdentifier={{route-action "editIdentifier"}} />
   {{outlet}}
 {{/let}}
@@ -12,4 +12,4 @@
     type="primary"
     click=(route-action "backToDomain")
   }} />
-<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

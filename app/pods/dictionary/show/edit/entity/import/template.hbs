@@ -1,5 +1,5 @@
 <h3 class="section-header">Generate Entity from CSV</h3>
-{{#unless processed}}
+{{#unless this.processed}}
   <Control::MdImportCsv @beforeFirstChunk={{route-action "processData"}} @processChunk={{route-action "reduceData"}} @processComplete={{route-action "processComplete"}} />
   <ToElsewhere @named="md-subbar-extra" @send={{component "control/md-button"
       text="Back to Entity"
@@ -9,11 +9,11 @@
     }} />
   {{else}}
     <form class="form">
-      <Input::MdInput @value={{entity.entityId}} @placeholder="Enter the identifier for the entity." @label="Entity Identifier" @data-spy="Identifier" />
+      <Input::MdInput @value={{this.entity.entityId}} @placeholder="Enter the identifier for the entity." @label="Entity Identifier" @data-spy="Identifier" />
 
-      <Input::MdInput @value={{entity.codeName}} @required={{true}} @placeholder="Enter the name used to refer to the entity in schema definitions or application software." @label="Entity Code Name" @data-spy="Code Name" />
+      <Input::MdInput @value={{this.entity.codeName}} @required={{true}} @placeholder="Enter the name used to refer to the entity in schema definitions or application software." @label="Entity Code Name" @data-spy="Code Name" />
 
-      <Input::MdTextarea @value={{entity.definition}} @required={{true}} @autoresize={{true}} @placeholder="A brief description of the entity." @label="Entity Definition" @data-spy="Definition" />
+      <Input::MdTextarea @value={{this.entity.definition}} @required={{true}} @autoresize={{true}} @placeholder="A brief description of the entity." @label="Entity Definition" @data-spy="Definition" />
     </form>
     <Layout::MdCard @title="Setup" @titleIcon="gear" @collapsible={{false}} @collapsed={{false}} @data-spy="Setup" @shadow={{true}}>
       <div class="md-table md-table-checkbox">
@@ -31,7 +31,7 @@
               </tr>
             </thead>
             <tbody>
-              {{#each-in columns as |col row|}}
+              {{#each-in this.columns as |col row|}}
                 <tr>
                   <td><Input @type="checkbox" @name="import" @checked={{row.import}} /></td>
                   <td class="text-nowrap">
@@ -81,7 +81,7 @@
       </Layout::MdCard>
   {{/unless}}
 
-{{#if processed}}
+{{#if this.processed}}
   <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-importcsv"
       doImport=(route-action "doImport")
       cancelImport=(route-action "cancelImport")

@@ -1,8 +1,8 @@
 <h4 class="section-header">
   Editing Spatial Information
-  <Control::MdStatus @model={{model}} />
+  <Control::MdStatus @model={{this.model}} />
 </h4>
 
-{{#with model.json.metadata.resourceInfo as |resourceInfo|}}
-  <Object::MdSpatialInfo @model={{resourceInfo}} @profilePath="record.spatial" @parentModel={{model}} />
+{{#with this.model.json.metadata.resourceInfo as |resourceInfo|}}
+  <Object::MdSpatialInfo @model={{resourceInfo}} @profilePath="record.spatial" @parentModel={{this.model}} />
 {{/with}}

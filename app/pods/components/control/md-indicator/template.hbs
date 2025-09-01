@@ -1,14 +1,14 @@
-{{fa-icon icon fixedWidth=true}}
+{{fa-icon this.icon fixedWidth=true}}
 
-<EmberPopover @popoverHideDelay={{popoverHideDelay}} @popperContainer={{popperContainer}} @tooltipClass={{concat "md-tooltip " type}} @event={{event}}>
-  {{#if title}}
+<EmberPopover @popoverHideDelay={{this.popoverHideDelay}} @popperContainer={{this.popperContainer}} @tooltipClass={{concat "md-tooltip " this.type}} @event={{this.event}}>
+  {{#if this.title}}
     <h4 class="title">
-      {{#if icon}}
-        {{fa-icon icon}}
+      {{#if this.icon}}
+        {{fa-icon this.icon}}
       {{/if}}
-      {{title}}
+      {{this.title}}
     </h4>
   {{/if}}
-  <span>{{interpolated}}</span>
+  <span>{{this.interpolated}}</span>
   {{yield}}
 </EmberPopover>

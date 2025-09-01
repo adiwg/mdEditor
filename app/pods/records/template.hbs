@@ -1,7 +1,7 @@
 <h3 class="text-info">{{fa-icon "file-text"}} Metadata Records</h3>
-{{#if model.length}}
+{{#if this.model.length}}
   <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
-    <Control::MdRecordTable @data={{model}} @dataColumns={{compute (route-action "getColumns") section.meta.type}} @allActions={{true}} @selectProperty="_selectedFromList" @showSlider={{route-action "showSlider"}} />
+    <Control::MdRecordTable @data={{this.model}} @dataColumns={{compute (route-action "getColumns") this.section.meta.type}} @allActions={{true}} @selectProperty="_selectedFromList" @showSlider={{route-action "showSlider"}} />
   </Layout::MdCard>
 {{else}}
   <div class="alert alert-info">
@@ -15,11 +15,11 @@
 
 {{outlet}}
 
-{{#if errorTarget}}
+{{#if this.errorTarget}}
   <ToElsewhere @named="md-slider-error" @send={{hash
-      title=(concat "Viewing errors for: " errorTarget.title)
+      title=(concat "Viewing errors for: " this.errorTarget.title)
       body=(component "control/md-errors"
-        errors=errorTarget.schemaErrors
+        errors=this.errorTarget.schemaErrors
       )
     }} />
 {{/if}}

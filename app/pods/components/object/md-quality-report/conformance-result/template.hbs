@@ -1,15 +1,15 @@
-<Input::MdCodelist @create={{true}} @label="Scope" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="scope" @path="scopeCode" @model={{this}} @placeholder="Select Scope" @profilePath={{concat profilePath ".scopeCode"}} @class={{if (v-get this "isInvalid") "required"}} />
+<Input::MdCodelist @create={{true}} @label="Scope" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="scope" @path="scopeCode" @model={{this}} @placeholder="Select Scope" @profilePath={{concat this.profilePath ".scopeCode"}} @class={{if (v-get this "isInvalid") "required"}} />
 
-<Input::MdInput @value={{model.name}} @label="Name" @placeholder="Enter name" />
+<Input::MdInput @value={{this.model.name}} @label="Name" @placeholder="Enter name" />
 
 <div class='row'>
-  <Input::MdDatetime @date={{model.dateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat profilePath ".dateTime"}} @label="Date" />
+  <Input::MdDatetime @date={{this.model.dateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat this.profilePath ".dateTime"}} @label="Date" />
 </div>
 
 <Layout::MdCard @title="Specification" @required={{true}} @collapsible={{true}} @collapsed={{true}}>
-  <Object::MdCitation @model={{model.specification}} @required={{true}} @profilePath={{concat profilePath ".specification"}} @simpleIdentifier={{true}} />
+  <Object::MdCitation @model={{this.model.specification}} @required={{true}} @profilePath={{concat this.profilePath ".specification"}} @simpleIdentifier={{true}} />
 </Layout::MdCard>
 
-<Input::MdTextarea @value={{model.explanation}} @label="Explanation" @placeholder="Textual expression of the quality result." @profilePath={{concat profilePath ".explanation"}} />
+<Input::MdTextarea @value={{this.model.explanation}} @label="Explanation" @placeholder="Textual expression of the quality result." @profilePath={{concat this.profilePath ".explanation"}} />
 
-<Input::MdBoolean @value={{model.pass}} @label="Conformance Result" @profilePath={{concat profilePath ".pass"}} @showInfotip={{true}} @placeholder="Indicates whether the result conforms to the specification." @text={{resultText}} />
+<Input::MdBoolean @value={{this.model.pass}} @label="Conformance Result" @profilePath={{concat this.profilePath ".pass"}} @showInfotip={{true}} @placeholder="Indicates whether the result conforms to the specification." @text={{this.resultText}} />

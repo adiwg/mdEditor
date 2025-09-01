@@ -3,24 +3,24 @@
 {{!-- <form {{action collapseRow index record on="submit"}}> --}}
 <form>
   <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href={{concat "#" elementId "-form"}} aria-controls="form" role="tab" data-toggle="tab">Info</a></li>
+    <li role="presentation" class="active"><a href={{concat "#" this.elementId "-form"}} aria-controls="form" role="tab" data-toggle="tab">Info</a></li>
     <li role="presentation">
-      <a href={{concat "#" elementId "-schema"}} aria-controls="schemas" role="tab" data-toggle="tab">
+      <a href={{concat "#" this.elementId "-schema"}} aria-controls="schemas" role="tab" data-toggle="tab">
         Schemas
-        <div class={{concat "inline-block label label-pill label-" (unless record.customSchemas.length "warning" "info")}}>
-          {{record.customSchemas.length}}
+        <div class={{concat "inline-block label label-pill label-" (unless this.record.customSchemas.length "warning" "info")}}>
+          {{this.record.customSchemas.length}}
         </div>
       </a>
     </li>
   </ul>
   <div class="card-block">
     <div class="tab-content">
-      <div role="tabpanel" class="tab-pane fade in active" id={{concat elementId "-form"}}>
-        <Object::MdSchema::Form @record={{record}} />
+      <div role="tabpanel" class="tab-pane fade in active" id={{concat this.elementId "-form"}}>
+        <Object::MdSchema::Form @record={{this.record}} />
       </div>
-      <div role="tabpanel" class="tab-pane fade" id={{concat elementId "-schema"}}>
+      <div role="tabpanel" class="tab-pane fade" id={{concat this.elementId "-schema"}}>
         <ul class="list-group">
-          {{#each record.customSchemas as |s|}}
+          {{#each this.record.customSchemas as |s|}}
             <li class="list-group-item">{{s.id}}</li>
           {{/each}}
         </ul>

@@ -1,9 +1,9 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="Citation Button Controls">
-  <button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action selectResource}}>
+  <button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action this.selectResource}}>
     {{fa-icon "check"}} Select a Record
     <EmberTooltip @text="Select a record to copy into the association.
         Note: This will only copy information." @tooltipClass="ember-tooltip md-tooltip primary" @side="left" />
   </button>
-  <LinkTo @route={{route}} class="btn btn-lg btn-primary btn-block md-btn-responsive"> {{fa-icon icon}} {{text}}</LinkTo>
+  <LinkTo @route={{this.route}} class="btn btn-lg btn-primary btn-block md-btn-responsive"> {{fa-icon this.icon}} {{this.text}}</LinkTo>
   {{yield}}
 </div>

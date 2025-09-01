@@ -1,13 +1,13 @@
-<Object::MdObjectTable @items={{model}} @header={{label}} @buttonText={{buttonText}} @templateClass={{templateClass}} @previewTemplate={{previewTemplate}} @profilePath={{profilePath}} @attributes={{attributes}} as |editing|>
+<Object::MdObjectTable @items={{this.model}} @header={{this.label}} @buttonText={{this.buttonText}} @templateClass={{this.templateClass}} @previewTemplate={{this.previewTemplate}} @profilePath={{this.profilePath}} @attributes={{this.attributes}} as |editing|>
     {{!-- Editing: {{editing.fileName}} --}}
 
-    <Input::MdInput @value={{editing.fileName}} @label="Name" @placeholder="File Name" @required={{true}} @profilePath={{concat profilePath ".fileName"}} />
+    <Input::MdInput @value={{editing.fileName}} @label="Name" @placeholder="File Name" @required={{true}} @profilePath={{concat this.profilePath ".fileName"}} />
 
-    <Input::MdInput @value={{editing.fileType}} @label="File Type" @placeholder="Enter the file format(s) of the logo." @profilePath={{concat profilePath ".fileType"}} />
+    <Input::MdInput @value={{editing.fileType}} @label="File Type" @placeholder="Enter the file format(s) of the logo." @profilePath={{concat this.profilePath ".fileType"}} />
 
-    <Input::MdTextarea @maxlength={{500}} @value={{editing.fileDescription}} @label="Description" @placeholder="Description of the file: Less than 500 characters" @profilePath={{concat profilePath ".fileDescription"}} />
+    <Input::MdTextarea @maxlength={{500}} @value={{editing.fileDescription}} @label="Description" @placeholder="Description of the file: Less than 500 characters" @profilePath={{concat this.profilePath ".fileDescription"}} />
 
-    <Object::MdOnlineResourceArray @shadow={{false}} @model={{editing.fileUri}} @ellipsis={{true}} @imagePicker={{true}} @profilePath={{concat profilePath ".onlineResource"}} />
+    <Object::MdOnlineResourceArray @shadow={{false}} @model={{editing.fileUri}} @ellipsis={{true}} @imagePicker={{true}} @profilePath={{concat this.profilePath ".onlineResource"}} />
 
 </Object::MdObjectTable>
 {{yield}}

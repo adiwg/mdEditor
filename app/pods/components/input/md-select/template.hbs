@@ -1,33 +1,33 @@
-    {{#if label}}
-      <label>{{label}}</label>
+    {{#if this.label}}
+      <label>{{this.label}}</label>
     {{/if}}
 <div class="md-input-input">
-      {{#component theComponent
-        selected=selectedItem
-        multiple=multiple
-        options=codelist
-        disabled=disabled
-        placeholder=placeholder
+      {{#component this.theComponent
+        selected=this.selectedItem
+        multiple=this.multiple
+        options=this.codelist
+        disabled=this.disabled
+        placeholder=this.placeholder
         searchField="codeName"
-        searchEnabled=searchEnabled
-        matchTriggerWidth=matchTriggerWidth
-        calculatePosition=calculatePosition
-        allowClear=allowClear
-        closeOnSelect=closeOnSelect
+        searchEnabled=this.searchEnabled
+        matchTriggerWidth=this.matchTriggerWidth
+        calculatePosition=this.calculatePosition
+        allowClear=this.allowClear
+        closeOnSelect=this.closeOnSelect
         onChange=(action "setValue")
         onCreate=(action "create")
-        ariaLabel=ariaLabel
+        ariaLabel=this.ariaLabel
         as |code|
       }}
-        {{#unless filter}}
+        {{#unless this.filter}}
         <span class="md-select-option {{if code.tooltip "with-tip"}}">
-          {{#if icon}}
+          {{#if this.icon}}
             {{#if code.icon}}
               <span class="fa fa-{{code.icon}}"> </span>
             {{/if}}
           {{/if}}
           <span class="select-value">{{code.codeName}}</span>
-          {{#if tooltip}}
+          {{#if this.tooltip}}
             {{#if code.tooltip}}
             <span class="select-tip">
               <span class="badge tooltip">?
@@ -40,20 +40,20 @@
         {{/unless}}
       {{/component}}
       <span class="md-input-error">
-        {{#if showErrorMessage}}
+        {{#if this.showErrorMessage}}
           <span class="md-error">
             {{fa-icon "exclamation-circle"}}
             <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
-                {{v-get model path "message"}}
+                {{v-get this.model this.path "message"}}
             </EmberTooltip>
           </span>
         {{/if}}
 
-        {{#if showWarningMessage}}
+        {{#if this.showWarningMessage}}
           <span class="md-warning">
             {{fa-icon "exclamation-triangle"}}
             <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
-            {{v-get model path "warningMessage"}}
+            {{v-get this.model this.path "warningMessage"}}
             </EmberTooltip>
           </span>
         {{/if}}

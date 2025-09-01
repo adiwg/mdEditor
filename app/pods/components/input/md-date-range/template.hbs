@@ -1,10 +1,10 @@
 <label class='text-info required'>Dates</label>
 <div style='display:flex; flex-direction: row; width: 100%; gap: 15px;'>
   <div style='padding-bottom: 10px; width: 100px; margin-right: 25px;'>
-    <Input::MdSelect @showValidations={{true}} @valuePath="value" @namePath="name" @label="Precision" @model={{this}} @path="selectedPrecision" @objectArray={{precisionOptions}} @searchEnabled={{false}} @placeholder="Date Precision" />
+    <Input::MdSelect @showValidations={{true}} @valuePath="value" @namePath="name" @label="Precision" @model={{this}} @path="selectedPrecision" @objectArray={{this.precisionOptions}} @searchEnabled={{false}} @placeholder="Date Precision" />
   </div>
-  <Input::MdDatetime @class="start" @valuePath="start" @model={{this}} @showValidations={{true}} @forceDateOutput={{true}} @label="Start Date" @showClear={{true}} @format={{selectedFormat}} @placeholder="Enter start dateTime" @profilePath={{concat profilePath ".start"}} />
-  <Input::MdDatetime @class="end" @valuePath="end" @model={{this}} @showValidations={{true}} @forceDateOutput={{true}} @showClear={{true}} @label="End Date" @format={{selectedFormat}} @placeholder="Enter end dateTime" @profilePath={{concat profilePath ".end"}} />
-  <Control::MdFiscalyear @start="start" @end="end" @context={{this}} @profilePath={{concat profilePath ".fiscalyear"}} />
+  <Input::MdDatetime @class="start" @valuePath="start" @model={{this}} @showValidations={{true}} @forceDateOutput={{true}} @label="Start Date" @showClear={{true}} @format={{this.selectedFormat}} @placeholder="Enter start dateTime" @profilePath={{concat this.profilePath ".start"}} />
+  <Input::MdDatetime @class="end" @valuePath="end" @model={{this}} @showValidations={{true}} @forceDateOutput={{true}} @showClear={{true}} @label="End Date" @format={{this.selectedFormat}} @placeholder="Enter end dateTime" @profilePath={{concat this.profilePath ".end"}} />
+  <Control::MdFiscalyear @start="start" @end="end" @context={{this}} @profilePath={{concat this.profilePath ".fiscalyear"}} />
 </div>
 {{yield}}

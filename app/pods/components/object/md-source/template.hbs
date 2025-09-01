@@ -1,21 +1,21 @@
-<Input::MdInput @value={{model.sourceId}} @model={{null}} @valuePath={{null}} @label="Source ID" @data-spy="Source ID" @placeholder="Enter unique identifer for the source." @required={{false}} @profilePath={{concat profilePath ".sourceId"}} />
+<Input::MdInput @value={{this.model.sourceId}} @model={{null}} @valuePath={{null}} @label="Source ID" @data-spy="Source ID" @placeholder="Enter unique identifer for the source." @required={{false}} @profilePath={{concat this.profilePath ".sourceId"}} />
 
-<Input::MdTextarea @value={{model.description}} @required={{true}} @profilePath={{concat profilePath ".description"}} @label="Description" @placeholder="Description of the source." @data-spy="Source Description" @showValidations={{true}} />
+<Input::MdTextarea @value={{this.model.description}} @required={{true}} @profilePath={{concat this.profilePath ".description"}} @label="Description" @placeholder="Description of the source." @data-spy="Source Description" @showValidations={{true}} />
 
-<Input::MdCodelist @value={{model.scope.scopeCode}} @label="Scope" @create={{true}} @tooltip={{true}} @icon={{true}} @mdCodeName="scope" @closeOnSelect={{false}} @placeholder="Select type of resource." @profilePath={{concat profilePath ".scope"}} @data-spy="Scope" />
+<Input::MdCodelist @value={{this.model.scope.scopeCode}} @label="Scope" @create={{true}} @tooltip={{true}} @icon={{true}} @mdCodeName="scope" @closeOnSelect={{false}} @placeholder="Select type of resource." @profilePath={{concat this.profilePath ".scope"}} @data-spy="Scope" />
 
-<Layout::MdCard @title="Source Citation" @collapsible={{true}} @profilePath={{concat profilePath ".sourceCitation"}} @data-spy="Source Citation" @shadow={{true}} @content={{model.sourceCitation}}>
-  <Object::MdCitation @model={{model.sourceCitation}} @profilePath={{concat profilePath ".sourceCitation"}} @data-spy={{false}} @simpleIdentifier={{true}} />
+<Layout::MdCard @title="Source Citation" @collapsible={{true}} @profilePath={{concat this.profilePath ".sourceCitation"}} @data-spy="Source Citation" @shadow={{true}} @content={{this.model.sourceCitation}}>
+  <Object::MdCitation @model={{this.model.sourceCitation}} @profilePath={{concat this.profilePath ".sourceCitation"}} @data-spy={{false}} @simpleIdentifier={{true}} />
 </Layout::MdCard>
 
-<Object::MdObjectTable @items={{model.metadataCitation}} @header="Metadata Citation" @data-spy="Metadata Citation" @buttonText="Add Citation" @previewTemplate="" @profilePath={{concat profilePath ".metadataCitation"}} @attributes="title" as |editing|>
-  <Object::MdCitation @model={{editing}} @simpleIdentifier={{true}} @data-spy={{false}} @embedded={{true}} @profilePath={{concat profilePath ".metadataCitation"}} />
+<Object::MdObjectTable @items={{this.model.metadataCitation}} @header="Metadata Citation" @data-spy="Metadata Citation" @buttonText="Add Citation" @previewTemplate="" @profilePath={{concat this.profilePath ".metadataCitation"}} @attributes="title" as |editing|>
+  <Object::MdCitation @model={{editing}} @simpleIdentifier={{true}} @data-spy={{false}} @embedded={{true}} @profilePath={{concat this.profilePath ".metadataCitation"}} />
 </Object::MdObjectTable>
 
-<Layout::MdCard @title="Spatial Reference System" @collapsible={{true}} @profilePath={{concat profilePath ".referenceSystem"}} @data-spy="Spatial Reference System" @shadow={{true}} @content={{model.referenceSystem}}>
-  <Object::MdSrs @model={{model.referenceSystem}} @profilePath={{concat profilePath ".referenceSystem"}} />
+<Layout::MdCard @title="Spatial Reference System" @collapsible={{true}} @profilePath={{concat this.profilePath ".referenceSystem"}} @data-spy="Spatial Reference System" @shadow={{true}} @content={{this.model.referenceSystem}}>
+  <Object::MdSrs @model={{this.model.referenceSystem}} @profilePath={{concat this.profilePath ".referenceSystem"}} />
 </Layout::MdCard>
 
-<Layout::MdCard @title="Spatial Resolution" @collapsible={{true}} @data-spy="Spatial Resolution" @profilePath={{concat profilePath ".spatialResolution"}} @content={{model.spatialResolution}}>
-  <Object::MdSpatialResolution @model={{model.spatialResolution}} @profilePath={{concat profilePath ".spatialResolution"}} />
+<Layout::MdCard @title="Spatial Resolution" @collapsible={{true}} @data-spy="Spatial Resolution" @profilePath={{concat this.profilePath ".spatialResolution"}} @content={{this.model.spatialResolution}}>
+  <Object::MdSpatialResolution @model={{this.model.spatialResolution}} @profilePath={{concat this.profilePath ".spatialResolution"}} />
 </Layout::MdCard>

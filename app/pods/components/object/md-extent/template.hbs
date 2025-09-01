@@ -1,15 +1,15 @@
-<Layout::MdObjectContainer @title={{title}} @index={{index}} @deleteItem={{deleteExtent}} @profilePath={{profilePath}}>
+<Layout::MdObjectContainer @title={{this.title}} @index={{this.index}} @deleteItem={{this.deleteExtent}} @profilePath={{this.profilePath}}>
 
-  <Input::MdTextarea @value={{extent.description}} @rows={{3}} @maxHeight={{300}} @placeholder="Description of extent" @label="Extent Description" @isCollapsible={{true}} @profilePath={{concat profilePath ".description"}} />
+  <Input::MdTextarea @value={{this.extent.description}} @rows={{3}} @maxHeight={{300}} @placeholder="Description of extent" @label="Extent Description" @isCollapsible={{true}} @profilePath={{concat this.profilePath ".description"}} />
 
-  <Object::MdExtent::Spatial @extent={{extent}} @index={{index}} @editFeatures={{editFeatures}} @profilePath={{concat profilePath ".geographic"}} />
+  <Object::MdExtent::Spatial @extent={{this.extent}} @index={{this.index}} @editFeatures={{this.editFeatures}} @profilePath={{concat this.profilePath ".geographic"}} />
 
-  <Object::MdObjectTable @items={{extent.verticalExtent}} @header="Vertical Extents" @buttonText="Add Vertical Extent" @ellipsis={{true}} @required={{false}} @profilePath={{concat profilePath ".vertical"}} @attributes="description,minValue,maxValue" as |editing|>
-    <Object::MdExtent::Vertical @model={{editing}} @profilePath={{concat profilePath ".vertical"}} />
+  <Object::MdObjectTable @items={{this.extent.verticalExtent}} @header="Vertical Extents" @buttonText="Add Vertical Extent" @ellipsis={{true}} @required={{false}} @profilePath={{concat this.profilePath ".vertical"}} @attributes="description,minValue,maxValue" as |editing|>
+    <Object::MdExtent::Vertical @model={{editing}} @profilePath={{concat this.profilePath ".vertical"}} />
   </Object::MdObjectTable>
 
-  <Object::MdObjectTable @items={{extent.temporalExtent}} @header="Temporal Extents" @buttonText="Add Temporal Extent" @ellipsis={{true}} @required={{false}} @profilePath={{concat profilePath ".temporal"}} @attributes="description" as |editing|>
-    <Object::MdTimePeriod @model={{editing}} @profilePath={{concat profilePath ".temporal"}} />
+  <Object::MdObjectTable @items={{this.extent.temporalExtent}} @header="Temporal Extents" @buttonText="Add Temporal Extent" @ellipsis={{true}} @required={{false}} @profilePath={{concat this.profilePath ".temporal"}} @attributes="description" as |editing|>
+    <Object::MdTimePeriod @model={{editing}} @profilePath={{concat this.profilePath ".temporal"}} />
   </Object::MdObjectTable>
 
 </Layout::MdObjectContainer>

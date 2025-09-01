@@ -1,8 +1,8 @@
-<Input::MdInput @value={{model.name}} @label="Name" @placeholder="Online Resource Name" @profilePath={{concat profilePath ".name"}} />
+<Input::MdInput @value={{this.model.name}} @label="Name" @placeholder="Online Resource Name" @profilePath={{concat this.profilePath ".name"}} />
 
-<Input::MdInput @type="url" @valuePath="uri" @model={{model}} @profilePath={{concat profilePath ".url"}} @label="URI" @placeholder="Online Resource URI" />
+<Input::MdInput @type="url" @valuePath="uri" @model={{this.model}} @profilePath={{concat this.profilePath ".url"}} @label="URI" @placeholder="Online Resource URI" />
 
-{{#if imagePicker}}
+{{#if this.imagePicker}}
   <div class="row">
     <div class="col-sm-6">
       <FilePicker @class="md-file-picker text-center" @fileLoaded="handleFile" @preview={{false}} @accept=".jpeg,.jpg,.png,.gif,.svg" @readAs="readAsDataURL">
@@ -13,8 +13,8 @@
     </div>
     <div class="col-md-6">
       <div class="md-preview-image text-center">
-        {{#if model.uri}}
-            <img src={{model.uri}} class="img-responsive img-thumbnail" alt="Image Preview">
+        {{#if this.model.uri}}
+            <img src={{this.model.uri}} class="img-responsive img-thumbnail" alt="Image Preview">
         {{else}}
             Enter URI or select file to preview.
         {{/if}}
@@ -23,13 +23,13 @@
   </div>
 {{/if}}
 
-<Input::MdInput @value={{model.protocol}} @profilePath={{concat profilePath ".protocol"}} @label="Protocol" @placeholder="Protocol for accessing the Online Resource" />
+<Input::MdInput @value={{this.model.protocol}} @profilePath={{concat this.profilePath ".protocol"}} @label="Protocol" @placeholder="Protocol for accessing the Online Resource" />
 
-<Input::MdTextarea @maxlength={{500}} @value={{model.description}} @label="Description" @profilePath={{concat profilePath ".description"}} @placeholder="Description of the Online Resource: Less than 500 characters" />
+<Input::MdTextarea @maxlength={{500}} @value={{this.model.description}} @label="Description" @profilePath={{concat this.profilePath ".description"}} @placeholder="Description of the Online Resource: Less than 500 characters" />
 
-<Input::MdCodelist @value={{model.function}} @mdCodeName="onlineFunction" @label="Function" @placeholder="Select function of the Online Resource" @profilePath={{concat profilePath ".onlineFunction"}} @tooltip={{true}} @allowClear={{true}} @width="70%" />
+<Input::MdCodelist @value={{this.model.function}} @mdCodeName="onlineFunction" @label="Function" @placeholder="Select function of the Online Resource" @profilePath={{concat this.profilePath ".onlineFunction"}} @tooltip={{true}} @allowClear={{true}} @width="70%" />
 
-<Input::MdCodelist @value={{model.applicationProfile}} @mdCodeName="applicationProfile" @label="Application Profile" @placeholder="Name of an application profile for the Online Resource" @profilePath={{concat profilePath ".applicationProfile"}} @tooltip={{true}} @allowClear={{true}} @width="70%" @create={{true}} />
+<Input::MdCodelist @value={{this.model.applicationProfile}} @mdCodeName="applicationProfile" @label="Application Profile" @placeholder="Name of an application profile for the Online Resource" @profilePath={{concat this.profilePath ".applicationProfile"}} @tooltip={{true}} @allowClear={{true}} @width="70%" @create={{true}} />
 
-<Input::MdTextarea @value={{model.protocolRequest}} @label="Protocol Request" @profilePath={{concat profilePath ".protocolRequest"}} @placeholder="Request used to access the resource depending on the protocol, e.g. body of POST(http)_ request." />
+<Input::MdTextarea @value={{this.model.protocolRequest}} @label="Protocol Request" @profilePath={{concat this.profilePath ".protocolRequest"}} @placeholder="Request used to access the resource depending on the protocol, e.g. body of POST(http)_ request." />
 {{yield}}

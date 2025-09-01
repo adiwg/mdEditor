@@ -1,31 +1,31 @@
-<Input::MdCodelist @label="Association Type" @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="associationType" @path="associationType" @model={{this}} @placeholder="Choose Type of Association" @profilePath={{concat profilePath ".associationType"}} @data-spy="Association Type" />
+<Input::MdCodelist @label="Association Type" @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="associationType" @path="associationType" @model={{this}} @placeholder="Choose Type of Association" @profilePath={{concat this.profilePath ".associationType"}} @data-spy="Association Type" />
 
-<Input::MdCodelist @label="Initiative Type" @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="initiativeType" @path="initiativeType" @model={{model}} @placeholder="Choose Type of Initiative" @profilePath={{concat profilePath ".initiativeType"}} />
+<Input::MdCodelist @label="Initiative Type" @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="initiativeType" @path="initiativeType" @model={{this.model}} @placeholder="Choose Type of Initiative" @profilePath={{concat this.profilePath ".initiativeType"}} />
 
-{{#unless model.mdRecordId}}
+{{#unless this.model.mdRecordId}}
   <div class="form-group">
-      <Object::MdResourceTypeArray @plain={{false}} @value={{model.resourceType}} @required={{true}} @data-spy="Resource Types" @profilePath={{concat profilePath ".resourceType"}} />
+      <Object::MdResourceTypeArray @plain={{false}} @value={{this.model.resourceType}} @required={{true}} @data-spy="Resource Types" @profilePath={{concat this.profilePath ".resourceType"}} />
   </div>
 
 
-  {{#with model.resourceCitation as |citation|}}
-    <Object::MdCitation @model={{citation}} @profilePath={{concat profilePath ".resourceCitation"}} @simpleIdentifier={{true}} />
+  {{#with this.model.resourceCitation as |citation|}}
+    <Object::MdCitation @model={{citation}} @profilePath={{concat this.profilePath ".resourceCitation"}} @simpleIdentifier={{true}} />
   {{/with}}
 
-  <Layout::MdCard @title="Metadata Citation" @profilePath={{concat profilePath ".metadataCitation"}} @shadow={{true}} @collapsible={{true}} @collapsed={{true}}>
-  {{#with model.metadataCitation as |metdata|}}
-    <Object::MdCitation @model={{metdata}} @profilePath={{concat profilePath ".metadataCitation"}} @embedded={{true}} @simpleIdentifier={{true}} />
+  <Layout::MdCard @title="Metadata Citation" @profilePath={{concat this.profilePath ".metadataCitation"}} @shadow={{true}} @collapsible={{true}} @collapsed={{true}}>
+  {{#with this.model.metadataCitation as |metdata|}}
+    <Object::MdCitation @model={{metdata}} @profilePath={{concat this.profilePath ".metadataCitation"}} @embedded={{true}} @simpleIdentifier={{true}} />
   {{/with}}
   </Layout::MdCard>
 {{else}}
 
-  <Layout::MdCard @title="Linked Record" @shadow={{false}} @block={{false}} @muted={{false}} @collapsible={{false}} @collapsed={{false}} @btnText="Edit" @btnClass={{concat "success" (unless linkedRecord "disabled")}} @btnAction={{action editLinked linkedRecord}} @btnIcon="pencil">
+  <Layout::MdCard @title="Linked Record" @shadow={{false}} @block={{false}} @muted={{false}} @collapsible={{false}} @collapsed={{false}} @btnText="Edit" @btnClass={{concat "success" (unless this.linkedRecord "disabled")}} @btnAction={{action this.editLinked this.linkedRecord}} @btnIcon="pencil">
   <div class="card-block">
-    {{#if linkedRecord}}
-      <Object::MdCitation::Preview::Body @citation={{linkedRecord.json.metadata.resourceInfo.citation}} @class="text-muted">
+    {{#if this.linkedRecord}}
+      <Object::MdCitation::Preview::Body @citation={{this.linkedRecord.json.metadata.resourceInfo.citation}} @class="text-muted">
         <dl class="dl-horizontal col-lg-12">
           <Control::MdDefinition @title="Resource Type(s)">
-              {{#each linkedRecord.json.metadata.resourceInfo.resourceType as |type|}}
+              {{#each this.linkedRecord.json.metadata.resourceInfo.resourceType as |type|}}
                   {{type.type}}:
                   {{#if type.name}}
                       {{type.name}}
@@ -38,7 +38,7 @@
               {{/each}}
           </Control::MdDefinition>
         </dl>
-        {{#with linkedRecord.json.metadata.metadataInfo.metadataIdentifier as |meta|}}
+        {{#with this.linkedRecord.json.metadata.metadataInfo.metadataIdentifier as |meta|}}
           <dl class="dl-horizontal col-lg-12">
               <Control::MdDefinition @title="Metadata Identifier">
                 {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
@@ -50,18 +50,18 @@
       <div class="card card-inverse card-danger">
         <div class="card-block">
           <h4 class="card-title">{{fa-icon "exclamation-triangle"}} Linked record is missing!</h4>
-          <p class="card-text">Cannot find the linked record with id <em>{{model.mdRecordId}}</em>.</p>
+          <p class="card-text">Cannot find the linked record with id <em>{{this.model.mdRecordId}}</em>.</p>
         </div>
       </div>
     {{/if}}
   </div>
 
-  {{#if recordId}}
+  {{#if this.recordId}}
     <div class="card-footer">
       <div class="row">
         <dl class="dl-horizontal col-lg-12">
           <Control::MdDefinition @title="Linked Association Type" @titleClass="wrapped">
-            <Input::MdCodelist @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="associationType" @value={{linkedAssociationType}} @placeholder="Choose Type of Association" @profilePath={{concat profilePath ".linkedAssociationType"}} @data-spy={{false}} />
+            <Input::MdCodelist @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="associationType" @value={{this.linkedAssociationType}} @placeholder="Choose Type of Association" @profilePath={{concat this.profilePath ".linkedAssociationType"}} @data-spy={{false}} />
           </Control::MdDefinition>
         </dl>
       </div>

@@ -1,1 +1,1 @@
- <Input::MdSelect @placeholder="Pick a thesaurus" @disabled={{disabled}} @objectArray={{thesaurusList}} @valuePath="id" @namePath="label" @value={{value}} @tooltip={{true}} @tooltipPath="tooltipText" @change={{action "update" value thesaurus}} />
+ <Input::MdSelect @placeholder="Pick a thesaurus" @disabled={{this.disabled}} @objectArray={{this.thesaurusList}} @valuePath="id" @namePath="label" @value={{this.value}} @tooltip={{true}} @tooltipPath="tooltipText" @change={{action "update" this.value this.thesaurus}} />

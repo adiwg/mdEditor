@@ -1,7 +1,7 @@
 <h3 class="text-info">Click to choose a publishing service:</h3>
 
 <div class="list-group">
-  {{#each model as |catalog|}}
+  {{#each this.model as |catalog|}}
     {{#link-to (concat "publish." catalog.route) class="list-group-item" }}
     <div class="media">
       <div class="media-left media-middle">

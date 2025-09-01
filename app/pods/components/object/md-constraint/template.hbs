@@ -1,19 +1,19 @@
-<Input::MdSelect @label="Constraint Type" @showValidations={{true}} @model={{this}} @path="type" @valuePath="value" @namePath="name" @objectArray={{typeOptions}} @tooltip={{true}} @tooltipPath="tip" @searchEnabled={{false}} @placeholder={{t "placeholders.constraint.type"}} @profilePath={{concat profilePath ".type"}} />
+<Input::MdSelect @label="Constraint Type" @showValidations={{true}} @model={{this}} @path="type" @valuePath="value" @namePath="name" @objectArray={{this.typeOptions}} @tooltip={{true}} @tooltipPath="tip" @searchEnabled={{false}} @placeholder={{t "placeholders.constraint.type"}} @profilePath={{concat this.profilePath ".type"}} />
 
-<Object::MdSimpleArrayTable @title="Use Limitations" @data-spy={{false}} @plain={{false}} @required={{useRequired}} @profilePath={{concat profilePath ".useLimitation"}} @value={{model.useLimitation}} as |val|>
+<Object::MdSimpleArrayTable @title="Use Limitations" @data-spy={{false}} @plain={{false}} @required={{this.useRequired}} @profilePath={{concat this.profilePath ".useLimitation"}} @value={{this.model.useLimitation}} as |val|>
   <td>
     <Input::MdTextarea @value={{val.item.value}} @placeholder={{t "placeholders.constraint.useLimitation"}} />
   </td>
 </Object::MdSimpleArrayTable>
 
-<Layout::MdCard @title="Legal" @collapsible={{true}} @collapsed={{true}} @required={{legalRequired}} @profilePath={{concat profilePath ".legal"}} @data-spy={{false}} @shadow={{true}}>
+<Layout::MdCard @title="Legal" @collapsible={{true}} @collapsed={{true}} @required={{this.legalRequired}} @profilePath={{concat this.profilePath ".legal"}} @data-spy={{false}} @shadow={{true}}>
 
-  <Input::MdCodelistMulti @value={{model.legal.accessConstraint}} @label="Access Constraints" @create={{false}} @tooltip={{true}} @icon={{false}} @mdCodeName="restriction" @closeOnSelect={{false}} @profilePath={{concat profilePath ".legal.accessConstraint"}} @placeholder="Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource." />
+  <Input::MdCodelistMulti @value={{this.model.legal.accessConstraint}} @label="Access Constraints" @create={{false}} @tooltip={{true}} @icon={{false}} @mdCodeName="restriction" @closeOnSelect={{false}} @profilePath={{concat this.profilePath ".legal.accessConstraint"}} @placeholder="Access constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations on obtaining the resource." />
 
-  <Input::MdCodelistMulti @value={{model.legal.useConstraint}} @label="Use Constraints" @create={{false}} @tooltip={{true}} @icon={{false}} @mdCodeName="restriction" @closeOnSelect={{false}} @profilePath={{concat profilePath ".legal.useConstraint"}} @placeholder="Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource." />
+  <Input::MdCodelistMulti @value={{this.model.legal.useConstraint}} @label="Use Constraints" @create={{false}} @tooltip={{true}} @icon={{false}} @mdCodeName="restriction" @closeOnSelect={{false}} @profilePath={{concat this.profilePath ".legal.useConstraint"}} @placeholder="Constraints applied to assure the protection of privacy or intellectual property, and any special restrictions or limitations or warnings on using the resource." />
 
   <Layout::MdCard @shadow={{false}}>
-    <Object::MdSimpleArrayTable @title="Other Constraint" @data-spy={{false}} @plain={{true}} @profilePath={{concat profilePath ".legal.otherConstraint"}} @value={{model.legal.otherConstraint}} as |val|>
+    <Object::MdSimpleArrayTable @title="Other Constraint" @data-spy={{false}} @plain={{true}} @profilePath={{concat this.profilePath ".legal.otherConstraint"}} @value={{this.model.legal.otherConstraint}} as |val|>
       <td>
         <Input::MdTextarea @value={{val.item.value}} @rows={{3}} @placeholder="Other restrictions and legal prerequisites for accessing and using the resource." />
       </td>
@@ -22,29 +22,29 @@
 
 </Layout::MdCard>
 
-<Layout::MdCard @title="Security" @collapsible={{true}} @collapsed={{true}} @required={{securityRequired}} @profilePath={{concat profilePath ".security"}} @data-spy={{false}} @shadow={{true}}>
-  <Input::MdCodelist @label="Classification" @mdCodeName="classification" @showValidations={{true}} @model={{this}} @path="classification" @placeholder={{t "placeholders.constraint.classification"}} @profilePath={{concat profilePath ".security.classification"}} />
-  <Input::MdInput @value={{model.security.classificationSystem}} @label="Classification System Name" @placeholder={{t "placeholders.constraint.classificationSystem"}} @profilePath={{concat profilePath ".security.classificationSystem"}} />
-  <Input::MdTextarea @value={{model.security.userNote}} @placeholder="Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource." @label="Note" @profilePath={{concat profilePath ".security.note"}} />
-  <Input::MdTextarea @value={{model.security.handlingDescription}} @placeholder="Enter additional information about the restrictions on handling the resource." @label="Handling Description" @profilePath={{concat profilePath ".security.handlingDescription"}} />
+<Layout::MdCard @title="Security" @collapsible={{true}} @collapsed={{true}} @required={{this.securityRequired}} @profilePath={{concat this.profilePath ".security"}} @data-spy={{false}} @shadow={{true}}>
+  <Input::MdCodelist @label="Classification" @mdCodeName="classification" @showValidations={{true}} @model={{this}} @path="classification" @placeholder={{t "placeholders.constraint.classification"}} @profilePath={{concat this.profilePath ".security.classification"}} />
+  <Input::MdInput @value={{this.model.security.classificationSystem}} @label="Classification System Name" @placeholder={{t "placeholders.constraint.classificationSystem"}} @profilePath={{concat this.profilePath ".security.classificationSystem"}} />
+  <Input::MdTextarea @value={{this.model.security.userNote}} @placeholder="Explanation of the application of the legal constraints or other restrictions and legal prerequisites for obtaining and using the resource." @label="Note" @profilePath={{concat this.profilePath ".security.note"}} />
+  <Input::MdTextarea @value={{this.model.security.handlingDescription}} @placeholder="Enter additional information about the restrictions on handling the resource." @label="Handling Description" @profilePath={{concat this.profilePath ".security.handlingDescription"}} />
 </Layout::MdCard>
 
-<Layout::MdCard @title="Releasability" @collapsible={{true}} @collapsed={{true}} @required={{false}} @profilePath={{concat profilePath ".releasability"}}>
-  <Object::MdPartyArray @title="Addressee" @value={{model.releasability.addressee}} @profilePath={{concat profilePath ".releasability.addressee"}} />
-  <Input::MdInput @value={{model.releasability.statement}} @label="Statement" @placeholder="Statement of the conditions under which the resource may be released." @profilePath={{concat profilePath ".releasability.statement"}} />
-  <Object::MdSimpleArrayTable @data-spy={{false}} @title="Dissemintation Constraint" @plain={{true}} @value={{model.releasability.disseminationConstraint}} @profilePath={{concat profilePath ".releasability.disseminationConstraint"}} as |const|>
+<Layout::MdCard @title="Releasability" @collapsible={{true}} @collapsed={{true}} @required={{false}} @profilePath={{concat this.profilePath ".releasability"}}>
+  <Object::MdPartyArray @title="Addressee" @value={{this.model.releasability.addressee}} @profilePath={{concat this.profilePath ".releasability.addressee"}} />
+  <Input::MdInput @value={{this.model.releasability.statement}} @label="Statement" @placeholder="Statement of the conditions under which the resource may be released." @profilePath={{concat this.profilePath ".releasability.statement"}} />
+  <Object::MdSimpleArrayTable @data-spy={{false}} @title="Dissemintation Constraint" @plain={{true}} @value={{this.model.releasability.disseminationConstraint}} @profilePath={{concat this.profilePath ".releasability.disseminationConstraint"}} as |const|>
     <td>
-      <Input::MdCodelist @model={{const.item}} @create={{false}} @mdCodeName="restriction" @profilePath={{concat profilePath ".releasability.disseminationConstraint"}} @placeholder="Restrictions on the release of the resource." @path="value" />
+      <Input::MdCodelist @model={{const.item}} @create={{false}} @mdCodeName="restriction" @profilePath={{concat this.profilePath ".releasability.disseminationConstraint"}} @placeholder="Restrictions on the release of the resource." @path="value" />
     </td>
   </Object::MdSimpleArrayTable>
 </Layout::MdCard>
 
-<Object::MdPartyArray @title="Responsible Party" @value={{model.responsibleParty}} @profilePath={{concat profilePath ".responsibleParty"}} />
+<Object::MdPartyArray @title="Responsible Party" @value={{this.model.responsibleParty}} @profilePath={{concat this.profilePath ".responsibleParty"}} />
 
-<Object::MdGraphicArray @model={{model.graphic}} @button-text="Add Graphic" @label="Graphic or Logo" @profilePath={{concat profilePath ".graphic"}} />
+<Object::MdGraphicArray @model={{this.model.graphic}} @button-text="Add Graphic" @label="Graphic or Logo" @profilePath={{concat this.profilePath ".graphic"}} />
 
-<Object::MdObjectTable @items={{model.reference}} @header="References" @previewTemplate={{previewTemplate}} @attributes="title" as |editing|>
-  <Object::MdCitation @model={{editing}} @profilePath={{concat profilePath ".reference"}} />
+<Object::MdObjectTable @items={{this.model.reference}} @header="References" @previewTemplate={{this.previewTemplate}} @attributes="title" as |editing|>
+  <Object::MdCitation @model={{editing}} @profilePath={{concat this.profilePath ".reference"}} />
 </Object::MdObjectTable>
 
 {{yield}}

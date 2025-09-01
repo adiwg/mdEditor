@@ -1,12 +1,12 @@
-<Input::MdInput @type="number" @model={{this}} @valuePath="scaleFactor" @label="Scale Factor" @placeholder="Enter the geographic(map) scale for the resource." @profilePath={{concat profilePath ".scaleFactor"}} @showValidations={{true}} @disabled={{scaleDisabled}} @class={{if (v-get model "scaleFactor" "isInvalid") "required"}} />
+<Input::MdInput @type="number" @model={{this}} @valuePath="scaleFactor" @label="Scale Factor" @placeholder="Enter the geographic(map) scale for the resource." @profilePath={{concat this.profilePath ".scaleFactor"}} @showValidations={{true}} @disabled={{this.scaleDisabled}} @class={{if (v-get this.model "scaleFactor" "isInvalid") "required"}} />
 
-<Input::MdInput @model={{this}} @valuePath="levelOfDetail" @autoresize={{true}} @label="Level Of Detail" @placeholder="Enter description of the spatial resolution of the resource." @showValidations={{true}} @disabled={{levelDisabled}} @profilePath={{concat profilePath ".levelOfDetail"}} @class={{if (v-get model "levelOfDetail" "isInvalid") "required"}} />
+<Input::MdInput @model={{this}} @valuePath="levelOfDetail" @autoresize={{true}} @label="Level Of Detail" @placeholder="Enter description of the spatial resolution of the resource." @showValidations={{true}} @disabled={{this.levelDisabled}} @profilePath={{concat this.profilePath ".levelOfDetail"}} @class={{if (v-get this.model "levelOfDetail" "isInvalid") "required"}} />
 
-<Layout::MdCard @collapsible={{false}} @collapsed={{false}} @data-spy={{false}} @shadow={{false}} @profilePath={{concat profilePath ".measure"}} @class={{if measureDisabled "text-muted"}}>
-  <label class="text-info {{if (v-get model "measure" "isInvalid") "required"}}">Measure</label>
-  <Input::MdSelect @label="Measure Type" @showValidations={{true}} @model={{this}} @path="measureType" @valuePath="value" @namePath="name" @objectArray={{typeOptions}} @tooltip={{true}} @tooltipPath="tip" @searchEnabled={{false}} @disabled={{measureDisabled}} @placeholder="The type of measurement." @profilePath={{concat profilePath ".measure.type"}} />
-  <Input::MdInput @type="number" @step="0.0001" @model={{this}} @valuePath="measureValue" @label="Value" @placeholder="Enter the number of units in the measurement." @profilePath={{concat profilePath ".measure.value"}} @showValidations={{true}} @disabled={{measureDisabled}} />
-  <Input::MdInput @model={{this}} @valuePath="measureUnit" @label="Units" @placeholder="Type of units to associated with the value." @showValidations={{true}} @disabled={{measureDisabled}} @profilePath={{concat profilePath ".measure.units"}} />
+<Layout::MdCard @collapsible={{false}} @collapsed={{false}} @data-spy={{false}} @shadow={{false}} @profilePath={{concat this.profilePath ".measure"}} @class={{if this.measureDisabled "text-muted"}}>
+  <label class="text-info {{if (v-get this.model "measure" "isInvalid") "required"}}">Measure</label>
+  <Input::MdSelect @label="Measure Type" @showValidations={{true}} @model={{this}} @path="measureType" @valuePath="value" @namePath="name" @objectArray={{this.typeOptions}} @tooltip={{true}} @tooltipPath="tip" @searchEnabled={{false}} @disabled={{this.measureDisabled}} @placeholder="The type of measurement." @profilePath={{concat this.profilePath ".measure.type"}} />
+  <Input::MdInput @type="number" @step="0.0001" @model={{this}} @valuePath="measureValue" @label="Value" @placeholder="Enter the number of units in the measurement." @profilePath={{concat this.profilePath ".measure.value"}} @showValidations={{true}} @disabled={{this.measureDisabled}} />
+  <Input::MdInput @model={{this}} @valuePath="measureUnit" @label="Units" @placeholder="Type of units to associated with the value." @showValidations={{true}} @disabled={{this.measureDisabled}} @profilePath={{concat this.profilePath ".measure.units"}} />
 </Layout::MdCard>
 
 {{yield}}

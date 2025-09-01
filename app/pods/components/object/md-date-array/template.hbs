@@ -1,4 +1,4 @@
-<Object::MdArrayTable @columns="Precision,Date,Date Type,Description" @required={{required}} @title="Date" @value={{value}} @plain={{plain}} @validation={{validation}} @profilePath={{profilePath}} @data-spy={{data-spy}} @templateClass={{templateClass}} as |date|>
-  <Object::MdDate @model={{date.item}} @profilePath={{concat profilePath ".dateItem"}} />
+<Object::MdArrayTable @columns="Precision,Date,Date Type,Description" @required={{this.required}} @title="Date" @value={{this.value}} @plain={{this.plain}} @validation={{this.validation}} @profilePath={{this.profilePath}} @data-spy={{this.data-spy}} @templateClass={{this.templateClass}} as |date|>
+  <Object::MdDate @model={{date.item}} @profilePath={{concat this.profilePath ".dateItem"}} />
   {{yield}}
 </Object::MdArrayTable>

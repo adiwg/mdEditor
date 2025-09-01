@@ -1,9 +1,9 @@
-<Object::MdArrayTable @columns="Repository, Collection Title" @value={{value}} @plain={{plain}} @data-spy={{data-spy}} @title="Metadata Repository" @profile={{profile}} @templateClass={{repositoryTemplate}} as |meta|>
+<Object::MdArrayTable @columns="Repository, Collection Title" @value={{this.value}} @plain={{this.plain}} @data-spy={{this.data-spy}} @title="Metadata Repository" @profile={{this.profile}} @templateClass={{this.repositoryTemplate}} as |meta|>
   <td>
-    <Input::MdCodelist @value={{meta.item.repository}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="metadataRepository" @closeOnSelect={{true}} @placeholder="Select or enter a repository." @profilePath={{concat profilePath ".repository"}} @change={{action "lookupTitle" meta.item}} />
+    <Input::MdCodelist @value={{meta.item.repository}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="metadataRepository" @closeOnSelect={{true}} @placeholder="Select or enter a repository." @profilePath={{concat this.profilePath ".repository"}} @change={{action "lookupTitle" meta.item}} />
   </td>
   <td>
-    <Input::MdInput @type="text" @value={{meta.item.citation.title}} @profilePath={{concat profilePath ".collectionTitle"}} @placeholder="Text string used to identify a set of resources in the repository." />
+    <Input::MdInput @type="text" @value={{meta.item.citation.title}} @profilePath={{concat this.profilePath ".collectionTitle"}} @placeholder="Text string used to identify a set of resources in the repository." />
   </td>
   {{yield}}
 </Object::MdArrayTable>

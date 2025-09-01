@@ -1,29 +1,29 @@
-  <Input::MdInput @type="number" @valuePath="transferSize" @model={{model}} @step="0.01" @label="Transfer Size (MB)" @placeholder="Estimated size of a unit in the specified transfer format, expressed in megabytes." @profilePath={{concat profilePath ".transferSize"}} />
-  <Input::MdInput @value={{model.unitsOfDistribution}} @label="Distribution units" @placeholder="Description of the tiles, layers, geographic areas, etc., in which data are available." @profilePath={{concat profilePath ".distributionUnit"}} />
+  <Input::MdInput @type="number" @valuePath="transferSize" @model={{this.model}} @step="0.01" @label="Transfer Size (MB)" @placeholder="Estimated size of a unit in the specified transfer format, expressed in megabytes." @profilePath={{concat this.profilePath ".transferSize"}} />
+  <Input::MdInput @value={{this.model.unitsOfDistribution}} @label="Distribution units" @placeholder="Description of the tiles, layers, geographic areas, etc., in which data are available." @profilePath={{concat this.profilePath ".distributionUnit"}} />
 
-  <Object::MdOnlineResourceArray @model={{model.onlineOption}} @label="Online Option" @profilePath={{concat profilePath ".onlineOption"}} @data-spy="Online" @class="md-embedded" @shadow={{false}} />
+  <Object::MdOnlineResourceArray @model={{this.model.onlineOption}} @label="Online Option" @profilePath={{concat this.profilePath ".onlineOption"}} @data-spy="Online" @class="md-embedded" @shadow={{false}} />
 
-  <Object::MdObjectTable @items={{model.offlineOption}} @header="Offline Option" @class="md-embedded" @data-spy="Offline" @buttonText="Add Offline Option" @templateClass={{templateClass}} @ellipsis={{false}} @shadow={{false}} @profilePath={{concat profilePath ".offlineOption"}} @attributes="mediumSpecification.title" as |editing|>
-    <Object::MdMedium @model={{editing}} @profilePath={{concat profilePath ".offlineOption"}} />
+  <Object::MdObjectTable @items={{this.model.offlineOption}} @header="Offline Option" @class="md-embedded" @data-spy="Offline" @buttonText="Add Offline Option" @templateClass={{this.templateClass}} @ellipsis={{false}} @shadow={{false}} @profilePath={{concat this.profilePath ".offlineOption"}} @attributes="mediumSpecification.title" as |editing|>
+    <Object::MdMedium @model={{editing}} @profilePath={{concat this.profilePath ".offlineOption"}} />
   </Object::MdObjectTable>
 
-  <Object::MdArrayTable @columns="Format Name,Version,Compression Method,URL" @plain={{false}} @responsive={{true}} @shadow={{false}} @title="Distribution Format" @class="md-embedded" @value={{model.distributionFormat}} @validation={{formatValidation}} @templateClass={{formatTemplate}} @profilePath={{concat profilePath ".distributionFormat"}} as |format|>
+  <Object::MdArrayTable @columns="Format Name,Version,Compression Method,URL" @plain={{false}} @responsive={{true}} @shadow={{false}} @title="Distribution Format" @class="md-embedded" @value={{this.model.distributionFormat}} @validation={{this.formatValidation}} @templateClass={{this.formatTemplate}} @profilePath={{concat this.profilePath ".distributionFormat"}} as |format|>
 
     <td>
-        <Input::MdInput @value={{format.item.formatSpecification.title}} @placeholder="Name of the format" @profilePath={{concat profilePath ".distributionFormat.name"}} />
+        <Input::MdInput @value={{format.item.formatSpecification.title}} @placeholder="Name of the format" @profilePath={{concat this.profilePath ".distributionFormat.name"}} />
     </td>
     <td>
-        <Input::MdInput @value={{format.item.formatSpecification.edition}} @placeholder="Format version" @profilePath={{concat profilePath ".distributionFormat.version"}} />
+        <Input::MdInput @value={{format.item.formatSpecification.edition}} @placeholder="Format version" @profilePath={{concat this.profilePath ".distributionFormat.version"}} />
     </td>
     <td>
-        <Input::MdInput @value={{format.item.compressionMethod}} @placeholder="Compression Method" @profilePath={{concat profilePath ".distributionFormat.compressionMethod"}} />
+        <Input::MdInput @value={{format.item.compressionMethod}} @placeholder="Compression Method" @profilePath={{concat this.profilePath ".distributionFormat.compressionMethod"}} />
     </td>
     <td>
-      <Input::MdInput @value={{format.item.formatSpecification.onlineResource.firstObject.uri}} @placeholder="On-line information about the format" @profilePath={{concat profilePath ".distributionFormat.url"}} />
+      <Input::MdInput @value={{format.item.formatSpecification.onlineResource.firstObject.uri}} @placeholder="On-line information about the format" @profilePath={{concat this.profilePath ".distributionFormat.url"}} />
     </td>
   </Object::MdArrayTable>
 
-  <Layout::MdCard @shadow={{false}} @profilePath={{concat profilePath ".transferFrequency"}} @class="md-embedded" @data-spy="Transfer Frequency" @muted={{false}} @plain={{true}} @bodyIsRow={{true}}>
+  <Layout::MdCard @shadow={{false}} @profilePath={{concat this.profilePath ".transferFrequency"}} @class="md-embedded" @data-spy="Transfer Frequency" @muted={{false}} @plain={{true}} @bodyIsRow={{true}}>
     <label class="text-info col-sm-2">Transfer Frequency</label>
     <div class="col-sm-10">
       <div class="row">
@@ -35,9 +35,11 @@
           "minutes"
           "seconds")
           
+          
+          
           as
           |unit|}}
-          <Input::MdInput @class="col-sm-6 col-md-4 col-lg-2" @valuePath={{concat "transferFrequency." unit}} @model={{model}} @type="number" @label={{uc-words unit}} @placeholder={{concat "Enter " unit}} @profilePath={{concat profilePath ".transferFrequency." unit}} />
+          <Input::MdInput @class="col-sm-6 col-md-4 col-lg-2" @valuePath={{concat "transferFrequency." unit}} @model={{this.model}} @type="number" @label={{uc-words unit}} @placeholder={{concat "Enter " unit}} @profilePath={{concat this.profilePath ".transferFrequency." unit}} />
         {{/each}}
       </div>
     </div>

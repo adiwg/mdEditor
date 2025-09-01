@@ -1,35 +1,35 @@
-<Layout::MdCard @title="Geographic Extent" @collapsible={{true}} @collapsed={{false}} @data-spy={{false}} @shadow={{false}} @spotlightEnabled={{false}} @plain={{true}} @bodyIsRow={{true}} @class="card-lighter" @profilePath={{profilePath}}>
+<Layout::MdCard @title="Geographic Extent" @collapsible={{true}} @collapsed={{false}} @data-spy={{false}} @shadow={{false}} @spotlightEnabled={{false}} @plain={{true}} @bodyIsRow={{true}} @class="card-lighter" @profilePath={{this.profilePath}}>
   <div class="col-sm-6">
     <div class="row">
       <div class="col-xxxl-6">
         <label>Bounding Box</label>
-        <Object::MdBbox @model={{bbox}} @profilePath={{concat profilePath ".bbox"}}>
+        <Object::MdBbox @model={{this.bbox}} @profilePath={{concat this.profilePath ".bbox"}}>
         <div class="card-footer">
-          <button type="button" class="btn btn-primary" {{action "calculateBox"}} disabled={{if (is-empty geographicElement) true}}>
+          <button type="button" class="btn btn-primary" {{action "calculateBox"}} disabled={{if (is-empty this.geographicElement) true}}>
             {{fa-icon "calculator"}} Calculate
           </button>
-          <Control::MdButtonConfirm @class="btn btn-danger" @onConfirm={{action "clearBox"}} @disabled={{unless hasBbox true}}>
+          <Control::MdButtonConfirm @class="btn btn-danger" @onConfirm={{action "clearBox"}} @disabled={{unless this.hasBbox true}}>
             {{fa-icon "trash"}} Clear
           </Control::MdButtonConfirm>
         </div>
         </Object::MdBbox>
       </div>
       <div class="col-xxxl-6 md-extent-description">
-        <Input::MdTextarea @value={{geographicExtent.description}} @rows={{5}} @maxHeight={{300}} @placeholder="Description of geographic extent" @label="Description" @profilePath={{concat profilePath ".description"}} />
-        <Input::MdBoolean @label="Contains Data" @text="The geographic extent contains some or all of the data" @value={{geographicExtent.containsData}} @profilePath={{concat profilePath ".containsData"}} />
+        <Input::MdTextarea @value={{this.geographicExtent.description}} @rows={{5}} @maxHeight={{300}} @placeholder="Description of geographic extent" @label="Description" @profilePath={{concat this.profilePath ".description"}} />
+        <Input::MdBoolean @label="Contains Data" @text="The geographic extent contains some or all of the data" @value={{this.geographicExtent.containsData}} @profilePath={{concat this.profilePath ".containsData"}} />
       </div>
     </div>
   </div>
   <div class="col-sm-6 md-extent-map">
-    {{#if showMap}}
+    {{#if this.showMap}}
       <p class="btn-toolbar">
-        <button type="button" class="btn btn-md btn-success" {{action "editFeatures" index}}>
+        <button type="button" class="btn btn-md btn-success" {{action "editFeatures" this.index}}>
         {{fa-icon "pencil"}} Edit Features</button>
         <Control::MdButtonConfirm @class="btn btn-danger" @onConfirm={{action "deleteFeatures"}}>
           {{fa-icon "trash"}} Clear Features
         </Control::MdButtonConfirm>
       </p>
-      <LeafletMap @lat={{0}} @lng={{0}} @zoom={{2}} @maxZoom={{18}} @onLoad={{action setupMap}}>
+      <LeafletMap @lat={{0}} @lng={{0}} @zoom={{2}} @maxZoom={{18}} @onLoad={{action this.setupMap}}>
         {{!-- Specify child layer components here --}}
         <LayerGroup @name="Terrain" @baselayer={{true}} @default={{true}}>
 
@@ -37,22 +37,22 @@
 
           {{!-- tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution --}}
 
-          <TileLayer @url="//tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png" @attribution={{mapAttribution}} />
+          <TileLayer @url="//tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png" @attribution={{this.mapAttribution}} />
 
         </LayerGroup>
 
-        {{#if geographicElement.length}}
+        {{#if this.geographicElement.length}}
         <FeatureGroup @name="Features" @default={{true}}>
-          {{#each geographicElement as |l|}}
+          {{#each this.geographicElement as |l|}}
             <GeojsonLayer @geoJSON={{l}} />
           {{/each}}
         </FeatureGroup>
         {{/if}}
 
 
-        {{#if bboxPoly}}
+        {{#if this.bboxPoly}}
           <FeatureGroup @name="Bounding Box" @default={{true}}>
-              <PolygonLayer @locations={{bboxPoly}} @color="#29abe0" @fillOpacity={{0}} />
+              <PolygonLayer @locations={{this.bboxPoly}} @color="#29abe0" @fillOpacity={{0}} />
           </FeatureGroup>
         {{/if}}
 
@@ -61,7 +61,7 @@
     {{else}}
       <div class="alert alert-info">
         No Features to display.
-        <button type="button" class="btn btn-md btn-success md-btn-responsive" {{action "editFeatures" index}}>
+        <button type="button" class="btn btn-md btn-success md-btn-responsive" {{action "editFeatures" this.index}}>
           {{fa-icon "pencil"}} Add Features</button>
       </div>
     {{/if}}

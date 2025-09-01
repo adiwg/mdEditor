@@ -1,12 +1,12 @@
-<Object::MdObjectTable @items={{model.allocation}} @header="Allocation" @data-spy="Allocation" @shadow={{true}} @buttonText="Add Allocation" @ellipsis={{true}} @attributes="amount,currency,matching" @profilePath={{concat profilePath ".allocation"}} @collapsible={{false}} @isCollapsed={{false}} @tipPath="allocation" @tipModel={{this}} @required={{v-get this "allocation" "isInvalid"}} @verticalButtons={{true}} as |editing|>
+<Object::MdObjectTable @items={{this.model.allocation}} @header="Allocation" @data-spy="Allocation" @shadow={{true}} @buttonText="Add Allocation" @ellipsis={{true}} @attributes="amount,currency,matching" @profilePath={{concat this.profilePath ".allocation"}} @collapsible={{false}} @isCollapsed={{false}} @tipPath="allocation" @tipModel={{this}} @required={{v-get this "allocation" "isInvalid"}} @verticalButtons={{true}} as |editing|>
 
-  <Object::MdAllocation @model={{editing}} @profilePath={{concat profilePath ".allocation"}} />
+  <Object::MdAllocation @model={{editing}} @profilePath={{concat this.profilePath ".allocation"}} />
 
 </Object::MdObjectTable>
 
 
-{{#if model.timePeriod}}
-  <Object::MdTimePeriod @model={{model.timePeriod}} @required={{v-get this "timePeriod" "isInvalid"}} @profilePath={{concat profilePath ".timePeriod"}} />
+{{#if this.model.timePeriod}}
+  <Object::MdTimePeriod @model={{this.model.timePeriod}} @required={{v-get this "timePeriod" "isInvalid"}} @profilePath={{concat this.profilePath ".timePeriod"}} />
 {{/if}}
 
-<Input::MdTextarea @maxlength={{500}} @value={{model.description}} @label="Description" @data-spy="Description" @placeholder="Description: Less than 500 characters" @profilePath={{concat profilePath ".description"}} />
+<Input::MdTextarea @maxlength={{500}} @value={{this.model.description}} @label="Description" @data-spy="Description" @placeholder="Description: Less than 500 characters" @profilePath={{concat this.profilePath ".description"}} />

@@ -1,18 +1,18 @@
 <div class="row">
 
-  <div class="col-sm-{{if model.files "9" "12"}} col-xxl-{{if model.files "10" "12"}}">
+  <div class="col-sm-{{if this.model.files "9" "12"}} col-xxl-{{if this.model.files "10" "12"}}">
 
     <h3 class="text-info">Import Data</h3>
-    {{#if model.preview}}
-      <h3>{{capitalize (singularize model.preview.model.type)}}: {{model.preview.model.id}}</h3>
-      {{control/md-json-viewer class="md-import-preview" json=model.preview.json modal=false}}
+    {{#if this.model.preview}}
+      <h3>{{capitalize (singularize this.model.preview.model.type)}}: {{this.model.preview.model.id}}</h3>
+      {{control/md-json-viewer class="md-import-preview" json=this.model.preview.json modal=false}}
     {{else}}
-      {{#unless model.files}}
+      {{#unless this.model.files}}
         {{#file-picker class="md-file-picker md-import-picker" fileLoaded="readData" preview=false accept=".json,.xml" readAs="readAsText"}}
           <button type="button" class="btn btn-lg btn-info btn-block">
             <p>{{fa-icon "bullseye"}} Click or Drop a file here to import data.</p>
             <hr>
-            {{#unless isTranslating}}
+            {{#unless this.isTranslating}}
             <div class="inline-block text-left small">
               These file formats are supported: <br>
               <ul>
@@ -34,13 +34,13 @@
             <div class="input-group input-group-lg">
               {{input
                 type="url"
-                value=importUri
+                value=this.importUri
                 placeholder="Enter online link to mdJSON"
                 class="form-control"
               }}
               <span class="input-group-btn">
                   <button class="btn btn-primary" type="button" {{action (route-action "readFromUri")}}>
-                    {{#if isLoading}}
+                    {{#if this.isLoading}}
                       {{fa-icon "spinner" spin=true}}
                     {{else}}
                       {{fa-icon "cloud-download"}}
@@ -51,7 +51,7 @@
           </div>
         </div>
       {{/unless}}
-      {{#each-in model.files as |key item|}}
+      {{#each-in this.model.files as |key item|}}
         {{!-- <div class="md-table-block md-table-checkbox box-shadow--2dp">
           <div class="md-table-title">{{capitalize key}}</div>
           <div class="table-responsive">
@@ -110,17 +110,17 @@
     {{/if}}
   </div>
 
-  {{#if model.files}}
+  {{#if this.model.files}}
     <div class="md-control-sidebar col-sm-3 col-xxl-2 no-nav">
-      {{#if model.preview}}
+      {{#if this.model.preview}}
         <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "closePreview"}}>{{fa-icon "arrow-left"}} Close Preview</button>
-        {{else if model.files}}
+        {{else if this.model.files}}
         <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
         <button type="button" class="btn btn-lg btn-danger btn-block md-btn-responsive" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
         <div class="btn-fake btn-block">
           {{x-toggle
-            value=model.merge
-            onToggle=(action (mut model.merge))
+            value=this.model.merge
+            onToggle=(action (mut this.model.merge))
             showLabels=true
             onLabel="Merge"
             offLabel="Replace"
@@ -129,7 +129,7 @@
           }}
         </div>
         <hr>
-        {{control/md-scroll-spy offset=130 scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}}
+        {{control/md-scroll-spy offset=130 scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}}
       {{/if}}
       </div>
   {{/if}}
@@ -138,12 +138,12 @@
 {{outlet}}
 
 {{#control/md-modal
-  isShowing=showApiModal
+  isShowing=this.showApiModal
   showConfirm=true
   confirmLabel="Go to Settings"
   showCancel=true
   confirm=(route-action "goToSettings")
-  cancel=(action (mut showApiModal) false)
+  cancel=(action (mut this.showApiModal) false)
 }}
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
     mdTranslator API URL required.

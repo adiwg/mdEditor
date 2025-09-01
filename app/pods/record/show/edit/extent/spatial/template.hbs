@@ -1,5 +1,5 @@
 <section>
-    <LeafletTable @layers={{get model (concat "json.metadata.resourceInfo.extent." extentId ".geographicExtent.0.geographicElement")}} @setFeatureGroup={{route-action "setFeatureGroup"}} @handleResize={{route-action "handleResize"}} />
+    <LeafletTable @layers={{get this.model (concat "json.metadata.resourceInfo.extent." this.extentId ".geographicExtent.0.geographicElement")}} @setFeatureGroup={{route-action "setFeatureGroup"}} @handleResize={{route-action "handleResize"}} />
 </section>
 
 

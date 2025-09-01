@@ -1,7 +1,7 @@
 <h4 class="section-header">
   Editing Constraints
-  <Control::MdStatus @model={{model}} />
+  <Control::MdStatus @model={{this.model}} />
 </h4>
-<Object::MdObjectTable @items={{model.json.metadata.resourceInfo.constraint}} @collasped={{false}} @header="Constraints" @buttonText="Add Constraint" @previewTemplate={{previewTemplate}} @addSubbar="md-subbar-extra" @attributes="type" as |editing|>
+<Object::MdObjectTable @items={{this.model.json.metadata.resourceInfo.constraint}} @collasped={{false}} @header="Constraints" @buttonText="Add Constraint" @previewTemplate={{this.previewTemplate}} @addSubbar="md-subbar-extra" @attributes="type" as |editing|>
   <Object::MdConstraint @model={{editing}} @profilePath="record.constraints" />
 </Object::MdObjectTable>

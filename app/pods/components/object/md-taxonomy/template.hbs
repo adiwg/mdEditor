@@ -1,18 +1,18 @@
-<Layout::MdCard @title={{title}} @collapsible={{true}} @collapsed={{false}} @profilePath="record.taxonomy" @data-spy={{concat "Collection " index}} @shadow={{true}} @spotlightEnabled={{false}}>
+<Layout::MdCard @title={{this.title}} @collapsible={{true}} @collapsed={{false}} @profilePath="record.taxonomy" @data-spy={{concat "Collection " this.index}} @shadow={{true}} @spotlightEnabled={{false}}>
     <div class="card-buttons">
       <div class="row">
         <div class="col-sm-6">
-          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editCollection" index}}>
+          <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editCollection" this.index}}>
             {{fa-icon "pencil"}} Edit Collection</button>
         </div>
         <div class="col-sm-6">
-          <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteCollection" index}}>
+          <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteCollection" this.index}}>
               {{fa-icon "times"}} Delete Collection</button>
         </div>
       </div>
     </div>
 
     <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{false}} @maximizable={{false}} @spotlightEnabled={{false}} @block={{false}} @profilePath="record.taxonomy.classificationPreview">
-      <Object::MdTaxonomy::Classification @model={{model.taxonomicClassification}} @preview={{true}} @profilePath="record.taxonomy.classificationPreview" />
+      <Object::MdTaxonomy::Classification @model={{this.model.taxonomicClassification}} @preview={{true}} @profilePath="record.taxonomy.classificationPreview" />
     </Layout::MdCard>
 </Layout::MdCard>

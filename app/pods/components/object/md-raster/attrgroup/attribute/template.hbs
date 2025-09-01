@@ -1,18 +1,18 @@
 <Layout::MdCard @shadow={{true}}>
-  <Input::MdTextarea @value={{model.attributeDescription}} @label="Attribute Description" @infotip={{false}} @data-spy="Attribute Description" @placeholder="Description of the attribute" @profilePath={{concat profilePath ".attributeDescription"}} />
+  <Input::MdTextarea @value={{this.model.attributeDescription}} @label="Attribute Description" @infotip={{false}} @data-spy="Attribute Description" @placeholder="Description of the attribute" @profilePath={{concat this.profilePath ".attributeDescription"}} />
 
-  <Object::MdIdentifierObjectTable @label="Attribute Identifier" @shadow={{false}} @model={{model.attributeIdentifier}} @valuePath="attrIdentifier" @data-spy="Attribute Identifier" @class={{if embedded "md-embedded"}} @visibility={{true}} @profilePath={{concat profilePath ".attributeIdentifier"}} />
+  <Object::MdIdentifierObjectTable @label="Attribute Identifier" @shadow={{false}} @model={{this.model.attributeIdentifier}} @valuePath="attrIdentifier" @data-spy="Attribute Identifier" @class={{if this.embedded "md-embedded"}} @visibility={{true}} @profilePath={{concat this.profilePath ".attributeIdentifier"}} />
 </Layout::MdCard>
 
 <Layout::MdCard @shadow={{true}}>
-  <Input::MdCodelistMulti @value={{model.bandBoundaryDefinition}} @create={{true}} @icon={{false}} @mdCodeName="bandDefinition" @closeOnSelect={{false}} @placeholder="Designation of criterion for defining maxiumum and minimum wavelenghts for a spectral band" @data-spy="Band Boundary Definition" @label="Band Boundary Definition" @profilePath={{concat profilePath ".bandBoundaryDefinition"}} />
-  <Input::MdCodelistMulti @value={{model.transferFunctionType}} @create={{true}} @icon={{false}} @mdCodeName="transferFunctionTypeCode" @closeOnSelect={{false}} @placeholder="Transform function to be used when scaling a physical value for a given element." @data-spy="Transfer Function Type" @label="Transfer Function Type" @profilePath={{concat profilePath ".transferFunctionType"}} />
-  <Input::MdCodelistMulti @value={{model.transmittedPolarization}} @create={{true}} @icon={{false}} @mdCodeName="polarisationOrientationCode" @closeOnSelect={{false}} @label="Transmitted Polarization" @placeholder="Polarization of the radiation transmitted." @data-spy="Transmitted Polarization" @profilePath={{concat profilePath ".transmittedPolarization"}} />
-  <Input::MdCodelistMulti @value={{model.detectedPolarization}} @create={{true}} @icon={{false}} @mdCodeName="polarisationOrientationCode" @closeOnSelect={{false}} @label="Detected Polarization" @placeholder="Polarization of the radiation transmitted." @data-spy="Detected Polarization" @profilePath={{concat profilePath ".detectedPolarization"}} />
+  <Input::MdCodelistMulti @value={{this.model.bandBoundaryDefinition}} @create={{true}} @icon={{false}} @mdCodeName="bandDefinition" @closeOnSelect={{false}} @placeholder="Designation of criterion for defining maxiumum and minimum wavelenghts for a spectral band" @data-spy="Band Boundary Definition" @label="Band Boundary Definition" @profilePath={{concat this.profilePath ".bandBoundaryDefinition"}} />
+  <Input::MdCodelistMulti @value={{this.model.transferFunctionType}} @create={{true}} @icon={{false}} @mdCodeName="transferFunctionTypeCode" @closeOnSelect={{false}} @placeholder="Transform function to be used when scaling a physical value for a given element." @data-spy="Transfer Function Type" @label="Transfer Function Type" @profilePath={{concat this.profilePath ".transferFunctionType"}} />
+  <Input::MdCodelistMulti @value={{this.model.transmittedPolarization}} @create={{true}} @icon={{false}} @mdCodeName="polarisationOrientationCode" @closeOnSelect={{false}} @label="Transmitted Polarization" @placeholder="Polarization of the radiation transmitted." @data-spy="Transmitted Polarization" @profilePath={{concat this.profilePath ".transmittedPolarization"}} />
+  <Input::MdCodelistMulti @value={{this.model.detectedPolarization}} @create={{true}} @icon={{false}} @mdCodeName="polarisationOrientationCode" @closeOnSelect={{false}} @label="Detected Polarization" @placeholder="Polarization of the radiation transmitted." @data-spy="Detected Polarization" @profilePath={{concat this.profilePath ".detectedPolarization"}} />
 
   <Layout::MdWrap @shadow={{true}} @class="md-flex-col-475 mt-4">
-    {{#each params as |param|}}
-      <Input::MdInput @model={{model}} @valuePath={{param.property}} @label={{param.label}} @infotip={{true}} @data-spy={{if model param.label}} @type={{param.type}} @class="col-lg-6 col-xxxl-4" @placeholder={{param.description}} @profilePath={{concat profilePath ".params." param.property}} />
+    {{#each this.params as |param|}}
+      <Input::MdInput @model={{this.model}} @valuePath={{param.property}} @label={{param.label}} @infotip={{true}} @data-spy={{if this.model param.label}} @type={{param.type}} @class="col-lg-6 col-xxxl-4" @placeholder={{param.description}} @profilePath={{concat this.profilePath ".params." param.property}} />
     {{/each}}
   </Layout::MdWrap>
 </Layout::MdCard>

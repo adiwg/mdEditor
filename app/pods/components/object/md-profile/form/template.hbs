@@ -1,18 +1,18 @@
-<Input::MdInput @model={{record}} @valuePath="uri" @label="URL" @placeholder="Enter URL of the profile." @showValidations={{true}} />
+<Input::MdInput @model={{this.record}} @valuePath="uri" @label="URL" @placeholder="Enter URL of the profile." @showValidations={{true}} />
 
-<Input::MdInput @value={{record.alias}} @label="Alias" @placeholder="Enter an alternative title." @showValidations={{true}} />
+<Input::MdInput @value={{this.record.alias}} @label="Alias" @placeholder="Enter an alternative title." @showValidations={{true}} />
 
 <div class="form-group">
   <label class="">Version</label>
   <div class="">
-    <span>{{if record.localVersion record.localVersion "--"}}</span>
-    {{#if record.hasUpdate}}
-    <span class="label label-pill label-info">Update Available ({{record.remoteVersion}})</span>
+    <span>{{if this.record.localVersion this.record.localVersion "--"}}</span>
+    {{#if this.record.hasUpdate}}
+    <span class="label label-pill label-info">Update Available ({{this.record.remoteVersion}})</span>
     {{/if}}
   </div>
 </div>
 
 <hr>
 
-<Object::MdProfile::Preview @record={{record}} />
+<Object::MdProfile::Preview @record={{this.record}} />
 {{yield}}

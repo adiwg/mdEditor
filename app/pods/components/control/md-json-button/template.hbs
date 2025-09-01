@@ -1,19 +1,19 @@
 {{#if hasBlock}}
   {{yield}}
 {{else}}
-  <span class="fa fa-{{icon}}"></span> {{text}}
+  <span class="fa fa-{{icon}}"></span> {{this.text}}
 {{/if}}
 
-{{#if preview}}
-  <Control::MdJsonViewer @json={{json}} @modal={{true}} @close={{action "close"}} />
+{{#if this.preview}}
+  <Control::MdJsonViewer @json={{this.json}} @modal={{true}} @close={{action "close"}} />
 {{/if}}
 
-{{#unless hideSlider}}
+{{#unless this.hideSlider}}
   <ToElsewhere @named="md-slider-json" @send={{hash
-      title=(concat "Viewing JSON for: " title)
+      title=(concat "Viewing JSON for: " this.title)
       body=(component "control/md-json-viewer"
         modal=false
-        json=json
+        json=this.json
       )
     }} />
 {{/unless}}

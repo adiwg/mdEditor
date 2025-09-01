@@ -11,13 +11,13 @@
   <div class="form-group">
     <label class="col-sm-3 co-xxl-2 control-label">Auto Save</label>
     <div class="col-sm-2">
-      <XToggle @value={{model.autoSave}} @onToggle={{action (mut model.autoSave)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
+      <XToggle @value={{this.model.autoSave}} @onToggle={{action (mut this.model.autoSave)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
     </div>
   </div>
   <div class="form-group">
     <label class="col-sm-3 co-xxl-2 control-label">Copy in Edit Mode</label>
     <div class="col-sm-2">
-      <XToggle @value={{model.showCopy}} @onToggle={{action (mut model.showCopy)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
+      <XToggle @value={{this.model.showCopy}} @onToggle={{action (mut this.model.showCopy)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
     </div>
   </div>
 
@@ -25,18 +25,18 @@
     <div class="form-group">
       <label class="col-sm-3 co-xxl-2 control-label">Delete in Edit Mode</label>
       <div class="col-sm-2">
-        <XToggle @value={{model.showDelete}} @onToggle={{action (mut model.showDelete)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
+        <XToggle @value={{this.model.showDelete}} @onToggle={{action (mut this.model.showDelete)}} @showLabels={{true}} @onLabel="On" @offLabel="Off" @size="medium" @theme="default" />
       </div>
     </div>
     <div class="form-group no-margin">
       <label class="col-sm-3 control-label">Clear All Records</label>
       <div class="col-sm-9 form-group-inline">
 
-        <Control::MdButton @class="btn btn-sm btn-danger" @icon="times" @text="Clear Storage Cache" @click={{action (mut showStorageModal) true}} />
-        <Control::MdModal @message={{t "settings.clearStorageMessage"}} @confirm={{route-action "clearLocalStorage"}} @showCancel={{true}} @cancelType="primary" @showConfirm={{true}} @confirmLabel="Confirm" @confirmType="danger" @isShowing={{showStorageModal}} />
+        <Control::MdButton @class="btn btn-sm btn-danger" @icon="times" @text="Clear Storage Cache" @click={{action (mut this.showStorageModal) true}} />
+        <Control::MdModal @message={{t "settings.clearStorageMessage"}} @confirm={{route-action "clearLocalStorage"}} @showCancel={{true}} @cancelType="primary" @showConfirm={{true}} @confirmLabel="Confirm" @confirmType="danger" @isShowing={{this.showStorageModal}} />
         <div class="form-group-inline">
           <span>Keep Settings?</span>
-          <Input @type="checkbox" @checked={{model.keepSettings}} />
+          <Input @type="checkbox" @checked={{this.model.keepSettings}} />
         </div>
       </div>
     </div>
@@ -47,27 +47,27 @@
 <Layout::MdCard @title="Defaults" @shadow={{true}}>
 <div class="form-group">
   <div class="col-md-4">
-    <Input::MdCodelist @value={{model.language}} @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @mdCodeName="language" @label="Language" @showValidations={{true}} @placeholder="Select or enter a language code." />
+    <Input::MdCodelist @value={{this.model.language}} @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="language" @label="Language" @showValidations={{true}} @placeholder="Select or enter a language code." />
   </div>
   <div class="col-md-4">
-    <Input::MdCodelist @value={{model.characterSet}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @mdCodeName="characterSet" @label="Character Set" @showValidations={{true}} @placeholder="Select character set." />
+    <Input::MdCodelist @value={{this.model.characterSet}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="characterSet" @label="Character Set" @showValidations={{true}} @placeholder="Select character set." />
   </div>
   <div class="col-md-4">
-    <Input::MdCodelist @value={{model.country}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @mdCodeName="countries" @label="Country" @placeholder="Select country code." />
+    <Input::MdCodelist @value={{this.model.country}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="countries" @label="Country" @placeholder="Select country code." />
   </div>
   <hr class="col-md-12">
   <div class="col-md-8">
-    <Input::MdInput @label="Import URL" @type="url" @value={{model.importUriBase}} @placeholder="Text string used as the default URL for importing." />
+    <Input::MdInput @label="Import URL" @type="url" @value={{this.model.importUriBase}} @placeholder="Text string used as the default URL for importing." />
   </div>
   <hr class="col-md-12">
   <div class="col-md-8">
-    <Input::MdInput @label="mdTranslator API URL" @type="url" @value={{model.mdTranslatorAPI}} @placeholder="URL for the ADIwg Metadata Translator." />
+    <Input::MdInput @label="mdTranslator API URL" @type="url" @value={{this.model.mdTranslatorAPI}} @placeholder="URL for the ADIwg Metadata Translator." />
   </div>
    <hr class="col-md-12">
    <div class="col-md-8">
     <label>Itis Proxy URL</label>
     <div class="input-group">
-      <Input::MdInput @type="url" @value={{model.itisProxyUrl}} @placeholder="URL for the ITIS Proxy." />
+      <Input::MdInput @type="url" @value={{this.model.itisProxyUrl}} @placeholder="URL for the ITIS Proxy." />
       <span class="input-group-btn">
         <button class="btn btn-info" type="button" {{action "deriveItisProxyUrl"}}>Derive from API URL
           <EmberTooltip @tooltipClass="ember-tooltip md-tooltip info" @text="Derive ITIS Proxy URL from mdTranslator API URL" />
@@ -79,7 +79,7 @@
 
 <div class="clearfix"></div>
 <hr>
-<Object::MdArrayTable @columns="Repository, Collection Title" @value={{model.repositoryDefaults}} @plain={{true}} @title="Metadata Repository" @templateClass={{settings.repositoryTemplate}} @onChange={{route-action "save"}} @data-spy="Metadata Repository" as |meta|>
+<Object::MdArrayTable @columns="Repository, Collection Title" @value={{this.model.repositoryDefaults}} @plain={{true}} @title="Metadata Repository" @templateClass={{this.settings.repositoryTemplate}} @onChange={{route-action "save"}} @data-spy="Metadata Repository" as |meta|>
 <td>
   <Input::MdCodelist @value={{meta.item.repository}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="metadataRepository" @closeOnSelect={{true}} @placeholder="Select or enter a repository." @change={{route-action "save"}} />
 </td>
@@ -91,7 +91,7 @@
 
 <Layout::MdCard @title="Date Settings" @data-spy="Dates">
 <div class="col-md-4">
-  <Input::MdMonth @date={{model.fiscalStartMonth}} @format="MMMM" @altFormat="MM" @label="Start Month of Fiscal Year" @placeholder="Select month." />
+  <Input::MdMonth @date={{this.model.fiscalStartMonth}} @format="MMMM" @altFormat="MM" @label="Start Month of Fiscal Year" @placeholder="Select month." />
 </div>
 </Layout::MdCard>
 
@@ -104,4 +104,4 @@
 </Layout::MdCard>
 {{outlet}}
 
-<ToElsewhere @named="md-scroll-spy-settings" @send={{component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-settings" @send={{component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

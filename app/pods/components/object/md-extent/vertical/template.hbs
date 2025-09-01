@@ -1,4 +1,4 @@
-<Input::MdTextarea @value={{model.description}} @rows={{5}} @maxHeight={{300}} @placeholder="Description of vertical extent" @label="Description" @profilePath={{concat profilePath ".description"}} />
-<Input::MdInput @type="number" @step="1" @model={{this}} @valuePath="model.minValue" @label="Min Value" @placeholder="0" @profilePath={{concat profilePath ".minValue"}} @showValidations={{true}} />
-<Input::MdInput @type="number" @step="1" @model={{this}} @valuePath="model.maxValue" @label="Max Value" @placeholder="0" @profilePath={{concat profilePath ".maxValue"}} @showValidations={{true}} />
-<Object::MdSrs @model={{model.crsId}} @profilePath={{concat profilePath ".crsId"}} />
+<Input::MdTextarea @value={{this.model.description}} @rows={{5}} @maxHeight={{300}} @placeholder="Description of vertical extent" @label="Description" @profilePath={{concat this.profilePath ".description"}} />
+<Input::MdInput @type="number" @step="1" @model={{this}} @valuePath="model.minValue" @label="Min Value" @placeholder="0" @profilePath={{concat this.profilePath ".minValue"}} @showValidations={{true}} />
+<Input::MdInput @type="number" @step="1" @model={{this}} @valuePath="model.maxValue" @label="Max Value" @placeholder="0" @profilePath={{concat this.profilePath ".maxValue"}} @showValidations={{true}} />
+<Object::MdSrs @model={{this.model.crsId}} @profilePath={{concat this.profilePath ".crsId"}} />

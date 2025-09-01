@@ -1,17 +1,17 @@
 {{!-- {{#if link.isOverflow}} --}}
-  {{#if isStaticLinks}}
-    <LinkTo @route={{link.target}} class="link.class">{{link.title}}
-      {{#if link.tip}}
+  {{#if this.isStaticLinks}}
+    <LinkTo @route={{this.link.target}} class="link.class">{{this.link.title}}
+      {{#if this.link.tip}}
         <EmberTooltip @effect="slide" @side="bottom" @delay={{500}} @tooltipClass="ember-tooltip md-tooltip info">
-      {{link.tip}}
+      {{this.link.tip}}
         </EmberTooltip>
       {{/if}}
     </LinkTo>
   {{else}}
-    <LinkTo @route={{link.target}} @model={{model}} class="link.class">{{link.title}}
-      {{#if link.tip}}
+    <LinkTo @route={{this.link.target}} @model={{this.model}} class="link.class">{{this.link.title}}
+      {{#if this.link.tip}}
         <EmberTooltip @effect="slide" @side="bottom" @delay={{500}} @tooltipClass="ember-tooltip md-tooltip info">
-          {{link.tip}}
+          {{this.link.tip}}
           {{!-- {{link.isOverflow}} --}}
         </EmberTooltip>
       {{/if}}

@@ -1,55 +1,55 @@
-<Layout::MdCard @title="Basic Information" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".basicInformation"}} @data-spy={{if data-spy "Basic Information"}} @class={{if embedded "md-embedded"}} @shadow={{if embedded false true}} @required={{true}}>
+<Layout::MdCard @title="Basic Information" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat this.profilePath ".basicInformation"}} @data-spy={{if this.data-spy "Basic Information"}} @class={{if this.embedded "md-embedded"}} @shadow={{if this.embedded false true}} @required={{true}}>
 
-  <Input::MdInput @value={{model.title}} @placeholder={{t "placeholders.citation.title"}} @label="Title" @required={{true}} @profilePath={{concat profilePath ".basicInformation.title"}} @data-spy={{if data-spy "Title"}} @class="md-embedded" />
+  <Input::MdInput @value={{this.model.title}} @placeholder={{t "placeholders.citation.title"}} @label="Title" @required={{true}} @profilePath={{concat this.profilePath ".basicInformation.title"}} @data-spy={{if this.data-spy "Title"}} @class="md-embedded" />
 
-  <Layout::MdCard @shadow={{false}} @profilePath={{concat profilePath ".basicInformation.alternateTitle"}}>
-    <Object::MdSimpleArrayTable @data-spy={{false}} @title="Alternate Title" @plain={{true}} @value={{model.alternateTitle}} as |alt|>
+  <Layout::MdCard @shadow={{false}} @profilePath={{concat this.profilePath ".basicInformation.alternateTitle"}}>
+    <Object::MdSimpleArrayTable @data-spy={{false}} @title="Alternate Title" @plain={{true}} @value={{this.model.alternateTitle}} as |alt|>
         <td>
             <Input::MdInput @value={{alt.item.value}} @placeholder="Additional titles for the resource." />
         </td>
     </Object::MdSimpleArrayTable>
   </Layout::MdCard>
 
-  <Layout::MdCard @shadow={{false}} @profilePath={{concat profilePath ".basicInformation.dates"}} @data-spy={{if data-spy "Dates"}} @class="md-embedded">
-    <Object::MdDateArray @value={{model.date}} @plain={{true}} @data-spy={{false}} @profilePath={{concat profilePath ".basicInformation.dates"}} />
+  <Layout::MdCard @shadow={{false}} @profilePath={{concat this.profilePath ".basicInformation.dates"}} @data-spy={{if this.data-spy "Dates"}} @class="md-embedded">
+    <Object::MdDateArray @value={{this.model.date}} @plain={{true}} @data-spy={{false}} @profilePath={{concat this.profilePath ".basicInformation.dates"}} />
   </Layout::MdCard>
 
 
-  {{#unless embedded}}
-    <Input::MdInput @value={{model.edition}} @placeholder={{t "placeholders.citation.edition"}} @label="Edition" @profilePath={{concat profilePath ".basicInformation.edition"}} />
+  {{#unless this.embedded}}
+    <Input::MdInput @value={{this.model.edition}} @placeholder={{t "placeholders.citation.edition"}} @label="Edition" @profilePath={{concat this.profilePath ".basicInformation.edition"}} />
 
-    <Input::MdCodelistMulti @value={{model.presentationForm}} @label="Presentation Form" @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="presentationForm" @closeOnSelect={{false}} @placeholder={{t "placeholders.citation.presentationForm"}} @profilePath={{concat profilePath ".basicInformation.presentationForm"}} />
+    <Input::MdCodelistMulti @value={{this.model.presentationForm}} @label="Presentation Form" @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="presentationForm" @closeOnSelect={{false}} @placeholder={{t "placeholders.citation.presentationForm"}} @profilePath={{concat this.profilePath ".basicInformation.presentationForm"}} />
   {{/unless}}
 
 </Layout::MdCard>
 
-<Object::MdPartyArray @title="Responsible Party" @data-spy={{if data-spy "Responsible Parties"}} @class={{if embedded "md-embedded"}} @collapsible={{true}} @collapsed={{false}} @required={{false}} @value={{model.responsibleParty}} @profilePath={{concat profilePath ".responsibleParty"}} />
+<Object::MdPartyArray @title="Responsible Party" @data-spy={{if this.data-spy "Responsible Parties"}} @class={{if this.embedded "md-embedded"}} @collapsible={{true}} @collapsed={{false}} @required={{false}} @value={{this.model.responsibleParty}} @profilePath={{concat this.profilePath ".responsibleParty"}} />
 
-<Object::MdOnlineResourceArray @model={{model.onlineResource}} @profilePath={{concat profilePath ".onlineResource"}} @class={{if embedded "md-embedded"}} @data-spy={{if data-spy "Online Resource"}} />
+<Object::MdOnlineResourceArray @model={{this.model.onlineResource}} @profilePath={{concat this.profilePath ".onlineResource"}} @class={{if this.embedded "md-embedded"}} @data-spy={{if this.data-spy "Online Resource"}} />
 
 
-<Object::MdIdentifierArray @model={{model.identifier}} @profilePath={{concat profilePath ".identifier"}} @data-spy={{if data-spy "Identifier"}} @editItem={{editIdentifier}} @class={{if embedded "md-embedded"}} @visibility={{if simpleIdentifier false true}} />
+<Object::MdIdentifierArray @model={{this.model.identifier}} @profilePath={{concat this.profilePath ".identifier"}} @data-spy={{if this.data-spy "Identifier"}} @editItem={{this.editIdentifier}} @class={{if this.embedded "md-embedded"}} @visibility={{if this.simpleIdentifier false true}} />
 
-<Object::MdIdentifierObjectTable @model={{model.identifier}} @profilePath={{concat profilePath ".identifierSimple"}} @data-spy={{if data-spy "Identifier"}} @visibility={{if simpleIdentifier true false}} @short={{shortIdentifier}} @class={{if embedded "md-embedded"}} />
+<Object::MdIdentifierObjectTable @model={{this.model.identifier}} @profilePath={{concat this.profilePath ".identifierSimple"}} @data-spy={{if this.data-spy "Identifier"}} @visibility={{if this.simpleIdentifier true false}} @short={{this.shortIdentifier}} @class={{if this.embedded "md-embedded"}} />
 
-<Object::MdIdentifierObjectTable @model={{model.identifier}} @profilePath={{concat profilePath ".identifierShort"}} @data-spy={{if data-spy "Identifier"}} @visibility={{false}} @short={{true}} @class={{if embedded "md-embedded"}} />
+<Object::MdIdentifierObjectTable @model={{this.model.identifier}} @profilePath={{concat this.profilePath ".identifierShort"}} @data-spy={{if this.data-spy "Identifier"}} @visibility={{false}} @short={{true}} @class={{if this.embedded "md-embedded"}} />
 
-{{#unless embedded}}
-  <Layout::MdCard @collapsible={{true}} @title="Series" @profilePath={{concat profilePath ".series"}} @data-spy={{if data-spy "Series"}} @content={{model.series}}>
-    <Input::MdInput @value={{model.series.seriesName}} @placeholder={{t "placeholders.citation.seriesName"}} @label="Name" @profilePath={{concat profilePath ".series.name"}} />
+{{#unless this.embedded}}
+  <Layout::MdCard @collapsible={{true}} @title="Series" @profilePath={{concat this.profilePath ".series"}} @data-spy={{if this.data-spy "Series"}} @content={{this.model.series}}>
+    <Input::MdInput @value={{this.model.series.seriesName}} @placeholder={{t "placeholders.citation.seriesName"}} @label="Name" @profilePath={{concat this.profilePath ".series.name"}} />
 
-    <Input::MdInput @value={{model.series.seriesIssue}} @placeholder={{t "placeholders.citation.seriesIssue"}} @label="Issue" @profilePath={{concat profilePath ".series.issue"}} />
+    <Input::MdInput @value={{this.model.series.seriesIssue}} @placeholder={{t "placeholders.citation.seriesIssue"}} @label="Issue" @profilePath={{concat this.profilePath ".series.issue"}} />
 
-    <Input::MdInput @value={{model.series.issuePage}} @placeholder={{t "placeholders.citation.seriesPage"}} @label="Page" @profilePath={{concat profilePath ".series.page"}} />
+    <Input::MdInput @value={{this.model.series.issuePage}} @placeholder={{t "placeholders.citation.seriesPage"}} @label="Page" @profilePath={{concat this.profilePath ".series.page"}} />
   </Layout::MdCard>
 
-  <Object::MdSimpleArrayTable @title="Other Details" @required={{false}} @plain={{false}} @data-spy={{if data-spy "Other Details"}} @profilePath={{concat profilePath ".otherCitationDetails"}} @value={{model.otherCitationDetails}} as |val|>
+  <Object::MdSimpleArrayTable @title="Other Details" @required={{false}} @plain={{false}} @data-spy={{if this.data-spy "Other Details"}} @profilePath={{concat this.profilePath ".otherCitationDetails"}} @value={{this.model.otherCitationDetails}} as |val|>
     <td>
         <Input::MdTextarea @value={{val.item.value}} @placeholder="Enter additional detail about the citation." />
     </td>
   </Object::MdSimpleArrayTable>
 
-  <Object::MdGraphicArray @model={{model.graphic}} @data-spy={{if data-spy "Graphic"}} @button-text="Add Graphic" @label="Graphic" @profilePath={{concat profilePath ".graphic"}} />
+  <Object::MdGraphicArray @model={{this.model.graphic}} @data-spy={{if this.data-spy "Graphic"}} @button-text="Add Graphic" @label="Graphic" @profilePath={{concat this.profilePath ".graphic"}} />
 {{/unless}}
 
 {{yield}}

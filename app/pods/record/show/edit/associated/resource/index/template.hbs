@@ -1,9 +1,9 @@
 <h4 class="section-header">
-  Editing Associated Resource #{{resourceId}}
-  <Control::MdStatus @model={{parentModel}} />
+  Editing Associated Resource #{{this.resourceId}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-<Object::MdAssociated @model={{model}} @recordId={{parentModel.recordId}} @profilePath="record.associated" @editLinked={{route-action "editLinked"}} />
+<Object::MdAssociated @model={{this.model}} @recordId={{this.parentModel.recordId}} @profilePath="record.associated" @editLinked={{route-action "editLinked"}} />
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-citation"
     text="Back to Resource List"
@@ -13,7 +13,7 @@
   }} />
 
 <ToElsewhere @named="md-slider-content" @send={{hash
-    title=(concat "Click row to select a resource: " model.associationType)
+    title=(concat "Click row to select a resource: " this.model.associationType)
     body=(component "control/md-select-table"
       select=(route-action "insertResource")
       data=(compute (route-action "sliderData"))
@@ -21,4 +21,4 @@
     )
   }} />
 
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

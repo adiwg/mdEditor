@@ -1,10 +1,10 @@
 <h4 class="section-header">
   Editing Entities
-  <span class="small">for <em>{{model.title}}</em></span>
-  <Control::MdStatus @model={{model}} />
+  <span class="small">for <em>{{this.model.title}}</em></span>
+  <Control::MdStatus @model={{this.model}} />
 </h4>
 
-<Object::MdObjectrouteTable @items={{model.json.dataDictionary.entity}} @header="Entity" @shadow={{true}} @buttonText="Add Entity" @ellipsis={{true}} @attributes="entityId,codeName,definition" @editItem={{route-action "editEntity"}} @verticalButtons={{true}} @profilePath="dictionary.entity" @hideIndex={{false}} @condensed={{false}} />
+<Object::MdObjectrouteTable @items={{this.model.json.dataDictionary.entity}} @header="Entity" @shadow={{true}} @buttonText="Add Entity" @ellipsis={{true}} @attributes="entityId,codeName,definition" @editItem={{route-action "editEntity"}} @verticalButtons={{true}} @profilePath="dictionary.entity" @hideIndex={{false}} @condensed={{false}} />
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link"
     text="Import CSV"

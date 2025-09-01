@@ -1,7 +1,7 @@
-<Input::MdTextarea @value={{specimen}} @required={{true}} @rows={{3}} @profilePath={{concat profilePath ".specimen"}} @label="Specimen" @placeholder={{t "placeholders.taxonomy.specimen"}} @data-spy="Specimen" @showValidations={{true}} />
+<Input::MdTextarea @value={{this.specimen}} @required={{true}} @rows={{3}} @profilePath={{concat this.profilePath ".specimen"}} @label="Specimen" @placeholder={{t "placeholders.taxonomy.specimen"}} @data-spy="Specimen" @showValidations={{true}} />
 
 <label class="required">Repository</label>
-<Layout::MdCard @required={{true}} @collapsible={{false}} @collapsed={{false}} @profilePath={{concat profilePath ".repository"}} @data-spy="Repository" @shadow={{false}} @spotlightEnabled={{false}}>
+<Layout::MdCard @required={{true}} @collapsible={{false}} @collapsed={{false}} @profilePath={{concat this.profilePath ".repository"}} @data-spy="Repository" @shadow={{false}} @spotlightEnabled={{false}}>
   {{!-- <label class="required"><h4 class="card-title inline-block">Repository</h4></label> --}}
-  <Object::MdParty @model={{repository}} @profilePath={{concat profilePath ".repository"}} />
+  <Object::MdParty @model={{this.repository}} @profilePath={{concat this.profilePath ".repository"}} />
 </Layout::MdCard>

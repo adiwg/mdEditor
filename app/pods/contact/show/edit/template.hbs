@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-9 col-md-offset-1">
-        <h3>Editing Contact: {{model.json.name}} <small>{{model.json.contactId}}</small>
+        <h3>Editing Contact: {{this.model.json.name}} <small>{{this.model.json.contactId}}</small>
           <span class="text-danger">
             {{!-- {{#if model.hasDirtyHash}}
               {{fa-icon "exclamation-circle"}}
@@ -8,49 +8,49 @@
                 tooltipClass="ember-tooltip md-tooltip danger"
               }}
             {{/if}} --}}
-            <Control::MdStatus @model={{model}} />
+            <Control::MdStatus @model={{this.model}} />
           </span>
         </h3>
         <form>
-            <Input::MdInputConfirm @valuePath="json.contactId" @model={{model}} @data-spy="Contact ID" @confirmTip="Note! Editing the Contact ID may break links. Be aware." @placeholder={{t "placeholders.contact.id"}} @label="Contact ID" />
+            <Input::MdInputConfirm @valuePath="json.contactId" @model={{this.model}} @data-spy="Contact ID" @confirmTip="Note! Editing the Contact ID may break links. Be aware." @placeholder={{t "placeholders.contact.id"}} @label="Contact ID" />
 
-            <Input::MdInput @valuePath="json.name" @model={{model}} @placeholder={{concat model.type " Name"}} @label={{concat model.type " Name"}} />
+            <Input::MdInput @valuePath="json.name" @model={{this.model}} @placeholder={{concat this.model.type " Name"}} @label={{concat this.model.type " Name"}} />
 
-            {{#unless model.json.isOrganization}}
-                <Input::MdInput @valuePath="json.positionName" @model={{model}} @placeholder={{t "placeholders.contact.positionName"}} @label="Position Name" />
+            {{#unless this.model.json.isOrganization}}
+                <Input::MdInput @valuePath="json.positionName" @model={{this.model}} @placeholder={{t "placeholders.contact.positionName"}} @label="Position Name" />
             {{/unless}}
 
-            <Input::MdCodelist @value={{model.json.contactType}} @label="Contact Type" @create={{false}} @tooltip={{true}} @icon={{false}} @mdCodeName="entityType" @placeholder="Select a contact type" />
+            <Input::MdCodelist @value={{this.model.json.contactType}} @label="Contact Type" @create={{false}} @tooltip={{true}} @icon={{false}} @mdCodeName="entityType" @placeholder="Select a contact type" />
 
-            <Input::MdSelectContacts @label="Member Of Organization" @placeholder="Pick organization(s) this contact belongs to" @value={{model.json.memberOfOrganization}} @contactType="organizations" @icon={{true}} @tooltip={{false}} @defaultIcon="organizations" @filterId={{model.json.contactId}} />
+            <Input::MdSelectContacts @label="Member Of Organization" @placeholder="Pick organization(s) this contact belongs to" @value={{this.model.json.memberOfOrganization}} @contactType="organizations" @icon={{true}} @tooltip={{false}} @defaultIcon="organizations" @filterId={{this.model.json.contactId}} />
 
-            <Object::MdContactIdentifierArray @value={{model.json.externalIdentifier}} @data-spy="ExternalIdentifiers" />
+            <Object::MdContactIdentifierArray @value={{this.model.json.externalIdentifier}} @data-spy="ExternalIdentifiers" />
 
-            <Object::MdPhoneArray @value={{model.json.phone}} @data-spy="Phone" />
+            <Object::MdPhoneArray @value={{this.model.json.phone}} @data-spy="Phone" />
 
-           <Object::MdSimpleArrayTable @data-spy="E-mail" @title="E-mail Address" @required={{false}} @value={{model.json.electronicMailAddress}} as |email|>
+           <Object::MdSimpleArrayTable @data-spy="E-mail" @title="E-mail Address" @required={{false}} @value={{this.model.json.electronicMailAddress}} as |email|>
               <td>
                   <Input::MdInput @value={{email.item.value}} @placeholder="Enter valid e-mail address" />
               </td>
             </Object::MdSimpleArrayTable>
 
-            <Object::MdAddress @model={{model.json.address}} @data-spy="Address" />
+            <Object::MdAddress @model={{this.model.json.address}} @data-spy="Address" />
 
-            <Object::MdOnlineResourceArray @model={{model.json.onlineResource}} @profilePath="contact" @data-spy="Online Resource" />
+            <Object::MdOnlineResourceArray @model={{this.model.json.onlineResource}} @profilePath="contact" @data-spy="Online Resource" />
 
-            <Object::MdGraphicArray @model={{model.json.logoGraphic}} @data-spy="Logo" @button-text="Add Logo" @label="Logo" @profilePath="contact" />
+            <Object::MdGraphicArray @model={{this.model.json.logoGraphic}} @data-spy="Logo" @button-text="Add Logo" @label="Logo" @profilePath="contact" />
 
-            <Object::MdSimpleArrayTable @data-spy="Availability" @title="Available Time" @value={{model.json.hoursOfService}} as |hour|>
+            <Object::MdSimpleArrayTable @data-spy="Availability" @title="Available Time" @value={{this.model.json.hoursOfService}} as |hour|>
               <td>
                   <Input::MdInput @value={{hour.item.value}} @placeholder="Describe time when contact is avaiable" />
               </td>
             </Object::MdSimpleArrayTable>
 
-            <Input::MdTextarea @value={{model.json.contactInstructions}} @data-spy="Instructions" @placeholder={{t "placeholders.contact.instructions"}} @label="Contact Instructions" />
+            <Input::MdTextarea @value={{this.model.json.contactInstructions}} @data-spy="Instructions" @placeholder={{t "placeholders.contact.instructions"}} @label="Contact Instructions" />
         </form>
     </div>
       <div class="md-control-sidebar col-sm-2 no-nav">
-          <Control::MdCrudButtons @model={{model}} @doSave={{route-action "saveContact"}} @doCancel={{route-action "cancelContact"}} @doDelete={{route-action "destroyContact"}} @doCopy={{route-action "copyContact"}} />
+          <Control::MdCrudButtons @model={{this.model}} @doSave={{route-action "saveContact"}} @doCancel={{route-action "cancelContact"}} @doDelete={{route-action "destroyContact"}} @doCopy={{route-action "copyContact"}} />
           <Control::MdScrollSpy />
 
       </div>

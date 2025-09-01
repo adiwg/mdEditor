@@ -1,22 +1,22 @@
-{{#if model.hasDirtyHash}}
+{{#if this.model.hasDirtyHash}}
 <span role="button" class="md-status-icon" onclick={{action "saveRecord"}}>
-  {{fa-icon "exclamation-circle" class=(if isBtn (concat "btn btn-danger btn-" btnSize) "md-error")}}
+  {{fa-icon "exclamation-circle" class=(if this.isBtn (concat "btn btn-danger btn-" this.btnSize) "md-error")}}
   <EmberTooltip @text="This record has been modified! Cick to save." @side="top" @tooltipClass="ember-tooltip md-tooltip danger" />
 </span>
 {{/if}}
 
-{{#if model.hasSchemaErrors}}
+{{#if this.model.hasSchemaErrors}}
 <span role="button" class="md-status-icon" onclick={{action "showSlider"}}>
-  {{fa-icon "exclamation-triangle" class=(if isBtn (concat "btn btn-warning btn-" btnSize) "md-warning")}}
+  {{fa-icon "exclamation-triangle" class=(if this.isBtn (concat "btn btn-warning btn-" this.btnSize) "md-warning")}}
   <EmberTooltip @text="This record has errors! Click to view." @side="right" @tooltipClass="ember-tooltip md-tooltip warning" />
 </span>
 {{/if}}
 
-{{#unless hideSlider}}
+{{#unless this.hideSlider}}
   <ToElsewhere @named="md-slider-error" @send={{hash
-      title=(concat "Viewing errors for: " model.title)
+      title=(concat "Viewing errors for: " this.model.title)
       body=(component "control/md-errors"
-        errors=model.schemaErrors
+        errors=this.model.schemaErrors
       )
     }} />
 {{/unless}}

@@ -3,7 +3,7 @@
     {{liquid-outlet}}
   </div>
   <div class="md-control-sidebar col-sm-2 hidden-print">
-      <Control::MdCrudButtons @model={{model}} @doSave={{route-action "saveRecord"}} @doCancel={{route-action "cancelRecord"}} @doDelete={{route-action "destroyRecord"}} @doCopy={{route-action "copyRecord"}} />
+      <Control::MdCrudButtons @model={{this.model}} @doSave={{route-action "saveRecord"}} @doCancel={{route-action "cancelRecord"}} @doDelete={{route-action "destroyRecord"}} @doCopy={{route-action "copyRecord"}} />
     {{!-- {{#liquid-bind currentModel use="fade" duration="1000"}} --}}
       <hr>
       <FromElsewhere @name="md-subbar-extra" />
@@ -19,8 +19,8 @@
   </div>
 </div>
 
-<ToElsewhere @named="record-nav" @send={{component "input/md-select-profile" value=model.profile record=model}} />
+<ToElsewhere @named="record-nav" @send={{component "input/md-select-profile" value=this.model.profile record=this.model}} />
 
-{{#if model}}
-  <ToElsewhere @named="nav-secondary" @send={{component "layout/md-nav-secondary" model=model}} />
+{{#if this.model}}
+  <ToElsewhere @named="nav-secondary" @send={{component "layout/md-nav-secondary" model=this.model}} />
 {{/if}}

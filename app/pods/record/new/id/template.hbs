@@ -9,7 +9,7 @@
     class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3">
       <div class="form-group">
           <label class="control-label">Record ID</label>
-          <div class="text-muted">{{model.recordId}}</div>
+          <div class="text-muted">{{this.model.recordId}}</div>
           {{!-- <div class="">
               {{input/md-input
               valuePath="recordId"
@@ -19,10 +19,9 @@
       </div>
         <div class="form-group">
             <label class="control-label
-            {{if (v-get model "json.metadata.resourceInfo.citation.title"
-             "options.presence.presence") "required"}}">Record Title</label>
+            {{if (v-get this.model "json.metadata.resourceInfo.citation.title" "options.presence.presence") "required"}}">Record Title</label>
             <div class="">
-              <Input::MdInput @valuePath="json.metadata.resourceInfo.citation.title" @model={{model}} @profilePath="record.new.title" @placeholder="Enter a title for the record" />
+              <Input::MdInput @valuePath="json.metadata.resourceInfo.citation.title" @model={{this.model}} @profilePath="record.new.title" @placeholder="Enter a title for the record" />
             </div>
         </div>
         <div class="form-group clear">
@@ -30,7 +29,7 @@
             <div class="card">
             <div class="card-block">
 
-            <Object::MdResourceTypeArray @plain={{true}} @value={{model.json.metadata.resourceInfo.resourceType}} @required={{true}} @profilePath="record.new" />
+            <Object::MdResourceTypeArray @plain={{true}} @value={{this.model.json.metadata.resourceInfo.resourceType}} @required={{true}} @profilePath="record.new" />
           </div>
           </div>
         </div>
@@ -38,7 +37,7 @@
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">
                       <button type="submit" class="btn btn-success md-form-save"
-                                                      disabled={{v-get model "isInvalid"}}>Save</button>
+                                                      disabled={{v-get this.model "isInvalid"}}>Save</button>
                       <button type="button" {{action "cancelRecord"}} class="btn btn-warning ">Cancel</button>
                  </span>
             </div>

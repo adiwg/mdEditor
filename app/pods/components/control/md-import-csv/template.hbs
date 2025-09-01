@@ -1,4 +1,4 @@
-{{#if isProcessing}}
+{{#if this.isProcessing}}
   <h3>{{fa-icon "spinner" spin=true}} Processing...
   <button class="btn btn-info" type="button" {{action "stopParsing"}}>
       {{fa-icon "cross" spin=true}}
@@ -7,8 +7,8 @@
   <div class="progress">
     <div class="progress-bar" role="progressbar"
     {{! template-lint-disable no-inline-styles }}
-    aria-valuenow={{progress}} aria-valuemin="0" aria-valuemax="100" style={{barWidth}}>
-      <span class="sr-only">{{progress}}% Complete</span>
+    aria-valuenow={{this.progress}} aria-valuemin="0" aria-valuemax="100" style={{this.barWidth}}>
+      <span class="sr-only">{{this.progress}}% Complete</span>
     </div>
   </div>
 {{else}}

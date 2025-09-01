@@ -1,11 +1,11 @@
-<Input::MdCodelist @value={{model.type}} @label="Report Type" @required={{true}} @disableSort={{true}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="dataQualityElement" @placeholder="Select Report Type" @profilePath={{concat profilePath ".type"}} @class={{if (v-get this "isInvalid") "required"}} />
+<Input::MdCodelist @value={{this.model.type}} @label="Report Type" @required={{true}} @disableSort={{true}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="dataQualityElement" @placeholder="Select Report Type" @profilePath={{concat this.profilePath ".type"}} @class={{if (v-get this "isInvalid") "required"}} />
 
-<Input::MdTextarea @value={{model.standaloneQualityReportDetails}} @placeholder="Clause in the standalone quality report where this data quality element or any related quality (original results in case of derivation or aggregation ) is described." @label="Standalone Report Detail Reference" @profilePath={{concat profilePath ".standaloneQualityReportDetails"}} />
+<Input::MdTextarea @value={{this.model.standaloneQualityReportDetails}} @placeholder="Clause in the standalone quality report where this data quality element or any related quality (original results in case of derivation or aggregation ) is described." @label="Standalone Report Detail Reference" @profilePath={{concat this.profilePath ".standaloneQualityReportDetails"}} />
 
-<Layout::MdCard @collapsible={{true}} @title="Quality Measure" @profilePath={{concat profilePath ".qualityMeasure"}} @data-spy={{if data-spy "Quality Measure"}} @content={{model.qualityMeasure}}>
-  {{#if model.qualityMeasure.identifier}}
+<Layout::MdCard @collapsible={{true}} @title="Quality Measure" @profilePath={{concat this.profilePath ".qualityMeasure"}} @data-spy={{if this.data-spy "Quality Measure"}} @content={{this.model.qualityMeasure}}>
+  {{#if this.model.qualityMeasure.identifier}}
     <Layout::MdCard @title="Identifier" @collapsible={{true}} @collapsed={{false}} @spotlightEnabled={{false}} @deleteAction={{action "deleteQualityMeasureIdentifier"}}>
-      <Object::MdIdentifier @model={{model.qualityMeasure.identifier}} @profilePath={{concat profilePath ".qualityMeasure.identifier"}} @short={{true}} />
+      <Object::MdIdentifier @model={{this.model.qualityMeasure.identifier}} @profilePath={{concat this.profilePath ".qualityMeasure.identifier"}} @short={{true}} />
     </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
@@ -22,22 +22,22 @@
       </div>
     </div>
   {{/if}}
-  <Input::MdInput @value={{qualityMeasureName}} @placeholder="Name of test applied" @label="Name (required if no identifier)" @required={{isNameRequired}} @profilePath={{concat profilePath ".qualityMeasure.name"}} />
-  <Input::MdTextarea @value={{model.qualityMeasure.description}} @placeholder="Description of the measure." @label="Description" @required={{true}} @profilePath={{concat profilePath ".qualityMeasure.description"}} />
+  <Input::MdInput @value={{this.qualityMeasureName}} @placeholder="Name of test applied" @label="Name (required if no identifier)" @required={{this.isNameRequired}} @profilePath={{concat this.profilePath ".qualityMeasure.name"}} />
+  <Input::MdTextarea @value={{this.model.qualityMeasure.description}} @placeholder="Description of the measure." @label="Description" @required={{true}} @profilePath={{concat this.profilePath ".qualityMeasure.description"}} />
 </Layout::MdCard>
 
-<Layout::MdCard @collapsible={{true}} @title="Evaluation Method" @profilePath={{concat profilePath ".evaluationMethod"}} @data-spy={{if data-spy "Evaluation Method"}} @content={{model.evaluationMethod}}>
-  <Input::MdCodelist @create={{true}} @label="Evaluation Type" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="evaluationMethod" @path="evaluationType" @model={{this}} @placeholder="Select Evaluation Type" @profilePath={{concat profilePath ".evaluationMethod.type"}} @class={{if (v-get this "isInvalid") "required"}} />
-  <Input::MdCodelist @create={{true}} @label="Method Type" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="evaluationMethodTypeCode" @path="methodType" @model={{this}} @placeholder="Select Method Type" @profilePath={{concat profilePath ".evaluationMethod.evaluationMethodType"}} @class={{if (v-get this "isInvalid") "required"}} />
+<Layout::MdCard @collapsible={{true}} @title="Evaluation Method" @profilePath={{concat this.profilePath ".evaluationMethod"}} @data-spy={{if this.data-spy "Evaluation Method"}} @content={{this.model.evaluationMethod}}>
+  <Input::MdCodelist @create={{true}} @label="Evaluation Type" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="evaluationMethod" @path="evaluationType" @model={{this}} @placeholder="Select Evaluation Type" @profilePath={{concat this.profilePath ".evaluationMethod.type"}} @class={{if (v-get this "isInvalid") "required"}} />
+  <Input::MdCodelist @create={{true}} @label="Method Type" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="evaluationMethodTypeCode" @path="methodType" @model={{this}} @placeholder="Select Method Type" @profilePath={{concat this.profilePath ".evaluationMethod.evaluationMethodType"}} @class={{if (v-get this "isInvalid") "required"}} />
   <div class='row'>
     <label class='col-sm-2 control-label'>Dates</label>
-    <Input::MdDatetime @date={{evaluationMethodStartDateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat profilePath ".evaluationMethod.dateTime"}} @label="Start Date" />
-    <Input::MdDatetime @date={{evaluationMethodEndDateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat profilePath ".evaluationMethod.dateTime"}} @label="End Date" />
+    <Input::MdDatetime @date={{this.evaluationMethodStartDateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat this.profilePath ".evaluationMethod.dateTime"}} @label="Start Date" />
+    <Input::MdDatetime @date={{this.evaluationMethodEndDateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat this.profilePath ".evaluationMethod.dateTime"}} @label="End Date" />
   </div>
-  <Input::MdTextarea @value={{model.evaluationMethod.methodDescription}} @placeholder="Description of the evaluation method." @label="Description" @profilePath={{concat profilePath ".evaluationMethod.methodDescription"}} />
-  {{#if model.evaluationMethod.evaluationProcedure}}
+  <Input::MdTextarea @value={{this.model.evaluationMethod.methodDescription}} @placeholder="Description of the evaluation method." @label="Description" @profilePath={{concat this.profilePath ".evaluationMethod.methodDescription"}} />
+  {{#if this.model.evaluationMethod.evaluationProcedure}}
     <Layout::MdCard @title="Evaluation Procedure Reference" @required={{true}} @collapsible={{true}} @collapsed={{false}} @spotlightEnabled={{false}} @deleteAction={{action "deleteEvaluationProcedure"}}>
-      <Object::MdCitation @model={{model.evaluationMethod.evaluationProcedure}} @profilePath={{concat profilePath ".evaluationMethod.evaluationProcedure"}} @simpleIdentifier={{true}} />
+      <Object::MdCitation @model={{this.model.evaluationMethod.evaluationProcedure}} @profilePath={{concat this.profilePath ".evaluationMethod.evaluationProcedure"}} @simpleIdentifier={{true}} />
     </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>
@@ -54,11 +54,11 @@
       </div>
     </div>
   {{/if}}
-  <Object::MdObjectTable @items={{model.evaluationMethod.referenceDocument}} @header="Reference Document" @buttonText="Add Reference Document" @ellipsis={{true}} @profilePath={{concat profilePath ".evaluationMethod.referenceDocument"}} @attributes="title,identifier,identifierCode" as |editing|>
-    <Object::MdCitation @model={{editing}} @profilePath={{concat profilePath ".evaluationMethod.referenceDocument"}} @simpleIdentifier={{true}} />
+  <Object::MdObjectTable @items={{this.model.evaluationMethod.referenceDocument}} @header="Reference Document" @buttonText="Add Reference Document" @ellipsis={{true}} @profilePath={{concat this.profilePath ".evaluationMethod.referenceDocument"}} @attributes="title,identifier,identifierCode" as |editing|>
+    <Object::MdCitation @model={{editing}} @profilePath={{concat this.profilePath ".evaluationMethod.referenceDocument"}} @simpleIdentifier={{true}} />
   </Object::MdObjectTable>
   <Layout::MdCard @collapsible={{true}} @collapsed={{true}} @title="Indirect Evaluation">
-    <Input::MdTextarea @value={{model.evaluationMethod.deductiveSource}} @placeholder="Information on which data are used as sources in deductive evaluation method." @label="Deductive Source" @required={{true}} @profilePath={{concat profilePath ".evaluationMethod.deductiveSource"}} />
+    <Input::MdTextarea @value={{this.model.evaluationMethod.deductiveSource}} @placeholder="Information on which data are used as sources in deductive evaluation method." @label="Deductive Source" @required={{true}} @profilePath={{concat this.profilePath ".evaluationMethod.deductiveSource"}} />
     <div>
       <p>
         <span class='required' />
@@ -68,9 +68,9 @@
     </div>
   </Layout::MdCard>
   <Layout::MdCard @collapsible={{true}} @collapsed={{true}} @title="Sample Based Inspection">
-    <Input::MdTextarea @value={{model.evaluationMethod.samplingScheme}} @placeholder="Information of the type of sampling scheme and description of the sampling procedure." @label="Sampling Scheme" @required={{true}} @profilePath={{concat profilePath ".evaluationMethod.samplingScheme"}} />
-    <Input::MdTextarea @value={{model.evaluationMethod.lotDescription}} @placeholder="Information of how lots are defined." @label="Lot Description" @required={{true}} @profilePath={{concat profilePath ".evaluationMethod.lotDescription"}} />
-    <Input::MdTextarea @value={{model.evaluationMethod.samplingRatio}} @placeholder="Information on how many samples on average are extracted for inspection from each lot of population." @label="Sampling Ratio" @required={{true}} @profilePath={{concat profilePath ".evaluationMethod.samplingRatio"}} />
+    <Input::MdTextarea @value={{this.model.evaluationMethod.samplingScheme}} @placeholder="Information of the type of sampling scheme and description of the sampling procedure." @label="Sampling Scheme" @required={{true}} @profilePath={{concat this.profilePath ".evaluationMethod.samplingScheme"}} />
+    <Input::MdTextarea @value={{this.model.evaluationMethod.lotDescription}} @placeholder="Information of how lots are defined." @label="Lot Description" @required={{true}} @profilePath={{concat this.profilePath ".evaluationMethod.lotDescription"}} />
+    <Input::MdTextarea @value={{this.model.evaluationMethod.samplingRatio}} @placeholder="Information on how many samples on average are extracted for inspection from each lot of population." @label="Sampling Ratio" @required={{true}} @profilePath={{concat this.profilePath ".evaluationMethod.samplingRatio"}} />
     <div>
       <p>
         <span class='required' />
@@ -82,16 +82,16 @@
 </Layout::MdCard>
 
 <Layout::MdCard @collapsible={{true}} @title="Results" @required={{true}}>
-  <Object::MdObjectTable @items={{model.quantitativeResult}} @header="Quantitative Result" @buttonText="Add Quantitative Result" @ellipsis={{true}} @profilePath={{concat profilePath ".quantitativeResult"}} @attributes="scope.scopeCode,value,valueUnits" as |editing|>
-    <Object::MdQualityReport::QuantitativeResult @model={{editing}} @profilePath={{concat profilePath ".quantitativeResult"}} />
+  <Object::MdObjectTable @items={{this.model.quantitativeResult}} @header="Quantitative Result" @buttonText="Add Quantitative Result" @ellipsis={{true}} @profilePath={{concat this.profilePath ".quantitativeResult"}} @attributes="scope.scopeCode,value,valueUnits" as |editing|>
+    <Object::MdQualityReport::QuantitativeResult @model={{editing}} @profilePath={{concat this.profilePath ".quantitativeResult"}} />
   </Object::MdObjectTable>
 
-  <Object::MdObjectTable @items={{model.descriptiveResult}} @header="Descriptive Result" @buttonText="Add Descriptive Result" @ellipsis={{true}} @profilePath={{concat profilePath ".descriptiveResult"}} @attributes="scope.scopeCode" as |editing|>
-    <Object::MdQualityReport::DescriptiveResult @model={{editing}} @profilePath={{concat profilePath ".descriptiveResult"}} />
+  <Object::MdObjectTable @items={{this.model.descriptiveResult}} @header="Descriptive Result" @buttonText="Add Descriptive Result" @ellipsis={{true}} @profilePath={{concat this.profilePath ".descriptiveResult"}} @attributes="scope.scopeCode" as |editing|>
+    <Object::MdQualityReport::DescriptiveResult @model={{editing}} @profilePath={{concat this.profilePath ".descriptiveResult"}} />
   </Object::MdObjectTable>
 
-  <Object::MdObjectTable @items={{model.conformanceResult}} @header="Conformance Result" @buttonText="Add Conformance Result" @ellipsis={{true}} @profilePath={{concat profilePath ".conformanceResult"}} @attributes="scope.scopeCode" as |editing|>
-    <Object::MdQualityReport::ConformanceResult @model={{editing}} @profilePath={{concat profilePath ".conformanceResult"}} />
+  <Object::MdObjectTable @items={{this.model.conformanceResult}} @header="Conformance Result" @buttonText="Add Conformance Result" @ellipsis={{true}} @profilePath={{concat this.profilePath ".conformanceResult"}} @attributes="scope.scopeCode" as |editing|>
+    <Object::MdQualityReport::ConformanceResult @model={{editing}} @profilePath={{concat this.profilePath ".conformanceResult"}} />
   </Object::MdObjectTable>
 
   {{! 

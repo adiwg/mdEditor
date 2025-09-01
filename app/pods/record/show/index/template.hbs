@@ -1,19 +1,19 @@
-{{#with model.json.metadata.resourceInfo as |resource|}}
+{{#with this.model.json.metadata.resourceInfo as |resource|}}
 <div class="row md-no-spotlight">
     <div class="col-sm-9 col-md-offset-1">
         <h3>
-        {{fa-icon model.icon class="text-muted"}}
-        Viewing Record: {{model.title}}
-        <Control::MdStatus @model={{model}} />
+        {{fa-icon this.model.icon class="text-muted"}}
+        Viewing Record: {{this.model.title}}
+        <Control::MdStatus @model={{this.model}} />
         </h3>
 
         <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Main" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "linkTo" "record.show.edit.main"}} @btnIcon="pencil">
           <div class="row">
             <dl class="dl-horizontal col-xxl-8">
-                <Control::MdDefinition @title="Record Id" @text={{model.recordId}} />
-                <Control::MdDefinition @title="Record Title" @text={{model.title}} />
+                <Control::MdDefinition @title="Record Id" @text={{this.model.recordId}} />
+                <Control::MdDefinition @title="Record Title" @text={{this.model.title}} />
                 <Control::MdDefinition @title="Status" @text={{if resource.status (join ", " resource.status)}} />
-                <Control::MdDefinition @title="Contact Instructions" @text={{model.json.contactInstructions}} />
+                <Control::MdDefinition @title="Contact Instructions" @text={{this.model.json.contactInstructions}} />
 
             </dl>
             <dl class="dl-horizontal col-xxl-4">
@@ -90,7 +90,7 @@
 
                       {{!-- tile-layer url="//stamen-tiles-{s}.a.ssl.fastly.net/terrain/{z}/{x}/{y}.png" attribution=mapAttribution --}}
 
-                      <TileLayer @url="//tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png" @attribution={{mapAttribution}} />
+                      <TileLayer @url="//tiles.stadiamaps.com/tiles/stamen_terrain/{z}/{x}/{y}.png" @attribution={{this.mapAttribution}} />
 
                     </LayerGroup>
 
@@ -120,15 +120,15 @@
         {{outlet}}
     </div>
     <div class="md-control-sidebar col-sm-2 hidden-print no-nav">
-      <Control::MdCrudButtons @model={{model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyRecord"}} @doCopy={{route-action "copyRecord"}}>
-        <LinkTo @route="record.show.edit" @model={{model.id}} class="btn btn-lg btn-success">
+      <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyRecord"}} @doCopy={{route-action "copyRecord"}}>
+        <LinkTo @route="record.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
           {{fa-icon "pencil"}} Edit</LinkTo>
       </Control::MdCrudButtons>
       <hr>
       <LinkTo @route="records" class="btn btn-lg btn-primary btn-block">
       {{fa-icon "list"}} Show List</LinkTo>
 
-      <Control::MdScrollSpy @scrollInit={{scrollTo}} @setScrollTo={{route-action "setScrollTo"}} @refresh={{model.profile}} />
+      <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{route-action "setScrollTo"}} @refresh={{this.model.profile}} />
     </div>
 </div>
 {{/with}}

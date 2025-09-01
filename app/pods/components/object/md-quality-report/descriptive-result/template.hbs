@@ -1,8 +1,8 @@
-<Input::MdCodelist @create={{true}} @label="Scope" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="scope" @path="scopeCode" @model={{this}} @placeholder="Select Scope" @profilePath={{concat profilePath ".scopeCode"}} @class={{if (v-get this "isInvalid") "required"}} />
-<Input::MdInput @value={{model.name}} @label="Name" @placeholder="Enter name" />
+<Input::MdCodelist @create={{true}} @label="Scope" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="scope" @path="scopeCode" @model={{this}} @placeholder="Select Scope" @profilePath={{concat this.profilePath ".scopeCode"}} @class={{if (v-get this "isInvalid") "required"}} />
+<Input::MdInput @value={{this.model.name}} @label="Name" @placeholder="Enter name" />
 
 <div class='row'>
-  <Input::MdDatetime @date={{model.dateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat profilePath ".dateTime"}} @label="Date" />
+  <Input::MdDatetime @date={{this.model.dateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat this.profilePath ".dateTime"}} @label="Date" />
 </div>
 
-<Input::MdTextarea @value={{model.statement}} @label="Statement" @placeholder="Textual expression of the quality result." @required={{true}} />
+<Input::MdTextarea @value={{this.model.statement}} @label="Statement" @placeholder="Textual expression of the quality result." @required={{true}} />

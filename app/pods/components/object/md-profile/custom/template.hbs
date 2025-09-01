@@ -1,8 +1,8 @@
-<Input::MdInput @model={{record}} @valuePath="title" @label="Title" @placeholder="Enter a short title for the profile." @showValidations={{true}} />
+<Input::MdInput @model={{this.record}} @valuePath="title" @label="Title" @placeholder="Enter a short title for the profile." @showValidations={{true}} />
 
-<Input::MdTextarea @model={{record}} @valuePath="description" @label="Description" @placeholder="Enter a description of the profile." @showValidations={{true}} />
+<Input::MdTextarea @model={{this.record}} @valuePath="description" @label="Description" @placeholder="Enter a description of the profile." @showValidations={{true}} />
 
-<Input::MdSelect @model={{record}} @path="profileId" @label="Profile Definition" @valuePath="identifier" @namePath="title" @placeholder="Select the profile definition." @objectArray={{definitions.profiles}} @searchEnabled={{true}} @showValidations={{true}} @allowClear={{true}} @setValue={{action "setValue"}} />
+<Input::MdSelect @model={{this.record}} @path="profileId" @label="Profile Definition" @valuePath="identifier" @namePath="title" @placeholder="Select the profile definition." @objectArray={{this.definitions.profiles}} @searchEnabled={{true}} @showValidations={{true}} @allowClear={{true}} @setValue={{action "setValue"}} />
 
 <div class="row">
   <div class="col-md-6">
@@ -14,8 +14,8 @@
       </div>
       <div class="card-block no-padding">
         <div class="list-group no-margin md-itis-taxalist">
-          {{#each notSelected as |schema|}}
-          {{#liquid-unless (contains schema selected) class=(concat "list-group-item " (if schema "md-itis-unselected")) enableGrowth=true shrinkDelay=500}}
+          {{#each this.notSelected as |schema|}}
+          {{#liquid-unless (contains schema this.selected) class=(concat "list-group-item " (if schema "md-itis-unselected")) enableGrowth=true shrinkDelay=500}}
               <div class="media list-group-item">
                 <div class="media-body">
                   <h4 class="media-heading">
@@ -61,8 +61,8 @@
             </p>
           </div>
           {{/liquid-if}} --}}
-          {{#each selected as |schema|}}
-            {{#liquid-if (contains schema selected) class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
+          {{#each this.selected as |schema|}}
+            {{#liquid-if (contains schema this.selected) class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
               <div class="media">
                 <div class="media-body">
                   <h4 class="media-heading">

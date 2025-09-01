@@ -1,12 +1,12 @@
-{{#with item as |model|}}
+{{#with this.item as |model|}}
   <dl class="dl-horizontal">
     <dt>
-      <h4 class="text-info">Resource #{{index}}</h4>
+      <h4 class="text-info">Resource #{{this.index}}</h4>
     </dt>
     <dd></dd>
     <div class="row">
       <div class="col-xxl-6">
-        <Control::MdDefinition @title="Association Type" @profilePath={{concat profilePath ".associationType"}}>
+        <Control::MdDefinition @title="Association Type" @profilePath={{concat this.profilePath ".associationType"}}>
           {{model.associationType}}
           {{#if model.mdRecordId}}
             (<em>linked</em>)
@@ -14,16 +14,16 @@
         </Control::MdDefinition>
       </div>
       <div class="col-xxl-6">
-        <Control::MdDefinition @title="Initiative Type" @text={{model.initiativeType}} @profilePath={{concat profilePath ".initiativeType"}} />
+        <Control::MdDefinition @title="Initiative Type" @text={{model.initiativeType}} @profilePath={{concat this.profilePath ".initiativeType"}} />
       </div>
     </div>
   </dl>
 
-  <Object::MdCitation::Preview::Body @citation={{citation}} @profilePath={{concat profilePath ".resourceCitation"}} />
+  <Object::MdCitation::Preview::Body @citation={{this.citation}} @profilePath={{concat this.profilePath ".resourceCitation"}} />
 
   <dl class="dl-horizontal col-lg-12">
   <Control::MdDefinition @title="Metadata Identifier">
-    {{#with metadataIdentifier as |meta|}}
+    {{#with this.metadataIdentifier as |meta|}}
       {{meta.identifier}} {{if meta.namespace (concat "(" meta.namespace ")")}}
     {{else}}
       <em class="text-muted">No metadata identifier assigned.</em>

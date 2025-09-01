@@ -1,12 +1,12 @@
 <h4 class="section-header">
-  Editing Alternate Identifier: {{model.identifier}}
+  Editing Alternate Identifier: {{this.model.identifier}}
   <Control::MdStatus @model={{compute (route-action "parentModel")}} />
 </h4>
 
 <div class="">
-  <Object::MdIdentifier @model={{model}} @profilePath="record.lineage.citation.identifier" @data-spy="Identifier" />
+  <Object::MdIdentifier @model={{this.model}} @profilePath="record.lineage.citation.identifier" @data-spy="Identifier" />
   {{outlet}}
 </div>
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link" text="Back to Lineage Citation" icon="arrow-left" click=(route-action "goBack")}} />
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

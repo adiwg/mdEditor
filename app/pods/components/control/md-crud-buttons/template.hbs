@@ -1,20 +1,20 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="CRUD Button Controls">
-  {{#if doSave}}
+  {{#if this.doSave}}
       <button type="submit" {{action "save"}} class="btn btn-lg btn-success"
-      disabled={{if model.hasDirtyHash false true}}>
+      disabled={{if this.model.hasDirtyHash false true}}>
         <i class="fa fa-floppy-o"></i> Save
       </button>
       <button type="button" {{action "cancel"}} class="btn btn-lg btn-warning"
-      disabled={{if model.canRevert false true}}>
+      disabled={{if this.model.canRevert false true}}>
         <i class="fa fa-undo"></i> Cancel
       </button>
   {{/if}}
-  {{#if showCopy}}
+  {{#if this.showCopy}}
     <button type="button" {{action "copy"}} class="btn btn-lg btn-info">
       <i class="fa fa-clone"></i> Copy
     </button>
   {{/if}}
-  {{#if showDelete}}
+  {{#if this.showDelete}}
     <Control::MdButtonConfirm @class="btn btn-lg btn-danger" @onConfirm={{action "delete"}} @tooltip="Permanently delete this record?" @tipClass="danger">
       <span class="fa fa-times"></span> Delete
     </Control::MdButtonConfirm>

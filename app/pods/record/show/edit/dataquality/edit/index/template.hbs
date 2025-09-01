@@ -1,9 +1,9 @@
 <h4 class="section-header">
-  Editing Data Quality #{{dataQualityId}}
-  <Control::MdStatus @model={{parentModel}} />
+  Editing Data Quality #{{this.dataQualityId}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-<Object::MdDataquality @model={{model}} @profilePath="record.dataquality" />
+<Object::MdDataquality @model={{this.model}} @profilePath="record.dataquality" />
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link" text="Back to Data Quality List" icon="arrow-left" route="record.show.edit.dataquality"}} />
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

@@ -1,9 +1,9 @@
 <h4 class="section-header">
   Editing Funding
-  <Control::MdStatus @model={{parentModel}} />
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{#each model.json.metadata.funding as |allocation index|}}
+{{#each this.model.json.metadata.funding as |allocation index|}}
   <Layout::MdObjectContainer @title="Funding Period" @index={{index}} @editItem={{route-action "editAllocation"}} @deleteItem={{route-action "deleteAllocation"}}>
     <Object::MdFunding::Preview @item={{allocation}} @profilePath="record.funding" />
   </Layout::MdObjectContainer>
@@ -21,4 +21,4 @@
   click=(route-action "addAllocation")
   }} />
 
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=this.refresh scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

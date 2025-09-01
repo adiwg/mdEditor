@@ -1,14 +1,14 @@
 <Layout::MdCard>
-  <Input::MdInput @label="Name" @data-spy="Name" @value={{model.coverageName}} @placeholder="The name(title) of the raster." @profilePath={{concat profilePath ".coverageName"}} @showValidations={{true}} />
-  <Input::MdTextarea @label="Description" @data-spy="Description" @value={{model.coverageDescription}} @placeholder="A description of the raster" @profilePath={{concat profilePath ".coverageDescription"}} @showValidations={{true}} />
+  <Input::MdInput @label="Name" @data-spy="Name" @value={{this.model.coverageName}} @placeholder="The name(title) of the raster." @profilePath={{concat this.profilePath ".coverageName"}} @showValidations={{true}} />
+  <Input::MdTextarea @label="Description" @data-spy="Description" @value={{this.model.coverageDescription}} @placeholder="A description of the raster" @profilePath={{concat this.profilePath ".coverageDescription"}} @showValidations={{true}} />
 </Layout::MdCard>
 
-<Object::MdRaster::Attrgroup @hideIndex={{true}} @value={{model.attributeGroup}} @title="Attribute Groups" @editAttribute={{editAttribute}} @deleteAttrGroup={{deleteAttrGroup}} @data-spy={{false}} @addAttrGroup={{addAttrGroup}} @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".attributeGroup"}} />
+<Object::MdRaster::Attrgroup @hideIndex={{true}} @value={{this.model.attributeGroup}} @title="Attribute Groups" @editAttribute={{this.editAttribute}} @deleteAttrGroup={{this.deleteAttrGroup}} @data-spy={{false}} @addAttrGroup={{this.addAttrGroup}} @collapsible={{true}} @collapsed={{false}} @profilePath={{concat this.profilePath ".attributeGroup"}} />
 
-<Layout::MdCard @collapsible={{true}} @title="Processing Level Code" @collapsed={{false}} @shadow={{true}} @profilePath={{concat profilePath ".processingLevelCode"}}>
-  <Object::MdIdentifier @model={{model.processingLevelCode}} @profilePath={{concat profilePath ".processingLevelCode"}} @collapsed={{true}} @collapsible={{true}} @data-spy={{false}} />
+<Layout::MdCard @collapsible={{true}} @title="Processing Level Code" @collapsed={{false}} @shadow={{true}} @profilePath={{concat this.profilePath ".processingLevelCode"}}>
+  <Object::MdIdentifier @model={{this.model.processingLevelCode}} @profilePath={{concat this.profilePath ".processingLevelCode"}} @collapsed={{true}} @collapsible={{true}} @data-spy={{false}} />
 </Layout::MdCard>
 
-<Layout::MdCard @collapsible={{true}} @title="Image Description" @collapsed={{false}} @shadow={{true}} @profilePath={{concat profilePath ".imageDescription"}}>
-  <Object::MdRaster::ImageDesc @model={{model.imageDescription}} @profilePath={{concat profilePath ".imageDescription"}} @data-spy={{false}} @collapsed={{true}} @collapsible={{true}} />
+<Layout::MdCard @collapsible={{true}} @title="Image Description" @collapsed={{false}} @shadow={{true}} @profilePath={{concat this.profilePath ".imageDescription"}}>
+  <Object::MdRaster::ImageDesc @model={{this.model.imageDescription}} @profilePath={{concat this.profilePath ".imageDescription"}} @data-spy={{false}} @collapsed={{true}} @collapsible={{true}} />
 </Layout::MdCard>

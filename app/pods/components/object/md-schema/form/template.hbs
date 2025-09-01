@@ -1,25 +1,25 @@
-<Input::MdInput @model={{record}} @valuePath="title" @label="Title" @placeholder="Enter title for schema." @showValidations={{true}} />
+<Input::MdInput @model={{this.record}} @valuePath="title" @label="Title" @placeholder="Enter title for schema." @showValidations={{true}} />
 
-<Input::MdInput @model={{record}} @valuePath="uri" @label="URL" @placeholder="Enter URL of root schema." @showValidations={{true}} />
+<Input::MdInput @model={{this.record}} @valuePath="uri" @label="URL" @placeholder="Enter URL of root schema." @showValidations={{true}} />
 
 <div class="form-group flex">
   <label>Version</label>
-  <span>{{if record.localVersion record.localVersion "--"}}</span>
-  {{#if record.hasUpdate}}
-    <span class="label label-pill label-info">Update Available ({{record.remoteVersion}})</span>
+  <span>{{if this.record.localVersion this.record.localVersion "--"}}</span>
+  {{#if this.record.hasUpdate}}
+    <span class="label label-pill label-info">Update Available ({{this.record.remoteVersion}})</span>
   {{/if}}
 </div>
 
-<Input::MdTextarea @model={{record}} @valuePath="description" @label="Description" @placeholder="Enter a description of the schema." @showValidations={{true}} />
+<Input::MdTextarea @model={{this.record}} @valuePath="description" @label="Description" @placeholder="Enter a description of the schema." @showValidations={{true}} />
 
-<Input::MdSelect @model={{record}} @path="schemaType" @label="Type" @valuePath="value" @namePath="name" @placeholder="Select the record type for schema." @objectArray={{typeOptions}} @searchEnabled={{false}} @showValidations={{true}} />
+<Input::MdSelect @model={{this.record}} @path="schemaType" @label="Type" @valuePath="value" @namePath="name" @placeholder="Select the record type for schema." @objectArray={{this.typeOptions}} @searchEnabled={{false}} @showValidations={{true}} />
 
-{{#liquid-unless record.isNew use="toDown"}}
+{{#liquid-unless this.record.isNew use="toDown"}}
   <div class="form-group from-group-inlne">
       <label>Apply Globally?</label>
       <div class="form-control">
           <div class="inline-block">
-              <Input::MdToggle @value={{record.isGlobal}} @onToggle={{action (mut record.isGlobal)}} @showLabels={{true}} @onLabel="Yes" @offLabel="No" @size="medium" @theme="form" />
+              <Input::MdToggle @value={{this.record.isGlobal}} @onToggle={{action (mut this.record.isGlobal)}} @showLabels={{true}} @onLabel="Yes" @offLabel="No" @size="medium" @theme="form" />
           </div>
       </div>
   </div>

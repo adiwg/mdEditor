@@ -1,27 +1,27 @@
 <Layout::MdCard>
   <div class='row'>
     <div class='col-md-8'>
-      <Input::MdInput @label="System Generated UID" @value={{model.systemIdentifier.uid}} @disabled={{true}} />
+      <Input::MdInput @label="System Generated UID" @value={{this.model.systemIdentifier.uid}} @disabled={{true}} />
     </div>
   </div>
   <div class='row'>
     <div class='col-md-8'>
-      <Input::MdInput @label="Title" @value={{model.systemIdentifier.label}} />
+      <Input::MdInput @label="Title" @value={{this.model.systemIdentifier.label}} />
     </div>
   </div>
   <div class='row'>
     <div class='col-md-8'>
-      <Input::MdCodelist @value={{model.scope.scopeCode}} @label="Scope" @required={{true}} @create={{true}} @tooltip={{true}} @icon={{true}} @mdCodeName="scope" @placeholder="Select type of resource." @profilePath={{concat profilePath ".scope"}} @data-spy="Scope" />
+      <Input::MdCodelist @value={{this.model.scope.scopeCode}} @label="Scope" @required={{true}} @create={{true}} @tooltip={{true}} @icon={{true}} @mdCodeName="scope" @placeholder="Select type of resource." @profilePath={{concat this.profilePath ".scope"}} @data-spy="Scope" />
     </div>
   </div>
 </Layout::MdCard>
 
-<Object::MdObjectTable @items={{model.report}} @header="Standard Reports" @buttonText="Add Report" @ellipsis={{true}} @required={{true}} @profilePath={{concat profilePath ".report"}} @attributes="type" as |editing|>
-  <Object::MdQualityReport @model={{editing}} @profilePath={{concat profilePath ".report"}} />
+<Object::MdObjectTable @items={{this.model.report}} @header="Standard Reports" @buttonText="Add Report" @ellipsis={{true}} @required={{true}} @profilePath={{concat this.profilePath ".report"}} @attributes="type" as |editing|>
+  <Object::MdQualityReport @model={{editing}} @profilePath={{concat this.profilePath ".report"}} />
 </Object::MdObjectTable>
 
-{{#if model.standaloneQualityReport}}
-  <Object::MdStandaloneQualityReport @model={{model.standaloneQualityReport}} @deleteStandaloneQualityReport={{action "deleteStandaloneQualityReport"}} />
+{{#if this.model.standaloneQualityReport}}
+  <Object::MdStandaloneQualityReport @model={{this.model.standaloneQualityReport}} @deleteStandaloneQualityReport={{action "deleteStandaloneQualityReport"}} />
 {{else}}
   <div class='md-object-table box-shadow--4dp'>
     <div class='alert md-alert-table alert-info'>

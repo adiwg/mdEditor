@@ -1,26 +1,26 @@
 {{#control/md-indicator
-  title=title
-  icon=icon
-  type=type
-  note=note
-  event=event
-  values=values
-  route=route
-  model=model
-  linkText=linkText
-  popoverHideDelay=popoverHideDelay
-  popperContainer=popperContainer
+  title=this.title
+  icon=this.icon
+  type=this.type
+  note=this.note
+  event=this.event
+  values=this.values
+  route=this.route
+  model=this.model
+  linkText=this.linkText
+  popoverHideDelay=this.popoverHideDelay
+  popperContainer=this.popperContainer
 }}
 
   <h4>
-    {{#if route}}
-      {{#if models.length}}
-        {{#link-to route=route models=models class=(concat "btn btn-sm btn-" type)}}
-          {{linkText}}
+    {{#if this.route}}
+      {{#if this.models.length}}
+        {{#link-to route=this.route models=this.models class=(concat "btn btn-sm btn-" this.type)}}
+          {{this.linkText}}
         {{/link-to}}
       {{else}}
-        {{#link-to route class=(concat "btn btn-sm btn-" type)}}
-          {{linkText}}
+        {{#link-to this.route class=(concat "btn btn-sm btn-" this.type)}}
+          {{this.linkText}}
         {{/link-to}}
       {{/if}}
     {{/if}}

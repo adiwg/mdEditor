@@ -1,5 +1,5 @@
-<Layout::MdCard @title="Attribute Information" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat profilePath ".information"}} @data-spy="Attribute Information" @required={{true}}>
-  {{#with (concat profilePath ".information") as |profilePath|}}
+<Layout::MdCard @title="Attribute Information" @collapsible={{true}} @collapsed={{false}} @profilePath={{concat this.profilePath ".information"}} @data-spy="Attribute Information" @required={{true}}>
+  {{#with (concat this.profilePath ".information") as |profilePath|}}
     <Input::MdInput @model={{this}} @valuePath="codeName" @placeholder="The code used to identify this attribute, e.g.the column name." @label="Code Name" @data-spy="Code Name" @profilePath={{concat profilePath ".codeName"}} @class="md-embedded" />
 
     <Input::MdTextarea @value={{this.definition}} @required={{true}} @autoresize={{true}} @placeholder="A brief description of the attribute." @label="Definition" @data-spy="Definition" @embedded={{true}} @profilePath={{concat profilePath ".definition"}} />
@@ -16,13 +16,13 @@
 
     <Input::MdCodelist @create={{true}} @tooltip={{true}} @icon={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="dataType" @model={{this}} @path="dataType" @placeholder="The datatype for the attribute(column)." @label="Data Type" @data-spy="Data Type" @profilePath={{concat profilePath ".dataType"}} @class="md-embedded" />
 
-    <Input::MdBoolean @label="Allow Null?" @required={{true}} @text="Allow null values" @value={{model.allowNull}} @profilePath={{concat profilePath ".allowNull"}} />
+    <Input::MdBoolean @label="Allow Null?" @required={{true}} @text="Allow null values" @value={{this.model.allowNull}} @profilePath={{concat profilePath ".allowNull"}} />
 
-    <Input::MdInput @value={{model.commonName}} @placeholder="Enter a short common(alternate) name for the attribute." @label="Common Name" @profilePath={{concat profilePath ".commonName"}} @data-spy="Common Name" @class="md-embedded" />
+    <Input::MdInput @value={{this.model.commonName}} @placeholder="Enter a short common(alternate) name for the attribute." @label="Common Name" @profilePath={{concat profilePath ".commonName"}} @data-spy="Common Name" @class="md-embedded" />
 
-    <Input::MdCodelist @label="Domain" @value={{model.domainId}} @mapped={{domainList}} @create={{false}} @tooltip={{true}} @placeholder="Select or enter the domain for this attribute." @profilePath={{concat profilePath ".domain"}} @data-spy="Domain" @class="md-embedded" />
+    <Input::MdCodelist @label="Domain" @value={{this.model.domainId}} @mapped={{this.domainList}} @create={{false}} @tooltip={{true}} @placeholder="Select or enter the domain for this attribute." @profilePath={{concat profilePath ".domain"}} @data-spy="Domain" @class="md-embedded" />
 
-    <Object::MdSimpleArrayTable @title="Alias" @required={{false}} @plain={{true}} @profilePath={{concat profilePath ".alias"}} @data-spy="Alias" @class="md-embedded" @value={{model.alias}} as |val|>
+    <Object::MdSimpleArrayTable @title="Alias" @required={{false}} @plain={{true}} @profilePath={{concat profilePath ".alias"}} @data-spy="Alias" @class="md-embedded" @value={{this.model.alias}} as |val|>
       <td>
           <Input::MdInput @value={{val.item.value}} @placeholder="Alternate names used to identify this attribute." />
       </td>
@@ -36,35 +36,35 @@
       profilePath=(concat profilePath ".allowMany")
     }} --}}
 
-    <Input::MdInput @value={{model.units}} @placeholder="A unit-of-measure for the attribute, e.g. 'meter', 'atmosphere', 'liter'" @label="Units" @profilePath={{concat profilePath ".units"}} />
+    <Input::MdInput @value={{this.model.units}} @placeholder="A unit-of-measure for the attribute, e.g. 'meter', 'atmosphere', 'liter'" @label="Units" @profilePath={{concat profilePath ".units"}} />
 
-    <Input::MdInput @type="number" @step=".1" @model={{model}} @valuePath="unitsResolution" @placeholder="The smallest unit increment for the attribute value." @label="Units Resolution" @profilePath={{concat profilePath ".unitsResolution"}} />
+    <Input::MdInput @type="number" @step=".1" @model={{this.model}} @valuePath="unitsResolution" @placeholder="The smallest unit increment for the attribute value." @label="Units Resolution" @profilePath={{concat profilePath ".unitsResolution"}} />
 
-    <Input::MdBoolean @label="Case Sensitive?" @required={{true}} @text="Is the attribute content case sensitive?" @value={{model.isCaseSensitive}} @profilePath={{concat profilePath ".caseSensitive"}} />
+    <Input::MdBoolean @label="Case Sensitive?" @required={{true}} @text="Is the attribute content case sensitive?" @value={{this.model.isCaseSensitive}} @profilePath={{concat profilePath ".caseSensitive"}} />
 
-    <Input::MdInput @type="number" @model={{model}} @valuePath="fieldWidth" @placeholder="The number of characters allowed in the attribute value." @label="Field Width" @profilePath={{concat profilePath ".fieldWidth"}} />
+    <Input::MdInput @type="number" @model={{this.model}} @valuePath="fieldWidth" @placeholder="The number of characters allowed in the attribute value." @label="Field Width" @profilePath={{concat profilePath ".fieldWidth"}} />
 
-    <Input::MdInput @value={{model.missingValue}} @placeholder="The code which represents missing data." @label="Missing Value" @profilePath={{concat profilePath ".missingValue"}} />
+    <Input::MdInput @value={{this.model.missingValue}} @placeholder="The code which represents missing data." @label="Missing Value" @profilePath={{concat profilePath ".missingValue"}} />
 
-    <Input::MdInput @value={{model.minValue}} @placeholder="The minimum value permissible for this attribute." @label="Minimum Value" @profilePath={{concat profilePath ".minValue"}} />
+    <Input::MdInput @value={{this.model.minValue}} @placeholder="The minimum value permissible for this attribute." @label="Minimum Value" @profilePath={{concat profilePath ".minValue"}} />
 
-    <Input::MdInput @value={{model.maxValue}} @placeholder="The maximum value permissible for this attribute." @label="Maximum Value" @profilePath={{concat profilePath ".maxValue"}} />
+    <Input::MdInput @value={{this.model.maxValue}} @placeholder="The maximum value permissible for this attribute." @label="Maximum Value" @profilePath={{concat profilePath ".maxValue"}} />
   {{/with}}
 </Layout::MdCard>
 
-<Object::MdArrayTable @columns="Min Value, Max Value" @value={{model.valueRange}} @title="Value Range" @plain={{false}} @templateClass={{rangeTemplate}} @profilePath={{concat profilePath ".valueRange"}} @data-spy="Value Range" as |rg|>
+<Object::MdArrayTable @columns="Min Value, Max Value" @value={{this.model.valueRange}} @title="Value Range" @plain={{false}} @templateClass={{this.rangeTemplate}} @profilePath={{concat this.profilePath ".valueRange"}} @data-spy="Value Range" as |rg|>
   <td>
-    <Input::MdInput @model={{rg.item}} @valuePath="minRangeValue" @placeholder="The least value that the attribute can be assigned." @profilePath={{concat profilePath ".minValue"}} @showValidations={{true}} />
+    <Input::MdInput @model={{rg.item}} @valuePath="minRangeValue" @placeholder="The least value that the attribute can be assigned." @profilePath={{concat this.profilePath ".minValue"}} @showValidations={{true}} />
   </td>
   <td>
-    <Input::MdInput @model={{rg.item}} @valuePath="maxRangeValue" @placeholder="The greatest value that the attribute can be assigned." @profilePath={{concat profilePath ".maxValue"}} @showValidations={{true}} />
+    <Input::MdInput @model={{rg.item}} @valuePath="maxRangeValue" @placeholder="The greatest value that the attribute can be assigned." @profilePath={{concat this.profilePath ".maxValue"}} @showValidations={{true}} />
   </td>
 </Object::MdArrayTable>
 
-<Object::MdObjectTable @items={{model.timePeriod}} @header="Time Period" @data-spy="Time Period" @buttonText="Add Time Period" @ellipsis={{true}} @profilePath={{concat profilePath ".timePeriod"}} @attributes="startDateTime,endDateTime" as |tm|>
-  <Object::MdTimePeriod @model={{tm}} @profilePath={{concat profilePath ".timePeriod"}} />
+<Object::MdObjectTable @items={{this.model.timePeriod}} @header="Time Period" @data-spy="Time Period" @buttonText="Add Time Period" @ellipsis={{true}} @profilePath={{concat this.profilePath ".timePeriod"}} @attributes="startDateTime,endDateTime" as |tm|>
+  <Object::MdTimePeriod @model={{tm}} @profilePath={{concat this.profilePath ".timePeriod"}} />
 </Object::MdObjectTable>
 
-<Layout::MdCard @title="Attribute Reference" @profilePath={{concat profilePath ".attributeReference"}} @shadow={{true}} @collapsible={{true}} @collapsed={{true}}>
-  <Object::MdCitation @profilePath={{concat profilePath ".attributeReference"}} @model={{model.attributeReference}} @simpleIdentifier={{true}} />
+<Layout::MdCard @title="Attribute Reference" @profilePath={{concat this.profilePath ".attributeReference"}} @shadow={{true}} @collapsible={{true}} @collapsed={{true}}>
+  <Object::MdCitation @profilePath={{concat this.profilePath ".attributeReference"}} @model={{this.model.attributeReference}} @simpleIdentifier={{true}} />
 </Layout::MdCard>

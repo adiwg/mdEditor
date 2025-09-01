@@ -1,13 +1,13 @@
-<Object::MdArrayTable @columns="Language,Character Set,Country" @title={{title}} @required={{required}} @plain={{plain}} @value={{value}} @validation={{validation}} @data-spy={{false}} @templateClass={{templateClass}} as |locale|>
+<Object::MdArrayTable @columns="Language,Character Set,Country" @title={{this.title}} @required={{this.required}} @plain={{this.plain}} @value={{this.value}} @validation={{this.validation}} @data-spy={{false}} @templateClass={{this.templateClass}} as |locale|>
    {{#with locale.item as |item|}}
      <td>
-       <Input::MdCodelist @path="language" @model={{item}} @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @mdCodeName="language" @showValidations={{true}} @placeholder="Select or enter a language code." />
+       <Input::MdCodelist @path="language" @model={{item}} @create={{true}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="language" @showValidations={{true}} @placeholder="Select or enter a language code." />
      </td>
      <td>
-       <Input::MdCodelist @path="characterSet" @model={{item}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @mdCodeName="characterSet" @showValidations={{true}} @placeholder="Select character set." />
+       <Input::MdCodelist @path="characterSet" @model={{item}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="characterSet" @showValidations={{true}} @placeholder="Select character set." />
      </td>
      <td>
-       <Input::MdCodelist @value={{item.country}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{disabled}} @mdCodeName="countries" @placeholder="Select country code." />
+       <Input::MdCodelist @value={{item.country}} @create={{false}} @tooltip={{true}} @icon={{false}} @disabled={{this.disabled}} @mdCodeName="countries" @placeholder="Select country code." />
      </td>
     {{/with}}
 </Object::MdArrayTable>

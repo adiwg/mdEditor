@@ -9,23 +9,22 @@
     class="col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 col-xxl-6 col-xxl-offset-3">
         <div class="form-group">
             <label class="control-label
-            {{if (v-get model "json.dataDictionary.citation.title"
-             "options.presence.presence") "required"}}">Dictionary Title</label>
+            {{if (v-get this.model "json.dataDictionary.citation.title" "options.presence.presence") "required"}}">Dictionary Title</label>
             <div class="">
-                <Input::MdInput @valuePath="json.dataDictionary.citation.title" @model={{model}} @showValidations={{true}} @placeholder="Enter a title for the dictionary" />
+                <Input::MdInput @valuePath="json.dataDictionary.citation.title" @model={{this.model}} @showValidations={{true}} @placeholder="Enter a title for the dictionary" />
             </div>
         </div>
         <div class="form-group">
             <label class="control-label">Dictionary Subject</label>
             <div class="">
-              <Input::MdCodelistMulti @create={{true}} @tooltip={{true}} @icon={{true}} @disabled={{disabled}} @allowClear={{true}} @mdCodeName="scope" @showValidations={{true}} @model={{model}} @path="json.dataDictionary.subject" @placeholder="Choose type(s) of resource" />
+              <Input::MdCodelistMulti @create={{true}} @tooltip={{true}} @icon={{true}} @disabled={{this.disabled}} @allowClear={{true}} @mdCodeName="scope" @showValidations={{true}} @model={{this.model}} @path="json.dataDictionary.subject" @placeholder="Choose type(s) of resource" />
             </div>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-4 col-sm-8">
                  <span class="pull-right">
                       <button type="submit" class="btn btn-success md-form-save"
-                                                      disabled={{v-get model "isInvalid"}}>Save</button>
+                                                      disabled={{v-get this.model "isInvalid"}}>Save</button>
                       <button type="button" {{action "cancelDictionary"}} class="btn btn-warning ">Cancel</button>
                  </span>
             </div>

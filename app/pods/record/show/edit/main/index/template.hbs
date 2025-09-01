@@ -1,9 +1,9 @@
-{{#with model.json.metadata.resourceInfo as |resource|}}
+{{#with this.model.json.metadata.resourceInfo as |resource|}}
 <div class="row">
     <form class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
       <h4 class="section-header">
-        Editing <em>{{model.title}}</em>
-        <Control::MdStatus @model={{model}} />
+        Editing <em>{{this.model.title}}</em>
+        <Control::MdStatus @model={{this.model}} />
       </h4>
       <Layout::MdCard @title="Basic Information" @collapsible={{true}} @collapsed={{false}} @profilePath="record.main.basicInformation" @data-spy="Basic Information" @required={{true}}>
 
@@ -11,7 +11,7 @@
         <div class="form-group">
           <label class="required">Record ID</label>
           <div class="input-group input-group-md">
-            <Input::MdInput @valuePath="recordId" @model={{model}} @placeholder="Assigned Record ID" @disabled={{true}} />
+            <Input::MdInput @valuePath="recordId" @model={{this.model}} @placeholder="Assigned Record ID" @disabled={{true}} />
             <span class="input-group-btn">
                 <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
                   {{fa-icon "pencil"}}
@@ -22,7 +22,7 @@
         </div>
         </Layout::MdWrap>
 
-        <Input::MdInput @value={{model.title}} @placeholder="Enter the title for the resource." @label="Title" @required={{true}} @profilePath="record.main.basicInformation.title" @data-spy="Title" @class="md-embedded" />
+        <Input::MdInput @value={{this.model.title}} @placeholder="Enter the title for the resource." @label="Title" @required={{true}} @profilePath="record.main.basicInformation.title" @data-spy="Title" @class="md-embedded" />
 
         {{#if (is-array resource.status)}}
         <Input::MdCodelistMulti @value={{resource.status}} @label="Status" @required={{true}} @create={{true}} @tooltip={{true}} @icon={{false}} @mdCodeName="progress" @placeholder="Select the current status" @profilePath="record.main.basicInformation.status" @data-spy="Status" @class="md-embedded" />
@@ -48,7 +48,7 @@
         {{/if}}
 
         {{#if (is-array resource.pointOfContact)}}
-        <Object::MdPartyArray @title="Point Of Contact" @pluralTitle="Points of Contact" @data-spy="Point Of Contact" @collapsible={{true}} @collapsed={{false}} @required={{true}} @value={{resource.pointOfContact}} @profilePath="record.main.pointOfContact" @tipPath="json.metadata.resourceInfo.pointOfContact" @tipModel={{model}} />
+        <Object::MdPartyArray @title="Point Of Contact" @pluralTitle="Points of Contact" @data-spy="Point Of Contact" @collapsible={{true}} @collapsed={{false}} @required={{true}} @value={{resource.pointOfContact}} @profilePath="record.main.pointOfContact" @tipPath="json.metadata.resourceInfo.pointOfContact" @tipModel={{this.model}} />
         {{/if}}
 
         <Object::MdCitation::Preview @profilePath="record.main.citation" @citation={{resource.citation}} @muted={{true}} @required={{true}} @editCitation={{route-action "editCitation"}} />
@@ -88,4 +88,4 @@
 </div>
 {{/with}}
 
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo") refresh=model.profile}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo") refresh=this.model.profile}} />

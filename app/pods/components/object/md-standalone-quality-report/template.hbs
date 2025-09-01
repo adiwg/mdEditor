@@ -3,15 +3,15 @@
     <div class='col-lg-12'>
       <form>
         <div class='form-group'>
-          <Input::MdTextarea @required={{true}} @label="Abstract" @value={{model.abstract}} @placeholder="Abstract for the associated standalone quality report." />
+          <Input::MdTextarea @required={{true}} @label="Abstract" @value={{this.model.abstract}} @placeholder="Abstract for the associated standalone quality report." />
         </div>
       </form>
     </div>
   </div>
 
-  {{#if model.reportReference}}
+  {{#if this.model.reportReference}}
     <Layout::MdCard @title="Report Reference" @required={{true}} @collapsible={{true}} @collapsed={{false}} @spotlightEnabled={{false}} @deleteAction={{action "deleteReportReference"}}>
-      <Object::MdCitation @model={{model.reportReference}} @profilePath="record.dataquality.reportReference" @simpleIdentifier={{true}} />
+      <Object::MdCitation @model={{this.model.reportReference}} @profilePath="record.dataquality.reportReference" @simpleIdentifier={{true}} />
     </Layout::MdCard>
   {{else}}
     <div class='md-object-table box-shadow--4dp'>

@@ -3,7 +3,7 @@
   {{fa-icon "caret-right"}}
 </button>
 <section class="md-slider-body">
-  <FromElsewhere @name={{name}} as |slider|>
+  <FromElsewhere @name={{this.name}} as |slider|>
     <h3 class="text-info">{{slider.title}}</h3>
     <hr>
     {{component slider.body}}

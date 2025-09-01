@@ -1,6 +1,6 @@
 <h4 class="section-header">
   Editing Associated Resource
-  <Control::MdStatus @model={{parentModel}} />
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-<Object::MdObjectrouteTable @items={{model.json.metadata.associatedResource}} @header="Associated Resource" @shadow={{true}} @buttonText="Add Resource" @ellipsis={{ellipsis}} @previewTemplate="object/md-associated/preview" @editItem={{route-action "editResource"}} @verticalButtons={{true}} @profilePath="record.associated" @hideIndex={{true}} @condensed={{true}} @addSubbar="md-subbar-extra" />
+<Object::MdObjectrouteTable @items={{this.model.json.metadata.associatedResource}} @header="Associated Resource" @shadow={{true}} @buttonText="Add Resource" @ellipsis={{this.ellipsis}} @previewTemplate="object/md-associated/preview" @editItem={{route-action "editResource"}} @verticalButtons={{true}} @profilePath="record.associated" @hideIndex={{true}} @condensed={{true}} @addSubbar="md-subbar-extra" />

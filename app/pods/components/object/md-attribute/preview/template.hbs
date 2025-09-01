@@ -1,12 +1,12 @@
 <td class="property">
-  <Input::MdInput @model={{this}} @valuePath="codeName" @placeholder="Descriptive name for the attribute(column)." @profilePath={{concat profilePath ".attribute.codeName"}} @showValidations={{true}} />
+  <Input::MdInput @model={{this}} @valuePath="codeName" @placeholder="Descriptive name for the attribute(column)." @profilePath={{concat this.profilePath ".attribute.codeName"}} @showValidations={{true}} />
 </td>
 <td class="property">
-  <Input::MdCodelist @create={{true}} @tooltip={{true}} @icon={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="dataType" @model={{this}} @path="dataType" @placeholder="The datatype for the attribute(column)." @profilePath={{concat profilePath ".attribute.dataType"}} />
+  <Input::MdCodelist @create={{true}} @tooltip={{true}} @icon={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="dataType" @model={{this}} @path="dataType" @placeholder="The datatype for the attribute(column)." @profilePath={{concat this.profilePath ".attribute.dataType"}} />
 </td>
 <td class="property">
-  <Input::MdInput @model={{this}} @valuePath="definition" @placeholder="A brief definition of the attribute(column)." @profilePath={{concat profilePath ".attribute.definition"}} @showValidations={{true}} />
+  <Input::MdInput @model={{this}} @valuePath="definition" @placeholder="A brief definition of the attribute(column)." @profilePath={{concat this.profilePath ".attribute.definition"}} @showValidations={{true}} />
 </td>
 <td class="property text-center">
-  <Input::MdBoolean @required={{true}} @value={{model.allowNull}} @profilePath={{concat profilePath ".attribute.allowNull"}} />
+  <Input::MdBoolean @required={{true}} @value={{this.model.allowNull}} @profilePath={{concat this.profilePath ".attribute.allowNull"}} />
 </td>

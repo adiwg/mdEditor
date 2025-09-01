@@ -1,11 +1,11 @@
 <dl class='dl-horizontal col-lg-12'>
   <dt>
-    <h4 class='text-info'>Data Quality #{{index}}</h4>
+    <h4 class='text-info'>Data Quality #{{this.index}}</h4>
   </dt>
   <dd></dd>
-  <Control::MdDefinition @title="Scope Code" @text={{word-limit item.scope.scopeCode wordLength=20}} />
+  <Control::MdDefinition @title="Scope Code" @text={{word-limit this.item.scope.scopeCode wordLength=20}} />
 </dl>
 
 <dl class='dl-horizontal col-lg-12'>
-  <Control::MdDefinition @title="Title" @text={{item.systemIdentifier.label}} />
+  <Control::MdDefinition @title="Title" @text={{this.item.systemIdentifier.label}} />
 </dl>

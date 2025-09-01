@@ -1,18 +1,18 @@
 <div class="row md-no-spotlight">
-  {{#let model.json.dataDictionary as |dictionary|}}
+  {{#let this.model.json.dataDictionary as |dictionary|}}
   <div class="col-sm-9 col-md-offset-1">
     <h3>
       {{fa-icon "book" class="text-muted"}}
 
-      Viewing Dictionary: {{model.title}}
-      <Control::MdStatus @model={{model}} />
+      Viewing Dictionary: {{this.model.title}}
+      <Control::MdStatus @model={{this.model}} />
     </h3>
 
     <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Main" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "linkTo" "dictionary.show.edit"}} @btnIcon="pencil" @data-spy="Main">
       <div class="row">
         <dl class="dl-horizontal col-xxl-6">
-            <Control::MdDefinition @title="Dictionary Id" @text={{model.json.dataDictionary.dictionaryId}} />
-            <Control::MdDefinition @title="Dictionary Title" @text={{model.title}} />
+            <Control::MdDefinition @title="Dictionary Id" @text={{this.model.json.dataDictionary.dictionaryId}} />
+            <Control::MdDefinition @title="Dictionary Title" @text={{this.model.title}} />
             <Control::MdDefinition @title="Subject" @text={{if dictionary.subject (join ", " dictionary.subject)}} />
         </dl>
         <dl class="dl-horizontal col-xxl-6">
@@ -133,13 +133,13 @@
   {{/let}}
 
   <div class="md-control-sidebar col-sm-2 no-nav">
-    <Control::MdCrudButtons @model={{model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyDictionary"}} @doCopy={{route-action "copyDictionary"}}>
-      <LinkTo @route="dictionary.show.edit" @model={{model.id}} class="btn btn-lg btn-success">
+    <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyDictionary"}} @doCopy={{route-action "copyDictionary"}}>
+      <LinkTo @route="dictionary.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
         {{fa-icon "pencil"}} Edit</LinkTo>
     </Control::MdCrudButtons>
     <hr>
     <LinkTo @route="dictionaries" class="btn btn-lg btn-primary btn-block">
       {{fa-icon "list"}} Show List</LinkTo>
-    <Control::MdScrollSpy @scrollInit={{scrollTo}} @setScrollTo={{route-action "setScrollTo"}} />
+    <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{route-action "setScrollTo"}} />
   </div>
 </div>

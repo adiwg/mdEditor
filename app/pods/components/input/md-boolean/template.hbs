@@ -1,13 +1,13 @@
-{{#if label}}
-  <label>{{label}}</label>
-  {{#if showInfotip}}
-    <Control::MdInfotip @text={{placeholder}} />
+{{#if this.label}}
+  <label>{{this.label}}</label>
+  {{#if this.showInfotip}}
+    <Control::MdInfotip @text={{this.placeholder}} />
   {{/if}}
 {{/if}}
 <div class="checkbox md-boolean">
   <label>
-    <Input @type="checkbox" @checked={{value}} />
-    <span class="md-boolean-text">{{text}}</span>
+    <Input @type="checkbox" @checked={{this.value}} />
+    <span class="md-boolean-text">{{this.text}}</span>
   </label>
 </div>
 {{yield}}

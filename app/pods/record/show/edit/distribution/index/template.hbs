@@ -1,9 +1,9 @@
 <h4 class="section-header">
   Editing Distribution
-  <Control::MdStatus @model={{parentModel}} />
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-{{#each model.json.metadata.resourceDistribution as |dist index|}}
+{{#each this.model.json.metadata.resourceDistribution as |dist index|}}
   <Object::MdDistribution @model={{dist}} @index={{index}} @profilePath="record.distribution" @addDistribution={{route-action "addDistribution"}} @deleteDistribution={{route-action "deleteDistribution"}} @editDistributor={{route-action "editDistributor"}} />
 {{else}}
   <h3 class="alert alert-info">No distribution sections found.
@@ -19,4 +19,4 @@
     click=(route-action "addDistribution")
   }} />
 
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=refreshSpy scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=this.refreshSpy scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

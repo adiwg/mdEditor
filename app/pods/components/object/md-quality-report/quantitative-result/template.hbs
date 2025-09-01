@@ -1,13 +1,13 @@
-<Input::MdCodelist @create={{true}} @label="Scope" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="scope" @path="scopeCode" @model={{this}} @placeholder="Select Scope" @profilePath={{concat profilePath ".scopeCode"}} @class={{if (v-get this "isInvalid") "required"}} />
+<Input::MdCodelist @create={{true}} @label="Scope" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="scope" @path="scopeCode" @model={{this}} @placeholder="Select Scope" @profilePath={{concat this.profilePath ".scopeCode"}} @class={{if (v-get this "isInvalid") "required"}} />
 
-<Input::MdInput @value={{model.name}} @label="Name" @placeholder="Enter name" />
+<Input::MdInput @value={{this.model.name}} @label="Name" @placeholder="Enter name" />
 
 <div class='row'>
-  <Input::MdDatetime @date={{model.dateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat profilePath ".dateTime"}} @label="Date" />
+  <Input::MdDatetime @date={{this.model.dateTime}} @class="col-xxl-4 col-md-10 col-sm-4" @profilePath={{concat this.profilePath ".dateTime"}} @label="Date" />
 </div>
 
-<Input::MdInput @type="number" @value={{quantitativeValue}} @label="Value" @required={{true}} />
+<Input::MdInput @type="number" @value={{this.quantitativeValue}} @label="Value" @required={{true}} />
 
-<Input::MdCodelist @create={{true}} @label="UOM" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="unitsOfMeasure" @path="units" @model={{this}} @placeholder="Select Units" @profilePath={{concat profilePath ".valueUnits"}} @class={{if (v-get this "isInvalid") "required"}} />
+<Input::MdCodelist @create={{true}} @label="UOM" @tooltip={{true}} @icon={{false}} @disable={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="unitsOfMeasure" @path="units" @model={{this}} @placeholder="Select Units" @profilePath={{concat this.profilePath ".valueUnits"}} @class={{if (v-get this "isInvalid") "required"}} />
 
-<Input::MdInput @value={{model.valueRecordType}} @label="Value Record Type" @placeholder="Enter record type" />
+<Input::MdInput @value={{this.model.valueRecordType}} @label="Value Record Type" @placeholder="Enter record type" />

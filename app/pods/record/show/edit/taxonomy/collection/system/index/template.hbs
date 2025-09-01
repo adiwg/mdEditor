@@ -1,8 +1,8 @@
-<h4 class="section-header">Editing Taxonomic System #{{systemId}}
+<h4 class="section-header">Editing Taxonomic System #{{this.systemId}}
   <Control::MdStatus @model={{compute (route-action "parentModel")}} />
 </h4>
 
-{{#with model as |system|}}
+{{#with this.model as |system|}}
     <div class="">
       <Object::MdTaxonomy::Collection::System @model={{system}} @profilePath="record.taxonomy.collection.taxonomicSystem" />
     </div>
@@ -15,4 +15,4 @@
     class="btn-primary btn-lg"
     click=(route-action "goBack")
   }} />
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

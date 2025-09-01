@@ -1,7 +1,7 @@
 <h4 class="col-xxl-11 col-xxxl-10 col-xxl-offset-1 section-header">Editing Parent Metadata Citation
-  <Control::MdStatus @model={{model}} />
+  <Control::MdStatus @model={{this.model}} />
 </h4>
-{{#with model.json.metadata.metadataInfo.parentMetadata as |citation|}}
+{{#with this.model.json.metadata.metadataInfo.parentMetadata as |citation|}}
     <div class="row">
       <Object::MdCitation @class="col-xxl-11 col-xxxl-10 col-xxl-offset-1" @model={{citation}} @profilePath="record.metadata.parentMetadata" @editIdentifier={{route-action "editIdentifier"}} />
       {{outlet}}
@@ -9,4 +9,4 @@
 {{/with}}
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link" text="Back to Metadata" icon="arrow-left"
     route="record.show.edit.metadata"}} />
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

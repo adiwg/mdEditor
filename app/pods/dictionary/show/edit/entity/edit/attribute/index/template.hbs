@@ -1,14 +1,14 @@
 <h4 class="section-header">
-  Editing Attribute {{#if model.codeName}}
-    <em>{{model.codeName}}</em>
+  Editing Attribute {{#if this.model.codeName}}
+    <em>{{this.model.codeName}}</em>
   {{else}}
-    #{{attributeId}}
+    #{{this.attributeId}}
   {{/if}}
-  <span class="small">for <em>{{parentModel.title}}</em></span>
-  <Control::MdStatus @model={{parentModel}} />
+  <span class="small">for <em>{{this.parentModel.title}}</em></span>
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-<Object::MdAttribute @class="" @model={{model}} @dictionary={{parentModel.json.dataDictionary}} @profilePath="dictionary.entity.attribute" />
+<Object::MdAttribute @class="" @model={{this.model}} @dictionary={{this.parentModel.json.dataDictionary}} @profilePath="dictionary.entity.attribute" />
 {{!-- editCitation=(route-action "editCitation") --}}
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link"
@@ -17,4 +17,4 @@
     click=(route-action "backToEntity")
   }} />
 
-<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-dict-edit" @send={{component "control/md-scroll-spy" scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

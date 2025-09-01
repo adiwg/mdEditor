@@ -1,5 +1,5 @@
-<Layout::MdCard @title="Classification Authority" @collapsed={{false}} @collapsible={{true}} @profilePath={{concat profilePath ".citation"}}>
-  <Object::MdCitation @model={{model.citation}} @simpleIdentifier={{true}} @profilePath={{concat profilePath ".citation"}} @embedded={{false}} @data-spy={{true}} />
+<Layout::MdCard @title="Classification Authority" @collapsed={{false}} @collapsible={{true}} @profilePath={{concat this.profilePath ".citation"}}>
+  <Object::MdCitation @model={{this.model.citation}} @simpleIdentifier={{true}} @profilePath={{concat this.profilePath ".citation"}} @embedded={{false}} @data-spy={{true}} />
 </Layout::MdCard>
 
-<Input::MdTextarea @value={{model.modifications}} @required={{false}} @rows={{3}} @profilePath={{concat profilePath ".modifications"}} @label="Modifications" @placeholder={{t "placeholders.taxonomy.modifications"}} @data-spy="Modifications" @showValidations={{true}} />
+<Input::MdTextarea @value={{this.model.modifications}} @required={{false}} @rows={{3}} @profilePath={{concat this.profilePath ".modifications"}} @label="Modifications" @placeholder={{t "placeholders.taxonomy.modifications"}} @data-spy="Modifications" @showValidations={{true}} />

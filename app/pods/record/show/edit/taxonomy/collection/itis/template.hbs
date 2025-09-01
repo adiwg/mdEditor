@@ -1,9 +1,9 @@
 <h4 class="section-header">
-  Add Taxa from ITIS<small> Taxonomy Collection #{{collectionId}}</small>
-  <Control::MdStatus @model={{parentModel}} />
+  Add Taxa from ITIS<small> Taxonomy Collection #{{this.collectionId}}</small>
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-<Control::MdItis @taxonomy={{model}} />
+<Control::MdItis @taxonomy={{this.model}} />
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/md-button"
   text="Back to Collection"

@@ -1,24 +1,24 @@
 <Layout::MdCard @shadow={{false}} @muted={{false}} @plain={{true}}>
     <div class="row">
     <label class="text-info col-sm-2 col-xxl-1 required">Amount</label>
-    <Input::MdInput @class="col-sm-5 col-xxl-3" @type="number" @model={{this}} @valuePath="amount" @step="0.01" @label="Amount" @placeholder="Enter amount for the allocation." @profilePath={{concat profilePath ".amount"}} @showValidations={{true}} />
-    <Input::MdCodelist @create={{false}} @model={{this}} @class="col-sm-5 col-xxl-3" @mdCodeName="currency" @namePath="codeName" @valuePath="codeName" @path="currency" @label="Currency" @required={{true}} @tooltip={{true}} @icon={{false}} @allowClear={{true}} @placeholder="Choose unit of currency" @profilePath={{concat profilePath ".currency"}} />
+    <Input::MdInput @class="col-sm-5 col-xxl-3" @type="number" @model={{this}} @valuePath="amount" @step="0.01" @label="Amount" @placeholder="Enter amount for the allocation." @profilePath={{concat this.profilePath ".amount"}} @showValidations={{true}} />
+    <Input::MdCodelist @create={{false}} @model={{this}} @class="col-sm-5 col-xxl-3" @mdCodeName="currency" @namePath="codeName" @valuePath="codeName" @path="currency" @label="Currency" @required={{true}} @tooltip={{true}} @icon={{false}} @allowClear={{true}} @placeholder="Choose unit of currency" @profilePath={{concat this.profilePath ".currency"}} />
   </div>
 
-  <Input::MdInput @value={{model.sourceAllocationId}} @label="Award ID" @placeholder="The source's identifier for the allocation, e.g. award number." @profilePath={{concat profilePath ".sourceAllocationId"}} />
+  <Input::MdInput @value={{this.model.sourceAllocationId}} @label="Award ID" @placeholder="The source's identifier for the allocation, e.g. award number." @profilePath={{concat this.profilePath ".sourceAllocationId"}} />
 
-  <Input::MdSelectContact @label="Source" @placeholder="Pick contact that supplied funds" @value={{model.sourceId}} @contactType="contacts" @icon={{true}} @tooltip={{false}} @profilePath={{concat profilePath ".source"}} />
+  <Input::MdSelectContact @label="Source" @placeholder="Pick contact that supplied funds" @value={{this.model.sourceId}} @contactType="contacts" @icon={{true}} @tooltip={{false}} @profilePath={{concat this.profilePath ".source"}} />
 
-  <Input::MdSelectContact @label="Recipient" @placeholder="Pick contact that received funds" @value={{model.recipientId}} @contactType="contacts" @icon={{true}} @tooltip={{false}} @profilePath={{concat profilePath ".recipient"}} />
+  <Input::MdSelectContact @label="Recipient" @placeholder="Pick contact that received funds" @value={{this.model.recipientId}} @contactType="contacts" @icon={{true}} @tooltip={{false}} @profilePath={{concat this.profilePath ".recipient"}} />
 
-  <Object::MdPartyArray @title="Other Contacts" @plain={{false}} @required={{false}} @value={{model.responsibleParty}} @profilePath={{concat profilePath ".otherContacts"}} />
+  <Object::MdPartyArray @title="Other Contacts" @plain={{false}} @required={{false}} @value={{this.model.responsibleParty}} @profilePath={{concat this.profilePath ".otherContacts"}} />
 
-  <Input::MdBoolean @label="Matching" @text="Matching funds or in-kind services" @value={{model.matching}} @profilePath={{concat profilePath ".matching"}} />
+  <Input::MdBoolean @label="Matching" @text="Matching funds or in-kind services" @value={{this.model.matching}} @profilePath={{concat this.profilePath ".matching"}} />
 
- <Input::MdTextarea @value={{model.comment}} @profilePath={{concat profilePath ".comment"}} @label="Comment" @placeholder="Enter any comments about the allocation." />
+ <Input::MdTextarea @value={{this.model.comment}} @profilePath={{concat this.profilePath ".comment"}} @label="Comment" @placeholder="Enter any comments about the allocation." />
 
-  {{#if (is-array model.onlineResource)}}
-    <Object::MdOnlineResourceArray @model={{model.onlineResource}} @profilePath={{concat profilePath ".onlineResource"}} @class={{if embedded "md-embedded"}} @plain={{true}} @shadow={{false}} @data-spy="Online Resource" />
+  {{#if (is-array this.model.onlineResource)}}
+    <Object::MdOnlineResourceArray @model={{this.model.onlineResource}} @profilePath={{concat this.profilePath ".onlineResource"}} @class={{if this.embedded "md-embedded"}} @plain={{true}} @shadow={{false}} @data-spy="Online Resource" />
    {{/if}}
 </Layout::MdCard>
 

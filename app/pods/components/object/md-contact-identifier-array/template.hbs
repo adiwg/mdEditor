@@ -1,4 +1,4 @@
-<Object::MdArrayTable @columns="Identifier,Namespace" @title="External Identifier" @value={{value}} @validation={{validation}} @data-spy={{null}} @templateClass={{templateClass}} as |contactId|>
+<Object::MdArrayTable @columns="Identifier,Namespace" @title="External Identifier" @value={{this.value}} @validation={{this.validation}} @data-spy={{null}} @templateClass={{this.templateClass}} as |contactId|>
   <td>
       <Input::MdInput @value={{contactId.item.identifier}} @placeholder="External Contact Identifier" />
   </td>

@@ -1,9 +1,9 @@
 <h4 class="section-header">
   Editing Keywords
-  <Control::MdStatus @model={{model}} />
+  <Control::MdStatus @model={{this.model}} />
 </h4>
   <section>
-    {{#each model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
+    {{#each this.model.json.metadata.resourceInfo.keyword as |thesaurus index|}}
       <div class="md-keywords-container md-object-container" data-spy={{concat "Thesaurus " index}} id={{concat "thesaurus-container-" index}}>
         <div class="md-keywords-header">
           {{#if thesaurus.thesaurus.identifier.0.identifier}}
@@ -15,7 +15,7 @@
           <h4 class="inline-block text-primary" code="">
             <strong>{{concat "Thesaurus #" index}}</strong>
           </h4>
-          <Input::MdSelectThesaurus @class="md-keywords-select" @recordProfile={{model.profile}} @thesaurus={{thesaurus}} @selectThesaurus={{route-action "selectThesaurus"}} @value={{thesaurus.thesaurus.identifier.0.identifier}} @disabled={{thesaurus.keyword.length}} />
+          <Input::MdSelectThesaurus @class="md-keywords-select" @recordProfile={{this.model.profile}} @thesaurus={{thesaurus}} @selectThesaurus={{route-action "selectThesaurus"}} @value={{thesaurus.thesaurus.identifier.0.identifier}} @disabled={{thesaurus.keyword.length}} />
           <Control::MdButtonConfirm @class="btn btn-sm btn-danger" @onConfirm={{route-action "deleteThesaurus" index}}>
             {{fa-icon "times"}} Delete
           </Control::MdButtonConfirm>
@@ -52,4 +52,4 @@
     click=(route-action "addThesaurus")
     }} />
 
-  <ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=refresh scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+  <ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=this.refresh scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

@@ -1,10 +1,10 @@
 <div class='row'>
   <dl class='dl-horizontal col-lg-12'>
-    <Control::MdDefinition @title="Title" @text={{citation.title}} @profilePath={{concat profilePath ".basicInformation.title"}} />
+    <Control::MdDefinition @title="Title" @text={{this.citation.title}} @profilePath={{concat this.profilePath ".basicInformation.title"}} />
   </dl>
   <dl class='dl-horizontal col-lg-12'>
-    <Control::MdDefinition @title="Alternate Titles" @profilePath={{concat profilePath ".basicInformation.alternateTitle"}}>
-      {{#each citation.alternateTitle as |title|}}
+    <Control::MdDefinition @title="Alternate Titles" @profilePath={{concat this.profilePath ".basicInformation.alternateTitle"}}>
+      {{#each this.citation.alternateTitle as |title|}}
         {{title}}
         <br />
       {{else}}
@@ -14,8 +14,8 @@
   </dl>
   <div class='clearfix'></div>
   <dl class='dl-horizontal col-lg-12'>
-    <Control::MdDefinition @title="Dates" @profilePath={{concat profilePath ".basicInformation.dates"}}>
-      {{#each citation.date as |date|}}
+    <Control::MdDefinition @title="Dates" @profilePath={{concat this.profilePath ".basicInformation.dates"}}>
+      {{#each this.citation.date as |date|}}
         {{moment-format date.date 'YYYY-MM-DD'}}
         ({{date.dateType}})
         <br />
@@ -25,8 +25,8 @@
     </Control::MdDefinition>
   </dl>
   <dl class='dl-horizontal col-lg-12'>
-    <Control::MdDefinition @title="Identifier" @profilePath={{concat profilePath ".identifier"}}>
-      {{#each citation.identifier as |id|}}
+    <Control::MdDefinition @title="Identifier" @profilePath={{concat this.profilePath ".identifier"}}>
+      {{#each this.citation.identifier as |id|}}
         {{id.identifier}}
         {{if id.namespace (concat '(' id.namespace ')')}}
         <br />
@@ -37,8 +37,8 @@
   </dl>
   <div class='clearfix'></div>
   <dl class='dl-horizontal col-lg-12'>
-    <Control::MdDefinition @title="Responsible Party" @profilePath={{concat profilePath ".responsibleParty"}}>
-      {{#each citation.responsibleParty as |party|}}
+    <Control::MdDefinition @title="Responsible Party" @profilePath={{concat this.profilePath ".responsibleParty"}}>
+      {{#each this.citation.responsibleParty as |party|}}
         {{html-safe (if party.role party.role '<em>No Roles assigned.</em>')}}
         (
         {{#each party.party as |contact index|}}

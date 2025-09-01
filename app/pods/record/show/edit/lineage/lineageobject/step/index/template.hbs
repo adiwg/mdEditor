@@ -1,9 +1,9 @@
 <h4 class="section-header">
-  Editing Process Step #{{stepId}}
-  <Control::MdStatus @model={{parentModel}} />
+  Editing Process Step #{{this.stepId}}
+  <Control::MdStatus @model={{this.parentModel}} />
 </h4>
 
-<Object::MdProcessStep @model={{model}} @profilePath="record.lineage.processStep" @itemId={{stepId}} @editCitation={{route-action "editCitation"}} />
+<Object::MdProcessStep @model={{this.model}} @profilePath="record.lineage.processStep" @itemId={{this.stepId}} @editCitation={{route-action "editCitation"}} />
 
 <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-link" text="Back to Lineage" icon="arrow-left" click=(route-action "goBack")}} />
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=scrollTo setScrollTo=(route-action "setScrollTo")}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />

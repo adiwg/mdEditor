@@ -1,7 +1,7 @@
-<Object::MdObjectTable @items={{model}} @header={{label}} @shadow={{shadow}} @buttonText="Add Resource" @ellipsis={{ellipsis}} @previewTemplate={{previewTemplate}} @profilePath={{profilePath}} @templateClass={{templateClass}} @attributes={{attributes}} as |editing|>
+<Object::MdObjectTable @items={{this.model}} @header={{this.label}} @shadow={{this.shadow}} @buttonText="Add Resource" @ellipsis={{this.ellipsis}} @previewTemplate={{this.previewTemplate}} @profilePath={{this.profilePath}} @templateClass={{this.templateClass}} @attributes={{this.attributes}} as |editing|>
     {{!-- Editing: {{editing.name}} --}}
 
-    <Object::MdOnlineResource @imagePicker={{imagePicker}} @model={{editing}} @profilePath={{profilePath}} />
+    <Object::MdOnlineResource @imagePicker={{this.imagePicker}} @model={{editing}} @profilePath={{this.profilePath}} />
 
 </Object::MdObjectTable>
 {{yield}}

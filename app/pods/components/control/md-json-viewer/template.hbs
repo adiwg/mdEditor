@@ -1,4 +1,4 @@
-{{#if modal}}
+{{#if this.modal}}
   <ModalDialog @onClose={{action "closeModal"}} @translucentOverlay={{true}} @containerClass="md-jsmodal-container" @overlayClass="md-modal-overlay" @attachment="top center" @targetAttachment="top center" @tetherTarget="html">
     <button type="button" {{action "closeModal"}} class="md-modal-close" aria-label="Close">
       <span class="fa-stack">

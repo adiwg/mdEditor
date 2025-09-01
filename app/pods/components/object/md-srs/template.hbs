@@ -1,11 +1,11 @@
-<Input::MdCodelist @create={{true}} @label="Reference System Type" @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="referenceSystemType" @path="refType" @model={{this}} @placeholder="Select type of reference system used." @profilePath={{concat profilePath ".referenceSystemType"}} @class={{if (v-get this "isInvalid") "required"}} />
+<Input::MdCodelist @create={{true}} @label="Reference System Type" @tooltip={{true}} @icon={{false}} @disabled={{false}} @allowClear={{true}} @showValidations={{true}} @mdCodeName="referenceSystemType" @path="refType" @model={{this}} @placeholder="Select type of reference system used." @profilePath={{concat this.profilePath ".referenceSystemType"}} @class={{if (v-get this "isInvalid") "required"}} />
 
-{{#if model.referenceSystemIdentifier}}
+{{#if this.model.referenceSystemIdentifier}}
 
-<Layout::MdCard @collapsible={{false}} @collapsed={{false}} @data-spy={{false}} @shadow={{false}} @profilePath={{concat profilePath ".referenceSystemIdentifier"}}>
+<Layout::MdCard @collapsible={{false}} @collapsed={{false}} @data-spy={{false}} @shadow={{false}} @profilePath={{concat this.profilePath ".referenceSystemIdentifier"}}>
   <label  class={{concat "text-info" (if (v-get this "isInvalid") " required")}}>Reference System Identifier</label>
 
-  <Object::MdIdentifier @model={{model.referenceSystemIdentifier}} @profilePath={{concat profilePath ".referenceSystemIdentifier"}} @data-spy={{false}} />
+  <Object::MdIdentifier @model={{this.model.referenceSystemIdentifier}} @profilePath={{concat this.profilePath ".referenceSystemIdentifier"}} @data-spy={{false}} />
 </Layout::MdCard>
 {{/if}}
 
