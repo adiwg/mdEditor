@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import { isArray } from '@ember/array';
 import { isBlank, typeOf } from '@ember/utils';
 import Service from '@ember/service';
@@ -18,7 +19,7 @@ const clean = function (obj, options) {
     return;
   }
 
-  if(((/string|number|boolean/))
+  if((((/string|number|boolean/)))
     .test(typeof obj)) {
     return obj;
   }
@@ -95,9 +96,10 @@ const clean = function (obj, options) {
     }, acc);
 }
 
-const _Service = Service.extend({
-  clean: clean
-});
+@classic
+class _Service extends Service {
+  clean = clean;
+}
 
 export {
   _Service as

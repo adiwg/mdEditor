@@ -1,10 +1,13 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import ModalDialog from 'ember-modal-dialog/components/modal-dialog';
 
 const containerClassNames = ['md-spotlight-modal'];
 const overlayClassNames = ['md-modal-overlay'];
 
-export default ModalDialog.extend({
+@classic
+export default class MdSpotlight extends ModalDialog {
   /**
    * Component that highlights a DOM element
    *
@@ -22,54 +25,39 @@ export default ModalDialog.extend({
    * @property spotlight
    * @type {Service}
    */
-  spotlight: service(),
+  @service
+  spotlight;
 
-  containerClassNames: containerClassNames,
-  overlayClassNames: overlayClassNames,
-  overlayClass: 'md-spotlight-overlay fade-in-fast',
-  targetAttachment: 'none',
-  translucentOverlay: true,
-  clickOutsideToClose: false,
-  attachment: 'middle center',
-  tetherTarget: 'viewport',
+  containerClassNames = containerClassNames;
+  overlayClassNames = overlayClassNames;
+  overlayClass = 'md-spotlight-overlay fade-in-fast';
+  targetAttachment = 'none';
+  translucentOverlay = true;
+  clickOutsideToClose = false;
+  attachment = 'middle center';
+  tetherTarget = 'viewport';
 
-  // /**
-  // * The id of the DOM element to spotlight. Uses the spotlight service "elementId"
-  // * by default.
-  // *
-  // * @property spotlightTargetId
-  // * @type {String}
-  // * @default "computed.alias('spotlight.elementId')"
-  // * @category computed
-  // * @requires spotlight.elementId
-  // * @required
-  // */
-  // spotlightTargetId: computed.alias('spotlight.elementId'),
-
-  // willInsertElement() {
-  //   $('.md-modal-overlay').click();
-  // },
-  // didInsertElement() {
-  //   this._super(...arguments);
-  //
-  //   let id = this.get('spotlightTargetId');
-  //
-  //   if(isPresent(id)) {
-  //     $('body').addClass('md-no-liquid');
-  //     $('#' + id).addClass('md-spotlight-target');
-  //   }
-  //
-  // },
-
-  actions: {
-    onClose() {
-      this._super(...arguments);
-      this.spotlight.close();
-    },
-
-    onClickOverlay() {
-      this._super(...arguments);
-      this.spotlight.close();
-    }
+  @action
+  onClose() {
+    // TODO: This call to super is within an action, and has to refer to the parent
+    // class's actions to be safe. This should be refactored to call a normal method
+    // on the parent class. If the parent class has not been converted to native
+    // classes, it may need to be refactored as well. See
+    // https://github.com/scalvert/ember-native-class-codemod/blob/master/README.md
+    // for more details.
+    super.actions.onClose.call(this, ...arguments);
+    this.spotlight.close();
   }
-});
+
+  @action
+  onClickOverlay() {
+    // TODO: This call to super is within an action, and has to refer to the parent
+    // class's actions to be safe. This should be refactored to call a normal method
+    // on the parent class. If the parent class has not been converted to native
+    // classes, it may need to be refactored as well. See
+    // https://github.com/scalvert/ember-native-class-codemod/blob/master/README.md
+    // for more details.
+    super.actions.onClickOverlay.call(this, ...arguments);
+    this.spotlight.close();
+  }
+}

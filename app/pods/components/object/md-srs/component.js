@@ -1,5 +1,7 @@
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
+import { notEmpty, alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { alias, notEmpty } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { set, getWithDefault, get } from '@ember/object';
 import {
@@ -24,9 +26,11 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+@classNames('form')
+export default class MdSrs extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -35,25 +39,11 @@ export default Component.extend(Validations, {
       set(model, 'referenceSystemIdentifier', getWithDefault(model, 'referenceSystemIdentifier', {}));
     });
   }
-  },
-  /**
-   * The string representing the path in the profile object for the resource.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
+  }
 
-  /**
-   * The object to use as the data model for the resource.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
+  @alias('model.referenceSystemIdentifier.identifier')
+  refSystem;
 
-  classNames: ['form'],
-  refSystem: alias('model.referenceSystemIdentifier.identifier'),
-  refType: alias('model.referenceSystemType')
-});
+  @alias('model.referenceSystemType')
+  refType;
+}

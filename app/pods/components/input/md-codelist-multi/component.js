@@ -1,3 +1,6 @@
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
+import { computed } from '@ember/object';
 /**
  * @module mdeditor
  * @submodule components-input
@@ -5,11 +8,11 @@
 
 import { isArray } from '@ember/array';
 
-import { computed } from '@ember/object';
 import MdCodelist from '../md-codelist/component';
 
-export default MdCodelist.extend({
-  classNames: ['md-codelist-multi'],
+@classic
+@classNames('md-codelist-multi')
+export default class MdCodelistMulti extends MdCodelist {
   /**
    * Specialized select list control for displaying and selecting options in
    * mdCodes codelists. Extends md-codelist. Allows selection of multiple
@@ -52,7 +55,7 @@ export default MdCodelist.extend({
    * @type Boolean
    * @default true
    */
-  multiple: true,
+  multiple = true;
 
   /**
    * The component to render
@@ -61,10 +64,11 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: computed('create', function() {
+  @computed('create')
+  get theComponent() {
     return this.create ? 'power-select-multiple-with-create' :
       'power-select-multiple';
-  }),
+  }
 
   /**
    * Whether to close the selection list after a selection has been made.
@@ -73,7 +77,7 @@ export default MdCodelist.extend({
    * @type Boolean
    * @default false
    */
-  closeOnSelect: false,
+  closeOnSelect = false;
 
   /**
    * The string to display when no option is selected.
@@ -82,7 +86,7 @@ export default MdCodelist.extend({
    * @type String
    * @default 'Select one or more options'
    */
-  placeholder: 'Select one or more options',
+  placeholder = 'Select one or more options';
 
   /**
    * The currently selected item in the codelist
@@ -91,7 +95,8 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function() {
+  @computed('value')
+  get selectedItem() {
     let value = this.value;
     let codelist = this.codelist;
 
@@ -101,7 +106,7 @@ export default MdCodelist.extend({
       });
     }
     return null;
-  }),
+  }
 
   /**
    * If a value is provided by the user which is not in the codelist and 'create=true'
@@ -111,7 +116,8 @@ export default MdCodelist.extend({
    * @type Ember.computed
    * @return Array
    */
-  codelist: computed('value', 'filterId', 'mapped', function() {
+  @computed('value', 'filterId', 'mapped')
+  get codelist() {
     let codelist = this.mapped;
     let value = this.value;
     let create = this.create;
@@ -130,7 +136,7 @@ export default MdCodelist.extend({
     }
 
     return codelist.rejectBy('codeId', filter);
-  }),
+  }
 
   /**
    * Set the value on the select.
@@ -155,4 +161,4 @@ export default MdCodelist.extend({
     this.set('value', sel.mapBy('codeId'));
     this.change();
   }
-});
+}

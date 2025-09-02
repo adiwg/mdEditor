@@ -1,11 +1,11 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import {
   A
 } from '@ember/array';
-import EmberObject, { set, computed, getWithDefault, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
+import EmberObject, { set, getWithDefault, get, action, computed } from '@ember/object';
 import {
   once
 } from '@ember/runloop';
@@ -38,14 +38,16 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+@tagName('form')
+export default class MdEntity extends Component.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     assert(`You must supply a dictionary for ${this.toString()}.`, this.dictionary);
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -60,36 +62,9 @@ export default Component.extend(Validations, {
       set(model, 'entityReference', getWithDefault(model,
         'entityReference', []));
     });
-  },
+  }
 
-  /**
-   * The string representing the path in the profile object for the entity.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
-
-  /**
-   * The parent dictionary object for this entity used to lookup references.
-   *
-   * @property dictionary
-   * @type {Object}
-   * @required
-   */
-
-  /**
-   * The object to use as the data model for the entity.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
-
-  tagName: 'form',
-
-  foreignKeyTemplate: EmberObject.extend(buildValidations({
+  foreignKeyTemplate = EmberObject.extend(buildValidations({
     'referencedEntityCodeName': [
       validator('presence', {
         presence: true,
@@ -120,9 +95,9 @@ export default Component.extend(Validations, {
       this.set('localAttributeCodeName', []);
       this.set('referencedAttributeCodeName', []);
     }
-  }),
+  });
 
-  indexTemplate: EmberObject.extend(buildValidations({
+  indexTemplate = EmberObject.extend(buildValidations({
     'codeName': [
       validator('presence', {
         presence: true,
@@ -150,16 +125,25 @@ export default Component.extend(Validations, {
       this.set('attributeCodeName', []);
       this.set('allowDuplicates', false);
     }
-  }),
+  });
 
-  attributeTemplate: Attribute,
+  attributeTemplate = Attribute;
+
   //entityId: alias('model.entityId'),
-  codeName: alias('model.codeName'),
-  description: alias('model.description'),
-  entities: alias('dictionary.entity'),
-  attributes: alias('model.attribute'),
+  @alias('model.codeName')
+  codeName;
 
-  attributeList: computed('attributes.{@each.codeName,[]}', function () {
+  @alias('model.description')
+  description;
+
+  @alias('dictionary.entity')
+  entities;
+
+  @alias('model.attribute')
+  attributes;
+
+  @computed('attributes.{@each.codeName,[]}')
+  get attributeList() {
     let attr = get(this, 'model.attribute');
     if(attr) {
       return attr.map((attr) => {
@@ -171,65 +155,50 @@ export default Component.extend(Validations, {
       });
     }
     return [];
-  }),
-
-  entityList: computed('entities.{@each.entityId,@each.codeName}',
-    function () {
-      return this.entities
-        .map((attr) => {
-          if(get(attr, 'entityId')) {
-            return {
-              codeId: get(attr, 'entityId'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
-            };
-          }
-        });
-    }),
-
-   /**
-    * The passed down editCitation method.
-    *
-    * @method editCitation
-    * @param {Number} id
-    * @required
-    */
-
-   /**
-    * The passed down editAttribute method.
-    *
-    * @method editAttribute
-    * @param {Number} id
-    * @required
-    */
-
-  actions: {
-    getEntityAttributes(id) {
-      let entity = A(this.get('dictionary.entity'))
-        .findBy('entityId', id);
-
-      if(entity) {
-        let a = get(entity, 'attribute')
-          .map((attr) => {
-            return {
-              codeId: get(attr, 'codeName'),
-              codeName: get(attr, 'codeName'),
-              tooltip: get(attr, 'definition')
-            };
-          });
-
-        return a;
-      }
-
-      return [];
-    },
-
-    editCitation(id){
-      this.editCitation(id);
-    },
-
-    editAttribute(id){
-      this.editAttribute(id);
-    }
   }
-});
+
+  @computed('entities.{@each.entityId,@each.codeName}')
+  get entityList() {
+    return this.entities
+      .map((attr) => {
+        if(get(attr, 'entityId')) {
+          return {
+            codeId: get(attr, 'entityId'),
+            codeName: get(attr, 'codeName'),
+            tooltip: get(attr, 'definition')
+          };
+        }
+      });
+  }
+
+  @action
+  getEntityAttributes(id) {
+    let entity = A(this.get('dictionary.entity'))
+      .findBy('entityId', id);
+
+    if(entity) {
+      let a = get(entity, 'attribute')
+        .map((attr) => {
+          return {
+            codeId: get(attr, 'codeName'),
+            codeName: get(attr, 'codeName'),
+            tooltip: get(attr, 'definition')
+          };
+        });
+
+      return a;
+    }
+
+    return [];
+  }
+
+  @action
+  editCitation(id) {
+    this.editCitation(id);
+  }
+
+  @action
+  editAttribute(id) {
+    this.editAttribute(id);
+  }
+}

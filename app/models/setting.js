@@ -1,8 +1,10 @@
-import Model, { attr } from '@ember-data/model';
-import { alias } from '@ember/object/computed';
-import { run } from '@ember/runloop';
+import classic from 'ember-classic-decorator';
+import { observes } from '@ember-decorators/object';
 import { inject as service } from '@ember/service';
-import EmberObject, { observer } from '@ember/object';
+import { alias } from '@ember/object/computed';
+import Model, { attr } from '@ember-data/model';
+import { run } from '@ember/runloop';
+import EmberObject from '@ember/object';
 
 const defaultValues = {
   // itisProxyUrl: 'https://api.sciencebase.gov/mdTranslator',
@@ -24,7 +26,8 @@ const defaultValues = {
   ],
 };
 
-const theModel = Model.extend({
+@classic
+class theModel extends Model {
   /**
    * Setting model
    *
@@ -35,83 +38,124 @@ const theModel = Model.extend({
    * @submodule data-models
    */
 
-  settings: service(),
+  @service
+  settings;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     //this.on('didUpdate', this, this.wasUpdated);
     this.on('didLoad', this, this.wasLoaded);
     //this.on('didUpdate', this, this.wasLoaded);
     this.updateSettings;
-  },
+  }
+
   //cleaner: inject.service(),
-  compressOnSave: attr('boolean', {
+  @attr('boolean', {
     defaultValue: true,
-  }),
-  showSplash: attr('boolean', {
+  })
+  compressOnSave;
+
+  @attr('boolean', {
     defaultValue: true,
-  }),
-  keepSettings: attr('boolean', {
+  })
+  showSplash;
+
+  @attr('boolean', {
     defaultValue: true,
-  }),
-  autoSave: attr('boolean', {
+  })
+  keepSettings;
+
+  @attr('boolean', {
     defaultValue: false,
-  }),
-  showDelete: attr('boolean', {
+  })
+  autoSave;
+
+  @attr('boolean', {
     defaultValue: false,
-  }),
-  showCopy: attr('boolean', {
+  })
+  showDelete;
+
+  @attr('boolean', {
     defaultValue: false,
-  }),
-  lastVersion: attr('string', {
+  })
+  showCopy;
+
+  @attr('string', {
     defaultValue: '',
-  }),
-  dateUpdated: attr('date', {
+  })
+  lastVersion;
+
+  @attr('date', {
     defaultValue() {
       return new Date();
     },
-  }),
-  characterSet: attr('string', {
+  })
+  dateUpdated;
+
+  @attr('string', {
     defaultValue: 'UTF-8',
-  }),
-  country: attr('string', {
+  })
+  characterSet;
+
+  @attr('string', {
     defaultValue: 'USA',
-  }),
-  language: attr('string', {
+  })
+  country;
+
+  @attr('string', {
     defaultValue: 'eng',
-  }),
-  importUriBase: attr('string', {
+  })
+  language;
+
+  @attr('string', {
     defaultValue: '',
-  }),
-  mdTranslatorAPI: attr('string'),
-  itisProxyUrl: attr('string'),
-  fiscalStartMonth: attr('string', {
+  })
+  importUriBase;
+
+  @attr('string')
+  mdTranslatorAPI;
+
+  @attr('string')
+  itisProxyUrl;
+
+  @attr('string', {
     defaultValue: defaultValues.fiscalStartMonth,
-  }),
-  repositoryDefaults: attr('json'),
-  publishOptions: attr('json', {
+  })
+  fiscalStartMonth;
+
+  @attr('json')
+  repositoryDefaults;
+
+  @attr('json', {
     defaultValue: function () {
       return defaultValues.publishOptions.slice(); // Return a copy of the default array
     },
-  }),
-  customSchemas: attr('json', {
+  })
+  publishOptions;
+
+  @attr('json', {
     defaultValue: function () {
       return [];
     },
-  }),
-  locale: alias('defaultLocale'),
+  })
+  customSchemas;
+
+  @alias('defaultLocale')
+  locale;
 
   wasLoaded() {
     this.settings.setup();
-  },
-  updateSettings: observer('hasDirtyAttributes', function () {
+  }
+
+  @observes('hasDirtyAttributes')
+  updateSettings() {
     if (this.hasDirtyAttributes) {
       run.once(this, function () {
         this.save();
       });
     }
-  }),
-});
+  }
+}
 
 export { defaultValues, theModel as default };

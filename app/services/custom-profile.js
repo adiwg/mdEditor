@@ -1,5 +1,6 @@
-import { computed, get } from '@ember/object';
-import { map, union } from '@ember/object/computed';
+import classic from 'ember-classic-decorator';
+import { union, map } from '@ember/object/computed';
+import { get, computed } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import axios from 'axios';
@@ -27,15 +28,24 @@ const {
  * @submodule service
  * @class custom-profile
  */
-export default Service.extend({
+@classic
+export default class CustomProfileService extends Service {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.customProfiles = this.store.findAll('custom-profile');
-  },
-  flashMessages: service(),
-  store: service(),
-  definitions: service('profile'),
-  keyword: service(),
+  }
+
+  @service
+  flashMessages;
+
+  @service
+  store;
+
+  @service('profile')
+  definitions;
+
+  @service
+  keyword;
 
   /**
    * String identifying the active profile
@@ -43,7 +53,7 @@ export default Service.extend({
    * @property active
    * @type {String}
    */
-  active: null,
+  active = null;
 
   /**
    * Array of all available profiles
@@ -53,7 +63,8 @@ export default Service.extend({
    * @category computed
    * @required customProfiles,coreProfiles
    */
-  profiles: union('customProfiles', 'coreProfiles'),
+  @union('customProfiles', 'coreProfiles')
+  profiles;
 
   /**
    * Array of available coreProfile definitions
@@ -63,14 +74,15 @@ export default Service.extend({
    * @category computed
    * @required definitions.coreProfiles
    */
-  coreProfiles: map('definitions.coreProfiles', function (itm) {
+  @map('definitions.coreProfiles', function (itm) {
     return {
       id: itm.namespace + '.' + itm.identifier,
       title: itm.title,
       description: itm.description,
       definition: itm,
     };
-  }),
+  })
+  coreProfiles;
 
   /**
    * Available profiles mapped by profile id
@@ -80,12 +92,13 @@ export default Service.extend({
    * @category computed
    * @required profiles.[]
    */
-  mapById: computed('profiles.[]', function () {
+  @computed('profiles.[]')
+  get mapById() {
     return this.profiles.reduce(function (map, profile) {
       map[profile.id] = profile;
       return map;
     }, {});
-  }),
+  }
 
   /**
    * Available profiles mapped by profile alternate id
@@ -95,7 +108,8 @@ export default Service.extend({
    * @category computed
    * @required profiles.[]
    */
-  mapByAltId: computed('profiles.[]', function () {
+  @computed('profiles.[]')
+  get mapByAltId() {
     return this.profiles.reduce(function (map, profile) {
       let alt = get(profile, 'definition.alternateId');
       if (isEmpty(alt)) {
@@ -104,7 +118,7 @@ export default Service.extend({
       alt.forEach((a) => (map[a] = profile.id));
       return map;
     }, {});
-  }),
+  }
 
   /**
    * The defaultProfile definition
@@ -114,9 +128,10 @@ export default Service.extend({
    * @category computed
    * @required mapById
    */
-  defaultProfile: computed('mapById', function () {
+  @computed('mapById')
+  get defaultProfile() {
     return this.mapById[defaultProfileId];
-  }),
+  }
 
   /**
    * The current component profile definition
@@ -126,10 +141,11 @@ export default Service.extend({
    * @category computed
    * @required active
    */
-  activeComponents: computed('active', function () {
+  @computed('active')
+  get activeComponents() {
     let comp = get(this.getActiveProfile(), 'definition.components');
     return comp || this.defaultProfile.definition.components;
-  }),
+  }
 
   /**
    * The currently active schemas
@@ -139,9 +155,10 @@ export default Service.extend({
    * @category computed
    * @required active
    */
-  activeSchemas: computed('active', function () {
+  @computed('active')
+  get activeSchemas() {
     return this.getActiveProfile().schemas;
-  }),
+  }
 
   /**
    * Get the active profile.
@@ -174,7 +191,7 @@ export default Service.extend({
       }
     );
     return this.defaultProfile;
-  },
+  }
 
   async createNewProfileDefinition(profileConfig, uri) {
     const newDefinition = this.store.createRecord('profile');
@@ -183,7 +200,7 @@ export default Service.extend({
     newDefinition.set('alias', profileConfig.title);
     newDefinition.set('remoteVersion', profileConfig.version);
     await newDefinition.save();
-  },
+  }
 
   async createNewCustomProfile(profileConfig) {
     const newProfile = this.store.createRecord('custom-profile');
@@ -194,7 +211,7 @@ export default Service.extend({
     newProfile.set('profileId', profileConfig.identifier);
     newProfile.set('thesauri', profileConfig.thesauri || []);
     await newProfile.save();
-  },
+  }
 
   async loadCustomProfilesFromUrl(url) {
     if (!url) return;
@@ -247,5 +264,5 @@ export default Service.extend({
       this.keyword.manifest.push(thesaurus);
       await this.keyword.addThesaurus(thesaurusData);
     });
-  },
-});
+  }
+}

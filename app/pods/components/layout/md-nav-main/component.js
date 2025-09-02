@@ -1,19 +1,17 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import $ from 'jquery';
 import Component from '@ember/component';
 
-export default Component.extend({
-  /*didInsertElement: function () {
-    this.$('[data-toggle="tooltip"]')
-      .tooltip();
-  },*/
-  actions: {
-    toggleSidebar() {
-      $('#md-wrapper')
-        .toggleClass('toggled');
-      //hack to force reflow
-      $('#md-navbar-main-collapse ul')
-        .hide()
-        .show(0);
-    }
+@classic
+export default class MdNavMain extends Component {
+  @action
+  toggleSidebar() {
+    $('#md-wrapper')
+      .toggleClass('toggled');
+    //hack to force reflow
+    $('#md-navbar-main-collapse ul')
+      .hide()
+      .show(0);
   }
-});
+}

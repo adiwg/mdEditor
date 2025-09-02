@@ -1,15 +1,17 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 import EmObject, { set, get } from '@ember/object';
 import { isNone } from '@ember/utils';
 
-export default Component.extend({
+@classic
+export default class MdDateArray extends Component {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     if(isNone(this.value)) {
       set(this, 'value', []);
     }
-  },
+  }
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -17,13 +19,13 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmObject.extend({
+  templateClass = EmObject.extend({
     init() {
-      this._super(...arguments);
+      super.init(...arguments);
       this.setProperties({
         date: null,
         dateType: null
       });
     }
-  })
-});
+  });
+}

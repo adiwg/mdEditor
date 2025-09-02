@@ -1,25 +1,29 @@
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject, { set, get, action } from '@ember/object';
 
-export default Component.extend({
-  settings: service(),
-  repositoryTemplate: EmberObject.extend({
+@classic
+export default class MdRepositoryArray extends Component {
+  @service
+  settings;
+
+  repositoryTemplate = EmberObject.extend({
     init() {
-      this._super(...arguments);
+      undefined;
 
       this.set('citation', {});
     }
-  }),
-  actions: {
-    lookupTitle(value) {
-      let defs = this.get('settings.data.repositoryDefaults');
-      let titles = defs.filterBy('repository', value.repository);
+  });
 
-      if(get(titles, 'length')) {
+  @action
+  lookupTitle(value) {
+    let defs = this.get('settings.data.repositoryDefaults');
+    let titles = defs.filterBy('repository', value.repository);
 
-        set(value, 'citation.title', get(titles.objectAt(0), 'title'));
-      }
+    if(get(titles, 'length')) {
+
+      set(value, 'citation.title', get(titles.objectAt(0), 'title'));
     }
   }
-});
+}

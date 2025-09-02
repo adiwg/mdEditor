@@ -1,8 +1,11 @@
+import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import { inject as service } from '@ember/service';
 
-export default Service.extend({
-  settings: service(),
+@classic
+export default class ApiValidatorService extends Service {
+  @service
+  settings;
 
   /**
    * Checks if the mdTranslator API is properly configured
@@ -11,7 +14,7 @@ export default Service.extend({
   isApiConfigured() {
     const apiUrl = this.get('settings.data.mdTranslatorAPI');
     return !!(apiUrl && apiUrl.trim() !== '');
-  },
+  }
 
   /**
    * Validates API configuration and throws an error if not configured
@@ -23,7 +26,7 @@ export default Service.extend({
         'mdTranslator API URL is not configured. Please configure it in Settings.'
       );
     }
-  },
+  }
 
   /**
    * Gets the configured API URL or throws an error if not configured
@@ -33,5 +36,5 @@ export default Service.extend({
   getApiUrl() {
     this.validateApiConfiguration();
     return this.get('settings.data.mdTranslatorAPI');
-  },
-});
+  }
+}

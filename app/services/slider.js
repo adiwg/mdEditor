@@ -1,26 +1,28 @@
+import classic from 'ember-classic-decorator';
+import { observes } from '@ember-decorators/object';
 import Service, { inject as service } from '@ember/service';
-import {
-  observer
-} from '@ember/object';
 
-export default Service.extend({
+@classic
+export default class SliderService extends Service {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.get('router.currentRouteName');
-  },
+  }
 
-  router: service(),
+  @service
+  router;
 
-  showSlider: false,
-  fromName: 'md-slider-content',
+  showSlider = false;
+  fromName = 'md-slider-content';
 
-  routeObserver: observer('router.currentRouteName', function () {
+  @observes('router.currentRouteName')
+  routeObserver() {
     this.toggleSlider(false);
     this.set('fromName', 'md-slider-content');
-  }),
+  }
 
-  onClose() {},
+  onClose() {}
 
   toggleSlider(state) {
     if(state === undefined) {
@@ -31,4 +33,4 @@ export default Service.extend({
 
     this.set('showSlider', !!state);
   }
-});
+}

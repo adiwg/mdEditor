@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import EmberObject, {
   getWithDefault,
@@ -6,9 +8,11 @@ import EmberObject, {
 } from '@ember/object';
 import { once } from '@ember/runloop';
 
-export default Component.extend({
+@classic
+@tagName('form')
+export default class MdLineage extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -18,9 +22,7 @@ export default Component.extend({
       set(model, 'processStep', getWithDefault(model, 'processStep', []));
       set(model, 'source', getWithDefault(model, 'source', []));
     });
-  },
-
-  tagName: 'form',
+  }
 
   /**
    * The string representing the path in the profile object for the citation.
@@ -45,12 +47,12 @@ export default Component.extend({
    * @property stepTemplateClass
    * @type Ember.Object
    */
-  stepTemplateClass: EmberObject.extend({
+  stepTemplateClass = EmberObject.extend({
     init() {
-      this._super(...arguments);
+      undefined;
       this.set('timePeriod', {});
     }
-  }),
+  });
 
-  sourceTemplate: EmberObject.extend()
-});
+  sourceTemplate = EmberObject.extend();
+}

@@ -1,11 +1,12 @@
+import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
+import { notEmpty, alias } from '@ember/object/computed';
 import { hasMany, attr, belongsTo } from '@ember-data/model';
-import { alias, notEmpty } from '@ember/object/computed';
 import { isEmpty } from '@ember/utils';
 import EmberObject, { get, computed } from '@ember/object';
 import { Copyable } from 'ember-copy';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
-import { inject as service } from '@ember/service';
 import { v4 as uuidv4 } from 'uuid';
 
 const Validations = buildValidations({
@@ -43,9 +44,10 @@ const Validations = buildValidations({
   }),
 });
 
-const JsonDefault = EmberObject.extend({
+@classic
+class JsonDefault extends EmberObject {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.setProperties({
       contactId: null,
       isOrganization: false,
@@ -60,11 +62,14 @@ const JsonDefault = EmberObject.extend({
       onlineResource: [],
       hoursOfService: [],
     });
-  },
-});
+  }
+}
 
-const Contact = Model.extend(Validations, Copyable, {
-  pouchContact: belongsTo('pouch-contact', { async: false }),
+@classic
+class Contact extends Model.extend(Validations, Copyable) {
+  @belongsTo('pouch-contact', { async: false })
+  pouchContact;
+
   /**
    * Contact model
    *
@@ -77,13 +82,18 @@ const Contact = Model.extend(Validations, Copyable, {
    * @submodule data-models
    */
 
-  contactsService: service('contacts'),
-  contacts: hasMany('contact', {
+  @service('contacts')
+  contactsService;
+
+  @hasMany('contact', {
     inverse: 'organizations',
-  }),
-  organizations: hasMany('contact', {
+  })
+  contacts;
+
+  @hasMany('contact', {
     inverse: 'contacts',
-  }),
+  })
+  organizations;
 
   /**
    * The json object for the contact. The data for the contact is stored in this
@@ -93,11 +103,12 @@ const Contact = Model.extend(Validations, Copyable, {
    * @type {json}
    * @required
    */
-  json: attr('json', {
+  @attr('json', {
     defaultValue: function () {
       return JsonDefault.create();
     },
-  }),
+  })
+  json;
 
   /**
    * The timestamp for the record
@@ -107,14 +118,18 @@ const Contact = Model.extend(Validations, Copyable, {
    * @default new Date()
    * @required
    */
-  dateUpdated: attr('date', {
+  @attr('date', {
     defaultValue() {
       return new Date();
     },
-  }),
+  })
+  dateUpdated;
 
-  name: alias('json.name'),
-  contactId: alias('json.contactId'),
+  @alias('json.name')
+  name;
+
+  @alias('json.contactId')
+  contactId;
 
   /**
    * The formatted display string for the contact
@@ -125,11 +140,12 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.name, json.positionName
    */
-  title: computed('json.{name,positionName,isOrganization}', function () {
+  @computed('json.{name,positionName,isOrganization}')
+  get title() {
     const json = this.json;
 
     return json.name || (json.isOrganization ? null : json.positionName);
-  }),
+  }
 
   /**
    * The type of contact
@@ -140,9 +156,10 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.isOrganization
    */
-  type: computed('json.isOrganization', function () {
+  @computed('json.isOrganization')
+  get type() {
     return this.get('json.isOrganization') ? 'Organization' : 'Individual';
-  }),
+  }
 
   /**
    * The display icon for the contact
@@ -153,11 +170,12 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.isOrganization
    */
-  icon: computed('json.isOrganization', function () {
+  @computed('json.isOrganization')
+  get icon() {
     const name = this.get('json.isOrganization');
 
     return name ? 'users' : 'user';
-  }),
+  }
 
   /**
    * The URI of the default logo for the contact.
@@ -168,31 +186,31 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.logoGraphic.firstObject.fileUri.firstObject.uri
    */
-  defaultLogo: computed(
+  @computed(
     'json.logoGraphic.firstObject.fileUri.firstObject.uri',
-    'defaultOrganization',
-    function () {
-      let uri = this.get(
-        'json.logoGraphic.firstObject.fileUri.firstObject.uri'
-      );
+    'defaultOrganization'
+  )
+  get defaultLogo() {
+    let uri = this.get(
+      'json.logoGraphic.firstObject.fileUri.firstObject.uri'
+    );
 
-      if (uri) {
-        return uri;
-      }
-      let orgId = this.defaultOrganization;
-
-      if (orgId && orgId !== this.get('json.contactId')) {
-        let contacts = this.get('contactsService.organizations');
-        let org = contacts.findBy('json.contactId', orgId);
-
-        if (org) {
-          return get(org, 'defaultLogo');
-        }
-      }
-
-      return null;
+    if (uri) {
+      return uri;
     }
-  ),
+    let orgId = this.defaultOrganization;
+
+    if (orgId && orgId !== this.get('json.contactId')) {
+      let contacts = this.get('contactsService.organizations');
+      let org = contacts.findBy('json.contactId', orgId);
+
+      if (org) {
+        return get(org, 'defaultLogo');
+      }
+    }
+
+    return null;
+  }
 
   /**
    * The id of the default organization for the contact.
@@ -203,7 +221,8 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.memberOfOrganization.[]
    */
-  defaultOrganization: computed('json.memberOfOrganization.[]', function () {
+  @computed('json.memberOfOrganization.[]')
+  get defaultOrganization() {
     const json = this.json;
 
     let { memberOfOrganization } = json;
@@ -211,9 +230,10 @@ const Contact = Model.extend(Validations, Copyable, {
     return !isEmpty(memberOfOrganization)
       ? get(memberOfOrganization, '0')
       : null;
-  }),
+  }
 
-  defaultOrganizationName: computed('defaultOrganization', function () {
+  @computed('defaultOrganization')
+  get defaultOrganizationName() {
     let contacts = this.get('contactsService.organizations');
 
     let org = contacts.findBy(
@@ -222,7 +242,7 @@ const Contact = Model.extend(Validations, Copyable, {
     );
 
     return org ? get(org, 'name') : null;
-  }),
+  }
 
   /**
    * The formatted (name or position) and organization(if any) of the contact.
@@ -233,36 +253,33 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires json.name, json.isOrganization
    */
-  combinedName: computed(
-    'name',
-    'json{isOrganization,positionName,memberOfOrganization[]}',
-    function () {
-      const json = this.json;
+  @computed('name', 'json{isOrganization,positionName,memberOfOrganization[]}')
+  get combinedName() {
+    const json = this.json;
 
-      let { name, positionName, isOrganization, memberOfOrganization } = json;
+    let { name, positionName, isOrganization, memberOfOrganization } = json;
 
-      let orgId = !isEmpty(memberOfOrganization)
-        ? get(memberOfOrganization, '0')
-        : null;
-      let combinedName = name || positionName;
-      let orgName;
+    let orgId = !isEmpty(memberOfOrganization)
+      ? get(memberOfOrganization, '0')
+      : null;
+    let combinedName = name || positionName;
+    let orgName;
 
-      if (orgId) {
-        let contacts = this.get('contactsService.organizations');
-        let org = contacts.findBy('json.contactId', orgId);
+    if (orgId) {
+      let contacts = this.get('contactsService.organizations');
+      let org = contacts.findBy('json.contactId', orgId);
 
-        if (org) {
-          orgName = get(org, 'name');
-        }
+      if (org) {
+        orgName = get(org, 'name');
       }
-
-      if (orgName && !isOrganization) {
-        return (orgName += ': ' + combinedName);
-      }
-
-      return combinedName;
     }
-  ),
+
+    if (orgName && !isOrganization) {
+      return (orgName += ': ' + combinedName);
+    }
+
+    return combinedName;
+  }
 
   /**
    * A list of schema errors return by the validator.
@@ -273,7 +290,8 @@ const Contact = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
+  @computed('hasDirtyHash', 'customSchemas.[]')
+  get schemaErrors() {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateContact(this).errors;
@@ -299,7 +317,7 @@ const Contact = Model.extend(Validations, Copyable, {
     });
 
     return errors;
-  }),
+  }
 
   /**
    * Create a copy of the record in the store.
@@ -328,7 +346,7 @@ const Contact = Model.extend(Validations, Copyable, {
     });
 
     return newContact;
-  },
-});
+  }
+}
 
 export { Contact as default, JsonDefault };

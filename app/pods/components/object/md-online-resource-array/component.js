@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
 import {
   once
 } from '@ember/runloop';
@@ -10,112 +12,100 @@ import {
 } from '@ember/array';
 import Component from '@ember/component';
 
-export default Component.extend({
+@classic
+@attributeBindings('data-spy')
+export default class MdOnlineResourceArray extends Component {
+ didReceiveAttrs() {
+   super.didReceiveAttrs(...arguments);
 
-  didReceiveAttrs() {
-    this._super(...arguments);
+   if(!this.model) {
+     once(this, () => this.set('model', A()));
+   }
+ }
 
-    if(!this.model) {
-      once(this, () => this.set('model', A()));
-    }
-  },
+ /**
+  * mdJSON object containing the 'onlineResource' array.
+  *
+  * @property model
+  * @type Object
+  * @required
+  */
 
-  /**
-   * mdEditor class for input and edit of mdJSON 'onlineResource' object
-   * arrays.
-   * The class manages the maintenance of an array of online resource
-   * objects using the md-object-table class.
-   *
-   * @module mdeditor
-   * @submodule components-object
-   * @class md-online-resource-array
-   * @constructor
-   */
+ /**
+  * Display the image picker and preview
+  *
+  * @property imagePicker
+  * @type {Boolean}
+  * @default undefined
+  */
 
-  attributeBindings: ['data-spy'],
+ /**
+  * Truncate the text
+  *
+  * @property ellipsis
+  * @type {Boolean}
+  * @default true
+  */
+ ellipsis = true;
 
-  /**
-   * mdJSON object containing the 'onlineResource' array.
-   *
-   * @property model
-   * @type Object
-   * @required
-   */
+ /**
+  * List of mdJSON 'onlineResource' object attributes to display in
+  * md-object-table to aid in choosing the onlineResource to edit or
+  * delete.
+  * The property is passed to md-object-table for configuration.
+  *
+  * @property attributes
+  * @type String
+  * @default 'name, uri'
+  */
+ attributes = 'name,uri';
 
-  /**
-   * Display the image picker and preview
-   *
-   * @property imagePicker
-   * @type {Boolean}
-   * @default undefined
-   */
+ /**
+  * Name to place on the mdEditor panel header for entry and edit of
+  * 'onlineResource' objects.
+  * The property is passed to md-object-table for configuration.
+  *
+  * @property label
+  * @type String
+  * @default 'Online Resource'
+  */
+ label = 'Online Resource';
 
-  /**
-   * Truncate the text
-   *
-   * @property ellipsis
-   * @type {Boolean}
-   * @default true
-   */
-  ellipsis: true,
+ /**
+  * If true, a box shadow will be rendered around the card.
+  *
+  * @property shadow
+  * @type {Boolean}
+  * @default true
+  */
+ shadow = true;
 
-  /**
-   * List of mdJSON 'onlineResource' object attributes to display in
-   * md-object-table to aid in choosing the onlineResource to edit or
-   * delete.
-   * The property is passed to md-object-table for configuration.
-   *
-   * @property attributes
-   * @type String
-   * @default 'name, uri'
-   */
-  attributes: 'name,uri',
+ /**
+  * The template to use for the preview table rows. If not overridden, will use
+  * the `md-image-preview` template if `imagePicker = true`.
+  *
+  * @property previewTemplate
+  * @type {String}
+  * @readOnly
+  * @category computed
+  * @requires imagePicker
+  */
+ @computed('imagePicker')
+ get previewTemplate() {
+   return this.imagePicker ?
+     "object/md-online-resource-array/md-image-preview" : null;
+ }
 
-  /**
-   * Name to place on the mdEditor panel header for entry and edit of
-   * 'onlineResource' objects.
-   * The property is passed to md-object-table for configuration.
-   *
-   * @property label
-   * @type String
-   * @default 'Online Resource'
-   */
-  label: 'Online Resource',
-
-  /**
-   * If true, a box shadow will be rendered around the card.
-   *
-   * @property shadow
-   * @type {Boolean}
-   * @default true
-   */
-  shadow: true,
-
-  /**
-   * The template to use for the preview table rows. If not overridden, will use
-   * the `md-image-preview` template if `imagePicker = true`.
-   *
-   * @property previewTemplate
-   * @type {String}
-   * @readOnly
-   * @category computed
-   * @requires imagePicker
-   */
-  previewTemplate: computed('imagePicker', function () {
-    return this.imagePicker ?
-      "object/md-online-resource-array/md-image-preview" : null;
-  }),
-
-  /**
-   * See [md-array-table](md-array-table.html#property_templateClass).
-   *
-   * @property templateClass
-   * @type Ember.Object
-   */
-  templateClass: EmberObject.extend(Validations, {
-    init() {
-      this._super(...arguments);
-      //this.set('uri', null);
-    }
-  })
-});
+ /**
+  * See [md-array-table](md-array-table.html#property_templateClass).
+  *
+  * @property templateClass
+  * @type Ember.Object
+  */
+ templateClass = EmberObject.extend(Validations, {
+   init() {
+     undefined;
+     //this.set('uri', null);
+   }
+ });
+}

@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import Ajv from 'ajv';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
@@ -372,6 +373,7 @@ validator.addSchema({
   }
 }, 'jsonapi');
 
-export default Service.extend({
-  validator: validator
-});
+@classic
+export default class JsonvalidatorService extends Service {
+  validator = validator;
+}

@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { notEmpty, alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { computed, set, getWithDefault, get } from '@ember/object';
-import { alias, notEmpty } from '@ember/object/computed';
+import { set, getWithDefault, get, computed } from '@ember/object';
 import { isPresent } from '@ember/utils';
 import { once } from '@ember/runloop';
 import {
@@ -42,9 +44,11 @@ const Validations = buildValidations({
   message: 'Either an Allocation or valid Time Period is required.'
 });
 
-export default Component.extend(Validations, {
+@classic
+@tagName('form')
+export default class MdFunding extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -52,25 +56,11 @@ export default Component.extend(Validations, {
       set(model, 'allocation', getWithDefault(model, 'allocation', []));
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
     });
-  },
-  /**
-   * The string representing the path in the profile object for the resource.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
+  }
 
-  /**
-   * The object to use as the data model for the resource.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
+  @alias('model.allocation')
+  allocation;
 
-  tagName: 'form',
-  allocation: alias('model.allocation'),
-  timePeriod: alias('model.timePeriod')
-});
+  @alias('model.timePeriod')
+  timePeriod;
+}

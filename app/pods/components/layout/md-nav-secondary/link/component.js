@@ -1,11 +1,14 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import { scheduleOnce } from '@ember/runloop';
 import { measure } from "liquid-fire/components/liquid-measured";
 
-export default Component.extend({
-  tagName: 'li',
+@classic
+@tagName('li')
+export default class Link extends Component {
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
     let width = measure(this.$()).width;
 
     if(width === this.link.width || this.link.isOverflow) return;
@@ -21,4 +24,4 @@ export default Component.extend({
       //});
     });
   }
-});
+}

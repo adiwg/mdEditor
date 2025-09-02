@@ -1,11 +1,14 @@
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
 import Component from '@ember/component';
 
-export default Component.extend({
+@classic
+@classNames('property')
+export default class Preview extends Component {
   init() {
     this.tagName = this.isTable ? '' : 'div';
-    this._super(...arguments);
-  },
+    super.init(...arguments);
+  }
 
-  classNames: ['property'],
-  isTable: true
-});
+  isTable = true;
+}

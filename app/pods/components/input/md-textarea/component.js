@@ -1,15 +1,21 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings, classNameBindings, classNames } from '@ember-decorators/component';
+import { or, and, notEmpty, not, alias } from '@ember/object/computed';
 /**
  * @module mdeditor
  * @submodule components-input
  */
 
 import Component from '@ember/component';
-import { computed, defineProperty } from '@ember/object';
-import { alias, not, notEmpty, and, or } from '@ember/object/computed';
+import { defineProperty, computed } from '@ember/object';
 import { isBlank } from '@ember/utils';
 import { assert, debug } from '@ember/debug';
 
-export default Component.extend({
+@classic
+@attributeBindings('data-spy')
+@classNames('md-textarea')
+@classNameBindings('label:form-group', 'required', 'embedded:md-embedded')
+export default class MdTextarea extends Component {
   /**
    * Input, edit, display a multi-line, expandable, text area.
    *
@@ -18,7 +24,7 @@ export default Component.extend({
    */
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     let model = this.model;
     let valuePath = this.valuePath;
@@ -109,11 +115,7 @@ export default Component.extend({
         and('shouldDisplayValidations', 'hasWarnings', 'isValid').readOnly()
       );
     }
-  },
-
-  attributeBindings: ['data-spy'],
-  classNames: ['md-textarea'],
-  classNameBindings: ['label:form-group', 'required', 'embedded:md-embedded'],
+  }
 
   /**
    * Initial value, returned value.
@@ -131,7 +133,7 @@ export default Component.extend({
    * @type String
    * @default null
    */
-  label: null,
+  label = null;
 
   /**
    * The string to display when no option is selected.
@@ -140,7 +142,7 @@ export default Component.extend({
    * @type String
    * @default 'Select one option'
    */
-  placeholder: 'Select one option',
+  placeholder = 'Select one option';
 
   /**
    * Indicates whether the value is required
@@ -149,7 +151,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  required: false,
+  required = false;
 
   /**
    * Maximum number of characters allowed.
@@ -160,7 +162,7 @@ export default Component.extend({
    * @type Number
    * @default null
    */
-  maxlength: null,
+  maxlength = null;
 
   /**
    * Enable auto-resizing of the textarea
@@ -169,7 +171,7 @@ export default Component.extend({
    * @type Boolean
    * @default true
    */
-  autoresize: true,
+  autoresize = true;
 
   /**
    * Toggle expand state
@@ -178,7 +180,7 @@ export default Component.extend({
    * @type Boolean
    * @default true
    */
-  isExpanded: true,
+  isExpanded = true;
 
   /**
    * Enable collapse of the textarea
@@ -187,7 +189,8 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  isCollapsible: false,
+  isCollapsible = false;
+
   /**
    * Set the maximum width of the resizeable element in pixels.
    * If maxwidth is not provided width will not be restricted.
@@ -196,7 +199,7 @@ export default Component.extend({
    * @type Number
    * @default null
    */
-  maxwidth: null,
+  maxwidth = null;
 
   /**
    * Set the maximum height of the resizable element in pixels.
@@ -206,7 +209,7 @@ export default Component.extend({
    * @type {Number}
    * @default null
    */
-  maxheight: null,
+  maxheight = null;
 
   /**
    * Set the minimum number of rows for the element.
@@ -216,7 +219,7 @@ export default Component.extend({
    * @type Number
    * @default 2
    */
-  rows: 2,
+  rows = 2;
 
   /**
    * Set the maximum number of rows for the element.
@@ -226,7 +229,7 @@ export default Component.extend({
    * @type Number
    * @default 10
    */
-  maxrows: 10,
+  maxrows = 10;
 
   /**
    * Class to set on the textarea
@@ -235,7 +238,7 @@ export default Component.extend({
    * @type {string}
    * @default 'form-control'
    */
-  inputClass: 'form-control',
+  inputClass = 'form-control';
 
   /**
    * Whether to show the infotip
@@ -244,7 +247,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  infotip: false,
+  infotip = false;
 
   /**
    * Determines whether infotip is rendered
@@ -256,5 +259,6 @@ export default Component.extend({
    * @category computed
    * @requires placeholder,infotip
    */
-  showInfotip: and('placeholder', 'infotip'),
-});
+  @and('placeholder', 'infotip')
+  showInfotip;
+}

@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 /**
  * @module mdeditor
  * @submodule components-object
@@ -6,11 +8,11 @@
 import Component from '@ember/component';
 
 import {
-  computed,
   setProperties,
   getWithDefault,
   get,
-  set
+  set,
+  computed
 } from '@ember/object';
 import { once } from '@ember/runloop';
 
@@ -25,17 +27,9 @@ const formatMaint = function(model) {
   return model;
 };
 
-const theComp = Component.extend({
-  /**
-   * mdEditor class for input and edit of mdJSON 'maintenance' objects.
-   *
-   * @class md-maintenance
-   * @constructor
-   *   myClass = new MyClass()
-   */
-
-  tagName: 'form',
-
+@classic
+@tagName('form')
+class theComp extends Component {
   /**
    * The string representing the path in the profile object.
    *
@@ -59,30 +53,30 @@ const theComp = Component.extend({
    * @method didReceiveAttrs
    */
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     once(this, function() {
       this.set('model', getWithDefault(this, 'model', {}));
       formatMaint(this.model);
     });
-  },
+  }
 
-  scopes: computed('scope', {
-    get() {
-      let scope = get(this, 'model.scope');
-      return scope ? scope.mapBy('scopeCode') : [];
-    },
-    set(key, value) {
-      let map = value.map((itm) => {
-        return {
-          scopeCode: itm
-        };
-      });
-      set(this, 'model.scope', map);
-      return value;
-    }
-  })
-});
+  @computed('scope')
+  get scopes() {
+    let scope = get(this, 'model.scope');
+    return scope ? scope.mapBy('scopeCode') : [];
+  }
+
+  set scopes(value) {
+    let map = value.map((itm) => {
+      return {
+        scopeCode: itm
+      };
+    });
+    set(this, 'model.scope', map);
+    return value;
+  }
+}
 
 export {
   formatMaint,

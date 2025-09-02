@@ -1,11 +1,15 @@
-import { computed, get, defineProperty } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
+import { get, defineProperty, action, computed } from '@ember/object';
 import Table from 'mdeditor/pods/components/md-models-table/component';
 import {
   warn
 } from '@ember/debug';
 import { isArray, A } from '@ember/array';
 
-export default Table.extend({
+@classic
+@classNames('md-record-table')
+export default class MdRecordTable extends Table {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -49,9 +53,8 @@ export default Table.extend({
         return cols;
       }));
 
-    this._super(...arguments);
-  },
-  classNames: ['md-record-table'],
+    super.init(...arguments);
+  }
 
   /**
    * Property name used to identify selected records. Should begin with underscore.
@@ -63,7 +66,7 @@ export default Table.extend({
    * @readOnly
    * @required
    */
-  selectProperty: '_selected',
+  selectProperty = '_selected';
 
   /**
    * Array of table records
@@ -104,7 +107,8 @@ export default Table.extend({
    * @type {Object}
    * @required
    */
-  checkColumn: computed(function () {
+  @computed
+  get checkColumn() {
 
     return {
       component: 'components/md-models-table/components/check',
@@ -113,7 +117,7 @@ export default Table.extend({
       componentForSortCell: 'components/md-models-table/components/check-all',
       className: 'text-center'
     };
-  }),
+  }
 
   /**
    * Column configs for the action column.
@@ -124,7 +128,8 @@ export default Table.extend({
    * @type {Object}
    * @required
    */
-  actionsColumn: computed('allActions', function () {
+  @computed('allActions')
+  get actionsColumn() {
     let all = this.allActions;
 
     return {
@@ -138,26 +143,26 @@ export default Table.extend({
         'control/md-record-table/buttons/filter' : null,
       showSlider: this.showSlider
     };
-  }),
+  }
 
-  selectedItems: computed({
-    get() {
-      let prop = this.selectProperty;
+  @computed
+  get selectedItems() {
+    let prop = this.selectProperty;
 
-      return this.data
-        .filterBy(prop)
-        .toArray();
+    return this.data
+      .filterBy(prop)
+      .toArray();
 
-    },
-    set(k, v) {
-      if(!isArray(v)) {
-        warn('`selectedItems` must be an array.', false, {
-          id: '#emt-selectedItems-array'
-        });
-      }
-      return A(v);
+  }
+
+  set selectedItems(v) {
+    if(!isArray(v)) {
+      warn('`selectedItems` must be an array.', false, {
+        id: '#emt-selectedItems-array'
+      });
     }
-  }),
+    return A(v);
+  }
 
   /**
    * Callback on row selection.
@@ -170,44 +175,50 @@ export default Table.extend({
    */
   select(rec, index, selected) {
     return selected;
-  },
-
-  actions: {
-    clickOnRow(idx, rec) {
-      this._super(...arguments);
-
-      let prop = this.selectProperty;
-      let sel = this.selectedItems;
-
-      rec.toggleProperty(prop);
-      this.select(rec, idx, sel);
-    },
-
-    toggleAllSelection() {
-      //this._super(...arguments);
-      let selectedItems = this.selectedItems;
-      let data = this.data;
-      const allSelectedBefore = get(selectedItems, 'length') === get(data,
-        'length');
-      this.selectedItems
-        .clear();
-
-      if(!allSelectedBefore) {
-        this.selectedItems
-          .pushObjects(data.toArray());
-      }
-      this.userInteractionObserver();
-
-      let selected = this.selectedItems;
-      let prop = this.selectProperty;
-      //let data = get(this, 'data');
-
-      if(get(selected, 'length')) {
-        selected.setEach(prop, true);
-      } else {
-        data.setEach(prop, false);
-      }
-      this.select(null, null, selected);
-    }
   }
-});
+
+  @action
+  clickOnRow(idx, rec) {
+    // TODO: This call to super is within an action, and has to refer to the parent
+    // class's actions to be safe. This should be refactored to call a normal method
+    // on the parent class. If the parent class has not been converted to native
+    // classes, it may need to be refactored as well. See
+    // https://github.com/scalvert/ember-native-class-codemod/blob/master/README.md
+    // for more details.
+    super.actions.clickOnRow.call(this, ...arguments);
+
+    let prop = this.selectProperty;
+    let sel = this.selectedItems;
+
+    rec.toggleProperty(prop);
+    this.select(rec, idx, sel);
+  }
+
+  @action
+  toggleAllSelection() {
+    //this._super(...arguments);
+    let selectedItems = this.selectedItems;
+    let data = this.data;
+    const allSelectedBefore = get(selectedItems, 'length') === get(data,
+      'length');
+    this.selectedItems
+      .clear();
+
+    if(!allSelectedBefore) {
+      this.selectedItems
+        .pushObjects(data.toArray());
+    }
+    this.userInteractionObserver();
+
+    let selected = this.selectedItems;
+    let prop = this.selectProperty;
+    //let data = get(this, 'data');
+
+    if(get(selected, 'length')) {
+      selected.setEach(prop, true);
+    } else {
+      data.setEach(prop, false);
+    }
+    this.select(null, null, selected);
+  }
+}

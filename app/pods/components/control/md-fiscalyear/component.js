@@ -1,32 +1,40 @@
+import classic from 'ember-classic-decorator';
+import { classNames, layout as templateLayout } from '@ember-decorators/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Select from 'mdeditor/pods/components/input/md-select/component';
 import layout from 'mdeditor/pods/components/input/md-select/template';
 import moment from 'moment';
-import {
-  inject as service
-} from '@ember/service';
 
-export default Select.extend({
-  layout,
-  settings: service('settings'),
-  classNames: ['md-fiscalyear'],
-  objectArray: computed(function () {
+@classic
+@templateLayout(layout)
+@classNames('md-fiscalyear')
+export default class MdFiscalyear extends Select {
+  @service('settings')
+  settings;
+
+  @computed
+  get objectArray() {
     return Array.apply(0, Array(12)).map(function (element, index) {
       return {
         year: index + (moment().year() - 10)
       };
     });
-  }),
-  label: 'Pick Fiscal Year',
-  valuePath: 'year',
-  namePath: 'year',
-  tooltip: false,
-  searchEnabled: true,
-  placeholder: 'Pick a Fiscal Year',
-  create: true,
-  disabled: computed('settings.data.fiscalStartMonth', function() {
+  }
+
+  label = 'Pick Fiscal Year';
+  valuePath = 'year';
+  namePath = 'year';
+  tooltip = false;
+  searchEnabled = true;
+  placeholder = 'Pick a Fiscal Year';
+  create = true;
+
+  @computed('settings.data.fiscalStartMonth')
+  get disabled() {
     return !this.get('settings.data.fiscalStartMonth');
-  }),
+  }
+
   change() {
     let val = this.value;
     let month = parseInt(this.get(
@@ -54,4 +62,4 @@ export default Select.extend({
 
     this.set('value', null);
   }
-});
+}

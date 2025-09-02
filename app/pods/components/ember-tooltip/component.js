@@ -1,5 +1,7 @@
+import classic from 'ember-classic-decorator';
 import Component from 'ember-tooltips/components/ember-tooltip';
 
-export default Component.extend({
-  popperContainer: 'body'
-});
+@classic
+export default class EmberTooltip extends Component {
+  popperContainer = 'body';
+}

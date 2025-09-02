@@ -1,12 +1,12 @@
-import {
-  alias
-} from '@ember/object/computed';
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import EmberObject, {
-  computed,
   getWithDefault,
   get,
-  set
+  set,
+  computed
 } from '@ember/object';
 import {
   once
@@ -40,9 +40,11 @@ import {
 //   // ]
 // });
 
-export default Component.extend({
+@classic
+@tagName('form')
+export default class MdTransfer extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -60,8 +62,7 @@ export default Component.extend({
       // set(model, 'identifier', getWithDefault(model, 'identifier', []));
       // set(model, 'graphic', getWithDefault(model, 'graphic', []));
     });
-  },
-  tagName: 'form',
+  }
 
   /**
    * The profile path for the component
@@ -92,9 +93,11 @@ export default Component.extend({
   //     });
   //   }
   // }),
-  formatUri: alias(
-    'model.distributionFormat.firstObject.formatSpecification.title'),
-  timeUnit: computed(function () {
+  @alias('model.distributionFormat.firstObject.formatSpecification.title')
+  formatUri;
+
+  @computed
+  get timeUnit() {
     return [{
         name: 'year',
         value: 'year'
@@ -120,13 +123,13 @@ export default Component.extend({
         value: 'second'
       }
     ]
-  }),
+  }
 
-  formatTemplate: EmberObject.extend( /*Validations, */ {
+  formatTemplate = EmberObject.extend( /*Validations, */ {
     init() {
-      this._super(...arguments);
+      undefined;
       this.set('formatSpecification', {});
       this.set('formatSpecification.onlineResource', [{}]);
     }
-  })
-});
+  });
+}

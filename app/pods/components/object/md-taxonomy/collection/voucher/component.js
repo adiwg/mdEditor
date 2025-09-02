@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
+import { alias } from '@ember/object/computed';
 import EmberObject, { getWithDefault, set } from '@ember/object';
 import Component from '@ember/component';
-import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import {
   validator,
@@ -22,20 +24,26 @@ const Validations = buildValidations({
   ]
 });
 
-const Template = EmberObject.extend(Validations, {
+@classic
+class Template extends EmberObject.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.set('repository', {});
     this.set('specimen', null);
   }
-});
+}
 
-const theComp = Component.extend(Validations, {
-  classNames: ['form'],
-  specimen: alias('model.specimen'),
-  repository: alias('model.repository'),
+@classic
+@classNames('form')
+class theComp extends Component.extend(Validations) {
+  @alias('model.specimen')
+  specimen;
+
+  @alias('model.repository')
+  repository;
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -43,11 +51,11 @@ const theComp = Component.extend(Validations, {
       set(model, 'repository', getWithDefault(model, 'repository', {}));
       set(model, 'specimen', getWithDefault(model, 'specimen', null));
     });
-  },
+  }
 
   //attributeBindings: ['data-spy'],
-  templateClass: Template
-});
+  templateClass = Template;
+}
 
 export {
   Validations,

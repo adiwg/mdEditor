@@ -1,6 +1,8 @@
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
+import { alias, or } from '@ember/object/computed';
 import Component from '@ember/component';
 import { isEmpty } from '@ember/utils';
-import { or, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 import { set, getWithDefault, get, computed } from '@ember/object';
 import {
@@ -56,9 +58,11 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+@classNames('form')
+export default class MdSpatialResolution extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -67,55 +71,50 @@ export default Component.extend(Validations, {
         set(model, 'measure', getWithDefault(model, 'measure', {}));
       });
     }
-  },
-  /**
-   * The string representing the path in the profile object for the resource.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
+  }
 
-  /**
-   * The object to use as the data model for the resource.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
+  @alias('model.scaleFactor')
+  scaleFactor;
 
-  classNames: ['form'],
-  scaleFactor: alias('model.scaleFactor'),
-  scaleDisabled: computed(
-    'model.levelOfDetail', 'measurePresent',
-    function () {
-      return !isEmpty(this.get('model.levelOfDetail')) || this.measurePresent;
-    }),
-  levelOfDetail: alias('model.levelOfDetail'),
-  levelDisabled: computed(
-    'model.scaleFactor', 'measurePresent',
-    function () {
-      let scaleFactor = this.get('model.scaleFactor');
-      return (!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
-        this.measurePresent;
-    }
-  ),
-  measure: alias('model.measure'),
-  measureDisabled: computed(
-    'model.{scaleFactor,levelOfDetail}',
-    function () {
-      let scaleFactor = this.get('model.scaleFactor');
-      return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
-        !isEmpty(this.get('model.levelOfDetail'));
-    }
-  ),
-  measureType: alias('model.measure.type'),
-  measureValue: alias('model.measure.value'),
-  measureUnit: alias('model.measure.unitOfMeasure'),
-  measurePresent: or('measureType', 'measureUnit', 'measureValue'),
+  @computed('model.levelOfDetail', 'measurePresent')
+  get scaleDisabled() {
+    return !isEmpty(this.get('model.levelOfDetail')) || this.measurePresent;
+  }
 
-  typeOptions: computed(function() {
+  @alias('model.levelOfDetail')
+  levelOfDetail;
+
+  @computed('model.scaleFactor', 'measurePresent')
+  get levelDisabled() {
+    let scaleFactor = this.get('model.scaleFactor');
+    return (!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
+      this.measurePresent;
+  }
+
+  @alias('model.measure')
+  measure;
+
+  @computed('model.{scaleFactor,levelOfDetail}')
+  get measureDisabled() {
+    let scaleFactor = this.get('model.scaleFactor');
+    return(!isEmpty(scaleFactor) && !Number.isNaN(scaleFactor)) ||
+      !isEmpty(this.get('model.levelOfDetail'));
+  }
+
+  @alias('model.measure.type')
+  measureType;
+
+  @alias('model.measure.value')
+  measureValue;
+
+  @alias('model.measure.unitOfMeasure')
+  measureUnit;
+
+  @or('measureType', 'measureUnit', 'measureValue')
+  measurePresent;
+
+  @computed
+  get typeOptions() {
   return [{
       name: 'distance',
       value: 'distance'
@@ -136,5 +135,5 @@ export default Component.extend(Validations, {
       name: 'scale',
       value: 'scale'
     }
-  ]})
-});
+  ]}
+}

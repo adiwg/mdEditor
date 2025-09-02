@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
 import Component from '@ember/component';
 import EmObject, { set } from '@ember/object';
 import { A } from '@ember/array';
@@ -20,27 +22,16 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend({
-
-  /**
-   * mdEditor class for input and edit of mdJSON 'externalIdentifiers' object.
-   * The class manages the maintenance of an array of phone externalIdentifiers.
-   *
-   * @class md-contact-identfier-array
-   * @module mdeditor
-   * @submodule components-object
-   * @constructor
-   */
-
-  attributeBindings: ['data-spy'],
-
+@classic
+@attributeBindings('data-spy')
+export default class MdContactIdentifierArray extends Component {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     if (!this.value) {
       this.value = [];
     }
-  },
+  }
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -48,11 +39,10 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmObject.extend(Validations, {
+  templateClass = EmObject.extend(Validations, {
     init() {
-      this._super(...arguments);
+      super.init(...arguments);
       this.set('service', A());
     }
-  })
-
-});
+  });
+}

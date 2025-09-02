@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { alias, equal } from '@ember/object/computed';
 import Component from '@ember/component';
-import { equal, alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { computed, set, getWithDefault, get } from '@ember/object';
+import { set, getWithDefault, get, computed } from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
@@ -19,9 +21,11 @@ const Validations = buildValidations({
   ],
 });
 
-export default Component.extend(Validations, {
+@classic
+@tagName('form')
+export default class MdConstraint extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -55,33 +59,25 @@ export default Component.extend(Validations, {
         })
       );
     });
-  },
-  /**
-   * The string representing the path in the profile object for the resource.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
+  }
 
-  /**
-   * The object to use as the data model for the resource.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
+  @alias('model.type')
+  type;
 
-  tagName: 'form',
+  @equal('type', 'use')
+  useRequired;
 
-  type: alias('model.type'),
-  useRequired: equal('type', 'use'),
-  securityRequired: equal('type', 'security'),
-  legalRequired: equal('type', 'legal'),
-  classification: alias('model.security.classification'),
+  @equal('type', 'security')
+  securityRequired;
 
-  typeOptions: computed(function () {
+  @equal('type', 'legal')
+  legalRequired;
+
+  @alias('model.security.classification')
+  classification;
+
+  @computed
+  get typeOptions() {
     return [
       {
         name: 'use',
@@ -96,5 +92,5 @@ export default Component.extend(Validations, {
         value: 'security',
       },
     ];
-  }),
-});
+  }
+}

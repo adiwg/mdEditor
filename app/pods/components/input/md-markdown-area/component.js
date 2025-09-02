@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings, classNameBindings, classNames } from '@ember-decorators/component';
 /**
  * @module mdeditor
  * @submodule components-input
@@ -9,7 +11,11 @@ import { set, get, computed } from '@ember/object';
 import { isNone } from '@ember/utils';
 import { run } from '@ember/runloop';
 
-export default Component.extend({
+@classic
+@classNames('md-markdown-editor')
+@classNameBindings('label:form-group', 'required', 'errorClass')
+@attributeBindings('data-spy')
+export default class MdMarkdownArea extends Component {
   /**
    * Component for markdown enabled text-area.
    *
@@ -26,7 +32,7 @@ export default Component.extend({
    * @public
    */
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
 
     let editor = this.editor;
     let $el = this.$();
@@ -41,7 +47,7 @@ export default Component.extend({
           'full-screen', value);
       }
     };
-  },
+  }
 
   /**
    * Make sure the value is not null or undefined, for Simple MDE.
@@ -50,18 +56,14 @@ export default Component.extend({
    * @public
    */
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     run.once(this, () => {
       if(isNone(this.value)) {
         set(this, 'value', '');
       }
     });
-  },
-
-  classNames: ['md-markdown-editor'],
-  classNameBindings: ['label:form-group', 'required', 'errorClass'],
-  attributeBindings: ['data-spy'],
+  }
 
   /**
    * The current simplemde editor instance.
@@ -93,7 +95,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  collapsible: true,
+  collapsible = true;
 
   /**
    * Placeholder string.
@@ -102,7 +104,7 @@ export default Component.extend({
    * @type {String}
    * @default Enter text, Markdown is supported.
    */
-  placeholder: 'Enter text, Markdown is supported.',
+  placeholder = 'Enter text, Markdown is supported.';
 
   /**
    * Options for markdown editor
@@ -112,7 +114,8 @@ export default Component.extend({
    * @category computed
    * @requires placeholder
    */
-  options: computed('placeholder', function() {
+  @computed('placeholder')
+  get options() {
     return {
       placeholder: this.placeholder,
       status: [{
@@ -127,7 +130,7 @@ export default Component.extend({
         }
       }, 'lines', 'words', 'cursor']
     };
-  }),
+  }
 
   // fullscreen: Ember.observer('editor.codemirror.options.fullScreen', function(){
   //   console.info(this.get('editor.codemirror.options.fullScreen'));
@@ -141,11 +144,11 @@ export default Component.extend({
    * @category computed
    * @requires value
    */
-  length: computed('value', function() {
+  @(computed('value').readOnly())
+  get length() {
       return this.value ? this.value
         .length : 0;
-    })
-    .readOnly(),
+    }
 
   /**
    * Returns string indicating error or warning based on maxlength.
@@ -155,7 +158,8 @@ export default Component.extend({
    * @category computed
    * @requires value|maxlength
    */
-  errorClass: computed('value', 'maxlength', function() {
+  @computed('value', 'maxlength')
+  get errorClass() {
     let length = this.length;
     let max = this.maxlength;
 
@@ -173,5 +177,5 @@ export default Component.extend({
       return 'warning';
     }
 
-  })
-});
+  }
+}

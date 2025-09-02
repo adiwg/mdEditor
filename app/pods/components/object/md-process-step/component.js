@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import EmberObject, {
   getWithDefault,
@@ -6,19 +8,21 @@ import EmberObject, {
 } from '@ember/object';
 import { once } from '@ember/runloop';
 
-export default Component.extend({
+@classic
+@tagName('form')
+export default class MdProcessStep extends Component {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     let model = this.model;
 
     once(this, function() {
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
     });
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -31,9 +35,7 @@ export default Component.extend({
       set(model, 'stepSource', getWithDefault(model, 'stepSource', []));
       set(model, 'stepProduct', getWithDefault(model, 'stepProduct', []));
     });
-  },
-
-  tagName: 'form',
+  }
 
   /**
    * The string representing the path in the profile object for the processStep.
@@ -52,5 +54,5 @@ export default Component.extend({
    * @required
    */
 
-  sourceTemplate: EmberObject.extend()
-});
+  sourceTemplate = EmberObject.extend();
+}

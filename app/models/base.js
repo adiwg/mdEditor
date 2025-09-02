@@ -1,11 +1,14 @@
+import classic from 'ember-classic-decorator';
+import { observes } from '@ember-decorators/object';
+import { inject as service } from '@ember/service';
+import { alias, bool } from '@ember/object/computed';
 import { Model } from 'ember-pouch';
 import hash from 'object-hash';
-import { inject as service } from '@ember/service';
-import { computed, set, observer } from '@ember/object';
-import { bool, alias } from '@ember/object/computed';
+import { set, computed } from '@ember/object';
 import { once } from '@ember/runloop';
 
-const Base = Model.extend({
+@classic
+class Base extends Model {
   /**
    * Base model
    *
@@ -17,7 +20,7 @@ const Base = Model.extend({
    */
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.on('didUpdate', this, this.wasUpdated);
     this.on('didCreate', this, this.wasUpdated);
@@ -25,15 +28,28 @@ const Base = Model.extend({
     this.on('ready', this, this.isReady);
     this.hasDirtyAttributes;
     //this.on('didLoad', this, this.wasLoaded);
-  },
+  }
 
-  settings: service(),
-  schemas: service(),
-  customProfiles: service('custom-profile'),
-  patch: service(),
-  clean: service('cleaner'),
-  mdjson: service('mdjson'),
-  pouch: service(),
+  @service
+  settings;
+
+  @service
+  schemas;
+
+  @service('custom-profile')
+  customProfiles;
+
+  @service
+  patch;
+
+  @service('cleaner')
+  clean;
+
+  @service('mdjson')
+  mdjson;
+
+  @service
+  pouch;
 
   /**
    * The hash for the clean record.
@@ -49,50 +65,54 @@ const Base = Model.extend({
    * @type {String}
    */
 
-  observeReload: observer('isReloading', function () {
+  @observes('isReloading')
+  observeReload() {
     let reloading = this.isReloading;
 
-    if(!reloading) {
+    if (!reloading) {
       this.wasUpdated(this);
     }
-  }),
+  }
 
-  observeAutoSave: observer('hasDirtyAttributes', 'hasDirtyHash',
-    function () {
-      if(this.isNew || this.isEmpty) {
-        return;
-      }
-
-      if(this.get('settings.data.autoSave') && (this.hasDirtyHash ||
-          this.hasDirtyAttributes)) {
-        once(this, function () {
-          this.save();
-        });
-      }
+  @observes('hasDirtyAttributes', 'hasDirtyHash')
+  observeAutoSave() {
+    if (this.isNew || this.isEmpty) {
+      return;
     }
-  ),
+
+    if (
+      this.get('settings.data.autoSave') &&
+      (this.hasDirtyHash || this.hasDirtyAttributes)
+    ) {
+      once(this, function () {
+        this.save();
+      });
+    }
+  }
 
   applyPatch() {
     once(this, function () {
-
       let patch = this.patch;
 
       patch.applyModelPatch(this);
     });
-  },
+  }
 
   isReady() {
-    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes.json), true);
+    let newHash = this.hashObject(
+      JSON.parse(this.serialize().data.attributes.json),
+      true
+    );
 
     // if the currentHash is undefined, the record is either new or hasn't had the
     // hash calculated yet
-    if(this.currentHash === undefined) {
+    if (this.currentHash === undefined) {
       this.set('currentHash', newHash);
     }
-  },
+  }
 
   wasUpdated() {
-    this._super(...arguments);
+    undefined;
 
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
@@ -102,22 +122,22 @@ const Base = Model.extend({
 
     // Pouch handling
     this.pouch.updatePouchRecord(this);
-  },
+  }
 
   wasLoaded() {
-    this._super(...arguments);
+    undefined;
 
     let json = JSON.parse(this.serialize().data.attributes.json);
 
     this.setCurrentHash(json);
     this.set('jsonSnapshot', json);
-  },
+  }
 
   saved() {
     this.set('dateUpdated', new Date());
 
-    return this._super(...arguments);
-  },
+    return undefined;
+  }
 
   /**
    * Compute and set the model hash.
@@ -129,7 +149,7 @@ const Base = Model.extend({
     let target = json || this.json;
 
     set(this, 'currentHash', this.hashObject(target), true);
-  },
+  }
 
   /**
    * Computed a hash for the target object.
@@ -143,8 +163,8 @@ const Base = Model.extend({
   hashObject(target, parsed) {
     let toHash = parsed ? target : JSON.parse(JSON.stringify(target));
 
-    return typeof toHash === "object" ? hash(toHash) : undefined;
-  },
+    return typeof toHash === 'object' ? hash(toHash) : undefined;
+  }
 
   /**
    * Compare the current hash with the cached one.
@@ -152,8 +172,12 @@ const Base = Model.extend({
    * @property hasDirtyHash
    * @return {Boolean} Boolean value indicating if hashes are equivalent
    */
-  hasDirtyHash: computed('currentHash', function () {
-    let newHash = this.hashObject(JSON.parse(this.serialize().data.attributes.json), true);
+  @computed('currentHash')
+  get hasDirtyHash() {
+    let newHash = this.hashObject(
+      JSON.parse(this.serialize().data.attributes.json),
+      true
+    );
 
     //if the currentHash is undefined, the record is either new or hasn't had the
     //hash calculated yet
@@ -161,49 +185,52 @@ const Base = Model.extend({
     //   this.set('currentHash', newHash);
     // }
 
-    if((this.currentHash !== newHash) || this.hasDirtyAttributes) {
+    if (this.currentHash !== newHash || this.hasDirtyAttributes) {
       return true;
     }
 
     return false;
-  }),
+  }
 
-  canRevert: computed('hasDirtyHash', 'settings.data.autoSave', function () {
+  @computed('hasDirtyHash', 'settings.data.autoSave')
+  get canRevert() {
     let dirty = this.hasDirtyHash;
     let autoSave = this.get('settings.data.autoSave');
 
     //no autoSave so just check if dirty
-    if(!autoSave && dirty) {
+    if (!autoSave && dirty) {
       return true;
     }
 
     let revert = this.jsonRevert;
 
     //if we have set revert object with autoSave on
-    if(revert && autoSave) {
+    if (revert && autoSave) {
       let hash = this.hashObject(JSON.parse(revert), true) !== this.currentHash;
 
       //check if changes have been made
-      if(hash) {
+      if (hash) {
         return true;
       }
     }
 
     return false;
-  }),
+  }
 
-  cleanJson: alias('_cleanJson'),
+  @alias('_cleanJson')
+  cleanJson;
 
-  status: computed('hasDirtyHash', 'hasSchemaErrors', function () {
+  @computed('hasDirtyHash', 'hasSchemaErrors')
+  get status() {
     let dirty = this.hasDirtyHash;
     let errors = this.hasSchemaErrors;
 
-    if(this.currentHash) {
+    if (this.currentHash) {
       return dirty ? 'danger' : errors ? 'warning' : 'success';
     }
 
     return 'success';
-  }),
+  }
 
   /**
    * Indicates whether errors are present.
@@ -214,7 +241,8 @@ const Base = Model.extend({
    * @category computed
    * @requires schemaErrors
    */
-  hasSchemaErrors: bool('schemaErrors.length'),
+  @bool('schemaErrors.length')
+  hasSchemaErrors;
 
   /**
    * Array of custom schemas that are associated with this model
@@ -226,27 +254,27 @@ const Base = Model.extend({
    * @category computed
    * @requires
    */
-  customSchemas: computed('schemas.schemas.@each.isGlobal', 'profile', function () {
+  @computed('schemas.schemas.@each.isGlobal', 'profile')
+  get customSchemas() {
     return this.schemas.schemas.filter((schema) => {
-      if(schema.schemaType !== this.constructor.modelName) {
+      if (schema.schemaType !== this.constructor.modelName) {
         return false;
       }
 
-      if(schema.isGlobal) {
+      if (schema.isGlobal) {
         return true;
       }
 
-      let profile=this.customProfiles.mapById[this.profile];
+      let profile = this.customProfiles.mapById[this.profile];
 
-      if(!profile || !profile.schemas){
+      if (!profile || !profile.schemas) {
         return false;
       }
 
-      return profile.schemas.indexOf(
-        schema) > -1;
+      return profile.schemas.indexOf(schema) > -1;
     }, this);
-  })
-});
+  }
+}
 
 //Modify the prototype instead of using computed.volatile()
 //see https://github.com/emberjs/ember.js/issues/17709#issuecomment-469941364
@@ -254,7 +282,7 @@ const Base = Model.extend({
 Object.defineProperty(Base.prototype, '_cleanJson', {
   get() {
     return this.clean.clean(this.json);
-  }
+  },
 });
 
 export default Base;

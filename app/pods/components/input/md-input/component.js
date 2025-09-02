@@ -1,246 +1,243 @@
-/**
- * @module mdeditor
- * @submodule components-input
- */
+import classic from 'ember-classic-decorator';
+import { attributeBindings, classNameBindings, classNames } from '@ember-decorators/component';
+import { or, and, notEmpty, not, alias } from '@ember/object/computed';
 
- import { alias, not, notEmpty, and, or } from '@ember/object/computed';
+import Component from '@ember/component';
+import { defineProperty, computed } from '@ember/object';
+import { isBlank } from '@ember/utils';
+import { assert, debug } from '@ember/debug';
 
- import Component from '@ember/component';
- import { computed, defineProperty } from '@ember/object';
- import { isBlank } from '@ember/utils';
- import { assert, debug } from '@ember/debug';
+@classic
+@classNames('md-input')
+@classNameBindings('label:form-group', 'required')
+@attributeBindings('data-spy')
+export default class MdInput extends Component {
+  /**
+   * Input, edit, display a single item
+   *
+   * ```handlebars
+   * \{{input/md-input
+   *    value=val
+   *    model=null
+   *    valuePath=null
+   *    label="Name"
+   *    placeholder="Enter name."
+   *    infotip=true
+   *    required=false
+   *  }}
+   * ```
+   *
+   * @class md-input
+   * @constructor
+   */
 
- export default Component.extend({
-   /**
-    * Input, edit, display a single item
-    *
-    * ```handlebars
-    * \{{input/md-input
-    *    value=val
-    *    model=null
-    *    valuePath=null
-    *    label="Name"
-    *    placeholder="Enter name."
-    *    infotip=true
-    *    required=false
-    *  }}
-    * ```
-    *
-    * @class md-input
-    * @constructor
-    */
+  init() {
+    super.init(...arguments);
 
-   init() {
-     this._super(...arguments);
+    let model = this.model;
+    let valuePath = this.valuePath;
 
-     let model = this.model;
-     let valuePath = this.valuePath;
+    if(isBlank(model) !== isBlank(valuePath)) {
+      assert(
+        `You must supply both model and valuePath to ${this.toString()} or neither.`
+      );
+    }
 
-     if(isBlank(model) !== isBlank(valuePath)) {
-       assert(
-         `You must supply both model and valuePath to ${this.toString()} or neither.`
-       );
-     }
+    if(!isBlank(model)) {
+      if(this.get(`model.${valuePath}`) === undefined) {
+        debug(
+          `model.${valuePath} is undefined in ${this.toString()}.`
+        );
 
-     if(!isBlank(model)) {
-       if(this.get(`model.${valuePath}`) === undefined) {
-         debug(
-           `model.${valuePath} is undefined in ${this.toString()}.`
-         );
+        //Ember.run.once(()=>model.set(valuePath, ""));
+      }
 
-         //Ember.run.once(()=>model.set(valuePath, ""));
-       }
+      if(this.type === 'number') {
+        let attribute = `model.${valuePath}`;
 
-       if(this.type === 'number') {
-         let attribute = `model.${valuePath}`;
+        defineProperty(this, 'value', computed(attribute, {
+          get() {
+            let val = this.get(attribute);
 
-         defineProperty(this, 'value', computed(attribute, {
-           get() {
-             let val = this.get(attribute);
+            return val ? val.toString() : '';
+          },
 
-             return val ? val.toString() : '';
-           },
+          set(key, value) {
+            let parse = this.step ? parseFloat : parseInt;
 
-           set(key, value) {
-             let parse = this.step ? parseFloat : parseInt;
+            this.set(attribute, parse(value, 10));
 
-             this.set(attribute, parse(value, 10));
+            return value;
+          }
+        }));
+      } else {
+        defineProperty(this, 'value', alias(`model.${valuePath}`));
+      }
 
-             return value;
-           }
-         }));
-       } else {
-         defineProperty(this, 'value', alias(`model.${valuePath}`));
-       }
+      defineProperty(this, 'validation', alias(
+          `model.validations.attrs.${valuePath}`)
+        .readOnly());
 
-       defineProperty(this, 'validation', alias(
-           `model.validations.attrs.${valuePath}`)
-         .readOnly());
+      defineProperty(this, 'required', computed(
+          'validation.options.presence{presence,disabled}',
+          'disabled',
+          function () {
+            return !this.disabled &&
+              this.get('validation.options.presence.presence') &&
+              !this.get('validation.options.presence.disabled');
+          })
+        .readOnly());
 
-       defineProperty(this, 'required', computed(
-           'validation.options.presence{presence,disabled}',
-           'disabled',
-           function () {
-             return !this.disabled &&
-               this.get('validation.options.presence.presence') &&
-               !this.get('validation.options.presence.disabled');
-           })
-         .readOnly());
+      defineProperty(this, 'notValidating', not(
+          'validation.isValidating')
+        .readOnly());
 
-       defineProperty(this, 'notValidating', not(
-           'validation.isValidating')
-         .readOnly());
+      defineProperty(this, 'hasContent', notEmpty('value')
+        .readOnly());
 
-       defineProperty(this, 'hasContent', notEmpty('value')
-         .readOnly());
+      defineProperty(this, 'hasWarnings', notEmpty(
+          'validation.warnings')
+        .readOnly());
 
-       defineProperty(this, 'hasWarnings', notEmpty(
-           'validation.warnings')
-         .readOnly());
+      defineProperty(this, 'isValid', and('hasContent',
+          'validation.isTruelyValid')
+        .readOnly());
 
-       defineProperty(this, 'isValid', and('hasContent',
-           'validation.isTruelyValid')
-         .readOnly());
+      defineProperty(this, 'shouldDisplayValidations', or(
+          'showValidations', 'didValidate',
+          'hasContent')
+        .readOnly());
 
-       defineProperty(this, 'shouldDisplayValidations', or(
-           'showValidations', 'didValidate',
-           'hasContent')
-         .readOnly());
+      defineProperty(this, 'showErrorClass', and('notValidating',
+          'showErrorMessage',
+          'hasContent', 'validation')
+        .readOnly());
 
-       defineProperty(this, 'showErrorClass', and('notValidating',
-           'showErrorMessage',
-           'hasContent', 'validation')
-         .readOnly());
+      defineProperty(this, 'showErrorMessage', and(
+          'shouldDisplayValidations',
+          'validation.isInvalid')
+        .readOnly());
 
-       defineProperty(this, 'showErrorMessage', and(
-           'shouldDisplayValidations',
-           'validation.isInvalid')
-         .readOnly());
+      defineProperty(this, 'showWarningMessage', and(
+          'shouldDisplayValidations',
+          'hasWarnings', 'isValid')
+        .readOnly());
+    }
+  }
 
-       defineProperty(this, 'showWarningMessage', and(
-           'shouldDisplayValidations',
-           'hasWarnings', 'isValid')
-         .readOnly());
-     }
-   },
+  /**
+   * Value of the input.
+   * Value sets the initial value and returns the edited result.
+   * This property is overridden if valuePath and model are supplied.
+   *
+   * @property value
+   * @type String
+   * @required
+   */
 
-   classNames: ['md-input'],
-   classNameBindings: ['label:form-group', 'required'],
-   attributeBindings: ['data-spy'],
+  /**
+   * Type of data represented by the value string.
+   * HTML5 types may be specified ('text', 'number', etc.)
+   *
+   * @property type
+   * @type String
+   * @default text
+   */
+  type = 'text';
 
-   /**
-    * Value of the input.
-    * Value sets the initial value and returns the edited result.
-    * This property is overridden if valuePath and model are supplied.
-    *
-    * @property value
-    * @type String
-    * @required
-    */
+  /**
+   * The form label to display
+   *
+   * @property label
+   * @type String
+   * @default null
+   */
+  label = null;
 
-   /**
-    * Type of data represented by the value string.
-    * HTML5 types may be specified ('text', 'number', etc.)
-    *
-    * @property type
-    * @type String
-    * @default text
-    */
-   type: 'text',
+  /**
+   * Whether a value is required
+   *
+   * @property required
+   * @type Boolean
+   * @default false
+   */
+  required = false;
 
-   /**
-    * The form label to display
-    *
-    * @property label
-    * @type String
-    * @default null
-    */
-   label: null,
+  /**
+   * Whether a input is disabled
+   *
+   * @property disabled
+   * @type Boolean
+   * @default false
+   */
+  disabled = false;
 
-   /**
-    * Whether a value is required
-    *
-    * @property required
-    * @type Boolean
-    * @default false
-    */
-   required: false,
+  /**
+   * Maximum number of characters for each input string.
+   * If no maxlength is specified the length will not be restricted
+   *
+   * @property maxlength
+   * @type Number
+   * @default null
+   */
+  maxlength = null;
 
-   /**
-    * Whether a input is disabled
-    *
-    * @property disabled
-    * @type Boolean
-    * @default false
-    */
-   disabled: false,
+  /**
+   * Text displayed in empty inputs
+   *
+   * @property placeholder
+   * @type String
+   * @default null
+   */
+  placeholder = null;
 
-   /**
-    * Maximum number of characters for each input string.
-    * If no maxlength is specified the length will not be restricted
-    *
-    * @property maxlength
-    * @type Number
-    * @default null
-    */
-   maxlength: null,
+  /**
+   * CSS class to set on the input control
+   *
+   * @property class
+   * @type String
+   * @default 'form-control'
+   */
+  inputClass = 'form-control';
 
-   /**
-    * Text displayed in empty inputs
-    *
-    * @property placeholder
-    * @type String
-    * @default null
-    */
-   placeholder: null,
+  /**
+   * The model or object containing the input value. Only needed for validation.
+   *
+   * @property model
+   * @type {Object}
+   * @default undefined
+   * @readOnly
+   */
 
-   /**
-    * CSS class to set on the input control
-    *
-    * @property class
-    * @type String
-    * @default 'form-control'
-    */
-   inputClass: 'form-control',
+  /**
+   * The path of the input value. Only needed for validation.
+   *
+   * @property valuePath
+   * @type {String}
+   * @default ''
+   * @readOnly
+   */
+  valuePath = '';
 
-   /**
-    * The model or object containing the input value. Only needed for validation.
-    *
-    * @property model
-    * @type {Object}
-    * @default undefined
-    * @readOnly
-    */
+  /**
+   * Whether to show the infotip
+   *
+   * @property infotip
+   * @type {Boolean}
+   * @default false
+   */
+  infotip = false;
 
-   /**
-    * The path of the input value. Only needed for validation.
-    *
-    * @property valuePath
-    * @type {String}
-    * @default ''
-    * @readOnly
-    */
-   valuePath: '',
-
-   /**
-    * Whether to show the infotip
-    *
-    * @property infotip
-    * @type {Boolean}
-    * @default false
-    */
-   infotip: false,
-
-   /**
-    * Determines whether infotip is rendered
-    *
-    * @property showInfoTip
-    * @type {Boolean}
-    * @default "false"
-    * @readOnly
-    * @category computed
-    * @requires placeholder, infotip
-    */
-   showInfoTip: and('placeholder', 'infotip')
-
- });
+  /**
+   * Determines whether infotip is rendered
+   *
+   * @property showInfoTip
+   * @type {Boolean}
+   * @default "false"
+   * @readOnly
+   * @category computed
+   * @requires placeholder, infotip
+   */
+  @and('placeholder', 'infotip')
+  showInfoTip;
+}

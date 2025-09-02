@@ -1,8 +1,9 @@
+import classic from 'ember-classic-decorator';
+import { filterBy } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import $RefParser from "@apidevtools/json-schema-ref-parser";
 import request from 'ember-ajax/request';
 import { task, all, timeout } from 'ember-concurrency';
-import { filterBy } from '@ember/object/computed';
 import {
   // isAjaxError,
   isNotFoundError,
@@ -10,9 +11,10 @@ import {
 } from 'ember-ajax/errors';
 import semver from 'semver';
 
-export default Service.extend({
+@classic
+export default class SchemasService extends Service {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     /**
      * Instance of JSON Schema $Ref Parser
@@ -22,11 +24,18 @@ export default Service.extend({
      * @return {Object}
      */
     this.schemas = this.store.peekAll('schema');
-  },
-  store: service(),
-  flashMessages: service(),
-  globalSchemas: filterBy('schemas','isGlobal'),
-  fetchSchemas: task(function* (url) {
+  }
+
+  @service
+  store;
+
+  @service
+  flashMessages;
+
+  @filterBy('schemas', 'isGlobal')
+  globalSchemas;
+
+  @(task(function* (url) {
     yield timeout(1000);
 
     const parser = new $RefParser(); // Use $RefParser directly here
@@ -42,7 +51,8 @@ export default Service.extend({
         }
       });
     })
-  }).drop(),
+  }).drop())
+  fetchSchemas;
 
   // compileSchemas(schemas) {
   //   let ajv = ajvErrors(new Ajv(options));
@@ -54,7 +64,7 @@ export default Service.extend({
   //   return ajv;
   // },
 
-  checkForUpdates: task(function* (records) {
+  @(task(function* (records) {
     yield timeout(1000);
 
     yield all(records.map(itm => {
@@ -89,6 +99,6 @@ export default Service.extend({
         }
       });
     }));
-  }).drop(),
-
-});
+  }).drop())
+  checkForUpdates;
+}

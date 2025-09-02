@@ -1,19 +1,21 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
-import { alias } from '@ember/object/computed';
 import { get, set, getWithDefault } from '@ember/object';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { decamelize } from '@ember/string';
 import Attribute from 'mdjson-schemas/resources/js/attribute';
-import { validator, buildValidations } from "ember-cp-validations";
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
-  'attrIdentifier': [
+  attrIdentifier: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 const params = {
@@ -36,7 +38,9 @@ const params = {
   nominalSpatialResolution: 'number',
 };
 
-export default Component.extend(Validations, {
+@classic
+@tagName('form')
+export default class AttributeComponent extends Component.extend(Validations) {
   /**
    * mdEditor class for input and edit of mdJson 'coverageDescription.attributeGroup.attribute' object
    * The class manages the maintenance of an array of 'attribute' ojbects.
@@ -55,41 +59,53 @@ export default Component.extend(Validations, {
    */
 
   init() {
-    this.params = Object.keys(params).map(p => {
+    this.params = Object.keys(params).map((p) => {
       return {
         property: p,
-        label: ucWords([decamelize(p).replace(/_/g,
-          ' ')], {
-          force: false
+        label: ucWords([decamelize(p).replace(/_/g, ' ')], {
+          force: false,
         }),
         type: params[p],
-        description: get(Attribute, `properties.${p}.description`)
+        description: get(Attribute, `properties.${p}.description`),
       };
     });
 
-    this._super(...arguments);
-  },
+    super.init(...arguments);
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = getWithDefault(this, 'model', []) || [];
 
     once(this, function () {
-      set(model, 'attributeIdentifier', getWithDefault(model,
-        'attributeIdentifier', []));
-      set(model, 'bandBoundaryDefinition', getWithDefault(model,
-      'bandBoundaryDefinition', []));
-      set(model, 'transferFunctionType', getWithDefault(model,
-        'transferFunctionType', []));
-      set(model, 'transmittedPolarization', getWithDefault(model,
-        'transmittedPolarization', []));
-      set(model, 'detectedPolarization', getWithDefault(model,
-        'detectedPolarization', []));
+      set(
+        model,
+        'attributeIdentifier',
+        getWithDefault(model, 'attributeIdentifier', [])
+      );
+      set(
+        model,
+        'bandBoundaryDefinition',
+        getWithDefault(model, 'bandBoundaryDefinition', [])
+      );
+      set(
+        model,
+        'transferFunctionType',
+        getWithDefault(model, 'transferFunctionType', [])
+      );
+      set(
+        model,
+        'transmittedPolarization',
+        getWithDefault(model, 'transmittedPolarization', [])
+      );
+      set(
+        model,
+        'detectedPolarization',
+        getWithDefault(model, 'detectedPolarization', [])
+      );
     });
-  },
-
-  tagName: 'form',
+  }
 
   /**
    * 'attrIdentifier' is the alias for 'attributeIdentifier.identifier' used in the validations for the
@@ -100,7 +116,8 @@ export default Component.extend(Validations, {
    * @requires alias
    * @default "alias('model.attributeIdentifier.identifier')"
    */
-  attrIdentifier: alias('model.attributeIdentifier.identifier'),
+  @alias('model.attributeIdentifier.identifier')
+  attrIdentifier;
 
   /**
    * 'attrDesc' is the alias for 'attributeDescription' used in the validations for the
@@ -111,5 +128,6 @@ export default Component.extend(Validations, {
    * @requires alias
    * @default "alias('model.attributeDescription')"
    */
-  attrDesc: alias('model.attriuteDescription'),
-});
+  @alias('model.attriuteDescription')
+  attrDesc;
+}

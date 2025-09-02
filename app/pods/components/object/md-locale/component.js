@@ -1,3 +1,6 @@
+import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
 import {
   once
 } from '@ember/runloop';
@@ -15,16 +18,10 @@ import {
 import {
   isNone
 } from '@ember/utils';
-import {
-  inject as service
-} from '@ember/service';
 import Component from '@ember/component';
 import {
   assert
 } from '@ember/debug';
-import {
-  alias
-} from '@ember/object/computed';
 
 const Validations = buildValidations({
   'language': validator('presence', {
@@ -37,11 +34,13 @@ const Validations = buildValidations({
   })
 });
 
-const theComp = Component.extend(Validations, {
-  settings: service(),
+@classic
+class theComp extends Component.extend(Validations) {
+  @service
+  settings;
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model || {};
     let settings = get(this, 'settings.data');
@@ -57,11 +56,14 @@ const theComp = Component.extend(Validations, {
         });
       });
     }
-  },
+  }
 
-  language:alias('model.language'),
-  characterSet:alias('model.characterSet')
-});
+  @alias('model.language')
+  language;
+
+  @alias('model.characterSet')
+  characterSet;
+}
 
 export {
   Validations,

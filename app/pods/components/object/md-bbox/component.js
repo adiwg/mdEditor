@@ -1,5 +1,7 @@
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
+import { alias, readOnly } from '@ember/object/computed';
 import Component from '@ember/component';
-import { readOnly, alias } from '@ember/object/computed';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
@@ -39,19 +41,32 @@ const Validations = buildValidations({
   ],
 });
 
-export default Component.extend(Validations, {
-  classNames: ['form'],
+@classic
+@classNames('form')
+export default class MdBbox extends Component.extend(Validations) {
+  @alias('model.northLatitude')
+  north;
 
-  north: alias('model.northLatitude'),
-  south: alias('model.southLatitude'),
-  east: alias('model.eastLongitude'),
-  west: alias('model.westLongitude'),
-  minimumAltitude: alias('model.minimumAltitude'),
-  maximumAltitude: alias('model.maximumAltitude'),
-  unitsOfAltitude: alias('model.unitsOfAltitude'),
+  @alias('model.southLatitude')
+  south;
+
+  @alias('model.eastLongitude')
+  east;
+
+  @alias('model.westLongitude')
+  west;
+
+  @alias('model.minimumAltitude')
+  minimumAltitude;
+
+  @alias('model.maximumAltitude')
+  maximumAltitude;
+
+  @alias('model.unitsOfAltitude')
+  unitsOfAltitude;
 
   // btnText: computed('isTruelyValid', function() {
   //   let text = this.get('validations.isTruelyValid') ? ''
   //   this.set('btnText', )
   // }),
-});
+}

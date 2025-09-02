@@ -1,5 +1,7 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 
-export default Component.extend({
-  tagName: 'form'
-});
+@classic
+@tagName('form')
+export default class Form extends Component {}

@@ -1,11 +1,13 @@
+import classic from 'ember-classic-decorator';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
-import { alias } from '@ember/object/computed';
 import { set, getWithDefault } from '@ember/object';
 
-export default Component.extend({
+@classic
+export default class DescriptiveResult extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -14,9 +16,10 @@ export default Component.extend({
         set(model, 'scope', getWithDefault(model, 'scope', {}));
       });
     }
-  },
+  }
 
-  name: '',
+  name = '';
 
-  scopeCode: alias('model.scope.scopeCode'),
-});
+  @alias('model.scope.scopeCode')
+  scopeCode;
+}

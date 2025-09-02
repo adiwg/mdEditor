@@ -1,12 +1,13 @@
-import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { once } from '@ember/runloop';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
-import { set, getWithDefault } from '@ember/object';
+import Component from '@ember/component';
+import { once } from '@ember/runloop';
+import { set, getWithDefault, computed } from '@ember/object';
 
-export default Component.extend({
+@classic
+export default class QuantitativeResult extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -20,26 +21,29 @@ export default Component.extend({
         set(model, 'value', getWithDefault(model, 'value', []));
       });
     }
-  },
+  }
 
-  name: '',
+  name = '';
 
-  quantitativeValue: computed('model.value.[]', {
-    get() {
-      const valueArray = this.get('model.value');
-      return valueArray && valueArray.length > 0 ? valueArray[0] : null;
-    },
-    set(key, value) {
-      const valueArray = this.get('model.value');
-      if (valueArray && valueArray.length > 0) {
-        valueArray[0] = parseInt(value);
-      } else {
-        this.set('model.value', [parseInt(value)]);
-      }
-      return value;
-    },
-  }),
+  @computed('model.value.[]')
+  get quantitativeValue() {
+    const valueArray = this.get('model.value');
+    return valueArray && valueArray.length > 0 ? valueArray[0] : null;
+  }
 
-  units: alias('model.valueUnits'),
-  scopeCode: alias('model.scope.scopeCode'),
-});
+  set quantitativeValue(value) {
+    const valueArray = this.get('model.value');
+    if (valueArray && valueArray.length > 0) {
+      valueArray[0] = parseInt(value);
+    } else {
+      this.set('model.value', [parseInt(value)]);
+    }
+    return value;
+  }
+
+  @alias('model.valueUnits')
+  units;
+
+  @alias('model.scope.scopeCode')
+  scopeCode;
+}

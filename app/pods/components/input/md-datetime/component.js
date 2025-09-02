@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { classNameBindings, classNames } from '@ember-decorators/component';
 /**
  * @module mdeditor
  * @submodule components-input
@@ -5,13 +7,16 @@
 
 import Component from '@ember/component';
 import { isBlank } from '@ember/utils';
-import { get, set, computed, defineProperty } from '@ember/object';
+import { get, set, defineProperty, computed } from '@ember/object';
 import { once } from '@ember/runloop';
 import { assert, debug } from '@ember/debug';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
-export default Component.extend({
+@classic
+@classNames('md-datetime', 'md-input-input')
+@classNameBindings('label:form-group', 'required')
+export default class MdDatetime extends Component {
   /**
    * Datetime control with dropdown calendar.
    * Based on Bootstrap datetime picker.
@@ -21,7 +26,7 @@ export default Component.extend({
    */
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     let model = this.model;
     let valuePath = this.valuePath;
@@ -67,17 +72,15 @@ export default Component.extend({
         })
       );
     }
-  },
-  classNames: ['md-datetime', 'md-input-input'],
-  classNameBindings: ['label:form-group', 'required'],
+  }
 
-  date: null,
-  format: 'YYYY-MM-DDTHH:mm:ssZ',
-  placeholder: 'Enter date and time',
-  label: null,
-  useCurrent: 'day',
-  showTodayButton: true,
-  showClear: true,
+  date = null;
+  format = 'YYYY-MM-DDTHH:mm:ssZ';
+  placeholder = 'Enter date and time';
+  label = null;
+  useCurrent = 'day';
+  showTodayButton = true;
+  showClear = true;
 
   formatValue(value, target) {
     if (isBlank(value)) {
@@ -97,17 +100,18 @@ export default Component.extend({
     }
 
     return formattedDate;
-  },
+  }
 
   setTargetToNull(target) {
     set(this, target, null);
-  },
+  }
 
   updateFormattedDate(formattedDate, target) {
     set(this, target, formattedDate);
-  },
+  }
 
-  calendarIcons: computed(function () {
+  @computed
+  get calendarIcons() {
     return {
       time: 'fa fa-clock-o',
       date: 'fa fa-calendar',
@@ -118,5 +122,5 @@ export default Component.extend({
       close: 'fa fa-times',
       clear: 'fa fa-trash',
     };
-  }),
-});
+  }
+}

@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
 import Component from '@ember/component';
 import EmObject from '@ember/object';
 import { validator, buildValidations } from 'ember-cp-validations';
@@ -11,28 +13,18 @@ import { validator, buildValidations } from 'ember-cp-validations';
 //   ]
 // });
 
-export default Component.extend({
-  /**
-   * mdEditor class for input and edit of mdJSON 'phone' object.
-   * The class manages the maintenance of an array of phone objects.
-   *
-   * @class md-phone-array
-   * @module mdeditor
-   * @submodule components-object
-   * @constructor
-   */
-
-  attributeBindings: ['data-spy'],
-
+@classic
+@attributeBindings('data-spy')
+export default class MdResourceTypeArray extends Component {
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
    *
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmObject.extend({
+  templateClass = EmObject.extend({
     init() {
-      this._super(...arguments);
+      undefined;
     },
-  }),
-});
+  });
+}

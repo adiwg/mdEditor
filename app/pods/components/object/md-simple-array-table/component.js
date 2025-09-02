@@ -1,7 +1,10 @@
-import { observer, computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { observes } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import ArrayTable from '../md-array-table/component';
 
-export default ArrayTable.extend({
+@classic
+export default class MdSimpleArrayTable extends ArrayTable {
   /**
    * mdEditor component for input and edit of arrays of scalars. The
    * component is rendered as an editable table.
@@ -26,8 +29,9 @@ export default ArrayTable.extend({
    * @constructor
    */
 
-  layoutName: 'components/object/md-array-table',
-  simple: true,
+  layoutName = 'components/object/md-array-table';
+
+  simple = true;
 
   /**
    * Convert the input 'primitive' array to an 'ember' array of objects
@@ -37,31 +41,30 @@ export default ArrayTable.extend({
    * @category computed
    * @requires value.[]
    */
-  arrayValues: computed('value.[]', {
-    get() {
-      let items = this.value;
+  @computed('value.[]')
+  get arrayValues() {
+    let items = this.value;
 
-      if(items === undefined) {
-        items = [];
-        //items[0] = '';
-      }
-
-      return items.reduce(function (acc, value) {
-        acc.pushObject({
-          value: value
-        });
-        return acc;
-      }, []);
-    },
-
-    set(key, value) {
-      let newValue = value
-        .filterBy('value')
-        .mapBy('value');
-      this.set('value', newValue);
-      return value;
+    if(items === undefined) {
+      items = [];
+      //items[0] = '';
     }
-  }),
+
+    return items.reduce(function (acc, value) {
+      acc.pushObject({
+        value: value
+      });
+      return acc;
+    }, []);
+  }
+
+  set arrayValues(value) {
+    let newValue = value
+      .filterBy('value')
+      .mapBy('value');
+    this.set('value', newValue);
+    return value;
+  }
 
   /**
    * Set the value when arrayValues is updated
@@ -71,7 +74,8 @@ export default ArrayTable.extend({
    * @category computed
    * @requires arrayValues.@each.value
    */
-  valuesObserver: observer('arrayValues.@each.value', function () {
+  @observes('arrayValues.@each.value')
+  valuesObserver() {
     this.set('arrayValues', this.arrayValues);
-  })
-});
+  }
+}

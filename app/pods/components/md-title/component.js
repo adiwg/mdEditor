@@ -1,29 +1,32 @@
+import classic from 'ember-classic-decorator';
+import { layout as templateLayout, tagName } from '@ember-decorators/component';
+import { computed } from '@ember/object';
 import Breadcrumbs from 'ember-crumbly/components/bread-crumbs';
 import { truncate } from 'ember-cli-string-helpers/helpers/truncate';
 import layout from './template';
 import {
-  computed
-} from '@ember/object';
-import {
   getOwner
 } from '@ember/application';
 
-export default Breadcrumbs.extend({
+@classic
+@templateLayout(layout)
+@tagName('')
+export default class MdTitle extends Breadcrumbs {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     let applicationInstance = getOwner(this);
 
     this.set('applicationRoute', applicationInstance.lookup(
       'route:application'));
     this.set('classNameBindings', []);
-  },
-  layout,
-  tagName: '',
-  title: computed('routeHierarchy', function () {
+  }
+
+  @computed('routeHierarchy')
+  get title() {
     return this.routeHierarchy.reduce((val, itm) => {
       return val + truncate([itm.title, 28, true]) + (itm.isTail ? '' :
         ' | ');
     }, '');
-  }),
-});
+  }
+}

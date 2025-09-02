@@ -1,8 +1,8 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import EmberObject, { set, getWithDefault, get } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
 import {
   once
 } from '@ember/runloop';
@@ -42,9 +42,10 @@ const Validations = buildValidations({
   ]
 });
 
-const TemplateClass = EmberObject.extend(Validations, {
+@classic
+class TemplateClass extends EmberObject.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     set(this, 'taxonomicSystem', []);
     set(this, 'identificationReference', []);
@@ -52,11 +53,13 @@ const TemplateClass = EmberObject.extend(Validations, {
     set(this, 'voucher', []);
     set(this, 'taxonomicClassification', []);
   }
-});
+}
 
-const theComp = Component.extend(Validations, {
+@classic
+@tagName('form')
+class theComp extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -70,38 +73,29 @@ const theComp = Component.extend(Validations, {
       set(model, 'observer', getWithDefault(model, 'observer', []));
       set(model, 'voucher', getWithDefault(model, 'voucher', []));
     });
-  },
-  voucherTemplate: Voucher,
+  }
 
-  /**
-   * The string representing the path in the profile object for the collection.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
+  voucherTemplate = Voucher;
 
-  /**
-   * The object to use as the data model for the collection.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
+  @alias('model.taxonomicSystem')
+  taxonomicSystem;
 
-  tagName: 'form',
-  taxonomicSystem: alias('model.taxonomicSystem'),
-  title: alias('model.taxonomicSystem.firstObject.citation.title'),
-  identificationProcedure: alias('model.identificationProcedure'),
-  taxonomicClassification: alias('model.taxonomicClassification'),
-  systemTemplate: EmberObject.extend({
+  @alias('model.taxonomicSystem.firstObject.citation.title')
+  title;
+
+  @alias('model.identificationProcedure')
+  identificationProcedure;
+
+  @alias('model.taxonomicClassification')
+  taxonomicClassification;
+
+  systemTemplate = EmberObject.extend({
     init() {
-      this._super(...arguments);
+      super.init(...arguments);
       this.set('citation', {});
     }
-  })
-});
+  });
+}
 
 export {
   Validations,

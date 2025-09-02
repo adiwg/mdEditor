@@ -1,11 +1,13 @@
+import classic from 'ember-classic-decorator';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
-import { alias } from '@ember/object/computed';
-import { computed, set, getWithDefault } from '@ember/object';
+import { set, getWithDefault, computed } from '@ember/object';
 
-export default Component.extend({
+@classic
+export default class ConformanceResult extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -16,13 +18,17 @@ export default Component.extend({
         set(model, 'specification', getWithDefault(model, 'specification', {}));
       });
     }
-  },
+  }
 
-  name: '',
-  scopeCode: alias('model.scope.scopeCode'),
-  resultText: computed('model.pass', function () {
+  name = '';
+
+  @alias('model.scope.scopeCode')
+  scopeCode;
+
+  @computed('model.pass')
+  get resultText() {
     return this.get('model.pass')
       ? 'The result passes conformance.'
       : 'The result does not pass conformance.';
-  }),
-});
+  }
+}

@@ -1,6 +1,7 @@
+import classic from 'ember-classic-decorator';
+import { alias } from '@ember/object/computed';
 import { attr, belongsTo } from '@ember-data/model';
 import { Copyable } from 'ember-copy';
-import { alias } from '@ember/object/computed';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import EmberObject, { computed } from '@ember/object';
@@ -31,9 +32,10 @@ const Validations = buildValidations({
   ],
 });
 
-const JsonDefault = EmberObject.extend({
+@classic
+class JsonDefault extends EmberObject {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.setProperties({
       dataDictionary: {
         dictionaryId: null,
@@ -53,11 +55,13 @@ const JsonDefault = EmberObject.extend({
         entity: [],
       },
     });
-  },
-});
+  }
+}
 
-export default Model.extend(Validations, Copyable, {
-  pouchDictionary: belongsTo('pouch-dictionary', { async: false }),
+@classic
+export default class Dictionary extends Model.extend(Validations, Copyable) {
+  @belongsTo('pouch-dictionary', { async: false })
+  pouchDictionary;
 
   /**
    * Dictionary model
@@ -70,29 +74,37 @@ export default Model.extend(Validations, Copyable, {
    */
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.on('didLoad', this, this.assignId);
-  },
+  }
 
-  profile: attr('string', {
+  @attr('string', {
     defaultValue: defaultProfileId,
-  }),
-  json: attr('json', {
+  })
+  profile;
+
+  @attr('json', {
     defaultValue() {
       return JsonDefault.create();
     },
-  }),
-  dateUpdated: attr('date', {
+  })
+  json;
+
+  @attr('date', {
     defaultValue() {
       return new Date();
     },
-  }),
+  })
+  dateUpdated;
 
-  title: alias('json.dataDictionary.citation.title'),
-  dictionaryId: alias('json.dataDictionary.dictionaryId'),
+  @alias('json.dataDictionary.citation.title')
+  title;
 
-  icon: 'book',
+  @alias('json.dataDictionary.dictionaryId')
+  dictionaryId;
+
+  icon = 'book';
 
   /**
    * A list of schema errors return by the validator.
@@ -103,7 +115,8 @@ export default Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
+  @computed('hasDirtyHash', 'customSchemas.[]')
+  get schemaErrors() {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateDictionary(this).errors;
@@ -129,7 +142,7 @@ export default Model.extend(Validations, Copyable, {
     });
 
     return errors;
-  }),
+  }
 
   copy() {
     let current = this.cleanJson;
@@ -147,5 +160,5 @@ export default Model.extend(Validations, Copyable, {
     });
 
     return newDictionary;
-  },
-});
+  }
+}

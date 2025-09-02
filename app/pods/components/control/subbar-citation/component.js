@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Component from '@ember/component';
 
-export default Component.extend({
-  selectResource(){
+@classic
+export default class SubbarCitation extends Component {
+  selectResource() {
     return this;
   }
-});
+}

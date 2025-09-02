@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings, classNames, tagName } from '@ember-decorators/component';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import config from 'mdeditor/config/environment';
@@ -9,18 +11,18 @@ const {
   }
 } = config;
 
-export default Component.extend({
-  tagName: 'a',
-  attributeBindings: ['href', 'target'],
-  classNames: ['md-fa-link'],
-
+@classic
+@tagName('a')
+@attributeBindings('href', 'target')
+@classNames('md-fa-link')
+export default class MdRepoLink extends Component {
   /**
    * Application repository URL.
    *
    * @property repository
    * @type string
    */
-  repository,
+  repository = repository;
 
   /**
    * Link target, open in new window by default.
@@ -28,7 +30,7 @@ export default Component.extend({
    * @property target
    * @type string
    */
-  target: '_blank',
+  target = '_blank';
 
   /**
    * Application version.
@@ -36,7 +38,7 @@ export default Component.extend({
    * @property version
    * @type string
    */
-  version,
+  version = version;
 
   /**
    * The commit hash reference.
@@ -45,12 +47,13 @@ export default Component.extend({
    * @type {Ember.computed}
    * @return string
    */
-  hash: computed('version', function () {
+  @computed('version')
+  get hash() {
     let idx = this.version
       .indexOf('+') + 1;
 
     return version.substring(idx);
-  }),
+  }
 
   /**
    * The url link
@@ -59,10 +62,11 @@ export default Component.extend({
    * @type {Ember.computed}
    * @return string
    */
-  href: computed('repository', 'hash', function () {
+  @computed('repository', 'hash')
+  get href() {
     let repo = this.repository;
     let hash = this.hash;
 
     return `${repo}/tree/${hash}`;
-  }),
-});
+  }
+}

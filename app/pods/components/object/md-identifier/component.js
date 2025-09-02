@@ -1,4 +1,6 @@
-import { alias, and } from '@ember/object/computed';
+import classic from 'ember-classic-decorator';
+import { attributeBindings, classNames } from '@ember-decorators/component';
+import { and, alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { getWithDefault, set } from '@ember/object';
 import {
@@ -18,9 +20,12 @@ const Validations = buildValidations({
   ]
 });
 
-const theComp = Component.extend(Validations, {
+@classic
+@classNames('md-identifier')
+@attributeBindings('data-spy')
+class theComp extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = getWithDefault(this, 'model', {}) || {};
 
@@ -28,10 +33,7 @@ const theComp = Component.extend(Validations, {
       set(model, 'authority', getWithDefault(model, 'authority',
         {}));
     });
-  },
-
-  classNames: ['md-identifier'],
-  attributeBindings: ['data-spy'],
+  }
 
   /**
    * The identifier object to render
@@ -55,11 +57,15 @@ const theComp = Component.extend(Validations, {
    * @type {Boolean}
    */
 
-  identifier: alias('model.identifier'),
-  collapsible: false,
-  collapse: true,
-  isCollapsed: and('collapsible', 'collapse'),
-});
+  @alias('model.identifier')
+  identifier;
+
+  collapsible = false;
+  collapse = true;
+
+  @and('collapsible', 'collapse')
+  isCollapsed;
+}
 
 export {
   Validations,

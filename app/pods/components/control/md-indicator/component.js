@@ -1,162 +1,144 @@
-import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember/object';
+import Component from '@ember/component';
 import { htmlSafe } from '@ember/string';
 import { interpolate, parseArgs } from 'mdeditor/utils/md-interpolate';
 
-export default Component.extend({
-  /**
-   * @module mdeditor
-   * @submodule components-control
-   */
+@classic
+@tagName('span')
+export default class MdIndicator extends Component {
+ init() {
+   const options = this.options;
 
-  /**
-   * Icon that displays a popover.
-   *
-   * ```handlebars
-   * \{{control/md-indicator
-   *   icon="sticky-note"
-   *   title="Hello"
-   *   note="${foo} is a ${bar}"
-   *   values=values
-   *   type="danger"
-   * }}
-   * ```
-   *
-   * @class md-indicator
-   * @constructor
-   */
+   super.init(...arguments);
 
-  tagName: 'span',
+   if(options) {
+     Object.assign(this, options);
+     //this.classNames.concat(options.classNames);
+   }
 
-  init() {
-    const options = this.options;
+   this.popoverHideDelay = this.popoverHideDelay || 500;
+   this.popperContainer = this.popperContainer || "body";
+   this.icon = this.icon || 'sticky-note';
+   this.event = this.event || 'hover';
+   this.title = this.title || 'Note';
+   this.type = this.type || 'default';
+   this.classNames = ['md-indicator', `md-${this.type}`].concat(this
+     .classNames);
+ }
 
-    this._super(...arguments);
+ /**
+  * The string to display in the indicator, interpolation optional.
+  *
+  * @property note
+  * @type {String}
+  * @default undefined
+  * @example
+  *   "This ${foo} is named ${bar}."
+  */
 
-    if(options) {
-      Object.assign(this, options);
-      //this.classNames.concat(options.classNames);
-    }
+ /**
+  * An object with property/value pairs used when interpolating the <a
+  * href="#property_note">note</a>.
+  *
+  * @property values
+  * @type {Object}
+  * @default undefined
+  */
 
-    this.popoverHideDelay = this.popoverHideDelay || 500;
-    this.popperContainer = this.popperContainer || "body";
-    this.icon = this.icon || 'sticky-note';
-    this.event = this.event || 'hover';
-    this.title = this.title || 'Note';
-    this.type = this.type || 'default';
-    this.classNames = ['md-indicator', `md-${this.type}`].concat(this
-      .classNames);
-  },
+ /**
+  * The font-awesome icon for the indicator.
+  *
+  * @property icon
+  * @type {String}
+  * @default "sticky-note"
+  */
 
-  /**
-   * The string to display in the indicator, interpolation optional.
-   *
-   * @property note
-   * @type {String}
-   * @default undefined
-   * @example
-   *   "This ${foo} is named ${bar}."
-   */
+ /**
+  *  The event that the tooltip will hide and show for. Possible options are:
+  *
+  *  - 'hover'
+  *  - 'click'
+  *  - 'focus' (hides on blur)
+  *  - 'none'
+  *
+  * @property event
+  * @type {String}
+  */
 
-  /**
-   * An object with property/value pairs used when interpolating the <a
-   * href="#property_note">note</a>.
-   *
-   * @property values
-   * @type {Object}
-   * @default undefined
-   */
+ /**
+  * The title icon for the indicator.
+  *
+  * @property title
+  * @type {String}
+  * @default "Note"
+  */
 
-  /**
-   * The font-awesome icon for the indicator.
-   *
-   * @property icon
-   * @type {String}
-   * @default "sticky-note"
-   */
+ /**
+  * The style for the indicator. One of:
+  *
+  * - default
+  * - primary
+  * - info
+  * - warning
+  * - danger
+  *
+  * @property type
+  * @type {String}
+  * @default "default"
+  */
 
-  /**
-   *  The event that the tooltip will hide and show for. Possible options are:
-   *
-   *  - 'hover'
-   *  - 'click'
-   *  - 'focus' (hides on blur)
-   *  - 'none'
-   *
-   * @property event
-   * @type {String}
-   */
+ /**
+  * The numeric value in milliseconds before the popover will hide after the user
+  * exits the popover.
+  *
+  * @property popoverHideDelay
+  * @type {Number}
+  * @default 500
+  *
+  */
 
-  /**
-   * The title icon for the indicator.
-   *
-   * @property title
-   * @type {String}
-   * @default "Note"
-   */
+ /**
+  * The string value that tells the tooltip to append to a specific element.
+  * Default is set to the page `<body/>`.
+  *
+  * @property popperContainer
+  * @type {String}
+  * @default "body"
+  */
 
-  /**
-   * The style for the indicator. One of:
-   *
-   * - default
-   * - primary
-   * - info
-   * - warning
-   * - danger
-   *
-   * @property type
-   * @type {String}
-   * @default "default"
-   */
+ /**
+  * The interpolated note string.
+  *
+  * @property interpolated
+  * @type {String}
+  * @default ""
+  * @readOnly
+  * @category computed
+  * @requires note,values
+  */
+ @computed('note', 'values')
+ get interpolated() {
+   return htmlSafe(interpolate(this.note, this.values));
+ }
 
-  /**
-   * The numeric value in milliseconds before the popover will hide after the user
-   * exits the popover.
-   *
-   * @property popoverHideDelay
-   * @type {Number}
-   * @default 500
-   *
-   */
+ /**
+  * The values for interpolated variables.
+  *
+  * @property variables
+  * @type {Object}
+  * @category computed
+  * @requires note
+  */
+ @computed('note')
+ get values() {
+   let args = parseArgs(this.note);
 
-  /**
-   * The string value that tells the tooltip to append to a specific element.
-   * Default is set to the page `<body/>`.
-   *
-   * @property popperContainer
-   * @type {String}
-   * @default "body"
-   */
+   return args.reduce((acc, a) => {
+     acc[a] = this.get(a);
 
-  /**
-   * The interpolated note string.
-   *
-   * @property interpolated
-   * @type {String}
-   * @default ""
-   * @readOnly
-   * @category computed
-   * @requires note,values
-   */
-  interpolated: computed('note', 'values', function () {
-    return htmlSafe(interpolate(this.note, this.values));
-  }),
-
-  /**
-   * The values for interpolated variables.
-   *
-   * @property variables
-   * @type {Object}
-   * @category computed
-   * @requires note
-   */
-  values: computed('note', function () {
-    let args = parseArgs(this.note);
-
-    return args.reduce((acc, a) => {
-      acc[a] = this.get(a);
-
-      return acc;
-    }, {});
-  })
-});
+     return acc;
+   }, {});
+ }
+}

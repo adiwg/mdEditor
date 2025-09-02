@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { observes } from '@ember-decorators/object';
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { validator, buildValidations } from 'ember-cp-validations';
-import { observer } from '@ember/object';
 import dayjs from 'dayjs';
 
 const Validations = buildValidations({
@@ -15,9 +17,11 @@ const Validations = buildValidations({
   }),
 });
 
-export default Component.extend(Validations, {
+@classic
+@tagName('')
+export default class MdDate extends Component.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.set('precisionOptions', [
       { value: 'Year', name: 'Year' },
@@ -27,15 +31,18 @@ export default Component.extend(Validations, {
     ]);
 
     this.setPrecisionBasedOnDate();
-  },
+  }
 
-  selectedPrecision: null,
+  selectedPrecision = null;
 
-  tagName: '',
-  date: alias('model.date'),
-  dateType: alias('model.dateType'),
+  @alias('model.date')
+  date;
 
-  selectedPrecisionChanged: observer('selectedPrecision', function () {
+  @alias('model.dateType')
+  dateType;
+
+  @observes('selectedPrecision')
+  selectedPrecisionChanged() {
     const date = this.get('model.date');
     if (!date) return;
 
@@ -63,7 +70,7 @@ export default Component.extend(Validations, {
     if (newDate !== date) {
       this.set('model.date', newDate);
     }
-  }),
+  }
 
   setPrecisionBasedOnDate() {
     const date = this.get('model.date');
@@ -82,5 +89,5 @@ export default Component.extend(Validations, {
     } else {
       this.set('selectedPrecision', 'Time');
     }
-  },
-});
+  }
+}

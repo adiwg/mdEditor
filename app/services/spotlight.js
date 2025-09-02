@@ -1,12 +1,14 @@
+import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import $ from 'jquery';
 import { isPresent } from '@ember/utils';
 import { setProperties } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
 
-export default Service.extend({
-  show: false,
-  elementId: undefined,
+@classic
+export default class SpotlightService extends Service {
+  show = false;
+  elementId;
 
   setTarget(id, onClose, scope) {
     let el = this.elementId;
@@ -30,9 +32,9 @@ export default Service.extend({
 
     $('body').addClass('md-no-liquid');
     $('#' + id).addClass('md-spotlight-target');
-  },
+  }
 
-  closeTask: task(function * () {
+  @(task(function * () {
     let id = this.elementId;
     let onClose = this.onClose;
 
@@ -56,9 +58,10 @@ export default Service.extend({
       onClose: undefined,
       scope: undefined
     });
-  }).drop(),
+  }).drop())
+  closeTask;
 
-  close(){
+  close() {
     this.closeTask.perform();
   }
-});
+}

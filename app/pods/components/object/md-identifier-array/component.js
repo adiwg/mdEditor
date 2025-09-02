@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
@@ -5,30 +7,16 @@ import {
   Validations
 } from '../md-identifier/component';
 
-export default Component.extend({
-
+@classic
+@attributeBindings('data-spy')
+export default class MdIdentifierArray extends Component {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     if(!this.model) {
       this.set('model', A());
     }
-  },
-
-  /**
-   * mdEditor class for input and edit of mdJSON 'identifier' object
-   * arrays.
-   * The class manages the maintenance of an array of identifier
-   * objects using the md-objectroute-table class.
-   *
-   * @module mdeditor
-   * @submodule components-object
-   * @class md-identifier-array
-   * @uses md-objectroute-table
-   * @constructor
-   */
-
-  attributeBindings: ['data-spy'],
+  }
 
   /**
    * mdJSON object containing the 'identifier' array.
@@ -48,7 +36,7 @@ export default Component.extend({
    * @type String
    * @default 'name, uri'
    */
-  attributes: 'identifier,namespace,description',
+  attributes = 'identifier,namespace,description';
 
   /**
    * Name to place on the mdEditor panel header for entry and edit of
@@ -59,7 +47,7 @@ export default Component.extend({
    * @type String
    * @default 'Identifier'
    */
-  label: 'Identifier',
+  label = 'Identifier';
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -67,10 +55,10 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmberObject.extend(Validations, {
+  templateClass = EmberObject.extend(Validations, {
     init() {
-      this._super(...arguments);
+      super.init(...arguments);
       this.set('authority', {});
     }
-  })
-});
+  });
+}

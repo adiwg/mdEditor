@@ -1,18 +1,11 @@
+import classic from 'ember-classic-decorator';
+import { classNames, tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 
-export default Component.extend({
-  /**
-  * Tooltip displayed as icon with font styled as superscript.
-  *
-  * @class md-infotip
-  * @module mdeditor
-  * @submodule components-control
-  * @constructor
-  */
-
-  tagName: 'sup',
-  classNames: ['md-infotip'],
-
+@classic
+@tagName('sup')
+@classNames('md-infotip')
+export default class MdInfotip extends Component {
   /**
   * Tooltip text
   *
@@ -28,7 +21,7 @@ export default Component.extend({
   * @type {String}
   * @default 'info-circle'
   */
-  icon: 'info-circle',
+  icon = 'info-circle';
 
   /**
   * Tooltip delay
@@ -37,6 +30,5 @@ export default Component.extend({
   * @type {Number}
   * @default 350
   */
-  delay: 350,
-
-});
+  delay = 350;
+}
