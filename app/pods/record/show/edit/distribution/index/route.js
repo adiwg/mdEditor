@@ -3,10 +3,11 @@ import { alias } from '@ember/object/computed';
 import Route from '@ember/routing/route';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import RouteExtensionMixin from '../../../../../mixins/route-extension';
 import { defineProperty, action } from '@ember/object';
 
 @classic
-export default class IndexRoute extends Route.extend(ScrollTo) {
+export default class IndexRoute extends Route.extend(ScrollTo, RouteExtensionMixin) {
   setupController() {
     // Call _super for default behavior
     super.setupController(...arguments);

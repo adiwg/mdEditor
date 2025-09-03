@@ -6,6 +6,14 @@ export default class IdRoute extends Route {
   breadCrumb = null;
 
   /**
+   * Get the current route's model
+   * @returns {*} The model for this route
+   */
+  currentRouteModel() {
+    return this.modelFor(this.routeName);
+  }
+
+  /**
    * The profile service
    *
    * @return {Ember.Service} profile

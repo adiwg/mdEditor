@@ -3,8 +3,9 @@ import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import HashPoll from 'mdeditor/mixins/hash-poll';
 import DoCancel from 'mdeditor/mixins/cancel';
+import RouteExtensionMixin from '../../../mixins/route-extension';
 
-export default class EditRoute extends Route.extend(HashPoll, DoCancel) {
+export default class EditRoute extends Route.extend(HashPoll, DoCancel, RouteExtensionMixin) {
   @service pouch;
 
   /**

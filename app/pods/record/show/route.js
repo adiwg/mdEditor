@@ -5,6 +5,14 @@ import { copy } from 'ember-copy';
 export default class ShowRoute extends Route {
   //breadCrumb: {};
 
+  /**
+   * Get the current route's model
+   * @returns {*} The model for this route
+   */
+  currentRouteModel() {
+    return this.modelFor(this.routeName);
+  }
+
   afterModel(model) {
     const name = model.get('title');
 

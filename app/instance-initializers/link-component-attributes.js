@@ -1,16 +1,18 @@
 /**
  * Add Bootstrap data attributes to LinkComponent
- * Modern replacement for LinkComponent.reopen()
+ * Modern replacement for LinkComponent.reopen() using component override
  */
 
-export function initialize(appInstance) {
-  const LinkComponent = appInstance.resolveRegistration('component:link-to');
+import LinkComponent from '@ember/routing/link-component';
 
-  if (LinkComponent) {
-    LinkComponent.reopen({
-      attributeBindings: ['data-toggle', 'data-placement'],
-    });
-  }
+export function initialize(application) {
+  // Create a custom LinkComponent with Bootstrap attributes
+  const CustomLinkComponent = LinkComponent.extend({
+    attributeBindings: ['data-toggle', 'data-placement'],
+  });
+
+  // Register the custom component to override the default link-to
+  application.register('component:link-to', CustomLinkComponent, { instantiate: false });
 }
 
 export default {

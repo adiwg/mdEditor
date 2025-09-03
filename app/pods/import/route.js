@@ -8,6 +8,7 @@ import Route from '@ember/routing/route';
 import Base from 'ember-local-storage/adapters/base';
 import jquery from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import RouteExtensionMixin from '../../mixins/route-extension';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +17,7 @@ import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 const generateIdForRecord = Base.create().generateIdForRecord;
 
 @classic
-export default class ImportRoute extends Route.extend(ScrollTo) {
+export default class ImportRoute extends Route.extend(ScrollTo, RouteExtensionMixin) {
   @service
   flashMessages;
 

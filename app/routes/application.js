@@ -22,6 +22,14 @@ export default class ApplicationRoute extends Route {
   @service profile;
   @service('custom-profile') customProfile;
 
+  /**
+   * Get the current route's model
+   * @returns {*} The model for this route
+   */
+  currentRouteModel() {
+    return this.modelFor(this.routeName);
+  }
+
   init() {
     super.init(...arguments);
 
