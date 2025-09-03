@@ -5,32 +5,16 @@
  * @category docs
  */
 
-import LinkComponent from '@ember/routing/link-component';
-import Route from '@ember/routing/route';
-import Component from '@ember/component';
 import Application from '@ember/application';
 import Resolver from 'ember-resolver';
-import {
-  computed,
-  defineProperty,
-  getWithDefault,
-  get,
-  //set
-} from '@ember/object';
-import {
-  isNone
-} from '@ember/utils';
-import {
-  assert
-} from '@ember/debug';
 // import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from 'mdeditor/config/environment';
 
 let events = {
   // add support for the blur event
-  blur: 'blur'
-}
+  blur: 'blur',
+};
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;
@@ -45,55 +29,10 @@ export default class App extends Application {
 
 loadInitializers(App, config.modulePrefix);
 
-//for bootstrap
-LinkComponent.reopen({
-  attributeBindings: ['data-toggle', 'data-placement']
-});
-//for crumbly
-Route.reopen({
-  //breadCrumb: null
-  currentRouteModel: function () {
-    return this.modelFor(this.routeName);
-  }
-});
-//for profiles
-Component.reopen({
-  init() {
-    this._super(...arguments);
-
-    let profile = this.profile;
-    let path = this.profilePath;
-    let visibility = this.visibility;
-    let isVisible = isNone(visibility) ? true : visibility;
-
-    if(path !== undefined) {
-      assert(`${path} is not a profile path!`, path.charAt(0) !== '.');
-
-      // generate profile definition
-      // path.split('.').reduce((acc, curr, idx) => {
-      //   let pp = idx ? `${acc}.${curr}` : curr;
-      //   window.console.log(pp);
-      //   if(!get(window.mdProfile, pp)) {
-      //     set(window.mdProfile, pp, {
-      //       //visible: true
-      //     });
-      //   }
-      //   return pp;
-      // }, '');
-
-      defineProperty(this, 'isVisible', computed(
-        'profile.active',
-        function () {
-          if(!profile.activeComponents) {
-            return isVisible;
-          }
-
-          return getWithDefault(profile.activeComponents, path,
-            isVisible);
-        }));
-    }
-  }
-});
+// Modern approach: Use application instance initializer for LinkComponent customization
+// See app/instance-initializers/link-component-attributes.js
+//for crumbly - use RouteExtensionMixin in specific routes that need currentRouteModel
+//for profiles - use BaseProfileComponent or ProfileMixin in components that need profile support
 
 /**
 * Models for the mdEditor data store

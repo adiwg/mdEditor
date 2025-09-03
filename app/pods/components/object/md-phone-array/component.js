@@ -30,13 +30,15 @@ export default class MdPhoneArray extends Component {
    */
   templateClass =
     (
-      (@classic
-      class MdPhoneArray extends @classic
-      class MdPhoneArray extends EmObject.extend(Validations) {} {
+      @classic
+      class MdPhoneArray extends (
+        @classic
+        class MdPhoneArray extends EmObject.extend(Validations) {}
+      ) {
         init() {
           undefined;
           this.set('service', A());
         }
-      })
+      }
     );
 }

@@ -55,13 +55,15 @@ export default class MdIdentifierArray extends Component {
    */
   templateClass =
     (
-      (@classic
-      class MdIdentifierArray extends @classic
-      class MdIdentifierArray extends EmberObject.extend(Validations) {} {
+      @classic
+      class MdIdentifierArray extends (
+        @classic
+        class MdIdentifierArray extends EmberObject.extend(Validations) {}
+      ) {
         init() {
           super.init(...arguments);
           this.set('authority', {});
         }
-      })
+      }
     );
 }
