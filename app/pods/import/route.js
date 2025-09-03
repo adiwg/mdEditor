@@ -2,7 +2,13 @@ import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import { or } from '@ember/object/computed';
 import { A, isArray } from '@ember/array';
-import EmObject, { get, getWithDefault, set, action, computed } from '@ember/object';
+import EmObject, {
+  get,
+  getWithDefault,
+  set,
+  action,
+  computed,
+} from '@ember/object';
 import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import Base from 'ember-local-storage/adapters/base';
@@ -17,7 +23,10 @@ import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 const generateIdForRecord = Base.create().generateIdForRecord;
 
 @classic
-export default class ImportRoute extends Route.extend(ScrollTo, RouteExtensionMixin) {
+export default class ImportRoute extends Route.extend(
+  ScrollTo,
+  RouteExtensionMixin
+) {
   @service
   flashMessages;
 
@@ -561,9 +570,7 @@ export default class ImportRoute extends Route.extend(ScrollTo, RouteExtensionMi
       .then(() => {
         this.flashMessages.success(
           `Imported data. Records were
-            ${
-              this.currentRouteModel().get('merge') ? 'merged' : 'replaced'
-            }.`,
+            ${this.currentRouteModel().get('merge') ? 'merged' : 'replaced'}.`,
           {
             extendedTimeout: 1500,
           }

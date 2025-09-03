@@ -19,14 +19,14 @@ export default class MdNavSecondary extends Component.extend(ResizeAware) {
   navWidth = 0;
 
   /**
-  * Array of nav links. If not supplied, the links will be pulled from the
-  * active profile.
-  *
-  * @property navLinks
-  * @type {Array}
-  * @default "undefined"
-  * @optional
-  */
+   * Array of nav links. If not supplied, the links will be pulled from the
+   * active profile.
+   *
+   * @property navLinks
+   * @type {Array}
+   * @default "undefined"
+   * @optional
+   */
 
   /**
    * translated "more" text
@@ -42,23 +42,25 @@ export default class MdNavSecondary extends Component.extend(ResizeAware) {
     const modelName = this.get('model.constructor.modelName');
     const nav = this;
 
-    let links = this.navLinks || get(active, 'definition.nav.' +
-        modelName) || this
-      .customProfile.defaultProfile.definition.nav[modelName];
+    let links =
+      this.navLinks ||
+      get(active, 'definition.nav.' + modelName) ||
+      this.customProfile.defaultProfile.definition.nav[modelName];
 
     return links.map((lnk, index) => {
       let link = EmberObject.create(lnk);
 
       link.setProperties({ nav: nav, index: index });
       defineProperty(link, 'navWidth', alias('nav.navWidth'));
-      defineProperty(link, 'isOverflow', computed('navWidth',
-        'width',
-        function () {
-          return this.navWidth < this.linkWidth + this.nav
-            .offset;
-        }));
+      defineProperty(
+        link,
+        'isOverflow',
+        computed('navWidth', 'width', function () {
+          return this.navWidth < this.linkWidth + this.nav.offset;
+        })
+      );
 
-      return link
+      return link;
     });
   }
 
@@ -92,7 +94,23 @@ export default class MdNavSecondary extends Component.extend(ResizeAware) {
 
   didInsertElement() {
     this._super.apply(this, arguments);
-    this._handleDebouncedResizeEvent()
+    this._handleDebouncedResizeEvent();
+  }
+
+  willDestroyElement() {
+    // Clean up resize listeners to prevent memory leaks
+    try {
+      this._super.apply(this, arguments);
+    } catch (error) {
+      // Ignore errors from ResizeAware mixin cleanup if listener wasn't properly registered
+      if (
+        !error.message.includes(
+          'remove a function listener which did not exist'
+        )
+      ) {
+        throw error;
+      }
+    }
   }
 
   debouncedDidResize(width) {

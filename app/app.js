@@ -10,6 +10,7 @@ import Resolver from 'ember-resolver';
 // import Resolver from './resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from 'mdeditor/config/environment';
+import LinkComponent from '@ember/routing/link-component';
 
 let events = {
   // add support for the blur event
@@ -29,8 +30,16 @@ export default class App extends Application {
 
 loadInitializers(App, config.modulePrefix);
 
-// Modern approach: Use application instance initializer for LinkComponent customization
-// See app/instance-initializers/link-component-attributes.js
+//for bootstrap - add data attributes to LinkComponent
+if (LinkComponent && LinkComponent.reopen) {
+  LinkComponent.reopen({
+    attributeBindings: ['data-toggle', 'data-placement'],
+  });
+}
+
+// Removed the instance initializer approach for LinkComponent attributes
+// Now handled directly in app.js above
+
 //for crumbly - use RouteExtensionMixin in specific routes that need currentRouteModel
 //for profiles - use BaseProfileComponent or ProfileMixin in components that need profile support
 

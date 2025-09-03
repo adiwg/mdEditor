@@ -46,9 +46,9 @@ export default class MdObjectrouteTable extends Table {
   /**
    * Method used to load form for editing item. Should be overidden.
    *
-   * @method editItem
+   * @method editItemHandler
    */
-  editItem() {
+  editItemHandler() {
     return this;
   }
 
@@ -57,7 +57,7 @@ export default class MdObjectrouteTable extends Table {
     const Template = this.templateClass;
     const owner = getOwner(this);
 
-    let editItem = this.editItem;
+    let editItem = this.editItemHandler;
     let items = this.items;
     let itm =
       typeOf(Template) === 'class'
@@ -81,6 +81,6 @@ export default class MdObjectrouteTable extends Table {
 
   @action
   editItem(items, index, scrollTo) {
-    this.editItem(index, this.routeParams, scrollTo);
+    this.editItemHandler(index, this.routeParams, scrollTo);
   }
 }
