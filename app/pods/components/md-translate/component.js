@@ -1,9 +1,8 @@
-import classic from 'ember-classic-decorator';
 import { classNames } from '@ember-decorators/component';
 import { inject as service } from '@ember/service';
 import { or, equal, alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { get, set, action, computed } from '@ember/object';
+import { action, computed } from '@ember/object';
 import { Promise } from 'rsvp';
 import moment from 'moment';
 import { defaultValues } from 'mdeditor/models/setting';
@@ -17,7 +16,6 @@ const errorLevels = {
 
 const errorClasses = ['success', 'info', 'warning', 'danger'];
 
-@classic
 @classNames('row')
 export default class MdTranslate extends Component {
   @service
@@ -173,10 +171,10 @@ export default class MdTranslate extends Component {
   messages;
 
   _clearResult() {
-    set(this, 'result', null);
-    set(this, 'subtitle', null);
-    set(this, 'errors', null);
-    set(this, 'xhrError', null);
+    this.result = null;
+    this.subTitle = null;
+    this.errors = null;
+    this.xhrError = null;
   }
 
   @action
@@ -194,7 +192,7 @@ export default class MdTranslate extends Component {
     let cmp = this;
 
     this._clearResult();
-    set(this, 'isLoading', true);
+    this.isLoading = true;
 
     this.ajax
       .request(url, {
@@ -213,7 +211,7 @@ export default class MdTranslate extends Component {
       })
       .then(
         function (response) {
-          set(cmp, 'isLoading', false);
+          cmp.isLoading = false;
 
           let level = Math.max(
             ...[
@@ -224,40 +222,36 @@ export default class MdTranslate extends Component {
             ].map((itm) => errorLevels[itm])
           );
 
-          set(cmp, 'errorLevel', level);
-          set(
-            cmp,
-            'errors',
-            response.readerExecutionMessages
-              .concat(
-                response.readerStructureMessages,
-                response.readerValidationMessages.length
-                  ? response.readerValidationMessages[0]
-                  : response.readerValidationMessages,
-                response.writerMessages
-              )
-              .map((itm) => itm.split(':'))
-          );
-          set(cmp, 'result', response.writerOutput);
+          cmp.errorLevel = level;
+          cmp.errors = response.readerExecutionMessages
+            .concat(
+              response.readerStructureMessages,
+              response.readerValidationMessages.length
+                ? response.readerValidationMessages[0]
+                : response.readerValidationMessages,
+              response.writerMessages
+            )
+            .map((itm) => itm.split(':'));
+          cmp.result = response.writerOutput;
           if (!response.success) {
-            get(cmp, 'flashMessages').danger('Translation error!');
+            cmp.flashMessages.danger('Translation error!');
           }
         },
         (response) => {
           let error = `mdTranslator Server error:
         ${response.status}: ${response.statusText}`;
 
-          set(cmp, 'errorLevel', 3);
-          set(cmp, 'isLoading', false);
-          set(cmp, 'xhrError', error);
-          get(cmp, 'flashMessages').danger(error);
+          cmp.errorLevel = 3;
+          cmp.isLoading = false;
+          cmp.xhrError = error;
+          cmp.flashMessages.danger(error);
         }
       );
   }
 
   @action
   saveResult() {
-    let title = get(this, 'model.title');
+    let title = this.model.title;
     let result = this.result;
     let writer = this.writeObj;
 
@@ -288,7 +282,7 @@ export default class MdTranslate extends Component {
 
     promise
       .then((obj) => {
-        set(this, 'result', JSON.stringify(obj, null, 2));
+        this.result = JSON.stringify(obj, null, 2);
       })
       .catch((error) => {
         //console.log(error);
@@ -297,23 +291,20 @@ export default class MdTranslate extends Component {
   }
 
   @action
-  errorClass(level) {
+  getErrorClass(level) {
     return errorClasses[errorLevels[level]] || 'primary';
   }
 
   @action
   formatMessage(message) {
     return message
-      ? message
-          .trim()
-          .replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
+      ? message.trim().replace(/^([A-Z]{2,})/g, (match) => match.toLowerCase())
       : 'context not provided';
   }
 
   @action
   goToSettings() {
-    // This action should be handled by the parent route/controller
-    // We'll send the action up the component hierarchy
-    this.sendAction('goToSettings');
+    // Call the passed action using modern args pattern
+    this.args.onGoToSettings?.();
   }
 }

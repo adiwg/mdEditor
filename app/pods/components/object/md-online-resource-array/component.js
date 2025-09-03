@@ -99,12 +99,13 @@ export default class MdOnlineResourceArray extends Component {
    */
   templateClass =
     (
-      @classic
-      class MdOnlineResourceArray extends EmberObject.extend(Validations) {
+      (@classic
+      class MdOnlineResourceArray extends @classic
+      class MdOnlineResourceArray extends EmberObject.extend(Validations) {} {
         init() {
           undefined;
           //this.set('uri', null);
         }
-      }
+      })
     );
 }

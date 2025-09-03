@@ -38,12 +38,13 @@ export default class MdContactIdentifierArray extends Component {
    */
   templateClass =
     (
-      @classic
-      class MdContactIdentifierArray extends EmObject.extend(Validations) {
+      (@classic
+      class MdContactIdentifierArray extends @classic
+      class MdContactIdentifierArray extends EmObject.extend(Validations) {} {
         init() {
           super.init(...arguments);
           this.set('service', A());
         }
-      }
+      })
     );
 }
