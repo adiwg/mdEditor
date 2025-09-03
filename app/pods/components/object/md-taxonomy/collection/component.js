@@ -1,32 +1,25 @@
 import classic from 'ember-classic-decorator';
-import { tagName } from '@ember-decorators/component';
 import { alias } from '@ember/object/computed';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
 import EmberObject, { set, getWithDefault, get } from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
+import { once } from '@ember/runloop';
 
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
-import {
-  Template as Voucher
-} from './voucher/component';
+import { validator, buildValidations } from 'ember-cp-validations';
+import { Template as Voucher } from './voucher/component';
 
 const Validations = buildValidations({
-  'title': [
+  title: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'taxonomicSystem': [
+  taxonomicSystem: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
   // 'identificationProcedure': [
   //   validator('presence', {
@@ -34,12 +27,12 @@ const Validations = buildValidations({
   //     ignoreBlank: true
   //   })
   // ],
-  'taxonomicClassification': [
+  taxonomicClassification: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 @classic
@@ -64,12 +57,21 @@ class theComp extends Component.extend(Validations) {
     let model = this.model;
 
     once(this, function () {
-      set(model, 'taxonomicClassification', getWithDefault(model,
-        'taxonomicClassification', []));
-      set(model, 'taxonomicSystem', getWithDefault(model,
-        'taxonomicSystem', []));
-      set(model, 'identificationReference', getWithDefault(model,
-        'identificationReference', []));
+      set(
+        model,
+        'taxonomicClassification',
+        getWithDefault(model, 'taxonomicClassification', [])
+      );
+      set(
+        model,
+        'taxonomicSystem',
+        getWithDefault(model, 'taxonomicSystem', [])
+      );
+      set(
+        model,
+        'identificationReference',
+        getWithDefault(model, 'identificationReference', [])
+      );
       set(model, 'observer', getWithDefault(model, 'observer', []));
       set(model, 'voucher', getWithDefault(model, 'voucher', []));
     });
@@ -89,17 +91,16 @@ class theComp extends Component.extend(Validations) {
   @alias('model.taxonomicClassification')
   taxonomicClassification;
 
-  systemTemplate = EmberObject.extend({
-    init() {
-      super.init(...arguments);
-      this.set('citation', {});
-    }
-  });
+  systemTemplate =
+    (
+      @classic
+      class Collection extends EmberObject {
+        init() {
+          super.init(...arguments);
+          this.set('citation', {});
+        }
+      }
+    );
 }
 
-export {
-  Validations,
-  TemplateClass as Template,
-  theComp as
-  default
-};
+export { Validations, TemplateClass as Template, theComp as default };

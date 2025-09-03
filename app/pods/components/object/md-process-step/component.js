@@ -1,11 +1,7 @@
 import classic from 'ember-classic-decorator';
 import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import EmberObject, {
-  getWithDefault,
-  get,
-  set
-} from '@ember/object';
+import EmberObject, { getWithDefault, get, set } from '@ember/object';
 import { once } from '@ember/runloop';
 
 @classic
@@ -16,7 +12,7 @@ export default class MdProcessStep extends Component {
 
     let model = this.model;
 
-    once(this, function() {
+    once(this, function () {
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
     });
   }
@@ -26,7 +22,7 @@ export default class MdProcessStep extends Component {
 
     let model = this.model;
 
-    once(this, function() {
+    once(this, function () {
       set(model, 'stepId', getWithDefault(model, 'stepId', this.itemId));
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', {}));
       set(model, 'scope', getWithDefault(model, 'scope', {}));
@@ -54,5 +50,9 @@ export default class MdProcessStep extends Component {
    * @required
    */
 
-  sourceTemplate = EmberObject.extend();
+  sourceTemplate =
+    (
+      @classic
+      class MdProcessStep extends EmberObject {}
+    );
 }

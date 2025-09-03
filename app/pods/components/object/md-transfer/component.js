@@ -1,16 +1,9 @@
 import classic from 'ember-classic-decorator';
-import { tagName } from '@ember-decorators/component';
 import { alias } from '@ember/object/computed';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import EmberObject, {
-  getWithDefault,
-  get,
-  set,
-  computed
-} from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
+import EmberObject, { getWithDefault, get, set, computed } from '@ember/object';
+import { once } from '@ember/runloop';
 
 // const Validations = buildValidations({
 //   // 'intervalAmount': [
@@ -51,10 +44,16 @@ export default class MdTransfer extends Component {
     once(function () {
       set(model, 'onlineOption', getWithDefault(model, 'onlineOption', []));
       set(model, 'offlineOption', getWithDefault(model, 'offlineOption', []));
-      set(model, 'transferFrequency', getWithDefault(model,
-        'transferFrequency', {}));
-      set(model, 'distributionFormat', getWithDefault(model,
-        'distributionFormat', []));
+      set(
+        model,
+        'transferFrequency',
+        getWithDefault(model, 'transferFrequency', {})
+      );
+      set(
+        model,
+        'distributionFormat',
+        getWithDefault(model, 'distributionFormat', [])
+      );
       // set(model, 'presentationForm', getWithDefault(model,
       //   'presentationForm', []));
       // set(model, 'onlineResource', getWithDefault(model,
@@ -98,38 +97,43 @@ export default class MdTransfer extends Component {
 
   @computed
   get timeUnit() {
-    return [{
+    return [
+      {
         name: 'year',
-        value: 'year'
+        value: 'year',
       },
       {
         name: 'month',
-        value: 'month'
+        value: 'month',
       },
       {
         name: 'day',
-        value: 'day'
+        value: 'day',
       },
       {
         name: 'hour',
-        value: 'hour'
+        value: 'hour',
       },
       {
         name: 'minute',
-        value: 'minute'
+        value: 'minute',
       },
       {
         name: 'second',
-        value: 'second'
-      }
-    ]
+        value: 'second',
+      },
+    ];
   }
 
-  formatTemplate = EmberObject.extend( /*Validations, */ {
-    init() {
-      undefined;
-      this.set('formatSpecification', {});
-      this.set('formatSpecification.onlineResource', [{}]);
-    }
-  });
+  formatTemplate =
+    (
+      @classic
+      class MdTransfer extends EmberObject {
+        init() {
+          undefined;
+          this.set('formatSpecification', {});
+          this.set('formatSpecification.onlineResource', [{}]);
+        }
+      }
+    );
 }

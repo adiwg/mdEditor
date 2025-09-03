@@ -8,7 +8,7 @@ export default class MdDateArray extends Component {
   init() {
     super.init(...arguments);
 
-    if(isNone(this.value)) {
+    if (isNone(this.value)) {
       set(this, 'value', []);
     }
   }
@@ -19,13 +19,17 @@ export default class MdDateArray extends Component {
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass = EmObject.extend({
-    init() {
-      super.init(...arguments);
-      this.setProperties({
-        date: null,
-        dateType: null
-      });
-    }
-  });
+  templateClass =
+    (
+      @classic
+      class MdDateArray extends EmObject {
+        init() {
+          super.init(...arguments);
+          this.setProperties({
+            date: null,
+            dateType: null,
+          });
+        }
+      }
+    );
 }

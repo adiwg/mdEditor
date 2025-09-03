@@ -1,38 +1,38 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { copy } from 'ember-copy';
 
-export default Route.extend({
-  //breadCrumb: {},
+export default class ShowRoute extends Route {
+  //breadCrumb: {};
+
   afterModel(model) {
     const name = model.get('title');
 
     const crumb = {
-      title: name
+      title: name,
     };
 
     this.set('breadCrumb', crumb);
-  },
+  }
+
   model(params) {
     return this.store.peekRecord('record', params.record_id);
-  },
-
-  actions: {
-    destroyRecord: function () {
-      let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Record: ${model.get('title')}`);
-          this.replaceWith('records');
-        });
-    },
-    copyRecord: function () {
-
-      this.flashMessages
-        .success(
-          `Copied Record: ${this.currentRouteModel().get('title')}`);
-      this.transitionTo('record.new.id', copy(this.currentRouteModel()));
-    }
   }
-});
+
+  @action
+  destroyRecord() {
+    let model = this.currentRouteModel();
+    model.destroyRecord().then(() => {
+      this.flashMessages.success(`Deleted Record: ${model.get('title')}`);
+      this.replaceWith('records');
+    });
+  }
+
+  @action
+  copyRecord() {
+    this.flashMessages.success(
+      `Copied Record: ${this.currentRouteModel().get('title')}`
+    );
+    this.transitionTo('record.new.id', copy(this.currentRouteModel()));
+  }
+}

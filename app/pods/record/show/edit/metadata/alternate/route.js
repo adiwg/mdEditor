@@ -1,17 +1,20 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 
-export default Route.extend({
+@classic
+export default class AlternateRoute extends Route {
   model(params) {
     this.set('citationId', params.citation_id);
 
     return this.setupModel();
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit')
@@ -19,7 +22,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let citationId = this.citationId;
@@ -39,10 +42,10 @@ export default Route.extend({
     }
 
     return citation;
-  },
-  actions: {
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    }
   }
-});
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
+}

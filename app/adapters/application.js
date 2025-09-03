@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import Adapter from 'ember-local-storage/adapters/adapter';
 import { v4 } from 'uuid';
 
-export default Adapter.extend({
+@classic
+export default class Application extends Adapter {
   generateIdForRecord(store, type, inputProperties) {
     if (inputProperties.id) {
       return inputProperties.id;
@@ -13,5 +15,5 @@ export default Adapter.extend({
       return shortId;
     }
     return inputProperties.uuid.split('-')[0];
-  },
-});
+  }
+}

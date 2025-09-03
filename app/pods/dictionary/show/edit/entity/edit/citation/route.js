@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import {
   isArray
@@ -6,29 +8,30 @@ import {
   isEmpty
 } from '@ember/utils';
 
-export default Route.extend({
+@classic
+export default class CitationRoute extends Route {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Reference'
     };
-  },
+  }
 
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);
-  },
+  }
 
   model(params) {
     this.set('citationId', params.citation_id);
 
     return this.setupModel();
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));
@@ -37,7 +40,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let citationId = this.citationId;
@@ -56,11 +59,11 @@ export default Route.extend({
     }
 
     return citation;
-  },
-  actions: {
-    backToEntity() {
-      this.transitionTo('dictionary.show.edit.entity.edit',
-        this.entityId);
-    }
   }
-});
+
+  @action
+  backToEntity() {
+    this.transitionTo('dictionary.show.edit.entity.edit',
+      this.entityId);
+  }
+}

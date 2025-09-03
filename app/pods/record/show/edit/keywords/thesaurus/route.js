@@ -1,18 +1,21 @@
-import { A, isArray } from '@ember/array';
-import EmberObject, { get, set } from '@ember/object';
-import Route from '@ember/routing/route';
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
+import { A, isArray } from '@ember/array';
+import EmberObject, { get, set, action } from '@ember/object';
+import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import axios from 'axios';
 import ENV from 'mdeditor/config/environment';
 
-export default Route.extend({
-  keyword: service(),
+@classic
+export default class ThesaurusRoute extends Route {
+  @service
+  keyword;
 
   model(params) {
     this.set('thesaurusId', params.thesaurus_id);
     return this.setupModel();
-  },
+  }
 
   setupModel() {
     let thesaurusId = this.thesaurusId || this.controller.get(
@@ -41,11 +44,11 @@ export default Route.extend({
       thesaurus: this.keyword
         .findById(thesaurus.thesaurus.identifier[0].identifier)
     });
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controllerFor('record.show.edit')
       .setProperties({
@@ -53,58 +56,61 @@ export default Route.extend({
         cancelScope: this,
         thesaurusId: this.thesaurusId
       });
-  },
+  }
 
-  actions: {
-    selectKeyword(node, path) {
-      let model = this.currentRouteModel();
-      let keywords = model.get('model')
-        .get(model.get('path'));
-      let kw = keywords.keyword;
-      let target = kw.findBy('identifier', node.uuid);
+  @action
+  selectKeyword(node, path) {
+    let model = this.currentRouteModel();
+    let keywords = model.get('model')
+      .get(model.get('path'));
+    let kw = keywords.keyword;
+    let target = kw.findBy('identifier', node.uuid);
 
-      if(node.isSelected && target === undefined) {
-        let pathStr = '';
+    if(node.isSelected && target === undefined) {
+      let pathStr = '';
 
-        if(isArray(path)) {
-          pathStr = path.reduce(function (prev, item) {
-            prev = prev ? `${prev} > ${item.label}` : item.label;
+      if(isArray(path)) {
+        pathStr = path.reduce(function (prev, item) {
+          prev = prev ? `${prev} > ${item.label}` : item.label;
 
-            return prev;
-          }, '');
-        }
-
-        kw.pushObject({
-          identifier: node.uuid,
-          keyword: keywords.fullPath && pathStr ?
-            pathStr : node.label,
-          path: pathStr.split(' > ')
-            .slice(0, pathStr.length - 1)
-        });
-      } else {
-        kw.removeObject(target);
+          return prev;
+        }, '');
       }
-    },
-    removeKeyword() {
-      this.send('deleteKeyword', ...arguments);
-    },
-    changeFullPath(evt) {
-      let model = this.currentRouteModel();
-      let keywords = model.get('model')
-        .get(model.get('path'));
-      let kw = get(keywords, 'keyword');
-      let val = evt.target.checked;
 
-      set(keywords, 'fullPath', val);
-
-      kw.forEach(function (curr) {
-        if(val) {
-          set(curr, 'keyword', curr.path.join(' > '));
-        } else {
-          let words = curr.keyword.split(' > ');
-          set(curr, 'keyword', words[words.length - 1]);
-        }
+      kw.pushObject({
+        identifier: node.uuid,
+        keyword: keywords.fullPath && pathStr ?
+          pathStr : node.label,
+        path: pathStr.split(' > ')
+          .slice(0, pathStr.length - 1)
       });
+    } else {
+      kw.removeObject(target);
     }
   }
-});
+
+  @action
+  removeKeyword() {
+    this.send('deleteKeyword', ...arguments);
+  }
+
+  @action
+  changeFullPath(evt) {
+    let model = this.currentRouteModel();
+    let keywords = model.get('model')
+      .get(model.get('path'));
+    let kw = get(keywords, 'keyword');
+    let val = evt.target.checked;
+
+    set(keywords, 'fullPath', val);
+
+    kw.forEach(function (curr) {
+      if(val) {
+        set(curr, 'keyword', curr.path.join(' > '));
+      } else {
+        let words = curr.keyword.split(' > ');
+        set(curr, 'keyword', words[words.length - 1]);
+      }
+    });
+  }
+}

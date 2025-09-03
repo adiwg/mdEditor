@@ -22,9 +22,13 @@ export default class MdResourceTypeArray extends Component {
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass = EmObject.extend({
-    init() {
-      undefined;
-    },
-  });
+  templateClass =
+    (
+      @classic
+      class MdResourceTypeArray extends EmObject {
+        init() {
+          undefined;
+        }
+      }
+    );
 }

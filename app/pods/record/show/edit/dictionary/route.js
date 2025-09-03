@@ -1,16 +1,12 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import uuidV4 from 'uuid/v4';
-import EmberObject, {
-  get,
-  computed,
-  defineProperty,
-  getWithDefault,
-  set,
-} from '@ember/object';
+import EmberObject, { get, defineProperty, getWithDefault, set, action, computed } from '@ember/object';
 
-export default Route.extend({
+@classic
+export default class DictionaryRoute extends Route {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Dictionaries',
@@ -26,7 +22,8 @@ export default Route.extend({
         title: 'Subject',
       },
     ];
-  },
+  }
+
   model() {
     //return this.store.peekAll('contact');
     let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
@@ -53,11 +50,11 @@ export default Route.extend({
         selected: selected.includes(json.dataDictionary.dictionaryId),
       });
     });
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
 
@@ -73,7 +70,7 @@ export default Route.extend({
       onCancel: this.refresh,
       cancelScope: this,
     });
-  },
+  }
 
   _select(obj) {
     let rec = this.modelFor('record.show.edit');
@@ -88,20 +85,21 @@ export default Route.extend({
     }
     selected.removeObject(obj.id);
     this.controller.notifyPropertyChange('model');
-  },
+  }
 
-  actions: {
-    getColumns() {
-      return this.columns;
-    },
+  @action
+  getColumns() {
+    return this.columns;
+  }
 
-    select(obj) {
-      this._select(obj);
-    },
+  @action
+  select(obj) {
+    this._select(obj);
+  }
 
-    remove(obj) {
-      set(obj, 'selected', false);
-      this._select(obj);
-    },
-  },
-});
+  @action
+  remove(obj) {
+    set(obj, 'selected', false);
+    this._select(obj);
+  }
+}

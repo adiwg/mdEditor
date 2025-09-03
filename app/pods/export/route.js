@@ -1,6 +1,7 @@
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import EmObject, { computed, defineProperty } from '@ember/object';
+import EmObject, { defineProperty, action, computed } from '@ember/object';
 import moment from 'moment';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { singularize } from 'ember-inflector';
@@ -40,19 +41,23 @@ const fixLiabilityTypo = async (store) => {
   return Promise.all(promises);
 };
 
-export default Route.extend(ScrollTo, {
-  mdjson: service(),
-  settings: service(),
+@classic
+export default class ExportRoute extends Route.extend(ScrollTo) {
+  @service
+  mdjson;
+
+  @service
+  settings;
 
   model() {
     return EmObject.create({
       records: this.modelFor('application'),
       settings: this.get('settings.data'),
     });
-  },
+  }
 
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     defineProperty(
       this.controller,
@@ -78,9 +83,9 @@ export default Route.extend(ScrollTo, {
         return this.store.peekAll('record').filterBy('_selected').length > 0;
       })
     );
-  },
+  }
 
-  columns: EmObject.create({
+  columns = EmObject.create({
     record: [
       { propertyName: 'title', title: 'Title' },
       { propertyName: 'defaultType', title: 'Type' },
@@ -100,7 +105,7 @@ export default Route.extend(ScrollTo, {
       { propertyName: 'json.dataDictionary.subject', title: 'Type' },
       { propertyName: 'dictionaryId', title: 'ID' },
     ],
-  }),
+  });
 
   // TODO: refactor this method to inclucde {attributes: {json: {}, dateUpdate:''}} in the modelTypes array
   processExportData(exportData) {
@@ -178,76 +183,78 @@ export default Route.extend(ScrollTo, {
       console.error('Error processing export data:', error);
     }
     return exportData;
-  },
+  }
 
-  actions: {
-    exportData() {
-      fixLiabilityTypo(this.store).then(() => {
-        const modifiedData = this.processExportData(
-          this.store.exportData(modelTypes)
-        );
+  @action
+  exportData() {
+    fixLiabilityTypo(this.store).then(() => {
+      const modifiedData = this.processExportData(
+        this.store.exportData(modelTypes)
+      );
+      window.saveAs(
+        new Blob([modifiedData._result], {
+          type: 'application/json;charset=utf-8',
+        }),
+        `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
+      );
+    });
+  }
+
+  @action
+  exportSelectedData(asMdjson) {
+    fixLiabilityTypo(this.store).then(() => {
+      if (asMdjson) {
+        let records = this.store
+          .peekAll('record')
+          .filterBy('_selected')
+          .map((item) => this.mdjson.formatRecord(item, false, false));
+
         window.saveAs(
-          new Blob([modifiedData._result], {
+          new Blob([JSON.stringify(records)], {
+            type: 'application/json;charset=utf-8',
+          }),
+          `mdjson-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
+        );
+      } else {
+        let filterIds = {};
+
+        modelTypes.forEach((type) => {
+          let singularType = singularize(type);
+          filterIds[singularType] = this.store
+            .peekAll(singularType)
+            .filterBy('_selected')
+            .mapBy('id');
+        });
+
+        // Export schemas with settings
+        if (filterIds.setting.length) {
+          filterIds.schema = this.store.peekAll('schema').mapBy('id');
+          filterIds.profile = this.store.peekAll('profile').mapBy('id');
+          filterIds['custom-profile'] = this.store
+            .peekAll('custom-profile')
+            .mapBy('id');
+        }
+        const modifiedSelectedData = this.processExportData(
+          this.store.exportSelectedData(modelTypes, { filterIds })
+        );
+
+        window.saveAs(
+          new Blob([modifiedSelectedData._result], {
             type: 'application/json;charset=utf-8',
           }),
           `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
         );
-      });
-    },
+      }
+    });
+  }
 
-    exportSelectedData(asMdjson) {
-      fixLiabilityTypo(this.store).then(() => {
-        if (asMdjson) {
-          let records = this.store
-            .peekAll('record')
-            .filterBy('_selected')
-            .map((item) => this.mdjson.formatRecord(item, false, false));
+  @action
+  getColumns(type) {
+    return this.columns.get(type);
+  }
 
-          window.saveAs(
-            new Blob([JSON.stringify(records)], {
-              type: 'application/json;charset=utf-8',
-            }),
-            `mdjson-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
-          );
-        } else {
-          let filterIds = {};
-
-          modelTypes.forEach((type) => {
-            let singularType = singularize(type);
-            filterIds[singularType] = this.store
-              .peekAll(singularType)
-              .filterBy('_selected')
-              .mapBy('id');
-          });
-
-          // Export schemas with settings
-          if (filterIds.setting.length) {
-            filterIds.schema = this.store.peekAll('schema').mapBy('id');
-            filterIds.profile = this.store.peekAll('profile').mapBy('id');
-            filterIds['custom-profile'] = this.store
-              .peekAll('custom-profile')
-              .mapBy('id');
-          }
-          const modifiedSelectedData = this.processExportData(
-            this.store.exportSelectedData(modelTypes, { filterIds })
-          );
-
-          window.saveAs(
-            new Blob([modifiedSelectedData._result], {
-              type: 'application/json;charset=utf-8',
-            }),
-            `mdeditor-${moment.utc().format('YYYYMMDD-HHmmss')}.json`
-          );
-        }
-      });
-    },
-
-    getColumns(type) {
-      return this.columns.get(type);
-    },
-
-    hasSelected() {
-      return this.hasSelected;
-    },
-  },
-});
+  @action
+  hasSelected() {
+    return this.hasSelected;
+  }
+}

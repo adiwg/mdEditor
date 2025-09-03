@@ -1,25 +1,28 @@
+import classic from 'ember-classic-decorator';
+import { action, computed } from '@ember/object';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { computed } from '@ember/object';
 
-export default Route.extend({
+@classic
+export default class RasterRoute extends Route {
   model(params) {
     this.set('rasterId', params.raster_id);
 
     return this.setupModel();
-  },
+  }
 
-  breadCrumb: computed('rasterId', function () {
+  @computed('rasterId')
+  get breadCrumb() {
     return {
       title: 'RASTER ' + this.rasterId,
       linkable: true
     };
-  }),
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('rasterId', this.rasterId);
@@ -28,7 +31,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let rasterId = this.rasterId;
@@ -49,10 +52,10 @@ export default Route.extend({
     }
 
     return raster;
-  },
-  actions: {
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    }
   }
-});
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
+}

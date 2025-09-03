@@ -1,25 +1,28 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray, A } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { get, computed } from '@ember/object';
 
-export default Route.extend({
-  breadCrumb: computed('citationId', function () {
+@classic
+export default class CitationRoute extends Route {
+  @computed('citationId')
+  get breadCrumb() {
     return {
       title: this.citationId,
       linkable: true
     };
-  }),
+  }
 
   model(params) {
     this.set('citationId', params.citation_id);
 
     return this.setupModel();
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set('citationId', this.citationId);
@@ -28,7 +31,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let citationId = this.citationId;
@@ -50,4 +53,4 @@ export default Route.extend({
 
     return resource;
   }
-});
+}

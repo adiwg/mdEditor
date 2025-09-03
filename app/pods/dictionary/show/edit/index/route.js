@@ -1,10 +1,12 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
-import { set, getWithDefault, get } from '@ember/object';
+import { set, getWithDefault, get, action } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+@classic
+export default class IndexRoute extends Route.extend(ScrollTo) {
   afterModel(m) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     let model = get(m, 'json.dataDictionary');
     set(model, 'citation', getWithDefault(model, 'citation', {}));
@@ -14,24 +16,23 @@ export default Route.extend(ScrollTo, {
     set(model, 'locale', getWithDefault(model, 'locale', []));
     set(model, 'domain', getWithDefault(model, 'domain', []));
     set(model, 'entity', getWithDefault(model, 'entity', []));
-  },
+  }
 
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     this.controllerFor('dictionary.show.edit')
       .setProperties({
         onCancel: () => this,
         cancelScope: this
       });
-  },
-
-  actions: {
-    editCitation(scrollTo) {
-      this.transitionTo('dictionary.show.edit.citation')
-        .then(function () {
-          this.setScrollTo(scrollTo);
-        }.bind(this));
-    }
   }
-});
+
+  @action
+  editCitation(scrollTo) {
+    this.transitionTo('dictionary.show.edit.citation')
+      .then(function () {
+        this.setScrollTo(scrollTo);
+      }.bind(this));
+  }
+}

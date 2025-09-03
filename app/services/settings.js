@@ -52,9 +52,13 @@ export default class SettingsService extends Service {
     });
   }
 
-  repositoryTemplate = EmberObject.extend({
-    init() {
-      super.init(...arguments);
-    },
-  });
+  repositoryTemplate =
+    (
+      @classic
+      class SettingsService extends EmberObject {
+        init() {
+          super.init(...arguments);
+        }
+      }
+    );
 }

@@ -8,21 +8,24 @@ export default class MdRepositoryArray extends Component {
   @service
   settings;
 
-  repositoryTemplate = EmberObject.extend({
-    init() {
-      undefined;
+  repositoryTemplate =
+    (
+      @classic
+      class MdRepositoryArray extends EmberObject {
+        init() {
+          undefined;
 
-      this.set('citation', {});
-    }
-  });
+          this.set('citation', {});
+        }
+      }
+    );
 
   @action
   lookupTitle(value) {
     let defs = this.get('settings.data.repositoryDefaults');
     let titles = defs.filterBy('repository', value.repository);
 
-    if(get(titles, 'length')) {
-
+    if (get(titles, 'length')) {
       set(value, 'citation.title', get(titles.objectAt(0), 'title'));
     }
   }

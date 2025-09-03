@@ -3,9 +3,7 @@ import { attributeBindings } from '@ember-decorators/component';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
-import {
-  Validations
-} from '../md-identifier/component';
+import { Validations } from '../md-identifier/component';
 
 @classic
 @attributeBindings('data-spy')
@@ -13,7 +11,7 @@ export default class MdIdentifierArray extends Component {
   init() {
     super.init(...arguments);
 
-    if(!this.model) {
+    if (!this.model) {
       this.set('model', A());
     }
   }
@@ -55,10 +53,14 @@ export default class MdIdentifierArray extends Component {
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass = EmberObject.extend(Validations, {
-    init() {
-      super.init(...arguments);
-      this.set('authority', {});
-    }
-  });
+  templateClass =
+    (
+      @classic
+      class MdIdentifierArray extends EmberObject.extend(Validations) {
+        init() {
+          super.init(...arguments);
+          this.set('authority', {});
+        }
+      }
+    );
 }

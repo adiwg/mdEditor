@@ -1,21 +1,23 @@
+import classic from 'ember-classic-decorator';
 import EmberObject from '@ember/object';
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+@classic
+export default class NotFoundRoute extends Route {
   model(params) {
     return EmberObject.create({
       path: params.path
     });
-  },
+  }
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Page Not Found',
       linkable: false
     };
-  },
+  }
 
   redirect() {
     var url = this.router.location.formatURL('/not-found');
@@ -24,4 +26,4 @@ export default Route.extend({
       this.transitionTo('/not-found');
     }
   }
-});
+}

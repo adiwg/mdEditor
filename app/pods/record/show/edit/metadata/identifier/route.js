@@ -1,15 +1,17 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import { getWithDefault, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+@classic
+export default class IdentifierRoute extends Route.extend(ScrollTo) {
   model() {
     return this.setupModel();
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controllerFor('record.show.edit')
@@ -17,7 +19,7 @@ export default Route.extend(ScrollTo, {
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let model = this.modelFor('record.show.edit');
@@ -30,4 +32,4 @@ export default Route.extend(ScrollTo, {
     return get(model,
       'json.metadata.metadataInfo.metadataIdentifier');
   }
-});
+}

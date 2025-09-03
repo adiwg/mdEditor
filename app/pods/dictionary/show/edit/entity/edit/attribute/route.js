@@ -1,7 +1,8 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import {
-  //computed,
-  get
+//computed,
+get, action
 } from '@ember/object';
 import {
   isArray
@@ -10,16 +11,18 @@ import {
   isEmpty
 } from '@ember/utils';
 
-export default Route.extend({
+@classic
+export default class AttributeRoute extends Route {
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);
-  },
+  }
+
   model(params) {
     this.set('attributeId', params.attribute_id);
 
     return this.setupModel();
-  },
+  }
 
   // breadCrumb: computed('attributeId', function () {
   //   let model = get(this, 'currentRouteModel').call(this);
@@ -30,11 +33,11 @@ export default Route.extend({
   // }),
 
   setupController(controller, model) {
-    this._super(controller, model);
+    super.setupController(controller, model);
 
     this.controller.set('setupModel', this.setupModel);
 
-  },
+  }
 
   setupModel() {
     let attributeId = this.attributeId;
@@ -54,22 +57,23 @@ export default Route.extend({
     }
 
     return resource;
-  },
-
-  actions: {
-    backToEntity() {
-      this.transitionTo('dictionary.show.edit.entity.edit',
-        this.entityId);
-    },
-    editIdentifier(index) {
-      let model = this.currentRouteModel();
-
-      this.transitionTo(
-          'dictionary.show.edit.entity.edit.attribute.identifier',
-          get(model, 'attributeReference.identifier.' + index))
-        .then(function () {
-          this.setScrollTo('identifier');
-        }.bind(this));
-    }
   }
-});
+
+  @action
+  backToEntity() {
+    this.transitionTo('dictionary.show.edit.entity.edit',
+      this.entityId);
+  }
+
+  @action
+  editIdentifier(index) {
+    let model = this.currentRouteModel();
+
+    this.transitionTo(
+        'dictionary.show.edit.entity.edit.attribute.identifier',
+        get(model, 'attributeReference.identifier.' + index))
+      .then(function () {
+        this.setScrollTo('identifier');
+      }.bind(this));
+  }
+}

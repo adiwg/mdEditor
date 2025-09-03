@@ -13,55 +13,59 @@ import { A } from '@ember/array';
 @classic
 @attributeBindings('data-spy')
 export default class MdGraphicArray extends Component {
- /**
-  * mdJSON object containing the 'graphic' array.
-  *
-  * @property model
-  * @type Object
-  * @required
-  */
+  /**
+   * mdJSON object containing the 'graphic' array.
+   *
+   * @property model
+   * @type Object
+   * @required
+   */
 
- /**
-  * List of mdJSON 'graphic' object attributes to display in
-  * md-object-table to aid in choosing the onlineResource to edit or
-  * delete.
-  * The property is passed to md-object-table for configuration.
-  *
-  * @property attributes
-  * @type String
-  * @default 'name, uri'
-  */
- attributes = 'fileName,fileDescription';
+  /**
+   * List of mdJSON 'graphic' object attributes to display in
+   * md-object-table to aid in choosing the onlineResource to edit or
+   * delete.
+   * The property is passed to md-object-table for configuration.
+   *
+   * @property attributes
+   * @type String
+   * @default 'name, uri'
+   */
+  attributes = 'fileName,fileDescription';
 
- /**
-  * Name to place on the mdEditor panel header for entry and edit of
-  * 'onlineResource' objects.
-  * The property is passed to md-object-table for configuration.
-  *
-  * @property label
-  * @type String
-  * @default 'Graphic'
-  */
- label = 'Graphic';
+  /**
+   * Name to place on the mdEditor panel header for entry and edit of
+   * 'onlineResource' objects.
+   * The property is passed to md-object-table for configuration.
+   *
+   * @property label
+   * @type String
+   * @default 'Graphic'
+   */
+  label = 'Graphic';
 
- /**
-  * Label for the 'add item' button.
-  * The property is passed to md-object-table for configuration.
-  *
-  * @property buttonText
-  * @type String
-  * @default 'Graphic'
-  */
- buttonText = 'Add Graphic';
+  /**
+   * Label for the 'add item' button.
+   * The property is passed to md-object-table for configuration.
+   *
+   * @property buttonText
+   * @type String
+   * @default 'Graphic'
+   */
+  buttonText = 'Add Graphic';
 
- previewTemplate = 'object/md-graphic-array/md-graphic-preview';
+  previewTemplate = 'object/md-graphic-array/md-graphic-preview';
 
- templateClass = EmberObject.extend({
-   init() {
-     undefined;
-     
-     this.set('fileConstraint', A());
-     this.set('fileUri', A());
-   }
- });
+  templateClass =
+    (
+      @classic
+      class MdGraphicArray extends EmberObject {
+        init() {
+          undefined;
+
+          this.set('fileConstraint', A());
+          this.set('fileUri', A());
+        }
+      }
+    );
 }

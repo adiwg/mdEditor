@@ -1,9 +1,12 @@
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+@classic
+export default class CitationRoute extends Route.extend(ScrollTo) {
   model(params) {
     this.set('citationId', params.citation_id);
     this.set('stepId', this.paramsFor(
@@ -12,11 +15,11 @@ export default Route.extend(ScrollTo, {
       'record.show.edit.lineage.lineageobject').lineage_id);
 
     return this.setupModel();
-  },
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('stepId', this.stepId);
@@ -25,7 +28,7 @@ export default Route.extend(ScrollTo, {
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let citationId = this.citationId;
@@ -47,13 +50,15 @@ export default Route.extend(ScrollTo, {
     }
 
     return citation;
-  },
-  actions: {
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    },
-    goBack(){
-      this.transitionTo('record.show.edit.lineage.lineageobject.step');
-    }
   }
-});
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
+
+  @action
+  goBack() {
+    this.transitionTo('record.show.edit.lineage.lineageobject.step');
+  }
+}
