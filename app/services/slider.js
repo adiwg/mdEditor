@@ -8,6 +8,9 @@ export default class SliderService extends Service {
     super.init(...arguments);
 
     this.get('router.currentRouteName');
+
+    // Ensure slider is hidden on initialization
+    this.set('showSlider', false);
   }
 
   @service
@@ -25,7 +28,7 @@ export default class SliderService extends Service {
   onClose() {}
 
   toggleSlider(state) {
-    if(state === undefined) {
+    if (state === undefined) {
       this.toggleProperty('showSlider');
 
       return;
