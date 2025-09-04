@@ -14,6 +14,7 @@ import {
   Promise
 } from 'rsvp';
 import jquery from 'jquery';
+import { UploadFile } from 'ember-file-upload';
 
 @classic
 export default class MdImportCsv extends Component {
@@ -108,6 +109,24 @@ export default class MdImportCsv extends Component {
   }
 
   @action
+  triggerFileInput() {
+    document.getElementById('csv-file-input')?.click();
+  }
+
+  @action
+  handleFileInput(queue, event) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const uploadFile = new UploadFile(file);
+        queue.add(uploadFile);
+      }
+      // Reset the input
+      event.target.value = '';
+    }
+  }
+
+  @action
   readData(file) {
     Papa.SCRIPT_PATH = this.get('router.rootURL') +
       'assets/workers/worker_papaparse.js';
@@ -123,7 +142,7 @@ export default class MdImportCsv extends Component {
             let processed = 1;
             let chunkSize = 1000000;
 
-            Papa.parse(file.data, {
+            Papa.parse(file.blob || file, {
               header: true,
               worker: true,
               dynamicTyping: true,
@@ -138,8 +157,8 @@ export default class MdImportCsv extends Component {
                 }
 
                 this.set('progress', Math.trunc(((
-                    chunkSize * processed) / file
-                  .size) * 100));
+                    chunkSize * processed) / (file.size || file.blob?.size)
+                  ) * 100));
 
                 this.set('parser', parser);
 
@@ -150,7 +169,7 @@ export default class MdImportCsv extends Component {
             });
           } catch(e) {
             reject(
-              `Failed to parse file: ${file.name}. Is it a valid CSV?\n${e}`
+              `Failed to parse file: ${file.name || file.blob?.name}. Is it a valid CSV?\n${e}`
             );
           }
         })

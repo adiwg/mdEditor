@@ -8,25 +8,28 @@
       {{control/md-json-viewer class="md-import-preview" json=this.model.preview.json modal=false}}
     {{else}}
       {{#unless this.model.files}}
-        {{#file-picker class="md-file-picker md-import-picker" fileLoaded="readData" preview=false accept=".json,.xml" readAs="readAsText"}}
-          <button type="button" class="btn btn-lg btn-info btn-block">
-            <p>{{fa-icon "bullseye"}} Click or Drop a file here to import data.</p>
-            <hr>
-            {{#unless this.isTranslating}}
-            <div class="inline-block text-left small">
-              These file formats are supported: <br>
-              <ul>
-                <li>mdEditor (.json)</li>
-                <li>mdJSON (.json)</li>
-                <li>FGDC CSDGM (.xml)</li>
-              </ul>
-            </div>
-            {{else}}
-              {{fa-icon "spinner" spin=true}} Translating to mdJSON. Please wait... <br>
-              {{!-- <small>Using <a href={{apiURL}}>{{apiURL}}</a> for translation.</small> --}}
-            {{/unless}}
-          </button>
-        {{/file-picker}}
+        {{#let (file-queue onFileAdded=(route-action "readData")) as |queue|}}
+          <FileDropzone @queue={{queue}} class="md-file-picker md-import-picker" as |dropzone|>
+            <input type="file" accept=".json,.xml" style="display: none;" {{on "change" (fn (route-action "handleFileInput") queue)}} id="import-file-input">
+            <button type="button" class="btn btn-lg btn-info btn-block {{if dropzone.active 'over'}}" {{on "click" (route-action "triggerFileInput")}}>
+              <p>{{fa-icon "bullseye"}} Click or Drop a file here to import data.</p>
+              <hr>
+              {{#unless this.isTranslating}}
+              <div class="inline-block text-left small">
+                These file formats are supported: <br>
+                <ul>
+                  <li>mdEditor (.json)</li>
+                  <li>mdJSON (.json)</li>
+                  <li>FGDC CSDGM (.xml)</li>
+                </ul>
+              </div>
+              {{else}}
+                {{fa-icon "spinner" spin=true}} Translating to mdJSON. Please wait... <br>
+                {{!-- <small>Using <a href={{apiURL}}>{{apiURL}}</a> for translation.</small> --}}
+              {{/unless}}
+            </button>
+          </FileDropzone>
+        {{/let}}
         <hr>
         <h3>Import mdJSON from Online URL</h3>
         <div class="row">

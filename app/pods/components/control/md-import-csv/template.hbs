@@ -12,10 +12,13 @@
     </div>
   </div>
 {{else}}
-  <FilePicker @class="md-file-picker md-import-picker" @fileLoaded="readData" @preview={{false}} @accept=".csv,.txt" @readAs="readAsText">
-    <button type="button" class="btn btn-lg btn-info btn-block">{{fa-icon "bullseye"}}
-      Click or Drop a CSV here.</button>
-  </FilePicker>
+  {{#let (file-queue onFileAdded=this.readData) as |queue|}}
+    <FileDropzone @queue={{queue}} class="md-file-picker md-import-picker" as |dropzone|>
+      <input type="file" accept=".csv,.txt" style="display: none;" {{on "change" (fn this.handleFileInput queue)}} id="csv-file-input">
+      <button type="button" class="btn btn-lg btn-info btn-block {{if dropzone.active 'over'}}" {{on "click" this.triggerFileInput}}>{{fa-icon "bullseye"}}
+        Click or Drop a CSV here.</button>
+    </FileDropzone>
+  {{/let}}
   {{!-- <hr>
   <h3>Import from Online URL</h3>
   <div class="row">

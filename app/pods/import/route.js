@@ -19,6 +19,7 @@ import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
 import { v4 as uuidv4 } from 'uuid';
 import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
+import { UploadFile } from 'ember-file-upload';
 
 const generateIdForRecord = Base.create().generateIdForRecord;
 
@@ -406,9 +407,29 @@ export default class ImportRoute extends Route.extend(
     let controller = this.controller;
     let cmp = this;
 
-    new Promise((resolve, reject) => {
-      // Check file type first
-      if (file.type.match(/.*\/xml$/)) {
+    // Handle ember-file-upload file format  
+    const fileType = file.type || file.blob?.type;
+    const fileName = file.name || file.blob?.name;
+    
+    // Read file content first
+    const readFileContent = () => {
+      if (file.readAsText) {
+        return file.readAsText();
+      } else {
+        // Fallback for manual file reading
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.onerror = (e) => reject(e);
+          reader.readAsText(file.blob || file);
+        });
+      }
+    };
+
+    readFileContent().then(fileData => {
+      new Promise((resolve, reject) => {
+        // Check file type first
+        if (fileType && fileType.match(/.*\/xml$/)) {
         // Check API configuration for XML files only
         if (!this.checkApiConfiguration()) {
           reject(
@@ -424,7 +445,7 @@ export default class ImportRoute extends Route.extend(
           .request(url, {
             type: 'POST',
             data: {
-              file: file.data,
+              file: fileData,
               reader: 'fgdc',
               writer: 'mdJson',
               validate: 'normal',
@@ -439,7 +460,7 @@ export default class ImportRoute extends Route.extend(
               if (response.success) {
                 resolve({
                   json: JSON.parse(response.writerOutput),
-                  file: file,
+                  file: { ...file, name: fileName, type: fileType, data: fileData },
                   route: cmp,
                 });
 
@@ -447,7 +468,7 @@ export default class ImportRoute extends Route.extend(
               }
 
               reject(
-                `Failed to translate file: ${file.name}. Is it valid FGDC CSDGM XML?`
+              `Failed to translate file: ${fileName}. Is it valid FGDC CSDGM XML?`
               );
             },
             (response) => {
@@ -461,13 +482,13 @@ export default class ImportRoute extends Route.extend(
       } else {
         // If it's not XML (i.e., it's JSON), process it directly
         try {
-          json = JSON.parse(file.data);
+          json = JSON.parse(fileData);
         } catch (e) {
-          reject(`Failed to parse file: ${file.name}. Is it valid JSON?`);
+          reject(`Failed to parse file: ${fileName}. Is it valid JSON?`);
         }
         resolve({
           json: json,
-          file: file,
+          file: { ...file, name: fileName, type: fileType, data: fileData },
           route: cmp,
         });
       }
@@ -484,6 +505,27 @@ export default class ImportRoute extends Route.extend(
       .finally(() => {
         jquery('.import-file-picker input:file').val('');
       });
+    }).catch((reason) => {
+      get(cmp, 'flashMessages').danger(`Failed to read file: ${reason}`);
+    });
+  }
+
+  @action
+  triggerFileInput() {
+    document.getElementById('import-file-input')?.click();
+  }
+
+  @action
+  handleFileInput(queue, event) {
+    const files = event.target.files;
+    if (files && files.length > 0) {
+      for (const file of files) {
+        const uploadFile = new UploadFile(file);
+        queue.add(uploadFile);
+      }
+      // Reset the input
+      event.target.value = '';
+    }
   }
 
   @action
