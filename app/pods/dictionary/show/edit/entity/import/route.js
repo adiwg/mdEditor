@@ -24,6 +24,9 @@ export default class ImportRoute extends Route {
         attribute: [],
       })
     );
+    
+    // Inject route instance for action delegation
+    model.route = this;
   }
 
   /**

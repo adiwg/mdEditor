@@ -8,10 +8,10 @@
       {{control/md-json-viewer class="md-import-preview" json=this.model.preview.json modal=false}}
     {{else}}
       {{#unless this.model.files}}
-        {{#let (file-queue onFileAdded=(route-action "readData")) as |queue|}}
+        {{#let (file-queue onFileAdded=this.readData) as |queue|}}
           <FileDropzone @queue={{queue}} class="md-file-picker md-import-picker" as |dropzone|>
-            <input type="file" accept=".json,.xml" style="display: none;" {{on "change" (fn (route-action "handleFileInput") queue)}} id="import-file-input">
-            <button type="button" class="btn btn-lg btn-info btn-block {{if dropzone.active 'over'}}" {{on "click" (route-action "triggerFileInput")}}>
+            <input type="file" accept=".json,.xml" style="display: none;" {{on "change" (fn this.handleFileInput queue)}} id="import-file-input">
+            <button type="button" class="btn btn-lg btn-info btn-block {{if dropzone.active 'over'}}" {{on "click" this.triggerFileInput}}>
               <p>{{fa-icon "bullseye"}} Click or Drop a file here to import data.</p>
               <hr>
               {{#unless this.isTranslating}}
@@ -42,7 +42,7 @@
                 class="form-control"
               }}
               <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button" {{action (route-action "readFromUri")}}>
+                  <button class="btn btn-primary" type="button" {{action this.readFromUri}}>
                     {{#if this.isLoading}}
                       {{fa-icon "spinner" spin=true}}
                     {{else}}
@@ -90,7 +90,7 @@
         </div> --}}
         {{#layout/md-card
           title=(capitalize key)
-          titleIcon=(compute (route-action "getIcon" key))
+          titleIcon=(compute this.getIcon key)
           collapsible=true
           collapsed=false
           data-spy=(capitalize key)
@@ -99,7 +99,7 @@
         {{!-- <h3>{{section.meta.title}}</h3> --}}
         {{control/md-record-table
           data=item
-          dataColumns=(compute (route-action "getColumns") key)
+          dataColumns=(compute this.getColumns key)
           actionsColumn=false
           selectProperty="meta.export"
           showColumnsDropdown=(not-eq key "settings")
@@ -116,10 +116,10 @@
   {{#if this.model.files}}
     <div class="md-control-sidebar col-sm-3 col-xxl-2 no-nav">
       {{#if this.model.preview}}
-        <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "closePreview"}}>{{fa-icon "arrow-left"}} Close Preview</button>
+        <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action this.closePreview}}>{{fa-icon "arrow-left"}} Close Preview</button>
         {{else if this.model.files}}
-        <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "importData"}}>{{fa-icon "sign-in"}} Click to Import Data</button>
-        <button type="button" class="btn btn-lg btn-danger btn-block md-btn-responsive" {{action "cancelImport"}}>{{fa-icon "times"}} Cancel Import</button>
+        <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action this.importData}}>{{fa-icon "sign-in"}} Click to Import Data</button>
+        <button type="button" class="btn btn-lg btn-danger btn-block md-btn-responsive" {{action this.cancelImport}}>{{fa-icon "times"}} Cancel Import</button>
         <div class="btn-fake btn-block">
           {{x-toggle
             value=this.model.merge
@@ -132,7 +132,7 @@
           }}
         </div>
         <hr>
-        {{control/md-scroll-spy offset=130 scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}}
+        {{control/md-scroll-spy offset=130 scrollInit=this.scrollTo setScrollTo=this.setScrollTo}}
       {{/if}}
       </div>
   {{/if}}
@@ -145,7 +145,7 @@
   showConfirm=true
   confirmLabel="Go to Settings"
   showCancel=true
-  confirm=(route-action "goToSettings")
+  confirm=this.goToSettings
   cancel=(action (mut this.showApiModal) false)
 }}
   <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}

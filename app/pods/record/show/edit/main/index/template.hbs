@@ -13,7 +13,7 @@
           <div class="input-group input-group-md">
             <Input::MdInput @valuePath="recordId" @model={{this.model}} @placeholder="Assigned Record ID" @disabled={{true}} />
             <span class="input-group-btn">
-                <button class="btn btn-warning" type="button" {{action (route-action "editId")}}>
+                <button class="btn btn-warning" type="button" {{action this.editId}}>
                   {{fa-icon "pencil"}}
                   Edit</button>
                   <EmberTooltip @text="Edit the metadata id" @tooltipClass="ember-tooltip md-tooltip warning" />
@@ -51,7 +51,7 @@
         <Object::MdPartyArray @title="Point Of Contact" @pluralTitle="Points of Contact" @data-spy="Point Of Contact" @collapsible={{true}} @collapsed={{false}} @required={{true}} @value={{resource.pointOfContact}} @profilePath="record.main.pointOfContact" @tipPath="json.metadata.resourceInfo.pointOfContact" @tipModel={{this.model}} />
         {{/if}}
 
-        <Object::MdCitation::Preview @profilePath="record.main.citation" @citation={{resource.citation}} @muted={{true}} @required={{true}} @editCitation={{route-action "editCitation"}} />
+        <Object::MdCitation::Preview @profilePath="record.main.citation" @citation={{resource.citation}} @muted={{true}} @required={{true}} @editCitation={{this.editCitation}} />
 
         <Layout::MdCard @title="Description" @collapsible={{true}} @collapsed={{false}} @profilePath="record.main.description" @required={{true}}>
           <Input::MdMarkdownArea @value={{resource.abstract}} @profilePath="record.main.description.abstract" @label="Abstract" @placeholder="Enter an Abstract describing the resource." @required={{true}} />
@@ -88,4 +88,4 @@
 </div>
 {{/with}}
 
-<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo") refresh=this.model.profile}} />
+<ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  scrollInit=this.scrollTo setScrollTo=this.setScrollTo refresh=this.model.profile}} />

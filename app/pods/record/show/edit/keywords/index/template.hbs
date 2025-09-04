@@ -15,8 +15,8 @@
           <h4 class="inline-block text-primary" code="">
             <strong>{{concat "Thesaurus #" index}}</strong>
           </h4>
-          <Input::MdSelectThesaurus @class="md-keywords-select" @recordProfile={{this.model.profile}} @thesaurus={{thesaurus}} @selectThesaurus={{route-action "selectThesaurus"}} @value={{thesaurus.thesaurus.identifier.0.identifier}} @disabled={{thesaurus.keyword.length}} />
-          <Control::MdButtonConfirm @class="btn btn-sm btn-danger" @onConfirm={{route-action "deleteThesaurus" index}}>
+          <Input::MdSelectThesaurus @class="md-keywords-select" @recordProfile={{this.model.profile}} @thesaurus={{thesaurus}} @selectThesaurus={{this.selectThesaurus}} @value={{thesaurus.thesaurus.identifier.0.identifier}} @disabled={{thesaurus.keyword.length}} />
+          <Control::MdButtonConfirm @class="btn btn-sm btn-danger" @onConfirm={{fn this.deleteThesaurus index}}>
             {{fa-icon "times"}} Delete
           </Control::MdButtonConfirm>
         </div>
@@ -29,7 +29,7 @@
               <Object::MdKeywordCitation @model={{thesaurus}} @profilePath="record.keywords.citation" />
             </div>
             <div class="md-keywords-list col-md-6 col-lg-5">
-              <Object::MdKeywordList @model={{thesaurus}} @listId={{index}} @profilePath="record.keywords" @addKeyword={{route-action "addKeyword"}} @deleteKeyword={{route-action "deleteKeyword"}} @editThesaurus={{route-action "editThesaurus"}} />
+              <Object::MdKeywordList @model={{thesaurus}} @listId={{index}} @profilePath="record.keywords" @addKeyword={{this.addKeyword}} @deleteKeyword={{this.deleteKeyword}} @editThesaurus={{this.editThesaurus}} />
             </div>
           </div>
         {{/with}}
@@ -37,7 +37,7 @@
       </div>
         {{else}}
           <h3 class="alert alert-info">No keywords found.
-            <button type="button" class="btn btn-success" {{action (route-action "addThesaurus")}}>
+            <button type="button" class="btn btn-success" {{action this.addThesaurus}}>
               {{fa-icon "plus"}} Add Thesaurus</button>
           </h3>
     {{/each}}
@@ -52,4 +52,4 @@
     click=(route-action "addThesaurus")
     }} />
 
-  <ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=this.refresh scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}} />
+  <ToElsewhere @named="md-scroll-spy-record-edit" @send={{component "control/md-scroll-spy"  refresh=this.refresh scrollInit=this.scrollTo setScrollTo=this.setScrollTo}} />

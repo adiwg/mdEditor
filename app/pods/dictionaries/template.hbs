@@ -2,7 +2,7 @@
 
 {{#if this.model.length}}
   <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
-    <Control::MdRecordTable @data={{this.model}} @dataColumns={{compute (route-action "getColumns")}} @allActions={{true}} @selectProperty="_selectedFromList" @showSlider={{route-action "showSlider"}} />
+    <Control::MdRecordTable @data={{this.model}} @dataColumns={{compute this.getColumns}} @allActions={{true}} @selectProperty="_selectedFromList" @showSlider={{this.showSlider}} />
   </Layout::MdCard>
 {{else}}
 <div class="alert alert-info">

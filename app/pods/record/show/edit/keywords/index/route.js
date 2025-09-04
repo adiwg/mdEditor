@@ -13,6 +13,13 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @service
   keyword;
 
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    
+    // Inject route instance for action delegation
+    model.route = this;
+  }
+
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');

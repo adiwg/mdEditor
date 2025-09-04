@@ -1,25 +1,15 @@
 import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 @classic
-export default class IndexRoute extends Route.extend(ScrollTo) {
-  @action
-  linkTo() {
-    this.transitionTo(...arguments);
-  }
+export default class IndexRoute extends Route {
+  @service flashMessages;
 
-  @action
-  editDomain(id) {
-    this.transitionTo('dictionary.show.edit.domain.edit', id);
-  }
-
-  @action
-  editCitation(scrollTo) {
-    this.transitionTo('dictionary.show.edit.citation')
-      .then(function () {
-        this.setScrollTo(scrollTo);
-      }.bind(this));
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    
+    // Pass services that controller actions need
+    controller.flashMessages = this.flashMessages;
   }
 }

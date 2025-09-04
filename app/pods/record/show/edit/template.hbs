@@ -3,7 +3,7 @@
     {{liquid-outlet}}
   </div>
   <div class="md-control-sidebar col-sm-2 hidden-print">
-      <Control::MdCrudButtons @model={{this.model}} @doSave={{route-action "saveRecord"}} @doCancel={{route-action "cancelRecord"}} @doDelete={{route-action "destroyRecord"}} @doCopy={{route-action "copyRecord"}} />
+      <Control::MdCrudButtons @model={{this.model}} @doSave={{this.saveRecord}} @doCancel={{this.cancelRecord}} @doDelete={{this.destroyRecord}} @doCopy={{this.copyRecord}} />
     {{!-- {{#liquid-bind currentModel use="fade" duration="1000"}} --}}
       <hr>
       <FromElsewhere @name="md-subbar-extra" />

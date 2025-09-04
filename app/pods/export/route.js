@@ -59,6 +59,9 @@ export default class ExportRoute extends Route.extend(ScrollTo) {
   setupController(controller, model) {
     super.setupController(controller, model);
 
+    // Inject route instance for action delegation
+    model.route = this;
+
     defineProperty(
       this.controller,
       'hasSelected',

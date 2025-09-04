@@ -1,10 +1,9 @@
 import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
-import { set, getWithDefault, get, action } from '@ember/object';
-import ScrollTo from 'mdeditor/mixins/scroll-to';
+import { set, getWithDefault, get } from '@ember/object';
 
 @classic
-export default class IndexRoute extends Route.extend(ScrollTo) {
+export default class IndexRoute extends Route {
   afterModel(m) {
     super.afterModel(...arguments);
 
@@ -26,13 +25,5 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
         onCancel: () => this,
         cancelScope: this
       });
-  }
-
-  @action
-  editCitation(scrollTo) {
-    this.transitionTo('dictionary.show.edit.citation')
-      .then(function () {
-        this.setScrollTo(scrollTo);
-      }.bind(this));
   }
 }

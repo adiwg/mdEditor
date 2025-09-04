@@ -187,13 +187,13 @@
 
   </div>
   <div class="md-control-sidebar col-sm-2 no-nav">
-    <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyContact"}} @doCopy={{route-action "copyContact"}}>
+    <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{this.destroyContact}} @doCopy={{this.copyContact}}>
       <LinkTo @route="contact.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
         {{fa-icon "pencil"}} Edit</LinkTo>
     </Control::MdCrudButtons>
     <hr>
     <LinkTo @route="contacts" class="btn btn-lg btn-primary btn-block">
     {{fa-icon "list"}} Show List</LinkTo>
-    <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{route-action "setScrollTo"}} />
+    <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{this.setScrollTo}} />
   </div>
 </div>

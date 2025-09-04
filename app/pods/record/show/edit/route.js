@@ -37,36 +37,11 @@ export default class EditRoute extends Route.extend(
     this.profile.set('active', model.get('profile'));
   }
 
-  @action
-  async saveRecord() {
-    const model = this.currentRouteModel();
-    await model.save();
-    this.flashMessages.success(`Saved Record: ${model.get('title')}`);
-  }
-
-  @action
-  cancelRecord() {
-    let model = this.currentRouteModel();
-    let message = `Cancelled changes to Record: ${model.get('title')}`;
-
-    if (this.get('settings.data.autoSave')) {
-      let json = model.get('jsonRevert');
-
-      if (json) {
-        model.set('json', JSON.parse(json));
-
-        this.doCancel();
-
-        this.flashMessages.warning(message);
-      }
-
-      return;
-    }
-
-    model.reload().then(() => {
-      this.doCancel();
-      this.flashMessages.warning(message);
-    });
+  setupController(controller, model) {
+    super.setupController(...arguments);
+    
+    // Pass the doCancel method from route to controller
+    controller.doCancel = () => this.doCancel();
   }
 
   @action

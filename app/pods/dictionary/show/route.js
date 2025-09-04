@@ -7,17 +7,19 @@ export default class ShowRoute extends Route {
   @service flashMessages;
 
   model(params) {
-    return this.store.peekRecord('dictionary', params.dictionary_id);
+    return this.store.findRecord('dictionary', params.dictionary_id);
   }
 
   afterModel(model) {
-    const name = model.get('title');
+    if (model) {
+      const name = model.get('title');
 
-    const crumb = {
-      title: name,
-    };
+      const crumb = {
+        title: name,
+      };
 
-    this.set('breadCrumb', crumb);
+      this.set('breadCrumb', crumb);
+    }
   }
 
   @action

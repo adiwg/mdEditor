@@ -8,7 +8,7 @@
       <Control::MdStatus @model={{this.model}} />
     </h3>
 
-    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Main" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "linkTo" "dictionary.show.edit"}} @btnIcon="pencil" @data-spy="Main">
+    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Main" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{fn this.linkTo "dictionary.show.edit"}} @btnIcon="pencil" @data-spy="Main">
       <div class="row">
         <dl class="dl-horizontal col-xxl-6">
             <Control::MdDefinition @title="Dictionary Id" @text={{this.model.json.dataDictionary.dictionaryId}} />
@@ -61,9 +61,9 @@
 
     </Layout::MdCard>
 
-    <Object::MdCitation::Preview @profilePath="dictionary.main.citation" @citation={{dictionary.citation}} @muted={{true}} @editCitation={{route-action "editCitation"}} @data-spy="Citation" />
+    <Object::MdCitation::Preview @profilePath="dictionary.main.citation" @citation={{dictionary.citation}} @muted={{true}} @editCitation={{this.editCitation}} @data-spy="Citation" />
 
-    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Domains" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "linkTo" "dictionary.show.edit.domain"}} @btnIcon="pencil" @data-spy="Domains">
+    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Domains" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{fn this.linkTo "dictionary.show.edit.domain"}} @btnIcon="pencil" @data-spy="Domains">
     {{#if dictionary.domain}}
       <table class="table table-striped">
         <thead>
@@ -96,7 +96,7 @@
       {{/if}}
     </Layout::MdCard>
 
-    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Entities" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "linkTo" "dictionary.show.edit.entity"}} @btnIcon="pencil" @data-spy="Entities">
+    <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Entities" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{fn this.linkTo "dictionary.show.edit.entity"}} @btnIcon="pencil" @data-spy="Entities">
       {{#if dictionary.entity}}
       <table class="table table-striped">
         <thead>
@@ -133,13 +133,13 @@
   {{/let}}
 
   <div class="md-control-sidebar col-sm-2 no-nav">
-    <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyDictionary"}} @doCopy={{route-action "copyDictionary"}}>
+    <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{this.destroyDictionary}} @doCopy={{this.copyDictionary}}>
       <LinkTo @route="dictionary.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
         {{fa-icon "pencil"}} Edit</LinkTo>
     </Control::MdCrudButtons>
     <hr>
     <LinkTo @route="dictionaries" class="btn btn-lg btn-primary btn-block">
       {{fa-icon "list"}} Show List</LinkTo>
-    <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{route-action "setScrollTo"}} />
+    <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{this.setScrollTo}} />
   </div>
 </div>

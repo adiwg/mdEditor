@@ -34,6 +34,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
         onCancel: () => this,
         cancelScope: this
       });
+
+    // Inject route instance for action delegation
+    model.route = this;
   }
 
   @action

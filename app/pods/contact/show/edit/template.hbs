@@ -50,7 +50,7 @@
         </form>
     </div>
       <div class="md-control-sidebar col-sm-2 no-nav">
-          <Control::MdCrudButtons @model={{this.model}} @doSave={{route-action "saveContact"}} @doCancel={{route-action "cancelContact"}} @doDelete={{route-action "destroyContact"}} @doCopy={{route-action "copyContact"}} />
+          <Control::MdCrudButtons @model={{this.model}} @doSave={{this.saveContact}} @doCancel={{this.cancelContact}} @doDelete={{this.destroyContact}} @doCopy={{this.copyContact}} />
           <Control::MdScrollSpy />
 
       </div>
@@ -58,13 +58,13 @@
 
 {{!-- {{#control/md-modal
   isShowing = pausedTransition
-  closeModal=(route-action "cancelTransition")
+  closeModal=this.cancelTransition
 }}
   <strong>Warning</strong>: Changes have been made to this record!
   Clicking <strong class="text-warning">Continue</strong> will
   cancel changes made since the last save.
   <div class="md-modal-buttons pull-right">
-    <button type="button" class="btn btn-danger" {{action (route-action "confirmTransition")}}>Continue</button>
-    <button type="button" class="btn btn-primary" {{action (route-action "cancelTransition")}}>Stay Here</button>
+    <button type="button" class="btn btn-danger" {{action this.confirmTransition}}>Continue</button>
+    <button type="button" class="btn btn-primary" {{action this.cancelTransition}}>Stay Here</button>
   </div>
 {{/control/md-modal}} --}}

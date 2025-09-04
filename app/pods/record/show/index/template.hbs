@@ -7,7 +7,7 @@
         <Control::MdStatus @model={{this.model}} />
         </h3>
 
-        <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Main" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "linkTo" "record.show.edit.main"}} @btnIcon="pencil">
+        <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Main" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{fn this.linkTo "record.show.edit.main"}} @btnIcon="pencil">
           <div class="row">
             <dl class="dl-horizontal col-xxl-8">
                 <Control::MdDefinition @title="Record Id" @text={{this.model.recordId}} />
@@ -62,7 +62,7 @@
 
         </Layout::MdCard>
 
-        <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Geographic Extent" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{route-action "linkTo" "record.show.edit.extent"}} @btnIcon="pencil">
+        <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Geographic Extent" @bodyIsRow={{false}} @collapsible={{true}} @btnText="Edit" @btnClass="success" @btnAction={{fn this.linkTo "record.show.edit.extent"}} @btnIcon="pencil">
 
         <section>
           {{#each resource.extent as |extent index|}}
@@ -82,7 +82,7 @@
               </div>
               <div class="col-sm-6 md-extent-map">
                 {{#if extent.geographicExtent.0.geographicElement.length}}
-                  <LeafletMap @lat={{0}} @lng={{0}} @zoom={{2}} @maxZoom={{18}} @onLoad={{route-action "setupMap" extent.geographicExtent.0.geographicElement}}>
+                  <LeafletMap @lat={{0}} @lng={{0}} @zoom={{2}} @maxZoom={{18}} @onLoad={{fn this.setupMap extent.geographicExtent.0.geographicElement}}>
                     {{!-- Specify child layer components here --}}
                     <LayerGroup @name="Terrain" @baselayer={{true}} @default={{true}}>
 
@@ -120,7 +120,7 @@
         {{outlet}}
     </div>
     <div class="md-control-sidebar col-sm-2 hidden-print no-nav">
-      <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{route-action "destroyRecord"}} @doCopy={{route-action "copyRecord"}}>
+      <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{this.destroyRecord}} @doCopy={{this.copyRecord}}>
         <LinkTo @route="record.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
           {{fa-icon "pencil"}} Edit</LinkTo>
       </Control::MdCrudButtons>
@@ -128,7 +128,7 @@
       <LinkTo @route="records" class="btn btn-lg btn-primary btn-block">
       {{fa-icon "list"}} Show List</LinkTo>
 
-      <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{route-action "setScrollTo"}} @refresh={{this.model.profile}} />
+      <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{this.setScrollTo}} @refresh={{this.model.profile}} />
     </div>
 </div>
 {{/with}}

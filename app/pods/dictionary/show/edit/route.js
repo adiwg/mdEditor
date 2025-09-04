@@ -33,34 +33,11 @@ export default class EditRoute extends Route.extend(
    *
    * @param  {String} profile The new profile.
    */
-  @action
-  async saveDictionary() {
-    const model = this.currentRouteModel();
-    await model.save();
-    this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
-  }
-
-  @action
-  cancelDictionary() {
-    let model = this.currentRouteModel();
-    let message = `Cancelled changes to Dictionary: ${model.get('title')}`;
-
-    if (this.get('settings.data.autoSave')) {
-      let json = model.get('jsonRevert');
-
-      if (json) {
-        model.set('json', JSON.parse(json));
-        this.doCancel();
-
-        this.flashMessages.warning(message);
-      }
-
-      return;
-    }
-
-    model.reload().then(() => {
-      this.doCancel();
-      this.flashMessages.warning(message);
-    });
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    
+    // Pass the route instance and doCancel method to controller
+    controller.parentRoute = this;
+    controller.doCancel = () => this.doCancel();
   }
 }

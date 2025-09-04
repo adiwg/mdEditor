@@ -1,11 +1,11 @@
 <h3 class="section-header">Generate Entity from CSV</h3>
 {{#unless this.processed}}
-  <Control::MdImportCsv @beforeFirstChunk={{route-action "processData"}} @processChunk={{route-action "reduceData"}} @processComplete={{route-action "processComplete"}} />
+  <Control::MdImportCsv @beforeFirstChunk={{this.processData}} @processChunk={{this.reduceData}} @processComplete={{this.processComplete}} />
   <ToElsewhere @named="md-subbar-extra" @send={{component "control/md-button"
       text="Back to Entity"
       icon="arrow-left"
       class="btn-primary btn-lg btn-block md-button-responsive"
-      click=(route-action "goToEntity")
+      click=this.goToEntity
     }} />
   {{else}}
     <form class="form">
@@ -83,8 +83,8 @@
 
 {{#if this.processed}}
   <ToElsewhere @named="md-subbar-extra" @send={{component "control/subbar-importcsv"
-      doImport=(route-action "doImport")
-      cancelImport=(route-action "cancelImport")
+      doImport=this.doImport
+      cancelImport=this.cancelImport
       actionContext=this
     }} />
 {{/if}}

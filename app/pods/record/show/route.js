@@ -1,6 +1,4 @@
 import Route from '@ember/routing/route';
-import { action } from '@ember/object';
-import { copy } from 'mdeditor/utils/copy';
 
 export default class ShowRoute extends Route {
   //breadCrumb: {};
@@ -14,33 +12,18 @@ export default class ShowRoute extends Route {
   }
 
   afterModel(model) {
-    const name = model.get('title');
+    if (model) {
+      const name = model.get('title');
 
-    const crumb = {
-      title: name,
-    };
+      const crumb = {
+        title: name,
+      };
 
-    this.set('breadCrumb', crumb);
+      this.set('breadCrumb', crumb);
+    }
   }
 
   model(params) {
-    return this.store.peekRecord('record', params.record_id);
-  }
-
-  @action
-  destroyRecord() {
-    let model = this.currentRouteModel();
-    model.destroyRecord().then(() => {
-      this.flashMessages.success(`Deleted Record: ${model.get('title')}`);
-      this.replaceWith('records');
-    });
-  }
-
-  @action
-  copyRecord() {
-    this.flashMessages.success(
-      `Copied Record: ${this.currentRouteModel().get('title')}`
-    );
-    this.transitionTo('record.new.id', copy(this.currentRouteModel()));
+    return this.store.findRecord('record', params.record_id);
   }
 }

@@ -5,6 +5,12 @@ import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 @classic
 export default class IndexRoute extends Route.extend(ScrollTo) {
+  setupController(controller, model) {
+    super.setupController(controller, model);
+    
+    // Inject route instance for action delegation
+    model.route = this;
+  }
   @action
   editIdentifier(index) {
     this.transitionTo('dictionary.show.edit.citation.identifier', index)

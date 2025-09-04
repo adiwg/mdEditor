@@ -18,7 +18,7 @@
       {{!-- <h3>{{section.meta.title}}</h3> --}}
       {{control/md-record-table
         data=section
-        dataColumns=(compute (route-action "getColumns") section.meta.type)
+        dataColumns=(compute this.getColumns section.meta.type)
       }}
 
       {{/layout/md-card}}
@@ -31,11 +31,11 @@
   </div>
   <div class="md-control-sidebar col-sm-2 no-nav">
         <div class="btn-group-vertical center-block" role="group" aria-label="Export Button Controls">
-          <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{action "exportData"}}>
+          <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{action this.exportData}}>
             {{fa-icon "sign-out"}} Export All</button>
-          <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{action "exportSelectedData"}} disabled={{if this.hasSelected false true}}>
+          <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{action this.exportSelectedData}} disabled={{if this.hasSelected false true}}>
             {{fa-icon "check-square-o"}} Export Selected</button>
-          <button type="button" class="btn btn-lg btn-success md-btn-responsive" {{action "exportSelectedData" true}} disabled={{if this.hasSelectedRecords false true}}>
+          <button type="button" class="btn btn-lg btn-success md-btn-responsive" {{action this.exportSelectedData true}} disabled={{if this.hasSelectedRecords false true}}>
             {{fa-icon "check-square-o"}} Export mdJSON</button>
         </div>
         <hr>
@@ -50,7 +50,7 @@
           theme="form"
         }}
         <hr>
-        {{control/md-scroll-spy offset=130 scrollInit=this.scrollTo setScrollTo=(route-action "setScrollTo")}}
+        {{control/md-scroll-spy offset=130 scrollInit=this.scrollTo setScrollTo=this.setScrollTo}}
   </div>
 </div>
 {{outlet}}

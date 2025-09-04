@@ -60,6 +60,8 @@ export default class ImportRoute extends Route.extend(
     // Implement your custom setup after
     controller.set('importUri', this.get('settings.data.importUriBase'));
     controller.set('apiURL', this.apiURL);
+    // Inject route instance for action delegation
+    model.route = this;
   }
 
   model() {

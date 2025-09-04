@@ -1,7 +1,7 @@
 <h3 class="text-info">{{fa-icon "file-text"}} Metadata Records</h3>
 {{#if this.model.length}}
   <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
-    <Control::MdRecordTable @data={{this.model}} @dataColumns={{compute (route-action "getColumns") this.section.meta.type}} @allActions={{true}} @selectProperty="_selectedFromList" @showSlider={{route-action "showSlider"}} />
+    <Control::MdRecordTable @data={{this.model}} @dataColumns={{compute this.getColumns this.section.meta.type}} @allActions={{true}} @selectProperty="_selectedFromList" @showSlider={{this.showSlider}} />
   </Layout::MdCard>
 {{else}}
   <div class="alert alert-info">

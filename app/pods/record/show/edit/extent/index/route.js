@@ -14,5 +14,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
       'refreshSpy',
       alias('model.json.metadata.resourceInfo.extent.length')
     );
+
+    // Inject route instance and parent route for action delegation
+    model.route = this;
+    model.parentRoute = this.parentRoute;
   }
 }

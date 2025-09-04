@@ -8,8 +8,8 @@
     </div> --}}
   </div>
   <div class="md-control-sidebar col-sm-2 hidden-print">
-    <Control::MdCrudButtons @model={{this.model}} @doSave={{route-action "saveDictionary"}} @doCancel={{route-action "cancelDictionary"}} @doDelete={{route-action "destroyDictionary"}} @doCopy={{route-action "copyDictionary"}} />
-    {{component this.subbar context=(route-action "getContext")}}
+    <Control::MdCrudButtons @model={{this.model}} @doSave={{this.saveDictionary}} @doCancel={{this.cancelDictionary}} @doDelete={{this.destroyDictionary}} @doCopy={{this.copyDictionary}} />
+    {{component this.subbar context=this.getContext}}
     <hr>
     <FromElsewhere @name="md-subbar-extra" />
 
