@@ -1,7 +1,7 @@
 import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
 import { attr, belongsTo } from '@ember-data/model';
-import { Copyable } from 'ember-copy';
+import Copyable from 'mdeditor/mixins/copyable';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import EmberObject, { computed } from '@ember/object';

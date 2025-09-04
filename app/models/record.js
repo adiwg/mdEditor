@@ -3,7 +3,7 @@ import { alias } from '@ember/object/computed';
 import { attr, belongsTo } from '@ember-data/model';
 import { getOwner } from '@ember/application';
 import EmberObject, { getWithDefault, computed } from '@ember/object';
-import { Copyable } from 'ember-copy';
+import Copyable from 'mdeditor/mixins/copyable';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';

@@ -1,7 +1,7 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
-import { copy } from 'ember-copy';
+import { copy } from 'mdeditor/utils/copy';
 
 export default class ShowRoute extends Route {
   @service flashMessages;

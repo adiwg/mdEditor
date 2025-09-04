@@ -3,7 +3,7 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { A } from '@ember/array';
 import { getWithDefault, set, action } from '@ember/object';
-import { copy } from 'ember-copy';
+import { copy } from 'mdeditor/utils/copy';
 import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 // import { on } from '@ember/object/evented';

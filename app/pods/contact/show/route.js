@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route';
-import { copy } from 'ember-copy';
+import { copy } from 'mdeditor/utils/copy';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';

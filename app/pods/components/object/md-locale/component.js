@@ -12,9 +12,7 @@ import {
   setProperties,
   get
 } from '@ember/object';
-import {
-  copy
-} from 'ember-copy';
+import { copy } from 'mdeditor/utils/copy';
 import {
   isNone
 } from '@ember/utils';

@@ -4,7 +4,7 @@ import { notEmpty, alias } from '@ember/object/computed';
 import { hasMany, attr, belongsTo } from '@ember-data/model';
 import { isEmpty } from '@ember/utils';
 import EmberObject, { get, computed } from '@ember/object';
-import { Copyable } from 'ember-copy';
+import Copyable from 'mdeditor/mixins/copyable';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import { v4 as uuidv4 } from 'uuid';
