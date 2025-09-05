@@ -25,6 +25,7 @@ module.exports = function (environment) {
     },
     "ember-local-storage": {
       fileExport: true,
+      loadInitializer: false,
     },
 
     APP: {
@@ -85,6 +86,7 @@ module.exports = function (environment) {
 
     ENV["ember-local-storage"] = {
       namespace: "test",
+      loadInitializer: false,
     };
 
     // keep test console output quieter

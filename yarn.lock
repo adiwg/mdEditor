@@ -108,7 +108,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.13.8, @babel/core@npm:^7.23.2, @babel/core@npm:^7.27.4":
+"@babel/core@npm:^7.13.8, @babel/core@npm:^7.23.2, @babel/core@npm:^7.26.0, @babel/core@npm:^7.27.4":
   version: 7.28.3
   resolution: "@babel/core@npm:7.28.3"
   dependencies:
@@ -2820,6 +2820,13 @@ __metadata:
   dependencies:
     ember-cli-babel: "npm:^7.26.6"
   checksum: 10c0/8f3ff18c43e1fba2d3855747cd71e7f2c62f4eb72f7af5f85988dd93ef39cb8bcd811cb4272930c26366da41535cd83cb3a097d76a895a367e671cb43f69b4c0
+  languageName: node
+  linkType: hard
+
+"@ember/string@npm:^4.0.1":
+  version: 4.0.1
+  resolution: "@ember/string@npm:4.0.1"
+  checksum: 10c0/c30f4596d2ea0e64d5e37fd218dc823f35d72329b0cf7645eb86ffb1e55ca257bb3b84924ac11672c8b2d445ba4c8783bb754907921927156e5f6ab9a2731e9c
   languageName: node
   linkType: hard
 
@@ -6312,10 +6319,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"blob-polyfill@npm:^2.0.20171115":
-  version: 2.0.20171115
-  resolution: "blob-polyfill@npm:2.0.20171115"
-  checksum: 10c0/87d7814b12fd80f537fcd9071ae9e76628070be9af4a4238f1e26794599f56d54e0a7ed04b0741af694b00de518a59be48b4062ce1429da7292a720450fc0dfd
+"blob-polyfill@npm:^7.0.20220408":
+  version: 7.0.20220408
+  resolution: "blob-polyfill@npm:7.0.20220408"
+  checksum: 10c0/f45c5c66574d69a7701006e2522d813479ce475847ecf9347edeefe11455a5dfbe8fcc7975491b9676ab87c4e8ad64666db37d6d09d6160f7ef2a2067dab0f00
   languageName: node
   linkType: hard
 
@@ -7770,7 +7777,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.1.0, chalk@npm:^2.3.0, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
+"chalk@npm:^2.0.0, chalk@npm:^2.0.1, chalk@npm:^2.1.0, chalk@npm:^2.4.1, chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
   dependencies:
@@ -9581,7 +9588,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-babel@npm:^6.0.0-beta.4, ember-cli-babel@npm:^6.1.0, ember-cli-babel@npm:^6.10.0, ember-cli-babel@npm:^6.11.0, ember-cli-babel@npm:^6.16.0, ember-cli-babel@npm:^6.3.0, ember-cli-babel@npm:^6.6.0, ember-cli-babel@npm:^6.8.2, ember-cli-babel@npm:^6.9.0":
+"ember-cli-babel@npm:^6.0.0-beta.4, ember-cli-babel@npm:^6.1.0, ember-cli-babel@npm:^6.10.0, ember-cli-babel@npm:^6.11.0, ember-cli-babel@npm:^6.16.0, ember-cli-babel@npm:^6.3.0, ember-cli-babel@npm:^6.6.0, ember-cli-babel@npm:^6.9.0":
   version: 6.18.0
   resolution: "ember-cli-babel@npm:6.18.0"
   dependencies:
@@ -9602,7 +9609,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-babel@npm:^7.0.0, ember-cli-babel@npm:^7.1.0, ember-cli-babel@npm:^7.1.2, ember-cli-babel@npm:^7.1.3, ember-cli-babel@npm:^7.10.0, ember-cli-babel@npm:^7.11.1, ember-cli-babel@npm:^7.13.0, ember-cli-babel@npm:^7.17.2, ember-cli-babel@npm:^7.19.0, ember-cli-babel@npm:^7.20.5, ember-cli-babel@npm:^7.21.0, ember-cli-babel@npm:^7.22.1, ember-cli-babel@npm:^7.23.0, ember-cli-babel@npm:^7.23.1, ember-cli-babel@npm:^7.26.0, ember-cli-babel@npm:^7.26.10, ember-cli-babel@npm:^7.26.11, ember-cli-babel@npm:^7.26.3, ember-cli-babel@npm:^7.26.6, ember-cli-babel@npm:^7.4.1, ember-cli-babel@npm:^7.5.0, ember-cli-babel@npm:^7.7.3, ember-cli-babel@npm:^7.8.0":
+"ember-cli-babel@npm:^7.0.0, ember-cli-babel@npm:^7.1.0, ember-cli-babel@npm:^7.1.2, ember-cli-babel@npm:^7.1.3, ember-cli-babel@npm:^7.10.0, ember-cli-babel@npm:^7.13.0, ember-cli-babel@npm:^7.17.2, ember-cli-babel@npm:^7.19.0, ember-cli-babel@npm:^7.20.5, ember-cli-babel@npm:^7.21.0, ember-cli-babel@npm:^7.22.1, ember-cli-babel@npm:^7.23.0, ember-cli-babel@npm:^7.23.1, ember-cli-babel@npm:^7.26.0, ember-cli-babel@npm:^7.26.10, ember-cli-babel@npm:^7.26.11, ember-cli-babel@npm:^7.26.3, ember-cli-babel@npm:^7.26.6, ember-cli-babel@npm:^7.4.1, ember-cli-babel@npm:^7.5.0, ember-cli-babel@npm:^7.7.3, ember-cli-babel@npm:^7.8.0":
   version: 7.26.11
   resolution: "ember-cli-babel@npm:7.26.11"
   dependencies:
@@ -10038,13 +10045,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-string-helpers@npm:4.0.7":
-  version: 4.0.7
-  resolution: "ember-cli-string-helpers@npm:4.0.7"
+"ember-cli-string-helpers@npm:^8.0.1":
+  version: 8.0.1
+  resolution: "ember-cli-string-helpers@npm:8.0.1"
   dependencies:
-    broccoli-funnel: "npm:^2.0.2"
-    ember-cli-babel: "npm:^7.7.3"
-  checksum: 10c0/43987ffcf00942053b0e74e6988403721ecec8a7dd95884ab3ac4dfb05d50df39548599ea70e0e44c643bfab3ad38eb55125a89d97c6046ccb639d8df88e41cc
+    "@embroider/addon-shim": "npm:^1.10.0"
+    decorator-transforms: "npm:^2.3.0"
+  peerDependencies:
+    "@ember/string": ">= 3.1.1"
+  checksum: 10c0/62eb5eaa939244df453ee3b591f8011de714be696381f727e090223327769516f4791828b225e2a1eb9b4c3305d7b6d3435f782396ea4dbbddb0e95d79928719
   languageName: node
   linkType: hard
 
@@ -10438,6 +10447,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ember-copy@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "ember-copy@npm:2.0.1"
+  dependencies:
+    ember-cli-babel: "npm:^7.22.1"
+  checksum: 10c0/65e7a8dfc69007fca73535c7a0441c8f54c331274deb0bb83112268430d2a09620c1b86c3a454972f60b082ce257177b06e91f3c927d5e17edc2f1bfe0b2336c
+  languageName: node
+  linkType: hard
+
 "ember-cp-validations@npm:^4.0.0":
   version: 4.0.0
   resolution: "ember-cp-validations@npm:4.0.0"
@@ -10651,15 +10669,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-ignore-children-helper@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "ember-ignore-children-helper@npm:1.0.1"
-  dependencies:
-    ember-cli-babel: "npm:^6.8.2"
-  checksum: 10c0/9a5bfb3864bcd7829f62d7bcf5b47ccc9fa3b3cf3ed104fe62fcdbebef3c447ebabf7f8d439cff6617e5a4c913cce31bea314f5b4e7034f6ba4186c0504549b0
-  languageName: node
-  linkType: hard
-
 "ember-in-element-polyfill@npm:^0.1.3":
   version: 0.1.3
   resolution: "ember-in-element-polyfill@npm:0.1.3"
@@ -10847,20 +10856,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-local-storage@npm:^1.7.2":
-  version: 1.7.2
-  resolution: "ember-local-storage@npm:1.7.2"
+"ember-local-storage@npm:^2.0.7":
+  version: 2.0.7
+  resolution: "ember-local-storage@npm:2.0.7"
   dependencies:
-    blob-polyfill: "npm:^2.0.20171115"
-    broccoli-funnel: "npm:^2.0.1"
-    broccoli-merge-trees: "npm:^2.0.0"
-    broccoli-stew: "npm:^1.5.0"
-    chalk: "npm:^2.3.0"
-    ember-cli-babel: "npm:^7.11.1"
+    blob-polyfill: "npm:^7.0.20220408"
+    broccoli-funnel: "npm:^3.0.8"
+    broccoli-merge-trees: "npm:^4.2.0"
+    broccoli-stew: "npm:^3.0.0"
+    ember-cli-babel: "npm:^7.26.11"
     ember-cli-string-utils: "npm:^1.1.0"
-    ember-cli-version-checker: "npm:^2.1.0"
-    ember-copy: "npm:^1.0.0"
-  checksum: 10c0/f92e9be12ad0460f67c453ef36e2dd308319bc1e447f395411add3e9372e5c4d1200962765571fe08cb29d3577c909e1d748bb825bfe6ed6105a349560f10ddd
+    ember-cli-version-checker: "npm:^5.1.2"
+    ember-copy: "npm:^2.0.1"
+    ember-destroyable-polyfill: "npm:^2.0.3"
+  checksum: 10c0/5d9611978fe7222b800d02d8c50e026910a4ddb9afd101f718a41407e3566ae9d948de3106972a1bf6782fa819dad73b6ce8a5d802876062f747ac132f4a81f0
   languageName: node
   linkType: hard
 
@@ -10898,16 +10907,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-modal-dialog@npm:^3.0.3":
-  version: 3.0.3
-  resolution: "ember-modal-dialog@npm:3.0.3"
+"ember-modal-dialog@npm:^4.1.5":
+  version: 4.1.5
+  resolution: "ember-modal-dialog@npm:4.1.5"
   dependencies:
-    ember-cli-babel: "npm:^7.23.0"
-    ember-cli-htmlbars: "npm:^3.0.0"
-    ember-cli-version-checker: "npm:^2.1.0"
-    ember-ignore-children-helper: "npm:^1.0.1"
-    ember-wormhole: "npm:^0.5.5"
-  checksum: 10c0/acada02d7de45695014ed78641473f5fa3984e5117c882ab0abf3184c90f74accef440761710d559e1ef9f891891d707bff596c3b50cf4798343158a800a99fe
+    "@babel/core": "npm:^7.26.0"
+    "@embroider/macros": "npm:^1.16.9"
+    "@embroider/util": "npm:^1.13.2"
+    ember-cli-babel: "npm:^8.2.0"
+    ember-cli-htmlbars: "npm:^6.3.0"
+    ember-cli-version-checker: "npm:^5.1.2"
+    ember-wormhole: "npm:^0.6.0"
+  peerDependencies:
+    "@ember/string": ^3.0.0 || ^4.0.0
+    ember-tether: ^3.0.0
+    liquid-tether: ^2.0.7
+    liquid-wormhole: ^3.0.1
+  peerDependenciesMeta:
+    ember-tether:
+      optional: true
+    liquid-tether:
+      optional: true
+    liquid-wormhole:
+      optional: true
+  checksum: 10c0/81f1947caf822b4d6e0d5a981509fcc9ecc13b0fa7fa82619d145d2dadd186c290c0750c5e5916b0fab53340121dad42ef3cde9d9a98f056c41be1d6a0b2b283
   languageName: node
   linkType: hard
 
@@ -11416,13 +11439,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-wormhole@npm:^0.5.4, ember-wormhole@npm:^0.5.5":
+"ember-wormhole@npm:^0.5.4":
   version: 0.5.5
   resolution: "ember-wormhole@npm:0.5.5"
   dependencies:
     ember-cli-babel: "npm:^6.10.0"
     ember-cli-htmlbars: "npm:^2.0.1"
   checksum: 10c0/595b2176a67f8c66315a752e6fae5055674ccf19254068c8266cdcaf9bf23356cf884111753f3f88d493e9395f16250396d31ac6a26feb5d5d9753e9b95a7d5b
+  languageName: node
+  linkType: hard
+
+"ember-wormhole@npm:^0.6.0":
+  version: 0.6.1
+  resolution: "ember-wormhole@npm:0.6.1"
+  dependencies:
+    ember-cli-babel: "npm:^7.22.1"
+    ember-cli-htmlbars: "npm:^5.3.1"
+  checksum: 10c0/461d5fe1dfbf46514f7d5412fde31d8e93db32f42a8ae4bfe8de3b4a3fdb149f9db736a72340b2ab7ea12e9ca318f7949920acdc88917db788c52fbb40ce5d89
   languageName: node
   linkType: hard
 
@@ -16699,6 +16732,7 @@ __metadata:
     "@babel/core": "npm:7.26.9"
     "@ember/jquery": "npm:^0.6.1"
     "@ember/optional-features": "npm:^2.0.0"
+    "@ember/string": "npm:^4.0.1"
     "@ember/test-helpers": "npm:^2.6.0"
     "@glimmer/component": "npm:^1.1.2"
     "@glimmer/tracking": "npm:^1.0.4"
@@ -16734,7 +16768,7 @@ __metadata:
     ember-cli-release: "npm:^0.2.9"
     ember-cli-sass: "npm:~10.0.1"
     ember-cli-sri: "npm:^2.1.1"
-    ember-cli-string-helpers: "npm:4.0.7"
+    ember-cli-string-helpers: "npm:^8.0.1"
     ember-cli-terser: "npm:^4.0.2"
     ember-composable-helpers: "npm:^2.4.0"
     ember-concurrency: "npm:^1.3.0"
@@ -16754,10 +16788,10 @@ __metadata:
     ember-leaflet-layer-control: "npm:~0.2.1"
     ember-load: "npm:0.0.17"
     ember-load-initializers: "npm:^2.1.2"
-    ember-local-storage: "npm:^1.7.2"
+    ember-local-storage: "npm:^2.0.7"
     ember-math-helpers: "npm:^2.18.2"
     ember-maybe-import-regenerator: "npm:^0.1.6"
-    ember-modal-dialog: "npm:^3.0.3"
+    ember-modal-dialog: "npm:^4.1.5"
     ember-models-table: "npm:2.15.0"
     ember-modifier: "npm:^4.2.2"
     ember-moment: "npm:^10.0.2"
