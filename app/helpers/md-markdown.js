@@ -1,6 +1,6 @@
 import { helper as buildHelper } from '@ember/component/helper';
 // import marked from 'marked';
-import { htmlSafe } from '@ember/string';
+import { htmlSafe } from '@ember/template';
 
 const marked = window.marked;
 

@@ -3,7 +3,7 @@ import {
 } from '@ember/component/helper';
 import {
   htmlSafe
-} from '@ember/string';
+} from '@ember/template';
 import {
   get
 } from '@ember/object';
