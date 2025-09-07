@@ -11,6 +11,7 @@ import Resolver from 'ember-resolver';
 import loadInitializers from 'ember-load-initializers';
 import config from 'mdeditor/config/environment';
 import LinkComponent from '@ember/routing/link-component';
+import './font-awesome';
 
 let events = {
   // add support for the blur event

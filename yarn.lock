@@ -3205,6 +3205,44 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fortawesome/ember-fontawesome@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@fortawesome/ember-fontawesome@npm:3.1.0"
+  dependencies:
+    "@embroider/addon-shim": "npm:^1.10.0"
+    "@embroider/macros": "npm:^1.10.0"
+  peerDependencies:
+    "@fortawesome/fontawesome-svg-core": ^6.6.0 || ^7.0.0
+    "@glimmer/component": ">= 1.1.2"
+  checksum: 10c0/72a451afd50fef53e10fa15e0bf3211e72904a9ba60ce05c3da64cdc9011193de335b5a0cd48a7d2963ff52ab05fbcc9ac3f0e5de7f12ca8f2a6518ed8748ee5
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-common-types@npm:7.0.1":
+  version: 7.0.1
+  resolution: "@fortawesome/fontawesome-common-types@npm:7.0.1"
+  checksum: 10c0/1cebe9727950f8fcea581e115ed91f9b2bf287114077adde0cc1fb32d25c2c2ec282a8cff291b22ca558cbb1264af7fad04b85c5afcb899745584b2874df4151
+  languageName: node
+  linkType: hard
+
+"@fortawesome/fontawesome-svg-core@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@fortawesome/fontawesome-svg-core@npm:7.0.1"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": "npm:7.0.1"
+  checksum: 10c0/adf72373e45ec0b81e9a60e74a6aeadd70cd7da31ecf37736e6288ef956148699272155935d97d7bf02f37e2fefd8f9b8c34b626e59fcca54a5947be46ff06fe
+  languageName: node
+  linkType: hard
+
+"@fortawesome/free-solid-svg-icons@npm:^7.0.1":
+  version: 7.0.1
+  resolution: "@fortawesome/free-solid-svg-icons@npm:7.0.1"
+  dependencies:
+    "@fortawesome/fontawesome-common-types": "npm:7.0.1"
+  checksum: 10c0/25e579f3e6504982884a1231f74125efdad70e3fde3bc8ca657a28d55a80ac4ddf6d5530c5cfd93292dbb702957bb4b91b8488865a934da1e09304a7e2a07a72
+  languageName: node
+  linkType: hard
+
 "@glimmer/component@npm:^1.0.4, @glimmer/component@npm:^1.1.2":
   version: 1.1.2
   resolution: "@glimmer/component@npm:1.1.2"
@@ -6763,7 +6801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"broccoli-funnel@npm:^1.0.1, broccoli-funnel@npm:^1.2.0":
+"broccoli-funnel@npm:^1.0.1":
   version: 1.2.0
   resolution: "broccoli-funnel@npm:1.2.0"
   dependencies:
@@ -9823,7 +9861,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-cli-htmlbars@npm:^2.0.1, ember-cli-htmlbars@npm:^2.0.2":
+"ember-cli-htmlbars@npm:^2.0.1":
   version: 2.0.5
   resolution: "ember-cli-htmlbars@npm:2.0.5"
   dependencies:
@@ -10609,19 +10647,6 @@ __metadata:
     miragejs:
       optional: true
   checksum: 10c0/92b7c91b32d51d0984518f960bcab0e8d94c0a6c2541ead1dba3102f48e1d1ad7dcac4eea5cb3233e66de83610b5e7f20fa0163a153df0ecb22f118c73c1e3f5
-  languageName: node
-  linkType: hard
-
-"ember-font-awesome@npm:^3.1.1":
-  version: 3.1.1
-  resolution: "ember-font-awesome@npm:3.1.1"
-  dependencies:
-    broccoli-funnel: "npm:^1.2.0"
-    chalk: "npm:^1.1.3"
-    ember-cli-babel: "npm:^6.6.0"
-    ember-cli-htmlbars: "npm:^2.0.2"
-    font-awesome: "npm:^4.7.0"
-  checksum: 10c0/960f50719822dabdaf8b4bcb7dc945afac641aea4deb1063650e06c0200e5aceab6f0b319299566e02749c9267df24ec6d88bc9daef320155e5b871140e656f1
   languageName: node
   linkType: hard
 
@@ -12999,13 +13024,6 @@ __metadata:
     debug:
       optional: true
   checksum: 10c0/5829165bd112c3c0e82be6c15b1a58fa9dcfaede3b3c54697a82fe4a62dd5ae5e8222956b448d2f98e331525f05d00404aba7d696de9e761ef6e42fdc780244f
-  languageName: node
-  linkType: hard
-
-"font-awesome@npm:^4.7.0, font-awesome@npm:~4.7.0":
-  version: 4.7.0
-  resolution: "font-awesome@npm:4.7.0"
-  checksum: 10c0/1c456e2939c55192eed67db9c0efb8db3e92fd357ca189ca00030eb44acffa1e9f835288d2204c14b9a9c490a7b14b7090dfaff80ded6b2473f50a923dfb41e7
   languageName: node
   linkType: hard
 
@@ -16734,6 +16752,9 @@ __metadata:
     "@ember/optional-features": "npm:^2.0.0"
     "@ember/string": "npm:^4.0.1"
     "@ember/test-helpers": "npm:^2.6.0"
+    "@fortawesome/ember-fontawesome": "npm:^3.1.0"
+    "@fortawesome/fontawesome-svg-core": "npm:^7.0.1"
+    "@fortawesome/free-solid-svg-icons": "npm:^7.0.1"
     "@glimmer/component": "npm:^1.1.2"
     "@glimmer/tracking": "npm:^1.0.4"
     "@mapbox/togeojson": "npm:^0.16.2"
@@ -16781,7 +16802,6 @@ __metadata:
     ember-export-application-global: "npm:^2.0.1"
     ember-fetch: "npm:^8.1.1"
     ember-file-upload: "npm:^9.5.0"
-    ember-font-awesome: "npm:^3.1.1"
     ember-in-viewport: "npm:^3.10.3"
     ember-intl: "npm:^7.3.1"
     ember-leaflet: "npm:~4.0.2"
@@ -16817,7 +16837,6 @@ __metadata:
     eslint-plugin-node: "npm:^11.1.0"
     eslint-plugin-prettier: "npm:^3.4.1"
     eslint-plugin-qunit: "npm:^7.3.4"
-    font-awesome: "npm:~4.7.0"
     geojson-coords: "npm:0.0.0"
     gh-pages: "npm:^6.3.0"
     https-browserify: "npm:^1.0.0"

@@ -85,9 +85,6 @@ module.exports = function (defaults) {
   });
   //marked
   app.import('node_modules/marked/marked.min.js');
-  
-  // Import shim for @ember/string compatibility
-  app.import('vendor/shims/ember-string.js');
 
   return app.toTree();
 };
