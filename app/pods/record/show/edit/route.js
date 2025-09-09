@@ -50,20 +50,9 @@ export default Route.extend(HashPoll, DoCancel, {
         let json = model.get('jsonRevert');
 
         if(json) {
-          model.set('json', EmberObject.create(JSON.parse(json)));
-
+          model.revertChanges();
           this.doCancel();
-          
-          // Revert the dateUpdated field after any route refresh operations
-          let originalDateUpdated = model.get('dateUpdatedRevert');
-          if(originalDateUpdated) {
-            scheduleOnce('afterRender', this, function() {
-              model.set('dateUpdated', originalDateUpdated);
-            });
-          }
-
-          this.flashMessages
-            .warning(message);
+          this.flashMessages.warning(message);
         }
 
         return;
