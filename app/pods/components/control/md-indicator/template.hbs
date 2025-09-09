@@ -1,10 +1,10 @@
-{{fa-icon this.icon fixedWidth=true}}
+<FaIcon @icon={{this.icon}} @fixedWidth={{true}} />
 
 <EmberPopover @popoverHideDelay={{this.popoverHideDelay}} @popperContainer={{this.popperContainer}} @tooltipClass={{concat "md-tooltip " this.type}} @event={{this.event}}>
   {{#if this.title}}
     <h4 class="title">
       {{#if this.icon}}
-        {{fa-icon this.icon}}
+        <FaIcon @icon={{this.icon}} />
       {{/if}}
       {{this.title}}
     </h4>

@@ -1,32 +1,31 @@
 import classic from 'ember-classic-decorator';
-import { classNameBindings, classNames, tagName } from '@ember-decorators/component';
+import {
+  classNameBindings,
+  classNames,
+  tagName,
+} from '@ember-decorators/component';
 import { inject as service } from '@ember/service';
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  htmlSafe
-} from '@ember/string';
+import { htmlSafe } from '@ember/template';
 import { getWithDefault, action, computed } from '@ember/object';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 import { once } from '@ember/runloop';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 const Validations = buildValidations({
-  'taxonomicName': [
+  taxonomicName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'taxonomicLevel': [
+  taxonomicLevel: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
 @classic
@@ -37,24 +36,28 @@ export default class Taxon extends Component.extend(Validations) {
   init() {
     super.init(...arguments);
 
-    this.collapse = (this.preview && !this.parentItem);
+    this.collapse = this.preview && !this.parentItem;
   }
 
   didReceiveAttrs() {
     super.didReceiveAttrs(...arguments);
 
     once(this, function () {
-      this.set('model.commonName', getWithDefault(this,
-        'model.commonName', []));
-      this.set('model.subClassification', getWithDefault(this,
-        'model.subClassification', []));
+      this.set(
+        'model.commonName',
+        getWithDefault(this, 'model.commonName', [])
+      );
+      this.set(
+        'model.subClassification',
+        getWithDefault(this, 'model.subClassification', [])
+      );
     });
   }
 
   didInsertElement() {
     super.didInsertElement(...arguments);
 
-    if(this.model._edit) {
+    if (this.model._edit) {
       this.startEditing();
       this.set('model._edit', false);
     }
@@ -82,8 +85,7 @@ export default class Taxon extends Component.extend(Validations) {
 
   @computed('model.subClassification.[]')
   get collapsible() {
-    return this.get(
-      'model.subClassification.length');
+    return this.get('model.subClassification.length');
   }
 
   @alias('model.taxonomicLevel')
@@ -115,8 +117,7 @@ export default class Taxon extends Component.extend(Validations) {
   }
 
   deleteTaxa(taxa) {
-    let parent = this.top || this.get(
-      'parentItem.model.subClassification');
+    let parent = this.top || this.get('parentItem.model.subClassification');
 
     parent.removeObject(taxa);
   }
@@ -125,7 +126,7 @@ export default class Taxon extends Component.extend(Validations) {
     this.get('model.subClassification').pushObject({
       commonName: [],
       subClassification: [],
-      _edit: true
+      _edit: true,
     });
   }
 
@@ -142,7 +143,7 @@ export default class Taxon extends Component.extend(Validations) {
 
   @action
   toggleEditing() {
-    if(this.isEditing) {
+    if (this.isEditing) {
       this.spotlight.close();
       this.set('isEditing', false);
       return;

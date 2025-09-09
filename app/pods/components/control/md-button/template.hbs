@@ -2,7 +2,7 @@
   {{yield}}
 {{else}}
   {{#if this.icon}}
-    {{fa-icon this.icon spin=this.iconSpin}}
+  <FaIcon @icon={{this.icon}} @spin={{this.iconSpin}} />
   {{/if}}
   {{this.text}}
 {{/if}}

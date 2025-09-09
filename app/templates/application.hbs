@@ -67,7 +67,7 @@
   @confirmLabel='OK'
   @confirm={{action (mut this.settings.data.showSplash) false}}
 >
-  <div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
+  <div class='alert alert-info' role='alert'><FaIcon @icon="triangle-exclamation" />
     Update Alert</div>
   <p>
     The md<span class='md-icon-mdeditor'></span>ditor has been updated since

@@ -13,9 +13,9 @@
   <div class="card-footer">
     <button class="btn btn-primary pull-right" type="submit" {{action "search"}} disabled={{if this.searchString false true}}>
       {{#if this.isLoading}}
-      {{fa-icon "spinner" spin=true}}
+      <FaIcon @icon="spinner" />
       {{else}}
-      {{fa-icon "search"}}
+      <FaIcon @icon="magnifying-glass" />
       <EmberTooltip @text="Click to send search request" @tooltipClass="ember-tooltip md-tooltip info" @side="left" />
       {{/if}}
       Search
@@ -25,7 +25,7 @@
 
 {{#if this.notFound}}
   <div class="alert alert-warning">
-    <h5>{{fa-icon "exclamation-triangle"}} No taxa matched the search. Please try again.</h5>
+    <h5><FaIcon @icon="triangle-exclamation" /> No taxa matched the search. Please try again.</h5>
   </div>
 {{/if}}
 

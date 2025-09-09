@@ -1,8 +1,7 @@
 {{#if this.isProcessing}}
-  <h3>{{fa-icon "spinner" spin=true}} Processing...
+  <h3><FaIcon @icon="spinner" @spin={{true}} /> Processing...
   <button class="btn btn-info" type="button" {{action "stopParsing"}}>
-      {{fa-icon "cross" spin=true}}
-    Stop</button>
+      <FaIcon @icon="x" @spin={{true}} /> Stop</button>
   </h3>
   <div class="progress">
     <div class="progress-bar" role="progressbar"
@@ -15,31 +14,8 @@
   {{#let (file-queue onFileAdded=this.readData) as |queue|}}
     <FileDropzone @queue={{queue}} class="md-file-picker md-import-picker" as |dropzone|>
       <input type="file" accept=".csv,.txt" style="display: none;" {{on "change" (fn this.handleFileInput queue)}} id="csv-file-input">
-      <button type="button" class="btn btn-lg btn-info btn-block {{if dropzone.active 'over'}}" {{on "click" this.triggerFileInput}}>{{fa-icon "bullseye"}}
+      <button type="button" class="btn btn-lg btn-info btn-block {{if dropzone.active 'over'}}" {{on "click" this.triggerFileInput}}><FaIcon @icon="bullseye" />
         Click or Drop a CSV here.</button>
     </FileDropzone>
   {{/let}}
-  {{!-- <hr>
-  <h3>Import from Online URL</h3>
-  <div class="row">
-    <div class="col-xxl-6">
-      <div class="input-group input-group-lg">
-        {{input
-          type="url"
-          value=importUri
-          placeholder="Enter online link to CSV"
-          class="form-control"
-        }}
-        <span class="input-group-btn">
-            <button class="btn btn-info" type="button" {{action "readFromUri"}}>
-              {{#if isLoading}}
-                {{fa-icon "spinner" spin=true}}
-              {{else}}
-                {{fa-icon "cloud-download"}}
-              {{/if}}
-              Import</button>
-        </span>
-      </div>
-    </div>
-  </div> --}}
 {{/if}}

@@ -1,18 +1,12 @@
 import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import {
-  next
-} from '@ember/runloop';
-import {
-  htmlSafe
-} from '@ember/string';
+import { next } from '@ember/runloop';
+import { htmlSafe } from '@ember/template';
 import Papa from 'papaparse';
 import { set, action, computed } from '@ember/object';
 
-import {
-  Promise
-} from 'rsvp';
+import { Promise } from 'rsvp';
 import jquery from 'jquery';
 import { UploadFile } from 'ember-file-upload';
 
@@ -128,67 +122,69 @@ export default class MdImportCsv extends Component {
 
   @action
   readData(file) {
-    Papa.SCRIPT_PATH = this.get('router.rootURL') +
-      'assets/workers/worker_papaparse.js';
+    Papa.SCRIPT_PATH =
+      this.get('router.rootURL') + 'assets/workers/worker_papaparse.js';
 
     let comp = this;
 
     set(comp, 'isProcessing', true);
     set(comp, 'progress', 0);
     next(this, function () {
-
       new Promise((resolve, reject) => {
-          try {
-            let processed = 1;
-            let chunkSize = 1000000;
+        try {
+          let processed = 1;
+          let chunkSize = 1000000;
 
-            Papa.parse(file.blob || file, {
-              header: true,
-              worker: true,
-              dynamicTyping: true,
-              skipEmptyLines: true,
-              chunkSize: chunkSize,
-              complete: () => {
-                resolve();
-              },
-              chunk: (results, parser) => {
-                if(processed === 1) {
-                  this.beforeFirstChunk(results);
-                }
-
-                this.set('progress', Math.trunc(((
-                    chunkSize * processed) / (file.size || file.blob?.size)
-                  ) * 100));
-
-                this.set('parser', parser);
-
-                this.processChunk(results.data);
-
-                processed++;
+          Papa.parse(file.blob || file, {
+            header: true,
+            worker: true,
+            dynamicTyping: true,
+            skipEmptyLines: true,
+            chunkSize: chunkSize,
+            complete: () => {
+              resolve();
+            },
+            chunk: (results, parser) => {
+              if (processed === 1) {
+                this.beforeFirstChunk(results);
               }
-            });
-          } catch(e) {
-            reject(
-              `Failed to parse file: ${file.name || file.blob?.name}. Is it a valid CSV?\n${e}`
-            );
-          }
-        })
+
+              this.set(
+                'progress',
+                Math.trunc(
+                  ((chunkSize * processed) / (file.size || file.blob?.size)) *
+                    100
+                )
+              );
+
+              this.set('parser', parser);
+
+              this.processChunk(results.data);
+
+              processed++;
+            },
+          });
+        } catch (e) {
+          reject(
+            `Failed to parse file: ${
+              file.name || file.blob?.name
+            }. Is it a valid CSV?\n${e}`
+          );
+        }
+      })
         .then(() => {
           //fire callback
           this.processComplete();
-
         })
         .catch((reason) => {
           //catch any errors
-          this.flashMessages
-            .danger(reason);
+          this.flashMessages.danger(reason);
           return false;
         })
         .finally(() => {
           //set(comp, 'isProcessing', false);
 
-          jquery('.md-import-picker input:file')
-            .val('');
+          jquery('.md-import-picker input:file').val('');
         });
     });
   }
@@ -199,61 +195,56 @@ export default class MdImportCsv extends Component {
 
     set(comp, 'isLoading', true);
 
-    this.ajax.request(this.importUri, {
+    this.ajax
+      .request(this.importUri, {
         type: 'GET',
         context: this,
         dataType: 'text',
-        crossDomain: true
+        crossDomain: true,
       })
-      .then(function (response, textStatus) {
+      .then(
+        function (response, textStatus) {
+          if (response && textStatus === 'success') {
+            let json;
 
-        if(response && textStatus === 'success') {
-          let json;
-
-          new Promise((resolve, reject) => {
+            new Promise((resolve, reject) => {
               try {
                 json = JSON.parse(response);
-              } catch(e) {
-                reject(
-                  `Failed to parse data. Is it valid JSON?`);
+              } catch (e) {
+                reject(`Failed to parse data. Is it valid JSON?`);
               }
 
               resolve({
                 json: json,
                 file: null,
-                route: this
+                route: this,
               });
             })
-            .then((data) => {
-              //determine file type and map
-              this.mapJSON(data);
+              .then((data) => {
+                //determine file type and map
+                this.mapJSON(data);
+              })
+              .catch((reason) => {
+                //catch any errors
+                this.flashMessages.danger(reason);
+                return false;
+              })
+              .finally(() => {
+                set(comp, 'isLoading', false);
+                jquery('.import-file-picker input:file').val('');
+              });
+          } else {
+            set(comp, 'errors', response.messages);
+            this.flashMessages.danger('Import error!');
+          }
+        },
+        (response) => {
+          let error = ` Error retrieving the mdJSON: ${response.status}: ${response.statusText}`;
 
-            })
-            .catch((reason) => {
-              //catch any errors
-              this.flashMessages
-                .danger(reason);
-              return false;
-            })
-            .finally(() => {
-              set(comp, 'isLoading', false);
-              jquery('.import-file-picker input:file')
-                .val('');
-            });
-        } else {
-          set(comp, 'errors', response.messages);
-          this.flashMessages
-            .danger('Import error!');
+          set(comp, 'xhrError', error);
+          set(comp, 'isLoading', false);
+          this.flashMessages.danger(error);
         }
-      }, (response) => {
-        let error =
-          ` Error retrieving the mdJSON: ${response.status}: ${response.statusText}`;
-
-        set(comp, 'xhrError', error);
-        set(comp, 'isLoading', false);
-        this.flashMessages
-          .danger(error);
-      });
-
+      );
   }
 }

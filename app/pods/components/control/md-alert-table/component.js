@@ -15,11 +15,11 @@ export default Component.extend({
     return this.required ? 'danger' : 'info';
   }),
   tipIcon: computed('required', function () {
-    return this.required ? 'exclamation-circle' : 'info-circle';
+    return this.required ? 'circle-exclamation' : 'circle-info';
   }),
   actions: {
     addItem(target) {
       this.addItem(target);
-    }
-  }
+    },
+  },
 });

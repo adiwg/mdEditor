@@ -1,13 +1,13 @@
 <h4>No <span class={{if this.required "required"}}>{{this.title}}</span> found.
   <button type="button"  class="btn btn-success btn-md" {{action "addItem" this.target}}>
-    {{fa-icon "plus"}} Add {{singularize this.title}}
+    <FaIcon @icon="plus" /> Add {{singularize this.title}}
   </button>
   {{yield}}
 </h4>
 <h4>
 {{#if this.tipMessage}}
   <span class="md-{{this.tipType}}">
-    {{fa-icon this.tipIcon}}
+    <FaIcon @icon={{this.tipIcon}} />
     <EmberTooltip @side="right" @tooltipClass={{concat "ember-tooltip md-tooltip " this.tipType}}>
     {{this.tipMessage}}
     </EmberTooltip>

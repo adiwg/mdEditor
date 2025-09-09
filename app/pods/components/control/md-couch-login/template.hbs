@@ -1,7 +1,7 @@
 {{#if this.isLoadingCreds}}
   <div class="text-info">
     Logging in...
-    {{fa-icon "spinner" spin=true size=3}}
+    <FaIcon @icon="spinner" @spin={{true}} @size="3x" />
   </div>
 {{else}}
   {{#unless this.couch.loggedIn}}
@@ -61,7 +61,7 @@
       {{#if this.couch.replicationState}}
         <div class="text-info">
           {{this.couch.replicationState}}...
-          {{fa-icon "spinner" spin=true size=3}}
+          <FaIcon @icon="spinner" @spin={{true}} @size="3x" />
         </div>
       {{/if}}
       {{#if this.couch.replicationInfo}}
