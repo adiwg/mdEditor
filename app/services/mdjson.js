@@ -115,7 +115,7 @@ export default Service.extend({
     set(json, 'dataDictionary', arr);
   },
 
-  formatRecord(rec, asText) {
+  formatRecord(rec, asText, includeDictionaries = true) {
     let _contacts = [];
     let conts = this.contacts;
 
@@ -175,7 +175,14 @@ export default Service.extend({
     let clean = cleaner.clean(get(rec, 'json'));
 
     this.injectCitations(clean);
-    this.injectDictionaries(rec, clean);
+    if (includeDictionaries) {
+      this.injectDictionaries(rec, clean);
+    } else {
+      // Remove mdDictionary array when not including dictionaries (for mdJSON export)
+      if (clean.mdDictionary) {
+        delete clean.mdDictionary;
+      }
+    }
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
     let contacts = this.store.peekAll('contact').mapBy('json');

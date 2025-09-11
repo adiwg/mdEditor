@@ -21,6 +21,7 @@ export default Component.extend({
    */
   updateProfile(profile){
     this.profile.set('active', profile);
+    this.record.updateTimestamp();
     this.record.save();
   },
 

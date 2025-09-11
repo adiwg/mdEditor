@@ -19,6 +19,7 @@ export default Component.extend({
       // item.set('_selected', true);
       later(this, function () {
         this.selected.pushObject(item);
+        this.record.updateTimestamp();
         this.record.save();
       }, 250);
     },
@@ -26,6 +27,7 @@ export default Component.extend({
       // item.set('_selected', false);
       later(this, function () {
         this.selected.removeObject(item);
+        this.record.updateTimestamp();
         this.record.save();
       }, 250);
     },

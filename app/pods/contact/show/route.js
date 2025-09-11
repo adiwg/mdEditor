@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route';
 import { copy } from 'ember-copy';
 import { inject as service } from '@ember/service';
+import EmberObject from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
@@ -14,6 +15,7 @@ export default Route.extend(ScrollTo, {
   actions: {
     saveContact: async function() {
       const model = this.currentRouteModel();
+      model.updateTimestamp();
       await model.save();
       await this.pouch.updatePouchRecord(model);
       this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
@@ -38,7 +40,7 @@ export default Route.extend(ScrollTo, {
         let json = model.get('jsonRevert');
 
         if (json) {
-          model.set('json', JSON.parse(json));
+          model.revertChanges();
           this.flashMessages.warning(message);
         }
 
