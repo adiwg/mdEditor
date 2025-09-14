@@ -10564,15 +10564,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ember-copy@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "ember-copy@npm:1.0.0"
-  dependencies:
-    ember-cli-babel: "npm:^6.6.0"
-  checksum: 10c0/b5298a673b3dc7f38d3e1a86d4595c4aaecc6770ec348a283107eb9f5deef8d8e12b1af289054bc300af01a02b0ea0748f199fc372d3ea6f333ebf166a62195b
-  languageName: node
-  linkType: hard
-
 "ember-copy@npm:^2.0.1":
   version: 2.0.1
   resolution: "ember-copy@npm:2.0.1"
@@ -10590,17 +10581,6 @@ __metadata:
     ember-require-module: "npm:^0.4.0"
     ember-validators: "npm:^4.1.1"
   checksum: 10c0/2620c649f2a506919049fd71db45b9da59ecadd661cbb1ad4f1ab6b8ba7f3c0c92d4552ab09e074e4c4cd135f8bbfb08047367bd1269c15dbdeb581a7d015352
-  languageName: node
-  linkType: hard
-
-"ember-crumbly@npm:^3.0.1":
-  version: 3.0.1
-  resolution: "ember-crumbly@npm:3.0.1"
-  dependencies:
-    ember-cli-babel: "npm:^6.6.0"
-    ember-cli-htmlbars: "npm:^2.0.1"
-    ember-copy: "npm:^1.0.0"
-  checksum: 10c0/e56b27e1837251634849fa327c8c04c9f88215003926fdb7f0f7389de65c33993b0810b4ec9f974a5a6e5c1c6c5f2ff04a91b39135c2acbf63414f67d302af1b
   languageName: node
   linkType: hard
 
@@ -16883,7 +16863,6 @@ __metadata:
     ember-composable-helpers: "npm:^2.4.0"
     ember-concurrency: "npm:^1.3.0"
     ember-cp-validations: "npm:^4.0.0"
-    ember-crumbly: "npm:^3.0.1"
     ember-data: "npm:~3.28.6"
     ember-decorators: "npm:^6.1.1"
     ember-drag-drop: "npm:^0.7.0"

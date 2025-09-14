@@ -5,7 +5,7 @@ import { classNameBindings } from '@ember-decorators/component';
  * @submodule components-input
  */
 
-import Toggle from 'ember-toggle/components/x-toggle/component';
+import Toggle from 'ember-toggle/components/x-toggle';
 
 @classic
 @classNameBindings('value:toggle-on:toggle-off')

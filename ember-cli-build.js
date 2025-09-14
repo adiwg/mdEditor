@@ -20,6 +20,41 @@ module.exports = function (defaults) {
       only: ['round'],
     },
 
+    'ember-composable-helpers': {
+      only: [
+        'sort-by',
+        'filter-by',
+        'group-by',
+        'map-by',
+        'reject-by',
+        'take',
+        'drop',
+        'slice',
+        'range',
+        'repeat',
+        'reverse',
+        'compute',
+        'optional',
+        'pipe',
+        'pick',
+        'omit',
+        'union',
+        'intersection',
+        'toggle',
+        'inc',
+        'dec',
+        'without',
+        'contains',
+        'unique',
+        'compact',
+        'flatten',
+        'object-at',
+        'has-next',
+        'has-previous',
+        'shuffle',
+      ],
+    },
+
     fingerprint: {
       exclude: [
         'images/layers-2x.png',
@@ -37,9 +72,9 @@ module.exports = function (defaults) {
       webpack: {
         resolve: {
           alias: {
-            'http': 'stream-http',
-            'https': 'https-browserify',
-            'path': 'path-browserify',
+            http: 'stream-http',
+            https: 'https-browserify',
+            path: 'path-browserify',
           },
         },
       },
