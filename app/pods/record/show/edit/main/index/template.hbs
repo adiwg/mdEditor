@@ -14,8 +14,7 @@
             <Input::MdInput @valuePath="recordId" @model={{this.model}} @placeholder="Assigned Record ID" @disabled={{true}} />
             <span class="input-group-btn">
                 <button class="btn btn-warning" type="button" {{action this.editId}}>
-                  {{fa-icon "pencil"}}
-                  Edit</button>
+                  <FaIcon @icon="pencil" /> Edit</button>
                   <EmberTooltip @text="Edit the metadata id" @tooltipClass="ember-tooltip md-tooltip warning" />
             </span>
           </div>

@@ -2,21 +2,21 @@
   {{#if this.doSave}}
       <button type="submit" {{action "save"}} class="btn btn-lg btn-success"
       disabled={{if this.model.hasDirtyHash false true}}>
-        <i class="fa fa-floppy-o"></i> Save
+        <FaIcon @icon="floppy-disk" /> Save
       </button>
       <button type="button" {{action "cancel"}} class="btn btn-lg btn-warning"
       disabled={{if this.model.canRevert false true}}>
-        <i class="fa fa-undo"></i> Cancel
+        <FaIcon @icon="rotate-left" /> Cancel
       </button>
   {{/if}}
   {{#if this.showCopy}}
     <button type="button" {{action "copy"}} class="btn btn-lg btn-info">
-      <i class="fa fa-clone"></i> Copy
+      <FaIcon @icon="clone" /> Copy
     </button>
   {{/if}}
   {{#if this.showDelete}}
     <Control::MdButtonConfirm @class="btn btn-lg btn-danger" @onConfirm={{action "delete"}} @tooltip="Permanently delete this record?" @tipClass="danger">
-      <span class="fa fa-times"></span> Delete
+      <FaIcon @icon="x" /> Delete
     </Control::MdButtonConfirm>
   {{/if}}
   {{yield}}

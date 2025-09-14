@@ -145,12 +145,12 @@
           color: lighten($brand-primary, 46.5%);
         }
 
-        span::before {
-          content: '\f106';
+        .accordion-icon {
+          transition: transform 0.2s ease;
         }
 
-        &.collapsed span::before {
-          content: '\f107';
+        &.collapsed .accordion-icon {
+          transform: rotate(180deg);
         }
       }
     }

@@ -28,8 +28,8 @@
 
 
 <Control::MdModal @isShowing={{this.showItisModal}} @showConfirm={{true}} @confirmLabel="Go to Settings" @showCancel={{true}} @confirm={{route-action "goToSettings"}} @cancel={{action (mut this.showItisModal) false}}>
-<div class='alert alert-info' role='alert'>{{fa-icon 'exclamation-triangle'}}
-    ITIS Proxy URL is required.
+<div class='alert alert-info' role='alert'>
+    <FaIcon @icon="exclamation-triangle" /> ITIS Proxy URL is required.
   </div>
   <p>
     Please go to <LinkTo @route='settings'>Settings > Main</LinkTo> and configure the

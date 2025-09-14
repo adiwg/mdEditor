@@ -28,7 +28,7 @@
 {{#if this.collapsible}}
   <p class="text-right">
     <a type="button" role="button" class="plain-link" {{action (toggle "collapse" this)}}>
-      {{fa-icon (if this.isCollapsed "caret-down" "caret-up")}} {{if this.isCollapsed "More" "Less"}}
+      <FaIcon @icon={{if this.isCollapsed "caret-down" "caret-up"}} /> {{if this.isCollapsed "More" "Less"}}
     </a>
   </p>
 {{/if}}

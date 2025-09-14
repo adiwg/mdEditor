@@ -3,7 +3,7 @@
   {{#if this.collapsible}}
     {{! template-lint-disable no-inline-styles }}
     <div class="inline-block icon" role="button" onClick={{action "toggleCollapse"}} style={{this.padding}}>
-      {{fa-icon (if this.collapse "folder" "folder-open") fixedWidth=true}}
+      <FaIcon @icon={{if this.collapsed "chevron-right" "chevron-down"}} />
       <strong class="text-success">{{this.taxonomicLevel}}</strong>
     </div>
   {{else}}
@@ -35,11 +35,11 @@
     <div class="md-taxon-btn">
       <button class="btn btn-xs btn-success" {{action "toggleEditing" this.elementId}}>
       {{!-- <button class="btn btn-xs btn-success" {{action (toggle "isEditing" this)}}> --}}
-        {{fa-icon "pencil"}} Edit
+        <FaIcon @icon="pencil" /> Edit
       </button>
 
       <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @onConfirm={{action "deleteTaxa" this.model}}>
-        {{fa-icon "times"}} Delete
+        <FaIcon @icon="x" /> Delete
       </Control::MdButtonConfirm>
 
       <Control::MdButton @class="btn-xs btn-info" @icon="plus" @text="Add Child" @responsive={{false}} @click={{action "addChild"}} />
@@ -68,7 +68,7 @@
         <footer class="card-footer text-right">
           <button type="submit" class="btn btn-xs btn-info" {{action "toggleEditing" this.elementId}}>
           {{!-- <button class="btn btn-xs btn-info" {{action (toggle "isEditing" this)}}> --}}
-            {{fa-icon "check"}} OK
+            <FaIcon @icon="check" /> OK
           </button>
         </footer>
       </form>

@@ -6,11 +6,10 @@
           class="btn btn-lg btn-primary"
           {{action "addNew" @section.meta.type }}
         >
-          {{fa-icon "plus"}} Add new {{@section.meta.type}}
+          <FaIcon @icon="plus" /> Add new {{@section.meta.type}}
         </button>
         <LinkTo @route="sync.import" @model={{@section.meta.type}} class="btn btn-lg btn-primary">
-          <span class="fa fa-sign-in"></span>
-          <span>Bulk import new {{@section.meta.list}}</span>
+          <FaIcon @icon="right-to-bracket" /> Bulk import new {{@section.meta.list}}
         </LinkTo>
       </div>
     {{/if}}
@@ -21,13 +20,13 @@
         class="btn btn-md btn-warning"
         {{action "close" }}
       >
-        {{fa-icon "undo"}} Cancel
+        <FaIcon @icon="rotate-left" /> Cancel
       </button>
       <button
         class="btn btn-md btn-success"
         {{action "saveNew" @section.meta.type }}
       >
-        {{fa-icon "floppy-o"}} Save
+        <FaIcon @icon="floppy-disk" /> Save
       </button>
     </div>
   {{/unless}}

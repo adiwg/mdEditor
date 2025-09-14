@@ -5,7 +5,7 @@
         <div class="label label-pill {{this.pillColor}}"> {{this.value.length}} </div>
         <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info pull-right"
             {{action "addItem" this.value}}>
-            {{fa-icon "plus"}} Add {{this.title}}
+            <FaIcon @icon="plus" /> Add {{this.title}}
         </button>
     </label>
     <div class={{if this.responsive "table-responsive"}}>
@@ -33,11 +33,8 @@
                     {{yield (hash item=item index=index profilePath=this.profilePath)}}
                     <td>
                         <div class="md-button-column">
-                            {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
-                                <span class="fa fa-times"></span> Delete
-                            </button> --}}
                             <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @disabled={{if this.simple (if item.value  "disabled")}} @onConfirm={{action "deleteItem" this.value index}}>
-                              <span class="fa fa-times"></span> Delete
+                              <FaIcon @icon="x" /> Delete
                             </Control::MdButtonConfirm>
                         </div>
                     </td>
@@ -47,7 +44,7 @@
                 <td colspan={{add-em (if this.hideIndex 1 2) this.columnArray.length}}>
                     <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info"
                         {{action "addItem" this.value}}>
-                        {{fa-icon "plus"}} Add {{this.title}}
+                        <FaIcon @icon="plus" /> Add {{this.title}}
                     </button>
                 </td>
             </tr>
@@ -68,7 +65,7 @@
                   </a>
                   <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info pull-right"
                       {{action "addItem"}}>
-                      {{fa-icon "plus"}} Add
+                      <FaIcon @icon="plus" /> Add
                   </button>
               </h3>
           </div>
@@ -99,11 +96,8 @@
                                   {{yield (hash item=item index=index profilePath=this.profilePath)}}
                                   <td>
                                       <div class="md-button-column">
-                                          {{!-- <button type="button" class="btn btn-xs btn-danger" {{action "deleteItem" value index}}>
-                                              <span class="fa fa-times"></span> Delete
-                                          </button> --}}
                                           <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @disabled={{if this.simple (if item.value  "disabled")}} @onConfirm={{action "deleteItem" item index}}>
-                                            <span class="fa fa-times"></span> Delete
+                                            <FaIcon @icon="x" /> Delete
                                           </Control::MdButtonConfirm>
                                       </div>
                                   </td>
@@ -113,7 +107,7 @@
                               <td colspan={{add-em (if this.hideIndex 1 2) this.columnArray.length}}>
                                   <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info"
                                       {{action "addItem"}}>
-                                      {{fa-icon "plus"}} Add {{this.title}}
+                                      <FaIcon @icon="plus" /> Add {{this.title}}
                                   </button>
                               </td>
                           </tr>

@@ -2,7 +2,7 @@
   {{#let this.model.json.dataDictionary as |dictionary|}}
   <div class="col-sm-9 col-md-offset-1">
     <h3>
-      {{fa-icon "book" class="text-muted"}}
+      <FaIcon @icon="book" class="text-muted" />
 
       Viewing Dictionary: {{this.model.title}}
       <Control::MdStatus @model={{this.model}} />
@@ -135,11 +135,11 @@
   <div class="md-control-sidebar col-sm-2 no-nav">
     <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{this.destroyDictionary}} @doCopy={{this.copyDictionary}}>
       <LinkTo @route="dictionary.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
-        {{fa-icon "pencil"}} Edit</LinkTo>
+        <FaIcon @icon="pencil" /> Edit</LinkTo>
     </Control::MdCrudButtons>
     <hr>
     <LinkTo @route="dictionaries" class="btn btn-lg btn-primary btn-block">
-      {{fa-icon "list"}} Show List</LinkTo>
+      <FaIcon @icon="list" /> Show List</LinkTo>
     <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{this.setScrollTo}} />
   </div>
 </div>

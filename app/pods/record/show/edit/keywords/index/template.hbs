@@ -17,7 +17,7 @@
           </h4>
           <Input::MdSelectThesaurus @class="md-keywords-select" @recordProfile={{this.model.profile}} @thesaurus={{thesaurus}} @selectThesaurus={{this.selectThesaurus}} @value={{thesaurus.thesaurus.identifier.0.identifier}} @disabled={{thesaurus.keyword.length}} />
           <Control::MdButtonConfirm @class="btn btn-sm btn-danger" @onConfirm={{fn this.deleteThesaurus index}}>
-            {{fa-icon "times"}} Delete
+            <FaIcon @icon="x" /> Delete
           </Control::MdButtonConfirm>
         </div>
         <div id="thesaurus-{{index}}" class="md-keywords-body collapse in">
@@ -38,7 +38,7 @@
         {{else}}
           <h3 class="alert alert-info">No keywords found.
             <button type="button" class="btn btn-success" {{action this.addThesaurus}}>
-              {{fa-icon "plus"}} Add Thesaurus</button>
+              <FaIcon @icon="plus" /> Add Thesaurus</button>
           </h3>
     {{/each}}
   </section>

@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xxl-11 col-xxxl-10 col-xxl-offset-1">
-    <h3 class="text-info">{{fa-icon "book"}} Dictionaries
+    <h3 class="text-info"><FaIcon @icon="book" /> Dictionaries
       <span class="small">for <em>{{this.parentModel.title}}</em></span>
       <Control::MdStatus @model={{this.parentModel}} />
     </h3>
@@ -15,7 +15,7 @@
         <li class="list-group-item">
           <h4 class="">{{item.title}}
             <Control::MdButtonConfirm @class="btn btn btn-danger pull-right" @onConfirm={{route-action "remove" item}}>
-              <span class="fa fa-times"></span> Remove
+              <FaIcon @icon="x" /> Remove
             </Control::MdButtonConfirm>
           </h4>
           {{!-- <p class="list-group-item-text">{{get-property item "description"}}</p> --}}
@@ -37,7 +37,7 @@
       <div class="alert alert-info">
         <h3>No Dictionaries found.
           <LinkTo @route="dictionary.new" class="btn btn-success btn-lg">
-            {{fa-icon "plus"}} Create a Dictionary
+            <FaIcon @icon="plus" /> Create a Dictionary
           </LinkTo>
         </h3>
       </div>

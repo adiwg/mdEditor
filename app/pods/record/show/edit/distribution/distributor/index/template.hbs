@@ -1,7 +1,7 @@
 <h4 class="section-header">
   Editing Distributor #{{this.distributorId}} in <span class="text-success">Distribution #{{this.distributionId}}</span>
   <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @onConfirm={{route-action "deleteDistributor"}} @tooltip="Delete Distributor?" @tipClass="danger" @tipSide="bottom">
-    {{fa-icon "times"}} Delete
+    <FaIcon @icon="x" /> Delete
   </Control::MdButtonConfirm>
   <Control::MdStatus @model={{this.parentModel}} />
 </h4>

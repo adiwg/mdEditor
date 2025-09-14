@@ -1,7 +1,7 @@
 {{#if this.label}}
   {{#if this.isCollapsible}}
     <label role='button' {{action (toggle 'isExpanded' this)}}>
-      {{fa-icon (if this.isExpanded 'caret-up' 'caret-down')}}
+      <FaIcon @icon={{if this.isExpanded 'caret-up' 'caret-down'}} />
       {{this.label}}
     </label>
   {{else}}
@@ -31,7 +31,7 @@
     <span class='md-input-error'>
       {{#if this.showErrorMessage}}
         <span class='md-error'>
-          {{fa-icon 'exclamation-circle'}}
+          <FaIcon @icon='circle-exclamation' />
           <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
             {{v-get this.model this.valuePath 'message'}}
           </EmberTooltip>
@@ -40,7 +40,7 @@
 
       {{#if this.showWarningMessage}}
         <span class='md-warning'>
-          {{fa-icon 'exclamation-triangle'}}
+          <FaIcon @icon='triangle-exclamation' />
           <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
             {{v-get this.model this.valuePath 'warningMessage'}}
           </EmberTooltip>

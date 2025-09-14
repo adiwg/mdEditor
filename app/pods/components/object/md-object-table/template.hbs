@@ -15,10 +15,10 @@
 
           <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info pull-right {{if this.editing "hidden"}}"
               {{action "addItem" this.items}}>
-              {{fa-icon "plus"}} Add
+              <FaIcon @icon="plus" /> Add
           </button>
           <button type="button" class="btn btn-xs btn-info pull-right {{unless this.editing "hidden"}}" {{action "cancelEdit"}}>
-              <span class="fa fa-check"></span> OK
+              <FaIcon @icon="check" /> OK
           </button>
       </h3>
     </div>
@@ -30,7 +30,7 @@
                 {{yield this.saveItem}}
                 <hr>
                 <button type="button" class="btn btn-xs btn-info" {{action "cancelEdit"}}>
-                    <span class="fa fa-check"></span> OK
+                    <FaIcon @icon="check" /> OK
                 </button>
           </div>
         </Control::MdScrollIntoView>
@@ -76,13 +76,10 @@
                           <div class="btn-toolbar" role="toolbar" aria-label="Row Toolbar">
                             <div class="btn-group{{if this.verticalButtons "-vertical"}}" role="group" aria-label="Action Buttons">
                               <button type="button" class="btn btn-{{this.btnSize}} btn-success" {{action "editItem" this.items index (if this.scrollToId (concat this.scrollToId "-" index) null) }}>
-                                {{fa-icon "pencil"}} {{if this.editBtnText this.editBtnText "Edit"}}
+                                <FaIcon @icon="pencil" /> {{if this.editBtnText this.editBtnText "Edit"}}
                               </button>
-                              {{!-- <button type="button" class="btn btn-{{btnSize}} btn-danger" {{action "deleteItem" items index}}>
-                                  <span class="fa fa-times"></span> Delete
-                              </button> --}}
                               <Control::MdButtonConfirm @class={{concat "btn btn-" this.btnSize " btn-danger"}} @onConfirm={{action "deleteItem" this.items index}}>
-                                <span class="fa fa-times"></span> Delete
+                                <FaIcon @icon="x" /> Delete
                               </Control::MdButtonConfirm>
 
                             </div>
@@ -97,7 +94,7 @@
                             <div class="btn-group{{if this.verticalButtons "-vertical"}}" role="group" aria-label="Row Error">
                               {{#if item.validations.isInvalid}}
                               <span class="md-error">
-                                {{fa-icon "exclamation-circle" fixedWidth=true}}
+                                <FaIcon @icon="circle-exclamation" @fixedWidth={{true}} />
                                 <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
                                 This item has errors.
                                 </EmberTooltip>
@@ -116,7 +113,7 @@
                         <td colspan={{add-em this.attrArray.length (if this.hideIndex 1 2)}}>
                           <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info"
                               {{action "addItem" this.items}}>
-                              {{fa-icon "plus"}} {{this.buttonText}}
+                              <FaIcon @icon="plus" /> {{this.buttonText}}
                           </button>
                         </td>
                     </tr>
@@ -128,7 +125,7 @@
           <div class="panel-footer text-right">
             <button type="button" id="{{this.panelId}}-btn" class="btn btn-sm btn-info {{if this.editing "hidden"}}"
                 {{action "addItem" this.items}}>
-                {{fa-icon "plus"}} Add {{this.header}}
+                <FaIcon @icon="plus" /> Add {{this.header}}
             </button>
           </div>
         {{/if}}

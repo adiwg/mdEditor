@@ -3,12 +3,12 @@
 {{/if}}
 
 <div class='md-input-input'>
-  <BsDatetimepicker @date={{this._date}} @format={{this.format}} @extraFormats={{this.extraFormats}} @dateIcon="fa fa-calendar" @timeIcon="fa fa-clock-o" @icons={{this.calendarIcons}} @placeholder={{this.placeholder}} @showClear={{this.showClear}} @useCurrent={{this.useCurrent}} @textFieldRequired={{this.required}} @showTodayButton={{this.showTodayButton}} @change={{this.change}} />
+  <BsDatetimepicker @date={{this._date}} @format={{this.format}} @extraFormats={{this.extraFormats}} @dateIcon="calendar" @timeIcon="clock-" @icons={{this.calendarIcons}} @placeholder={{this.placeholder}} @showClear={{this.showClear}} @useCurrent={{this.useCurrent}} @textFieldRequired={{this.required}} @showTodayButton={{this.showTodayButton}} @change={{this.change}} />
 
   <span class='md-inputgroup-error'>
     {{#if this.showErrorMessage}}
       <span class='md-error'>
-        {{fa-icon 'exclamation-circle'}}
+        <FaIcon @icon='circle-exclamation' />
         <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
           {{v-get this.model this.valuePath 'message'}}
         </EmberTooltip>
@@ -17,7 +17,7 @@
 
     {{#if this.showWarningMessage}}
       <span class='md-warning'>
-        {{fa-icon 'exclamation-triangle'}}
+        <FaIcon @icon='triangle-exclamation' />
         <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
           {{v-get this.model this.valuePath 'warningMessage'}}
         </EmberTooltip>

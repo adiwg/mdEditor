@@ -3,11 +3,11 @@
       <div class="row">
         <div class="col-sm-6">
           <button type="button" class="btn btn-md btn-success btn-block md-btn-responsive" {{action "editCollection" this.index}}>
-            {{fa-icon "pencil"}} Edit Collection</button>
+            <FaIcon @icon="pencil" /> Edit Collection</button>
         </div>
         <div class="col-sm-6">
           <button type="button" class="btn btn-md btn-danger btn-block md-btn-responsive" {{action "deleteCollection" this.index}}>
-              {{fa-icon "times"}} Delete Collection</button>
+              <FaIcon @icon="x" /> Delete Collection</button>
         </div>
       </div>
     </div>

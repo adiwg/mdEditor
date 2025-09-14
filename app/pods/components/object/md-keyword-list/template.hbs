@@ -19,7 +19,7 @@
           <td>
             <div class="md-button-column">
               <button class="btn btn-xs btn-danger" {{action "deleteKeyword" this.model.keyword keyword}}>
-                <span class="fa fa-times"></span> Delete
+                <FaIcon @icon="x" /> Delete
               </button>
             </div>
           </td>
@@ -34,10 +34,10 @@
       <tr>
         <td colspan="3">
           <button type="button" class="btn btn-xs btn-success" {{action "addKeyword" this.model.keyword}}>
-            {{fa-icon "plus"}} Add Keyword
+            <FaIcon @icon="plus" /> Add Keyword
           </button>
           <button type="button" class="btn btn-xs btn-info" {{action "hideThesaurus" this.element}}>
-            {{fa-icon "eye"}} Toggle Thesaurus
+            <FaIcon @icon="eye" /> Toggle Thesaurus
           </button>
         </td>
       </tr>
@@ -49,7 +49,7 @@
     {{#each this.model.keyword as |keyword|}}
       <li class="list-group-item">
         <button class="btn btn-xs btn-danger pull-right" {{action "deleteKeyword" this.model.keyword keyword}}>
-          <span class="fa fa-times"></span> Delete
+          <FaIcon @icon="x" /> Delete
         </button>
         {{keyword.keyword}}
       </li>
@@ -59,7 +59,7 @@
     {{#if this.editThesaurus}}
     <li class="list-group-item">
       <button type="button" class="btn btn-block btn-success" {{action this.editThesaurus this.listId}}>
-        {{fa-icon "pencil"}} Edit keywords.
+        <FaIcon @icon="pencil" /> Edit keywords.
       </button>
     </li>
     {{/if}}

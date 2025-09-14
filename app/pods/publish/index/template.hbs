@@ -8,7 +8,7 @@
           {{#if catalog.image}}
             <img class="media-object fa-fw fa-5x" src={{catalog.image}} alt="{{catalog.title}} icon">
           {{else}}
-            {{fa-icon (if catalog.icon catalog.icon "list-alt") size="5" fixedWidth=true class="text-info"}}
+            <FaIcon @icon={{if this.catalog.icon this.catalog.icon "list"}} @size="5x" @fixedWidth={{true}} class="text-info" />
           {{/if}}
       </div>
       <div class="media-body">
@@ -21,7 +21,7 @@
   {{else}}
   <div class="card card-inverse card-warning">
     <div class="card-block">
-      <h4 class="card-title">{{fa-icon "exclamation-triangle"}} No Services Available!</h4>
+      <h4 class="card-title"><FaIcon @icon="triangle-exclamation" /> No Services Available!</h4>
       <p class="card-text">No publication services have been configured. Contact your technical support for assistance.</p>
     </div>
   </div>

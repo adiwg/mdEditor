@@ -1,13 +1,13 @@
 <hr>
 <div class="btn-group-vertical center-block" role="group" aria-label="Geographic Extent Button Controls">
 <button type="button" class="btn btn-lg btn-success btn-block md-btn-responsive" {{action "zoomAll"}}>
-  {{fa-icon "search"}} Zoom All</button>
-<button type="button" class="btn btn-lg btn-warning btn-block md-btn-responsive" {{action "uploadData"}}>{{fa-icon "upload"}} Import Features</button>
-<button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action "exportGeoJSON"}}>{{fa-icon "download"}} Export Features</button>
-<Control::MdButtonConfirm @class="btn btn-lg btn-danger btn-block md-btn-responsive" @onConfirm={{action "deleteAllFeatures"}}> {{fa-icon "times"}} Delete All</Control::MdButtonConfirm>
+  <FaIcon @icon="magnifying-glass" /> Zoom All</button>
+<button type="button" class="btn btn-lg btn-warning btn-block md-btn-responsive" {{action "uploadData"}}><FaIcon @icon="upload" /> Import Features</button>
+<button type="button" class="btn btn-lg btn-info btn-block md-btn-responsive" {{action "exportGeoJSON"}}><FaIcon @icon="download" /> Export Features</button>
+<Control::MdButtonConfirm @class="btn btn-lg btn-danger btn-block md-btn-responsive" @onConfirm={{action "deleteAllFeatures"}}> <FaIcon @icon="x" /> Delete All</Control::MdButtonConfirm>
 </div>
 <hr>
 <button type="button" class="btn btn-lg btn-primary btn-block md-btn-responsive" {{action "toList"}}>
-  {{fa-icon "list"}} Back to List
+  <FaIcon @icon="list" /> Back to List
 </button>
 {{yield}}

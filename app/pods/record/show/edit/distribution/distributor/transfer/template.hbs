@@ -3,7 +3,7 @@
   <span class="text-success">Distributor #{{this.distributorId}}</span> in
   <span class="text-primary">Distribution #{{this.distributionId}}</span>
   <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @onConfirm={{route-action "deleteTransfer"}} @tooltip="Delete Transfer Option?" @tipClass="danger" @tipSide="bottom">
-    {{fa-icon "times"}} Delete
+    <FaIcon @icon="x" /> Delete
   </Control::MdButtonConfirm>
   <Control::MdStatus @model={{this.parentModel}} />
 </h4>

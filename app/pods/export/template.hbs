@@ -24,7 +24,7 @@
       {{/layout/md-card}}
     {{else}}
      <div class="alert alert-info">
-       <h3>{{fa-icon section.meta.icon}} No <em>{{section.meta.title}}</em> found.</h3>
+       <h3><FaIcon @icon="triangle-exclamation" /> No <em>{{section.meta.title}}</em> found.</h3>
      </div>
     {{/if}}
     {{/each}}
@@ -32,11 +32,11 @@
   <div class="md-control-sidebar col-sm-2 no-nav">
         <div class="btn-group-vertical center-block" role="group" aria-label="Export Button Controls">
           <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{action this.exportData}}>
-            {{fa-icon "sign-out"}} Export All</button>
+            <FaIcon @icon="right-form-bracket" /> Export All</button>
           <button type="button" class="btn btn-lg btn-info md-btn-responsive" {{action this.exportSelectedData}} disabled={{if this.hasSelected false true}}>
-            {{fa-icon "check-square-o"}} Export Selected</button>
+            <FaIcon @icon="square-check" /> Export Selected</button>
           <button type="button" class="btn btn-lg btn-success md-btn-responsive" {{action this.exportSelectedData true}} disabled={{if this.hasSelectedRecords false true}}>
-            {{fa-icon "check-square-o"}} Export mdJSON</button>
+            <FaIcon @icon="check-square" /> Export mdJSON</button>
         </div>
         <hr>
         <label class="center-block text-center">Include Settings?</label>

@@ -4,7 +4,7 @@
   <span class="text-primary">Raster Description #{{this.rasterId}}</span>
 
   <Control::MdButtonConfirm @class="btn btn-xs btn-danger" @onConfirm={{route-action "deleteAttribute"}} @tooltip="Delete Attribute?" @tipClass="danger" @tipSide="bottom">
-    {{fa-icon "times"}} Delete
+    <FaIcon @icon="x" /> Delete
   </Control::MdButtonConfirm>
 
   <Control::MdStatus @model={{this.parentModel}} />

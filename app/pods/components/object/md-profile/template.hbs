@@ -6,7 +6,8 @@
 }}
 {{yield}} --}}
 {{#if (v-get this.record "config" "isInvalid")}}
-  <div class="alert alert-danger" role="alert">{{fa-icon "exclamation"}}
+  <div class="alert alert-danger" role="alert">
+    <FaIcon @icon="triangle-exclamation" /> Error:
     {{v-get this.record "config" "message"}}
   </div>
 {{/if}}

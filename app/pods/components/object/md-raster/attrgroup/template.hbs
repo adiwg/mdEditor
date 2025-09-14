@@ -10,7 +10,7 @@
         </a>
         <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info pull-right"
             {{action "addItem"}}>
-            {{fa-icon "plus"}} Add
+            <FaIcon @icon="plus" /> Add
         </button>
       </h3>
     </div>
@@ -48,7 +48,7 @@
                 <td colspan={{add-em (if this.hideIndex 1 2) this.columnArray.length}}>
                   <button type="button" id="{{this.panelId}}-btn" class="btn btn-xs btn-info"
                     {{action "addItem"}}>
-                    {{fa-icon "plus"}} Add {{this.title}}
+                    <FaIcon @icon="plus" /> Add {{this.title}}
                   </button>
                 </td>
               </tr>

@@ -1,6 +1,6 @@
 <span class="tree-label-text tree-cell {{if model.notSelectable "text-muted"}} {{if model._record._dropped "tree-label-dropped"}}">
   <span class="tree-cell {{if model.isRoot "tree-root-label" "sb-label-cell"}}">
-    {{fa-icon model.icon}} {{model.label}}
+    <FaIcon @icon={{this.model.icon}} /> {{model.label}}
   {{!-- </span> --}}
 
   {{!-- <span class="tree-cell"> SB Id: --}}
@@ -9,7 +9,7 @@
         target="_blank" class="md-fa-link"
         onclick={{action "clicked" preventDefault=false}}
         rel="noopener noreferrer">
-          {{model.sbId}}<sup>{{fa-icon "external-link"}}</sup>
+          {{model.sbId}}<sup><FaIcon @icon="arrow-up-right-from-square" /></sup>
         </a>
     {{else}}
       : <em>No Id</em>
@@ -22,7 +22,7 @@
         target="_blank" class="md-fa-link"
         onclick={{action "clicked" preventDefault=false}}
         rel="noopener noreferrer">
-          {{model.sbParentId}}<sup>{{fa-icon "external-link"}}</sup>
+          {{model.sbParentId}}<sup><FaIcon @icon="arrow-up-right-from-square" /></sup>
         </a>
     {{else}}
       <em>None</em>
@@ -30,10 +30,10 @@
   </span>
 
   {{#if model.isLoading}}
-    <span class="tree-cell text-info text-nowrap sb-date-cell"> <strong>{{fa-icon "spinner" spin=true}} Publishing... </strong></span>
+    <span class="tree-cell text-info text-nowrap sb-date-cell"> <strong><FaIcon @icon="spinner" @spin={{true}} /> Publishing... </strong></span>
   {{else}}
     {{#if model.xhrError}}
-      <span class="tree-cell text-danger sb-date-cell">{{fa-icon "exclamation-circle"}} Publishing Error
+      <span class="tree-cell text-danger sb-date-cell"><FaIcon @icon="circle-exclamation" /> Publishing Error
           {{#ember-tooltip side="right"}}
             {{#each model.xhrError as |error|}}
               <div>{{error}}</div>

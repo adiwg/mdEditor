@@ -4,18 +4,10 @@
       {{#if this.model.defaultLogo}}
         <img src={{this.model.defaultLogo}} class="img-responsive inline-block md-logo-preview" alt="Responsive image">
       {{else}}
-        {{fa-icon this.model.icon class="text-muted"}}
+        <FaIcon @icon={{this.model.icon}} class="text-muted" />
       {{/if}}
 
       Viewing {{this.model.type}} Contact: {{this.model.title}}
-          {{!-- <span class="text-danger">
-            {{#if model.hasDirtyHash}}
-              {{fa-icon "exclamation-circle"}}
-              {{ember-tooltip text='This record has been modified!' side="right"
-                tooltipClass="ember-tooltip md-tooltip danger"
-              }}
-            {{/if}}
-          </span> --}}
           <Control::MdStatus @model={{this.model}} />
     </h3>
     <Layout::MdCard @shadow={{false}} @muted={{true}} @title="Basic Information" @bodyIsRow={{true}}>
@@ -189,11 +181,11 @@
   <div class="md-control-sidebar col-sm-2 no-nav">
     <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{this.destroyContact}} @doCopy={{this.copyContact}}>
       <LinkTo @route="contact.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
-        {{fa-icon "pencil"}} Edit</LinkTo>
+        <FaIcon @icon="pencil" /> Edit</LinkTo>
     </Control::MdCrudButtons>
     <hr>
     <LinkTo @route="contacts" class="btn btn-lg btn-primary btn-block">
-    {{fa-icon "list"}} Show List</LinkTo>
+      <FaIcon @icon="list" /> Show List</LinkTo>
     <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{this.setScrollTo}} />
   </div>
 </div>

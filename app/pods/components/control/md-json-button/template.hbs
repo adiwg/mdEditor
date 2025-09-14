@@ -1,7 +1,7 @@
 {{#if hasBlock}}
   {{yield}}
 {{else}}
-  <span class="fa fa-{{icon}}"></span> {{this.text}}
+ <FaIcon @icon={{this.icon}} /> {{this.text}}
 {{/if}}
 
 {{#if this.preview}}

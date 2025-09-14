@@ -1,6 +1,6 @@
 <button type="button" class="close huge-text" aria-label="Close" {{action "toggleVisibility"}}>
   Close
-  {{fa-icon "caret-right"}}
+  <FaIcon @icon="caret-right" />
 </button>
 <section class="md-slider-body">
   <FromElsewhere @name={{this.name}} as |slider|>

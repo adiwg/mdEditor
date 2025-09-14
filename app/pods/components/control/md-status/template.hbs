@@ -1,13 +1,13 @@
 {{#if this.model.hasDirtyHash}}
 <span role="button" class="md-status-icon" onclick={{action "saveRecord"}}>
-  {{fa-icon "exclamation-circle" class=(if this.isBtn (concat "btn btn-danger btn-" this.btnSize) "md-error")}}
+  <FaIcon @icon="circle-exclamation" class={{if this.isBtn (concat "btn btn-danger btn-" this.btnSize) "md-error"}} />
   <EmberTooltip @text="This record has been modified! Cick to save." @side="top" @tooltipClass="ember-tooltip md-tooltip danger" />
 </span>
 {{/if}}
 
 {{#if this.model.hasSchemaErrors}}
 <span role="button" class="md-status-icon" onclick={{action "showSlider"}}>
-  {{fa-icon "exclamation-triangle" class=(if this.isBtn (concat "btn btn-warning btn-" this.btnSize) "md-warning")}}
+  <FaIcon @icon="triangle-exclamation" class={{if this.isBtn (concat "btn btn-warning btn-" this.btnSize) "md-warning"}} />
   <EmberTooltip @text="This record has errors! Click to view." @side="right" @tooltipClass="ember-tooltip md-tooltip warning" />
 </span>
 {{/if}}

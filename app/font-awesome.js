@@ -1,4 +1,5 @@
 // app/font-awesome.ts
+// app/font-awesome.ts
 import { library, config } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css'; // This adds the basic icon styles into your app
 import * as freeSolidIcons from '@fortawesome/free-solid-svg-icons';

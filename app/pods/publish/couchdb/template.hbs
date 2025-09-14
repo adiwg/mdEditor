@@ -4,10 +4,10 @@
 
 <div class="couchdb-publish-instructions">
   <div class="alert alert-info">
-    <h4><span class="fa fa-info-circle"></span> About CouchDB Sync</h4>
+    <h4><FaIcon @icon="circle-info" /> About CouchDB Sync</h4>
     <p>
-      CouchDB uses a sync mechanism rather than traditional publishing. 
-      You can synchronize your mdEditor records with a CouchDB database 
+      CouchDB uses a sync mechanism rather than traditional publishing.
+      You can synchronize your mdEditor records with a CouchDB database
       to share data across devices or with team members.
     </p>
   </div>
@@ -18,7 +18,7 @@
     </div>
     <div class="panel-body">
       <ol>
-        <li><strong>Configure default settings</strong>: Set up your CouchDB connection defaults in 
+        <li><strong>Configure default settings</strong>: Set up your CouchDB connection defaults in
           <LinkTo @route="settings.main">Settings → Publishing Settings → CouchDB</LinkTo>
         </li>
         <li><strong>Go to the Sync page</strong>: Navigate to the Sync section to manage your CouchDB connections</li>
@@ -29,7 +29,7 @@
 
   <div class="text-center" style="margin-top: 20px;">
     <LinkTo @route="sync.list" class="btn btn-lg btn-primary">
-      <span class="fa fa-database"></span>
+      <FaIcon @icon="database" />
       Go to Sync
     </LinkTo>
   </div>

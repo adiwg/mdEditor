@@ -2,7 +2,7 @@
 <div class="row md-no-spotlight">
     <div class="col-sm-9 col-md-offset-1">
         <h3>
-        {{fa-icon this.model.icon class="text-muted"}}
+        <FaIcon @icon={{this.model.icon}} class="text-muted" />
         Viewing Record: {{this.model.title}}
         <Control::MdStatus @model={{this.model}} />
         </h3>
@@ -122,11 +122,11 @@
     <div class="md-control-sidebar col-sm-2 hidden-print no-nav">
       <Control::MdCrudButtons @model={{this.model}} @allowCopy={{true}} @allowDelete={{true}} @doDelete={{this.destroyRecord}} @doCopy={{this.copyRecord}}>
         <LinkTo @route="record.show.edit" @model={{this.model.id}} class="btn btn-lg btn-success">
-          {{fa-icon "pencil"}} Edit</LinkTo>
+          <FaIcon @icon="pencil" /> Edit</LinkTo>
       </Control::MdCrudButtons>
       <hr>
       <LinkTo @route="records" class="btn btn-lg btn-primary btn-block">
-      {{fa-icon "list"}} Show List</LinkTo>
+      <FaIcon @icon="list" /> Show List</LinkTo>
 
       <Control::MdScrollSpy @scrollInit={{this.scrollTo}} @setScrollTo={{this.setScrollTo}} @refresh={{this.model.profile}} />
     </div>

@@ -1,4 +1,4 @@
-<h3 class="text-info">{{fa-icon "book"}} Dictionaries</h3>
+<h3 class="text-info"><FaIcon @icon="book" /> Dictionaries</h3>
 
 {{#if this.model.length}}
   <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
@@ -8,7 +8,7 @@
 <div class="alert alert-info">
   <h3>No Dictionaries found.
     <LinkTo @route="dictionary.new" class="btn btn-success btn-lg">
-      {{fa-icon "plus"}} Create a Dictionary
+      <FaIcon @icon="plus" /> Create a Dictionary
     </LinkTo>
   </h3>
 </div>

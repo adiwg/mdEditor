@@ -9,7 +9,7 @@
         <FileDropzone @queue={{queue}} class="md-file-picker text-center" as |dropzone|>
           <input type="file" accept=".jpeg,.jpg,.png,.gif,.svg" style="display: none;" {{on "change" (fn this.handleFileInput queue)}} id="image-file-input">
           <button type="button" class="btn btn-lg btn-info {{if dropzone.active 'over'}}" {{on "click" this.triggerFileInput}}>
-            {{fa-icon "bullseye"}} Click to Select or Drop Image
+            <FaIcon @icon="bullseye" /> Click to Select or Drop Image
           </button>
         </FileDropzone>
       {{/let}}

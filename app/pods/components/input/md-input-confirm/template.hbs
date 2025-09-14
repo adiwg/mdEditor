@@ -5,7 +5,7 @@
   {{#if this.disabled}}
     <span class="input-group-btn">
         <Control::MdButtonConfirm @class="btn btn-warning" @onConfirm={{action "allowEdit"}}>
-            {{fa-icon "pencil"}} Edit
+            <FaIcon @icon="pencil" />Edit
             {{#if this.confirmTip}}
               <EmberTooltip>
                 {{this.confirmTip}}

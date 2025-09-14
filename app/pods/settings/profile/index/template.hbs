@@ -22,10 +22,8 @@
       <Object::MdProfile::Custom @record={{this.profile}} />
     {{else if this.profile}}
       {{#if this.profile.validations.hasWarnings}}
-        <div class='alert alert-warning' role='alert'>{{fa-icon
-            'exclamation-triangle'
-          }}
-          {{#each this.profile.validations.warningMessages as |message|}}
+        <div class='alert alert-warning' role='alert'>
+          <FaIcon @icon="exclamation-triangle" /> {{#each this.profile.validations.warningMessages as |message|}}
             <span>{{message}} </span>
           {{/each}}
         </div>

@@ -10,7 +10,7 @@
 {{else}}
   <h3 class="alert alert-info">No Funding Periods found.
     <button type="button" class="btn btn-lg btn-success" {{action "addAllocation"}}>
-      {{fa-icon "plus"}} Add Funding Period</button>
+      <FaIcon @icon="plus" /> Add Funding Period</button>
   </h3>
 {{/each}}
 

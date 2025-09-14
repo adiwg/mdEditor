@@ -16,35 +16,35 @@
       <ul class="nav navbar-nav">
         <li>
           <LinkTo @route="dashboard">
-            <span class="fa fa-dashboard"></span>
+            <FaIcon @icon="tachometer-alt" />
             <span class="md-nav-text">Dashboard</span>
             <EmberTooltip @text="Dashboard" @side="bottom" @tooltipClass="ember-tooltip md-nav-tip" />
           </LinkTo>
         </li>
         <li>
           <LinkTo @route="export">
-            <span class="fa fa-sign-out"></span>
+            <FaIcon @icon="sign-out" />
             <span class="md-nav-text">Export</span>
             <EmberTooltip @text="Export" @side="bottom" @tooltipClass="ember-tooltip md-nav-tip" />
           </LinkTo>
         </li>
         <li>
           <LinkTo @route="import">
-            <span class="fa fa-sign-in"></span>
+            <FaIcon @icon="sign-in" />
             <span class="md-nav-text">Import</span>
             <EmberTooltip @text="Import" @side="bottom" @tooltipClass="ember-tooltip md-nav-tip" />
           </LinkTo>
         </li>
         <li>
           <LinkTo @route="publish">
-            <span class="fa fa-share-square-o"></span>
+            <FaIcon @icon="share-square" />
             <span class="md-nav-text">Publish</span>
             <EmberTooltip @text="Publish" @side="bottom" @tooltipClass="ember-tooltip md-nav-tip" />
           </LinkTo>
         </li>
         <li>
           <LinkTo @route="sync">
-            <span class="fa fa-retweet"></span>
+            <FaIcon @icon="retweet" />
             <span class="md-nav-text">Sync</span>
             <EmberTooltip @text="Sync" @side="bottom" @tooltipClass="ember-tooltip md-nav-tip" />
           </LinkTo>
@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
           <LinkTo @route="settings">
-            <span class="fa fa-gear"></span>
+            <FaIcon @icon="gear" />
             <span class="md-nav-text nav-settings">Settings</span>
             <EmberTooltip @text="Settings" @side="bottom" @tooltipClass="ember-tooltip md-nav-tip" />
           </LinkTo>

@@ -61,7 +61,8 @@
                 {{control/md-status model=this.model isBtn=true bntSize="lg"}}
                 <button type="submit" class="btn btn-lg btn-primary pull-right"
                 disabled={{or (not this.writer) (not this.isApiConfigured)}}>
-                    {{fa-icon "retweet"}} Translate </button>
+                    <FaIcon @icon="retweet" /> Translate
+                </button>
             </div>
         </form>
     {{/layout/md-card}}
@@ -69,7 +70,7 @@
 </div>
 <div class="col-md-7">
     {{#if this.isLoading}}
-      {{control/md-spinner size=5 text="Translating..."}}
+      {{control/md-spinner size="5x" text="Translating..."}}
     {{/if}}
 
     {{#if this.messages}}
@@ -142,13 +143,15 @@
               <button type="button" class="btn btn-lg btn-primary"
               {{action "prettifyJson"}}
               disabled={{if this.result false true}}>
-              {{fa-icon "align-left"}} Format </button>
+              <FaIcon @icon="align-left" /> Format
+            </button>
             {{/if}}
 
               <button type="button" class="btn btn-lg btn-success"
               {{action "saveResult"}}
               disabled={{if this.result false true}}>
-              {{fa-icon "floppy-o"}} Save Result </button>
+              <FaIcon @icon="floppy-disk" /> Save Result
+              </button>
           </div>
       {{/layout/md-card}}
     {{/if}}

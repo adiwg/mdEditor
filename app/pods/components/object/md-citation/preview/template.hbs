@@ -6,7 +6,7 @@
 <div class="card-footer">
   <button type="button" name="button" class="btn btn-success pull-right"
     {{action (action this.editCitation (dasherize this.title))}}>
-    {{fa-icon "pencil"}} Edit Citation
+    <FaIcon @icon="pencil" /> Edit Citation
   </button>
 </div>
 </Layout::MdCard>

@@ -14,12 +14,13 @@
   <div class="btn-group btn-group-sm">
     {{#if this.editItem}}
       <button type="button" class="btn btn-success" {{action this.editItem this.index}}>
-        {{fa-icon "pencil"}} Edit</button>
+        <FaIcon @icon="pencil" /> Edit
+      </button>
     {{/if}}
 
     {{#if this.deleteItem}}
       <Control::MdButtonConfirm @class="btn btn-danger" @onConfirm={{action this.deleteItem this.index}}>
-        {{fa-icon "times"}} Delete
+        <FaIcon @icon="x" /> Delete
       </Control::MdButtonConfirm>
     {{/if}}
   </div>

@@ -1,4 +1,4 @@
-<h3 class="text-info">{{fa-icon "users"}} Contacts</h3>
+<h3 class="text-info"><FaIcon @icon="users" /> Contacts</h3>
 {{#if this.model.length}}
   <Layout::MdCard @collapsible={{true}} @collapsed={{false}} @shadow={{true}}>
     <Control::MdRecordTable @data={{this.model}} @dataColumns={{compute this.getColumns this.section.meta.type}} @allActions={{true}} @selectProperty="_selectedFromList" @showSlider={{this.showSlider}} />
@@ -7,7 +7,7 @@
 <div class="alert alert-info">
   <h3>No Contacts found.
     <LinkTo @route="contact.new" class="btn btn-success btn-lg">
-      {{fa-icon "plus"}} Create a Contact
+      <FaIcon @icon="plus" /> Create a Contact
     </LinkTo>
   </h3>
 </div>

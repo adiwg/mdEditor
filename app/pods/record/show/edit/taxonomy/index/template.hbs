@@ -11,7 +11,7 @@
 {{else}}
   <h3 class="alert alert-info">No taxonomic collections found.
     <button type="button" class="btn btn-success" {{action (route-action "addCollection")}}>
-      {{fa-icon "plus"}} Add Collection</button>
+      <FaIcon @icon="plus" /> Add Collection</button>
   </h3>
 {{/each}}
 

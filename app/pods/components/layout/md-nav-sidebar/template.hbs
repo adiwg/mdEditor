@@ -1,7 +1,7 @@
   <ul class="sidebar-nav">
     <li class="sidebar-brand">
       <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>md<span class="md-icon-mdeditor"></span>ditor</a><span class="md-app-version {{this.prerelease}}">v{{this.version}}</span>
-      <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}>{{fa-icon (if this.showHelp "list" "question-circle")}}</a>
+      <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}><FaIcon @icon={{if this.showHelp "list" "circle-question"}} /></a>
     </li>
     {{#liquid-if this.showHelp use="fade" enableGrowth=false}}
       {{this.md-help}}
@@ -14,14 +14,16 @@
               <div class="panel-heading clearfix" id="{{meta.listId}}-heading">
                 <div class="btn-group btn-group-xs pull-right" role="group" aria-label="...">
                   <LinkTo @route={{concat meta.type ".new"}} class="btn btn-primary btn-xs">
-                    {{fa-icon "plus"}} </LinkTo>
+                    <FaIcon @icon="plus" />
+                  </LinkTo>
                   <LinkTo @route={{meta.list}} class="btn btn-primary btn-xs">
-                    <span class="fa fa-list"></span> </LinkTo>
+                    <FaIcon @icon="list" />
+                  </LinkTo>
                 </div>
                 <h4 class="panel-title bg-primary">
               <a class="" data-toggle="collapse" aria-expanded="true"
                 href="#{{meta.listId}}" aria-controls={{meta.listId}}>
-                <span class="fa"></span> {{meta.title}} ({{class.length}})
+                <FaIcon @icon="chevron-up" class="accordion-icon" /> {{meta.title}} ({{class.length}})
               </a>
             </h4>
               </div>
@@ -31,15 +33,14 @@
                     <div class="list-group-item" draggable="true">
                       <div class="btn-group btn-group-xs pull-right" role="group" aria-label="Navigation Buttons">
                         <LinkTo @route={{concat meta.type ".show.edit"}} @model={{record}} class={{concat "btn btn-" record.status}} @disabledWhen={{record.isNew}} @draggable="false">
-                          {{fa-icon "pencil"}}
+                          <FaIcon @icon="pencil" />
                         </LinkTo>
                       </div>
-                      {{!--<span class="{{if draggable 'fa fa-ellipsis-v pull-right'}}"></span> --}}
                       <LinkTo @route={{concat meta.type ".show"}} @model={{record}} class="sidebar-row" @disabledWhen={{record.isNew}} @activeClass={{concat "active text-" record.status}} @draggable="false">
                           {{#if record.defaultLogo}}
                             <img src={{record.defaultLogo}} alt="logo" class="fa-fw">
                           {{else}}
-                            <span class="fa fa-{{record.icon}} fa-fw"></span>
+                            <FaIcon @icon={{record.icon}} class="fa-fw" />
                           {{/if}}
                           {{record.title}}
                       </LinkTo>

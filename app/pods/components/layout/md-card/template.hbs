@@ -5,7 +5,7 @@
           {{#if this.titleIcon}}
             <a role="button" data-toggle="collapse" href="{{this.cardId}}" aria-expanded={{if this.collapsed "false" "true"}}
             class="text-info {{if this.collapsed "collapsed"}}" aria-controls={{this.panelId}}>
-            {{fa-icon this.titleIcon}}
+            <FaIcon @icon={{this.titleIcon}} />
             {{this.title}}
             <span class="fa"></span>
             </a>
@@ -18,30 +18,27 @@
           {{/if}}
         {{else}}
           {{#if this.titleIcon}}
-            {{fa-icon this.titleIcon}}
+            <FaIcon @icon={{this.titleIcon}} />
           {{/if}}
           {{this.title}}
         {{/if}}
-        {{#if this.maximizable}}
-          <a role="button" class="pull-right md-card-maximize hidden-print">
-            {{fa-icon this.windowIcon size=1 click=(action "toggleFullScreen")}}
+        {{#if this.maximizable}}<a role="button" class="pull-right md-card-maximize hidden-print">
+            <FaIcon @icon={{this.windowIcon}} @size="1x" @onClick={{action "toggleFullScreen"}} />
           </a>
         {{/if}}
         <div class="btn-group hidden-print pull-right">
-          {{#if this.btnText}}
-            <button type="button" name="button" class="btn btn-{{if this.btnClass this.btnClass "primary"}} btn-xs" {{action this.btnAction}}>
-              {{fa-icon this.btnIcon}}
+          {{#if this.btnText}}<button type="button" name="button" class="btn btn-{{if this.btnClass this.btnClass "primary"}} btn-xs" {{action this.btnAction}}>
+              <FaIcon @icon={{this.btnIcon}} />
               {{this.btnText}}
             </button>
           {{/if}}
-          {{#if this.deleteAction}}
-            <Control::MdButtonConfirm @class="btn btn-danger btn-xs" @onConfirm={{action this.deleteAction}}>
-              {{fa-icon "times"}} Delete
+          {{#if this.deleteAction}}<Control::MdButtonConfirm @class="btn btn-danger btn-xs" @onConfirm={{action this.deleteAction}}>
+              <FaIcon @icon="x" /> Delete
             </Control::MdButtonConfirm>
           {{/if}}
           {{#if this.spotlightEnabled}}
             <button type="button" name="button" class="btn btn-info btn-xs md-btn-spotlight" {{action "spotlight" this.elementId}}>
-              {{fa-icon "circle"}}
+              <FaIcon @icon="circle" />
             </button>
           {{/if}}
         </div>

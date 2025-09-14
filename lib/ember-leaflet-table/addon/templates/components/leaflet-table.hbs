@@ -28,7 +28,7 @@
   {{#if formData}}
     <h4 class="table-title">Edit Feature Properties
       <button class="btn btn-xs btn-info pull-right" {{action "closeForm" }} title="Close Form" type='button'>
-        <span class="fa fa-check"></span> OK
+        <FaIcon @icon="check" /> OK
       </button>
     </h4>
     {{feature-form model=formData}}

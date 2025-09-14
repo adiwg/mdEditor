@@ -23,7 +23,7 @@
             {{/if}}
             {{#if this.task.isRunning}}
               <small>...downloading definition</small>
-              {{fa-icon "spinner" spin=true}}
+              <FaIcon @icon="spinner" @spin={{true}} />
             {{/if}}
           {{/liquid-if}}
           <hr>
