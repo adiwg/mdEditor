@@ -92,7 +92,6 @@
     "ember-composable-helpers": "^2.4.0",
     "ember-concurrency": "^1.3.0",
     "ember-cp-validations": "^4.0.0",
-    "ember-crumbly": "^3.0.1",
     "ember-data": "~3.28.6",
     "ember-decorators": "^6.1.1",
     "ember-drag-drop": "^0.7.0",

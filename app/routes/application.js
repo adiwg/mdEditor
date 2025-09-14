@@ -21,6 +21,7 @@ export default class ApplicationRoute extends Route {
   @service keyword;
   @service profile;
   @service('custom-profile') customProfile;
+  @service breadcrumbs;
 
   /**
    * Get the current route's model
@@ -43,6 +44,13 @@ export default class ApplicationRoute extends Route {
       evt.returnValue = dirty ? message : undefined;
 
       return evt.returnValue;
+    });
+
+    // Set up breadcrumb updates on route changes
+    this.router.on('routeDidChange', (transition) => {
+      if (transition && transition.routeInfos) {
+        this.breadcrumbs.updateBreadcrumbs(transition.routeInfos);
+      }
     });
   }
 

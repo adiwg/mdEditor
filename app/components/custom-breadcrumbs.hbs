@@ -1,0 +1,13 @@
+<ol class="breadcrumb" ...attributes>
+  {{#each this.breadcrumbHierarchy as |crumb|}}
+    <li>
+      {{#if (and crumb.linkable this.linkable (not crumb.isTail))}}
+        <a href="#" {{on "click" (fn this.navigateToRoute crumb.routeName crumb.params)}}>
+          {{crumb.title}}
+        </a>
+      {{else}}
+        {{crumb.title}}
+      {{/if}}
+    </li>
+  {{/each}}
+</ol>
