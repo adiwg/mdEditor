@@ -4,10 +4,9 @@ label.required::after,
 span.required::after {
   @extend sup;
   color: $brand-danger;
-  content: '\f069';
-  font-family: FontAwesome;
-  font-style: normal;
-  font-weight: normal;
+  content: '*';
+  font-size: 1.2em;
+  margin-left: 2px;
 }
 
 .md-input-error,
