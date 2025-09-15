@@ -30,11 +30,36 @@ export default class DataMapperService extends Service {
         return record.attributes.title || 'NO TITLE';
       default:
         return 'N/A';
+    switch (record.type) {
+      case 'records':
+        return getWithDefault(
+          json,
+          'metadata.resourceInfo.citation.title',
+          'NO TITLE'
+        );
+      case 'dictionaries':
+        return getWithDefault(
+          json,
+          'dataDictionary.citation.title',
+          'NO TITLE'
+        );
+      case 'contacts':
+        return json.name || 'NO NAME';
+      case 'schemas':
+        return record.attributes.title || 'NO TITLE';
+      default:
+        return 'N/A';
     }
   }
 
   formatMdJSON(json) {
     const { contact, dataDictionary, metadata } = json;
+
+    // Remove mdDictionary array from mdJSON as it should not be there according to mdJSON schema
+    if (json.mdDictionary) {
+      delete json.mdDictionary;
+    }
+
     const data = A();
 
     // Define Template class similar to import route
@@ -69,6 +94,17 @@ export default class DataMapperService extends Service {
     delete cleanJson.contact;
     delete cleanJson.dataDictionary;
 
+    // Extract dictionaryId values from dataDictionary array and populate mdDictionary array
+    if (dataDictionary && dataDictionary.length > 0) {
+      let mdDictionaryIds = dataDictionary
+        .filter((dict) => dict.dictionaryId)
+        .map((dict) => dict.dictionaryId);
+
+      if (mdDictionaryIds.length > 0) {
+        json.mdDictionary = mdDictionaryIds;
+      }
+    }
+
     data.pushObject(
       Template.create({
         attributes: {
@@ -100,6 +136,7 @@ export default class DataMapperService extends Service {
       if (!accumulatedRecords[item.type]) {
         accumulatedRecords[item.type] = [];
       }
+      }
 
       // Use optional chaining and nullish coalescing for safer access and assignment
       const meta = {
@@ -107,7 +144,15 @@ export default class DataMapperService extends Service {
         icon: this.icons[item.type] ?? 'defaultIcon',
         export: true,
       };
+      // Use optional chaining and nullish coalescing for safer access and assignment
+      const meta = {
+        title: this.getTitle(item),
+        icon: this.icons[item.type] ?? 'defaultIcon',
+        export: true,
+      };
 
+      // Create a new item with meta and add it to the type-specific array
+      accumulatedRecords[item.type].push(EmObject.create({ ...item, meta }));
       // Create a new item with meta and add it to the type-specific array
       accumulatedRecords[item.type].push(EmObject.create({ ...item, meta }));
 
@@ -143,11 +188,15 @@ export default class DataMapperService extends Service {
     let files = isArray(data)
       ? this.mapEditorJSON({ json: { data }, route })
       : this.mapMdJSON({ json: { data }, route });
+    let files = isArray(data)
+      ? this.mapEditorJSON({ json: { data }, route })
+      : this.mapMdJSON({ json: { data }, route });
 
     // Fix a common typo in liability field
     fixLiabilityTypo(files);
 
     // Update the current route model with new files and data
+    route.currentRouteModel().set('files', files).set('data', data);
     route.currentRouteModel().set('files', files).set('data', data);
   }
 }
