@@ -35,6 +35,7 @@ export default Component.extend({
       let model = this.model;
 
       evt.stopPropagation();
+      model.updateTimestamp();
       model.save()
         .then(() => {
           this.flashMessages

@@ -1,9 +1,6 @@
-import classic from 'ember-classic-decorator';
-import { action } from '@ember/object';
-import { tagName } from '@ember-decorators/component';
-import { inject as service } from '@ember/service';
-import { alias, setDiff } from '@ember/object/computed';
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { inject as service } from '@ember/service';
 import { later } from '@ember/runloop';
 
 @classic
@@ -25,23 +22,30 @@ export default class Custom extends Component {
   setValue(selected) {
     this.record.set('profileId', selected ? selected.codeId : null);
   }
-
   @action
   selectItem(item) {
     // item.set('_animate', true);
     // item.set('_selected', true);
-    later(this, function () {
-      this.selected.pushObject(item);
-      this.record.save();
-    }, 250);
+    later(
+      this,
+      function () {
+        this.selected.pushObject(item);
+        this.record.save();
+      },
+      250
+    );
   }
 
   @action
   deselectItem(item) {
     // item.set('_selected', false);
-    later(this, function () {
-      this.selected.removeObject(item);
-      this.record.save();
-    }, 250);
+    later(
+      this,
+      function () {
+        this.selected.removeObject(item);
+        this.record.save();
+      },
+      250
+    );
   }
 }

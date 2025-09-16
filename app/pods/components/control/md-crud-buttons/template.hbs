@@ -1,24 +1,25 @@
 <div class="btn-group-vertical center-block" role="group" aria-label="CRUD Button Controls">
-  {{#if this.doSave}}
+  {{#if doSave}}
       <button type="submit" {{action "save"}} class="btn btn-lg btn-success"
-      disabled={{if this.model.hasDirtyHash false true}}>
-        <FaIcon @icon="floppy-disk" /> Save
+      disabled={{if (or model.hasDirtyHash settings.data.autoSave) false true}}>
+        <i class="fa fa-floppy-o"></i> Save
       </button>
       <button type="button" {{action "cancel"}} class="btn btn-lg btn-warning"
-      disabled={{if this.model.canRevert false true}}>
-        <FaIcon @icon="rotate-left" /> Cancel
+      disabled={{if model.canRevert false true}}>
+        <i class="fa fa-undo"></i> Cancel
       </button>
   {{/if}}
-  {{#if this.showCopy}}
+  {{#if showCopy}}
     <button type="button" {{action "copy"}} class="btn btn-lg btn-info">
-      <FaIcon @icon="clone" /> Copy
+      <i class="fa fa-clone"></i> Copy
     </button>
   {{/if}}
-  {{#if this.showDelete}}
-    <Control::MdButtonConfirm @class="btn btn-lg btn-danger" @onConfirm={{action "delete"}} @tooltip="Permanently delete this record?" @tipClass="danger">
-      <FaIcon @icon="x" /> Delete
-    </Control::MdButtonConfirm>
+  {{#if showDelete}}
+    {{#control/md-button-confirm class="btn btn-lg btn-danger" onConfirm=(action "delete") tooltip="Permanently delete this record?" tipClass="danger"}}
+      <span class="fa fa-times"></span> Delete
+    {{/control/md-button-confirm}}
   {{/if}}
   {{yield}}
-  <EmberTooltip @tooltipClass="ember-tooltip md-tooltip primary" @text="Manage the record" @side="top" />
+  {{ember-tooltip tooltipClass="ember-tooltip md-tooltip primary"
+    text="Manage the record" side="top"}}
 </div>

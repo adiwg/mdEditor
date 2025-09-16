@@ -5,7 +5,8 @@ import { alias, bool } from '@ember/object/computed';
 import { Model } from 'ember-pouch';
 import hash from 'object-hash';
 import { set, computed } from '@ember/object';
-import { once } from '@ember/runloop';
+import EmberObject from '@ember/object';
+import { once, scheduleOnce } from '@ember/runloop';
 
 @classic
 class Base extends Model {
@@ -112,7 +113,7 @@ class Base extends Model {
   }
 
   wasUpdated() {
-    undefined;
+    super.wasUpdated(...arguments);
 
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
@@ -124,8 +125,39 @@ class Base extends Model {
     this.pouch.updatePouchRecord(this);
   }
 
+  updateTimestamp() {
+    // Update dateUpdated to current timestamp when record is manually saved
+    this.set('dateUpdated', new Date());
+  }
+
+  // TODO: Clean this up when we move to upgraded Ember
+  revertChanges() {
+    // Temporarily disable auto-save behavior
+    let originalAutoSave = this.get('settings.data.autoSave');
+    this.set('settings.data.autoSave', false);
+
+    // Store the original dateUpdated before any changes
+    let originalDateUpdated = this.get('dateUpdatedRevert');
+
+    // Revert JSON content
+    let json = this.get('jsonRevert');
+    if (json) {
+      this.set('json', EmberObject.create(JSON.parse(json)));
+    }
+
+    // Revert dateUpdated field
+    if (originalDateUpdated) {
+      this.set('dateUpdated', originalDateUpdated);
+    }
+
+    // Re-enable auto-save after revert is complete
+    scheduleOnce('actions', this, function () {
+      this.set('settings.data.autoSave', originalAutoSave);
+    });
+  }
+
   wasLoaded() {
-    undefined;
+    super.wasLoaded(...arguments);
 
     let json = JSON.parse(this.serialize().data.attributes.json);
 
@@ -136,7 +168,7 @@ class Base extends Model {
   saved() {
     this.set('dateUpdated', new Date());
 
-    return undefined;
+    return super.saved(...arguments);
   }
 
   /**
