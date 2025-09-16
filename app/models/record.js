@@ -72,8 +72,25 @@ const Record = Model.extend(Validations, Copyable, {
   }),
   json: attr('json', {
     defaultValue() {
-      const mdjsonService = getOwner(this).lookup('service:mdjson');
-      const schemaVersion = mdjsonService.getSchemaVersion();
+      // Use a static fallback version when service is not available during initialization
+      let schemaVersion = '2.13.0'; // fallback version
+
+      try {
+        if (this && this.mdjson) {
+          schemaVersion = this.mdjson.getSchemaVersion();
+        } else if (this) {
+          const owner = getOwner(this);
+          if (owner) {
+            const mdjsonService = owner.lookup('service:mdjson');
+            if (mdjsonService) {
+              schemaVersion = mdjsonService.getSchemaVersion();
+            }
+          }
+        }
+      } catch (error) {
+        // Use fallback version if any errors occur
+        console.warn('Failed to get schema version, using fallback:', error);
+      }
 
       const obj = EmberObject.create({
         schema: {
@@ -131,11 +148,24 @@ const Record = Model.extend(Validations, Copyable, {
     function () {
       const type =
         this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
-      const list = getOwner(this).lookup('service:icon');
 
-      return type
-        ? list.get(type) || list.get('default')
-        : list.get('defaultFile');
+      try {
+        const owner = getOwner(this);
+        if (owner) {
+          const list = owner.lookup('service:icon');
+
+          if (list) {
+            return type
+              ? list.get(type) || list.get('default')
+              : list.get('defaultFile');
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to get icon service:', error);
+      }
+
+      // Fallback icon if service is not available
+      return 'fa fa-file-o';
     }
   ),
 
