@@ -36,7 +36,7 @@ module.exports = function (/* env */) {
      * @type {Boolean}
      * @default "false"
      */
-    autoPolyfill: false,
+    autoPolyfill: true,
 
     /**
      * disablePolyfill prevents the polyfill from being bundled in the asset folder of the build
@@ -45,7 +45,7 @@ module.exports = function (/* env */) {
      * @type {Boolean}
      * @default "false"
      */
-    disablePolyfill: true,
+    disablePolyfill: false,
 
     /**
      * prevents the translations from being bundled with the application code.
@@ -58,7 +58,7 @@ module.exports = function (/* env */) {
      * @type {Boolean}
      * @default "false"
      */
-    publicOnly: false,
+    publicOnly: true,
 
     /**
      * Path where translations are kept.  This is relative to the project root.
