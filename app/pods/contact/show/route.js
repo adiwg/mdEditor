@@ -3,8 +3,12 @@ import { inject as service } from '@ember/service';
 import { copy } from 'ember-copy';
 import { action } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
+import RouteExtensionMixin from '../../../mixins/route-extension';
 
-export default class ShowRoute extends Route.extend(ScrollTo) {
+export default class ShowRoute extends Route.extend(
+  ScrollTo,
+  RouteExtensionMixin
+) {
   @service flashMessages;
   @service pouch;
 
@@ -24,13 +28,10 @@ export default class ShowRoute extends Route.extend(ScrollTo) {
   @action
   destroyContact() {
     let model = this.currentRouteModel();
-    model
-      .destroyRecord()
-      .then(() => {
-        this.flashMessages
-          .success(`Deleted Contact: ${model.get('title')}`);
-        this.replaceWith('contacts');
-      });
+    model.destroyRecord().then(() => {
+      this.flashMessages.success(`Deleted Contact: ${model.get('title')}`);
+      this.replaceWith('contacts');
+    });
   }
 
   @action
@@ -49,17 +50,16 @@ export default class ShowRoute extends Route.extend(ScrollTo) {
       return;
     }
 
-    model
-      .reload()
-      .then(() => {
-        this.flashMessages.warning(message);
-      });
+    model.reload().then(() => {
+      this.flashMessages.warning(message);
+    });
   }
 
   @action
   copyContact() {
-    this.flashMessages
-      .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);
+    this.flashMessages.success(
+      `Copied Contact: ${this.currentRouteModel().get('title')}`
+    );
     this.transitionTo('contact.new.id', copy(this.currentRouteModel()));
   }
 }

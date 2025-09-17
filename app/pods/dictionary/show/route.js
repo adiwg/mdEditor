@@ -2,8 +2,9 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
 import { copy } from 'mdeditor/utils/copy';
+import RouteExtensionMixin from '../../../mixins/route-extension';
 
-export default class ShowRoute extends Route {
+export default class ShowRoute extends Route.extend(RouteExtensionMixin) {
   @service flashMessages;
 
   model(params) {

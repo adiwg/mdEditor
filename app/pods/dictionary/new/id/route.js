@@ -2,8 +2,9 @@ import { NotFoundError } from '@ember-data/adapter/error';
 import { computed } from '@ember/object';
 import { action } from '@ember/object';
 import Route from '@ember/routing/route';
+import RouteExtensionMixin from '../../../../mixins/route-extension';
 
-export default class IdRoute extends Route {
+export default class IdRoute extends Route.extend(RouteExtensionMixin) {
   breadCrumb = null;
 
   async model(params) {

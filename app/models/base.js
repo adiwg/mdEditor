@@ -113,8 +113,6 @@ class Base extends Model {
   }
 
   wasUpdated() {
-    super.wasUpdated(...arguments);
-
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
 

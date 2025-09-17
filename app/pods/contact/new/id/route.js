@@ -1,8 +1,9 @@
 import { NotFoundError } from '@ember-data/adapter/error';
 import Route from '@ember/routing/route';
 import { action } from '@ember/object';
+import RouteExtensionMixin from '../../../../mixins/route-extension';
 
-export default class IdRoute extends Route {
+export default class IdRoute extends Route.extend(RouteExtensionMixin) {
   /**
    * The breadcrumb title string.
    *

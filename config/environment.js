@@ -1,18 +1,20 @@
-"use strict";
+'use strict';
 
 module.exports = function (environment) {
   let deployTarget = process.env.DEPLOY_TARGET;
   let ENV = {
     contentSecurityPolicy: {
-      "style-src": "'self' 'unsafe-inline'",
+      'style-src': "'self' 'unsafe-inline'",
     },
-    modulePrefix: "mdeditor",
-    podModulePrefix: "mdeditor/pods",
+    modulePrefix: 'mdeditor',
+    podModulePrefix: 'mdeditor/pods',
     environment: environment,
     rootURL: '/',
     locationType: 'auto',
-    thesauriManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/manifest.json',
-    profilesManifestUrl: 'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/manifest.json',
+    thesauriManifestUrl:
+      'https://cdn.jsdelivr.net/gh/adiwg/mdKeywords@master/resources/manifest.json',
+    profilesManifestUrl:
+      'https://cdn.jsdelivr.net/gh/adiwg/mdProfiles@master/resources/manifest.json',
     EmberENV: {
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
@@ -23,7 +25,7 @@ module.exports = function (environment) {
         Date: false,
       },
     },
-    "ember-local-storage": {
+    'ember-local-storage': {
       fileExport: true,
       loadInitializer: false,
     },
@@ -31,21 +33,28 @@ module.exports = function (environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
-      repository: "https://github.com/adiwg/mdEditor",
-      defaultProfileId: "org.adiwg.profile.full",
+      repository: 'https://github.com/adiwg/mdEditor',
+      defaultProfileId: 'org.adiwg.profile.full',
     },
-    "ember-load": {
-      loadingIndicatorClass: "md-load-indicator",
+    'ember-load': {
+      loadingIndicatorClass: 'md-load-indicator',
     },
 
-    "ember-toggle": {
+    'ember-toggle': {
       includedThemes: [],
       //excludedThemes: ['flip'],
       // defaultShowLabels: true, // defaults to false
-      defaultTheme: "light", // defaults to 'default'
+      defaultTheme: 'light', // defaults to 'default'
       //defaultSize: 'small', // defaults to 'medium'
       // defaultOffLabel: 'False', // defaults to 'Off'
       // defaultOnLabel: 'True' // defaults to 'On'
+    },
+    'ember-intl': {
+      locales: ['en-us'],
+      baseLocale: 'en-us',
+      publicOnly: true,
+      fallbackLocale: 'en-us',
+      autoPolyfill: true,
     },
     flashMessageDefaults: {
       // flash message defaults
@@ -54,38 +63,38 @@ module.exports = function (environment) {
       preventDuplicates: true,
       //sticky: true
     },
-    "ember-cli-bootstrap-datetimepicker": {
+    'ember-cli-bootstrap-datetimepicker': {
       icons: {
-        time: "fa fa-clock-o",
-        date: "fa fa-calendar",
-        up: "fa fa-chevron-up",
-        down: "fa fa-chevron-down",
-        previous: "fa fa-angle-double-left",
-        next: "fa fa-angle-double-right",
-        close: "fa fa-times",
-        clear: "fa fa-trash",
-        today: "fa fa-home",
+        time: 'fa fa-clock-o',
+        date: 'fa fa-calendar',
+        up: 'fa fa-chevron-up',
+        down: 'fa fa-chevron-down',
+        previous: 'fa fa-angle-double-left',
+        next: 'fa fa-angle-double-right',
+        close: 'fa fa-times',
+        clear: 'fa fa-trash',
+        today: 'fa fa-home',
       },
     },
   };
 
-  console.log("environment", environment);
+  console.log('environment', environment);
 
-  if (environment === "development") {
+  if (environment === 'development') {
     ENV.keycloakConfig = {
-      realm: "ScienceBase-B",
-      clientId: "catalog",
-      url: "https://www.sciencebase.gov/auth",
+      realm: 'ScienceBase-B',
+      clientId: 'catalog',
+      url: 'https://www.sciencebase.gov/auth',
     };
   }
 
-  if (environment === "test") {
+  if (environment === 'test') {
     // Testem prefers this...
-    ENV.rootURL = "/";
-    ENV.locationType = "history";
+    ENV.rootURL = '/';
+    ENV.locationType = 'history';
 
-    ENV["ember-local-storage"] = {
-      namespace: "test",
+    ENV['ember-local-storage'] = {
+      namespace: 'test',
       loadInitializer: false,
     };
 
@@ -93,27 +102,27 @@ module.exports = function (environment) {
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = "#ember-testing";
+    ENV.APP.rootElement = '#ember-testing';
     ENV.APP.autoboot = false;
   }
 
-  if (environment === "staging") {
-    ENV.rootURL = "/";
-    ENV.locationType = "history";
+  if (environment === 'staging') {
+    ENV.rootURL = '/';
+    ENV.locationType = 'history';
   }
 
-  if (environment === "production") {
-    ENV.locationType = "history";
+  if (environment === 'production') {
+    ENV.locationType = 'history';
     ENV.keycloakConfig = {
-      realm: "ScienceBase",
-      clientId: "catalog",
-      url: "https://www.sciencebase.gov/auth",
+      realm: 'ScienceBase',
+      clientId: 'catalog',
+      url: 'https://www.sciencebase.gov/auth',
     };
   }
 
-  if (deployTarget === "dev") {
-    ENV.rootURL = "/";
-    ENV.locationType = "history";
+  if (deployTarget === 'dev') {
+    ENV.rootURL = '/';
+    ENV.locationType = 'history';
   }
   return ENV;
 };
