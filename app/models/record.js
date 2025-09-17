@@ -7,6 +7,7 @@ import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';
 import { v4 as uuidv4 } from 'uuid';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 
 const {
   APP: { defaultProfileId },
@@ -72,10 +73,13 @@ const Record = Model.extend(Validations, Copyable, {
   }),
   json: attr('json', {
     defaultValue() {
+      // Get schema version directly from imported schemas to avoid service dependency issues
+      const schemaVersion = Schemas.schema.version;
+
       const obj = EmberObject.create({
         schema: {
           name: 'mdJson',
-          version: '2.6.0',
+          version: schemaVersion,
         },
         metadata: {
           metadataInfo: {
@@ -128,11 +132,24 @@ const Record = Model.extend(Validations, Copyable, {
     function () {
       const type =
         this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
-      const list = getOwner(this).lookup('service:icon');
 
-      return type
-        ? list.get(type) || list.get('default')
-        : list.get('defaultFile');
+      try {
+        const owner = getOwner(this);
+        if (owner) {
+          const list = owner.lookup('service:icon');
+
+          if (list) {
+            return type
+              ? list.get(type) || list.get('default')
+              : list.get('defaultFile');
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to get icon service:', error);
+      }
+
+      // Fallback icon if service is not available
+      return 'fa fa-file-o';
     }
   ),
 

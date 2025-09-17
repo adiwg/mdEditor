@@ -41,6 +41,10 @@ export default Service.extend({
   contacts: service(),
   store: service(),
 
+  getSchemaVersion() {
+    return Schemas.schema.version;
+  },
+
   injectCitations(json) {
     let assoc = json.metadata.associatedResource;
 
