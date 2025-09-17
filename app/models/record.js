@@ -7,6 +7,7 @@ import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';
 import { v4 as uuidv4 } from 'uuid';
+import Schemas from 'mdjson-schemas/resources/js/schemas';
 
 const {
   APP: { defaultProfileId },
@@ -72,25 +73,8 @@ const Record = Model.extend(Validations, Copyable, {
   }),
   json: attr('json', {
     defaultValue() {
-      // Use a static fallback version when service is not available during initialization
-      let schemaVersion = '2.13.0'; // fallback version
-
-      try {
-        if (this && this.mdjson) {
-          schemaVersion = this.mdjson.getSchemaVersion();
-        } else if (this) {
-          const owner = getOwner(this);
-          if (owner) {
-            const mdjsonService = owner.lookup('service:mdjson');
-            if (mdjsonService) {
-              schemaVersion = mdjsonService.getSchemaVersion();
-            }
-          }
-        }
-      } catch (error) {
-        // Use fallback version if any errors occur
-        console.warn('Failed to get schema version, using fallback:', error);
-      }
+      // Get schema version directly from imported schemas to avoid service dependency issues
+      const schemaVersion = Schemas.schema.version;
 
       const obj = EmberObject.create({
         schema: {
