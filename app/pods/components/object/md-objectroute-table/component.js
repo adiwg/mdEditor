@@ -44,12 +44,21 @@ export default class MdObjectrouteTable extends Table {
   layoutName = 'components/object/md-object-table';
 
   /**
-   * Method used to load form for editing item. Should be overidden.
+   * External edit handler function passed from parent component
    *
-   * @method editItemHandler
+   * @property editItem
+   * @type {Function}
    */
-  editItemHandler() {
-    return this;
+  editItem = null;
+
+  /**
+   * Method used to load form for editing item. Can be passed in via @editItem
+   *
+   * @property editItemHandler
+   * @type {Function}
+   */
+  get editItemHandler() {
+    return this.editItem || (() => this);
   }
 
   @action

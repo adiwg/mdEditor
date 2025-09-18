@@ -32,11 +32,11 @@
                 {{#each class as |record|}}
                     <div class="list-group-item" draggable="true">
                       <div class="btn-group btn-group-xs pull-right" role="group" aria-label="Navigation Buttons">
-                        <LinkTo @route={{concat meta.type ".show.edit"}} @model={{record}} class={{concat "btn btn-" record.status}} @disabledWhen={{record.isNew}} @draggable="false">
+                        <LinkTo @route={{concat meta.type ".show.edit"}} @model={{record}} class={{concat "btn btn-" record.status}} @disabled={{record.isNew}} draggable="false">
                           <FaIcon @icon="pencil" />
                         </LinkTo>
                       </div>
-                      <LinkTo @route={{concat meta.type ".show"}} @model={{record}} class="sidebar-row" @disabledWhen={{record.isNew}} @activeClass={{concat "active text-" record.status}} @draggable="false">
+                      <LinkTo @route={{concat meta.type ".show"}} @model={{record}} class="sidebar-row" @disabled={{record.isNew}} @activeClass={{concat "active text-" record.status}} draggable="false">
                           {{#if record.defaultLogo}}
                             <img src={{record.defaultLogo}} alt="logo" class="fa-fw">
                           {{else}}

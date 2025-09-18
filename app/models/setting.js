@@ -45,9 +45,12 @@ class theModel extends Model {
     super.init(...arguments);
 
     //this.on('didUpdate', this, this.wasUpdated);
-    this.on('didLoad', this, this.wasLoaded);
     //this.on('didUpdate', this, this.wasLoaded);
     this.updateSettings;
+  }
+
+  didLoad() {
+    this.settings.setup();
   }
 
   //cleaner: inject.service(),
@@ -143,10 +146,6 @@ class theModel extends Model {
 
   @alias('defaultLocale')
   locale;
-
-  wasLoaded() {
-    this.settings.setup();
-  }
 
   @observes('hasDirtyAttributes')
   updateSettings() {

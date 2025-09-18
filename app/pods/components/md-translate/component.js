@@ -302,9 +302,19 @@ export default class MdTranslate extends Component {
       : 'context not provided';
   }
 
+  /**
+   * Action passed from parent to handle going to settings
+   *
+   * @property goToSettings
+   * @type {Function}
+   */
+  goToSettings = null;
+
   @action
-  goToSettings() {
-    // Call the passed action using modern args pattern
-    this.args.onGoToSettings?.();
+  handleGoToSettings() {
+    // Call the passed-in action
+    if (typeof this.goToSettings === 'function') {
+      this.goToSettings();
+    }
   }
 }

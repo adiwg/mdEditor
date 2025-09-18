@@ -25,10 +25,13 @@ class Base extends Model {
 
     this.on('didUpdate', this, this.wasUpdated);
     this.on('didCreate', this, this.wasUpdated);
-    this.on('didLoad', this, this.applyPatch);
     this.on('ready', this, this.isReady);
     this.hasDirtyAttributes;
     //this.on('didLoad', this, this.wasLoaded);
+  }
+
+  didLoad() {
+    this.applyPatch();
   }
 
   @service

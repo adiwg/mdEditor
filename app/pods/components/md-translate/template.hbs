@@ -55,13 +55,13 @@
                 {{#unless this.isApiConfigured}}
                     <div class="alert alert-warning" role="alert">
                         <strong>Warning:</strong> mdTranslator API URL is not configured. Please configure it in
-                        <a href="#" {{action "goToSettings"}}>Settings</a> to enable translation.
+                        <a href="#" {{action "handleGoToSettings"}}>Settings</a> to enable translation.
                     </div>
                 {{/unless}}
                 {{control/md-status model=this.model isBtn=true bntSize="lg"}}
                 <button type="submit" class="btn btn-lg btn-primary pull-right"
                 disabled={{or (not this.writer) (not this.isApiConfigured)}}>
-                    <FaIcon @icon="retweet" /> Translate
+                    <FaIcon @icon="retweet" />Translate
                 </button>
             </div>
         </form>

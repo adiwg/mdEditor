@@ -75,8 +75,6 @@ export default class Dictionary extends Model.extend(Validations, Copyable) {
 
   init() {
     super.init(...arguments);
-
-    this.on('didLoad', this, this.assignId);
   }
 
   @attr('string', {
