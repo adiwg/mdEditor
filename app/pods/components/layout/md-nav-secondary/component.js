@@ -45,7 +45,11 @@ export default class MdNavSecondary extends Component.extend(ResizeAware) {
     let links =
       this.navLinks ||
       get(active, 'definition.nav.' + modelName) ||
-      this.customProfile.defaultProfile.definition.nav[modelName];
+      (this.customProfile.defaultProfile && 
+       this.customProfile.defaultProfile.definition && 
+       this.customProfile.defaultProfile.definition.nav && 
+       this.customProfile.defaultProfile.definition.nav[modelName]) ||
+      [];
 
     return links.map((lnk, index) => {
       let link = EmberObject.create(lnk);

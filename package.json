@@ -61,7 +61,6 @@
     "ajv-errors": "^1.0.1",
     "axios": "^1.7.9",
     "babel-eslint": "^10.1.0",
-    "bootstrap-3-card": "^0.2.0",
     "bootstrap-sass": "~3.4.3",
     "broccoli-asset-rev": "^3.0.0",
     "csv2geojson": "^5.1.2",

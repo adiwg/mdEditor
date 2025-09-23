@@ -1,4 +1,5 @@
 import classic from 'ember-classic-decorator';
+import { tracked } from '@glimmer/tracking';
 import { union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import axios from 'axios';
@@ -19,10 +20,11 @@ import semver from 'semver';
  */
 @classic
 export default class ProfileService extends Service {
+  @tracked coreProfiles = [];
+
   init() {
     super.init(...arguments);
     this.profileRecords = this.store.peekAll('profile');
-    this.coreProfiles = [];
   }
 
   @union('profileRecords', 'coreProfiles')

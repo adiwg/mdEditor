@@ -9,7 +9,6 @@ module.exports = function (defaults) {
     sassOptions: {
       includePaths: [
         'node_modules/bootstrap-sass/assets/stylesheets',
-        'node_modules/bootstrap-3-card/sass',
         // 'node_modules/select2/src/scss',
         // 'node_modules/select2-bootstrap-theme/src',
         'node_modules/jquery-jsonview/src',
