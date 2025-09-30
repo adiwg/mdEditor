@@ -177,11 +177,11 @@ export default Service.extend({
     this.injectCitations(clean);
     if (includeDictionaries) {
       this.injectDictionaries(rec, clean);
-    } else {
-      // Remove mdDictionary array when not including dictionaries (for mdJSON export)
-      if (clean.mdDictionary) {
-        delete clean.mdDictionary;
-      }
+    }
+    
+    // Always remove mdDictionary array from output as it's internal reference only
+    if (clean.mdDictionary) {
+      delete clean.mdDictionary;
     }
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));
