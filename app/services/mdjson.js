@@ -48,6 +48,10 @@ export default class MdjsonService extends Service {
   @service
   store;
 
+  getSchemaVersion() {
+    return Schemas.schema.version;
+  }
+
   injectCitations(json) {
     let assoc = json.metadata.associatedResource;
 
@@ -181,11 +185,11 @@ export default class MdjsonService extends Service {
     this.injectCitations(clean);
     if (includeDictionaries) {
       this.injectDictionaries(rec, clean);
-    } else {
-      // Remove mdDictionary array when not including dictionaries (for mdJSON export)
-      if (clean.mdDictionary) {
-        delete clean.mdDictionary;
-      }
+    }
+    
+    // Always remove mdDictionary array from output as it's internal reference only
+    if (clean.mdDictionary) {
+      delete clean.mdDictionary;
     }
 
     let json = JSON.parse(JSON.stringify(cleaner.clean(clean), _replacer));

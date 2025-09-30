@@ -116,6 +116,8 @@ class Base extends Model {
   }
 
   wasUpdated() {
+    super.wasUpdated(...arguments);
+
     //let record = model.record || this;
     let json = JSON.parse(this.serialize().data.attributes.json);
 
@@ -124,6 +126,37 @@ class Base extends Model {
 
     // Pouch handling
     this.pouch.updatePouchRecord(this);
+  }
+
+  updateTimestamp() {
+    // Update dateUpdated to current timestamp when record is manually saved
+    this.set('dateUpdated', new Date());
+  }
+
+  // TODO: Clean this up when we move to upgraded Ember
+  revertChanges() {
+    // Temporarily disable auto-save behavior
+    let originalAutoSave = this.get('settings.data.autoSave');
+    this.set('settings.data.autoSave', false);
+
+    // Store the original dateUpdated before any changes
+    let originalDateUpdated = this.get('dateUpdatedRevert');
+
+    // Revert JSON content
+    let json = this.get('jsonRevert');
+    if (json) {
+      this.set('json', EmberObject.create(JSON.parse(json)));
+    }
+
+    // Revert dateUpdated field
+    if (originalDateUpdated) {
+      this.set('dateUpdated', originalDateUpdated);
+    }
+
+    // Re-enable auto-save after revert is complete
+    scheduleOnce('actions', this, function () {
+      this.set('settings.data.autoSave', originalAutoSave);
+    });
   }
 
   updateTimestamp() {
