@@ -6523,16 +6523,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bootstrap-3-card@npm:^0.2.0":
-  version: 0.2.0
-  resolution: "bootstrap-3-card@npm:0.2.0"
-  dependencies:
-    bootstrap-sass: "npm:3.x"
-  checksum: 10c0/418d7f0dff8ca982d2bb8263bf3e2b0ac1963ed20625fd638837f85af06a4b69878f9c4b38d9901e975102399d06ed50c52e7cb20c092df24f4ad004a6e9ec77
-  languageName: node
-  linkType: hard
-
-"bootstrap-sass@npm:3.x, bootstrap-sass@npm:~3.4.3":
+"bootstrap-sass@npm:~3.4.3":
   version: 3.4.3
   resolution: "bootstrap-sass@npm:3.4.3"
   checksum: 10c0/748c8fdde4cf625c54600500ff00ff560f5a485856aab89f0c46d140e910ba4b2a81e33373b3a05aac70f0b4011d17b960e7900a854f447aab3e34cb10417f01
@@ -16722,7 +16713,6 @@ __metadata:
     ajv-errors: "npm:^1.0.1"
     axios: "npm:^1.7.9"
     babel-eslint: "npm:^10.1.0"
-    bootstrap-3-card: "npm:^0.2.0"
     bootstrap-sass: "npm:~3.4.3"
     broccoli-asset-rev: "npm:^3.0.0"
     csv2geojson: "npm:^5.1.2"
