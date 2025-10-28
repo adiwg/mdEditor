@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-header">
+    <h4>Date Picker Migration Demo</h4>
+    <p>Current implementation: <strong>{{this.currentImplementation}}</strong></p>
+    <button
+      type="button"
+      class="btn btn-primary btn-sm"
+      onclick={{this.toggleImplementation}}
+    >
+      Switch Implementation
+    </button>
+  </div>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <h5>Modern (jQuery-free)</h5>
+        <MdDatetimeModern
+          @label="Modern Date Picker"
+          @placeholder="Select a date"
+          @precision="DateTime"
+          @showClear={{true}}
+        />
+      </div>
+
+      <div class="col-md-6">
+        <h5>Smart Auto-Detection</h5>
+        <MdDatetimeSmart
+          @label="Smart Date Picker"
+          @placeholder="Auto-detects implementation"
+          @precision="DateTime"
+          @showClear={{true}}
+        />
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-12">
+        <div class="alert alert-info">
+          <strong>Migration Status:</strong>
+          {{#if this.datePicker.useModern}}
+            ✅ Using modern jQuery-free date picker (Ember 4.0 ready!)
+          {{else}}
+            ⚠️ Using legacy jQuery-based date picker (needs migration for Ember 4.0)
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

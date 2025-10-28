@@ -3,7 +3,7 @@ import { classNameBindings, classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember/object';
 import Component from '@ember/component';
 import config from 'mdeditor/config/environment';
-import $ from 'jquery';
+/* global $ */
 
 @classic
 @classNames('md-sidebar-wrapper')
@@ -15,11 +15,11 @@ export default class MdNavSidebar extends Component {
   get prerelease() {
     let version = this.version;
 
-    if(version.substring(0, 3) === "0.0"){
+    if (version.substring(0, 3) === '0.0') {
       return 'alpha';
     }
 
-    if(version.substring(0, 1) === "0" && version.substring(0, 3) >0){
+    if (version.substring(0, 1) === '0' && version.substring(0, 3) > 0) {
       return 'beta';
     }
   }
@@ -38,11 +38,8 @@ export default class MdNavSidebar extends Component {
 
   @action
   toggleSidebar() {
-    $('#md-wrapper')
-      .toggleClass('toggled');
+    $('#md-wrapper').toggleClass('toggled');
     //hack to force reflow
-    $('#md-navbar-main-collapse ul')
-      .hide()
-      .show(0);
+    $('#md-navbar-main-collapse ul').hide().show(0);
   }
 }

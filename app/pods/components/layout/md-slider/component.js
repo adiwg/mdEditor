@@ -2,7 +2,6 @@ import classic from 'ember-classic-decorator';
 import { classNameBindings, classNames } from '@ember-decorators/component';
 import { action, computed } from '@ember/object';
 import Component from '@ember/component';
-import $ from 'jquery';
 
 @classic
 @classNames('md-slider')
@@ -11,8 +10,7 @@ export default class MdSlider extends Component {
   visible = false;
 
   didReceiveAttrs() {
-    $('body')
-      .toggleClass('slider', this.visible === true);
+    document.body.classList.toggle('slider', this.visible === true);
   }
 
   fromName = null;
@@ -26,14 +24,13 @@ export default class MdSlider extends Component {
   toggleVisibility() {
     this.toggleProperty('visible');
 
-    if(!this.visible) {
+    if (!this.visible) {
       let context = this.get('context.isDestroying');
 
       this.set('fromName', null);
 
-      if(!context) {
-        this.onClose
-          .call(this);
+      if (!context) {
+        this.onClose.call(this);
       }
     }
   }

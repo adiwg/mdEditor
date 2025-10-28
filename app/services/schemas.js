@@ -2,13 +2,8 @@ import classic from 'ember-classic-decorator';
 import { filterBy } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import $RefParser from "@apidevtools/json-schema-ref-parser";
-import request from 'ember-ajax/request';
+import axios from 'axios';
 import { task, all, timeout } from 'ember-concurrency';
-import {
-  // isAjaxError,
-  isNotFoundError,
-  // isForbiddenError
-} from 'ember-ajax/errors';
 import semver from 'semver';
 
 @classic
@@ -76,17 +71,17 @@ export default class SchemasService extends Service {
         return;
       }
 
-      return request(itm.uri).then(response => {
-        // `response` is the data from the server
-        if(semver.valid(response.version)) {
-          itm.set('remoteVersion', response.version);
+      return axios.get(itm.uri).then(response => {
+        // `response.data` is the data from the server
+        if(semver.valid(response.data.version)) {
+          itm.set('remoteVersion', response.data.version);
         } else {
           throw new Error("Invalid version");
         }
 
-        return response;
+        return response.data;
       }).catch(error => {
-        if(isNotFoundError(error)) {
+        if(error.response && error.response.status === 404) {
           this.flashMessages
             .danger(
               `Could not load schema for "${itm.title}". Schema not found.`

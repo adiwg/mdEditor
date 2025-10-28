@@ -31,7 +31,7 @@ export default class MdTranslate extends Component {
   settings;
 
   @service
-  ajax;
+  axios;
 
   @service
   apiValidator;
@@ -194,7 +194,7 @@ export default class MdTranslate extends Component {
     this._clearResult();
     this.isLoading = true;
 
-    this.ajax
+    this.axios
       .request(url, {
         type: 'POST',
         data: {
@@ -207,7 +207,6 @@ export default class MdTranslate extends Component {
           validate: 'normal',
           format: 'json',
         },
-        context: this,
       })
       .then(
         function (response) {

@@ -97,6 +97,13 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
+  // Import jQuery globally for Bootstrap components and jquery-jsonview
+  // Note: This doesn't restore Ember's jQuery integration - just makes $ available
+  app.import('node_modules/jquery/dist/jquery.js');
+
+  // Make jQuery available globally for Bootstrap components
+  app.import('vendor/jquery-global.js');
+
   //bootstrap js
   app.import(
     'node_modules/bootstrap-sass/assets/javascripts/bootstrap/transition.js'

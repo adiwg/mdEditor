@@ -54,15 +54,15 @@
       </div>
       <div class="card-block no-padding">
         <div class="list-group no-margin md-itis-selectedlist">
-          {{!-- {{#liquid-if selected.length use="fade"}}
+          {{!-- {{#simple-if selected.length use="fade"}}
           <div class="list-group-item">
             <p class="list-group-item-text">
               <button type="button" class="btn btn-primary btn-lg btn-block" {{action "importTaxa" selected}}>Import Taxa</button>
             </p>
           </div>
-          {{/liquid-if}} --}}
+          {{/simple-if}} --}}
           {{#each this.selected as |schema|}}
-            {{#liquid-if (contains schema this.selected) class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
+            {{#simple-if (contains schema this.selected) class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
               <div class="media">
                 <div class="media-body">
                   <h4 class="media-heading">
@@ -78,7 +78,7 @@
                   <button type="button" class="btn btn-danger btn-lg btn-block" {{action "deselectItem" schema}}>Remove</button>
                 </div>
               </div>
-            {{/liquid-if}}
+            {{/simple-if}}
           {{else}}
             <div class="list-group-item">
               <p class="list-group-item-text">

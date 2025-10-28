@@ -1,7 +1,7 @@
 import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
 import Route from '@ember/routing/route';
-import $ from 'jquery';
+import { scrollToBottom } from 'mdeditor/utils/scroll-utils';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import RouteExtensionMixin from '../../../../../../mixins/route-extension';
 import { defineProperty, action } from '@ember/object';
@@ -31,12 +31,8 @@ export default class IndexRoute extends Route.extend(
 
     dists.pushObject({});
 
-    $('html, body').animate(
-      {
-        scrollTop: $(document).height(),
-      },
-      'slow'
-    );
+    // Scroll to bottom with animation (slow = ~800ms)
+    scrollToBottom(800);
   }
 
   @action

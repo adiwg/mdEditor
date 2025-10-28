@@ -1,6 +1,5 @@
 import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
-import $ from 'jquery';
 import { isPresent } from '@ember/utils';
 import { setProperties } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
@@ -13,50 +12,59 @@ export default class SpotlightService extends Service {
   setTarget(id, onClose, scope) {
     let el = this.elementId;
 
-    if(id === el) {
+    if (id === el) {
       this.close();
 
       return;
     }
 
-    if(id && id !== el) {
-      $('#' + el).removeClass('md-spotlight-target');
+    if (id && id !== el) {
+      const prevElement = document.getElementById(el);
+      if (prevElement) {
+        prevElement.classList.remove('md-spotlight-target');
+      }
     }
 
     setProperties(this, {
       show: true,
       elementId: id,
       onClose: onClose,
-      scope: scope
+      scope: scope,
     });
 
-    $('body').addClass('md-no-liquid');
-    $('#' + id).addClass('md-spotlight-target');
+    document.body.classList.add('md-no-liquid');
+    const targetElement = document.getElementById(id);
+    if (targetElement) {
+      targetElement.classList.add('md-spotlight-target');
+    }
   }
 
-  @(task(function * () {
+  @(task(function* () {
     let id = this.elementId;
     let onClose = this.onClose;
 
-    $('.md-spotlight-overlay').addClass('fade-out-fast');
+    const overlayElements = document.querySelectorAll('.md-spotlight-overlay');
+    overlayElements.forEach((el) => el.classList.add('fade-out-fast'));
 
-    if(onClose) {
+    if (onClose) {
       onClose.call(this.scope || this);
     }
 
     yield timeout(250);
 
-    if(isPresent(id)) {
-      $('body').removeClass('md-no-liquid');
-      $('#' + id).removeClass('md-spotlight-target');
+    if (isPresent(id)) {
+      document.body.classList.remove('md-no-liquid');
+      const targetElement = document.getElementById(id);
+      if (targetElement) {
+        targetElement.classList.remove('md-spotlight-target');
+      }
     }
-
 
     setProperties(this, {
       show: false,
       elementId: undefined,
       onClose: undefined,
-      scope: undefined
+      scope: undefined,
     });
   }).drop())
   closeTask;

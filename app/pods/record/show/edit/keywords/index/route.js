@@ -4,7 +4,7 @@ import Route from '@ember/routing/route';
 import { A } from '@ember/array';
 import { getWithDefault, set, action } from '@ember/object';
 import { copy } from 'mdeditor/utils/copy';
-import $ from 'jquery';
+/* global $ */
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 // import { on } from '@ember/object/evented';
 
@@ -15,7 +15,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   setupController(controller, model) {
     super.setupController(controller, model);
-    
+
     // Inject route instance for action delegation
     model.route = this;
   }
@@ -25,20 +25,30 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     let json = model.get('json');
     let info = json.metadata.resourceInfo;
 
-    set(info, 'keyword', !info.hasOwnProperty('keyword') ? A() :
-      A(
-        info.keyword));
+    set(
+      info,
+      'keyword',
+      !info.hasOwnProperty('keyword') ? A() : A(info.keyword)
+    );
 
     //check to see if custom list
     info.keyword.forEach((k) => {
       set(k, 'thesaurus', getWithDefault(k, 'thesaurus', {}));
-      set(k, 'thesaurus.identifier', getWithDefault(k,
-        'thesaurus.identifier', [{
-          identifier: 'custom'
-        }]));
+      set(
+        k,
+        'thesaurus.identifier',
+        getWithDefault(k, 'thesaurus.identifier', [
+          {
+            identifier: 'custom',
+          },
+        ])
+      );
       set(k, 'thesaurus.date', getWithDefault(k, 'thesaurus.date', [{}]));
-      set(k, 'thesaurus.onlineResource', getWithDefault(k,
-        'thesaurus.onlineResource', [{}]));
+      set(
+        k,
+        'thesaurus.onlineResource',
+        getWithDefault(k, 'thesaurus.onlineResource', [{}])
+      );
     });
 
     return model;
@@ -52,19 +62,23 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @action
   addThesaurus() {
     let the = this.currentRouteModel().get(
-      'json.metadata.resourceInfo.keyword');
+      'json.metadata.resourceInfo.keyword'
+    );
 
-    $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+    // Scroll to bottom with animation (slow = ~800ms)
+    scrollToBottom(800);
 
     the.pushObject({
       keyword: [],
       keywordType: 'theme',
       thesaurus: {
-        identifier: [{
-          identifier: null
-        }]
+        identifier: [
+          {
+            identifier: null,
+          },
+        ],
       },
-      fullPath: true
+      fullPath: true,
     });
 
     this.controller.set('refresh', the.get('length'));
@@ -74,7 +88,8 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
   @action
   deleteThesaurus(id) {
     let the = this.currentRouteModel().get(
-      'json.metadata.resourceInfo.keyword');
+      'json.metadata.resourceInfo.keyword'
+    );
     the.removeAt(id);
     this.controller.set('refresh', the.get('length'));
   }
@@ -86,10 +101,9 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   @action
   selectThesaurus(selected, thesaurus) {
-    if(selected) {
-      set(thesaurus, 'thesaurus', copy(selected.citation,
-        true));
-      if(selected.keywordType) {
+    if (selected) {
+      set(thesaurus, 'thesaurus', copy(selected.citation, true));
+      if (selected.keywordType) {
         set(thesaurus, 'keywordType', selected.keywordType);
       }
     } else {

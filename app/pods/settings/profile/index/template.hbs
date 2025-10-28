@@ -6,18 +6,18 @@
 <div class='card-block'>
   {{#if this.profile}}
     <h4 class='tab-header'>
-      {{#liquid-if this.profile use='fade' growDuration=100 class='inline-block'}}
+      {{#simple-if this.profile use='fade' growDuration=100 class='inline-block'}}
         {{#if this.profile.isNew}}
           Add Profile
         {{else}}
           {{concat 'Edit ' this.profile.title}}
         {{/if}}
-      {{/liquid-if}}
+      {{/simple-if}}
       <hr />
     </h4>
   {{/if}}
 
-  {{#liquid-if this.profile use='fade'}}
+  {{#simple-if this.profile use='fade'}}
     {{#if this.profile.isNew}}
       <Object::MdProfile::Custom @record={{this.profile}} />
     {{else if this.profile}}
@@ -41,7 +41,7 @@
         Load Profile[s]
       </button>
     </div>
-  {{/liquid-if}}
+  {{/simple-if}}
 </div>
 
 {{#if this.profile}}

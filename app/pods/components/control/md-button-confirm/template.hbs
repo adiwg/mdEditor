@@ -1,8 +1,12 @@
-{{#liquid-if this.isShowingConfirm use="toDown"}}
-  <FaIcon @icon="question" /> Confirm
+{{#if this.isShowingConfirm}}
+  <div class="animated-if to-down animated-if--visible">
+    <FaIcon @icon="question" /> Confirm
+  </div>
 {{else}}
-  {{yield}}
-{{/liquid-if}}
+  <div class="animated-if to-down animated-if--visible">
+    {{yield}}
+  </div>
+{{/if}}
 
 {{#if this.isShowingConfirm}}
   {{#if this.tooltip}}

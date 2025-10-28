@@ -3,8 +3,10 @@
       <a class="sidebar-brand-link" href="#" {{action "toggleSidebar"}}>md<span class="md-icon-mdeditor"></span>ditor</a><span class="md-app-version {{this.prerelease}}">v{{this.version}}</span>
       <a class="md-btn-help pull-right" href="#" {{action "toggleHelp"}}><FaIcon @icon={{if this.showHelp "list" "circle-question"}} /></a>
     </li>
-    {{#liquid-if this.showHelp use="fade" enableGrowth=false}}
-      {{this.md-help}}
+    {{#if this.showHelp}}
+      <div class="animated-if fade no-growth animated-if--visible">
+        {{this.md-help}}
+      </div>
     {{else}}
     <li id="md-sidebar-lists">
       <div class="panel-group">
@@ -53,5 +55,5 @@
         {{/each}}
       </div>
     </li>
-    {{/liquid-if}}
+    {{/if}}
   </ul>

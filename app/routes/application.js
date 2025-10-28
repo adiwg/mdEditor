@@ -1,4 +1,4 @@
-import $ from 'jquery';
+/* global $ */
 import { A } from '@ember/array';
 import Route from '@ember/routing/route';
 import EmberObject from '@ember/object';

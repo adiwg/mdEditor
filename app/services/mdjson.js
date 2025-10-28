@@ -186,7 +186,7 @@ export default class MdjsonService extends Service {
     if (includeDictionaries) {
       this.injectDictionaries(rec, clean);
     }
-    
+
     // Always remove mdDictionary array from output as it's internal reference only
     if (clean.mdDictionary) {
       delete clean.mdDictionary;

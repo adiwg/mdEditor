@@ -1,27 +1,36 @@
-{{#if this.label}}
-  <label>{{this.label}}</label>
-{{/if}}
+{{!
+  DEPRECATED: This component has been replaced with MdDatetimeModern or MdDatetimeSmart
+  The legacy jQuery-based bootstrap-datetimepicker has been removed for Ember 4.0 compatibility
+}}
 
-<div class='md-input-input'>
-  <BsDatetimepicker @date={{this._date}} @format={{this.format}} @extraFormats={{this.extraFormats}} @dateIcon="calendar" @timeIcon="clock-" @icons={{this.calendarIcons}} @placeholder={{this.placeholder}} @showClear={{this.showClear}} @useCurrent={{this.useCurrent}} @textFieldRequired={{this.required}} @showTodayButton={{this.showTodayButton}} @change={{this.change}} />
-
-  <span class='md-inputgroup-error'>
-    {{#if this.showErrorMessage}}
-      <span class='md-error'>
-        <FaIcon @icon='circle-exclamation' />
-        <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
-          {{v-get this.model this.valuePath 'message'}}
-        </EmberTooltip>
-      </span>
-    {{/if}}
-
-    {{#if this.showWarningMessage}}
-      <span class='md-warning'>
-        <FaIcon @icon='triangle-exclamation' />
-        <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
-          {{v-get this.model this.valuePath 'warningMessage'}}
-        </EmberTooltip>
-      </span>
-    {{/if}}
-  </span>
+<div class="alert alert-warning">
+  <h5><FaIcon @icon="exclamation-triangle" /> Deprecated Component</h5>
+  <p>
+    <strong>md-datetime</strong> has been deprecated and replaced with modern, jQuery-free alternatives.
+  </p>
+  <p>Please replace with:</p>
+  <ul>
+    <li><strong>MdDatetimeModern</strong> - Direct modern implementation</li>
+    <li><strong>MdDatetimeSmart</strong> - Auto-detecting wrapper (recommended)</li>
+  </ul>
+  <p>
+    <small>
+      Legacy props: model={{this.model}}, valuePath={{this.valuePath}},
+      format={{this.format}}, label="{{this.label}}"
+    </small>
+  </p>
 </div>
+
+{{! Fallback to modern component with current props }}
+<MdDatetimeModern
+  @model={{this.model}}
+  @valuePath={{this.valuePath}}
+  @format={{this.format}}
+  @precision={{this.precision}}
+  @placeholder={{this.placeholder}}
+  @label={{this.label}}
+  @required={{this.required}}
+  @disabled={{this.disabled}}
+  @showClear={{this.showClear}}
+  @onChange={{this.change}}
+/>

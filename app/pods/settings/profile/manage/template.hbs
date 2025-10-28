@@ -15,7 +15,7 @@
     <div role="tabpanel" class="tab-pane fade in active" id={{concat this.elementId "-imported"}}>
       {{#if this.definition}}
         <h4 class="tab-header">
-          {{#liquid-if this.definition use="fade" growDuration=100 class="inline-block"}}
+          {{#simple-if this.definition use="fade" growDuration=100 class="inline-block"}}
             {{#if this.definition.isNew}}
               Add Profile Definition
             {{else}}
@@ -25,12 +25,12 @@
               <small>...downloading definition</small>
               <FaIcon @icon="spinner" @spin={{true}} />
             {{/if}}
-          {{/liquid-if}}
+          {{/simple-if}}
           <hr>
         </h4>
       {{/if}}
 
-      {{#liquid-if this.definition use="fade"}}
+      {{#simple-if this.definition use="fade"}}
         {{#if this.definition.isNew}}
           <Object::MdProfile::Form @record={{this.definition}} />
         {{else if this.definition}}
@@ -38,7 +38,7 @@
         {{/if}}
       {{else}}
         <Control::MdEditTable @data={{this.model}} @dataColumns={{this.columns}} @columnSets={{this.columnSets}} @rowBodyComponent="object/md-profile/form" @pageSize={{25}} @editRow={{action "editDefinition"}} @actionBadges={{this.badges}} />
-      {{/liquid-if}}
+      {{/simple-if}}
     </div>
     <div role="tabpanel" class="tab-pane fade" id={{concat this.elementId "-core"}}>
       <h4 class="tab-header">

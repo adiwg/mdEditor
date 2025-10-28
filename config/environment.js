@@ -63,17 +63,16 @@ module.exports = function (environment) {
       preventDuplicates: true,
       //sticky: true
     },
-    'ember-cli-bootstrap-datetimepicker': {
-      icons: {
-        time: 'fa fa-clock-o',
-        date: 'fa fa-calendar',
-        up: 'fa fa-chevron-up',
-        down: 'fa fa-chevron-down',
-        previous: 'fa fa-angle-double-left',
-        next: 'fa fa-angle-double-right',
-        close: 'fa fa-times',
-        clear: 'fa fa-trash',
-        today: 'fa fa-home',
+    // Modern date picker configuration (jQuery-free)
+    datePicker: {
+      // Force implementation: 'modern' | 'legacy' | 'auto'
+      implementation: 'modern', // Default to modern since legacy is removed
+      // Default options for Flatpickr
+      defaultOptions: {
+        enableTime: true,
+        time_24hr: true,
+        allowInput: true,
+        altInput: true,
       },
     },
   };

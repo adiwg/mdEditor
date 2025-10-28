@@ -12,7 +12,6 @@ import EmObject, {
 import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import Base from 'ember-local-storage/adapters/base';
-import jquery from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import RouteExtensionMixin from '../../mixins/route-extension';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
@@ -38,7 +37,7 @@ export default class ImportRoute extends Route.extend(
   settings;
 
   @service
-  ajax;
+  axios;
 
   @service
   apiValidator;
@@ -415,10 +414,10 @@ export default class ImportRoute extends Route.extend(
     let controller = this.controller;
     let cmp = this;
 
-    // Handle ember-file-upload file format  
+    // Handle ember-file-upload file format
     const fileType = file.type || file.blob?.type;
     const fileName = file.name || file.blob?.name;
-    
+
     // Read file content first
     const readFileContent = () => {
       if (file.readAsText) {
@@ -434,88 +433,99 @@ export default class ImportRoute extends Route.extend(
       }
     };
 
-    readFileContent().then(fileData => {
-      new Promise((resolve, reject) => {
-        // Check file type first
-        if (fileType && fileType.match(/.*\/xml$/)) {
-        // Check API configuration for XML files only
-        if (!this.checkApiConfiguration()) {
-          reject(
-            'mdTranslator API URL is not configured. Please configure it in Settings.'
-          );
-          return;
-        }
-        // If it's XML, proceed with XML translation
-        set(controller, 'isTranslating', true);
-        this.flashMessages.info(`Translation service provided by ${url}.`);
-
-        this.ajax
-          .request(url, {
-            type: 'POST',
-            data: {
-              file: fileData,
-              reader: 'fgdc',
-              writer: 'mdJson',
-              validate: 'normal',
-              format: 'json',
-            },
-            context: cmp,
-          })
-          .then(
-            function (response) {
-              set(controller, 'isTranslating', false);
-
-              if (response.success) {
-                resolve({
-                  json: JSON.parse(response.writerOutput),
-                  file: { ...file, name: fileName, type: fileType, data: fileData },
-                  route: cmp,
-                });
-
-                return;
-              }
-
+    readFileContent()
+      .then((fileData) => {
+        new Promise((resolve, reject) => {
+          // Check file type first
+          if (fileType && fileType.match(/.*\/xml$/)) {
+            // Check API configuration for XML files only
+            if (!this.checkApiConfiguration()) {
               reject(
-              `Failed to translate file: ${fileName}. Is it valid FGDC CSDGM XML?`
+                'mdTranslator API URL is not configured. Please configure it in Settings.'
               );
-            },
-            (response) => {
-              set(controller, 'isTranslating', false);
-
-              reject(
-                `mdTranslator Server error: ${response.status}: ${response.statusText}. Is your file valid FGDC CSDGM XML?`
-              );
+              return;
             }
-          );
-      } else {
-        // If it's not XML (i.e., it's JSON), process it directly
-        try {
-          json = JSON.parse(fileData);
-        } catch (e) {
-          reject(`Failed to parse file: ${fileName}. Is it valid JSON?`);
-        }
-        resolve({
-          json: json,
-          file: { ...file, name: fileName, type: fileType, data: fileData },
-          route: cmp,
-        });
-      }
-    })
-      .then((data) => {
-        //determine file type and map
-        cmp.mapJSON(data);
+            // If it's XML, proceed with XML translation
+            set(controller, 'isTranslating', true);
+            this.flashMessages.info(`Translation service provided by ${url}.`);
+
+            this.axios
+              .request(url, {
+                type: 'POST',
+                data: {
+                  file: fileData,
+                  reader: 'fgdc',
+                  writer: 'mdJson',
+                  validate: 'normal',
+                  format: 'json',
+                },
+              })
+              .then(
+                function (response) {
+                  set(controller, 'isTranslating', false);
+
+                  if (response.success) {
+                    resolve({
+                      json: JSON.parse(response.writerOutput),
+                      file: {
+                        ...file,
+                        name: fileName,
+                        type: fileType,
+                        data: fileData,
+                      },
+                      route: cmp,
+                    });
+
+                    return;
+                  }
+
+                  reject(
+                    `Failed to translate file: ${fileName}. Is it valid FGDC CSDGM XML?`
+                  );
+                },
+                (response) => {
+                  set(controller, 'isTranslating', false);
+
+                  reject(
+                    `mdTranslator Server error: ${response.status}: ${response.statusText}. Is your file valid FGDC CSDGM XML?`
+                  );
+                }
+              );
+          } else {
+            // If it's not XML (i.e., it's JSON), process it directly
+            try {
+              json = JSON.parse(fileData);
+            } catch (e) {
+              reject(`Failed to parse file: ${fileName}. Is it valid JSON?`);
+            }
+            resolve({
+              json: json,
+              file: { ...file, name: fileName, type: fileType, data: fileData },
+              route: cmp,
+            });
+          }
+        })
+          .then((data) => {
+            //determine file type and map
+            cmp.mapJSON(data);
+          })
+          .catch((reason) => {
+            //catch any errors
+            get(cmp, 'flashMessages').danger(reason);
+            return false;
+          })
+          .finally(() => {
+            const fileInput = document.querySelector(
+              '.import-file-picker input[type="file"]'
+            );
+            if (fileInput) {
+              fileInput.value = '';
+            }
+          });
       })
       .catch((reason) => {
-        //catch any errors
-        get(cmp, 'flashMessages').danger(reason);
-        return false;
-      })
-      .finally(() => {
-        jquery('.import-file-picker input:file').val('');
+        get(cmp, 'flashMessages').danger(`Failed to read file: ${reason}`);
       });
-    }).catch((reason) => {
-      get(cmp, 'flashMessages').danger(`Failed to read file: ${reason}`);
-    });
   }
 
   @action
@@ -544,10 +554,9 @@ export default class ImportRoute extends Route.extend(
 
     set(controller, 'isLoading', true);
 
-    this.ajax
+    this.axios
       .request(uri, {
         type: 'GET',
-        context: this,
         dataType: 'text',
         crossDomain: true,
       })
@@ -579,7 +588,12 @@ export default class ImportRoute extends Route.extend(
             })
             .finally(() => {
               set(controller, 'isLoading', false);
-              jquery('.md-import-picker input:file').val('');
+              const fileInput = document.querySelector(
+                '.md-import-picker input[type="file"]'
+              );
+              if (fileInput) {
+                fileInput.value = '';
+              }
             });
         } else {
           set(controller, 'errors', response.messages);

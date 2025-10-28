@@ -1,0 +1,78 @@
+/* CSS transitions for animated-if component - replacement for liquid-fire */
+.animated-if {
+  transition: opacity 300ms ease-in-out, transform 300ms ease-in-out;
+}
+
+.animated-if--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.animated-if--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Fade transition */
+.animated-if.fade {
+  transition: opacity 300ms ease-in-out;
+}
+
+.animated-if.fade.animated-if--hidden {
+  opacity: 0;
+}
+
+.animated-if.fade.animated-if--visible {
+  opacity: 1;
+}
+
+/* Slide down transition */
+.animated-if.slide-down {
+  transition: opacity 300ms ease-in-out, max-height 300ms ease-in-out, transform 300ms ease-in-out;
+  overflow: hidden;
+}
+
+.animated-if.slide-down.animated-if--hidden {
+  opacity: 0;
+  max-height: 0;
+  transform: translateY(-10px);
+}
+
+.animated-if.slide-down.animated-if--visible {
+  opacity: 1;
+  max-height: 1000px; /* Adjust based on your content */
+  transform: translateY(0);
+}
+
+/* To-down transition (similar to liquid-fire's toDown) */
+.animated-if.to-down {
+  transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
+}
+
+.animated-if.to-down.animated-if--hidden {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.animated-if.to-down.animated-if--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Growth disabled variant */
+.animated-if.no-growth {
+  transition: opacity 300ms ease-in-out;
+}
+
+.animated-if.no-growth.animated-if--hidden {
+  opacity: 0;
+}
+
+.animated-if.no-growth.animated-if--visible {
+  opacity: 1;
+}
+
+/* Inline block support */
+.animated-if.inline-block {
+  display: inline-block !important;
+}

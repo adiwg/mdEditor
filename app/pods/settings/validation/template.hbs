@@ -7,7 +7,7 @@
 <section>
   <div class="section-header">
     <h4 class="md-table-title">
-      {{#liquid-if this.schema use="fade" growDuration=100 class="inline-block"}}
+      {{#simple-if this.schema use="fade" growDuration=100 class="inline-block"}}
         {{#if this.schema.isNew}}
           Add Schema
         {{else if this.schema}}
@@ -19,12 +19,12 @@
         {{/if}}
       {{else}}
         Manage Schemas
-      {{/liquid-if}}
+      {{/simple-if}}
     </h4>
     <hr>
   </div>
 
-  {{#liquid-if this.schema use="fade"}}
+  {{#simple-if this.schema use="fade"}}
     {{#if this.schema.isNew}}
       <Object::MdSchema::Form @record={{this.schema}} />
     {{else if this.schema}}
@@ -32,7 +32,7 @@
     {{/if}}
   {{else}}
     <Control::MdEditTable @data={{this.model}} @dataColumns={{this.columns}} @columnSets={{this.columnSets}} @rowBodyComponent="object/md-schema" @pageSize={{25}} @editRow={{action "editSchema"}} @actionBadges={{this.badges}} />
-  {{/liquid-if}}
+  {{/simple-if}}
 </section>
 
 {{#if this.schema}}

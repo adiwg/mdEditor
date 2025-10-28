@@ -49,7 +49,7 @@
 </div>
 <div id={{concat "editor-" this.elementId}}>
 
-  {{#liquid-if this.isEditing}}
+  {{#simple-if this.isEditing}}
     <div class="md-taxon-form">
       <form class="card form" {{action "toggleEditing" on="submit"}}>
         <div class="card-block row form-inline">
@@ -74,7 +74,7 @@
       </form>
     </div>
 
-  {{/liquid-if}}
+  {{/simple-if}}
 </div>
 </div>
 

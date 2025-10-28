@@ -29,7 +29,7 @@
   </div>
 {{/if}}
 
-{{#liquid-if this.found use="fade" enableGrowth=false}}
+{{#simple-if this.found use="fade" enableGrowth=false}}
 <div class="row">
   <div class="col-md-6">
     <div class="card md-card">
@@ -94,15 +94,15 @@
       </div>
       <div class="card-block no-padding">
         <div class="list-group no-margin md-itis-selectedlist">
-          {{#liquid-if this.selected.length use="fade"}}
+          {{#simple-if this.selected.length use="fade"}}
           <div class="list-group-item">
             <p class="list-group-item-text">
               <button type="button" class="btn btn-primary btn-lg btn-block" {{action "importTaxa" this.selected}}>Import Taxa</button>
             </p>
           </div>
-          {{/liquid-if}}
+          {{/simple-if}}
           {{#each this.selected as |result|}}
-            {{#liquid-if result.selected class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
+            {{#simple-if result.selected class="list-group-item md-itis-selected" enableGrowth=true shrinkDelay=500}}
               <div class="media">
                 <div class="media-body">
                   <h4 class="media-heading">
@@ -133,7 +133,7 @@
                 </div>
               </div>
             {{else}}
-            {{/liquid-if}}
+            {{/simple-if}}
           {{else}}
             <div class="list-group-item">
               <p class="list-group-item-text">
@@ -147,4 +147,4 @@
     </div>
   </div>
 </div>
-{{/liquid-if}}
+{{/simple-if}}

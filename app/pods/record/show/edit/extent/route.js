@@ -1,7 +1,7 @@
 import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import { getWithDefault, set, action } from '@ember/object';
-import $ from 'jquery';
+/* global $ */
 
 @classic
 export default class ExtentRoute extends Route {

@@ -1,7 +1,7 @@
 import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import EmberObject, { get, set, getWithDefault, action } from '@ember/object';
-import $ from 'jquery';
+/* global $ */
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 @classic
@@ -17,8 +17,7 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
     // Call _super for default behavior
     super.setupController(...arguments);
 
-    this.controller.set('parentModel', this.modelFor(
-      'record.show.edit'));
+    this.controller.set('parentModel', this.modelFor('record.show.edit'));
   }
 
   @action
@@ -29,28 +28,34 @@ export default class IndexRoute extends Route.extend(ScrollTo) {
 
   @action
   addCollection() {
-    let taxa = this.currentRouteModel()
-      .get('json.metadata.resourceInfo.taxonomy');
+    let taxa = this.currentRouteModel().get(
+      'json.metadata.resourceInfo.taxonomy'
+    );
     let collection = EmberObject.create({});
 
     // once(this, () => {
 
-      taxa.pushObject(collection);
-      this.setScrollTo(`collection-${taxa.length-1}`);
-      this.transitionTo('record.show.edit.taxonomy.collection.index',
-        taxa.length - 1);
+    taxa.pushObject(collection);
+    this.setScrollTo(`collection-${taxa.length - 1}`);
+    this.transitionTo(
+      'record.show.edit.taxonomy.collection.index',
+      taxa.length - 1
+    );
 
-      $("html, body").animate({
-        scrollTop: $(document).height()
-      }, "slow");
+    $('html, body').animate(
+      {
+        scrollTop: $(document).height(),
+      },
+      'slow'
+    );
     // });
-
   }
 
   @action
   deleteCollection(id) {
     let taxa = this.currentRouteModel().get(
-      'json.metadata.resourceInfo.taxonomy');
+      'json.metadata.resourceInfo.taxonomy'
+    );
 
     taxa.removeAt(id);
   }

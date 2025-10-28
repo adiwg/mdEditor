@@ -7,7 +7,7 @@ import Papa from 'papaparse';
 import { set, action, computed } from '@ember/object';
 
 import { Promise } from 'rsvp';
-import jquery from 'jquery';
+/* global $ */
 import { UploadFile } from 'ember-file-upload';
 
 @classic
@@ -35,7 +35,7 @@ export default class MdImportCsv extends Component {
   router;
 
   @service
-  ajax;
+  axios;
 
   /**
    * True if processing CSV file
@@ -184,7 +184,7 @@ export default class MdImportCsv extends Component {
         .finally(() => {
           //set(comp, 'isProcessing', false);
 
-          jquery('.md-import-picker input:file').val('');
+          $('.md-import-picker input:file').val('');
         });
     });
   }
@@ -195,16 +195,15 @@ export default class MdImportCsv extends Component {
 
     set(comp, 'isLoading', true);
 
-    this.ajax
+    this.axios
       .request(this.importUri, {
         type: 'GET',
-        context: this,
         dataType: 'text',
         crossDomain: true,
       })
       .then(
-        function (response, textStatus) {
-          if (response && textStatus === 'success') {
+        function (response) {
+          if (response) {
             let json;
 
             new Promise((resolve, reject) => {
@@ -231,7 +230,7 @@ export default class MdImportCsv extends Component {
               })
               .finally(() => {
                 set(comp, 'isLoading', false);
-                jquery('.import-file-picker input:file').val('');
+                $('.import-file-picker input:file').val('');
               });
           } else {
             set(comp, 'errors', response.messages);
