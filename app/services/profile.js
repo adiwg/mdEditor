@@ -1,4 +1,3 @@
-import classic from 'ember-classic-decorator';
 import { tracked } from '@glimmer/tracking';
 import { union } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
@@ -6,6 +5,10 @@ import axios from 'axios';
 import { all, task, timeout } from 'ember-concurrency';
 import ENV from 'mdeditor/config/environment';
 import semver from 'semver';
+
+function isNotFoundError(error) {
+  return error.response && error.response.status === 404;
+}
 
 /**
  * Profile service
@@ -16,7 +19,6 @@ import semver from 'semver';
  * @submodule service
  * @class profile
  */
-@classic
 export default class ProfileService extends Service {
   @tracked coreProfiles = [];
 
@@ -57,10 +59,10 @@ export default class ProfileService extends Service {
    * @async
    * @return {Promise} The request response
    */
-  @(task(function* (uri) {
+  fetchDefinition = task({ drop: true }, async (uri) => {
     try {
-      yield timeout(1000);
-      let response = yield axios.get(uri).then((res) => res.data);
+      await timeout(1000);
+      let response = await axios.get(uri).then((res) => res.data);
       if (response && !semver.valid(response.version)) {
         throw new Error('Invalid version');
       }
@@ -76,8 +78,7 @@ export default class ProfileService extends Service {
         );
       }
     }
-  }).drop())
-  fetchDefinition;
+  });
 
   /**
    * Task that checks the for updates at each `record.uri`.
@@ -87,9 +88,9 @@ export default class ProfileService extends Service {
    * @async
    * @return {Promise} The request response
    */
-  @(task(function* (records) {
-    yield timeout(1000);
-    yield all(
+  checkForUpdates = task({ drop: true }, async (records) => {
+    await timeout(1000);
+    await all(
       records.map((itm) => {
         if (itm.validations.attrs.uri.isInvalid) {
           this.flashMessages.warning(
@@ -121,6 +122,5 @@ export default class ProfileService extends Service {
           });
       })
     );
-  }).drop())
-  checkForUpdates;
+  });
 }

@@ -1,4 +1,3 @@
-import classic from 'ember-classic-decorator';
 import { filterBy } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import $RefParser from "@apidevtools/json-schema-ref-parser";
@@ -6,7 +5,6 @@ import axios from 'axios';
 import { task, all, timeout } from 'ember-concurrency';
 import semver from 'semver';
 
-@classic
 export default class SchemasService extends Service {
   init() {
     super.init(...arguments);
@@ -30,12 +28,12 @@ export default class SchemasService extends Service {
   @filterBy('schemas', 'isGlobal')
   globalSchemas;
 
-  @(task(function* (url) {
-    yield timeout(1000);
+  fetchSchemas = task({ drop: true }, async (url) => {
+    await timeout(1000);
 
     const parser = new $RefParser(); // Use $RefParser directly here
 
-    return yield parser.resolve(url).then($refs => {
+    return await parser.resolve(url).then($refs => {
       let paths = $refs.paths();
       let values = parser.$refs.values();
 
@@ -46,8 +44,7 @@ export default class SchemasService extends Service {
         }
       });
     })
-  }).drop())
-  fetchSchemas;
+  });
 
   // compileSchemas(schemas) {
   //   let ajv = ajvErrors(new Ajv(options));
@@ -59,10 +56,10 @@ export default class SchemasService extends Service {
   //   return ajv;
   // },
 
-  @(task(function* (records) {
-    yield timeout(1000);
+  checkForUpdates = task({ drop: true }, async (records) => {
+    await timeout(1000);
 
-    yield all(records.map(itm => {
+    await all(records.map(itm => {
       if(itm.validations.attrs.uri.isInvalid) {
         this.flashMessages
           .warning(
@@ -94,6 +91,5 @@ export default class SchemasService extends Service {
         }
       });
     }));
-  }).drop())
-  checkForUpdates;
+  });
 }

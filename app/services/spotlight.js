@@ -1,10 +1,8 @@
-import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import { isPresent } from '@ember/utils';
 import { setProperties } from '@ember/object';
 import { task, timeout } from 'ember-concurrency';
 
-@classic
 export default class SpotlightService extends Service {
   show = false;
   elementId;
@@ -39,7 +37,7 @@ export default class SpotlightService extends Service {
     }
   }
 
-  @(task(function* () {
+  closeTask = task({ drop: true }, async () => {
     let id = this.elementId;
     let onClose = this.onClose;
 
@@ -50,7 +48,7 @@ export default class SpotlightService extends Service {
       onClose.call(this.scope || this);
     }
 
-    yield timeout(250);
+    await timeout(250);
 
     if (isPresent(id)) {
       document.body.classList.remove('md-no-liquid');
@@ -66,8 +64,7 @@ export default class SpotlightService extends Service {
       onClose: undefined,
       scope: undefined,
     });
-  }).drop())
-  closeTask;
+  });
 
   close() {
     this.closeTask.perform();
