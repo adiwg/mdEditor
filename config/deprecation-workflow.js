@@ -20,10 +20,9 @@ self.deprecationWorkflow.config = {
   // Set to 'log' to log deprecations
   // Set to 'silence' to suppress deprecations
   workflow: [
-    // Example:
-    // { handler: "silence", matchId: "ember-data:model.toJSON" },
-    // { handler: "log", matchId: "some-other-deprecation" },
+    // Ember 3.16 Deprecations
+    { handler: "log", matchId: "globals-resolver" },
 
-    // Add deprecations here as they're identified during the upgrade process
+    // Add additional deprecations as they're identified during the upgrade process
   ]
 };
