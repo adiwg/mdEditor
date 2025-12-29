@@ -95,8 +95,12 @@ body {
   width: 0;
   z-index: 10000;
 
+  /* Ensure slider is hidden by default */
+  display: none;
+
   &.in {
     width: 100%;
+    display: block; /* Show when active */
 
     .close {
       opacity: .3;

@@ -1,13 +1,15 @@
 import { oneWay } from '@ember/object/computed';
 import Component from '@ember/component';
+import { computed, get } from '@ember/object';
+import { inject as service } from '@ember/service';
+import classic from 'ember-classic-decorator';
 import {
-  computed,
-  get
-} from '@ember/object';
-import {
-  inject as service
-} from '@ember/service';
-import $ from 'jquery';
+  classNames,
+  layout as templateLayout,
+} from '@ember-decorators/component';
+import layout from './template';
+
+/* global $ */
 
 export default Component.extend({
   /**
@@ -50,8 +52,14 @@ export default Component.extend({
   cleaner: service(),
 
   classNames: ['md-card', 'card'],
-  classNameBindings: ['shadow:box-shadow--4dp', 'scroll:scroll-card',
-    'maximizable', 'fullScreen', 'required', 'muted', 'borderColor'
+  classNameBindings: [
+    'shadow:box-shadow--4dp',
+    'scroll:scroll-card',
+    'maximizable',
+    'fullScreen',
+    'required',
+    'muted',
+    'borderColor',
   ],
   attributeBindings: ['data-spy'],
 
@@ -66,9 +74,8 @@ export default Component.extend({
    * @requires elementId
    */
   cardId: computed('elementId', function () {
-      return 'card-' + this.elementId;
-    })
-    .readOnly(),
+    return 'card-' + this.elementId;
+  }).readOnly(),
 
   /**
    * The card title.
@@ -259,36 +266,37 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    if(this.collapsible) {
-      let card = this.$();
-      let body = this.$(' > .card-collapse');
+    if (this.collapsible) {
+      let card = this.element;
+      let body = card.querySelector('.card-collapse');
       let offset = this.offset || 0;
 
-      body.on('shown.bs.collapse', function (e) {
-        e.stopPropagation();
-        // card.get(0).scrollIntoView({
-        //   block: "end",
-        //   behavior: "smooth"
-        // });
-        //
-        // let scrolledY = window.scrollY;
-        //
-        // if(scrolledY) {
-        //   window.scroll(0, scrolledY - offset);
-        // }
-        $('html,body').animate({
-          scrollTop: card.offset().top - offset
-        }, 'slow');
-      });
+      if (body) {
+        body.addEventListener('shown.bs.collapse', (e) => {
+          e.stopPropagation();
+
+          // Smooth scroll to card position with offset
+          const cardTop = card.getBoundingClientRect().top + window.pageYOffset;
+          const targetPosition = cardTop - offset;
+
+          window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth',
+          });
+        });
+      }
     }
 
     let content = this.content;
 
-    if(content !== null) {
-      let empty = content ? Object.keys(this.cleaner.clean(content, {
-          preserveArrays: false
-        })).length ===
-        0 : true;
+    if (content !== null) {
+      let empty = content
+        ? Object.keys(
+            this.cleaner.clean(content, {
+              preserveArrays: false,
+            })
+          ).length === 0
+        : true;
 
       this.set('collapsed', empty);
     }
@@ -298,12 +306,19 @@ export default Component.extend({
     toggleFullScreen() {
       let val = this.toggleProperty('fullScreen');
 
-      $(this.element).parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-        'full-screen', val);
-      $('body').toggleClass('slider', val);
+      // Toggle full-screen class on parent elements
+      let parent = this.element.closest(
+        '.liquid-child, .liquid-container, .md-card'
+      );
+      if (parent) {
+        parent.classList.toggle('full-screen', val);
+      }
+
+      // Toggle slider class on body
+      document.body.classList.toggle('slider', val);
     },
     spotlight(id) {
       this.spotlight.setTarget(id);
-    }
-  }
+    },
+  },
 });

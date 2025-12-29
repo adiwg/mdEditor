@@ -1,11 +1,15 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import Component from '@ember/component';
-import { getWithDefault, get, set } from '@ember/object';
+import { getWithDefault, get, set, action } from '@ember/object';
 import { once } from '@ember/runloop';
 import uuidV4 from 'uuid/v4';
 
-export default Component.extend({
+@classic
+@tagName('form')
+export default class MdDataquality extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = get(this, 'model');
 
@@ -18,17 +22,15 @@ export default Component.extend({
       );
       set(model, 'report', getWithDefault(model, 'report', []));
     });
-  },
+  }
 
-  tagName: 'form',
+  @action
+  addStandaloneQualityReport() {
+    set(this.model, 'standaloneQualityReport', { abstract: '' });
+  }
 
-  actions: {
-    addStandaloneQualityReport() {
-      set(this.model, 'standaloneQualityReport', { abstract: '' });
-    },
-
-    deleteStandaloneQualityReport() {
-      set(this.model, 'standaloneQualityReport', undefined);
-    },
-  },
-});
+  @action
+  deleteStandaloneQualityReport() {
+    set(this.model, 'standaloneQualityReport', undefined);
+  }
+}

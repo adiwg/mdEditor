@@ -52,10 +52,10 @@ export default Mixin.create({
     });
   },
 
-  pollTask: task(function* () {
+  pollTask: task({ restartable: true }, async function () {
     while(true) {
-      yield this.poll();
-      yield timeout(pollInterval);
+      await this.poll();
+      await timeout(pollInterval);
     }
-  }).restartable()
+  })
 });

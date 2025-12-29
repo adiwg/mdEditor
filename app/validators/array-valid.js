@@ -1,7 +1,9 @@
+import classic from 'ember-classic-decorator';
 import { get } from '@ember/object';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
-const ArrayValid = BaseValidator.extend({
+@classic
+class ArrayValid extends BaseValidator {
   /**
   * Validation that checks validity of all array members
   *
@@ -12,13 +14,13 @@ const ArrayValid = BaseValidator.extend({
   * @example
   *   validator('array-valid')
   */
-  validate(value /*, options, model, attribute*/ ) {
+  validate(value /*, options, model, attribute*/) {
     let check = value.some((itm) => {
       return get(itm, 'validations.isInvalid');
     });
     return check ? 'At least one item is invalid.' : true;
   }
-});
+}
 
 ArrayValid.reopenClass({
   /**

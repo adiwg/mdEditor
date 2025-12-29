@@ -1,8 +1,9 @@
-import { attr, belongsTo } from '@ember-data/model';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
+import { attr, belongsTo } from '@ember-data/model';
 import { getOwner } from '@ember/application';
-import EmberObject, { computed, getWithDefault } from '@ember/object';
-import { Copyable } from 'ember-copy';
+import EmberObject, { getWithDefault, computed } from '@ember/object';
+import Copyable from 'mdeditor/mixins/copyable';
 import Model from 'mdeditor/models/base';
 import { validator, buildValidations } from 'ember-cp-validations';
 import config from 'mdeditor/config/environment';
@@ -55,8 +56,10 @@ const Validations = buildValidations({
   // })
 });
 
-const Record = Model.extend(Validations, Copyable, {
-  pouchRecord: belongsTo('pouch-record', { async: false }),
+@classic
+class Record extends Model.extend(Validations, Copyable) {
+  @belongsTo('pouch-record', { async: false })
+  pouchRecord;
 
   /**
    * Record(metadata) model
@@ -68,10 +71,12 @@ const Record = Model.extend(Validations, Copyable, {
    * @submodule data-models
    */
 
-  profile: attr('string', {
+  @attr('string', {
     defaultValue: defaultProfileId,
-  }),
-  json: attr('json', {
+  })
+  profile;
+
+  @attr('json', {
     defaultValue() {
       // Get schema version directly from imported schemas to avoid service dependency issues
       const schemaVersion = Schemas.schema.version;
@@ -118,49 +123,54 @@ const Record = Model.extend(Validations, Copyable, {
 
       return obj;
     },
-  }),
-  dateUpdated: attr('date', {
+  })
+  json;
+
+  @attr('date', {
     defaultValue() {
       return new Date();
     },
-  }),
+  })
+  dateUpdated;
 
-  title: alias('json.metadata.resourceInfo.citation.title'),
+  @alias('json.metadata.resourceInfo.citation.title')
+  title;
 
-  icon: computed(
-    'json.metadata.resourceInfo.resourceType.firstObject.type',
-    function () {
-      const type =
-        this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
+  @computed('json.metadata.resourceInfo.resourceType.firstObject.type')
+  get icon() {
+    const type =
+      this.get('json.metadata.resourceInfo.resourceType.0.type') || '';
 
-      try {
-        const owner = getOwner(this);
-        if (owner) {
-          const list = owner.lookup('service:icon');
+    try {
+      const owner = getOwner(this);
+      if (owner) {
+        const list = owner.lookup('service:icon');
 
-          if (list) {
-            return type
-              ? list.get(type) || list.get('default')
-              : list.get('defaultFile');
-          }
+        if (list) {
+          return type
+            ? list.get(type) || list.get('default')
+            : list.get('defaultFile');
         }
-      } catch (error) {
-        console.warn('Failed to get icon service:', error);
       }
-
-      // Fallback icon if service is not available
-      return 'fa fa-file-o';
+    } catch (error) {
+      console.warn('Failed to get icon service:', error);
     }
-  ),
 
-  recordId: alias('json.metadata.metadataInfo.metadataIdentifier.identifier'),
-  recordIdNamespace: alias(
-    'json.metadata.metadataInfo.metadataIdentifier.namespace'
-  ),
+    // Fallback icon if service is not available
+    return 'fa fa-file-o';
+  }
 
-  parentIds: alias('json.metadata.metadataInfo.parentMetadata.identifier'),
+  @alias('json.metadata.metadataInfo.metadataIdentifier.identifier')
+  recordId;
 
-  hasParent: computed('parentIds.[]', function () {
+  @alias('json.metadata.metadataInfo.metadataIdentifier.namespace')
+  recordIdNamespace;
+
+  @alias('json.metadata.metadataInfo.parentMetadata.identifier')
+  parentIds;
+
+  @computed('parentIds.[]')
+  get hasParent() {
     let ids = this.parentIds;
     let allRecords = this.store.peekAll('record');
     let records = allRecords.rejectBy('hasSchemaErrors');
@@ -172,9 +182,10 @@ const Record = Model.extend(Validations, Copyable, {
     return ids.find((id) => {
       return records.findBy('recordId', id.identifier) ? true : false;
     });
-  }),
+  }
 
-  defaultParent: computed('hasParent', function () {
+  @computed('hasParent')
+  get defaultParent() {
     let id = this.get('hasParent.identifier');
     let allRecords = this.store.peekAll('record');
 
@@ -183,11 +194,10 @@ const Record = Model.extend(Validations, Copyable, {
     }
 
     return allRecords.findBy('recordId', id);
-  }),
+  }
 
-  defaultType: alias(
-    'json.metadata.resourceInfo.resourceType.firstObject.type'
-  ),
+  @alias('json.metadata.resourceInfo.resourceType.firstObject.type')
+  defaultType;
 
   /**
    * The trimmed varsion of the recordId.
@@ -198,7 +208,8 @@ const Record = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires recordId
    */
-  shortId: computed('recordId', function () {
+  @computed('recordId')
+  get shortId() {
     const recordId = this.recordId;
     if (recordId) {
       let index = recordId.indexOf('-');
@@ -207,7 +218,7 @@ const Record = Model.extend(Validations, Copyable, {
     }
 
     return recordId;
-  }),
+  }
 
   /**
    * A list of schema errors return by the validator.
@@ -218,7 +229,8 @@ const Record = Model.extend(Validations, Copyable, {
    * @category computed
    * @requires status
    */
-  schemaErrors: computed('hasDirtyHash', 'customSchemas.[]', function () {
+  @computed('hasDirtyHash', 'customSchemas.[]')
+  get schemaErrors() {
     let mdjson = this.mdjson;
     let errors = [];
     let result = mdjson.validateRecord(this).errors;
@@ -248,9 +260,10 @@ const Record = Model.extend(Validations, Copyable, {
     });
 
     return errors;
-  }),
+  }
 
-  formatted: alias('_formatted'),
+  @alias('_formatted')
+  formatted;
 
   copy() {
     let current = this.cleanJson;
@@ -275,8 +288,8 @@ const Record = Model.extend(Validations, Copyable, {
     });
 
     return newRecord;
-  },
-});
+  }
+}
 
 Object.defineProperty(Record.prototype, '_formatted', {
   get() {

@@ -1,87 +1,101 @@
+import classic from 'ember-classic-decorator';
+import {
+  classNameBindings,
+  classNames,
+  tagName,
+} from '@ember-decorators/component';
+import { inject as service } from '@ember/service';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  htmlSafe
-} from '@ember/string';
-import { computed, getWithDefault } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  inject as service
-} from '@ember/service';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { htmlSafe } from '@ember/template';
+import { getWithDefault, action, computed } from '@ember/object';
+import { validator, buildValidations } from 'ember-cp-validations';
 import { once } from '@ember/runloop';
 import scrollIntoView from 'scroll-into-view-if-needed';
 
 const Validations = buildValidations({
-  'taxonomicName': [
+  taxonomicName: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
+      ignoreBlank: true,
+    }),
   ],
-  'taxonomicLevel': [
+  taxonomicLevel: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
-    })
-  ]
+      ignoreBlank: true,
+    }),
+  ],
 });
 
-export default Component.extend(Validations, {
+@classic
+@tagName('li')
+@classNames('list-group-item', 'md-taxon')
+@classNameBindings('collapse')
+export default class Taxon extends Component.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
-    this.collapse = (this.preview && !this.parentItem);
-  },
+    this.collapse = this.preview && !this.parentItem;
+  }
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     once(this, function () {
-      this.set('model.commonName', getWithDefault(this,
-        'model.commonName', []));
-      this.set('model.subClassification', getWithDefault(this,
-        'model.subClassification', []));
+      this.set(
+        'model.commonName',
+        getWithDefault(this, 'model.commonName', [])
+      );
+      this.set(
+        'model.subClassification',
+        getWithDefault(this, 'model.subClassification', [])
+      );
     });
-  },
-  didInsertElement() {
-    this._super(...arguments);
+  }
 
-    if(this.model._edit) {
+  didInsertElement() {
+    super.didInsertElement(...arguments);
+
+    if (this.model._edit) {
       this.startEditing();
       this.set('model._edit', false);
     }
-  },
-  spotlight: service(),
-  tagName: 'li',
-  classNames: ['list-group-item', 'md-taxon'],
-  classNameBindings: ['collapse'],
-  isEditing: false,
-  preview: false,
+  }
 
-  level: computed('parent.level', function () {
+  @service
+  spotlight;
+
+  isEditing = false;
+  preview = false;
+
+  @computed('parent.level')
+  get level() {
     let parent = this.parentItem;
 
     return parent ? parent.get('level') + 1 : 0;
-  }),
+  }
 
-  padding: computed('level', function () {
+  @computed('level')
+  get padding() {
     let pad = this.level + 0;
 
     return htmlSafe('padding-left: ' + pad + 'rem;');
-  }),
+  }
 
-  collapsible: computed('model.subClassification.[]', function () {
-    return this.get(
-      'model.subClassification.length');
-  }),
+  @computed('model.subClassification.[]')
+  get collapsible() {
+    return this.get('model.subClassification.length');
+  }
 
-  taxonomicLevel: alias('model.taxonomicLevel'),
-  taxonomicName: alias('model.taxonomicName'),
-  taxonomicSystemId: alias('model.taxonomicSystemId'),
+  @alias('model.taxonomicLevel')
+  taxonomicLevel;
+
+  @alias('model.taxonomicName')
+  taxonomicName;
+
+  @alias('model.taxonomicSystemId')
+  taxonomicSystemId;
 
   startEditing() {
     let id = 'body-' + this.elementId;
@@ -96,45 +110,49 @@ export default Component.extend(Validations, {
       behavior: 'smooth',
       //scrollMode: 'if-needed',
     });
-  },
+  }
 
   stopEditing() {
     this.set('isEditing', false);
-  },
+  }
 
   deleteTaxa(taxa) {
-    let parent = this.top || this.get(
-      'parentItem.model.subClassification');
+    let parent = this.top || this.get('parentItem.model.subClassification');
 
     parent.removeObject(taxa);
-  },
+  }
 
   addChild() {
     this.get('model.subClassification').pushObject({
       commonName: [],
       subClassification: [],
-      _edit: true
+      _edit: true,
     });
-  },
-
-  actions: {
-    toggleCollapse(event) {
-      event.stopPropagation();
-      this.toggleProperty('collapse');
-    },
-    deleteTaxa(taxa) {
-      this.deleteTaxa(taxa);
-    },
-    toggleEditing() {
-      if(this.isEditing) {
-        this.spotlight.close();
-        this.set('isEditing', false);
-        return;
-      }
-      this.startEditing();
-    },
-    addChild() {
-      this.addChild();
-    }
   }
-});
+
+  @action
+  toggleCollapse(event) {
+    event.stopPropagation();
+    this.toggleProperty('collapse');
+  }
+
+  @action
+  deleteTaxa(taxa) {
+    this.deleteTaxa(taxa);
+  }
+
+  @action
+  toggleEditing() {
+    if (this.isEditing) {
+      this.spotlight.close();
+      this.set('isEditing', false);
+      return;
+    }
+    this.startEditing();
+  }
+
+  @action
+  addChild() {
+    this.addChild();
+  }
+}

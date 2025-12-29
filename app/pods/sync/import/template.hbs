@@ -20,7 +20,7 @@
       {{/layout/md-card}}
     {{else}}
       <div class="alert alert-info">
-        <h3>{{fa-icon @model.meta.icon}} No <em>{{@model.meta.title}}</em> found.</h3>
+        <h3><FaIcon @icon={{@model.meta.icon}} /> No <em>{{@model.meta.title}}</em> found.</h3>
       </div>
     {{/if}}
   </div>
@@ -29,7 +29,7 @@
       <button type="button" class="btn btn-lg btn-primary md-btn-responsive" {{ action "importSelectedData" @model }}
         disabled={{this.pouch.bulkAdding}}
       >
-        {{fa-icon "check-square-o"}} Import Selected</button>
+        <FaIcon @icon="square-check" /> Import Selected</button>
     </div>
   </div>
 </div>

@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import { getWithDefault, get, set } from '@ember/object';
@@ -16,9 +18,11 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+@tagName('form')
+export default class MdDocumentation extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -26,9 +30,7 @@ export default Component.extend(Validations, {
       set(model, 'resourceType', getWithDefault(model, 'resourceType', []));
       set(model, 'citation', A(getWithDefault(model, 'citation', [{}])));
     });
-  },
-
-  tagName: 'form',
+  }
 
   /**
    * The string representing the path in the profile object for the resource.
@@ -47,6 +49,9 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  citation: alias('model.citation'),
-  resourceType: alias('model.resourceType')
-});
+  @alias('model.citation')
+  citation;
+
+  @alias('model.resourceType')
+  resourceType;
+}

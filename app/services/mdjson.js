@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Service, { inject as service } from '@ember/service';
 import { isArray } from '@ember/array';
 import EmberObject, { getWithDefault, get, set } from '@ember/object';
@@ -36,10 +37,20 @@ const unImplemented = [
   'metadata.resourceInfo.otherResourceLocale',
 ];
 
-export default Service.extend({
-  cleaner: service(),
-  contacts: service(),
-  store: service(),
+@classic
+export default class MdjsonService extends Service {
+  @service
+  cleaner;
+
+  @service
+  contacts;
+
+  @service
+  store;
+
+  getSchemaVersion() {
+    return Schemas.schema.version;
+  }
 
   getSchemaVersion() {
     return Schemas.schema.version;
@@ -95,7 +106,8 @@ export default Service.extend({
         set(ref, 'mdRecordId', null);
       });
     }
-  },
+  }
+
   //TODO: fix ghost injected dictionaries
   injectDictionaries(rec, json) {
     let ids = rec.get('json.mdDictionary') || [];
@@ -113,7 +125,7 @@ export default Service.extend({
     }
 
     set(json, 'dataDictionary', arr);
-  },
+  }
 
   formatRecord(rec, asText, includeDictionaries = true) {
     let _contacts = [];
@@ -178,7 +190,7 @@ export default Service.extend({
     if (includeDictionaries) {
       this.injectDictionaries(rec, clean);
     }
-    
+
     // Always remove mdDictionary array from output as it's internal reference only
     if (clean.mdDictionary) {
       delete clean.mdDictionary;
@@ -211,19 +223,19 @@ export default Service.extend({
     }
 
     return asText ? JSON.stringify(cleaner.clean(json)) : cleaner.clean(json);
-  },
+  }
 
   validateRecord(record) {
     validator.validate('schema', this.formatRecord(record));
 
     return validator;
-  },
+  }
 
   validateContact(contact) {
     validator.validate('contact', contact.get('cleanJson'));
 
     return validator;
-  },
+  }
 
   validateDictionary(dictionary) {
     validator.validate(
@@ -232,5 +244,5 @@ export default Service.extend({
     );
 
     return validator;
-  },
-});
+  }
+}

@@ -1,3 +1,5 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
 /**
  *  @module mdeditor
  * @submodule components-object
@@ -8,27 +10,9 @@ import EmberObject from '@ember/object';
 import Component from '@ember/component';
 import { A } from '@ember/array';
 
-export default Component.extend({
-  /**
-   * mdEditor class for input and edit of mdJSON 'graphic' object arrays. The
-   * class manages the maintenance of an array of graphic objects using the
-   * md-object-table class.
-   *
-   * ```handlebars
-   * \{{object/md-graphic-array
-   *   model=model
-   *   data-spy="Graphic"
-   *   button-text="Add Graphic"
-   *   label="Graphic"
-   * }}
-   * ```
-   *
-   * @class md-graphic-array
-   * @constructor
-   */
-
-  attributeBindings: ['data-spy'],
-
+@classic
+@attributeBindings('data-spy')
+export default class MdGraphicArray extends Component {
   /**
    * mdJSON object containing the 'graphic' array.
    *
@@ -47,7 +31,7 @@ export default Component.extend({
    * @type String
    * @default 'name, uri'
    */
-  attributes: 'fileName,fileDescription',
+  attributes = 'fileName,fileDescription';
 
   /**
    * Name to place on the mdEditor panel header for entry and edit of
@@ -58,7 +42,7 @@ export default Component.extend({
    * @type String
    * @default 'Graphic'
    */
-  label: 'Graphic',
+  label = 'Graphic';
 
   /**
    * Label for the 'add item' button.
@@ -68,16 +52,20 @@ export default Component.extend({
    * @type String
    * @default 'Graphic'
    */
-  buttonText: 'Add Graphic',
+  buttonText = 'Add Graphic';
 
-  previewTemplate: 'object/md-graphic-array/md-graphic-preview',
+  previewTemplate = 'object/md-graphic-array/md-graphic-preview';
 
-  templateClass: EmberObject.extend({
-    init() {
-      this._super(...arguments);
-      
-      this.set('fileConstraint', A());
-      this.set('fileUri', A());
-    }
-  })
-});
+  templateClass =
+    (
+      @classic
+      class MdGraphicArray extends EmberObject {
+        init() {
+          undefined;
+
+          this.set('fileConstraint', A());
+          this.set('fileUri', A());
+        }
+      }
+    );
+}

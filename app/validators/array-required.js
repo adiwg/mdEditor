@@ -1,9 +1,11 @@
+import classic from 'ember-classic-decorator';
 import { assert } from '@ember/debug';
 import { get } from '@ember/object';
 import { isArray } from '@ember/array';
 import BaseValidator from 'ember-cp-validations/validators/base';
 
-const ArrayRequired = BaseValidator.extend({
+@classic
+class ArrayRequired extends BaseValidator {
   /**
   * Validation that checks array length
   *
@@ -37,7 +39,7 @@ const ArrayRequired = BaseValidator.extend({
 
     return this.createErrorMessage('arrayRequired', value, options);
   }
-});
+}
 
 ArrayRequired.reopenClass({
   /**

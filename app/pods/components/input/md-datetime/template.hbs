@@ -1,44 +1,36 @@
-{{#if label}}
-  <label>{{label}}</label>
-{{/if}}
+{{!
+  DEPRECATED: This component has been replaced with MdDatetimeModern or MdDatetimeSmart
+  The legacy jQuery-based bootstrap-datetimepicker has been removed for Ember 4.0 compatibility
+}}
 
-<div class='md-input-input'>
-  {{bs-datetimepicker
-    date=_date
-    format=format
-    extraFormats=extraFormats
-    dateIcon='fa fa-calendar'
-    timeIcon='fa fa-clock-o'
-    icons=calendarIcons
-    placeholder=placeholder
-    showClear=showClear
-    useCurrent=useCurrent
-    textFieldRequired=required
-    showTodayButton=showTodayButton
-    change=change
-  }}
-
-  <span class='md-inputgroup-error'>
-    {{#if showErrorMessage}}
-      <span class='md-error'>
-        {{fa-icon 'exclamation-circle'}}
-        {{#ember-tooltip
-          side='right' tooltipClass='ember-tooltip md-tooltip danger'
-        }}
-          {{v-get model valuePath 'message'}}
-        {{/ember-tooltip}}
-      </span>
-    {{/if}}
-
-    {{#if showWarningMessage}}
-      <span class='md-warning'>
-        {{fa-icon 'exclamation-triangle'}}
-        {{#ember-tooltip
-          side='right' tooltipClass='ember-tooltip md-tooltip warning'
-        }}
-          {{v-get model valuePath 'warningMessage'}}
-        {{/ember-tooltip}}
-      </span>
-    {{/if}}
-  </span>
+<div class="alert alert-warning">
+  <h5><FaIcon @icon="exclamation-triangle" /> Deprecated Component</h5>
+  <p>
+    <strong>md-datetime</strong> has been deprecated and replaced with modern, jQuery-free alternatives.
+  </p>
+  <p>Please replace with:</p>
+  <ul>
+    <li><strong>MdDatetimeModern</strong> - Direct modern implementation</li>
+    <li><strong>MdDatetimeSmart</strong> - Auto-detecting wrapper (recommended)</li>
+  </ul>
+  <p>
+    <small>
+      Legacy props: model={{this.model}}, valuePath={{this.valuePath}},
+      format={{this.format}}, label="{{this.label}}"
+    </small>
+  </p>
 </div>
+
+{{! Fallback to modern component with current props }}
+<MdDatetimeModern
+  @model={{this.model}}
+  @valuePath={{this.valuePath}}
+  @format={{this.format}}
+  @precision={{this.precision}}
+  @placeholder={{this.placeholder}}
+  @label={{this.label}}
+  @required={{this.required}}
+  @disabled={{this.disabled}}
+  @showClear={{this.showClear}}
+  @onChange={{this.change}}
+/>

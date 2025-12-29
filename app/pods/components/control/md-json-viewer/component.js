@@ -1,4 +1,5 @@
-import $ from 'jquery';
+// Use global jQuery since we need it for jquery-jsonview
+/* global $ */
 import Component from '@ember/component';
 import { typeOf } from '@ember/utils';
 
@@ -41,13 +42,14 @@ export default Component.extend({
     this.set('modal', false);
   },
 
-  setFontSize(el, factor) {
-    let currentFontSize = el.css('font-size');
+  setFontSize(element, factor) {
+    const $el = $(element);
+    let currentFontSize = $el.css('font-size');
     let currentFontSizeNum = parseFloat(currentFontSize, 10);
     let newFontSize = currentFontSizeNum * factor;
 
-    el.animate({
-      'font-size': `${newFontSize}px`
+    $el.animate({
+      'font-size': `${newFontSize}px`,
     });
   },
 
@@ -55,29 +57,40 @@ export default Component.extend({
     let json = this.json;
     let out = typeOf(json) === 'string' ? json : JSON.stringify(json);
 
-    $('.md-viewer-body')
-      .JSONView(out);
+    // Use jQuery wrapper for jsonview library compatibility
+    const viewerBody = this.element.querySelector('.md-viewer-body');
+    if (viewerBody) {
+      $(viewerBody).JSONView(out);
+    }
   },
 
   actions: {
     collapse() {
-      this.$('.md-viewer-body')
-        .JSONView('collapse');
+      const viewerBody = this.element.querySelector('.md-viewer-body');
+      if (viewerBody) {
+        $(viewerBody).JSONView('collapse');
+      }
     },
     expand() {
-      this.$('.md-viewer-body')
-        .JSONView('expand');
+      const viewerBody = this.element.querySelector('.md-viewer-body');
+      if (viewerBody) {
+        $(viewerBody).JSONView('expand');
+      }
     },
     zoomin() {
-      let body = this.$('.md-viewer-body');
-      this.setFontSize(body, 1.1);
+      const viewerBody = this.element.querySelector('.md-viewer-body');
+      if (viewerBody) {
+        this.setFontSize(viewerBody, 1.1);
+      }
     },
     zoomout() {
-      let body = this.$('.md-viewer-body');
-      this.setFontSize(body, 0.9);
+      const viewerBody = this.element.querySelector('.md-viewer-body');
+      if (viewerBody) {
+        this.setFontSize(viewerBody, 0.9);
+      }
     },
     closeModal() {
       this.close();
-    }
-  }
+    },
+  },
 });

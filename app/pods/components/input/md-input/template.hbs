@@ -24,7 +24,7 @@
   <span class="md-input-error">
     {{#if this.showErrorMessage}}
       <span class="md-error">
-        {{fa-icon "exclamation-circle"}}
+        <FaIcon @icon="circle-exclamation" />
         <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip danger">
             {{v-get this.model this.valuePath "message"}}
         </EmberTooltip>
@@ -33,7 +33,7 @@
 
     {{#if this.showWarningMessage}}
       <span class="md-warning">
-        {{fa-icon "exclamation-triangle"}}
+        <FaIcon @icon="triangle-exclamation" />
         <EmberTooltip @side="right" @tooltipClass="ember-tooltip md-tooltip warning">
         {{v-get this.model this.valuePath "warningMessage"}}
         </EmberTooltip>

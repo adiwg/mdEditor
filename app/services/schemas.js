@@ -1,18 +1,13 @@
+import { filterBy } from '@ember/object/computed';
 import Service, { inject as service } from '@ember/service';
 import $RefParser from "@apidevtools/json-schema-ref-parser";
-import request from 'ember-ajax/request';
+import axios from 'axios';
 import { task, all, timeout } from 'ember-concurrency';
-import { filterBy } from '@ember/object/computed';
-import {
-  // isAjaxError,
-  isNotFoundError,
-  // isForbiddenError
-} from 'ember-ajax/errors';
 import semver from 'semver';
 
-export default Service.extend({
+export default class SchemasService extends Service {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     /**
      * Instance of JSON Schema $Ref Parser
@@ -22,16 +17,23 @@ export default Service.extend({
      * @return {Object}
      */
     this.schemas = this.store.peekAll('schema');
-  },
-  store: service(),
-  flashMessages: service(),
-  globalSchemas: filterBy('schemas','isGlobal'),
-  fetchSchemas: task(function* (url) {
-    yield timeout(1000);
+  }
+
+  @service
+  store;
+
+  @service
+  flashMessages;
+
+  @filterBy('schemas', 'isGlobal')
+  globalSchemas;
+
+  fetchSchemas = task({ drop: true }, async (url) => {
+    await timeout(1000);
 
     const parser = new $RefParser(); // Use $RefParser directly here
 
-    return yield parser.resolve(url).then($refs => {
+    return await parser.resolve(url).then($refs => {
       let paths = $refs.paths();
       let values = parser.$refs.values();
 
@@ -42,7 +44,7 @@ export default Service.extend({
         }
       });
     })
-  }).drop(),
+  });
 
   // compileSchemas(schemas) {
   //   let ajv = ajvErrors(new Ajv(options));
@@ -54,10 +56,10 @@ export default Service.extend({
   //   return ajv;
   // },
 
-  checkForUpdates: task(function* (records) {
-    yield timeout(1000);
+  checkForUpdates = task({ drop: true }, async (records) => {
+    await timeout(1000);
 
-    yield all(records.map(itm => {
+    await all(records.map(itm => {
       if(itm.validations.attrs.uri.isInvalid) {
         this.flashMessages
           .warning(
@@ -66,17 +68,17 @@ export default Service.extend({
         return;
       }
 
-      return request(itm.uri).then(response => {
-        // `response` is the data from the server
-        if(semver.valid(response.version)) {
-          itm.set('remoteVersion', response.version);
+      return axios.get(itm.uri).then(response => {
+        // `response.data` is the data from the server
+        if(semver.valid(response.data.version)) {
+          itm.set('remoteVersion', response.data.version);
         } else {
           throw new Error("Invalid version");
         }
 
-        return response;
+        return response.data;
       }).catch(error => {
-        if(isNotFoundError(error)) {
+        if(error.response && error.response.status === 404) {
           this.flashMessages
             .danger(
               `Could not load schema for "${itm.title}". Schema not found.`
@@ -89,6 +91,5 @@ export default Service.extend({
         }
       });
     }));
-  }).drop(),
-
-});
+  });
+}

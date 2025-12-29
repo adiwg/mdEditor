@@ -1,7 +1,6 @@
-import {
-  notEmpty,
-  alias
-} from '@ember/object/computed';
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { alias, notEmpty } from '@ember/object/computed';
 import Component from '@ember/component';
 import {
   getWithDefault,
@@ -81,16 +80,18 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+@tagName('form')
+export default class MdTimePeriod extends Component.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.timeUnit = timeUnit;
     this.durationUnit = durationUnit;
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -106,8 +107,7 @@ export default Component.extend(Validations, {
       set(model, 'identifier', getWithDefault(model, 'identifier', {}));
       // set(model, 'graphic', getWithDefault(model, 'graphic', []));
     });
-  },
-  tagName: 'form',
+  }
 
   /**
    * The profile path for the component
@@ -116,32 +116,36 @@ export default Component.extend(Validations, {
    * @type {String}
    */
 
-  startDateTime: computed('model.startDateTime', {
-    get() {
-      return get(this, 'model.startDateTime');
-    },
-    set(key, value) {
-      once(this, function () {
-        set(this, 'model.startDateTime', value);
-        return value;
-      });
-    }
-  }),
-  endDateTime: computed('model.endDateTime', {
-    get() {
-      return get(this, 'model.endDateTime');
-    },
-    set(key, value) {
-      once(this, function () {
-        set(this, 'model.endDateTime', value);
-        return value;
-      });
-    }
-  }),
-  intervalAmount: alias('model.timeInterval.interval'),
-  identifier: alias('model.identifier.identifier'),
+  @computed('model.startDateTime')
+  get startDateTime() {
+    return get(this, 'model.startDateTime');
+  }
 
-  timeUnit: timeUnit,
-  durationUnit: durationUnit
+  set startDateTime(value) {
+    once(this, function () {
+      set(this, 'model.startDateTime', value);
+      return value;
+    });
+  }
 
-});
+  @computed('model.endDateTime')
+  get endDateTime() {
+    return get(this, 'model.endDateTime');
+  }
+
+  set endDateTime(value) {
+    once(this, function () {
+      set(this, 'model.endDateTime', value);
+      return value;
+    });
+  }
+
+  @alias('model.timeInterval.interval')
+  intervalAmount;
+
+  @alias('model.identifier.identifier')
+  identifier;
+
+  timeUnit = timeUnit;
+  durationUnit = durationUnit;
+}

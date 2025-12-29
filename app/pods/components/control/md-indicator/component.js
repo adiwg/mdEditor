@@ -1,52 +1,33 @@
-import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
 import { computed } from '@ember/object';
-import { htmlSafe } from '@ember/string';
+import Component from '@ember/component';
+import { htmlSafe } from '@ember/template';
 import { interpolate, parseArgs } from 'mdeditor/utils/md-interpolate';
 
-export default Component.extend({
-  /**
-   * @module mdeditor
-   * @submodule components-control
-   */
-
-  /**
-   * Icon that displays a popover.
-   *
-   * ```handlebars
-   * \{{control/md-indicator
-   *   icon="sticky-note"
-   *   title="Hello"
-   *   note="${foo} is a ${bar}"
-   *   values=values
-   *   type="danger"
-   * }}
-   * ```
-   *
-   * @class md-indicator
-   * @constructor
-   */
-
-  tagName: 'span',
-
+@classic
+@tagName('span')
+export default class MdIndicator extends Component {
   init() {
     const options = this.options;
 
-    this._super(...arguments);
+    super.init(...arguments);
 
-    if(options) {
+    if (options) {
       Object.assign(this, options);
       //this.classNames.concat(options.classNames);
     }
 
     this.popoverHideDelay = this.popoverHideDelay || 500;
-    this.popperContainer = this.popperContainer || "body";
+    this.popperContainer = this.popperContainer || 'body';
     this.icon = this.icon || 'sticky-note';
     this.event = this.event || 'hover';
     this.title = this.title || 'Note';
     this.type = this.type || 'default';
-    this.classNames = ['md-indicator', `md-${this.type}`].concat(this
-      .classNames);
-  },
+    this.classNames = ['md-indicator', `md-${this.type}`].concat(
+      this.classNames
+    );
+  }
 
   /**
    * The string to display in the indicator, interpolation optional.
@@ -138,9 +119,10 @@ export default Component.extend({
    * @category computed
    * @requires note,values
    */
-  interpolated: computed('note', 'values', function () {
+  @computed('note', 'values')
+  get interpolated() {
     return htmlSafe(interpolate(this.note, this.values));
-  }),
+  }
 
   /**
    * The values for interpolated variables.
@@ -150,7 +132,8 @@ export default Component.extend({
    * @category computed
    * @requires note
    */
-  values: computed('note', function () {
+  @computed('note')
+  get values() {
     let args = parseArgs(this.note);
 
     return args.reduce((acc, a) => {
@@ -158,5 +141,5 @@ export default Component.extend({
 
       return acc;
     }, {});
-  })
-});
+  }
+}

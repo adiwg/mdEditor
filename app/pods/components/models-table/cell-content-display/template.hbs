@@ -1,13 +1,13 @@
-{{#if column.truncate}}
+{{#if this.column.truncate}}
   {{word-limit
-    (get record column.propertyName)
-    limit=column.wordLimit
-    wordLength=column.wordLength
+    (get this.record this.column.propertyName)
+    limit=this.column.wordLimit
+    wordLength=this.column.wordLength
   }}
-{{else if column.break}}
+{{else if this.column.break}}
   <div class="word-break-all inline-block">
-    {{get record column.propertyName}}
+    {{get this.record this.column.propertyName}}
   </div>
 {{else}}
-  {{get record column.propertyName}}
+  {{get this.record this.column.propertyName}}
 {{/if}}

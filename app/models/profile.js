@@ -1,12 +1,11 @@
+import classic from 'ember-classic-decorator';
+import { observes } from '@ember-decorators/object';
+import { computed } from '@ember/object';
+import { alias, or } from '@ember/object/computed';
 import Model, { attr } from '@ember-data/model';
-import { or, alias } from '@ember/object/computed';
-import { computed, observer } from '@ember/object';
 import { once } from '@ember/runloop';
-import { checkVersion, regex } from 'mdeditor/models/schema'
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { checkVersion, regex } from 'mdeditor/models/schema';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 // [{
 //   "id": "full",
@@ -30,26 +29,26 @@ import {
 // }]
 
 const Validations = buildValidations({
-  'config': validator(
-    'presence', {
-      presence: true,
-      ignoreBlank: true,
-      message: 'The definition has not been downloaded.'
-    }),
-  'uri': [
+  config: validator('presence', {
+    presence: true,
+    ignoreBlank: true,
+    message: 'The definition has not been downloaded.',
+  }),
+  uri: [
     validator('presence', {
       presence: true,
-      ignoreBlank: true
+      ignoreBlank: true,
     }),
     validator('format', {
       regex: regex,
       isWarning: false,
-      message: 'This field should be a valid, resolvable URL.'
-    })
-  ]
+      message: 'This field should be a valid, resolvable URL.',
+    }),
+  ],
 });
 
-export default Model.extend(Validations, {
+@classic
+export default class Profile extends Model.extend(Validations) {
   /**
    * Profile model
    *
@@ -61,42 +60,73 @@ export default Model.extend(Validations, {
    */
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.updateSettings;
-  },
+  }
 
-  uri: attr('string'),
-  alias: attr('string'),
-  altDescription: attr('string'),
-  remoteVersion: attr('string'),
-  config: attr('json'),
+  @attr('string')
+  uri;
 
-  title: or('alias', 'config.title'),
-  identifier: alias('config.identifier'),
-  namespace: alias('config.namespace'),
-  description: or('altDescription', 'config.description'),
-  localVersion: alias('config.version'),
-  components: alias('config.components'),
-  nav: alias('config.nav'),
-  hasUpdate: computed('localVersion', 'remoteVersion', checkVersion),
+  @attr('string')
+  alias;
+
+  @attr('string')
+  altDescription;
+
+  @attr('string')
+  remoteVersion;
+
+  @attr('json')
+  config;
+
+  @or('alias', 'config.title')
+  title;
+
+  @alias('config.identifier')
+  identifier;
+
+  @alias('config.namespace')
+  namespace;
+
+  @or('altDescription', 'config.description')
+  description;
+
+  @alias('config.version')
+  localVersion;
+
+  @alias('config.components')
+  components;
+
+  @alias('config.nav')
+  nav;
+
+  @computed('localVersion', 'remoteVersion')
+  get hasUpdate() {
+    return checkVersion.call(this);
+  }
 
   /* eslint-disable ember/no-observers */
-  updateSettings: observer('hasDirtyAttributes', 'alias', 'uri',
-    'altDescription', 'remoteVersion',
-    'config',
-    function () {
-      if(this.isNew || this.isEmpty || this.isDeleted) {
-        return;
-      }
+  @observes(
+    'hasDirtyAttributes',
+    'alias',
+    'uri',
+    'altDescription',
+    'remoteVersion',
+    'config'
+  )
+  updateSettings() {
+    if (this.isNew || this.isEmpty || this.isDeleted) {
+      return;
+    }
 
-      if(this.hasDirtyAttributes) {
-        this.set('dateUpdated', new Date());
+    if (this.hasDirtyAttributes) {
+      this.set('dateUpdated', new Date());
 
-        once(this, function () {
-          this.save();
-        });
-      }
-    })
+      once(this, function () {
+        this.save();
+      });
+    }
+  }
   /* eslint-enable ember/no-observers */
-});
+}

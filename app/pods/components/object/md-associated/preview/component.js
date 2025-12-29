@@ -1,15 +1,20 @@
+import classic from 'ember-classic-decorator';
+import { classNameBindings } from '@ember-decorators/component';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import { get, computed } from '@ember/object';
-import { inject as service } from '@ember/service';
 
-export default Component.extend({
+@classic
+@classNameBindings('muted:text-muted')
+export default class Preview extends Component {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.profilePath = this.profilePath || 'preview';
-  },
-  store: service(),
-  classNameBindings: ['muted:text-muted'],
+  }
+
+  @service
+  store;
 
   /**
    * Whether to render the text muted.
@@ -18,9 +23,10 @@ export default Component.extend({
    * @type {Boolean}
    * @default "true"
    */
-  muted: true,
+  muted = true;
 
-  citation: computed('item', 'item.mdRecordId', function() {
+  @computed('item', 'item.mdRecordId')
+  get citation() {
     if(!this.get('item.mdRecordId')) {
       return this.get('item.resourceCitation');
     }
@@ -31,9 +37,10 @@ export default Component.extend({
       .get('firstObject.json.metadata.resourceInfo.citation');
 
     return linked || this.get('item.resourceCitation');
-  }),
+  }
 
-  metadataIdentifier: computed('item.{metadataCitation.identifier,mdRecordId}', function() {
+  @computed('item.{metadataCitation.identifier,mdRecordId}')
+  get metadataIdentifier() {
     if(!this.get('item.mdRecordId')) {
       return this.get('item.metadataCitation.identifier.0');
     }
@@ -43,5 +50,5 @@ export default Component.extend({
     return store.peekAll('record')
       .filterBy('recordId', get(this, 'item.mdRecordId'))
       .get('firstObject.json.metadata.metadataInfo.metadataIdentifier');
-  }),
-});
+  }
+}

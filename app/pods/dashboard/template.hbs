@@ -1,86 +1,82 @@
 <div class='dashboard'>
   <div class='row'>
     <div class='col-xs-12 col-sm-4'>
-      {{#layout/md-card
-        class='card-inverse card-primary text-center' block=false
-      }}
+      <Layout::MdCard @class="card-inverse card-primary text-center" @block={{false}}>
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
-              {{fa-icon 'file-text' size=5}}
+              <FaIcon @icon="file-text" @size="5x" />
             </div>
             <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{model.0.length}}</div>
+              <div class='huge-text'>{{this.model.0.length}}</div>
               <div>Records</div>
             </div>
           </div>
         </div>
-        {{#link-to 'records'}}
+        <LinkTo @route="records">
           <div class='card-footer'>
             <div class='pull-left'>
               View Records
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <FaIcon @icon="arrow-right" @size="1x" />
             </div>
 
           </div>
-        {{/link-to}}
-      {{/layout/md-card}}
+        </LinkTo>
+      </Layout::MdCard>
     </div>
     <div class='col-xs-12 col-sm-4'>
-      {{#layout/md-card
-        class='card-inverse card-success text-center' block=false
-      }}
+      <Layout::MdCard @class="card-inverse card-success text-center" @block={{false}}>
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
-              {{fa-icon 'users' size=5}}
+              <FaIcon @icon="users" @size="5x" />
             </div>
             <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{model.1.length}}</div>
+              <div class='huge-text'>{{this.model.1.length}}</div>
               <div>Contacts</div>
             </div>
           </div>
         </div>
-        {{#link-to 'contacts'}}
+        <LinkTo @route="contacts">
           <div class='card-footer'>
             <div class='pull-left'>
               View Contacts
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <FaIcon @icon="arrow-right" @size="1x" />
             </div>
 
           </div>
-        {{/link-to}}
-      {{/layout/md-card}}
+        </LinkTo>
+      </Layout::MdCard>
     </div>
     <div class='col-xs-12 col-sm-4'>
-      {{#layout/md-card class='card-inverse card-info text-center' block=false}}
+      <Layout::MdCard @class="card-inverse card-info text-center" @block={{false}}>
         <div class='card-block'>
           <div class='card-title row'>
             <div class='col-xs-3'>
-              {{fa-icon 'book' size=5}}
+              <FaIcon @icon="book" @size="5x" />
             </div>
             <div class='col-xs-9 text-right'>
-              <div class='huge-text'>{{model.2.length}}</div>
+              <div class='huge-text'>{{this.model.2.length}}</div>
               <div>Dictionaries</div>
             </div>
           </div>
         </div>
-        {{#link-to 'dictionaries'}}
+        <LinkTo @route="dictionaries">
           <div class='card-footer'>
             <div class='pull-left'>
               View Dictionaries
             </div>
             <div class='pull-right'>
-              {{fa-icon 'arrow-right' size=1}}
+              <FaIcon @icon="arrow-right" @size="1x" />
             </div>
 
           </div>
-        {{/link-to}}
-      {{/layout/md-card}}
+        </LinkTo>
+      </Layout::MdCard>
     </div>
   </div>
   <hr />

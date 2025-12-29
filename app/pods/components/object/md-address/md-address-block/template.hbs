@@ -1,10 +1,10 @@
 <address>
-  {{#each item.deliveryPoint as |dp|}}
+  {{#each this.item.deliveryPoint as |dp|}}
     {{dp}}<br>
   {{/each}}
-  {{item.city}}, {{item.administrativeArea}} {{item.postalCode}}
-  {{item.country}}<br>
-  {{#if item.addressType}}
-    <strong>{{join ", " item.addressType}}</strong>
+  {{this.item.city}}, {{this.item.administrativeArea}} {{this.item.postalCode}}
+  {{this.item.country}}<br>
+  {{#if this.item.addressType}}
+    <strong>{{join ", " this.item.addressType}}</strong>
   {{/if}}
 </address>

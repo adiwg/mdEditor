@@ -1,14 +1,14 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import EmberObject, { computed, get, getWithDefault, set } from '@ember/object';
+import EmberObject, { get, getWithDefault, set, computed } from '@ember/object';
 import {
   A
 } from '@ember/array';
 import {
   once
 } from '@ember/runloop';
-import {
-  alias
-} from '@ember/object/computed';
 import {
   validator,
   buildValidations
@@ -27,49 +27,55 @@ const Validations = buildValidations({
   })
 });
 
-const Template = EmberObject.extend(Validations, {
+@classic
+class Template extends EmberObject.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
     this.set('party', A());
     this.set('role', null);
-  },
-  _contacts: computed('party', {
-    get() {
-      let party = this.party;
-      return party.mapBy('contactId');
-    },
-    set(key, value) {
-      let map = value.map((itm) => {
-        return {
-          contactId: itm
-        };
-      });
-      set(this, 'party', map);
-      return value;
-    }
-  })
-});
+  }
 
-const theComp = Component.extend(Validations, {
-  _contacts: computed('model', {
-    get() {
-      let party = get(this, 'model.party');
-      return party ? party.mapBy('contactId') : [];
-    },
-    set(key, value) {
-      let map = value.map((itm) => {
-        return {
-          contactId: itm
-        };
-      });
-      set(this, 'model.party', map);
-      return value;
-    }
-  }),
+  @computed('party')
+  get _contacts() {
+    let party = this.party;
+    return party.mapBy('contactId');
+  }
 
-  role: alias('model.role'),
+  set _contacts(value) {
+    let map = value.map((itm) => {
+      return {
+        contactId: itm
+      };
+    });
+    set(this, 'party', map);
+    return value;
+  }
+}
+
+@classic
+@attributeBindings('data-spy')
+class theComp extends Component.extend(Validations) {
+  @computed('model')
+  get _contacts() {
+    let party = get(this, 'model.party');
+    return party ? party.mapBy('contactId') : [];
+  }
+
+  set _contacts(value) {
+    let map = value.map((itm) => {
+      return {
+        contactId: itm
+      };
+    });
+    set(this, 'model.party', map);
+    return value;
+  }
+
+  @alias('model.role')
+  role;
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -77,11 +83,10 @@ const theComp = Component.extend(Validations, {
       set(model, 'party', getWithDefault(model, 'party', []));
       set(model, 'role', getWithDefault(model, 'role', null));
     });
-  },
+  }
 
-  attributeBindings: ['data-spy'],
-  templateClass: Template
-});
+  templateClass = Template;
+}
 
 export {
   Validations,

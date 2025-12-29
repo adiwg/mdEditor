@@ -1,30 +1,19 @@
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
 import EmberObject from '@ember/object';
 import { A } from '@ember/array';
 import Component from '@ember/component';
 
-export default Component.extend({
-
+@classic
+@attributeBindings('data-spy')
+export default class MdCitationArray extends Component {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
-    if(!this.model) {
+    if (!this.model) {
       this.set('model', A());
     }
-  },
-
-  /**
-   * mdEditor class for input and edit of mdJSON 'citation' object
-   * arrays.
-   * The class manages the maintenance of an array of citation
-   * objects using the md-object-table class.
-   *
-   * @module mdeditor
-   * @submodule components-object
-   * @class md-citation-array
-   * @constructor
-   */
-
-  attributeBindings: ['data-spy'],
+  }
 
   /**
    * mdJSON object containing the 'citation' array.
@@ -44,7 +33,7 @@ export default Component.extend({
    * @type String
    * @default 'title'
    */
-  attributes: 'title',
+  attributes = 'title';
 
   /**
    * Name to place on the mdEditor panel header for entry and edit of
@@ -55,7 +44,7 @@ export default Component.extend({
    * @type String
    * @default 'Citation'
    */
-  label: 'Citation',
+  label = 'Citation';
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -63,10 +52,14 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmberObject.extend({
-    init() {
-      this._super(...arguments);
-      //this.set('authority', {});
-    }
-  })
-});
+  templateClass =
+    (
+      @classic
+      class MdCitationArray extends EmberObject {
+        init() {
+          super.init(...arguments);
+          //this.set('authority', {});
+        }
+      }
+    );
+}

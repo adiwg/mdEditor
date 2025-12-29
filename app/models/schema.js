@@ -1,14 +1,16 @@
+import classic from 'ember-classic-decorator';
+import { observes } from '@ember-decorators/object';
+import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
+import { or } from '@ember/object/computed';
 import Model, { attr } from '@ember-data/model';
 import { once } from '@ember/runloop';
-import { computed, observer } from '@ember/object';
-import { or } from '@ember/object/computed';
 import { capitalize } from '@ember/string';
 import { validator, buildValidations } from 'ember-cp-validations';
 import semver from 'semver';
 import Ajv from 'ajv';
 import ajvErrors from 'ajv-errors';
 import * as draft4 from 'ajv/lib/refs/json-schema-draft-04';
-import { inject as service } from '@ember/service';
 import ajv from 'ajv';
 
 const ajvOptions = {
@@ -67,7 +69,8 @@ const Validations = buildValidations({
   ],
 });
 
-const theComp = Model.extend(Validations, {
+@classic
+class theComp extends Model.extend(Validations) {
   /**
    * Schema model
    *
@@ -78,43 +81,63 @@ const theComp = Model.extend(Validations, {
    * @submodule data-models
    */
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.schemaValidator = new Ajv(ajvOptions);
     ajvErrors(this.schemaValidator);
     this.schemaValidator.addMetaSchema(draft4);
     this.updateSettings;
-  },
-  flashMessages: service(),
+  }
 
-  title: attr('string'),
-  uri: attr('string'),
-  description: attr('string'),
-  schemaType: attr('string'),
-  version: attr('string'),
-  remoteVersion: attr('string'),
-  isGlobal: attr('boolean', {
+  @service
+  flashMessages;
+
+  @attr('string')
+  title;
+
+  @attr('string')
+  uri;
+
+  @attr('string')
+  description;
+
+  @attr('string')
+  schemaType;
+
+  @attr('string')
+  version;
+
+  @attr('string')
+  remoteVersion;
+
+  @attr('boolean', {
     defaultValue: false,
-  }),
-  customSchemas: attr('json', {
+  })
+  isGlobal;
+
+  @attr('json', {
     defaultValue: function () {
       return [];
     },
-  }),
+  })
+  customSchemas;
 
-  status: computed('validations.isInvalid', function () {
+  @computed('validations.isInvalid')
+  get status() {
     return this.validations.isInvalid ? 'warning' : 'success';
-  }),
+  }
 
-  formattedType: computed('schemaType', function () {
+  @computed('schemaType')
+  get formattedType() {
     return this.schemaType === 'record'
       ? 'Metadata'
       : capitalize(this.schemaType || 'Unknown');
-  }),
+  }
 
-  formattedGlobal: computed('isGlobal', function () {
+  @computed('isGlobal')
+  get formattedGlobal() {
     return this.isGlobal ? 'Yes' : 'No';
-  }),
+  }
 
   /**
    * The timestamp for the record
@@ -124,26 +147,28 @@ const theComp = Model.extend(Validations, {
    * @default new Date()
    * @required
    */
-  dateUpdated: attr('date', {
+  @attr('date', {
     defaultValue() {
       return new Date();
     },
-  }),
+  })
+  dateUpdated;
 
-  localVersion: or('version', 'rootSchema.version'),
+  @or('version', 'rootSchema.version')
+  localVersion;
 
-  hasUpdate: computed(
-    'version',
-    'remoteVersion',
-    'customSchemas.0.version',
-    checkVersion
-  ),
+  @computed('version', 'remoteVersion', 'customSchemas.0.version')
+  get hasUpdate() {
+    return checkVersion.call(this);
+  }
 
-  rootSchema: computed('customSchemas.firstObject.schema', function () {
+  @computed('customSchemas.firstObject.schema')
+  get rootSchema() {
     return this.customSchemas.get('firstObject.schema');
-  }),
+  }
 
-  validator: computed('isGlobal', 'customSchemas', function () {
+  @computed('isGlobal', 'customSchemas')
+  get validator() {
     if (!this.isGlobal && !this.get('customSchemas.length')) {
       return;
     }
@@ -161,10 +186,10 @@ const theComp = Model.extend(Validations, {
     this.flashMessages.danger(
       `Could not load schemas for ${this.title}. Schemas provided did not validate.`
     );
-  }),
+  }
 
   /* eslint-disable ember/no-observers */
-  updateSettings: observer(
+  @observes(
     'hasDirtyAttributes',
     'title',
     'uri',
@@ -173,22 +198,22 @@ const theComp = Model.extend(Validations, {
     'remoteVersion',
     'schemaType',
     'isGlobal',
-    'customSchemas.[]',
-    function () {
-      if (this.isNew || this.isEmpty || this.isDeleted) {
-        return;
-      }
-
-      if (this.hasDirtyAttributes) {
-        this.set('dateUpdated', new Date());
-
-        once(this, function () {
-          this.save();
-        });
-      }
+    'customSchemas.[]'
+  )
+  updateSettings() {
+    if (this.isNew || this.isEmpty || this.isDeleted) {
+      return;
     }
-  ),
+
+    if (this.hasDirtyAttributes) {
+      this.set('dateUpdated', new Date());
+
+      once(this, function () {
+        this.save();
+      });
+    }
+  }
   /* eslint-enable ember/no-observers */
-});
+}
 
 export { regex, checkVersion, theComp as default };

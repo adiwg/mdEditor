@@ -1,11 +1,15 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
-import { inject as service } from '@ember/service';
+import { set, getWithDefault, get, action } from '@ember/object';
 
-export default Component.extend({
+@classic
+@tagName('form')
+export default class MdSpatialInfo extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -15,32 +19,13 @@ export default Component.extend({
       set(model, 'spatialResolution', getWithDefault(model, 'spatialResolution', []));
       set(model, 'coverageDescription', getWithDefault(model, 'coverageDescription', []));
     });
-  },
-
-  router: service(),
-
-  /**
-   * The string representing the path in the profile object for the resource.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
-
-  /**
-   * The object to use as the data model for the resource.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
-
-  tagName: 'form',
-
-  actions: {
-    editRaster(id) {
-      this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel, id);
-    }
   }
-});
+
+  @service
+  router;
+
+  @action
+  editRaster(id) {
+    this.router.transitionTo('record.show.edit.spatial.raster', this.parentModel, id);
+  }
+}

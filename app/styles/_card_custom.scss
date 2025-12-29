@@ -4,8 +4,8 @@
     display: flex;
     justify-content: space-between;
 
-    &.card-block::before,
-    &.card-block::after {
+    &.card-body::before,
+    &.card-body::after {
       content: none;
       // display: table;
     }
@@ -38,7 +38,7 @@
     width: 100%;
     z-index: 10000;
 
-    .card-block.card-collapse {
+    .card-body.card-collapse {
       max-height: none;
       overflow-y: auto;
     }
@@ -122,7 +122,7 @@
 }
 
 .card-table {
-  .card-block {
+  .card-body {
     padding: 0;
 
     table {

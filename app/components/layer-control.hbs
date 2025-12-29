@@ -1,0 +1,7 @@
+{{#each this.leafletDescriptorsProps as |prop|}}
+  {{did-update (fn this.updateOption prop) (get this.args prop)}}
+{{/each}}
+
+<@node @didInsertParent={{this.didInsertParent}} @willDestroyParent={{this.willDestroyParent}}>
+  {{yield}}
+</@node>

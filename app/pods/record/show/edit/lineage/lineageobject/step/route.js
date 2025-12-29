@@ -1,27 +1,30 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { get, action, computed } from '@ember/object';
 
-export default Route.extend({
+@classic
+export default class StepRoute extends Route {
   model(params) {
     this.set('stepId', params.step_id);
     this.set('lineageId', this.paramsFor(
       'record.show.edit.lineage.lineageobject').lineage_id);
 
     return this.setupModel();
-  },
+  }
 
-  breadCrumb: computed('stepId', function () {
+  @computed('stepId')
+  get breadCrumb() {
     return {
       title: 'Step ' + this.stepId,
       linkable: true
     };
-  }),
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('stepId', this.stepId);
@@ -30,7 +33,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let stepId = this.stepId;
@@ -51,10 +54,10 @@ export default Route.extend({
     }
 
     return step;
-  },
-  actions: {
-    parentModel() {
-      return this.modelFor('record.show.edit');
-    }
   }
-});
+
+  @action
+  parentModel() {
+    return this.modelFor('record.show.edit');
+  }
+}

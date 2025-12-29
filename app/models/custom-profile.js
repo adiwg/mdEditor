@@ -1,8 +1,10 @@
-import Model, { attr, hasMany } from '@ember-data/model';
-import { computed, observer } from '@ember/object';
-import { or, alias, notEmpty } from '@ember/object/computed';
-import { once } from '@ember/runloop';
+import classic from 'ember-classic-decorator';
+import { observes } from '@ember-decorators/object';
+import { computed } from '@ember/object';
 import { inject as service } from '@ember/service';
+import { notEmpty, alias, or } from '@ember/object/computed';
+import Model, { attr, hasMany } from '@ember-data/model';
+import { once } from '@ember/runloop';
 import { validator, buildValidations } from 'ember-cp-validations';
 
 // [{
@@ -53,7 +55,8 @@ const Validations = buildValidations({
   }),
 });
 
-export default Model.extend(Validations, {
+@classic
+export default class CustomProfile extends Model.extend(Validations) {
   /**
    * Custom Profile model
    *
@@ -65,30 +68,51 @@ export default Model.extend(Validations, {
    */
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.updateSettings;
-  },
+  }
 
-  definitions: service('profile'),
+  @service('profile')
+  definitions;
 
-  uri: attr('string'),
-  alias: attr('string'),
-  title: attr('string'),
-  description: attr('string'),
-  profileId: attr('string'),
-  thesauri: attr({ defaultValue: () => [] }),
+  @attr('string')
+  uri;
 
-  profileTitle: or('alias', 'title'),
-  identifier: alias('id').readOnly(),
-  components: alias('profile.components').readOnly(),
-  schemas: hasMany('schemas'),
-  definition: computed('profileId', function () {
+  @attr('string')
+  alias;
+
+  @attr('string')
+  title;
+
+  @attr('string')
+  description;
+
+  @attr('string')
+  profileId;
+
+  @attr({ defaultValue: () => [] })
+  thesauri;
+
+  @or('alias', 'title')
+  profileTitle;
+
+  @(alias('id').readOnly())
+  identifier;
+
+  @(alias('profile.components').readOnly())
+  components;
+
+  @hasMany('schemas')
+  schemas;
+
+  @computed('profileId')
+  get definition() {
     return this.definitions.profiles.findBy('identifier', this.profileId);
-  }),
+  }
 
   /* eslint-disable ember/no-observers */
-  updateSettings: observer(
+  @observes(
     'hasDirtyAttributes',
     'title',
     'uri',
@@ -96,20 +120,20 @@ export default Model.extend(Validations, {
     'description',
     'hasUpdate',
     'schemas.[]',
-    'profileId',
-    function () {
-      if (this.isNew || this.isEmpty || this.isDeleted) {
-        return;
-      }
-
-      if (this.hasDirtyAttributes) {
-        this.set('dateUpdated', new Date());
-
-        once(this, function () {
-          this.save();
-        });
-      }
+    'profileId'
+  )
+  updateSettings() {
+    if (this.isNew || this.isEmpty || this.isDeleted) {
+      return;
     }
-  ),
+
+    if (this.hasDirtyAttributes) {
+      this.set('dateUpdated', new Date());
+
+      once(this, function () {
+        this.save();
+      });
+    }
+  }
   /* eslint-enable ember/no-observers */
-});
+}

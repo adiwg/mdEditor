@@ -1,29 +1,30 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
-import {
-  get
-} from '@ember/object';
+import { get, action } from '@ember/object';
 
-export default Route.extend({
+@classic
+export default class ItisRoute extends Route {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       "title": "ITIS"
     };
-  },
-  setupController: function () {
+  }
+
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
     this.controller.set('collectionId', get(this.controllerFor(
         'record.show.edit.taxonomy.collection'),
       'collectionId'));
-  },
-  actions: {
-    toCollection() {
-      this.transitionTo('record.show.edit.taxonomy.collection');
-    }
   }
-});
+
+  @action
+  toCollection() {
+    this.transitionTo('record.show.edit.taxonomy.collection');
+  }
+}

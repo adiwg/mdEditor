@@ -1,5 +1,10 @@
+import classic from 'ember-classic-decorator';
 import Route from '@ember/routing/route';
 import HashPoll from 'mdeditor/mixins/hash-poll';
+import RouteExtensionMixin from '../../../../mixins/route-extension';
 
-export default Route.extend(HashPoll, {
-});
+@classic
+export default class EditRoute extends Route.extend(
+  HashPoll,
+  RouteExtensionMixin
+) {}

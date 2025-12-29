@@ -1,14 +1,17 @@
-import Route from '@ember/routing/route';
-import { get } from '@ember/object';
-import ScrollTo from 'mdeditor/mixins/scroll-to';
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
+import Route from '@ember/routing/route';
+import { get, action } from '@ember/object';
+import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
-  settings: service(),
+@classic
+export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service
+  settings;
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set(
@@ -18,45 +21,48 @@ export default Route.extend(ScrollTo, {
         'collectionId'
       )
     );
-  },
+  }
 
-  actions: {
-    toList() {
-      this.transitionTo('record.show.edit.taxonomy');
-    },
+  @action
+  toList() {
+    this.transitionTo('record.show.edit.taxonomy');
+  }
 
-    addTaxa() {
-      this.controller.model.taxonomicClassification.pushObject({
-        _edit: true,
-      });
-    },
+  @action
+  addTaxa() {
+    this.controller.model.taxonomicClassification.pushObject({
+      _edit: true,
+    });
+  }
 
-    addITIS() {
-      // Check if itisProxyUrl is configured
-      if (!this.get('settings.data.itisProxyUrl')) {
-        // Show modal to alert user
-        this.controller.set('showItisModal', true);
-        return;
-      }
+  @action
+  addITIS() {
+    // Check if itisProxyUrl is configured
+    if (!this.get('settings.data.itisProxyUrl')) {
+      // Show modal to alert user
+      this.controller.set('showItisModal', true);
+      return;
+    }
 
-      // If itisProxyUrl is configured, proceed to ITIS page
-      this.transitionTo('record.show.edit.taxonomy.collection.itis');
-    },
+    // If itisProxyUrl is configured, proceed to ITIS page
+    this.transitionTo('record.show.edit.taxonomy.collection.itis');
+  }
 
-    goToSettings() {
-      this.controller.set('showItisModal', false);
-      this.transitionTo('settings.main');
-    },
+  @action
+  goToSettings() {
+    this.controller.set('showItisModal', false);
+    this.transitionTo('settings.main');
+  }
 
-    editSystem(index) {
-      this.transitionTo(
-        'record.show.edit.taxonomy.collection.system',
-        index
-      ).then(
-        function () {
-          this.setScrollTo('system');
-        }.bind(this)
-      );
-    },
-  },
-});
+  @action
+  editSystem(index) {
+    this.transitionTo(
+      'record.show.edit.taxonomy.collection.system',
+      index
+    ).then(
+      function () {
+        this.setScrollTo('system');
+      }.bind(this)
+    );
+  }
+}

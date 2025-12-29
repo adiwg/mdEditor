@@ -1,11 +1,14 @@
+import classic from 'ember-classic-decorator';
+import { classNames } from '@ember-decorators/component';
 import Component from '@ember/component';
 import scrollIntoView from 'scroll-into-view-if-needed';
 // import InViewportMixin from 'ember-in-viewport';
 
-export default Component.extend({
-  classNames: ['md-scroll-into-view'],
+@classic
+@classNames('md-scroll-into-view')
+export default class MdScrollIntoView extends Component {
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
 
     let el = document.getElementById(this.elementId);
     let boundary = document.querySelector(`#${this.elementId}`).closest(
@@ -16,5 +19,5 @@ export default Component.extend({
       behavior: 'smooth',
       //boundary: boundary
     });
-  },
-});
+  }
+}

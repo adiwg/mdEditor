@@ -1,8 +1,10 @@
+import classic from 'ember-classic-decorator';
 import { computed } from '@ember/object';
 import Service, { inject as service } from '@ember/service';
 import codes from 'mdcodes/resources/js/mdcodes.js';
 
-export default Service.extend({
+@classic
+export default class CodelistService extends Service {
   /**
    * Codelist Service
    *
@@ -15,7 +17,7 @@ export default Service.extend({
    * @class codelist
    */
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     let codelist = this;
 
@@ -33,14 +35,15 @@ export default Service.extend({
         //remove deprecated codes
         codelist[name]['codelist'] = list.codelist.rejectBy('deprecated');
       });
-  },
+  }
 
   /**
    * Custom Profiles service
    *
    * @property customProfiles
    */
-  customProfiles: service('custom-profile'),
+  @service('custom-profile')
+  customProfiles;
 
   /**
    * The profiles codelist, updates when number of Custom Profiles change.
@@ -50,19 +53,18 @@ export default Service.extend({
    * @category computed
    * @required customProfiles.profiles{[],@each.title}
    */
-  profile: computed(
-    'customProfiles.profiles.{[],@each.title}',
-    function () {
-      return {
-        codelist: this.customProfiles.profiles.map((itm) => {
-          return {
-            code: itm.id,
-            codeName: itm.title,
-            description: itm.description
-          };
-        })
-      };
-    }),
+  @computed('customProfiles.profiles.{[],@each.title}')
+  get profile() {
+    return {
+      codelist: this.customProfiles.profiles.map((itm) => {
+        return {
+          code: itm.id,
+          codeName: itm.title,
+          description: itm.description
+        };
+      })
+    };
+  }
 
   /**
    * Codelist item title overrides
@@ -72,11 +74,12 @@ export default Service.extend({
    * @category computed
    * @required profile
    */
-  codeOverrides: computed('profile', function () {
+  @computed('profile')
+  get codeOverrides() {
     return {
       scope: {
         dataset: "geographicDataset"
       }
     }
-  })
-});
+  }
+}

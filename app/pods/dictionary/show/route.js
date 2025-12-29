@@ -1,41 +1,42 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
-import { copy } from 'ember-copy';
+import { action } from '@ember/object';
+import { copy } from 'mdeditor/utils/copy';
+import RouteExtensionMixin from '../../../mixins/route-extension';
 
-export default Route.extend({
-  flashMessages: service(),
+export default class ShowRoute extends Route.extend(RouteExtensionMixin) {
+  @service flashMessages;
 
   model(params) {
-    return this.store.peekRecord('dictionary', params.dictionary_id);
-  },
+    return this.store.findRecord('dictionary', params.dictionary_id);
+  }
 
   afterModel(model) {
-    const name = model.get('title');
+    if (model) {
+      const name = model.get('title');
 
-    const crumb = {
-      title: name
-    };
+      const crumb = {
+        title: name,
+      };
 
-    this.set('breadCrumb', crumb);
-  },
-
-  actions: {
-    destroyDictionary: function() {
-      let model = this.currentRouteModel();
-      model
-        .destroyRecord()
-        .then(() => {
-          this.flashMessages
-            .success(`Deleted Dictionary: ${model.get('title')}`);
-          this.replaceWith('dictionaries');
-        });
-    },
-
-    copyDictionary: function() {
-
-      this.flashMessages
-        .success(`Copied Dictionary: ${this.currentRouteModel().get('title')}`);
-      this.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
+      this.set('breadCrumb', crumb);
     }
   }
-});
+
+  @action
+  destroyDictionary() {
+    let model = this.currentRouteModel();
+    model.destroyRecord().then(() => {
+      this.flashMessages.success(`Deleted Dictionary: ${model.get('title')}`);
+      this.replaceWith('dictionaries');
+    });
+  }
+
+  @action
+  copyDictionary() {
+    this.flashMessages.success(
+      `Copied Dictionary: ${this.currentRouteModel().get('title')}`
+    );
+    this.transitionTo('dictionary.new.id', copy(this.currentRouteModel()));
+  }
+}

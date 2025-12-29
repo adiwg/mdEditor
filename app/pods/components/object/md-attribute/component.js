@@ -1,8 +1,8 @@
+import classic from 'ember-classic-decorator';
+import { tagName } from '@ember-decorators/component';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
 import EmberObject, { set, getWithDefault, get, computed } from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
 import {
   once
 } from '@ember/runloop';
@@ -39,9 +39,10 @@ const Validations = buildValidations({
   ]
 });
 
-const TemplateClass = EmberObject.extend(Validations, {
+@classic
+class TemplateClass extends EmberObject.extend(Validations) {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     set(this, 'allowNull', true);
     set(this, 'attributeReference', {});
@@ -49,11 +50,13 @@ const TemplateClass = EmberObject.extend(Validations, {
     set(this, 'valueRange', []);
     set(this, 'timePeriod', []);
   }
-});
+}
 
-const theComp = Component.extend(Validations, {
+@classic
+@tagName('form')
+class theComp extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
@@ -64,48 +67,39 @@ const theComp = Component.extend(Validations, {
       set(model, 'valueRange', getWithDefault(model, 'valueRange', []));
       set(model, 'timePeriod', getWithDefault(model, 'timePeriod', []));
     });
-  },
+  }
 
-  /**
-   * The string representing the path in the profile object for the domain.
-   *
-   * @property profilePath
-   * @type {String}
-   * @default 'false'
-   * @required
-   */
+  @alias('model.codeName')
+  codeName;
 
-  /**
-   * The object to use as the data model for the domain.
-   *
-   * @property model
-   * @type {Object}
-   * @required
-   */
+  @alias('model.dataType')
+  dataType;
 
-  tagName: 'form',
-  codeName: alias('model.codeName'),
-  dataType: alias('model.dataType'),
-  definition: alias('model.definition'),
-  allowNull: alias('model.allowNull'),
-  domains: alias('dictionary.domain'),
+  @alias('model.definition')
+  definition;
 
-  domainList: computed('domains.{@each.domainId,@each.codeName}',
-    function () {
-      let domains = this.domains || [];
+  @alias('model.allowNull')
+  allowNull;
 
-      return domains.map((domain) => {
-        if(get(domain, 'domainId')) {
-          return {
-            codeId: get(domain, 'domainId'),
-            codeName: get(domain, 'codeName'),
-            tooltip: get(domain, 'description')
-          };
-        }
-      });
-    }),
+  @alias('dictionary.domain')
+  domains;
 
-  rangeTemplate: EmberObject.extend(buildValidations({
+  @computed('domains.{@each.domainId,@each.codeName}')
+  get domainList() {
+    let domains = this.domains || [];
+
+    return domains.map((domain) => {
+      if(get(domain, 'domainId')) {
+        return {
+          codeId: get(domain, 'domainId'),
+          codeName: get(domain, 'codeName'),
+          tooltip: get(domain, 'description')
+        };
+      }
+    });
+  }
+
+  rangeTemplate = EmberObject.extend(buildValidations({
     'minRangeValue': [
       validator('presence', {
         presence: true,
@@ -122,8 +116,8 @@ const theComp = Component.extend(Validations, {
     init() {
       this._super(...arguments);
     }
-  }),
-});
+  });
+}
 
 export {
   Validations,

@@ -1,0 +1,277 @@
+// Bootstrap 4/5 Card Implementation
+// Replaces the bootstrap-3-card package with native Bootstrap card styles
+
+// Card Base Styles
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  word-wrap: break-word;
+  background-color: $panel-bg;
+  background-clip: border-box;
+  border: 1px solid $panel-default-border;
+  border-radius: $panel-border-radius;
+  margin-bottom: $line-height-computed;
+}
+
+.card-body {
+  flex: 1 1 auto;
+  padding: $panel-body-padding;
+  @include clearfix;
+}
+
+.card-title {
+  margin-top: 0;
+  margin-bottom: $line-height-computed / 2;
+}
+
+.card-subtitle {
+  margin-top: ($line-height-computed / 2) * -1;
+  margin-bottom: 0;
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
+}
+
+.card-link {
+  &:hover {
+    text-decoration: none;
+  }
+
+  + .card-link {
+    margin-left: $grid-gutter-width / 2;
+  }
+}
+
+// Card Header
+.card-header {
+  padding: $panel-heading-padding;
+  margin-bottom: 0;
+  background-color: $panel-default-heading-bg;
+  border-bottom: 1px solid $panel-default-border;
+  @include clearfix;
+
+  &:first-child {
+    border-radius: calc(#{$panel-border-radius} - 1px) calc(#{$panel-border-radius} - 1px) 0 0;
+  }
+}
+
+// Card Footer
+.card-footer {
+  padding: $panel-footer-padding;
+  background-color: $panel-footer-bg;
+  border-top: 1px solid $panel-default-border;
+  @include clearfix;
+
+  &:last-child {
+    border-radius: 0 0 calc(#{$panel-border-radius} - 1px) calc(#{$panel-border-radius} - 1px);
+  }
+}
+
+// List Groups in Cards
+.card {
+  > .list-group:first-child {
+    .list-group-item:first-child {
+      @include border-top-radius($panel-border-radius);
+    }
+  }
+
+  > .list-group:last-child {
+    .list-group-item:last-child {
+      @include border-bottom-radius($panel-border-radius);
+    }
+  }
+}
+
+// Card Header Tabs and Pills
+.card-header-tabs {
+  margin-right: -5px;
+  margin-bottom: -10px;
+  margin-left: -5px;
+  border-bottom: 0;
+}
+
+.card-header-pills {
+  margin-right: -5px;
+  margin-left: -5px;
+}
+
+// Card Images
+.card-img-top {
+  width: 100%;
+  @include border-top-radius($panel-border-radius);
+}
+
+.card-img-bottom {
+  width: 100%;
+  @include border-bottom-radius($panel-border-radius);
+}
+
+.card-img {
+  width: 100%;
+  border-radius: $panel-border-radius;
+}
+
+.card-img-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: $panel-body-padding;
+}
+
+// Card Variants (using existing Bootstrap 3 variable names)
+@mixin card-variant($background, $border) {
+  background-color: $background;
+  border-color: $border;
+
+  .card-header,
+  .card-footer {
+    background-color: transparent;
+  }
+}
+
+@mixin card-outline-variant($color) {
+  background-color: transparent;
+  border-color: $color;
+}
+
+.card-primary {
+  @include card-variant($brand-primary, $brand-primary);
+}
+.card-success {
+  @include card-variant($brand-success, $brand-success);
+}
+.card-info {
+  @include card-variant($brand-info, $brand-info);
+}
+.card-warning {
+  @include card-variant($brand-warning, $brand-warning);
+}
+.card-danger {
+  @include card-variant($brand-danger, $brand-danger);
+}
+
+.card-outline-primary {
+  @include card-outline-variant($brand-primary);
+}
+.card-outline-secondary {
+  @include card-outline-variant($gray-light);
+}
+.card-outline-info {
+  @include card-outline-variant($brand-info);
+}
+.card-outline-success {
+  @include card-outline-variant($brand-success);
+}
+.card-outline-warning {
+  @include card-outline-variant($brand-warning);
+}
+.card-outline-danger {
+  @include card-outline-variant($brand-danger);
+}
+
+// Card Inverse (Dark theme)
+@mixin card-inverse {
+  .card-header,
+  .card-footer {
+    border-color: rgba(255,255,255,.2);
+  }
+  .card-header,
+  .card-footer,
+  .card-title {
+    color: #fff;
+  }
+  .card-link,
+  .card-text,
+  .card-subtitle {
+    color: rgba(255,255,255,.65);
+  }
+  .card-link {
+    &:hover,
+    &:focus {
+      color: #fff;
+    }
+  }
+}
+
+.card-inverse {
+  @include card-inverse;
+}
+
+// Card Layout Options
+.card-group {
+  display: flex;
+  flex-flow: row wrap;
+
+  > .card {
+    flex: 1 0 0%;
+    margin-bottom: 0;
+
+    + .card {
+      margin-left: 0;
+      border-left: 0;
+    }
+
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:only-child {
+      border-radius: $panel-border-radius;
+    }
+
+    &:not(:first-child):not(:last-child):not(:only-child) {
+      border-radius: 0;
+    }
+  }
+}
+
+.card-deck {
+  display: flex;
+  flex-direction: column;
+
+  .card {
+    margin-bottom: 15px;
+  }
+
+  @media (min-width: 576px) {
+    flex-flow: row wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+
+    .card {
+      flex: 1 0 0%;
+      margin-right: 15px;
+      margin-bottom: 0;
+      margin-left: 15px;
+    }
+  }
+}
+
+.card-columns {
+  column-count: 1;
+
+  .card {
+    display: inline-block;
+    width: 100%;
+  }
+
+  @media (min-width: 576px) {
+    column-count: 2;
+    column-gap: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    column-count: 3;
+  }
+}

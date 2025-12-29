@@ -1,3 +1,4 @@
+import classic from 'ember-classic-decorator';
 import Service from '@ember/service';
 import {
   get,
@@ -11,7 +12,8 @@ import {
 } from '@ember/array';
 import Schemas from 'mdjson-schemas/resources/js/schemas';
 
-export default Service.extend({
+@classic
+export default class PatchService extends Service {
   applyModelPatch(record) {
     let type = record.constructor.modelName;
 
@@ -260,4 +262,4 @@ export default Service.extend({
       }
     }
   }
-});
+}

@@ -1,5 +1,6 @@
-import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { alias } from '@ember/object/computed';
+import Component from '@ember/component';
 import { once } from '@ember/runloop';
 // import { decamelize } from '@ember/string';
 // import { ucWords } from 'mdeditor/helpers/uc-words';
@@ -32,7 +33,8 @@ const Validations = buildValidations({
 //   lensDistortionAvailable: 'boolean'
 // }
 
-export default Component.extend(Validations, {
+@classic
+export default class ImageDesc extends Component.extend(Validations) {
   //Todo: work on fix for this with Josh
   // init() {
   //   this.params = Object.keys(params).map(p => {
@@ -48,7 +50,7 @@ export default Component.extend(Validations, {
   // },
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     // let model = getWithDefault(this, 'model', {}) || {};
     let model = this.model
@@ -58,7 +60,8 @@ export default Component.extend(Validations, {
         set(model, 'imageQualityCode', getWithDefault(model, 'imageQualityCode', {}));
       })
     }
-  },
+  }
+
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -76,5 +79,6 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  imgQualCodeIdentifier: alias('model.imageQualityCode.identifier')
-});
+  @alias('model.imageQualityCode.identifier')
+  imgQualCodeIdentifier;
+}

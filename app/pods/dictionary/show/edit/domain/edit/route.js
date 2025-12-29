@@ -1,24 +1,27 @@
-import Route from '@ember/routing/route';
+import classic from 'ember-classic-decorator';
 import { computed } from '@ember/object';
+import Route from '@ember/routing/route';
 import { isArray } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
-export default Route.extend({
+@classic
+export default class EditRoute extends Route {
   model(params) {
     this.set('domainId', params.domain_id);
 
     return this.setupModel();
-  },
+  }
 
-  breadCrumb: computed('domainId', function () {
+  @computed('domainId')
+  get breadCrumb() {
     return {
       title: this.domainId
     };
-  }),
+  }
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('setupModel', this.setupModel);
     this.controller.set('domainId', this.domainId);
@@ -27,7 +30,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
+  }
 
   setupModel() {
     let domainId = this.domainId;
@@ -46,5 +49,5 @@ export default Route.extend({
     }
 
     return resource;
-  },
-});
+  }
+}

@@ -1,38 +1,21 @@
-import {
-  once
-} from '@ember/runloop';
-import {
-  Validations
-} from '../md-online-resource/component';
+import classic from 'ember-classic-decorator';
+import { attributeBindings } from '@ember-decorators/component';
+import { once } from '@ember/runloop';
+import { Validations } from '../md-online-resource/component';
 import EmberObject, { computed } from '@ember/object';
-import {
-  A
-} from '@ember/array';
+import { A } from '@ember/array';
 import Component from '@ember/component';
 
-export default Component.extend({
-
+@classic
+@attributeBindings('data-spy')
+export default class MdOnlineResourceArray extends Component {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
-    if(!this.model) {
+    if (!this.model) {
       once(this, () => this.set('model', A()));
     }
-  },
-
-  /**
-   * mdEditor class for input and edit of mdJSON 'onlineResource' object
-   * arrays.
-   * The class manages the maintenance of an array of online resource
-   * objects using the md-object-table class.
-   *
-   * @module mdeditor
-   * @submodule components-object
-   * @class md-online-resource-array
-   * @constructor
-   */
-
-  attributeBindings: ['data-spy'],
+  }
 
   /**
    * mdJSON object containing the 'onlineResource' array.
@@ -57,7 +40,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  ellipsis: true,
+  ellipsis = true;
 
   /**
    * List of mdJSON 'onlineResource' object attributes to display in
@@ -69,7 +52,7 @@ export default Component.extend({
    * @type String
    * @default 'name, uri'
    */
-  attributes: 'name,uri',
+  attributes = 'name,uri';
 
   /**
    * Name to place on the mdEditor panel header for entry and edit of
@@ -80,7 +63,7 @@ export default Component.extend({
    * @type String
    * @default 'Online Resource'
    */
-  label: 'Online Resource',
+  label = 'Online Resource';
 
   /**
    * If true, a box shadow will be rendered around the card.
@@ -89,7 +72,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  shadow: true,
+  shadow = true;
 
   /**
    * The template to use for the preview table rows. If not overridden, will use
@@ -101,10 +84,12 @@ export default Component.extend({
    * @category computed
    * @requires imagePicker
    */
-  previewTemplate: computed('imagePicker', function () {
-    return this.imagePicker ?
-      "object/md-online-resource-array/md-image-preview" : null;
-  }),
+  @computed('imagePicker')
+  get previewTemplate() {
+    return this.imagePicker
+      ? 'object/md-online-resource-array/md-image-preview'
+      : null;
+  }
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -112,10 +97,17 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmberObject.extend(Validations, {
-    init() {
-      this._super(...arguments);
-      //this.set('uri', null);
-    }
-  })
-});
+  templateClass =
+    (
+      @classic
+      class MdOnlineResourceArray extends (
+        @classic
+        class MdOnlineResourceArray extends EmberObject.extend(Validations) {}
+      ) {
+        init() {
+          undefined;
+          //this.set('uri', null);
+        }
+      }
+    );
+}

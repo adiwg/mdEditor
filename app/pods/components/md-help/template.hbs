@@ -2,7 +2,7 @@
   <div class="page-header">
     <h3>Help <small>Main</small>
       <button type="button" disabled id="md-btn-tour" class="btn btn-xs btn-success pull-right">
-        <span class="fa fa-bus"></span> Tour
+        <FaIcon @icon="bus" /> Tour
       </button></h3>
   </div>
   <p>
@@ -18,7 +18,8 @@ reference, and best practices.
   </p>
   <p>
     <a href="https://guide.mdeditor.org/" target="_blank" rel="noopener noreferrer" class="external btn btn-lg btn-success btn-block md-btn-responsive">
-      {{fa-icon "book"}} View User Manual
+      <FaIcon @icon="book" />
+      View User Manual
     </a>
   </p>
   {{!-- TODO: Once we subscribe service that will allow us to mail out updates, we will need to update this. --}}
@@ -27,7 +28,7 @@ reference, and best practices.
   </p>
   <p>
     <a href="https://sourceforge.net/projects/mdtoolkit/lists/mdtoolkit-announce" target="_blank" rel="noopener noreferrer" class="external btn btn-lg btn-info btn-block md-btn-responsive">
-      {{fa-icon "envelope"}} Join Email list
+      <FaIcon @icon="envelope" /> Join Email list
     </a>
   </p> --}}
 </div>
