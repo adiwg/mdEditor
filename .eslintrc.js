@@ -4,7 +4,7 @@ module.exports = {
   root: true,
   parser: 'babel-eslint',
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 2020, // Updated from 2018
     sourceType: 'module',
     ecmaFeatures: {
       legacyDecorators: true
@@ -15,15 +15,21 @@ module.exports = {
   ],
   extends: [
     'eslint:recommended',
-    'plugin:ember/recommended'
+    'plugin:ember/recommended',
+    'prettier' // Add prettier integration
   ],
   env: {
     browser: true
   },
   rules: {
-    //'ember/new-module-imports': 'off',
+    // Tighten rules for upgrade
     'no-console': 1,
-    'ember/no-observers': 1
+    'ember/no-observers': 'warn',
+    'ember/no-classic-classes': 'warn', // Flag classic components for conversion
+    'ember/no-classic-components': 'warn', // Flag classic components
+    'ember/require-tagless-components': 'warn', // Encourage tagless components
+    'ember/no-mixins': 'warn', // Flag mixins for refactoring
+    'ember/no-get': 'warn' // Discourage this.get() usage
   },
   overrides: [
     // node files

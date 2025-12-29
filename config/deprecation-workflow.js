@@ -1,20 +1,29 @@
-/* eslint-env browser */
-window.deprecationWorkflow = window.deprecationWorkflow || {};
-window.deprecationWorkflow.config = {
+/**
+ * Ember CLI Deprecation Workflow Configuration
+ *
+ * This file manages how deprecation warnings are handled during the Ember upgrade process.
+ *
+ * To populate this file with current deprecations:
+ * 1. Run: ember serve
+ * 2. Visit the app in your browser
+ * 3. Open console and copy the deprecation workflow command
+ * 4. Run it to update this file
+ *
+ * Or manually add deprecations as they're encountered.
+ */
+
+// eslint-disable-next-line no-undef
+self.deprecationWorkflow = self.deprecationWorkflow || {};
+// eslint-disable-next-line no-undef
+self.deprecationWorkflow.config = {
+  // Set to 'throw' to fail tests on deprecations
+  // Set to 'log' to log deprecations
+  // Set to 'silence' to suppress deprecations
   workflow: [
-    { handler: 'log', matchId: 'ember-routing.route-router' },
-    // { handler: "silence", matchId: "ember-data:method-calls-on-destroyed-store" },
-    { handler: 'log', matchId: 'ember-component.send-action' },
-    { handler: 'log', matchId: 'ember-runtime.using-array-copy' },
-    { handler: 'log', matchId: 'ember-runtime.deprecate-copy-copyable' },
-    // { handler: 'silence', matchId: 'ember-name-key-usage' },
-    // { handler: 'silence', matchId: 'events.remove-all-listeners' },
-    { handler: 'log', matchId: 'object.new-constructor' },
-    { handler: 'log', matchId: 'ember-polyfills.deprecate-merge' },
-    { handler: 'log', matchId: 'ember-views.curly-components.jquery-element' },
-    { handler: 'log', matchId: 'computed-property.volatile' },
-    { handler: 'silence', matchId: 'computed-property.override' },
-    { handler: 'silence', matchId: 'ember-data:evented-api-usage' },
-    { handler: 'silence', matchId: 'ember-component.is-visible' },
-  ],
+    // Example:
+    // { handler: "silence", matchId: "ember-data:model.toJSON" },
+    // { handler: "log", matchId: "some-other-deprecation" },
+
+    // Add deprecations here as they're identified during the upgrade process
+  ]
 };
