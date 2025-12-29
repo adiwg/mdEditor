@@ -52,6 +52,10 @@ export default class MdjsonService extends Service {
     return Schemas.schema.version;
   }
 
+  getSchemaVersion() {
+    return Schemas.schema.version;
+  },
+
   injectCitations(json) {
     let assoc = json.metadata.associatedResource;
 

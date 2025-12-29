@@ -30,6 +30,7 @@ export default class Custom extends Component {
       this,
       function () {
         this.selected.pushObject(item);
+        this.record.updateTimestamp();
         this.record.save();
       },
       250
@@ -43,6 +44,7 @@ export default class Custom extends Component {
       this,
       function () {
         this.selected.removeObject(item);
+        this.record.updateTimestamp();
         this.record.save();
       },
       250
