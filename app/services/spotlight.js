@@ -32,7 +32,7 @@ export default Service.extend({
     $('#' + id).addClass('md-spotlight-target');
   },
 
-  closeTask: task(function * () {
+  closeTask: task(async () => {
     let id = this.elementId;
     let onClose = this.onClose;
 
@@ -42,7 +42,7 @@ export default Service.extend({
       onClose.call(this.scope || this);
     }
 
-    yield timeout(250);
+    await timeout(250);
 
     if(isPresent(id)) {
       $('body').removeClass('md-no-liquid');
