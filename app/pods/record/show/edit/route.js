@@ -1,10 +1,11 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import EmberObject from '@ember/object';
-import { scheduleOnce } from '@ember/runloop';
-import DoCancel from 'mdeditor/mixins/cancel';
+import { scheduleOnce, once } from '@ember/runloop';
+import { getOwner } from '@ember/application';
+import { get } from '@ember/object';
 
-export default Route.extend(DoCancel, {
+export default Route.extend({
   init() {
     this._super(...arguments);
 
@@ -37,6 +38,26 @@ export default Route.extend(DoCancel, {
   deactivate() {
     this._super(...arguments);
     this.hashPoll.stopPolling();
+  },
+
+  doCancel() {
+    let controller = this.controller;
+    let same = !controller.cancelScope || getOwner(this)
+      .lookup('controller:application')
+      .currentPath === get(controller, 'cancelScope.routeName');
+
+    if(controller.onCancel) {
+      once(() => {
+        if(same) {
+          controller.onCancel.call(controller.cancelScope ||
+            this);
+        } else {
+          controller.set('onCancel', null);
+          controller.set('cancelScope', null);
+        }
+        this.refresh();
+      });
+    }
   },
 
   actions: {

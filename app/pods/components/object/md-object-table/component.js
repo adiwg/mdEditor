@@ -10,10 +10,10 @@ import { getOwner } from '@ember/application';
 import { A } from '@ember/array';
 //import $ from 'jquery';
 import { inject as service } from '@ember/service';
-import Template from 'mdeditor/mixins/object-template';
+import { applyTemplateArray } from 'mdeditor/utils/object-template';
 //import InViewportMixin from 'ember-in-viewport';
 
-export default Component.extend(Template, {
+export default Component.extend({
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -46,7 +46,8 @@ export default Component.extend(Template, {
   didReceiveAttrs() {
     this._super(...arguments);
 
-    this.applyTemplateArray('items');
+    let items = applyTemplateArray(this, this.items, this.templateClass);
+    this.set('items', items);
   },
 
   attributeBindings: ['data-spy'],

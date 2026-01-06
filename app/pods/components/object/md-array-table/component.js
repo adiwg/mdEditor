@@ -11,9 +11,9 @@ import { isArray, A } from '@ember/array';
 import { run } from '@ember/runloop';
 import { typeOf } from '@ember/utils';
 import { get, computed } from '@ember/object';
-import Template from 'mdeditor/mixins/object-template';
+import { applyObjectTemplateArray } from 'mdeditor/utils/object-template';
 
-export default Component.extend(Template, {
+export default Component.extend({
   /**
    * mdEditor class for input and edit of arrays of objects. The
    * component is rendered as an editable table.
@@ -27,7 +27,7 @@ export default Component.extend(Template, {
     this._super(...arguments);
 
     if (this.value) {
-      this.applyObjectTemplateArray('value');
+      applyObjectTemplateArray(this, 'value', this.templateClass);
     }
   },
 
