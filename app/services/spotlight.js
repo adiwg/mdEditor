@@ -13,12 +13,12 @@ export default class SpotlightService extends Service {
   setTarget(id, onClose, scope) {
     let el = this.elementId;
 
-    if(id === el) {
+    if (id === el) {
       this.close();
       return;
     }
 
-    if(id && id !== el) {
+    if (id && id !== el) {
       $('#' + el).removeClass('md-spotlight-target');
     }
 

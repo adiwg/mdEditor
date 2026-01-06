@@ -8,8 +8,8 @@ module.exports = function (defaults) {
     babel: {
       plugins: [
         // enable ember-concurrency async-arrow task transform
-        require.resolve('ember-concurrency/async-arrow-task-transform')
-      ]
+        require.resolve('ember-concurrency/async-arrow-task-transform'),
+      ],
     },
     // Add options here
     sassOptions: {
@@ -43,9 +43,9 @@ module.exports = function (defaults) {
       webpack: {
         resolve: {
           alias: {
-            'http': 'stream-http',
-            'https': 'https-browserify',
-            'path': 'path-browserify',
+            http: 'stream-http',
+            https: 'https-browserify',
+            path: 'path-browserify',
           },
         },
       },

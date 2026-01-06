@@ -38,9 +38,11 @@ export default class ProfileService extends Service {
     try {
       const response = await axios.get(ENV.profilesManifestUrl);
       const profilesList = response.data;
-      const promises = profilesList.map(profileItem => axios.get(profileItem.url));
+      const promises = profilesList.map((profileItem) =>
+        axios.get(profileItem.url)
+      );
       const responses = await Promise.all(promises);
-      this.coreProfiles = responses.map(response => response.data);
+      this.coreProfiles = responses.map((response) => response.data);
     } catch (e) {
       console.error(e);
     }
@@ -59,20 +61,18 @@ export default class ProfileService extends Service {
       await timeout(1000);
       let response = await request(uri);
       if (response && !semver.valid(response.version)) {
-        throw new Error("Invalid version");
+        throw new Error('Invalid version');
       }
       return response;
     } catch (error) {
       if (isNotFoundError(error)) {
-        this.flashMessages
-          .danger(
-            `Could not load profile definition from ${uri}. Definition not found.`
-          );
+        this.flashMessages.danger(
+          `Could not load profile definition from ${uri}. Definition not found.`
+        );
       } else {
-        this.flashMessages
-          .danger(
-            `Could not load profile definition from "${uri}". Error: ${error.message}`
-          );
+        this.flashMessages.danger(
+          `Could not load profile definition from "${uri}". Error: ${error.message}`
+        );
       }
     }
   });
@@ -87,32 +87,36 @@ export default class ProfileService extends Service {
    */
   checkForUpdates = task({ drop: true }, async (records) => {
     await timeout(1000);
-    await all(records.map(itm => {
-      if (itm.validations.attrs.uri.isInvalid) {
-        this.flashMessages
-          .warning(
+    await all(
+      records.map((itm) => {
+        if (itm.validations.attrs.uri.isInvalid) {
+          this.flashMessages.warning(
             `Did not load definition for "${itm.title}". URL is Invalid.`
           );
-        return;
-      }
-      return request(itm.uri).then(response => {
-        // `response` is the data from the server
-        if (semver.valid(response.version)) {
-          itm.set('remoteVersion', response.version);
-        } else {
-          throw new Error("Invalid version");
+          return;
         }
-        return response;
-      }).catch(error => {
-        if (isNotFoundError(error)) {
-          this.flashMessages
-            .danger(
-              `Could not load definition for "${itm.title}". Definition not found.`
-            );
-        } else {
-          this.flashMessages.danger(`Could not load definition for "${itm.title}". Error: ${error.message}`);
-        }
-      });
-    }));
+        return request(itm.uri)
+          .then((response) => {
+            // `response` is the data from the server
+            if (semver.valid(response.version)) {
+              itm.set('remoteVersion', response.version);
+            } else {
+              throw new Error('Invalid version');
+            }
+            return response;
+          })
+          .catch((error) => {
+            if (isNotFoundError(error)) {
+              this.flashMessages.danger(
+                `Could not load definition for "${itm.title}". Definition not found.`
+              );
+            } else {
+              this.flashMessages.danger(
+                `Could not load definition for "${itm.title}". Error: ${error.message}`
+              );
+            }
+          });
+      })
+    );
   });
 }
