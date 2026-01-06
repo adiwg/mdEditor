@@ -2,10 +2,9 @@ import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
 import EmberObject from '@ember/object';
 import { scheduleOnce } from '@ember/runloop';
-import HashPoll from 'mdeditor/mixins/hash-poll';
 import DoCancel from 'mdeditor/mixins/cancel';
 
-export default Route.extend(HashPoll, DoCancel, {
+export default Route.extend(DoCancel, {
   /**
    * The profile service
    *
@@ -14,6 +13,7 @@ export default Route.extend(HashPoll, DoCancel, {
   profile: service('custom-profile'),
 
   pouch: service(),
+  hashPoll: service(),
 
   /**
    * The route activate hook, sets the profile.
@@ -22,6 +22,12 @@ export default Route.extend(HashPoll, DoCancel, {
     this._super(...arguments);
 
     this.profile.set('active', model.get('profile'));
+    this.hashPoll.startPolling(model);
+  },
+
+  deactivate() {
+    this._super(...arguments);
+    this.hashPoll.stopPolling();
   },
 
   actions: {

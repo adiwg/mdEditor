@@ -31,19 +31,19 @@ export default class SpotlightService extends Service {
     $('#' + id).addClass('md-spotlight-target');
   }
 
-  closeTask = task(async () => {
+  closeTask = task({ drop: true }, async () => {
     let id = this.elementId;
     let onClose = this.onClose;
 
     $('.md-spotlight-overlay').addClass('fade-out-fast');
 
-    if(onClose) {
+    if (onClose) {
       onClose.call(this.scope || this);
     }
 
     await timeout(250);
 
-    if(isPresent(id)) {
+    if (isPresent(id)) {
       $('body').removeClass('md-no-liquid');
       $('#' + id).removeClass('md-spotlight-target');
     }
@@ -52,7 +52,7 @@ export default class SpotlightService extends Service {
     this.elementId = undefined;
     this.onClose = undefined;
     this.scope = undefined;
-  }).drop();
+  });
 
   close() {
     this.closeTask.perform();
