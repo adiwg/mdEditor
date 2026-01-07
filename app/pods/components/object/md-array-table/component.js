@@ -265,17 +265,22 @@ export default Component.extend({
    */
   valueChanged() {
     run.schedule('afterRender', this, function () {
-      let panel = this.$('.panel-collapse');
-      let input = this.$('.panel-collapse tbody tr:last-of-type input').first();
+      let panel = this.element.querySelector('.panel-collapse');
+      let input = this.element.querySelector('.panel-collapse tbody tr:last-of-type input');
 
-      if (panel.hasClass('in')) {
-        input.focus();
-      } else {
-        //add a one-time listener to wait until panel is open
-        panel.one('shown.bs.collapse', function () {
+      if (panel && input) {
+        if (panel.classList.contains('in')) {
           input.focus();
-        });
-        panel.collapse('show');
+        } else {
+          //add a one-time listener to wait until panel is open
+          panel.addEventListener('shown.bs.collapse', function () {
+            input.focus();
+          }, { once: true });
+
+          // Trigger Bootstrap collapse
+          const collapseInstance = bootstrap.Collapse.getOrCreateInstance(panel);
+          collapseInstance.show();
+        }
       }
     });
 

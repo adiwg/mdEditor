@@ -2,7 +2,6 @@ import Component from '@ember/component';
 import {
   computed
 } from '@ember/object';
-import $ from 'jquery';
 
 export default Component.extend({
   classNames: ['md-slider'],
@@ -10,8 +9,11 @@ export default Component.extend({
   visible: false,
 
   didReceiveAttrs() {
-    $('body')
-      .toggleClass('slider', this.visible === true);
+    if (this.visible === true) {
+      document.body.classList.add('slider');
+    } else {
+      document.body.classList.remove('slider');
+    }
   },
 
   fromName: null,

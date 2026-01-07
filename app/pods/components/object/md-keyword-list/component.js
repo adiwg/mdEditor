@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
-import $ from 'jquery';
 
 /**
  * @module mdeditor
@@ -22,7 +21,10 @@ export default Component.extend({
       this.deleteKeyword(model, object);
     },
     hideThesaurus(el) {
-      $(el).closest('.md-keywords-container').toggleClass('hide-thesaurus');
+      const container = el.closest('.md-keywords-container');
+      if (container) {
+        container.classList.toggle('hide-thesaurus');
+      }
     },
   }
 });

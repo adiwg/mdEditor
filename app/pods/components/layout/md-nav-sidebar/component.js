@@ -1,7 +1,6 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
 import config from 'mdeditor/config/environment';
-import $ from 'jquery';
 
 export default Component.extend({
   classNames: ['md-sidebar-wrapper'],
@@ -31,12 +30,19 @@ export default Component.extend({
       this.toggleProperty('showHelp');
     },
     toggleSidebar() {
-      $('#md-wrapper')
-        .toggleClass('toggled');
+      const wrapper = document.getElementById('md-wrapper');
+      if (wrapper) {
+        wrapper.classList.toggle('toggled');
+      }
+
       //hack to force reflow
-      $('#md-navbar-main-collapse ul')
-        .hide()
-        .show(0);
+      const navList = document.querySelector('#md-navbar-main-collapse ul');
+      if (navList) {
+        navList.style.display = 'none';
+        // Force reflow
+        navList.offsetHeight;
+        navList.style.display = '';
+      }
     }
   }
 });
