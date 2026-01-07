@@ -1,5 +1,4 @@
 import Service from '@ember/service';
-import $ from 'jquery';
 import { isPresent } from '@ember/utils';
 import { tracked } from '@glimmer/tracking';
 import { task, timeout } from 'ember-concurrency';
@@ -19,7 +18,10 @@ export default class SpotlightService extends Service {
     }
 
     if (id && id !== el) {
-      $('#' + el).removeClass('md-spotlight-target');
+      const element = document.getElementById(el);
+      if (element) {
+        element.classList.remove('md-spotlight-target');
+      }
     }
 
     this.show = true;
@@ -27,15 +29,21 @@ export default class SpotlightService extends Service {
     this.onClose = onClose;
     this.scope = scope;
 
-    $('body').addClass('md-no-liquid');
-    $('#' + id).addClass('md-spotlight-target');
+    document.body.classList.add('md-no-liquid');
+    const targetElement = document.getElementById(id);
+    if (targetElement) {
+      targetElement.classList.add('md-spotlight-target');
+    }
   }
 
   closeTask = task({ drop: true }, async () => {
     let id = this.elementId;
     let onClose = this.onClose;
 
-    $('.md-spotlight-overlay').addClass('fade-out-fast');
+    const overlay = document.querySelector('.md-spotlight-overlay');
+    if (overlay) {
+      overlay.classList.add('fade-out-fast');
+    }
 
     if (onClose) {
       onClose.call(this.scope || this);
@@ -44,8 +52,11 @@ export default class SpotlightService extends Service {
     await timeout(250);
 
     if (isPresent(id)) {
-      $('body').removeClass('md-no-liquid');
-      $('#' + id).removeClass('md-spotlight-target');
+      document.body.classList.remove('md-no-liquid');
+      const element = document.getElementById(id);
+      if (element) {
+        element.classList.remove('md-spotlight-target');
+      }
     }
 
     this.show = false;

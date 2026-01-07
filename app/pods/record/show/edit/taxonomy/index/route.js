@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import EmberObject, { get, set, getWithDefault } from '@ember/object';
-import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
 export default Route.extend(ScrollTo, {
@@ -36,9 +35,7 @@ export default Route.extend(ScrollTo, {
         this.transitionTo('record.show.edit.taxonomy.collection.index',
           taxa.length - 1);
 
-        $("html, body").animate({
-          scrollTop: $(document).height()
-        }, "slow");
+        window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
       // });
 
     },

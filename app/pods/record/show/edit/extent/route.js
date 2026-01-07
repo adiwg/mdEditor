@@ -1,6 +1,5 @@
 import Route from '@ember/routing/route';
 import { getWithDefault, set } from '@ember/object';
-import $ from 'jquery';
 
 export default Route.extend({
   model() {
@@ -34,12 +33,7 @@ export default Route.extend({
         temporalExtent: [],
       });
 
-      $('html, body').animate(
-        {
-          scrollTop: $(document).height(),
-        },
-        'slow'
-      );
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
     },
     deleteExtent(id) {
       let extents = this.currentRouteModel().get(

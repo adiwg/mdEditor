@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route';
-import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { alias } from '@ember/object/computed';
 import { defineProperty } from '@ember/object';
@@ -22,9 +21,7 @@ export default Route.extend(ScrollTo, {
 
       dists.pushObject({});
 
-      $("html, body").animate({
-        scrollTop: $(document).height()
-      }, "slow");
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
 
     },
     editDistributor(id, routeParams, scrollToId) {

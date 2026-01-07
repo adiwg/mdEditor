@@ -3,7 +3,6 @@ import Route from '@ember/routing/route';
 import { A } from '@ember/array';
 import { getWithDefault, set } from '@ember/object';
 import { copy } from 'ember-copy';
-import $ from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 // import { on } from '@ember/object/evented';
 
@@ -41,7 +40,7 @@ export default Route.extend(ScrollTo, {
       let the = this.currentRouteModel().get(
         'json.metadata.resourceInfo.keyword');
 
-      $("html, body").animate({ scrollTop: $(document).height() }, "slow");
+      window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
 
       the.pushObject({
         keyword: [],

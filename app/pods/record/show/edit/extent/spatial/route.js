@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import Route from '@ember/routing/route';
 import EmberObject, { get, set } from '@ember/object';
 import { isArray, A } from '@ember/array';
@@ -65,14 +64,18 @@ export default Route.extend({
       return this;
     },
     handleResize() {
-      $('.map-file-picker .leaflet-container')
-        .height(($(window)
-          .height() - $('#md-navbars')
-          .outerHeight() - 15) / 2);
+      const mapContainer = document.querySelector('.map-file-picker .leaflet-container');
+      const navbars = document.getElementById('md-navbars');
+      if (mapContainer && navbars) {
+        const height = (window.innerHeight - navbars.offsetHeight - 15) / 2;
+        mapContainer.style.height = `${height}px`;
+      }
     },
     uploadData() {
-      $('.map-file-picker .file-picker__input')
-        .click();
+      const fileInput = document.querySelector('.map-file-picker .file-picker__input');
+      if (fileInput) {
+        fileInput.click();
+      }
     },
     deleteAllFeatures() {
       let features = this.layers;
