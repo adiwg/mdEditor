@@ -8,10 +8,8 @@ import { typeOf, isEmpty } from '@ember/utils';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { getOwner } from '@ember/application';
 import { A } from '@ember/array';
-//import $ from 'jquery';
 import { inject as service } from '@ember/service';
 import { applyTemplateArray } from 'mdeditor/utils/object-template';
-//import InViewportMixin from 'ember-in-viewport';
 
 export default Component.extend({
 

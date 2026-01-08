@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import { A } from '@ember/array';
 import Route from '@ember/routing/route';
 import EmberObject from '@ember/object';
@@ -17,7 +16,7 @@ export default Route.extend({
   init() {
     this._super(...arguments);
 
-    $(window).bind('beforeunload', (evt) => {
+    window.addEventListener('beforeunload', (evt) => {
       let dirty = this.currentRouteModel().filter(function (itm) {
         return itm.filterBy('hasDirtyHash').length;
       }).length;

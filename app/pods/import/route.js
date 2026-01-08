@@ -5,7 +5,6 @@ import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 import Base from 'ember-local-storage/adapters/base';
-import jquery from 'jquery';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import { JsonDefault as Contact } from 'mdeditor/models/contact';
 import { Promise, allSettled } from 'rsvp';
@@ -451,7 +450,10 @@ export default Route.extend(ScrollTo, {
           return false;
         })
         .finally(() => {
-          jquery('.import-file-picker input:file').val('');
+          const fileInput = document.querySelector('.import-file-picker input[type="file"]');
+          if (fileInput) {
+            fileInput.value = '';
+          }
         });
     },
 
@@ -497,7 +499,10 @@ export default Route.extend(ScrollTo, {
               })
               .finally(() => {
                 set(controller, 'isLoading', false);
-                jquery('.md-import-picker input:file').val('');
+                const fileInput = document.querySelector('.md-import-picker input[type="file"]');
+                if (fileInput) {
+                  fileInput.value = '';
+                }
               });
           } else {
             set(controller, 'errors', response.messages);

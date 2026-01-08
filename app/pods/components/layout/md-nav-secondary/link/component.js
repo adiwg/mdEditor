@@ -6,7 +6,7 @@ export default Component.extend({
   tagName: 'li',
   didInsertElement() {
     this._super(...arguments);
-    let width = measure(this.$()).width;
+    let width = measure(this.element).width;
 
     if(width === this.link.width || this.link.isOverflow) return;
 

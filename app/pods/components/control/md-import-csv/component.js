@@ -17,7 +17,6 @@ import {
 import {
   Promise
 } from 'rsvp';
-import jquery from 'jquery';
 
 export default Component.extend({
   /**
@@ -165,8 +164,10 @@ export default Component.extend({
           .finally(() => {
             //set(comp, 'isProcessing', false);
 
-            jquery('.md-import-picker input:file')
-              .val('');
+            const fileInput = document.querySelector('.md-import-picker input[type="file"]');
+            if (fileInput) {
+              fileInput.value = '';
+            }
           });
       });
     },
@@ -214,8 +215,10 @@ export default Component.extend({
               })
               .finally(() => {
                 set(comp, 'isLoading', false);
-                jquery('.import-file-picker input:file')
-                  .val('');
+                const fileInput = document.querySelector('.import-file-picker input[type="file"]');
+                if (fileInput) {
+                  fileInput.value = '';
+                }
               });
           } else {
             set(comp, 'errors', response.messages);

@@ -7,7 +7,6 @@ import {
 import {
   inject as service
 } from '@ember/service';
-import $ from 'jquery';
 
 export default Component.extend({
   /**
@@ -260,26 +259,30 @@ export default Component.extend({
     this._super(...arguments);
 
     if(this.collapsible) {
-      let card = this.$();
-      let body = this.$(' > .card-collapse');
+      let card = this.element;
+      let body = this.element.querySelector('.card-collapse');
       let offset = this.offset || 0;
 
-      body.on('shown.bs.collapse', function (e) {
-        e.stopPropagation();
-        // card.get(0).scrollIntoView({
-        //   block: "end",
-        //   behavior: "smooth"
-        // });
-        //
-        // let scrolledY = window.scrollY;
-        //
-        // if(scrolledY) {
-        //   window.scroll(0, scrolledY - offset);
-        // }
-        $('html,body').animate({
-          scrollTop: card.offset().top - offset
-        }, 'slow');
-      });
+      if (body) {
+        body.addEventListener('shown.bs.collapse', function (e) {
+          e.stopPropagation();
+          // card.scrollIntoView({
+          //   block: "end",
+          //   behavior: "smooth"
+          // });
+          //
+          // let scrolledY = window.scrollY;
+          //
+          // if(scrolledY) {
+          //   window.scroll(0, scrolledY - offset);
+          // }
+          const scrollTop = card.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({
+            top: scrollTop,
+            behavior: 'smooth'
+          });
+        });
+      }
     }
 
     let content = this.content;
@@ -298,9 +301,25 @@ export default Component.extend({
     toggleFullScreen() {
       let val = this.toggleProperty('fullScreen');
 
-      $(this.element).parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-        'full-screen', val);
-      $('body').toggleClass('slider', val);
+      // Find and toggle all parent elements matching the selectors
+      let node = this.element.parentElement;
+      while (node) {
+        if (node.matches('.liquid-child, .liquid-container, .md-card')) {
+          if (val) {
+            node.classList.add('full-screen');
+          } else {
+            node.classList.remove('full-screen');
+          }
+        }
+        node = node.parentElement;
+      }
+
+      // Toggle body class
+      if (val) {
+        document.body.classList.add('slider');
+      } else {
+        document.body.classList.remove('slider');
+      }
     },
     spotlight(id) {
       this.spotlight.setTarget(id);

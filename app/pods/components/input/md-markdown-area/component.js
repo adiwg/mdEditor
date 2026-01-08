@@ -29,7 +29,7 @@ export default Component.extend({
     this._super(...arguments);
 
     let editor = this.editor;
-    let $el = this.$();
+    let element = this.element;
 
     const oldEditorSetOption = editor.codemirror.setOption;
 
@@ -37,8 +37,18 @@ export default Component.extend({
       oldEditorSetOption.apply(this, arguments);
 
       if(option === 'fullScreen') {
-        $el.parents('.liquid-child,.liquid-container, .md-card').toggleClass(
-          'full-screen', value);
+        // Find all parent elements matching the selectors
+        let node = element.parentElement;
+        while (node) {
+          if (node.matches('.liquid-child, .liquid-container, .md-card')) {
+            if (value) {
+              node.classList.add('full-screen');
+            } else {
+              node.classList.remove('full-screen');
+            }
+          }
+          node = node.parentElement;
+        }
       }
     };
   },

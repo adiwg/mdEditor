@@ -6,7 +6,6 @@ import {
   computed
 } from '@ember/object';
 import Component from '@ember/component';
-import $ from 'jquery';
 import {
   A
 } from '@ember/array';
@@ -60,23 +59,27 @@ export default Component.extend({
   links: computed('refresh', 'profile.active', function () {
     let liquid = '';
 
-    if($('.liquid-spy').length) {
-      liquid = $('.liquid-spy .liquid-child:first > .liquid-container').length ?
-        '.liquid-spy .liquid-child:first > .liquid-container:last ' :
+    const liquidSpy = document.querySelector('.liquid-spy');
+    if(liquidSpy) {
+      const hasContainer = liquidSpy.querySelector('.liquid-child:first-child > .liquid-container');
+      liquid = hasContainer ?
+        '.liquid-spy .liquid-child:first-child > .liquid-container:last-child ' :
         '.liquid-spy ';
-      liquid += '.liquid-child:first ';
+      liquid += '.liquid-child:first-child ';
     }
 
-    let $targets = $(`${liquid}[data-spy]:visible`);
+    // Find all visible elements with data-spy attribute
+    const selector = `${liquid}[data-spy]`;
+    const targets = Array.from(document.querySelectorAll(selector)).filter(el => {
+      return el.offsetParent !== null; // Check if element is visible
+    });
     let links = A();
 
-    $targets.each(function (idx, link) {
-      let $link = $(link);
-
+    targets.forEach((link) => {
       links.pushObject({
-        id: $link.attr('id'),
-        text: $link.attr('data-spy'),
-        embedded: $link.hasClass('md-embedded')
+        id: link.getAttribute('id'),
+        text: link.getAttribute('data-spy'),
+        embedded: link.classList.contains('md-embedded')
       });
     });
 
@@ -91,14 +94,14 @@ export default Component.extend({
    */
   clickLink(e) {
     let setScrollTo = this.setScrollTo;
-    let $target = $(e.currentTarget);
-    let targetId = $target.attr('href');
+    let target = e.currentTarget;
+    let targetId = target.getAttribute('href');
 
     e.preventDefault();
     this.scroll(targetId);
 
     if((typeof setScrollTo === 'function')) {
-      setScrollTo($target.text().dasherize());
+      setScrollTo(target.textContent.dasherize());
     }
   },
 
@@ -108,11 +111,14 @@ export default Component.extend({
    * @method setupSpy
    */
   setupSpy() {
-    $('body')
-      .scrollspy({
+    // Use Bootstrap 5 Scrollspy API
+    const scrollSpyElement = document.body;
+    if (scrollSpyElement) {
+      const scrollSpy = bootstrap.ScrollSpy.getOrCreateInstance(scrollSpyElement, {
         target: '.md-scroll-spy',
         offset: this.offset
       });
+    }
   },
 
   /**
@@ -123,10 +129,10 @@ export default Component.extend({
   didInsertElement() {
     this._super(...arguments);
 
-    let data = $('body').data('bs.scrollspy');
-
-    if(data) {
-      set(data, 'options.offset', this.offset);
+    // Get existing Bootstrap ScrollSpy instance if any
+    const scrollSpyInstance = bootstrap.ScrollSpy.getInstance(document.body);
+    if(scrollSpyInstance) {
+      scrollSpyInstance._config.offset = this.offset;
     }
     this.setupSpy();
 
@@ -142,7 +148,8 @@ export default Component.extend({
       if(link) {
         this.scroll('#' + link.id);
       } else {
-        if($('#' + init)) {
+        const initElement = document.getElementById(init);
+        if(initElement) {
           this.scroll('#' + init);
         } else {
           this.scroll();
@@ -167,23 +174,35 @@ export default Component.extend({
    * @param {Boolean} hilite If true, set the spy nav link to active
    */
   scroll(id, hilite) {
-    let $anchor = $(id);
+    const anchor = id ? document.querySelector(id) : null;
 
-    if($anchor.length === 0) {
-      $('html, body').scrollTop(0 - this.offset);
+    if(!anchor) {
+      window.scrollTo({
+        top: 0 - this.offset,
+        behavior: 'auto'
+      });
       return;
     }
-    $('html, body').scrollTop($anchor.offset().top - this.offset);
+
+    const scrollTop = anchor.getBoundingClientRect().top + window.scrollY - this.offset;
+    window.scrollTo({
+      top: scrollTop,
+      behavior: 'auto'
+    });
 
     if(hilite) {
-      $('[href="' + id + '"]')
-        .closest('li')
-        .addClass('active');
+      const link = document.querySelector('[href="' + id + '"]');
+      if (link) {
+        const li = link.closest('li');
+        if (li) {
+          li.classList.add('active');
+        }
+      }
     }
 
-    $anchor.removeClass('md-flash');
-    void $anchor[0].offsetWidth;
-    $anchor.addClass('md-flash');
+    anchor.classList.remove('md-flash');
+    void anchor.offsetWidth; // Force reflow
+    anchor.classList.add('md-flash');
 
   },
 
