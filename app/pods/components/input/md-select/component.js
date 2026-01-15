@@ -9,12 +9,14 @@ import { Promise } from 'rsvp';
 import { inject as service } from '@ember/service';
 import { notEmpty, alias, not, and, or } from '@ember/object/computed';
 import Component from '@ember/component';
-import { computed, get, defineProperty } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { action, computed, get, defineProperty } from '@ember/object';
 import { isBlank, isNone } from '@ember/utils';
 import { assert, debug } from '@ember/debug';
 import DS from 'ember-data';
 
-export default Component.extend({
+@classic
+export default class MdSelectComponent extends Component {
   /**
    * A select list control for displaying and selecting options
    * provided in an array or promise array.
@@ -41,74 +43,12 @@ export default Component.extend({
    * @constructor
    */
 
-  init() {
-    this._super(...arguments);
+  classNames = ['md-select'];
+  classNameBindings = ['formGroup', 'required'];
+  attributeBindings = ['dataSpy:data-spy'];
 
-    let model = this.model;
-    let path = this.path;
-
-    if(isNone(model) !== isNone(path)) {
-      assert(
-        `You must supply both model and path to ${this.toString()} or neither.`
-      );
-    }
-
-    if(!isBlank(model)) {
-      if(this.get(`model.${path}`) === undefined) {
-        debug(
-          `model.${path} is undefined in ${this.toString()}.`
-        );
-        //Ember.run.once(()=>model.set(path, ""));
-      }
-
-      defineProperty(this, 'value', alias(`model.${path}`));
-
-      defineProperty(this, 'validation', alias(
-        `model.validations.attrs.${path}`).readOnly());
-
-      defineProperty(this, 'required', computed(
-        'validation.options.presence.{presence,disabled}',
-        'disabled',
-        function() {
-          return !this.disabled &&
-            this.get('validation.options.presence.presence') &&
-            !this.get('validation.options.presence.disabled');
-        }).readOnly());
-
-      defineProperty(this, 'notValidating', not(
-        'validation.isValidating').readOnly());
-
-      defineProperty(this, 'hasContent', notEmpty('value').readOnly());
-
-      defineProperty(this, 'hasWarnings', notEmpty(
-        'validation.warnings').readOnly());
-
-      defineProperty(this, 'isValid', and('hasContent',
-        'validation.isTruelyValid').readOnly());
-
-      defineProperty(this, 'shouldDisplayValidations', or(
-        'showValidations', 'didValidate',
-        'hasContent').readOnly());
-
-      defineProperty(this, 'showErrorClass', and('notValidating',
-        'showErrorMessage',
-        'hasContent', 'validation').readOnly());
-
-      defineProperty(this, 'showErrorMessage', and(
-        'shouldDisplayValidations',
-        'validation.isInvalid').readOnly());
-
-      defineProperty(this, 'showWarningMessage', and(
-        'shouldDisplayValidations',
-        'hasWarnings', 'isValid').readOnly());
-    }
-  },
-
-  classNames: ['md-select'],
-  classNameBindings: ['formGroup', 'required'],
-  attributeBindings: ['data-spy'],
-  formGroup: notEmpty('label'),
-  icons: service('icon'),
+  @notEmpty('label') formGroup;
+  @service('icon') icons;
 
   /**
    * An array or promise array containing the options for the
@@ -140,7 +80,7 @@ export default Component.extend({
    * @type Any
    * @required
    */
-  value: null,
+  value = null;
 
   /**
    * Path in the model to be used for the select list's option value. Both
@@ -183,7 +123,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  icon: false,
+  icon = false;
 
   /**
    * Indicates if value is required.
@@ -192,7 +132,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  required: false,
+  required = false;
 
   /**
    * The default icon.
@@ -202,7 +142,7 @@ export default Component.extend({
    * @default defaultList
    * @required
    */
-  defaultIcon: 'defaultList',
+  defaultIcon = 'defaultList';
 
   /**
    * Indicates if tooltips should be rendered for the options.
@@ -211,7 +151,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  tooltip: false,
+  tooltip = false;
 
   /**
    * Name of the attribute in the objectArray to be used for the
@@ -222,7 +162,7 @@ export default Component.extend({
    * @type String
    * @default null
    */
-  tooltipPath: null,
+  tooltipPath = null;
 
   /**
    * Whether to render a button to clear the selection.
@@ -231,7 +171,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  allowClear: false,
+  allowClear = false;
 
   /**
    * Whether to render the search input.
@@ -240,7 +180,7 @@ export default Component.extend({
    * @type Boolean
    * @default true
    */
-  searchEnabled: true,
+  searchEnabled = true;
 
   /**
    * Whether to disable the select.
@@ -249,7 +189,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  disabled: false,
+  disabled = false;
 
   /**
    * Whether to close the selection list after a selection has been made.
@@ -258,7 +198,7 @@ export default Component.extend({
    * @type Boolean
    * @default true
    */
-  closeOnSelect: true,
+  closeOnSelect = true;
 
   /**
    * The string to display when no option is selected.
@@ -267,7 +207,7 @@ export default Component.extend({
    * @type String
    * @default 'Select one option'
    */
-  placeholder: "Select one option",
+  placeholder = "Select one option";
 
   /**
    * Form label for select list
@@ -276,11 +216,11 @@ export default Component.extend({
    * @type String
    * @default null
    */
-  label: null,
+  label = null;
 
-  ariaLabel: computed('label', function() {
+  get ariaLabel() {
     return this.label;
-  }),
+  }
 
   /**
    * Indicates whether to allow the user to enter a new option
@@ -290,7 +230,7 @@ export default Component.extend({
    * @type Boolean
    * @default false
    */
-  create: false,
+  create = false;
 
   /**
    * If set, removes the option with the specified id from the list. By default,
@@ -301,7 +241,7 @@ export default Component.extend({
    * @default null
    * @optional
    */
-  filterId: null,
+  filterId = null;
 
   /**
    * The component to render
@@ -310,17 +250,16 @@ export default Component.extend({
    * @type Ember.computed
    * @return String
    */
-  theComponent: computed('create', function() {
-    return this.create ? 'power-select-with-create' :
-      'power-select';
-  }),
+  get theComponent() {
+    return this.create ? 'power-select-with-create' : 'power-select';
+  }
 
   /**
    * Callback after value is updated, usually an action is passed.
    *
    * @method change
    */
-  change() {},
+  change() {}
 
   /**
    * The currently selected item in the codelist
@@ -329,7 +268,7 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function() {
+  get selectedItem() {
     let value = this.value;
 
     return DS.PromiseObject.create({
@@ -340,7 +279,7 @@ export default Component.extend({
           });
         })
     });
-  }),
+  }
 
   /**
    * codelist is an array of code objects re-mapped from the input 'objectArray'.
@@ -351,7 +290,8 @@ export default Component.extend({
    * @type Ember.computed
    * @return PromiseArray
    */
-  codelist: computed('objectArray', function() {
+  get codelist() {
+    console.log('md-select codelist getter called');
     const objArray = this.objectArray;
     let inList = new Promise(function(resolve, reject) {
       // succeed
@@ -366,7 +306,7 @@ export default Component.extend({
     let defaultIcon = this.defaultIcon;
     let outList = A();
 
-    return DS.PromiseArray.create({
+    const result = DS.PromiseArray.create({
       promise: inList.then(function(arr) {
         arr.forEach(function(item) {
           let newObject = {
@@ -385,7 +325,9 @@ export default Component.extend({
         return outList;
       })
     });
-  }),
+    console.log('md-select codelist returning PromiseArray:', result);
+    return result;
+  }
 
   /**
    * Creates a new codelist entry. The codeId and codeName are both set to the
@@ -401,7 +343,7 @@ export default Component.extend({
       codeName: code,
       tooltip: false
     };
-  },
+  }
 
   /**
    * Set the value on the select.
@@ -411,14 +353,78 @@ export default Component.extend({
    */
   setValue(selected) {
     let val = selected ? selected.codeId : null;
-    this.set('value', val);
+    this.value = val;
     this.change();
-  },
-  actions: {
-    // do the binding to value
+  }
+
+  constructor() {
+    super(...arguments);
+
+    let model = this.model;
+    let path = this.path;
+
+    if(isNone(model) !== isNone(path)) {
+      assert(
+        `You must supply both model and path to ${this.toString()} or neither.`
+      );
+    }
+
+    if(!isBlank(model)) {
+      if(this.model?.[path] === undefined) {
+        debug(
+          `model.${path} is undefined in ${this.toString()}.`
+        );
+        //Ember.run.once(()=>model.set(path, ""));
+      }
+
+      defineProperty(this, 'value', alias(`model.${path}`));
+
+      defineProperty(this, 'validation', alias(
+        `model.validations.attrs.${path}`).readOnly());
+
+      defineProperty(this, 'required', computed(
+        'validation.options.presence.{presence,disabled}',
+        'disabled',
+        function() {
+          return !this.disabled &&
+            this.validation?.options?.presence?.presence &&
+            !this.validation?.options?.presence?.disabled;
+        }).readOnly());
+
+      defineProperty(this, 'notValidating', not(
+        'validation.isValidating').readOnly());
+
+      defineProperty(this, 'hasContent', notEmpty('value').readOnly());
+
+      defineProperty(this, 'hasWarnings', notEmpty(
+        'validation.warnings').readOnly());
+
+      defineProperty(this, 'isValid', and('hasContent',
+        'validation.isTruelyValid').readOnly());
+
+      defineProperty(this, 'shouldDisplayValidations', or(
+        'showValidations', 'didValidate',
+        'hasContent').readOnly());
+
+      defineProperty(this, 'showErrorClass', and('notValidating',
+        'showErrorMessage',
+        'hasContent', 'validation').readOnly());
+
+      defineProperty(this, 'showErrorMessage', and(
+        'shouldDisplayValidations',
+        'validation.isInvalid').readOnly());
+
+      defineProperty(this, 'showWarningMessage', and(
+        'shouldDisplayValidations',
+        'hasWarnings', 'isValid').readOnly());
+    }
+  }
+
+  actions = {
     setValue(selected) {
       this.setValue(selected);
     },
+
     create(selected) {
       let code = this.createCode(selected);
 
@@ -427,5 +433,4 @@ export default Component.extend({
       this.setValue(code);
     }
   }
-
-});
+}

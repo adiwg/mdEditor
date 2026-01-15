@@ -1,22 +1,21 @@
 import Component from '@ember/component';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { set, getWithDefault } from '@ember/object';
 
-export default Component.extend({
+export default class DescriptiveResultComponent extends Component {
+  name = '';
+
+  @alias('model.scope.scopeCode') scopeCode;
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     if (model) {
       once(this, function () {
-        set(model, 'scope', getWithDefault(model, 'scope', {}));
+        model.scope = model.scope ?? {};
       });
     }
-  },
-
-  name: '',
-
-  scopeCode: alias('model.scope.scopeCode'),
-});
+  }
+}

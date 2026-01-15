@@ -2,14 +2,13 @@ import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray, A } from '@ember/array';
 
-export default Route.extend({
+export default class DistributorRoute extends Route {
   model(params) {
     this.set('distributionId', params.distribution_id);
     this.set('distributorId', params.distributor_id);
 
     return this.setupModel();
-  },
-
+  }
   // breadCrumb: computed('distributionId', function () {
   //   return {
   //     title: this.distributionId
@@ -17,9 +16,9 @@ export default Route.extend({
   //   };
   // }),
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     //this.controller.set('parentModel', this.modelFor('record.show.edit.main'));
     this.controller.set('distributionId', this.distributionId);
@@ -29,8 +28,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let distributionId = this.distributionId;
     let distributorId = this.distributorId;
@@ -55,4 +53,4 @@ export default Route.extend({
 
     return distributor;
   }
-});
+}

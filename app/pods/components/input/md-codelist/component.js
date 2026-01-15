@@ -5,55 +5,40 @@
 
 import { computed, defineProperty } from '@ember/object';
 import { inject as service } from '@ember/service';
+import classic from 'ember-classic-decorator';
 import Select from '../md-select/component';
 
-export default Select.extend({
-  /**
-   * Specialized select list control for displaying and selecting
-   * options in mdCodes codelists.
-   * Access to codelists is provided by the 'codelist' service.
-   * Descriptions of all codes (tooltips) are embedded within the codelists.
-   *
-   * ```handlebars
-   * \{{input/md-codelist
-   *   create=true
-   *   required=false
-   *   tooltip=fasle
-   *   icon=false
-   *   disabled=false
-   *   allowClear=true
-   *   showValidations=true
-   *   mdCodeName="codeName"
-   *   value=value
-   *   path="path"
-   *   model=model
-   *   placeholder="Choose"
-   * }}
-   * ```
-   *
-   * @class md-codelist
-   * @extends md-select
-   * @constructor
-   */
-
-  init() {
-    this._super(...arguments);
-
-    //define cp using a dynamic dependent property
-    defineProperty(
-      this,
-      'mdCodelist',
-      computed(`mdCodes.${this.mdCodeName}.codelist.[]`, function () {
-        const codelist = this.mdCodes.get(this.mdCodeName).codelist;
-        if (this.disableSort) {
-          return codelist;
-        }
-        return codelist.sortBy(this.namePath);
-      })
-    );
-  },
-  classNames: ['md-codelist'],
-  layoutName: 'components/input/md-select',
+/**
+ * Specialized select list control for displaying and selecting
+ * options in mdCodes codelists.
+ * Access to codelists is provided by the 'codelist' service.
+ * Descriptions of all codes (tooltips) are embedded within the codelists.
+ *
+ * ```handlebars
+ * \{{input/md-codelist
+ *   create=true
+ *   required=false
+ *   tooltip=fasle
+ *   icon=false
+ *   disabled=false
+ *   allowClear=true
+ *   showValidations=true
+ *   mdCodeName="codeName"
+ *   value=value
+ *   path="path"
+ *   model=model
+ *   placeholder="Choose"
+ * }}
+ * ```
+ *
+ * @class md-codelist
+ * @extends md-select
+ * @constructor
+ */
+@classic
+export default class MdCodelistComponent extends Select {
+  classNames = ['md-codelist'];
+  layoutName = 'components/input/md-select';
 
   /**
    * The name of the mdCodes's codelist to use
@@ -72,7 +57,8 @@ export default Select.extend({
    * @default codeName
    * @required
    */
-  valuePath: 'codeName',
+  valuePath = 'codeName';
+
   /**
    * Name of the attribute in the objectArray to be used for the
    * select list's option name or display text.
@@ -82,7 +68,7 @@ export default Select.extend({
    * @default codename
    * @required
    */
-  namePath: 'codeName',
+  namePath = 'codeName';
 
   /**
    * Name of the attribute in the objectArray to be used for the
@@ -93,7 +79,7 @@ export default Select.extend({
    * @type String
    * @default null
    */
-  tooltipPath: 'description',
+  tooltipPath = 'description';
 
   /**
    * Initial value, returned value.
@@ -111,7 +97,7 @@ export default Select.extend({
    * @type Boolean
    * @default true
    */
-  allowClear: true,
+  allowClear = true;
 
   /**
    * The string to display when no option is selected.
@@ -120,7 +106,7 @@ export default Select.extend({
    * @type String
    * @default 'Select one option'
    */
-  placeholder: 'Select one option',
+  placeholder = 'Select one option';
 
   /**
    * Form label for select list
@@ -129,9 +115,34 @@ export default Select.extend({
    * @type String
    * @default null
    */
-  label: null,
+  label = null;
 
-  mdCodes: service('codelist'),
+  @service('codelist') mdCodes;
+
+  init() {
+    super.init(...arguments);
+
+    //define cp using a dynamic dependent property
+    if (this.mdCodeName) {
+      defineProperty(
+        this,
+        'mdCodelist',
+        computed(`mdCodes.${this.mdCodeName}.codelist.[]`, function () {
+          const codelist = this.mdCodes.get(this.mdCodeName).codelist;
+          if (this.disableSort) {
+            return codelist;
+          }
+          return codelist.sortBy(this.namePath);
+        })
+      );
+    }
+
+    // CRITICAL: Force codelist to be evaluated immediately
+    // This ensures power-select has the data when it initializes
+    console.log('md-codelist init - forcing codelist evaluation');
+    const initialList = this.codelist;
+    console.log('md-codelist init - codelist has', initialList?.length, 'items');
+  }
 
   /*
    * The currently selected item in the codelist
@@ -140,21 +151,17 @@ export default Select.extend({
    * @type Ember.computed
    * @return PromiseObject
    */
-  selectedItem: computed('value', function () {
+  @computed('value', 'codelist.[]')
+  get selectedItem() {
     let value = this.value;
+    const codelist = this.codelist;
 
-    return this.codelist.find((item) => {
+    const result = codelist?.find((item) => {
       return item['codeId'] === value;
     });
-  }),
 
-  // mdCodelist: computed('mdCodeName', function() {
-  //   return this.mdCodes
-  //     .get(this.mdCodeName)
-  //     .codelist
-  //     //.uniqBy(codeName)
-  //     .sortBy(this.namePath);
-  // }),
+    return result;
+  }
 
   /**
    * mapped is a re-mapped array of code objects.
@@ -165,14 +172,14 @@ export default Select.extend({
    * @category computed
    * @requires mdCodeName
    */
-  mapped: computed('mdCodelist.[]', function () {
+  @computed('mdCodelist.[]')
+  get mapped() {
     let codeId = this.valuePath;
     let codeName = this.namePath;
     let tooltip = this.tooltipPath;
     let codelist = [];
     let icons = this.icons;
     let defaultIcon = this.defaultIcon;
-    // const mdCodes = this.mdCodes;
 
     this.mdCodelist.forEach((item) => {
       let newObject = {
@@ -188,7 +195,7 @@ export default Select.extend({
     });
 
     return codelist;
-  }),
+  }
 
   /**
    * If a value is provided by the user which is not in the codelist and 'create=true'
@@ -199,11 +206,14 @@ export default Select.extend({
    * @category computed
    * @requires value
    */
-  codelist: computed('value', 'filterId', 'mapped', function () {
+  @computed('value', 'filterId', 'mapped.[]')
+  get codelist() {
     let codelist = this.mapped;
     let value = this.value;
     let create = this.create;
     let filter = this.filterId;
+
+    console.log('md-codelist codelist getter called - mapped:', codelist?.length, 'value:', value);
 
     if (value) {
       if (create) {
@@ -215,8 +225,12 @@ export default Select.extend({
       }
     }
 
-    return codelist.rejectBy('codeId', filter);
-  }),
+    const result = codelist.rejectBy('codeId', filter);
+    // Convert to plain array for power-select compatibility
+    const plainArray = result ? result.toArray() : [];
+    console.log('md-codelist codelist returning array:', plainArray.length);
+    return plainArray;
+  }
 
   /**
    * Creates a new codelist entry with a randomly generated code identifier.
@@ -231,27 +245,9 @@ export default Select.extend({
       codeName: code,
       description: 'Undefined',
     };
-  },
+  }
 
-  /**
-   * Set the value on the select.
-   *
-   * @method setValue
-   * @param {Object} selected The object with the value(codeName) to set.
-   */
-  /*setValue(selected) {
-    let valuePath = this.get('valuePath');
-    let namePath = this.get('namePath');
-
-    if(selected) {
-      this.get('codelist')
-    }
-    let val = selected ? selected.codeName : null;
-    this.set('value', val);
-    this.change();
-  },*/
-
-  actions: {
+  actions = {
     // do the binding to value
     setValue: function (selected) {
       this.setValue(selected);
@@ -262,5 +258,5 @@ export default Select.extend({
 
       this.setValue(code);
     },
-  },
-});
+  }
+}

@@ -1,6 +1,9 @@
 import Component from '@ember/component';
+import { action } from '@ember/object';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
+@classic
+export default class MdModalComponent extends Component {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -18,7 +21,7 @@ export default Component.extend({
    * @property isShowing
    * @type {Boolean}
    */
-  isShowing: false,
+  isShowing = false;
 
   /**
    * Text to display in the modal.
@@ -34,7 +37,7 @@ export default Component.extend({
    * @property target
    * @type {String}
    */
-  target: 'viewport',
+  target = 'viewport';
 
   /**
    * Whether to display the confirm button
@@ -42,7 +45,7 @@ export default Component.extend({
    * @property showConfirm
    * @type {Boolean}
    */
-  showConfirm: false,
+  showConfirm = false;
 
   /**
    * Whether to render in place
@@ -50,7 +53,7 @@ export default Component.extend({
    * @property renderInPlace
    * @type {Boolean}
    */
-  renderInPlace: false,
+  renderInPlace = false;
 
   /**
    * Whether to display the cancel button
@@ -58,7 +61,7 @@ export default Component.extend({
    * @property showCancel
    * @type {Boolean}
    */
-  showCancel: false,
+  showCancel = false;
 
   /**
    * Label for the confirm button
@@ -66,7 +69,7 @@ export default Component.extend({
    * @property confirmLabel
    * @type {String}
    */
-  confirmLabel: 'OK',
+  confirmLabel = 'OK';
 
   /**
    * Close action callback
@@ -75,7 +78,7 @@ export default Component.extend({
    */
   closeModal() {
     this.toggleProperty('isShowing');
-  },
+  }
 
   /**
    * Confirm action callback
@@ -86,7 +89,7 @@ export default Component.extend({
       this.confirmAction();
     }
     this.closeModal();
-  },
+  }
 
   /**
    * Cancel action callback
@@ -95,34 +98,19 @@ export default Component.extend({
    */
   cancel() {
     this.closeModal();
-  },
+  }
 
-  actions: {
-    /**
-     * Close modal action
-     *
-     * @method action.closeModal
-     */
+  actions = {
     closeModal() {
       this.closeModal();
     },
 
-    /**
-     * confirm action
-     *
-     * @method action.confirm
-     */
     confirm() {
       this.confirm();
     },
 
-    /**
-     * Cancel action
-     *
-     * @method action.cancel
-     */
     cancel() {
       this.cancel();
-    },
-  },
-});
+    }
+  }
+}

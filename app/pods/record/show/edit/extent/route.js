@@ -1,7 +1,8 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { getWithDefault, set } from '@ember/object';
 
-export default Route.extend({
+export default class ExtentRoute extends Route {
   model() {
     let model = this.modelFor('record.show.edit');
     let json = model.get('json');
@@ -10,9 +11,7 @@ export default Route.extend({
     set(resourceInfo, 'extent', getWithDefault(resourceInfo, 'extent', []));
 
     return model;
-  },
-
-  actions: {
+  }
     addExtent() {
       let extents = this.currentRouteModel().get(
         'json.metadata.resourceInfo.extent'
@@ -27,14 +26,14 @@ export default Route.extend({
             boundingBox: {},
             geographicElement: [],
             description: null,
-          },
+          }
         ],
         verticalExtent: [],
         temporalExtent: [],
       });
 
       window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
-    },
+    }
     deleteExtent(id) {
       let extents = this.currentRouteModel().get(
         'json.metadata.resourceInfo.extent'
@@ -42,13 +41,12 @@ export default Route.extend({
       let extent = extents[id];
 
       extents.removeObject(extent);
-    },
+    }
     editFeatures(id) {
       this.transitionTo({ queryParams: { scrollTo: 'extent-' + id } });
       this.transitionTo('record.show.edit.extent.spatial', id);
-    },
+    }
     toList() {
       this.transitionTo(this.routeName);
-    },
-  },
-});
+    }
+}

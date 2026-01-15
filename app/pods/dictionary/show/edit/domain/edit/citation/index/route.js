@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   isEmpty
@@ -8,15 +9,14 @@ import {
   set
 } from '@ember/object';
 
-export default Route.extend(ScrollTo, {
+export default class IndexRoute extends Route.extend(ScrollTo) {
   init() {
     this._super(...arguments);
 
     this.breadCrumb = {
       title: 'Reference'
     }
-  },
-
+  }
   afterModel(model) {
     let domainId = this.paramsFor('dictionary.show.edit.domain.edit')
       .domain_id;
@@ -26,21 +26,18 @@ export default Route.extend(ScrollTo, {
     }
 
     this.set('domainId', domainId);
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'dictionary.show.edit'));
-  },
-
-  actions: {
+  }
     backToDomain() {
       this.transitionTo('dictionary.show.edit.domain.edit',
         this.domainId);
-    },
+    }
     editIdentifier(index) {
       this.transitionTo(
           'dictionary.show.edit.domain.edit.citation.identifier',
@@ -49,5 +46,4 @@ export default Route.extend(ScrollTo, {
           this.setScrollTo('identifier');
         }.bind(this));
     }
-  }
-});
+}

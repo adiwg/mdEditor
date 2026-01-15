@@ -1,28 +1,26 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import EmberObject, { get, set, getWithDefault } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class IndexRoute extends Route.extend(ScrollTo) {
   afterModel(m) {
     this._super(...arguments);
 
     let model = get(m, 'json.metadata.resourceInfo');
     set(model, 'taxonomy', getWithDefault(model, 'taxonomy', []));
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
-  },
-
-  actions: {
+  }
     editCollection(id) {
       this.setScrollTo(`collection-${id}`);
       this.transitionTo('record.show.edit.taxonomy.collection.index', id);
-    },
+    }
     addCollection() {
       let taxa = this.currentRouteModel()
         .get('json.metadata.resourceInfo.taxonomy');
@@ -38,12 +36,11 @@ export default Route.extend(ScrollTo, {
         window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'smooth' });
       // });
 
-    },
+    }
     deleteCollection(id) {
       let taxa = this.currentRouteModel().get(
         'json.metadata.resourceInfo.taxonomy');
 
       taxa.removeAt(id);
     }
-  }
-});
+}

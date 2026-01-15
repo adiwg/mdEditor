@@ -1,25 +1,32 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  classNames: ['alert', 'md-alert-table'],
-  classNameBindings: ['alertType'],
-  required: false,
-  title: '',
-  target: null,
+@classic
+export default class MdAlertTableComponent extends Component {
+  classNames = ['alert', 'md-alert-table'];
+  classNameBindings = ['alertType'];
+  required = false;
+  title = '';
+  target = null;
 
-  alertType: computed('required', function () {
+  get alertType() {
     return 'alert-' + (this.required ? 'danger' : 'info');
-  }),
-  tipType: computed('required', function () {
+  }
+
+  get tipType() {
     return this.required ? 'danger' : 'info';
-  }),
-  tipIcon: computed('required', function () {
+  }
+
+  get tipIcon() {
     return this.required ? 'exclamation-circle' : 'info-circle';
-  }),
-  actions: {
+  }
+
+  actions = {
     addItem(target) {
-      this.addItem(target);
+      if (this.onAddItem) {
+        this.onAddItem(target);
+      }
     }
   }
-});
+}

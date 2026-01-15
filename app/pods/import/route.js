@@ -3,6 +3,7 @@ import EmObject, { computed, get, getWithDefault, set } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { assign } from '@ember/polyfills';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import Base from 'ember-local-storage/adapters/base';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
@@ -13,15 +14,17 @@ import { fixLiabilityTypo } from '../../utils/fix-liability-typo';
 
 const generateIdForRecord = Base.create().generateIdForRecord;
 
-export default Route.extend(ScrollTo, {
-  flashMessages: service(),
-  jsonvalidator: service(),
-  settings: service(),
-  ajax: service(),
-  apiValidator: service(),
+export default class ImportRoute extends Route.extend(ScrollTo) {
+  @service flashMessages;
+  @service jsonvalidator;
+  @service settings;
+  @service ajax;
+  @service apiValidator;
+
+  @or('settings.data.mdTranslatorAPI', 'defaultAPI') apiURL;
 
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.icons = {
       records: 'file',
@@ -29,23 +32,22 @@ export default Route.extend(ScrollTo, {
       contacts: 'users',
       settings: 'gear',
     };
-  },
+  }
+
   setupController(controller, model) {
-    // Call _super for default behavior
-    this._super(controller, model);
+    // Call super for default behavior
+    super.setupController(controller, model);
     // Implement your custom setup after
     controller.set('importUri', this.get('settings.data.importUriBase'));
     controller.set('apiURL', this.apiURL);
-  },
+  }
 
   model() {
     return EmObject.create({
       files: false,
       merge: true,
     });
-  },
-
-  apiURL: or('settings.data.mdTranslatorAPI', 'defaultAPI'),
+  }
 
   getTitle(record) {
     let raw = record.attributes.json;
@@ -77,7 +79,7 @@ export default Route.extend(ScrollTo, {
       default:
         return 'N/A';
     }
-  },
+  }
   formatMdJSON(json) {
     let { contact, dataDictionary } = json;
 
@@ -206,8 +208,7 @@ export default Route.extend(ScrollTo, {
     }
 
     return data;
-  },
-
+  }
   mapJSON(data) {
     let { json, route } = data;
     let files;
@@ -224,8 +225,7 @@ export default Route.extend(ScrollTo, {
     route.currentRouteModel().set('files', files);
 
     route.currentRouteModel().set('data', json.data);
-  },
-
+  }
   mapMdJSON(data) {
     let map = A();
 
@@ -240,8 +240,7 @@ export default Route.extend(ScrollTo, {
     set(data, 'json.data', map);
 
     return this.mapRecords(map);
-  },
-
+  }
   mapRecords(records) {
     return records.reduce((map, item) => {
       if (!map[item.type]) {
@@ -256,8 +255,7 @@ export default Route.extend(ScrollTo, {
       map[item.type].push(EmObject.create(item));
       return map;
     }, {});
-  },
-
+  }
   mapEditorJSON({ file, json }) {
     const validator = this.jsonvalidator.validator;
     if (!validator.validate('jsonapi', json)) {
@@ -299,9 +297,10 @@ export default Route.extend(ScrollTo, {
     });
 
     return this.mapRecords(json.data);
-  },
+  }
+
   //TODO: fix propertyName id for dataDictionary
-  columns: computed(function () {
+  get columns() {
     let route = this;
 
     return [
@@ -330,7 +329,7 @@ export default Route.extend(ScrollTo, {
         },
       },
     ];
-  }),
+  }
 
   showPreview(model) {
     let json = {};
@@ -344,8 +343,7 @@ export default Route.extend(ScrollTo, {
       model: model,
       json: json,
     });
-  },
-
+  }
   checkApiConfiguration() {
     // Check if mdTranslatorAPI is configured using the service
     if (!this.apiValidator.isApiConfigured()) {
@@ -355,20 +353,26 @@ export default Route.extend(ScrollTo, {
       return false;
     }
     return true;
-  },
+  }
 
-  actions: {
-    getColumns() {
-      return this.columns;
-    },
-    getIcon(type) {
-      return this.icons[type];
-    },
-    goToSettings() {
-      this.controller.set('showApiModal', false);
-      this.transitionTo('settings.main');
-    },
-    readData(file) {
+  @action
+  getColumns() {
+    return this.columns;
+  }
+
+  @action
+  getIcon(type) {
+    return this.icons[type];
+  }
+
+  @action
+  goToSettings() {
+    this.controller.set('showApiModal', false);
+    this.transitionTo('settings.main');
+  }
+
+  @action
+  readData(file) {
       let json;
       let url = this.apiURL;
       let controller = this.controller;
@@ -455,9 +459,10 @@ export default Route.extend(ScrollTo, {
             fileInput.value = '';
           }
         });
-    },
+  }
 
-    readFromUri() {
+  @action
+  readFromUri() {
       let uri = this.controller.get('importUri');
       let controller = this.controller;
       let route = this;
@@ -516,8 +521,10 @@ export default Route.extend(ScrollTo, {
           set(controller, 'isLoading', false);
           get(controller, 'flashMessages').danger(error);
         });
-    },
-    importData() {
+  }
+
+  @action
+  importData() {
       let store = this.store;
       let data = {
         data: this.currentRouteModel()
@@ -580,12 +587,15 @@ export default Route.extend(ScrollTo, {
             });
         });
       }
-    },
-    closePreview() {
-      this.currentRouteModel().set('preview', false);
-    },
-    cancelImport() {
-      this.currentRouteModel().set('files', false);
-    },
-  },
-});
+  }
+
+  @action
+  closePreview() {
+    this.currentRouteModel().set('preview', false);
+  }
+
+  @action
+  cancelImport() {
+    this.currentRouteModel().set('files', false);
+  }
+}

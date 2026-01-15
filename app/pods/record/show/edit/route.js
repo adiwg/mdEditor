@@ -1,11 +1,12 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import EmberObject from '@ember/object';
 import { scheduleOnce, once } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { get } from '@ember/object';
 
-export default Route.extend({
+export default class EditRoute extends Route {
   init() {
     this._super(...arguments);
 
@@ -13,17 +14,16 @@ export default Route.extend({
       title: 'Edit',
       linkable: false
     };
-  },
-
-  pouch: service(),
-  hashPoll: service(),
+  }
+  @service pouch;
+  @service hashPoll;
 
   /**
    * The profile service
    * @property profile
    * @return {Ember.Service} profile
    */
-  profile: service('custom-profile'),
+  @service('custom-profile') profile;
 
   /**
    * The route activate hook, sets the profile.
@@ -33,13 +33,11 @@ export default Route.extend({
 
     this.profile.set('active', model.get('profile'));
     this.hashPoll.startPolling(model);
-  },
-
+  }
   deactivate() {
     this._super(...arguments);
     this.hashPoll.stopPolling();
-  },
-
+  }
   doCancel() {
     let controller = this.controller;
     let same = !controller.cancelScope || getOwner(this)
@@ -58,18 +56,14 @@ export default Route.extend({
         this.refresh();
       });
     }
-  },
-
-  actions: {
-
-    saveRecord: async function () {
+  }
+    async saveRecord() {
       const model = this.currentRouteModel();
       model.updateTimestamp();
       await model.save();
       this.flashMessages.success(`Saved Record: ${model.get('title')}`);
-    },
-
-    cancelRecord: function () {
+    }
+    cancelRecord() {
       let model = this.currentRouteModel();
       let message = `Cancelled changes to Record: ${model.get('title')}`;
 
@@ -91,10 +85,8 @@ export default Route.extend({
           this.doCancel();
           this.flashMessages.warning(message);
         });
-    },
-
+    }
     getContext() {
       return this;
     }
-  }
-});
+}

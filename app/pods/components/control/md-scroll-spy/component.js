@@ -1,16 +1,12 @@
-import {
-  inject as service
-} from '@ember/service';
-import {
-  set,
-  computed
-} from '@ember/object';
+import { inject as service } from '@ember/service';
+import { action, set } from '@ember/object';
 import Component from '@ember/component';
-import {
-  A
-} from '@ember/array';
+import classic from 'ember-classic-decorator';
+import $ from 'jquery';
+import { A } from '@ember/array';
 
-export default Component.extend({
+@classic
+export default class MdScrollSpyComponent extends Component {
   /**
    * mdEditor Component that enables scrollspy
    *
@@ -20,9 +16,9 @@ export default Component.extend({
    * @constructor
    */
 
-  profile: service('profile'),
-  router: service('router'),
-  classNames: ['md-scroll-spy'],
+  @service('profile') profile;
+  @service('router') router;
+  classNames = ['md-scroll-spy'];
 
   /**
    * The height to offset from top of container.
@@ -31,7 +27,7 @@ export default Component.extend({
    * @type {Number}
    * @default 110
    */
-  offset: 110,
+  offset = 110;
 
   /**
    * The initial scroll target when the component is inserted.
@@ -56,54 +52,31 @@ export default Component.extend({
    * @category computed
    * @requires refresh,profile.active
    */
-  links: computed('refresh', 'profile.active', function () {
+  get links() {
     let liquid = '';
 
-    const liquidSpy = document.querySelector('.liquid-spy');
-    if(liquidSpy) {
-      const hasContainer = liquidSpy.querySelector('.liquid-child:first-child > .liquid-container');
-      liquid = hasContainer ?
-        '.liquid-spy .liquid-child:first-child > .liquid-container:last-child ' :
+    if($('.liquid-spy').length) {
+      liquid = $('.liquid-spy .liquid-child:first > .liquid-container').length ?
+        '.liquid-spy .liquid-child:first > .liquid-container:last ' :
         '.liquid-spy ';
-      liquid += '.liquid-child:first-child ';
+      liquid += '.liquid-child:first ';
     }
 
-    // Find all visible elements with data-spy attribute
-    const selector = `${liquid}[data-spy]`;
-    const targets = Array.from(document.querySelectorAll(selector)).filter(el => {
-      return el.offsetParent !== null; // Check if element is visible
-    });
+    let $targets = $(`${liquid}[data-spy]:visible`);
     let links = A();
 
-    targets.forEach((link) => {
+    $targets.each(function (idx, link) {
+      let $link = $(link);
+
       links.pushObject({
-        id: link.getAttribute('id'),
-        text: link.getAttribute('data-spy'),
-        embedded: link.classList.contains('md-embedded')
+        id: $link.attr('id'),
+        text: $link.attr('data-spy'),
+        embedded: $link.hasClass('md-embedded')
       });
     });
 
     return links;
-  }),
-
-  /**
-   * Click handler for nav links.
-   *
-   * @method clickLink
-   * @param {Event} e The click event.
-   */
-  clickLink(e) {
-    let setScrollTo = this.setScrollTo;
-    let target = e.currentTarget;
-    let targetId = target.getAttribute('href');
-
-    e.preventDefault();
-    this.scroll(targetId);
-
-    if((typeof setScrollTo === 'function')) {
-      setScrollTo(target.textContent.dasherize());
-    }
-  },
+  }
 
   /**
    * Setup the scrollspy on  the body element
@@ -111,15 +84,12 @@ export default Component.extend({
    * @method setupSpy
    */
   setupSpy() {
-    // Use Bootstrap 5 Scrollspy API
-    const scrollSpyElement = document.body;
-    if (scrollSpyElement) {
-      const scrollSpy = bootstrap.ScrollSpy.getOrCreateInstance(scrollSpyElement, {
+    $('body')
+      .scrollspy({
         target: '.md-scroll-spy',
         offset: this.offset
       });
-    }
-  },
+  }
 
   /**
    * Call setupSpy and perform initial scroll.
@@ -127,12 +97,12 @@ export default Component.extend({
    * @method didInsertElement
    */
   didInsertElement() {
-    this._super(...arguments);
+    super.didInsertElement(...arguments);
 
-    // Get existing Bootstrap ScrollSpy instance if any
-    const scrollSpyInstance = bootstrap.ScrollSpy.getInstance(document.body);
-    if(scrollSpyInstance) {
-      scrollSpyInstance._config.offset = this.offset;
+    let data = $('body').data('bs.scrollspy');
+
+    if(data) {
+      set(data, 'options.offset', this.offset);
     }
     this.setupSpy();
 
@@ -148,23 +118,22 @@ export default Component.extend({
       if(link) {
         this.scroll('#' + link.id);
       } else {
-        const initElement = document.getElementById(init);
-        if(initElement) {
+        if($('#' + init)) {
           this.scroll('#' + init);
         } else {
           this.scroll();
         }
       }
     }
-  },
+  }
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     if(!this.setScrollTo) {
       this.scroll();
     }
-  },
+  }
 
   /**
    * Scrolls to the target.
@@ -204,11 +173,19 @@ export default Component.extend({
     void anchor.offsetWidth; // Force reflow
     anchor.classList.add('md-flash');
 
-  },
+  }
 
-  actions: {
-    clickLink(e) {
-      this.clickLink(e);
+  @action
+  clickLink(e) {
+    let setScrollTo = this.setScrollTo;
+    let target = e.currentTarget;
+    let targetId = target.getAttribute('href');
+
+    e.preventDefault();
+    this.scroll(targetId);
+
+    if((typeof setScrollTo === 'function')) {
+      setScrollTo(target.textContent.dasherize());
     }
   }
-});
+}

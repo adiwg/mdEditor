@@ -38,12 +38,11 @@ export default class SettingsRoute extends Route {
         title: 'Validation',
         target: 'settings.validation',
         tip: 'Custom validation settings',
-      },
+      }
     ];
     controller.set('links', links);
   }
 
-  @action
   clearLocalStorage() {
     let data = this.settings.data.serialize({ includeId: true });
 
@@ -64,17 +63,14 @@ export default class SettingsRoute extends Route {
     //this.transitionTo('application');
   }
 
-  @action
   save() {
     this.settings.data.save();
   }
 
-  @action
   catalogs() {
     return this.get('publish.catalogs');
   }
 
-  @action
   deriveItisProxyUrl() {
     let model = this.modelFor('settings.main');
     const mdTranslatorAPI = model.get('mdTranslatorAPI');
@@ -89,7 +85,6 @@ export default class SettingsRoute extends Route {
     }
   }
 
-  @action
   getPublishOptions(catalogName) {
     let model = this.modelFor('settings.main');
     let publishOptions = model.get('publishOptions') || [];

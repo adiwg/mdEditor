@@ -1,16 +1,19 @@
 import Component from '@ember/component';
-import { set } from '@ember/object';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  actions: {
-    deleteStandaloneQualityReport() {
-      this.deleteStandaloneQualityReport();
-    },
-    addReportReference() {
-      set(this.model, 'reportReference', {});
-    },
-    deleteReportReference() {
-      set(this.model, 'reportReference', undefined);
-    }
+export default class MdStandaloneQualityReportComponent extends Component {
+  @action
+  deleteStandaloneQualityReport() {
+    this.deleteStandaloneQualityReport();
   }
-});
+
+  @action
+  addReportReference() {
+    this.model.reportReference = {};
+  }
+
+  @action
+  deleteReportReference() {
+    this.model.reportReference = undefined;
+  }
+}

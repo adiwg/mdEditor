@@ -1,25 +1,26 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
-import EmberObject, { set, get } from '@ember/object';
+import EmberObject from '@ember/object';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  settings: service(),
-  repositoryTemplate: EmberObject.extend({
+export default class MdRepositoryArrayComponent extends Component {
+  @service settings;
+
+  repositoryTemplate = EmberObject.extend({
     init() {
       this._super(...arguments);
 
       this.set('citation', {});
     }
-  }),
-  actions: {
-    lookupTitle(value) {
-      let defs = this.get('settings.data.repositoryDefaults');
-      let titles = defs.filterBy('repository', value.repository);
+  });
 
-      if(get(titles, 'length')) {
+  @action
+  lookupTitle(value) {
+    let defs = this.settings.data.repositoryDefaults;
+    let titles = defs.filterBy('repository', value.repository);
 
-        set(value, 'citation.title', get(titles.objectAt(0), 'title'));
-      }
+    if(titles.length) {
+      value.citation.title = titles.objectAt(0).title;
     }
   }
-});
+}

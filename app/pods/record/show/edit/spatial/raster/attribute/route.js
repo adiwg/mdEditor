@@ -1,9 +1,10 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import { isArray, A } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class AttributeRoute extends Route.extend(ScrollTo) {
   model(params) {
     let rparams = this.paramsFor('record.show.edit.spatial.raster');
 
@@ -12,8 +13,7 @@ export default Route.extend(ScrollTo, {
     this.set('rasterId', rparams.raster_id);
 
     return this.setupModel();
-  },
-
+  }
   // breadCrumb: computed('distributionId', function () {
   //   return {
   //     title: this.distributionId
@@ -21,9 +21,9 @@ export default Route.extend(ScrollTo, {
   //   };
   // }),
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor('record.show.edit'));
     this.controller.set('attrGroupId', this.attrGroupId);
@@ -34,8 +34,7 @@ export default Route.extend(ScrollTo, {
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let rasterId = this.rasterId;
     let attrGroupId = this.attrGroupId;
@@ -63,13 +62,10 @@ export default Route.extend(ScrollTo, {
     }
 
     return attribute;
-  },
-
-  actions: {
+  }
     parentModel() {
       return this.modelFor('record.show.edit');
-    },
-
+    }
     deleteAttribute(id) {
       let model = this.controller.parentModel
         .get('json.metadata.resourceInfo.coverageDescription')[this.controller.rasterId]
@@ -81,10 +77,8 @@ export default Route.extend(ScrollTo, {
           scrollTo: this.controller.attrGroupId
         }
       });
-    },
-
+    }
     backToAttrGroup() {
       this.transitionTo('record.show.edit.spatial.raster');
     }
-  }
-});
+}

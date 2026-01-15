@@ -1,18 +1,18 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import {
   get
 } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class IndexRoute extends Route.extend(ScrollTo) {
   beforeModel() {
     this.set('entityId', this.paramsFor(
       'dictionary.show.edit.entity.edit').entity_id);
     this.set('attributeId', this.paramsFor(
       'dictionary.show.edit.entity.edit.attribute').attribute_id);
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -27,18 +27,15 @@ export default Route.extend(ScrollTo, {
         onCancel: get(parent, 'setupModel'),
         cancelScope: this
       });
-  },
-
-  actions: {
+  }
     backToEntity() {
       this.transitionTo('dictionary.show.edit.entity.edit',
         this.entityId);
-    },
+    }
     editCitation(scrollTo) {
       this.transitionTo('dictionary.show.edit.domain.edit.citation')
         .then(function () {
           this.setScrollTo(scrollTo);
         }.bind(this));
     }
-  }
-});
+}

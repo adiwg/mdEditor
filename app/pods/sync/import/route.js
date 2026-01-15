@@ -16,13 +16,11 @@ export default class SyncImportRoute extends Route {
     return { meta, options };
   }
 
-  @action
   importAllData(model) {
     const { meta, options } = model;
     this.pouch.bulkCreatePouchRecords(meta, options);
   }
 
-  @action
   async importSelectedData(model) {
     const { meta, options } = model;
     const selected = options.filter(o => !!o._selected);

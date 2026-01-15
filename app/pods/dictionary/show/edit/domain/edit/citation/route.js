@@ -1,6 +1,6 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class CitationRoute extends Route {
   init() {
     this._super(...arguments);
 
@@ -8,4 +8,4 @@ export default Route.extend({
       title: 'Reference'
     }
   }
-});
+}

@@ -1,24 +1,23 @@
 import Route from '@ember/routing/route';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
-import { computed, get } from '@ember/object';
+import { get } from '@ember/object';
 
-export default Route.extend({
-  breadCrumb: computed('dataQualityId', function () {
+export default class EditRoute extends Route {
+  get breadCrumb() {
     return {
       title: get(this, 'dataQualityId'),
       linkable: true
     };
-  }),
+  }
 
   model(params) {
     this.set('dataQualityId', params.data_quality_id);
 
     return this.setupModel();
-  },
-
-  setupController: function () {
-    this._super(...arguments);
+  }
+  setupController() {
+    super.setupController(...arguments);
 
     this.controller.set('dataQualityId', get(this, 'dataQualityId'));
     this.controllerFor('record.show.edit')
@@ -26,8 +25,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let dataQualityId = get(this, 'dataQualityId');
     let model = this.modelFor('record.show.edit');
@@ -44,4 +42,4 @@ export default Route.extend({
 
     return dataQuality;
   }
-})
+}

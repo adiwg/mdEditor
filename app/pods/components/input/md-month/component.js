@@ -1,13 +1,16 @@
 import DateTimePicker from '../md-datetime/component';
-import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
 
-export default DateTimePicker.extend({
-  layoutName: 'components/input/md-datetime',
-  format: 'MMMM',
-  extraFormats: computed(function () {
+@classic
+export default class MdMonthComponent extends DateTimePicker {
+  layoutName = 'components/input/md-datetime';
+  format = 'MMMM';
+
+  get extraFormats() {
     return ['MM', 'M', 'MMM'];
-  }),
-  showClear: false,
-  useCurrent: false,
-  showTodayButton:false
-});
+  }
+
+  showClear = false;
+  useCurrent = false;
+  showTodayButton = false;
+}

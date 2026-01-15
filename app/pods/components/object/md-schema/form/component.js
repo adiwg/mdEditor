@@ -14,6 +14,6 @@ const typeOptions = [{
   //tip: 'tooltip'
 }];
 
-export default Component.extend({
-  typeOptions: typeOptions
-});
+export default class FormComponent extends Component {
+  typeOptions = typeOptions;
+}

@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import uuidV4 from 'uuid/v4';
 import EmberObject, {
   get,
@@ -8,9 +9,9 @@ import EmberObject, {
   set,
 } from '@ember/object';
 
-export default Route.extend({
+export default class DictionaryRoute extends Route {
   init() {
-    this._super(...arguments);
+    super.init(...arguments);
 
     this.breadCrumb = {
       title: 'Dictionaries',
@@ -26,7 +27,8 @@ export default Route.extend({
         title: 'Subject',
       },
     ];
-  },
+  }
+
   model() {
     //return this.store.peekAll('contact');
     let dicts = this.modelFor('application').findBy('modelName', 'dictionary');
@@ -53,9 +55,8 @@ export default Route.extend({
         selected: selected.includes(json.dataDictionary.dictionaryId),
       });
     });
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -73,8 +74,7 @@ export default Route.extend({
       onCancel: this.refresh,
       cancelScope: this,
     });
-  },
-
+  }
   _select(obj) {
     let rec = this.modelFor('record.show.edit');
     let selected = rec.get('json.mdDictionary');
@@ -88,20 +88,15 @@ export default Route.extend({
     }
     selected.removeObject(obj.id);
     this.controller.notifyPropertyChange('model');
-  },
-
-  actions: {
+  }
     getColumns() {
       return this.columns;
-    },
-
+    }
     select(obj) {
       this._select(obj);
-    },
-
+    }
     remove(obj) {
       set(obj, 'selected', false);
       this._select(obj);
-    },
-  },
-});
+    }
+}

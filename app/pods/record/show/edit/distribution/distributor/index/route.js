@@ -1,8 +1,9 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class IndexRoute extends Route.extend(ScrollTo) {
   // breadCrumb: computed('controller.distributorId', function () {
   //   return {
   //     title: `Distributor ${this.controller.distributorId}`
@@ -10,9 +11,9 @@ export default Route.extend(ScrollTo, {
   //   };
   // }),
 
-  setupController: function () {
+  setupController() {
     // Call _super for default behavior
-    this._super(...arguments);
+    super.setupController(...arguments);
 
     this.controller.set('parentModel', this.modelFor(
       'record.show.edit'));
@@ -22,9 +23,7 @@ export default Route.extend(ScrollTo, {
     this.controller.set('distributorId', get(this.controllerFor(
         'record.show.edit.distribution.distributor'),
       'distributorId'));
-  },
-
-  actions: {
+  }
     deleteDistributor(id) {
       let model = this.controller.parentModel.get(
           'json.metadata.resourceDistribution')[this.controller.distributionId]
@@ -36,13 +35,12 @@ export default Route.extend(ScrollTo, {
           scrollTo: `distribution-${this.controller.distributionId}`
         }
       });
-    },
+    }
     editTransferOption(id, routeParams, scrollToId) {
       this.setScrollTo(scrollToId);
       this.transitionTo(
         'record.show.edit.distribution.distributor.transfer',
         this.controller.distributionId, this.controller.distributorId, id
       );
-    },
-  }
-});
+    }
+}

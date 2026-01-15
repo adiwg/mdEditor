@@ -3,15 +3,13 @@ import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class IdentifierRoute extends Route.extend(ScrollTo) {
   model(params) {
     this.set('identifierId', params.identifier_id);
 
     return this.setupModel();
-  },
-
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -21,8 +19,7 @@ export default Route.extend(ScrollTo, {
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let identifierId = this.identifierId;
     let model = this.modelFor('dictionary.show.edit.citation');
@@ -40,4 +37,4 @@ export default Route.extend(ScrollTo, {
 
     return identifier;
   }
-});
+}

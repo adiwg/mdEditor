@@ -20,12 +20,10 @@ export default class ContactShowRoute extends Route {
     this.controller.set('scrollTo', scrollTo || '');
   }
 
-  @action
   setScrollToAction(scrollTo) {
     this.setScrollTo(scrollTo);
   }
 
-  @action
   async saveContact() {
     const model = this.currentRouteModel();
     model.updateTimestamp();
@@ -34,7 +32,6 @@ export default class ContactShowRoute extends Route {
     this.flashMessages.success(`Saved Contact: ${model.get('title')}`);
   }
 
-  @action
   destroyContact() {
     let model = this.currentRouteModel();
     model
@@ -46,7 +43,6 @@ export default class ContactShowRoute extends Route {
       });
   }
 
-  @action
   cancelContact() {
     let model = this.currentRouteModel();
     let message = `Cancelled changes to Contact: ${model.get('title')}`;
@@ -69,7 +65,6 @@ export default class ContactShowRoute extends Route {
       });
   }
 
-  @action
   copyContact() {
     this.flashMessages
       .success(`Copied Contact: ${this.currentRouteModel().get('title')}`);

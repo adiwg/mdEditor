@@ -1,7 +1,9 @@
 import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import { getWithDefault, get, set, computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { set } from '@ember/object';
 import { once } from '@ember/runloop';
+import { action } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -21,25 +23,9 @@ const Validations = buildValidations({
   })
 });
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function() {
-      set(model, 'contact', getWithDefault(model, 'contact', {
-        role: null,
-        party: []
-      }));
-      set(model, 'orderProcess', A(getWithDefault(model,
-        'orderProcess', [{}])));
-      set(model, 'transferOption', A(getWithDefault(
-        model, 'transferOption', [{}])));
-    });
-  },
-
-  tagName: 'form',
+@classic
+export default class MdDistributorComponent extends Component.extend(Validations) {
+  tagName = 'form';
 
   /**
    * The string representing the path in the profile object for the resource.
@@ -58,26 +44,40 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  role: alias('model.contact.role'),
-  contacts: computed('model.contact.party', {
-    get() {
-      let party = get(this, 'model.contact.party');
-      return party ? party.mapBy('contactId') : null;
-    },
-    set(key, value) {
-      let map = value.map((itm) => {
-        return {
-          contactId: itm
-        };
-      });
-      set(this, 'model.contact.party', map);
-      return value;
-    }
-  }),
+  @alias('model.contact.role') role;
 
-  actions: {
-    editTransferOption(index){
-      this.editTransferOption(index);
-    }
+  get contacts() {
+    let party = this.model?.contact?.party;
+    return party ? party.mapBy('contactId') : null;
   }
-});
+
+  set contacts(value) {
+    let map = value.map((itm) => {
+      return {
+        contactId: itm
+      };
+    });
+    this.model.contact.party = map;
+    return value;
+  }
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function() {
+      model.contact = model.contact ?? {
+        role: null,
+        party: []
+      };
+      model.orderProcess = A(model.orderProcess ?? [{}]);
+      model.transferOption = A(model.transferOption ?? [{}]);
+    });
+  }
+
+  @action
+  editTransferOption(index){
+    this.editTransferOption(index);
+  }
+}

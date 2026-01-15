@@ -1,6 +1,7 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-import { computed, set, get, getWithDefault } from '@ember/object';
+import { action } from '@ember/object';
 import { or } from '@ember/object/computed';
 import { isArray, A } from '@ember/array';
 import { later } from '@ember/runloop';
@@ -8,40 +9,48 @@ import { assert } from '@ember/debug';
 import moment from 'moment';
 import { formatCitation } from '../../object/md-citation/component';
 
-export default Component.extend({
-  init() {
-    this._super(...arguments);
+@classic
+export default class MdItisComponent extends Component {
+  tagName = 'form';
+  classNames = ['md-itis'];
 
-    this.selected = [];
-    assert('No taxonomy object supplied', this.taxonomy);
-  },
-  tagName: 'form',
-  classNames: ['md-itis'],
-  itis: service(),
-  flashMessages: service(),
-  searchString: null,
-  kingdom: null,
-  total: null,
-  isLoading: false,
-  limit: 25,
-  resultTitle: computed('limit', 'total', 'searchResult.[]', function () {
+  @service itis;
+  @service flashMessages;
+
+  searchString = null;
+  kingdom = null;
+  total = null;
+  isLoading = false;
+  limit = 25;
+
+  @or('selected.length', 'searchResult.length') found;
+
+  get resultTitle() {
     let total = this.total;
-    let result = this.get('searchResult.length');
+    let result = this.searchResult?.length;
     let limit = this.limit;
 
     return total <= limit ? result : `${result} of ${total}`;
-  }),
-  notFound: computed('searchResult', function () {
+  }
+
+  get notFound() {
     let result = this.searchResult;
 
     return isArray(result) && result.length === 0;
-  }),
-  found: or('selected.length', 'searchResult.length'),
+  }
+
+  constructor() {
+    super(...arguments);
+
+    this.selected = [];
+    assert('No taxonomy object supplied', this.taxonomy);
+  }
+
   submit() {
     let itis = this.itis;
 
-    this.set('isLoading', true);
-    this.set('searchResult', null);
+    this.isLoading = true;
+    this.searchResult = null;
 
     itis
       .sendQuery(this.searchString, this.kingdom, this.limit)
@@ -53,93 +62,93 @@ export default Component.extend({
         let docs = response.response.docs;
         let data = docs.map((doc) => itis.parseDoc(doc));
 
-        this.set('searchResult', data);
-        this.set('total', response.response.numFound);
-        this.set('isLoading', false);
+        this.searchResult = data;
+        this.total = response.response.numFound;
+        this.isLoading = false;
       });
-  },
-  actions: {
-    search() {
-      this.submit.call(this);
-    },
-    selectItem(item) {
-      item.set('animate', true);
-      item.set('selected', true);
-      later(
-        this,
-        function () {
-          this.searchResult.removeObject(item);
-          this.selected.pushObject(item);
-        },
-        250
-      );
-    },
-    deselectItem(item) {
-      item.set('selected', false);
-      later(
-        this,
-        function () {
-          this.selected.removeObject(item);
-          this.searchResult.pushObject(item);
-        },
-        250
-      );
-    },
-    importTaxa(taxa) {
-      let taxonomy = this.taxonomy;
-      let itisCitation = this.get('itis.citation');
+  }
 
-      let classification = set(
-        taxonomy,
-        'taxonomicClassification',
-        getWithDefault(taxonomy, 'taxonomicClassification', [])
-      );
-      let systems = set(
-        taxonomy,
-        'taxonomicSystem',
-        getWithDefault(taxonomy, 'taxonomicSystem', [{ citation: {} }])
-      );
-      let system = systems.findBy('citation.title', get(itisCitation, 'title'));
+  @action
+  search() {
+    this.submit.call(this);
+  }
 
-      let allTaxa = taxa.reduce(
-        (acc, itm) => acc.pushObjects(itm.taxonomy),
-        []
-      );
-      let today = moment().format('YYYY-MM-DD');
-      let dateObj = {
-        date: today,
-        dateType: 'transmitted',
-        description: 'Taxa imported from ITIS',
-      };
-      itisCitation.otherCitationDetails = [
-        `Retrieved from the Integrated Taxonomic Information System on-line database, https://www.itis.gov on ${today}.`,
-      ];
+  @action
+  selectItem(item) {
+    item.set('animate', true);
+    item.set('selected', true);
+    later(
+      this,
+      function () {
+        this.searchResult.removeObject(item);
+        this.selected.pushObject(item);
+      },
+      250
+    );
+  }
 
-      allTaxa.forEach((itm) => this.itis.mergeTaxa(itm, classification));
+  @action
+  deselectItem(item) {
+    item.set('selected', false);
+    later(
+      this,
+      function () {
+        this.selected.removeObject(item);
+        this.searchResult.pushObject(item);
+      },
+      250
+    );
+  }
 
-      if (!system) {
-        itisCitation.get('date').pushObject(dateObj);
-        systems.pushObject({
-          citation: itisCitation,
-        });
-      } else {
-        let citation = set(
-          system,
-          'citation',
-          getWithDefault(system, 'citation', {})
-        );
-        formatCitation(citation);
+  @action
+  importTaxa(taxa) {
+    let taxonomy = this.taxonomy;
+    let itisCitation = this.itis.citation;
 
-        let date = A(get(citation, 'date'));
+    taxonomy.taxonomicClassification = taxonomy.taxonomicClassification ?? [];
+    let classification = taxonomy.taxonomicClassification;
 
-        if (!date.findBy('date', today)) {
-          date.pushObject(dateObj);
-        }
+    taxonomy.taxonomicSystem = taxonomy.taxonomicSystem ?? [{ citation: {} }];
+    let systems = taxonomy.taxonomicSystem;
+
+    let system = systems.findBy('citation.title', itisCitation.title);
+
+    let allTaxa = taxa.reduce(
+      (acc, itm) => acc.pushObjects(itm.taxonomy),
+      []
+    );
+    let today = moment().format('YYYY-MM-DD');
+    let dateObj = {
+      date: today,
+      dateType: 'transmitted',
+      description: 'Taxa imported from ITIS',
+    };
+    itisCitation.otherCitationDetails = [
+      `Retrieved from the Integrated Taxonomic Information System on-line database, https://www.itis.gov on ${today}.`,
+    ];
+
+    allTaxa.forEach((itm) => this.itis.mergeTaxa(itm, classification));
+
+    if (!system) {
+      itisCitation.get('date').pushObject(dateObj);
+      systems.pushObject({
+        citation: itisCitation,
+      });
+    } else {
+      system.citation = system.citation ?? {};
+      let citation = system.citation;
+
+      formatCitation(citation);
+
+      let date = A(citation.date);
+
+      if (!date.findBy('date', today)) {
+        date.pushObject(dateObj);
       }
+    }
 
-      this.flashMessages.success(
-        `Successfully imported ${allTaxa.length} taxa from ITIS.`
-      );
-    },
-  },
-});
+    this.flashMessages.success(
+      `Successfully imported ${allTaxa.length} taxa from ITIS.`
+    );
+  }
+}

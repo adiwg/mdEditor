@@ -1,11 +1,11 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
-import { and } from '@ember/object/computed';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  classNames: ['md-object-container'],
-  classNameBindings: ['even'],
-  attributeBindings: ['data-spy'],
+@classic
+export default class MdObjectContainerComponent extends Component {
+  classNames = ['md-object-container'];
+  classNameBindings = ['even'];
+  attributeBindings = ['dataSpy:data-spy'];
 
   /**
   * The index of the container, usually representing the zero-based array index.
@@ -22,7 +22,7 @@ export default Component.extend({
   * @type {Boolean}
   * @default "true"
   */
-  collapsible:true,
+  collapsible = true;
 
   /**
   * The value of this property must evaluate to true for the component to be
@@ -32,25 +32,28 @@ export default Component.extend({
   * @type {Boolean}
   * @default "true"
   */
-  collapseProperty:true,
+  collapseProperty = true;
 
-  isCollapsible: and('collapsible', 'collapseProperty'),
-  'data-spy': computed('title', function () {
+  get isCollapsible() {
+    return this.collapsible && this.collapseProperty;
+  }
+
+  get dataSpy() {
     return `${this.title} ${this.index}`;
-  }),
+  }
 
-/**
-* True if the position indicated by the `index` value is even on a zero-based
-* scale.
-*
-* @property even
-* @type {Boolean}
-* @default "false"
-* @readOnly
-* @category computed
-* @requires 'index'
-*/
-  even: computed('index', function() {
+  /**
+  * True if the position indicated by the `index` value is even on a zero-based
+  * scale.
+  *
+  * @property even
+  * @type {Boolean}
+  * @default "false"
+  * @readOnly
+  * @category computed
+  * @requires 'index'
+  */
+  get even() {
     return !!(Number.parseInt(this.index, 10) % 2);
-  }),
-});
+  }
+}

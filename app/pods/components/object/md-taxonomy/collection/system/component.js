@@ -1,19 +1,8 @@
 import Component from '@ember/component';
-import {
-  set,
-  getWithDefault,
-  get
-} from '@ember/object';
-import {
-  alias
-} from '@ember/object/computed';
-import {
-  once
-} from '@ember/runloop';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import classic from 'ember-classic-decorator';
+import { alias } from '@ember/object/computed';
+import { once } from '@ember/runloop';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
   'citation': [
@@ -24,18 +13,8 @@ const Validations = buildValidations({
   ]
 });
 
-export default Component.extend(Validations, {
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function () {
-      set(model, 'citation', getWithDefault(model,
-        'citation', {}));
-    });
-  },
-
+@classic
+export default class MdTaxonomyCollectionSystemComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the domain.
    *
@@ -53,6 +32,16 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  tagName: 'form',
-  citation: alias('model.citation')
-});
+  tagName = 'form';
+  @alias('model.citation') citation;
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function () {
+      model.citation = model.citation ?? {};
+    });
+  }
+}

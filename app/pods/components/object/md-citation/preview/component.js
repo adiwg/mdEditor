@@ -1,6 +1,7 @@
 import Component from '@ember/component';
+import { action } from '@ember/object';
 
-export default Component.extend({
+export default class PreviewComponent extends Component {
   /**
    * Title for the card
    *
@@ -9,7 +10,7 @@ export default Component.extend({
    * @default "Citation"
    * @required
    */
-  title: "Citation",
+  title = "Citation";
 
   /**
    * Indicates if object is required.
@@ -18,7 +19,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default "false"
    */
-  required: false,
+  required = false;
 
   /**
    * Indicates if object text is muted.
@@ -27,7 +28,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default "true"
    */
-  muted: true,
+  muted = true;
 
   /**
    * Passed in action.
@@ -38,9 +39,8 @@ export default Component.extend({
    * @return {undefined}
    */
 
-  actions: {
-    editCitation(scrollTo) {
-      this.editCitation(scrollTo);
-    }
+  @action
+  editCitation(scrollTo) {
+    this.editCitation(scrollTo);
   }
-});
+}

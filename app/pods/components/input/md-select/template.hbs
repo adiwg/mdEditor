@@ -2,46 +2,89 @@
       <label>{{label}}</label>
     {{/if}}
 <div class="md-input-input">
-      {{#component theComponent
-        selected=selectedItem
-        multiple=multiple
-        options=codelist
-        disabled=disabled
-        placeholder=placeholder
-        searchField="codeName"
-        searchEnabled=searchEnabled
-        matchTriggerWidth=matchTriggerWidth
-        calculatePosition=calculatePosition
-        allowClear=allowClear
-        closeOnSelect=closeOnSelect
-        onChange=(action "setValue")
-        onCreate=(action "create")
-        ariaLabel=ariaLabel
-        as |code|
-      }}
-        {{#unless filter}}
-        <span class="md-select-option {{if code.tooltip "with-tip"}}">
-          {{#if icon}}
-            {{#if code.icon}}
-              <span class="fa fa-{{code.icon}}"> </span>
+      {{log "Template rendering - codelist length:" codelist.length "codelist:" codelist}}
+      {{#if create}}
+        {{#power-select-with-create
+          selected=selectedItem
+          multiple=multiple
+          options=codelist
+          disabled=disabled
+          placeholder=placeholder
+          searchField="codeName"
+          searchEnabled=searchEnabled
+          matchTriggerWidth=matchTriggerWidth
+          calculatePosition=calculatePosition
+          allowClear=allowClear
+          closeOnSelect=closeOnSelect
+          onChange=(action "setValue")
+          onCreate=(action "create")
+          ariaLabel=ariaLabel
+          as |code|
+        }}
+          {{#unless filter}}
+          <span class="md-select-option {{if code.tooltip "with-tip"}}">
+            {{#if icon}}
+              {{#if code.icon}}
+                <span class="fa fa-{{code.icon}}"> </span>
+              {{/if}}
             {{/if}}
-          {{/if}}
-          <span class="select-value">{{code.codeName}}</span>
-          {{#if tooltip}}
-            {{#if code.tooltip}}
-            <span class="select-tip">
-              <span class="badge tooltip">?
-                {{ember-tooltip
-                  text=code.tooltip
-                  side="right"
-                }}
+            <span class="select-value">{{code.codeName}}</span>
+            {{#if tooltip}}
+              {{#if code.tooltip}}
+              <span class="select-tip">
+                <span class="badge tooltip">?
+                  {{ember-tooltip
+                    text=code.tooltip
+                    side="right"
+                  }}
+                </span>
               </span>
-            </span>
+              {{/if}}
             {{/if}}
-          {{/if}}
-        </span>
-        {{/unless}}
-      {{/component}}
+          </span>
+          {{/unless}}
+        {{/power-select-with-create}}
+      {{else}}
+        {{#power-select
+          selected=selectedItem
+          multiple=multiple
+          options=codelist
+          disabled=disabled
+          placeholder=placeholder
+          searchField="codeName"
+          searchEnabled=searchEnabled
+          matchTriggerWidth=matchTriggerWidth
+          calculatePosition=calculatePosition
+          allowClear=allowClear
+          closeOnSelect=closeOnSelect
+          onChange=(action "setValue")
+          ariaLabel=ariaLabel
+          as |code|
+        }}
+          {{#unless filter}}
+          <span class="md-select-option {{if code.tooltip "with-tip"}}">
+            {{#if icon}}
+              {{#if code.icon}}
+                <span class="fa fa-{{code.icon}}"> </span>
+              {{/if}}
+            {{/if}}
+            <span class="select-value">{{code.codeName}}</span>
+            {{#if tooltip}}
+              {{#if code.tooltip}}
+              <span class="select-tip">
+                <span class="badge tooltip">?
+                  {{ember-tooltip
+                    text=code.tooltip
+                    side="right"
+                  }}
+                </span>
+              </span>
+              {{/if}}
+            {{/if}}
+          </span>
+          {{/unless}}
+        {{/power-select}}
+      {{/if}}
       <span class="md-input-error">
         {{#if showErrorMessage}}
           <span class="md-error">

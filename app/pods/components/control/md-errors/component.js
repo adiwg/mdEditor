@@ -1,14 +1,24 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { inject as service } from '@ember/service';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  router: service(),
-  slider: service(),
-  classNames: ['md-error-list'],
+@classic
+export default class MdErrorsComponent extends Component {
+  @service router;
+  @service slider;
 
-  init() {
-    this._super(...arguments);
+  classNames = ['md-error-list'];
+
+  // Extract the record ID from the current URL
+  get recordId() {
+    const url = this.router.currentURL;
+    const match = url.match(/\/record\/([^/]+)(?:\/|$)/);
+    return match ? match[1] : null;
+  }
+
+  constructor() {
+    super(...arguments);
 
     console.log('Errors:', this.errors);
 
@@ -27,14 +37,7 @@ export default Component.extend({
         errors: transformedErrors,
       });
     });
-  },
-
-  // Extract the record ID from the current URL
-  recordId: computed('router.currentURL', function () {
-    const url = this.router.currentURL;
-    const match = url.match(/\/record\/([^/]+)(?:\/|$)/);
-    return match ? match[1] : null;
-  }),
+  }
 
   // Function to preprocess and transform errors
   transformErrors(errors) {
@@ -43,7 +46,7 @@ export default Component.extend({
 
     // Transform each error into a consistent format
     return groupedErrors.map((error) => this.handleError(error));
-  },
+  }
 
   // Group compound errors (anyOf, oneOf, etc.) with their related errors
   groupCompoundErrors(errors) {
@@ -94,7 +97,7 @@ export default Component.extend({
     }
 
     return groupedErrors;
-  },
+  }
 
   // Main error handling function
   handleError(error) {
@@ -106,7 +109,7 @@ export default Component.extend({
     // Use the appropriate handler based on the keyword
     let handler = this.errorHandlers[error.keyword] || this.handleUnknownError;
     return handler.call(this, error);
-  },
+  }
 
   // Handler for 'errorMessage' errors
   handleErrorMessageError(error) {
@@ -120,10 +123,10 @@ export default Component.extend({
     transformedError.messages = [error.message || transformedError.message];
 
     return transformedError;
-  },
+  }
 
   // Handlers for different error types
-  errorHandlers: {
+  errorHandlers = {
     required(error) {
       let missingProperty = error.params.missingProperty;
       let propertyName = this.getPropertyName(error.dataPath);
@@ -283,7 +286,7 @@ export default Component.extend({
         url: this.mapDataPathToEndpoint(error.dataPath),
       };
     },
-  },
+  };
 
   // Handler for unknown error types
   handleUnknownError(error) {
@@ -296,7 +299,7 @@ export default Component.extend({
       path: error.dataPath,
       url: this.mapDataPathToEndpoint(error.dataPath),
     };
-  },
+  }
 
   // Helper function to extract a human-readable property name from the dataPath
   getPropertyName(dataPath) {
@@ -338,7 +341,7 @@ export default Component.extend({
     }
 
     return propertyName;
-  },
+  }
 
   // Map data paths to endpoints for the 'Go To Error' button
   mapDataPathToEndpoint(dataPath) {
@@ -409,17 +412,16 @@ export default Component.extend({
     // Build the URL
     let url = `/record/${recordId}/edit/${endpoint}`;
     return url;
-  },
+  }
 
   closeSlider() {
     this.slider.set('fromName', 'md-slider-error');
     this.slider.toggleSlider(false);
-  },
+  }
 
-  actions: {
-    navigateToEndpoint(url) {
-      this.closeSlider();
-      this.router.transitionTo(url);
-    },
-  },
-});
+  @action
+  navigateToEndpoint(url) {
+    this.closeSlider();
+    this.router.transitionTo(url);
+  }
+}

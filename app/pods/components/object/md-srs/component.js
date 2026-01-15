@@ -1,7 +1,7 @@
 import Component from '@ember/component';
-import { alias, notEmpty } from '@ember/object/computed';
+import classic from 'ember-classic-decorator';
+import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
-import { set, getWithDefault, get } from '@ember/object';
 import {
   validator,
   buildValidations
@@ -12,30 +12,32 @@ const Validations = buildValidations({
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemIdentifier.identifier')
+      disabled: alias('model.model.referenceSystemIdentifier.identifier').readOnly()
     })
   ],
   'refSystem': [
     validator('presence', {
       presence: true,
       ignoreBlank: true,
-      disabled: notEmpty('model.model.referenceSystemType')
+      disabled: alias('model.model.referenceSystemType').readOnly()
     })
   ]
 });
 
-export default Component.extend(Validations, {
+@classic
+export default class MdSrsComponent extends Component.extend(Validations) {
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     if(model){
-    once(this, function() {
-      set(model, 'referenceSystemIdentifier', getWithDefault(model, 'referenceSystemIdentifier', {}));
-    });
+      once(this, function() {
+        model.referenceSystemIdentifier = model.referenceSystemIdentifier ?? {};
+      });
+    }
   }
-  },
+
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -53,7 +55,8 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  classNames: ['form'],
-  refSystem: alias('model.referenceSystemIdentifier.identifier'),
-  refType: alias('model.referenceSystemType')
-});
+  classNames = ['form'];
+
+  @alias('model.referenceSystemIdentifier.identifier') refSystem;
+  @alias('model.referenceSystemType') refType;
+}

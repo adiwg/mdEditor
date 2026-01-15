@@ -1,9 +1,9 @@
 import Route from '@ember/routing/route';
 
-export default Route.extend({
+export default class IndexRoute extends Route {
   redirect() {
     let rec = this.store.createRecord('record');
 
     this.replaceWith('record.new.id', rec.id);
   }
-});
+}

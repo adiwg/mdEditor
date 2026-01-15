@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import {
   max,
   min,
@@ -14,16 +15,16 @@ import {
 import EmberObject, { get, getWithDefault, set, computed } from '@ember/object';
 import uuidV4 from "uuid/v4";
 
-export default Route.extend({
+export default class ImportRoute extends Route {
   setupController(controller, model) {
-    // Call _super for default behavior
-    this._super(controller, model);
+    // Call super for default behavior
+    super.setupController(controller, model);
     // Implement your custom setup after
     controller.set('entity', EmberObject.create({
       entityId: uuidV4(),
       attribute: []
     }));
-  },
+  }
 
   /**
    * The template object for columns
@@ -33,7 +34,7 @@ export default Route.extend({
    * @static
    * @readOnly
    */
-  columnObject: EmberObject.extend({
+  columnObject = EmberObject.extend({
     domain: null,
     import: true,
     range: false,
@@ -47,7 +48,7 @@ export default Route.extend({
     example: computed('domain', function () {
       return this.domain.slice(0, 10);
     })
-  }),
+  });
 
   /**
    * Returns the dataType code value for the JavaScript type.
@@ -63,8 +64,7 @@ export default Route.extend({
       'boolean': 'boolean',
       'integer': 'integer'
     }[type] || 'unknown';
-  },
-
+  }
   createAttribute(columnName, column) {
     let domain = get(column, 'hasDomain') ? EmberObject.create({
       domainId: uuidV4(),
@@ -92,8 +92,7 @@ export default Route.extend({
       attribute: attribute,
       domain: domain
     };
-  },
-
+  }
   generateData() {
     let columns = this.get('controller.columns');
     let domains = [];
@@ -120,88 +119,96 @@ export default Route.extend({
       attributes: attributes,
       domains: domains
     };
-  },
+  }
 
-  actions: {
-    cancelImport() {
-      set(this, 'controller.columns', null);
-      set(this, 'controller.processed', false);
-    },
-    goToEntity(){
-      this.transitionTo('dictionary.show.edit.entity');
-    },
-    doImport() {
-      let data = this.generateData();
-      let entity = this.get('controller.entity');
-      let dataDictionary = this.get('controller.model.json.dataDictionary');
+  @action
+  cancelImport() {
+    set(this, 'controller.columns', null);
+    set(this, 'controller.processed', false);
+  }
 
-      if(get(data,'domains.length')) {
-        set(dataDictionary,'domain', getWithDefault(dataDictionary,
-          'domain', []));
+  @action
+  goToEntity(){
+    this.transitionTo('dictionary.show.edit.entity');
+  }
 
-        set(dataDictionary, 'domain', get(dataDictionary, 'domain').concat(data.domains));
-      }
+  @action
+  doImport() {
+    let data = this.generateData();
+    let entity = this.get('controller.entity');
+    let dataDictionary = this.get('controller.model.json.dataDictionary');
 
-      set(dataDictionary,'entity', getWithDefault(dataDictionary, 'entity', []));
-      set(entity, 'attribute', data.attributes);
-      get(dataDictionary, 'entity').push(entity);
+    if(get(data,'domains.length')) {
+      set(dataDictionary,'domain', getWithDefault(dataDictionary,
+        'domain', []));
 
-      this.transitionTo('dictionary.show.edit.entity.edit', get(
-        dataDictionary, 'entity.length') - 1);
+      set(dataDictionary, 'domain', get(dataDictionary, 'domain').concat(data.domains));
+    }
 
-        this.flashMessages
-          .success('Entity imported from CSV!');
-    },
-    processData(data) {
-      let template = this.columnObject;
-      let typer = this.columnType;
+    set(dataDictionary,'entity', getWithDefault(dataDictionary, 'entity', []));
+    set(entity, 'attribute', data.attributes);
+    get(dataDictionary, 'entity').push(entity);
 
-      set(this, 'controller.processed', false);
+    this.transitionTo('dictionary.show.edit.entity.edit', get(
+      dataDictionary, 'entity.length') - 1);
 
-      set(this, 'controller.columns', data.meta.fields.reduce(function (map, obj) {
-        let type = typeOf(data.data[0][obj]);
+    this.flashMessages
+      .success('Entity imported from CSV!');
+  }
 
-        // Use bracket notation to set the property
-        map[obj] = template.create({
-          dataType: type,
-          domain: [],
-          importName: obj,
-          importType: typer(type)
-        });
+  @action
+  processData(data) {
+    let template = this.columnObject;
+    let typer = this.columnType;
 
-        return map;
-      }, EmberObject.create({})));
-    },
-    reduceData(data) {
-      let columns = this.get('controller.columns');
-      let columnNames = Object.keys(columns);
+    set(this, 'controller.processed', false);
 
-      columnNames.forEach((columnName) => {
-        let existing = columns[columnName].domain || [];
+    set(this, 'controller.columns', data.meta.fields.reduce(function (map, obj) {
+      let type = typeOf(data.data[0][obj]);
 
-        let unique = [...new Set(data.map(item => item[columnName]))];
-
-        columns[columnName].domain = [...new Set([...existing, ...unique])];
-    });
-    },
-    processComplete() {
-      let columns = this.get('controller.columns');
-      let columnNames = Object.keys(columns);
-
-      columnNames.forEach((columnName) => {
-        let col = columns[columnName];
-
-        if(col.importType === 'numeric') {
-          let isInteger = col.domain.any(itm => Number.isInteger(itm));
-
-          col.importType = isInteger ? 'integer' : 'numeric';
-        }
-
-        col.allowNull = col.domain.any(itm => isBlank(itm));
+      // Use bracket notation to set the property
+      map[obj] = template.create({
+        dataType: type,
+        domain: [],
+        importName: obj,
+        importType: typer(type)
       });
 
-      set(this, 'controller.processed', true);
-
-    }
+      return map;
+    }, EmberObject.create({})));
   }
-});
+
+  @action
+  reduceData(data) {
+    let columns = this.get('controller.columns');
+    let columnNames = Object.keys(columns);
+
+    columnNames.forEach((columnName) => {
+      let existing = columns[columnName].domain || [];
+
+      let unique = [...new Set(data.map(item => item[columnName]))];
+
+      columns[columnName].domain = [...new Set([...existing, ...unique])];
+    });
+  }
+
+  @action
+  processComplete() {
+    let columns = this.get('controller.columns');
+    let columnNames = Object.keys(columns);
+
+    columnNames.forEach((columnName) => {
+      let col = columns[columnName];
+
+      if(col.importType === 'numeric') {
+        let isInteger = col.domain.any(itm => Number.isInteger(itm));
+
+        col.importType = isInteger ? 'integer' : 'numeric';
+      }
+
+      col.allowNull = col.domain.any(itm => isBlank(itm));
+    });
+
+    set(this, 'controller.processed', true);
+  }
+}

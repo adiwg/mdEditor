@@ -1,126 +1,100 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import { action } from '@ember/object';
 import { once } from '@ember/runloop';
 import { alias } from '@ember/object/computed';
-import { set, getWithDefault } from '@ember/object';
 
-export default Component.extend({
+export default class MdQualityReportComponent extends Component {
+  @alias('model.type') reportType;
+  @alias('model.evaluationMethod.type') evaluationType;
+  @alias('model.evaluationMethod.evaluationMethodType') methodType;
+
+  get isNameRequired() {
+    return !this.model?.qualityMeasure?.identifier;
+  }
+
+  get qualityMeasureName() {
+    const nameArray = this.model?.qualityMeasure?.name;
+    return nameArray && nameArray.length > 0 ? nameArray[0] : null;
+  }
+
+  set qualityMeasureName(value) {
+    const nameArray = this.model?.qualityMeasure?.name;
+    if (nameArray && nameArray.length > 0) {
+      nameArray[0] = value;
+    } else {
+      this.model.qualityMeasure.name = [value];
+    }
+    return value;
+  }
+
+  get evaluationMethodStartDateTime() {
+    const dateTimeArray = this.model?.evaluationMethod?.dateTime;
+    return dateTimeArray && dateTimeArray.length > 0
+      ? dateTimeArray[0]
+      : null;
+  }
+
+  set evaluationMethodStartDateTime(value) {
+    const dateTimeArray = this.model?.evaluationMethod?.dateTime;
+    if (dateTimeArray && dateTimeArray.length > 0) {
+      dateTimeArray[0] = value;
+    } else {
+      this.model.evaluationMethod.dateTime = [value];
+    }
+    return value;
+  }
+
+  get evaluationMethodEndDateTime() {
+    const dateTimeArray = this.model?.evaluationMethod?.dateTime;
+    return dateTimeArray && dateTimeArray.length > 1
+      ? dateTimeArray[1]
+      : null;
+  }
+
+  set evaluationMethodEndDateTime(value) {
+    const dateTimeArray = this.model?.evaluationMethod?.dateTime;
+    if (dateTimeArray && dateTimeArray.length > 1) {
+      dateTimeArray[1] = value;
+    } else {
+      this.model.evaluationMethod.dateTime = [null, value];
+    }
+    return value;
+  }
+
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let model = this.model;
 
     if (model) {
       once(this, function () {
-        set(
-          model,
-          'qualityMeasure',
-          getWithDefault(model, 'qualityMeasure', { name: [] })
-        );
-        set(
-          model,
-          'evaluationMethod',
-          getWithDefault(model, 'evaluationMethod', { dateTime: [] })
-        );
-        set(
-          model,
-          'quantitativeResult',
-          getWithDefault(model, 'quantitativeResult', [])
-        );
-        set(
-          model,
-          'descriptiveResult',
-          getWithDefault(model, 'descriptiveResult', [])
-        );
-        set(
-          model,
-          'conformanceResult',
-          getWithDefault(model, 'conformanceResult', [])
-        );
-        set(
-          model,
-          'coverageResult',
-          getWithDefault(model, 'coverageResult', [])
-        );
+        model.qualityMeasure = model.qualityMeasure ?? { name: [] };
+        model.evaluationMethod = model.evaluationMethod ?? { dateTime: [] };
+        model.quantitativeResult = model.quantitativeResult ?? [];
+        model.descriptiveResult = model.descriptiveResult ?? [];
+        model.conformanceResult = model.conformanceResult ?? [];
+        model.coverageResult = model.coverageResult ?? [];
       });
     }
-  },
+  }
 
-  isNameRequired: computed('model.qualityMeasure.identifier', function () {
-    return !this.get('model.qualityMeasure.identifier');
-  }),
+  @action
+  addEvaluationProcedure() {
+    this.model.evaluationMethod.evaluationProcedure = {};
+  }
 
-  qualityMeasureName: computed('model.qualityMeasure.name.[]', {
-    get() {
-      const nameArray = this.get('model.qualityMeasure.name');
-      return nameArray && nameArray.length > 0 ? nameArray[0] : null;
-    },
-    set(key, value) {
-      const nameArray = this.get('model.qualityMeasure.name');
-      if (nameArray && nameArray.length > 0) {
-        nameArray[0] = value;
-      } else {
-        this.set('model.qualityMeasure.name', [value]);
-      }
-      return value;
-    },
-  }),
+  @action
+  deleteEvaluationProcedure() {
+    this.model.evaluationMethod.evaluationProcedure = undefined;
+  }
 
-  evaluationMethodStartDateTime: computed(
-    'model.evaluationMethod.dateTime.[]',
-    {
-      get() {
-        const dateTimeArray = this.get('model.evaluationMethod.dateTime');
-        return dateTimeArray && dateTimeArray.length > 0
-          ? dateTimeArray[0]
-          : null;
-      },
-      set(key, value) {
-        const dateTimeArray = this.get('model.evaluationMethod.dateTime');
-        if (dateTimeArray && dateTimeArray.length > 0) {
-          dateTimeArray[0] = value;
-        } else {
-          this.set('model.evaluationMethod.dateTime', [value]);
-        }
-        return value;
-      },
-    }
-  ),
+  @action
+  addQualityMeasureIdentifier() {
+    this.model.qualityMeasure.identifier = {};
+  }
 
-  evaluationMethodEndDateTime: computed('model.evaluationMethod.dateTime.[]', {
-    get() {
-      const dateTimeArray = this.get('model.evaluationMethod.dateTime');
-      return dateTimeArray && dateTimeArray.length > 1
-        ? dateTimeArray[1]
-        : null;
-    },
-    set(key, value) {
-      const dateTimeArray = this.get('model.evaluationMethod.dateTime');
-      if (dateTimeArray && dateTimeArray.length > 1) {
-        dateTimeArray[1] = value;
-      } else {
-        this.set('model.evaluationMethod.dateTime', [null, value]);
-      }
-      return value;
-    },
-  }),
-
-  reportType: alias('model.type'),
-  evaluationType: alias('model.evaluationMethod.type'),
-  methodType: alias('model.evaluationMethod.evaluationMethodType'),
-
-  actions: {
-    addEvaluationProcedure() {
-      set(this.model.evaluationMethod, 'evaluationProcedure', {});
-    },
-    deleteEvaluationProcedure() {
-      set(this.model.evaluationMethod, 'evaluationProcedure', undefined);
-    },
-    addQualityMeasureIdentifier() {
-      set(this.model.qualityMeasure, 'identifier', {});
-    },
-    deleteQualityMeasureIdentifier() {
-      set(this.model.qualityMeasure, 'identifier', undefined);
-    },
-  },
-});
+  @action
+  deleteQualityMeasureIdentifier() {
+    this.model.qualityMeasure.identifier = undefined;
+  }
+}

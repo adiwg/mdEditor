@@ -1,9 +1,7 @@
-import { gt } from '@ember/object/computed';
 import Component from '@ember/component';
-import EmberObject, {
-  get,
-  computed
-} from '@ember/object';
+import classic from 'ember-classic-decorator';
+import EmberObject from '@ember/object';
+import { action } from '@ember/object';
 import { typeOf, isEmpty } from '@ember/utils';
 import { ucWords } from 'mdeditor/helpers/uc-words';
 import { getOwner } from '@ember/application';
@@ -11,7 +9,8 @@ import { A } from '@ember/array';
 import { inject as service } from '@ember/service';
 import { applyTemplateArray } from 'mdeditor/utils/object-template';
 
-export default Component.extend({
+@classic
+export default class MdObjectTableComponent extends Component {
 
   /**
    * mdEditor class for managing a table of similar mdJSON objects
@@ -39,25 +38,25 @@ export default Component.extend({
    * @uses object-template
    */
 
-  spotlight: service(),
+  @service spotlight;
 
   didReceiveAttrs() {
-    this._super(...arguments);
+    super.didReceiveAttrs(...arguments);
 
     let items = applyTemplateArray(this, this.items, this.templateClass);
-    this.set('items', items);
-  },
+    this.items = items;
+  }
 
-  attributeBindings: ['data-spy'],
-  classNameBindings: ['shadow:box-shadow--4dp'],
-  classNames: ['md-object-table'],
+  attributeBindings = ['data-spy'];
+  classNameBindings = ['shadow:box-shadow--4dp'];
+  classNames = ['md-object-table'];
 
   //reset the 'editing' flag
   didUpdateAttrs() {
-    this._super(...arguments);
+    super.didUpdateAttrs(...arguments);
 
-    if(this.editing !== 'adding') this.set('editing', false);
-  },
+    if(this.editing !== 'adding') this.editing = false;
+  }
 
   /**
    * Array of the mdJSON object to display in the object table for
@@ -68,7 +67,7 @@ export default Component.extend({
    * @default Ember.A()
    * @required
    */
-  items: A(),
+  items = A();
 
   /**
    * List of items object attributes to display in
@@ -141,7 +140,7 @@ export default Component.extend({
    * @default null
    * @required
    */
-  templateClass: null,
+  templateClass = null;
 
   /**
    * Determines add button text
@@ -150,7 +149,7 @@ export default Component.extend({
    * @type String
    * @default Add
    */
-  buttonText: "Add",
+  buttonText = "Add";
 
   /**
    * Render the row actions vertically.
@@ -183,7 +182,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  collapsible: true,
+  collapsible = true;
 
   /**
    * True to truncate the preview table cell text.
@@ -200,7 +199,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  shadow: true,
+  shadow = true;
 
   /**
    * If true, an alert will be rendered with an "add" button when no items are
@@ -210,7 +209,7 @@ export default Component.extend({
    * @type {Boolean}
    * @default true
    */
-  alertIfEmpty: true,
+  alertIfEmpty = true;
 
   /**
    * The error message to display, if required = true. Overrides the validation
@@ -228,7 +227,7 @@ export default Component.extend({
    * @type {Number}
    * @default 130
    */
-  offset: 130,
+  offset = 130;
 
   /**
    * Uses isCollapsed if defined, otherwise inspects array length.
@@ -239,7 +238,7 @@ export default Component.extend({
    * @category computed
    * @requires isCollapsed
    */
-  collapsed: computed('isCollapsed', 'items.[]', function () {
+  get collapsed() {
     let isCollapsed = this.isCollapsed;
     let value = this.items;
 
@@ -250,7 +249,7 @@ export default Component.extend({
     } else {
       return true;
     }
-  }),
+  }
 
   /**
    * Render an alert if the items array is empty and alertIfEmpty is true.
@@ -262,17 +261,17 @@ export default Component.extend({
    * @category computed
    * @requires items.length,alertIfEmpty
    */
-  showAlert: computed('items.length', 'alertIfEmpty', function () {
-    return get(this, 'items.length') === 0 && this.alertIfEmpty;
-  }),
+  get showAlert() {
+    return this.items?.length === 0 && this.alertIfEmpty;
+  }
 
-  panelId: computed('items.@each.val', 'editing', function () {
+  get panelId() {
     return 'panel-' + this.elementId;
-  }),
+  }
 
-  btnSize: computed('verticalButtons', function () {
+  get btnSize() {
     return this.verticalButtons ? 'md' : 'xs';
-  }),
+  }
 
   /**
    * Render the footer if the items array length is greater than 5.
@@ -283,17 +282,19 @@ export default Component.extend({
    * @category computed
    * @requires items.length
    */
-  showFooter: gt('items.length', 5),
+  get showFooter() {
+    return this.items?.length > 5;
+  }
 
-  attrArray: computed('attributes', function () {
+  get attrArray() {
     let attr = this.attributes;
 
     return attr
       ? attr.split(',').map(itm => itm.split(':')[0])
       : null;
-  }),
+  }
 
-  attrTitleArray: computed('attributes', function () {
+  get attrTitleArray() {
     return this.attributes.split(',')
       .map(function (item) {
         let title = item.trim().split('.').get('lastObject').split(
@@ -304,71 +305,72 @@ export default Component.extend({
             .replace(/-/g,' ')
           ], { force: false }) : title[1];
       });
-  }),
+  }
 
-  editing: false,
+  editing = false;
 
-  pillColor: computed('items.[]', function () {
-    let count = this.get('items.length') || 0;
+  get pillColor() {
+    let count = this.items?.length || 0;
 
     return (count > 0) ? 'label-info' : 'label-warning';
-  }),
+  }
 
-  alertTipMessage: computed('tipModel', 'tipPath', 'errorMessage',
-    function () {
-      if (this.errorMessage) {
-        return this.errorMessage;
-      }
+  get alertTipMessage() {
+    if (this.errorMessage) {
+      return this.errorMessage;
+    }
 
     return this.tipModel
       ? this.tipModel.get(`validations.attrs.${this.tipPath}.message`)
       : null;
-  }),
-
-  actions: {
-    deleteItem: function (items, index) {
-      let last = Object.keys(items.get('lastObject'));
-
-      if(isEmpty(last)) {
-        items.replace();
-      }
-
-      if(items.length === 0) return;
-
-      items.removeAt(index);
-    },
-
-    addItem: function () {
-      const Template = this.templateClass;
-      const owner = getOwner(this);
-      const spotlight = this.spotlight;
-
-      let itm = typeOf(Template) === 'class'
-        ? Template.create(owner.ownerInjection())
-        :EmberObject.create({});
-
-      let items = this.items;
-
-      this.set('saveItem', itm);
-      this.set('editing', 'adding');
-      items.pushObject(this.saveItem);
-      spotlight.setTarget(this.elementId);
-      //this.scrollTo(this.elementId);
-    },
-
-    editItem: function (items, index) {
-      const spotlight = this.spotlight;
-
-      this.set('saveItem', items.objectAt(index));
-      this.set('editing', 'editing');
-      spotlight.setTarget(this.elementId);
-    },
-
-    cancelEdit: function () {
-      const spotlight = this.spotlight;
-
-      this.set('editing', false);
-      spotlight.close();
-    }
   }
-});
+
+  @action
+  deleteItem(items, index) {
+    let last = Object.keys(items.get('lastObject'));
+
+    if(isEmpty(last)) {
+      items.replace();
+    }
+
+    if(items.length === 0) return;
+
+    items.removeAt(index);
+  }
+
+  @action
+  addItem() {
+    const Template = this.templateClass;
+    const owner = getOwner(this);
+    const spotlight = this.spotlight;
+
+    let itm = typeOf(Template) === 'class'
+      ? Template.create(owner.ownerInjection())
+      :EmberObject.create({});
+
+    let items = this.items;
+
+    this.saveItem = itm;
+    this.editing = 'adding';
+    items.pushObject(this.saveItem);
+    spotlight.setTarget(this.elementId);
+    //this.scrollTo(this.elementId);
+  }
+
+  @action
+  editItem(items, index) {
+    const spotlight = this.spotlight;
+
+    this.saveItem = items.objectAt(index);
+    this.editing = 'editing';
+    spotlight.setTarget(this.elementId);
+  }
+
+  @action
+  cancelEdit() {
+    const spotlight = this.spotlight;
+
+    this.editing = false;
+    spotlight.close();
+  }
+}

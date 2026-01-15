@@ -1,17 +1,17 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import EmberObject, { get, set } from '@ember/object';
 import { isArray, A } from '@ember/array';
 import { isEmpty } from '@ember/utils';
 
-export default Route.extend({
+export default class SpatialRoute extends Route {
   model(params) {
     this.set('extentId', params.extent_id);
 
     return this.setupModel();
 
-  },
-
-  setupController: function (controller) {
+  }
+  setupController(controller) {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -27,8 +27,7 @@ export default Route.extend({
         featureGroup: null,
         extentId: this.extentId
       });
-  },
-
+  }
   setupModel() {
     let model = this.modelFor('record.show.edit.extent');
     let extents = model.get('json.metadata.resourceInfo.extent');
@@ -57,12 +56,10 @@ export default Route.extend({
     this.set('layers', layers);
 
     return model;
-  },
-
-  actions: {
+  }
     getContext() {
       return this;
-    },
+    }
     handleResize() {
       const mapContainer = document.querySelector('.map-file-picker .leaflet-container');
       const navbars = document.getElementById('md-navbars');
@@ -70,13 +67,13 @@ export default Route.extend({
         const height = (window.innerHeight - navbars.offsetHeight - 15) / 2;
         mapContainer.style.height = `${height}px`;
       }
-    },
+    }
     uploadData() {
       const fileInput = document.querySelector('.map-file-picker .file-picker__input');
       if (fileInput) {
         fileInput.click();
       }
-    },
+    }
     deleteAllFeatures() {
       let features = this.layers;
       let group = this.controller
@@ -93,11 +90,11 @@ export default Route.extend({
         }
         features.clear();
       }
-    },
+    }
     setFeatureGroup(obj) {
       this.controller
         .set('featureGroup', obj);
-    },
+    }
     zoomAll() {
       let layer = this.controller
         .get('featureGroup');
@@ -112,7 +109,7 @@ export default Route.extend({
       }
 
       map.fitWorld();
-    },
+    }
     exportGeoJSON() {
       let fg = this.controller
         .get('featureGroup');
@@ -155,5 +152,4 @@ export default Route.extend({
           .warning('Found no features to export.');
       }
     }
-  }
-});
+}

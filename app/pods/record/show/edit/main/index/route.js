@@ -1,11 +1,12 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { set, getWithDefault, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 import {
   formatCitation
 } from 'mdeditor/pods/components/object/md-citation/component';
 
-export default Route.extend(ScrollTo, {
+export default class IndexRoute extends Route.extend(ScrollTo) {
   afterModel(m) {
     this._super(...arguments);
 
@@ -22,8 +23,7 @@ export default Route.extend(ScrollTo, {
       'resourceMaintenance', []));
     set(model, 'graphicOverview', getWithDefault(model, 'graphicOverview',
       []));
-  },
-
+  }
   setupController(controller, model) {
     this._super(controller, model);
 
@@ -32,15 +32,13 @@ export default Route.extend(ScrollTo, {
         onCancel: () => this,
         cancelScope: this
       });
-  },
-
-  actions: {
+  }
     editCitation(scrollTo) {
       this.transitionTo('record.show.edit.main.citation')
         .then(function () {
           this.setScrollTo(scrollTo);
         }.bind(this));
-    },
+    }
     editId() {
       this.transitionTo('record.show.edit.metadata.identifier', {
         queryParams: {
@@ -48,5 +46,4 @@ export default Route.extend(ScrollTo, {
         }
       });
     }
-  }
-});
+}

@@ -1,7 +1,7 @@
 import Component from '@ember/component';
 
-export default Component.extend({
-  classNameBindings: ['muted:text-muted'],
+export default class PreviewComponent extends Component {
+  classNameBindings = ['muted:text-muted'];
 
   /**
    * Whether to render the text muted.
@@ -10,5 +10,5 @@ export default Component.extend({
    * @type {Boolean}
    * @default "true"
    */
-  muted: true
-});
+  muted = true;
+}

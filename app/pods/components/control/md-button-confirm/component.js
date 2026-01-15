@@ -1,13 +1,15 @@
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 
-export default Component.extend({
-  tagName: 'button',
-  classNames: 'md-button-confirm',
-  attributeBindings: ['type', 'disabled'],
-  type: 'button',
-  isShowingConfirm: false,
-  propagateClick: false,
-  disabled: null,
+@classic
+export default class MdButtonConfirmComponent extends Component {
+  tagName = 'button';
+  classNames = ['md-button-confirm'];
+  attributeBindings = ['type', 'disabled'];
+  type = 'button';
+  isShowingConfirm = false;
+  propagateClick = false;
+  disabled = null;
 
   /**
    * Tooltip text shown when isShowingConfirm is true
@@ -24,7 +26,7 @@ export default Component.extend({
    * @type {String}
    * @default "left"
    */
-   tipSide: 'left',
+  tipSide = 'left';
 
   /**
    * Class to add to tooltip
@@ -33,7 +35,7 @@ export default Component.extend({
    * @type {String}
    * @default ""
    */
-   tipClass: '',
+  tipClass = '';
 
   /**
    * The function to call when action is confirmed.
@@ -41,7 +43,7 @@ export default Component.extend({
    * @method onConfirm
    * @return {[type]} [description]
    */
-  onConfirm() {},
+  onConfirm() {}
 
   //click handler, sets button state
   click(evt) {
@@ -51,13 +53,13 @@ export default Component.extend({
 
     if(this.isShowingConfirm) {
       this.onConfirm();
-      this.set('isShowingConfirm', false);
+      this.isShowingConfirm = false;
     } else {
-      this.set('isShowingConfirm', true);
+      this.isShowingConfirm = true;
     }
-  },
+  }
 
   blur() {
-    this.set('isShowingConfirm', false);
+    this.isShowingConfirm = false;
   }
-});
+}

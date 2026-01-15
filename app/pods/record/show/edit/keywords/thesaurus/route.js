@@ -1,19 +1,19 @@
 import { A, isArray } from '@ember/array';
 import EmberObject, { get, set } from '@ember/object';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import { isEmpty } from '@ember/utils';
 import axios from 'axios';
 import ENV from 'mdeditor/config/environment';
 
-export default Route.extend({
-  keyword: service(),
+export default class ThesaurusRoute extends Route {
+  @service keyword;
 
   model(params) {
     this.set('thesaurusId', params.thesaurus_id);
     return this.setupModel();
-  },
-
+  }
   setupModel() {
     let thesaurusId = this.thesaurusId || this.controller.get(
       'thesaurusId');
@@ -41,9 +41,8 @@ export default Route.extend({
       thesaurus: this.keyword
         .findById(thesaurus.thesaurus.identifier[0].identifier)
     });
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -53,9 +52,7 @@ export default Route.extend({
         cancelScope: this,
         thesaurusId: this.thesaurusId
       });
-  },
-
-  actions: {
+  }
     selectKeyword(node, path) {
       let model = this.currentRouteModel();
       let keywords = model.get('model')
@@ -84,10 +81,10 @@ export default Route.extend({
       } else {
         kw.removeObject(target);
       }
-    },
+    }
     removeKeyword() {
       this.send('deleteKeyword', ...arguments);
-    },
+    }
     changeFullPath(evt) {
       let model = this.currentRouteModel();
       let keywords = model.get('model')
@@ -106,5 +103,4 @@ export default Route.extend({
         }
       });
     }
-  }
-});
+}

@@ -1,36 +1,36 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import EmberObject from '@ember/object';
 import { scheduleOnce, once } from '@ember/runloop';
 import { getOwner } from '@ember/application';
 import { get } from '@ember/object';
 
-export default Route.extend({
+export default class EditRoute extends Route {
   /**
    * The profile service
    *
    * @return {Ember.Service} profile
    */
-  profile: service('custom-profile'),
+  @service('custom-profile') profile;
 
-  pouch: service(),
-  hashPoll: service(),
+  @service pouch;
+  @service hashPoll;
 
   /**
    * The route activate hook, sets the profile.
    */
   afterModel(model) {
-    this._super(...arguments);
+    super.afterModel(...arguments);
 
     this.profile.set('active', model.get('profile'));
     this.hashPoll.startPolling(model);
-  },
+  }
 
   deactivate() {
-    this._super(...arguments);
+    super.deactivate(...arguments);
     this.hashPoll.stopPolling();
-  },
-
+  }
   doCancel() {
     let controller = this.controller;
     let same = !controller.cancelScope || getOwner(this)
@@ -49,21 +49,19 @@ export default Route.extend({
         this.refresh();
       });
     }
-  },
-
-  actions: {
+  }
     /**
      * Update the dictionary profile
      *
      * @param  {String} profile The new profile.
      */
-    saveDictionary: async function () {
+    async saveDictionary() {
       const model = this.currentRouteModel();
       model.updateTimestamp();
       await model.save();
       this.flashMessages.success(`Saved Dictionary: ${model.get('title')}`);
-    },
-    cancelDictionary: function () {
+    }
+    cancelDictionary() {
       let model = this.currentRouteModel();
       let message =
         `Cancelled changes to Dictionary: ${model.get('title')}`;
@@ -87,6 +85,5 @@ export default Route.extend({
           this.flashMessages
             .warning(message);
         });
-    },
-  }
-});
+    }
+}

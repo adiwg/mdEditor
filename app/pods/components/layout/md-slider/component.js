@@ -1,41 +1,41 @@
 import Component from '@ember/component';
-import {
-  computed
-} from '@ember/object';
+import classic from 'ember-classic-decorator';
+import { action } from '@ember/object';
 
-export default Component.extend({
-  classNames: ['md-slider'],
-  classNameBindings: ['visible:in'],
-  visible: false,
+@classic
+export default class MdSliderComponent extends Component {
+  classNames = ['md-slider'];
+  classNameBindings = ['visible:in'];
+  visible = false;
 
   didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
     if (this.visible === true) {
       document.body.classList.add('slider');
     } else {
       document.body.classList.remove('slider');
     }
-  },
+  }
 
-  fromName: null,
+  fromName = null;
 
-  name: computed('fromName', function () {
+  get name() {
     return this.fromName || 'md-slider-content';
-  }),
+  }
 
-  actions: {
-    toggleVisibility() {
-      this.toggleProperty('visible');
+  @action
+  toggleVisibility() {
+    this.visible = !this.visible;
 
-      if(!this.visible) {
-        let context = this.get('context.isDestroying');
+    if(!this.visible) {
+      let context = this.context?.isDestroying;
 
-        this.set('fromName', null);
+      this.fromName = null;
 
-        if(!context) {
-          this.onClose
-            .call(this);
-        }
+      if(!context) {
+        this.onClose.call(this);
       }
     }
   }
-});
+}

@@ -6,8 +6,7 @@
 import { notEmpty, alias } from '@ember/object/computed';
 
 import Component from '@ember/component';
-import { set, get, computed } from '@ember/object';
-import { observer } from '@ember/object';
+import { set, observer } from '@ember/object';
 import { once } from '@ember/runloop';
 import dayjs from 'dayjs';
 
@@ -34,93 +33,7 @@ const Validations = buildValidations({
   ],
 });
 
-export default Component.extend(Validations, {
-  init() {
-    this._super(...arguments);
-
-    this.set('precisionOptions', [
-      { value: 'Year', name: 'Year' },
-      { value: 'Month', name: 'Month' },
-      { value: 'Day', name: 'Day' },
-      { value: 'Time', name: 'Time' },
-    ]);
-
-    this.setPrecisionBasedOnDate();
-  },
-
-  selectedPrecision: null,
-  selectedFormat: 'YYYY-MM-DDTHH:mm:ssZ',
-
-  selectedPrecisionChanged: observer('selectedPrecision', function () {
-    const startDate = this.start;
-    const endDate = this.end;
-    if (!startDate || !endDate) return;
-
-    const parsedStartDate = dayjs(startDate);
-    const parsedEndDate = dayjs(endDate);
-    let newStartDate, newEndDate;
-
-    switch (this.selectedPrecision) {
-      case 'Time':
-        newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
-        newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');
-        this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
-        break;
-      case 'Day':
-        newStartDate = parsedStartDate.format('YYYY-MM-DD');
-        newEndDate = parsedEndDate.format('YYYY-MM-DD');
-        this.set('selectedFormat', 'YYYY-MM-DD');
-        break;
-      case 'Month':
-        newStartDate = parsedStartDate.format('YYYY-MM');
-        newEndDate = parsedEndDate.format('YYYY-MM');
-        this.set('selectedFormat', 'YYYY-MM');
-        break;
-      case 'Year':
-        newStartDate = parsedStartDate.format('YYYY');
-        newEndDate = parsedEndDate.format('YYYY');
-        this.set('selectedFormat', 'YYYY');
-        break;
-      default:
-        newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
-        newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');
-        this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
-        break;
-    }
-
-    if (newStartDate !== startDate) {
-      this.set('start', newStartDate);
-    }
-    if (newEndDate !== endDate) {
-      this.set('end', newEndDate);
-    }
-  }),
-
-  setPrecisionBasedOnDate() {
-    const date = this.start;
-    if (!date) {
-      this.set('selectedPrecision', 'Year');
-      this.set('selectedFormat', 'YYYY');
-      return;
-    }
-    if (/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Time');
-      this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
-    } else if (/\d{4}-\d{2}-\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Day');
-      this.set('selectedFormat', 'YYYY-MM-DD');
-    } else if (/\d{4}-\d{2}/.test(date)) {
-      this.set('selectedPrecision', 'Month');
-      this.set('selectedFormat', 'YYYY-MM');
-    } else if (/\d{4}/.test(date)) {
-      this.set('selectedPrecision', 'Year');
-      this.set('selectedFormat', 'YYYY');
-    } else {
-      this.set('selectedPrecision', 'Time');
-      this.set('selectedFormat', 'YYYY-MM-DDTHH:mm:ssZ');
-    }
-  },
-
+export default class MdDateRangeComponent extends Component.extend(Validations) {
   /**
    * Date range with start date and end date fields.
    *
@@ -136,7 +49,7 @@ export default Component.extend(Validations, {
    * @constructor
    */
 
-  classNameBindings: ['formInline'],
+  classNameBindings = ['formInline'];
 
   /**
    * If true, render the fields inline
@@ -145,7 +58,80 @@ export default Component.extend(Validations, {
    * @type {Boolean}
    * @default true
    */
-  formInline: true,
+  formInline = true;
+
+  selectedPrecision = null;
+  selectedFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+
+  selectedPrecisionChanged = observer('selectedPrecision', function () {
+    const startDate = this.start;
+    const endDate = this.end;
+    if (!startDate || !endDate) return;
+
+    const parsedStartDate = dayjs(startDate);
+    const parsedEndDate = dayjs(endDate);
+    let newStartDate, newEndDate;
+
+    switch (this.selectedPrecision) {
+      case 'Time':
+        newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
+        newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');
+        this.selectedFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+        break;
+      case 'Day':
+        newStartDate = parsedStartDate.format('YYYY-MM-DD');
+        newEndDate = parsedEndDate.format('YYYY-MM-DD');
+        this.selectedFormat = 'YYYY-MM-DD';
+        break;
+      case 'Month':
+        newStartDate = parsedStartDate.format('YYYY-MM');
+        newEndDate = parsedEndDate.format('YYYY-MM');
+        this.selectedFormat = 'YYYY-MM';
+        break;
+      case 'Year':
+        newStartDate = parsedStartDate.format('YYYY');
+        newEndDate = parsedEndDate.format('YYYY');
+        this.selectedFormat = 'YYYY';
+        break;
+      default:
+        newStartDate = parsedStartDate.format('YYYY-MM-DD HH:mm:ss');
+        newEndDate = parsedEndDate.format('YYYY-MM-DD HH:mm:ss');
+        this.selectedFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+        break;
+    }
+
+    if (newStartDate !== startDate) {
+      this.start = newStartDate;
+    }
+    if (newEndDate !== endDate) {
+      this.end = newEndDate;
+    }
+  });
+
+  setPrecisionBasedOnDate() {
+    const date = this.start;
+    if (!date) {
+      this.selectedPrecision = 'Year';
+      this.selectedFormat = 'YYYY';
+      return;
+    }
+    if (/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/.test(date)) {
+      this.selectedPrecision = 'Time';
+      this.selectedFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+    } else if (/\d{4}-\d{2}-\d{2}/.test(date)) {
+      this.selectedPrecision = 'Day';
+      this.selectedFormat = 'YYYY-MM-DD';
+    } else if (/\d{4}-\d{2}/.test(date)) {
+      this.selectedPrecision = 'Month';
+      this.selectedFormat = 'YYYY-MM';
+    } else if (/\d{4}/.test(date)) {
+      this.selectedPrecision = 'Year';
+      this.selectedFormat = 'YYYY';
+    } else {
+      this.selectedPrecision = 'Time';
+      this.selectedFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+    }
+  }
 
   /**
    * The value for the start datetime
@@ -155,18 +141,17 @@ export default Component.extend(Validations, {
    * @default moment().hour(0).second(0).minute(0)
    * @required
    */
-  start: computed('startDateTime', {
-    get() {
-      let dt = this.startDateTime;
-      return dt === undefined ? null : dt;
-    },
-    set(key, value) {
-      once(this, function () {
-        set(this, 'startDateTime', value);
-        return value;
-      });
-    },
-  }),
+  get start() {
+    let dt = this.startDateTime;
+    return dt === undefined ? null : dt;
+  }
+
+  set start(value) {
+    once(this, function () {
+      set(this, 'startDateTime', value);
+      return value;
+    });
+  }
 
   /**
    * The value for the end datetime
@@ -176,16 +161,28 @@ export default Component.extend(Validations, {
    * @default moment().hour(0).second(0).minute(0)
    * @required
    */
-  end: computed('endDateTime', {
-    get() {
-      let dt = this.endDateTime;
-      return dt === undefined ? null : dt;
-    },
-    set(key, value) {
-      once(this, function () {
-        set(this, 'endDateTime', value);
-        return value;
-      });
-    },
-  }),
-});
+  get end() {
+    let dt = this.endDateTime;
+    return dt === undefined ? null : dt;
+  }
+
+  set end(value) {
+    once(this, function () {
+      set(this, 'endDateTime', value);
+      return value;
+    });
+  }
+
+  constructor() {
+    super(...arguments);
+
+    this.precisionOptions = [
+      { value: 'Year', name: 'Year' },
+      { value: 'Month', name: 'Month' },
+      { value: 'Day', name: 'Day' },
+      { value: 'Time', name: 'Time' },
+    ];
+
+    this.setPrecisionBasedOnDate();
+  }
+}

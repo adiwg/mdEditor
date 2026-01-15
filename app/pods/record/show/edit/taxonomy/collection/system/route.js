@@ -1,17 +1,17 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { isEmpty } from '@ember/utils';
 import { isArray } from '@ember/array';
 
-export default Route.extend({
+export default class SystemRoute extends Route {
   model(params) {
     this.set('systemId', params.system_id);
     this.set('collectionId', this.paramsFor(
       'record.show.edit.taxonomy.collection').collection_id);
 
     return this.setupModel();
-  },
-
-  setupController: function () {
+  }
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -21,8 +21,7 @@ export default Route.extend({
         onCancel: this.setupModel,
         cancelScope: this
       });
-  },
-
+  }
   setupModel() {
     let systemId = this.systemId;
     let collectionId = this.collectionId;
@@ -42,10 +41,8 @@ export default Route.extend({
     }
 
     return system;
-  },
-  actions: {
+  }
     parentModel() {
       return this.modelFor('record.show.edit');
     }
-  }
-});
+}

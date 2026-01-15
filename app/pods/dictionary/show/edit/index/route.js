@@ -1,8 +1,9 @@
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { set, getWithDefault, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
-export default Route.extend(ScrollTo, {
+export default class IndexRoute extends Route.extend(ScrollTo) {
   afterModel(m) {
     this._super(...arguments);
 
@@ -14,8 +15,7 @@ export default Route.extend(ScrollTo, {
     set(model, 'locale', getWithDefault(model, 'locale', []));
     set(model, 'domain', getWithDefault(model, 'domain', []));
     set(model, 'entity', getWithDefault(model, 'entity', []));
-  },
-
+  }
   setupController(controller, model) {
     this._super(controller, model);
 
@@ -24,14 +24,11 @@ export default Route.extend(ScrollTo, {
         onCancel: () => this,
         cancelScope: this
       });
-  },
-
-  actions: {
+  }
     editCitation(scrollTo) {
       this.transitionTo('dictionary.show.edit.citation')
         .then(function () {
           this.setScrollTo(scrollTo);
         }.bind(this));
     }
-  }
-});
+}

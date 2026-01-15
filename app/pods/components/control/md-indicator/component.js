@@ -1,9 +1,10 @@
 import Component from '@ember/component';
-import { computed } from '@ember/object';
+import classic from 'ember-classic-decorator';
 import { htmlSafe } from '@ember/string';
 import { interpolate, parseArgs } from 'mdeditor/utils/md-interpolate';
 
-export default Component.extend({
+@classic
+export default class MdIndicatorComponent extends Component {
   /**
    * @module mdeditor
    * @submodule components-control
@@ -26,27 +27,7 @@ export default Component.extend({
    * @constructor
    */
 
-  tagName: 'span',
-
-  init() {
-    const options = this.options;
-
-    this._super(...arguments);
-
-    if(options) {
-      Object.assign(this, options);
-      //this.classNames.concat(options.classNames);
-    }
-
-    this.popoverHideDelay = this.popoverHideDelay || 500;
-    this.popperContainer = this.popperContainer || "body";
-    this.icon = this.icon || 'sticky-note';
-    this.event = this.event || 'hover';
-    this.title = this.title || 'Note';
-    this.type = this.type || 'default';
-    this.classNames = ['md-indicator', `md-${this.type}`].concat(this
-      .classNames);
-  },
+  tagName = 'span';
 
   /**
    * The string to display in the indicator, interpolation optional.
@@ -138,9 +119,9 @@ export default Component.extend({
    * @category computed
    * @requires note,values
    */
-  interpolated: computed('note', 'values', function () {
+  get interpolated() {
     return htmlSafe(interpolate(this.note, this.values));
-  }),
+  }
 
   /**
    * The values for interpolated variables.
@@ -150,13 +131,33 @@ export default Component.extend({
    * @category computed
    * @requires note
    */
-  values: computed('note', function () {
+  get values() {
     let args = parseArgs(this.note);
 
     return args.reduce((acc, a) => {
-      acc[a] = this.get(a);
+      acc[a] = this[a];
 
       return acc;
     }, {});
-  })
-});
+  }
+
+  constructor() {
+    super(...arguments);
+
+    const options = this.options;
+
+    if(options) {
+      Object.assign(this, options);
+      //this.classNames.concat(options.classNames);
+    }
+
+    this.popoverHideDelay = this.popoverHideDelay || 500;
+    this.popperContainer = this.popperContainer || "body";
+    this.icon = this.icon || 'sticky-note';
+    this.event = this.event || 'hover';
+    this.title = this.title || 'Note';
+    this.type = this.type || 'default';
+    this.classNames = ['md-indicator', `md-${this.type}`].concat(this
+      .classNames);
+  }
+}

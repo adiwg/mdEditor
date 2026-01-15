@@ -4,14 +4,16 @@
  */
 
 import Component from '@ember/component';
+import classic from 'ember-classic-decorator';
 import { isBlank } from '@ember/utils';
-import { get, set, computed, defineProperty } from '@ember/object';
+import { set, computed, defineProperty } from '@ember/object';
 import { once } from '@ember/runloop';
 import { assert, debug } from '@ember/debug';
 import moment from 'moment';
 import dayjs from 'dayjs';
 
-export default Component.extend({
+@classic
+export default class MdDatetimeComponent extends Component {
   /**
    * Datetime control with dropdown calendar.
    * Based on Bootstrap datetime picker.
@@ -20,8 +22,19 @@ export default Component.extend({
    * @constructor
    */
 
-  init() {
-    this._super(...arguments);
+  classNames = ['md-datetime', 'md-input-input'];
+  classNameBindings = ['label:form-group', 'required'];
+
+  date = null;
+  format = 'YYYY-MM-DDTHH:mm:ssZ';
+  placeholder = 'Enter date and time';
+  label = null;
+  useCurrent = 'day';
+  showTodayButton = true;
+  showClear = true;
+
+  constructor() {
+    super(...arguments);
 
     let model = this.model;
     let valuePath = this.valuePath;
@@ -33,7 +46,7 @@ export default Component.extend({
     }
 
     if (!isBlank(model)) {
-      if (this.get(`model.${valuePath}`) === undefined) {
+      if (this.model?.[valuePath] === undefined) {
         debug(`model.${valuePath} is undefined in ${this.toString()}.`);
       }
 
@@ -42,8 +55,8 @@ export default Component.extend({
         '_date',
         computed(`model.${valuePath}`, {
           get() {
-            let val = get(this, `model.${valuePath}`);
-            return val ? moment(val, this.get('altFormat' || null)) : null;
+            let val = this.model?.[valuePath];
+            return val ? moment(val, this.altFormat || null) : null;
           },
           set(key, value) {
             let formatted = this.formatValue(value, `model.${valuePath}`);
@@ -58,7 +71,7 @@ export default Component.extend({
         computed('date', {
           get() {
             let val = this.date;
-            return val ? moment(val, this.get('altFormat' || null)) : null;
+            return val ? moment(val, this.altFormat || null) : null;
           },
           set(key, value) {
             let formatted = this.formatValue(value, 'date');
@@ -67,17 +80,20 @@ export default Component.extend({
         })
       );
     }
-  },
-  classNames: ['md-datetime', 'md-input-input'],
-  classNameBindings: ['label:form-group', 'required'],
+  }
 
-  date: null,
-  format: 'YYYY-MM-DDTHH:mm:ssZ',
-  placeholder: 'Enter date and time',
-  label: null,
-  useCurrent: 'day',
-  showTodayButton: true,
-  showClear: true,
+  get calendarIcons() {
+    return {
+      time: 'fa fa-clock-o',
+      date: 'fa fa-calendar',
+      up: 'fa fa-chevron-up',
+      down: 'fa fa-chevron-down',
+      previous: 'fa fa-angle-double-left',
+      next: 'fa fa-angle-double-right',
+      close: 'fa fa-times',
+      clear: 'fa fa-trash',
+    };
+  }
 
   formatValue(value, target) {
     if (isBlank(value)) {
@@ -92,31 +108,23 @@ export default Component.extend({
       formattedDate = dayjs(value).format(this.format);
     }
 
-    if (formattedDate !== this.get(target)) {
+    // Use bracket notation for dynamic property access
+    let currentValue = target.includes('.') ?
+      target.split('.').reduce((obj, key) => obj?.[key], this) :
+      this[target];
+
+    if (formattedDate !== currentValue) {
       once(this, 'updateFormattedDate', formattedDate, target);
     }
 
     return formattedDate;
-  },
+  }
 
   setTargetToNull(target) {
     set(this, target, null);
-  },
+  }
 
   updateFormattedDate(formattedDate, target) {
     set(this, target, formattedDate);
-  },
-
-  calendarIcons: computed(function () {
-    return {
-      time: 'fa fa-clock-o',
-      date: 'fa fa-calendar',
-      up: 'fa fa-chevron-up',
-      down: 'fa fa-chevron-down',
-      previous: 'fa fa-angle-double-left',
-      next: 'fa fa-angle-double-right',
-      close: 'fa fa-times',
-      clear: 'fa fa-trash',
-    };
-  }),
-});
+  }
+}

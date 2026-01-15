@@ -1,5 +1,6 @@
 import { inject as service } from '@ember/service';
 import Route from '@ember/routing/route';
+import { action } from '@ember/object';
 import { set, get } from '@ember/object';
 import ScrollTo from 'mdeditor/mixins/scroll-to';
 
@@ -14,11 +15,11 @@ const sliderColumns = [{
   title: 'Type'
 }];
 
-export default Route.extend(ScrollTo, {
-  slider: service(),
+export default class IndexRoute extends Route.extend(ScrollTo) {
+  @service slider;
 
-  sliderColumns: sliderColumns,
-  setupController: function() {
+  sliderColumns = sliderColumns;
+  setupController() {
     // Call _super for default behavior
     this._super(...arguments);
 
@@ -26,8 +27,7 @@ export default Route.extend(ScrollTo, {
       'record.show.edit'));
     this.controller.set('resourceId', get(this.controllerFor(
       'record.show.edit.associated.resource'), 'resourceId'));
-  },
-  actions: {
+  }
     insertResource(selected) {
       let slider = this.slider;
       let rec = selected.get('firstObject');
@@ -41,21 +41,20 @@ export default Route.extend(ScrollTo, {
       //this.controller.set('slider', false);
       slider.toggleSlider(false);
       selected.clear();
-    },
+    }
     selectResource() {
       let slider = this.slider;
 
       //this.controller.set('slider', true);
       slider.toggleSlider(true);
-    },
+    }
     sliderData() {
       return this.store.peekAll('record').filterBy('recordId');
-    },
+    }
     sliderColumns() {
       return this.sliderColumns;
-    },
+    }
     editLinked(rec) {
       this.transitionTo('record.show.edit', rec.get('id'));
     }
-  }
-});
+}

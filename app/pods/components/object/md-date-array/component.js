@@ -1,15 +1,15 @@
 import Component from '@ember/component';
-import EmObject, { set, get } from '@ember/object';
+import EmObject from '@ember/object';
 import { isNone } from '@ember/utils';
 
-export default Component.extend({
-  init() {
-    this._super(...arguments);
+export default class MdDateArrayComponent extends Component {
+  constructor() {
+    super(...arguments);
 
     if(isNone(this.value)) {
-      set(this, 'value', []);
+      this.value = [];
     }
-  },
+  }
 
   /**
    * See [md-array-table](md-array-table.html#property_templateClass).
@@ -17,7 +17,7 @@ export default Component.extend({
    * @property templateClass
    * @type Ember.Object
    */
-  templateClass: EmObject.extend({
+  templateClass = EmObject.extend({
     init() {
       this._super(...arguments);
       this.setProperties({
@@ -25,5 +25,5 @@ export default Component.extend({
         dateType: null
       });
     }
-  })
-});
+  });
+}

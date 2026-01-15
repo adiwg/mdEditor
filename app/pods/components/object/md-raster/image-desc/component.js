@@ -3,12 +3,8 @@ import { alias } from '@ember/object/computed';
 import { once } from '@ember/runloop';
 // import { decamelize } from '@ember/string';
 // import { ucWords } from 'mdeditor/helpers/uc-words';
-import { set, getWithDefault, get } from '@ember/object';
 // import ImageDescription from 'mdjson-schemas/resources/js/imageDescription';
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const Validations = buildValidations({
   'imgQualCodeIdentifier': [
@@ -32,33 +28,7 @@ const Validations = buildValidations({
 //   lensDistortionAvailable: 'boolean'
 // }
 
-export default Component.extend(Validations, {
-  //Todo: work on fix for this with Josh
-  // init() {
-  //   this.params = Object.keys(params).map(p => {
-  //     return {
-  //       property: p,
-  //       label: ucWords([decamelize(p).replace(/_/g,' ')], { force: false }),
-  //       type: params[p],
-  //       description: get(ImageDescription, `properties.${p}.description`)
-  //     }
-  //   });
-
-  //   this._super(...arguments);
-  // },
-
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    // let model = getWithDefault(this, 'model', {}) || {};
-    let model = this.model
-
-    if (model) {
-      once(this, function () {
-        set(model, 'imageQualityCode', getWithDefault(model, 'imageQualityCode', {}));
-      })
-    }
-  },
+export default class MdRasterImageDescComponent extends Component.extend(Validations) {
   /**
    * The string representing the path in the profile object for the resource.
    *
@@ -76,5 +46,32 @@ export default Component.extend(Validations, {
    * @required
    */
 
-  imgQualCodeIdentifier: alias('model.imageQualityCode.identifier')
-});
+  @alias('model.imageQualityCode.identifier') imgQualCodeIdentifier;
+
+  //Todo: work on fix for this with Josh
+  // constructor() {
+  //   super(...arguments);
+  //
+  //   this.params = Object.keys(params).map(p => {
+  //     return {
+  //       property: p,
+  //       label: ucWords([decamelize(p).replace(/_/g,' ')], { force: false }),
+  //       type: params[p],
+  //       description: get(ImageDescription, `properties.${p}.description`)
+  //     }
+  //   });
+  // }
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    // let model = this.model ?? {};
+    let model = this.model;
+
+    if (model) {
+      once(this, function () {
+        model.imageQualityCode = model.imageQualityCode ?? {};
+      });
+    }
+  }
+}

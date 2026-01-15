@@ -1,22 +1,9 @@
-import {
-  notEmpty,
-  alias
-} from '@ember/object/computed';
+import { alias } from '@ember/object/computed';
 import Component from '@ember/component';
-import {
-  getWithDefault,
-  get,
-  set,
-  computed
-} from '@ember/object';
-import {
-  once
-} from '@ember/runloop';
-
-import {
-  validator,
-  buildValidations
-} from 'ember-cp-validations';
+import classic from 'ember-classic-decorator';
+import { get, set } from '@ember/object';
+import { once } from '@ember/runloop';
+import { validator, buildValidations } from 'ember-cp-validations';
 
 const timeUnit = [{
     name: 'year',
@@ -64,7 +51,7 @@ const Validations = buildValidations({
   'startDateTime': [
     validator('presence', {
       presence: true,
-      disabled: notEmpty('model.endDateTime'),
+      disabled: alias('model.endDateTime').readOnly(),
       ignoreBlank: true
     })
   ],
@@ -75,39 +62,22 @@ const Validations = buildValidations({
     }),
     validator('presence', {
       presence: true,
-      disabled: notEmpty('model.startDateTime'),
+      disabled: alias('model.startDateTime').readOnly(),
       ignoreBlank: true
     })
   ]
 });
 
-export default Component.extend(Validations, {
-  init() {
-    this._super(...arguments);
+@classic
+export default class MdTimePeriodComponent extends Component.extend(Validations) {
+  constructor() {
+    super(...arguments);
 
     this.timeUnit = timeUnit;
     this.durationUnit = durationUnit;
-  },
+  }
 
-  didReceiveAttrs() {
-    this._super(...arguments);
-
-    let model = this.model;
-
-    once(this, function () {
-      set(model, 'periodName', getWithDefault(model,
-        'periodName', []));
-      set(model, 'timeInterval', getWithDefault(model, 'timeInterval', {}));
-      set(model, 'duration', getWithDefault(model, 'duration', {}));
-      // set(model, 'presentationForm', getWithDefault(model,
-      //   'presentationForm', []));
-      // set(model, 'onlineResource', getWithDefault(model,
-      //   'onlineResource', []));
-      set(model, 'identifier', getWithDefault(model, 'identifier', {}));
-      // set(model, 'graphic', getWithDefault(model, 'graphic', []));
-    });
-  },
-  tagName: 'form',
+  tagName = 'form';
 
   /**
    * The profile path for the component
@@ -116,32 +86,44 @@ export default Component.extend(Validations, {
    * @type {String}
    */
 
-  startDateTime: computed('model.startDateTime', {
-    get() {
-      return get(this, 'model.startDateTime');
-    },
-    set(key, value) {
-      once(this, function () {
-        set(this, 'model.startDateTime', value);
-        return value;
-      });
-    }
-  }),
-  endDateTime: computed('model.endDateTime', {
-    get() {
-      return get(this, 'model.endDateTime');
-    },
-    set(key, value) {
-      once(this, function () {
-        set(this, 'model.endDateTime', value);
-        return value;
-      });
-    }
-  }),
-  intervalAmount: alias('model.timeInterval.interval'),
-  identifier: alias('model.identifier.identifier'),
+  get startDateTime() {
+    return get(this, 'model.startDateTime');
+  }
 
-  timeUnit: timeUnit,
-  durationUnit: durationUnit
+  set startDateTime(value) {
+    once(this, function () {
+      set(this, 'model.startDateTime', value);
+    });
+    return value;
+  }
 
-});
+  get endDateTime() {
+    return get(this, 'model.endDateTime');
+  }
+
+  set endDateTime(value) {
+    once(this, function () {
+      set(this, 'model.endDateTime', value);
+    });
+    return value;
+  }
+
+  @alias('model.timeInterval.interval') intervalAmount;
+  @alias('model.identifier.identifier') identifier;
+
+  didReceiveAttrs() {
+    super.didReceiveAttrs(...arguments);
+
+    let model = this.model;
+
+    once(this, function () {
+      model.periodName = model.periodName ?? [];
+      model.timeInterval = model.timeInterval ?? {};
+      model.duration = model.duration ?? {};
+      // model.presentationForm = model.presentationForm ?? [];
+      // model.onlineResource = model.onlineResource ?? [];
+      model.identifier = model.identifier ?? {};
+      // model.graphic = model.graphic ?? [];
+    });
+  }
+}
