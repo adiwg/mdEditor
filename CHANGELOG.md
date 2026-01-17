@@ -25,6 +25,7 @@
   - Update CONTRIBUTING.md (no trailing slash for user specified settings) [#752](https://github.com/adiwg/mdEditor/issues/752)
   - Expose the `itis-proxy-url` as a user setting [#762](https://github.com/adiwg/mdEditor/issues/762)
   - Refactor ScienceBase user setting to support updated "publish-options" schema [#764](https://github.com/adiwg/mdEditor/issues/764)
+  - Update gh-pages-deploy.yml to use Node version 18 and enable corepack
 
 ### Bug fixes
 
